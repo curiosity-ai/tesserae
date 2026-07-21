@@ -19,7 +19,7 @@ namespace Tesserae
         public BackgroundArea(IComponent content)
         {
             _raw       = Raw(content.Render());
-            _container = Div(_("tss-background-area"), _raw.Render());
+            _container = Div(Att("tss-background-area"), _raw.Render());
         }
 
         /// <summary>

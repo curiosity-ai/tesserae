@@ -41,7 +41,7 @@ namespace Tesserae
         /// </summary>
         public Grid(params UnitSize[] columns)
         {
-            _grid = Div(_("tss-grid").WithRole("grid"));
+            _grid = Div(Att("tss-grid").WithRole("grid"));
             JustifyContent(ItemJustify.Start);
 
             if (columns is object && columns.Any(c => c is object))
@@ -59,7 +59,7 @@ namespace Tesserae
         /// </summary>
         public Grid(UnitSize[] columns, UnitSize[] rows)
         {
-            _grid = Div(_("tss-grid").WithRole("grid"));
+            _grid = Div(Att("tss-grid").WithRole("grid"));
             JustifyContent(ItemJustify.Start);
 
             if (columns is object && columns.Any(c => c is object))
@@ -136,7 +136,7 @@ namespace Tesserae
 
                 if (forceAdd || (rendered.parentElement is object && rendered.parentElement.classList.contains("tss-stack")))
                 {
-                    item = Div(_("tss-stack-item", styles: s =>
+                    item = Div(Att("tss-stack-item", styles: s =>
                     {
                         s.alignSelf  = "auto";
                         s.width      = "auto";

@@ -18,9 +18,9 @@ namespace Tesserae
         /// </summary>
         public CheckBox(string text = string.Empty)
         {
-            InnerElement = CheckBox(_("tss-checkbox"));
-            _checkSpan   = Span(_("tss-checkbox-mark"));
-            _label = Label(_("tss-checkbox-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text), InnerElement, _checkSpan);
+            InnerElement = CheckBox(Att("tss-checkbox"));
+            _checkSpan   = Span(Att("tss-checkbox-mark"));
+            _label = UI.Label(Att("tss-checkbox-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text), InnerElement, _checkSpan);
 
             AttachClick();
             AttachChange();

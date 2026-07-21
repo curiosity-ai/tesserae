@@ -68,7 +68,7 @@ namespace Tesserae
         /// </summary>
         public OverflowSet()
         {
-            _childContainer = Div(_("tss-overflowset"));
+            _childContainer = Div(Att("tss-overflowset"));
             DomObserver.WhenMounted(_childContainer, Recompute);
             _resizeObserver = new ResizeObserver((entries, obs) => Recompute());
             _resizeObserver.observe(document.body);
@@ -259,7 +259,7 @@ namespace Tesserae
         {
             if (_childContainer.childElementCount > 0)
             {
-                _childContainer.appendChild(I(_("tss-overflowset-separator")));
+                _childContainer.appendChild(I(Att("tss-overflowset-separator")));
             }
             _childContainer.appendChild(component.Render());
         }

@@ -18,7 +18,7 @@ namespace Tesserae
         /// </summary>
         public Accordion(params Expander[] items)
         {
-            InnerElement   = Div(_("tss-accordion"));
+            InnerElement   = Div(Att("tss-accordion"));
             _items         = new List<Expander>();
             _allowMultiple = true;
 

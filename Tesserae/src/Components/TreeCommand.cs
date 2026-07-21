@@ -168,7 +168,7 @@ namespace Tesserae
 
             var items = _menuGenerator();
 
-            var menuDiv = Div(_("tss-tree-menu"));
+            var menuDiv = Div(Att("tss-tree-menu"));
 
             foreach (var item in items)
             {

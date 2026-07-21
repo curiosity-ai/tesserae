@@ -21,8 +21,8 @@ namespace Tesserae
         public SidebarSeparator(string identifier, string text = null)
         {
             Identifier = identifier;
-            var closedElement = Div(_("tss-sidebar-separator"));
-            var openElement = Div(_("tss-sidebar-separator"));
+            var closedElement = Div(Att("tss-sidebar-separator"));
+            var openElement = Div(Att("tss-sidebar-separator"));
 
             if(!string.IsNullOrEmpty(text))
             {

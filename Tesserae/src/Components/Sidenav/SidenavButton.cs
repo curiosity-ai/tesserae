@@ -47,12 +47,12 @@ namespace Tesserae
             _tooltip   = (b) => b.Tooltip(text, placement: TooltipPlacement.Right);
 
             var iconStr = $"{Tesserae.Icon.Transform(icon, weight)} medium";
-            var iconEl  = I(_("tss-sidenav-btn-icon " + iconStr));
-            var labelEl = Span(_("tss-sidenav-btn-label", text: text));
-            var content = Div(_("tss-sidenav-btn-content"), iconEl, labelEl);
+            var iconEl  = I(Att("tss-sidenav-btn-icon " + iconStr));
+            var labelEl = Span(Att("tss-sidenav-btn-label", text: text));
+            var content = Div(Att("tss-sidenav-btn-content"), iconEl, labelEl);
 
-            _root = Div(_("tss-sidenav-btn-wrap"));
-            _dot  = Div(_("tss-sidenav-btn-dot"));
+            _root = Div(Att("tss-sidenav-btn-wrap"));
+            _dot  = Div(Att("tss-sidenav-btn-dot"));
 
             if (string.IsNullOrWhiteSpace(href))
             {
@@ -65,7 +65,7 @@ namespace Tesserae
                 // Ctrl/Cmd/middle-click ("open in new tab") natively. It stays a direct child
                 // of .tss-sidenav-btn-wrap and carries tss-btn + tss-sidenav-btn so the rail CSS
                 // keeps matching, plus tss-link-no-underline to suppress the anchor hover underline.
-                _anchor    = A(_("tss-btn tss-sidenav-btn tss-link-no-underline", href: href), content);
+                _anchor    = A(Att("tss-btn tss-sidenav-btn tss-link-no-underline", href: href), content);
                 _clickable = Raw(_anchor);
             }
 

@@ -18,10 +18,10 @@ namespace Tesserae
         /// </summary>
         public CommandBar(params IComponent[] items)
         {
-            _primarySection = Div(_("tss-commandbar-section"));
-            _farSection     = Div(_("tss-commandbar-section tss-commandbar-far"));
+            _primarySection = Div(Att("tss-commandbar-section"));
+            _farSection     = Div(Att("tss-commandbar-section tss-commandbar-far"));
 
-            InnerElement = Div(_("tss-commandbar"), _primarySection, _farSection);
+            InnerElement = Div(Att("tss-commandbar"), _primarySection, _farSection);
 
             AddItems(items);
         }
@@ -112,8 +112,8 @@ namespace Tesserae
         /// </summary>
         public CommandBarItem(string text = null,  UIcons? icon = null)
         {
-            _textSpan  = Span(_("tss-commandbar-item-text", text: text ?? string.Empty));
-            InnerElement = Button(_("tss-commandbar-item", type: "button"), _textSpan);
+            _textSpan  = Span(Att("tss-commandbar-item-text", text: text ?? string.Empty));
+            InnerElement = Button(Att("tss-commandbar-item", type: "button"), _textSpan);
 
             AttachClick();
             AttachContextMenu();
@@ -153,7 +153,7 @@ namespace Tesserae
 
                 if (_icon == null)
                 {
-                    _icon = I(_("tss-commandbar-item-icon"));
+                    _icon = I(Att("tss-commandbar-item-icon"));
                     InnerElement.insertBefore(_icon, _textSpan);
                 }
 

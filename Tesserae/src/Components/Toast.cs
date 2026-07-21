@@ -55,7 +55,7 @@ namespace Tesserae
 
         private          int            _timeoutDuration = 5000;
         private          double         _timeoutHandle   = 0;
-        private readonly HTMLDivElement _toastContainer  = Div(_("tss-toast-container"));
+        private readonly HTMLDivElement _toastContainer  = Div(Att("tss-toast-container"));
 
         /// <summary>
         /// Adds a CSS class to the toast container.
@@ -412,7 +412,7 @@ namespace Tesserae
 
             if (_title is object)
             {
-                var newTitle = Div(_("tss-toast-title"), _title.Render());
+                var newTitle = Div(Att("tss-toast-title"), _title.Render());
 
                 if (_toastContainer.children.TryGetFirst(c => c.className.Contains("tss-toast-title"), out var currentTitle))
                 {
@@ -440,7 +440,7 @@ namespace Tesserae
 
             if (_message is object)
             {
-                var newMessage = Div(_("tss-toast-message"), _message.Render());
+                var newMessage = Div(Att("tss-toast-message"), _message.Render());
 
                 if (_toastContainer.children.TryGetFirst(c => c.className.Contains("tss-toast-message"), out var currentMessage))
                 {
@@ -510,18 +510,18 @@ namespace Tesserae
             }
             else
             {
-                _contentHtml = Div(_("tss-toast tss-toast-" + _type + " tss-toast-" + _pos), _toastContainer);
+                _contentHtml = Div(Att("tss-toast tss-toast-" + _type + " tss-toast-" + _pos), _toastContainer);
 
                 Script.Write("{0}.replaceChildren()", _toastContainer); // clear all children
 
                 if (_title is object)
                 {
-                    _toastContainer.appendChild(Div(_("tss-toast-title"), _title.Render()));
+                    _toastContainer.appendChild(Div(Att("tss-toast-title"), _title.Render()));
                 }
 
                 if (_message is object)
                 {
-                    _toastContainer.appendChild(Div(_("tss-toast-message"), _message.Render()));
+                    _toastContainer.appendChild(Div(Att("tss-toast-message"), _message.Render()));
                 }
 
                 _toastContainer.onmouseenter = (e) =>

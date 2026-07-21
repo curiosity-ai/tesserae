@@ -19,9 +19,9 @@ namespace Tesserae
         /// <param name="text">The initial text.</param>
         public TextArea(string text = string.Empty)
         {
-            InnerElement = TextArea(_("tss-textbox tss-textarea", type: "text", value: text));
-            _errorSpan   = Span(_("tss-textbox-error"));
-            _container   = Div(_("tss-textbox-container"), InnerElement, _errorSpan);
+            InnerElement = UI.TextArea(Att("tss-textbox tss-textarea", type: "text", value: text));
+            _errorSpan   = Span(Att("tss-textbox-error"));
+            _container   = Div(Att("tss-textbox-container"), InnerElement, _errorSpan);
 
             //TODO: Need to make container display:flex, and use flex-grow to have correct sizing with _errorSpan
             InnerElement.style.width  = "100%";

@@ -29,8 +29,8 @@ namespace Tesserae
         /// </summary>
         public UptimeBars()
         {
-            _barsContainer = Div(_("tss-uptime-bars"));
-            _container = Div(_("tss-uptime-row"), _barsContainer);
+            _barsContainer = Div(Att("tss-uptime-bars"));
+            _container = Div(Att("tss-uptime-row"), _barsContainer);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Tesserae
 
             foreach (var item in items)
             {
-                var bar = Span(_(GetStatusClass(item.status)));
+                var bar = Span(Att(GetStatusClass(item.status)));
 
                 if (item.tooltipContent != null)
                 {

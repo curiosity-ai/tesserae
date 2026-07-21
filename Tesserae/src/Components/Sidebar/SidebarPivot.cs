@@ -47,17 +47,17 @@ namespace Tesserae
 
             _selectedObservable = new SettableObservable<string>();
 
-            _renderedTabsOpen = Div(_("tss-segmentedpivot-titlebar tss-sidebar-segmentedpivot-open", role: "tablist"));
-            _renderedContentOpen = Div(_("tss-segmentedpivot-content", role: "tabpanel"));
+            _renderedTabsOpen = Div(Att("tss-segmentedpivot-titlebar tss-sidebar-segmentedpivot-open", role: "tablist"));
+            _renderedContentOpen = Div(Att("tss-segmentedpivot-content", role: "tabpanel"));
 
-            _renderedTabsClosed = Div(_("tss-segmentedpivot-titlebar tss-sidebar-segmentedpivot-closed", role: "tablist"));
-            _renderedContentClosed = Div(_("tss-segmentedpivot-content", role: "tabpanel"));
+            _renderedTabsClosed = Div(Att("tss-segmentedpivot-titlebar tss-sidebar-segmentedpivot-closed", role: "tablist"));
+            _renderedContentClosed = Div(Att("tss-segmentedpivot-content", role: "tabpanel"));
 
-            var wrapperOpen = Div(_("tss-segmentedpivot-wrapper tss-sidebar-segmentedpivot-wrapper-open"), _renderedTabsOpen);
-            _openContainer = Div(_("tss-segmentedpivot"), wrapperOpen, _renderedContentOpen);
+            var wrapperOpen = Div(Att("tss-segmentedpivot-wrapper tss-sidebar-segmentedpivot-wrapper-open"), _renderedTabsOpen);
+            _openContainer = Div(Att("tss-segmentedpivot"), wrapperOpen, _renderedContentOpen);
 
-            var wrapperClosed = Div(_("tss-segmentedpivot-wrapper tss-sidebar-segmentedpivot-wrapper-closed"), _renderedTabsClosed);
-            _closedContainer = Div(_("tss-segmentedpivot"), wrapperClosed, _renderedContentClosed);
+            var wrapperClosed = Div(Att("tss-segmentedpivot-wrapper tss-sidebar-segmentedpivot-wrapper-closed"), _renderedTabsClosed);
+            _closedContainer = Div(Att("tss-segmentedpivot"), wrapperClosed, _renderedContentClosed);
         }
 
         public void AddGroupIdentifier(string groupIdentifier)
@@ -84,14 +84,14 @@ namespace Tesserae
             }
 
             // Open tab title
-            var titleContainerOpen = Div(_("tss-segmentedpivot-tab"));
+            var titleContainerOpen = Div(Att("tss-segmentedpivot-tab"));
             titleContainerOpen.tabIndex = 0;
             AttachEvents(titleContainerOpen, tab.Id);
             titleContainerOpen.appendChild(tab.CreateTitle().Render());
             _renderedTabsOpen.appendChild(titleContainerOpen);
 
             // Closed tab title
-            var titleContainerClosed = Div(_("tss-segmentedpivot-tab"));
+            var titleContainerClosed = Div(Att("tss-segmentedpivot-tab"));
             titleContainerClosed.tabIndex = 0;
             AttachEvents(titleContainerClosed, tab.Id);
 

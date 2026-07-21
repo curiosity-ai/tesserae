@@ -35,17 +35,17 @@ namespace Tesserae
             _text           = text ?? string.Empty;
             _contentFactory = contentFactory;
 
-            _iconContainer = Div(_("tss-toolcall-icon"), I(icon));
-            _textContainer = Div(_("tss-toolcall-text", text: _text));
+            _iconContainer = Div(Att("tss-toolcall-icon"), I(icon));
+            _textContainer = Div(Att("tss-toolcall-text", text: _text));
             _chevron       = I(UIcons.AngleDown, cssClass: "tss-toolcall-chevron");
 
-            _header = Div(_("tss-toolcall-header", role: "button", ariaLabel: "Toggle tool call"),
+            _header = Div(Att("tss-toolcall-header", role: "button", ariaLabel: "Toggle tool call"),
                           _iconContainer, _textContainer, _chevron);
 
-            _content = Div(_("tss-toolcall-content"));
+            _content = Div(Att("tss-toolcall-content"));
             _content.style.display = "none";
 
-            InnerElement = Div(_("tss-toolcall"), _header, _content);
+            InnerElement = Div(Att("tss-toolcall"), _header, _content);
 
             _header.addEventListener("click", _ =>
             {
@@ -269,11 +269,11 @@ namespace Tesserae
         {
             _tools = new List<ToolCall>();
 
-            _summaryIcon = Div(_("tss-toolsused-icon"), I(_summaryIconKind));
-            _summaryText = Div(_("tss-toolsused-text"));
+            _summaryIcon = Div(Att("tss-toolsused-icon"), I(_summaryIconKind));
+            _summaryText = Div(Att("tss-toolsused-text"));
             var chevron  = I(UIcons.AngleRight, cssClass: "tss-toolsused-chevron");
 
-            InnerElement = Div(_("tss-toolsused", role: "button", ariaLabel: "Show tools used"),
+            InnerElement = Div(Att("tss-toolsused", role: "button", ariaLabel: "Show tools used"),
                                _summaryIcon, _summaryText, chevron);
 
             // Open on a tap gesture rather than a raw "click": in a live-streaming chat the surrounding
@@ -412,29 +412,29 @@ namespace Tesserae
         {
             if (_modal != null) return;
 
-            _titleEl          = Div(_("tss-toolsused-modal-title"));
-            _detailTitle      = Div(_("tss-toolsused-modal-detail-title"));
-            _detailIconHolder = Div(_("tss-toolsused-modal-detail-icon"));
+            _titleEl          = Div(Att("tss-toolsused-modal-title"));
+            _detailTitle      = Div(Att("tss-toolsused-modal-detail-title"));
+            _detailIconHolder = Div(Att("tss-toolsused-modal-detail-icon"));
             _detailIconHolder.style.display = "none";
 
-            _backButton = Button(_("tss-toolsused-back", type: "button", ariaLabel: "Back to list"), I(UIcons.AngleLeft));
+            _backButton = UI.Button(Att("tss-toolsused-back", type: "button", ariaLabel: "Back to list"), I(UIcons.AngleLeft));
             _backButton.addEventListener("click", _ => ShowList(animate: true));
             _backButton.style.visibility = "hidden";
 
-            var header = Div(_("tss-toolsused-modal-header"),
+            var header = Div(Att("tss-toolsused-modal-header"),
                              _backButton,
                              _detailIconHolder,
                              _titleEl,
                              _detailTitle);
 
-            _listPanel     = Div(_("tss-toolsused-modal-panel tss-toolsused-modal-list"));
-            _detailContent = Div(_("tss-toolsused-modal-detail-content"));
-            _detailPanel   = Div(_("tss-toolsused-modal-panel tss-toolsused-modal-detail"), _detailContent);
+            _listPanel     = Div(Att("tss-toolsused-modal-panel tss-toolsused-modal-list"));
+            _detailContent = Div(Att("tss-toolsused-modal-detail-content"));
+            _detailPanel   = Div(Att("tss-toolsused-modal-panel tss-toolsused-modal-detail"), _detailContent);
 
-            _slider = Div(_("tss-toolsused-modal-slider"), _listPanel, _detailPanel);
+            _slider = Div(Att("tss-toolsused-modal-slider"), _listPanel, _detailPanel);
 
             _modal = Modal(Raw(header));
-            _modal.Content = Raw(Div(_("tss-toolsused-modal-body"), _slider));
+            _modal.Content = Raw(Div(Att("tss-toolsused-modal-body"), _slider));
             _modal.NoFooter();
             _modal.CanLightDismiss = true;
             _modal.InnerElement.classList.add("tss-toolsused-modal");
@@ -447,10 +447,10 @@ namespace Tesserae
             {
                 var tool = _tools[i];
 
-                var iconEl  = Div(_("tss-toolsused-list-icon"), I(tool.Icon));
-                var labelEl = Div(_("tss-toolsused-list-text", text: tool.Text));
+                var iconEl  = Div(Att("tss-toolsused-list-icon"), I(tool.Icon));
+                var labelEl = Div(Att("tss-toolsused-list-text", text: tool.Text));
                 var chevron = I(UIcons.AngleRight, cssClass: "tss-toolsused-list-chevron");
-                var row     = Div(_("tss-toolsused-list-row", role: "button"), iconEl, labelEl, chevron);
+                var row     = Div(Att("tss-toolsused-list-row", role: "button"), iconEl, labelEl, chevron);
 
                 var capturedTool = tool;
                 row.addEventListener("click", _ => ShowDetail(capturedTool));
@@ -487,7 +487,7 @@ namespace Tesserae
             }
             else
             {
-                _detailContent.appendChild(Div(_("tss-toolsused-empty", text: "No content")));
+                _detailContent.appendChild(Div(Att("tss-toolsused-empty", text: "No content")));
             }
 
             _titleEl.innerText      = string.Empty;

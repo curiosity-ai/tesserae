@@ -386,7 +386,7 @@ namespace Tesserae
         /// </summary>
         public static HTMLElement I(UIcons icon, UIconsWeight weight = UIconsWeight.Regular, string cssClass = null)
         {
-            return I(_($"{Tesserae.Icon.Transform(icon, weight)} {cssClass}"));
+            return I(Att($"{Tesserae.Icon.Transform(icon, weight)} {cssClass}"));
         }
 
         /// <summary>

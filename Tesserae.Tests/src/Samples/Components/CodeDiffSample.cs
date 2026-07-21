@@ -145,7 +145,7 @@ index 5555555..6666666 100644
             var scrolledDiff = CodeDiff(LongProseDiff, CodeDiff.Format.LineByLine).WS();
             scrolledDiff.Id("code-diff-scrolled");
 
-            var scrollHost = Div(_("code-diff-scroll-host"));
+            var scrollHost = Div(Att("code-diff-scroll-host"));
             scrollHost.style.height    = "320px";
             scrollHost.style.overflowY = "auto";
             scrollHost.style.marginTop = "8px";

@@ -56,18 +56,18 @@ namespace Tesserae
             _scrollRightBtn = Button().SetIcon(UIcons.AngleRight).NoMinSize().HS().NoPadding().NoMargin().Class("tss-pivot-titlebar-scroll-right").OnClick(() => ScrollByAmount(_scroller.clientWidth * ScrollButtonStep));
             _moreBtn        = Button().SetIcon(UIcons.MenuDots).NoMinSize().HS().NoPadding().NoMargin().Class("tss-pivot-titlebar-more").OnClick(() => ShowAllTabs());
 
-            _renderedTabs = Div(_("tss-pivot-titlebar", role: "tablist"));
-            _line         = Div(_("tss-pivot-line"));
+            _renderedTabs = Div(Att("tss-pivot-titlebar", role: "tablist"));
+            _line         = Div(Att("tss-pivot-line"));
             _renderedTabs.appendChild(_line); // line sits inside titlebar so it scrolls with tabs
-            _scroller = Div(_("tss-pivot-titlebar-scroller"), _renderedTabs);
+            _scroller = Div(Att("tss-pivot-titlebar-scroller"), _renderedTabs);
 
-            _titlebarWrapper = Div(_("tss-pivot-titlebar-wrapper"),
+            _titlebarWrapper = Div(Att("tss-pivot-titlebar-wrapper"),
                 _scrollLeftBtn.Render(),
                 _scroller,
                 _scrollRightBtn.Render(),
                 _moreBtn.Render());
-            _renderedContent = Div(_("tss-pivot-content", role: "tabpanel"));
-            StylingContainer = Div(_("tss-pivot"), _titlebarWrapper, _renderedContent);
+            _renderedContent = Div(Att("tss-pivot-content", role: "tabpanel"));
+            StylingContainer = Div(Att("tss-pivot"), _titlebarWrapper, _renderedContent);
 
             AttachScrollerEvents();
         }
@@ -175,7 +175,7 @@ namespace Tesserae
 
             if (tab.Closeable)
             {
-                var closeIcon = I(_("tss-pivot-tab-close tss-fontsize-tiny " + UIcons.Cross.ToString(), ariaLabel: "Close tab"));
+                var closeIcon = I(Att("tss-pivot-tab-close tss-fontsize-tiny " + UIcons.Cross.ToString(), ariaLabel: "Close tab"));
 
                 closeIcon.onclick = (e) =>
                 {
@@ -458,7 +458,7 @@ namespace Tesserae
 
             var title = _renderedTitles[tab];
 
-            HTMLElement content = Div(_());
+            HTMLElement content = Div(Att());
             content.style.width     = "100%";
             content.style.minHeight = "100%";
 

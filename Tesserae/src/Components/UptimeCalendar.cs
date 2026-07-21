@@ -29,14 +29,14 @@ namespace Tesserae
         /// </summary>
         public UptimeCalendar(string title, string subtitle)
         {
-            _grid = Div(_("tss-uptime-month-grid"));
+            _grid = Div(Att("tss-uptime-month-grid"));
 
-            var header = Div(_("tss-uptime-month-header"),
-                Span(_(text: title)),
-                Span(_(text: subtitle))
+            var header = Div(Att("tss-uptime-month-header"),
+                Span(Att(text: title)),
+                Span(Att(text: subtitle))
             );
 
-            _container = Div(_("tss-uptime-month-card"), header, _grid);
+            _container = Div(Att("tss-uptime-month-card"), header, _grid);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Tesserae
 
             foreach (var item in items)
             {
-                var day = Div(_(GetStatusClass(item.status)));
+                var day = Div(Att(GetStatusClass(item.status)));
 
                 if (item.tooltipContent != null && item.status != UptimeStatus.Future && item.status != UptimeStatus.None)
                 {

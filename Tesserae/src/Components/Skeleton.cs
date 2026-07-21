@@ -23,7 +23,7 @@ namespace Tesserae
         /// </summary>
         public Skeleton(SkeletonType type = SkeletonType.Line)
         {
-            InnerElement = Div(_("tss-skeleton"));
+            InnerElement = Div(Att("tss-skeleton"));
             Type(type);
             Animated();
         }

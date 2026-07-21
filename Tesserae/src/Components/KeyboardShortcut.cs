@@ -16,16 +16,16 @@ namespace Tesserae
         /// </summary>
         public KeyboardShortcut(params string[] keys)
         {
-            InnerElement = Span(_("tss-kbd-shortcut"));
+            InnerElement = Span(Att("tss-kbd-shortcut"));
 
             for (int i = 0; i < keys.Length; i++)
             {
                 if (i > 0)
                 {
-                    InnerElement.appendChild(Span(_("tss-kbd-separator", text: "+")));
+                    InnerElement.appendChild(Span(Att("tss-kbd-separator", text: "+")));
                 }
 
-                var key = Span(_("tss-kbd-key", text: NormalizeKey(keys[i])));
+                var key = Span(Att("tss-kbd-key", text: NormalizeKey(keys[i])));
                 key.setAttribute("role", "term");
                 InnerElement.appendChild(key);
             }

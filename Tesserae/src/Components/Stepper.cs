@@ -53,13 +53,13 @@ namespace Tesserae
         public Stepper(params StepperStep[] steps)
         {
             _steps      = new List<StepperStep>();
-            _header     = Div(_("tss-stepper-header"));
-            _content    = Div(_("tss-stepper-content"));
-            _footer     = Div(_("tss-stepper-footer"));
+            _header     = Div(Att("tss-stepper-header"));
+            _content    = Div(Att("tss-stepper-content"));
+            _footer     = Div(Att("tss-stepper-footer"));
             _observable = new SettableObservable<int>(0);
 
-            _prevButton = Button(_("tss-stepper-nav", text: "Back", type: "button"));
-            _nextButton = Button(_("tss-stepper-nav", text: "Next", type: "button"));
+            _prevButton = UI.Button(Att("tss-stepper-nav", text: "Back", type: "button"));
+            _nextButton = UI.Button(Att("tss-stepper-nav", text: "Next", type: "button"));
 
             _prevButton.addEventListener("click", _ => Previous());
             _nextButton.addEventListener("click", _ => Next());
@@ -67,7 +67,7 @@ namespace Tesserae
             _footer.appendChild(_prevButton);
             _footer.appendChild(_nextButton);
 
-            InnerElement = Div(_("tss-stepper"), _header, _content, _footer);
+            InnerElement = Div(Att("tss-stepper"), _header, _content, _footer);
 
             AddSteps(steps);
             SetStep(0, false);
@@ -196,10 +196,10 @@ namespace Tesserae
             for (var i = 0; i < _steps.Count; i++)
             {
                 var step     = _steps[i];
-                var stepItem = Div(_("tss-stepper-step"));
-                var circle   = Span(_("tss-stepper-circle",      text: (i + 1).ToString()));
-                var label    = Span(_("tss-stepper-label",       text: step.Title));
-                var desc     = Span(_("tss-stepper-description", text: step.Description));
+                var stepItem = Div(Att("tss-stepper-step"));
+                var circle   = Span(Att("tss-stepper-circle",      text: (i + 1).ToString()));
+                var label    = Span(Att("tss-stepper-label",       text: step.Title));
+                var desc     = Span(Att("tss-stepper-description", text: step.Description));
 
                 stepItem.appendChild(circle);
                 stepItem.appendChild(label);

@@ -17,7 +17,7 @@ namespace Tesserae
         /// </summary>
         public LayerHost()
         {
-            InnerElement = Div(_("tss-layer-host"));
+            InnerElement = Div(Att("tss-layer-host"));
         }
 
         /// <summary>

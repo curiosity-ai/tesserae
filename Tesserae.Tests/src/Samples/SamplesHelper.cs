@@ -29,7 +29,7 @@ namespace Tesserae.Tests.Samples
         }
 
         public static IComponent SampleSubTitle(string text) => TextBlock(text).SemiBold().PT(16).PB(8);
-        public static IComponent SampleDo(string       text) => Label(Raw(I(_("las la-check", styles: s => s.color = "#107c10"))).PaddingRight(8.px())).SetContent(TextBlock(text)).Inline();
-        public static IComponent SampleDont(string     text) => Label(Raw(I(_("las la-times", styles: s => s.color = "#e81123"))).PaddingRight(8.px())).SetContent(TextBlock(text)).Inline();
+        public static IComponent SampleDo(string       text) => Label(Raw(I(Att("las la-check", styles: s => s.color = "#107c10"))).PaddingRight(8.px())).SetContent(TextBlock(text)).Inline();
+        public static IComponent SampleDont(string     text) => Label(Raw(I(Att("las la-times", styles: s => s.color = "#e81123"))).PaddingRight(8.px())).SetContent(TextBlock(text)).Inline();
     }
 }

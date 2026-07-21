@@ -39,15 +39,15 @@ namespace Tesserae
         {
             _onCloseClickAction = (ev) => OnCloseClick(ev);
 
-            _panelTitle = Div(_("tss-panel-title"));
+            _panelTitle = Div(Att("tss-panel-title"));
 
-            _closeButton  = Button(_($"tss-panel-command-button", el: el => el.onclick = (e) => Hide()), I(_("tss-fontsize-small " + UIcons.Cross.ToString())));
-            _panelCommand = Div(_("tss-panel-command"), _panelTitle, _closeButton);
-            _panelContent = Div(_("tss-panel-content"));
-            _panelFooter  = Div(_("tss-panel-footer"));
-            _panel        = Div(_("tss-panel tss-panelSize-small tss-panelSide-far"), _panelCommand, Div(_("tss-panel-inner"), _panelContent, _panelFooter));
-            _panelOverlay = Div(_("tss-panel-overlay"));
-            _contentHtml  = Div(_("tss-panel-container"), _panelOverlay, _panel);
+            _closeButton  = Button(Att($"tss-panel-command-button", el: el => el.onclick = (e) => Hide()), I(Att("tss-fontsize-small " + UIcons.Cross.ToString())));
+            _panelCommand = Div(Att("tss-panel-command"), _panelTitle, _closeButton);
+            _panelContent = Div(Att("tss-panel-content"));
+            _panelFooter  = Div(Att("tss-panel-footer"));
+            _panel        = Div(Att("tss-panel tss-panelSize-small tss-panelSide-far"), _panelCommand, Div(Att("tss-panel-inner"), _panelContent, _panelFooter));
+            _panelOverlay = Div(Att("tss-panel-overlay"));
+            _contentHtml  = Div(Att("tss-panel-container"), _panelOverlay, _panel);
 
             if (title is object)
             {

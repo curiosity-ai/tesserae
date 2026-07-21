@@ -49,7 +49,7 @@ namespace Tesserae
         /// </summary>
         public InfiniteScrollingList(IComponent[] items, Func<Task<IComponent[]>> getNextItemPage, params UnitSize[] columns)
         {
-            _container = Div(_("tss-basiclist"));
+            _container = Div(Att("tss-basiclist"));
 
             if (columns.Length < 2)
             {

@@ -138,7 +138,7 @@ namespace Tesserae
         /// </summary>
         public static HTMLElement CreateStatusIcon(PlanStatus status)
         {
-            return I(_("tss-icon " + StatusIcon(status)));
+            return I(Att("tss-icon " + StatusIcon(status)));
         }
 
         /// <summary>
@@ -289,30 +289,30 @@ namespace Tesserae
         public Plan(string title)
         {
             // ---- Header ----
-            _titleEl = Div(_("tss-plan-title"));
+            _titleEl = Div(Att("tss-plan-title"));
             _titleEl.innerText = title ?? string.Empty;
 
-            _badgeText = Span(_());
-            _badge = Span(_("tss-plan-status-badge"), Span(_("tss-plan-badge-dot")), _badgeText);
+            _badgeText = Span(Att());
+            _badge = Span(Att("tss-plan-status-badge"), Span(Att("tss-plan-badge-dot")), _badgeText);
             _badge.style.display = "none";
 
-            _headerCommandsEl = Div(_("tss-plan-header-commands"));
+            _headerCommandsEl = Div(Att("tss-plan-header-commands"));
 
-            var titleWrap = Div(_("tss-plan-titlewrap"), _titleEl, _badge);
-            var header = Div(_("tss-plan-header"), titleWrap, _headerCommandsEl);
+            var titleWrap = Div(Att("tss-plan-titlewrap"), _titleEl, _badge);
+            var header = Div(Att("tss-plan-header"), titleWrap, _headerCommandsEl);
 
             // ---- Steps / timeline ----
-            _stepsEl = Div(_("tss-plan-steps"));
+            _stepsEl = Div(Att("tss-plan-steps"));
 
             // ---- Footer status strip ----
-            _summaryEl = Div(_("tss-plan-summary"));
-            _countEl = Div(_("tss-plan-count"));
+            _summaryEl = Div(Att("tss-plan-summary"));
+            _countEl = Div(Att("tss-plan-count"));
             _countEl.style.display = "none";
-            var footerTop = Div(_("tss-plan-footer-top"), _summaryEl, _countEl);
+            var footerTop = Div(Att("tss-plan-footer-top"), _summaryEl, _countEl);
 
-            _progressBarEl = Div(_("tss-plan-progress-bar"));
-            _progressEl = Div(_("tss-plan-progress"), _progressBarEl);
-            _pctEl = Div(_("tss-plan-pct"));
+            _progressBarEl = Div(Att("tss-plan-progress-bar"));
+            _progressEl = Div(Att("tss-plan-progress"), _progressBarEl);
+            _pctEl = Div(Att("tss-plan-pct"));
 
             _startStopButton = Button().SetIcon(UIcons.SquareSmall);
             var ssEl = _startStopButton.Render();
@@ -321,16 +321,16 @@ namespace Tesserae
             ssEl.classList.remove("tss-default-component-margin");
             ssEl.classList.add("tss-plan-startstop");
 
-            var progressRow = Div(_("tss-plan-progress-row"), _progressEl, _pctEl, ssEl);
+            var progressRow = Div(Att("tss-plan-progress-row"), _progressEl, _pctEl, ssEl);
 
-            _timestampsEl = Div(_("tss-plan-timestamps"));
+            _timestampsEl = Div(Att("tss-plan-timestamps"));
 
-            var footer = Div(_("tss-plan-footer"), footerTop, progressRow, _timestampsEl);
+            var footer = Div(Att("tss-plan-footer"), footerTop, progressRow, _timestampsEl);
 
             // Default determinate progress at 0%.
             SetDeterminate(0f);
 
-            _innerElement = Div(_("tss-plan tss-plan-pending"), header, _stepsEl, footer);
+            _innerElement = Div(Att("tss-plan tss-plan-pending"), header, _stepsEl, footer);
         }
 
         /// <summary>
@@ -588,14 +588,14 @@ namespace Tesserae
             {
                 if (!string.IsNullOrEmpty(_footerMessage))
                 {
-                    var msgSpan = Span(_("tss-plan-footer-msg"));
+                    var msgSpan = Span(Att("tss-plan-footer-msg"));
                     msgSpan.innerText = _footerMessage;
                     _summaryEl.appendChild(msgSpan);
-                    var sep = Span(_());
+                    var sep = Span(Att());
                     sep.innerText = " · ";
                     _summaryEl.appendChild(sep);
                 }
-                var summarySpan = Span(_());
+                var summarySpan = Span(Att());
                 summarySpan.innerText = PlanVisuals.Summary(_model);
                 _summaryEl.appendChild(summarySpan);
             }
@@ -736,32 +736,32 @@ namespace Tesserae
                 // Rail / status node (UIcons glyph; the spinner spins in place
                 // when running — see the centering note in PlanVisuals).
                 _statusIcon = PlanVisuals.CreateStatusIcon(status);
-                _iconSlot = Div(_("tss-plan-step-icon"), _statusIcon);
-                var rail = Div(_("tss-plan-step-rail"), _iconSlot);
+                _iconSlot = Div(Att("tss-plan-step-icon"), _statusIcon);
+                var rail = Div(Att("tss-plan-step-rail"), _iconSlot);
 
                 // Title row (text + expand/collapse chevron).
-                _textEl = Span(_("tss-plan-step-text"));
+                _textEl = Span(Att("tss-plan-step-text"));
                 _textEl.innerText = title ?? string.Empty;
 
-                _toggleEl = Button(_("tss-plan-step-toggle"), Icon(UIcons.AngleDown).Render());
+                _toggleEl = Button(Att("tss-plan-step-toggle"), Icon(UIcons.AngleDown).Render());
                 _toggleEl.style.display = "none";
                 _toggleEl.onclick = e => { ToggleExpanded(); };
 
-                var titleRow = Div(_("tss-plan-step-title"), _textEl, _toggleEl);
+                var titleRow = Div(Att("tss-plan-step-title"), _textEl, _toggleEl);
 
-                _stageEl = Div(_("tss-plan-step-stage"));
+                _stageEl = Div(Att("tss-plan-step-stage"));
                 _stageEl.style.display = "none";
 
-                _progressBar = Div(_("tss-plan-step-progress-bar"));
-                _progressEl = Div(_("tss-plan-step-progress"), _progressBar);
+                _progressBar = Div(Att("tss-plan-step-progress-bar"));
+                _progressEl = Div(Att("tss-plan-step-progress"), _progressBar);
                 _progressEl.style.display = "none";
 
-                _substepsInner = Div(_("tss-plan-substeps-inner"));
-                _substeps = Div(_("tss-plan-substeps is-collapsed"), _substepsInner);
+                _substepsInner = Div(Att("tss-plan-substeps-inner"));
+                _substeps = Div(Att("tss-plan-substeps is-collapsed"), _substepsInner);
 
-                var body = Div(_("tss-plan-step-body"), titleRow, _stageEl, _progressEl, _substeps);
+                var body = Div(Att("tss-plan-step-body"), titleRow, _stageEl, _progressEl, _substeps);
 
-                _root = Div(_("tss-plan-step " + PlanVisuals.StepStatusClass(status)), rail, body);
+                _root = Div(Att("tss-plan-step " + PlanVisuals.StepStatusClass(status)), rail, body);
             }
 
             /// <summary>
@@ -891,11 +891,11 @@ namespace Tesserae
 
             private static HTMLElement BuildSubstepEl(PlanSubstepModel sub)
             {
-                var iconWrap = Div(_("tss-plan-substep-icon"));
-                var titleEl = Div(_("tss-plan-substep-title"));
-                var msgEl = Div(_("tss-plan-substep-message"));
-                var body = Div(_("tss-plan-substep-body"), titleEl, msgEl);
-                var root = Div(_("tss-plan-substep"), iconWrap, body);
+                var iconWrap = Div(Att("tss-plan-substep-icon"));
+                var titleEl = Div(Att("tss-plan-substep-title"));
+                var msgEl = Div(Att("tss-plan-substep-message"));
+                var body = Div(Att("tss-plan-substep-body"), titleEl, msgEl);
+                var root = Div(Att("tss-plan-substep"), iconWrap, body);
                 UpdateSubstepEl(root, sub);
                 return root;
             }

@@ -91,7 +91,7 @@ namespace Tesserae
         /// </summary>
         public FileSelector()
         {
-            _fileInput = FileInput(_("tss-file-input"));
+            _fileInput = FileInput(Att("tss-file-input"));
             _textBox   = TextBox().ReadOnly().Grow(1).AlignCenter().Class("tss-file-input-text");
 
             _stack = HStack().WS()
@@ -101,7 +101,7 @@ namespace Tesserae
 
             _fileInput.onchange = _ => updateFile();
 
-            _container = Div(_("tss-fileselector"), _stack.Render());
+            _container = Div(Att("tss-fileselector"), _stack.Render());
 
             void updateFile()
             {

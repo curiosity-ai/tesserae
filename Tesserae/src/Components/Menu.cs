@@ -152,7 +152,7 @@ namespace Tesserae
 
         private IComponent BuildContent()
         {
-            var container = Div(_("tss-menu"));
+            var container = Div(Att("tss-menu"));
             foreach (var item in _items)
             {
                 container.appendChild(item.RenderInMenu(this));
@@ -225,15 +225,15 @@ namespace Tesserae
 
                 switch (_type)
                 {
-                    case ItemType.Divider: return Div(_("tss-menu-divider"));
-                    case ItemType.Header:  return Div(_("tss-menu-header"), Span(_(text: _text)));
+                    case ItemType.Divider: return Div(Att("tss-menu-divider"));
+                    case ItemType.Header:  return Div(Att("tss-menu-header"), Span(Att(text: _text)));
                 }
 
                 var classes = "tss-menu-item" + (_disabled ? " tss-disabled" : "") + (_subMenu is object ? " tss-menu-has-submenu" : "");
-                var label   = Span(_("tss-menu-item-label", text: _text));
+                var label   = Span(Att("tss-menu-item-label", text: _text));
                 var row     = _icon.HasValue
-                    ? Div(_(classes), I(_icon.Value, cssClass: "tss-menu-item-icon"), label)
-                    : Div(_(classes), label);
+                    ? Div(Att(classes), I(_icon.Value, cssClass: "tss-menu-item-icon"), label)
+                    : Div(Att(classes), label);
 
                 if (_subMenu is object)
                 {

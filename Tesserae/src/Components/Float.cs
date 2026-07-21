@@ -24,7 +24,7 @@ namespace Tesserae
         public Float(IComponent child, Position position)
         {
             _child             = child;
-            _floatingContainer = Div(_($"tss-float {position}"), _child.Render());
+            _floatingContainer = Div(Att($"tss-float {position}"), _child.Render());
         }
 
         /// <summary>

@@ -68,9 +68,9 @@ namespace Tesserae
             _svg.appendChild(_track);
             _svg.appendChild(_fill);
 
-            _label = Div(_("tss-progressring-label"));
+            _label = Div(Att("tss-progressring-label"));
 
-            _container = Div(_("tss-progressring", role: "progressbar"));
+            _container = Div(Att("tss-progressring", role: "progressbar"));
             _container.setAttribute("aria-valuenow", "0");
             _container.setAttribute("aria-valuemin", "0");
             _container.setAttribute("aria-valuemax", _max.ToString());

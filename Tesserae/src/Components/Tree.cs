@@ -23,7 +23,7 @@ namespace Tesserae
         /// </summary>
         public Tree()
         {
-            InnerElement = Ul(_("tss-tree", role: "tree"));
+            InnerElement = Ul(Att("tss-tree", role: "tree"));
 
             DomObserver.WhenMounted(InnerElement, () =>
             {
@@ -231,24 +231,24 @@ namespace Tesserae
             /// </summary>
             public Item(string text = null, UIcons? icon = null, params TreeCommand[] commands)
             {
-                _chevronSpan    = I(_("tss-tree-chevron " + UIcons.AngleRight.ToString()));
-                _textSpan       = Span(_("tss-tree-text",   text: text));
-                _childContainer = Ul(_("tss-tree-children", role: "group"));
-                _checkboxSpan   = I(_("tss-tree-checkbox " + UIcons.Square.ToString()));
+                _chevronSpan    = I(Att("tss-tree-chevron " + UIcons.AngleRight.ToString()));
+                _textSpan = Span(Att("tss-tree-text",   text: text));
+                _childContainer = Ul(Att("tss-tree-children", role: "group"));
+                _checkboxSpan   = I(Att("tss-tree-checkbox " + UIcons.Square.ToString()));
                 _commands       = commands ?? new TreeCommand[0];
 
-                _headerDiv = Div(_("tss-tree-item-content"), _chevronSpan, _checkboxSpan);
+                _headerDiv = Div(Att("tss-tree-item-content"), _chevronSpan, _checkboxSpan);
 
                 if (icon.HasValue)
                 {
                     _icon     = icon.Value;
-                    _iconSpan = I(_("tss-tree-icon " + icon.Value.ToString()));
+                    _iconSpan = I(Att("tss-tree-icon " + icon.Value.ToString()));
                     _headerDiv.appendChild(_iconSpan);
                 }
 
                 _headerDiv.appendChild(_textSpan);
 
-                _commandsDiv = Div(_("tss-tree-commands"));
+                _commandsDiv = Div(Att("tss-tree-commands"));
 
                 if (_commands.Length > 0)
                 {
@@ -260,7 +260,7 @@ namespace Tesserae
 
                 _headerDiv.appendChild(_commandsDiv);
 
-                InnerElement = Li(_("tss-tree-item", role: "treeitem"), _headerDiv, _childContainer);
+                InnerElement = Li(Att("tss-tree-item", role: "treeitem"), _headerDiv, _childContainer);
                 InnerElement.setAttribute("aria-expanded", "false");
                 InnerElement.setAttribute("aria-selected", "false");
 
@@ -328,7 +328,7 @@ namespace Tesserae
                     {
                         if (_iconSpan == null)
                         {
-                            _iconSpan = I(_("tss-tree-icon " + value.Value.ToString()));
+                            _iconSpan = I(Att("tss-tree-icon " + value.Value.ToString()));
                             _headerDiv.insertBefore(_iconSpan, _textSpan);
                         }
                         else

@@ -56,7 +56,7 @@ namespace Tesserae
         /// <param name="format">Whether to render line-by-line or side-by-side.</param>
         public CodeDiff(string diff = "", Format format = Format.LineByLine)
         {
-            InnerElement = Div(_("tss-codediff"));
+            InnerElement = Div(Att("tss-codediff"));
             _diff        = diff ?? string.Empty;
             _format      = format;
             _matching    = Matching.Lines;

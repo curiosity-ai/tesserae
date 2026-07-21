@@ -36,9 +36,9 @@ namespace Tesserae
             _from = new DatePicker(from);
             _to   = new DatePicker(to);
 
-            var separator = Span(_("tss-daterange-separator", text: "—"));
+            var separator = Span(Att("tss-daterange-separator", text: "—"));
 
-            _container = Div(_("tss-daterange-picker"), _from.Render(), separator, _to.Render());
+            _container = Div(Att("tss-daterange-picker"), _from.Render(), separator, _to.Render());
 
             _observable = new SettableObservable<(DateTime? from, DateTime? to)>((from, to));
 

@@ -48,14 +48,14 @@ namespace Tesserae
         {
             _dropdown        = Dropdown().Grow().MaxWidth(500.px()).MinWidth(new UnitSize("min(200px, 100%)"));
             _commands        = HStack().WS().NoShrink();
-            _renderedContent = Div(_("tss-pivotselector-content", role: "tabpanel"));
+            _renderedContent = Div(Att("tss-pivotselector-content", role: "tabpanel"));
 
             var header = HStack().Children(_dropdown, _commands).WS().AlignItemsCenter().PaddingBottom(8.px());
 
             // Build the root as a flex column with the header and content pane as direct
             // children (rather than wrapping them through a Stack), so the content pane is
             // a real flex child that grows to fill and lays its active tab out like a Stack.
-            StylingContainer = Div(_("tss-pivotselector"), header.Render(), _renderedContent);
+            StylingContainer = Div(Att("tss-pivotselector"), header.Render(), _renderedContent);
 
             _dropdown.OnInput((s, e) =>
             {

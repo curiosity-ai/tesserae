@@ -72,14 +72,14 @@ namespace Tesserae
             _contentElement.setAttribute("role", "log");
             _contentElement.setAttribute("aria-relevant", "additions");
 
-            _scrollContainer = Div(_("tss-chatarea"), _contentElement);
+            _scrollContainer = Div(Att("tss-chatarea"), _contentElement);
             _scrollContainer.setAttribute("role", "region");
             _scrollContainer.setAttribute("aria-label", "Messages");
             _scrollContainer.tabIndex = 0;
 
             _scrollButton = BuildScrollButton();
 
-            _outerElement = Div(_("tss-chatarea-wrapper"), _scrollContainer, _scrollButton);
+            _outerElement = Div(Att("tss-chatarea-wrapper"), _scrollContainer, _scrollButton);
 
             _scrollContainer.addEventListener("scroll", (e) =>
             {
@@ -543,24 +543,24 @@ namespace Tesserae
             _currentContent = content;
             _deltaComponent = DeltaComponent(content);
 
-            _contentContainer = Div(_("tss-chatmessage-content"), _deltaComponent.Render());
-            _referencesContainer = Div(_("tss-chatmessage-references"));
+            _contentContainer = Div(Att("tss-chatmessage-content"), _deltaComponent.Render());
+            _referencesContainer = Div(Att("tss-chatmessage-references"));
             _referencesContainer.style.display = "none";
 
-            _bubbleContainer = Div(_("tss-chatmessage-bubble"), _contentContainer, _referencesContainer);
+            _bubbleContainer = Div(Att("tss-chatmessage-bubble"), _contentContainer, _referencesContainer);
 
-            _innerElement = Div(_("tss-chatmessage-container tss-chat-left"));
+            _innerElement = Div(Att("tss-chatmessage-container tss-chat-left"));
 
             if (avatar != null)
             {
-                _innerElement.appendChild(Div(_("tss-chatmessage-avatar"), avatar.Render()));
+                _innerElement.appendChild(Div(Att("tss-chatmessage-avatar"), avatar.Render()));
             }
 
             _innerElement.appendChild(_bubbleContainer);
 
             if (commands != null)
             {
-                _innerElement.appendChild(Div(_("tss-chatmessage-commands"), commands.Render()));
+                _innerElement.appendChild(Div(Att("tss-chatmessage-commands"), commands.Render()));
             }
         }
 

@@ -87,7 +87,7 @@ namespace Tesserae
         /// </summary>
         public static IComponent DefaultStringLabel(string text)
         {
-            var el = Div(_("tss-annotated-text-default-label"));
+            var el = Div(Att("tss-annotated-text-default-label"));
             el.textContent = text ?? string.Empty;
             return new Raw(el);
         }
@@ -138,14 +138,14 @@ namespace Tesserae
             _annotator  = annotator;
             _debounceMs = debounceMs;
 
-            _highlightsContent   = Div(_("tss-annotated-text-highlights-content"));
-            _highlights          = Div(_("tss-annotated-text-highlights"), _highlightsContent);
-            _textarea            = TextArea(_("tss-annotated-text-input", placeholder: placeholder ?? ""));
+            _highlightsContent   = Div(Att("tss-annotated-text-highlights-content"));
+            _highlights          = Div(Att("tss-annotated-text-highlights"), _highlightsContent);
+            _textarea            = TextArea(Att("tss-annotated-text-input", placeholder: placeholder ?? ""));
             _textarea.spellcheck = false;
 
-            _container = Div(_("tss-annotated-text-container"), _highlights, _textarea);
+            _container = Div(Att("tss-annotated-text-container"), _highlights, _textarea);
 
-            _hoverTag               = Div(_("tss-annotated-text-hover-tag"));
+            _hoverTag               = Div(Att("tss-annotated-text-hover-tag"));
             _hoverTag.style.display = "none";
             document.body.appendChild(_hoverTag);
 
@@ -438,7 +438,7 @@ namespace Tesserae
                     var end        = Math.Min(text.Length, entity.End);
                     var entityText = text.Substring(entity.Start, end - entity.Start);
 
-                    var span                                                                 = Span(_("tss-annotated-text-entity"));
+                    var span                                                                 = Span(Att("tss-annotated-text-entity"));
                     if (!string.IsNullOrEmpty(entity.Background)) span.style.backgroundColor = entity.Background;
                     if (!string.IsNullOrEmpty(entity.Border)) span.style.outlineColor        = entity.Border;
                     span.appendChild(document.createTextNode(entityText));

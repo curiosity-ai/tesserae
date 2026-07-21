@@ -26,9 +26,9 @@ namespace Tesserae
         /// </summary>
         public Label(string text = string.Empty)
         {
-            _label       = Label(_("tss-fontsize-small tss-fontweight-semibold tss-fontcolor-default", text: text));
-            _content     = Div(_("tss-label-content"));
-            InnerElement = Div(_("tss-label tss-default-component-margin"), _label, _content);
+            _label       = Label(Att("tss-fontsize-small tss-fontweight-semibold tss-fontcolor-default", text: text));
+            _content     = Div(Att("tss-label-content"));
+            InnerElement = Div(Att("tss-label tss-default-component-margin"), _label, _content);
         }
 
         /// <summary>
@@ -36,9 +36,9 @@ namespace Tesserae
         /// </summary>
         public Label(IComponent component)
         {
-            _label       = Label(_("tss-fontsize-small tss-fontweight-semibold tss-fontcolor-default"), component.Render());
-            _content     = Div(_("tss-label-content"));
-            InnerElement = Div(_("tss-label tss-default-component-margin"), _label, _content);
+            _label       = Label(Att("tss-fontsize-small tss-fontweight-semibold tss-fontcolor-default"), component.Render());
+            _content     = Div(Att("tss-label-content"));
+            InnerElement = Div(Att("tss-label tss-default-component-margin"), _label, _content);
         }
 
         /// <summary>

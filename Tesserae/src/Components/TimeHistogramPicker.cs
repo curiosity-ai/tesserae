@@ -99,19 +99,19 @@ namespace Tesserae
         {
             _maxBuckets = Math.Max(1, maxBuckets);
 
-            _histogram    = Div(_("tss-time-histogram-picker-bars"));
-            _emptyMessage = Div(_("tss-time-histogram-picker-empty"), Span(_(text: "No values")));
+            _histogram    = Div(Att("tss-time-histogram-picker-bars"));
+            _emptyMessage = Div(Att("tss-time-histogram-picker-empty"), Span(Att(text: "No values")));
 
-            _selection  = Div(_("tss-time-histogram-picker-selection"));
-            _leftThumb  = Div(_("tss-time-histogram-picker-thumb tss-time-histogram-picker-thumb-left"));
-            _rightThumb = Div(_("tss-time-histogram-picker-thumb tss-time-histogram-picker-thumb-right"));
-            _track      = Div(_("tss-time-histogram-picker-track"), _selection, _leftThumb, _rightThumb);
+            _selection  = Div(Att("tss-time-histogram-picker-selection"));
+            _leftThumb  = Div(Att("tss-time-histogram-picker-thumb tss-time-histogram-picker-thumb-left"));
+            _rightThumb = Div(Att("tss-time-histogram-picker-thumb tss-time-histogram-picker-thumb-right"));
+            _track      = Div(Att("tss-time-histogram-picker-track"), _selection, _leftThumb, _rightThumb);
 
-            _axisStart = Span(_("tss-time-histogram-picker-axis-label"));
-            _axisEnd   = Span(_("tss-time-histogram-picker-axis-label"));
-            _axis      = Div(_("tss-time-histogram-picker-axis"), _axisStart, _axisEnd);
+            _axisStart = Span(Att("tss-time-histogram-picker-axis-label"));
+            _axisEnd   = Span(Att("tss-time-histogram-picker-axis-label"));
+            _axis      = Div(Att("tss-time-histogram-picker-axis"), _axisStart, _axisEnd);
 
-            _container = Div(_("tss-time-histogram-picker"), _histogram, _emptyMessage, _track, _axis);
+            _container = Div(Att("tss-time-histogram-picker"), _histogram, _emptyMessage, _track, _axis);
             HookDragEvents(_leftThumb,  true);
             HookDragEvents(_rightThumb, false);
             HookKeyboardEvents(_leftThumb,  true);
@@ -488,7 +488,7 @@ namespace Tesserae
 
             for (var i = 0; i < _buckets.Count; i++)
             {
-                var bar       = Div(_("tss-time-histogram-picker-bar"));
+                var bar       = Div(Att("tss-time-histogram-picker-bar"));
                 var height    = _buckets[i].Count == 0 ? 0 : Math.Max(2, (_buckets[i].Count / (double)maxCount) * 100);
                 var rangeText = RenderRange(_buckets[i].Start, _buckets[i].End);
                 var countText = _buckets[i].Count.ToString("n0");
@@ -517,9 +517,9 @@ namespace Tesserae
         {
             HideBarTooltip();
 
-            var tooltip = Div(_("tss-time-histogram-picker-tooltip"),
-                Span(_("tss-time-histogram-picker-tooltip-range", text: rangeText)),
-                Span(_("tss-time-histogram-picker-tooltip-count", text: countText)));
+            var tooltip = Div(Att("tss-time-histogram-picker-tooltip"),
+                Span(Att("tss-time-histogram-picker-tooltip-range", text: rangeText)),
+                Span(Att("tss-time-histogram-picker-tooltip-count", text: countText)));
             Tippy.ShowFor(bar, tooltip, out _hideBarTooltip, placement: TooltipPlacement.Top, delayShow: 0, delayHide: 0, maxWidth: 260, arrow: true);
         }
 

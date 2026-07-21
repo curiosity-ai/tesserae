@@ -25,11 +25,11 @@ namespace Tesserae
         {
             _onText       = onText  ?? TextBlock("On");
             _offText      = offText ?? TextBlock("Off");
-            InnerElement  = CheckBox(_("tss-checkbox"));
+            InnerElement  = CheckBox(Att("tss-checkbox"));
             InnerElement.setAttribute("role", "switch");
-            _checkElement = Div(_("tss-toggle-mark"));
-            _onOffSpan = Div(_("tss-toggle-text"), _offText.Render());
-            _container = Div(_("tss-toggle-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular"), InnerElement, _checkElement, _onOffSpan);
+            _checkElement = Div(Att("tss-toggle-mark"));
+            _onOffSpan = Div(Att("tss-toggle-text"), _offText.Render());
+            _container = Div(Att("tss-toggle-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular"), InnerElement, _checkElement, _onOffSpan);
 
             _observable = new SettableObservable<bool>();
 

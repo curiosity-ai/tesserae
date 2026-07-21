@@ -24,7 +24,7 @@ namespace Tesserae
             }
 
             _innerElement = Div(
-                _("tss-sparkline")
+                Att("tss-sparkline")
             );
 
             _innerElement.style.width = "100%";

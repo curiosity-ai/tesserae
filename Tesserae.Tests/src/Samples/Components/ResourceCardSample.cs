@@ -93,7 +93,7 @@ namespace Tesserae.Tests.Samples
             // subtitle text used, adapting automatically to light/dark themes.
             private static IComponent ProviderLogo(string provider)
             {
-                var logo = Div(_("tss-default-component-no-margin"));
+                var logo = Div(Att("tss-default-component-no-margin"));
                 logo.style.display         = "inline-block";
                 logo.style.width           = "20px";
                 logo.style.height          = "20px";

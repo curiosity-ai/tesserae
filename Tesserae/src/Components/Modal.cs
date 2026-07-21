@@ -77,16 +77,16 @@ namespace Tesserae
             _onDragMouseMoveAction = (ev) => OnDragMouseMove(ev);
             _onDragMouseUpAction   = (ev) => OnDragMouseUp(ev);
 
-            _modalHeaderContents = Div(_("tss-modal-header-content"));
-            _modalFooterContents = Div(_("tss-modal-footer-content"));
+            _modalHeaderContents = Div(Att("tss-modal-header-content"));
+            _modalFooterContents = Div(Att("tss-modal-footer-content"));
 
-            _modalHeaderCommands     = Div(_("tss-modal-header-commands tss-default-component-no-margin"));
-            _modalLeftHeaderCommands = Div(_("tss-modal-left-header-commands tss-default-component-no-margin"));
-            _modalFooterCommands     = Div(_("tss-modal-footer-commands tss-default-component-no-margin"));
-            _modalLeftFooterCommands = Div(_("tss-modal-left-footer-commands tss-default-component-no-margin"));
+            _modalHeaderCommands     = Div(Att("tss-modal-header-commands tss-default-component-no-margin"));
+            _modalLeftHeaderCommands = Div(Att("tss-modal-left-header-commands tss-default-component-no-margin"));
+            _modalFooterCommands     = Div(Att("tss-modal-footer-commands tss-default-component-no-margin"));
+            _modalLeftFooterCommands = Div(Att("tss-modal-left-footer-commands tss-default-component-no-margin"));
 
-            _modalHeader = Div(_("tss-modal-header"), _modalLeftHeaderCommands, _modalHeaderContents, _modalHeaderCommands);
-            _modalFooter = Div(_("tss-modal-footer"), _modalLeftFooterCommands, _modalFooterContents, _modalFooterCommands);
+            _modalHeader = Div(Att("tss-modal-header"), _modalLeftHeaderCommands, _modalHeaderContents, _modalHeaderCommands);
+            _modalFooter = Div(Att("tss-modal-footer"), _modalLeftFooterCommands, _modalFooterContents, _modalFooterCommands);
 
             if (header != null)
             {
@@ -97,14 +97,14 @@ namespace Tesserae
                 _modalHeader.style.display = "none";
             }
 
-            _closeButton = Button(_($"tss-modal-button", el: el => el.onclick = e => Hide()), I(_("tss-fontsize-small " + UIcons.Cross.ToString())));
+            _closeButton = UI.Button(Att($"tss-modal-button", el: el => el.onclick = e => Hide()), I(Att("tss-fontsize-small " + UIcons.Cross.ToString())));
             _modalHeaderCommands.appendChild(_closeButton);
 
-            _modalContent = Div(_("tss-modal-content"));
-            _modal        = Div(_("tss-modal", role: "dialog", styles: s => s.transform = "translate(0px,0px)"), _modalHeader, _modalContent, _modalFooter);
+            _modalContent = Div(Att("tss-modal-content"));
+            _modal = Div(Att("tss-modal", role: "dialog", styles: s => s.transform = "translate(0px,0px)"), _modalHeader, _modalContent, _modalFooter);
             _modal.setAttribute("aria-modal", "true");
-            _modalOverlay = Div(_("tss-modal-overlay"));
-            _contentHtml  = Div(_("tss-modal-container"), _modalOverlay, _modal);
+            _modalOverlay = Div(Att("tss-modal-overlay"));
+            _contentHtml  = Div(Att("tss-modal-container"), _modalOverlay, _modal);
             IsNonBlocking = false; //blocking by default
 
             // 2020-05-01 DWR: In order to pick up key press events, we need to set the InnerElement on the base class before calling AttachKeys AND we need to give the container a tabindex value, otherwise it's not focusable and can't pick up key

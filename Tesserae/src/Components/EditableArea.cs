@@ -30,16 +30,16 @@ namespace Tesserae
         /// </summary>
         public EditableArea(string text = string.Empty)
         {
-            _labelText = Span(_("tss-editablelabel-textspan tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text, title: "Click to edit"));
-            _editIcon  = I(_($"tss-editablelabel-edit-icon {UIcons.Pencil}"));
-            _labelView = Div(_("tss-editablelabel-displaybox"), _labelText, _editIcon);
-            
+            _labelText = Span(Att("tss-editablelabel-textspan tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text, title: "Click to edit"));
+            _editIcon  = I(Att($"tss-editablelabel-edit-icon {UIcons.Pencil}"));
+            _labelView = Div(Att("tss-editablelabel-displaybox"), _labelText, _editIcon);
 
-            InnerElement    = TextArea(_("tss-editablelabel-textbox tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", type: "text"));
-            _cancelEditIcon = Div(_("tss-editablelabel-cancel-icon",                                                                  title: "Cancel edit"), I(_(UIcons.Cross.ToString())));
-            _editView       = Div(_("tss-editablelabel-editbox"),                                                                                            InnerElement, _cancelEditIcon);
 
-            _container = Div(_("tss-editablelabel "), _labelView, _editView);
+            InnerElement = UI.TextArea(Att("tss-editablelabel-textbox tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", type: "text"));
+            _cancelEditIcon = Div(Att("tss-editablelabel-cancel-icon",                                                                  title: "Cancel edit"), I(Att(UIcons.Cross.ToString())));
+            _editView       = Div(Att("tss-editablelabel-editbox"),                                                                                            InnerElement, _cancelEditIcon);
+
+            _container = Div(Att("tss-editablelabel "), _labelView, _editView);
 
 
             AttachChange();

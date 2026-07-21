@@ -46,10 +46,10 @@ namespace Tesserae
         /// </summary>
         public CardPivot()
         {
-            _renderedTabs    = Div(_("tss-cardpivot-titlebar", role: "tablist"));
-            _renderedContent = Div(_("tss-cardpivot-content",  role: "tabpanel"));
+            _renderedTabs    = Div(Att("tss-cardpivot-titlebar", role: "tablist"));
+            _renderedContent = Div(Att("tss-cardpivot-content",  role: "tabpanel"));
 
-            StylingContainer = Div(_("tss-cardpivot"), _renderedTabs, _renderedContent);
+            StylingContainer = Div(Att("tss-cardpivot"), _renderedTabs, _renderedContent);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Tesserae
             if (_initiallySelectedID is null) _initiallySelectedID = tab.Id;
             _orderedTabs.Add(tab);
 
-            var titleContainer = Div(_("tss-cardpivot-tab"));
+            var titleContainer = Div(Att("tss-cardpivot-tab"));
 
             titleContainer.onclick = (e) =>
             {

@@ -649,7 +649,7 @@ namespace Tesserae
 
             _activeMode = new SettableObservable<Mode>(config.InitialMode);
 
-            _footer = Div(_("tss-omnibox-footer"));
+            _footer = Div(Att("tss-omnibox-footer"));
 
             var footerEnd = new List<IComponent>();
 
@@ -666,20 +666,20 @@ namespace Tesserae
             {
 
                 InlineFilterChips = new ObservableList<InlineFilterChip>();
-                _searchInlineChipsContainer = Div(_("tss-omnibox-inline-chips"));
-                _searchRightTextContainer = Div(_("tss-omnibox-right-text"));
+                _searchInlineChipsContainer = Div(Att("tss-omnibox-inline-chips"));
+                _searchRightTextContainer = Div(Att("tss-omnibox-right-text"));
                 _searchRightTextContainer.style.display = "none";
 
                 InlineFilterChips.Observe(RenderInlineChips);
 
-                _searchInput = TextBox(_("tss-omnibox-search-input", type: "text", placeholder: config.PlaceholderSearch ?? ""));
+                _searchInput = UI.TextBox(Att("tss-omnibox-search-input", type: "text", placeholder: config.PlaceholderSearch ?? ""));
                 _searchInput.autocomplete = "off";
                 _searchInput.spellcheck = false;
 
-                _searchTokensContainer = Div(_("tss-omnibox-search-tokens"));
-                _searchInputContainer = Div(_("tss-omnibox-search-input-container"), _searchInput, _searchTokensContainer);
+                _searchTokensContainer = Div(Att("tss-omnibox-search-tokens"));
+                _searchInputContainer = Div(Att("tss-omnibox-search-input-container"), _searchInput, _searchTokensContainer);
 
-                _searchShortcutContainer = Div(_("tss-omnibox-shortcut"));
+                _searchShortcutContainer = Div(Att("tss-omnibox-shortcut"));
 
                 _searchHistoryBtn = Button().SetIcon(UIcons.TimePast).Class("tss-omnibox-search-history-btn");
                 _searchHistoryBtn.Collapse(); // Hidden by default unless WithHistory is called
@@ -692,11 +692,11 @@ namespace Tesserae
 
                 if (_mode == Mode.Search)
                 {
-                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchHistoryBtn.Render(), _searchHelpBtn.Render(), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchShortcutContainer, _searchClearBtn.Render(), _searchTriggerBtn.Render());
+                    _searchContainer = Div(Att("tss-omnibox-search-container"), _searchHistoryBtn.Render(), _searchHelpBtn.Render(), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchShortcutContainer, _searchClearBtn.Render(), _searchTriggerBtn.Render());
                 }
                 else
                 {
-                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchShortcutContainer);
+                    _searchContainer = Div(Att("tss-omnibox-search-container"), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchShortcutContainer);
                     _footer.appendChild(_searchHistoryBtn.Render());
                     _footer.appendChild(_searchHelpBtn.Render());
                     footerEnd.Add(_searchClearBtn);
@@ -974,7 +974,7 @@ namespace Tesserae
 
             if (_mode == Mode.Chat || _mode == Mode.SearchAndChat)
             {
-                _chatInput = TextArea(_("tss-omnibox-chat-input", type: "text", placeholder: config.PlaceholderChat ?? ""));
+                _chatInput = UI.TextArea(Att("tss-omnibox-chat-input", type: "text", placeholder: config.PlaceholderChat ?? ""));
                 _chatInput.spellcheck = true;
 
                 _chatInput.addEventListener("keydown", (e) =>
@@ -1000,7 +1000,7 @@ namespace Tesserae
                 _chatInput.addEventListener("focus", (e) => ReceivedFocus?.Invoke(this, e));
                 _chatInput.addEventListener("blur", (e) => LostFocus?.Invoke(this, e));
 
-                _chatContainer = Div(_("tss-omnibox-chat-container"), _chatInput);
+                _chatContainer = Div(Att("tss-omnibox-chat-container"), _chatInput);
 
                 // Size the input to its content once it's in the DOM (and whenever it's re-shown).
                 DomObserver.WhenMounted(_chatInput, ResizeChatInput);
@@ -1040,11 +1040,11 @@ namespace Tesserae
                 }
             }
 
-            var generatingContainer = Div(_("tss-omnibox-generating-container"), Spinner().CustomColor(Theme.Colors.Purple500).Small().Render(), TextBlock("Generating...").Render());
+            var generatingContainer = Div(Att("tss-omnibox-generating-container"), Spinner().CustomColor(Theme.Colors.Purple500).Small().Render(), TextBlock("Generating...").Render());
 
             _footer.appendChild(generatingContainer);
 
-            _footer.appendChild(Div(_("tss-omnibox-footer-spacer")));
+            _footer.appendChild(Div(Att("tss-omnibox-footer-spacer")));
 
             if (_mode == Mode.Chat || _mode == Mode.SearchAndChat)
             {
@@ -1097,17 +1097,17 @@ namespace Tesserae
             {
                 case Mode.Search:
                 {
-                    _container = Div(_("tss-omnibox-container"), _searchContainer);
+                    _container = Div(Att("tss-omnibox-container"), _searchContainer);
                     break;
                 }
                 case Mode.Chat:
                 {
-                    _container = Div(_("tss-omnibox-container"), _chatContainer, _footer);
+                    _container = Div(Att("tss-omnibox-container"), _chatContainer, _footer);
                     break;
                 }
                 case Mode.SearchAndChat:
                 {
-                    _container = Div(_("tss-omnibox-container tss-omnibox-chat-and-search"), _searchContainer, _chatContainer, _footer);
+                    _container = Div(Att("tss-omnibox-container tss-omnibox-chat-and-search"), _searchContainer, _chatContainer, _footer);
                     break;
                 }
             }
@@ -1489,7 +1489,7 @@ namespace Tesserae
             {
                 for (int i = 0; i < tokens.Count; i++)
                 {
-                    _searchTokensContainer.appendChild(Span(_(text: tokens[i].Value)));
+                    _searchTokensContainer.appendChild(Span(Att(text: tokens[i].Value)));
                 }
                 return;
             }
@@ -1502,7 +1502,7 @@ namespace Tesserae
                 // sits in its own highlighted pill rather than being merged together.
                 if (token.Type == SearchToken.TokenType.Whitespace)
                 {
-                    var spanSpace = Span(_(text: token.Value));
+                    var spanSpace = Span(Att(text: token.Value));
                     _searchTokensContainer.appendChild(spanSpace);
                     continue;
                 }
@@ -1547,12 +1547,12 @@ namespace Tesserae
 
                 if (string.IsNullOrEmpty(className))
                 {
-                    var span = Span(_(text: token.Value));
+                    var span = Span(Att(text: token.Value));
                     _searchTokensContainer.appendChild(span);
                 }
                 else
                 {
-                    var span = Span(_(className, text: token.Value));
+                    var span = Span(Att(className, text: token.Value));
                     _searchTokensContainer.appendChild(span);
                 }
             }
@@ -2384,7 +2384,7 @@ namespace Tesserae
                 {
                     row.Add(TextBlock(captured.Description).Small().Secondary().ML(6));
                 }
-                row.Add(Raw(Div(_("tss-omnibox-model-selector-spacer"))));
+                row.Add(Raw(Div(Att("tss-omnibox-model-selector-spacer"))));
                 if (isSelected) row.Add(Icon(UIcons.Check).Class("tss-omnibox-model-selector-check"));
 
                 var btn = Button().Class("tss-omnibox-model-selector-row").WS().NoPadding().NoMinSize().NoBorder().NoBackground().TextLeft();
@@ -2403,7 +2403,7 @@ namespace Tesserae
                 content.Add(btn);
             }
 
-            content.Add(Raw(Div(_("tss-omnibox-model-selector-divider"))));
+            content.Add(Raw(Div(Att("tss-omnibox-model-selector-divider"))));
             content.Add(TextBlock("Thinking Effort").Small().SemiBold().Class("tss-omnibox-model-selector-header"));
 
             foreach (ThinkingEffort effort in new[] { ThinkingEffort.Disable, ThinkingEffort.Low, ThinkingEffort.Medium, ThinkingEffort.High })
@@ -2413,7 +2413,7 @@ namespace Tesserae
 
                 var row = HStack().WS().AlignItemsCenter().Class("tss-omnibox-model-selector-item");
                 row.Add(TextBlock(FormatEffort(captured)).Class("tss-omnibox-model-selector-item-name"));
-                row.Add(Raw(Div(_("tss-omnibox-model-selector-spacer"))));
+                row.Add(Raw(Div(Att("tss-omnibox-model-selector-spacer"))));
                 if (isSelected) row.Add(Icon(UIcons.Check).Class("tss-omnibox-model-selector-check"));
 
                 var btn = Button().Class("tss-omnibox-model-selector-row").WS().NoPadding().NoMinSize().NoBorder().NoBackground().TextLeft();
@@ -3073,7 +3073,7 @@ namespace Tesserae
             ClearChildren(_searchInlineChipsContainer);
             foreach (var chip in chips)
             {
-                var chipEl = Div(_("tss-omnibox-inline-chip"));
+                var chipEl = Div(Att("tss-omnibox-inline-chip"));
                 if (!string.IsNullOrEmpty(chip.Background)) chipEl.style.background = chip.Background;
                 if (!string.IsNullOrEmpty(chip.Color)) chipEl.style.color = chip.Color;
 
@@ -3084,7 +3084,7 @@ namespace Tesserae
                 }
                 else
                 {
-                    contentEl = Span(_(text: chip.Name));
+                    contentEl = Span(Att(text: chip.Name));
                 }
 
                 if (chip.OnClick is object)
@@ -3101,7 +3101,7 @@ namespace Tesserae
 
                 if (chip.Removable)
                 {
-                    var closeBtn = Div(_("tss-omnibox-inline-chip-close"));
+                    var closeBtn = Div(Att("tss-omnibox-inline-chip-close"));
                     closeBtn.appendChild(UI.Icon(UIcons.Cross).Render());
 
                     closeBtn.onclick = (e) =>

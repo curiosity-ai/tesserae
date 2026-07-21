@@ -38,8 +38,8 @@ namespace Tesserae
         /// </summary>
         public ProgressIndicator()
         {
-            BarElement   = Div(_("tss-progressindicator-bar"));
-            InnerElement = Div(_("tss-progressindicator"), BarElement);
+            BarElement   = Div(Att("tss-progressindicator-bar"));
+            InnerElement = Div(Att("tss-progressindicator"), BarElement);
         }
 
         /// <summary>

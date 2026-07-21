@@ -26,9 +26,9 @@ namespace Tesserae
 
             if (!string.IsNullOrEmpty(afterText))
             {
-                var first  = Div(_("tss-text-ellipsis"));
-                var second = Div(_("tss-text-nowrap"));
-                InnerElement = Div(_("tss-textblock tss-fontcolor-default tss-textblock-with-after " + textSize.ToString() + " " + textWeight.ToString()), first, second);
+                var first  = Div(Att("tss-text-ellipsis"));
+                var second = Div(Att("tss-text-nowrap"));
+                InnerElement = Div(Att("tss-textblock tss-fontcolor-default tss-textblock-with-after " + textSize.ToString() + " " + textWeight.ToString()), first, second);
 
                 if (treatAsHTML)
                 {
@@ -43,7 +43,7 @@ namespace Tesserae
             }
             else
             {
-                InnerElement = Div(_("tss-textblock tss-fontcolor-default " + textSize.ToString() + " " + textWeight.ToString()));
+                InnerElement = Div(Att("tss-textblock tss-fontcolor-default " + textSize.ToString() + " " + textWeight.ToString()));
 
                 if (treatAsHTML)
                 {
@@ -72,7 +72,7 @@ namespace Tesserae
         public TextBlock(string text)
         {
             text                     = text ?? string.Empty;
-            InnerElement             = Div(_("tss-textblock tss-fontcolor-default " + TextSize.Small.ToString() + " " + TextWeight.Regular.ToString()));
+            InnerElement             = Div(Att("tss-textblock tss-fontcolor-default " + TextSize.Small.ToString() + " " + TextWeight.Regular.ToString()));
             InnerElement.textContent = text;
             AttachClick();
             AttachContextMenu();

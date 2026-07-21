@@ -71,10 +71,10 @@ namespace Tesserae
         /// </summary>
         public NotificationCenter()
         {
-            _badgeSpan = Span(_("tss-notif-badge"));
+            _badgeSpan = Span(Att("tss-notif-badge"));
             _badgeSpan.style.display = "none";
 
-            _bellButton = Div(_("tss-notif-bell"), I(UIcons.Bell), _badgeSpan);
+            _bellButton = Div(Att("tss-notif-bell"), I(UIcons.Bell), _badgeSpan);
             _bellButton.setAttribute("role",       "button");
             _bellButton.setAttribute("aria-label", "Notifications");
             _bellButton.setAttribute("tabindex",   "0");
@@ -85,7 +85,7 @@ namespace Tesserae
                 if (kb.key == "Enter" || kb.key == " ") { OpenPanel(); e.preventDefault(); }
             });
 
-            _container = Div(_("tss-notif-center"), _bellButton);
+            _container = Div(Att("tss-notif-center"), _bellButton);
         }
 
         /// <summary>Sets the async function that loads notification items.</summary>
@@ -219,7 +219,7 @@ namespace Tesserae
 
         private IComponent CreateItemCard(NotificationItem item)
         {
-            var dot       = Span(_($"tss-notif-dot {item.Tone}"));
+            var dot       = Span(Att($"tss-notif-dot {item.Tone}"));
             dot.style.display = item.IsRead ? "none" : "inline-block";
 
             var title     = TextBlock(item.Title ?? string.Empty).SemiBold().Small();

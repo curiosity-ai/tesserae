@@ -328,7 +328,7 @@ namespace Tesserae
         /// </summary>
         public KeyedObservableStack(ObservableList<IComponentWithID> observableList, Orientation orientation = Orientation.Vertical, bool debounce = true)
         {
-            InnerElement     = Div(_("tss-stack"));
+            InnerElement     = Div(Att("tss-stack"));
             StackOrientation = orientation;
             _observableList  = observableList;
 
@@ -482,7 +482,7 @@ namespace Tesserae
         {
             var rendered = component.Render();
 
-            var item = Div(_("tss-stack-item", styles: s =>
+            var item = Div(Att("tss-stack-item", styles: s =>
             {
                 s.alignSelf  = "auto";
                 s.width      = "auto";

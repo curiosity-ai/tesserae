@@ -17,7 +17,7 @@ namespace Tesserae
         /// </summary>
         public Icon()
         {
-            InnerElement = I(_("tss-icon "));
+            InnerElement = I(Att("tss-icon "));
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Tesserae
         {
             var iconStr = $"{Transform(icon, weight)} {size}";
 
-            InnerElement                 = I(_("tss-icon " + iconStr));
+            InnerElement                 = I(Att("tss-icon " + iconStr));
             InnerElement.dataset["icon"] = iconStr;
         }
 
@@ -38,7 +38,7 @@ namespace Tesserae
         {
             var iconStr = $"ec {icon} {size}";
 
-            InnerElement                 = I(_("tss-icon " + iconStr));
+            InnerElement                 = I(Att("tss-icon " + iconStr));
             InnerElement.dataset["icon"] = iconStr;
         }
 

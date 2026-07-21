@@ -30,18 +30,18 @@ namespace Tesserae
         {
             var contentId = "tss-expander-content-" + Guid.NewGuid().ToString("N").Substring(0, 8);
 
-            _title                       = Span(_("tss-expander-title", text: title ?? string.Empty));
-            _iconContainer               = Div(_("tss-expander-icon"));
+            _title = Span(Att("tss-expander-title", text: title ?? string.Empty));
+            _iconContainer               = Div(Att("tss-expander-icon"));
             _iconContainer.style.display = "none";
-            _headerContent               = Div(_("tss-expander-header-content"), _iconContainer, _title);
+            _headerContent               = Div(Att("tss-expander-header-content"), _iconContainer, _title);
             _chevron                     = I(UIcons.AngleDown, cssClass: "tss-expander-chevron");
-            _header                      = Div(_("tss-expander-header", role: "button", ariaLabel: "Toggle section"), _chevron, _headerContent);
+            _header = Div(Att("tss-expander-header", role: "button", ariaLabel: "Toggle section"), _chevron, _headerContent);
             _header.setAttribute("aria-controls", contentId);
-            _content    = Div(_("tss-expander-content"));
+            _content    = Div(Att("tss-expander-content"));
             _content.id = contentId;
             _content.setAttribute("role", "region");
 
-            InnerElement = Div(_("tss-expander"), _header, _content);
+            InnerElement = Div(Att("tss-expander"), _header, _content);
 
             _observable = new SettableObservable<bool>();
 

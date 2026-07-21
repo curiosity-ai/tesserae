@@ -32,12 +32,12 @@ namespace Tesserae
         /// </summary>
         public SearchBox(string placeholder = string.Empty)
         {
-            InnerElement       = TextBox(_(className: "tss-searchbox tss-fontsize-small tss-fontweight-regular", type: "search", placeholder: placeholder));
-            _icon              = Span(_(UIcons.Search.ToString()));
-            _iconContainer     = Div(_("tss-searchbox-icon"), _icon);
-            _shortcutContainer = Div(_("tss-searchbox-shortcut"));
-            _paddingContainer  = Div(_("tss-searchbox-padding"));
-            _container         = Div(_("tss-searchbox-container"), _iconContainer, InnerElement, _shortcutContainer, _paddingContainer);
+            InnerElement = UI.TextBox(Att(className: "tss-searchbox tss-fontsize-small tss-fontweight-regular", type: "search", placeholder: placeholder));
+            _icon              = Span(Att(UIcons.Search.ToString()));
+            _iconContainer     = Div(Att("tss-searchbox-icon"), _icon);
+            _shortcutContainer = Div(Att("tss-searchbox-shortcut"));
+            _paddingContainer  = Div(Att("tss-searchbox-padding"));
+            _container         = Div(Att("tss-searchbox-container"), _iconContainer, InnerElement, _shortcutContainer, _paddingContainer);
 
             AttachChange();
             AttachInput();

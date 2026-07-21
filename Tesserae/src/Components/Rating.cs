@@ -33,13 +33,13 @@ namespace Tesserae
             _color      = "var(--tss-rating-color, #f5c518)";
             _observable = new SettableObservable<int>(0);
 
-            InnerElement = Div(_("tss-rating", role: "radiogroup", ariaLabel: "Rating"));
+            InnerElement = Div(Att("tss-rating", role: "radiogroup", ariaLabel: "Rating"));
             _stars       = new HTMLElement[_maxStars];
 
             for (int i = 0; i < _maxStars; i++)
             {
                 var index = i + 1;
-                var star  = Span(_("tss-rating-star"));
+                var star  = Span(Att("tss-rating-star"));
                 star.setAttribute("role",       "radio");
                 star.setAttribute("aria-label", $"{index} star{(index == 1 ? "" : "s")}");
                 star.setAttribute("tabindex",   "0");

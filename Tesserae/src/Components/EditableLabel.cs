@@ -29,15 +29,15 @@ namespace Tesserae
         /// </summary>
         public EditableLabel(string text = string.Empty)
         {
-            _labelText = Span(_("tss-editablelabel-textspan", text: text, title: "Click to edit"));
-            _editIcon  = I(_($"tss-editablelabel-edit-icon {UIcons.Pencil}"));
-            _labelView = Div(_("tss-editablelabel-displaybox"), _labelText, _editIcon);
+            _labelText = Span(Att("tss-editablelabel-textspan", text: text, title: "Click to edit"));
+            _editIcon  = I(Att($"tss-editablelabel-edit-icon {UIcons.Pencil}"));
+            _labelView = Div(Att("tss-editablelabel-displaybox"), _labelText, _editIcon);
 
-            InnerElement    = TextBox(_("tss-editablelabel-textbox", type: "text"));
-            _cancelEditIcon = Div(_("tss-editablelabel-cancel-icon", title: "Cancel edit"), I(_(UIcons.Cross.ToString())));
-            _editView       = Div(_("tss-editablelabel-editbox"),                           InnerElement, _cancelEditIcon);
+            InnerElement = UI.TextBox(Att("tss-editablelabel-textbox", type: "text"));
+            _cancelEditIcon = Div(Att("tss-editablelabel-cancel-icon", title: "Cancel edit"), I(Att(UIcons.Cross.ToString())));
+            _editView       = Div(Att("tss-editablelabel-editbox"),                           InnerElement, _cancelEditIcon);
 
-            _container = Div(_("tss-editablelabel tss-fontcolor-default tss-fontsize-small tss-fontweight-regular"), _labelView, _editView);
+            _container = Div(Att("tss-editablelabel tss-fontcolor-default tss-fontsize-small tss-fontweight-regular"), _labelView, _editView);
 
             AttachChange();
             AttachInput();

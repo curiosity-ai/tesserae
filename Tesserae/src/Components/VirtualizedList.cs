@@ -117,9 +117,9 @@ namespace Tesserae
 
         private static string GetComponentSize(int itemsCount) => (100 / itemsCount).percent().ToString();
 
-        private static HTMLDivElement CreateInnerElementHtmlDivElement() => Div(_());
+        private static HTMLDivElement CreateInnerElementHtmlDivElement() => Div(Att());
 
-        private static HTMLDivElement CreateSpacingHtmlDivElement(string className) => Div(_(className));
+        private static HTMLDivElement CreateSpacingHtmlDivElement(string className) => Div(Att(className));
 
         private static void SetHtmlElementHeight(HTMLElement htmlElement, UnitSize height)
         {
@@ -131,7 +131,7 @@ namespace Tesserae
 
         private static void CreatePage(HTMLElement page, Action<HTMLElement> renderingAction) => renderingAction(page);
 
-        private HTMLDivElement CreateBasicListContainerHtmlDivElement() => Div(_("tss-basiclist").WithRole("list"));
+        private HTMLDivElement CreateBasicListContainerHtmlDivElement() => Div(Att("tss-basiclist").WithRole("list"));
 
         private void AppendChildrenToBasicListContainerHtmlDivElement(params HTMLElement[] htmlElements)
         {
@@ -175,7 +175,7 @@ namespace Tesserae
         private HTMLElement CreatePageHtmlElement(int pageNumber)
         {
             return Div(
-                _("tss-basiclist-page")
+                Att("tss-basiclist-page")
                    .WithRole("presentation")
                    .WithData("tss-basiclist-pagenumber", pageNumber.ToString()));
         }
@@ -185,7 +185,7 @@ namespace Tesserae
             var (key, component) = componentAndKey;
 
             return Div(
-                _("tss-basiclist-item",
+                Att("tss-basiclist-item",
                         styles: cssStyleDeclaration =>
                         {
                             cssStyleDeclaration.height = _componentHeightInPercentage;

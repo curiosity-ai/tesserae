@@ -35,7 +35,7 @@ namespace Tesserae
                 EnableOnColumnClickEvent = true;
             }
 
-            InnerElement = Div(_()).appendChild(Icon.Render());
+            InnerElement = Div(Att()).appendChild(Icon.Render());
         }
 
         /// <summary>

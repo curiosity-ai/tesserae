@@ -27,13 +27,13 @@ namespace Tesserae
         {
             Identifier = identifier;
 
-            _closedElement = Div(_("tss-sidebar-btn tss-sidebar-btn-closed-icon"), I(UIcons.Search));
+            _closedElement = Div(Att("tss-sidebar-btn tss-sidebar-btn-closed-icon"), I(UIcons.Search));
             _closedElement.title = placeholder;
 
             _searchBox = SearchBox(placeholder).Underlined().SearchAsYouType().NoIcon();
             _searchBox.OnSearch((s, v) => Searched?.Invoke(v));
 
-            _openElement = Div(_("tss-sidebar-btn-open tss-sidebar-searchbox"));
+            _openElement = Div(Att("tss-sidebar-btn-open tss-sidebar-searchbox"));
             _openElement.appendChild(_searchBox.Render());
 
             _closed = Raw(_closedElement);

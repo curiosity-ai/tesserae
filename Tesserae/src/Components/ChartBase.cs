@@ -92,7 +92,7 @@ namespace Tesserae
         /// </summary>
         protected ChartBase(double minWidth = 120, double minHeight = 80)
         {
-            _container = Div(_("tss-chart"));
+            _container = Div(Att("tss-chart"));
             _container.style.width     = "100%";
             _container.style.height    = "100%";
             _container.style.minWidth  = minWidth + "px";

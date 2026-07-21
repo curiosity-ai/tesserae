@@ -562,7 +562,7 @@ namespace Tesserae
         /// <param name="orientation">The stack orientation.</param>
         public Stack(Orientation orientation = Orientation.Vertical)
         {
-            InnerElement     = Div(_("tss-stack"));
+            InnerElement     = Div(Att("tss-stack"));
             StackOrientation = orientation;
         }
         private event ComponentEventHandler<Stack, Event> MouseOver;
@@ -781,7 +781,7 @@ namespace Tesserae
 
                 if (forceAdd || (rendered.parentElement is object && rendered.parentElement.classList.contains("tss-stack")))
                 {
-                    item = Div(_("tss-stack-item", styles: s =>
+                    item = Div(Att("tss-stack-item", styles: s =>
                     {
                         s.alignSelf  = "auto";
                         s.width      = "auto";

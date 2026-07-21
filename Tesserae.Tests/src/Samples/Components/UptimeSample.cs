@@ -64,7 +64,7 @@ namespace Tesserae.Tests.Samples
             var date = DateTime.Today.AddDays(-daysAgo).ToShortDateString();
             // Wrap in a div and add a CSS class to ensure the tooltip styling matches the dark theme properly
             return Raw(
-                Div(_("tss-uptime-tooltip-content"),
+                Div(Att("tss-uptime-tooltip-content"),
                     Stack().Children(
                         TextBlock(date).SemiBold(),
                         TextBlock(status.ToString()).Small()

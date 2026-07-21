@@ -45,7 +45,7 @@ namespace Tesserae
         public Masonry(int columns, int gutter = 10)
         {
             _percent    = $"calc({(100f / columns):0.00}% - {gutter}px)";
-            _masonry    = Div(_("tss-masonry"));
+            _masonry    = Div(Att("tss-masonry"));
             _masonryObj = Script.Write<object>("new Masonry({0}, { itemSelector: '.tss-masonry-item', columnWidth: '.tss-masonry-item', gutter: {1}, percentPosition: true })", _masonry, gutter);
             _gutter     = gutter;
             DomObserver.WhenMounted(_masonry, () => Layout());
@@ -91,7 +91,7 @@ namespace Tesserae
 
                 if (forceAdd || (rendered.parentElement is object))
                 {
-                    item = Div(_("tss-masonry-item", styles: s =>
+                    item = Div(Att("tss-masonry-item", styles: s =>
                     {
                         s.alignSelf  = "auto";
                         s.width      = _percent;

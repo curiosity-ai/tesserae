@@ -8,16 +8,16 @@ namespace Tesserae
         /// <summary>
         /// Creates a new <see cref="Attributes"/> object.
         /// </summary>
-        public static Attributes _()                 => new Attributes();
+        public static Attributes Att()                 => new Attributes();
         /// <summary>
         /// Creates a new <see cref="Attributes"/> object with the specified class name.
         /// </summary>
-        public static Attributes _(string className) => new Attributes() { ClassName = className };
+        public static Attributes Att(string className) => new Attributes() { ClassName = className };
 
         /// <summary>
         /// Creates a new <see cref="Attributes"/> object with the specified parameters.
         /// </summary>
-        public static Attributes _(
+        public static Attributes Att(
             string                      className    = null,
             string                      id           = null,
             string                      src          = null,

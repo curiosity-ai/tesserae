@@ -55,19 +55,19 @@ namespace Tesserae
             _onWindowClickAction  = (ev) => OnWindowClick(ev);
             _onPopupKeyDownAction = (ev) => OnPopupKeyDown(ev);
 
-            _noItemsSpan = noItemsSpan ?? Span(_(text: "There are no options available"));
-            _searchSpan  = Span(_("tss-dropdown-search-term"));
+            _noItemsSpan = noItemsSpan ?? Span(Att(text: "There are no options available"));
+            _searchSpan  = Span(Att("tss-dropdown-search-term"));
 
-            InnerElement = Div(_("tss-dropdown", role: "combobox"), _noItemsSpan);
+            InnerElement = Div(Att("tss-dropdown", role: "combobox"), _noItemsSpan);
             InnerElement.setAttribute("aria-haspopup", "listbox");
             InnerElement.setAttribute("aria-expanded", "false");
 
-            _errorSpan = Span(_("tss-dropdown-error"));
-            _iconContainer  = I(_("tss-dropdown-icon"));
+            _errorSpan = Span(Att("tss-dropdown-error"));
+            _iconContainer  = I(Att("tss-dropdown-icon"));
 
-            _container = Div(_("tss-dropdown-container"), InnerElement, _errorSpan, _iconContainer);
+            _container = Div(Att("tss-dropdown-container"), InnerElement, _errorSpan, _iconContainer);
 
-            _childContainer = Div(_());
+            _childContainer = Div(Att());
 
             InnerElement.onclick = (e) =>
             {
@@ -323,13 +323,13 @@ namespace Tesserae
                 if (_searchBox != null)
                 {
                     _searchBox.Render().classList.add("tss-dropdown-searchbox");
-                    _popupDiv = Div(_("tss-dropdown-popup", role: "listbox"), _searchBox.Render(), _childContainer);
+                    _popupDiv = Div(Att("tss-dropdown-popup", role: "listbox"), _searchBox.Render(), _childContainer);
                 }
                 else
                 {
-                    _popupDiv = Div(_("tss-dropdown-popup", role: "listbox"), _childContainer);
+                    _popupDiv = Div(Att("tss-dropdown-popup", role: "listbox"), _childContainer);
                 }
-                _contentHtml = Div(_("tss-dropdown-layer"), _popupDiv);
+                _contentHtml = Div(Att("tss-dropdown-layer"), _popupDiv);
 
                 _contentHtml.addEventListener("click",       _onWindowClickAction);
                 _contentHtml.addEventListener("dblclick",    _onWindowClickAction);
@@ -954,7 +954,7 @@ namespace Tesserae
             if (_spinner is object)
                 return;
 
-            _spinner = Div(_("tss-spinner"));
+            _spinner = Div(Att("tss-spinner"));
             _container.appendChild(_spinner);
             _container.style.pointerEvents = "none";
         }
@@ -1110,7 +1110,7 @@ namespace Tesserae
             /// </summary>
             public Item(IComponent content, IComponent selectedContent)
             {
-                InnerElement = Button(_("tss-dropdown-item", role: "option"));
+                InnerElement = Button(Att("tss-dropdown-item", role: "option"));
                 InnerElement.appendChild(content.Render());
 
                 if (selectedContent is null || selectedContent == content)
@@ -1119,7 +1119,7 @@ namespace Tesserae
                 }
                 else
                 {
-                    SelectedElement = Button(_("tss-dropdown-item"));
+                    SelectedElement = Button(Att("tss-dropdown-item"));
                     SelectedElement.appendChild(selectedContent.Render());
                 }
 

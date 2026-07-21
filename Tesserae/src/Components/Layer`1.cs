@@ -22,7 +22,7 @@ namespace Tesserae
         /// <summary>
         /// Initializes a new instance of the <see cref="Layer{T}"/> class.
         /// </summary>
-        protected Layer() => InnerElement = Div(_("tss-layer-base"));
+        protected Layer() => InnerElement = Div(Att("tss-layer-base"));
 
         private Action<MouseEvent> _onLayerClick;
 
@@ -125,7 +125,7 @@ namespace Tesserae
                     {
                         var oldLayer = _renderedContent; //Remove any previous host
 
-                        _renderedContent              = Div(_("tss-layer tss-fade"), BuildRenderedContent());
+                        _renderedContent              = Div(Att("tss-layer tss-fade"), BuildRenderedContent());
                         if (!AnimateOnShow)
                         {
                             _renderedContent.classList.add("tss-fade-instant");
@@ -198,7 +198,7 @@ namespace Tesserae
         {
             if (_contentHtml is object) return _contentHtml;
 
-            var div = Div(_("tss-layer-content"), _content.Render());
+            var div = Div(Att("tss-layer-content"), _content.Render());
 
             if (_isTransparent)
             {

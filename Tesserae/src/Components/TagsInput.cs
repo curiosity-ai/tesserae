@@ -48,7 +48,7 @@ namespace Tesserae
             _input.type = "text";
             _input.classList.add("tss-tagsinput-entry");
 
-            _container = Div(_("tss-tagsinput tss-default-component-margin"));
+            _container = Div(Att("tss-tagsinput tss-default-component-margin"));
             _container.appendChild(_input);
 
             _observable = new SettableObservable<IReadOnlyList<string>>(_tags.AsReadOnly());
@@ -264,9 +264,9 @@ namespace Tesserae
 
         private HTMLElement BuildChip(string value)
         {
-            var label  = Span(_("tss-tagsinput-chip-label",  text: value));
-            var remove = Span(_("tss-tagsinput-chip-remove", text: "×"));
-            var chip   = Div(_("tss-tagsinput-chip"), label, remove);
+            var label  = Span(Att("tss-tagsinput-chip-label",  text: value));
+            var remove = Span(Att("tss-tagsinput-chip-remove", text: "×"));
+            var chip   = Div(Att("tss-tagsinput-chip"), label, remove);
 
             remove.addEventListener("click", (e) =>
             {

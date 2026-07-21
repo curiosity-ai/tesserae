@@ -89,7 +89,7 @@ namespace Tesserae
             _text         = text;
             _closedHeader = Button().Class("tss-sidebar-nav-header").Class("tss-sidebar-btn").Id(identifier + "-closed");
             setButtonIcon(_closedHeader);
-            _openHeader = Div(_("tss-sidebar-nav-header tss-sidebar-btn-open tss-sidebar-nav-header-empty", id: identifier + "-open"));
+            _openHeader = Div(Att("tss-sidebar-nav-header tss-sidebar-btn-open tss-sidebar-nav-header-empty", id: identifier + "-open"));
 
             _arrow = Button().Class("tss-sidebar-nav-arrow");
 
@@ -103,7 +103,7 @@ namespace Tesserae
 
             if (commands.Length > 0)
             {
-                var divCmd = Div(_("tss-sidebar-commands"));
+                var divCmd = Div(Att("tss-sidebar-commands"));
                 _openHeader.appendChild(divCmd);
 
                 foreach (var c in commands)
@@ -369,7 +369,7 @@ namespace Tesserae
 
             foreach (var c in _commands) c.RefreshTooltip();
 
-            var nav = Div(_("tss-sidebar-nav", id: Identifier));
+            var nav = Div(Att("tss-sidebar-nav", id: Identifier));
             nav["tssOwner"] = this;
             nav.appendChild(_openHeader);
 
@@ -490,7 +490,7 @@ namespace Tesserae
         {
             _closedHeader.Tooltip(_text, placement: TooltipPlacement.Top);
 
-            var nav = Div(_("tss-sidebar-nav", id: Identifier));
+            var nav = Div(Att("tss-sidebar-nav", id: Identifier));
             nav["tssOwner"] = this;
             nav.appendChild(_closedHeader.Render());
             nav.appendChild(VStack().Class("tss-sidebar-nav-children").Children(items.Select(i => i.RenderClosed())).Render());

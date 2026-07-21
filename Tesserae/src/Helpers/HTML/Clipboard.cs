@@ -31,7 +31,7 @@ namespace Tesserae
             }
             else
             {
-                var ta = TextBox(_());
+                var ta = TextBox(Att());
                 ta.style.opacity  = "0";
                 ta.style.position = "absolute";
                 document.body.appendChild(ta);

@@ -42,9 +42,9 @@ namespace Tesserae
         /// </summary>
         public Diagram()
         {
-            _canvas    = Canvas(_("tss-diagram-canvas"));
-            _nodesHost = Div(_("tss-diagram-nodes"));
-            _container = Div(_("tss-diagram"), _canvas, _nodesHost);
+            _canvas    = Canvas(Att("tss-diagram-canvas"));
+            _nodesHost = Div(Att("tss-diagram-nodes"));
+            _container = Div(Att("tss-diagram"), _canvas, _nodesHost);
 
             ApplyDotSpacing();
             HookPanEvents();

@@ -21,8 +21,8 @@ namespace Tesserae
         /// </summary>
         public Button(string text = string.Empty)
         {
-            _textSpan    = Span(_(text: text));
-            InnerElement = Button(_("tss-btn tss-btn-default tss-default-component-margin"), _textSpan);
+            _textSpan    = Span(Att(text: text));
+            InnerElement = Button(Att("tss-btn tss-btn-default tss-default-component-margin"), _textSpan);
             Weight       = TextWeight.Regular;
             Size         = TextSize.Small;
 
@@ -103,7 +103,7 @@ namespace Tesserae
 
                 if (_iconSpan == null)
                 {
-                    _iconSpan = I(_());
+                    _iconSpan = I(Att());
                     InnerElement.insertBefore(_iconSpan, _textSpan);
                 }
 

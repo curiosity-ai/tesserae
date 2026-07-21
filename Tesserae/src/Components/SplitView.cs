@@ -40,11 +40,11 @@ namespace Tesserae
             _splitterSize = (splitterSize is object && splitterSize.Unit != Unit.Auto && splitterSize.Unit != Unit.Inherit)
                 ? splitterSize.ToString()
                 : "8px";
-            _leftComponent = Raw(Div(_()));
-            var splitter = Div(_("tss-splitter tss-no-splitter"));
+            _leftComponent = Raw(Div(Att()));
+            var splitter = Div(Att("tss-splitter tss-no-splitter"));
             splitter.draggable        = false;
             _splitterComponent        = Raw(splitter);
-            _rightComponent           = Raw(Div(_()));
+            _rightComponent           = Raw(Div(Att()));
             _splitterComponent.Width  = _splitterSize;
             _leftComponent.Height     = "100%";
             _splitterComponent.Height = "100%";
@@ -56,7 +56,7 @@ namespace Tesserae
             _leftComponent.FlexGrow  = "1";
             _rightComponent.FlexGrow = "1";
 
-            _splitContainer = Div(_("tss-splitview tss-splitview-vertical"), _leftComponent.Render(), _splitterComponent.Render(), _rightComponent.Render());
+            _splitContainer = Div(Att("tss-splitview tss-splitview-vertical"), _leftComponent.Render(), _splitterComponent.Render(), _rightComponent.Render());
         }
 
         /// <summary>

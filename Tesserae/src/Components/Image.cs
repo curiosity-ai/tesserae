@@ -27,7 +27,7 @@ namespace Tesserae
         {
             if (!string.IsNullOrEmpty(fallback))
             {
-                InnerElement = UI.Image(_("tss-image", src: fallback));
+                InnerElement = UI.Image(Att("tss-image", src: fallback));
 
                 InnerElement.onerror = _ => //Need to be hooked before setting src
                 {
@@ -42,7 +42,7 @@ namespace Tesserae
             }
             else
             {
-                InnerElement = UI.Image(_("tss-image", src: source));
+                InnerElement = UI.Image(Att("tss-image", src: source));
             }
 
             PropagateToStackItemParent = true;

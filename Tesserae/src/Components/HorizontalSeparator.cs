@@ -54,8 +54,8 @@ namespace Tesserae
         /// </summary>
         public HorizontalSeparator(string text = string.Empty)
         {
-            _separator = Div(_("tss-horizontalseparator"));
-            _container = Div(_("tss-horizontalseparator-container"), _separator);
+            _separator = Div(Att("tss-horizontalseparator"));
+            _container = Div(Att("tss-horizontalseparator-container"), _separator);
             Text       = text;
         }
 
@@ -64,9 +64,9 @@ namespace Tesserae
         /// </summary>
         public HorizontalSeparator(IComponent component)
         {
-            _separator = Div(_("tss-horizontalseparator"));
+            _separator = Div(Att("tss-horizontalseparator"));
             _separator.appendChild(component.Render());
-            _container = Div(_("tss-horizontalseparator-container"), _separator);
+            _container = Div(Att("tss-horizontalseparator-container"), _separator);
         }
 
         /// <summary>

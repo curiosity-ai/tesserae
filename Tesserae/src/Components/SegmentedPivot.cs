@@ -51,11 +51,11 @@ namespace Tesserae
         /// </summary>
         public SegmentedPivot()
         {
-            _renderedTabs = Div(_("tss-segmentedpivot-titlebar", role: "tablist"));
-            var wrapper = Div(_("tss-segmentedpivot-wrapper"), _renderedTabs);
-            _renderedContent = Div(_("tss-segmentedpivot-content", role: "tabpanel"));
+            _renderedTabs = Div(Att("tss-segmentedpivot-titlebar", role: "tablist"));
+            var wrapper = Div(Att("tss-segmentedpivot-wrapper"), _renderedTabs);
+            _renderedContent = Div(Att("tss-segmentedpivot-content", role: "tabpanel"));
 
-            StylingContainer = Div(_("tss-segmentedpivot"), wrapper, _renderedContent);
+            StylingContainer = Div(Att("tss-segmentedpivot"), wrapper, _renderedContent);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Tesserae
             if (_initiallySelectedID is null) _initiallySelectedID = tab.Id;
             _orderedTabs.Add(tab);
 
-            var titleContainer = Div(_("tss-segmentedpivot-tab"));
+            var titleContainer = Div(Att("tss-segmentedpivot-tab"));
             titleContainer.tabIndex = 0;
 
             titleContainer.onkeydown = (e) =>

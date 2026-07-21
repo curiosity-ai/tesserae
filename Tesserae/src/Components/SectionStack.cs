@@ -46,7 +46,7 @@ namespace Tesserae
         {
             if (!((component as dynamic).SectionStackItem is HTMLDivElement item))
             {
-                item = Div(_(isTitle ? "tss-sectionstack-title tss-stack-item tss-sectionstack-item" : (cardStyle ? "tss-sectionstack-card tss-stack-item tss-sectionstack-item": "tss-stack-item tss-sectionstack-item") ), component.Render());
+                item = Div(Att(isTitle ? "tss-sectionstack-title tss-stack-item tss-sectionstack-item" : (cardStyle ? "tss-sectionstack-card tss-stack-item tss-sectionstack-item": "tss-stack-item tss-sectionstack-item") ), component.Render());
 
                 item.style.alignSelf = "auto";
                 item.style.width     = "auto";

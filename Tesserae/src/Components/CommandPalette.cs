@@ -70,7 +70,7 @@ namespace Tesserae
         {
             if (host is null) throw new ArgumentNullException(nameof(host));
 
-            _searchInput = TextBox(_("tss-commandpalette-search", type: "search", placeholder: "Type a command"));
+            _searchInput = UI.TextBox(Att("tss-commandpalette-search", type: "search", placeholder: "Type a command"));
             _searchInput.setAttribute("aria-label", "Command palette search");
             _searchInput.addEventListener("input", _ => RefreshResults());
             _searchInput.addEventListener("keydown", e => HandleSearchKeyDown(e.As<KeyboardEvent>()));
@@ -82,8 +82,8 @@ namespace Tesserae
                     _searchInput.focus();
                 }
             });
-            _backButton = Button(_("tss-commandpalette-back tss-fontweight-semibold", type: "button", title: "Go Back"),
-                                    Div(_("tss-commandpalette-icon"), I(_($"tss-commandpalette-icon-item {UIcons.AngleLeft}"))));
+            _backButton = UI.Button(Att("tss-commandpalette-back tss-fontweight-semibold", type: "button", title: "Go Back"),
+                                    Div(Att("tss-commandpalette-icon"), I(Att($"tss-commandpalette-icon-item {UIcons.AngleLeft}"))));
 
             _backButton.addEventListener("click", e =>
             {
@@ -91,23 +91,23 @@ namespace Tesserae
                 NavigateBack();
             });
 
-            _pathText = Span(_("tss-commandpalette-path tss-fontweight-semibold"));
-            _breadcrumbs = Div(_("tss-commandpalette-breadcrumbs"), _backButton, _pathText);
+            _pathText = Span(Att("tss-commandpalette-path tss-fontweight-semibold"));
+            _breadcrumbs = Div(Att("tss-commandpalette-breadcrumbs"), _backButton, _pathText);
 
-            _searchContainer = Div(_("tss-commandpalette-search-container"), _breadcrumbs, _searchInput);
-            _results = Div(_("tss-commandpalette-results", role: "listbox"));
-            _emptyState = Div(_("tss-commandpalette-empty", text: "No results"));
+            _searchContainer = Div(Att("tss-commandpalette-search-container"), _breadcrumbs, _searchInput);
+            _results = Div(Att("tss-commandpalette-results", role: "listbox"));
+            _emptyState = Div(Att("tss-commandpalette-empty", text: "No results"));
 
-            _animator = Div(_("tss-commandpalette-animator"), _searchContainer, _results, _emptyState);
-            _positioner = Div(_("tss-commandpalette-positioner"), _animator);
-            _overlay = Div(_("tss-commandpalette-overlay"));
+            _animator = Div(Att("tss-commandpalette-animator"), _searchContainer, _results, _emptyState);
+            _positioner = Div(Att("tss-commandpalette-positioner"), _animator);
+            _overlay = Div(Att("tss-commandpalette-overlay"));
             _overlay.addEventListener("click", e =>
             {
                 StopEvent(e);
                 Hide();
             });
 
-            _contentHtml = Div(_("tss-commandpalette-container"), _overlay, _positioner);
+            _contentHtml = Div(Att("tss-commandpalette-container"), _overlay, _positioner);
 
             SetActions(actions);
 
@@ -445,7 +445,7 @@ namespace Tesserae
                 var action = actions[i];
                 if (!string.IsNullOrWhiteSpace(action.Section) && action.Section != lastSection)
                 {
-                    _results.appendChild(Div(_("tss-commandpalette-section", text: action.Section)));
+                    _results.appendChild(Div(Att("tss-commandpalette-section", text: action.Section)));
                     lastSection = action.Section;
                 }
 
@@ -499,39 +499,39 @@ namespace Tesserae
 
         private HTMLElement BuildActionElement(CommandPaletteAction action, int index)
         {
-            var iconContainer = Div(_("tss-commandpalette-icon"));
+            var iconContainer = Div(Att("tss-commandpalette-icon"));
             if (action.Icon.HasValue)
             {
-                iconContainer.appendChild(I(_($"tss-commandpalette-icon-item {action.Icon.Value}")));
+                iconContainer.appendChild(I(Att($"tss-commandpalette-icon-item {action.Icon.Value}")));
             }
             else
             {
-                iconContainer.appendChild(Span(_("tss-commandpalette-icon-placeholder", text: "•")));
+                iconContainer.appendChild(Span(Att("tss-commandpalette-icon-placeholder", text: "•")));
             }
 
-            var title = Div(_("tss-commandpalette-title", text: action.Name));
-            var content = Div(_("tss-commandpalette-content"), title);
+            var title = Div(Att("tss-commandpalette-title", text: action.Name));
+            var content = Div(Att("tss-commandpalette-content"), title);
 
             if (!string.IsNullOrWhiteSpace(action.Subtitle))
             {
-                content.appendChild(Div(_("tss-commandpalette-subtitle", text: action.Subtitle)));
+                content.appendChild(Div(Att("tss-commandpalette-subtitle", text: action.Subtitle)));
             }
 
-            var shortcuts = Div(_("tss-commandpalette-shortcuts"));
+            var shortcuts = Div(Att("tss-commandpalette-shortcuts"));
             if (action.Shortcut != null && action.Shortcut.Length > 0)
             {
                 foreach (var shortcut in action.Shortcut)
                 {
-                    shortcuts.appendChild(Span(_("tss-commandpalette-shortcut", text: shortcut)));
+                    shortcuts.appendChild(Span(Att("tss-commandpalette-shortcut", text: shortcut)));
                 }
             }
 
             if (HasChildren(action))
             {
-                shortcuts.appendChild(Span(_("tss-commandpalette-submenu", text: "›")));
+                shortcuts.appendChild(Span(Att("tss-commandpalette-submenu", text: "›")));
             }
 
-            var item = Div(_("tss-commandpalette-item", role: "option"), iconContainer, content, shortcuts);
+            var item = Div(Att("tss-commandpalette-item", role: "option"), iconContainer, content, shortcuts);
             if (!action.IsEnabled)
             {
                 item.classList.add("tss-disabled");

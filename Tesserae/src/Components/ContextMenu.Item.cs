@@ -39,7 +39,7 @@ namespace Tesserae
             public Item(string text = string.Empty)
             {
                 _innerComponent = null;
-                InnerElement    = Button(_("tss-contextmenu-item", text: text));
+                InnerElement    = Button(Att("tss-contextmenu-item", text: text));
                 AttachClick();
                 InnerElement.addEventListener("mouseenter", OnItemMouseEnter);
                 InnerElement.addEventListener("mouseleave", OnItemMouseLeave);
@@ -56,7 +56,7 @@ namespace Tesserae
                 }
 
                 _innerComponent = component.Render();
-                InnerElement    = Div(_("tss-contextmenu-item"), _innerComponent);
+                InnerElement    = Div(Att("tss-contextmenu-item"), _innerComponent);
                 InnerElement.appendChild(_innerComponent);
                 AttachClick();
                 InnerElement.addEventListener("mouseenter", OnItemMouseEnter);
@@ -161,7 +161,7 @@ namespace Tesserae
             public Item SubMenu(ContextMenu cm)
             {
                 _subMenu = cm;
-                InnerElement.appendChild(I(_($"{UIcons.AngleRight} tss-contextmenu-submenu-button-icon")));
+                InnerElement.appendChild(I(Att($"{UIcons.AngleRight} tss-contextmenu-submenu-button-icon")));
                 return this;
             }
 

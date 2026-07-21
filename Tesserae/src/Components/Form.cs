@@ -20,7 +20,7 @@ namespace Tesserae
 
         public Form()
         {
-            _form = FormE(_("tss-form"));
+            _form = FormE(Att("tss-form"));
 
             // Default to "POST" so password managers treat this as a credential submission target
             // (GET forms are usually treated as search). Consumers can override via SetMethod.

@@ -26,11 +26,11 @@ namespace Tesserae
         /// </summary>
         public Pagination(int totalItems = 0, int pageSize = 10, int currentPage = 1)
         {
-            _buttonContainer = Div(_("tss-pagination-buttons"));
-            _status          = Span(_("tss-pagination-status"));
+            _buttonContainer = Div(Att("tss-pagination-buttons"));
+            _status          = Span(Att("tss-pagination-status"));
             _observable      = new SettableObservable<int>(currentPage);
 
-            InnerElement = Div(_("tss-pagination", role: "navigation", ariaLabel: "Pagination"), _buttonContainer, _status);
+            InnerElement = Div(Att("tss-pagination", role: "navigation", ariaLabel: "Pagination"), _buttonContainer, _status);
 
             _maxPageButtons = 7;
             _showStatus     = true;
@@ -225,7 +225,7 @@ namespace Tesserae
             {
                 if (page == 0)
                 {
-                    _buttonContainer.appendChild(Span(_("tss-pagination-ellipsis", text: "…")));
+                    _buttonContainer.appendChild(Span(Att("tss-pagination-ellipsis", text: "…")));
                     continue;
                 }
 
@@ -242,7 +242,7 @@ namespace Tesserae
         private HTMLButtonElement CreatePageButton(int page)
         {
             var isActive = page == CurrentPage;
-            var button   = Button(_("tss-pagination-button", text: page.ToString(), type: "button", ariaLabel: $"Page {page}"));
+            var button   = UI.Button(Att("tss-pagination-button", text: page.ToString(), type: "button", ariaLabel: $"Page {page}"));
             button.UpdateClassIf(isActive, "tss-active");
             if (isActive) button.setAttribute("aria-current", "page");
             button.addEventListener("click", _ => SetPage(page));
@@ -251,7 +251,7 @@ namespace Tesserae
 
         private HTMLButtonElement CreateNavButton(string label, UIcons icon, bool disabled, Action onClick)
         {
-            var button = Button(_("tss-pagination-button tss-pagination-nav", type: "button", ariaLabel: label), I(icon));
+            var button = UI.Button(Att("tss-pagination-button tss-pagination-nav", type: "button", ariaLabel: label), I(icon));
             button.disabled = disabled;
             button.UpdateClassIf(disabled, "tss-disabled");
 

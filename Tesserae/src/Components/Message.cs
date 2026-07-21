@@ -25,14 +25,14 @@ namespace Tesserae
         /// </summary>
         public Message(string title = null, string message = null)
         {
-            InnerElement = Div(_("tss-message"));
+            InnerElement = Div(Att("tss-message"));
 
-            _iconContainer    = Div(_("tss-message-icon"));
-            _contentContainer = Div(_("tss-message-content"));
-            _titleContainer   = Div(_("tss-message-title"));
-            _textContainer    = Div(_("tss-message-text"));
-            _noteContainer    = Div(_("tss-message-note"));
-            _actionContainer  = Div(_("tss-message-action"));
+            _iconContainer    = Div(Att("tss-message-icon"));
+            _contentContainer = Div(Att("tss-message-content"));
+            _titleContainer   = Div(Att("tss-message-title"));
+            _textContainer    = Div(Att("tss-message-text"));
+            _noteContainer    = Div(Att("tss-message-note"));
+            _actionContainer  = Div(Att("tss-message-action"));
 
             if (!string.IsNullOrEmpty(title)) Title(title);
             if (!string.IsNullOrEmpty(message)) Text(message);

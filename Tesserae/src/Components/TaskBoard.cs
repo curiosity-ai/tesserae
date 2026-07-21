@@ -29,7 +29,7 @@ namespace Tesserae
             _stack = Stack().Horizontal().Width(100.percent()).Height(100.percent());
             _stack.Class("tss-taskboard");
 
-            _container = Div(_("tss-taskboard-container", styles: s =>
+            _container = Div(Att("tss-taskboard-container", styles: s =>
             {
                 s.width = "100%";
                 s.height = "100%";
@@ -188,7 +188,7 @@ namespace Tesserae
                 s.minHeight = "50px";
             });
 
-            _container = Div(_("tss-taskboard-column", styles: s =>
+            _container = Div(Att("tss-taskboard-column", styles: s =>
             {
                 s.display = "flex";
                 s.flexDirection = "column";
@@ -348,7 +348,7 @@ namespace Tesserae
             _layout = Stack().Vertical().Gap(8.px());
             _layout.Add(content);
 
-            _container = Div(_("tss-taskboard-card", styles: s =>
+            _container = Div(Att("tss-taskboard-card", styles: s =>
             {
                 s.background = "var(--tss-default-background-color)";
                 s.borderRadius = "6px";
@@ -371,7 +371,7 @@ namespace Tesserae
                 _container.removeChild(_header);
             }
 
-            _header = Div(_("tss-taskboard-card-header", styles: s =>
+            _header = Div(Att("tss-taskboard-card-header", styles: s =>
             {
                 s.marginBottom = "8px";
                 s.display = "flex";
@@ -393,7 +393,7 @@ namespace Tesserae
                 _container.removeChild(_footer);
             }
 
-            _footer = Div(_("tss-taskboard-card-footer", styles: s =>
+            _footer = Div(Att("tss-taskboard-card-footer", styles: s =>
             {
                 s.marginTop = "12px";
                 s.paddingTop = "8px";

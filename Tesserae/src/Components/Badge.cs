@@ -28,9 +28,9 @@ namespace Tesserae
 
         protected TokenBase(string cssClass, string text)
         {
-            _textSpan  = Span(_("tss-token-text", text: text ?? string.Empty));
-            _content   = Span(_("tss-token-content"), _textSpan);
-            InnerElement = Span(_($"tss-token {cssClass}"), _content);
+            _textSpan  = Span(Att("tss-token-text", text: text ?? string.Empty));
+            _content   = Span(Att("tss-token-content"), _textSpan);
+            InnerElement = Span(Att($"tss-token {cssClass}"), _content);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Tesserae
 
                 if (_icon == null)
                 {
-                    _icon = I(_("tss-token-icon"));
+                    _icon = I(Att("tss-token-icon"));
                     _content.insertBefore(_icon, _textSpan);
                 }
 
@@ -239,7 +239,7 @@ namespace Tesserae
                 return;
             }
 
-            _removeButton = Button(_("tss-token-remove", type: "button", ariaLabel: "Remove"), I(UIcons.CrossSmall));
+            _removeButton = Button(Att("tss-token-remove", type: "button", ariaLabel: "Remove"), I(UIcons.CrossSmall));
             _removeButton.addEventListener("click", ev =>
             {
                 StopEvent(ev);

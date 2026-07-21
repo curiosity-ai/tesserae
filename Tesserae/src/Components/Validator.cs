@@ -242,7 +242,7 @@ namespace Tesserae
             public DummyComponentToUseForCustomValidationLogicNotTiedToOneComponent(Func<bool> isInvalid)
             {
                 _isInvalid    = isInvalid;
-                _innerElement = Span(_(text: "This is a dummy element to illustrate validation"));
+                _innerElement = Span(Att(text: "This is a dummy element to illustrate validation"));
             }
 
             /// <summary>

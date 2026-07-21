@@ -23,9 +23,9 @@ namespace Tesserae
         /// <param name="defaultText">Optional initial value for the input.</param>
         protected Input(string type, string defaultText = null)
         {
-            InnerElement = TextBox(_("tss-textbox", type: type, value: defaultText));
-            _errorSpan = Span(_("tss-textbox-error"));
-            _container = Div(_("tss-textbox-container tss-default-component-margin"), InnerElement, _errorSpan);
+            InnerElement = UI.TextBox(Att("tss-textbox", type: type, value: defaultText));
+            _errorSpan = Span(Att("tss-textbox-error"));
+            _container = Div(Att("tss-textbox-container tss-default-component-margin"), InnerElement, _errorSpan);
 
             _observable = new SettableObservable<string>(defaultText);
 

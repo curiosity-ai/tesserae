@@ -70,12 +70,12 @@ namespace Tesserae
             _cron = initialCron;
             _enabled = initialEnabled;
             _observable = new SettableObservable<(string cron, bool enabled)>((_cron, _enabled));
-            InnerElement = Div(_("tss-cron-editor"));
+            InnerElement = Div(Att("tss-cron-editor"));
 
-            _descContainer = Div(_("tss-cron-desc"));
+            _descContainer = Div(Att("tss-cron-desc"));
             _descContainer.onclick = (e) => Open();
 
-            _editorContainer = Div(_("tss-cron-open"));
+            _editorContainer = Div(Att("tss-cron-open"));
             _editorContainer.style.display = "none";
 
             _enableCheckBox = Button().Tooltip(_enabled ? "Enabled, click to disable" : "Disabled, click to enable").SetIcon(_enabled ? UIcons.ToggleOn : UIcons.ToggleOff).OnClick(() => EnabledChanged());
@@ -296,12 +296,12 @@ namespace Tesserae
                     }
                 }
 
-                var row = Div(_("tss-cron-row"));
-                row.appendChild(Span(_("tss-cron-label"), TextBlock("Scheduled ").Render()));
+                var row = Div(Att("tss-cron-row"));
+                row.appendChild(Span(Att("tss-cron-label"), TextBlock("Scheduled ").Render()));
                 row.appendChild(_frequencyDropdown.Render());
-                row.appendChild(Span(_("tss-cron-label"), TextBlock(" at ").Render()));
+                row.appendChild(Span(Att("tss-cron-label"), TextBlock(" at ").Render()));
                 row.appendChild(_timeDropdown.Render());
-                row.appendChild(Span(_("tss-cron-label"), TextBlock(" UTC").Render()));
+                row.appendChild(Span(Att("tss-cron-label"), TextBlock(" UTC").Render()));
 
                 var wrappedRow = Button().ReplaceContent(HStack().AlignItemsCenter().NoDefaultMargin().Children(Icon(UIcons.AngleUp).PR(16), Icon(UIcons.Clock).PR(8), Raw(row)));
                 
@@ -314,7 +314,7 @@ namespace Tesserae
                     _editorContainer.appendChild(_daysStack.Render());
                 }
 
-                var actions = Div(_("tss-cron-actions"));
+                var actions = Div(Att("tss-cron-actions"));
                 actions.appendChild(_switchToCustomButton.Render());
                 _editorContainer.appendChild(actions);
             }
@@ -323,10 +323,10 @@ namespace Tesserae
                 _isCustom = true;
                 _customCronInput.Text = _cron;
 
-                var row = Div(_("tss-cron-row"));
+                var row = Div(Att("tss-cron-row"));
                 row.appendChild(_customCronInput.Render());
 
-                var actions = Div(_("tss-cron-actions"));
+                var actions = Div(Att("tss-cron-actions"));
                 actions.appendChild(_switchToSimpleButton.Render());
 
                 _editorContainer.appendChild(row);

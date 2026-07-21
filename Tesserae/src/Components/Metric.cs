@@ -21,12 +21,12 @@ namespace Tesserae
         /// </summary>
         public Metric(string title, string value)
         {
-            _titleContainer = Div(_("tss-metric-title"), TextBlock(title).SmallPlus().SemiBold().Foreground(Theme.Secondary.Foreground).Render());
-            _valueContainer = Div(_("tss-metric-value"), TextBlock(value).XLarge().SemiBold().Render());
-            _changeContainer = Div(_("tss-metric-change"));
-            _chartContainer = Div(_("tss-metric-chart"));
+            _titleContainer = Div(Att("tss-metric-title"), TextBlock(title).SmallPlus().SemiBold().Foreground(Theme.Secondary.Foreground).Render());
+            _valueContainer = Div(Att("tss-metric-value"), TextBlock(value).XLarge().SemiBold().Render());
+            _changeContainer = Div(Att("tss-metric-change"));
+            _chartContainer = Div(Att("tss-metric-chart"));
 
-            _container = Div(_("tss-metric"), _titleContainer, _valueContainer, _chartContainer, _changeContainer);
+            _container = Div(Att("tss-metric"), _titleContainer, _valueContainer, _chartContainer, _changeContainer);
             InnerElement = _container;
         }
 
@@ -35,12 +35,12 @@ namespace Tesserae
         /// </summary>
         public Metric(IComponent title, IComponent value)
         {
-            _titleContainer = Div(_("tss-metric-title"), title.Render());
-            _valueContainer = Div(_("tss-metric-value"), value.Render());
-            _changeContainer = Div(_("tss-metric-change"));
-            _chartContainer = Div(_("tss-metric-chart"));
+            _titleContainer = Div(Att("tss-metric-title"), title.Render());
+            _valueContainer = Div(Att("tss-metric-value"), value.Render());
+            _changeContainer = Div(Att("tss-metric-change"));
+            _chartContainer = Div(Att("tss-metric-chart"));
 
-            _container = Div(_("tss-metric"), _titleContainer, _valueContainer, _chartContainer, _changeContainer);
+            _container = Div(Att("tss-metric"), _titleContainer, _valueContainer, _chartContainer, _changeContainer);
             InnerElement = _container;
         }
 

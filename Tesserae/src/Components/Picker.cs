@@ -37,9 +37,9 @@ namespace Tesserae
             DuplicateSelectionsAllowed = duplicateSelectionsAllowed;
             SuggestionsTolerance       = suggestionsTolerance;
             _renderSelectionsInline    = renderSelectionsInline;
-            _selectionsElement         = Div(_("tss-picker-selections"));
+            _selectionsElement         = Div(Att("tss-picker-selections"));
 
-            var pickerContainer = Div(_("tss-picker-container"));
+            var pickerContainer = Div(Att("tss-picker-container"));
 
             if (_renderSelectionsInline)
             {
@@ -253,7 +253,7 @@ namespace Tesserae
             foreach (var suggestion in suggestions)
             {
                 // TODO: Add to a component cache.
-                var suggestionContainerElement = Div(_("tss-picker-suggestion"), suggestion.Render().Render());
+                var suggestionContainerElement = Div(Att("tss-picker-suggestion"), suggestion.Render().Render());
 
                 suggestionContainerElement.onclick += e =>
                 {
@@ -286,7 +286,7 @@ namespace Tesserae
         {
             UpdateSelection(selectedItem, true);
 
-            var selectionContainerElement = Div(_("tss-picker-selection"));
+            var selectionContainerElement = Div(Att("tss-picker-selection"));
             var selectionComponent        = selectedItem.Render();
 
             var removeButton = Button()
@@ -364,7 +364,7 @@ namespace Tesserae
             public SuggestionsLayer(IComponent suggestions)
             {
                 _suggestions = suggestions.Render();
-                _contentHtml = Div(_("tss-layer-content"), _suggestions);
+                _contentHtml = Div(Att("tss-layer-content"), _suggestions);
             }
 
             /// <summary>
@@ -387,11 +387,11 @@ namespace Tesserae
             /// </summary>
             public Suggestions(string suggestionsTitleText)
             {
-                _suggestions = Div(_("tss-picker-suggestions"));
+                _suggestions = Div(Att("tss-picker-suggestions"));
 
                 if (!string.IsNullOrWhiteSpace(suggestionsTitleText))
                 {
-                    var suggestionsLabel = Div(_("tss-picker-label tss-fontsize-medium tss-fontweight-semibold tss-fontcolor-primary", text: suggestionsTitleText));
+                    var suggestionsLabel = Div(Att("tss-picker-label tss-fontsize-medium tss-fontweight-semibold tss-fontcolor-primary", text: suggestionsTitleText));
 
                     _suggestions.appendChild(suggestionsLabel);
                 }

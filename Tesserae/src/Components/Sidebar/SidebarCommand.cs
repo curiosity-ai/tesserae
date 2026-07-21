@@ -166,7 +166,7 @@ namespace Tesserae
 
             var items = _menuGenerator();
 
-            var menuDiv = Div(_("tss-sidebar-menu"));
+            var menuDiv = Div(Att("tss-sidebar-menu"));
 
             foreach (var item in items)
             {

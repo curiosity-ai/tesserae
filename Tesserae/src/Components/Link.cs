@@ -19,7 +19,7 @@ namespace Tesserae
         /// </summary>
         public Link(string url, IComponent component, bool noUnderline = false)
         {
-            _anchor = A(_(href: url), component.Render());
+            _anchor = A(Att(href: url), component.Render());
 
             if (noUnderline)
             {

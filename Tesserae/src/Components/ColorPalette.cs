@@ -45,7 +45,7 @@ namespace Tesserae
             _customInput.addEventListener("input",  _ => SelectColor(_customInput.value, null));
             _customInput.addEventListener("change", _ => SelectColor(_customInput.value, null));
 
-            InnerElement = Div(_("tss-colorpalette", role: "radiogroup", ariaLabel: "Color palette"));
+            InnerElement = Div(Att("tss-colorpalette", role: "radiogroup", ariaLabel: "Color palette"));
         }
 
         /// <summary>Gets the currently selected hex color string.</summary>
@@ -83,7 +83,7 @@ namespace Tesserae
 
             if (_withCustom && !InnerElement.contains(_customInput))
             {
-                var wrapper = Span(_("tss-colorpalette-swatch tss-colorpalette-custom"));
+                var wrapper = Span(Att("tss-colorpalette-swatch tss-colorpalette-custom"));
                 wrapper.setAttribute("role",       "radio");
                 wrapper.setAttribute("aria-label", "Custom color");
                 wrapper.setAttribute("tabindex",   "0");
@@ -123,7 +123,7 @@ namespace Tesserae
 
         private HTMLElement CreateSwatchElement(SwatchEntry entry)
         {
-            var el = Span(_("tss-colorpalette-swatch"));
+            var el = Span(Att("tss-colorpalette-swatch"));
             el.setAttribute("role",       "radio");
             el.setAttribute("aria-label", entry.Label);
             el.setAttribute("tabindex",   "0");

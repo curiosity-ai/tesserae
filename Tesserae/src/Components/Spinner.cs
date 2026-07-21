@@ -20,9 +20,9 @@ namespace Tesserae
         /// <param name="text">The label text.</param>
         public Spinner(string text = string.Empty)
         {
-            InnerElement = Div(_("tss-spinner"));
-            _label       = Label(_("tss-spinner-label", text: text));
-            _container   = Div(_("tss-spinner-container tss-spinner-position-right tss-spinner-size-small"), InnerElement, _label);
+            InnerElement = Div(Att("tss-spinner"));
+            _label       = Label(Att("tss-spinner-label", text: text));
+            _container   = Div(Att("tss-spinner-container tss-spinner-position-right tss-spinner-size-small"), InnerElement, _label);
             AttachClick();
         }
 

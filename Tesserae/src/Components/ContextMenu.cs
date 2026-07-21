@@ -49,8 +49,8 @@ namespace Tesserae
         /// </summary>
         public ContextMenu()
         {
-            InnerElement    = Div(_("tss-contextmenu"));
-            _childContainer = Div(_());
+            InnerElement    = Div(Att("tss-contextmenu"));
+            _childContainer = Div(Att());
 
             _onWindowMouseMoveAction = (ev) => OnWindowMouseMove(ev);
             _onPopupKeyDownAction    = (ev) => OnPopupKeyDown(ev);
@@ -172,11 +172,11 @@ namespace Tesserae
         {
             if (_contentHtml == null)
             {
-                _modalOverlay = Div(_("tss-contextmenu-overlay"));
+                _modalOverlay = Div(Att("tss-contextmenu-overlay"));
                 _modalOverlay.addEventListener("click", e => { StopEvent(e);  Hide(); });
                 _modalOverlay.addEventListener("contextmenu", e => { StopEvent(e);  Hide(); });
-                _popup       = Div(_("tss-contextmenu-popup"), _childContainer);
-                _contentHtml = Div(_(),                        _modalOverlay, _popup);
+                _popup       = Div(Att("tss-contextmenu-popup"), _childContainer);
+                _contentHtml = Div(Att(),                        _modalOverlay, _popup);
             }
 
             _popup.style.height = "unset";
@@ -260,18 +260,18 @@ namespace Tesserae
         {
             if (asSubMenu)
             {
-                _popup       = Div(_("tss-contextmenu-popup"), _childContainer);
-                _contentHtml = Div(_(),                        _popup);
+                _popup       = Div(Att("tss-contextmenu-popup"), _childContainer);
+                _contentHtml = Div(Att(),                        _popup);
             }
             else
             {
                 if (_contentHtml == null)
                 {
-                    _modalOverlay = Div(_("tss-contextmenu-overlay"));
+                    _modalOverlay = Div(Att("tss-contextmenu-overlay"));
                     _modalOverlay.addEventListener("click", e => { StopEvent(e);  Hide(); });
                     _modalOverlay.addEventListener("contextmenu", e => { StopEvent(e);  Hide(); });
-                    _popup       = Div(_("tss-contextmenu-popup"), _childContainer);
-                    _contentHtml = Div(_(),                        _modalOverlay, _popup);
+                    _popup       = Div(Att("tss-contextmenu-popup"), _childContainer);
+                    _contentHtml = Div(Att(),                        _modalOverlay, _popup);
                 }
             }
 

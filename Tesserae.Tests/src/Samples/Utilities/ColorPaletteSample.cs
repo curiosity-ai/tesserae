@@ -51,7 +51,7 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Selected:").Small(),
                         DeferSync(selectedColor, c =>
                         {
-                            var swatch = Span(_());
+                            var swatch = Span(Att());
                             swatch.style.display         = "inline-block";
                             swatch.style.width           = "20px";
                             swatch.style.height          = "20px";

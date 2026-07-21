@@ -30,7 +30,7 @@ namespace Tesserae
         {
             //Docs: https://baklava.tech/getting-started.html
             
-            _owner = Div(_("tss-nodeview"));
+            _owner = Div(Att("tss-nodeview"));
             _parent = Raw(_owner);
             _parent.WhenMounted(() =>
             {

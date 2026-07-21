@@ -244,7 +244,7 @@ namespace Tesserae.Tests.Samples
             {
                 if (string.IsNullOrWhiteSpace(color))
                 {
-                    return Raw(Div(_(styles: (s) =>
+                    return Raw(Div(Att(styles: (s) =>
                     {
                         s.width  = "50px";
                         s.height = "49px";
@@ -252,7 +252,7 @@ namespace Tesserae.Tests.Samples
                     })));
                 }
 
-                return Raw(Div(_(styles: (s) =>
+                return Raw(Div(Att(styles: (s) =>
                 {
                     s.width           = "50px";
                     s.height          = "49px";

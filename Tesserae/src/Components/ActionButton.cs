@@ -103,9 +103,9 @@ namespace Tesserae
 
             _content = contnent;
 
-            DisplayButton = Div(_("tss-actionbutton-displaybutton"), _content.Render());
+            DisplayButton = Div(Att("tss-actionbutton-displaybutton"), _content.Render());
 
-            _iconSpan = I(_("tss-icon " + actionIcon + " " + actionIconSize));
+            _iconSpan = I(Att("tss-icon " + actionIcon + " " + actionIconSize));
 
             if (actionColor is object)
             {
@@ -114,10 +114,10 @@ namespace Tesserae
 
             _iconSpan.dataset["icon"] = actionIcon;
 
-            ActionBtn          = Button(_("tss-btn-remove-padding tss-actionbutton-actionbtn"), _iconSpan);
+            ActionBtn          = Button(Att("tss-btn-remove-padding tss-actionbutton-actionbtn"), _iconSpan);
             ActionBtnComponent = Raw(ActionBtn);
 
-            Container = Div(_("tss-actionbutton-container tss-default-component-margin"), DisplayButton, ActionBtnComponent.Render());
+            Container = Div(Att("tss-actionbutton-container tss-default-component-margin"), DisplayButton, ActionBtnComponent.Render());
 
             DisplayButton.addEventListener("click",       @event => ClickedDisplay?.Invoke(DisplayButton, @event.As<MouseEvent>()));
             DisplayButton.addEventListener("contextmenu", @event => ContextMenuDisplay?.Invoke(DisplayButton, @event.As<MouseEvent>()));

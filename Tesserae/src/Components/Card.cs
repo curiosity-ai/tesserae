@@ -22,8 +22,8 @@ namespace Tesserae
         /// </summary>
         public Card(IComponent content, bool noAnimation = false)
         {
-            InnerElement   = Div(_("tss-card"),           content.Render());
-            _cardContainer = Div(_("tss-card-container"), InnerElement);
+            InnerElement   = Div(Att("tss-card"),           content.Render());
+            _cardContainer = Div(Att("tss-card-container"), InnerElement);
 
             if (noAnimation)
             {
@@ -46,7 +46,7 @@ namespace Tesserae
             if (_contentContainer == null)
             {
                 InnerElement.classList.add("tss-has-layout");
-                _contentContainer = Div(_("tss-card-content"));
+                _contentContainer = Div(Att("tss-card-content"));
 
                 if (_noPadding)
                 {
@@ -84,8 +84,8 @@ namespace Tesserae
             EnsureLayout();
             if (_headerContainer == null)
             {
-                _titleContainer = Div(_("tss-card-title"));
-                _headerContainer = Div(_("tss-card-header"), _titleContainer);
+                _titleContainer = Div(Att("tss-card-title"));
+                _headerContainer = Div(Att("tss-card-header"), _titleContainer);
                 InnerElement.insertBefore(_headerContainer, _contentContainer);
             }
         }
@@ -95,7 +95,7 @@ namespace Tesserae
             EnsureLayout();
             if (_footerContainer == null)
             {
-                _footerContainer = Div(_("tss-card-footer"));
+                _footerContainer = Div(Att("tss-card-footer"));
                 InnerElement.appendChild(_footerContainer);
             }
         }

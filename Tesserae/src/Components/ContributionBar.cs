@@ -82,11 +82,11 @@ namespace Tesserae
         /// </summary>
         public ContributionBar()
         {
-            _bar         = Div(_("tss-contribution-bar"));
-            _toggle      = Button(_("tss-contribution-toggle", role: "button", ariaLabel: "Toggle contribution breakdown"));
-            _barRow      = Div(_("tss-contribution-row"), _bar);
-            _legend      = Div(_("tss-contribution-legend"));
-            InnerElement = Div(_("tss-contribution"), _barRow, _legend);
+            _bar         = Div(Att("tss-contribution-bar"));
+            _toggle = UI.Button(Att("tss-contribution-toggle", role: "button", ariaLabel: "Toggle contribution breakdown"));
+            _barRow      = Div(Att("tss-contribution-row"), _bar);
+            _legend      = Div(Att("tss-contribution-legend"));
+            InnerElement = Div(Att("tss-contribution"), _barRow, _legend);
 
             _toggle.addEventListener("click", _ =>
             {
@@ -239,7 +239,7 @@ namespace Tesserae
 
                 var width    = (segment.Value / max) * 100.0;
                 var color    = ColorFor(i);
-                var fragment = Div(_("tss-contribution-segment", title: $"{segment.Label}: {FormatValue(segment.Value)}"));
+                var fragment = Div(Att("tss-contribution-segment", title: $"{segment.Label}: {FormatValue(segment.Value)}"));
                 fragment.style.width           = FormatValue(width) + "%";
                 fragment.style.backgroundColor = color;
                 bar.appendChild(fragment);
@@ -251,16 +251,16 @@ namespace Tesserae
             for (int i = 0; i < _segments.Count; i++)
             {
                 var segment = _segments[i];
-                var dot     = Span(_("tss-contribution-legend-dot"));
+                var dot     = Span(Att("tss-contribution-legend-dot"));
                 dot.style.backgroundColor = ColorFor(i);
 
-                var item = Div(_("tss-contribution-legend-item"),
+                var item = Div(Att("tss-contribution-legend-item"),
                     dot,
-                    Span(_("tss-contribution-legend-label", text: segment.Label)));
+                    Span(Att("tss-contribution-legend-label", text: segment.Label)));
 
                 if (_showValues)
                 {
-                    item.appendChild(Span(_("tss-contribution-legend-value", text: FormatValue(segment.Value))));
+                    item.appendChild(Span(Att("tss-contribution-legend-value", text: FormatValue(segment.Value))));
                 }
 
                 legend.appendChild(item);
@@ -269,14 +269,14 @@ namespace Tesserae
 
         private HTMLElement BuildBreakdownPopover()
         {
-            var bar = Div(_("tss-contribution-bar"));
+            var bar = Div(Att("tss-contribution-bar"));
             bar.style.height = _barHeight;
             RenderSegmentsInto(bar, EffectiveMax());
 
-            var legend = Div(_("tss-contribution-legend"));
+            var legend = Div(Att("tss-contribution-legend"));
             RenderLegendInto(legend);
 
-            return Div(_("tss-contribution tss-contribution-popover"), bar, legend);
+            return Div(Att("tss-contribution tss-contribution-popover"), bar, legend);
         }
 
         private void RefreshTooltip()
@@ -327,7 +327,7 @@ namespace Tesserae
             if (isCollapsed)
             {
                 var width    = (Total() / max) * 100.0;
-                var fragment = Div(_("tss-contribution-segment", title: FormatValue(Total())));
+                var fragment = Div(Att("tss-contribution-segment", title: FormatValue(Total())));
                 fragment.style.width           = FormatValue(width) + "%";
                 fragment.style.backgroundColor = _collapsedColor;
                 _bar.appendChild(fragment);

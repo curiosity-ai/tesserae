@@ -16,7 +16,7 @@ namespace Tesserae
         /// <param name="text">The breadcrumb text.</param>
         public TextBreadcrumb(string text)
         {
-            InnerElement = Span(_("tss-textbreadcrumb", text: text));
+            InnerElement = Span(Att("tss-textbreadcrumb", text: text));
 
             AttachClick();
         }
@@ -43,7 +43,7 @@ namespace Tesserae
         /// </summary>
         public TextBreadcrumbs()
         {
-            InnerElement = Div(_("tss-textbreadcrumb-container tss-fontsize-small tss-fontweight-regular"));
+            InnerElement = Div(Att("tss-textbreadcrumb-container tss-fontsize-small tss-fontweight-regular"));
         }
 
         /// <summary>
@@ -73,16 +73,16 @@ namespace Tesserae
             if (InnerElement.childElementCount == 0)
             {
                 InnerElement.appendChild(
-                    Div(_("tss-textbreadcrumb-wrap"),
+                    Div(Att("tss-textbreadcrumb-wrap"),
                         component.Render()
                     ));
             }
             else
             {
                 InnerElement.appendChild(
-                    Div(_("tss-textbreadcrumb-wrap"),
-                        Span(_("tss-textbreadcrumb-sep"),
-                            I(_())
+                    Div(Att("tss-textbreadcrumb-wrap"),
+                        Span(Att("tss-textbreadcrumb-sep"),
+                            I(Att())
                         ),
                         component.Render())
                 );

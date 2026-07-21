@@ -94,7 +94,7 @@ namespace Tesserae
         public Sandbox(string html = null)
         {
             _html        = html;
-            InnerElement = IFrame(_("tss-sandbox"));
+            InnerElement = IFrame(Att("tss-sandbox"));
             InnerElement.style.border = "none";
         }
 

@@ -16,7 +16,7 @@ namespace Tesserae
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
-        public Nav() => InnerElement = Ul(_("tss-nav"));
+        public Nav() => InnerElement = Ul(Att("tss-nav"));
 
         /// <summary>
         /// Gets or sets the selected link.
@@ -235,13 +235,13 @@ namespace Tesserae
             /// </summary>
             public NavLink(string text = null)
             {
-                _textSpan             =  Span(_(text: text));
-                _childContainer       =  Ul(_("tss-nav-link-container"));
-                _expandButton         =  Button(_("tss-nav-link-button"));
-                _headerDiv            =  Div(_("tss-nav-link-header"), _expandButton, _textSpan);
+                _textSpan             =  Span(Att(text: text));
+                _childContainer       =  Ul(Att("tss-nav-link-container"));
+                _expandButton         =  Button(Att("tss-nav-link-button"));
+                _headerDiv            =  Div(Att("tss-nav-link-header"), _expandButton, _textSpan);
                 _headerDiv.onclick    += ClickHandler;
                 _expandButton.onclick += ExpandHandler;
-                InnerElement          =  Li(_("tss-nav-link"), _headerDiv, _childContainer);
+                InnerElement          =  Li(Att("tss-nav-link"), _headerDiv, _childContainer);
                 Size                  =  TextSize.Small;
                 Weight                =  TextWeight.Regular;
             }
@@ -251,12 +251,12 @@ namespace Tesserae
             /// </summary>
             public NavLink(IComponent content)
             {
-                _childContainer       =  Ul(_("tss-nav-link-container"));
-                _expandButton         =  Button(_("tss-nav-link-button"));
-                _headerDiv            =  Div(_("tss-nav-link-header"), _expandButton, content.Render());
+                _childContainer       =  Ul(Att("tss-nav-link-container"));
+                _expandButton         =  Button(Att("tss-nav-link-button"));
+                _headerDiv            =  Div(Att("tss-nav-link-header"), _expandButton, content.Render());
                 _headerDiv.onclick    += ClickHandler;
                 _expandButton.onclick += ExpandHandler;
-                InnerElement          =  Li(_("tss-nav-link"), _headerDiv, _childContainer);
+                InnerElement          =  Li(Att("tss-nav-link"), _headerDiv, _childContainer);
                 Size                  =  TextSize.Small;
                 Weight                =  TextWeight.Regular;
             }
@@ -313,7 +313,7 @@ namespace Tesserae
 
                     if (_iconSpan == null)
                     {
-                        _iconSpan = I(_());
+                        _iconSpan = I(Att());
                         _headerDiv.insertBefore(_iconSpan, _textSpan);
                     }
 

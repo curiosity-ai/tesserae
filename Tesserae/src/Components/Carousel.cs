@@ -29,14 +29,14 @@ namespace Tesserae
         public Carousel(params IComponent[] slides)
         {
             _slides     = new List<HTMLElement>();
-            _track      = Div(_("tss-carousel-track"));
-            _viewport   = Div(_("tss-carousel-viewport"), _track);
-            _controls   = Div(_("tss-carousel-controls"));
-            _indicators = Div(_("tss-carousel-indicators"));
+            _track      = Div(Att("tss-carousel-track"));
+            _viewport   = Div(Att("tss-carousel-viewport"), _track);
+            _controls   = Div(Att("tss-carousel-controls"));
+            _indicators = Div(Att("tss-carousel-indicators"));
             _observable = new SettableObservable<int>(0);
 
-            _prevButton = Button(_("tss-carousel-nav", type: "button", ariaLabel: "Previous"), I(UIcons.AngleLeft));
-            _nextButton = Button(_("tss-carousel-nav", type: "button", ariaLabel: "Next"),     I(UIcons.AngleRight));
+            _prevButton = UI.Button(Att("tss-carousel-nav", type: "button", ariaLabel: "Previous"), I(UIcons.AngleLeft));
+            _nextButton = UI.Button(Att("tss-carousel-nav", type: "button", ariaLabel: "Next"), I(UIcons.AngleRight));
 
             _prevButton.addEventListener("click", _ => Previous());
             _nextButton.addEventListener("click", _ => Next());
@@ -44,7 +44,7 @@ namespace Tesserae
             _controls.appendChild(_prevButton);
             _controls.appendChild(_nextButton);
 
-            InnerElement = Div(_("tss-carousel"), _viewport, _controls, _indicators);
+            InnerElement = Div(Att("tss-carousel"), _viewport, _controls, _indicators);
 
             AddSlides(slides);
             SetIndex(0, false);
@@ -74,7 +74,7 @@ namespace Tesserae
                 return this;
             }
 
-            var slide = Div(_("tss-carousel-slide"), content.Render());
+            var slide = Div(Att("tss-carousel-slide"), content.Render());
             _slides.Add(slide);
             _track.appendChild(slide);
             UpdateIndicators();
@@ -196,7 +196,7 @@ namespace Tesserae
 
             for (var i = 0; i < _slides.Count; i++)
             {
-                var dot = Button(_("tss-carousel-indicator", type: "button", ariaLabel: $"Go to slide {i + 1}"));
+                var dot = UI.Button(Att("tss-carousel-indicator", type: "button", ariaLabel: $"Go to slide {i + 1}"));
                 dot.UpdateClassIf(i == _currentIndex, "tss-active");
                 var index = i;
                 dot.addEventListener("click", _ => SetIndex(index));

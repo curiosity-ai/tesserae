@@ -20,7 +20,7 @@ namespace Tesserae
         /// <param name="text">The Markdown source text to render.</param>
         public MarkdownBlock(string text = "")
         {
-            InnerElement                  = Div(_("tss-markdown"));
+            InnerElement                  = Div(Att("tss-markdown"));
             InnerElement.style.whiteSpace = "break-spaces";
             Text                          = text ?? string.Empty;
         }

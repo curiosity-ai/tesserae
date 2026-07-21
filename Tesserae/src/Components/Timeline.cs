@@ -44,8 +44,8 @@ namespace Tesserae
         /// </summary>
         public Timeline()
         {
-            _timeline      = Div(_("tss-timeline"));
-            _timelineOwner = Div(_("tss-timeline-owner"), _timeline);
+            _timeline      = Div(Att("tss-timeline"));
+            _timelineOwner = Div(Att("tss-timeline-owner"), _timeline);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Tesserae
 
         private HTMLElement Wrap(IComponent component, string color = null)
         {
-            var container = Div(_("tss-timeline-container"), Div(_("tss-timeline-content"), component.Render()));
+            var container = Div(Att("tss-timeline-container"), Div(Att("tss-timeline-content"), component.Render()));
             if (!string.IsNullOrEmpty(color))
             {
                 container.style.setProperty("--tss-timeline-circle-color", color);

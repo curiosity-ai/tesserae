@@ -57,7 +57,7 @@ namespace Tesserae
 
             if (navigator.userAgent.IndexOf("AppleWebKit") != -1)
             {
-                _fakeDiv = Div(_("tss-slider-fake-progress"));
+                _fakeDiv = Div(Att("tss-slider-fake-progress"));
                 double percent = ((double)(val - min) / (max - min)) * 100.0;
                 _fakeDiv.style.width = $"{percent:0.##}%";
 
@@ -66,16 +66,16 @@ namespace Tesserae
                     percent = UpdateFakeProgress();
                 };
 
-                _outerLabel = Label(_("tss-slider-container"), InnerElement, Div(_("tss-slider-fake-background")), _fakeDiv);
+                _outerLabel = Label(Att("tss-slider-container"), InnerElement, Div(Att("tss-slider-fake-background")), _fakeDiv);
                 InnerElement.classList.add("tss-fake");
             }
             else
             {
-                _outerLabel               = Label(_("tss-slider-container"), InnerElement);
+                _outerLabel               = Label(Att("tss-slider-container"), InnerElement);
                 InnerElement.style.height = "8px";
             }
 
-            _outerDiv = Div(_("tss-slider-div"), _outerLabel);
+            _outerDiv = Div(Att("tss-slider-div"), _outerLabel);
         }
 
         private double UpdateFakeProgress()

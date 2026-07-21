@@ -27,7 +27,7 @@ namespace Tesserae
         /// </summary>
         public FileDropArea()
         {
-            _fileInput = FileInput(_("tss-file-input"));
+            _fileInput = FileInput(Att("tss-file-input"));
 
             _container = CreateDefaultDropArea();
 
@@ -50,7 +50,7 @@ namespace Tesserae
         /// </summary>
         public FileDropArea(IComponent component)
         {
-            _fileInput = FileInput(_("tss-file-input"));
+            _fileInput = FileInput(Att("tss-file-input"));
 
             _container = CreateWrappedDropArea(component);
 
@@ -105,11 +105,11 @@ namespace Tesserae
 
         private HTMLElement CreateWrappedDropArea(IComponent component)
         {
-            var wrapper = Div(_("tss-filedroparea-wrapper"));
+            var wrapper = Div(Att("tss-filedroparea-wrapper"));
             wrapper.appendChild(_fileInput);
             wrapper.appendChild(component.Render());
 
-            var overlay = Div(_("tss-filedroparea-overlay"), Div(_("tss-filedroparea-message"), I(_($"{UIcons.Upload} tss-filedroparea-icon")), TextBlock("Drop files here").SemiBold().Render()));
+            var overlay = Div(Att("tss-filedroparea-overlay"), Div(Att("tss-filedroparea-message"), I(Att($"{UIcons.Upload} tss-filedroparea-icon")), TextBlock("Drop files here").SemiBold().Render()));
             wrapper.appendChild(overlay);
 
             int dragCounter = 0;
@@ -156,10 +156,10 @@ namespace Tesserae
 
         private HTMLElement CreateDefaultDropArea()
         {
-            var dropArea = Div(_("tss-filedroparea"));
+            var dropArea = Div(Att("tss-filedroparea"));
             dropArea.appendChild(_fileInput);
 
-            _raw = Raw(Div(_("tss-filedroparea-message"), I(_($"{UIcons.Upload} tss-filedroparea-icon")), TextBlock("Drop files here or click to upload").SemiBold().Render()));
+            _raw = Raw(Div(Att("tss-filedroparea-message"), I(Att($"{UIcons.Upload} tss-filedroparea-icon")), TextBlock("Drop files here or click to upload").SemiBold().Render()));
 
             dropArea.appendChild(_raw.Render());
             dropArea.onclick = (e) => { _fileInput.click(); };

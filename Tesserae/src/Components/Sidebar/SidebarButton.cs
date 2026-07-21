@@ -115,7 +115,7 @@ namespace Tesserae
 
             IComponent Wrap(Button button)
             {
-                var div = Div(_("tss-sidebar-btn-open"));
+                var div = Div(Att("tss-sidebar-btn-open"));
 
                 if (!string.IsNullOrWhiteSpace(href))
                 {
@@ -131,14 +131,14 @@ namespace Tesserae
 
                 if (_badge is object)
                 {
-                    var divCmd = Div(_("tss-sidebar-badges"));
+                    var divCmd = Div(Att("tss-sidebar-badges"));
                     div.appendChild(divCmd);
                     divCmd.appendChild(_badge.Render());
                 }
 
                 if (_commands is object && _commands.Length > 0)
                 {
-                    var divCmd = Div(_("tss-sidebar-commands"));
+                    var divCmd = Div(Att("tss-sidebar-commands"));
                     div.appendChild(divCmd);
 
                     foreach (var c in _commands)
@@ -197,7 +197,7 @@ namespace Tesserae
 
             _closedButton = Button().Class("tss-sidebar-btn").ReplaceContent(image).Id(identifier);
 
-            _openButton = Button(text).ReplaceContent(Raw(Div(_("tss-btn-with-image"), image.Clone().Render(), Span(_(text: text))))).Class("tss-sidebar-btn").Id(identifier);
+            _openButton = Button(text).ReplaceContent(Raw(Div(Att("tss-btn-with-image"), image.Clone().Render(), Span(Att(text: text))))).Class("tss-sidebar-btn").Id(identifier);
 
             _closed = string.IsNullOrWhiteSpace(href) ? (IComponent)_closedButton : UI.Link(href, _closedButton, noUnderline: true);
 
@@ -222,7 +222,7 @@ namespace Tesserae
 
             IComponent Wrap(Button button)
             {
-                var div = Div(_("tss-sidebar-btn-open"));
+                var div = Div(Att("tss-sidebar-btn-open"));
 
                 if (!string.IsNullOrWhiteSpace(href))
                 {
@@ -238,14 +238,14 @@ namespace Tesserae
 
                 if (_badge is object)
                 {
-                    var divCmd = Div(_("tss-sidebar-badges"));
+                    var divCmd = Div(Att("tss-sidebar-badges"));
                     div.appendChild(divCmd);
                     divCmd.appendChild(_badge.Render());
                 }
 
                 if (_commands.Length > 0)
                 {
-                    var divCmd = Div(_("tss-sidebar-commands"));
+                    var divCmd = Div(Att("tss-sidebar-commands"));
                     div.appendChild(divCmd);
 
                     foreach (var c in _commands)
@@ -291,7 +291,7 @@ namespace Tesserae
         {
             if (_image is object)
             {
-                _openButton.ReplaceContent(Raw(Div(_("tss-btn-with-image"), _image.Clone().Render(), Span(_(text: text)))));
+                _openButton.ReplaceContent(Raw(Div(Att("tss-btn-with-image"), _image.Clone().Render(), Span(Att(text: text)))));
             }
             else
             {

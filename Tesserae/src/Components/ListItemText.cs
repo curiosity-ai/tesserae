@@ -25,10 +25,10 @@ namespace Tesserae
         /// <param name="subtitle">The (lighter) subtitle text. When null or empty the subtitle is hidden.</param>
         public ListItemText(string title, string subtitle = null)
         {
-            _title             = Div(_("tss-listitemtext-title"));
+            _title             = Div(Att("tss-listitemtext-title"));
             _title.textContent = title ?? string.Empty;
 
-            _subtitle = Div(_("tss-listitemtext-subtitle"));
+            _subtitle = Div(Att("tss-listitemtext-subtitle"));
 
             if (string.IsNullOrEmpty(subtitle))
             {
@@ -39,9 +39,9 @@ namespace Tesserae
                 _subtitle.textContent = subtitle;
             }
 
-            _content = Div(_("tss-listitemtext-content"), _title, _subtitle);
+            _content = Div(Att("tss-listitemtext-content"), _title, _subtitle);
 
-            InnerElement = Div(_("tss-listitemtext"), _content);
+            InnerElement = Div(Att("tss-listitemtext"), _content);
 
             AttachClick();
             AttachContextMenu();
@@ -95,7 +95,7 @@ namespace Tesserae
             if (_icon is null)
             {
                 _icon          = new Icon(icon, weight, size);
-                _iconContainer = Div(_("tss-listitemtext-icon"), _icon.Render());
+                _iconContainer = Div(Att("tss-listitemtext-icon"), _icon.Render());
                 InnerElement.insertBefore(_iconContainer, _content);
             }
             else

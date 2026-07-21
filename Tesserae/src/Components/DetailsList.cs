@@ -48,9 +48,9 @@ namespace Tesserae
 
             _columns        = columns.ToList();
             _componentCache = new ComponentCache<TDetailsListItem>(CreateListItem);
-            _listContainer  = Div(_("tss-detailslist").WithRole("grid"));
+            _listContainer  = Div(Att("tss-detailslist").WithRole("grid"));
 
-            _container                = Div(_("tss-detailslist-container"), _listContainer);
+            _container                = Div(Att("tss-detailslist-container"), _listContainer);
             _previousColumnSortingKey = string.Empty;
             _currentSortingIcon       = UIcons.ArrowUp;
         }
@@ -87,7 +87,7 @@ namespace Tesserae
         {
             var role = column.IsRowHeader ? "rowheader" : "gridcell";
 
-            var gridCellHtmlElement = Div(_("tss-detailslist-list-item tss-text-ellipsis").WithRole(role));
+            var gridCellHtmlElement = Div(Att("tss-detailslist-list-item tss-text-ellipsis").WithRole(role));
 
             if (column.Width.Unit == Unit.FR)
             {
@@ -186,7 +186,7 @@ namespace Tesserae
 
         private void CreateList()
         {
-            var detailsListHeader = Div(_("tss-detailslist-header").WithRole("row"));
+            var detailsListHeader = Div(Att("tss-detailslist-header").WithRole("row"));
             _listContainer.appendChild(detailsListHeader);
 
             foreach (var column in _columns)
@@ -194,7 +194,7 @@ namespace Tesserae
                 CreateColumnHeader(column, detailsListHeader);
             }
 
-            _listItemsContainer = Div(_("tss-detailslist-list-items-container").WithRole("rowgroup"));
+            _listItemsContainer = Div(Att("tss-detailslist-list-items-container").WithRole("rowgroup"));
             _listContainer.appendChild(_listItemsContainer);
 
             if (_columns.All(detailsListColumn => detailsListColumn.Width.Unit == Unit.Pixels))
@@ -278,7 +278,7 @@ namespace Tesserae
 
         private void CreateColumnHeader(IDetailsListColumn column, Interface detailsListHeader)
         {
-            var columnHeader = Div(_("tss-detailslist-column-header").WithRole("columnheader"));
+            var columnHeader = Div(Att("tss-detailslist-column-header").WithRole("columnheader"));
 
             // TODO: Add role of "button" to this element.
             var columnHtmlElement = column.Render();
@@ -337,7 +337,7 @@ namespace Tesserae
         {
             var (detailsListItemNumber, detailsListItem) = detailsListItemAndKey;
 
-            var detailsListItemContainer = Div(_("tss-detailslist-list-item-container").WithRole("row"));
+            var detailsListItemContainer = Div(Att("tss-detailslist-list-item-container").WithRole("row"));
             var gridCellHtmlElements     = detailsListItem.Render(_columns, CreateGridCell).ToArray();
 
             if (detailsListItem.EnableOnListItemClickEvent)

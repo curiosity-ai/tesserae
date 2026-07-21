@@ -48,10 +48,10 @@ namespace Tesserae
                 UpdateImageState();
             };
 
-            _initials = Span(_("tss-avatar-initials", text: initials ?? string.Empty));
-            _presence = Span(_("tss-avatar-presence"));
+            _initials = Span(Att("tss-avatar-initials", text: initials ?? string.Empty));
+            _presence = Span(Att("tss-avatar-presence"));
 
-            InnerElement = Div(_("tss-avatar"), _image, _initials, _presence);
+            InnerElement = Div(Att("tss-avatar"), _image, _initials, _presence);
 
             SetImage(image);
             SetInitials(initials);
@@ -272,13 +272,13 @@ namespace Tesserae
         public Persona(string name = null, string secondaryText = null, string tertiaryText = null, Avatar avatar = null)
         {
             _avatar = avatar ?? new Avatar(initials: string.Empty).Size(AvatarSize.Medium);
-            _name = Span(_("tss-persona-name", text: name ?? string.Empty));
-            _secondary = Span(_("tss-persona-secondary", text: secondaryText ?? string.Empty));
-            _tertiary = Span(_("tss-persona-tertiary", text: tertiaryText ?? string.Empty));
+            _name = Span(Att("tss-persona-name", text: name ?? string.Empty));
+            _secondary = Span(Att("tss-persona-secondary", text: secondaryText ?? string.Empty));
+            _tertiary = Span(Att("tss-persona-tertiary", text: tertiaryText ?? string.Empty));
 
-            _textContainer = Div(_("tss-persona-text"), _name, _secondary, _tertiary);
-            _avatarContainer = Div(_("tss-persona-avatar"), _avatar.Render());
-            InnerElement = Div(_("tss-persona"), _avatarContainer, _textContainer);
+            _textContainer = Div(Att("tss-persona-text"), _name, _secondary, _tertiary);
+            _avatarContainer = Div(Att("tss-persona-avatar"), _avatar.Render());
+            InnerElement = Div(Att("tss-persona"), _avatarContainer, _textContainer);
 
             UpdateOptionalText();
         }

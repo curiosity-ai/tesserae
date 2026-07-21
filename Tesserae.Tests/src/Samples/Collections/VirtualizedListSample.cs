@@ -46,7 +46,7 @@ namespace Tesserae.Tests.Samples
         public sealed class SampleVirtualizedItem : IComponent
         {
             private readonly HTMLElement _innerElement;
-            public SampleVirtualizedItem(string text) { _innerElement = Div(_(text: text, styles: s => { s.display = "flex"; s.alignItems = "center"; s.padding = "0 16px"; s.height = "40px"; s.borderBottom = "1px solid #eee"; })); }
+            public SampleVirtualizedItem(string text) { _innerElement = Div(Att(text: text, styles: s => { s.display = "flex"; s.alignItems = "center"; s.padding = "0 16px"; s.height = "40px"; s.borderBottom = "1px solid #eee"; })); }
             public HTMLElement Render() => _innerElement;
         }
     }

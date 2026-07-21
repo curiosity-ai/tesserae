@@ -69,7 +69,7 @@ namespace Tesserae
         /// </summary>
         public Breadcrumb()
         {
-            _childContainer = Nav(_("tss-breadcrumb", ariaLabel: "Breadcrumb"));
+            _childContainer = Nav(Att("tss-breadcrumb", ariaLabel: "Breadcrumb"));
             DomObserver.WhenMounted(_childContainer, Recompute);
             _resizeObserver = new ResizeObserver((entries, obs) => Recompute());
             _resizeObserver.observe(document.body);
@@ -248,7 +248,7 @@ namespace Tesserae
         {
             if (_childContainer.childElementCount > 0)
             {
-                _childContainer.appendChild(I(_("tss-breadcrumb-chevron " + _chevronIcon)));
+                _childContainer.appendChild(I(Att("tss-breadcrumb-chevron " + _chevronIcon)));
             }
             _childContainer.appendChild(component.Render());
         }

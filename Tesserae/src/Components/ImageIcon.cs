@@ -32,7 +32,7 @@ namespace Tesserae
 
 #endif
 
-            _img = Span(_("tss-image", text: icon));
+            _img = Span(Att("tss-image", text: icon));
         }
         /// <summary>
         /// Renders the component's root HTML element.
@@ -55,7 +55,7 @@ namespace Tesserae
         /// </summary>
         public IconImageIcon(string icon)
         {
-            _img                 = I(_("tss-image tss-icon " + icon));
+            _img                 = I(Att("tss-image tss-icon " + icon));
             _img.dataset["icon"] = icon;
 
         }
@@ -81,8 +81,8 @@ namespace Tesserae
         public ImageIcon(string source, string backgroundColor = null)
         {
             _img = Image(string.IsNullOrWhiteSpace(backgroundColor)
-                ? _("tss-image", src: source)
-                : _("tss-image", src: source, styles: s => s.backgroundColor = backgroundColor));
+                ? Att("tss-image", src: source)
+                : Att("tss-image", src: source, styles: s => s.backgroundColor = backgroundColor));
 
         }
         /// <summary>

@@ -33,12 +33,12 @@ namespace Tesserae
             _question          = question ?? string.Empty;
             _optionButtons     = new List<(string, HTMLButtonElement)>();
 
-            _questionContainer = Div(_("tss-questionnaire-question", text: _question));
-            _optionsContainer  = Div(_("tss-questionnaire-options"));
-            _answeredBadge     = Div(_("tss-questionnaire-answered-badge"));
+            _questionContainer = Div(Att("tss-questionnaire-question", text: _question));
+            _optionsContainer  = Div(Att("tss-questionnaire-options"));
+            _answeredBadge     = Div(Att("tss-questionnaire-answered-badge"));
             _answeredBadge.style.display = "none";
 
-            InnerElement = Div(_("tss-questionnaire"),
+            InnerElement = Div(Att("tss-questionnaire"),
                                _questionContainer,
                                _optionsContainer,
                                _answeredBadge);
@@ -82,7 +82,7 @@ namespace Tesserae
         {
             if (option is null) return this;
 
-            var btn = Button(_("tss-questionnaire-option", type: "button"));
+            var btn = UI.Button(Att("tss-questionnaire-option", type: "button"));
             btn.innerText = option;
 
             var capturedValue = option;

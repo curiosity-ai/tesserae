@@ -1121,7 +1121,7 @@ namespace Tesserae
         /// <summary>
         /// Creates a <see cref="Tesserae.Dropdown"/> component.
         /// </summary>
-        public static Dropdown Dropdown(string          noItemsText) => new Dropdown(noItemsSpan: string.IsNullOrWhiteSpace(noItemsText) ? null : Span(_(text: noItemsText)));
+        public static Dropdown Dropdown(string          noItemsText) => new Dropdown(noItemsSpan: string.IsNullOrWhiteSpace(noItemsText) ? null : Span(Att(text: noItemsText)));
         /// <summary>
         /// Creates a <see cref="Tesserae.Dropdown"/> component.
         /// </summary>

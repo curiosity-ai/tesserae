@@ -41,8 +41,8 @@ namespace Tesserae
             /// </summary>
             public Node(string text = "")
             {
-                _textSpan = Span(_("tss-diagram-node-text", text: text));
-                _element  = Div(_("tss-diagram-node tss-diagram-node-default"), _textSpan);
+                _textSpan = Span(Att("tss-diagram-node-text", text: text));
+                _element  = Div(Att("tss-diagram-node tss-diagram-node-default"), _textSpan);
 
                 MoveTo(0, 0);
                 HookDragEvents();
@@ -111,7 +111,7 @@ namespace Tesserae
             /// </summary>
             public Node SetIcon(UIcons icon, string color = "", TextSize size = TextSize.Small, UIconsWeight weight = UIconsWeight.Regular)
             {
-                var i = I(_($"tss-diagram-node-icon {Tesserae.Icon.Transform(icon, weight)} {size}"));
+                var i = I(Att($"tss-diagram-node-icon {Tesserae.Icon.Transform(icon, weight)} {size}"));
 
                 if (!string.IsNullOrEmpty(color))
                 {
@@ -127,7 +127,7 @@ namespace Tesserae
             /// </summary>
             public Node SetIcon(Emoji icon, TextSize size = TextSize.Small)
             {
-                ReplaceIcon(I(_($"tss-diagram-node-icon ec {icon} {size}")));
+                ReplaceIcon(I(Att($"tss-diagram-node-icon ec {icon} {size}")));
                 return this;
             }
 
@@ -136,7 +136,7 @@ namespace Tesserae
             /// </summary>
             public Node SetImage(string source)
             {
-                ReplaceIcon(Image(_("tss-diagram-node-image", src: source)));
+                ReplaceIcon(Image(Att("tss-diagram-node-image", src: source)));
                 return this;
             }
 

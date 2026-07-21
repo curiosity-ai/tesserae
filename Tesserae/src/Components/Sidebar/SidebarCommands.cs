@@ -56,7 +56,7 @@ namespace Tesserae
         /// <summary>Renders the commands for the open state of the sidebar.</summary>
         public IComponent RenderOpen()
         {
-            var div        = Div(_("tss-sidebar-commands-line"));
+            var div        = Div(Att("tss-sidebar-commands-line"));
             var divWrapped = Raw(div);
 
             if (_isEndAligned)
@@ -78,7 +78,7 @@ namespace Tesserae
 
                     if (_isEndAligned && _commands.Length > 1)
                     {
-                        div.appendChild(Div(_("tss-sidebar-commands-spacer")));
+                        div.appendChild(Div(Att("tss-sidebar-commands-spacer")));
                     }
 
                     for (int i = 1; i < _commands.Length; i++)
@@ -92,7 +92,7 @@ namespace Tesserae
                         }
                         else
                         {
-                            if (otherCommands is null) otherCommands = Div(_("tss-sidebar-commands-line-extra"));
+                            if (otherCommands is null) otherCommands = Div(Att("tss-sidebar-commands-line-extra"));
                             otherCommands.appendChild(command.Render());
                         }
                     }
@@ -157,7 +157,7 @@ namespace Tesserae
         /// <summary>Renders all commands for the open state without truncation.</summary>
         public IComponent RenderOpenFull()
         {
-            var div        = Div(_("tss-sidebar-commands-line"));
+            var div        = Div(Att("tss-sidebar-commands-line"));
             var divWrapped = Raw(div);
 
             if (_isEndAligned)
@@ -177,7 +177,7 @@ namespace Tesserae
 
                     if (_isEndAligned && i == 0 && _commands.Length > 1)
                     {
-                        div.appendChild(Div(_("tss-sidebar-commands-spacer")));
+                        div.appendChild(Div(Att("tss-sidebar-commands-spacer")));
                     }
                 }
             });
@@ -200,7 +200,7 @@ namespace Tesserae
         /// <summary>Renders the commands for the closed state of the sidebar.</summary>
         public IComponent RenderClosed()
         {
-            var div        = Div(_("tss-sidebar-commands-line tss-sidebar-commands-line-closed"));
+            var div        = Div(Att("tss-sidebar-commands-line tss-sidebar-commands-line-closed"));
             var divWrapped = Raw(div);
 
             DomObserver.WhenMounted(div, () =>
@@ -222,7 +222,7 @@ namespace Tesserae
                     }
                     else
                     {
-                        if (otherCommands is null) otherCommands = Div(_("tss-sidebar-commands-line-extra"));
+                        if (otherCommands is null) otherCommands = Div(Att("tss-sidebar-commands-line-extra"));
                         otherCommands.appendChild(command.Render());
                     }
                 }
