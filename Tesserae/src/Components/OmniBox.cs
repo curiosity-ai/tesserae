@@ -406,6 +406,7 @@ namespace Tesserae
                 TooltipModeToggleChat = "Chat";
                 ExpandOnFocus = false;
                 TokenIgnoreCase = false;
+                GeneratingText = "Generating";
             }
 
             /// <summary>
@@ -461,6 +462,11 @@ namespace Tesserae
             /// Gets or sets the token ignore case.
             /// </summary>
             public bool TokenIgnoreCase { get; set; }
+            /// <summary>
+            /// Gets or sets the label shown next to the spinner while generating (defaults to "Generating").
+            /// The elapsed time is appended after it, e.g. "Generating, 1m 25s".
+            /// </summary>
+            public string GeneratingText { get; set; }
 
             /// <summary>
             /// Gets or sets the chat footer.
@@ -598,6 +604,10 @@ namespace Tesserae
         private bool _isGenerating = false;
         private readonly UIcons _iconChat;
         private readonly UIcons _iconStop;
+        private HTMLElement _generatingText;
+        private double _generatingTimer = 0;
+        private double _generatingStartMs = 0;
+        private string _generatingLabel;
 
         public delegate void SearchEventHandler(OmniBox sender, SearchQuery query);
         public delegate void ChatEventHandler(OmniBox sender, ChatMessage query);
@@ -645,6 +655,7 @@ namespace Tesserae
             _tokenIgnoreCase = config.TokenIgnoreCase;
             _iconChat = config.IconChat;
             _iconStop = config.IconStop;
+            _generatingLabel = config.GeneratingText ?? "Generating";
             _suggestionsFetcher = config.SuggestionsFetcher;
 
             _activeMode = new SettableObservable<Mode>(config.InitialMode);
@@ -1040,7 +1051,9 @@ namespace Tesserae
                 }
             }
 
-            var generatingContainer = Div(Att("tss-omnibox-generating-container"), Spinner().CustomColor(Theme.Colors.Purple500).Small().Render(), TextBlock("Generating...").Render());
+            _generatingText = TextBlock(_generatingLabel).Render();
+
+            var generatingContainer = Div(Att("tss-omnibox-generating-container"), Spinner().CustomColor(Theme.Colors.Purple500).Small().Render(), _generatingText);
 
             _footer.appendChild(generatingContainer);
 
@@ -2459,7 +2472,79 @@ namespace Tesserae
                         _container.classList.remove("tss-omnibox-generating");
                     }
                 }
+
+                if (value)
+                {
+                    StartGeneratingTimer();
+                }
+                else
+                {
+                    StopGeneratingTimer();
+                }
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the label shown next to the spinner while generating (defaults to "Generating").
+        /// The elapsed time is appended after it, e.g. "Generating, 1m 25s". Setting it updates the
+        /// footer immediately when a generation is in progress.
+        /// </summary>
+        public string GeneratingText
+        {
+            get => _generatingLabel;
+            set
+            {
+                _generatingLabel = value ?? string.Empty;
+                if (_isGenerating)
+                {
+                    UpdateGeneratingText();
+                }
+                else if (_generatingText != null)
+                {
+                    _generatingText.innerText = _generatingLabel;
+                }
+            }
+        }
+
+        private void StartGeneratingTimer()
+        {
+            window.clearInterval(_generatingTimer);
+            _generatingStartMs = Transpose.Core.es5.Date.now();
+
+            UpdateGeneratingText();
+
+            _generatingTimer = window.setInterval(_ => UpdateGeneratingText(), 1000);
+        }
+
+        private void StopGeneratingTimer()
+        {
+            window.clearInterval(_generatingTimer);
+            _generatingTimer = 0;
+        }
+
+        private void UpdateGeneratingText()
+        {
+            if (_generatingText is null) return;
+
+            var elapsedSeconds = (int)Math.Floor((Transpose.Core.es5.Date.now() - _generatingStartMs) / 1000);
+
+            _generatingText.innerText = string.IsNullOrEmpty(_generatingLabel)
+                ? FormatElapsed(elapsedSeconds)
+                : _generatingLabel + ", " + FormatElapsed(elapsedSeconds);
+        }
+
+        private static string FormatElapsed(int totalSeconds)
+        {
+            if (totalSeconds < 0) totalSeconds = 0;
+
+            var hours   = totalSeconds / 3600;
+            var minutes = (totalSeconds % 3600) / 60;
+            var seconds = totalSeconds % 60;
+
+            if (hours > 0) return $"{hours}h {minutes}m {seconds}s";
+            if (minutes > 0) return $"{minutes}m {seconds}s";
+
+            return $"{seconds}s";
         }
 
         /// <summary>
