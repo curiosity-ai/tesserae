@@ -598,6 +598,9 @@ namespace Tesserae
         private bool _isGenerating = false;
         private readonly UIcons _iconChat;
         private readonly UIcons _iconStop;
+        private HTMLElement _generatingText;
+        private double _generatingTimer = 0;
+        private double _generatingStartMs = 0;
 
         public delegate void SearchEventHandler(OmniBox sender, SearchQuery query);
         public delegate void ChatEventHandler(OmniBox sender, ChatMessage query);
@@ -1040,7 +1043,9 @@ namespace Tesserae
                 }
             }
 
-            var generatingContainer = Div(Att("tss-omnibox-generating-container"), Spinner().CustomColor(Theme.Colors.Purple500).Small().Render(), TextBlock("Generating...").Render());
+            _generatingText = TextBlock("Generating").Render();
+
+            var generatingContainer = Div(Att("tss-omnibox-generating-container"), Spinner().CustomColor(Theme.Colors.Purple500).Small().Render(), _generatingText);
 
             _footer.appendChild(generatingContainer);
 
@@ -2459,7 +2464,55 @@ namespace Tesserae
                         _container.classList.remove("tss-omnibox-generating");
                     }
                 }
+
+                if (value)
+                {
+                    StartGeneratingTimer();
+                }
+                else
+                {
+                    StopGeneratingTimer();
+                }
             }
+        }
+
+        private void StartGeneratingTimer()
+        {
+            window.clearInterval(_generatingTimer);
+            _generatingStartMs = Transpose.Core.es5.Date.now();
+
+            UpdateGeneratingText();
+
+            _generatingTimer = window.setInterval(_ => UpdateGeneratingText(), 1000);
+        }
+
+        private void StopGeneratingTimer()
+        {
+            window.clearInterval(_generatingTimer);
+            _generatingTimer = 0;
+        }
+
+        private void UpdateGeneratingText()
+        {
+            if (_generatingText is null) return;
+
+            var elapsedSeconds = (int)Math.Floor((Transpose.Core.es5.Date.now() - _generatingStartMs) / 1000);
+
+            _generatingText.innerText = "Generating, " + FormatElapsed(elapsedSeconds);
+        }
+
+        private static string FormatElapsed(int totalSeconds)
+        {
+            if (totalSeconds < 0) totalSeconds = 0;
+
+            var hours   = totalSeconds / 3600;
+            var minutes = (totalSeconds % 3600) / 60;
+            var seconds = totalSeconds % 60;
+
+            if (hours > 0) return $"{hours}h {minutes}m {seconds}s";
+            if (minutes > 0) return $"{minutes}m {seconds}s";
+
+            return $"{seconds}s";
         }
 
         /// <summary>
