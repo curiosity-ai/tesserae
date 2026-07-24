@@ -88,7 +88,9 @@ namespace Tesserae
             _emptyState = Div(Att("tss-toolagent-empty", text: "No matches"));
             _emptyState.style.display = "none";
 
-            _popup = Div(Att("tss-toolagent-popup"), _searchBox.Render(), _agentsSection, _toolsSection, _emptyState);
+            var scrollArea = Div(Att("tss-toolagent-scroll"), _agentsSection, _toolsSection, _emptyState);
+
+            _popup = Div(Att("tss-toolagent-popup"), _searchBox.Render(), scrollArea);
 
             UpdateSectionVisibility();
         }
