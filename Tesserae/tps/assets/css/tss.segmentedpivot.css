@@ -13,6 +13,69 @@
     flex-shrink: 0;
 }
 
+/* Titlebar overflow controls — mirrors the mechanics of the normal Pivot: a
+   horizontally-scrollable strip flanked by chevron scroll buttons and an
+   overflow (⋯) menu that lists every tab. The segmented-control pill background
+   lives on this wrapper (not on the inner titlebar) so the chevrons and the ⋯
+   button sit inside the pill. */
+.tss-segmentedpivot-titlebar-wrapper {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    /* Keep the control compact (sized to its content) instead of stretching to
+       the full column width, but never exceed the available width so the strip
+       can shrink and scroll when the segments overflow. */
+    align-self: flex-start;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    border-radius: var(--tss-border-radius-lg);
+    background: var(--tss-secondary-background-color);
+    padding: 4px;
+    box-shadow: inset 0px 2px 8px var(--tss-colors-dark-neutral-1000);
+}
+
+/* Inside the overflow wrapper the pill styling is on the wrapper, so the inner
+   titlebar is a plain transparent flex row. SidebarPivot uses the titlebar
+   directly (outside this wrapper) and keeps its own background. */
+.tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+}
+
+.tss-segmentedpivot-titlebar-scroller {
+    position: relative;
+    /* Size to the strip's natural width and shrink when it overflows, but never
+       grow past its content so the segmented control stays left-aligned. */
+    flex: 0 1 auto;
+    min-width: 0; /* allow the scroller to shrink below its content size */
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none; /* Firefox: hide native scrollbar (scroll buttons handle it) */
+    -ms-overflow-style: none;
+}
+
+.tss-segmentedpivot-titlebar-scroller::-webkit-scrollbar {
+    display: none;
+}
+
+.tss-segmentedpivot-titlebar-more,
+.tss-segmentedpivot-titlebar-scroll-left,
+.tss-segmentedpivot-titlebar-scroll-right {
+    flex-shrink: 0;
+    flex-grow: 0;
+    align-self: center;
+    background: transparent;
+}
+
+.tss-segmentedpivot-titlebar-scroll-left i,
+.tss-segmentedpivot-titlebar-scroll-right i {
+    font-size: 10px;
+}
+
 .tss-segmentedpivot-titlebar {
     display: inline-flex;
     flex-direction: row;

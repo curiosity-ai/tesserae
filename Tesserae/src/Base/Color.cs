@@ -227,7 +227,10 @@ namespace Tesserae
             if (hex.Length != 6) throw new ArgumentException();
 
 
-            Script.Write("var bigint = parseInt(hex, 16); var r = (bigint >> 16) & 255; var g = (bigint >> 8) & 255; var b = bigint & 255;");
+            // r, g and b are already declared as C# locals above; assign into them
+            // rather than redeclaring with `var` (a redeclaration that only happened
+            // to work while the transpiler emitted `var` for the locals).
+            Script.Write("var bigint = parseInt(hex, 16); r = (bigint >> 16) & 255; g = (bigint >> 8) & 255; b = bigint & 255;");
 
             return FromArgb(255, r, g, b);
 

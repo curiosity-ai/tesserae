@@ -1,12 +1,17 @@
 ---
 name: segmented-pivot
-description: A pivot styled as a connected segmented (pill) control for switching between a few closely related views. Use when toggling related views or filters in limited space in a Tesserae (C#/h5) app.
+description: A pivot styled as a connected segmented (pill) control for switching between a few closely related views, with horizontal scrolling and an overflow menu when the segments don't fit. Use when toggling related views or filters in limited space in a Tesserae (C#/h5) app.
 ---
 
 # SegmentedPivot
 
 A tabbed surface whose tabs render as a single connected segmented control.
 Best for a small number of closely related views or filters.
+
+When the segments are wider than the available space, the strip scrolls
+horizontally (mouse wheel or the chevron buttons that appear on each side) and
+an overflow (⋯) button lists every segment in a menu — the same overflow
+mechanics as `Pivot`.
 
 ## Create
 
@@ -20,6 +25,8 @@ Best for a small number of closely related views or filters.
 - `SegmentTitle("Text")` / `SegmentTitle("Text", UIcons.Rocket)` — convenient title `Func<IComponent>`.
 - `.Select(id, refresh = false)` — switch segment.
 - `.OnNavigate(...)` / `.OnBeforeNavigate(...)` — callbacks; `e.Cancel()` blocks navigation.
+- `.RefreshPivotSizes()` — re-evaluate the scroll/overflow controls after the container is resized in a way a `ResizeObserver` can't observe.
+- `.SelectedTab` — id of the current segment.
 
 ## Example
 

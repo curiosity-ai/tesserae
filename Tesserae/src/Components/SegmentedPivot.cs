@@ -24,9 +24,20 @@ namespace Tesserae
 
         private readonly HTMLElement _renderedTabs;
         private readonly HTMLElement _renderedContent;
+        private readonly HTMLElement _scroller;
+        private readonly HTMLElement _titlebarWrapper;
 
-        private string _initiallySelectedID;
-        private string _currentSelectedID;
+        private readonly Button _moreBtn;
+        private readonly Button _scrollLeftBtn;
+        private readonly Button _scrollRightBtn;
+
+        private string         _initiallySelectedID;
+        private string         _currentSelectedID;
+        private bool           _isRendered = false;
+        private ResizeObserver _ro;
+
+        // Fraction of the scroller's visible width to move per scroll-button click.
+        private const double ScrollButtonStep = 0.7;
 
         /// <summary>
         /// Gets or sets the selected tab.
@@ -51,11 +62,24 @@ namespace Tesserae
         /// </summary>
         public SegmentedPivot()
         {
+            _scrollLeftBtn  = Button().SetIcon(UIcons.AngleLeft).NoMinSize().HS().NoPadding().NoMargin().Class("tss-segmentedpivot-titlebar-scroll-left").OnClick(() => ScrollByAmount(-_scroller.clientWidth * ScrollButtonStep));
+            _scrollRightBtn = Button().SetIcon(UIcons.AngleRight).NoMinSize().HS().NoPadding().NoMargin().Class("tss-segmentedpivot-titlebar-scroll-right").OnClick(() => ScrollByAmount(_scroller.clientWidth * ScrollButtonStep));
+            _moreBtn        = Button().SetIcon(UIcons.MenuDots).NoMinSize().HS().NoPadding().NoMargin().Class("tss-segmentedpivot-titlebar-more").OnClick(() => ShowAllTabs());
+
             _renderedTabs = Div(Att("tss-segmentedpivot-titlebar", role: "tablist"));
-            var wrapper = Div(Att("tss-segmentedpivot-wrapper"), _renderedTabs);
+            _scroller     = Div(Att("tss-segmentedpivot-titlebar-scroller"), _renderedTabs);
+
+            _titlebarWrapper = Div(Att("tss-segmentedpivot-titlebar-wrapper"),
+                _scrollLeftBtn.Render(),
+                _scroller,
+                _scrollRightBtn.Render(),
+                _moreBtn.Render());
+
             _renderedContent = Div(Att("tss-segmentedpivot-content", role: "tabpanel"));
 
-            StylingContainer = Div(Att("tss-segmentedpivot"), wrapper, _renderedContent);
+            StylingContainer = Div(Att("tss-segmentedpivot"), _titlebarWrapper, _renderedContent);
+
+            AttachScrollerEvents();
         }
 
         /// <summary>
@@ -76,6 +100,16 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Refreshes the pivot sizes, re-evaluating whether the scroll and overflow
+        /// controls should be visible. Useful after the pivot's container changes size
+        /// in a way a <see cref="ResizeObserver"/> can't observe.
+        /// </summary>
+        public void RefreshPivotSizes()
+        {
+            UpdateScrollState();
+        }
+
         internal SegmentedPivot Add(Tab tab)
         {
             if (_initiallySelectedID is null) _initiallySelectedID = tab.Id;
@@ -83,6 +117,7 @@ namespace Tesserae
 
             var titleContainer = Div(Att("tss-segmentedpivot-tab"));
             titleContainer.tabIndex = 0;
+            titleContainer.setAttribute("role", "tab");
 
             titleContainer.onkeydown = (e) =>
             {
@@ -122,6 +157,8 @@ namespace Tesserae
                 Select(_currentSelectedID, refresh: true);
             }
 
+            UpdateScrollState();
+
             return this;
         }
 
@@ -142,15 +179,20 @@ namespace Tesserae
 
                     _currentSelectedID = id;
 
+                    HTMLElement selectedTitle = null;
+
                     foreach (var kvp in _renderedTitles)
                     {
                         if (kvp.Key.Id == id)
                         {
                             kvp.Value.classList.add("tss-segmentedpivot-selected");
+                            kvp.Value.setAttribute("aria-selected", "true");
+                            selectedTitle = kvp.Value;
                         }
                         else
                         {
                             kvp.Value.classList.remove("tss-segmentedpivot-selected");
+                            kvp.Value.setAttribute("aria-selected", "false");
                         }
                     }
 
@@ -173,6 +215,8 @@ namespace Tesserae
 
                     _renderedContent.appendChild(content);
 
+                    if (selectedTitle is object) ScrollIntoView(selectedTitle);
+
                     _observable.Value = _currentSelectedID;
 
                     var pne = new PivotNavigateEvent(_currentSelectedID, id);
@@ -194,6 +238,84 @@ namespace Tesserae
         {
             if (string.IsNullOrEmpty(value)) return;
             Select(value);
+        }
+
+        private void AttachScrollerEvents()
+        {
+            // Convert vertical wheel motion (typical mouse) into horizontal scrolling.
+            // This listener calls preventDefault() so it must be non-passive; mark it
+            // explicitly so the browser doesn't have to guess.
+            _scroller.addEventListener("wheel", (Action<Event>)(e =>
+            {
+                var we = e.As<WheelEvent>();
+
+                if (Math.Abs(we.deltaY) > Math.Abs(we.deltaX))
+                {
+                    _scroller.scrollLeft += we.deltaY;
+                    e.preventDefault();
+                }
+            }), new AddEventListenerOptions { passive = false });
+
+            _scroller.addEventListener("scroll", e => UpdateScrollButtons());
+        }
+
+        private void ScrollByAmount(double dx)
+        {
+            _scroller.scrollLeft += dx;
+        }
+
+        private void UpdateScrollState()
+        {
+            if (!StylingContainer.IsMounted()) return;
+            UpdateScrollButtons();
+            UpdateMoreVisibility();
+        }
+
+        private void UpdateScrollButtons()
+        {
+            var canScrollLeft  = _scroller.scrollLeft > 0;
+            var canScrollRight = _scroller.scrollLeft + _scroller.clientWidth < _scroller.scrollWidth - 1; // -1 for sub-pixel rounding
+            _scrollLeftBtn.Render().style.display  = canScrollLeft ? "" : "none";
+            _scrollRightBtn.Render().style.display = canScrollRight ? "" : "none";
+        }
+
+        private void UpdateMoreVisibility()
+        {
+            _moreBtn.Render().style.display = _orderedTabs.Count > 0 ? "" : "none";
+        }
+
+        private void ShowAllTabs()
+        {
+            var items = new ContextMenu.Item[_orderedTabs.Count];
+
+            for (int i = 0; i < _orderedTabs.Count; i++)
+            {
+                var tab   = _orderedTabs[i];
+                var title = _renderedTitles[tab];
+                var clone = title.cloneNode(true).As<HTMLElement>();
+                clone.classList.remove("tss-segmentedpivot-selected");
+                var id = tab.Id;
+                items[i] = ContextMenuItem(Raw(clone)).OnClick(() => Select(id));
+            }
+            ContextMenu().Items(items).ShowFor(_moreBtn);
+        }
+
+        private void ScrollIntoView(HTMLElement target)
+        {
+            if (!_scroller.IsMounted()) return;
+            var tabLeft   = (double)target.offsetLeft;
+            var tabRight  = tabLeft + target.offsetWidth;
+            var viewLeft  = _scroller.scrollLeft;
+            var viewRight = viewLeft + _scroller.clientWidth;
+
+            if (tabLeft < viewLeft)
+            {
+                _scroller.scrollLeft = tabLeft;
+            }
+            else if (tabRight > viewRight)
+            {
+                _scroller.scrollLeft = tabRight - _scroller.clientWidth;
+            }
         }
 
         private void ClearChildrenExceptCached()
@@ -220,6 +342,25 @@ namespace Tesserae
             {
                 Select(_initiallySelectedID);
             }
+
+            if (!_isRendered)
+            {
+                _isRendered = true;
+
+                _ro = new ResizeObserver((entries, obs) => UpdateScrollState());
+                _ro.observe(StylingContainer);
+
+                DomObserver.WhenMounted(StylingContainer, () =>
+                {
+                    UpdateScrollState();
+
+                    // Also do on a timeout to account for animations on modals.
+                    window.setTimeout((_) => UpdateScrollState(), 1000);
+                });
+
+                DomObserver.WhenRemoved(StylingContainer, () => _ro.unobserve(StylingContainer));
+            }
+
             return StylingContainer;
         }
 
