@@ -1,6 +1,6 @@
 ---
 name: teaching
-description: A guided onboarding walkthrough that highlights UI elements one at a time with a tooltip, advancing on a Next click or after a fixed delay. Use when introducing first-time users to features in a Tesserae (C#/h5) app.
+description: A guided onboarding walkthrough that highlights UI elements one at a time with a tooltip, advancing on a Next click or after a fixed delay. Use when introducing first-time users to features in a Tesserae (C#/Transpose) app.
 ---
 
 # Teaching

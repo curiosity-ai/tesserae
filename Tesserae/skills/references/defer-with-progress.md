@@ -1,6 +1,6 @@
 ---
 name: defer-with-progress
-description: A Defer variant whose async generator reports progress (0–1) and a status message while loading. Use for long-running tasks that should show a progress bar in a Tesserae (C#/h5) app.
+description: A Defer variant whose async generator reports progress (0–1) and a status message while loading. Use for long-running tasks that should show a progress bar in a Tesserae (C#/Transpose) app.
 ---
 
 # DeferWithProgress

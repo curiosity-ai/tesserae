@@ -4,7 +4,7 @@
 
 # Tesserae
 
-**Tesserae** is a UI toolkit for building web applications entirely in C#, inspired by Microsoft's [Fluent UI](https://github.com/microsoft/fluentui) toolkit. It leverages the [h5 C# to JavaScript compiler](https://github.com/curiosity-ai/h5) to provide a strongly typed, easy-to-use UI development experience.
+**Tesserae** is a UI toolkit for building web applications entirely in C#, inspired by Microsoft's [Fluent UI](https://github.com/microsoft/fluentui) toolkit. It leverages the [Transpose C# to JavaScript compiler](https://github.com/curiosity-ai/transpose) to provide a strongly typed, easy-to-use UI development experience.
 
 > 📖 **Official Documentation:** [**docs.curiosity.ai/tesserae**](https://docs.curiosity.ai/tesserae) &nbsp;·&nbsp; 🎨 **Live Samples:** [curiosity.ai/tesserae](https://curiosity.ai/tesserae)
 >
@@ -14,19 +14,19 @@
 
 To create a new, blank Tesserae project from scratch, follow these steps:
 
-1.  **Update or install the h5-compiler:**
+1.  **Update or install the Transpose compiler:**
     ```bash
-    dotnet tool update --global h5-compiler
+    dotnet tool update --global Transpose.Compiler
     ```
 
-2.  **Install the h5 project templates:**
+2.  **Install the Transpose project templates:**
     ```bash
-    dotnet new install h5.Template
+    dotnet new install Transpose.Template
     ```
 
-3.  **Create a new h5 project:**
+3.  **Create a new Transpose project:**
     ```bash
-    dotnet new h5
+    dotnet new transpose
     ```
 
 4.  **Add the Tesserae package:**
@@ -36,18 +36,18 @@ To create a new, blank Tesserae project from scratch, follow these steps:
 
 ## Build Process
 
-Tesserae projects are compiled from C# to JavaScript using the **h5 compiler**.
+Tesserae projects are compiled from C# to JavaScript using the **Transpose compiler**.
 
-### h5.json Configuration
-The build process is controlled by the `h5.json` file located in your project root. This file defines:
--   **Output Directory**: Where the compiled files will be placed (e.g., `"output": "$(OutDir)/h5/"`).
+### tps.json Configuration
+The build process is controlled by the `tps.json` file located in your project root. This file defines:
+-   **Output Directory**: Where the compiled files will be placed (e.g., `"output": "$(OutDir)/tps/"`).
 -   **Entry Point**: The name of the generated JavaScript file (e.g., `"fileName": "app.js"`).
 -   **HTML Generation**: Whether to generate an `index.html` file and its title.
 -   **Resources**: Additional CSS, images, or JavaScript files to be included in the build output.
 
 ### Compilation Output
-When you build the project (e.g., via `dotnet build` or in Visual Studio), the h5 compiler translates your C# code into JavaScript and copies necessary assets to the output folder. By default, these files are located in:
-`bin/Debug/netstandard2.0/h5/` (or `bin/Release/...` depending on your configuration).
+When you build the project (e.g., via `dotnet build` or in Visual Studio), the Transpose compiler translates your C# code into JavaScript and copies necessary assets to the output folder. By default, these files are located in:
+`bin/Debug/netstandard2.0/tps/` (or `bin/Release/...` depending on your configuration).
 
 ## Local Testing
 
@@ -59,9 +59,9 @@ To test your application locally, we recommend using the `dotnet-serve` tool, wh
     ```
 
 2.  **Serve the compiled files:**
-    Navigate to the h5 output directory and start the server:
+    Navigate to the Transpose output directory and start the server:
     ```bash
-    cd bin/Debug/netstandard2.0/h5/
+    cd bin/Debug/netstandard2.0/tps/
     dotnet serve --port 5000
     ```
 

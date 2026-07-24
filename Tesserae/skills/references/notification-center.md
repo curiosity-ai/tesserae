@@ -1,6 +1,6 @@
 ---
 name: notification-center
-description: A bell button with an unread-count badge that opens a panel of recent notifications grouped by date. Use when adding an in-app notification inbox to a Tesserae (C#/h5) app.
+description: A bell button with an unread-count badge that opens a panel of recent notifications grouped by date. Use when adding an in-app notification inbox to a Tesserae (C#/Transpose) app.
 ---
 
 # NotificationCenter

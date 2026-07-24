@@ -1,6 +1,6 @@
 ---
 name: text-box
-description: A single-line text input. Use when collecting string input in forms or any field in a Tesserae (C#/h5) app.
+description: A single-line text input. Use when collecting string input in forms or any field in a Tesserae (C#/Transpose) app.
 ---
 
 # TextBox

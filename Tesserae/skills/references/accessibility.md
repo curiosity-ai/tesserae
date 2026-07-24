@@ -1,6 +1,6 @@
 ---
 name: accessibility
-description: ARIA/accessibility fluent helpers that add roles, labels, and states to any Tesserae component. Use when adding ARIA attributes, labels, or screen-reader support in a Tesserae (C#/h5) app.
+description: ARIA/accessibility fluent helpers that add roles, labels, and states to any Tesserae component. Use when adding ARIA attributes, labels, or screen-reader support in a Tesserae (C#/Transpose) app.
 ---
 
 # Accessibility

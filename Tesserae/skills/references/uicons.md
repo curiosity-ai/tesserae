@@ -1,6 +1,6 @@
 ---
 name: uicons
-description: A strongly typed `UIcons` enum (Flaticon UIcons set) rendered through the Icon component. Use when adding icon glyphs with compile-time safety in a Tesserae (C#/h5) app.
+description: A strongly typed `UIcons` enum (Flaticon UIcons set) rendered through the Icon component. Use when adding icon glyphs with compile-time safety in a Tesserae (C#/Transpose) app.
 ---
 
 # UIcons

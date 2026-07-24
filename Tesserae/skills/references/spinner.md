@@ -1,6 +1,6 @@
 ---
 name: spinner
-description: An animated indeterminate loading indicator with an optional positioned label and optional determinate progress. Use when signalling a running background task in a Tesserae (C#/h5) app.
+description: An animated indeterminate loading indicator with an optional positioned label and optional determinate progress. Use when signalling a running background task in a Tesserae (C#/Transpose) app.
 ---
 
 # Spinner

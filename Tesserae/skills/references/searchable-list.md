@@ -1,6 +1,6 @@
 ---
 name: searchable-list
-description: A searchable, scrollable list whose items are filtered live as the user types into a built-in search box, with optional async background search. Use when displaying a filterable list of items in a Tesserae (C#/h5) app.
+description: A searchable, scrollable list whose items are filtered live as the user types into a built-in search box, with optional async background search. Use when displaying a filterable list of items in a Tesserae (C#/Transpose) app.
 ---
 
 # SearchableList

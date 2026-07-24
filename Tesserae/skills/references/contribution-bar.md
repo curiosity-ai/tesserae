@@ -1,6 +1,6 @@
 ---
 name: contribution-bar
-description: A single stacked horizontal bar showing how weighted segments add up to a total, with an optional legend. Use when visualising a score breakdown or composition in a Tesserae (C#/h5) app.
+description: A single stacked horizontal bar showing how weighted segments add up to a total, with an optional legend. Use when visualising a score breakdown or composition in a Tesserae (C#/Transpose) app.
 ---
 
 # ContributionBar

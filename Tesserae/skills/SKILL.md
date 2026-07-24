@@ -1,19 +1,19 @@
 ---
 name: tesserae
-description: Build web UIs in C# with the Tesserae toolkit (compiled to JavaScript by the h5 compiler) — components, fluent configuration, layout with Stack/Grid, and sizing/spacing helpers. Use when writing or editing a Tesserae app, picking a component, laying out a UI, or looking up a component's API. Per-component references live in references/.
+description: Build web UIs in C# with the Tesserae toolkit (compiled to JavaScript by the Transpose compiler) — components, fluent configuration, layout with Stack/Grid, and sizing/spacing helpers. Use when writing or editing a Tesserae app, picking a component, laying out a UI, or looking up a component's API. Per-component references live in references/.
 ---
 
 # Tesserae
 
 Tesserae is a C# UI toolkit for building web applications. You write strongly-typed
-C#; the **h5** compiler translates it to JavaScript that runs in the browser. The
+C#; the **Transpose** compiler translates it to JavaScript that runs in the browser. The
 API is fluent and component-based, loosely inspired by Microsoft's Fluent UI.
 
 Bring the factories and DOM helpers into scope at the top of a file:
 
 ```csharp
 using static Tesserae.UI;     // component factories: Button(), Stack(), TextBlock()…
-using static H5.Core.dom;     // browser globals: document, window, console…
+using static Transpose.Core.dom;     // browser globals: document, window, console…
 ```
 
 ## Using components
@@ -139,7 +139,7 @@ references. Open the reference for whatever you are working with. The full set:
   `references/accessibility.md`, `references/project-setup.md`,
   `references/routing.md`.
 - `references/creating-a-component.md` — build your own `IComponent`.
-- `references/javascript-interop.md` — call JS/browser APIs from C# via h5.
+- `references/javascript-interop.md` — call JS/browser APIs from C# via Transpose.
 - `references/wrap-a-javascript-library.md` — wrap a third-party JS library.
 
 **Components** (plain widgets)

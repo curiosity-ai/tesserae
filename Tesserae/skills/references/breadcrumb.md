@@ -1,6 +1,6 @@
 ---
 name: breadcrumb
-description: A navigational trail showing the user's position within a hierarchy, collapsing extra levels into an overflow menu when space runs out. Use when building a hierarchical breadcrumb nav in a Tesserae (C#/h5) app.
+description: A navigational trail showing the user's position within a hierarchy, collapsing extra levels into an overflow menu when space runs out. Use when building a hierarchical breadcrumb nav in a Tesserae (C#/Transpose) app.
 ---
 
 # Breadcrumb

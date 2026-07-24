@@ -1,6 +1,6 @@
 ---
 name: overflow-set
-description: A horizontal set of items that automatically collapses any items that don't fit into an overflow ("...") menu. Use when building a toolbar or command bar that must adapt to constrained widths in a Tesserae (C#/h5) app.
+description: A horizontal set of items that automatically collapses any items that don't fit into an overflow ("...") menu. Use when building a toolbar or command bar that must adapt to constrained widths in a Tesserae (C#/Transpose) app.
 ---
 
 # OverflowSet

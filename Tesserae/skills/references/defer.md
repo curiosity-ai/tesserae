@@ -1,6 +1,6 @@
 ---
 name: defer
-description: A placeholder that asynchronously loads its real content from a Task, optionally observing observables to refresh. Use when rendering heavy or async content without blocking initial UI in a Tesserae (C#/h5) app.
+description: A placeholder that asynchronously loads its real content from a Task, optionally observing observables to refresh. Use when rendering heavy or async content without blocking initial UI in a Tesserae (C#/Transpose) app.
 ---
 
 # Defer

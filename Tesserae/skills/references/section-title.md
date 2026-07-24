@@ -1,6 +1,6 @@
 ---
 name: section-title
-description: A heading that labels a section of a form or page with an icon, title, optional subtitle, and trailing action commands. Use when introducing a section in a form, card, or SectionStack in a Tesserae (C#/h5) app.
+description: A heading that labels a section of a form or page with an icon, title, optional subtitle, and trailing action commands. Use when introducing a section in a form, card, or SectionStack in a Tesserae (C#/Transpose) app.
 ---
 
 # SectionTitle

@@ -1,6 +1,6 @@
 ---
 name: time-histogram-picker
-description: A histogram with draggable thumbs for selecting a time range over a set of timestamps. Use when filtering data by date/time range visually in a Tesserae (C#/h5) app.
+description: A histogram with draggable thumbs for selecting a time range over a set of timestamps. Use when filtering data by date/time range visually in a Tesserae (C#/Transpose) app.
 ---
 
 # TimeHistogramPicker

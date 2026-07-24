@@ -1,6 +1,6 @@
 ---
 name: validator
-description: Coordinates validation across multiple form components, tracking user interaction and updating visual state. Use when validating forms or groups of inputs in a Tesserae (C#/h5) app.
+description: Coordinates validation across multiple form components, tracking user interaction and updating visual state. Use when validating forms or groups of inputs in a Tesserae (C#/Transpose) app.
 ---
 
 # Validator

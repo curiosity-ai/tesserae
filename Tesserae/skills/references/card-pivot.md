@@ -1,6 +1,6 @@
 ---
 name: card-pivot
-description: A pivot whose tabs render as connected cards with a shared border, suited to dashboard-style metric switching. Use when selectable metric cards control the view below them in a Tesserae (C#/h5) app.
+description: A pivot whose tabs render as connected cards with a shared border, suited to dashboard-style metric switching. Use when selectable metric cards control the view below them in a Tesserae (C#/Transpose) app.
 ---
 
 # CardPivot

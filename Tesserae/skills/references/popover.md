@@ -1,6 +1,6 @@
 ---
 name: popover
-description: A manually-triggered, anchored overlay surface that shows arbitrary IComponent content next to an anchor. Use when building menus, dropdowns, or click-triggered transient surfaces in a Tesserae (C#/h5) app.
+description: A manually-triggered, anchored overlay surface that shows arbitrary IComponent content next to an anchor. Use when building menus, dropdowns, or click-triggered transient surfaces in a Tesserae (C#/Transpose) app.
 ---
 
 # Popover

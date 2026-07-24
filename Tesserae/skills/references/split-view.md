@@ -1,6 +1,6 @@
 ---
 name: split-view
-description: A two-pane container with left/right panels separated by an optionally draggable splitter. Use when building side-by-side resizable layouts in a Tesserae (C#/h5) app.
+description: A two-pane container with left/right panels separated by an optionally draggable splitter. Use when building side-by-side resizable layouts in a Tesserae (C#/Transpose) app.
 ---
 
 # SplitView

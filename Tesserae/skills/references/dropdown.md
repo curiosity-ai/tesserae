@@ -1,6 +1,6 @@
 ---
 name: dropdown
-description: A select-style input for picking one or many values from a list, with search, async loading, and validation. Use when offering a compact list-of-options chooser in a Tesserae (C#/h5) app.
+description: A select-style input for picking one or many values from a list, with search, async loading, and validation. Use when offering a compact list-of-options chooser in a Tesserae (C#/Transpose) app.
 ---
 
 # Dropdown

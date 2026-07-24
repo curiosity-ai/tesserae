@@ -1,6 +1,6 @@
 ---
 name: date-picker
-description: A form input for picking a single calendar date, backed by the browser's native date input. Use when collecting a date from the user in a Tesserae (C#/h5) app.
+description: A form input for picking a single calendar date, backed by the browser's native date input. Use when collecting a date from the user in a Tesserae (C#/Transpose) app.
 ---
 
 # DatePicker

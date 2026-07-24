@@ -1,6 +1,6 @@
 ---
 name: custom-styles
-description: Fluent helpers for attaching and removing custom CSS classes on any Tesserae component. Use when applying custom CSS classes or reusable stylesheet rules to components in a Tesserae (C#/h5) app.
+description: Fluent helpers for attaching and removing custom CSS classes on any Tesserae component. Use when applying custom CSS classes or reusable stylesheet rules to components in a Tesserae (C#/Transpose) app.
 ---
 
 # Custom CSS Classes

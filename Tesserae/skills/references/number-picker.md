@@ -1,6 +1,6 @@
 ---
 name: number-picker
-description: A numeric input control over the native HTML number field, with min/max/step bounds, validation and an int Value. Use when a user must enter or pick a number in a Tesserae (C#/h5) app.
+description: A numeric input control over the native HTML number field, with min/max/step bounds, validation and an int Value. Use when a user must enter or pick a number in a Tesserae (C#/Transpose) app.
 ---
 
 # NumberPicker

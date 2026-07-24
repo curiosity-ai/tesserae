@@ -1,6 +1,6 @@
 ---
 name: link
-description: A hyperlink (anchor) component wrapping text or any component, with new-tab, pop-up-window, underline and icon support. Use when adding navigational or external links in a Tesserae (C#/h5) app.
+description: A hyperlink (anchor) component wrapping text or any component, with new-tab, pop-up-window, underline and icon support. Use when adding navigational or external links in a Tesserae (C#/Transpose) app.
 ---
 
 # Link

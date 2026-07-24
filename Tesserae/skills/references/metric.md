@@ -1,6 +1,6 @@
 ---
 name: metric
-description: A KPI tile showing a large value with a title plus optional trend indicator and sparkline chart. Use when building dashboards or stat cards in a Tesserae (C#/h5) app.
+description: A KPI tile showing a large value with a title plus optional trend indicator and sparkline chart. Use when building dashboards or stat cards in a Tesserae (C#/Transpose) app.
 ---
 
 # Metric

@@ -1,6 +1,6 @@
 ---
 name: choice-group
-description: A radio-style group where exactly one Choice can be selected, in vertical or horizontal layout, exposing the selection as an observable. Use for 2–7 mutually exclusive options that should all stay visible in a Tesserae (C#/h5) app.
+description: A radio-style group where exactly one Choice can be selected, in vertical or horizontal layout, exposing the selection as an observable. Use for 2–7 mutually exclusive options that should all stay visible in a Tesserae (C#/Transpose) app.
 ---
 
 # ChoiceGroup

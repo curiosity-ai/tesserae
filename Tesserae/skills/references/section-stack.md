@@ -1,6 +1,6 @@
 ---
 name: section-stack
-description: A vertical Stack that adds sections and titles with staggered mount animations and optional card styling. Use to present grouped, animated content blocks in a Tesserae (C#/h5) app.
+description: A vertical Stack that adds sections and titles with staggered mount animations and optional card styling. Use to present grouped, animated content blocks in a Tesserae (C#/Transpose) app.
 ---
 
 # SectionStack

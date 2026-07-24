@@ -1,6 +1,6 @@
 ---
 name: node-view
-description: An interactive node-graph editor (wraps BaklavaJS) with typed inputs/outputs, static and dynamic nodes, and save/load state. Use when building flow/graph editors in a Tesserae (C#/h5) app.
+description: An interactive node-graph editor (wraps BaklavaJS) with typed inputs/outputs, static and dynamic nodes, and save/load state. Use when building flow/graph editors in a Tesserae (C#/Transpose) app.
 ---
 
 # NodeView

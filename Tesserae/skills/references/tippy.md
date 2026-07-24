@@ -1,6 +1,6 @@
 ---
 name: tippy
-description: Tooltip support for any IComponent (wraps Tippy.js), accepting text or component content. Use when attaching hover tooltips/popovers in a Tesserae (C#/h5) app.
+description: Tooltip support for any IComponent (wraps Tippy.js), accepting text or component content. Use when attaching hover tooltips/popovers in a Tesserae (C#/Transpose) app.
 ---
 
 # Tippy

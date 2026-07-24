@@ -1,6 +1,6 @@
 ---
 name: annotated-text-editor
-description: A multi-line text editor that highlights entity spans in place using a debounced async annotator callback. Use when building NLP/entity-tagging inputs or prompt editors that mark up text as the user types in a Tesserae (C#/h5) app.
+description: A multi-line text editor that highlights entity spans in place using a debounced async annotator callback. Use when building NLP/entity-tagging inputs or prompt editors that mark up text as the user types in a Tesserae (C#/Transpose) app.
 ---
 
 # AnnotatedTextEditor

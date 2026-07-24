@@ -1,14 +1,14 @@
 # AGENTS
 
 ## Repository overview
-- Tesserae is a C# UI toolkit compiled to JavaScript via the **h5** compiler (see `Tesserae/Tesserae.csproj` and `Tesserae/h5*.json`).
+- Tesserae is a C# UI toolkit compiled to JavaScript via the **Transpose** compiler (see `Tesserae/Tesserae.csproj` and `Tesserae/tps*.json`).
 - Core UI components live under `Tesserae/src`, with component factories and helpers in `Tesserae/src/Base/UI.Components.cs`.
 - Samples and demos live in `Tesserae.Tests` (referenced in `README.md`).
 
 ## Build & packaging notes
-- The main library project uses the `h5.Target` SDK and references `h5`, `h5.core`, and `h5.Newtonsoft.Json` packages.
-- H5 build configuration and resource bundling are defined in `Tesserae/h5.json` (includes JS/CSS bundling, minified and non-minified outputs, and resource packaging).
-- Local dev hosting is documented in `README.md` (build output under `bin/Debug/netstandard2.0/h5` and serve via `dotnet serve`).
+- The main library project uses the `Transpose.Build.Target` SDK and references `Transpose.BCL`, `Transpose.Core`, and `Transpose.Newtonsoft.Json` packages.
+- Transpose build configuration and resource bundling are defined in `Tesserae/tps.json` (includes JS/CSS bundling, minified and non-minified outputs, and resource packaging).
+- Local dev hosting is documented in `README.md` (build output under `bin/Debug/netstandard2.0/tps` and serve via `dotnet serve`).
 
 ## UI composition patterns
 - UI creation is centered around the static `UI` class in `UI.Components.cs`, which provides factory methods for components (e.g., `UI.Button`, `UI.TextBlock`, etc.).

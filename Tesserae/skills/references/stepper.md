@@ -1,6 +1,6 @@
 ---
 name: stepper
-description: A multi-step wizard that shows numbered steps with titles, swaps content per step, and provides Back/Next navigation. Use when guiding the user through a sequential flow (forms, onboarding) in a Tesserae (C#/h5) app.
+description: A multi-step wizard that shows numbered steps with titles, swaps content per step, and provides Back/Next navigation. Use when guiding the user through a sequential flow (forms, onboarding) in a Tesserae (C#/Transpose) app.
 ---
 
 # Stepper

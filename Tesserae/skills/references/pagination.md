@@ -1,6 +1,6 @@
 ---
 name: pagination
-description: A page-number navigation strip for walking through pages of results. Use when paging a large result set into fixed-size pages in a Tesserae (C#/h5) app.
+description: A page-number navigation strip for walking through pages of results. Use when paging a large result set into fixed-size pages in a Tesserae (C#/Transpose) app.
 ---
 
 # Pagination

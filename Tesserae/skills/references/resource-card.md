@@ -1,6 +1,6 @@
 ---
 name: resource-card
-description: A card tailored to summarising one resource (model, document, service) with icon, title, subtitle, tags, description, date, and a footer for actions. Use when rendering resource tiles, often inside a SearchableList grid, in a Tesserae (C#/h5) app.
+description: A card tailored to summarising one resource (model, document, service) with icon, title, subtitle, tags, description, date, and a footer for actions. Use when rendering resource tiles, often inside a SearchableList grid, in a Tesserae (C#/Transpose) app.
 ---
 
 # ResourceCard

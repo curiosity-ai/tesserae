@@ -1,6 +1,6 @@
 ---
 name: button
-description: The standard clickable button with tone variants, icons, link styling, and inline async spinner states. Use for any action trigger — submit, confirm, navigate, run — in a Tesserae (C#/h5) app.
+description: The standard clickable button with tone variants, icons, link styling, and inline async spinner states. Use for any action trigger — submit, confirm, navigate, run — in a Tesserae (C#/Transpose) app.
 ---
 
 # Button

@@ -1,6 +1,6 @@
 ---
 name: action-button
-description: A composite button with a main display area plus a separate action icon, each independently clickable. Use when you need a primary action and a secondary trigger (e.g. dropdown/callout) in one control in a Tesserae (C#/h5) app.
+description: A composite button with a main display area plus a separate action icon, each independently clickable. Use when you need a primary action and a secondary trigger (e.g. dropdown/callout) in one control in a Tesserae (C#/Transpose) app.
 ---
 
 # ActionButton

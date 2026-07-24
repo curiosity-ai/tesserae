@@ -1,6 +1,6 @@
 ---
 name: image
-description: A responsive image element with fit-mode, sizing, fallback source and circle/crop helpers. Use when displaying screenshots, avatars, logos or any bitmap in a Tesserae (C#/h5) app.
+description: A responsive image element with fit-mode, sizing, fallback source and circle/crop helpers. Use when displaying screenshots, avatars, logos or any bitmap in a Tesserae (C#/Transpose) app.
 ---
 
 # Image

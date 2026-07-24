@@ -1,6 +1,6 @@
 ---
 name: modal
-description: A centered overlay surface that dims the page and hosts arbitrary content, with optional header, footer, command rows, blocking/non-blocking and light-dismiss modes. Use for dialogs, forms and detail overlays in a Tesserae (C#/h5) app.
+description: A centered overlay surface that dims the page and hosts arbitrary content, with optional header, footer, command rows, blocking/non-blocking and light-dismiss modes. Use for dialogs, forms and detail overlays in a Tesserae (C#/Transpose) app.
 ---
 
 # Modal

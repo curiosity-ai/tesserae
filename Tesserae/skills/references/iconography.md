@@ -1,6 +1,6 @@
 ---
 name: iconography
-description: Strongly-typed icon and emoji set (UIcons + Emoji enums) plus helpers to render them in Tesserae components. Use when adding icons or emoji to components, buttons, or commands in a Tesserae (C#/h5) app.
+description: Strongly-typed icon and emoji set (UIcons + Emoji enums) plus helpers to render them in Tesserae components. Use when adding icons or emoji to components, buttons, or commands in a Tesserae (C#/Transpose) app.
 ---
 
 # Icons & Emoji
@@ -34,14 +34,14 @@ var party    = Icon(Emoji.ConfettiBall, TextSize.Medium);
 var save     = Button("Save").SetIcon(UIcons.Disk, color: Theme.Primary.Foreground);
 var celebrate = Button("Yay").SetIcon(Emoji.ConfettiBall);
 
-// Custom icon font (import its CSS in h5.json first):
+// Custom icon font (import its CSS in tps.json first):
 var faRocket = Icon(UIconHelper.AsUIcon("fa-solid fa-rocket"));
 ```
 
 ## Notes
 
 - `UIcons` is used throughout the library (sidebar buttons, dropdowns, toolbars).
-- For custom icon fonts, import the font/CSS files via your `h5.json` resources.
+- For custom icon fonts, import the font/CSS files via your `tps.json` resources.
 
 ## Related
 

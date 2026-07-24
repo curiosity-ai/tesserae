@@ -1,6 +1,6 @@
 ---
 name: details-list
-description: A virtualised, sortable, multi-column table for typed items (Fluent-UI-style DetailsList) with column sorting, pagination, and an empty-state message. Use when building a data table / file-explorer-style list in a Tesserae (C#/h5) app.
+description: A virtualised, sortable, multi-column table for typed items (Fluent-UI-style DetailsList) with column sorting, pagination, and an empty-state message. Use when building a data table / file-explorer-style list in a Tesserae (C#/Transpose) app.
 ---
 
 # DetailsList

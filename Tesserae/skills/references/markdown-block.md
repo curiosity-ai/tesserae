@@ -1,6 +1,6 @@
 ---
 name: markdown-block
-description: Renders Markdown source as sanitized HTML using the bundled marked + DOMPurify libraries. Use when displaying user-supplied or stored Markdown safely in a Tesserae (C#/h5) app.
+description: Renders Markdown source as sanitized HTML using the bundled marked + DOMPurify libraries. Use when displaying user-supplied or stored Markdown safely in a Tesserae (C#/Transpose) app.
 ---
 
 # MarkdownBlock

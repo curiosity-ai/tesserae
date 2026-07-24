@@ -1,6 +1,6 @@
 ---
 name: property-grid
-description: A reflection-driven editor that auto-generates a two-way-bound form from a typed object's public properties. Use when you need a settings editor, model form, or debug inspector without writing per-property markup in a Tesserae (C#/h5) app.
+description: A reflection-driven editor that auto-generates a two-way-bound form from a typed object's public properties. Use when you need a settings editor, model form, or debug inspector without writing per-property markup in a Tesserae (C#/Transpose) app.
 ---
 
 # PropertyGrid
