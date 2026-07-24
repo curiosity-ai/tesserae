@@ -90,10 +90,18 @@
         flex-shrink: 0;
     }
 
+.tss-toolagent-scroll {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
 .tss-toolagent-section {
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
+    flex-shrink: 0;
 }
 
 .tss-toolagent-section-title {
