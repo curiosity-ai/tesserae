@@ -1,6 +1,6 @@
 ---
 name: editable-area
-description: An inline-editable multi-line text surface that toggles between a read-only label and a textarea on click. Use for editing notes/descriptions in place in a Tesserae (C#/h5) app.
+description: An inline-editable multi-line text surface that toggles between a read-only label and a textarea on click. Use for editing notes/descriptions in place in a Tesserae (C#/Transpose) app.
 ---
 
 # EditableArea

@@ -1,6 +1,6 @@
 ---
 name: routing
-description: The built-in lightweight hash-based Router for SPA-style navigation, route parameters, and guards. Use when setting up routing/navigation between views in a Tesserae (C#/h5) app.
+description: The built-in lightweight hash-based Router for SPA-style navigation, route parameters, and guards. Use when setting up routing/navigation between views in a Tesserae (C#/Transpose) app.
 ---
 
 # Routing
@@ -84,7 +84,7 @@ private static void Show(IComponent page) { Content.Clear(); Content.Add(page); 
   `Observable` and render it with `DeferSync` for reactive updates.
 - The History API is unavailable inside the sandboxed docs preview iframe — real
   pages use `Router.Push`/`Replace` directly.
-- `h5.json` reflection must stay enabled for the router to work.
+- `tps.json` reflection must stay enabled for the router to work.
 
 ## Related
 

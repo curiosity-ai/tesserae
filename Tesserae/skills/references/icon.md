@@ -1,6 +1,6 @@
 ---
 name: icon
-description: A single visual glyph rendered from the bundled UIcons set or an Emoji, with size, weight, color and tooltip control. Use when adding inline icons to reinforce actions or labels in a Tesserae (C#/h5) app.
+description: A single visual glyph rendered from the bundled UIcons set or an Emoji, with size, weight, color and tooltip control. Use when adding inline icons to reinforce actions or labels in a Tesserae (C#/Transpose) app.
 ---
 
 # Icon

@@ -1,6 +1,6 @@
 ---
 name: creating-a-component
-description: How to build a custom Tesserae UI component by implementing IComponent (or deriving from ComponentBase). Use when adding a new widget/control to the Tesserae toolkit or composing a reusable component in a Tesserae (C#/h5) app.
+description: How to build a custom Tesserae UI component by implementing IComponent (or deriving from ComponentBase). Use when adding a new widget/control to the Tesserae toolkit or composing a reusable component in a Tesserae (C#/Transpose) app.
 ---
 
 # Creating a component (IComponent)
@@ -29,12 +29,12 @@ keep the root in a field, and return it from `Render()`.
 Best for display-only widgets. Model after `Sparkline.cs` / `Raw.cs`.
 
 ```csharp
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;   // brings in Div/Span/I and the _( ) attributes helper
 
 namespace Tesserae
 {
-    [H5.Name("tss.MyBadge")]                 // names the generated JS class (conventional)
+    [Transpose.Name("tss.MyBadge")]                 // names the generated JS class (conventional)
     public class MyBadge : IComponent
     {
         private readonly HTMLElement _inner;
@@ -59,7 +59,7 @@ Best when you want click/focus/change events, margin/padding, ARIA, and a
 fluent `T`-returning API. Model after `Button.cs`.
 
 ```csharp
-[H5.Name("tss.MyToggle")]
+[Transpose.Name("tss.MyToggle")]
 public class MyToggle : ComponentBase<MyToggle, HTMLDivElement>
 {
     public MyToggle()

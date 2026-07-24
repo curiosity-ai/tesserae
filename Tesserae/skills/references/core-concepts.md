@@ -1,6 +1,6 @@
 ---
 name: core-concepts
-description: The four foundational ideas of Tesserae — IComponent, the fluent UI API, layout containers, and reactive state (observables + Defer). Use when learning how a Tesserae (C#/h5) app is structured or wiring up reactive UI.
+description: The four foundational ideas of Tesserae — IComponent, the fluent UI API, layout containers, and reactive state (observables + Defer). Use when learning how a Tesserae (C#/Transpose) app is structured or wiring up reactive UI.
 ---
 
 # Core Concepts

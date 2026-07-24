@@ -1,6 +1,6 @@
 ---
 name: date-range-picker
-description: A composite picker for a contiguous "from → to" date range, made of two synced DatePickers. Use when collecting a start/end date range in a Tesserae (C#/h5) app.
+description: A composite picker for a contiguous "from → to" date range, made of two synced DatePickers. Use when collecting a start/end date range in a Tesserae (C#/Transpose) app.
 ---
 
 # DateRangePicker

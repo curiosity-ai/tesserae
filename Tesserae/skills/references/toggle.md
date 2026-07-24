@@ -1,6 +1,6 @@
 ---
 name: toggle
-description: A switch control for an on/off (boolean) setting with an auto-updating label. Use when a setting should take effect immediately on flip in a Tesserae (C#/h5) app.
+description: A switch control for an on/off (boolean) setting with an auto-updating label. Use when a setting should take effect immediately on flip in a Tesserae (C#/Transpose) app.
 ---
 
 # Toggle

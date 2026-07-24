@@ -1,6 +1,6 @@
 ---
 name: stack
-description: A flexbox container that lays out child components vertically or horizontally with alignment, wrapping, gap, and per-child sizing. Use as the default one-axis layout container in a Tesserae (C#/h5) app.
+description: A flexbox container that lays out child components vertically or horizontally with alignment, wrapping, gap, and per-child sizing. Use as the default one-axis layout container in a Tesserae (C#/Transpose) app.
 ---
 
 # Stack

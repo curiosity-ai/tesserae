@@ -1,6 +1,6 @@
 ---
 name: slider
-description: A range input for picking an integer value between a min and max with a step, horizontal or vertical. Use when a user adjusts a numeric value along a track in a Tesserae (C#/h5) app.
+description: A range input for picking an integer value between a min and max with a step, horizontal or vertical. Use when a user adjusts a numeric value along a track in a Tesserae (C#/Transpose) app.
 ---
 
 # Slider

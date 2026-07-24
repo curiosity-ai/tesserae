@@ -1,6 +1,6 @@
 ---
 name: progress-modal
-description: A blocking modal that shows a title, dynamic message, and either a spinner or a progress bar (determinate or indeterminate), with an optional cancel button. Use to report on a long-running operation in a Tesserae (C#/h5) app.
+description: A blocking modal that shows a title, dynamic message, and either a spinner or a progress bar (determinate or indeterminate), with an optional cancel button. Use to report on a long-running operation in a Tesserae (C#/Transpose) app.
 ---
 
 # ProgressModal

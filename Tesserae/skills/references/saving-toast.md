@@ -1,6 +1,6 @@
 ---
 name: saving-toast
-description: A Toast variant that shows a "saving…" indicator and swaps to a success or error message, plus a Task extension that wraps an await in one. Use when giving feedback for a background save/async operation in a Tesserae (C#/h5) app.
+description: A Toast variant that shows a "saving…" indicator and swaps to a success or error message, plus a Task extension that wraps an await in one. Use when giving feedback for a background save/async operation in a Tesserae (C#/Transpose) app.
 ---
 
 # SavingToast

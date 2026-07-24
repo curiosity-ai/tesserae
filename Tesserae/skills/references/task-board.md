@@ -1,6 +1,6 @@
 ---
 name: task-board
-description: A Kanban board of named columns holding draggable cards, with drag-and-drop reordering between and within columns. Use when building a Trello-style task/Kanban board in a Tesserae (C#/h5) app.
+description: A Kanban board of named columns holding draggable cards, with drag-and-drop reordering between and within columns. Use when building a Trello-style task/Kanban board in a Tesserae (C#/Transpose) app.
 ---
 
 # TaskBoard

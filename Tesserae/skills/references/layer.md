@@ -1,6 +1,6 @@
 ---
 name: layer
-description: A technical container that renders its content at the end of the document so it escapes overflow:hidden and z-index stacking. Use as the projection primitive behind menus, tooltips and overlays in a Tesserae (C#/h5) app.
+description: A technical container that renders its content at the end of the document so it escapes overflow:hidden and z-index stacking. Use as the projection primitive behind menus, tooltips and overlays in a Tesserae (C#/Transpose) app.
 ---
 
 # Layer

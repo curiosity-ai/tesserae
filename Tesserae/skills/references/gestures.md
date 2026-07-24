@@ -1,6 +1,6 @@
 ---
 name: gestures
-description: Fluent tap / double-tap / long-press / pan / pinch / rotate recognition on any IComponent, built on Pointer Events. Use when adding touch or pointer gestures to a Tesserae (C#/h5) app.
+description: Fluent tap / double-tap / long-press / pan / pinch / rotate recognition on any IComponent, built on Pointer Events. Use when adding touch or pointer gestures to a Tesserae (C#/Transpose) app.
 ---
 
 # Gestures

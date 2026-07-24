@@ -1,6 +1,6 @@
 ---
 name: file-selector-and-drop-area
-description: Two file-input components — FileSelector (dialog-style picker, validatable) and FileDropArea (drag-and-drop zone). Use when users need to pick or drop files in a Tesserae (C#/h5) app.
+description: Two file-input components — FileSelector (dialog-style picker, validatable) and FileDropArea (drag-and-drop zone). Use when users need to pick or drop files in a Tesserae (C#/Transpose) app.
 ---
 
 # FileSelector & FileDropArea

@@ -1,6 +1,6 @@
 ---
 name: horizontal-split-view
-description: A two-pane container split into top and bottom areas by a thin divider that can be made draggable. Use for stacked editor/preview or header/body layouts in a Tesserae (C#/h5) app.
+description: A two-pane container split into top and bottom areas by a thin divider that can be made draggable. Use for stacked editor/preview or header/body layouts in a Tesserae (C#/Transpose) app.
 ---
 
 # HorizontalSplitView

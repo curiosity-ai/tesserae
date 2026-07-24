@@ -1,6 +1,6 @@
 ---
 name: badge
-description: Small inline label tokens — Badge (status indicator), Tag (categorization), and Chip (removable) — sharing tone, shape, icon, and outline/filled styling. Use for status pills, tags, and dismissible chips in a Tesserae (C#/h5) app.
+description: Small inline label tokens — Badge (status indicator), Tag (categorization), and Chip (removable) — sharing tone, shape, icon, and outline/filled styling. Use for status pills, tags, and dismissible chips in a Tesserae (C#/Transpose) app.
 ---
 
 # Badge / Tag / Chip

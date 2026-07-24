@@ -1,6 +1,6 @@
 ---
 name: save-button
-description: A Button variant that drives itself through save states (pending, verifying, saving, saved, error) with matching icon, colour, and spinner. Use when wiring an async save action to a single button in a Tesserae (C#/h5) app.
+description: A Button variant that drives itself through save states (pending, verifying, saving, saved, error) with matching icon, colour, and spinner. Use when wiring an async save action to a single button in a Tesserae (C#/Transpose) app.
 ---
 
 # SaveButton

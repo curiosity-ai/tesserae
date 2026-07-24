@@ -1,6 +1,6 @@
 ---
 name: check-box
-description: A two-state (checked/unchecked) labeled form control exposing its state as an observable. Use for boolean settings, opt-ins, and multi-select item lists in a Tesserae (C#/h5) app.
+description: A two-state (checked/unchecked) labeled form control exposing its state as an observable. Use for boolean settings, opt-ins, and multi-select item lists in a Tesserae (C#/Transpose) app.
 ---
 
 # CheckBox

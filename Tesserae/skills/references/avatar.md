@@ -1,6 +1,6 @@
 ---
 name: avatar
-description: A circular user representation showing an image or initials with an optional presence dot; Persona pairs it with name/role text. Use when representing users, teams, or contacts in a Tesserae (C#/h5) app.
+description: A circular user representation showing an image or initials with an optional presence dot; Persona pairs it with name/role text. Use when representing users, teams, or contacts in a Tesserae (C#/Transpose) app.
 ---
 
 # Avatar / Persona

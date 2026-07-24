@@ -1,6 +1,6 @@
 ---
 name: date-time-picker
-description: A form input for picking a single date together with a time-of-day, backed by the native datetime-local input. Use when collecting a precise date+time in a Tesserae (C#/h5) app.
+description: A form input for picking a single date together with a time-of-day, backed by the native datetime-local input. Use when collecting a precise date+time in a Tesserae (C#/Transpose) app.
 ---
 
 # DateTimePicker

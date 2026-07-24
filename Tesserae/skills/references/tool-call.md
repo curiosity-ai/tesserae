@@ -1,6 +1,6 @@
 ---
 name: tool-call
-description: An inline, accordion-style indicator of an AI tool invocation, plus a ToolsUsed summary that opens a list-and-detail modal. Use when surfacing tool calls in a chat/assistant UI in a Tesserae (C#/h5) app.
+description: An inline, accordion-style indicator of an AI tool invocation, plus a ToolsUsed summary that opens a list-and-detail modal. Use when surfacing tool calls in a chat/assistant UI in a Tesserae (C#/Transpose) app.
 ---
 
 # ToolCall / ToolsUsed

@@ -1,6 +1,6 @@
 ---
 name: carousel
-description: A horizontal slideshow that cycles through one slide at a time with prev/next arrows and pagination dots; any component can be a slide. Use for image galleries, feature highlights, or onboarding sequences in a Tesserae (C#/h5) app.
+description: A horizontal slideshow that cycles through one slide at a time with prev/next arrows and pagination dots; any component can be a slide. Use for image galleries, feature highlights, or onboarding sequences in a Tesserae (C#/Transpose) app.
 ---
 
 # Carousel

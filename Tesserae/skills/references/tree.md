@@ -1,6 +1,6 @@
 ---
 name: tree
-description: A hierarchical tree view with expand/collapse, selection, keyboard nav, and sync or async child loading. Use when displaying nested/hierarchical data (file trees, org charts) in a Tesserae (C#/h5) app.
+description: A hierarchical tree view with expand/collapse, selection, keyboard nav, and sync or async child loading. Use when displaying nested/hierarchical data (file trees, org charts) in a Tesserae (C#/Transpose) app.
 ---
 
 # Tree

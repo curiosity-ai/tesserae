@@ -1,6 +1,6 @@
 ---
 name: panel
-description: A side-anchored slide-in drawer with a title, content, footer and configurable size/side, light-dismiss and blocking modes. Use for property inspectors, detail views and side forms in a Tesserae (C#/h5) app.
+description: A side-anchored slide-in drawer with a title, content, footer and configurable size/side, light-dismiss and blocking modes. Use for property inspectors, detail views and side forms in a Tesserae (C#/Transpose) app.
 ---
 
 # Panel

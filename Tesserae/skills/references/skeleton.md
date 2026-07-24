@@ -1,6 +1,6 @@
 ---
 name: skeleton
-description: An animated placeholder shape (line, circle, or rectangle) shown while content loads. Use when reserving layout space for loading content in a Tesserae (C#/h5) app.
+description: An animated placeholder shape (line, circle, or rectangle) shown while content loads. Use when reserving layout space for loading content in a Tesserae (C#/Transpose) app.
 ---
 
 # Skeleton

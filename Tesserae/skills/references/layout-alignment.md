@@ -1,6 +1,6 @@
 ---
 name: layout-alignment
-description: Stack (flexbox) and Grid (CSS grid) layout primitives plus alignment, placement, and sizing extensions. Use when arranging, aligning, or placing components in a Tesserae (C#/h5) app.
+description: Stack (flexbox) and Grid (CSS grid) layout primitives plus alignment, placement, and sizing extensions. Use when arranging, aligning, or placing components in a Tesserae (C#/Transpose) app.
 ---
 
 # Layout & Alignment

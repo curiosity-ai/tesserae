@@ -1,6 +1,6 @@
 ---
 name: label
-description: A non-interactive caption for a form field, with inline layout, auto-width alignment and a required marker. Use when captioning inputs (TextBox, NumberPicker, pickers) in a Tesserae (C#/h5) app.
+description: A non-interactive caption for a form field, with inline layout, auto-width alignment and a required marker. Use when captioning inputs (TextBox, NumberPicker, pickers) in a Tesserae (C#/Transpose) app.
 ---
 
 # Label

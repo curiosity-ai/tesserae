@@ -1,6 +1,6 @@
 ---
 name: command-bar
-description: A horizontal toolbar of command buttons split into near (left) and far (right) sections. Use when building a page or item action bar in a Tesserae (C#/h5) app.
+description: A horizontal toolbar of command buttons split into near (left) and far (right) sections. Use when building a page or item action bar in a Tesserae (C#/Transpose) app.
 ---
 
 # CommandBar

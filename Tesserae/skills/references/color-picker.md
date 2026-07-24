@@ -1,6 +1,6 @@
 ---
 name: color-picker
-description: A native browser color input wrapped as a Tesserae component, exposing the value as both a hex string and a Color. Use when users need to choose a color in a Tesserae (C#/h5) app.
+description: A native browser color input wrapped as a Tesserae component, exposing the value as both a hex string and a Color. Use when users need to choose a color in a Tesserae (C#/Transpose) app.
 ---
 
 # ColorPicker

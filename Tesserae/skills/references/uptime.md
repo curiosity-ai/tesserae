@@ -1,6 +1,6 @@
 ---
 name: uptime
-description: Status-history visualisations — UptimeBars (a horizontal strip of per-period status bars) and UptimeCalendar (a month grid of daily status). Use when showing service availability/health over time in a Tesserae (C#/h5) app.
+description: Status-history visualisations — UptimeBars (a horizontal strip of per-period status bars) and UptimeCalendar (a month grid of daily status). Use when showing service availability/health over time in a Tesserae (C#/Transpose) app.
 ---
 
 # Uptime (UptimeBars / UptimeCalendar)

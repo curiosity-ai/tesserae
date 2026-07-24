@@ -1,6 +1,6 @@
 ---
 name: accordion
-description: A vertical stack of expand/collapse sections (Expanders), with optional single-open behaviour. Use when building collapsible FAQ-style or grouped content in a Tesserae (C#/h5) app.
+description: A vertical stack of expand/collapse sections (Expanders), with optional single-open behaviour. Use when building collapsible FAQ-style or grouped content in a Tesserae (C#/Transpose) app.
 ---
 
 # Accordion / Expander

@@ -1,6 +1,6 @@
 ---
 name: menu
-description: A popover menu of clickable items, headers, dividers and arbitrarily deep submenus, anchored to a trigger element. Use when building dropdown or action menus opened on an explicit click in a Tesserae (C#/h5) app.
+description: A popover menu of clickable items, headers, dividers and arbitrarily deep submenus, anchored to a trigger element. Use when building dropdown or action menus opened on an explicit click in a Tesserae (C#/Transpose) app.
 ---
 
 # Menu

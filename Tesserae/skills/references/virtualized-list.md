@@ -1,6 +1,6 @@
 ---
 name: virtualized-list
-description: A list that renders only the pages of items currently in (or near) the viewport, recycling DOM as the user scrolls, for very large datasets. Use when displaying thousands of equal-height items in a Tesserae (C#/h5) app.
+description: A list that renders only the pages of items currently in (or near) the viewport, recycling DOM as the user scrolls, for very large datasets. Use when displaying thousands of equal-height items in a Tesserae (C#/Transpose) app.
 ---
 
 # VirtualizedList

@@ -1,6 +1,6 @@
 ---
 name: sidebar-separator
-description: A visual separator for grouping items inside a Sidebar, optionally with a label. Use when separating or labelling groups of Sidebar items in a Tesserae (C#/h5) app.
+description: A visual separator for grouping items inside a Sidebar, optionally with a label. Use when separating or labelling groups of Sidebar items in a Tesserae (C#/Transpose) app.
 ---
 
 # SidebarSeparator

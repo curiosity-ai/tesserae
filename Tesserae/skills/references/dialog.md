@@ -1,6 +1,6 @@
 ---
 name: dialog
-description: A blocking modal dialog with a title, body and prebuilt action-button rows (Ok / OkCancel / YesNo / ...), plus awaitable variants. Use when prompting the user for a confirmation or quick decision in a Tesserae (C#/h5) app.
+description: A blocking modal dialog with a title, body and prebuilt action-button rows (Ok / OkCancel / YesNo / ...), plus awaitable variants. Use when prompting the user for a confirmation or quick decision in a Tesserae (C#/Transpose) app.
 ---
 
 # Dialog

@@ -1,6 +1,6 @@
 ---
 name: color-palette
-description: A grid of named color swatches for picking from a predefined palette. Use when offering users a fixed set of brand/theme colors (not arbitrary colors) in a Tesserae (C#/h5) app.
+description: A grid of named color swatches for picking from a predefined palette. Use when offering users a fixed set of brand/theme colors (not arbitrary colors) in a Tesserae (C#/Transpose) app.
 ---
 
 # ColorPalette

@@ -1,6 +1,6 @@
 ---
 name: text-breadcrumbs
-description: A breadcrumb trail rendering a path as clickable text links. Use when showing hierarchical navigation/location in a Tesserae (C#/h5) app.
+description: A breadcrumb trail rendering a path as clickable text links. Use when showing hierarchical navigation/location in a Tesserae (C#/Transpose) app.
 ---
 
 # TextBreadcrumbs

@@ -1,6 +1,6 @@
 ---
 name: week-picker
-description: A native browser week input that surfaces the selection as a (year, weekNumber) tuple. Use when choosing an ISO week for scheduling, sprints, or weekly reports in a Tesserae (C#/h5) app.
+description: A native browser week input that surfaces the selection as a (year, weekNumber) tuple. Use when choosing an ISO week for scheduling, sprints, or weekly reports in a Tesserae (C#/Transpose) app.
 ---
 
 # WeekPicker

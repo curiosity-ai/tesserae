@@ -1,6 +1,6 @@
 ---
 name: context-menu
-description: A click/right-click popup menu of commands with headers, dividers, disabled items and nested submenus. Use when surfacing contextual actions relative to an element or coordinates in a Tesserae (C#/h5) app.
+description: A click/right-click popup menu of commands with headers, dividers, disabled items and nested submenus. Use when surfacing contextual actions relative to an element or coordinates in a Tesserae (C#/Transpose) app.
 ---
 
 # ContextMenu

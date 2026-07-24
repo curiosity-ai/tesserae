@@ -1,6 +1,6 @@
 ---
 name: month-picker
-description: A form input for picking a single calendar month (year + month) via the browser's native month input, surfaced as a typed (year, month) tuple. Use for billing periods, report months or renewal dates in a Tesserae (C#/h5) app.
+description: A form input for picking a single calendar month (year + month) via the browser's native month input, surfaced as a typed (year, month) tuple. Use for billing periods, report months or renewal dates in a Tesserae (C#/Transpose) app.
 ---
 
 # MonthPicker

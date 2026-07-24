@@ -1,6 +1,6 @@
 ---
 name: pivot
-description: A horizontal tabbed surface showing one panel at a time, with scrolling, an overflow menu, closeable tabs and keyboard nav. Use when organizing content into switchable tabs in a Tesserae (C#/h5) app.
+description: A horizontal tabbed surface showing one panel at a time, with scrolling, an overflow menu, closeable tabs and keyboard nav. Use when organizing content into switchable tabs in a Tesserae (C#/Transpose) app.
 ---
 
 # Pivot

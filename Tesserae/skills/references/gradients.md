@@ -1,6 +1,6 @@
 ---
 name: gradients
-description: Predefined theme gradients exposed as CSS-variable strings on `Theme.Gradients`. Use when applying consistent gradient backgrounds in a Tesserae (C#/h5) app.
+description: Predefined theme gradients exposed as CSS-variable strings on `Theme.Gradients`. Use when applying consistent gradient backgrounds in a Tesserae (C#/Transpose) app.
 ---
 
 # Gradients

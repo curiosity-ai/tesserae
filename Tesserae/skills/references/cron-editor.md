@@ -1,6 +1,6 @@
 ---
 name: cron-editor
-description: A UI for editing cron expressions, with a simple daily/weekly/monthly schedule editor and a raw-cron fallback. Use when letting users schedule tasks in a Tesserae (C#/h5) app.
+description: A UI for editing cron expressions, with a simple daily/weekly/monthly schedule editor and a raw-cron fallback. Use when letting users schedule tasks in a Tesserae (C#/Transpose) app.
 ---
 
 # CronEditor

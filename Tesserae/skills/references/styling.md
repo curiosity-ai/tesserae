@@ -1,6 +1,6 @@
 ---
 name: styling
-description: Fluent strongly-typed styling for text formatting, spacing, sizing, UnitSize, and direct DOM styles. Use when styling components — text size/weight, padding/margin, sizes, or inline CSS — in a Tesserae (C#/h5) app.
+description: Fluent strongly-typed styling for text formatting, spacing, sizing, UnitSize, and direct DOM styles. Use when styling components — text size/weight, padding/margin, sizes, or inline CSS — in a Tesserae (C#/Transpose) app.
 ---
 
 # Styling

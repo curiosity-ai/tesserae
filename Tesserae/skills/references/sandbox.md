@@ -1,6 +1,6 @@
 ---
 name: sandbox
-description: A locked-down iframe for rendering untrusted HTML or external URLs in an isolated context, with a CSP, post-message channel, and error reporting. Use when embedding untrusted content or a third-party app in a Tesserae (C#/h5) app.
+description: A locked-down iframe for rendering untrusted HTML or external URLs in an isolated context, with a CSP, post-message channel, and error reporting. Use when embedding untrusted content or a third-party app in a Tesserae (C#/Transpose) app.
 ---
 
 # Sandbox

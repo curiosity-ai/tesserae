@@ -1,6 +1,6 @@
 ---
 name: rating
-description: A star-rating control for collecting or displaying a 1-to-N value. Use when capturing or showing a star score in a Tesserae (C#/h5) app.
+description: A star-rating control for collecting or displaying a 1-to-N value. Use when capturing or showing a star score in a Tesserae (C#/Transpose) app.
 ---
 
 # Rating

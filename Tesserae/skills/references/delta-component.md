@@ -1,6 +1,6 @@
 ---
 name: delta-component
-description: A wrapper that diff-patches its DOM to match new content instead of fully re-rendering, animating only what changed. Use for incremental/streaming UI updates in a Tesserae (C#/h5) app.
+description: A wrapper that diff-patches its DOM to match new content instead of fully re-rendering, animating only what changed. Use for incremental/streaming UI updates in a Tesserae (C#/Transpose) app.
 ---
 
 # DeltaComponent

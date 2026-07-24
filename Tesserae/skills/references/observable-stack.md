@@ -1,6 +1,6 @@
 ---
 name: observable-stack
-description: A Stack that renders a list of items and reconciles its DOM in place when an observable source changes, touching only inserted/removed/moved rows. Use when rendering a dynamic list where preserving scroll/focus matters in a Tesserae (C#/h5) app.
+description: A Stack that renders a list of items and reconciles its DOM in place when an observable source changes, touching only inserted/removed/moved rows. Use when rendering a dynamic list where preserving scroll/focus matters in a Tesserae (C#/Transpose) app.
 ---
 
 # ObservableStack
