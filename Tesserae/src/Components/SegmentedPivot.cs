@@ -281,7 +281,11 @@ namespace Tesserae
 
         private void UpdateMoreVisibility()
         {
-            _moreBtn.Render().style.display = _orderedTabs.Count > 0 ? "" : "none";
+            // Only surface the overflow (⋯) menu when segments are actually clipped,
+            // i.e. the strip content is wider than the visible scroller. Driven by the
+            // ResizeObserver so it re-evaluates whenever the available width changes.
+            var overflows = _scroller.scrollWidth > _scroller.clientWidth + 1; // +1 for sub-pixel rounding
+            _moreBtn.Render().style.display = (_orderedTabs.Count > 0 && overflows) ? "" : "none";
         }
 
         private void ShowAllTabs()
