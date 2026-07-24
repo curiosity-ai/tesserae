@@ -1424,6 +1424,16 @@ namespace Tesserae
         public static NotificationCenter NotificationCenter() => new NotificationCenter();
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.ToolAgentSelector"/> component.
+        /// </summary>
+        public static ToolAgentSelector ToolAgentSelector(string label = "Tools", UIcons icon = UIcons.Tools) => new ToolAgentSelector(label, icon);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ToolAgentSelector.Item"/> component.
+        /// </summary>
+        public static ToolAgentSelector.Item ToolAgentSelectorItem(string id, string title, string description = null, UIcons? icon = null) => new ToolAgentSelector.Item(id, title, description, icon);
+
+        /// <summary>
         /// Converts a <see cref="Tesserae.Button"/> to a <see cref="Tesserae.ToggleButton"/>.
         /// </summary>
         public static ToggleButton ToToggle(this Button button) => new ToggleButton(button);

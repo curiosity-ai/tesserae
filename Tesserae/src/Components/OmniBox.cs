@@ -573,6 +573,10 @@ namespace Tesserae
         private ThinkingEffort            _selectedEffort = ThinkingEffort.Medium;
         private bool                      _isModelLocked;
         private Action                    _hideModelPopover;
+        private ChatMention                _chatMention;
+        private int                        _mentionStart = -1;
+        private int                        _mentionEnd   = -1;
+        private static HTMLDivElement       _mentionCaretMirror;
         private readonly HTMLDivElement _footer;
         private Func<Task<SearchQuery[]>> _historyFetcher;
         private Action _hideSearchHistory;
@@ -993,6 +997,37 @@ namespace Tesserae
                     var ke = e.As<KeyboardEvent>();
                     KeyDown?.Invoke(this, ke);
 
+                    if (_chatMention != null && _mentionStart >= 0 && (_chatMention.IsOpen?.Invoke() ?? false))
+                    {
+                        if (ke.key == "ArrowDown")
+                        {
+                            StopEvent(e);
+                            _chatMention.OnMove?.Invoke(1);
+                            return;
+                        }
+                        if (ke.key == "ArrowUp")
+                        {
+                            StopEvent(e);
+                            _chatMention.OnMove?.Invoke(-1);
+                            return;
+                        }
+                        if (ke.key == "Enter" || ke.key == "Tab")
+                        {
+                            StopEvent(e);
+                            if (_chatMention.OnCommit?.Invoke() ?? false)
+                            {
+                                CommitChatMention();
+                            }
+                            return;
+                        }
+                        if (ke.key == "Escape")
+                        {
+                            StopEvent(e);
+                            HideChatMention();
+                            return;
+                        }
+                    }
+
                     if (ke.key == "Enter" && !ke.shiftKey)
                     {
                         TriggerChat();
@@ -1005,6 +1040,7 @@ namespace Tesserae
                     UpdateChatTriggerActiveState();
                     ResizeChatInput();
                     Input?.Invoke(this, e);
+                    TryUpdateChatMention();
                 });
                 _chatInput.addEventListener("keyup", (e) => KeyUp?.Invoke(this, e.As<KeyboardEvent>()));
                 _chatInput.addEventListener("keypress", (e) => KeyPress?.Invoke(this, e.As<KeyboardEvent>()));
@@ -1676,6 +1712,222 @@ namespace Tesserae
             if (filters == null) return this;
             foreach (var f in filters) RegisterFilterSnap(f);
             return this;
+        }
+
+        /// <summary>
+        /// Enables an "@mention" style inline picker in the chat input: typing <see cref="ChatMention.Trigger"/>
+        /// (default <c>@</c>) at a word boundary shows a picker anchored at the text caret, live-filters as more is
+        /// typed, and forwards Arrow Up/Down, Enter/Tab and Escape to the callbacks below. This is a thin,
+        /// UI-agnostic hook — wire it up to any anchored picker (for example a <see cref="ToolAgentSelector"/> via
+        /// its <see cref="ToolAgentSelector.ShowInlineAt"/>/<see cref="ToolAgentSelector.Filter"/>/
+        /// <see cref="ToolAgentSelector.MoveHighlight"/>/<see cref="ToolAgentSelector.ActivateHighlighted"/> methods).
+        /// </summary>
+        public OmniBox EnableChatMentions(ChatMention mention)
+        {
+            if (_mode != Mode.Chat && _mode != Mode.SearchAndChat)
+            {
+                throw new InvalidOperationException("EnableChatMentions can only be called when OmniBox is in Chat or SearchAndChat mode.");
+            }
+            _chatMention = mention;
+            return this;
+        }
+
+        private void TryUpdateChatMention()
+        {
+            if (_chatMention == null) return;
+
+            var val    = _chatInput.value ?? string.Empty;
+            var cursor = (int)_chatInput.selectionStart;
+
+            int atIdx = -1;
+            for (int i = cursor - 1; i >= 0; i--)
+            {
+                var ch = val[i];
+                if (ch == _chatMention.Trigger)
+                {
+                    if (i == 0 || char.IsWhiteSpace(val[i - 1])) atIdx = i;
+                    break;
+                }
+                if (char.IsWhiteSpace(ch)) break;
+            }
+
+            if (atIdx < 0)
+            {
+                if (_mentionStart >= 0) HideChatMention();
+                return;
+            }
+
+            var typed   = val.Substring(atIdx + 1, cursor - atIdx - 1);
+            var wasOpen = _mentionStart >= 0;
+
+            _mentionStart = atIdx;
+            _mentionEnd   = cursor;
+
+            if (!wasOpen)
+            {
+                var (x, y) = GetCaretClientPosition(_chatInput, atIdx);
+                _chatMention.OnShow?.Invoke(x, y);
+            }
+
+            _chatMention.OnQueryChanged?.Invoke(typed);
+        }
+
+        private void HideChatMention()
+        {
+            _mentionStart = -1;
+            _mentionEnd   = -1;
+            _chatMention?.OnHide?.Invoke();
+        }
+
+        private void CommitChatMention()
+        {
+            if (_mentionStart < 0 || _mentionEnd < 0)
+            {
+                HideChatMention();
+                return;
+            }
+
+            var val   = _chatInput.value ?? string.Empty;
+            var start = _mentionStart;
+            var end   = Math.Min(_mentionEnd, val.Length);
+
+            if (start > end)
+            {
+                HideChatMention();
+                return;
+            }
+
+            var before = val.Substring(0, start);
+            var after  = val.Substring(end);
+
+            if (before.Length > 0 && before[before.Length - 1] == ' ' && after.StartsWith(" "))
+            {
+                after = after.Substring(1);
+            }
+
+            _chatInput.value = before + after;
+            _chatInput.setSelectionRange((uint)before.Length, (uint)before.Length);
+
+            HideChatMention();
+            ResizeChatInput();
+            _chatInput.focus();
+        }
+
+        // Adapted from the well-known "textarea-caret-position" technique: an off-screen mirror <div> is styled to
+        // match every metric that affects text layout, filled with the text up to the caret plus a marker span, and
+        // the marker's offset within the mirror (plus the textarea's own screen position) gives the caret's
+        // viewport-relative coordinates without needing any canvas/measureText trickery.
+        private static (double x, double y) GetCaretClientPosition(HTMLTextAreaElement textarea, int caretIndex)
+        {
+            if (_mentionCaretMirror == null)
+            {
+                _mentionCaretMirror = Div(Att());
+                document.body.appendChild(_mentionCaretMirror);
+            }
+
+            var mirror   = _mentionCaretMirror;
+            var computed = window.getComputedStyle(textarea);
+
+            mirror.style.position   = "absolute";
+            mirror.style.visibility = "hidden";
+            mirror.style.top        = "0px";
+            mirror.style.left       = "-9999px";
+            mirror.style.whiteSpace = "pre-wrap";
+            mirror.style.wordWrap   = "break-word";
+            mirror.style.boxSizing         = computed.boxSizing;
+            mirror.style.width             = computed.width;
+            mirror.style.paddingTop        = computed.paddingTop;
+            mirror.style.paddingRight      = computed.paddingRight;
+            mirror.style.paddingBottom     = computed.paddingBottom;
+            mirror.style.paddingLeft       = computed.paddingLeft;
+            mirror.style.borderTopWidth    = computed.borderTopWidth;
+            mirror.style.borderRightWidth  = computed.borderRightWidth;
+            mirror.style.borderBottomWidth = computed.borderBottomWidth;
+            mirror.style.borderLeftWidth   = computed.borderLeftWidth;
+            mirror.style.borderStyle       = "solid";
+            mirror.style.fontFamily        = computed.fontFamily;
+            mirror.style.fontSize          = computed.fontSize;
+            mirror.style.fontWeight        = computed.fontWeight;
+            mirror.style.fontStyle         = computed.fontStyle;
+            mirror.style.lineHeight        = computed.lineHeight;
+            mirror.style.letterSpacing     = computed.letterSpacing;
+
+            var text   = textarea.value ?? string.Empty;
+            var index  = Math.Max(0, Math.Min(caretIndex, text.Length));
+            var before = text.Substring(0, index);
+            var after  = text.Substring(index);
+
+            ClearChildren(mirror);
+            mirror.appendChild(document.createTextNode(before));
+
+            var marker = Span(Att());
+            marker.textContent = ((char)0x200B).ToString();
+            mirror.appendChild(marker);
+            mirror.appendChild(document.createTextNode(after.Length > 0 ? after : " "));
+
+            var textareaRect = textarea.getBoundingClientRect().As<DOMRect>();
+            var lineHeight    = ParseCssPixels(computed.lineHeight, ParseCssPixels(computed.fontSize, 16) * 1.2);
+            var borderTop     = ParseCssPixels(computed.borderTopWidth, 0);
+            var borderLeft    = ParseCssPixels(computed.borderLeftWidth, 0);
+
+            var left = textareaRect.left - textarea.scrollLeft + marker.offsetLeft + borderLeft;
+            var top  = textareaRect.top  - textarea.scrollTop  + marker.offsetTop  + borderTop + lineHeight;
+
+            return (left, top);
+        }
+
+        private static double ParseCssPixels(string cssValue, double fallback)
+        {
+            if (string.IsNullOrEmpty(cssValue) || !cssValue.EndsWith("px")) return fallback;
+            return double.TryParse(cssValue.Substring(0, cssValue.Length - 2), out var v) ? v : fallback;
+        }
+
+        /// <summary>
+        /// Callbacks that back an "@mention" style inline picker in the chat input (see
+        /// <see cref="EnableChatMentions"/>). None of these are required to reference any specific component type —
+        /// wire them up to whatever anchored popup should back the mention experience.
+        /// </summary>
+        public sealed class ChatMention
+        {
+            /// <summary>
+            /// The character that opens the picker when typed at a word boundary. Defaults to <c>@</c>.
+            /// </summary>
+            public char Trigger { get; set; } = '@';
+
+            /// <summary>
+            /// Invoked to show the picker anchored at the given viewport-relative coordinates (just below the text
+            /// caret), the first time the trigger character is recognized.
+            /// </summary>
+            public Action<double, double> OnShow { get; set; }
+
+            /// <summary>
+            /// Invoked whenever the text typed after the trigger changes (including once, with an empty string,
+            /// right after <see cref="OnShow"/>), so the picker can live-filter its list.
+            /// </summary>
+            public Action<string> OnQueryChanged { get; set; }
+
+            /// <summary>
+            /// Invoked when Arrow Up (<c>-1</c>) or Arrow Down (<c>+1</c>) is pressed while the picker is open.
+            /// </summary>
+            public Action<int> OnMove { get; set; }
+
+            /// <summary>
+            /// Invoked when Enter or Tab is pressed while the picker is open. Return <c>true</c> if an item was
+            /// activated (the mention text typed so far is then removed from the chat input); return <c>false</c> to
+            /// leave the typed text untouched.
+            /// </summary>
+            public Func<bool> OnCommit { get; set; }
+
+            /// <summary>
+            /// Invoked when the picker should close (Escape, or the trigger word no longer matches).
+            /// </summary>
+            public Action OnHide { get; set; }
+
+            /// <summary>
+            /// Returns whether the picker is currently open. Consulted on every keydown so navigation keys are only
+            /// intercepted while the picker is actually visible.
+            /// </summary>
+            public Func<bool> IsOpen { get; set; }
         }
 
         private bool TryUpdateFilterSnapSuggestions()
