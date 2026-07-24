@@ -13,6 +13,50 @@
     flex-shrink: 0;
 }
 
+/* Titlebar overflow controls — mirrors the mechanics of the normal Pivot: a
+   horizontally-scrollable strip flanked by chevron scroll buttons and an
+   overflow (⋯) menu that lists every tab. */
+.tss-segmentedpivot-titlebar-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    flex-grow: 0;
+    align-items: stretch;
+    margin-bottom: 16px;
+}
+
+.tss-segmentedpivot-titlebar-scroller {
+    position: relative;
+    /* Size to the pill's natural width and shrink when it overflows, but never
+       grow past its content so the segmented control stays left-aligned. */
+    flex: 0 1 auto;
+    min-width: 0; /* allow the scroller to shrink below its content size */
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none; /* Firefox: hide native scrollbar (scroll buttons handle it) */
+    -ms-overflow-style: none;
+    border-radius: var(--tss-border-radius-lg);
+}
+
+.tss-segmentedpivot-titlebar-scroller::-webkit-scrollbar {
+    display: none;
+}
+
+.tss-segmentedpivot-titlebar-more,
+.tss-segmentedpivot-titlebar-scroll-left,
+.tss-segmentedpivot-titlebar-scroll-right {
+    flex-shrink: 0;
+    flex-grow: 0;
+    align-self: center;
+    background: transparent;
+}
+
+.tss-segmentedpivot-titlebar-scroll-left i,
+.tss-segmentedpivot-titlebar-scroll-right i {
+    font-size: 10px;
+}
+
 .tss-segmentedpivot-titlebar {
     display: inline-flex;
     flex-direction: row;
