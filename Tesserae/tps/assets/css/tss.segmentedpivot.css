@@ -71,6 +71,19 @@
     background: transparent;
 }
 
+/* Give the controls breathing room. The extra selectors (.tss-btn plus the
+   wrapper) raise specificity above .tss-btn.tss-btn-remove-padding /
+   -remove-margin, which the buttons carry from NoPadding()/NoMargin(). */
+.tss-segmentedpivot-titlebar-wrapper .tss-btn.tss-segmentedpivot-titlebar-more,
+.tss-segmentedpivot-titlebar-wrapper .tss-btn.tss-segmentedpivot-titlebar-scroll-left,
+.tss-segmentedpivot-titlebar-wrapper .tss-btn.tss-segmentedpivot-titlebar-scroll-right {
+    padding: 0 4px;
+}
+
+.tss-segmentedpivot-titlebar-wrapper .tss-btn.tss-segmentedpivot-titlebar-more {
+    margin-right: 6px;
+}
+
 .tss-segmentedpivot-titlebar-scroll-left i,
 .tss-segmentedpivot-titlebar-scroll-right i {
     font-size: 10px;
