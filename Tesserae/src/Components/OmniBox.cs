@@ -1161,6 +1161,7 @@ namespace Tesserae
             {
                 case Mode.Search:
                 {
+                    TransferTextOnModeSwitch(Mode.Search);
                     _activeInput = _searchInput;
                     _container.classList.add("tss-omnibox-mode-search");
                     _container.classList.remove("tss-omnibox-mode-chat");
@@ -1168,6 +1169,7 @@ namespace Tesserae
                 }
                 case Mode.Chat:
                 {
+                    TransferTextOnModeSwitch(Mode.Chat);
                     _activeInput = _chatInput;
                     _container.classList.add("tss-omnibox-mode-chat");
                     _container.classList.remove("tss-omnibox-mode-search");
@@ -1176,6 +1178,30 @@ namespace Tesserae
                 case Mode.SearchAndChat:
                 {
                     throw new InvalidOperationException("Can't set active mode to mixed value");
+                }
+            }
+        }
+
+        // When toggling between search and chat, carry whatever text is sitting in the box being left
+        // over to the box being entered, so switching modes never silently discards what was typed.
+        private void TransferTextOnModeSwitch(Mode enteringMode)
+        {
+            if (_searchInput == null || _chatInput == null) return;
+
+            if (enteringMode == Mode.Chat)
+            {
+                var searchText = _searchInput.value;
+                if (!string.IsNullOrEmpty(searchText))
+                {
+                    ChatText = searchText.Replace(specialWhitespaceString, " ");
+                }
+            }
+            else if (enteringMode == Mode.Search)
+            {
+                var chatText = _chatInput.value;
+                if (!string.IsNullOrEmpty(chatText))
+                {
+                    SearchText = chatText;
                 }
             }
         }
