@@ -167,7 +167,7 @@ virtualized-list
 **Surfaces** (overlays, tabs, panels)
 card-pivot · context-menu · dialog · float · horizontal-split-view · layer ·
 modal · panel · pivot · pivot-selector · progress-modal · section-stack ·
-segmented-pivot · split-view · tabbed-modal · tutorial-modal
+segmented-pivot · split-view · tabbed-modal · tool-agent-selector · tutorial-modal
 
 **Utilities** (non-visual helpers, theming, gestures)
 color-palette · command-palette · defer · defer-with-progress · emoji ·

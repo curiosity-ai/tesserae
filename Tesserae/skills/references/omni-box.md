@@ -31,6 +31,13 @@ OmniBox:
 - `.SearchText` / `.ChatText` / `.SetSearchText(string)` — read/write input text.
 - `.RegisterSnap(SnapHandler)` / `.RegisterFilterSnap(FilterSnapHandler)` — turn recognized input into inline filter chips (search modes only).
 - `.WithHistory(Func<Task<SearchQuery[]>>)` — enable the history button.
+- `.EnableChatMentions(ChatMention)` — turns typing `@` at a word boundary in the chat input into an
+  "@mention" style picker (chat/search-and-chat modes only). `ChatMention` is a set of UI-agnostic
+  callbacks (`OnShow(x, y)`, `OnQueryChanged(text)`, `OnMove(direction)`, `OnCommit()`, `OnHide()`,
+  `IsOpen()`) — wire them up to any anchored popup, e.g. a `ToolAgentSelector`'s
+  `ShowInlineAt`/`Filter`/`MoveHighlight`/`ActivateHighlighted`/`Hide`/`IsVisible` (see
+  `tool-agent-selector.md`). Arrow Up/Down, Enter/Tab and Escape are forwarded to the callbacks
+  while the picker is open; a `true` return from `OnCommit` removes the typed `@mention` text.
 - `.Focus()`.
 - `OmniBox.ParseQuery(string, bool tokenIgnoreCase = false)` — static parser returning a `SearchQuery`.
 
@@ -59,4 +66,5 @@ var omni = new OmniBox(config)
 
 - TextBox — `/tesserae/components/text-box`
 - SearchBox — `/tesserae/components/search-box`
+- ToolAgentSelector — the tool/agent picker `EnableChatMentions` is commonly wired to — `tool-agent-selector.md`
 - Full docs & API: `/tesserae/components/omni-box`

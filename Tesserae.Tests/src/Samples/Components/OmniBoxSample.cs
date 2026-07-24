@@ -268,6 +268,70 @@ namespace Tesserae.Tests.Samples
                 Toast().Information($"Searched for: {q.RawQuery}{snapInfo}{filterInfo}");
             });
 
+            var toolAgentSelectorForSearch = ToolAgentSelector()
+                .Agents(
+                    ToolAgentSelectorItem("deep-researcher", "Deep Researcher", "Multi-step web research with citations", UIcons.Search).Selected(),
+                    ToolAgentSelectorItem("code-assistant", "Code Assistant", "Plans, writes and debugs code end to end", UIcons.FileCode),
+                    ToolAgentSelectorItem("data-analyst", "Data Analyst", "Explores data and builds charts", UIcons.ChartHistogram))
+                .Tools(
+                    ToolAgentSelectorItem("web-search", "Web Search", "Search the live web for fresh results", UIcons.Globe).Selected(),
+                    ToolAgentSelectorItem("code-interpreter", "Code Interpreter", "Run Python in a sandbox", UIcons.Terminal),
+                    ToolAgentSelectorItem("image-generation", "Image Generation", "Create images from a prompt", UIcons.Picture),
+                    ToolAgentSelectorItem("file-search", "File Search", "Search files in this workspace", UIcons.FolderOpen),
+                    ToolAgentSelectorItem("calculator", "Calculator", "Evaluate math expressions", UIcons.Calculator))
+                .Compact()
+                .OnChange(s => Toast().Information($"{s.SelectedCount} tool(s)/agent(s) enabled"));
+
+            var toolAgentSearchSample = OmniBox(new OmniBox.Config(OmniBox.Mode.Search)
+            {
+                PlaceholderSearch = "Search anything",
+                SearchFooter = new OmniBox.FooterItems { RightSide = new IComponent[] { toolAgentSelectorForSearch } }
+            })
+            .WS()
+            .OnSearch((s, q) => Toast().Information($"Searched for: {q.RawQuery}"));
+
+            var toolAgentSelectorForChat = ToolAgentSelector()
+                .Agents(
+                    ToolAgentSelectorItem("deep-researcher", "Deep Researcher", "Multi-step web research with citations", UIcons.Search),
+                    ToolAgentSelectorItem("code-assistant", "Code Assistant", "Plans, writes and debugs code end to end", UIcons.FileCode).Selected(),
+                    ToolAgentSelectorItem("data-analyst", "Data Analyst", "Explores data and builds charts", UIcons.ChartHistogram))
+                .Tools(
+                    ToolAgentSelectorItem("web-search", "Web Search", "Search the live web for fresh results", UIcons.Globe),
+                    ToolAgentSelectorItem("code-interpreter", "Code Interpreter", "Run Python in a sandbox", UIcons.Terminal).Selected(),
+                    ToolAgentSelectorItem("image-generation", "Image Generation", "Create images from a prompt", UIcons.Picture),
+                    ToolAgentSelectorItem("file-search", "File Search", "Search files in this workspace", UIcons.FolderOpen),
+                    ToolAgentSelectorItem("calculator", "Calculator", "Evaluate math expressions", UIcons.Calculator))
+                .OnChange(s => Toast().Information($"{s.SelectedCount} tool(s)/agent(s) enabled"));
+
+            var toolAgentChatSample = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
+            {
+                PlaceholderChat = "Ask me anything — type @ to mention a tool or agent",
+                ChatFooter = new OmniBox.FooterItems { LeftSide = new IComponent[] { toolAgentSelectorForChat } }
+            })
+            .WS()
+            .OnChat((s, q) =>
+            {
+                s.IsGenerating = true;
+                window.setTimeout((_) =>
+                {
+                    if (s.IsGenerating)
+                    {
+                        s.IsGenerating = false;
+                        Toast().Information(q.Text);
+                    }
+                }, 5000);
+            })
+            .OnStop(s => s.IsGenerating = false)
+            .EnableChatMentions(new OmniBox.ChatMention
+            {
+                OnShow         = (x, y) => toolAgentSelectorForChat.ShowInlineAt(x, y),
+                OnQueryChanged = text    => toolAgentSelectorForChat.Filter(text),
+                OnMove         = dir     => toolAgentSelectorForChat.MoveHighlight(dir),
+                OnCommit       = ()      => toolAgentSelectorForChat.ActivateHighlighted(),
+                OnHide         = ()      => toolAgentSelectorForChat.Hide(),
+                IsOpen         = ()      => toolAgentSelectorForChat.IsVisible
+            });
+
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(OmniBoxSample), UIcons.Search, "An omnibox search component")
                .FlatSection(VStack().Children(
@@ -288,7 +352,15 @@ namespace Tesserae.Tests.Samples
                     TextBlock("Type @ to insert a snap (e.g. @docs, @wiki, @code). Type 'ext:', 'filetype:', or 'lang:' to autocomplete filter values. Type 'modified:' (or 'date:' / 'between:') for a time-based filter snap — a date-range picker with shortcuts (last week, last month, last 90 days, last year), or type the range directly as yyyy-MM-dd:yyyy-MM-dd. When committed they become removable chips. All snap and filter selections are passed through with the search query.").MB(8),
                     TextBlock("Click the ? button on the left of the input to open the help panel — it lists the registered field filters (with their example values) and the registered snaps. It can also include a 'Query syntax' section describing AND / OR / NOT / parentheses / quotes when configured with WithHelp(showSyntax: true). Recent searches are reached via the separate history button enabled with WithHistory(...).").MB(8),
                     Label("Snaps + filter snaps + help").SetContent(snapAndFilterSample.Class("tss-omnibox-snap-and-filter-sample"))
-                )).SetTitle("Snaps & Filter Snaps")));
+                )).SetTitle("Snaps & Filter Snaps")))
+               .FlatSection(VStack().WS().Children(
+                    Card(VStack().WS().Children(
+                    SampleSubTitle("Tool / agent selector"),
+                    TextBlock("ToolAgentSelector is a Dropdown-style trigger button + searchable popup for enabling agents and tools, grouped into \"Agents\" and \"Tools\" sections with a leading icon, a title and an optional description per row. Selecting items shows a count badge on the trigger button, and .Compact() hides the descriptions for a denser list.").MB(8),
+                    Label("Search mode (trigger button, compact)").SetContent(toolAgentSearchSample).MB(6),
+                    TextBlock("In chat mode, the same selector also backs an inline \"@mention\" picker: type @ in the box below to open it anchored at the caret, keep typing to filter, use Arrow Up/Down to navigate, Enter/Tab to select, and Escape to close.").MT(6).MB(8),
+                    Label("Chat mode (trigger button + @ mentions)").SetContent(toolAgentChatSample)
+                )).SetTitle("Tools & Agents")));
         }
 
         private static string DescribeFilterSnap(OmniBox.FilterSnap f)

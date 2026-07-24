@@ -1,0 +1,216 @@
+/* ToolAgentSelector */
+.tss-toolagent-trigger {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 32px;
+    padding: 0 10px;
+    border-radius: var(--tss-border-radius-sm, 4px);
+    border: 1px solid var(--tss-default-border-color);
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    cursor: pointer;
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-regular);
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+    .tss-toolagent-trigger:hover {
+        background: var(--tss-default-background-hover-color);
+    }
+
+    .tss-toolagent-trigger:focus-visible {
+        outline: 2px solid var(--tss-primary-background-color);
+        outline-offset: 2px;
+    }
+
+    .tss-toolagent-trigger.tss-toolagent-trigger-active {
+        border-color: var(--tss-primary-border-color, var(--tss-primary-background-color));
+        background: var(--tss-default-background-hover-color);
+    }
+
+    .tss-toolagent-trigger-icon {
+        font-size: 14px;
+    }
+
+    .tss-toolagent-trigger-chevron {
+        font-size: 10px;
+        color: var(--tss-secondary-foreground-color);
+    }
+
+.tss-toolagent-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    box-shadow: 0 0 0 2px var(--tss-default-background-color);
+}
+
+.tss-toolagent-layer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    margin: 0;
+    padding: 0;
+    visibility: visible;
+}
+
+.tss-toolagent-popup {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 340px;
+    max-height: 420px;
+    background: var(--tss-default-background-color);
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 10px;
+    box-shadow: 0px 4px 16px var(--tss-shadow-color, rgba(0, 0, 0, 0.4));
+    overflow: hidden;
+}
+
+    .tss-toolagent-popup .tss-searchbox-container {
+        margin: 8px;
+        flex-shrink: 0;
+    }
+
+.tss-toolagent-section {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.tss-toolagent-section-title {
+    padding: 6px 12px 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--tss-secondary-foreground-color);
+    flex-shrink: 0;
+}
+
+.tss-toolagent-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0 6px 4px;
+}
+
+.tss-toolagent-item {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+    .tss-toolagent-item:hover,
+    .tss-toolagent-item.tss-toolagent-item-highlight {
+        background: var(--tss-default-background-hover-color);
+    }
+
+    .tss-toolagent-item-input {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .tss-toolagent-item-checkmark {
+        position: relative;
+        flex-shrink: 0;
+        width: 18px;
+        height: 18px;
+        margin-top: 1px;
+        border-radius: 4px;
+        border: 1px solid var(--tss-default-foreground-color);
+        background: var(--tss-default-background-color);
+        transition: all 0.1s ease-in-out;
+    }
+
+        .tss-toolagent-item-input:checked ~ .tss-toolagent-item-checkmark {
+            background: var(--tss-primary-background-color);
+            border-color: var(--tss-primary-background-color);
+        }
+
+        .tss-toolagent-item-input:checked ~ .tss-toolagent-item-checkmark:after {
+            content: "";
+            position: absolute;
+            display: block;
+            left: 5px;
+            top: 1px;
+            width: 5px;
+            height: 10px;
+            border: solid var(--tss-primary-foreground-color);
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+    .tss-toolagent-item-icon {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+        background: var(--tss-secondary-background-color);
+        font-size: 13px;
+    }
+
+    .tss-toolagent-item-content {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .tss-toolagent-item-title {
+        font-size: var(--tss-font-size-small);
+        font-weight: 600;
+        color: var(--tss-default-foreground-color);
+    }
+
+    .tss-toolagent-item-description {
+        font-size: 12px;
+        color: var(--tss-secondary-foreground-color);
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+.tss-toolagent-compact .tss-toolagent-item-description {
+    display: none !important;
+}
+
+.tss-toolagent-compact .tss-toolagent-item {
+    padding: 6px 8px;
+}
+
+.tss-toolagent-empty {
+    display: none;
+    padding: 16px 12px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--tss-secondary-foreground-color);
+}
