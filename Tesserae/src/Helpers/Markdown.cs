@@ -19,7 +19,52 @@ namespace Tesserae
         {
             if (_shared == null)
             {
-                _shared = Script.Write<object>("new globalThis.marked.Marked({async:false, breaks:false, silent:false, pedantic:false, gfm:true})");
+                // A marked instance configured with a KaTeX math extension so that inline ($...$)
+                // and block ($$...$$) math render as formulas via the bundled katex library.
+                // The tokenizer/renderer logic is ported from marked-katex-extension (MIT):
+                // https://github.com/UziTech/marked-katex-extension
+                // \${1,2} is written as \$\$? so the template carries no {n}-style token.
+                _shared = Script.Write<object>(@"(function () {
+    var m = new globalThis.marked.Marked({ async: false, breaks: false, silent: false, pedantic: false, gfm: true });
+    var inlineRule = /^(\$\$?)(?!\$)((?:\\.|[^\\\n])*?(?:\\.|[^\\\n$]))\1(?=[\s?!\.,:？！。，：]|$)/;
+    var blockRule = /^(\$\$?)\n((?:\\[^]|[^\\])+?)\n\1(?:\n|$)/;
+    function render(token) {
+        if (!globalThis.katex) { return token.raw; }
+        return globalThis.katex.renderToString(token.text, { throwOnError: false, displayMode: token.displayMode });
+    }
+    var inlineKatex = {
+        name: 'inlineKatex',
+        level: 'inline',
+        start: function (src) {
+            var index;
+            var indexSrc = src;
+            while (indexSrc) {
+                index = indexSrc.indexOf('$');
+                if (index === -1) { return; }
+                if (index === 0 || indexSrc.charAt(index - 1) === ' ') {
+                    if (indexSrc.substring(index).match(inlineRule)) { return index; }
+                }
+                indexSrc = indexSrc.substring(index + 1).replace(/^\$+/, '');
+            }
+        },
+        tokenizer: function (src, tokens) {
+            var match = src.match(inlineRule);
+            if (match) { return { type: 'inlineKatex', raw: match[0], text: match[2].trim(), displayMode: match[1].length === 2 }; }
+        },
+        renderer: render
+    };
+    var blockKatex = {
+        name: 'blockKatex',
+        level: 'block',
+        tokenizer: function (src, tokens) {
+            var match = src.match(blockRule);
+            if (match) { return { type: 'blockKatex', raw: match[0], text: match[2].trim(), displayMode: match[1].length === 2 }; }
+        },
+        renderer: function (token) { return render(token) + '\n'; }
+    };
+    m.use({ extensions: [inlineKatex, blockKatex] });
+    return m;
+})()");
             }
             return _shared;
         }

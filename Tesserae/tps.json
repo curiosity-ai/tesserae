@@ -107,6 +107,7 @@
                 "tps/assets/css/tss.colorpalette.css",
                 "tps/assets/css/tss.kbd.css",
                 "tps/assets/css/tss.notificationcenter.css",
+                "tps/assets/css/katex.min.css",
                 "tps/assets/css/tss.markdown.css",
                 "tps/assets/css/tss.plan.css",
                 "tps/assets/css/diff2html.min.css",
@@ -125,6 +126,7 @@
                 "tps/assets/js/baklava.min.js",
                 "tps/assets/js/purify.min.js",
                 "tps/assets/js/marked.min.js",
+                "tps/assets/js/katex.min.js",
                 "tps/assets/js/diff2html-ui-slim.min.js"
             ],
             "output": "assets/js"
@@ -140,6 +142,7 @@
                 "tps/assets/js/baklava.min.js",
                 "tps/assets/js/purify.min.js",
                 "tps/assets/js/marked.min.js",
+                "tps/assets/js/katex.min.js",
                 "tps/assets/js/diff2html-ui-slim.min.js"
             ],
             "output": "assets/js"
