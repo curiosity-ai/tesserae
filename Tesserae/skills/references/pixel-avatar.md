@@ -67,6 +67,7 @@ On `PixelAvatarPalette` (immutable):
 - `PixelAvatarPalette.Parse(string colors, string name = "Custom")` — accepts either all eleven colors or exactly three (read as highlight/base/shadow). Returns `null` for anything else, so an editor can report a bad paste instead of rendering a broken cat.
 - `PixelAvatarPalette.FromShades(highlight, baseColor, shadow, name)` — the three-color form.
 - `.WithColor(byte index, string color)` / `.WithName(string)` — return modified copies.
+- `.Adjust(int hueDelta, int saturationDelta, int lightnessDelta)` — shift every color together in HSL space, which keeps the shading relationships that make the sprite read as one coat. The deltas are relative to the palette you call it on, so all-zero returns the same colors and a UI can re-apply from the unshifted palette on every slider move instead of accumulating drift. Hue wraps in degrees; saturation and lightness are percentage points and clamp at 0 and 100.
 - `.ColorAt(byte index)` — the color for an index (empty string for the transparent index 0).
 - `.ToString()` — the comma-separated color list that `Parse` reads back.
 - `.ToCode()` — C# source that reconstructs the palette, for pasting into an application.

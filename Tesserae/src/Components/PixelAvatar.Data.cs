@@ -225,6 +225,32 @@ namespace Tesserae
         public PixelAvatarPalette WithName(string name) => new PixelAvatarPalette(name, Colors);
 
         /// <summary>
+        /// Returns a copy of this palette with every color shifted in HSL space. The deltas are
+        /// relative, so all-zero returns the same colors: hue wraps around in degrees, while
+        /// saturation and lightness are added as percentage points and clamped to 0..100. Shifting
+        /// the whole palette together keeps the shading relationships that make the sprite read as
+        /// one coat, which recoloring each index by hand does not.
+        /// </summary>
+        public PixelAvatarPalette Adjust(int hueDelta, int saturationDelta, int lightnessDelta)
+        {
+            if (hueDelta == 0 && saturationDelta == 0 && lightnessDelta == 0) return this;
+
+            var colors = new string[Colors.Length];
+
+            for (var i = 0; i < colors.Length; i++)
+            {
+                var color = Color.FromString(Colors[i]);
+
+                colors[i] = Color.FromHsl(
+                    color.GetHue() + hueDelta,
+                    color.GetSaturation() + saturationDelta / 100f,
+                    color.GetBrightness() + lightnessDelta / 100f).ToHex();
+            }
+
+            return new PixelAvatarPalette(Name, colors);
+        }
+
+        /// <summary>
         /// Returns the palette as a comma-separated list of CSS colors, which is the format
         /// <see cref="Parse"/> reads back.
         /// </summary>

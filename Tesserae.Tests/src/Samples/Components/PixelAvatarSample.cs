@@ -220,9 +220,49 @@ namespace Tesserae.Tests.Samples
             var colors  = TextBox(palette.ToString()).WS().ReadOnly();
             var import  = TextBox().WS().SetPlaceholder("Paste 11 colors, or 3 for highlight / base / shadow");
 
+            // The sliders are a non-destructive layer on top of `palette`: they hold a delta that
+            // is re-applied from the unshifted colors on every move, so dragging back to 0 restores
+            // exactly what was loaded rather than accumulating rounding drift.
+            var hue        = Slider(0, -180, 180, 5).W(220.px());
+            var saturation = Slider(0, -100, 100, 5).W(220.px());
+            var lightness  = Slider(0, -100, 100, 5).W(220.px());
+            var hueValue   = TextBlock("0°").Tiny().Secondary().Width(46.px());
+            var satValue   = TextBlock("0").Tiny().Secondary().Width(46.px());
+            var lightValue = TextBlock("0").Tiny().Secondary().Width(46.px());
+
             // Writing ColorPicker.Text raises its input event, so pushing a whole palette into the
             // pickers would otherwise bounce straight back in as eleven separate edits.
             var syncing = false;
+
+            PixelAvatarPalette Shifted() => palette.Adjust(hue.Value, saturation.Value, lightness.Value);
+
+            void Show(PixelAvatarPalette shown)
+            {
+                syncing = true;
+
+                for (byte index = 1; index <= PixelAvatarSprites.PaletteSize; index++)
+                {
+                    pickers[index - 1].Text = shown.ColorAt(index);
+                }
+
+                syncing     = false;
+                colors.Text = shown.ToString();
+
+                foreach (var preview in previews)
+                {
+                    preview.SetPalette(shown);
+                }
+            }
+
+            void ResetShift()
+            {
+                hue.Value        = 0;
+                saturation.Value = 0;
+                lightness.Value  = 0;
+                hueValue.Text    = "0°";
+                satValue.Text    = "0";
+                lightValue.Text  = "0";
+            }
 
             void Load(PixelAvatarPalette loaded)
             {
@@ -233,21 +273,21 @@ namespace Tesserae.Tests.Samples
                 }
 
                 palette = loaded;
-                syncing = true;
-
-                for (byte index = 1; index <= PixelAvatarSprites.PaletteSize; index++)
-                {
-                    pickers[index - 1].Text = palette.ColorAt(index);
-                }
-
-                syncing     = false;
-                colors.Text = palette.ToString();
-
-                foreach (var preview in previews)
-                {
-                    preview.SetPalette(palette);
-                }
+                ResetShift();
+                Show(palette);
             }
+
+            void ShiftChanged()
+            {
+                hueValue.Text   = $"{hue.Value:+#;-#;0}°";
+                satValue.Text   = $"{saturation.Value:+#;-#;0}";
+                lightValue.Text = $"{lightness.Value:+#;-#;0}";
+                Show(Shifted());
+            }
+
+            hue.OnInput((_, __) => ShiftChanged());
+            saturation.OnInput((_, __) => ShiftChanged());
+            lightness.OnInput((_, __) => ShiftChanged());
 
             var grid = Grid(1.fr(), 1.fr(), 1.fr(), 1.fr(), 1.fr(), 1.fr()).Gap(12.px()).RowGap(16.px());
 
@@ -258,13 +298,15 @@ namespace Tesserae.Tests.Samples
 
                 pickers[i - 1] = picker;
 
-                // SetColor rewrites a single CSS variable, so dragging a picker stays cheap even
-                // with three animating previews attached to it.
                 picker.OnInput((_, __) =>
                 {
                     if (syncing) return;
 
-                    palette = palette.WithColor(i, picker.Text);
+                    // Recoloring one index while a shift is active would be ambiguous, so the shift
+                    // is baked into the palette first. Nothing changes on screen; the sliders just
+                    // go back to 0 and the shifted colors become the new starting point.
+                    palette = Shifted().WithColor(i, picker.Text);
+                    ResetShift();
 
                     foreach (var preview in previews)
                     {
@@ -291,6 +333,12 @@ namespace Tesserae.Tests.Samples
             designs.Add(Button("Mint").Compact().OnClick(() => Load(PixelAvatarPalette.FromShades("#D6F5E3", "#8FD9B6", "#3F8F6E", "Mint"))));
             designs.Add(Button("Lavender").Compact().OnClick(() => Load(PixelAvatarPalette.FromShades("#EBE1FA", "#B9A0E3", "#6B4E9B", "Lavender"))));
 
+            IComponent ShiftRow(string label, Slider slider, IComponent value) =>
+                HStack().WS().AlignItemsCenter().PB(4).Children(
+                    TextBlock(label).Width(90.px()),
+                    slider.NoShrink(),
+                    value.PL(12));
+
             return HStack().WS().AlignItems(ItemAlign.Start).Children(
                 VStack().Width(170.px()).AlignItemsCenter().Children(
                     previews[0],
@@ -300,11 +348,22 @@ namespace Tesserae.Tests.Samples
                     TextBlock("Start from").SemiBold().PB(4),
                     designs,
                     grid.PT(16),
+                    HStack().WS().AlignItemsCenter().PT(20).PB(4).Children(
+                        TextBlock("Shift every color").SemiBold().Grow(),
+                        Button("Reset shift").Compact().NoShrink().OnClick(() =>
+                        {
+                            ResetShift();
+                            Show(palette);
+                        })),
+                    TextBlock("Hue, saturation and lightness deltas applied to all eleven colors at once, so the shading relationships survive. Editing a color below commits the current shift.").Tiny().Secondary().PB(8),
+                    ShiftRow("Hue", hue, hueValue),
+                    ShiftRow("Saturation", saturation, satValue),
+                    ShiftRow("Lightness", lightness, lightValue),
                     TextBlock("Current palette").SemiBold().PT(20).PB(4),
                     HStack().WS().AlignItemsCenter().Children(
                         colors.Grow(),
-                        Button("Copy colors").SetIcon(UIcons.Copy).Compact().NoShrink().ML(8).OnClick(() => Copy(palette.ToString(), "Colors")),
-                        Button("Copy C#").SetIcon(UIcons.BracketsCurly).Compact().NoShrink().ML(8).OnClick(() => Copy(palette.ToCode(), "C# snippet"))),
+                        Button("Copy colors").SetIcon(UIcons.Copy).Compact().NoShrink().ML(8).OnClick(() => Copy(Shifted().ToString(), "Colors")),
+                        Button("Copy C#").SetIcon(UIcons.BracketsCurly).Compact().NoShrink().ML(8).OnClick(() => Copy(Shifted().ToCode(), "C# snippet"))),
                     TextBlock("Import").SemiBold().PT(20).PB(4),
                     HStack().WS().AlignItemsCenter().Children(
                         import.Grow(),

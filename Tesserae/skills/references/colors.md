@@ -47,6 +47,7 @@ Theme.SetBackground(Color.FromString("#FFFFFF"), Color.FromString("#1B1A19"));
 
 - `Color.FromString("rgba(16,110,190,1)")` / `Color.FromString("blue")` — parse hex/rgb/named.
 - `Color.FromArgb(0, 120, 212)` — construct from components.
+- `Color.FromHsl(hue, saturation, lightness, alpha = 255)` — construct from HSL, inverting `.GetHue()` / `.GetSaturation()` / `.GetBrightness()`. Hue is in degrees and wraps; saturation and lightness are 0..1 and clamp.
 - `Color.EvalVar(...)` — resolve a CSS variable to a concrete color.
 - `.ToHex()` / `.ToRGB()` — serialize. `HSLColor` exposes `.Luminosity` for contrast checks.
 

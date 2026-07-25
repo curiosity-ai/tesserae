@@ -55,6 +55,54 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Creates a <see cref="Color"/> from hue-saturation-lightness components, inverting
+        /// <see cref="GetHue"/>, <see cref="GetSaturation"/> and <see cref="GetBrightness"/>.
+        /// </summary>
+        /// <param name="hue">The hue, in degrees. Wraps around, so -30 and 330 are the same.</param>
+        /// <param name="saturation">The saturation, from 0.0 to 1.0. Clamped.</param>
+        /// <param name="lightness">The lightness, from 0.0 to 1.0. Clamped.</param>
+        /// <param name="alpha">The alpha component.</param>
+        /// <returns>The <see cref="Color"/> that this method creates.</returns>
+        public static Color FromHsl(float hue, float saturation, float lightness, byte alpha = 255)
+        {
+            hue = hue % 360f;
+            if (hue < 0f) hue += 360f;
+
+            saturation = saturation < 0f ? 0f : saturation > 1f ? 1f : saturation;
+            lightness  = lightness  < 0f ? 0f : lightness  > 1f ? 1f : lightness;
+
+            if (saturation == 0f)
+            {
+                var grey = ToByte(lightness);
+                return FromArgb(alpha, grey, grey, grey);
+            }
+
+            var q = lightness < 0.5f ? lightness * (1f + saturation) : lightness + saturation - lightness * saturation;
+            var p = 2f * lightness - q;
+            var h = hue / 360f;
+
+            return FromArgb(
+                alpha,
+                ToByte(HueToChannel(p, q, h + 1f / 3f)),
+                ToByte(HueToChannel(p, q, h)),
+                ToByte(HueToChannel(p, q, h - 1f / 3f)));
+        }
+
+        private static float HueToChannel(float p, float q, float t)
+        {
+            if (t < 0f) t += 1f;
+            if (t > 1f) t -= 1f;
+
+            if (t < 1f / 6f) return p + (q - p) * 6f * t;
+            if (t < 1f / 2f) return q;
+            if (t < 2f / 3f) return p + (q - p) * (2f / 3f - t) * 6f;
+
+            return p;
+        }
+
+        private static byte ToByte(float value) => (byte)Math.Round(value * 255f);
+
+        /// <summary>
         /// Evaluates a CSS variable and returns its value.
         /// </summary>
         /// <param name="variableName">The name of the CSS variable (e.g., "--my-color" or "var(--my-color)").</param>
