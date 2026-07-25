@@ -1,13 +1,13 @@
 ---
 name: pixel-avatar
-description: An animated pixel-art cat avatar drawn as one absolutely-positioned div per pixel, with eight coat designs and thirteen animations, attachable to any other component. Use when adding a small animated mascot or decorative character to a Tesserae (C#/Transpose) app.
+description: An animated pixel-art cat avatar drawn as one absolutely-positioned div per pixel, with eleven coat designs and thirteen animations, attachable to any other component. Use when adding a small animated mascot or decorative character to a Tesserae (C#/Transpose) app.
 ---
 
 # PixelAvatar
 
 `PixelAvatar` renders a 10x8 pixel-art sprite as a grid of absolutely positioned square
 divs. The artwork lives in the library as a byte grid of palette indices
-(`PixelAvatarSprites`), so all eight designs share the same frames and differ only in
+(`PixelAvatarSprites`), so all eleven designs share the same frames and differ only in
 their `PixelAvatarPalette` — switching design rewrites eleven CSS variables and repaints
 nothing.
 
@@ -33,7 +33,9 @@ tab or a removed subtree costs nothing.
 - `.OnAnimationStarted((avatar, animation) => ...)` / `.OnAnimationFinished((avatar, animation) => ...)` — the second fires when a non-looping animation reaches its last frame, just before its follow-up takes over; calling `Play` from the handler suppresses that hand-over.
 
 `PixelAvatarDesign`: `Black`, `Orange`, `White`, `Beige`, `Siamese`, `SpottedGrey`,
-`SpottedOrange`, `Tuxedo`. `PixelAvatarPalettes.All` enumerates them and
+`SpottedOrange`, `Tuxedo` (extracted from the source sprite sheets), plus `Grey`, `Sparkle`
+(violet with magenta markings) and `Lynx` (tawny with dark ear tufts and spots), which are
+authored against the same palette indices. `PixelAvatarPalettes.All` enumerates them and
 `PixelAvatarPalettes.Get(design)` returns the palette.
 
 `PixelAvatarAnimation`: `Move`, `Idle`, `Interact`, `JumpUp`, `JumpDown`, `Startle`,

@@ -2,23 +2,8 @@ using Transpose;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// The available coat designs for a <see cref="PixelAvatar"/>. All designs share the same
-    /// artwork and differ only in their <see cref="PixelAvatarPalette"/>.
-    /// </summary>
-    [Enum(Emit.StringName)]
-    [Transpose.Name("tss.PixelAvatarDesign")]
-    public enum PixelAvatarDesign
-    {
-        [Name("Black")]         Black,
-        [Name("Orange")]        Orange,
-        [Name("White")]         White,
-        [Name("Beige")]         Beige,
-        [Name("Siamese")]       Siamese,
-        [Name("SpottedGrey")]   SpottedGrey,
-        [Name("SpottedOrange")] SpottedOrange,
-        [Name("Tuxedo")]        Tuxedo
-    }
+    // PixelAvatarDesign lives in the generated PixelAvatar.Palettes.cs, next to the palettes it
+    // names, so that adding a design stays a single edit.
 
     /// <summary>
     /// The animations a <see cref="PixelAvatar"/> can play. The four <c>*Idle</c> animations loop
