@@ -28,7 +28,7 @@ tab or a removed subtree costs nothing.
 - `.Facing(PixelAvatarFacing)` — `Right` (the artwork's own direction) or `Left` to mirror it.
 - `.Speed(double)` — playback multiplier; values above 1 play faster.
 - `.Play(PixelAvatarAnimation)` — restart on a new animation. `.Pause()` / `.Resume()` / `.IsPaused`, and `.GoToFrame(int)` to hold a specific frame.
-- `.SetDesign(PixelAvatarDesign)` — swap the coat. `.SetPalette(PixelAvatarPalette)` takes a custom palette of eleven CSS colors for indices 1..11.
+- `.SetDesign(PixelAvatarDesign)` — swap the coat. See **Custom palettes** below for the ways to supply your own colors.
 - `.Outline(bool = true)` — a hairline halo in the theme's contrasting color, **on by default**. Several palettes contain pure white (`White`, `SpottedGrey`, `SpottedOrange`) and several near-black (`Black`, `Tuxedo`, `Siamese`), so without it those designs disappear against one theme or the other. `.OutlineColor(string)` overrides the color, which defaults to translucent black in light mode and translucent white in dark mode.
 - `.OnAnimationStarted((avatar, animation) => ...)` / `.OnAnimationFinished((avatar, animation) => ...)` — the second fires when a non-looping animation reaches its last frame, just before its follow-up takes over; calling `Play` from the handler suppresses that hand-over.
 
@@ -45,6 +45,41 @@ the frames, frame duration, and whether it loops.
 and hand over: `Sit` settles into `SitIdle`, `Crouch` into `CrouchIdle`, `Sleep` into
 `SleepIdle`, `Stretch` into `Sit`, `JumpUp` into `JumpDown`, and `Interact`, `JumpDown`
 and `Startle` return to `Idle`.
+
+## Custom palettes
+
+A palette is eleven CSS colors, one per palette index. The indices are ordered by shading
+level, so each shade is a contiguous run — `1..PixelAvatarSprites.LastHighlightIndex` (3) is
+the highlight, up to `LastBaseIndex` (9) the base, and the rest the shadow.
+`PixelAvatarSprites.ShadeOf(byte)` returns a `PixelAvatarShade` (`Highlight`, `Base`,
+`Shadow`) for an index. That grouping is why the single-hue built-in designs are just three
+colors repeated, and why three colors are enough to describe a whole coat.
+
+On the avatar:
+
+- `.SetPalette(PixelAvatarPalette)` — apply a palette object.
+- `.SetPalette(string colors, string name = "Custom")` — import from a list of CSS colors separated by commas, semicolons or whitespace. Unparseable input is ignored.
+- `.SetShades(string highlight, string baseColor, string shadow, string name = "Custom")` — build a coat from the three shading levels.
+- `.SetColor(byte index, string color)` — recolor a single index. This only rewrites that index's CSS variable, so it is cheap enough to drive from a color picker's input event.
+
+On `PixelAvatarPalette` (immutable):
+
+- `PixelAvatarPalette.Parse(string colors, string name = "Custom")` — accepts either all eleven colors or exactly three (read as highlight/base/shadow). Returns `null` for anything else, so an editor can report a bad paste instead of rendering a broken cat.
+- `PixelAvatarPalette.FromShades(highlight, baseColor, shadow, name)` — the three-color form.
+- `.WithColor(byte index, string color)` / `.WithName(string)` — return modified copies.
+- `.ColorAt(byte index)` — the color for an index (empty string for the transparent index 0).
+- `.ToString()` — the comma-separated color list that `Parse` reads back.
+- `.ToCode()` — C# source that reconstructs the palette, for pasting into an application.
+
+```csharp
+// Three colors are enough for a whole coat.
+var mint = PixelAvatar(PixelAvatarDesign.White)
+   .SetShades("#D6F5E3", "#8FD9B6", "#3F8F6E", "Mint");
+
+// Round-trips through text.
+var copied = mint.Palette.ToString();          // "#D6F5E3, #D6F5E3, ..."
+var back   = PixelAvatarPalette.Parse(copied); // null if it isn't 11 or 3 colors
+```
 
 ## Attaching to another component
 

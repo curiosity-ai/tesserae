@@ -50,7 +50,12 @@ namespace Tesserae.Tests.Samples
                         SampleSubTitle("Palettes"),
                         TextBlock("The colors each design maps onto palette indices 1 to 11, extracted from the source sprite sheets."),
                         PaletteTable()))
-                       .SetTitle("Usage")));
+                       .SetTitle("Usage")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                        TextBlock("Every index below is one color of the sprite. Indices 1 to 3 are the artwork's highlight shade, 4 to 9 the base shade and 10 to 11 the shadow shade, which is why the single-hue designs are just three colors repeated - and why pasting three colors is enough to build a whole coat."),
+                        PaletteEditor()))
+                       .SetTitle("Edit the palette")));
         }
 
         private static IComponent DesignGallery()
@@ -197,6 +202,119 @@ namespace Tesserae.Tests.Samples
             }
 
             return row;
+        }
+
+        private static IComponent PaletteEditor()
+        {
+            var start   = PixelAvatarDesign.SpottedOrange;
+            var palette = PixelAvatarPalettes.Get(start);
+
+            var previews = new[]
+            {
+                PixelAvatar(start, PixelAvatarAnimation.SitIdle).PixelSize(12),
+                PixelAvatar(start, PixelAvatarAnimation.Move).PixelSize(7),
+                PixelAvatar(start, PixelAvatarAnimation.Sleep).PixelSize(4)
+            };
+
+            var pickers = new ColorPicker[PixelAvatarSprites.PaletteSize];
+            var colors  = TextBox(palette.ToString()).WS().ReadOnly();
+            var import  = TextBox().WS().SetPlaceholder("Paste 11 colors, or 3 for highlight / base / shadow");
+
+            // Writing ColorPicker.Text raises its input event, so pushing a whole palette into the
+            // pickers would otherwise bounce straight back in as eleven separate edits.
+            var syncing = false;
+
+            void Load(PixelAvatarPalette loaded)
+            {
+                if (loaded == null)
+                {
+                    Toast().Warning("That doesn't look like a palette - expected 11 colors, or 3.");
+                    return;
+                }
+
+                palette = loaded;
+                syncing = true;
+
+                for (byte index = 1; index <= PixelAvatarSprites.PaletteSize; index++)
+                {
+                    pickers[index - 1].Text = palette.ColorAt(index);
+                }
+
+                syncing     = false;
+                colors.Text = palette.ToString();
+
+                foreach (var preview in previews)
+                {
+                    preview.SetPalette(palette);
+                }
+            }
+
+            var grid = Grid(1.fr(), 1.fr(), 1.fr(), 1.fr(), 1.fr(), 1.fr()).Gap(12.px()).RowGap(16.px());
+
+            for (byte index = 1; index <= PixelAvatarSprites.PaletteSize; index++)
+            {
+                var i      = index;
+                var picker = ColorPicker(Color.FromString(palette.ColorAt(i))).Width(52.px());
+
+                pickers[i - 1] = picker;
+
+                // SetColor rewrites a single CSS variable, so dragging a picker stays cheap even
+                // with three animating previews attached to it.
+                picker.OnInput((_, __) =>
+                {
+                    if (syncing) return;
+
+                    palette = palette.WithColor(i, picker.Text);
+
+                    foreach (var preview in previews)
+                    {
+                        preview.SetColor(i, picker.Text);
+                    }
+
+                    colors.Text = palette.ToString();
+                });
+
+                grid.Add(VStack().AlignItemsCenter().Children(
+                    picker,
+                    TextBlock($"{i} · {PixelAvatarSprites.ShadeOf(i)}").Tiny().Secondary().PT(4)));
+            }
+
+            var designs = HStack().WS().Wrap().Children();
+
+            foreach (var design in PixelAvatarPalettes.All)
+            {
+                var d = design;
+                designs.Add(Button($"{design}").Compact().OnClick(() => Load(PixelAvatarPalettes.Get(d))));
+            }
+
+            // Two shade-only palettes, to show that three colors are enough.
+            designs.Add(Button("Mint").Compact().OnClick(() => Load(PixelAvatarPalette.FromShades("#D6F5E3", "#8FD9B6", "#3F8F6E", "Mint"))));
+            designs.Add(Button("Lavender").Compact().OnClick(() => Load(PixelAvatarPalette.FromShades("#EBE1FA", "#B9A0E3", "#6B4E9B", "Lavender"))));
+
+            return HStack().WS().AlignItems(ItemAlign.Start).Children(
+                VStack().Width(170.px()).AlignItemsCenter().Children(
+                    previews[0],
+                    HStack().AlignItems(ItemAlign.End).PT(16).Children(previews[1].PR(16), previews[2]),
+                    TextBlock("Live preview").Tiny().Secondary().PT(12)),
+                VStack().Grow().Children(
+                    TextBlock("Start from").SemiBold().PB(4),
+                    designs,
+                    grid.PT(16),
+                    TextBlock("Current palette").SemiBold().PT(20).PB(4),
+                    HStack().WS().AlignItemsCenter().Children(
+                        colors.Grow(),
+                        Button("Copy colors").SetIcon(UIcons.Copy).Compact().NoShrink().ML(8).OnClick(() => Copy(palette.ToString(), "Colors")),
+                        Button("Copy C#").SetIcon(UIcons.BracketsCurly).Compact().NoShrink().ML(8).OnClick(() => Copy(palette.ToCode(), "C# snippet"))),
+                    TextBlock("Import").SemiBold().PT(20).PB(4),
+                    HStack().WS().AlignItemsCenter().Children(
+                        import.Grow(),
+                        Button("Load").SetIcon(UIcons.Download).Compact().NoShrink().ML(8).OnClick(() => Load(PixelAvatarPalette.Parse(import.Text))))));
+        }
+
+        private static void Copy(string text, string what)
+        {
+            navigator.clipboard.writeText(text);
+            Toast().Information($"{what} copied to the clipboard.");
         }
 
         private static IComponent PaletteTable()

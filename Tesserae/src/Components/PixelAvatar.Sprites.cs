@@ -21,6 +21,10 @@ namespace Tesserae
         public const int FrameHeight = 8;
         /// <summary>Number of colors in a palette (palette index 0 is always transparent).</summary>
         public const int PaletteSize = 11;
+        /// <summary>Highest palette index belonging to the highlight shade.</summary>
+        public const int LastHighlightIndex = 3;
+        /// <summary>Highest palette index belonging to the base shade; the rest are shadow.</summary>
+        public const int LastBaseIndex = 9;
 
         // Frames are packed as one string per animation: FrameWidth * FrameHeight
         // characters per frame, laid out row by row. '.' is transparent and '1'..'9','a','b'
@@ -34,6 +38,19 @@ namespace Tesserae
         /// Returns the frames and timing for the requested animation.
         /// </summary>
         public static PixelSpriteAnimation Get(PixelAvatarAnimation animation) => _animations[animation];
+
+        /// <summary>
+        /// Returns which of the three shading levels a palette index belongs to. The indices are
+        /// ordered so that each shade is a contiguous run, which is why the single-hue designs
+        /// (Black, Orange, White, Beige) are just three colors repeated. Only meaningful for
+        /// indices 1..<see cref="PaletteSize"/>.
+        /// </summary>
+        public static PixelAvatarShade ShadeOf(byte paletteIndex)
+        {
+            if (paletteIndex <= LastHighlightIndex) return PixelAvatarShade.Highlight;
+            if (paletteIndex <= LastBaseIndex) return PixelAvatarShade.Base;
+            return PixelAvatarShade.Shadow;
+        }
 
         /// <summary>
         /// Returns every built-in animation, in declaration order.

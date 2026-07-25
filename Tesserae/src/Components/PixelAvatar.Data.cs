@@ -76,6 +76,20 @@ namespace Tesserae
     }
 
     /// <summary>
+    /// The three shading levels the artwork is drawn with. Every palette index belongs to exactly
+    /// one of them, which is why a whole coat can be described by just three colors — see
+    /// <see cref="PixelAvatarSprites.ShadeOf"/> and <see cref="PixelAvatarPalette.FromShades"/>.
+    /// </summary>
+    [Enum(Emit.StringName)]
+    [Transpose.Name("tss.PixelAvatarShade")]
+    public enum PixelAvatarShade
+    {
+        [Name("Highlight")] Highlight,
+        [Name("Base")]      Base,
+        [Name("Shadow")]    Shadow
+    }
+
+    /// <summary>
     /// A single animation frame: a grid of palette indices, where 0 means transparent and any
     /// other value indexes into a <see cref="PixelAvatarPalette"/>.
     /// </summary>
@@ -185,6 +199,102 @@ namespace Tesserae
         {
             if (index == 0 || index > Colors.Length) return string.Empty;
             return Colors[index - 1];
+        }
+
+        /// <summary>
+        /// Returns a copy of this palette with one index recolored. Palettes are immutable, so this
+        /// is how an editor builds up a custom coat.
+        /// </summary>
+        public PixelAvatarPalette WithColor(byte index, string color)
+        {
+            if (index == 0 || index > Colors.Length) return this;
+
+            var colors = new string[Colors.Length];
+            for (var i = 0; i < colors.Length; i++)
+            {
+                colors[i] = Colors[i];
+            }
+
+            colors[index - 1] = color;
+            return new PixelAvatarPalette(Name, colors);
+        }
+
+        /// <summary>
+        /// Returns a copy of this palette under a different name.
+        /// </summary>
+        public PixelAvatarPalette WithName(string name) => new PixelAvatarPalette(name, Colors);
+
+        /// <summary>
+        /// Returns the palette as a comma-separated list of CSS colors, which is the format
+        /// <see cref="Parse"/> reads back.
+        /// </summary>
+        public override string ToString() => string.Join(", ", Colors);
+
+        /// <summary>
+        /// Returns C# source that reconstructs this palette, for pasting into an application.
+        /// </summary>
+        public string ToCode()
+        {
+            var quoted = new string[Colors.Length];
+            for (var i = 0; i < quoted.Length; i++)
+            {
+                quoted[i] = $"\"{Colors[i]}\"";
+            }
+
+            // Transpose does not unescape {{ / }} inside interpolated strings, so the braces of the
+            // array initializer are concatenated in rather than escaped.
+            return "new PixelAvatarPalette(\"" + Name + "\", new[] { " + string.Join(", ", quoted) + " })";
+        }
+
+        /// <summary>
+        /// Builds a full palette from just the artwork's three shading levels, the way the
+        /// single-hue built-in designs are built. Every palette index is filled in according to
+        /// <see cref="PixelAvatarSprites.ShadeOf"/>.
+        /// </summary>
+        public static PixelAvatarPalette FromShades(string highlight, string baseColor, string shadow, string name = "Custom")
+        {
+            var colors = new string[PixelAvatarSprites.PaletteSize];
+
+            for (byte index = 1; index <= PixelAvatarSprites.PaletteSize; index++)
+            {
+                var shade = PixelAvatarSprites.ShadeOf(index);
+                colors[index - 1] = shade == PixelAvatarShade.Highlight ? highlight
+                                  : shade == PixelAvatarShade.Base      ? baseColor
+                                                                        : shadow;
+            }
+
+            return new PixelAvatarPalette(name, colors);
+        }
+
+        /// <summary>
+        /// Reads a palette from a list of CSS colors separated by commas, semicolons or whitespace.
+        /// Two lengths are accepted: <see cref="PixelAvatarSprites.PaletteSize"/> colors map
+        /// straight onto palette indices 1..N, and exactly three are read as
+        /// highlight/base/shadow and expanded through <see cref="FromShades"/>. Returns null for
+        /// anything else, so callers can report a bad paste rather than render a broken cat.
+        /// </summary>
+        public static PixelAvatarPalette Parse(string colors, string name = "Custom")
+        {
+            if (string.IsNullOrWhiteSpace(colors)) return null;
+
+            var parts = colors.Split(new[] { ',', ';', ' ', '\t', '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+            for (var i = 0; i < parts.Length; i++)
+            {
+                parts[i] = parts[i].Trim();
+            }
+
+            if (parts.Length == 3)
+            {
+                return FromShades(parts[0], parts[1], parts[2], name);
+            }
+
+            if (parts.Length == PixelAvatarSprites.PaletteSize)
+            {
+                return new PixelAvatarPalette(name, parts);
+            }
+
+            return null;
         }
     }
 }

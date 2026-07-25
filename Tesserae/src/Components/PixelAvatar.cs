@@ -149,6 +149,39 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Imports a custom palette from a list of CSS colors separated by commas, semicolons or
+        /// whitespace — either all <see cref="PixelAvatarSprites.PaletteSize"/> of them, or just
+        /// three read as highlight/base/shadow. Unparseable input leaves the current palette alone;
+        /// use <see cref="PixelAvatarPalette.Parse"/> directly to detect that case.
+        /// </summary>
+        public PixelAvatar SetPalette(string colors, string name = "Custom")
+        {
+            return SetPalette(PixelAvatarPalette.Parse(colors, name));
+        }
+
+        /// <summary>
+        /// Imports a custom palette built from the artwork's three shading levels, the way the
+        /// single-hue built-in designs are built.
+        /// </summary>
+        public PixelAvatar SetShades(string highlight, string baseColor, string shadow, string name = "Custom")
+        {
+            return SetPalette(PixelAvatarPalette.FromShades(highlight, baseColor, shadow, name));
+        }
+
+        /// <summary>
+        /// Recolors a single palette index. This only rewrites that index's CSS variable, so it is
+        /// cheap enough to drive from a color picker's input event.
+        /// </summary>
+        public PixelAvatar SetColor(byte index, string color)
+        {
+            if (index == 0 || index > PixelAvatarSprites.PaletteSize) return this;
+
+            _palette = _palette.WithColor(index, color);
+            InnerElement.style.setProperty(VariableName(index), color);
+            return this;
+        }
+
+        /// <summary>
         /// Sets the size, in CSS pixels, of a single sprite pixel. The rendered avatar ends up
         /// <c>PixelAvatarSprites.FrameWidth * pixelSize</c> wide.
         /// </summary>
