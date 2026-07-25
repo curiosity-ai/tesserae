@@ -20,6 +20,14 @@ namespace Tesserae
         /// <summary>The default size, in CSS pixels, of a single sprite pixel.</summary>
         public const int DefaultPixelSize = 4;
 
+        /// <summary>The default length, in milliseconds, of a <see cref="Turn"/>.</summary>
+        public const int DefaultTurnDurationMs = 320;
+
+        // How far the viewer sits from the sprite, as a multiple of its rendered width. Low enough
+        // that the near edge visibly swings toward you mid-turn, high enough that the sprite does
+        // not distort at rest.
+        private const int PerspectiveFactor = 4;
+
         // Pixels reference their color through a CSS custom property rather than carrying the
         // literal color, so switching design only rewrites eleven variables on the root instead of
         // repainting the whole grid - and consumers can override a single index from CSS.
@@ -197,13 +205,41 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the direction the avatar faces, mirroring the artwork when facing left.
+        /// Sets the direction the avatar faces, mirroring the artwork when facing left. The change
+        /// is instant; use <see cref="Turn"/> to animate it.
         /// </summary>
         public PixelAvatar Facing(PixelAvatarFacing facing)
         {
+            _canvas.classList.remove("tss-pixelavatar-turning");
             _facing = facing;
             _canvas.UpdateClassIf(facing == PixelAvatarFacing.Left, "tss-pixelavatar-mirrored");
             return this;
+        }
+
+        /// <summary>
+        /// Changes the direction the avatar faces by pivoting it about its vertical axis, so it
+        /// reads as the sprite turning around rather than its pixels swapping sides. Facing the
+        /// direction it already faces does nothing.
+        /// </summary>
+        public PixelAvatar Turn(PixelAvatarFacing facing, int durationMs = DefaultTurnDurationMs)
+        {
+            if (facing == _facing) return this;
+
+            _facing = facing;
+
+            InnerElement.style.setProperty("--tss-pxav-turn", $"{durationMs}ms");
+            _canvas.classList.add("tss-pixelavatar-turning");
+            _canvas.UpdateClassIf(facing == PixelAvatarFacing.Left, "tss-pixelavatar-mirrored");
+
+            return this;
+        }
+
+        /// <summary>
+        /// Pivots the avatar to face the other way. See <see cref="Turn"/>.
+        /// </summary>
+        public PixelAvatar TurnAround(int durationMs = DefaultTurnDurationMs)
+        {
+            return Turn(_facing == PixelAvatarFacing.Right ? PixelAvatarFacing.Left : PixelAvatarFacing.Right, durationMs);
         }
 
         /// <summary>
@@ -335,6 +371,7 @@ namespace Tesserae
 
             InnerElement.style.width  = $"{_width * _pixelSize}px";
             InnerElement.style.height = $"{_height * _pixelSize}px";
+            InnerElement.style.setProperty("--tss-pxav-perspective", $"{_width * _pixelSize * PerspectiveFactor}px");
 
             for (var y = 0; y < _height; y++)
             {

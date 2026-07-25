@@ -25,7 +25,8 @@ tab or a removed subtree costs nothing.
 ## Key configuration
 
 - `.PixelSize(int)` — CSS pixels per sprite pixel; default `PixelAvatar.DefaultPixelSize` (4), giving a 40x32 avatar. `RenderedWidth` / `RenderedHeight` report the result.
-- `.Facing(PixelAvatarFacing)` — `Right` (the artwork's own direction) or `Left` to mirror it.
+- `.Facing(PixelAvatarFacing)` — `Right` (the artwork's own direction) or `Left` to mirror it, instantly. `FacingValue` reads it back.
+- `.Turn(PixelAvatarFacing, int durationMs = PixelAvatar.DefaultTurnDurationMs)` / `.TurnAround(...)` — change direction by pivoting the sprite about its vertical axis under a perspective scaled to the avatar's own width, so it reads as the cat physically turning rather than its pixels swapping sides. Turning to the direction it already faces does nothing.
 - `.Speed(double)` — playback multiplier; values above 1 play faster.
 - `.Play(PixelAvatarAnimation)` — restart on a new animation. `.Pause()` / `.Resume()` / `.IsPaused`, and `.GoToFrame(int)` to hold a specific frame.
 - `.SetDesign(PixelAvatarDesign)` — swap the coat. See **Custom palettes** below for the ways to supply your own colors.

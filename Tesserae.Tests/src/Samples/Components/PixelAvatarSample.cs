@@ -44,6 +44,9 @@ namespace Tesserae.Tests.Samples
                         SampleSubTitle("Pixel size and facing"),
                         TextBlock("The sprite is 10x8 pixels; PixelSize sets how many CSS pixels each of them takes. Facing mirrors the artwork, which is drawn facing right."),
                         SizeGallery(),
+                        SampleSubTitle("Turning around"),
+                        TextBlock("Turn() changes direction by pivoting the sprite about its vertical axis, under a perspective scaled to the avatar's own width, so it reads as the cat physically turning rather than its pixels swapping sides. Facing() does the same change instantly."),
+                        TurnGallery(),
                         SampleSubTitle("Contrast halo"),
                         TextBlock("White on a light theme and black on a dark one would otherwise vanish. Compare the same two designs with the halo on and off."),
                         OutlineGallery(),
@@ -200,6 +203,30 @@ namespace Tesserae.Tests.Samples
                         PixelAvatar(design, PixelAvatarAnimation.SitIdle).PixelSize(6).Outline(false)),
                     TextBlock($"{design}: halo / flat").Tiny().Secondary().PT(8)));
             }
+
+            return row;
+        }
+
+        private static IComponent TurnGallery()
+        {
+            var row = HStack().WS().AlignItems(ItemAlign.End).Children();
+
+            foreach (var duration in new[] { 200, 320, 700 })
+            {
+                var ms     = duration;
+                var avatar = PixelAvatar(PixelAvatarDesign.Lynx, PixelAvatarAnimation.Move).PixelSize(9);
+
+                row.Add(VStack().AlignItemsCenter().PR(40).Children(
+                    avatar,
+                    Button($"Turn ({ms}ms)").Compact().MT(12).OnClick(() => avatar.TurnAround(ms))));
+            }
+
+            var instant = PixelAvatar(PixelAvatarDesign.Sparkle, PixelAvatarAnimation.Move).PixelSize(9);
+
+            row.Add(VStack().AlignItemsCenter().Children(
+                instant,
+                Button("Facing (instant)").Compact().MT(12).OnClick(() =>
+                    instant.Facing(instant.FacingValue == PixelAvatarFacing.Right ? PixelAvatarFacing.Left : PixelAvatarFacing.Right))));
 
             return row;
         }

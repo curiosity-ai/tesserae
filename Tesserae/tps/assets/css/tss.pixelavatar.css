@@ -4,12 +4,17 @@
        theme or the other. A hairline halo in the opposite direction keeps every design legible
        on every background without touching the artwork's colors. */
     --tss-pxav-outline: rgba(0, 0, 0, 0.5);
+    --tss-pxav-turn: 320ms;
+    /* Written by the component from the rendered width, so the amount of foreshortening during a
+       turn looks the same whether the avatar is 20px or 120px wide. */
+    --tss-pxav-perspective: 160px;
     position: relative;
     display: inline-block;
     flex: 0 0 auto;
     line-height: 0;
     /* The sprite is drawn on a hard pixel grid, so nothing here should be smoothed or clipped. */
     overflow: visible;
+    perspective: var(--tss-pxav-perspective);
 }
 
 .tss-dark-mode .tss-pixelavatar {
@@ -33,8 +38,16 @@
     filter: none;
 }
 
+/* Facing left is a half turn about the vertical axis rather than scaleX(-1). For a flat plane
+   the two are identical at rest, but the rotation is what makes an animated turn read as the
+   sprite physically pivoting instead of its pixels sliding through each other. */
 .tss-pixelavatar-mirrored {
-    transform: scaleX(-1);
+    transform: rotateY(180deg);
+}
+
+/* Only present while Turn() is animating; Facing() strips it so direction changes stay instant. */
+.tss-pixelavatar-turning {
+    transition: transform var(--tss-pxav-turn) ease-in-out;
 }
 
 .tss-pixelavatar-pixel {
