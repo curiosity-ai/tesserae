@@ -174,6 +174,28 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Sets whether the sprite is drawn with a hairline halo in the theme's contrasting color.
+        /// It is on by default because several palettes are pure white and several are near-black,
+        /// so without it those designs disappear against one theme or the other. Turn it off when
+        /// the avatar sits on a background you control and you want the artwork's colors untouched.
+        /// </summary>
+        public PixelAvatar Outline(bool value = true)
+        {
+            InnerElement.UpdateClassIf(!value, "tss-pixelavatar-flat");
+            return this;
+        }
+
+        /// <summary>
+        /// Overrides the color of the halo drawn by <see cref="Outline"/>, which defaults to a
+        /// translucent black in light mode and a translucent white in dark mode.
+        /// </summary>
+        public PixelAvatar OutlineColor(string color)
+        {
+            InnerElement.style.setProperty("--tss-pxav-outline", color);
+            return this;
+        }
+
+        /// <summary>
         /// Multiplies the playback speed of every animation. Values above 1 play faster.
         /// </summary>
         public PixelAvatar Speed(double speed)

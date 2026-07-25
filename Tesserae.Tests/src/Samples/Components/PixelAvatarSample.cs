@@ -17,7 +17,8 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                         TextBlock("PixelAvatar renders a small animated sprite as a grid of absolutely positioned square divs. The artwork is stored once, as a byte grid of palette indices, and each of the eight designs is nothing more than a palette of colors for those indices - so recoloring an avatar costs eleven CSS variable writes and no repaint of the sprite."),
                         TextBlock("Thirteen animations are available. The four *Idle animations loop forever, while the rest play once and hand over to a follow-up animation: Sit settles into SitIdle, Stretch finishes by sitting down, JumpUp is followed by JumpDown, and so on."),
-                        TextBlock("Avatars can be attached to any other component, which perches them on one of its edges without affecting its layout.")))
+                        TextBlock("Avatars can be attached to any other component, which perches them on one of its edges without affecting its layout."),
+                        TextBlock("The palettes are the source artwork's own colors, which means some of them are pure white and others near-black. A hairline halo in the theme's contrasting color is drawn by default so every design stays legible in both light and dark mode; Outline(false) turns it off.")))
                        .SetTitle("Overview")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
@@ -43,6 +44,9 @@ namespace Tesserae.Tests.Samples
                         SampleSubTitle("Pixel size and facing"),
                         TextBlock("The sprite is 10x8 pixels; PixelSize sets how many CSS pixels each of them takes. Facing mirrors the artwork, which is drawn facing right."),
                         SizeGallery(),
+                        SampleSubTitle("Contrast halo"),
+                        TextBlock("White on a light theme and black on a dark one would otherwise vanish. Compare the same two designs with the halo on and off."),
+                        OutlineGallery(),
                         SampleSubTitle("Palettes"),
                         TextBlock("The colors each design maps onto palette indices 1 to 11, extracted from the source sprite sheets."),
                         PaletteTable()))
@@ -177,6 +181,22 @@ namespace Tesserae.Tests.Samples
                     TextBlock("Speed 3").Tiny().Secondary().PT(8)));
 
             return VStack().WS().Children(sizes, facing.PT(24));
+        }
+
+        private static IComponent OutlineGallery()
+        {
+            var row = HStack().AlignItems(ItemAlign.End).Children();
+
+            foreach (var design in new[] { PixelAvatarDesign.White, PixelAvatarDesign.SpottedGrey, PixelAvatarDesign.Black, PixelAvatarDesign.Tuxedo })
+            {
+                row.Add(VStack().AlignItemsCenter().PR(32).Children(
+                    HStack().AlignItems(ItemAlign.End).Children(
+                        PixelAvatar(design, PixelAvatarAnimation.SitIdle).PixelSize(6).PR(16),
+                        PixelAvatar(design, PixelAvatarAnimation.SitIdle).PixelSize(6).Outline(false)),
+                    TextBlock($"{design}: halo / flat").Tiny().Secondary().PT(8)));
+            }
+
+            return row;
         }
 
         private static IComponent PaletteTable()

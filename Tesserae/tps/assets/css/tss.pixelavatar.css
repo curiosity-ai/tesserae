@@ -1,4 +1,9 @@
 .tss-pixelavatar {
+    /* Several palettes contain pure white (White, SpottedGrey, SpottedOrange) and several
+       contain near-black (Black, Tuxedo, Siamese), so on their own they wash out against one
+       theme or the other. A hairline halo in the opposite direction keeps every design legible
+       on every background without touching the artwork's colors. */
+    --tss-pxav-outline: rgba(0, 0, 0, 0.5);
     position: relative;
     display: inline-block;
     flex: 0 0 auto;
@@ -7,10 +12,25 @@
     overflow: visible;
 }
 
+.tss-dark-mode .tss-pixelavatar {
+    --tss-pxav-outline: rgba(255, 255, 255, 0.5);
+}
+
 .tss-pixelavatar-canvas {
     position: absolute;
     inset: 0;
     transform-origin: center;
+    /* Four hard 1px shadows rather than a blur, so the halo stays a crisp outline that suits
+       pixel art at every scale. */
+    filter:
+        drop-shadow(1px 0 0 var(--tss-pxav-outline))
+        drop-shadow(-1px 0 0 var(--tss-pxav-outline))
+        drop-shadow(0 1px 0 var(--tss-pxav-outline))
+        drop-shadow(0 -1px 0 var(--tss-pxav-outline));
+}
+
+.tss-pixelavatar-flat > .tss-pixelavatar-canvas {
+    filter: none;
 }
 
 .tss-pixelavatar-mirrored {

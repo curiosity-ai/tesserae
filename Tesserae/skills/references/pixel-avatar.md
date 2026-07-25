@@ -29,6 +29,7 @@ tab or a removed subtree costs nothing.
 - `.Speed(double)` — playback multiplier; values above 1 play faster.
 - `.Play(PixelAvatarAnimation)` — restart on a new animation. `.Pause()` / `.Resume()` / `.IsPaused`, and `.GoToFrame(int)` to hold a specific frame.
 - `.SetDesign(PixelAvatarDesign)` — swap the coat. `.SetPalette(PixelAvatarPalette)` takes a custom palette of eleven CSS colors for indices 1..11.
+- `.Outline(bool = true)` — a hairline halo in the theme's contrasting color, **on by default**. Several palettes contain pure white (`White`, `SpottedGrey`, `SpottedOrange`) and several near-black (`Black`, `Tuxedo`, `Siamese`), so without it those designs disappear against one theme or the other. `.OutlineColor(string)` overrides the color, which defaults to translucent black in light mode and translucent white in dark mode.
 - `.OnAnimationStarted((avatar, animation) => ...)` / `.OnAnimationFinished((avatar, animation) => ...)` — the second fires when a non-looping animation reaches its last frame, just before its follow-up takes over; calling `Play` from the handler suppresses that hand-over.
 
 `PixelAvatarDesign`: `Black`, `Orange`, `White`, `Beige`, `Siamese`, `SpottedGrey`,
