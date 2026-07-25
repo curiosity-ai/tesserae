@@ -150,10 +150,10 @@ date-range-picker · date-time-picker · delta-component · dropdown ·
 editable-area · editable-label · expander · grid-picker · horizontal-separator ·
 icon · icon-toggle · image · label · link · markdown-block · menu · message ·
 metric · month-picker · navbar · number-picker · omni-box · option · pagination ·
-picker · plan · popover · progress-indicator · progress-ring · property-grid ·
-rating · resource-card · sandbox · save-button · saving-toast · search-box ·
-section-title · sidebar · sidebar-separator · sidenav · skeleton · slider ·
-sparkline · spinner · stepper · steps-slider · tags-input · task-board ·
+picker · pixel-avatar · plan · popover · progress-indicator · progress-ring ·
+property-grid · rating · resource-card · sandbox · save-button · saving-toast ·
+search-box · section-title · sidebar · sidebar-separator · sidenav · skeleton ·
+slider · sparkline · spinner · stepper · steps-slider · tags-input · task-board ·
 teaching · text-area · text-block · text-box · text-breadcrumbs ·
 time-histogram-picker · time-picker · toggle · toggle-button · tool-call · tree ·
 uptime · visibility-sensor · week-picker

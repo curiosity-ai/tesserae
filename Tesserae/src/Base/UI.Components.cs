@@ -244,6 +244,11 @@ namespace Tesserae
         public static Persona Persona(string name = null, string secondaryText = null, string tertiaryText = null, Avatar avatar = null) => new Persona(name, secondaryText, tertiaryText, avatar);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.PixelAvatar"/> component.
+        /// </summary>
+        public static PixelAvatar PixelAvatar(PixelAvatarDesign design = PixelAvatarDesign.Black, PixelAvatarAnimation animation = PixelAvatarAnimation.Idle) => new PixelAvatar(design, animation);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Pagination"/> component.
         /// </summary>
         public static Pagination Pagination(int totalItems = 0, int pageSize = 10, int currentPage = 1) => new Pagination(totalItems, pageSize, currentPage);

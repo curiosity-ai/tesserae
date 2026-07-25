@@ -1,0 +1,140 @@
+.tss-pixelavatar {
+    position: relative;
+    display: inline-block;
+    flex: 0 0 auto;
+    line-height: 0;
+    /* The sprite is drawn on a hard pixel grid, so nothing here should be smoothed or clipped. */
+    overflow: visible;
+}
+
+.tss-pixelavatar-canvas {
+    position: absolute;
+    inset: 0;
+    transform-origin: center;
+}
+
+.tss-pixelavatar-mirrored {
+    transform: scaleX(-1);
+}
+
+.tss-pixelavatar-pixel {
+    position: absolute;
+    pointer-events: none;
+}
+
+/* --- attaching an avatar to another component ---------------------------------------------
+   By default the host reserves room for the avatar as padding on the anchored side and the
+   avatar is positioned inside that padding, so the avatar never sticks out of its container
+   and cannot be clipped by a scrolling ancestor. Adding tss-pixelavatar-overlap drops the
+   padding and hangs the avatar outside the host's box instead.
+   --tss-pxav-reserve is written by PixelAvatarAttachment and tracks the avatar's size. */
+
+.tss-pixelavatar-host {
+    --tss-pxav-dx: 0px;
+    --tss-pxav-dy: 0px;
+    --tss-pxav-reserve: 0px;
+    position: relative;
+    display: inline-block;
+}
+
+.tss-pixelavatar-host > .tss-pixelavatar {
+    position: absolute;
+    z-index: 1;
+    translate: var(--tss-pxav-dx) var(--tss-pxav-dy);
+}
+
+.tss-pixelavatar-anchor-topleft,
+.tss-pixelavatar-anchor-topcenter,
+.tss-pixelavatar-anchor-topright {
+    padding-top: var(--tss-pxav-reserve);
+}
+
+.tss-pixelavatar-anchor-bottomleft,
+.tss-pixelavatar-anchor-bottomcenter,
+.tss-pixelavatar-anchor-bottomright {
+    padding-bottom: var(--tss-pxav-reserve);
+}
+
+.tss-pixelavatar-anchor-leftcenter {
+    padding-left: var(--tss-pxav-reserve);
+}
+
+.tss-pixelavatar-anchor-rightcenter {
+    padding-right: var(--tss-pxav-reserve);
+}
+
+.tss-pixelavatar-anchor-topleft > .tss-pixelavatar {
+    top: 0;
+    left: 6px;
+}
+
+.tss-pixelavatar-anchor-topcenter > .tss-pixelavatar {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.tss-pixelavatar-anchor-topright > .tss-pixelavatar {
+    top: 0;
+    right: 6px;
+}
+
+.tss-pixelavatar-anchor-bottomleft > .tss-pixelavatar {
+    bottom: 0;
+    left: 6px;
+}
+
+.tss-pixelavatar-anchor-bottomcenter > .tss-pixelavatar {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.tss-pixelavatar-anchor-bottomright > .tss-pixelavatar {
+    bottom: 0;
+    right: 6px;
+}
+
+.tss-pixelavatar-anchor-leftcenter > .tss-pixelavatar {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.tss-pixelavatar-anchor-rightcenter > .tss-pixelavatar {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Overlap mode: no reserved room, the avatar hangs outside the host's box. */
+
+.tss-pixelavatar-overlap {
+    padding: 0;
+}
+
+.tss-pixelavatar-overlap.tss-pixelavatar-anchor-topleft > .tss-pixelavatar,
+.tss-pixelavatar-overlap.tss-pixelavatar-anchor-topcenter > .tss-pixelavatar,
+.tss-pixelavatar-overlap.tss-pixelavatar-anchor-topright > .tss-pixelavatar {
+    top: auto;
+    bottom: 100%;
+}
+
+.tss-pixelavatar-overlap.tss-pixelavatar-anchor-bottomleft > .tss-pixelavatar,
+.tss-pixelavatar-overlap.tss-pixelavatar-anchor-bottomcenter > .tss-pixelavatar,
+.tss-pixelavatar-overlap.tss-pixelavatar-anchor-bottomright > .tss-pixelavatar {
+    bottom: auto;
+    top: 100%;
+}
+
+.tss-pixelavatar-overlap.tss-pixelavatar-anchor-leftcenter > .tss-pixelavatar {
+    left: auto;
+    right: 100%;
+    margin-right: 4px;
+}
+
+.tss-pixelavatar-overlap.tss-pixelavatar-anchor-rightcenter > .tss-pixelavatar {
+    right: auto;
+    left: 100%;
+    margin-left: 4px;
+}
