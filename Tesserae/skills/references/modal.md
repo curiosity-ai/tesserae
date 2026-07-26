@@ -25,6 +25,7 @@ into scope with `using static Tesserae.UI;`.
 - `.Draggable()` / `.Dark()` / `.ShowCloseButton()` / `.HideCloseButton()`.
 - `.Show()`, `.ShowAt(fromTop, fromLeft, fromRight, fromBottom)`, `.ShowAsync()` (Task), `.ShowEmbedded()` (return as an embeddable `IComponent`).
 - `.Hide(Action onHidden = null)`, `.OnShow(...)`, `.OnHide(...)`.
+- `.WithPixelAvatar(avatar | key + design, anchor)` — perch an animated pixel cat on one of the modal's own edges and get the modal back to go on configuring. See `pixel-avatar.md`.
 
 ## Example
 
@@ -45,4 +46,5 @@ modal.Show();
 - Dialog — `dialog.md` (prebuilt confirmation buttons)
 - Panel — `panel.md` (side drawer)
 - Float — `float.md`
+- PixelAvatar — `pixel-avatar.md` (a cat perched on the modal's top edge)
 - Full docs & API: `/tesserae/surfaces/modal`
