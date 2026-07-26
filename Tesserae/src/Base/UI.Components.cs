@@ -246,12 +246,12 @@ namespace Tesserae
         /// <summary>
         /// Creates a <see cref="Tesserae.PixelAvatar"/> component.
         /// </summary>
-        public static PixelAvatar PixelAvatar(PixelAvatarDesign design = PixelAvatarDesign.Black, PixelAvatarAnimation animation = PixelAvatarAnimation.Idle) => new PixelAvatar(design, animation);
+        public static PixelAvatar PixelAvatar(byte key, PixelAvatarDesign design = PixelAvatarDesign.Black, PixelAvatarAnimation animation = PixelAvatarAnimation.Idle) => new PixelAvatar(key, design, animation);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.PixelAvatarBadge"/> component.
         /// </summary>
-        public static PixelAvatarBadge PixelAvatarBadge(PixelAvatarDesign design = PixelAvatarDesign.Black, AvatarSize size = AvatarSize.Medium) => new PixelAvatarBadge(design, size);
+        public static PixelAvatarBadge PixelAvatarBadge(byte key, PixelAvatarDesign design = PixelAvatarDesign.Black, AvatarSize size = AvatarSize.Medium) => new PixelAvatarBadge(key, design, size);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.PixelAvatarBadge"/> component wrapping an existing avatar.
@@ -1072,7 +1072,7 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.ChatMessage"/> component whose avatar is a pixel-art cat of
         /// the given design.
         /// </summary>
-        public static ChatMessage ChatMessage(IComponent content, PixelAvatarDesign design, IComponent commands = null) => new ChatMessage(content, design, commands);
+        public static ChatMessage ChatMessage(IComponent content, byte key, PixelAvatarDesign design, IComponent commands = null) => new ChatMessage(content, key, design, commands);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.ToolCall"/> component that renders an

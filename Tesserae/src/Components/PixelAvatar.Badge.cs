@@ -1,3 +1,4 @@
+using System;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 
@@ -29,8 +30,8 @@ namespace Tesserae
         /// <summary>
         /// Initializes a new instance of this class for one of the built-in designs.
         /// </summary>
-        public PixelAvatarBadge(PixelAvatarDesign design = PixelAvatarDesign.Black, AvatarSize size = AvatarSize.Medium)
-            : this(new PixelAvatar(design, PixelAvatarAnimation.SitIdle), size)
+        public PixelAvatarBadge(byte key, PixelAvatarDesign design = PixelAvatarDesign.Black, AvatarSize size = AvatarSize.Medium)
+            : this(new PixelAvatar(key, design, PixelAvatarAnimation.SitIdle), size)
         {
         }
 
@@ -40,7 +41,7 @@ namespace Tesserae
         /// </summary>
         public PixelAvatarBadge(PixelAvatar avatar, AvatarSize size = AvatarSize.Medium)
         {
-            _avatar = avatar ?? new PixelAvatar();
+            _avatar = avatar ?? throw new ArgumentNullException(nameof(avatar));
             _avatar.Play(PixelAvatarAnimation.SitIdle).GoToFrame(0).Pause();
 
             InnerElement = Div(Att("tss-pixelavatar-badge", role: "img"), _avatar.Render());
