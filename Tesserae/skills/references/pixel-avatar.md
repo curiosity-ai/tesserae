@@ -165,7 +165,7 @@ the target is an `OmniBox` and the anchor is one of the `Top*` ones, and wires u
 - On top of that it plays a random animation every 5–14s, picked from `Move`, `Interact`, `JumpUp`, `Startle` and `Stretch`, and waits until the cat settles back into a resting pose before scheduling the next one.
 - When `Move` comes up it picks a new spot along the top edge, turns to face the way it is going, and walks there.
 - Typing settles it back to `Idle` — a one-shot animation is allowed to play out first, only the looping poses are cut short.
-- About 10s after your **last** keystroke the cat walks over to the text caret and watches you type; each keystroke pushes that back, and it takes priority over the spontaneous animations. Once it arrives, the ordinary random flow resumes.
+- About 10s after your **last** keystroke the cat walks over to the text caret and watches you type; each keystroke pushes that back, and it takes priority over the spontaneous animations. Arriving, it plays `Startle` or `Interact` — picked at random, so it reads as having noticed what you are typing rather than quietly sitting down — and then the ordinary random flow resumes.
 - Focusing or typing wakes a sleeping cat with `Stretch` then `Startle` rather than snapping it back to `Idle`.
 
 ```csharp

@@ -56,6 +56,13 @@ namespace Tesserae
             PixelAvatarAnimation.Stretch
         };
 
+        // How the cat greets the caret once it gets there. Both chain back into Idle on their own.
+        private static readonly PixelAvatarAnimation[] CaretArrivals =
+        {
+            PixelAvatarAnimation.Startle,
+            PixelAvatarAnimation.Interact
+        };
+
         private readonly OmniBox           _omniBox;
         private readonly PixelAvatar       _avatar;
         private readonly HTMLElement       _element;
@@ -287,7 +294,7 @@ namespace Tesserae
 
             var span = AvailableSpan();
 
-            if (span <= 0 || !WalkTo(PixelAvatarRandom.Between(EdgeInset, EdgeInset + span)))
+            if (span <= 0 || !WalkTo(PixelAvatarRandom.Between(EdgeInset, EdgeInset + span), PixelAvatarAnimation.AutoIdle))
             {
                 _avatar.Play(PixelAvatarAnimation.AutoIdle);
             }
@@ -311,12 +318,18 @@ namespace Tesserae
 
             var hostLeft = _host.getBoundingClientRect().As<DOMRect>().left;
 
-            if (!WalkTo(caret - hostLeft - _avatar.RenderedWidth / 2.0)) ScheduleAction(true);
+            // Arriving over the caret ends in a reaction rather than a quiet sit-down, so the cat
+            // reads as having noticed what you are typing. Both arrivals chain back into Idle on
+            // their own, and OnAnimationStarted hands that to AutoIdle.
+            var arrival = CaretArrivals[PixelAvatarRandom.Next(CaretArrivals.Length)];
+
+            if (!WalkTo(caret - hostLeft - _avatar.RenderedWidth / 2.0, arrival)) ScheduleAction(true);
         }
 
-        // Starts a walk to a host-relative x, clamped to the span the cat may roam. Returns false
-        // when the trip is too short to be worth animating, leaving the cat where it is.
-        private bool WalkTo(double target)
+        // Starts a walk to a host-relative x, clamped to the span the cat may roam, and plays
+        // `arrival` once it gets there. Returns false when the trip is too short to be worth
+        // animating, leaving the cat where it is.
+        private bool WalkTo(double target, PixelAvatarAnimation arrival)
         {
             var span = AvailableSpan();
             if (span <= 0) return false;
@@ -345,7 +358,7 @@ namespace Tesserae
             {
                 _walkTimer = 0;
                 _walking   = false;
-                _avatar.Play(PixelAvatarAnimation.AutoIdle);
+                _avatar.Play(arrival);
             }, duration);
 
             return true;
