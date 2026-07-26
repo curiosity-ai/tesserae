@@ -27,6 +27,14 @@ namespace Tesserae
         public const int LastBaseIndex = 9;
 
         /// <summary>
+        /// The palette index of the right ear tip. Every frame contains exactly one pixel of
+        /// this index, which is what lets a frame locate the ears without a silhouette scan.
+        /// </summary>
+        public const byte RightEarIndex = 3;
+        /// <summary>How many cells left of the right ear tip the left one sits.</summary>
+        public const int EarSpacing = 2;
+
+        /// <summary>
         /// How many pixels across the whole sprite sheet use each palette index, indexed by
         /// palette index (entry 0 is the transparent index and is always 0). Lets callers work
         /// out which color covers most of the artwork - see

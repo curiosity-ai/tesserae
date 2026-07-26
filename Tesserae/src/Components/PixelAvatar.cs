@@ -33,7 +33,13 @@ namespace Tesserae
         // repainting the whole grid - and consumers can override a single index from CSS.
         private static readonly string[] ColorVariables = BuildColorVariables();
 
+        // The accent is not a palette index - it is an extra half-size pixel laid over each ear
+        // tip, so a design can carry a spot of color the shared artwork has no cell for.
+        private const double AccentScale = 0.5;
+
         private readonly HTMLElement   _canvas;
+        private readonly HTMLElement   _accentLeft;
+        private readonly HTMLElement   _accentRight;
         private readonly HTMLElement[] _cells;
         private readonly string[]      _painted;
         private readonly int           _width;
@@ -71,6 +77,8 @@ namespace Tesserae
             _animation = PixelAvatarSprites.Get(animation);
 
             _canvas      = Div(Att("tss-pixelavatar-canvas"));
+            _accentLeft  = Div(Att("tss-pixelavatar-accent"));
+            _accentRight = Div(Att("tss-pixelavatar-accent"));
             InnerElement = Div(Att("tss-pixelavatar", role: "img"), _canvas);
 
             for (var i = 0; i < _cells.Length; i++)
@@ -80,6 +88,10 @@ namespace Tesserae
                 _painted[i] = string.Empty;
                 _canvas.appendChild(cell);
             }
+
+            // After the pixels, so the accent paints over the ear tip rather than under it.
+            _canvas.appendChild(_accentLeft);
+            _canvas.appendChild(_accentRight);
 
             ApplyPixelSize();
             SetDesign(design);
@@ -155,6 +167,7 @@ namespace Tesserae
                 InnerElement.style.setProperty(VariableName(index), _palette.CssAt(index));
             }
 
+            RenderAccent();
             return this;
         }
 
@@ -191,6 +204,7 @@ namespace Tesserae
 
             _pixelSize = pixelSize;
             ApplyPixelSize();
+            RenderAccent();
             _pixelSizeChanged?.Invoke();
             return this;
         }
@@ -407,6 +421,47 @@ namespace Tesserae
                 _painted[i] = color;
                 _cells[i].style.backgroundColor = color;
             }
+
+            RenderAccent();
+        }
+
+        // The ear tips move from frame to frame, so the two accent squares are repositioned with
+        // every repaint rather than placed once.
+        private void RenderAccent()
+        {
+            var accent = _palette == null ? null : _palette.Accent;
+
+            if (accent == null || _animation.Frames.Length == 0)
+            {
+                _accentLeft.style.display  = "none";
+                _accentRight.style.display = "none";
+                return;
+            }
+
+            var sprite = _animation.Frames[_frame];
+
+            if (!sprite.HasEars)
+            {
+                _accentLeft.style.display  = "none";
+                _accentRight.style.display = "none";
+                return;
+            }
+
+            var size = _pixelSize * AccentScale;
+            var hex  = accent.ToHex();
+
+            PlaceAccent(_accentLeft,  sprite.EarLeftX,  sprite.EarY, size, hex);
+            PlaceAccent(_accentRight, sprite.EarRightX, sprite.EarY, size, hex);
+        }
+
+        private void PlaceAccent(HTMLElement element, int x, int y, double size, string color)
+        {
+            element.style.display         = "block";
+            element.style.left            = $"{x * _pixelSize}px";
+            element.style.top             = $"{y * _pixelSize}px";
+            element.style.width           = $"{size}px";
+            element.style.height          = $"{size}px";
+            element.style.backgroundColor = color;
         }
 
         private void Tick()

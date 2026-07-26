@@ -113,6 +113,42 @@ namespace Tesserae
             return Pixels[y * Width + x];
         }
 
+        /// <summary>Gets whether this frame has a locatable pair of ear tips.</summary>
+        public bool HasEars { get { MeasureEars(); return _earRightX >= 0; } }
+
+        /// <summary>Gets the row both ear tips sit on. Only meaningful when <see cref="HasEars"/>.</summary>
+        public int EarY { get { MeasureEars(); return _earY; } }
+
+        /// <summary>Gets the column of the left ear tip. Only meaningful when <see cref="HasEars"/>.</summary>
+        public int EarLeftX { get { MeasureEars(); return _earRightX - PixelAvatarSprites.EarSpacing; } }
+
+        /// <summary>Gets the column of the right ear tip. Only meaningful when <see cref="HasEars"/>.</summary>
+        public int EarRightX { get { MeasureEars(); return _earRightX; } }
+
+        // Every frame draws exactly one pixel of PixelAvatarSprites.RightEarIndex, and it is always
+        // the right ear tip, with the left one a fixed number of cells to its left. The generator
+        // asserts that over all frames, so finding the ears is a scan for one index rather than a
+        // silhouette heuristic that would break on the poses where the tail also reaches the top.
+        private void MeasureEars()
+        {
+            if (_earsMeasured) return;
+            _earsMeasured = true;
+            _earRightX    = -1;
+
+            for (var y = 0; y < Height; y++)
+            {
+                for (var x = 0; x < Width; x++)
+                {
+                    if (Pixels[y * Width + x] != PixelAvatarSprites.RightEarIndex) continue;
+                    if (x < PixelAvatarSprites.EarSpacing) continue;
+
+                    _earRightX = x;
+                    _earY      = y;
+                    return;
+                }
+            }
+        }
+
         /// <summary>Gets the left edge of the frame's non-transparent pixels.</summary>
         public int InkLeft { get { MeasureInk(); return _inkLeft; } }
 
@@ -161,6 +197,9 @@ namespace Tesserae
         private int  _inkTop;
         private int  _inkWidth;
         private int  _inkHeight;
+        private bool _earsMeasured;
+        private int  _earRightX;
+        private int  _earY;
     }
 
     /// <summary>
@@ -221,7 +260,7 @@ namespace Tesserae
         /// <param name="background">
         /// The avatar background color, or null to derive one from <see cref="DominantColor"/>.
         /// </param>
-        public PixelAvatarPalette(string name, Color[] colors, Color background = null)
+        public PixelAvatarPalette(string name, Color[] colors, Color background = null, Color accent = null)
         {
             if (colors == null) throw new ArgumentNullException(nameof(colors));
 
@@ -232,6 +271,7 @@ namespace Tesserae
 
             Name       = name;
             Colors     = colors;
+            Accent     = accent;
             Background = background ?? DominantColor();
         }
 
@@ -247,6 +287,13 @@ namespace Tesserae
         /// colors itself.
         /// </summary>
         public Color Background { get; }
+
+        /// <summary>
+        /// Gets the highlight painted on the ear tips, or null when the design has none. It is not
+        /// a palette index: it is drawn as an extra half-size pixel on top of each ear tip, so a
+        /// design can carry a spot of color the shared artwork has no cell for.
+        /// </summary>
+        public Color Accent { get; }
 
         /// <summary>
         /// Returns the color for a palette index, or null for the transparent index 0 and for
@@ -318,7 +365,7 @@ namespace Tesserae
             }
 
             colors[index - 1] = color;
-            return new PixelAvatarPalette(Name, colors, Background);
+            return new PixelAvatarPalette(Name, colors, Background, Accent);
         }
 
         /// <summary>
@@ -326,12 +373,18 @@ namespace Tesserae
         /// custom palette picks the background its badge sits on; pass null to go back to one
         /// derived from the coat.
         /// </summary>
-        public PixelAvatarPalette WithBackground(Color background) => new PixelAvatarPalette(Name, Colors, background);
+        public PixelAvatarPalette WithBackground(Color background) => new PixelAvatarPalette(Name, Colors, background, Accent);
 
         /// <summary>
         /// Returns a copy of this palette under a different name.
         /// </summary>
-        public PixelAvatarPalette WithName(string name) => new PixelAvatarPalette(name, Colors, Background);
+        public PixelAvatarPalette WithName(string name) => new PixelAvatarPalette(name, Colors, Background, Accent);
+
+        /// <summary>
+        /// Returns a copy of this palette with a different ear-tip <see cref="Accent"/>. Pass null
+        /// to drop it.
+        /// </summary>
+        public PixelAvatarPalette WithAccent(Color accent) => new PixelAvatarPalette(Name, Colors, Background, accent);
 
         /// <summary>
         /// Returns the palette as a comma-separated list of CSS colors.
@@ -360,8 +413,10 @@ namespace Tesserae
 
             // Transpose does not unescape {{ / }} inside interpolated strings, so the braces are
             // concatenated in rather than escaped.
-            return "PixelAvatarPalette.FromColors(\"" + Name + "\", Color.FromString(\"" + Background.ToHex() + "\"), "
-                 + string.Join(", ", quoted) + ")";
+            var code = "PixelAvatarPalette.FromColors(\"" + Name + "\", Color.FromString(\"" + Background.ToHex() + "\"), "
+                     + string.Join(", ", quoted) + ")";
+
+            return Accent == null ? code : code + ".WithAccent(Color.FromString(\"" + Accent.ToHex() + "\"))";
         }
 
         /// <summary>
@@ -383,7 +438,7 @@ namespace Tesserae
         /// </summary>
         /// <param name="name">The name of the palette.</param>
         /// <param name="background">The avatar background color, or null to derive one from the coat.</param>
-        public static PixelAvatarPalette FromShades(string name, Color background, Color highlight, Color baseColor, Color shadow)
+        public static PixelAvatarPalette FromShades(string name, Color background, Color highlight, Color baseColor, Color shadow, Color accent = null)
         {
             var colors = new Color[PixelAvatarSprites.PaletteSize];
 
@@ -395,7 +450,7 @@ namespace Tesserae
                                                                         : shadow;
             }
 
-            return new PixelAvatarPalette(name, colors, background);
+            return new PixelAvatarPalette(name, colors, background, accent);
         }
     }
 }

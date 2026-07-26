@@ -15,7 +15,7 @@ namespace Tesserae.Tests.Samples
                .SampleTitle(typeof(PixelAvatarSample), UIcons.Cat, "An animated pixel-art avatar built out of one div per pixel")
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                        TextBlock("PixelAvatar renders a small animated sprite as a grid of absolutely positioned square divs. The artwork is stored once, as a byte grid of palette indices, and each of the eleven designs is nothing more than a palette of colors for those indices - so recoloring an avatar costs eleven CSS variable writes and no repaint of the sprite."),
+                        TextBlock("PixelAvatar renders a small animated sprite as a grid of absolutely positioned square divs. The artwork is stored once, as a byte grid of palette indices, and each of the twelve designs is nothing more than a palette of colors for those indices - so recoloring an avatar costs eleven CSS variable writes and no repaint of the sprite."),
                         TextBlock("Thirteen animations are available. The four *Idle animations loop forever, while the rest play once and hand over to a follow-up animation: Sit settles into SitIdle, Stretch finishes by sitting down, JumpUp is followed by JumpDown, and so on."),
                         TextBlock("Avatars can be attached to any other component, which perches them on one of its edges without affecting its layout."),
                         TextBlock("The extracted palettes are the source artwork's own colors, which means some of them are pure white and others near-black. A hairline halo in the theme's contrasting color is drawn by default so every design stays legible in both light and dark mode; Outline(false) turns it off.")))
@@ -29,8 +29,8 @@ namespace Tesserae.Tests.Samples
                        .SetTitle("Best Practices")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                        SampleSubTitle("The eleven designs, attached to buttons"),
-                        TextBlock("Every avatar below is attached to the top edge of a button. Click a button to switch the animation its cat is playing. Eight designs come from the source sprite sheets; Grey, Sparkle and Lynx are authored against the same palette indices."),
+                        SampleSubTitle("The twelve designs, attached to buttons"),
+                        TextBlock("Every avatar below is attached to the top edge of a button. Click a button to switch the animation its cat is playing. Eight designs come from the source sprite sheets; Grey, Sparkle, Lynx and Sudo are authored against the same palette indices. Sudo also carries an accent - an extra half-size pixel on each ear tip, which is not a palette index but an overlay."),
                         DesignGallery(),
                         SampleSubTitle("Every animation"),
                         TextBlock("Pick an animation to play it on a larger avatar. Non-looping animations chain into their follow-up, so the label updates on its own once they finish."),
@@ -593,7 +593,12 @@ namespace Tesserae.Tests.Samples
                     TextBlock($"{design}").Width(140.px()),
                     swatches,
                     TextBlock("background").Tiny().Secondary().PL(16).PR(6),
-                    Swatch(palette.Background.ToHex())));
+                    Swatch(palette.Background.ToHex()),
+                    palette.Accent == null
+                        ? (IComponent)TextBlock("")
+                        : HStack().AlignItemsCenter().Children(
+                            TextBlock("accent").Tiny().Secondary().PL(16).PR(6),
+                            Swatch(palette.Accent.ToHex()))));
             }
 
             return rows;

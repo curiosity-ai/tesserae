@@ -28,7 +28,8 @@ namespace Tesserae
         [Name("Tuxedo")]        Tuxedo,
         [Name("Grey")]          Grey,
         [Name("Sparkle")]       Sparkle,
-        [Name("Lynx")]          Lynx
+        [Name("Lynx")]          Lynx,
+        [Name("Sudo")]          Sudo
     }
 
     /// <summary>
@@ -60,6 +61,7 @@ namespace Tesserae
             PixelAvatarDesign.Grey,
             PixelAvatarDesign.Sparkle,
             PixelAvatarDesign.Lynx,
+            PixelAvatarDesign.Sudo,
         };
 
         // Shorthand so the palette rows below stay readable.
@@ -85,6 +87,8 @@ namespace Tesserae
             palettes[PixelAvatarDesign.Sparkle] = PixelAvatarPalette.FromColors("Sparkle", C("#A6CC33"), C("#E7D6FF"), C("#F7EEFF"), C("#F19BEC"), C("#C63FE3"), C("#9366F5"), C("#9366F5"), C("#9366F5"), C("#C63FE3"), C("#F0E5FF"), C("#4C1D95"), C("#B9A2F2"));
             // A tawny coat with dark brown ear tufts and spots over a cream chest.
             palettes[PixelAvatarDesign.Lynx] = PixelAvatarPalette.FromColors("Lynx", C("#338CCC"), C("#E3CDA8"), C("#F0E2C8"), C("#9A7448"), C("#7A5630"), C("#C4A375"), C("#C4A375"), C("#C4A375"), C("#7A5630"), C("#F5EAD6"), C("#5A3F24"), C("#C7B291"));
+            // A near-black navy coat with slate ears and an electric blue accent on the ear tips.
+            palettes[PixelAvatarDesign.Sudo] = PixelAvatarPalette.FromColors("Sudo", C("#CC33CC"), C("#47525F"), C("#47525F"), C("#47525F"), C("#1D2531"), C("#1D2531"), C("#1D2531"), C("#1D2531"), C("#1D2531"), C("#1D2531"), C("#12171F"), C("#12171F")).WithAccent(C("#0029E7"));
 
             return palettes;
         }

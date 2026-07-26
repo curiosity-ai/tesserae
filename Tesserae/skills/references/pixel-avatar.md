@@ -1,13 +1,13 @@
 ---
 name: pixel-avatar
-description: An animated pixel-art cat avatar drawn as one absolutely-positioned div per pixel, with eleven coat designs and thirteen animations, attachable to any other component. Use when adding a small animated mascot or decorative character to a Tesserae (C#/Transpose) app.
+description: An animated pixel-art cat avatar drawn as one absolutely-positioned div per pixel, with twelve coat designs and thirteen animations, attachable to any other component. Use when adding a small animated mascot or decorative character to a Tesserae (C#/Transpose) app.
 ---
 
 # PixelAvatar
 
 `PixelAvatar` renders a 10x8 pixel-art sprite as a grid of absolutely positioned square
 divs. The artwork lives in the library as a byte grid of palette indices
-(`PixelAvatarSprites`), so all eleven designs share the same frames and differ only in
+(`PixelAvatarSprites`), so all twelve designs share the same frames and differ only in
 their `PixelAvatarPalette` — switching design rewrites eleven CSS variables and repaints
 nothing.
 
@@ -35,8 +35,9 @@ tab or a removed subtree costs nothing.
 
 `PixelAvatarDesign`: `Black`, `Orange`, `White`, `Beige`, `Siamese`, `SpottedGrey`,
 `SpottedOrange`, `Tuxedo` (extracted from the source sprite sheets), plus `Grey`, `Sparkle`
-(violet with magenta markings) and `Lynx` (tawny with dark ear tufts and spots), which are
-authored against the same palette indices. `PixelAvatarPalettes.All` enumerates them and
+(violet with magenta markings), `Lynx` (tawny with dark ear tufts and spots) and `Sudo`
+(near-black navy with an electric blue accent on the ear tips), which are authored against the
+same palette indices. `PixelAvatarPalettes.All` enumerates them and
 `PixelAvatarPalettes.Get(design)` returns the palette.
 
 `PixelAvatarAnimation`: `Move`, `Idle`, `Interact`, `JumpUp`, `JumpDown`, `Startle`,
@@ -73,6 +74,7 @@ On `PixelAvatarPalette`:
 - `PixelAvatarPalette.FromColors(string name, Color background, params Color[] colors)` — throws `ArgumentException` unless exactly `PixelAvatarSprites.PaletteSize` colors are given, so a short or long list fails loudly instead of rendering a broken cat. Pass a null background to derive one.
 - `PixelAvatarPalette.FromShades(string name, Color background, Color highlight, Color baseColor, Color shadow)` — the three-color form.
 - `.Colors` / `.ColorAt(byte)` — the colors, as `Color`. `.CssAt(byte)` gives the hex the renderer writes, or an empty string for the transparent index 0.
+- `.Accent` / `.WithAccent(Color)` — an optional highlight painted on the ear tips. It is **not** a palette index: it is drawn as an extra pixel at half the avatar's `PixelSize` over each ear tip, so a design can carry a spot of color the shared artwork has no cell for. `Sudo` is the built-in that uses it. Null means no accent, which is the default.
 - `.Background` — the avatar background color. `.BackgroundGradient()` turns it into CSS through `Avatar.GradientForHue`, the very method the regular `Avatar` uses for its initials, so a pixel-art badge and an initials avatar look like they came out of the same set. Only the hue is used; saturation and lightness are fixed by that formula.
 - `.WithColor(byte, Color)` / `.WithBackground(Color)` / `.WithName(string)` — return modified copies. `WithBackground` is how a custom palette picks the background its badge sits on.
 - `.DominantColor()` — the color covering most of the sprite, weighted by `PixelAvatarSprites.PixelCounts`. Used to derive a background when one is not given.
@@ -81,6 +83,7 @@ On `PixelAvatarPalette`:
 On `PixelSprite`:
 
 - `.InkLeft` / `.InkTop` / `.InkWidth` / `.InkHeight` — the bounds of a frame's non-transparent pixels. Frames share one 10x8 box so they stay aligned while animating, which means an individual pose sits wherever it sits inside it; anything centering or measuring a single frame wants these, not the box.
+- `.HasEars` / `.EarY` / `.EarLeftX` / `.EarRightX` — where the ear tips are in this frame, which is what the accent follows as the animation plays. Every frame draws exactly one pixel of `PixelAvatarSprites.RightEarIndex` and it is always the right tip, with the left one `EarSpacing` cells to its left; the generator asserts that across all 43 frames, so this is a lookup rather than a silhouette guess (the topmost row will not do — in several poses the raised tail reaches it too).
 
 ```csharp
 // Three colors and a background are enough for a whole coat.

@@ -197,3 +197,11 @@
 .tss-pixelavatar-badge > .tss-pixelavatar {
     position: absolute;
 }
+
+/* An extra half-size pixel laid over each ear tip, for designs whose palette carries an accent.
+   Positioned by the component, since the ear tips move from frame to frame. */
+.tss-pixelavatar-accent {
+    position: absolute;
+    display: none;
+    pointer-events: none;
+}
