@@ -12,19 +12,19 @@ namespace Tesserae
     /// per animation, where each cell is an index into a <see cref="PixelAvatarPalette"/>
     /// (0 meaning transparent).
     /// </summary>
-    [Transpose.Name("tss.PixelAvatarSprites")]
+    [Transpose.Name("tss.pavs")]
     public static class PixelAvatarSprites
     {
         /// <summary>Width, in pixels, of every sprite frame.</summary>
-        public const int FrameWidth = 10;
+        internal const int FrameWidth = 10;
         /// <summary>Height, in pixels, of every sprite frame.</summary>
-        public const int FrameHeight = 8;
+        internal const int FrameHeight = 8;
         /// <summary>Number of colors in a palette (palette index 0 is always transparent).</summary>
         public const int PaletteSize = 11;
         /// <summary>Highest palette index belonging to the highlight shade.</summary>
-        public const int LastHighlightIndex = 3;
+        internal const int LastHighlightIndex = 3;
         /// <summary>Highest palette index belonging to the base shade; the rest are shadow.</summary>
-        public const int LastBaseIndex = 9;
+        internal const int LastBaseIndex = 9;
 
         /// <summary>
         /// The palette index of the right ear tip. Every frame contains exactly one pixel of
@@ -40,13 +40,8 @@ namespace Tesserae
         /// out which color covers most of the artwork - see
         /// <see cref="PixelAvatarPalette.DominantColor"/>.
         /// </summary>
-        public static readonly int[] PixelCounts = new[] { 0, 128, 89, 43, 133, 133, 66, 43, 43, 2, 73, 38 };
+        internal static readonly int[] PixelCounts = new[] { 0, 128, 89, 43, 133, 133, 66, 43, 43, 2, 73, 38 };
 
-        // Every frame is FrameWidth * FrameHeight characters laid out row by row, '.' meaning
-        // transparent and '1'..'9','a','b' palette indices 1..11. The whole sheet is one
-        // run-length-encoded and scrambled literal rather than 43 readable grids, so the artwork
-        // is not sitting in the shipped JavaScript in plain sight. PackedText.Pack, with this
-        // same Alphabet, is what produced the literal below and regenerates it.
         private const string Alphabet = ".123456789ab";
 
         private const string PackedFrames =
@@ -140,17 +135,7 @@ namespace Tesserae
             return animations;
         }
 
-        private static int Add(
-            Dictionary<PixelAvatarAnimation, PixelSpriteAnimation> animations,
-            string                                                 packed,
-            int                                                    offset,
-            PixelAvatarAnimation                                   animation,
-            int                                                    frameCount,
-            int                                                    frameDurationMs,
-            bool                                                   loops,
-            PixelAvatarAnimation                                   next,
-            int                                                    restMinMs,
-            int                                                    restMaxMs)
+        private static int Add(Dictionary<PixelAvatarAnimation, PixelSpriteAnimation> animations, string packed, int offset, PixelAvatarAnimation animation, int frameCount, int frameDurationMs, bool loops, PixelAvatarAnimation next, int restMinMs, int restMaxMs)
         {
             var frames = new PixelSprite[frameCount];
 

@@ -14,7 +14,7 @@ namespace Tesserae
     /// Use <see cref="AttachTo"/> to perch the avatar on another component, for example on top of
     /// a button.
     /// </summary>
-    [Transpose.Name("tss.PixelAvatar")]
+    [Transpose.Name("tss.pav")]
     public sealed class PixelAvatar : ComponentBase<PixelAvatar, HTMLElement>
     {
         /// <summary>The default size, in CSS pixels, of a single sprite pixel.</summary>
