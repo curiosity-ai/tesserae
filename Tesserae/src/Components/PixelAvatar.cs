@@ -804,6 +804,10 @@ namespace Tesserae
                 _host.classList.add($"{anchor}");
                 _host.appendChild(avatar.Render());
                 Overlap();
+
+                // So ShowEmbedded can pull the cat back inside: embedded in someone else's layout,
+                // there is no room above the modal to hang off.
+                modal._pixelAvatar = this;
             }
             else
             {

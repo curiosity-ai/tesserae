@@ -38,6 +38,9 @@ namespace Tesserae
         private bool             _isDragged;
         private TranslationPoint _startPoint;
 
+        // Set when a PixelAvatar is perched on this modal, so ShowEmbedded can move it inside.
+        internal PixelAvatarAttachment _pixelAvatar;
+
         private readonly Action<Event> _onCloseClickAction;
         private readonly Action<Event> _onDragMouseDownAction;
         private readonly Action<Event> _onDragMouseMoveAction;
@@ -382,6 +385,12 @@ namespace Tesserae
         {
             WillShowCloseButton = false;
             _modal.classList.add("tss-embedded");
+
+            // A perched avatar hangs above a floating modal, where nothing clips it. Embedded, the
+            // modal is just a box in someone else's layout and whatever hosts it usually does clip,
+            // so the cat moves into a reserved band inside the modal instead.
+            _pixelAvatar?.Overlap(false);
+
             return Raw(_modal);
         }
 

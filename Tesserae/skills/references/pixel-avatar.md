@@ -232,7 +232,8 @@ An adopted modal starts in **overlap** mode, which is what puts the cat outside 
 that the modal's own `overflow-y: auto` is dropped (its content area is a scroll container in
 the same flex column, so that is what actually scrolls) and the rounded corners it was clipping
 are handed to the header and footer directly. `Overlap(false)` puts the cat back in a reserved
-band inside the dialog, above the header.
+band inside the dialog, above the header — which is what `ShowEmbedded()` does for you, since an
+embedded modal is a box in someone else's layout and that layout usually clips.
 
 ## Attaching to another component
 
