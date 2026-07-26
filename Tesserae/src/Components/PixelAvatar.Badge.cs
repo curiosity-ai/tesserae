@@ -16,9 +16,11 @@ namespace Tesserae
     [Transpose.Name("tss.PixelAvatarBadge")]
     public sealed class PixelAvatarBadge : ComponentBase<PixelAvatarBadge, HTMLElement>
     {
-        // How much of the badge's width the sprite spans. Leaves a margin so the cat does not
-        // touch the rim of the circle at any size.
-        private const double SpriteFill = 0.68;
+        // The cat is sized so the diagonal of its ink box fits the circle, with a hair to spare -
+        // the corners of the pose are drawn, so fitting the width alone would clip an ear against
+        // the rim. Anything the badge measures comes from the pose's ink rather than from the 10x8
+        // frame, which SitIdle only partly fills.
+        private const double DiagonalFill = 0.98;
 
         private readonly PixelAvatar _avatar;
         private          AvatarSize  _size;
@@ -66,7 +68,7 @@ namespace Tesserae
             InnerElement.classList.remove("tss-avatar-xs", "tss-avatar-sm", "tss-avatar-md", "tss-avatar-lg", "tss-avatar-xl");
             InnerElement.classList.add(ClassFor(size));
 
-            _avatar.PixelSize((int)System.Math.Round(PixelsFor(size) * SpriteFill / PixelAvatarSprites.FrameWidth));
+            LayOutSprite();
 
             if (!_customBackground) ApplyBackground();
 
@@ -137,6 +139,24 @@ namespace Tesserae
             var second    = lightness > 0.5f ? lightness - 0.12f : lightness + 0.12f;
 
             return $"linear-gradient(135deg, {Color.FromHsl(hue, saturation, lightness).ToHex()}, {Color.FromHsl(hue + 35, saturation, second).ToHex()})";
+        }
+
+        // Scales the pose to the circle and offsets the avatar so the pose's ink lands dead center,
+        // rather than centering the frame box the pose only partly fills.
+        private void LayOutSprite()
+        {
+            var diameter = PixelsFor(_size);
+            var sprite   = PixelAvatarSprites.Get(PixelAvatarAnimation.SitIdle).Frames[0];
+            var diagonal = System.Math.Sqrt(sprite.InkWidth * sprite.InkWidth + sprite.InkHeight * sprite.InkHeight);
+
+            var pixelSize = diagonal <= 0 ? 1 : (int)System.Math.Floor(diameter * DiagonalFill / diagonal);
+            if (pixelSize < 1) pixelSize = 1;
+
+            _avatar.PixelSize(pixelSize);
+
+            var element = _avatar.Render();
+            element.style.left = $"{diameter / 2.0 - (sprite.InkLeft + sprite.InkWidth / 2.0) * pixelSize}px";
+            element.style.top  = $"{diameter / 2.0 - (sprite.InkTop + sprite.InkHeight / 2.0) * pixelSize}px";
         }
 
         private void ApplyBackground()

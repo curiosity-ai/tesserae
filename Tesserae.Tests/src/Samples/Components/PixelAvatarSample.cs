@@ -64,7 +64,7 @@ namespace Tesserae.Tests.Samples
                        .SetTitle("As a chat avatar")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                        TextBlock("Attaching an avatar to the top of an OmniBox gives it a life of its own: left alone it wanders along the top edge and plays the odd animation, typing settles it back down, and after a minute of silence it falls asleep until you come back. Focusing or typing wakes it."),
+                        TextBlock("Attaching an avatar to the top of an OmniBox gives it a life of its own: left alone it wanders along the top edge and plays the odd animation, typing settles it back down, and after a minute of silence it falls asleep until you come back. Waking it plays a stretch and then a startle."),
                         TextBlock("The buttons below poke the same companion the OmniBox drives, so you don't have to wait for the timers.").Tiny().Secondary(),
                         CompanionGallery()))
                        .SetTitle("As an OmniBox companion")))

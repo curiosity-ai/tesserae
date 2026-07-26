@@ -55,6 +55,14 @@ namespace Tesserae
             PixelAvatarAnimation.Crouch
         };
 
+        // Waking up is a little performance rather than a snap back to Idle: the cat stretches,
+        // then startles at whoever woke it. Startle's own chain drops it back into Idle.
+        private static readonly PixelAvatarAnimation[] WakeSequence =
+        {
+            PixelAvatarAnimation.Stretch,
+            PixelAvatarAnimation.Startle
+        };
+
         private readonly PixelAvatar       _avatar;
         private readonly HTMLElement       _element;
         private readonly HTMLElement       _host;
@@ -72,6 +80,8 @@ namespace Tesserae
         private bool   _walking;
         private bool   _returnToIdle;
         private bool   _running;
+        private PixelAvatarAnimation[] _sequence;
+        private int                    _sequenceIndex;
 
         internal PixelAvatarCompanion(OmniBox omniBox, PixelAvatar avatar, HTMLElement host, PixelAvatarAnchor anchor)
         {
@@ -84,7 +94,7 @@ namespace Tesserae
 
             // A spontaneous animation is over once the avatar settles into a looping pose, which
             // is also where the follow-up chains land (Stretch ends sitting, Crouch ends crouched).
-            _avatar.TrackAnimation(OnAnimationStarted);
+            _avatar.TrackAnimation(OnAnimationStarted, OnAnimationFinished);
 
             omniBox.OnInput((_, __) => Poke(true));
             omniBox.OnFocus((_, __) => Poke(false));
@@ -159,7 +169,7 @@ namespace Tesserae
             {
                 StopWalking();
                 _returnToIdle = false;
-                _avatar.Play(PixelAvatarAnimation.Idle);
+                PlaySequence(WakeSequence);
                 return;
             }
 
@@ -175,6 +185,7 @@ namespace Tesserae
 
             if (_walking)
             {
+                _sequence = null;
                 StopWalking();
                 _avatar.Play(PixelAvatarAnimation.Idle);
                 return;
@@ -193,6 +204,30 @@ namespace Tesserae
             }
 
             _returnToIdle = true;
+        }
+
+        // Chains the next step of a scripted sequence in place of the animation's own follow-up.
+        // PixelAvatar suppresses that follow-up when a handler calls Play, so Stretch goes to
+        // Startle here instead of settling into Sit.
+        private void OnAnimationFinished(PixelAvatarAnimation animation)
+        {
+            if (_sequence == null) return;
+
+            if (_sequenceIndex >= _sequence.Length)
+            {
+                _sequence = null;
+                return;
+            }
+
+            _avatar.Play(_sequence[_sequenceIndex]);
+            _sequenceIndex++;
+        }
+
+        private void PlaySequence(PixelAvatarAnimation[] sequence)
+        {
+            _sequence      = sequence;
+            _sequenceIndex = 1;
+            _avatar.Play(sequence[0]);
         }
 
         private void OnAnimationStarted(PixelAvatarAnimation animation)
@@ -222,6 +257,8 @@ namespace Tesserae
         private void PerformRandomAction()
         {
             if (!_running || _asleep) return;
+
+            _sequence = null;
 
             var animation = Repertoire[Rng.Next(Repertoire.Length)];
 
@@ -333,6 +370,7 @@ namespace Tesserae
             _actionTimer = 0;
 
             StopWalking();
+            _sequence     = null;
             _returnToIdle = false;
             _avatar.Play(PixelAvatarAnimation.Sleep);
         }

@@ -75,6 +75,10 @@ On `PixelAvatarPalette` (immutable):
 - `.ToString()` — the comma-separated color list that `Parse` reads back.
 - `.ToCode()` — C# source that reconstructs the palette, for pasting into an application.
 
+On `PixelSprite`:
+
+- `.InkLeft` / `.InkTop` / `.InkWidth` / `.InkHeight` — the bounds of a frame's non-transparent pixels. Frames share one 10x8 box so they stay aligned while animating, which means an individual pose sits wherever it sits inside it; anything centering or measuring a single frame wants these, not the box.
+
 ```csharp
 // Three colors are enough for a whole coat.
 var mint = PixelAvatar(PixelAvatarDesign.White)
@@ -96,7 +100,7 @@ the coat, so it always belongs to the cat in front of it.
 `UI.PixelAvatarBadge(PixelAvatar avatar, AvatarSize size = Medium)` to wrap one you already
 have.
 
-- `.Size(AvatarSize)` — `XSmall` (24px) through `XLarge` (72px); the sprite is scaled to match.
+- `.Size(AvatarSize)` — `XSmall` (24px) through `XLarge` (72px). The cat is scaled and positioned from the *ink* of the pose rather than from the 10x8 frame it sits in — `SitIdle` only fills a 6x6 corner of that frame, so centering the frame would leave it visibly off-center — and sized so the diagonal of that ink fits the circle, since the corners of the pose are drawn and fitting the width alone would clip an ear against the rim.
 - `.SetDesign(...)` / `.SetPalette(...)` — recolor, re-deriving the background.
 - `.Background(string)` — pin a CSS background instead; pass null to go back to the derived one.
 - `.Avatar` — the wrapped `PixelAvatar`.
@@ -118,7 +122,7 @@ the target is an `OmniBox` and the anchor is one of the `Top*` ones, and wires u
 - Left alone, it plays a random animation every 5–14s, picked from the non-idle, non-sleeping ones (`Move`, `Interact`, `JumpUp`, `Startle`, `Stretch`, `Sit`, `Crouch`) and waits until the cat settles back into a looping pose before scheduling the next one.
 - When `Move` comes up it picks a new spot along the top edge, turns to face the way it is going, and walks there.
 - Typing settles it back to `Idle` — a one-shot animation is allowed to play out first, only the looping poses are cut short.
-- After 60s untouched it falls asleep; focusing or typing wakes it.
+- After 60s untouched it falls asleep. Focusing or typing wakes it with a little performance — `Stretch` then `Startle`, in a row — rather than snapping back to `Idle`.
 
 ```csharp
 var perched = PixelAvatar(PixelAvatarDesign.Orange).AttachTo(omniBox, PixelAvatarAnchor.TopLeft);

@@ -187,15 +187,13 @@
 
 .tss-pixelavatar-badge {
     position: relative;
-    display: inline-flex;
-    align-items: flex-end;
-    justify-content: center;
+    display: inline-block;
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
 }
 
-/* The cat sits on the floor of the circle rather than floating in the middle of it. */
+/* Placed by the component, which centers the pose's ink rather than its frame box. */
 .tss-pixelavatar-badge > .tss-pixelavatar {
-    margin-bottom: 8%;
+    position: absolute;
 }

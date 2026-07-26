@@ -111,6 +111,55 @@ namespace Tesserae
             if (x < 0 || y < 0 || x >= Width || y >= Height) return 0;
             return Pixels[y * Width + x];
         }
+
+        /// <summary>Gets the left edge of the frame's non-transparent pixels.</summary>
+        public int InkLeft { get { MeasureInk(); return _inkLeft; } }
+
+        /// <summary>Gets the top edge of the frame's non-transparent pixels.</summary>
+        public int InkTop { get { MeasureInk(); return _inkTop; } }
+
+        /// <summary>Gets the width of the frame's non-transparent pixels, or 0 if there are none.</summary>
+        public int InkWidth { get { MeasureInk(); return _inkWidth; } }
+
+        /// <summary>Gets the height of the frame's non-transparent pixels, or 0 if there are none.</summary>
+        public int InkHeight { get { MeasureInk(); return _inkHeight; } }
+
+        // Frames share one 10x8 box so they stay aligned while animating, which means an individual
+        // pose sits wherever it sits inside it - SitIdle, for one, is a 6x6 cat a whole pixel left
+        // of the box's center. Anything that has to center a single frame needs these, not the box.
+        private void MeasureInk()
+        {
+            if (_inkMeasured) return;
+            _inkMeasured = true;
+
+            int minX = Width, minY = Height, maxX = -1, maxY = -1;
+
+            for (var y = 0; y < Height; y++)
+            {
+                for (var x = 0; x < Width; x++)
+                {
+                    if (Pixels[y * Width + x] == 0) continue;
+
+                    if (x < minX) minX = x;
+                    if (x > maxX) maxX = x;
+                    if (y < minY) minY = y;
+                    if (y > maxY) maxY = y;
+                }
+            }
+
+            if (maxX < 0) return;
+
+            _inkLeft   = minX;
+            _inkTop    = minY;
+            _inkWidth  = maxX - minX + 1;
+            _inkHeight = maxY - minY + 1;
+        }
+
+        private bool _inkMeasured;
+        private int  _inkLeft;
+        private int  _inkTop;
+        private int  _inkWidth;
+        private int  _inkHeight;
     }
 
     /// <summary>

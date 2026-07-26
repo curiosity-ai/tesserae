@@ -41,6 +41,7 @@ namespace Tesserae
 
         private Action                       _pixelSizeChanged;
         private Action<PixelAvatarAnimation> _animationStarted;
+        private Action<PixelAvatarAnimation> _animationFinished;
         private PixelAvatarPalette           _palette;
         private PixelAvatarDesign            _design;
         private PixelSpriteAnimation         _animation;
@@ -372,9 +373,10 @@ namespace Tesserae
 
         // Lets a PixelAvatarCompanion follow the animation without competing with the public
         // OnAnimationStarted event, which apps are free to take over.
-        internal void TrackAnimation(Action<PixelAvatarAnimation> onAnimationStarted)
+        internal void TrackAnimation(Action<PixelAvatarAnimation> onAnimationStarted, Action<PixelAvatarAnimation> onAnimationFinished = null)
         {
-            _animationStarted = onAnimationStarted;
+            _animationStarted  = onAnimationStarted;
+            _animationFinished = onAnimationFinished;
         }
 
         private void ApplyPixelSize()
@@ -438,6 +440,11 @@ namespace Tesserae
             }
 
             var finished = _animation;
+
+            // Internal first, for the same reason as _animationStarted: OnAnimationFinished clears
+            // previous handlers by default. Either handler may call Play, and the guard below then
+            // suppresses the built-in hand-over.
+            _animationFinished?.Invoke(finished.Animation);
             AnimationFinished?.Invoke(this, finished.Animation);
 
             // A handler is allowed to pick the next animation itself, in which case we leave it be.
