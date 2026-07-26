@@ -97,8 +97,15 @@ namespace Tesserae
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
-        public PixelAvatar(PixelAvatarDesign design = PixelAvatarDesign.Black, PixelAvatarAnimation animation = PixelAvatarAnimation.Idle)
+        /// <param name="key">
+        /// The key the sprite artwork is scrambled with. The library ships the sheet obfuscated
+        /// and does not carry the key, so the application supplies it here; the first avatar
+        /// constructed is what decodes the artwork for all of them.
+        /// </param>
+        public PixelAvatar(byte key, PixelAvatarDesign design = PixelAvatarDesign.Black, PixelAvatarAnimation animation = PixelAvatarAnimation.Idle)
         {
+            PixelAvatarSprites.Unlock(key);
+
             _width     = PixelAvatarSprites.FrameWidth;
             _height    = PixelAvatarSprites.FrameHeight;
             _cells     = new HTMLElement[_width * _height];
@@ -879,11 +886,12 @@ namespace Tesserae
 
         /// <summary>
         /// Wraps the component so that a new avatar with the given design is perched on one of its
-        /// edges. The avatar is available through <see cref="PixelAvatarAttachment.Avatar"/>.
+        /// edges. The avatar is available through <see cref="PixelAvatarAttachment.Avatar"/>. See
+        /// <see cref="PixelAvatar(byte, PixelAvatarDesign, PixelAvatarAnimation)"/> for the key.
         /// </summary>
-        public static PixelAvatarAttachment WithPixelAvatar(this IComponent component, PixelAvatarDesign design, PixelAvatarAnchor anchor = PixelAvatarAnchor.TopLeft)
+        public static PixelAvatarAttachment WithPixelAvatar(this IComponent component, byte key, PixelAvatarDesign design, PixelAvatarAnchor anchor = PixelAvatarAnchor.TopLeft)
         {
-            return new PixelAvatarAttachment(component, new PixelAvatar(design), anchor);
+            return new PixelAvatarAttachment(component, new PixelAvatar(key, design), anchor);
         }
     }
 }

@@ -578,8 +578,8 @@ namespace Tesserae
         /// Initializes a new instance of this class with a pixel-art cat of the given design as the
         /// avatar.
         /// </summary>
-        public ChatMessage(IComponent content, PixelAvatarDesign design, IComponent commands = null)
-            : this(content, new PixelAvatarBadge(design), commands)
+        public ChatMessage(IComponent content, byte key, PixelAvatarDesign design, IComponent commands = null)
+            : this(content, new PixelAvatarBadge(key, design), commands)
         {
         }
 

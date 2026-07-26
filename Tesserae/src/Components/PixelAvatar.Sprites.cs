@@ -59,13 +59,27 @@ namespace Tesserae
             "vgaaaaaaaaayrqpynms6akvtvaigvgaaaaaaaaayrqpyrys6Orkvtvaigvgaaaaaaaaayrqpams6ynkvtvaigvgaaaaaaaaOryrq" +
             "pOrks6a6vtvaigvgaaaaaaaaaaOryrqpOrks6aigvtvaaaaaaaaaaamrqpaks6ynigvtvaaaaaaaaaaamrqpaks6ynigvtvm";
 
-        private static readonly Dictionary<PixelAvatarAnimation, PixelSpriteAnimation> _animations = Build(PackedText.Unpack(PackedFrames, Alphabet));
+        private static Dictionary<PixelAvatarAnimation, PixelSpriteAnimation> _animations;
+
+        // Called by PixelAvatar's constructor with the key the application handed it. The first
+        // avatar decodes the sheet; the rest find it already there.
+        internal static void Unlock(byte key)
+        {
+            if (_animations == null) _animations = Build(PackedText.Unpack(PackedFrames, Alphabet, key));
+        }
 
         /// <summary>
-        /// Returns the frames and timing for the requested animation.
+        /// Returns the frames and timing for the requested animation. Only available once a
+        /// <see cref="PixelAvatar"/> has been constructed, since that is what supplies the key
+        /// the artwork is scrambled with.
         /// </summary>
         public static PixelSpriteAnimation Get(PixelAvatarAnimation animation)
         {
+            if (_animations == null)
+            {
+                throw new InvalidOperationException("The PixelAvatar artwork has not been decoded yet - construct a PixelAvatar, which takes the key, before asking for its sprites.");
+            }
+
             // AutoIdle is a behaviour rather than artwork: it drifts between the resting
             // poses, and starts from Idle.
             if (animation == PixelAvatarAnimation.AutoIdle) animation = PixelAvatarAnimation.Idle;

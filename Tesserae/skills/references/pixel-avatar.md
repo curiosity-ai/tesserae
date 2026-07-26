@@ -16,8 +16,27 @@ It is decorative, not a user representation. For user images and initials use
 
 ## Create
 
-`UI.PixelAvatar(PixelAvatarDesign design = PixelAvatarDesign.Black, PixelAvatarAnimation animation = PixelAvatarAnimation.Idle)`.
+`UI.PixelAvatar(byte key, PixelAvatarDesign design = PixelAvatarDesign.Black, PixelAvatarAnimation animation = PixelAvatarAnimation.Idle)`.
 Bring factories into scope with `using static Tesserae.UI;`.
+
+The **key** is the first argument because the artwork is not shipped in the clear: the sprite
+sheet lives in the library run-length-encoded and scrambled, and the library does not carry the
+key to unscramble it. Your application does, and passes it here — the first avatar you construct
+decodes the sheet for every one after it. Keep it in one constant of your own:
+
+```csharp
+internal static class SpriteKey { internal const byte Value = 42; }
+
+var cat = PixelAvatar(SpriteKey.Value, PixelAvatarDesign.Orange);
+```
+
+This is obfuscation, not security. A key the browser has to see is readable by anyone who looks;
+it only keeps the artwork out of casual sight in the shipped JavaScript. Every entry point that
+builds an avatar for you takes the same key: `UI.PixelAvatarBadge`, the `ChatMessage` design
+overload, and `WithPixelAvatar(key, design, anchor)`. The ones handed an avatar you already
+built do not.
+
+`PixelAvatarSprites.Get` throws until some avatar has supplied the key.
 
 The animation timer only runs while the avatar is mounted, so an avatar inside a hidden
 tab or a removed subtree costs nothing.
@@ -117,7 +136,7 @@ On `PixelSprite`:
 
 ```csharp
 // Three colors and a background are enough for a whole coat.
-var mint = PixelAvatar(PixelAvatarDesign.White).SetShades(
+var mint = PixelAvatar(SpriteKey.Value, PixelAvatarDesign.White).SetShades(
     Color.FromString("#D6F5E3"), Color.FromString("#8FD9B6"), Color.FromString("#3F8F6E"),
     background: Color.FromString("#B5762E"), name: "Mint");
 
@@ -136,7 +155,7 @@ presets as `Avatar` so the two can sit side by side. It holds `SitIdle` on its f
 never animates — a badge is an identity, not an animation — and paints the palette's own
 `Background` behind it, through the same gradient formula the regular `Avatar` uses.
 
-`UI.PixelAvatarBadge(PixelAvatarDesign design = Black, AvatarSize size = Medium)`, or
+`UI.PixelAvatarBadge(byte key, PixelAvatarDesign design = Black, AvatarSize size = Medium)`, or
 `UI.PixelAvatarBadge(PixelAvatar avatar, AvatarSize size = Medium)` to wrap one you already
 have.
 
@@ -151,8 +170,8 @@ coat rather than from the page theme: a dark cat gets a light halo and a light c
 `ChatMessage` takes a cat directly and wraps it for you:
 
 ```csharp
-chat.Add(ChatMessage(TextBlock("They're on the shelf."), PixelAvatarDesign.SpottedOrange).MaxWidth());
-chat.Add(ChatMessage(TextBlock("Classic."), PixelAvatar(PixelAvatarDesign.Grey)).RightAligned());
+chat.Add(ChatMessage(TextBlock("They're on the shelf."), SpriteKey.Value, PixelAvatarDesign.SpottedOrange).MaxWidth());
+chat.Add(ChatMessage(TextBlock("Classic."), PixelAvatar(SpriteKey.Value, PixelAvatarDesign.Grey)).RightAligned());
 ```
 
 ## As an OmniBox companion
@@ -169,7 +188,7 @@ the target is an `OmniBox` and the anchor is one of the `Top*` ones, and wires u
 - Focusing or typing wakes a sleeping cat with `Stretch` then `Startle` rather than snapping it back to `Idle`.
 
 ```csharp
-var perched = PixelAvatar(PixelAvatarDesign.Orange).AttachTo(omniBox, PixelAvatarAnchor.TopLeft);
+var perched = PixelAvatar(SpriteKey.Value, PixelAvatarDesign.Orange).AttachTo(omniBox, PixelAvatarAnchor.TopLeft);
 
 perched.Companion
    .IdleDelay(8000, 20000)   // gap between spontaneous animations; floors at 5s
@@ -207,7 +226,7 @@ to the wrapper and the avatar stays anchored.
 using static Tesserae.UI;
 
 // A cat sitting on top of a button, cycling animations when clicked.
-var cat    = PixelAvatar(PixelAvatarDesign.Tuxedo, PixelAvatarAnimation.SitIdle).PixelSize(5);
+var cat    = PixelAvatar(SpriteKey.Value, PixelAvatarDesign.Tuxedo, PixelAvatarAnimation.SitIdle).PixelSize(5);
 var button = Button("Feed the cat");
 
 cat.OnAnimationStarted((_, animation) => button.SetText($"Feed the cat ({animation})"));
@@ -216,7 +235,7 @@ button.OnClick(() => cat.Play(PixelAvatarAnimation.Interact));
 var perched = cat.AttachTo(button, PixelAvatarAnchor.TopCenter);
 
 // A larger avatar on its own, walking to the left.
-var walker = PixelAvatar(PixelAvatarDesign.SpottedOrange, PixelAvatarAnimation.Move)
+var walker = PixelAvatar(SpriteKey.Value, PixelAvatarDesign.SpottedOrange, PixelAvatarAnimation.Move)
    .PixelSize(8)
    .Facing(PixelAvatarFacing.Left)
    .Speed(1.5);
