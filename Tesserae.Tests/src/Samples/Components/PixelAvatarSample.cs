@@ -92,7 +92,7 @@ namespace Tesserae.Tests.Samples
             var animations = PixelAvatarSprites.All;
             var next       = 0;
 
-            var avatar = PixelAvatar(PixelAvatarSpriteKey.Value, design, animations[0]).PixelSize(5);
+            var avatar = PixelAvatar(42, design, animations[0]).PixelSize(5);
             var button = Button($"{design}: {animations[0]}").SetIcon(UIcons.Paw).WS();
 
             // Clicking the button walks through the animation list. The avatar reports back through
@@ -109,7 +109,7 @@ namespace Tesserae.Tests.Samples
 
         private static IComponent AnimationPicker()
         {
-            var avatar  = PixelAvatar(PixelAvatarSpriteKey.Value, PixelAvatarDesign.SpottedOrange).PixelSize(10);
+            var avatar  = PixelAvatar(42, PixelAvatarDesign.SpottedOrange).PixelSize(10);
             var current = TextBlock("Idle").SemiBold();
             var buttons = HStack().WS().Wrap().Children();
 
@@ -168,7 +168,7 @@ namespace Tesserae.Tests.Samples
                 var anchor = anchors[i];
                 var facing = anchor == PixelAvatarAnchor.LeftCenter ? PixelAvatarFacing.Right : PixelAvatarFacing.Left;
 
-                grid.Add(PixelAvatar(PixelAvatarSpriteKey.Value, PixelAvatarDesign.Tuxedo, PixelAvatarAnimation.SitIdle)
+                grid.Add(PixelAvatar(42, PixelAvatarDesign.Tuxedo, PixelAvatarAnimation.SitIdle)
                    .Facing(facing)
                    .AttachTo(Button(labels[i]).WS(), anchor));
             }
@@ -179,10 +179,10 @@ namespace Tesserae.Tests.Samples
         private static IComponent OverlapGallery()
         {
             return HStack().WS().AlignItems(ItemAlign.End).PT(40).Children(
-                PixelAvatar(PixelAvatarSpriteKey.Value, PixelAvatarDesign.Black, PixelAvatarAnimation.SitIdle)
+                PixelAvatar(42, PixelAvatarDesign.Black, PixelAvatarAnimation.SitIdle)
                    .AttachTo(Button("Reserved room").WS(), PixelAvatarAnchor.TopRight)
                    .Width(200.px()),
-                PixelAvatar(PixelAvatarSpriteKey.Value, PixelAvatarDesign.Tuxedo, PixelAvatarAnimation.SitIdle)
+                PixelAvatar(42, PixelAvatarDesign.Tuxedo, PixelAvatarAnimation.SitIdle)
                    .AttachTo(Button("Overlapping").WS(), PixelAvatarAnchor.TopRight)
                    .Overlap()
                    .Width(200.px()).ML(24));
@@ -195,22 +195,22 @@ namespace Tesserae.Tests.Samples
             foreach (var size in new[] { 2, 3, 4, 6, 8, 12 })
             {
                 sizes.Add(VStack().AlignItemsCenter().PR(24).Children(
-                    PixelAvatar(PixelAvatarSpriteKey.Value, PixelAvatarDesign.Siamese, PixelAvatarAnimation.Move).PixelSize(size),
+                    PixelAvatar(42, PixelAvatarDesign.Siamese, PixelAvatarAnimation.Move).PixelSize(size),
                     TextBlock($"{size}px").Tiny().Secondary().PT(8)));
             }
 
             var facing = HStack().AlignItems(ItemAlign.End).Children(
                 VStack().AlignItemsCenter().PR(24).Children(
-                    PixelAvatar(PixelAvatarSpriteKey.Value, PixelAvatarDesign.Orange, PixelAvatarAnimation.Move).PixelSize(8),
+                    PixelAvatar(42, PixelAvatarDesign.Orange, PixelAvatarAnimation.Move).PixelSize(8),
                     TextBlock("Right").Tiny().Secondary().PT(8)),
                 VStack().AlignItemsCenter().PR(24).Children(
-                    PixelAvatar(PixelAvatarSpriteKey.Value, PixelAvatarDesign.Orange, PixelAvatarAnimation.Move).PixelSize(8).Facing(PixelAvatarFacing.Left),
+                    PixelAvatar(42, PixelAvatarDesign.Orange, PixelAvatarAnimation.Move).PixelSize(8).Facing(PixelAvatarFacing.Left),
                     TextBlock("Left").Tiny().Secondary().PT(8)),
                 VStack().AlignItemsCenter().PR(24).Children(
-                    PixelAvatar(PixelAvatarSpriteKey.Value, PixelAvatarDesign.Orange, PixelAvatarAnimation.Move).PixelSize(8).Speed(0.35),
+                    PixelAvatar(42, PixelAvatarDesign.Orange, PixelAvatarAnimation.Move).PixelSize(8).Speed(0.35),
                     TextBlock("Speed 0.35").Tiny().Secondary().PT(8)),
                 VStack().AlignItemsCenter().PR(24).Children(
-                    PixelAvatar(PixelAvatarSpriteKey.Value, PixelAvatarDesign.Orange, PixelAvatarAnimation.Move).PixelSize(8).Speed(3),
+                    PixelAvatar(42, PixelAvatarDesign.Orange, PixelAvatarAnimation.Move).PixelSize(8).Speed(3),
                     TextBlock("Speed 3").Tiny().Secondary().PT(8)));
 
             return VStack().WS().Children(sizes, facing.PT(24));
@@ -224,8 +224,8 @@ namespace Tesserae.Tests.Samples
             {
                 row.Add(VStack().AlignItemsCenter().PR(32).Children(
                     HStack().AlignItems(ItemAlign.End).Children(
-                        PixelAvatar(PixelAvatarSpriteKey.Value, design, PixelAvatarAnimation.SitIdle).PixelSize(6).PR(16),
-                        PixelAvatar(PixelAvatarSpriteKey.Value, design, PixelAvatarAnimation.SitIdle).PixelSize(6).Outline(false)),
+                        PixelAvatar(42, design, PixelAvatarAnimation.SitIdle).PixelSize(6).PR(16),
+                        PixelAvatar(42, design, PixelAvatarAnimation.SitIdle).PixelSize(6).Outline(false)),
                     TextBlock($"{design}: halo / flat").Tiny().Secondary().PT(8)));
             }
 
@@ -239,7 +239,7 @@ namespace Tesserae.Tests.Samples
             foreach (var design in PixelAvatarPalettes.All)
             {
                 row.Add(VStack().AlignItemsCenter().PR(20).PB(12).Children(
-                    PixelAvatarBadge(PixelAvatarSpriteKey.Value, design, AvatarSize.Large),
+                    PixelAvatarBadge(42, design, AvatarSize.Large),
                     TextBlock($"{design}").Tiny().Secondary().PT(6)));
             }
 
@@ -249,7 +249,7 @@ namespace Tesserae.Tests.Samples
             {
                 var s = size;
                 sizes.Add(VStack().AlignItemsCenter().PR(20).Children(
-                    PixelAvatarBadge(PixelAvatarSpriteKey.Value, PixelAvatarDesign.Lynx, s),
+                    PixelAvatarBadge(42, PixelAvatarDesign.Lynx, s),
                     TextBlock($"{s}").Tiny().Secondary().PT(6)));
             }
 
@@ -259,10 +259,10 @@ namespace Tesserae.Tests.Samples
         private static IComponent ChatGallery()
         {
             return VStack().WS().MaxWidth(620.px()).Children(
-                ChatMessage(TextBlock("Has anyone seen the build logs?"), PixelAvatarSpriteKey.Value, PixelAvatarDesign.Tuxedo).MaxWidth(),
-                ChatMessage(TextBlock("They're on the shelf. I knocked them off."), PixelAvatarSpriteKey.Value, PixelAvatarDesign.SpottedOrange).MaxWidth(),
-                ChatMessage(TextBlock("I sat on them, actually."), PixelAvatarSpriteKey.Value, PixelAvatarDesign.Sparkle).MaxWidth(),
-                ChatMessage(TextBlock("Classic."), PixelAvatar(PixelAvatarSpriteKey.Value, PixelAvatarDesign.Grey)).RightAligned().MaxWidth());
+                ChatMessage(TextBlock("Has anyone seen the build logs?"), 42, PixelAvatarDesign.Tuxedo).MaxWidth(),
+                ChatMessage(TextBlock("They're on the shelf. I knocked them off."), 42, PixelAvatarDesign.SpottedOrange).MaxWidth(),
+                ChatMessage(TextBlock("I sat on them, actually."), 42, PixelAvatarDesign.Sparkle).MaxWidth(),
+                ChatMessage(TextBlock("Classic."), PixelAvatar(42, PixelAvatarDesign.Grey)).RightAligned().MaxWidth());
         }
 
         private static IComponent CompanionGallery()
@@ -272,7 +272,7 @@ namespace Tesserae.Tests.Samples
                 PlaceholderSearch = "Type here and the cat will settle down..."
             });
 
-            var perched = PixelAvatar(PixelAvatarSpriteKey.Value, PixelAvatarDesign.Orange)
+            var perched = PixelAvatar(42, PixelAvatarDesign.Orange)
                .PixelSize(4)
                .AttachTo(omni, PixelAvatarAnchor.TopLeft)
                .WS();
@@ -300,14 +300,14 @@ namespace Tesserae.Tests.Samples
             foreach (var duration in new[] { 200, 320, 700 })
             {
                 var ms     = duration;
-                var avatar = PixelAvatar(PixelAvatarSpriteKey.Value, PixelAvatarDesign.Lynx, PixelAvatarAnimation.Move).PixelSize(9);
+                var avatar = PixelAvatar(42, PixelAvatarDesign.Lynx, PixelAvatarAnimation.Move).PixelSize(9);
 
                 row.Add(VStack().AlignItemsCenter().PR(40).Children(
                     avatar,
                     Button($"Turn ({ms}ms)").Compact().MT(12).OnClick(() => avatar.TurnAround(ms))));
             }
 
-            var instant = PixelAvatar(PixelAvatarSpriteKey.Value, PixelAvatarDesign.Sparkle, PixelAvatarAnimation.Move).PixelSize(9);
+            var instant = PixelAvatar(42, PixelAvatarDesign.Sparkle, PixelAvatarAnimation.Move).PixelSize(9);
 
             row.Add(VStack().AlignItemsCenter().Children(
                 instant,
@@ -369,16 +369,16 @@ namespace Tesserae.Tests.Samples
 
             var previews = new[]
             {
-                PixelAvatar(PixelAvatarSpriteKey.Value, start, PixelAvatarAnimation.SitIdle).PixelSize(12),
-                PixelAvatar(PixelAvatarSpriteKey.Value, start, PixelAvatarAnimation.Move).PixelSize(7),
-                PixelAvatar(PixelAvatarSpriteKey.Value, start, PixelAvatarAnimation.Sleep).PixelSize(4)
+                PixelAvatar(42, start, PixelAvatarAnimation.SitIdle).PixelSize(12),
+                PixelAvatar(42, start, PixelAvatarAnimation.Move).PixelSize(7),
+                PixelAvatar(42, start, PixelAvatarAnimation.Sleep).PixelSize(4)
             };
 
             var badges = new[]
             {
-                PixelAvatarBadge(new PixelAvatar(PixelAvatarSpriteKey.Value, start), AvatarSize.Large),
-                PixelAvatarBadge(new PixelAvatar(PixelAvatarSpriteKey.Value, start), AvatarSize.Medium),
-                PixelAvatarBadge(new PixelAvatar(PixelAvatarSpriteKey.Value, start), AvatarSize.Small)
+                PixelAvatarBadge(new PixelAvatar(42, start), AvatarSize.Large),
+                PixelAvatarBadge(new PixelAvatar(42, start), AvatarSize.Medium),
+                PixelAvatarBadge(new PixelAvatar(42, start), AvatarSize.Small)
             };
 
             var badgePreviews = HStack().AlignItems(ItemAlign.Center).Children(

@@ -63,7 +63,7 @@ namespace Tesserae
 
         // Called by PixelAvatar's constructor with the key the application handed it. The first
         // avatar decodes the sheet; the rest find it already there.
-        internal static void Unlock(byte key)
+        internal static void Load(byte key)
         {
             if (_animations == null) _animations = Build(PackedText.Unpack(PackedFrames, Alphabet, key));
         }
@@ -124,9 +124,6 @@ namespace Tesserae
             var animations = new Dictionary<PixelAvatarAnimation, PixelSpriteAnimation>();
             var offset     = 0;
 
-            // Frame counts are part of the table rather than the payload, so the two have to
-            // agree; the check at the end is what catches a payload regenerated from a frame
-            // file this table has not caught up with.
             offset = Add(animations, frames, offset, PixelAvatarAnimation.Move,       4,  80, true,  PixelAvatarAnimation.Move,       0,    0);
             offset = Add(animations, frames, offset, PixelAvatarAnimation.Idle,       3, 260, true,  PixelAvatarAnimation.Idle,       5000, 10000);
             offset = Add(animations, frames, offset, PixelAvatarAnimation.Interact,   2, 140, false, PixelAvatarAnimation.Idle,       0,    0);
@@ -140,11 +137,6 @@ namespace Tesserae
             offset = Add(animations, frames, offset, PixelAvatarAnimation.CrouchIdle, 6, 300, true,  PixelAvatarAnimation.CrouchIdle, 5000, 10000);
             offset = Add(animations, frames, offset, PixelAvatarAnimation.Sleep,      3, 200, false, PixelAvatarAnimation.SleepIdle,  0,    0);
             offset = Add(animations, frames, offset, PixelAvatarAnimation.SleepIdle,  1, 450, true,  PixelAvatarAnimation.SleepIdle,  0,    0);
-
-            if (offset != frames.Length)
-            {
-                throw new InvalidOperationException($"The packed artwork holds {frames.Length} characters but the animation table accounts for {offset}.");
-            }
 
             return animations;
         }

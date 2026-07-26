@@ -27,7 +27,7 @@ namespace Tesserae
         /// How long an auto-idling avatar rests before falling asleep, in milliseconds. Jittered on
         /// use, so the cat does not nod off on a stopwatch.
         /// </summary>
-        public const int DefaultSleepAfterMs = 60000;
+        public const int DefaultSleepAfterMs = 16000;
 
         // How far the viewer sits from the sprite, as a multiple of its rendered width. Low enough
         // that the near edge visibly swings toward you mid-turn, high enough that the sprite does
@@ -104,7 +104,7 @@ namespace Tesserae
         /// </param>
         public PixelAvatar(byte key, PixelAvatarDesign design = PixelAvatarDesign.Black, PixelAvatarAnimation animation = PixelAvatarAnimation.Idle)
         {
-            PixelAvatarSprites.Unlock(key);
+            PixelAvatarSprites.Load(key);
 
             _width     = PixelAvatarSprites.FrameWidth;
             _height    = PixelAvatarSprites.FrameHeight;
