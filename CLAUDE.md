@@ -9,6 +9,30 @@ Tesserae is a C# UI toolkit for building web applications, compiled to JavaScrip
 - Fluent extensions: `Tesserae/src/Extensions`
 - Samples and demos: `Tesserae.Tests/`
 - Project and build config: `Tesserae/Tesserae.csproj`, `Tesserae/tps.json`
+- Build-time CLIs: `Build.*/` (icon import, sample-source injection, sprite packing)
+
+### Packed sprite artwork
+
+The `PixelAvatar` sprite sheet ships compressed and XOR-scrambled by
+`Tesserae/src/Helpers/PackedText.cs`, as a single literal between the
+`// <packed-frames>` markers in `Tesserae/src/Components/PixelAvatar.Sprites.cs`. The
+plain frames live in `Build.PackPixelSprites/sprite-frames.txt`; edit those and
+regenerate:
+
+```bash
+dotnet run --project Build.PackPixelSprites -- \
+    --frames Build.PackPixelSprites/sprite-frames.txt \
+    --key    <key> \
+    --out    Tesserae/src/Components/PixelAvatar.Sprites.cs
+```
+
+The frame *counts* are in the animation table in `PixelAvatar.Sprites.cs`, not in the
+payload — change one and you must change the other, or `Build` throws at startup.
+
+**The key is not in the library**, by design: `PixelAvatarSprites.Unlock(key)` takes it
+from the application. In this repo the only copy is
+`Tesserae.Tests/src/PixelAvatarSpriteKey.cs`, which `App.Main` passes to `Unlock`. Do not
+add it to anything under `Tesserae/`.
 
 ## Skills
 

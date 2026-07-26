@@ -14,6 +14,27 @@ nothing.
 It is decorative, not a user representation. For user images and initials use
 `Avatar` / `Persona` instead (`avatar.md`).
 
+## Unlocking the artwork
+
+The sprite sheet ships **packed** — compressed and scrambled by `PackedText` — and the
+library does not carry the key. Hand it over once, before the first avatar is created:
+
+```csharp
+PixelAvatarSprites.Unlock("your-key");   // in your app's entry point
+```
+
+Creating a `PixelAvatar` before that throws `InvalidOperationException`, and unlocking with
+the wrong key throws `FormatException` from the unpack. Calling `Unlock` again with a
+different key discards the decoded artwork and retries, so a wrong key is recoverable;
+`PixelAvatarSprites.IsUnlocked` reports whether a key has been supplied.
+
+Only `Get` needs the key. The metadata around it — `FrameWidth`, `PaletteSize`, `All`,
+`ShadeOf`, `PixelCounts`, and every palette — is available without one.
+
+Regenerate the packed literal with `Build.PackPixelSprites`; the format is described in
+`packed-text.md`. The XOR is obfuscation, not security: a key that reaches the browser is
+readable there.
+
 ## Create
 
 `UI.PixelAvatar(PixelAvatarDesign design = PixelAvatarDesign.Black, PixelAvatarAnimation animation = PixelAvatarAnimation.Idle)`.
@@ -225,5 +246,6 @@ var walker = PixelAvatar(PixelAvatarDesign.SpottedOrange, PixelAvatarAnimation.M
 ## Related
 
 - User avatars and personas — `avatar.md`
+- The compression and scrambling the artwork ships under — `packed-text.md`
 - Corner-anchored overlays in general — `float.md`
 - Full docs & API: `/tesserae/components/pixel-avatar`
