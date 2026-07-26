@@ -16,7 +16,7 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                         TextBlock("PixelAvatar renders a small animated sprite as a grid of absolutely positioned square divs. The artwork is stored once, as a byte grid of palette indices, and each of the twelve designs is nothing more than a palette of colors for those indices - so recoloring an avatar costs eleven CSS variable writes and no repaint of the sprite."),
-                        TextBlock("Thirteen animations are available. The four *Idle animations loop forever, while the rest play once and hand over to a follow-up animation: Sit settles into SitIdle, Stretch finishes by sitting down, JumpUp is followed by JumpDown, and so on."),
+                        TextBlock("Thirteen animations are available. The four *Idle animations loop forever, while the rest play once and hand over to a follow-up animation: Sit settles into SitIdle, Stretch finishes by sitting down, JumpUp is followed by JumpDown, and so on. Idle, SitIdle and CrouchIdle hold their first frame for a random 5-10 seconds rather than cycling continuously, so a resting cat looks still rather than fidgety - and AutoIdle drifts between those three poses on its own."),
                         TextBlock("Avatars can be attached to any other component, which perches them on one of its edges without affecting its layout."),
                         TextBlock("The extracted palettes are the source artwork's own colors, which means some of them are pure white and others near-black. A hairline halo in the theme's contrasting color is drawn by default so every design stays legible in both light and dark mode; Outline(false) turns it off.")))
                        .SetTitle("Overview")))
@@ -33,7 +33,7 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Every avatar below is attached to the top edge of a button. Click a button to switch the animation its cat is playing. Eight designs come from the source sprite sheets; Grey, Sparkle, Lynx and Sudo are authored against the same palette indices. Sudo also carries an accent - an extra half-size pixel on each ear tip, which is not a palette index but an overlay."),
                         DesignGallery(),
                         SampleSubTitle("Every animation"),
-                        TextBlock("Pick an animation to play it on a larger avatar. Non-looping animations chain into their follow-up, so the label updates on its own once they finish."),
+                        TextBlock("Pick an animation to play it on a larger avatar. Non-looping animations chain into their follow-up, so the label updates on its own once they finish. The three resting poses hold their first frame for 5-10 seconds rather than cycling, and AutoIdle drifts between them."),
                         AnimationPicker(),
                         SampleSubTitle("Anchors"),
                         TextBlock("An avatar can be anchored to any edge of the component it is attached to. By default the wrapper reserves room for it, so it can never be clipped by a scrolling ancestor."),
@@ -113,16 +113,27 @@ namespace Tesserae.Tests.Samples
             var current = TextBlock("Idle").SemiBold();
             var buttons = HStack().WS().Wrap().Children();
 
-            avatar.OnAnimationStarted((_, animation) => current.Text = $"{animation}");
+            avatar.OnAnimationStarted((_, animation) => current.Text = avatar.IsAutoIdling ? $"AutoIdle -> {animation}" : $"{animation}");
+
+            // AutoIdle has no frames of its own, so it is not in PixelAvatarSprites.All.
+            buttons.Add(Button("AutoIdle")
+               .Compact()
+               .Primary()
+               .Tooltip("Rests, and every 5-10s either stays put or drifts to another resting pose")
+               .OnClick(() => avatar.Play(PixelAvatarAnimation.AutoIdle)));
 
             foreach (var animation in PixelAvatarSprites.All)
             {
                 var sprites = PixelAvatarSprites.Get(animation);
                 var a       = animation;
 
+                var timing = sprites.Rests
+                    ? $"{sprites.Frames.Length} frame(s), {sprites.FrameDurationMs}ms each, resting {sprites.RestMinMs / 1000}-{sprites.RestMaxMs / 1000}s on the first"
+                    : $"{sprites.Frames.Length} frame(s), {sprites.FrameDurationMs}ms each";
+
                 buttons.Add(Button($"{animation}")
                    .Compact()
-                   .Tooltip($"{sprites.Frames.Length} frame(s), {sprites.FrameDurationMs}ms each")
+                   .Tooltip(timing)
                    .OnClick(() => avatar.Play(a)));
             }
 

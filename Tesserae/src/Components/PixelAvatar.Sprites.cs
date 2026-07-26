@@ -53,7 +53,13 @@ namespace Tesserae
         /// <summary>
         /// Returns the frames and timing for the requested animation.
         /// </summary>
-        public static PixelSpriteAnimation Get(PixelAvatarAnimation animation) => _animations[animation];
+        public static PixelSpriteAnimation Get(PixelAvatarAnimation animation)
+        {
+            // AutoIdle is a behaviour rather than artwork: it drifts between the resting
+            // poses, and starts from Idle.
+            if (animation == PixelAvatarAnimation.AutoIdle) animation = PixelAvatarAnimation.Idle;
+            return _animations[animation];
+        }
 
         /// <summary>
         /// Returns which of the three shading levels a palette index belongs to. The indices are
@@ -92,7 +98,7 @@ namespace Tesserae
         {
             var animations = new Dictionary<PixelAvatarAnimation, PixelSpriteAnimation>();
 
-            Add(animations, PixelAvatarAnimation.Move, 80, true, PixelAvatarAnimation.Move, new[]
+            Add(animations, PixelAvatarAnimation.Move, 80, true, PixelAvatarAnimation.Move, 0, 0, new[]
             {
                 ".........." +
                 ".........." +
@@ -128,7 +134,7 @@ namespace Tesserae
                 "...8a5a...",
             });
 
-            Add(animations, PixelAvatarAnimation.Idle, 260, true, PixelAvatarAnimation.Idle, new[]
+            Add(animations, PixelAvatarAnimation.Idle, 260, true, PixelAvatarAnimation.Idle, 5000, 10000, new[]
             {
                 ".........." +
                 ".........." +
@@ -156,7 +162,7 @@ namespace Tesserae
                 "...8a5a...",
             });
 
-            Add(animations, PixelAvatarAnimation.Interact, 140, false, PixelAvatarAnimation.Idle, new[]
+            Add(animations, PixelAvatarAnimation.Interact, 140, false, PixelAvatarAnimation.Idle, 0, 0, new[]
             {
                 ".........." +
                 ".........." +
@@ -176,7 +182,7 @@ namespace Tesserae
                 "...8a.5.a.",
             });
 
-            Add(animations, PixelAvatarAnimation.JumpUp, 110, false, PixelAvatarAnimation.JumpDown, new[]
+            Add(animations, PixelAvatarAnimation.JumpUp, 110, false, PixelAvatarAnimation.JumpDown, 0, 0, new[]
             {
                 ".........." +
                 ".........." +
@@ -196,7 +202,7 @@ namespace Tesserae
                 "...8a.....",
             });
 
-            Add(animations, PixelAvatarAnimation.JumpDown, 110, false, PixelAvatarAnimation.Idle, new[]
+            Add(animations, PixelAvatarAnimation.JumpDown, 110, false, PixelAvatarAnimation.Idle, 0, 0, new[]
             {
                 ".........." +
                 ".........." +
@@ -216,7 +222,7 @@ namespace Tesserae
                 "...8a5a...",
             });
 
-            Add(animations, PixelAvatarAnimation.Startle, 100, false, PixelAvatarAnimation.Idle, new[]
+            Add(animations, PixelAvatarAnimation.Startle, 100, false, PixelAvatarAnimation.Idle, 0, 0, new[]
             {
                 ".........." +
                 ".........." +
@@ -252,7 +258,7 @@ namespace Tesserae
                 "...8a5a...",
             });
 
-            Add(animations, PixelAvatarAnimation.Stretch, 120, false, PixelAvatarAnimation.Sit, new[]
+            Add(animations, PixelAvatarAnimation.Stretch, 120, false, PixelAvatarAnimation.Sit, 0, 0, new[]
             {
                 ".........." +
                 ".........." +
@@ -304,7 +310,7 @@ namespace Tesserae
                 "..8a.5a...",
             });
 
-            Add(animations, PixelAvatarAnimation.Sit, 130, false, PixelAvatarAnimation.SitIdle, new[]
+            Add(animations, PixelAvatarAnimation.Sit, 130, false, PixelAvatarAnimation.SitIdle, 0, 0, new[]
             {
                 ".........." +
                 ".........." +
@@ -324,7 +330,7 @@ namespace Tesserae
                 "..18a55...",
             });
 
-            Add(animations, PixelAvatarAnimation.SitIdle, 300, true, PixelAvatarAnimation.SitIdle, new[]
+            Add(animations, PixelAvatarAnimation.SitIdle, 300, true, PixelAvatarAnimation.SitIdle, 5000, 10000, new[]
             {
                 ".........." +
                 ".........." +
@@ -376,7 +382,7 @@ namespace Tesserae
                 "...8a55...",
             });
 
-            Add(animations, PixelAvatarAnimation.Crouch, 130, false, PixelAvatarAnimation.CrouchIdle, new[]
+            Add(animations, PixelAvatarAnimation.Crouch, 130, false, PixelAvatarAnimation.CrouchIdle, 0, 0, new[]
             {
                 ".........." +
                 ".........." +
@@ -396,7 +402,7 @@ namespace Tesserae
                 "...8a5a...",
             });
 
-            Add(animations, PixelAvatarAnimation.CrouchIdle, 300, true, PixelAvatarAnimation.CrouchIdle, new[]
+            Add(animations, PixelAvatarAnimation.CrouchIdle, 300, true, PixelAvatarAnimation.CrouchIdle, 5000, 10000, new[]
             {
                 ".........." +
                 ".........." +
@@ -448,7 +454,7 @@ namespace Tesserae
                 "...8a5a...",
             });
 
-            Add(animations, PixelAvatarAnimation.Sleep, 200, false, PixelAvatarAnimation.SleepIdle, new[]
+            Add(animations, PixelAvatarAnimation.Sleep, 200, false, PixelAvatarAnimation.SleepIdle, 0, 0, new[]
             {
                 ".........." +
                 ".........." +
@@ -476,7 +482,7 @@ namespace Tesserae
                 ".118a575..",
             });
 
-            Add(animations, PixelAvatarAnimation.SleepIdle, 450, true, PixelAvatarAnimation.SleepIdle, new[]
+            Add(animations, PixelAvatarAnimation.SleepIdle, 450, true, PixelAvatarAnimation.SleepIdle, 0, 0, new[]
             {
                 ".........." +
                 ".........." +
@@ -497,6 +503,8 @@ namespace Tesserae
             int                                                   frameDurationMs,
             bool                                                  loops,
             PixelAvatarAnimation                                  next,
+            int                                                   restMinMs,
+            int                                                   restMaxMs,
             string[]                                              packedFrames)
         {
             var frames = new PixelSprite[packedFrames.Length];
@@ -505,7 +513,7 @@ namespace Tesserae
                 frames[i] = Decode(packedFrames[i]);
             }
 
-            animations[animation] = new PixelSpriteAnimation(animation, frames, frameDurationMs, loops, next);
+            animations[animation] = new PixelSpriteAnimation(animation, frames, frameDurationMs, loops, next, restMinMs, restMaxMs);
         }
 
         private static PixelSprite Decode(string packed)

@@ -33,6 +33,15 @@ namespace Tesserae
         // repainting the whole grid - and consumers can override a single index from CSS.
         private static readonly string[] ColorVariables = BuildColorVariables();
 
+        // What AutoIdle drifts between. Sit and Crouch are the entry animations; their own
+        // hand-overs land on SitIdle and CrouchIdle, which rest in turn.
+        private static readonly PixelAvatarAnimation[] RestingPoses =
+        {
+            PixelAvatarAnimation.Idle,
+            PixelAvatarAnimation.Sit,
+            PixelAvatarAnimation.Crouch
+        };
+
         // The accent is not a palette index - it is an extra half-size pixel laid over each ear
         // tip, so a design can carry a spot of color the shared artwork has no cell for.
         private const double AccentScale = 0.5;
@@ -58,6 +67,7 @@ namespace Tesserae
         private double                       _timer;
         private bool                         _paused;
         private bool                         _isMounted;
+        private bool                         _autoIdle;
 
         private event Action<PixelAvatar, PixelAvatarAnimation> AnimationFinished;
         private event Action<PixelAvatar, PixelAvatarAnimation> AnimationStarted;
@@ -74,6 +84,7 @@ namespace Tesserae
             _pixelSize = DefaultPixelSize;
             _speed     = 1;
             _facing    = PixelAvatarFacing.Right;
+            _autoIdle  = animation == PixelAvatarAnimation.AutoIdle;
             _animation = PixelAvatarSprites.Get(animation);
 
             _canvas      = Div(Att("tss-pixelavatar-canvas"));
@@ -107,8 +118,18 @@ namespace Tesserae
         /// <summary>Gets the palette currently used by the component.</summary>
         public PixelAvatarPalette Palette => _palette;
 
-        /// <summary>Gets the animation currently playing.</summary>
+        /// <summary>
+        /// Gets the animation currently playing. While auto-idling this is whichever resting pose
+        /// is showing, not <see cref="PixelAvatarAnimation.AutoIdle"/>.
+        /// </summary>
         public PixelAvatarAnimation CurrentAnimation => _animation.Animation;
+
+        /// <summary>
+        /// Gets whether the avatar is drifting between resting poses on its own, which
+        /// <see cref="PixelAvatarAnimation.AutoIdle"/> turns on and any other
+        /// <see cref="Play"/> turns off.
+        /// </summary>
+        public bool IsAutoIdling => _autoIdle;
 
         /// <summary>Gets the index of the frame currently shown.</summary>
         public int CurrentFrame => _frame;
@@ -285,6 +306,14 @@ namespace Tesserae
         /// </summary>
         public PixelAvatar Play(PixelAvatarAnimation animation)
         {
+            // Only an explicit Play decides whether the avatar is auto-idling; the hand-overs
+            // below go through PlayCore so a drift between resting poses does not cancel it.
+            _autoIdle = animation == PixelAvatarAnimation.AutoIdle;
+            return PlayCore(animation);
+        }
+
+        private PixelAvatar PlayCore(PixelAvatarAnimation animation)
+        {
             _animation = PixelAvatarSprites.Get(animation);
             _frame     = 0;
             _paused    = false;
@@ -297,7 +326,7 @@ namespace Tesserae
             // clears previous handlers by default, so an app wiring up its own would otherwise
             // silently unsubscribe whatever behaviour is driving this avatar.
             _animationStarted?.Invoke(animation);
-            AnimationStarted?.Invoke(this, animation);
+            AnimationStarted?.Invoke(this, _animation.Animation);
             return this;
         }
 
@@ -473,13 +502,19 @@ namespace Tesserae
             {
                 _frame++;
                 RenderFrame();
+                ScheduleFrame();
                 return;
             }
 
             if (_animation.Loops)
             {
+                // A resting animation has just finished one cycle. Auto-idling is the only thing
+                // that gets to move the cat somewhere else at this point.
+                if (_autoIdle && _animation.Rests && DriftToRestingPose()) return;
+
                 _frame = 0;
                 RenderFrame();
+                ScheduleFrame();
                 return;
             }
 
@@ -498,29 +533,57 @@ namespace Tesserae
             {
                 _frame = 0;
                 RenderFrame();
+                ScheduleFrame();
                 return;
             }
 
-            Play(finished.Next);
+            PlayCore(finished.Next);
+        }
+
+        // Picks the next resting pose. Returns false when the pick is the pose already showing, so
+        // the caller simply replays it rather than restarting the animation from scratch.
+        private bool DriftToRestingPose()
+        {
+            var pick = RestingPoses[PixelAvatarRandom.Next(RestingPoses.Length)];
+
+            if (pick == PixelAvatarAnimation.Idle   && _animation.Animation == PixelAvatarAnimation.Idle)       return false;
+            if (pick == PixelAvatarAnimation.Sit    && _animation.Animation == PixelAvatarAnimation.SitIdle)    return false;
+            if (pick == PixelAvatarAnimation.Crouch && _animation.Animation == PixelAvatarAnimation.CrouchIdle) return false;
+
+            PlayCore(pick);
+            return true;
         }
 
         private void SyncTimer()
         {
             StopTimer();
+            ScheduleFrame();
+        }
+
+        // Frames are chained with timeouts rather than driven by one interval, because how long a
+        // frame is held is not constant: a resting animation holds its first frame for a random
+        // spell so the cat looks still rather than fidgety.
+        private void ScheduleFrame()
+        {
+            StopTimer();
 
             if (_paused || !_isMounted || _animation.Frames.Length < 2) return;
 
-            var interval = (int)System.Math.Round(_animation.FrameDurationMs / _speed);
-            if (interval < 16) interval = 16;
+            var hold = _animation.Rests && _frame == 0
+                ? PixelAvatarRandom.Between(_animation.RestMinMs, _animation.RestMaxMs)
+                : _animation.FrameDurationMs;
 
-            _timer = window.setInterval(_ => Tick(), interval);
+            var delay = (int)System.Math.Round(hold / _speed);
+            if (delay < 16) delay = 16;
+
+            _timer = window.setTimeout(_ => Tick(), delay);
         }
 
         private void StopTimer()
         {
             if (_timer == 0) return;
 
-            window.clearInterval(_timer);
+            window.clearTimeout(_timer);
             _timer = 0;
         }
 

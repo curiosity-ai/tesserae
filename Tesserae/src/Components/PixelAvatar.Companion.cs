@@ -32,27 +32,16 @@ namespace Tesserae
         private const int MinWalkMs       = 300;
         private const int MaxWalkMs       = 4000;
 
-        private static readonly Random Rng = new Random();
-
-        // Random.Next(minValue, maxValue) is broken under Transpose - it always returns minValue -
-        // so everything here goes through the single-argument overload, which works.
-        private static int RandomBetween(int minInclusive, int maxInclusive)
-        {
-            if (maxInclusive <= minInclusive) return minInclusive;
-            return minInclusive + Rng.Next(maxInclusive - minInclusive + 1);
-        }
-
-        // What the cat may do on its own: everything that is not an idle loop and not sleeping.
-        // JumpDown is left out because JumpUp already chains into it.
+        // What the cat may do on its own. Sitting and crouching are not in here: resting is
+        // AutoIdle's job, and the companion only supplies the activity between rests. JumpDown is
+        // left out because JumpUp already chains into it.
         private static readonly PixelAvatarAnimation[] Repertoire =
         {
             PixelAvatarAnimation.Move,
             PixelAvatarAnimation.Interact,
             PixelAvatarAnimation.JumpUp,
             PixelAvatarAnimation.Startle,
-            PixelAvatarAnimation.Stretch,
-            PixelAvatarAnimation.Sit,
-            PixelAvatarAnimation.Crouch
+            PixelAvatarAnimation.Stretch
         };
 
         // Waking up is a little performance rather than a snap back to Idle: the cat stretches,
@@ -174,7 +163,7 @@ namespace Tesserae
             }
 
             if (settleToIdle) ReturnToIdle();
-            else ScheduleAction();
+            else ScheduleAction(true);
         }
 
         // Typing settles the cat, but a one-shot animation mid-flight is allowed to play out - only
@@ -187,19 +176,19 @@ namespace Tesserae
             {
                 _sequence = null;
                 StopWalking();
-                _avatar.Play(PixelAvatarAnimation.Idle);
+                _avatar.Play(PixelAvatarAnimation.AutoIdle);
                 return;
             }
 
-            if (current == PixelAvatarAnimation.Idle)
+            if (IsSettled(current) && _avatar.IsAutoIdling)
             {
-                ScheduleAction();
+                ScheduleAction(true);
                 return;
             }
 
             if (IsSettled(current))
             {
-                _avatar.Play(PixelAvatarAnimation.Idle);
+                _avatar.Play(PixelAvatarAnimation.AutoIdle);
                 return;
             }
 
@@ -237,13 +226,23 @@ namespace Tesserae
             if (_returnToIdle && animation != PixelAvatarAnimation.Idle)
             {
                 _returnToIdle = false;
-                _avatar.Play(PixelAvatarAnimation.Idle);
+                _avatar.Play(PixelAvatarAnimation.AutoIdle);
                 return;
             }
 
             _returnToIdle = false;
 
-            if (!_asleep) ScheduleAction();
+            if (_asleep) return;
+
+            // An action's hand-over chain lands on a plain pose, which stops the cat drifting
+            // between resting poses - hand it back to AutoIdle before timing the next action.
+            if (!_avatar.IsAutoIdling)
+            {
+                _avatar.Play(PixelAvatarAnimation.AutoIdle);
+                return;
+            }
+
+            ScheduleAction();
         }
 
         private static bool IsSettled(PixelAvatarAnimation animation)
@@ -260,7 +259,7 @@ namespace Tesserae
 
             _sequence = null;
 
-            var animation = Repertoire[Rng.Next(Repertoire.Length)];
+            var animation = Repertoire[PixelAvatarRandom.Next(Repertoire.Length)];
 
             if (animation == PixelAvatarAnimation.Move) StartWalking();
             else _avatar.Play(animation);
@@ -272,16 +271,16 @@ namespace Tesserae
 
             if (span <= 0)
             {
-                _avatar.Play(PixelAvatarAnimation.Idle);
+                _avatar.Play(PixelAvatarAnimation.AutoIdle);
                 return;
             }
 
-            var target   = RandomBetween(EdgeInset, EdgeInset + span);
+            var target   = PixelAvatarRandom.Between(EdgeInset, EdgeInset + span);
             var distance = System.Math.Abs(target - _x);
 
             if (distance < MinWalkDistance)
             {
-                _avatar.Play(PixelAvatarAnimation.Idle);
+                _avatar.Play(PixelAvatarAnimation.AutoIdle);
                 return;
             }
 
@@ -302,7 +301,7 @@ namespace Tesserae
             _walkTimer = window.setTimeout(_ =>
             {
                 _walking = false;
-                _avatar.Play(PixelAvatarAnimation.Idle);
+                _avatar.Play(PixelAvatarAnimation.AutoIdle);
             }, duration);
         }
 
@@ -339,14 +338,18 @@ namespace Tesserae
             _element.style.left = $"{_x}px";
         }
 
-        private void ScheduleAction()
+        private void ScheduleAction(bool restart = false)
         {
+            // Auto-idling settles every few seconds as the cat drifts between resting poses. Only
+            // a deliberate reset restarts the countdown, or the next action would never come due.
+            if (!restart && _actionTimer != 0) return;
+
             window.clearTimeout(_actionTimer);
             _actionTimer = 0;
 
             if (!_running || _asleep) return;
 
-            var delay = RandomBetween(_minIdleMs, _maxIdleMs);
+            var delay = PixelAvatarRandom.Between(_minIdleMs, _maxIdleMs);
             _actionTimer = window.setTimeout(_ => PerformRandomAction(), delay);
         }
 
@@ -379,8 +382,8 @@ namespace Tesserae
         {
             _running = true;
             MoveToAnchor();
-            _avatar.Play(PixelAvatarAnimation.Idle);
-            ScheduleAction();
+            _avatar.Play(PixelAvatarAnimation.AutoIdle);
+            ScheduleAction(true);
             ScheduleSleep();
         }
 

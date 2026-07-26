@@ -10,11 +10,21 @@ namespace Tesserae
     /// The animations a <see cref="PixelAvatar"/> can play. The four <c>*Idle</c> animations loop
     /// forever; the others play once and then hand over to a follow-up animation (for example
     /// <see cref="Sit"/> settles into <see cref="SitIdle"/>).
+    ///
+    /// <see cref="AutoIdle"/> is the odd one out: it has no artwork of its own and is a resting
+    /// behaviour rather than a single animation.
     /// </summary>
     [Enum(Emit.StringName)]
     [Transpose.Name("tss.PixelAvatarAnimation")]
     public enum PixelAvatarAnimation
     {
+        /// <summary>
+        /// Rest naturally: hold a pose, and every few seconds either stay put or drift to another
+        /// one, wandering between standing, sitting and crouching. Starts from
+        /// <see cref="Idle"/>; <see cref="PixelAvatar.CurrentAnimation"/> reports whichever pose is
+        /// actually showing, and <see cref="PixelAvatar.IsAutoIdling"/> reports the behaviour.
+        /// </summary>
+        [Name("AutoIdle")]   AutoIdle,
         [Name("Move")]       Move,
         [Name("Idle")]       Idle,
         [Name("Interact")]   Interact,
@@ -212,13 +222,15 @@ namespace Tesserae
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
-        public PixelSpriteAnimation(PixelAvatarAnimation animation, PixelSprite[] frames, int frameDurationMs, bool loops, PixelAvatarAnimation next)
+        public PixelSpriteAnimation(PixelAvatarAnimation animation, PixelSprite[] frames, int frameDurationMs, bool loops, PixelAvatarAnimation next, int restMinMs = 0, int restMaxMs = 0)
         {
             Animation       = animation;
             Frames          = frames;
             FrameDurationMs = frameDurationMs;
             Loops           = loops;
             Next            = next;
+            RestMinMs       = restMinMs;
+            RestMaxMs       = restMaxMs;
         }
 
         /// <summary>Gets the animation these frames belong to.</summary>
@@ -239,8 +251,46 @@ namespace Tesserae
         /// </summary>
         public PixelAvatarAnimation Next { get; }
 
-        /// <summary>Gets how long a full cycle of this animation takes, in milliseconds.</summary>
+        /// <summary>
+        /// Gets the shortest time this animation holds its first frame before playing on, in
+        /// milliseconds. Zero means it cycles continuously.
+        /// </summary>
+        public int RestMinMs { get; }
+
+        /// <summary>Gets the longest such hold, in milliseconds.</summary>
+        public int RestMaxMs { get; }
+
+        /// <summary>
+        /// Gets whether this animation rests on its first frame rather than cycling continuously.
+        /// The resting poses do: a cat looping three frames forever reads as fidgeting, while one
+        /// that holds still and twitches every few seconds reads as resting.
+        /// </summary>
+        public bool Rests => RestMaxMs > 0;
+
+        /// <summary>
+        /// Gets how long a full cycle of this animation takes, in milliseconds, not counting any
+        /// <see cref="Rests"/> hold.
+        /// </summary>
         public int DurationMs => Frames.Length * FrameDurationMs;
+    }
+
+    /// <summary>
+    /// Random numbers for the avatar's own timing. Exists because
+    /// <c>Random.Next(minValue, maxValue)</c> is broken under Transpose - it always returns
+    /// minValue - so everything goes through the single-argument overload, which works.
+    /// </summary>
+    [Transpose.Name("tss.PixelAvatarRandom")]
+    internal static class PixelAvatarRandom
+    {
+        private static readonly Random Rng = new Random();
+
+        internal static int Next(int count) => count <= 0 ? 0 : Rng.Next(count);
+
+        internal static int Between(int minInclusive, int maxInclusive)
+        {
+            if (maxInclusive <= minInclusive) return minInclusive;
+            return minInclusive + Rng.Next(maxInclusive - minInclusive + 1);
+        }
     }
 
     /// <summary>

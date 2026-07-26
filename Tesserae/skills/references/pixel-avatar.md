@@ -41,14 +41,31 @@ same palette indices. `PixelAvatarPalettes.All` enumerates them and
 `PixelAvatarPalettes.Get(design)` returns the palette.
 
 `PixelAvatarAnimation`: `Move`, `Idle`, `Interact`, `JumpUp`, `JumpDown`, `Startle`,
-`Stretch`, `Sit`, `SitIdle`, `Crouch`, `CrouchIdle`, `Sleep`, `SleepIdle`.
-`PixelAvatarSprites.All` enumerates them and `PixelAvatarSprites.Get(animation)` returns
-the frames, frame duration, and whether it loops.
+`Stretch`, `Sit`, `SitIdle`, `Crouch`, `CrouchIdle`, `Sleep`, `SleepIdle`, plus `AutoIdle`.
+`PixelAvatarSprites.All` enumerates the thirteen that have artwork and
+`PixelAvatarSprites.Get(animation)` returns the frames, frame duration, and whether it loops.
 
 `Move`, `Idle`, `SitIdle`, `CrouchIdle` and `SleepIdle` loop forever. The rest play once
 and hand over: `Sit` settles into `SitIdle`, `Crouch` into `CrouchIdle`, `Sleep` into
 `SleepIdle`, `Stretch` into `Sit`, `JumpUp` into `JumpDown`, and `Interact`, `JumpDown`
 and `Startle` return to `Idle`.
+
+### Resting
+
+The three resting poses — `Idle`, `SitIdle` and `CrouchIdle` — **hold their first frame for a
+random 5 to 10 seconds** before playing their cycle and settling again, rather than looping
+continuously. A cat cycling three frames forever reads as fidgeting; one that holds still and
+twitches every few seconds reads as resting. `PixelSpriteAnimation.Rests` / `.RestMinMs` /
+`.RestMaxMs` expose it, and `.Speed()` scales the hold along with everything else.
+
+**`AutoIdle`** is a resting *behaviour* rather than an animation: it has no artwork of its own,
+starts from `Idle`, and at the end of each rest either stays put or drifts to another resting
+pose, wandering between standing, sitting and crouching. Use it wherever a cat is just hanging
+around; use plain `Idle` when you want exactly that pose and nothing else.
+
+While auto-idling, `CurrentAnimation` reports whichever pose is actually showing and
+`IsAutoIdling` reports the behaviour. Any explicit `Play` of something else turns it off; the
+internal hand-overs do not.
 
 ## Custom palettes
 
@@ -131,7 +148,8 @@ Attaching an avatar to the top of an `OmniBox` gives it a life of its own. `Atta
 the target is an `OmniBox` and the anchor is one of the `Top*` ones, and wires up a
 `PixelAvatarCompanion`, reachable through `PixelAvatarAttachment.Companion`:
 
-- Left alone, it plays a random animation every 5–14s, picked from the non-idle, non-sleeping ones (`Move`, `Interact`, `JumpUp`, `Startle`, `Stretch`, `Sit`, `Crouch`) and waits until the cat settles back into a looping pose before scheduling the next one.
+- Resting is left to `AutoIdle`, so between activities the cat drifts between standing, sitting and crouching on its own.
+- On top of that it plays a random animation every 5–14s, picked from `Move`, `Interact`, `JumpUp`, `Startle` and `Stretch`, and waits until the cat settles back into a resting pose before scheduling the next one.
 - When `Move` comes up it picks a new spot along the top edge, turns to face the way it is going, and walks there.
 - Typing settles it back to `Idle` — a one-shot animation is allowed to play out first, only the looping poses are cut short.
 - After 60s untouched it falls asleep. Focusing or typing wakes it with a little performance — `Stretch` then `Startle`, in a row — rather than snapping back to `Idle`.
