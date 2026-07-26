@@ -63,9 +63,22 @@ starts from `Idle`, and at the end of each rest either stays put or drifts to an
 pose, wandering between standing, sitting and crouching. Use it wherever a cat is just hanging
 around; use plain `Idle` when you want exactly that pose and nothing else.
 
-While auto-idling, `CurrentAnimation` reports whichever pose is actually showing and
-`IsAutoIdling` reports the behaviour. Any explicit `Play` of something else turns it off; the
-internal hand-overs do not.
+Sleeping is part of the same behaviour. Once an auto-idling cat has rested for `SleepAfter`
+(60s by default) it curls up on its own — `Sleep`, then `SleepIdle` — and `Wake()` brings it
+back with a `Stretch` and a `Startle` before handing it to `AutoIdle` again. Playing an
+animation directly never puts a cat to sleep; only `AutoIdle` does.
+
+While auto-idling, `CurrentAnimation` reports whichever pose is actually showing,
+`IsAutoIdling` reports the behaviour, and `IsAsleep` covers `Sleep` and `SleepIdle`. Any
+explicit `Play` of something else turns auto-idling off; the internal hand-overs do not.
+
+Every delay in the flow is configurable, and every one is drawn at random inside its range or
+jittered by ±20% on use, so nothing the cat does lands on a stopwatch:
+
+- `.RestDelay(minMs, maxMs)` — overrides how long each resting pose holds its first frame. Zero for both restores the built-in 5–10s.
+- `.SleepAfter(ms)` — resting time before it sleeps, jittered on use. `PixelAvatar.DefaultSleepAfterMs` is 60000; pass zero to keep it awake indefinitely.
+- `.Wake()` — restarts the sleep countdown, and plays the wake-up performance if the cat was actually out.
+- `.Speed(x)` — scales every frame duration and rest hold together.
 
 ## Custom palettes
 
@@ -148,22 +161,29 @@ Attaching an avatar to the top of an `OmniBox` gives it a life of its own. `Atta
 the target is an `OmniBox` and the anchor is one of the `Top*` ones, and wires up a
 `PixelAvatarCompanion`, reachable through `PixelAvatarAttachment.Companion`:
 
-- Resting is left to `AutoIdle`, so between activities the cat drifts between standing, sitting and crouching on its own.
+- Resting *and sleeping* are left to `AutoIdle`, so between activities the cat drifts between standing, sitting and crouching on its own, and curls up after a long enough silence. The companion only supplies the activity in between.
 - On top of that it plays a random animation every 5–14s, picked from `Move`, `Interact`, `JumpUp`, `Startle` and `Stretch`, and waits until the cat settles back into a resting pose before scheduling the next one.
 - When `Move` comes up it picks a new spot along the top edge, turns to face the way it is going, and walks there.
 - Typing settles it back to `Idle` — a one-shot animation is allowed to play out first, only the looping poses are cut short.
-- After 60s untouched it falls asleep. Focusing or typing wakes it with a little performance — `Stretch` then `Startle`, in a row — rather than snapping back to `Idle`.
+- About 10s after your **last** keystroke the cat walks over to the text caret and watches you type; each keystroke pushes that back, and it takes priority over the spontaneous animations. Once it arrives, the ordinary random flow resumes.
+- Focusing or typing wakes a sleeping cat with `Stretch` then `Startle` rather than snapping it back to `Idle`.
 
 ```csharp
 var perched = PixelAvatar(PixelAvatarDesign.Orange).AttachTo(omniBox, PixelAvatarAnchor.TopLeft);
 
 perched.Companion
    .IdleDelay(8000, 20000)   // gap between spontaneous animations; floors at 5s
-   .SleepAfter(120000)       // silence before it sleeps
+   .RestDelay(4000, 9000)    // how long each resting pose holds; forwards to the avatar
+   .CursorDelay(6000)        // quiet time before it walks to the caret; 0 to never follow it
+   .SleepAfter(120000)       // resting time before it sleeps; 0 to keep it awake
    .WalkSpeed(40);           // CSS pixels per second
 ```
 
-`.WakeUp()` and `.Fidget()` drive it by hand, and `.IsAsleep` reads the state.
+Every one of those is jittered or drawn from its range on use. `.WakeUp()`, `.Fidget()` and
+`.FollowCursor()` drive it by hand, and `.IsAsleep` reads the state.
+
+The caret position comes from `OmniBox.CaretClientX()`, which measures whichever of the two
+inputs is focused and is public, so a different companion can use it too.
 
 ## Attaching to another component
 

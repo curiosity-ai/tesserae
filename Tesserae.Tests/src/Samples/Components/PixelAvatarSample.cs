@@ -64,8 +64,8 @@ namespace Tesserae.Tests.Samples
                        .SetTitle("As a chat avatar")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                        TextBlock("Attaching an avatar to the top of an OmniBox gives it a life of its own: left alone it wanders along the top edge and plays the odd animation, typing settles it back down, and after a minute of silence it falls asleep until you come back. Waking it plays a stretch and then a startle."),
-                        TextBlock("The buttons below poke the same companion the OmniBox drives, so you don't have to wait for the timers.").Tiny().Secondary(),
+                        TextBlock("Attaching an avatar to the top of an OmniBox gives it a life of its own: left alone it wanders along the top edge and plays the odd animation, typing settles it back down, and about ten seconds after your last keystroke it pads over to the text caret to watch you type. Resting and sleeping belong to the avatar's own AutoIdle, so after a minute of silence it curls up until you come back - and waking it plays a stretch and then a startle."),
+                        TextBlock("Every delay is configurable (IdleDelay, RestDelay, CursorDelay, SleepAfter, WalkSpeed) and jittered on use, so nothing the cat does lands on a stopwatch. The buttons below poke the same companion the OmniBox drives, so you don't have to wait for the timers.").Tiny().Secondary(),
                         CompanionGallery()))
                        .SetTitle("As an OmniBox companion")))
                .FlatSection(Stack().Children(
@@ -286,6 +286,7 @@ namespace Tesserae.Tests.Samples
                 perched,
                 HStack().WS().AlignItemsCenter().PT(12).Children(
                     Button("Fidget now").Compact().OnClick(() => companion.Fidget()),
+                    Button("Follow the caret").Compact().ML(8).OnClick(() => companion.FollowCursor()),
                     Button("Wake up").Compact().ML(8).OnClick(() => companion.WakeUp()),
                     Button("Sleep in 2s").Compact().ML(8).OnClick(() => companion.SleepAfter(2000)),
                     Button("Sleep after 60s").Compact().ML(8).OnClick(() => companion.SleepAfter(60000)),

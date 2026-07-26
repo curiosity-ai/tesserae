@@ -23,6 +23,12 @@ namespace Tesserae
         /// <summary>The default length, in milliseconds, of a <see cref="Turn"/>.</summary>
         public const int DefaultTurnDurationMs = 320;
 
+        /// <summary>
+        /// How long an auto-idling avatar rests before falling asleep, in milliseconds. Jittered on
+        /// use, so the cat does not nod off on a stopwatch.
+        /// </summary>
+        public const int DefaultSleepAfterMs = 60000;
+
         // How far the viewer sits from the sprite, as a multiple of its rendered width. Low enough
         // that the near edge visibly swings toward you mid-turn, high enough that the sprite does
         // not distort at rest.
@@ -40,6 +46,14 @@ namespace Tesserae
             PixelAvatarAnimation.Idle,
             PixelAvatarAnimation.Sit,
             PixelAvatarAnimation.Crouch
+        };
+
+        // Waking is a little performance rather than a snap back to resting: the cat stretches,
+        // then startles at whoever woke it, and only then goes back to drifting.
+        private static readonly PixelAvatarAnimation[] WakeSequence =
+        {
+            PixelAvatarAnimation.Stretch,
+            PixelAvatarAnimation.Startle
         };
 
         // The accent is not a palette index - it is an extra half-size pixel laid over each ear
@@ -68,6 +82,14 @@ namespace Tesserae
         private bool                         _paused;
         private bool                         _isMounted;
         private bool                         _autoIdle;
+        private int                          _restMinMs;
+        private int                          _restMaxMs;
+        private int                          _sleepAfterMs = DefaultSleepAfterMs;
+        private int                          _restedMs;
+        private int                          _sleepBudgetMs;
+        private int                          _lastHoldMs;
+        private PixelAvatarAnimation[]       _sequence;
+        private int                          _sequenceIndex;
 
         private event Action<PixelAvatar, PixelAvatarAnimation> AnimationFinished;
         private event Action<PixelAvatar, PixelAvatarAnimation> AnimationStarted;
@@ -83,8 +105,9 @@ namespace Tesserae
             _painted   = new string[_cells.Length];
             _pixelSize = DefaultPixelSize;
             _speed     = 1;
-            _facing    = PixelAvatarFacing.Right;
-            _autoIdle  = animation == PixelAvatarAnimation.AutoIdle;
+            _facing        = PixelAvatarFacing.Right;
+            _autoIdle      = animation == PixelAvatarAnimation.AutoIdle;
+            _sleepBudgetMs = PixelAvatarRandom.Jittered(_sleepAfterMs);
             _animation = PixelAvatarSprites.Get(animation);
 
             _canvas      = Div(Att("tss-pixelavatar-canvas"));
@@ -130,6 +153,57 @@ namespace Tesserae
         /// <see cref="Play"/> turns off.
         /// </summary>
         public bool IsAutoIdling => _autoIdle;
+
+        /// <summary>
+        /// Gets whether the avatar is asleep, which for an auto-idling one happens on its own after
+        /// <see cref="SleepAfter"/> of resting.
+        /// </summary>
+        public bool IsAsleep => _animation.Animation == PixelAvatarAnimation.Sleep
+                             || _animation.Animation == PixelAvatarAnimation.SleepIdle;
+
+        /// <summary>
+        /// Overrides how long the resting poses hold their first frame before playing their cycle,
+        /// in milliseconds. The actual hold is picked uniformly from the range every time. Pass
+        /// zero for both to go back to each animation's own timing.
+        /// </summary>
+        public PixelAvatar RestDelay(int minMs, int maxMs)
+        {
+            _restMinMs = minMs < 0 ? 0 : minMs;
+            _restMaxMs = maxMs < _restMinMs ? _restMinMs : maxMs;
+            SyncTimer();
+            return this;
+        }
+
+        /// <summary>
+        /// Sets how long an auto-idling avatar rests before falling asleep, in milliseconds. The
+        /// value is jittered on use. Pass zero to keep it awake indefinitely. Only
+        /// <see cref="PixelAvatarAnimation.AutoIdle"/> sleeps on its own; playing an animation
+        /// directly never does.
+        /// </summary>
+        public PixelAvatar SleepAfter(int milliseconds)
+        {
+            _sleepAfterMs  = milliseconds < 0 ? 0 : milliseconds;
+            _sleepBudgetMs = PixelAvatarRandom.Jittered(_sleepAfterMs);
+            _restedMs      = 0;
+            return this;
+        }
+
+        /// <summary>
+        /// Restarts the countdown to <see cref="SleepAfter"/> and, if the avatar is currently
+        /// asleep, wakes it with a stretch and a startle before handing it back to whatever it was
+        /// doing - which for an auto-idling avatar means drifting between resting poses again.
+        /// </summary>
+        public PixelAvatar Wake()
+        {
+            _restedMs      = 0;
+            _sleepBudgetMs = PixelAvatarRandom.Jittered(_sleepAfterMs);
+
+            if (!IsAsleep) return this;
+
+            _sequence      = WakeSequence;
+            _sequenceIndex = 1;
+            return PlayCore(WakeSequence[0]);
+        }
 
         /// <summary>Gets the index of the frame currently shown.</summary>
         public int CurrentFrame => _frame;
@@ -309,6 +383,14 @@ namespace Tesserae
             // Only an explicit Play decides whether the avatar is auto-idling; the hand-overs
             // below go through PlayCore so a drift between resting poses does not cancel it.
             _autoIdle = animation == PixelAvatarAnimation.AutoIdle;
+            _sequence = null;
+
+            if (_autoIdle)
+            {
+                _restedMs      = 0;
+                _sleepBudgetMs = PixelAvatarRandom.Jittered(_sleepAfterMs);
+            }
+
             return PlayCore(animation);
         }
 
@@ -325,7 +407,9 @@ namespace Tesserae
             // The internal hook first, and separately from the public event: OnAnimationStarted
             // clears previous handlers by default, so an app wiring up its own would otherwise
             // silently unsubscribe whatever behaviour is driving this avatar.
-            _animationStarted?.Invoke(animation);
+            // Both get the resolved pose rather than what was asked for, so a Play(AutoIdle) reports
+            // the resting animation that actually started.
+            _animationStarted?.Invoke(_animation.Animation);
             AnimationStarted?.Invoke(this, _animation.Animation);
             return this;
         }
@@ -510,7 +594,18 @@ namespace Tesserae
             {
                 // A resting animation has just finished one cycle. Auto-idling is the only thing
                 // that gets to move the cat somewhere else at this point.
-                if (_autoIdle && _animation.Rests && DriftToRestingPose()) return;
+                if (_autoIdle && _animation.Rests)
+                {
+                    _restedMs += _lastHoldMs + _animation.DurationMs;
+
+                    if (_sleepAfterMs > 0 && _restedMs >= _sleepBudgetMs)
+                    {
+                        PlayCore(PixelAvatarAnimation.Sleep);
+                        return;
+                    }
+
+                    if (DriftToRestingPose()) return;
+                }
 
                 _frame = 0;
                 RenderFrame();
@@ -528,6 +623,23 @@ namespace Tesserae
 
             // A handler is allowed to pick the next animation itself, in which case we leave it be.
             if (_animation != finished) return;
+
+            // A scripted run (waking up) chains its own steps in place of the animation's usual
+            // follow-up, then hands back to whatever the avatar was doing before it started.
+            if (_sequence != null)
+            {
+                if (_sequenceIndex < _sequence.Length)
+                {
+                    var step = _sequence[_sequenceIndex];
+                    _sequenceIndex++;
+                    PlayCore(step);
+                    return;
+                }
+
+                _sequence = null;
+                PlayCore(_autoIdle ? PixelAvatarAnimation.AutoIdle : finished.Next);
+                return;
+            }
 
             if (finished.Next == finished.Animation)
             {
@@ -569,9 +681,16 @@ namespace Tesserae
 
             if (_paused || !_isMounted || _animation.Frames.Length < 2) return;
 
-            var hold = _animation.Rests && _frame == 0
-                ? PixelAvatarRandom.Between(_animation.RestMinMs, _animation.RestMaxMs)
-                : _animation.FrameDurationMs;
+            var hold = _animation.FrameDurationMs;
+
+            if (_animation.Rests && _frame == 0)
+            {
+                hold = _restMaxMs > 0
+                    ? PixelAvatarRandom.Between(_restMinMs, _restMaxMs)
+                    : PixelAvatarRandom.Between(_animation.RestMinMs, _animation.RestMaxMs);
+
+                _lastHoldMs = hold;
+            }
 
             var delay = (int)System.Math.Round(hold / _speed);
             if (delay < 16) delay = 16;

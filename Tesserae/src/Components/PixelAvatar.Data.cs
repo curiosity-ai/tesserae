@@ -291,6 +291,22 @@ namespace Tesserae
             if (maxInclusive <= minInclusive) return minInclusive;
             return minInclusive + Rng.Next(maxInclusive - minInclusive + 1);
         }
+
+        /// <summary>
+        /// Spreads a delay by a fraction of itself, so a timing that is configured as one number
+        /// still does not tick like a metronome. A cat that does everything on the beat reads as a
+        /// machine.
+        /// </summary>
+        internal static int Jittered(int milliseconds, double fraction = DefaultJitter)
+        {
+            if (milliseconds <= 0) return milliseconds;
+
+            var spread = (int)(milliseconds * fraction);
+            return spread <= 0 ? milliseconds : Between(milliseconds - spread, milliseconds + spread);
+        }
+
+        /// <summary>How far a single-valued delay is spread either side of itself, by default.</summary>
+        internal const double DefaultJitter = 0.2;
     }
 
     /// <summary>
