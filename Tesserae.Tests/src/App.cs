@@ -21,10 +21,6 @@ namespace Tesserae.Tests
         {
             document.body.style.overflow = "hidden";
 
-            // Tesserae ships the PixelAvatar artwork packed and cannot read it on its own - the
-            // key belongs to the application. Has to happen before the first avatar is created.
-            PixelAvatarSprites.Unlock(PixelAvatarSpriteKey.Value);
-
             // Ensure the viewport meta tag is present so that mobile browsers use the device
             // width instead of rendering at a desktop width and scaling down.
             if (document.head.querySelector("meta[name='viewport']") is null)

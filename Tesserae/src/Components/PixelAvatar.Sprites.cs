@@ -1,9 +1,6 @@
 // Sprite data for the PixelAvatar component, from the source cat sprite sheets. Every sheet
 // shares the same silhouette, so the artwork is stored once as a grid of palette indices and
 // each design is only a palette.
-//
-// The block between the <packed-frames> markers is generated - run Build.PackPixelSprites to
-// regenerate it from Build.PackPixelSprites/sprite-frames.txt. Everything else is hand-written.
 
 using System;
 using System.Collections.Generic;
@@ -46,47 +43,28 @@ namespace Tesserae
         public static readonly int[] PixelCounts = new[] { 0, 128, 89, 43, 133, 133, 66, 43, 43, 2, 73, 38 };
 
         // Every frame is FrameWidth * FrameHeight characters laid out row by row, '.' meaning
-        // transparent and '1'..'9','a','b' palette indices 1..11. The whole sheet is one string,
-        // compressed and scrambled by PackedText - which is why it is a single literal rather
-        // than the 43 readable grids it used to be, and why it needs Unlock before it can be
-        // read. Build.PackPixelSprites is the CLI that generates it, from the plain frames in
-        // its own sprite-frames.txt.
+        // transparent and '1'..'9','a','b' palette indices 1..11. The whole sheet is one
+        // run-length-encoded and scrambled literal rather than 43 readable grids, so the artwork
+        // is not sitting in the shipped JavaScript in plain sight. PackedText.Pack, with this
+        // same Alphabet, is what produced the literal below and regenerates it.
         private const string Alphabet = ".123456789ab";
 
-        // <packed-frames>
         private const string PackedFrames =
-            "dWVzfhU9nCiKyUd4amwgUk9HcyVUrF1LRFVRLGJbSpJZGlZh5kdABxFtZyFZBBgRasdhAi1iWXARcJR3FldAV2FJcfm6YQgVZ750" +
-            "fHA3duZXQAdvKERdffFobVVYfnf0ZXN5enJub9V7T3GVY7lXYEB84WuMc2phnnbSY5Z4amwtbGWHeotsjHNqcm5vsnr2WGGTLWxl" +
-            "G3x7anMSYfN4xS1xenhqaNJnnmB9cJd5bGV9Y2CiQXqHa5MurE2LX4tJjHNlfU2aAY9Fh0mTLWxDi1GLJX2MZX1haj6PbYdhmRxk" +
-            "F2FCaGNFb2pKbHcrP2l31XRiQsZ043HwQUFQx1ViGUZfTjFqAmNudHxc6nNCmmGeZSJ0JlS6LMh+vnR8dEeiObpqvmHSdDZ4/mh9" +
-            "Z5RwYLRhh11hjWFqKY9th2GTLWeedHx6mn2MYY1hajWPcYcldNJnnnR8Nep20GB0UzvS8Gl3YSMTh2yxXvFg817gQ2Fh3V32fJpo" +
-            "0meecIx0aneMZXaeYdJwZnyaaNJnnnCMcJrzd5p2nmHScGZ8mmjSZ5RFc3CTboJhjWWaKY9gKUcpKZxhdHx0ai2MV21Gmi1/bEdX" +
-            "wy0snnR8dGp3jGGNZZotf22HZWjSZ550fHRqd4xhjWWaLX9pfJpo0meedHx0aneEQTUZ9S10lnhqbCJKLj/gcJpzfGV9YT+ICbxf" +
-            "mmjSY250fHH6duQldpFdyHBmeGpjslH7RTOFZXeMZX1haimPbYE=";
-        // </packed-frames>
+            "aaaaaaarqpynms6akvtva69aqigvgaaaaaOrqpams6mnmovtvOks9a6qvgaigaaaaaaaqnyrqpOkqs6O6ovtvyigqsjhaOvgaaaa" +
+            "aaaayrmrqpaks6a6vtvaigvgaaaaaaayrqpynms6akvtva69aqigvgaaaaaaaaOnmrqpaks6a6vtvaigvgaaaaaaaaayrqpynms6" +
+            "akvtvaigvgaaaaaaaOrqpynms6akvtva698yigqvaaaaaaaOrqpynms6akvtva69aigqvqgaaaaaaaaaqrqpynks6a6vtvaigvga" +
+            "aaaaOrqpams6mnmovtvOks9a6qvgaigaaaaaaaqnyrqpOkqs6O6ovtvyigqsjhaOvgaaaaaaaamnmrqpaks6a6vtvaigvgaaaaaa" +
+            "aaayrqpynks6a6vtvaigvgaqrqrqparqs6asovtva69aiOvaaaaaaaaamrqpOrms6Ormvtvak9aq64aqimvaaaaaaaaaaayrqpyn" +
+            "ms6akvtvaigvgaaaaaaamrqpynms6akvtva69aqigqvgaaaaaayraOrmrqpaks6a6vtvaqigqvgaaaayraOraakrqpau46aquvtv" +
+            "aqigqvgaaaayraOraakrqpau46aquvtvaqigqvgaaaaaayraOrmrqpaks6a6vtvaqigqvgaaaaaaamrqpynms6akvtva69aqigqv" +
+            "gaaaaaaayrqpams6ynqovtvaou9aqigvgaaaaamrqpams6amvtvaqo9arqo4aqrig7aaaaamrqpams6amvtvaqo9arqo4aqrig7a" +
+            "aaaamrqpams6amvtvaqo9arqo4aqrig7aaaaamrqpams6amvtvaqo9arqo4aqrig7aaaaamrqpams6amvtvaqo9arqo4aqrig7aa" +
+            "aaamrqpams6amvtvaqo9ano4amig7aaaaamrqpams6amvtvOrqo9aqro4amig7aaaaaaaaOnmrqpaks6a6vtvaigvgaaaaaaaaay" +
+            "rqpynms6akvtvaigvgaaaaaaaaayrqpynms6akvtvaigvgaaaaaaaaayrqpynms6akvtvaigvgaaaaaaaaayrqpynms6akvtvaig" +
+            "vgaaaaaaaaayrqpynms6akvtvaigvgaaaaaaaaayrqpyrys6Orkvtvaigvgaaaaaaaaayrqpams6ynkvtvaigvgaaaaaaaaOryrq" +
+            "pOrks6a6vtvaigvgaaaaaaaaaaOryrqpOrks6aigvtvaaaaaaaaaaamrqpaks6ynigvtvaaaaaaaaaaamrqpaks6ynigvtvm";
 
-        private static string _key;
-        private static Dictionary<PixelAvatarAnimation, PixelSpriteAnimation> _animations;
-
-        /// <summary>
-        /// Supplies the key the artwork was packed with, which the toolkit deliberately does not
-        /// carry: the application holds it and hands it over. Call this once at startup, before
-        /// the first <see cref="PixelAvatar"/> is created.
-        ///
-        /// Calling it again with a different key throws the decoded artwork away and unpacks it
-        /// afresh on next use, so a wrong key is recoverable.
-        /// </summary>
-        public static void Unlock(string key)
-        {
-            _key        = key;
-            _animations = null;
-        }
-
-        /// <summary>
-        /// Gets whether the artwork has been decoded, or can be - that is, whether
-        /// <see cref="Unlock"/> has been given a key.
-        /// </summary>
-        public static bool IsUnlocked => _key != null;
+        private static readonly Dictionary<PixelAvatarAnimation, PixelSpriteAnimation> _animations = Build(PackedText.Unpack(PackedFrames, Alphabet));
 
         /// <summary>
         /// Returns the frames and timing for the requested animation.
@@ -96,7 +74,7 @@ namespace Tesserae
             // AutoIdle is a behaviour rather than artwork: it drifts between the resting
             // poses, and starts from Idle.
             if (animation == PixelAvatarAnimation.AutoIdle) animation = PixelAvatarAnimation.Idle;
-            return Animations()[animation];
+            return _animations[animation];
         }
 
         /// <summary>
@@ -131,22 +109,6 @@ namespace Tesserae
             PixelAvatarAnimation.Sleep,
             PixelAvatarAnimation.SleepIdle,
         };
-
-        // Unpacked on first use rather than in a static initializer, because the key only
-        // arrives once the application has had a chance to run.
-        private static Dictionary<PixelAvatarAnimation, PixelSpriteAnimation> Animations()
-        {
-            if (_animations != null) return _animations;
-
-            if (_key == null)
-            {
-                throw new InvalidOperationException(
-                    "The PixelAvatar artwork is packed and no key has been supplied. Call PixelAvatarSprites.Unlock(key) at startup, before creating a PixelAvatar.");
-            }
-
-            _animations = Build(PackedText.Unpack(PackedFrames, _key));
-            return _animations;
-        }
 
         private static Dictionary<PixelAvatarAnimation, PixelSpriteAnimation> Build(string frames)
         {
