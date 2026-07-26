@@ -70,7 +70,7 @@ namespace Tesserae.Tests.Samples
                        .SetTitle("As an OmniBox companion")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                        TextBlock("A modal is the one target that is not wrapped. It centers itself inside its own full-screen container and is put on screen by Show(), so a wrapper around it would simply be dropped - it lends its own box to the avatar instead, growing the anchored side by the avatar's height and perching the cat in that band, above the header and inside the rounded corners."),
+                        TextBlock("A modal is the one target that is not wrapped. It centers itself inside its own full-screen container and is put on screen by Show(), so a wrapper around it would simply be dropped - it lends its own box to the avatar instead, and the cat perches on the outside of the dialog, sitting on its roof rather than inside it."),
                         TextBlock("A cat on top of a modal roams the same way an OmniBox one does. There is nothing to type into, so it only wanders and plays the odd animation rather than following a caret."),
                         ModalGallery()))
                        .SetTitle("On a modal")))
@@ -312,7 +312,7 @@ namespace Tesserae.Tests.Samples
                 row.Add(Button($"Open a modal ({labels[i]})").Compact().MR(8).OnClick(() =>
                     Modal("Sudo has opinions about this dialog")
                        .Content(VStack().Children(
-                            TextBlock("The cat is perched on the modal's own top edge, so it stays inside the rounded corners and moves with the modal when you drag it."),
+                            TextBlock("The cat is perched on the outside of the modal's top edge, and moves with the dialog when you drag it."),
                             TextBlock("Give it a few seconds and it will wander along the header.").Tiny().Secondary().PT(8)))
                        .WithPixelAvatar(42, PixelAvatarDesign.Sudo, anchor)
                        .Width(460.px())

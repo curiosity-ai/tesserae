@@ -174,6 +174,30 @@
     padding-right: var(--tss-pxav-reserve);
 }
 
+/* An adopted modal perches its cat on the outside, which the modal's own `overflow-y: auto`
+   would otherwise clip away. Dropping it is safe: .tss-modal-content is itself a scroll
+   container inside the same flex column, so it is what actually scrolls long content, and the
+   modal-level scrollbar is a fallback that never appears in practice. The rounded corners are
+   the one thing the clipping was doing visually - the header and footer paint the modal's own
+   background over them - so they are handed to those two directly. */
+
+.tss-pixelavatar-adopted.tss-pixelavatar-overlap {
+    /* Two classes, so this beats the reserve rules above at the same specificity by coming later
+       - .tss-pixelavatar-overlap's own single-class `padding: 0` would lose to them. */
+    padding: 0;
+    overflow: visible;
+}
+
+.tss-pixelavatar-adopted.tss-pixelavatar-overlap > .tss-modal-header {
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+.tss-pixelavatar-adopted.tss-pixelavatar-overlap > .tss-modal-footer {
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+}
+
 /* Roaming: the companion drives `left` itself, so the anchor's own horizontal placement is
    cleared out of the way. --tss-pxav-walk is the length of the current walk, set to 0ms when the
    cat is placed rather than walking. */
