@@ -790,9 +790,9 @@ namespace Tesserae
 
             // A modal is not laid out by whoever builds it - it centers itself inside its own
             // full-screen container and is put on screen by Show() - so a wrapper around it would
-            // simply be dropped. It lends its own box instead: the anchored side of the modal grows
-            // by the avatar's size and the avatar perches in that band, above the header and inside
-            // the modal's rounded corners.
+            // simply be dropped. It lends its own box instead, and the avatar hangs off the outside
+            // of it, perched on the dialog rather than sitting in a band inside it. That is overlap
+            // mode, so a modal turns it on for itself; Overlap(false) moves the cat inside.
             var modal = target as Modal;
 
             IsAdopted = modal != null;
@@ -803,6 +803,11 @@ namespace Tesserae
                 _host.classList.add("tss-pixelavatar-adopted");
                 _host.classList.add($"{anchor}");
                 _host.appendChild(avatar.Render());
+                Overlap();
+
+                // So ShowEmbedded can pull the cat back inside: embedded in someone else's layout,
+                // there is no room above the modal to hang off.
+                modal._pixelAvatar = this;
             }
             else
             {
@@ -832,7 +837,8 @@ namespace Tesserae
         /// Gets whether the target lends its own box to the avatar instead of being wrapped, which
         /// is what a <see cref="Modal"/> target does. An adopted target is still the component the
         /// application goes on using - <see cref="Modal.Show"/> and the rest all still apply - and
-        /// this attachment's <see cref="Render"/> returns the target's own element.
+        /// this attachment's <see cref="Render"/> returns the target's own element. Adopted targets
+        /// start in <see cref="Overlap"/> mode so the avatar sits outside the dialog.
         /// </summary>
         public bool IsAdopted { get; }
 
@@ -865,8 +871,10 @@ namespace Tesserae
         /// <summary>
         /// Lets the avatar hang outside the wrapper's box instead of reserving room for it, so the
         /// target keeps exactly the footprint it would have on its own. Beware that an avatar in
-        /// overlap mode is clipped by any ancestor that scrolls or hides its overflow - which
-        /// includes a <see cref="Modal"/>, so an adopted avatar should keep its reserved room.
+        /// overlap mode is clipped by any ancestor that scrolls or hides its overflow.
+        ///
+        /// An adopted <see cref="Modal"/> starts in overlap mode, so the cat perches on the outside
+        /// of the dialog; <c>Overlap(false)</c> moves it into a reserved band inside instead.
         /// </summary>
         public PixelAvatarAttachment Overlap(bool value = true)
         {

@@ -208,10 +208,10 @@ inputs is focused and is public, so a different companion can use it too.
 
 A `Modal` is the one target that is **not wrapped**. It centers itself inside its own
 full-screen container and is put on screen by `Show()`, so a wrapper around it would simply be
-dropped. It lends its own box to the avatar instead: the anchored side of the modal grows by the
-avatar's size and the cat perches in that band, above the header and inside the modal's rounded
-corners. `PixelAvatarAttachment.IsAdopted` reports it, and `Render()` returns the modal's own
-element rather than a wrapper.
+dropped. It lends its own box to the avatar instead, and the cat perches on the **outside** of
+the dialog — sitting on its roof rather than inside it.
+`PixelAvatarAttachment.IsAdopted` reports it, and `Render()` returns the modal's own element
+rather than a wrapper.
 
 Because the modal stays the component you go on using, the extension returns the modal:
 
@@ -228,8 +228,12 @@ the way it roams an `OmniBox`. There is nothing to type into, so it only wanders
 odd animation — `CursorDelay` is ignored. Use `avatar.AttachTo(modal, anchor)` instead of the
 extension when you need the attachment back to reach that companion.
 
-Keep the reserved room on a modal: `.Overlap()` hangs the avatar outside the box, and a modal
-scrolls its own content, so an overlapping cat is clipped.
+An adopted modal starts in **overlap** mode, which is what puts the cat outside the box. To do
+that the modal's own `overflow-y: auto` is dropped (its content area is a scroll container in
+the same flex column, so that is what actually scrolls) and the rounded corners it was clipping
+are handed to the header and footer directly. `Overlap(false)` puts the cat back in a reserved
+band inside the dialog, above the header — which is what `ShowEmbedded()` does for you, since an
+embedded modal is a box in someone else's layout and that layout usually clips.
 
 ## Attaching to another component
 
