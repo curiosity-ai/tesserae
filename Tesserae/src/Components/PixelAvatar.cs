@@ -475,6 +475,9 @@ namespace Tesserae
         /// <summary>
         /// Wraps <paramref name="target"/> so that this avatar is anchored to one of its edges. The
         /// returned component renders the target as usual, with the avatar perched next to it.
+        ///
+        /// A <see cref="Modal"/> target is not wrapped - see
+        /// <see cref="PixelAvatarAttachment.IsAdopted"/>.
         /// </summary>
         public PixelAvatarAttachment AttachTo(IComponent target, PixelAvatarAnchor anchor = PixelAvatarAnchor.TopLeft)
         {
@@ -761,6 +764,8 @@ namespace Tesserae
     /// stays inside the wrapper's box and cannot be clipped by a scrolling ancestor. Call
     /// <see cref="Overlap"/> to hang it outside the box instead, leaving the target's own footprint
     /// untouched.
+    ///
+    /// A <see cref="Modal"/> is the one target that is not wrapped: see <see cref="IsAdopted"/>.
     /// </summary>
     [Transpose.Name("tss.PixelAvatarAttachment")]
     public sealed class PixelAvatarAttachment : IComponent, ISpecialCaseStyling
@@ -783,15 +788,35 @@ namespace Tesserae
             Avatar  = avatar;
             _anchor = anchor;
 
-            _host = Div(Att($"tss-pixelavatar-host {anchor}"), target.Render(), avatar.Render());
+            // A modal is not laid out by whoever builds it - it centers itself inside its own
+            // full-screen container and is put on screen by Show() - so a wrapper around it would
+            // simply be dropped. It lends its own box instead: the anchored side of the modal grows
+            // by the avatar's size and the avatar perches in that band, above the header and inside
+            // the modal's rounded corners.
+            var modal = target as Modal;
+
+            IsAdopted = modal != null;
+
+            if (IsAdopted)
+            {
+                _host = target.Render();
+                _host.classList.add("tss-pixelavatar-adopted");
+                _host.classList.add($"{anchor}");
+                _host.appendChild(avatar.Render());
+            }
+            else
+            {
+                _host = Div(Att($"tss-pixelavatar-host {anchor}"), target.Render(), avatar.Render());
+            }
 
             avatar.TrackPixelSize(UpdateReservedSpace);
 
-            // An avatar perched on top of an OmniBox gets to wander along it and react to typing.
-            // Only the top anchors, because that is the only edge with room to walk along.
+            // An avatar perched on a top edge with room to walk along gets a life of its own. An
+            // OmniBox additionally gives the companion something to react to - typing, and a caret
+            // to pad over to - which a modal does not, so that cat only roams.
             var omniBox = Target as OmniBox;
 
-            if (omniBox != null && IsTopAnchor(anchor))
+            if ((omniBox != null || IsAdopted) && IsTopAnchor(anchor))
             {
                 Companion = new PixelAvatarCompanion(omniBox, avatar, _host, anchor);
             }
@@ -804,8 +829,17 @@ namespace Tesserae
         public IComponent Target { get; }
 
         /// <summary>
-        /// Gets the behaviour driving the avatar, or null when there is none. Only set when the
-        /// target is an <see cref="OmniBox"/> and the anchor is one of the <c>Top*</c> ones.
+        /// Gets whether the target lends its own box to the avatar instead of being wrapped, which
+        /// is what a <see cref="Modal"/> target does. An adopted target is still the component the
+        /// application goes on using - <see cref="Modal.Show"/> and the rest all still apply - and
+        /// this attachment's <see cref="Render"/> returns the target's own element.
+        /// </summary>
+        public bool IsAdopted { get; }
+
+        /// <summary>
+        /// Gets the behaviour driving the avatar, or null when there is none. Set when the anchor is
+        /// one of the <c>Top*</c> ones and the target is either an <see cref="OmniBox"/> or a
+        /// <see cref="Modal"/>.
         /// </summary>
         public PixelAvatarCompanion Companion { get; }
 
@@ -831,7 +865,8 @@ namespace Tesserae
         /// <summary>
         /// Lets the avatar hang outside the wrapper's box instead of reserving room for it, so the
         /// target keeps exactly the footprint it would have on its own. Beware that an avatar in
-        /// overlap mode is clipped by any ancestor that scrolls or hides its overflow.
+        /// overlap mode is clipped by any ancestor that scrolls or hides its overflow - which
+        /// includes a <see cref="Modal"/>, so an adopted avatar should keep its reserved room.
         /// </summary>
         public PixelAvatarAttachment Overlap(bool value = true)
         {
@@ -892,6 +927,27 @@ namespace Tesserae
         public static PixelAvatarAttachment WithPixelAvatar(this IComponent component, byte key, PixelAvatarDesign design, PixelAvatarAnchor anchor = PixelAvatarAnchor.TopLeft)
         {
             return new PixelAvatarAttachment(component, new PixelAvatar(key, design), anchor);
+        }
+
+        /// <summary>
+        /// Perches an avatar on one of the modal's own edges. A modal lends its box to the avatar
+        /// rather than being wrapped, so the modal itself is returned and the caller goes on using
+        /// it as usual. Reach the attachment - and its companion - through
+        /// <see cref="PixelAvatar.AttachTo"/> when you need to tune it.
+        /// </summary>
+        public static Modal WithPixelAvatar(this Modal modal, PixelAvatar avatar, PixelAvatarAnchor anchor = PixelAvatarAnchor.TopLeft)
+        {
+            avatar.AttachTo(modal, anchor);
+            return modal;
+        }
+
+        /// <summary>
+        /// Perches a new avatar with the given design on one of the modal's own edges. See
+        /// <see cref="PixelAvatar(byte, PixelAvatarDesign, PixelAvatarAnimation)"/> for the key.
+        /// </summary>
+        public static Modal WithPixelAvatar(this Modal modal, byte key, PixelAvatarDesign design, PixelAvatarAnchor anchor = PixelAvatarAnchor.TopLeft)
+        {
+            return modal.WithPixelAvatar(new PixelAvatar(key, design), anchor);
         }
     }
 }

@@ -70,7 +70,8 @@
     display: inline-block;
 }
 
-.tss-pixelavatar-host > .tss-pixelavatar {
+.tss-pixelavatar-host > .tss-pixelavatar,
+.tss-pixelavatar-adopted > .tss-pixelavatar {
     position: absolute;
     z-index: 1;
     translate: var(--tss-pxav-dx) var(--tss-pxav-dy);
@@ -138,6 +139,39 @@
     right: 0;
     top: 50%;
     transform: translateY(-50%);
+}
+
+/* --- adopting a target's own box ------------------------------------------------------------
+   A modal centers itself inside a full-screen container and is put on screen by Show(), so a
+   wrapper around it would simply be dropped. It lends its own box instead: the same reserve and
+   anchor rules apply, written onto the modal element itself. The two-class selectors below are
+   what lets the reserved room win over the modal's own `padding: 0`, and nothing here touches
+   `position` or `display` since .tss-modal is already a relatively positioned flex column. */
+
+.tss-pixelavatar-adopted {
+    --tss-pxav-dx: 0px;
+    --tss-pxav-dy: 0px;
+    --tss-pxav-reserve: 0px;
+}
+
+.tss-pixelavatar-adopted.tss-pixelavatar-anchor-topleft,
+.tss-pixelavatar-adopted.tss-pixelavatar-anchor-topcenter,
+.tss-pixelavatar-adopted.tss-pixelavatar-anchor-topright {
+    padding-top: var(--tss-pxav-reserve);
+}
+
+.tss-pixelavatar-adopted.tss-pixelavatar-anchor-bottomleft,
+.tss-pixelavatar-adopted.tss-pixelavatar-anchor-bottomcenter,
+.tss-pixelavatar-adopted.tss-pixelavatar-anchor-bottomright {
+    padding-bottom: var(--tss-pxav-reserve);
+}
+
+.tss-pixelavatar-adopted.tss-pixelavatar-anchor-leftcenter {
+    padding-left: var(--tss-pxav-reserve);
+}
+
+.tss-pixelavatar-adopted.tss-pixelavatar-anchor-rightcenter {
+    padding-right: var(--tss-pxav-reserve);
 }
 
 /* Roaming: the companion drives `left` itself, so the anchor's own horizontal placement is

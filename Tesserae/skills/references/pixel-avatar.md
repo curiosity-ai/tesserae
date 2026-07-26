@@ -204,18 +204,46 @@ Every one of those is jittered or drawn from its range on use. `.WakeUp()`, `.Fi
 The caret position comes from `OmniBox.CaretClientX()`, which measures whichever of the two
 inputs is focused and is public, so a different companion can use it too.
 
+## On a modal
+
+A `Modal` is the one target that is **not wrapped**. It centers itself inside its own
+full-screen container and is put on screen by `Show()`, so a wrapper around it would simply be
+dropped. It lends its own box to the avatar instead: the anchored side of the modal grows by the
+avatar's size and the cat perches in that band, above the header and inside the modal's rounded
+corners. `PixelAvatarAttachment.IsAdopted` reports it, and `Render()` returns the modal's own
+element rather than a wrapper.
+
+Because the modal stays the component you go on using, the extension returns the modal:
+
+```csharp
+Modal("Configure the endpoint")
+   .Content(editor)
+   .WithPixelAvatar(SpriteKey.Value, PixelAvatarDesign.Sudo, PixelAvatarAnchor.TopLeft)
+   .Width(640.px())
+   .Show();
+```
+
+A `Top*` anchor gets a `PixelAvatarCompanion` here too, so the cat roams the modal's top edge
+the way it roams an `OmniBox`. There is nothing to type into, so it only wanders and plays the
+odd animation — `CursorDelay` is ignored. Use `avatar.AttachTo(modal, anchor)` instead of the
+extension when you need the attachment back to reach that companion.
+
+Keep the reserved room on a modal: `.Overlap()` hangs the avatar outside the box, and a modal
+scrolls its own content, so an overlapping cat is clipped.
+
 ## Attaching to another component
 
 `.AttachTo(IComponent target, PixelAvatarAnchor anchor = PixelAvatarAnchor.TopLeft)` — or
 the equivalent extension `target.WithPixelAvatar(avatar, anchor)` — returns a
 `PixelAvatarAttachment` that renders the target with the avatar perched on one of its
-edges. An `OmniBox` target with a `Top*` anchor also gets a companion — see above.
+edges. An `OmniBox` or `Modal` target with a `Top*` anchor also gets a companion — see above.
 
 - `PixelAvatarAnchor` values: `TopLeft`, `TopCenter`, `TopRight`, `BottomLeft`, `BottomCenter`, `BottomRight`, `LeftCenter`, `RightCenter`.
 - `.Anchor(PixelAvatarAnchor)` — move it to a different edge later.
 - `.Offset(int x, int y)` — nudge it in CSS pixels; positive values move right and down.
 - `.Overlap(bool = true)` — by default the wrapper reserves room for the avatar on the anchored side, so it can never be clipped by a scrolling ancestor. Overlap mode drops that room and lets the avatar hang outside the wrapper, keeping the target's footprint identical to the bare component — but any ancestor that scrolls or hides overflow will then clip it.
 - `.Avatar` / `.Target` — the two wrapped components.
+- `.IsAdopted` — whether the target lent its own box instead of being wrapped, which is what a `Modal` does.
 
 The attachment implements `ISpecialCaseStyling`, so sizing helpers such as `.WS()` apply
 to the wrapper and the avatar stays anchored.

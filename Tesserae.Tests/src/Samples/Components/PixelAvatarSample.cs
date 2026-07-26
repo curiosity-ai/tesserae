@@ -70,6 +70,12 @@ namespace Tesserae.Tests.Samples
                        .SetTitle("As an OmniBox companion")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
+                        TextBlock("A modal is the one target that is not wrapped. It centers itself inside its own full-screen container and is put on screen by Show(), so a wrapper around it would simply be dropped - it lends its own box to the avatar instead, growing the anchored side by the avatar's height and perching the cat in that band, above the header and inside the rounded corners."),
+                        TextBlock("A cat on top of a modal roams the same way an OmniBox one does. There is nothing to type into, so it only wanders and plays the odd animation rather than following a caret."),
+                        ModalGallery()))
+                       .SetTitle("On a modal")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                         TextBlock("Every index below is one color of the sprite. Indices 1 to 3 are the artwork's highlight shade, 4 to 9 the base shade and 10 to 11 the shadow shade, which is why the single-hue designs are just three colors repeated - and why pasting three colors is enough to build a whole coat."),
                         PaletteEditor()))
                        .SetTitle("Edit the palette")));
@@ -291,6 +297,29 @@ namespace Tesserae.Tests.Samples
                     Button("Sleep in 2s").Compact().ML(8).OnClick(() => companion.SleepAfter(2000)),
                     Button("Sleep after 60s").Compact().ML(8).OnClick(() => companion.SleepAfter(60000)),
                     status.PL(16)));
+        }
+
+        private static IComponent ModalGallery()
+        {
+            var anchors = new[] { PixelAvatarAnchor.TopLeft, PixelAvatarAnchor.TopCenter, PixelAvatarAnchor.TopRight };
+            var labels  = new[] { "TopLeft", "TopCenter", "TopRight" };
+            var row     = HStack().WS().Wrap().Children();
+
+            for (var i = 0; i < anchors.Length; i++)
+            {
+                var anchor = anchors[i];
+
+                row.Add(Button($"Open a modal ({labels[i]})").Compact().MR(8).OnClick(() =>
+                    Modal("Sudo has opinions about this dialog")
+                       .Content(VStack().Children(
+                            TextBlock("The cat is perched on the modal's own top edge, so it stays inside the rounded corners and moves with the modal when you drag it."),
+                            TextBlock("Give it a few seconds and it will wander along the header.").Tiny().Secondary().PT(8)))
+                       .WithPixelAvatar(42, PixelAvatarDesign.Sudo, anchor)
+                       .Width(460.px())
+                       .Show()));
+            }
+
+            return row;
         }
 
         private static IComponent TurnGallery()

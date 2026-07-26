@@ -4,20 +4,20 @@ using static Transpose.Core.dom;
 namespace Tesserae
 {
     /// <summary>
-    /// Gives a <see cref="PixelAvatar"/> perched on top of an <see cref="OmniBox"/> a life of its
-    /// own: while you leave the box alone the cat wanders along the top edge and plays the odd
-    /// animation, when you type it settles back down and, a little later, pads over to the text
-    /// caret to watch you type.
+    /// Gives a <see cref="PixelAvatar"/> perched on top of another component a life of its own:
+    /// while you leave it alone the cat wanders along the top edge and plays the odd animation,
+    /// and on an <see cref="OmniBox"/> it also settles back down when you type and, a little
+    /// later, pads over to the text caret to watch you type.
     ///
     /// Resting - drifting between the idle, sitting and crouching poses, and eventually falling
     /// asleep - belongs to the avatar itself, through
     /// <see cref="PixelAvatarAnimation.AutoIdle"/>; the companion only supplies the activity in
     /// between and wakes the cat up when you come back to the box.
     ///
-    /// Created automatically by <see cref="PixelAvatar.AttachTo"/> when the target is an
-    /// <see cref="OmniBox"/> and the anchor is one of the <c>Top*</c> ones, and reachable through
-    /// <see cref="PixelAvatarAttachment.Companion"/> to tune the timings. Every delay below is
-    /// jittered on use, so nothing the cat does lands on a stopwatch.
+    /// Created automatically by <see cref="PixelAvatar.AttachTo"/> when the anchor is one of the
+    /// <c>Top*</c> ones and the target is an <see cref="OmniBox"/> or a <see cref="Modal"/>, and
+    /// reachable through <see cref="PixelAvatarAttachment.Companion"/> to tune the timings. Every
+    /// delay below is jittered on use, so nothing the cat does lands on a stopwatch.
     /// </summary>
     [Transpose.Name("tss.PixelAvatarCompanion")]
     public sealed class PixelAvatarCompanion
@@ -81,6 +81,10 @@ namespace Tesserae
         private bool   _returnToIdle;
         private bool   _running;
 
+        /// <param name="omniBox">
+        /// The box the cat reacts to, or null when there is none - a companion without one only
+        /// roams, since there is nothing to be typed into and no caret to walk to.
+        /// </param>
         internal PixelAvatarCompanion(OmniBox omniBox, PixelAvatar avatar, HTMLElement host, PixelAvatarAnchor anchor)
         {
             _omniBox = omniBox;
@@ -95,8 +99,11 @@ namespace Tesserae
             // is also where the follow-up chains land (Stretch ends sitting, Crouch ends crouched).
             _avatar.TrackAnimation(OnAnimationStarted);
 
-            omniBox.OnInput((_, __) => Poke(true));
-            omniBox.OnFocus((_, __) => Poke(false));
+            if (omniBox != null)
+            {
+                omniBox.OnInput((_, __) => Poke(true));
+                omniBox.OnFocus((_, __) => Poke(false));
+            }
 
             TrackMounting();
         }
@@ -131,7 +138,8 @@ namespace Tesserae
 
         /// <summary>
         /// Sets how long the cat waits after your last keystroke before padding over to the text
-        /// caret. Pass zero to leave the caret alone entirely.
+        /// caret. Pass zero to leave the caret alone entirely. Ignored by a companion with no box
+        /// to watch.
         /// </summary>
         public PixelAvatarCompanion CursorDelay(int milliseconds)
         {
@@ -307,6 +315,12 @@ namespace Tesserae
 
             if (!_running || _avatar.IsAsleep) return;
 
+            if (_omniBox == null)
+            {
+                ScheduleAction(true);
+                return;
+            }
+
             var caret = _omniBox.CaretClientX();
 
             // Nothing focused, or the box is not laid out yet - just carry on as usual.
@@ -422,7 +436,7 @@ namespace Tesserae
             ClearCursorWalk();
             ClearActionTimer();
 
-            if (!_running || _cursorMs == 0) return;
+            if (!_running || _cursorMs == 0 || _omniBox == null) return;
 
             _cursorTimer = window.setTimeout(_ => WalkToCursor(), PixelAvatarRandom.Jittered(_cursorMs));
         }
