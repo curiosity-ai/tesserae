@@ -85,12 +85,58 @@ var copied = mint.Palette.ToString();          // "#D6F5E3, #D6F5E3, ..."
 var back   = PixelAvatarPalette.Parse(copied); // null if it isn't 11 or 3 colors
 ```
 
+## As a chat / profile avatar
+
+`PixelAvatarBadge` dresses a cat as a round profile picture, sized with the same `AvatarSize`
+presets as `Avatar` so the two can sit side by side. It holds `SitIdle` on its first frame and
+never animates — a badge is an identity, not an animation — and derives its background from
+the coat, so it always belongs to the cat in front of it.
+
+`UI.PixelAvatarBadge(PixelAvatarDesign design = Black, AvatarSize size = Medium)`, or
+`UI.PixelAvatarBadge(PixelAvatar avatar, AvatarSize size = Medium)` to wrap one you already
+have.
+
+- `.Size(AvatarSize)` — `XSmall` (24px) through `XLarge` (72px); the sprite is scaled to match.
+- `.SetDesign(...)` / `.SetPalette(...)` — recolor, re-deriving the background.
+- `.Background(string)` — pin a CSS background instead; pass null to go back to the derived one.
+- `.Avatar` — the wrapped `PixelAvatar`.
+- `PixelAvatarBadge.BackgroundFor(palette)` — the derived background on its own. It takes the hue of `palette.DominantColor()` (the color covering most of the sprite, weighted by `PixelAvatarSprites.PixelCounts`) and pushes the lightness the other way, so the largest area of the cat always contrasts.
+
+`ChatMessage` takes a cat directly and wraps it for you:
+
+```csharp
+chat.Add(ChatMessage(TextBlock("They're on the shelf."), PixelAvatarDesign.SpottedOrange).MaxWidth());
+chat.Add(ChatMessage(TextBlock("Classic."), PixelAvatar(PixelAvatarDesign.Grey)).RightAligned());
+```
+
+## As an OmniBox companion
+
+Attaching an avatar to the top of an `OmniBox` gives it a life of its own. `AttachTo` notices
+the target is an `OmniBox` and the anchor is one of the `Top*` ones, and wires up a
+`PixelAvatarCompanion`, reachable through `PixelAvatarAttachment.Companion`:
+
+- Left alone, it plays a random animation every 5–14s, picked from the non-idle, non-sleeping ones (`Move`, `Interact`, `JumpUp`, `Startle`, `Stretch`, `Sit`, `Crouch`) and waits until the cat settles back into a looping pose before scheduling the next one.
+- When `Move` comes up it picks a new spot along the top edge, turns to face the way it is going, and walks there.
+- Typing settles it back to `Idle` — a one-shot animation is allowed to play out first, only the looping poses are cut short.
+- After 60s untouched it falls asleep; focusing or typing wakes it.
+
+```csharp
+var perched = PixelAvatar(PixelAvatarDesign.Orange).AttachTo(omniBox, PixelAvatarAnchor.TopLeft);
+
+perched.Companion
+   .IdleDelay(8000, 20000)   // gap between spontaneous animations; floors at 5s
+   .SleepAfter(120000)       // silence before it sleeps
+   .WalkSpeed(40);           // CSS pixels per second
+```
+
+`.WakeUp()` and `.Fidget()` drive it by hand, and `.IsAsleep` reads the state.
+
 ## Attaching to another component
 
 `.AttachTo(IComponent target, PixelAvatarAnchor anchor = PixelAvatarAnchor.TopLeft)` — or
 the equivalent extension `target.WithPixelAvatar(avatar, anchor)` — returns a
 `PixelAvatarAttachment` that renders the target with the avatar perched on one of its
-edges.
+edges. An `OmniBox` target with a `Top*` anchor also gets a companion — see above.
 
 - `PixelAvatarAnchor` values: `TopLeft`, `TopCenter`, `TopRight`, `BottomLeft`, `BottomCenter`, `BottomRight`, `LeftCenter`, `RightCenter`.
 - `.Anchor(PixelAvatarAnchor)` — move it to a different edge later.

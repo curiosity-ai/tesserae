@@ -56,6 +56,20 @@ namespace Tesserae.Tests.Samples
                        .SetTitle("Usage")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
+                        TextBlock("PixelAvatarBadge dresses a cat as a round profile picture, sized with the same AvatarSize presets as the regular Avatar so the two can sit side by side. It holds SitIdle on its first frame - a badge is an identity, not an animation, and a transcript full of moving cats is unreadable - and derives its background from the coat, so it always belongs to the cat in front of it."),
+                        BadgeGallery(),
+                        SampleSubTitle("In a chat"),
+                        TextBlock("Passing a PixelAvatar straight to ChatMessage wraps it in a badge for you."),
+                        ChatGallery()))
+                       .SetTitle("As a chat avatar")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                        TextBlock("Attaching an avatar to the top of an OmniBox gives it a life of its own: left alone it wanders along the top edge and plays the odd animation, typing settles it back down, and after a minute of silence it falls asleep until you come back. Focusing or typing wakes it."),
+                        TextBlock("The buttons below poke the same companion the OmniBox drives, so you don't have to wait for the timers.").Tiny().Secondary(),
+                        CompanionGallery()))
+                       .SetTitle("As an OmniBox companion")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                         TextBlock("Every index below is one color of the sprite. Indices 1 to 3 are the artwork's highlight shade, 4 to 9 the base shade and 10 to 11 the shadow shade, which is why the single-hue designs are just three colors repeated - and why pasting three colors is enough to build a whole coat."),
                         PaletteEditor()))
                        .SetTitle("Edit the palette")));
@@ -205,6 +219,66 @@ namespace Tesserae.Tests.Samples
             }
 
             return row;
+        }
+
+        private static IComponent BadgeGallery()
+        {
+            var row = HStack().WS().Wrap().AlignItems(ItemAlign.End).Children();
+
+            foreach (var design in PixelAvatarPalettes.All)
+            {
+                row.Add(VStack().AlignItemsCenter().PR(20).PB(12).Children(
+                    PixelAvatarBadge(design, AvatarSize.Large),
+                    TextBlock($"{design}").Tiny().Secondary().PT(6)));
+            }
+
+            var sizes = HStack().AlignItems(ItemAlign.End).PT(12).Children();
+
+            foreach (var size in new[] { AvatarSize.XSmall, AvatarSize.Small, AvatarSize.Medium, AvatarSize.Large, AvatarSize.XLarge })
+            {
+                var s = size;
+                sizes.Add(VStack().AlignItemsCenter().PR(20).Children(
+                    PixelAvatarBadge(PixelAvatarDesign.Lynx, s),
+                    TextBlock($"{s}").Tiny().Secondary().PT(6)));
+            }
+
+            return VStack().WS().Children(row, sizes);
+        }
+
+        private static IComponent ChatGallery()
+        {
+            return VStack().WS().MaxWidth(620.px()).Children(
+                ChatMessage(TextBlock("Has anyone seen the build logs?"), PixelAvatarDesign.Tuxedo).MaxWidth(),
+                ChatMessage(TextBlock("They're on the shelf. I knocked them off."), PixelAvatarDesign.SpottedOrange).MaxWidth(),
+                ChatMessage(TextBlock("I sat on them, actually."), PixelAvatarDesign.Sparkle).MaxWidth(),
+                ChatMessage(TextBlock("Classic."), PixelAvatar(PixelAvatarDesign.Grey)).RightAligned().MaxWidth());
+        }
+
+        private static IComponent CompanionGallery()
+        {
+            var omni = OmniBox(new OmniBox.Config(OmniBox.Mode.Search)
+            {
+                PlaceholderSearch = "Type here and the cat will settle down..."
+            });
+
+            var perched = PixelAvatar(PixelAvatarDesign.Orange)
+               .PixelSize(4)
+               .AttachTo(omni, PixelAvatarAnchor.TopLeft)
+               .WS();
+
+            var companion = perched.Companion;
+            var status    = TextBlock("Idle").Tiny().Secondary();
+
+            companion.Avatar.OnAnimationStarted((_, animation) => status.Text = $"{animation}");
+
+            return VStack().WS().Children(
+                perched,
+                HStack().WS().AlignItemsCenter().PT(12).Children(
+                    Button("Fidget now").Compact().OnClick(() => companion.Fidget()),
+                    Button("Wake up").Compact().ML(8).OnClick(() => companion.WakeUp()),
+                    Button("Sleep in 2s").Compact().ML(8).OnClick(() => companion.SleepAfter(2000)),
+                    Button("Sleep after 60s").Compact().ML(8).OnClick(() => companion.SleepAfter(60000)),
+                    status.PL(16)));
         }
 
         private static IComponent TurnGallery()

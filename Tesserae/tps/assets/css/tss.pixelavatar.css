@@ -140,6 +140,17 @@
     transform: translateY(-50%);
 }
 
+/* Roaming: the companion drives `left` itself, so the anchor's own horizontal placement is
+   cleared out of the way. --tss-pxav-walk is the length of the current walk, set to 0ms when the
+   cat is placed rather than walking. */
+
+.tss-pixelavatar-roaming > .tss-pixelavatar {
+    left: 0;
+    right: auto;
+    transform: none;
+    transition: left var(--tss-pxav-walk, 0ms) linear;
+}
+
 /* Overlap mode: no reserved room, the avatar hangs outside the host's box. */
 
 .tss-pixelavatar-overlap {
@@ -170,4 +181,21 @@
     right: auto;
     left: 100%;
     margin-left: 4px;
+}
+
+/* --- badge: a pixel avatar dressed as a round profile picture ------------------------------ */
+
+.tss-pixelavatar-badge {
+    position: relative;
+    display: inline-flex;
+    align-items: flex-end;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+/* The cat sits on the floor of the circle rather than floating in the middle of it. */
+.tss-pixelavatar-badge > .tss-pixelavatar {
+    margin-bottom: 8%;
 }

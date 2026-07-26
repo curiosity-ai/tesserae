@@ -39,17 +39,18 @@ namespace Tesserae
         private readonly int           _width;
         private readonly int           _height;
 
-        private Action               _pixelSizeChanged;
-        private PixelAvatarPalette   _palette;
-        private PixelAvatarDesign    _design;
-        private PixelSpriteAnimation _animation;
-        private PixelAvatarFacing    _facing;
-        private int                  _pixelSize;
-        private int                  _frame;
-        private double               _speed;
-        private double               _timer;
-        private bool                 _paused;
-        private bool                 _isMounted;
+        private Action                       _pixelSizeChanged;
+        private Action<PixelAvatarAnimation> _animationStarted;
+        private PixelAvatarPalette           _palette;
+        private PixelAvatarDesign            _design;
+        private PixelSpriteAnimation         _animation;
+        private PixelAvatarFacing            _facing;
+        private int                          _pixelSize;
+        private int                          _frame;
+        private double                       _speed;
+        private double                       _timer;
+        private bool                         _paused;
+        private bool                         _isMounted;
 
         private event Action<PixelAvatar, PixelAvatarAnimation> AnimationFinished;
         private event Action<PixelAvatar, PixelAvatarAnimation> AnimationStarted;
@@ -288,6 +289,10 @@ namespace Tesserae
             UpdateAriaLabel();
             SyncTimer();
 
+            // The internal hook first, and separately from the public event: OnAnimationStarted
+            // clears previous handlers by default, so an app wiring up its own would otherwise
+            // silently unsubscribe whatever behaviour is driving this avatar.
+            _animationStarted?.Invoke(animation);
             AnimationStarted?.Invoke(this, animation);
             return this;
         }
@@ -363,6 +368,13 @@ namespace Tesserae
         {
             _pixelSizeChanged = onPixelSizeChanged;
             onPixelSizeChanged();
+        }
+
+        // Lets a PixelAvatarCompanion follow the animation without competing with the public
+        // OnAnimationStarted event, which apps are free to take over.
+        internal void TrackAnimation(Action<PixelAvatarAnimation> onAnimationStarted)
+        {
+            _animationStarted = onAnimationStarted;
         }
 
         private void ApplyPixelSize()
@@ -534,6 +546,15 @@ namespace Tesserae
             _host = Div(Att($"tss-pixelavatar-host {anchor}"), target.Render(), avatar.Render());
 
             avatar.TrackPixelSize(UpdateReservedSpace);
+
+            // An avatar perched on top of an OmniBox gets to wander along it and react to typing.
+            // Only the top anchors, because that is the only edge with room to walk along.
+            var omniBox = Target as OmniBox;
+
+            if (omniBox != null && IsTopAnchor(anchor))
+            {
+                Companion = new PixelAvatarCompanion(omniBox, avatar, _host, anchor);
+            }
         }
 
         /// <summary>Gets the avatar anchored to the target.</summary>
@@ -541,6 +562,12 @@ namespace Tesserae
 
         /// <summary>Gets the component the avatar is anchored to.</summary>
         public IComponent Target { get; }
+
+        /// <summary>
+        /// Gets the behaviour driving the avatar, or null when there is none. Only set when the
+        /// target is an <see cref="OmniBox"/> and the anchor is one of the <c>Top*</c> ones.
+        /// </summary>
+        public PixelAvatarCompanion Companion { get; }
 
         /// <summary>Gets the element sizing helpers should style, which is the wrapper itself so the
         /// avatar stays anchored to the target's edges.</summary>
@@ -587,6 +614,13 @@ namespace Tesserae
         /// Renders the component's root HTML element.
         /// </summary>
         public HTMLElement Render() => _host;
+
+        private static bool IsTopAnchor(PixelAvatarAnchor anchor)
+        {
+            return anchor == PixelAvatarAnchor.TopLeft
+                || anchor == PixelAvatarAnchor.TopCenter
+                || anchor == PixelAvatarAnchor.TopRight;
+        }
 
         private void UpdateReservedSpace()
         {

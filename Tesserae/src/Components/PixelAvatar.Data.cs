@@ -187,6 +187,36 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Returns the color that covers the most of the sprite, weighing each index by
+        /// <see cref="PixelAvatarSprites.PixelCounts"/> and adding up indices that share a color.
+        /// Useful for deriving something that has to sit behind the whole sprite, such as the
+        /// background of a <see cref="PixelAvatarBadge"/>.
+        /// </summary>
+        public string DominantColor()
+        {
+            var dominant = Colors.Length == 0 ? string.Empty : Colors[0];
+            var best     = -1;
+
+            for (var i = 0; i < Colors.Length; i++)
+            {
+                var total = 0;
+
+                for (var j = 0; j < Colors.Length; j++)
+                {
+                    if (Colors[j] == Colors[i]) total += PixelAvatarSprites.PixelCounts[j + 1];
+                }
+
+                if (total > best)
+                {
+                    best     = total;
+                    dominant = Colors[i];
+                }
+            }
+
+            return dominant;
+        }
+
+        /// <summary>
         /// Returns a copy of this palette with one index recolored. Palettes are immutable, so this
         /// is how an editor builds up a custom coat.
         /// </summary>

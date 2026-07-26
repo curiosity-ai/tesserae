@@ -249,6 +249,16 @@ namespace Tesserae
         public static PixelAvatar PixelAvatar(PixelAvatarDesign design = PixelAvatarDesign.Black, PixelAvatarAnimation animation = PixelAvatarAnimation.Idle) => new PixelAvatar(design, animation);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.PixelAvatarBadge"/> component.
+        /// </summary>
+        public static PixelAvatarBadge PixelAvatarBadge(PixelAvatarDesign design = PixelAvatarDesign.Black, AvatarSize size = AvatarSize.Medium) => new PixelAvatarBadge(design, size);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.PixelAvatarBadge"/> component wrapping an existing avatar.
+        /// </summary>
+        public static PixelAvatarBadge PixelAvatarBadge(PixelAvatar avatar, AvatarSize size = AvatarSize.Medium) => new PixelAvatarBadge(avatar, size);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Pagination"/> component.
         /// </summary>
         public static Pagination Pagination(int totalItems = 0, int pageSize = 10, int currentPage = 1) => new Pagination(totalItems, pageSize, currentPage);
@@ -1051,6 +1061,18 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.ChatMessage"/> component.
         /// </summary>
         public static ChatMessage ChatMessage(IComponent content, IComponent avatar = null, IComponent commands = null) => new ChatMessage(content, avatar, commands);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ChatMessage"/> component whose avatar is a pixel-art cat,
+        /// wrapped in a <see cref="Tesserae.PixelAvatarBadge"/> so it reads like any other avatar.
+        /// </summary>
+        public static ChatMessage ChatMessage(IComponent content, PixelAvatar avatar, IComponent commands = null) => new ChatMessage(content, avatar, commands);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ChatMessage"/> component whose avatar is a pixel-art cat of
+        /// the given design.
+        /// </summary>
+        public static ChatMessage ChatMessage(IComponent content, PixelAvatarDesign design, IComponent commands = null) => new ChatMessage(content, design, commands);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.ToolCall"/> component that renders an

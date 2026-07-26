@@ -64,6 +64,8 @@ var omni = new OmniBox(config)
 
 ## Related
 
+- Perching an animated pixel-art cat on top of the box — `pixel-avatar.md`
+
 - TextBox — `/tesserae/components/text-box`
 - SearchBox — `/tesserae/components/search-box`
 - ToolAgentSelector — the tool/agent picker `EnableChatMentions` is commonly wired to — `tool-agent-selector.md`

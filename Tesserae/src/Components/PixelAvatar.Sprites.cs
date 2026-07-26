@@ -26,6 +26,14 @@ namespace Tesserae
         /// <summary>Highest palette index belonging to the base shade; the rest are shadow.</summary>
         public const int LastBaseIndex = 9;
 
+        /// <summary>
+        /// How many pixels across the whole sprite sheet use each palette index, indexed by
+        /// palette index (entry 0 is the transparent index and is always 0). Lets callers work
+        /// out which color covers most of the artwork - see
+        /// <see cref="PixelAvatarPalette.DominantColor"/>.
+        /// </summary>
+        public static readonly int[] PixelCounts = new[] { 0, 128, 89, 43, 133, 133, 66, 43, 43, 2, 73, 38 };
+
         // Frames are packed as one string per animation: FrameWidth * FrameHeight
         // characters per frame, laid out row by row. '.' is transparent and '1'..'9','a','b'
         // are palette indices 1..11. Strings keep the generated source small and decode to

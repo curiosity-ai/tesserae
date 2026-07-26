@@ -565,6 +565,25 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Initializes a new instance of this class with a pixel-art cat as the avatar. The cat is
+        /// wrapped in a <see cref="PixelAvatarBadge"/>, so it renders as a round avatar with a
+        /// background derived from its coat rather than as a loose sprite.
+        /// </summary>
+        public ChatMessage(IComponent content, PixelAvatar avatar, IComponent commands = null)
+            : this(content, new PixelAvatarBadge(avatar), commands)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of this class with a pixel-art cat of the given design as the
+        /// avatar.
+        /// </summary>
+        public ChatMessage(IComponent content, PixelAvatarDesign design, IComponent commands = null)
+            : this(content, new PixelAvatarBadge(design), commands)
+        {
+        }
+
+        /// <summary>
         /// Configures the component to animated.
         /// </summary>
         public ChatMessage Animated()
