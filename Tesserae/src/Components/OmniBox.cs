@@ -1813,11 +1813,16 @@ namespace Tesserae
             _chatInput.focus();
         }
 
+        private static (double x, double y) GetCaretClientPosition(HTMLTextAreaElement textarea, int caretIndex)
+            => GetCaretClientPosition(textarea, textarea.value, caretIndex, wraps: true);
+
         // Adapted from the well-known "textarea-caret-position" technique: an off-screen mirror <div> is styled to
         // match every metric that affects text layout, filled with the text up to the caret plus a marker span, and
-        // the marker's offset within the mirror (plus the textarea's own screen position) gives the caret's
-        // viewport-relative coordinates without needing any canvas/measureText trickery.
-        private static (double x, double y) GetCaretClientPosition(HTMLTextAreaElement textarea, int caretIndex)
+        // the marker's offset within the mirror (plus the field's own screen position) gives the caret's
+        // viewport-relative coordinates without needing any canvas/measureText trickery. Works for both the chat
+        // <textarea> (wraps: true) and the single-line search <input> (wraps: false, so long text keeps flowing on
+        // one line exactly as the input renders it).
+        private static (double x, double y) GetCaretClientPosition(HTMLElement field, string value, int caretIndex, bool wraps)
         {
             if (_mentionCaretMirror == null)
             {
@@ -1826,16 +1831,16 @@ namespace Tesserae
             }
 
             var mirror   = _mentionCaretMirror;
-            var computed = window.getComputedStyle(textarea);
+            var computed = window.getComputedStyle(field);
 
             mirror.style.position   = "absolute";
             mirror.style.visibility = "hidden";
             mirror.style.top        = "0px";
             mirror.style.left       = "-9999px";
-            mirror.style.whiteSpace = "pre-wrap";
-            mirror.style.wordWrap   = "break-word";
+            mirror.style.whiteSpace = wraps ? "pre-wrap" : "pre";
+            mirror.style.wordWrap   = wraps ? "break-word" : "normal";
             mirror.style.boxSizing         = computed.boxSizing;
-            mirror.style.width             = computed.width;
+            mirror.style.width             = wraps ? computed.width : "auto";
             mirror.style.paddingTop        = computed.paddingTop;
             mirror.style.paddingRight      = computed.paddingRight;
             mirror.style.paddingBottom     = computed.paddingBottom;
@@ -1852,7 +1857,7 @@ namespace Tesserae
             mirror.style.lineHeight        = computed.lineHeight;
             mirror.style.letterSpacing     = computed.letterSpacing;
 
-            var text   = textarea.value ?? string.Empty;
+            var text   = value ?? string.Empty;
             var index  = Math.Max(0, Math.Min(caretIndex, text.Length));
             var before = text.Substring(0, index);
             var after  = text.Substring(index);
@@ -1865,15 +1870,58 @@ namespace Tesserae
             mirror.appendChild(marker);
             mirror.appendChild(document.createTextNode(after.Length > 0 ? after : " "));
 
-            var textareaRect = textarea.getBoundingClientRect().As<DOMRect>();
-            var lineHeight    = ParseCssPixels(computed.lineHeight, ParseCssPixels(computed.fontSize, 16) * 1.2);
-            var borderTop     = ParseCssPixels(computed.borderTopWidth, 0);
-            var borderLeft    = ParseCssPixels(computed.borderLeftWidth, 0);
+            var fieldRect  = field.getBoundingClientRect().As<DOMRect>();
+            var lineHeight = ParseCssPixels(computed.lineHeight, ParseCssPixels(computed.fontSize, 16) * 1.2);
+            var borderTop  = ParseCssPixels(computed.borderTopWidth, 0);
+            var borderLeft = ParseCssPixels(computed.borderLeftWidth, 0);
 
-            var left = textareaRect.left - textarea.scrollLeft + marker.offsetLeft + borderLeft;
-            var top  = textareaRect.top  - textarea.scrollTop  + marker.offsetTop  + borderTop + lineHeight;
+            var left = fieldRect.left - field.scrollLeft + marker.offsetLeft + borderLeft;
+            var top  = fieldRect.top  - field.scrollTop  + marker.offsetTop  + borderTop + lineHeight;
 
             return (left, top);
+        }
+
+        /// <summary>
+        /// The viewport-relative horizontal position of the text caret in whichever input is currently active
+        /// (the search box or the chat box), clamped to that input's bounds. Returns <c>double.NaN</c> when there
+        /// is no active input to measure — for example before the OmniBox has been rendered.
+        /// </summary>
+        /// <remarks>
+        /// Used by companions that want to track where the user is typing, e.g.
+        /// <see cref="PixelAvatar"/> attached with <see cref="PixelAvatar.AttachTo"/>.
+        /// </remarks>
+        public double CaretClientX()
+        {
+            var field = _activeInput ?? (HTMLElement)_searchInput ?? _chatInput;
+            if (field == null) return double.NaN;
+
+            var rect = field.getBoundingClientRect().As<DOMRect>();
+            if (rect.width <= 0) return double.NaN;
+
+            string value;
+            int    caret;
+            bool   wraps;
+
+            if (field == _chatInput)
+            {
+                value = _chatInput.value ?? string.Empty;
+                caret = (int)_chatInput.selectionStart;
+                wraps = true;
+            }
+            else
+            {
+                var input = field.As<HTMLInputElement>();
+                value = input.value ?? string.Empty;
+                // An <input> that has never been focused reports a null selection; the end of the
+                // text is the closest thing to "where the caret would be".
+                caret = input.selectionStart.HasValue ? (int)input.selectionStart.Value : value.Length;
+                wraps = false;
+            }
+
+            var x = GetCaretClientPosition(field, value, caret, wraps).x;
+            if (double.IsNaN(x)) return double.NaN;
+
+            return Math.Max(rect.left, Math.Min(rect.right, x));
         }
 
         private static double ParseCssPixels(string cssValue, double fallback)

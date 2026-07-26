@@ -1,0 +1,207 @@
+.tss-pixelavatar {
+    /* Several palettes contain pure white (White, SpottedGrey, SpottedOrange) and several
+       contain near-black (Black, Tuxedo, Siamese), so on their own they wash out against one
+       theme or the other. A hairline halo in the opposite direction keeps every design legible
+       on every background without touching the artwork's colors. */
+    --tss-pxav-outline: rgba(0, 0, 0, 0.5);
+    --tss-pxav-turn: 320ms;
+    /* Written by the component from the rendered width, so the amount of foreshortening during a
+       turn looks the same whether the avatar is 20px or 120px wide. */
+    --tss-pxav-perspective: 160px;
+    position: relative;
+    display: inline-block;
+    flex: 0 0 auto;
+    line-height: 0;
+    /* The sprite is drawn on a hard pixel grid, so nothing here should be smoothed or clipped. */
+    overflow: visible;
+    perspective: var(--tss-pxav-perspective);
+}
+
+.tss-dark-mode .tss-pixelavatar {
+    --tss-pxav-outline: rgba(255, 255, 255, 0.5);
+}
+
+.tss-pixelavatar-canvas {
+    position: absolute;
+    inset: 0;
+    transform-origin: center;
+    /* Four hard 1px shadows rather than a blur, so the halo stays a crisp outline that suits
+       pixel art at every scale. */
+    filter:
+        drop-shadow(1px 0 0 var(--tss-pxav-outline))
+        drop-shadow(-1px 0 0 var(--tss-pxav-outline))
+        drop-shadow(0 1px 0 var(--tss-pxav-outline))
+        drop-shadow(0 -1px 0 var(--tss-pxav-outline));
+}
+
+.tss-pixelavatar-flat > .tss-pixelavatar-canvas {
+    filter: none;
+}
+
+/* Facing left is a half turn about the vertical axis rather than scaleX(-1). For a flat plane
+   the two are identical at rest, but the rotation is what makes an animated turn read as the
+   sprite physically pivoting instead of its pixels sliding through each other. */
+.tss-pixelavatar-mirrored {
+    transform: rotateY(180deg);
+}
+
+/* Only present while Turn() is animating; Facing() strips it so direction changes stay instant. */
+.tss-pixelavatar-turning {
+    transition: transform var(--tss-pxav-turn) ease-in-out;
+}
+
+.tss-pixelavatar-pixel {
+    position: absolute;
+    pointer-events: none;
+}
+
+/* --- attaching an avatar to another component ---------------------------------------------
+   By default the host reserves room for the avatar as padding on the anchored side and the
+   avatar is positioned inside that padding, so the avatar never sticks out of its container
+   and cannot be clipped by a scrolling ancestor. Adding tss-pixelavatar-overlap drops the
+   padding and hangs the avatar outside the host's box instead.
+   --tss-pxav-reserve is written by PixelAvatarAttachment and tracks the avatar's size. */
+
+.tss-pixelavatar-host {
+    --tss-pxav-dx: 0px;
+    --tss-pxav-dy: 0px;
+    --tss-pxav-reserve: 0px;
+    position: relative;
+    display: inline-block;
+}
+
+.tss-pixelavatar-host > .tss-pixelavatar {
+    position: absolute;
+    z-index: 1;
+    translate: var(--tss-pxav-dx) var(--tss-pxav-dy);
+}
+
+.tss-pixelavatar-anchor-topleft,
+.tss-pixelavatar-anchor-topcenter,
+.tss-pixelavatar-anchor-topright {
+    padding-top: var(--tss-pxav-reserve);
+}
+
+.tss-pixelavatar-anchor-bottomleft,
+.tss-pixelavatar-anchor-bottomcenter,
+.tss-pixelavatar-anchor-bottomright {
+    padding-bottom: var(--tss-pxav-reserve);
+}
+
+.tss-pixelavatar-anchor-leftcenter {
+    padding-left: var(--tss-pxav-reserve);
+}
+
+.tss-pixelavatar-anchor-rightcenter {
+    padding-right: var(--tss-pxav-reserve);
+}
+
+.tss-pixelavatar-anchor-topleft > .tss-pixelavatar {
+    top: 0;
+    left: 6px;
+}
+
+.tss-pixelavatar-anchor-topcenter > .tss-pixelavatar {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.tss-pixelavatar-anchor-topright > .tss-pixelavatar {
+    top: 0;
+    right: 6px;
+}
+
+.tss-pixelavatar-anchor-bottomleft > .tss-pixelavatar {
+    bottom: 0;
+    left: 6px;
+}
+
+.tss-pixelavatar-anchor-bottomcenter > .tss-pixelavatar {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.tss-pixelavatar-anchor-bottomright > .tss-pixelavatar {
+    bottom: 0;
+    right: 6px;
+}
+
+.tss-pixelavatar-anchor-leftcenter > .tss-pixelavatar {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.tss-pixelavatar-anchor-rightcenter > .tss-pixelavatar {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Roaming: the companion drives `left` itself, so the anchor's own horizontal placement is
+   cleared out of the way. --tss-pxav-walk is the length of the current walk, set to 0ms when the
+   cat is placed rather than walking. */
+
+.tss-pixelavatar-roaming > .tss-pixelavatar {
+    left: 0;
+    right: auto;
+    transform: none;
+    transition: left var(--tss-pxav-walk, 0ms) linear;
+}
+
+/* Overlap mode: no reserved room, the avatar hangs outside the host's box. */
+
+.tss-pixelavatar-overlap {
+    padding: 0;
+}
+
+.tss-pixelavatar-overlap.tss-pixelavatar-anchor-topleft > .tss-pixelavatar,
+.tss-pixelavatar-overlap.tss-pixelavatar-anchor-topcenter > .tss-pixelavatar,
+.tss-pixelavatar-overlap.tss-pixelavatar-anchor-topright > .tss-pixelavatar {
+    top: auto;
+    bottom: 100%;
+}
+
+.tss-pixelavatar-overlap.tss-pixelavatar-anchor-bottomleft > .tss-pixelavatar,
+.tss-pixelavatar-overlap.tss-pixelavatar-anchor-bottomcenter > .tss-pixelavatar,
+.tss-pixelavatar-overlap.tss-pixelavatar-anchor-bottomright > .tss-pixelavatar {
+    bottom: auto;
+    top: 100%;
+}
+
+.tss-pixelavatar-overlap.tss-pixelavatar-anchor-leftcenter > .tss-pixelavatar {
+    left: auto;
+    right: 100%;
+    margin-right: 4px;
+}
+
+.tss-pixelavatar-overlap.tss-pixelavatar-anchor-rightcenter > .tss-pixelavatar {
+    right: auto;
+    left: 100%;
+    margin-left: 4px;
+}
+
+/* --- badge: a pixel avatar dressed as a round profile picture ------------------------------ */
+
+.tss-pixelavatar-badge {
+    position: relative;
+    display: inline-block;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+/* Placed by the component, which centers the pose's ink rather than its frame box. */
+.tss-pixelavatar-badge > .tss-pixelavatar {
+    position: absolute;
+}
+
+/* An extra half-size pixel laid over each ear tip, for designs whose palette carries an accent.
+   Positioned by the component, since the ear tips move from frame to frame. */
+.tss-pixelavatar-accent {
+    position: absolute;
+    display: none;
+    pointer-events: none;
+}

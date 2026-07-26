@@ -39,6 +39,7 @@ OmniBox:
   `tool-agent-selector.md`). Arrow Up/Down, Enter/Tab and Escape are forwarded to the callbacks
   while the picker is open; a `true` return from `OnCommit` removes the typed `@mention` text.
 - `.Focus()`.
+- `.CaretClientX()` — the viewport x of the text caret in whichever input is focused, clamped to that input's bounds, or `double.NaN` when there is nothing to measure. Used to point something at where the user is typing, e.g. the `PixelAvatar` companion walking over to the caret.
 - `OmniBox.ParseQuery(string, bool tokenIgnoreCase = false)` — static parser returning a `SearchQuery`.
 
 ## Example
@@ -63,6 +64,8 @@ var omni = new OmniBox(config)
 ```
 
 ## Related
+
+- Perching an animated pixel-art cat on top of the box — `pixel-avatar.md`
 
 - TextBox — `/tesserae/components/text-box`
 - SearchBox — `/tesserae/components/search-box`

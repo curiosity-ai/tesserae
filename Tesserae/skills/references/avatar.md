@@ -48,3 +48,4 @@ var person = Persona("Jordan Diaz", "Product Designer", "Available",
 
 - Full docs & API: `/tesserae/components/avatar`
 - Used by Chat messages — `chat.md`
+- For a decorative animated pixel-art character (not a user) — `pixel-avatar.md`

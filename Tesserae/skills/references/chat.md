@@ -73,5 +73,7 @@ chat.Busy(false);
 
 ## Related
 
+- Pixel-art cats as chat avatars — `pixel-avatar.md`
+
 - Avatar — `avatar.md`
 - Full docs & API: `/tesserae/components/chat`

@@ -205,6 +205,28 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Builds the two-stop gradient an avatar is filled with, from a hue in degrees. Shared so
+        /// that anything else standing in for an avatar - a <see cref="PixelAvatarBadge"/>, say -
+        /// looks like it came out of the same set.
+        /// </summary>
+        public static string GradientForHue(int hue)
+        {
+            var h1 = ((hue % 360) + 360) % 360;
+            var h2 = (h1 + 40) % 360;
+
+            return $"linear-gradient(135deg, hsl({h1}, 60%, 50%), hsl({h2}, 80%, 40%))";
+        }
+
+        /// <summary>
+        /// Builds the gradient for a color, using its hue. See <see cref="GradientForHue"/>.
+        /// </summary>
+        public static string GradientForColor(Color color)
+        {
+            if (color == null) return "";
+            return GradientForHue((int)System.Math.Round(color.GetHue()));
+        }
+
         private static string GetGradientForInitials(string initials)
         {
             if (string.IsNullOrWhiteSpace(initials))
@@ -216,10 +238,7 @@ namespace Tesserae
                 hash = initials[i] + ((hash << 5) - hash);
             }
 
-            var h1 = System.Math.Abs(hash) % 360;
-            var h2 = (h1 + 40) % 360;
-
-            return $"linear-gradient(135deg, hsl({h1}, 60%, 50%), hsl({h2}, 80%, 40%))";
+            return GradientForHue(System.Math.Abs(hash));
         }
 
         private void UpdateImageState()
