@@ -51,60 +51,69 @@ and `Startle` return to `Idle`.
 
 ## Custom palettes
 
-A palette is eleven CSS colors, one per palette index. The indices are ordered by shading
-level, so each shade is a contiguous run — `1..PixelAvatarSprites.LastHighlightIndex` (3) is
-the highlight, up to `LastBaseIndex` (9) the base, and the rest the shadow.
+A palette is eleven colors, one per palette index, plus the **background** an avatar-shaped
+host such as `PixelAvatarBadge` sits the coat on. The indices are ordered by shading level, so
+each shade is a contiguous run — `1..PixelAvatarSprites.LastHighlightIndex` (3) is the
+highlight, up to `LastBaseIndex` (9) the base, and the rest the shadow.
 `PixelAvatarSprites.ShadeOf(byte)` returns a `PixelAvatarShade` (`Highlight`, `Base`,
 `Shadow`) for an index. That grouping is why the single-hue built-in designs are just three
 colors repeated, and why three colors are enough to describe a whole coat.
 
+Palettes are immutable. Every built-in design carries a hand-picked background; a custom one
+either supplies its own or gets one derived from `DominantColor()`.
+
 On the avatar:
 
 - `.SetPalette(PixelAvatarPalette)` — apply a palette object.
-- `.SetPalette(string colors, string name = "Custom")` — import from a list of CSS colors separated by commas, semicolons or whitespace. Unparseable input is ignored.
-- `.SetShades(string highlight, string baseColor, string shadow, string name = "Custom")` — build a coat from the three shading levels.
-- `.SetColor(byte index, string color)` — recolor a single index. This only rewrites that index's CSS variable, so it is cheap enough to drive from a color picker's input event.
+- `.SetShades(Color highlight, Color baseColor, Color shadow, Color background = null, string name = "Custom")` — build a coat from the three shading levels.
+- `.SetColor(byte index, Color color)` — recolor a single index. This only rewrites that index's CSS variable, so it is cheap enough to drive from a color picker's input event.
 
-On `PixelAvatarPalette` (immutable):
+On `PixelAvatarPalette`:
 
-- `PixelAvatarPalette.Parse(string colors, string name = "Custom")` — accepts either all eleven colors or exactly three (read as highlight/base/shadow). Returns `null` for anything else, so an editor can report a bad paste instead of rendering a broken cat.
-- `PixelAvatarPalette.FromShades(highlight, baseColor, shadow, name)` — the three-color form.
-- `.WithColor(byte index, string color)` / `.WithName(string)` — return modified copies.
-- `.Adjust(int hueDelta, int saturationDelta, int lightnessDelta)` — shift every color together in HSL space, which keeps the shading relationships that make the sprite read as one coat. The deltas are relative to the palette you call it on, so all-zero returns the same colors and a UI can re-apply from the unshifted palette on every slider move instead of accumulating drift. Hue wraps in degrees; saturation and lightness are percentage points and clamp at 0 and 100.
-- `.ColorAt(byte index)` — the color for an index (empty string for the transparent index 0).
-- `.ToString()` — the comma-separated color list that `Parse` reads back.
-- `.ToCode()` — C# source that reconstructs the palette, for pasting into an application.
+- `PixelAvatarPalette.FromColors(string name, Color background, params Color[] colors)` — throws `ArgumentException` unless exactly `PixelAvatarSprites.PaletteSize` colors are given, so a short or long list fails loudly instead of rendering a broken cat. Pass a null background to derive one.
+- `PixelAvatarPalette.FromShades(string name, Color background, Color highlight, Color baseColor, Color shadow)` — the three-color form.
+- `.Colors` / `.ColorAt(byte)` — the colors, as `Color`. `.CssAt(byte)` gives the hex the renderer writes, or an empty string for the transparent index 0.
+- `.Background` — the avatar background color. `.BackgroundGradient()` turns it into CSS through `Avatar.GradientForHue`, the very method the regular `Avatar` uses for its initials, so a pixel-art badge and an initials avatar look like they came out of the same set. Only the hue is used; saturation and lightness are fixed by that formula.
+- `.WithColor(byte, Color)` / `.WithBackground(Color)` / `.WithName(string)` — return modified copies. `WithBackground` is how a custom palette picks the background its badge sits on.
+- `.DominantColor()` — the color covering most of the sprite, weighted by `PixelAvatarSprites.PixelCounts`. Used to derive a background when one is not given.
+- `.ToString()` — the comma-separated color list. `.ToCode()` — C# source that reconstructs the palette.
 
 On `PixelSprite`:
 
 - `.InkLeft` / `.InkTop` / `.InkWidth` / `.InkHeight` — the bounds of a frame's non-transparent pixels. Frames share one 10x8 box so they stay aligned while animating, which means an individual pose sits wherever it sits inside it; anything centering or measuring a single frame wants these, not the box.
 
 ```csharp
-// Three colors are enough for a whole coat.
-var mint = PixelAvatar(PixelAvatarDesign.White)
-   .SetShades("#D6F5E3", "#8FD9B6", "#3F8F6E", "Mint");
+// Three colors and a background are enough for a whole coat.
+var mint = PixelAvatar(PixelAvatarDesign.White).SetShades(
+    Color.FromString("#D6F5E3"), Color.FromString("#8FD9B6"), Color.FromString("#3F8F6E"),
+    background: Color.FromString("#B5762E"), name: "Mint");
 
-// Round-trips through text.
-var copied = mint.Palette.ToString();          // "#D6F5E3, #D6F5E3, ..."
-var back   = PixelAvatarPalette.Parse(copied); // null if it isn't 11 or 3 colors
+// Recolor one index, or restyle the badge background, without touching the rest.
+var warmer = mint.Palette.WithBackground(Color.FromString("#CC5533"));
 ```
+
+There is deliberately no palette parser in the library: what a half-parsed palette should mean
+is an application's decision. The sample page shows one, reading either eleven colors or three
+and reporting anything else, built on `FromColors` / `FromShades`.
 
 ## As a chat / profile avatar
 
 `PixelAvatarBadge` dresses a cat as a round profile picture, sized with the same `AvatarSize`
 presets as `Avatar` so the two can sit side by side. It holds `SitIdle` on its first frame and
-never animates — a badge is an identity, not an animation — and derives its background from
-the coat, so it always belongs to the cat in front of it.
+never animates — a badge is an identity, not an animation — and paints the palette's own
+`Background` behind it, through the same gradient formula the regular `Avatar` uses.
 
 `UI.PixelAvatarBadge(PixelAvatarDesign design = Black, AvatarSize size = Medium)`, or
 `UI.PixelAvatarBadge(PixelAvatar avatar, AvatarSize size = Medium)` to wrap one you already
 have.
 
 - `.Size(AvatarSize)` — `XSmall` (24px) through `XLarge` (72px). The cat is scaled and positioned from the *ink* of the pose rather than from the 10x8 frame it sits in — `SitIdle` only fills a 6x6 corner of that frame, so centering the frame would leave it visibly off-center — and sized so the diagonal of that ink fits the circle, since the corners of the pose are drawn and fitting the width alone would clip an ear against the rim.
-- `.SetDesign(...)` / `.SetPalette(...)` — recolor, re-deriving the background.
-- `.Background(string)` — pin a CSS background instead; pass null to go back to the derived one.
+- `.SetDesign(...)` / `.SetPalette(...)` — recolor; the background follows the palette.
+- `.Background(string)` — pin a CSS background instead; pass null to go back to the palette's.
 - `.Avatar` — the wrapped `PixelAvatar`.
-- `PixelAvatarBadge.BackgroundFor(palette)` — the derived background on its own. It takes the hue of `palette.DominantColor()` (the color covering most of the sprite, weighted by `PixelAvatarSprites.PixelCounts`) and pushes the lightness the other way, so the largest area of the cat always contrasts.
+
+The badge's gradient sits at a fixed mid lightness, so it also picks the contrast halo from the
+coat rather than from the page theme: a dark cat gets a light halo and a light cat a dark one.
 
 `ChatMessage` takes a cat directly and wraps it for you:
 

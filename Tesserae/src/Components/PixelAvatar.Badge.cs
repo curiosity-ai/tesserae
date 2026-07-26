@@ -10,8 +10,8 @@ namespace Tesserae
     ///
     /// The cat sits still — <see cref="PixelAvatarAnimation.SitIdle"/>, held on its first frame —
     /// because a badge is an identity, not an animation, and a transcript full of moving cats is
-    /// unreadable. The background is derived from the coat, so it always belongs to the cat in
-    /// front of it.
+    /// unreadable. The background is the palette's own <see cref="PixelAvatarPalette.Background"/>,
+    /// run through the same gradient formula a regular <see cref="Avatar"/> uses.
     /// </summary>
     [Transpose.Name("tss.PixelAvatarBadge")]
     public sealed class PixelAvatarBadge : ComponentBase<PixelAvatarBadge, HTMLElement>
@@ -76,7 +76,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the design of the cat in the badge, and re-derives the background from it unless
+        /// Sets the design of the cat in the badge. The background follows the new palette unless
         /// <see cref="Background"/> has pinned one.
         /// </summary>
         public PixelAvatarBadge SetDesign(PixelAvatarDesign design)
@@ -87,7 +87,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the palette of the cat in the badge, and re-derives the background from it unless
+        /// Sets the palette of the cat in the badge. The background follows the new palette unless
         /// <see cref="Background"/> has pinned one.
         /// </summary>
         public PixelAvatarBadge SetPalette(PixelAvatarPalette palette)
@@ -98,8 +98,8 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Pins the CSS background of the badge instead of deriving it from the coat. Pass null to
-        /// go back to the derived one.
+        /// Pins the CSS background of the badge instead of taking the palette's. Pass null to go
+        /// back to the palette's.
         /// </summary>
         public PixelAvatarBadge Background(string background)
         {
@@ -122,25 +122,6 @@ namespace Tesserae
         /// </summary>
         public override HTMLElement Render() => InnerElement;
 
-        /// <summary>
-        /// Builds the badge background for a palette: the hue of the color that covers most of the
-        /// sprite, with the lightness pushed the other way so the largest area of the cat always
-        /// contrasts against it, and washed-out coats nudged up to something colorful.
-        /// </summary>
-        public static string BackgroundFor(PixelAvatarPalette palette)
-        {
-            var coat       = Color.FromString(palette.DominantColor());
-            var hue        = coat.GetHue();
-            var saturation = coat.GetSaturation();
-
-            saturation = saturation < 0.35f ? 0.35f : saturation > 0.6f ? 0.6f : saturation;
-
-            var lightness = coat.GetBrightness() > 0.55f ? 0.30f : 0.84f;
-            var second    = lightness > 0.5f ? lightness - 0.12f : lightness + 0.12f;
-
-            return $"linear-gradient(135deg, {Color.FromHsl(hue, saturation, lightness).ToHex()}, {Color.FromHsl(hue + 35, saturation, second).ToHex()})";
-        }
-
         // Scales the pose to the circle and offsets the avatar so the pose's ink lands dead center,
         // rather than centering the frame box the pose only partly fills.
         private void LayOutSprite()
@@ -159,9 +140,18 @@ namespace Tesserae
             element.style.top  = $"{diameter / 2.0 - (sprite.InkTop + sprite.InkHeight / 2.0) * pixelSize}px";
         }
 
+        // The badge's gradient sits at a fixed mid lightness, so the halo has to contrast with the
+        // coat rather than with the page theme: a dark cat gets a light one and a light cat a dark
+        // one. Otherwise a black cat on a mid background would carry a black halo and lose its
+        // silhouette.
         private void ApplyBackground()
         {
-            InnerElement.style.background = BackgroundFor(_avatar.Palette);
+            var palette = _avatar.Palette;
+
+            InnerElement.style.background = palette.BackgroundGradient();
+
+            var coat = palette.DominantColor();
+            _avatar.OutlineColor(coat != null && coat.GetBrightness() < 0.5f ? "rgba(255, 255, 255, 0.55)" : "rgba(0, 0, 0, 0.5)");
         }
 
         private static string ClassFor(AvatarSize size)

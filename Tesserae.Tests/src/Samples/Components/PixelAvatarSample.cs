@@ -305,6 +305,51 @@ namespace Tesserae.Tests.Samples
             return row;
         }
 
+        // Shifting every color together in HSL keeps the shading relationships that make the
+        // sprite read as one coat, which recoloring indices by hand does not. The deltas are
+        // relative, so all-zero returns the same colors and the editor can re-apply from the
+        // unshifted palette on every slider move instead of accumulating rounding drift.
+        private static PixelAvatarPalette Adjust(PixelAvatarPalette palette, int hueDelta, int saturationDelta, int lightnessDelta)
+        {
+            if (hueDelta == 0 && saturationDelta == 0 && lightnessDelta == 0) return palette;
+
+            var colors = new Color[palette.Colors.Length];
+
+            for (var i = 0; i < colors.Length; i++)
+            {
+                var color = palette.Colors[i];
+
+                colors[i] = Color.FromHsl(
+                    color.GetHue() + hueDelta,
+                    color.GetSaturation() + saturationDelta / 100f,
+                    color.GetBrightness() + lightnessDelta / 100f);
+            }
+
+            return new PixelAvatarPalette(palette.Name, colors, palette.Background);
+        }
+
+        // Reads a pasted palette: all eleven colors, or three taken as highlight / base / shadow.
+        // Returns null for anything else so the editor can complain instead of rendering a broken
+        // cat - which is also why this lives here rather than in the library, where a half-parsed
+        // palette has no sensible meaning.
+        private static PixelAvatarPalette ParsePalette(string text, Color background)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return null;
+
+            var parts = text.Split(new[] { ',', ';', ' ', '\t', '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+            var parsed = new Color[parts.Length];
+
+            for (var i = 0; i < parts.Length; i++)
+            {
+                parsed[i] = Color.FromString(parts[i].Trim());
+            }
+
+            if (parsed.Length == 3) return PixelAvatarPalette.FromShades("Custom", background, parsed[0], parsed[1], parsed[2]);
+            if (parsed.Length == PixelAvatarSprites.PaletteSize) return PixelAvatarPalette.FromColors("Custom", background, parsed);
+
+            return null;
+        }
+
         private static IComponent PaletteEditor()
         {
             var start   = PixelAvatarDesign.SpottedOrange;
@@ -317,8 +362,19 @@ namespace Tesserae.Tests.Samples
                 PixelAvatar(start, PixelAvatarAnimation.Sleep).PixelSize(4)
             };
 
-            var pickers = new ColorPicker[PixelAvatarSprites.PaletteSize];
-            var colors  = TextBox(palette.ToString()).WS().ReadOnly();
+            var badges = new[]
+            {
+                PixelAvatarBadge(new PixelAvatar(start), AvatarSize.Large),
+                PixelAvatarBadge(new PixelAvatar(start), AvatarSize.Medium),
+                PixelAvatarBadge(new PixelAvatar(start), AvatarSize.Small)
+            };
+
+            var badgePreviews = HStack().AlignItems(ItemAlign.Center).Children(
+                badges[0].PR(12), badges[1].PR(12), badges[2]);
+
+            var pickers    = new ColorPicker[PixelAvatarSprites.PaletteSize];
+            var background = ColorPicker(palette.Background).Width(52.px());
+            var colors     = TextBox(palette.ToString()).WS().ReadOnly();
             var import  = TextBox().WS().SetPlaceholder("Paste 11 colors, or 3 for highlight / base / shadow");
 
             // The sliders are a non-destructive layer on top of `palette`: they hold a delta that
@@ -335,7 +391,7 @@ namespace Tesserae.Tests.Samples
             // pickers would otherwise bounce straight back in as eleven separate edits.
             var syncing = false;
 
-            PixelAvatarPalette Shifted() => palette.Adjust(hue.Value, saturation.Value, lightness.Value);
+            PixelAvatarPalette Shifted() => Adjust(palette, hue.Value, saturation.Value, lightness.Value);
 
             void Show(PixelAvatarPalette shown)
             {
@@ -343,15 +399,21 @@ namespace Tesserae.Tests.Samples
 
                 for (byte index = 1; index <= PixelAvatarSprites.PaletteSize; index++)
                 {
-                    pickers[index - 1].Text = shown.ColorAt(index);
+                    pickers[index - 1].Text = shown.CssAt(index);
                 }
 
-                syncing     = false;
-                colors.Text = shown.ToString();
+                background.Text = shown.Background.ToHex();
+                syncing         = false;
+                colors.Text     = shown.ToString();
 
                 foreach (var preview in previews)
                 {
                     preview.SetPalette(shown);
+                }
+
+                foreach (var badge in badges)
+                {
+                    badge.SetPalette(shown);
                 }
             }
 
@@ -386,6 +448,15 @@ namespace Tesserae.Tests.Samples
                 Show(Shifted());
             }
 
+            background.OnInput((_, __) =>
+            {
+                if (syncing) return;
+
+                palette = Shifted().WithBackground(background.Color);
+                ResetShift();
+                Show(palette);
+            });
+
             hue.OnInput((_, __) => ShiftChanged());
             saturation.OnInput((_, __) => ShiftChanged());
             lightness.OnInput((_, __) => ShiftChanged());
@@ -395,7 +466,7 @@ namespace Tesserae.Tests.Samples
             for (byte index = 1; index <= PixelAvatarSprites.PaletteSize; index++)
             {
                 var i      = index;
-                var picker = ColorPicker(Color.FromString(palette.ColorAt(i))).Width(52.px());
+                var picker = ColorPicker(palette.ColorAt(i)).Width(52.px());
 
                 pickers[i - 1] = picker;
 
@@ -406,12 +477,17 @@ namespace Tesserae.Tests.Samples
                     // Recoloring one index while a shift is active would be ambiguous, so the shift
                     // is baked into the palette first. Nothing changes on screen; the sliders just
                     // go back to 0 and the shifted colors become the new starting point.
-                    palette = Shifted().WithColor(i, picker.Text);
+                    palette = Shifted().WithColor(i, picker.Color);
                     ResetShift();
 
                     foreach (var preview in previews)
                     {
-                        preview.SetColor(i, picker.Text);
+                        preview.SetColor(i, picker.Color);
+                    }
+
+                    foreach (var badge in badges)
+                    {
+                        badge.SetPalette(palette);
                     }
 
                     colors.Text = palette.ToString();
@@ -431,8 +507,12 @@ namespace Tesserae.Tests.Samples
             }
 
             // Two shade-only palettes, to show that three colors are enough.
-            designs.Add(Button("Mint").Compact().OnClick(() => Load(PixelAvatarPalette.FromShades("#D6F5E3", "#8FD9B6", "#3F8F6E", "Mint"))));
-            designs.Add(Button("Lavender").Compact().OnClick(() => Load(PixelAvatarPalette.FromShades("#EBE1FA", "#B9A0E3", "#6B4E9B", "Lavender"))));
+            // Two shade-only palettes with their own avatar background, to show that three colors
+            // plus a background are enough for a whole coat.
+            designs.Add(Button("Mint").Compact().OnClick(() => Load(PixelAvatarPalette.FromShades(
+                "Mint", Color.FromString("#B5762E"), Color.FromString("#D6F5E3"), Color.FromString("#8FD9B6"), Color.FromString("#3F8F6E")))));
+            designs.Add(Button("Lavender").Compact().OnClick(() => Load(PixelAvatarPalette.FromShades(
+                "Lavender", Color.FromString("#8FB52E"), Color.FromString("#EBE1FA"), Color.FromString("#B9A0E3"), Color.FromString("#6B4E9B")))));
 
             IComponent ShiftRow(string label, Slider slider, IComponent value) =>
                 HStack().WS().AlignItemsCenter().PB(4).Children(
@@ -460,6 +540,11 @@ namespace Tesserae.Tests.Samples
                     ShiftRow("Hue", hue, hueValue),
                     ShiftRow("Saturation", saturation, satValue),
                     ShiftRow("Lightness", lightness, lightValue),
+                    HStack().WS().AlignItemsCenter().PT(20).Children(
+                        TextBlock("Avatar background").SemiBold().Width(160.px()),
+                        background,
+                        TextBlock("The color a PixelAvatarBadge sits this coat on. Only its hue is used - Avatar.GradientForHue turns it into the same two-stop gradient a regular Avatar uses.").Tiny().Secondary().PL(12).Grow()),
+                    HStack().WS().AlignItemsCenter().PT(12).Children(badgePreviews),
                     TextBlock("Current palette").SemiBold().PT(20).PB(4),
                     HStack().WS().AlignItemsCenter().Children(
                         colors.Grow(),
@@ -468,13 +553,26 @@ namespace Tesserae.Tests.Samples
                     TextBlock("Import").SemiBold().PT(20).PB(4),
                     HStack().WS().AlignItemsCenter().Children(
                         import.Grow(),
-                        Button("Load").SetIcon(UIcons.Download).Compact().NoShrink().ML(8).OnClick(() => Load(PixelAvatarPalette.Parse(import.Text))))));
+                        Button("Load").SetIcon(UIcons.Download).Compact().NoShrink().ML(8).OnClick(() => Load(ParsePalette(import.Text, background.Color))))));
         }
 
         private static void Copy(string text, string what)
         {
             navigator.clipboard.writeText(text);
             Toast().Information($"{what} copied to the clipboard.");
+        }
+
+        private static IComponent Swatch(string hex)
+        {
+            return Raw(Div(Att("", styles: s =>
+            {
+                s.width           = "18px";
+                s.height          = "18px";
+                s.marginRight     = "4px";
+                s.borderRadius    = "3px";
+                s.backgroundColor = hex;
+                s.border          = "1px solid var(--tss-default-border-color)";
+            }))).Tooltip(hex);
         }
 
         private static IComponent PaletteTable()
@@ -488,20 +586,14 @@ namespace Tesserae.Tests.Samples
 
                 foreach (var color in palette.Colors)
                 {
-                    swatches.Add(Raw(Div(Att("", styles: s =>
-                    {
-                        s.width           = "18px";
-                        s.height          = "18px";
-                        s.marginRight     = "4px";
-                        s.borderRadius    = "3px";
-                        s.backgroundColor = color;
-                        s.border          = "1px solid var(--tss-default-border-color)";
-                    }))).Tooltip(color));
+                    swatches.Add(Swatch(color.ToHex()));
                 }
 
                 rows.Add(HStack().WS().AlignItemsCenter().PB(8).Children(
                     TextBlock($"{design}").Width(140.px()),
-                    swatches));
+                    swatches,
+                    TextBlock("background").Tiny().Secondary().PL(16).PR(6),
+                    Swatch(palette.Background.ToHex())));
             }
 
             return rows;

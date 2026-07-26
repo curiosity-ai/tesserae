@@ -50,6 +50,7 @@ Theme.SetBackground(Color.FromString("#FFFFFF"), Color.FromString("#1B1A19"));
 - `Color.FromHsl(hue, saturation, lightness, alpha = 255)` — construct from HSL, inverting `.GetHue()` / `.GetSaturation()` / `.GetBrightness()`. Hue is in degrees and wraps; saturation and lightness are 0..1 and clamp.
 - `Color.EvalVar(...)` — resolve a CSS variable to a concrete color.
 - `.ToHex()` / `.ToRGB()` — serialize. `HSLColor` exposes `.Luminosity` for contrast checks.
+- `Avatar.GradientForHue(int hue)` / `Avatar.GradientForColor(Color)` — the two-stop gradient an `Avatar` fills itself with, exposed so anything standing in for an avatar looks like it came out of the same set.
 
 ## Related
 

@@ -1,3 +1,4 @@
+using System;
 using Transpose;
 
 namespace Tesserae
@@ -204,46 +205,84 @@ namespace Tesserae
     }
 
     /// <summary>
-    /// The colors a <see cref="PixelAvatar"/> paints its sprite with. Palette index 0 is always
-    /// transparent and is not stored, so <see cref="Colors"/>[0] is the color for index 1.
+    /// The colors a <see cref="PixelAvatar"/> paints its sprite with, plus the background an
+    /// avatar-shaped host such as <see cref="PixelAvatarBadge"/> should sit it on. Palette index 0
+    /// is always transparent and is not stored, so <see cref="Colors"/>[0] is the color for
+    /// index 1. Instances are immutable; the <c>With*</c> methods return modified copies.
     /// </summary>
     [Transpose.Name("tss.PixelAvatarPalette")]
     public sealed class PixelAvatarPalette
     {
         /// <summary>
-        /// Initializes a new instance of this class from CSS colors for palette indices 1..N.
+        /// Initializes a new instance of this class from colors for palette indices 1..N.
         /// </summary>
-        public PixelAvatarPalette(string name, string[] colors)
+        /// <param name="name">The name of the palette.</param>
+        /// <param name="colors">Exactly <see cref="PixelAvatarSprites.PaletteSize"/> colors.</param>
+        /// <param name="background">
+        /// The avatar background color, or null to derive one from <see cref="DominantColor"/>.
+        /// </param>
+        public PixelAvatarPalette(string name, Color[] colors, Color background = null)
         {
-            Name   = name;
-            Colors = colors;
+            if (colors == null) throw new ArgumentNullException(nameof(colors));
+
+            if (colors.Length != PixelAvatarSprites.PaletteSize)
+            {
+                throw new ArgumentException($"A palette needs exactly {PixelAvatarSprites.PaletteSize} colors, one per palette index, but {colors.Length} were given.", nameof(colors));
+            }
+
+            Name       = name;
+            Colors     = colors;
+            Background = background ?? DominantColor();
         }
 
         /// <summary>Gets the name of the palette.</summary>
         public string Name { get; }
 
-        /// <summary>Gets the CSS color of palette indices 1..N, in order.</summary>
-        public string[] Colors { get; }
+        /// <summary>Gets the colors of palette indices 1..N, in order.</summary>
+        public Color[] Colors { get; }
+
+        /// <summary>
+        /// Gets the background color an avatar-shaped host paints behind the sprite. Only its hue
+        /// is used by <see cref="BackgroundGradient"/>, which matches how <see cref="Avatar"/>
+        /// colors itself.
+        /// </summary>
+        public Color Background { get; }
+
+        /// <summary>
+        /// Returns the color for a palette index, or null for the transparent index 0 and for
+        /// indices this palette does not define.
+        /// </summary>
+        public Color ColorAt(byte index)
+        {
+            if (index == 0 || index > Colors.Length) return null;
+            return Colors[index - 1];
+        }
 
         /// <summary>
         /// Returns the CSS color for a palette index, or an empty string for the transparent
         /// index 0 and for indices this palette does not define.
         /// </summary>
-        public string ColorAt(byte index)
+        public string CssAt(byte index)
         {
-            if (index == 0 || index > Colors.Length) return string.Empty;
-            return Colors[index - 1];
+            var color = ColorAt(index);
+            return color == null ? string.Empty : color.ToHex();
         }
+
+        /// <summary>
+        /// Returns the CSS background for this palette, built from <see cref="Background"/> by the
+        /// same <see cref="Avatar.GradientForHue"/> the regular avatar uses, so a pixel-art badge
+        /// and an initials avatar look like they came out of the same set.
+        /// </summary>
+        public string BackgroundGradient() => Avatar.GradientForColor(Background);
 
         /// <summary>
         /// Returns the color that covers the most of the sprite, weighing each index by
         /// <see cref="PixelAvatarSprites.PixelCounts"/> and adding up indices that share a color.
-        /// Useful for deriving something that has to sit behind the whole sprite, such as the
-        /// background of a <see cref="PixelAvatarBadge"/>.
+        /// Used to pick a background when one is not given.
         /// </summary>
-        public string DominantColor()
+        public Color DominantColor()
         {
-            var dominant = Colors.Length == 0 ? string.Empty : Colors[0];
+            var dominant = Colors.Length == 0 ? null : Colors[0];
             var best     = -1;
 
             for (var i = 0; i < Colors.Length; i++)
@@ -252,7 +291,7 @@ namespace Tesserae
 
                 for (var j = 0; j < Colors.Length; j++)
                 {
-                    if (Colors[j] == Colors[i]) total += PixelAvatarSprites.PixelCounts[j + 1];
+                    if (Colors[j].ToHex() == Colors[i].ToHex()) total += PixelAvatarSprites.PixelCounts[j + 1];
                 }
 
                 if (total > best)
@@ -266,59 +305,47 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Returns a copy of this palette with one index recolored. Palettes are immutable, so this
-        /// is how an editor builds up a custom coat.
+        /// Returns a copy of this palette with one index recolored.
         /// </summary>
-        public PixelAvatarPalette WithColor(byte index, string color)
+        public PixelAvatarPalette WithColor(byte index, Color color)
         {
             if (index == 0 || index > Colors.Length) return this;
 
-            var colors = new string[Colors.Length];
+            var colors = new Color[Colors.Length];
             for (var i = 0; i < colors.Length; i++)
             {
                 colors[i] = Colors[i];
             }
 
             colors[index - 1] = color;
-            return new PixelAvatarPalette(Name, colors);
+            return new PixelAvatarPalette(Name, colors, Background);
         }
+
+        /// <summary>
+        /// Returns a copy of this palette with a different avatar background color. This is how a
+        /// custom palette picks the background its badge sits on; pass null to go back to one
+        /// derived from the coat.
+        /// </summary>
+        public PixelAvatarPalette WithBackground(Color background) => new PixelAvatarPalette(Name, Colors, background);
 
         /// <summary>
         /// Returns a copy of this palette under a different name.
         /// </summary>
-        public PixelAvatarPalette WithName(string name) => new PixelAvatarPalette(name, Colors);
+        public PixelAvatarPalette WithName(string name) => new PixelAvatarPalette(name, Colors, Background);
 
         /// <summary>
-        /// Returns a copy of this palette with every color shifted in HSL space. The deltas are
-        /// relative, so all-zero returns the same colors: hue wraps around in degrees, while
-        /// saturation and lightness are added as percentage points and clamped to 0..100. Shifting
-        /// the whole palette together keeps the shading relationships that make the sprite read as
-        /// one coat, which recoloring each index by hand does not.
+        /// Returns the palette as a comma-separated list of CSS colors.
         /// </summary>
-        public PixelAvatarPalette Adjust(int hueDelta, int saturationDelta, int lightnessDelta)
+        public override string ToString()
         {
-            if (hueDelta == 0 && saturationDelta == 0 && lightnessDelta == 0) return this;
-
-            var colors = new string[Colors.Length];
-
-            for (var i = 0; i < colors.Length; i++)
+            var hex = new string[Colors.Length];
+            for (var i = 0; i < hex.Length; i++)
             {
-                var color = Color.FromString(Colors[i]);
-
-                colors[i] = Color.FromHsl(
-                    color.GetHue() + hueDelta,
-                    color.GetSaturation() + saturationDelta / 100f,
-                    color.GetBrightness() + lightnessDelta / 100f).ToHex();
+                hex[i] = Colors[i].ToHex();
             }
 
-            return new PixelAvatarPalette(Name, colors);
+            return string.Join(", ", hex);
         }
-
-        /// <summary>
-        /// Returns the palette as a comma-separated list of CSS colors, which is the format
-        /// <see cref="Parse"/> reads back.
-        /// </summary>
-        public override string ToString() => string.Join(", ", Colors);
 
         /// <summary>
         /// Returns C# source that reconstructs this palette, for pasting into an application.
@@ -328,12 +355,25 @@ namespace Tesserae
             var quoted = new string[Colors.Length];
             for (var i = 0; i < quoted.Length; i++)
             {
-                quoted[i] = $"\"{Colors[i]}\"";
+                quoted[i] = $"Color.FromString(\"{Colors[i].ToHex()}\")";
             }
 
-            // Transpose does not unescape {{ / }} inside interpolated strings, so the braces of the
-            // array initializer are concatenated in rather than escaped.
-            return "new PixelAvatarPalette(\"" + Name + "\", new[] { " + string.Join(", ", quoted) + " })";
+            // Transpose does not unescape {{ / }} inside interpolated strings, so the braces are
+            // concatenated in rather than escaped.
+            return "PixelAvatarPalette.FromColors(\"" + Name + "\", Color.FromString(\"" + Background.ToHex() + "\"), "
+                 + string.Join(", ", quoted) + ")";
+        }
+
+        /// <summary>
+        /// Builds a palette from every color of the sprite.
+        /// </summary>
+        /// <param name="name">The name of the palette.</param>
+        /// <param name="background">The avatar background color, or null to derive one from the coat.</param>
+        /// <param name="colors">Exactly <see cref="PixelAvatarSprites.PaletteSize"/> colors, for palette indices 1..N.</param>
+        /// <exception cref="ArgumentException">Thrown when the wrong number of colors is given.</exception>
+        public static PixelAvatarPalette FromColors(string name, Color background, params Color[] colors)
+        {
+            return new PixelAvatarPalette(name, colors, background);
         }
 
         /// <summary>
@@ -341,9 +381,11 @@ namespace Tesserae
         /// single-hue built-in designs are built. Every palette index is filled in according to
         /// <see cref="PixelAvatarSprites.ShadeOf"/>.
         /// </summary>
-        public static PixelAvatarPalette FromShades(string highlight, string baseColor, string shadow, string name = "Custom")
+        /// <param name="name">The name of the palette.</param>
+        /// <param name="background">The avatar background color, or null to derive one from the coat.</param>
+        public static PixelAvatarPalette FromShades(string name, Color background, Color highlight, Color baseColor, Color shadow)
         {
-            var colors = new string[PixelAvatarSprites.PaletteSize];
+            var colors = new Color[PixelAvatarSprites.PaletteSize];
 
             for (byte index = 1; index <= PixelAvatarSprites.PaletteSize; index++)
             {
@@ -353,38 +395,7 @@ namespace Tesserae
                                                                         : shadow;
             }
 
-            return new PixelAvatarPalette(name, colors);
-        }
-
-        /// <summary>
-        /// Reads a palette from a list of CSS colors separated by commas, semicolons or whitespace.
-        /// Two lengths are accepted: <see cref="PixelAvatarSprites.PaletteSize"/> colors map
-        /// straight onto palette indices 1..N, and exactly three are read as
-        /// highlight/base/shadow and expanded through <see cref="FromShades"/>. Returns null for
-        /// anything else, so callers can report a bad paste rather than render a broken cat.
-        /// </summary>
-        public static PixelAvatarPalette Parse(string colors, string name = "Custom")
-        {
-            if (string.IsNullOrWhiteSpace(colors)) return null;
-
-            var parts = colors.Split(new[] { ',', ';', ' ', '\t', '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
-
-            for (var i = 0; i < parts.Length; i++)
-            {
-                parts[i] = parts[i].Trim();
-            }
-
-            if (parts.Length == 3)
-            {
-                return FromShades(parts[0], parts[1], parts[2], name);
-            }
-
-            if (parts.Length == PixelAvatarSprites.PaletteSize)
-            {
-                return new PixelAvatarPalette(name, parts);
-            }
-
-            return null;
+            return new PixelAvatarPalette(name, colors, background);
         }
     }
 }
