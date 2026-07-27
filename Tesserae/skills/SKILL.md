@@ -148,7 +148,8 @@ badge · button · card · carousel · charts · chat · check-box · choice-gro
 color-picker · command-bar · contribution-bar · cron-editor · date-picker ·
 date-range-picker · date-time-picker · delta-component · dropdown ·
 editable-area · editable-label · expander · grid-picker · horizontal-separator ·
-icon · icon-toggle · image · label · link · markdown-block · menu · message ·
+icon · icon-toggle · image · label · link · live-progress · markdown-block ·
+menu · message ·
 metric · month-picker · navbar · number-picker · omni-box · option · pagination ·
 picker · pixel-avatar · plan · popover · progress-indicator · progress-ring ·
 property-grid · rating · resource-card · sandbox · save-button · saving-toast ·

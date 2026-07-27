@@ -1,0 +1,23 @@
+/* LiveProgress — one quiet line of progress text that is rewritten in place */
+
+.tss-liveprogress {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--tss-colors-neutral-500, #6b7280);
+    /* The line is updated many times a second: any transition or entrance animation here would
+       replay on every update, which is exactly what this component exists to avoid. */
+    transition: none;
+    animation: none;
+    opacity: 1;
+}
+
+.tss-liveprogress-tooltip {
+    white-space: pre-wrap;
+    word-break: break-word;
+}

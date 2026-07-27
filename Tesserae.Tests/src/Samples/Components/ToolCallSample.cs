@@ -9,8 +9,18 @@ namespace Tesserae.Tests.Samples
     {
         private readonly IComponent _content;
 
+        private readonly ToolCall                     _runningCall;
+        private readonly LiveProgress                 _standaloneProgress;
+        private readonly SettableObservable<string>   _streamedProgress = new SettableObservable<string>(string.Empty);
+        private          double                       _timer;
+
         public ToolCallSample()
         {
+            _runningCall        = ToolCall(UIcons.Search, "Search documentation \"tesserae popover\"", () => TextBlock("3 pages matched.").BreakSpaces());
+            _standaloneProgress = LiveProgress().Stream(_streamedProgress);
+
+            _runningCall.SetProgress(_streamedProgress);
+
             _content = SectionStack().Secondary()
                 .SampleTitle(typeof(ToolCallSample), UIcons.Tools, "Inline tool-call indicators and a multi-tool summary popup")
                 .FlatSection(Stack().Children(
@@ -44,8 +54,42 @@ namespace Tesserae.Tests.Samples
                             ToolCall(UIcons.ListCheck, "Update todos").NotExpandable(),
                             ToolCall(UIcons.Eye, "Read /home/user/needle/needle/model/run.py", () => TextBlock("import torch\n\ndef run(model, x): ...").BreakSpaces()),
                             ToolCall(UIcons.Eye, "Read /home/user/needle/src/Needle/Tokenizer/Nee...", () => TextBlock("namespace Needle.Tokenizer;\n\npublic class NeedleTokenizer { ... }").BreakSpaces())
-                        ).SetSummary("Ran 14 commands, read 9 files, used a tool").SetTitle("Tools used")
+                        ).SetSummary("Ran 14 commands, read 9 files, used a tool").SetTitle("Tools used"),
+
+                        SampleSubTitle("Live progress while a call runs"),
+                        TextBlock("A ToolCall can carry a LiveProgress line on its header row: SetProgress writes into the line already on screen, so a stream of updates never re-renders the call and never replays an animation. Hovering the line shows its full text; expanding the call still opens the content full width underneath."),
+                        _runningCall,
+                        TextBlock("The same line stands on its own before any tool has been called."),
+                        _standaloneProgress,
+                        Button("Stream progress").Primary().OnClick(() => StartProgressDemo())
                     )).SetTitle("Usage")));
+        }
+
+        // Walks the demo through a few stages, then clears the line - the same element stays in place
+        // the whole time, only its text changes.
+        private void StartProgressDemo()
+        {
+            window.clearInterval(_timer);
+
+            var step = 0;
+
+            _streamedProgress.Value = "Reading documents · 0%";
+
+            _timer = window.setInterval(_ =>
+            {
+                step += 5;
+
+                if (step > 100)
+                {
+                    window.clearInterval(_timer);
+                    _streamedProgress.Value = string.Empty;
+                    return;
+                }
+
+                _streamedProgress.Value = step < 50
+                    ? $"Reading documents · {step}%"
+                    : $"Encoding chunks · {step}%";
+            }, 150);
         }
 
         public HTMLElement Render() => _content.Render();

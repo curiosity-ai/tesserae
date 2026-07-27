@@ -24,12 +24,19 @@ Both carry an 8px bottom margin, so when you stack a pill above the answer text 
 - `.NotExpandable()` — hide the chevron, lock collapsed.
 - `.OnToggle(tc => ...)` — fires on expand/collapse.
 - `.SetContent(...)` / `.SetText(...)` / `.SetIcon(...)` — update fields.
+- `.SetProgress(string)` / `.SetProgress(IObservable<string>)` / `.ClearProgress()` — a live progress
+  line on the header row while the call runs (see `.live-progress.md`). Updates rewrite the text of
+  the line already on screen, so a stream of updates never re-renders the call, and expanding it
+  still opens the content full width underneath.
+- `Progress` — the `LiveProgress` itself, for finer control.
 - `IsExpanded`, `HasContent`, `Icon`, `Text` — read state.
 
 `ToolsUsed`:
 
 - `.Add(ToolCall)` / `.AddRange(...)` / `.Add(icon, text, factory)` — add tools.
 - `.SetSummary(label)` / `.SetTitle(title)` / `.SetIcon(icon)` — customise.
+- `.SetProgress(string)` / `.SetProgress(IObservable<string>)` / `.ClearProgress()` / `Progress` —
+  same live progress line, on the summary pill.
 - `.Show()` / `.Hide()` — open/close the modal.
 
 ## Example
@@ -47,6 +54,7 @@ var tools = ToolsUsed(
 
 ## Related
 
+- LiveProgress — `.live-progress.md`
 - Chat — `.chat.md`
 - Expander — `.expander.md`
 - Full docs & API: `/tesserae/components/tool-call`

@@ -22,6 +22,7 @@ namespace Tesserae
         private          string           _text;
         private          Func<IComponent> _contentFactory;
         private          IComponent       _renderedContent;
+        private          LiveProgress     _progress;
         private          bool             _isExpanded;
         private          bool             _expandable = true;
         private          Action<ToolCall> _onToggle;
@@ -140,6 +141,51 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Gets the live progress line shown on the header while the call runs, creating it on first
+        /// use. The line lives inside the header row, so expanding the call leaves it untouched.
+        /// </summary>
+        public LiveProgress Progress => EnsureProgress();
+
+        /// <summary>
+        /// Writes the given progress onto the header of this call, next to its name. Meant to be
+        /// called as often as the progress arrives - only the text of the line changes.
+        /// </summary>
+        public ToolCall SetProgress(string progress)
+        {
+            EnsureProgress().SetText(progress);
+            return this;
+        }
+
+        /// <summary>
+        /// Streams the progress shown on the header from the given observable.
+        /// </summary>
+        public ToolCall SetProgress(IObservable<string> progress)
+        {
+            EnsureProgress().Stream(progress);
+            return this;
+        }
+
+        /// <summary>
+        /// Clears the progress shown on the header, leaving the call as a plain chip again.
+        /// </summary>
+        public ToolCall ClearProgress()
+        {
+            _progress?.StopStreaming().Clear();
+            return this;
+        }
+
+        private LiveProgress EnsureProgress()
+        {
+            if (_progress is null)
+            {
+                _progress = new LiveProgress().Class("tss-toolcall-progress");
+                _header.insertBefore(_progress.Render(), _chevron);
+            }
+
+            return _progress;
+        }
+
+        /// <summary>
         /// Configures the not expandable on the component.
         /// </summary>
         public ToolCall NotExpandable()
@@ -248,7 +294,9 @@ namespace Tesserae
     {
         private readonly HTMLElement      _summaryIcon;
         private readonly HTMLElement      _summaryText;
+        private readonly HTMLElement      _summaryChevron;
         private readonly List<ToolCall>   _tools;
+        private          LiveProgress     _progress;
         private          string           _summaryLabel;
         private          UIcons           _summaryIconKind = UIcons.Tools;
         private          string           _modalTitle      = "Tools used";
@@ -269,12 +317,12 @@ namespace Tesserae
         {
             _tools = new List<ToolCall>();
 
-            _summaryIcon = Div(Att("tss-toolsused-icon"), I(_summaryIconKind));
-            _summaryText = Div(Att("tss-toolsused-text"));
-            var chevron  = I(UIcons.AngleRight, cssClass: "tss-toolsused-chevron");
+            _summaryIcon    = Div(Att("tss-toolsused-icon"), I(_summaryIconKind));
+            _summaryText    = Div(Att("tss-toolsused-text"));
+            _summaryChevron = I(UIcons.AngleRight, cssClass: "tss-toolsused-chevron");
 
             InnerElement = Div(Att("tss-toolsused", role: "button", ariaLabel: "Show tools used"),
-                               _summaryIcon, _summaryText, chevron);
+                               _summaryIcon, _summaryText, _summaryChevron);
 
             // Open on a tap gesture rather than a raw "click": in a live-streaming chat the surrounding
             // content re-renders and auto-scrolls under the pointer, which moves this element between
@@ -373,6 +421,51 @@ namespace Tesserae
                 _titleEl.innerText = _modalTitle;
             }
             return this;
+        }
+
+        /// <summary>
+        /// Gets the live progress line shown on the summary while the group's calls run, creating it
+        /// on first use.
+        /// </summary>
+        public LiveProgress Progress => EnsureProgress();
+
+        /// <summary>
+        /// Writes the given progress onto the summary, next to the count of tools used. Meant to be
+        /// called as often as the progress arrives - only the text of the line changes.
+        /// </summary>
+        public ToolsUsed SetProgress(string progress)
+        {
+            EnsureProgress().SetText(progress);
+            return this;
+        }
+
+        /// <summary>
+        /// Streams the progress shown on the summary from the given observable.
+        /// </summary>
+        public ToolsUsed SetProgress(IObservable<string> progress)
+        {
+            EnsureProgress().Stream(progress);
+            return this;
+        }
+
+        /// <summary>
+        /// Clears the progress shown on the summary.
+        /// </summary>
+        public ToolsUsed ClearProgress()
+        {
+            _progress?.StopStreaming().Clear();
+            return this;
+        }
+
+        private LiveProgress EnsureProgress()
+        {
+            if (_progress is null)
+            {
+                _progress = new LiveProgress().Class("tss-toolsused-progress");
+                InnerElement.insertBefore(_progress.Render(), _summaryChevron);
+            }
+
+            return _progress;
         }
 
         /// <summary>

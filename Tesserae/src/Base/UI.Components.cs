@@ -1094,6 +1094,12 @@ namespace Tesserae
         public static ToolsUsed ToolsUsed(params ToolCall[] tools) => new ToolsUsed(tools);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.LiveProgress"/> line: one quiet, ellipsized line of progress
+        /// text that is rewritten in place as updates stream in, never rebuilt or re-animated.
+        /// </summary>
+        public static LiveProgress LiveProgress(string text = null) => new LiveProgress(text);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Questionnaire"/> component that
         /// shows the given question and answer options. When the user
         /// picks an option (or one is set programmatically) the component
