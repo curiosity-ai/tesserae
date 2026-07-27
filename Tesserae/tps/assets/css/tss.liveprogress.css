@@ -1,6 +1,10 @@
 /* LiveProgress — one quiet line of progress text that is rewritten in place */
 
+/* Shrink-to-fit rather than block: the box is the anchor its tooltip is centered on, so a
+   full-width box would point the tooltip at the middle of the row instead of at the text. */
 .tss-liveprogress {
+    display: inline-block;
+    vertical-align: middle;
     min-width: 0;
     max-width: 100%;
     overflow: hidden;
@@ -15,6 +19,12 @@
     transition: none;
     animation: none;
     opacity: 1;
+}
+
+/* Empty progress hides the line but keeps the element, so the next update finds it in place. A
+   class rather than an inline style, so a host can pick its own display value for the line. */
+.tss-liveprogress-empty {
+    display: none;
 }
 
 .tss-liveprogress-tooltip {

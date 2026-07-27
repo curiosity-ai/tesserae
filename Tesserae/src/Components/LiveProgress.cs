@@ -58,9 +58,9 @@ namespace Tesserae
 
             _text = text;
 
-            InnerElement.innerText            = _text;
-            _tooltipContent.innerText         = _text;
-            InnerElement.style.display        = _text.Length == 0 ? "none" : "block";
+            InnerElement.innerText    = _text;
+            _tooltipContent.innerText = _text;
+            InnerElement.UpdateClassIf(_text.Length == 0, "tss-liveprogress-empty");
 
             return this;
         }

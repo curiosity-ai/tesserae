@@ -25,8 +25,10 @@ same element back.
   line. The subscription is released when the component leaves the DOM.
 - `.StopStreaming()` — stop following the observable, keeping the last text.
 - `.WithTooltip(bool = true)` / `.NoTooltip()` — the hover tooltip with the untruncated text is on by
-  default (the line is ellipsized to whatever width it is given). The tooltip is attached on the first
-  hover and then updated in place, so it stays correct even while it is open.
+  default (the line is ellipsized to whatever width it is given). It is a tippy popover attached to
+  the line itself on the first hover, then updated in place, so it stays correct even while open.
+  The line is an `inline-block` that hugs its text — pad it with `margin`, not `padding`, or the
+  tooltip centers on the padding box instead of on the text.
 - `Text`, `IsEmpty` — read state.
 
 ## Example
