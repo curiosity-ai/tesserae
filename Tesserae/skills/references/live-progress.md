@@ -41,6 +41,23 @@ follows the element (so it stays right even while open), and the line opts its s
 fade the diff puts on patched content. Rebuilding the line every update is therefore fine; what does
 not work is writing into an instance whose element the diff discarded.
 
+Better still, don't rebuild for progress at all. Keep the line whose element is in the document and
+write into that one — a progress update then touches one text node instead of re-running every
+renderer in the layout:
+
+```csharp
+// after ReplaceContent, the line that made it into the document is the one to write into
+if (built.Render().isConnected) onScreen = built;
+
+// …and every later update is just
+if (onScreen is object && onScreen.Render().isConnected) onScreen.SetText(text);
+else                                                     RebuildTheLayout();
+```
+
+One thing a diffing host has to hand back itself: a `ToolCall` the reader opened. A rebuilt call is
+collapsed with its content unbuilt, and the diff takes the open one on screen down to match — so
+remember what was open (`OnToggle`) and call `.Expanded()` on the rebuilt call.
+
 ## Example
 
 ```csharp

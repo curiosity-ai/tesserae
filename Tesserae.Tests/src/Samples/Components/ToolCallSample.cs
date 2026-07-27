@@ -14,6 +14,7 @@ namespace Tesserae.Tests.Samples
         private readonly DeltaComponent               _diffedBubble;
         private readonly SettableObservable<string>   _streamedProgress = new SettableObservable<string>(string.Empty);
         private          double                       _timer;
+        private          bool                         _diffedCallOpen;
 
         public ToolCallSample()
         {
@@ -72,12 +73,18 @@ namespace Tesserae.Tests.Samples
                     )).SetTitle("Usage")));
         }
 
-        // Rebuilt from scratch on every update, the way a chat view rebuilds an in-flight reply.
+        // Rebuilt from scratch on every update, the way a chat view rebuilds an in-flight reply. A
+        // rebuilt call is collapsed with its content unbuilt, and the diff would take the open one on
+        // screen down to match - so the rebuild re-opens what the reader opened.
         private IComponent BuildDiffedBubbleContent()
         {
-            return VStack().NoDefaultMargin().Children(
-                ToolCall(UIcons.Database, "Fetch index statistics", () => TextBlock("4 indexes, 1.2M documents.").BreakSpaces())
-                   .SetProgress(_streamedProgress.Value));
+            var call = ToolCall(UIcons.Database, "Fetch index statistics", () => TextBlock("4 indexes, 1.2M documents.").BreakSpaces())
+               .SetProgress(_streamedProgress.Value)
+               .OnToggle(c => _diffedCallOpen = c.IsExpanded);
+
+            if (_diffedCallOpen) call.Expanded();
+
+            return VStack().NoDefaultMargin().Children(call);
         }
 
         // Walks the demo through a few stages, then clears the line - the same element stays in place

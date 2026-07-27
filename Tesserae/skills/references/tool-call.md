@@ -31,6 +31,11 @@ Both carry an 8px bottom margin, so when you stack a pill above the answer text 
 - `Progress` — the `LiveProgress` itself, for finer control.
 - `IsExpanded`, `HasContent`, `Icon`, `Text` — read state.
 
+Expansion is per instance, so a host that rebuilds its layout into a diffing container (a streaming
+chat bubble) must carry it: record it with `.OnToggle(c => open = c.IsExpanded)` and re-apply
+`.Expanded()` on the rebuilt call, or the diff collapses the open one on screen and drops the content
+it had built.
+
 `ToolsUsed`:
 
 - `.Add(ToolCall)` / `.AddRange(...)` / `.Add(icon, text, factory)` — add tools.
