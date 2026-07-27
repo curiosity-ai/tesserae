@@ -29,7 +29,17 @@ same element back.
   the line itself on the first hover, then updated in place, so it stays correct even while open.
   The line is an `inline-block` that hugs its text — pad it with `margin`, not `padding`, or the
   tooltip centers on the padding box instead of on the text.
-- `Text`, `IsEmpty` — read state.
+- `Text`, `IsEmpty` — read state, taken from the element rather than from what was last written.
+
+## Inside a diffing host
+
+A `ChatMessage` (and any `DeltaComponent`) refreshes by diffing a freshly built layout onto the DOM
+already on screen, so a host that rebuilds its layout per update hands over elements that are thrown
+away — the reader keeps the ones an earlier layout built, patched. `LiveProgress` is built for that:
+the text on screen is whatever the diff patched in, `Text` reads it back from the element, the tooltip
+follows the element (so it stays right even while open), and the line opts its subtree out of the
+fade the diff puts on patched content. Rebuilding the line every update is therefore fine; what does
+not work is writing into an instance whose element the diff discarded.
 
 ## Example
 

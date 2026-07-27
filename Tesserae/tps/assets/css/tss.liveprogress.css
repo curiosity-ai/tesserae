@@ -21,6 +21,15 @@
     opacity: 1;
 }
 
+/* A host that refreshes by diffing (DeltaComponent, so any streaming chat bubble) marks the content
+   it patches in with tss-fade-in, and fades every descendant of a faded element. For this line that
+   would be a fade per update, so it opts its subtree out - !important because the fade is applied by
+   an equally specific rule whose stylesheet may be bundled after this one. */
+.tss-liveprogress,
+.tss-liveprogress * {
+    animation: none !important;
+}
+
 /* Empty progress hides the line but keeps the element, so the next update finds it in place. A
    class rather than an inline style, so a host can pick its own display value for the line. */
 .tss-liveprogress-empty {
