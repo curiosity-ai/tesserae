@@ -11,6 +11,7 @@ namespace Tesserae.Tests.Samples
 
         private readonly ToolCall                     _runningCall;
         private readonly LiveProgress                 _standaloneProgress;
+        private readonly DeltaComponent               _diffedBubble;
         private readonly SettableObservable<string>   _streamedProgress = new SettableObservable<string>(string.Empty);
         private          double                       _timer;
 
@@ -18,6 +19,7 @@ namespace Tesserae.Tests.Samples
         {
             _runningCall        = ToolCall(UIcons.Search, "Search documentation \"tesserae popover\"", () => TextBlock("3 pages matched.").BreakSpaces());
             _standaloneProgress = LiveProgress().Stream(_streamedProgress);
+            _diffedBubble       = DeltaComponent(BuildDiffedBubbleContent()).Animated();
 
             _runningCall.SetProgress(_streamedProgress);
 
@@ -61,8 +63,21 @@ namespace Tesserae.Tests.Samples
                         _runningCall,
                         TextBlock("The same line stands on its own before any tool has been called."),
                         _standaloneProgress,
+
+                        SampleSubTitle("Inside a diffing container"),
+                        TextBlock("A streaming chat bubble refreshes itself by diffing a freshly built layout onto the DOM already on screen, so the call and its line are rebuilt on every update and the reader keeps the elements an earlier layout left behind. The line still reads as one text changing: it opts out of the fade the diff puts on patched content, and its tooltip follows the element rather than the instance that was last written to."),
+                        _diffedBubble,
+
                         Button("Stream progress").Primary().OnClick(() => StartProgressDemo())
                     )).SetTitle("Usage")));
+        }
+
+        // Rebuilt from scratch on every update, the way a chat view rebuilds an in-flight reply.
+        private IComponent BuildDiffedBubbleContent()
+        {
+            return VStack().NoDefaultMargin().Children(
+                ToolCall(UIcons.Database, "Fetch index statistics", () => TextBlock("4 indexes, 1.2M documents.").BreakSpaces())
+                   .SetProgress(_streamedProgress.Value));
         }
 
         // Walks the demo through a few stages, then clears the line - the same element stays in place
@@ -89,6 +104,8 @@ namespace Tesserae.Tests.Samples
                 _streamedProgress.Value = step < 50
                     ? $"Reading documents · {step}%"
                     : $"Encoding chunks · {step}%";
+
+                _diffedBubble.ReplaceContent(BuildDiffedBubbleContent());
             }, 150);
         }
 

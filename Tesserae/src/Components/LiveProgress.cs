@@ -11,17 +11,23 @@ namespace Tesserae
     /// The line, and the tooltip carrying its untruncated text, are built once and never rebuilt:
     /// an update writes the new text into the elements already on screen. Nothing fades in or out,
     /// so a stream of updates reads as one line changing rather than a component being replaced.
+    /// <para>
+    /// It also survives a host that refreshes itself by diffing a freshly built layout onto the DOM
+    /// already on screen (<see cref="DeltaComponent"/>, and so <see cref="ChatMessage"/>): the line
+    /// element the reader sees is then the one an earlier layout built and the diff keeps patching,
+    /// so the tooltip follows the text of the element rather than the text a given instance was told
+    /// to show, and the line opts its subtree out of the fade the diff puts on patched content.
     /// </para>
     /// </summary>
     [Transpose.Name("tss.LiveProgress")]
     public sealed class LiveProgress : ComponentBase<LiveProgress, HTMLElement>
     {
-        private readonly HTMLElement _tooltipContent;
-        private          string      _text;
-        private          bool        _hasTooltip = true;
-        private          bool        _tooltipAttached;
-        private          bool        _cleanupRegistered;
-        private          IDisposable _subscription;
+        private readonly HTMLElement       _tooltipContent;
+        private          bool              _hasTooltip = true;
+        private          bool              _tooltipAttached;
+        private          bool              _cleanupRegistered;
+        private          IDisposable       _subscription;
+        private          MutationObserver  _textObserver;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -37,14 +43,15 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Gets the text currently shown by the component.
+        /// Gets the text currently shown by the component. Read from the element rather than
+        /// remembered, so it stays true under a host that patches the line's text itself.
         /// </summary>
-        public string Text    => _text;
+        public string Text    => InnerElement.textContent ?? string.Empty;
 
         /// <summary>
         /// Returns a value indicating whether the component currently shows any progress.
         /// </summary>
-        public bool   IsEmpty => string.IsNullOrEmpty(_text);
+        public bool   IsEmpty => Text.Length == 0;
 
         /// <summary>
         /// Writes the given progress into the line already on screen. An empty text hides the line
@@ -54,13 +61,11 @@ namespace Tesserae
         {
             text = text ?? string.Empty;
 
-            if (text == _text) return this;
+            if (text == Text) return this;
 
-            _text = text;
-
-            InnerElement.innerText    = _text;
-            _tooltipContent.innerText = _text;
-            InnerElement.UpdateClassIf(_text.Length == 0, "tss-liveprogress-empty");
+            InnerElement.innerText    = text;
+            _tooltipContent.innerText = text;
+            InnerElement.UpdateClassIf(text.Length == 0, "tss-liveprogress-empty");
 
             return this;
         }
@@ -128,6 +133,14 @@ namespace Tesserae
 
             document.body.appendChild(_tooltipContent);
 
+            // The tooltip reads the line's own text from here on. In a diffing host the text on
+            // screen is patched into this element by someone else entirely, and following the
+            // element is the only way the tooltip can stay honest about what the reader is seeing.
+            SyncTooltipFromElement();
+
+            _textObserver = new MutationObserver((_, __) => SyncTooltipFromElement());
+            _textObserver.observe(InnerElement, new MutationObserverInit { childList = true, characterData = true, subtree = true });
+
             if (!int.TryParse(Layers.AboveCurrent(), out var zIndex)) zIndex = 9999;
 
             Transpose.Script.Write("tippy({0}, { content: {1}, placement: 'top', delay: [{2},{3}], appendTo: {4}, maxWidth: {5}, arrow: {6}, zIndex: {7} });",
@@ -140,6 +153,8 @@ namespace Tesserae
             RegisterCleanup();
         }
 
+        private void SyncTooltipFromElement() => _tooltipContent.innerText = Text;
+
         private void DestroyTooltip()
         {
             if (InnerElement.HasOwnProperty("_tippy"))
@@ -147,6 +162,8 @@ namespace Tesserae
                 Transpose.Script.Write("{0}._tippy.destroy();", InnerElement);
             }
 
+            _textObserver?.disconnect();
+            _textObserver   = null;
             _tooltipAttached = false;
         }
 
