@@ -688,6 +688,11 @@ namespace Tesserae
         /// </summary>
         public ChatMessage WithReferences(IEnumerable<IComponent> references)
         {
+            // Attaching references (typically once, after the reply text has finished streaming) grows
+            // the bubble just like a ReplaceContent swap does, so it gets the same follow treatment:
+            // measure before the resize, then keep pinned to the bottom if we're following.
+            _parent?.ReengageFollowIfNearBottom();
+
             _referencesContainer.innerHTML = "";
             bool hasRef = false;
             foreach (var r in references)
@@ -696,6 +701,8 @@ namespace Tesserae
                 hasRef = true;
             }
             _referencesContainer.style.display = hasRef ? "flex" : "none";
+
+            _parent?.EnsureVisible(this);
             return this;
         }
 
