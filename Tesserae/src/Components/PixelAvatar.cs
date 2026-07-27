@@ -485,6 +485,32 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Wraps the avatar in a <see cref="Button"/> that has no background, border, padding or
+        /// minimum size, so it hugs the avatar exactly instead of the button's usual chrome. The
+        /// avatar becomes the button's content via <see cref="Button.ReplaceContent"/> - the cat
+        /// itself is the clickable surface - and the button's size tracks <see cref="RenderedWidth"/>
+        /// / <see cref="RenderedHeight"/>, so it stays a perfect fit if <see cref="PixelSize"/> later
+        /// changes.
+        ///
+        /// This claims the same pixel-size tracking slot <see cref="AttachTo"/> uses, so an avatar
+        /// already attached to another component should not also be turned into a button.
+        /// </summary>
+        public Button AsButton()
+        {
+            var button = UI.Button()
+               .ReplaceContent(this)
+               .NoBackground()
+               .NoBorder()
+               .NoPadding()
+               .NoMinSize()
+               .NoMargin();
+
+            TrackPixelSize(() => button.Width(RenderedWidth.px()).Height(RenderedHeight.px()));
+
+            return button;
+        }
+
+        /// <summary>
         /// Renders the component's root HTML element.
         /// </summary>
         public override HTMLElement Render() => InnerElement;

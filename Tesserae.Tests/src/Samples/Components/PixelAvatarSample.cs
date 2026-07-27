@@ -44,6 +44,9 @@ namespace Tesserae.Tests.Samples
                         SampleSubTitle("Pixel size and facing"),
                         TextBlock("The sprite is 10x8 pixels; PixelSize sets how many CSS pixels each of them takes. Facing mirrors the artwork, which is drawn facing right."),
                         SizeGallery(),
+                        SampleSubTitle("As a button"),
+                        TextBlock("AsButton() wraps the avatar in a Button with no background, border, padding or minimum size, so the button hugs the cat exactly instead of the usual button chrome - the avatar becomes the clickable surface via ReplaceContent. Click a cat to play an animation."),
+                        AsButtonGallery(),
                         SampleSubTitle("Turning around"),
                         TextBlock("Turn() changes direction by pivoting the sprite about its vertical axis, under a perspective scaled to the avatar's own width, so it reads as the cat physically turning rather than its pixels swapping sides. Facing() does the same change instantly."),
                         TurnGallery(),
@@ -220,6 +223,20 @@ namespace Tesserae.Tests.Samples
                     TextBlock("Speed 3").Tiny().Secondary().PT(8)));
 
             return VStack().WS().Children(sizes, facing.PT(24));
+        }
+
+        private static IComponent AsButtonGallery()
+        {
+            var row = HStack().AlignItemsCenter().Children();
+
+            foreach (var design in new[] { PixelAvatarDesign.Black, PixelAvatarDesign.Orange, PixelAvatarDesign.Tuxedo, PixelAvatarDesign.Sudo })
+            {
+                var avatar = PixelAvatar(42, design, PixelAvatarAnimation.SitIdle).PixelSize(8);
+
+                row.Add(avatar.AsButton().Tooltip($"{design}: click to play Stretch").MR(16).OnClick(() => avatar.Play(PixelAvatarAnimation.Stretch)));
+            }
+
+            return row;
         }
 
         private static IComponent OutlineGallery()

@@ -235,6 +235,23 @@ are handed to the header and footer directly. `Overlap(false)` puts the cat back
 band inside the dialog, above the header — which is what `ShowEmbedded()` does for you, since an
 embedded modal is a box in someone else's layout and that layout usually clips.
 
+## As a button
+
+`.AsButton()` wraps the avatar in a `Button` with no background, border, padding or minimum
+size, so the button hugs the cat exactly instead of the button's usual chrome — the avatar
+becomes the button's content via `Button.ReplaceContent`, so the cat itself is the clickable
+surface. The button's size tracks `RenderedWidth` / `RenderedHeight`, so it stays a perfect fit
+if `PixelSize` changes later.
+
+```csharp
+var avatar = PixelAvatar(SpriteKey.Value, PixelAvatarDesign.Orange, PixelAvatarAnimation.SitIdle).PixelSize(8);
+var button = avatar.AsButton().OnClick(() => avatar.Play(PixelAvatarAnimation.Stretch));
+```
+
+This claims the same pixel-size tracking slot `AttachTo` uses, so don't call both on the same
+avatar — perch it on a button with `AttachTo` for a mascot next to the click target, or make the
+cat itself the click target with `AsButton`, not both.
+
 ## Attaching to another component
 
 `.AttachTo(IComponent target, PixelAvatarAnchor anchor = PixelAvatarAnchor.TopLeft)` — or
