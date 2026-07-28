@@ -14,6 +14,17 @@
     color: var(--tss-default-foreground-color);
     /* Cards usually sit in a wrapping row above a composer, so they never grow to fill it. */
     flex: 0 0 auto;
+    /* A card is a token standing for one piece of context, not prose: dragging across a row of them, or
+       right-clicking one for its menu, should not leave half a file name highlighted. Selectable() opts
+       back in for a card whose label is worth copying. */
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* The pointer has left the card by the time its context menu is up, so the hover styling is gone with
+   it - this keeps the card marked as the one the menu belongs to. */
+.tss-contextcard-menu-open {
+    background: var(--tss-default-background-hover-color);
 }
 
 .tss-contextcard-clickable {

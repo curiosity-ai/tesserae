@@ -1,6 +1,6 @@
 ---
 name: context-card
-description: A compact card naming one piece of context attached to a conversation (a file, a page, a dataset) with a colored icon or image tile, a label, an optional second line, and a hover-revealed remove button. Use for the attachment row above a chat composer in a Tesserae (C#/Transpose) app.
+description: A compact card naming one piece of context attached to a conversation (a file, a page, a dataset) with a colored icon or image tile, a label, an optional second line, a hover-revealed remove button and an optional right-click menu. Use for the attachment row above a chat composer in a Tesserae (C#/Transpose) app.
 ---
 
 # ContextCard
@@ -15,6 +15,10 @@ while the card is hovered or focused — and stays visible on touch screens, whe
 button is absolutely positioned and overhangs the card by a few pixels, so revealing it never shifts
 the layout; if the row lives in a container that clips (`overflow: hidden`), give the row a few
 pixels of padding so the disc isn't cut off.
+
+Right-clicking a card opens the `ContextMenu` given to `OnContextMenu`, at the pointer. The text on a
+card is not selectable, so a right-click (or a drag across a row of cards) never leaves half a file
+name highlighted — `Selectable()` opts back in.
 
 ## Create
 
@@ -60,6 +64,18 @@ Bring factories into scope with `using static Tesserae.UI;`.
   For a composer carrying many pieces of context at once, or one file named inline.
 - `.OnClick(...)` — makes the whole card open the context it stands for, and makes it keyboard
   reachable (Enter or Space). Clicking the remove button never reads as a click on the card.
+- `.OnContextMenu(Func<ContextMenu.Item[]>)` — attaches a `ContextMenu` opened by right-clicking the
+  card, at the pointer, in place of the browser's own. The generator runs on every open, so the items
+  can describe the card as it stands. The card also takes a tab stop and answers the keyboard menu key
+  (or Shift+F10) with the same menu, anchored to the card. Returning `null` or an empty array opens
+  nothing.
+- `.OnContextMenu(Action<ContextCard>)` / `.OnContextMenu(Action)` — hand the right-click to a plain
+  handler instead, suppressing the browser menu. The inherited `(card, event)` overload leaves the
+  browser menu alone, for a handler that would rather decide for itself (call `StopEvent(e)` in it).
+- `.ShowMenu()` — open the attached menu anchored to the card, the way the keyboard menu key does.
+- `.Selectable(bool = true)` — let the text on the card be selected. It cannot be by default: a card
+  is a token standing for one piece of context, not prose, so dragging across a row of them or
+  right-clicking one never leaves half a file name highlighted.
 - `Label`, `SubLabel`, `IsRemovable` — read state.
 
 Sizing helpers work as usual: `.MaxWidth(260.px())` is the normal way to cap a card whose label may
@@ -83,6 +99,18 @@ void Attach(string name, string kind, UIcons icon, string color)
 
 Attach("Kindersonnenschutzmittel-NEU.pdf", "PDF",     UIcons.FilePdf,   "#ef4444");
 Attach("customers",                        "Dataset", UIcons.Database,  "#f59e0b");
+
+// Right-click a card for the actions on the context it stands for. The items are generated per open,
+// so they can reflect the card's current state.
+var doc = ContextCard("Q3-forecast.xlsx", UIcons.FileExcel).SetSubLabel("Spreadsheet").IconTint("#16a34a");
+
+doc.OnContextMenu(() => new[]
+{
+    ContextMenuItem(doc.Label).Header(),
+    ContextMenuItem("Open").OnClick(() => Open(doc.Tag)),
+    ContextMenuItem().Divider(),
+    ContextMenuItem("Detach").OnClick(() => attached.Remove(doc))
+});
 
 // A thumbnail instead of a glyph, and a compact card for a crowded composer.
 var shot = ContextCard("screenshot.png", UIcons.FileImage).SetSubLabel("Image").SetImage(url);
@@ -108,6 +136,7 @@ list of rows, or a compact row of pills with a "+N more". See `context-cards.md`
 ## Related
 
 - ContextCards — the group — `context-cards.md`
+- ContextMenu — the menu `OnContextMenu` opens, and its items — `context-menu.md`
 - Chat (ChatArea / ChatMessage) — `chat.md`
 - OmniBox — hosts a row of these below its chat input via `WithContextToAdd` — `omni-box.md`
 - ResourceCard (the larger, full resource summary) — `resource-card.md`

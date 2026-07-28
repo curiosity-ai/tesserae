@@ -81,6 +81,7 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(VStack().WS().Children(Compact()))
                 .FlatSection(VStack().WS().Children(Badges()))
                 .FlatSection(VStack().WS().Children(Clickable()))
+                .FlatSection(VStack().WS().Children(RightClick()))
                 .FlatSection(VStack().WS().Children(Grouped()))
                 .FlatSection(VStack().WS().Children(CompactRow()))
                 .FlatSection(VStack().WS().Children(LongNames()))
@@ -197,6 +198,50 @@ namespace Tesserae.Tests.Samples
                         .OnClick((c, _) => Toast().Information($"Opening {c.Label}"))
                         .OnRemove(c => Toast().Information($"Removing {c.Label}"))));
         }
+
+        // ---------- Right-click ----------
+
+        private IComponent RightClick()
+        {
+            return FeatureCard("Right-click", "A menu of actions on the card",
+                "OnContextMenu(() => items) attaches a ContextMenu that opens at the pointer, in place of the browser's own. The generator runs on every right-click, so the items can describe the card as it stands — the one below offers to show or hide its own ✕. A card carrying a menu also takes a tab stop, and answers the keyboard menu key (or Shift+F10) with the same menu anchored to itself. The Action and Action<ContextCard> overloads hand the right-click to a plain handler instead, and the (card, event) overload leaves the browser menu alone so a handler can decide for itself. Text on a card is not selectable, so a right-click never leaves half a file name highlighted; Selectable() opts back in for a label worth copying.",
+                HStack().Wrap().Gap(8.px()).Children(
+                    WithMenu(ContextCard("Q3 revenue model", UIcons.Table)
+                        .SetSubLabel("finance/q3-model.xlsx · 4 sheets")
+                        .MonospaceSubLabel()
+                        .IconTint("#16a34a")
+                        .W(340.px())
+                        .OnRemove(c => Toast().Information($"Detached {c.Label}"))),
+                    WithMenu(ContextCard("architecture.md", UIcons.FileCode).IconTint("#6366f1").Compact())),
+                HStack().Wrap().Gap(8.px()).PT(8).Children(
+                    ContextCard("tesserae.dev/components", UIcons.Globe)
+                        .SetSubLabel("Web page")
+                        .IconTint("#0ea5e9")
+                        .Compact()
+                        .OnContextMenu(c => Toast().Information($"Right-clicked {c.Label}")),
+                    ContextCard("release-notes.txt", UIcons.File)
+                        .SetSubLabel("Selectable(): the label can be copied")
+                        .Compact()
+                        .Selectable()));
+        }
+
+        // The menu is generated on every open, so it can describe the card as it stands right now.
+        private static ContextCard WithMenu(ContextCard card)
+        {
+            return card.OnContextMenu(() => new[]
+            {
+                ContextMenuItem(card.Label).Header(),
+                ContextMenuItem(MenuLine(UIcons.FolderOpen, "Open")).OnClick(() => Toast().Information($"Opening {card.Label}")),
+                ContextMenuItem(MenuLine(UIcons.Copy, "Copy name")).OnClick(() => Toast().Success($"Copied \"{card.Label}\"")),
+                ContextMenuItem().Divider(),
+                ContextMenuItem(MenuLine(card.IsRemovable ? UIcons.EyeCrossed : UIcons.Eye, card.IsRemovable ? "Hide the ✕" : "Show the ✕"))
+                    .OnClick(() => card.Removable(!card.IsRemovable)),
+                ContextMenuItem(MenuLine(UIcons.Trash, "Detach", Theme.Danger.Background)).OnClick(() => Toast().Error($"Detached {card.Label}"))
+            });
+        }
+
+        private static IComponent MenuLine(UIcons icon, string text, string color = null)
+            => HStack().Children(Icon(icon, color: color), TextBlock(text).ML(8));
 
         // ---------- Grouped ----------
 

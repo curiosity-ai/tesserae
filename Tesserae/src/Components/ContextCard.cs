@@ -18,7 +18,9 @@ namespace Tesserae
     /// </para>
     /// <para>
     /// <see cref="Compact(bool)"/> turns it into a one-line pill, and <see cref="ContextCards"/> groups
-    /// several of them behind one expandable summary.
+    /// several of them behind one expandable summary. Right-clicking a card is handled by
+    /// <see cref="OnContextMenu(Func{ContextMenu.Item[]})"/>, which opens a <see cref="ContextMenu"/> of
+    /// actions at the pointer.
     /// </para>
     /// </summary>
     [Transpose.Name("tss.ContextCard")]
@@ -41,6 +43,9 @@ namespace Tesserae
         private          string            _subLabel;
         private          bool              _keepExtensionVisible = true;
         private          bool              _waitingForMount;
+        private          bool              _menuKeyHooked;
+
+        private Func<ContextMenu.Item[]> _menuGenerator;
 
         private event Action<ContextCard> RemoveRequested;
 
@@ -421,6 +426,119 @@ namespace Tesserae
             }
 
             return base.OnClick(onClick, clearPrevious);
+        }
+
+        /// <summary>
+        /// Registers a callback invoked when the user right-clicks the card, suppressing the browser's own
+        /// menu. The card is handed to the callback, so a shared handler can read its
+        /// <see cref="Label"/> or <see cref="Tag"/> without a closure per card.
+        /// <para>
+        /// The (card, event) overload inherited from the base class leaves the browser menu alone, for a
+        /// handler that would rather decide for itself - call <c>StopEvent(e)</c> from it to suppress it.
+        /// </para>
+        /// </summary>
+        public ContextCard OnContextMenu(Action<ContextCard> onContextMenu) => OnContextMenu((c, e) =>
+        {
+            StopEvent(e);
+            onContextMenu?.Invoke(c);
+        });
+
+        /// <summary>
+        /// Registers a callback invoked when the user right-clicks the card, suppressing the browser's own
+        /// menu.
+        /// </summary>
+        public ContextCard OnContextMenu(Action onContextMenu) => OnContextMenu(_ => onContextMenu?.Invoke());
+
+        /// <summary>
+        /// Attaches a <see cref="ContextMenu"/> of actions to the card: the generator runs on every
+        /// right-click, and the items it returns are shown at the pointer - so a menu can reflect the state
+        /// the card is in when it is opened. The card is also given a tab stop and answers the keyboard menu
+        /// key (and Shift+F10) with the same menu, anchored to the card itself.
+        /// <para>
+        /// Returning null or an empty array opens nothing, which is how a card opts out of the menu without
+        /// the browser's showing up in its place.
+        /// </para>
+        /// </summary>
+        public ContextCard OnContextMenu(Func<ContextMenu.Item[]> menu)
+        {
+            _menuGenerator = menu;
+
+            EnsureMenuKeyboardShortcut();
+
+            return OnContextMenu((_, e) =>
+            {
+                StopEvent(e);
+                ShowMenuAt((int)e.clientX, (int)e.clientY);
+            });
+        }
+
+        /// <summary>
+        /// Opens the menu registered with <see cref="OnContextMenu(Func{ContextMenu.Item[]})"/> anchored to
+        /// the card, the way the keyboard menu key does. Does nothing when the card has no menu.
+        /// </summary>
+        public ContextCard ShowMenu()
+        {
+            var menu = BuildMenu();
+
+            if (menu != null) menu.ShowFor(this);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Configures whether the text on the card can be selected. It cannot by default: a card is a token
+        /// standing for one piece of context, not prose, and dragging or right-clicking one should not leave
+        /// half its label highlighted.
+        /// </summary>
+        public ContextCard Selectable(bool value = true)
+        {
+            InnerElement.style.userSelect = value ? "text" : "none";
+            return this;
+        }
+
+        private void ShowMenuAt(int x, int y)
+        {
+            var menu = BuildMenu();
+
+            if (menu != null) menu.ShowAt(x, y, 0);
+        }
+
+        // Built fresh on every open, so the items can describe the state the card is in right now. The card
+        // is marked while the menu is up, as the pointer has left it by then and the hover styling is gone.
+        private ContextMenu BuildMenu()
+        {
+            if (_menuGenerator == null) return null;
+
+            var items = _menuGenerator();
+
+            if (items == null || items.Length == 0) return null;
+
+            InnerElement.classList.add("tss-contextcard-menu-open");
+
+            // Qualified, as the base class has a `ContextMenu` event of its own that the bare name would find.
+            return UI.ContextMenu().Items(items).OnHide(() => InnerElement.classList.remove("tss-contextcard-menu-open"));
+        }
+
+        // A right-click has no keyboard equivalent unless the card can be focused, so a card carrying a menu
+        // takes the same tab stop a clickable one does.
+        private void EnsureMenuKeyboardShortcut()
+        {
+            if (_menuKeyHooked) return;
+
+            _menuKeyHooked = true;
+
+            if (!InnerElement.hasAttribute("tabindex")) InnerElement.setAttribute("tabindex", "0");
+
+            InnerElement.addEventListener("keydown", e =>
+            {
+                var ev = e.As<KeyboardEvent>();
+
+                if (ev.key == "ContextMenu" || (ev.shiftKey && ev.key == "F10"))
+                {
+                    StopEvent(ev);
+                    ShowMenu();
+                }
+            });
         }
 
         private void EnsureRemoveButton()
