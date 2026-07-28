@@ -472,6 +472,15 @@ namespace Tesserae
             /// Gets or sets the chat footer.
             /// </summary>
             public FooterItems ChatFooter { get; set; }
+
+            /// <summary>
+            /// Gets or sets a component rendered inside the box, above the chat input — the place for
+            /// whatever the message is being written against, e.g. a compact <see cref="ContextCards"/>
+            /// group of the attached documents. Can be replaced later with
+            /// <see cref="OmniBox.SetChatHeader"/>. For individual cards below the input, see
+            /// <see cref="OmniBox.WithContextToAdd"/>.
+            /// </summary>
+            public IComponent ChatHeader { get; set; }
             /// <summary>
             /// Gets or sets the search footer.
             /// </summary>
@@ -566,6 +575,7 @@ namespace Tesserae
 
         private readonly HTMLTextAreaElement _chatInput;
         private readonly HTMLDivElement   _chatContainer;
+        private readonly HTMLDivElement   _chatHeader;
         private readonly HTMLDivElement   _contextContainer;
         private readonly List<ContextCard> _contextCards = new List<ContextCard>();
         private readonly Button           _chatTriggerBtn;
@@ -1051,6 +1061,10 @@ namespace Tesserae
 
                 _chatContainer = Div(Att("tss-omnibox-chat-container"), _chatInput);
 
+                _chatHeader = Div(Att("tss-omnibox-chat-header"));
+
+                if (config.ChatHeader is object) _chatHeader.appendChild(config.ChatHeader.Render());
+
                 // The context row sits between the input and the footer, inside the box. It stays empty
                 // (and, being :empty, invisible) until WithContextToAdd / AddContext put a card in it.
                 _contextContainer = Div(Att("tss-omnibox-context"));
@@ -1157,12 +1171,12 @@ namespace Tesserae
                 }
                 case Mode.Chat:
                 {
-                    _container = Div(Att("tss-omnibox-container"), _chatContainer, _contextContainer, _footer);
+                    _container = Div(Att("tss-omnibox-container"), _chatHeader, _chatContainer, _contextContainer, _footer);
                     break;
                 }
                 case Mode.SearchAndChat:
                 {
-                    _container = Div(Att("tss-omnibox-container tss-omnibox-chat-and-search"), _searchContainer, _chatContainer, _contextContainer, _footer);
+                    _container = Div(Att("tss-omnibox-container tss-omnibox-chat-and-search"), _searchContainer, _chatHeader, _chatContainer, _contextContainer, _footer);
                     break;
                 }
             }
@@ -3663,6 +3677,22 @@ namespace Tesserae
         public OmniBox SetChatPlaceholder(string text)
         {
             ChatPlaceholder = text;
+            return this;
+        }
+
+        /// <summary>
+        /// Replaces the component rendered inside the box above the chat input — the place for whatever
+        /// the message is being written against, e.g. a compact <see cref="ContextCards"/> group of the
+        /// attached documents. Passing <c>null</c> empties the slot, which then takes up no space.
+        /// </summary>
+        public OmniBox SetChatHeader(IComponent component)
+        {
+            if (_chatHeader is null) return this;
+
+            _chatHeader.innerHTML = string.Empty;
+
+            if (component is object) _chatHeader.appendChild(component.Render());
+
             return this;
         }
 

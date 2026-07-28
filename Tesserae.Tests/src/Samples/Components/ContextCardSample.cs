@@ -63,11 +63,31 @@ namespace Tesserae.Tests.Samples
                                 .IconBackground("#6366f1").MaxWidth(260.px()).OnRemove(() => { })),
 
                         SampleSubTitle("Compact"),
-                        TextBlock("Compact() tightens the card into one row, with the second line beside the label — for a composer carrying many pieces of context at once."),
+                        TextBlock("Compact() tightens the card into a one-line pill, with the second line beside the label — for a composer carrying many pieces of context at once, or for one file named inline. MonospaceSubLabel() gives a path or a size the monospace treatment ToolCall gives its command, and WithChevron() adds the hint that clicking the card opens it."),
+                        HStack().Wrap().Gap(6.px()).PT(8).Children(
+                            ContextCard("Runner.cs", UIcons.FileCode)
+                                .SetSubLabel("src/Needle/Inference/ · 12 KB")
+                                .MonospaceSubLabel()
+                                .IconBackground("#a855f7")
+                                .Compact()
+                                .WithChevron()
+                                .OnClick((c, _) => Toast().Information($"Opening {c.Label}"))),
                         HStack().Wrap().Gap(6.px()).PT(8).Children(
                             ContextCard("report-2026.pdf", UIcons.FilePdf).SetSubLabel("PDF").IconBackground("#ef4444").Compact().OnRemove(() => { }),
                             ContextCard("Q3-forecast.xlsx", UIcons.FileExcel).SetSubLabel("Spreadsheet").IconBackground("#16a34a").Compact().OnRemove(() => { }),
                             ContextCard("architecture.md", UIcons.FileCode).IconBackground("#6366f1").Compact().OnRemove(() => { })),
+
+                        SampleSubTitle("Kinds"),
+                        TextBlock("SetKind puts a small pill at the end of the card saying what sort of context it is. It comes into its own inside a ContextCards list, where every row ends with one."),
+                        HStack().Wrap().Gap(8.px()).PT(8).Children(
+                            ContextCard("Q3 revenue model", UIcons.Table).SetSubLabel("finance/q3-model.xlsx · 4 sheets").MonospaceSubLabel().SetKind("Sheet").IconBackground("#16a34a").W(340.px()),
+                            ContextCard("events.request_log", UIcons.Database).SetSubLabel("warehouse · 2.1M rows").MonospaceSubLabel().SetKind("Table").IconBackground("#10b981").W(340.px())),
+
+                        SampleSubTitle("Long file names"),
+                        TextBlock("MaxLabelWidth caps where the label is cut, and a trailing file extension is held outside that width — the ellipsis is placed by measuring the text, so the card reads \"Quarterly repo….pdf\" rather than \"Quarterly repor…\". KeepExtensionVisible(false) opts out."),
+                        HStack().Wrap().Gap(8.px()).PT(8).Children(
+                            ContextCard("Quarterly report FY26.pdf", UIcons.FilePdf).IconBackground("#ef4444").Compact().MaxLabelWidth(80.px()),
+                            ContextCard("Quarterly report FY26.pdf", UIcons.FilePdf).IconBackground("#ef4444").Compact().MaxLabelWidth(80.px()).KeepExtensionVisible(false)),
 
                         SampleSubTitle("Clickable"),
                         TextBlock("OnClick makes the whole card open the context it stands for (and makes it keyboard reachable, activated with Enter or Space). Clicking the remove button never reads as opening the card."),

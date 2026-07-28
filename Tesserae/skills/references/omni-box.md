@@ -22,6 +22,7 @@ Config (set via object initializer):
 - `PlaceholderSearch` / `PlaceholderChat`, `ExpandOnFocus`, `TokenIgnoreCase`.
 - `SuggestionsFetcher = async input => OmniBoxSuggestionItem[]` — autocomplete source.
 - `IconSearch` / `IconChat` / `IconStop`, `SearchFooter` / `ChatFooter` (`FooterItems`).
+- `ChatHeader` (`IComponent`) — rendered inside the box above the chat input: what the message is being written against, e.g. a compact `ContextCards` group of the attached documents. Swap it later with `.SetChatHeader(component)`, or pass `null` to empty the slot — it takes up no space while empty. For individual cards *below* the input, use `.WithContextToAdd(...)`.
 - `GeneratingText` — label shown in the footer while generating (default `"Generating"`); the live elapsed time is appended, e.g. `"Generating, 1m 25s"`.
 
 OmniBox:
@@ -29,6 +30,7 @@ OmniBox:
 - `.OnChat((sender, ChatMessage) => ...)`, `.OnStop(...)`, `.OnModelChanged(...)`.
 - `.IsGenerating` (bool) — toggles the footer spinner + elapsed-time indicator and swaps the send button for a stop button. `.GeneratingText` (string) — read/write the indicator label; setting it updates the footer live.
 - `.SearchText` / `.ChatText` / `.SetSearchText(string)` — read/write input text.
+- `.SetChatHeader(IComponent)` — replace (or clear, with `null`) whatever sits above the chat input.
 - `.RegisterSnap(SnapHandler)` / `.RegisterFilterSnap(FilterSnapHandler)` — turn recognized input into inline filter chips (search modes only).
 - `.WithHistory(Func<Task<SearchQuery[]>>)` — enable the history button.
 - `.WithHelp(bool showSyntax = false)` — a `?` button opening a panel that lists the registered filter
@@ -106,4 +108,6 @@ omni.AddContext(ContextCard("Q3-forecast.xlsx", UIcons.FileExcel).SetSubLabel("S
 - TextBox — `/tesserae/components/text-box`
 - SearchBox — `/tesserae/components/search-box`
 - ToolAgentSelector — the tool/agent picker `EnableChatMentions` is commonly wired to — `tool-agent-selector.md`
+- ContextCards — a compact row of pills naming the attached context, mounted in the box's `ChatHeader` slot — `context-cards.md`
+- ContextCard — the cards `WithContextToAdd` renders below the input — `context-card.md`
 - Full docs & API: `/tesserae/components/omni-box`

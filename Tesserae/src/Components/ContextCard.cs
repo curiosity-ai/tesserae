@@ -10,22 +10,37 @@ namespace Tesserae
     /// dataset — meant to sit above (or inside) a <see cref="ChatArea"/> composer.
     /// <para>
     /// It is an icon tile (a <see cref="UIcons"/> glyph, an arbitrary component, or an image
-    /// thumbnail) on a colored background, followed by a label and an optional second line. Passing
-    /// a remove handler to <see cref="OnRemove(Action{ContextCard})"/> adds a round (x) button hanging
-    /// just off the card's top-right corner that fades in while the card is hovered, focused, or on
-    /// touch devices where there is no hover to speak of.
+    /// thumbnail) on a colored background, followed by a label, an optional second line, and an optional
+    /// kind pill ("Doc", "Sheet", "Table"). Passing a remove handler to
+    /// <see cref="OnRemove(Action{ContextCard})"/> adds a round (x) button hanging just off the card's
+    /// top-right corner that fades in while the card is hovered, focused, or on touch devices where there
+    /// is no hover to speak of.
+    /// </para>
+    /// <para>
+    /// <see cref="Compact(bool)"/> turns it into a one-line pill, and <see cref="ContextCards"/> groups
+    /// several of them behind one expandable summary.
     /// </para>
     /// </summary>
     [Transpose.Name("tss.ContextCard")]
     public sealed class ContextCard : ComponentBase<ContextCard, HTMLElement>
     {
+        // A longer tail than this isn't a file extension worth keeping out of the ellipsis.
+        private const int maxExtensionLength = 7;
+
         private readonly HTMLElement       _iconContainer;
         private readonly HTMLElement       _labelContainer;
+        private readonly HTMLElement       _labelText;
+        private readonly HTMLElement       _labelExtension;
         private readonly HTMLElement       _subLabelContainer;
         private readonly HTMLElement       _textContainer;
+        private readonly HTMLElement       _kindContainer;
+        private readonly HTMLElement       _chevron;
         private          HTMLButtonElement _removeButton;
         private          string            _label;
+        private          string            _labelStem;
         private          string            _subLabel;
+        private          bool              _keepExtensionVisible = true;
+        private          bool              _waitingForMount;
 
         private event Action<ContextCard> RemoveRequested;
 
@@ -52,16 +67,28 @@ namespace Tesserae
 
         private ContextCard()
         {
-            _iconContainer     = Div(Att("tss-contextcard-icon"));
-            _labelContainer    = Div(Att("tss-contextcard-label"));
+            _iconContainer = Div(Att("tss-contextcard-icon"));
+
+            // The label is two elements, not one: a trailing file extension is held outside the
+            // ellipsized part, so a narrow card reads "Quarterly repo….pdf" rather than
+            // "Quarterly repor…" - the extension is usually the most useful part of a file name.
+            _labelText      = Span(Att("tss-contextcard-label-text"));
+            _labelExtension = Span(Att("tss-contextcard-label-extension"));
+            _labelContainer = Div(Att("tss-contextcard-label"), _labelText, _labelExtension);
+
             _subLabelContainer = Div(Att("tss-contextcard-sublabel"));
 
             _textContainer = Div(Att("tss-contextcard-text"), _labelContainer, _subLabelContainer);
 
-            InnerElement = Div(Att("tss-contextcard"), _iconContainer, _textContainer);
+            _kindContainer = Div(Att("tss-contextcard-kind"));
+            _chevron       = I(UIcons.AngleDown, cssClass: "tss-contextcard-chevron");
+
+            InnerElement = Div(Att("tss-contextcard"), _iconContainer, _textContainer, _kindContainer, _chevron);
 
             SetLabel(null);
             SetSubLabel(null);
+            SetKind(null);
+            WithChevron(false);
 
             AttachClick();
             AttachContextMenu();
@@ -83,6 +110,12 @@ namespace Tesserae
         public bool IsRemovable => _removeButton != null;
 
         /// <summary>
+        /// Gets or sets an arbitrary payload associated with this card - the document, record or file it
+        /// stands for, so a remove or click handler can act on it without a lookup.
+        /// </summary>
+        public object Tag { get; set; }
+
+        /// <summary>
         /// Sets the label of the component. The label is ellipsized to the width the card is given,
         /// and carries the full text as its native tooltip.
         /// </summary>
@@ -90,11 +123,78 @@ namespace Tesserae
         {
             _label = label ?? string.Empty;
 
-            _labelContainer.innerText = _label;
+            var extension = SplitExtension(_label, _keepExtensionVisible, out _labelStem);
+
+            _labelText.textContent        = _labelStem;
+            _labelExtension.textContent   = extension ?? string.Empty;
+            _labelExtension.style.display = string.IsNullOrEmpty(extension) ? "none" : "";
+
             // The card is narrow by design and the interesting part of a file name is often its tail,
             // so the untruncated text stays reachable on hover.
             _labelContainer.setAttribute("title", _label);
 
+            FitLabelWhenMeasurable();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Configures whether a trailing file extension is held out of the ellipsis, so a label too long
+        /// for the card reads "Quarterly repo….pdf" rather than "Quarterly repor…". On by default.
+        /// </summary>
+        public ContextCard KeepExtensionVisible(bool value = true)
+        {
+            if (_keepExtensionVisible == value) return this;
+
+            _keepExtensionVisible = value;
+
+            return SetLabel(_label);
+        }
+
+        /// <summary>
+        /// Caps the width the label is ellipsized at, for a dense row where every card should stay short.
+        /// The extension, when kept visible, sits outside this width.
+        /// </summary>
+        public ContextCard MaxLabelWidth(UnitSize size)
+        {
+            _labelText.style.maxWidth = size is null ? "" : size.ToString();
+
+            FitLabelWhenMeasurable();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the kind of context this card stands for - "Doc", "Sheet", "Email", "Table", "Folder" -
+        /// shown as a small pill at the end of the card. A null or empty value hides it.
+        /// </summary>
+        public ContextCard SetKind(string kind)
+        {
+            var isEmpty = string.IsNullOrEmpty(kind);
+
+            _kindContainer.innerText = isEmpty ? string.Empty : kind;
+            _kindContainer.UpdateClassIf(isEmpty, "tss-contextcard-empty");
+
+            return this;
+        }
+
+        /// <summary>
+        /// Renders the secondary line in the monospace font, for a path, a table name or a size - the same
+        /// treatment <see cref="ToolCall"/> gives the command it names.
+        /// </summary>
+        public ContextCard MonospaceSubLabel(bool value = true)
+        {
+            InnerElement.UpdateClassIf(value, "tss-contextcard-mono");
+            return this;
+        }
+
+        /// <summary>
+        /// Shows a chevron at the end of the card, the hint that clicking it opens what it stands for.
+        /// Pair it with <see cref="OnClick(ComponentEventHandler{ContextCard, MouseEvent}, bool)"/>.
+        /// </summary>
+        public ContextCard WithChevron(bool value = true)
+        {
+            _chevron.UpdateClassIf(!value, "tss-contextcard-empty");
             return this;
         }
 
@@ -183,6 +283,21 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Tints the icon tile with the given color: a wash of it behind the glyph, and the glyph itself in
+        /// full strength. The quieter alternative to a saturated tile, and what a row of many cards usually
+        /// wants so the colors read as file types rather than as decoration.
+        /// </summary>
+        public ContextCard IconTint(string color, int percent = 14)
+        {
+            if (string.IsNullOrEmpty(color)) return this;
+
+            _iconContainer.style.background = $"color-mix(in srgb, {color} {percent}%, transparent)";
+            _iconContainer.style.color      = color;
+
+            return this;
+        }
+
+        /// <summary>
         /// Configures the icon tile to have no background, letting the glyph or image sit directly on
         /// the card.
         /// </summary>
@@ -247,12 +362,14 @@ namespace Tesserae
         public ContextCard NoRemove() => Removable(false);
 
         /// <summary>
-        /// Configures the card as a single, tighter row: the icon tile shrinks and the secondary line
-        /// (if any) moves in beside the label. Use it when many cards share the composer.
+        /// Configures the card as a single tighter row - a pill with a small tile, the label, and the
+        /// secondary line beside it rather than below. Use it when many cards share a composer, or for one
+        /// card named inline in a sentence.
         /// </summary>
-        public ContextCard Compact()
+        public ContextCard Compact(bool value = true)
         {
-            InnerElement.classList.add("tss-contextcard-compact");
+            InnerElement.UpdateClassIf(value, "tss-contextcard-compact");
+            FitLabelWhenMeasurable();
             return this;
         }
 
@@ -299,6 +416,78 @@ namespace Tesserae
 
             InnerElement.appendChild(_removeButton);
             InnerElement.classList.add("tss-contextcard-removable");
+        }
+
+        // CSS alone leaves the tail of a max-width label box unused, which shows up as a gap between the
+        // ellipsis and the extension - "Q3 rev… .xlsx". Truncating the text ourselves puts the ellipsis
+        // right where the name stops, so the two read as one file name. `text-overflow: ellipsis` still
+        // covers us until this can measure.
+        private void FitLabelWhenMeasurable()
+        {
+            if (_labelText.isConnected)
+            {
+                FitLabel();
+                return;
+            }
+
+            if (_waitingForMount) return;
+
+            _waitingForMount = true;
+
+            DomObserver.WhenMounted(InnerElement, () =>
+            {
+                _waitingForMount = false;
+                FitLabel();
+            });
+        }
+
+        private void FitLabel()
+        {
+            _labelText.textContent = _labelStem ?? string.Empty;
+
+            if (string.IsNullOrEmpty(_labelStem)) return;
+
+            var limit = _labelText.clientWidth;
+
+            if (limit <= 0 || _labelText.scrollWidth <= limit) return;
+
+            // Longest prefix that still fits once the ellipsis is appended.
+            var low  = 0;
+            var high = _labelStem.Length;
+
+            while (low < high)
+            {
+                var middle = (low + high + 1) / 2;
+
+                _labelText.textContent = _labelStem.Substring(0, middle) + "…";
+
+                if (_labelText.scrollWidth <= limit) low = middle;
+                else                                high = middle - 1;
+            }
+
+            // Trimmed so a cut landing on a space doesn't read as "Q3 revenue ….xlsx".
+            var kept = low <= 0 ? string.Empty : _labelStem.Substring(0, low).TrimEnd();
+
+            _labelText.textContent = kept + "…";
+        }
+
+        private static string SplitExtension(string label, bool keepExtensionVisible, out string stem)
+        {
+            stem = label;
+
+            if (!keepExtensionVisible || string.IsNullOrEmpty(label)) return null;
+
+            var dot = label.LastIndexOf('.');
+
+            if (dot <= 0 || dot == label.Length - 1) return null;
+
+            var extension = label.Substring(dot);
+
+            if (extension.Length > maxExtensionLength || extension.Contains(" ")) return null;
+
+            stem = label.Substring(0, dot);
+
+            return extension;
         }
 
         /// <summary>

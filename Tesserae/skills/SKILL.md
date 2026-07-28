@@ -145,7 +145,8 @@ references. Open the reference for whatever you are working with. The full set:
 **Components** (plain widgets)
 accordion · action-button · annotated-text-editor · avatar · background-area ·
 badge · button · card · carousel · charts · chat · check-box · choice-group ·
-color-picker · command-bar · context-card · contribution-bar · cron-editor · date-picker ·
+color-picker · command-bar · context-card · context-cards · contribution-bar ·
+cron-editor · date-picker ·
 date-range-picker · date-time-picker · delta-component · dropdown ·
 editable-area · editable-label · expander · grid-picker · horizontal-separator ·
 icon · icon-toggle · image · label · link · live-progress · markdown-block ·
