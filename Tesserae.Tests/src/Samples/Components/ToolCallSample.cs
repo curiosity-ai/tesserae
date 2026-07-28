@@ -120,6 +120,11 @@ namespace Tesserae.Tests.Samples
                 {
                     window.clearInterval(_timer);
                     _streamedProgress.Value = string.Empty;
+
+                    // The diffing bubble only ever learns about progress through a rebuild, so the
+                    // last one matters as much as the rest: without it the finished line would stay
+                    // on screen showing the update before this one.
+                    _diffedBubble.ReplaceContent(BuildDiffedBubbleContent());
                     return;
                 }
 

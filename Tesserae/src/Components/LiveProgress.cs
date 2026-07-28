@@ -61,11 +61,17 @@ namespace Tesserae
         {
             text = text ?? string.Empty;
 
+            // The hiding class is written even when the text already matches, and so before the
+            // early return below: a line built empty is empty from its constructor on, and never
+            // took the class. That is invisible on its own - an empty box - but in a diffing host
+            // this freshly built element is what carries the state onto the line the reader sees,
+            // and a class the diff cannot copy leaves the finished progress on screen.
+            InnerElement.UpdateClassIf(text.Length == 0, "tss-liveprogress-empty");
+
             if (text == Text) return this;
 
             InnerElement.innerText    = text;
             _tooltipContent.innerText = text;
-            InnerElement.UpdateClassIf(text.Length == 0, "tss-liveprogress-empty");
 
             return this;
         }

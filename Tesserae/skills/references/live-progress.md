@@ -41,6 +41,10 @@ follows the element (so it stays right even while open), and the line opts its s
 fade the diff puts on patched content. Rebuilding the line every update is therefore fine; what does
 not work is writing into an instance whose element the diff discarded.
 
+The update that ends the progress is a rebuild like any other: clear the text in the state the layout
+is built from and run one final diff. Skip it and the line on screen simply keeps the last text a
+rebuild handed it — the instance you called `.Clear()` on was never the one the reader is looking at.
+
 Better still, don't rebuild for progress at all. Keep the line whose element is in the document and
 write into that one — a progress update then touches one text node instead of re-running every
 renderer in the layout:
