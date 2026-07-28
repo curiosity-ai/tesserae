@@ -12,7 +12,7 @@
   <ItemGroup>
     <PackageReference Include="Transpose.BCL" Version="26.7.3120" />
     <PackageReference Include="Transpose.Core" Version="26.7.3122" />
-    <PackageReference Include="Transpose.Newtonsoft.Json" Version="26.7.3123" />
+    <PackageReference Include="Transpose.Newtonsoft.Json" Version="26.7.3128" />
   </ItemGroup>
 
   <PropertyGroup>
