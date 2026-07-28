@@ -82,6 +82,7 @@ namespace Tesserae.Tests.Samples
 
                         SampleSubTitle("Inside a diffing container"),
                         TextBlock("A streaming chat bubble refreshes itself by diffing a freshly built layout onto the DOM already on screen, so the call and its line are rebuilt on every update and the reader keeps the elements an earlier layout left behind. The line still reads as one text changing: it opts out of the fade the diff puts on patched content, and its tooltip follows the element rather than the instance that was last written to."),
+                        TextBlock("The update that ends the run is a rebuild like all the others - it just carries an empty progress, which takes the line off the row instead of leaving an empty gap where it was."),
                         _diffedBubble,
 
                         Button("Stream progress").Primary().OnClick(() => StartProgressDemo())
@@ -89,9 +90,13 @@ namespace Tesserae.Tests.Samples
                 .SeeAlso(typeof(ChatSample), typeof(PlanSample), typeof(ContextCardSample), typeof(OmniBoxSample), typeof(CodeDiffSample), typeof(MarkdownBlockSample));
         }
 
-        // Rebuilt from scratch on every update, the way a chat view rebuilds an in-flight reply. A
-        // rebuilt call is collapsed with its content unbuilt, and the diff would take the open one on
-        // screen down to match - so the rebuild re-opens what the reader opened.
+        // Rebuilt from scratch on every update, the way a chat view rebuilds an in-flight reply. The
+        // line takes the current progress as a plain string: a rebuilt call is a fresh instance whose
+        // element the diff throws away, and Stream()ing into one would leave a subscription per
+        // rebuild writing into a detached element. Two things a rebuild has to carry itself: the call
+        // the reader opened (a rebuilt one is collapsed with its content unbuilt, and the diff would
+        // take the open one on screen down to match), and the progress, which only reaches this
+        // bubble through a rebuild.
         private IComponent BuildDiffedBubbleContent()
         {
             var call = ToolCall(UIcons.Database, "Fetch index statistics", () => TextBlock("4 indexes, 1.2M documents.").BreakSpaces())
@@ -103,15 +108,15 @@ namespace Tesserae.Tests.Samples
             return VStack().NoDefaultMargin().Children(call);
         }
 
-        // Walks the demo through a few stages, then clears the line - the same element stays in place
-        // the whole time, only its text changes.
+        // Walks the demo through a few stages and then ends it with an empty progress. The lines on
+        // screen are never rebuilt for an update - only their text changes.
         private void StartProgressDemo()
         {
             window.clearInterval(_timer);
 
             var step = 0;
 
-            _streamedProgress.Value = "Reading documents · 0%";
+            Publish("Reading documents · 0%");
 
             _timer = window.setInterval(_ =>
             {
@@ -120,21 +125,24 @@ namespace Tesserae.Tests.Samples
                 if (step > 100)
                 {
                     window.clearInterval(_timer);
-                    _streamedProgress.Value = string.Empty;
-
-                    // The diffing bubble only ever learns about progress through a rebuild, so the
-                    // last one matters as much as the rest: without it the finished line would stay
-                    // on screen showing the update before this one.
-                    _diffedBubble.ReplaceContent(BuildDiffedBubbleContent());
+                    Publish(string.Empty);
                     return;
                 }
 
-                _streamedProgress.Value = step < 50
+                Publish(step < 50
                     ? $"Reading documents · {step}%"
-                    : $"Encoding chunks · {step}%";
-
-                _diffedBubble.ReplaceContent(BuildDiffedBubbleContent());
+                    : $"Encoding chunks · {step}%");
             }, 150);
+        }
+
+        // The one path every update takes, the empty one that ends the run included: the observable is
+        // the state, so publishing carries the progress into the lines already on screen and the
+        // diffing bubble is rebuilt from the same value.
+        private void Publish(string progress)
+        {
+            _streamedProgress.Value = progress;
+
+            _diffedBubble.ReplaceContent(BuildDiffedBubbleContent());
         }
 
         public HTMLElement Render() => _content.Render();

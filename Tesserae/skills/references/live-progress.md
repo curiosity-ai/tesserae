@@ -45,6 +45,12 @@ The update that ends the progress is a rebuild like any other: clear the text in
 is built from and run one final diff. Skip it and the line on screen simply keeps the last text a
 rebuild handed it — the instance you called `.Clear()` on was never the one the reader is looking at.
 
+Hand a rebuilt line its text with `.SetText(...)` (or `ToolCall.SetProgress(string)`), not with
+`.Stream(...)`. A subscription belongs to the instance that made it, and an instance the diff
+discarded is never removed from a document it never entered — so its cleanup never runs, and every
+rebuild leaves one more subscriber writing into a detached element. Stream into the line you keep, and
+build the rebuilt ones from the current value.
+
 Better still, don't rebuild for progress at all. Keep the line whose element is in the document and
 write into that one — a progress update then touches one text node instead of re-running every
 renderer in the layout:
