@@ -43,4 +43,5 @@ var card = ResourceCard()
 ## Related
 
 - Card — `.card.md`
+- ContextCard (the compact chat-attachment variant) — `.context-card.md`
 - Full docs & API: `/tesserae/components/resource-card`

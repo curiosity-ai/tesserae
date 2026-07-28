@@ -76,4 +76,7 @@ chat.Busy(false);
 - Pixel-art cats as chat avatars — `pixel-avatar.md`
 
 - Avatar — `avatar.md`
+- ContextCard (the attachment row above the composer) — `context-card.md`
+- ContextCards — a group of those behind one summary pill, or a compact row of pills for the sources a
+  reply cites (usable with `WithReferences`) — `context-cards.md`
 - Full docs & API: `/tesserae/components/chat`

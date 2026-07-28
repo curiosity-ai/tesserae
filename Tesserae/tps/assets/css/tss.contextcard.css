@@ -1,0 +1,237 @@
+/* ContextCard — a compact card for one piece of context attached to a conversation */
+
+.tss-contextcard {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 8px 12px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-lg, 8px);
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    /* Cards usually sit in a wrapping row above a composer, so they never grow to fill it. */
+    flex: 0 0 auto;
+}
+
+.tss-contextcard-clickable {
+    cursor: pointer;
+}
+
+.tss-contextcard-clickable:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-contextcard-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 16px;
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+}
+
+.tss-contextcard-icon-nobackground {
+    background: transparent;
+    color: inherit;
+}
+
+/* A thumbnail covers the tile, so whatever background color was set stops showing through. */
+.tss-contextcard-icon-image {
+    background: transparent;
+}
+
+.tss-contextcard-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.tss-contextcard-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* Two spans rather than one text node: the extension has to butt right up against the ellipsized
+   part so the two read as one file name, which a flex `gap` would break. */
+.tss-contextcard-label {
+    display: flex;
+    align-items: baseline;
+    min-width: 0;
+    white-space: nowrap;
+    font-size: var(--tss-font-size-small, 14px);
+    font-weight: var(--tss-font-weight-semibold, 600);
+    line-height: 1.3;
+}
+
+.tss-contextcard-label-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tss-contextcard-label-extension {
+    flex-shrink: 0;
+    opacity: 0.7;
+}
+
+.tss-contextcard-sublabel {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--tss-font-size-xsmall, 12px);
+    line-height: 1.3;
+    color: var(--tss-colors-neutral-600, #4b5563);
+}
+
+/* A path, a table name or a size, given the same monospace treatment ToolCall gives its command. */
+.tss-contextcard-mono .tss-contextcard-sublabel {
+    font-family: var(--tss-monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+}
+
+/* What kind of context this is: "Doc", "Sheet", "Table". Quiet, and never shrinks. */
+.tss-contextcard-kind {
+    flex-shrink: 0;
+    margin-left: auto;
+    padding: 2px 10px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 999px;
+    background: var(--tss-default-background-color);
+    color: var(--tss-colors-neutral-600, #4b5563);
+    font-size: var(--tss-font-size-xsmall, 12px);
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.tss-contextcard-chevron {
+    flex-shrink: 0;
+    margin-left: 4px;
+    font-size: 12px;
+    color: var(--tss-colors-neutral-500, #6b7280);
+    transition: transform 200ms ease;
+}
+
+.tss-contextcard-empty {
+    display: none;
+}
+
+/* The remove button hangs slightly off the card's top-right corner, so it costs no layout and never
+   sits over the label. It is a solid neutral disc with a white glyph that turns danger-colored while
+   hovered. The z-index keeps it above the next card in a wrapping row, which the overhang can
+   otherwise reach. */
+.tss-contextcard-remove {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--tss-colors-neutral-1000);
+    color: var(--tss-colors-neutral-0);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.12s ease-in-out, background 0.12s ease-in-out;
+}
+
+/* The neutral scale flips with the theme, so in dark mode it takes a mid grey to stay visible on a
+   dark card, and the white glyph comes from the inverted scale (which is light there). */
+.tss-dark-mode .tss-contextcard-remove {
+    background: var(--tss-colors-neutral-500);
+    color: var(--tss-colors-dark-neutral-0);
+}
+
+.tss-contextcard-remove i {
+    font-size: 11px;
+    line-height: 1;
+}
+
+.tss-contextcard-remove:hover,
+.tss-dark-mode .tss-contextcard-remove:hover {
+    background: var(--tss-danger-background-color);
+    color: var(--tss-danger-foreground-color);
+}
+
+.tss-contextcard-remove:active,
+.tss-dark-mode .tss-contextcard-remove:active {
+    background: var(--tss-danger-background-active-color);
+    color: var(--tss-danger-foreground-active-color);
+}
+
+.tss-contextcard:hover > .tss-contextcard-remove,
+.tss-contextcard:focus-within > .tss-contextcard-remove,
+.tss-contextcard-remove:focus-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Nothing hovers on a touch screen, so there the button is simply always visible. */
+@media (hover: none) {
+    .tss-contextcard-remove {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+/* Compact: one line, tighter, more rounded - a card named inline rather than a tile. */
+.tss-contextcard-compact {
+    gap: 8px;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.tss-contextcard-compact .tss-contextcard-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+/* A compact card is one row: the secondary line moves in beside the label. */
+.tss-contextcard-compact .tss-contextcard-text {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.tss-contextcard-compact .tss-contextcard-label {
+    font-size: var(--tss-font-size-small, 13px);
+}
+
+.tss-contextcard-compact .tss-contextcard-sublabel {
+    flex-shrink: 0;
+    font-size: var(--tss-font-size-xsmall, 11px);
+}
+
+.tss-contextcard-compact .tss-contextcard-kind {
+    padding: 1px 8px;
+    font-size: var(--tss-font-size-tiny, 10px);
+}
+
+.tss-contextcard-compact .tss-contextcard-remove {
+    top: -5px;
+    right: -5px;
+    width: 15px;
+    height: 15px;
+}
+
+.tss-contextcard-compact .tss-contextcard-remove i {
+    font-size: 9px;
+}

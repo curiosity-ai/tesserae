@@ -1,0 +1,232 @@
+/* ContextCards — ContextCards grouped behind one summary pill, or a compact row of pills */
+
+/* A column so the header pill hugs its text (align-items) while the list below it takes the width the
+   group was given - the list is the part that wants to be as wide as the bubble it sits in. */
+.tss-contextcards {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 8px;
+}
+
+/* An empty group keeps its element (so the next card finds it in place) but takes up no space, which
+   lets it sit permanently in a layout - a chat composer, say. */
+.tss-contextcards-empty {
+    display: none;
+}
+
+/* The summary pill is the ToolsUsed pill: same shape, same chevron, so a transcript reads as one
+   family of disclosures. */
+.tss-contextcards-header {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+    padding: 6px 12px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 999px;
+    background: var(--tss-default-background-color);
+    color: var(--tss-colors-neutral-800, #1f2937);
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.tss-contextcards-header:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-contextcards-header:focus-visible {
+    outline: 2px solid var(--tss-primary-background-color);
+    outline-offset: 1px;
+}
+
+.tss-contextcards-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    background: color-mix(in srgb, var(--tss-primary-background-color) 14%, transparent);
+    color: var(--tss-primary-background-color);
+    font-size: 13px;
+}
+
+.tss-contextcards-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: var(--tss-font-weight-medium, 500);
+}
+
+.tss-contextcards-chevron {
+    flex-shrink: 0;
+    font-size: 12px;
+    color: var(--tss-colors-neutral-500, #6b7280);
+    transition: transform 200ms ease;
+}
+
+.tss-contextcards.tss-expanded .tss-contextcards-chevron {
+    transform: rotate(180deg);
+}
+
+/* Expanded, the cards are rows of one bordered list rather than separate cards. */
+.tss-contextcards-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    margin-top: 8px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-lg, 8px);
+    background: var(--tss-default-background-color);
+    overflow: hidden;
+}
+
+.tss-contextcards-list > .tss-contextcard {
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+.tss-contextcards-list > .tss-contextcard + .tss-contextcard {
+    border-top: 1px solid var(--tss-default-border-color);
+}
+
+.tss-contextcards-list > .tss-contextcard .tss-contextcard-text {
+    flex: 1 1 auto;
+}
+
+/* One row's ✕: always there (a list is where context gets managed), quiet until hovered. */
+.tss-contextcards-list > .tss-contextcard .tss-contextcard-remove {
+    position: static;
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    margin-left: 8px;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--tss-colors-neutral-500, #6b7280);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.tss-contextcards-list > .tss-contextcard .tss-contextcard-remove:hover {
+    background: var(--tss-danger-background-color);
+    color: var(--tss-danger-foreground-color);
+}
+
+.tss-contextcards-list > .tss-contextcard .tss-contextcard-remove i {
+    font-size: 12px;
+}
+
+/* The kind pill and the ✕ share the row's end, so the pill stops claiming the leftover space. */
+.tss-contextcards-list > .tss-contextcard .tss-contextcard-kind {
+    margin-left: 8px;
+}
+
+.tss-contextcards-hidden {
+    display: none !important;
+}
+
+/* Compact: no header, just a wrapping row of pills that ends in "+N more". */
+.tss-contextcards-compact .tss-contextcards-header {
+    display: none;
+}
+
+.tss-contextcards-compact .tss-contextcards-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-top: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    overflow: visible;
+}
+
+.tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard {
+    width: auto;
+    padding: 3px 10px 3px 6px;
+    border-radius: 999px;
+    border: 1px solid var(--tss-default-border-color);
+    background: var(--tss-secondary-background-color);
+}
+
+.tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    font-size: 11px;
+}
+
+.tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-text {
+    flex: 0 1 auto;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-label {
+    font-size: var(--tss-font-size-small, 13px);
+    font-weight: var(--tss-font-weight-medium, 500);
+}
+
+/* A pill is narrow, so its ✕ goes back to riding the corner instead of taking a column. */
+.tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 16px;
+    height: 16px;
+    margin-left: 0;
+    background: var(--tss-colors-neutral-1000);
+    color: var(--tss-colors-neutral-0);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.tss-dark-mode .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove {
+    background: var(--tss-colors-neutral-500);
+    color: var(--tss-colors-dark-neutral-0);
+}
+
+.tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard:hover .tss-contextcard-remove,
+.tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard:focus-within .tss-contextcard-remove {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Dashed, so it reads as "there is more behind this" rather than as another piece of context. */
+.tss-contextcards-more {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    height: 26px;
+    padding: 0 10px;
+    border: 1px dashed var(--tss-default-border-color);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--tss-colors-neutral-600, #4b5563);
+    font-size: var(--tss-font-size-small, 12px);
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.tss-contextcards-more:hover {
+    border-color: var(--tss-primary-background-color);
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-contextcards-more:focus-visible {
+    outline: 2px solid var(--tss-primary-background-color);
+    outline-offset: 1px;
+}

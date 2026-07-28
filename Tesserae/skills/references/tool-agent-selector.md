@@ -76,4 +76,5 @@ var chatSample = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
 - OmniBox, `OmniBox.EnableChatMentions` — `omni-box.md`
 - Dropdown — a single/multi-select combobox with a similar Layer-based popup — `dropdown.md`
 - NotificationCenter — the count-badge-on-a-trigger pattern this reuses — `notification-center.md`
+- ContextCards — pills for the documents/records the same composer is scoped to — `context-cards.md`
 - Full docs & API: `/tesserae/components/tool-agent-selector`
