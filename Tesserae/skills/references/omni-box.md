@@ -31,6 +31,18 @@ OmniBox:
 - `.SearchText` / `.ChatText` / `.SetSearchText(string)` — read/write input text.
 - `.RegisterSnap(SnapHandler)` / `.RegisterFilterSnap(FilterSnapHandler)` — turn recognized input into inline filter chips (search modes only).
 - `.WithHistory(Func<Task<SearchQuery[]>>)` — enable the history button.
+- `.WithHelp(bool showSyntax = false)` — a `?` button opening a panel that lists the registered filter
+  snaps and snaps (with their example values); `showSyntax: true` also documents `AND` / `OR` / `NOT`,
+  grouping and quoting (search modes only).
+- `.InlineFilterChips` — observable list of `InlineFilterChip`s rendered at the head of the search
+  input, for filters the app owns rather than ones the user typed. A chip takes a text (with optional
+  background/foreground colors and an `onClick`) or an arbitrary `IComponent`.
+- `.SetSearchRightText(string)` — a label at the far end of the search input, e.g. a result count.
+- `.SetModels(params ModelOption[])` / `.LockModel(ModelOption)` / `.SetThinkingEffort(ThinkingEffort)`
+  — the chat footer's model selector; a locked model shows with a lock and stops opening the popover.
+- `.SetKeyboardShortcut(params string[] keys)` — e.g. `("Ctrl", "K")`: a document-level shortcut that
+  focuses the box, shown as a hint at the end of the search input.
+- `.Disabled(bool value = true)` — keeps the content but stops taking input.
 - `.EnableChatMentions(ChatMention)` — turns typing `@` at a word boundary in the chat input into an
   "@mention" style picker (chat/search-and-chat modes only). `ChatMention` is a set of UI-agnostic
   callbacks (`OnShow(x, y)`, `OnQueryChanged(text)`, `OnMove(direction)`, `OnCommit()`, `OnHide()`,
