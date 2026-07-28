@@ -32,7 +32,8 @@ namespace Tesserae.Tests.Samples
                                 Label("Number of items:").SetContent(countSlider.OnInput((s, e) => SetChildren(stack, s.Value)))
                             ))),
                     stack.HeightAuto()
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(DeferWithProgressSample), typeof(BindingSample), typeof(SkeletonSample), typeof(SpinnerSample));
             SetChildren(stack, 5);
         }
 

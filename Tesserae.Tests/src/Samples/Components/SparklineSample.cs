@@ -49,7 +49,8 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Larger Chart"),
                     Sparkline(new double[] { 5, 10, 8, 20, 18, 35, 30, 45, 42, 60, 55, 70 }, width: 300, height: 80, color: Theme.Colors.Green600).WS()
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(ChartsSample), typeof(MetricSample), typeof(DeltaComponentSample), typeof(ContributionBarSample), typeof(UptimeSample));
         }
 
         public HTMLElement Render() => _content.Render();

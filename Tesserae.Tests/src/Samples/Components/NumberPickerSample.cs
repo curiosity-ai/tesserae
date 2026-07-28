@@ -41,7 +41,8 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Event Handling"),
                     NumberPicker().OnChange((s, e) => Toast().Information($"Value changed to: {s.Value}"))
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(SliderSample), typeof(StepsSliderSample), typeof(TextBoxSample), typeof(RatingSample));
         }
 
         public HTMLElement Render() => _content.Render();

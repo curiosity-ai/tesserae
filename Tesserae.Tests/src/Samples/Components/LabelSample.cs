@@ -50,7 +50,8 @@ namespace Tesserae.Tests.Samples
                         Label("Medium rounded").Rounded(BorderRadius.Medium),
                         Label("Full rounded").Rounded(BorderRadius.Full)
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(TextBlockSample), typeof(EditableLabelSample), typeof(TextBoxSample), typeof(ValidatorSample));
         }
 
         public HTMLElement Render() => _content.Render();

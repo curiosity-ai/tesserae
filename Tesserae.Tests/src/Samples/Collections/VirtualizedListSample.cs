@@ -33,7 +33,8 @@ namespace Tesserae.Tests.Samples
                            .WithEmptyMessage(() => BackgroundArea(Card(TextBlock("No items available"))).WS().HS().MinHeight(100.px()))
                            .WithListItems(Enumerable.Empty<IComponent>())
                            .Height(150.px())
-                    )).SetTitle("Usage")));
+                    )).SetTitle("Usage")))
+                   .SeeAlso(typeof(DetailsListSample), typeof(InfiniteScrollingListSample), typeof(ItemsListSample), typeof(SearchableListSample));
         }
 
         public HTMLElement Render() => _content.Render();

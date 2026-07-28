@@ -46,7 +46,8 @@ namespace Tesserae.Tests.Samples
                         Label("50% Progress").SetContent(Spinner().Progress(50).Large()).AlignCenter(),
                         Label("75% Progress").SetContent(Spinner().Progress(75).Large()).AlignCenter(),
                         Label("100% Progress").SetContent(Spinner().Progress(100).Large()).AlignCenter()
-                    ));
+                    ))
+               .SeeAlso(typeof(SkeletonSample), typeof(ProgressRingSample), typeof(ProgressIndicatorSample), typeof(DeferSample));
         }
 
         public HTMLElement Render()

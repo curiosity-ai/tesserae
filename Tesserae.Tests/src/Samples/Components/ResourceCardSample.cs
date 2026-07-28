@@ -25,7 +25,8 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     searchList
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+                .SeeAlso(typeof(CardSample), typeof(ContextCardSample), typeof(ListItemTextSample), typeof(BadgeSample));
         }
 
         private ModelItem[] GetModelItems()

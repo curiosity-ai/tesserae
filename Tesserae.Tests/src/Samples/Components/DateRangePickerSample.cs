@@ -27,7 +27,8 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Reactive"),
                     DateRangePicker(DateTime.Today, DateTime.Today.AddDays(14))
                         .OnChange(r => Toast().Information($"{r.From:d} → {r.To:d}"))
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(DatePickerSample), typeof(DateTimePickerSample), typeof(TimeHistogramPickerSample), typeof(MonthPickerSample));
         }
 
         public HTMLElement Render() => _content.Render();

@@ -47,7 +47,8 @@ namespace Tesserae.Tests.Samples
                     ItemsList(new IComponent[0])
                        .WithEmptyMessage(() => BackgroundArea(Card(TextBlock("No items to show").Padding(16.px()))).WS().HS().MinHeight(100.px()))
                        .Height(150.px())
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(SearchableListSample), typeof(SearchableGroupedListSample), typeof(VirtualizedListSample), typeof(DetailsListSample), typeof(ListItemTextSample));
         }
 
         public HTMLElement Render() => _content.Render();

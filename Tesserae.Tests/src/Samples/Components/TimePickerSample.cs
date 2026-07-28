@@ -40,7 +40,8 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Event Handling"),
                     new TimePicker(DateTimeOffset.Now)
                        .OnChange((s, e) => Toast().Information($"Time changed to {s.Time:T}"))
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(DatePickerSample), typeof(DateTimePickerSample), typeof(CronEditorSample), typeof(NumberPickerSample));
         }
 
         public HTMLElement Render() => _content.Render();

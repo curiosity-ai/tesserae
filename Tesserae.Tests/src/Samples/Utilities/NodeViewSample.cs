@@ -113,7 +113,8 @@ namespace Tesserae.Tests.Samples
                     TextBlock("Use NodeView for scenarios where users need to define relationships or workflows. Keep node definitions logical and consistent. Provide descriptive names for inputs and outputs. Utilize dynamic nodes when the node structure needs to adapt based on its internal state or external data."))).SetTitle("Best Practices")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                    SplitView().SplitInMiddle().Resizable().H(600).WS().Left(nodeView).Right(VStack().S().Children(Label("JSON State"), textArea)))).SetTitle("Usage")));
+                    SplitView().SplitInMiddle().Resizable().H(600).WS().Left(nodeView).Right(VStack().S().Children(Label("JSON State"), textArea)))).SetTitle("Usage")))
+               .SeeAlso(typeof(DiagramSample), typeof(TreeSample), typeof(PlanSample), typeof(ChartsSample));
         }
 
         public HTMLElement Render()

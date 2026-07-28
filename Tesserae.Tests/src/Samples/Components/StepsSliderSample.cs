@@ -50,7 +50,8 @@ namespace Tesserae.Tests.Samples
                     VStack().Children(
                         Label("Disabled Slider").Disabled().SetContent(new StepsSlider<string>("Low", "Medium", "High").Disabled())
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(SliderSample), typeof(StepperSample), typeof(NumberPickerSample));
         }
 
         public HTMLElement Render() => _content.Render();

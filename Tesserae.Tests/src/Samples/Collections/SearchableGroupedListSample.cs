@@ -42,7 +42,8 @@ namespace Tesserae.Tests.Samples
                        .WithPagination(5)
                        .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching records").Padding(16.px()))).WS().HS().MinHeight(100.px()))
                        .Height(400.px()).MB(32)
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+                   .SeeAlso(typeof(SearchableListSample), typeof(ItemsListSample), typeof(SearchBoxSample), typeof(TreeSample));
         }
 
         public HTMLElement Render() => _content.Render();

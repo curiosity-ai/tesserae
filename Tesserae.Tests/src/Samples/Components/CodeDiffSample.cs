@@ -197,7 +197,8 @@ index 5555555..6666666 100644
                     Card(VStack().WS().Children(
                         TextBlock("Regression check: line-by-line diff inside a fixed-height scrollable container (320px, overflow-y auto). diff2html's line-number cells are absolutely positioned, so without a positioned ancestor inside the scroller they would stay frozen (and escape the clip) while the content scrolls. Tesserae fixes this by making the CodeDiff root position:relative (tss.codediff.css) - scroll inside the box below and the gutter must move with its rows."),
                         Raw(scrollHost)
-                    )).SetTitle("Line-by-line diff inside a scroll container")));
+                    )).SetTitle("Line-by-line diff inside a scroll container")))
+               .SeeAlso(typeof(MarkdownBlockSample), typeof(AnnotatedTextEditorSample), typeof(ToolCallSample), typeof(SandboxSample));
         }
 
         public HTMLElement Render() => _content.Render();

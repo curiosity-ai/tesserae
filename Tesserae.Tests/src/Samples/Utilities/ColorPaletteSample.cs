@@ -73,7 +73,8 @@ namespace Tesserae.Tests.Samples
                             ColorPalette.Define("Info",    Theme.Primary.Background)
                         )
                         .OnChange(c => Toast().Information($"Semantic color: {c}"))
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(ColorsSample), typeof(ColorPickerSample), typeof(GradientsSample), typeof(ThemeColorsSample), typeof(ThemeBuilderSample));
         }
 
         public HTMLElement Render() => _content.Render();

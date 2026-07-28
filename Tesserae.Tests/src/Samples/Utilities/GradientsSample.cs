@@ -54,7 +54,8 @@ namespace Tesserae.Tests.Samples
                     TextBlock("Prefer using these predefined gradients over hardcoded linear-gradient functions to ensure your application remains consistent with the theme. Click on any gradient name below to copy its C# constant name."))).SetTitle("Best Practices")))
                 .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                    grid)).SetTitle("Usage")));
+                    grid)).SetTitle("Usage")))
+                .SeeAlso(typeof(ColorsSample), typeof(ThemeColorsSample), typeof(ColorPaletteSample), typeof(ColorPickerSample));
         }
 
         private IComponent RenderGradientStack(string gradientName, string gradientVar)

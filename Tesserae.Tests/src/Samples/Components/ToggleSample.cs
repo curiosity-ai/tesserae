@@ -61,7 +61,8 @@ namespace Tesserae.Tests.Samples
                         IconToggle(IconToggleItem(UIcons.Comment, "Chat", "Chat"), IconToggleItem(UIcons.Search, "Search", "Search")),
                         IconToggle(IconToggleItem(UIcons.AppleWhole, "Apple", "Apple"), IconToggleItem(UIcons.Banana, "Banana", "Banana"), IconToggleItem(UIcons.OrangeJuice, "Orange Juice", "Orange Juice"), IconToggleItem(UIcons.Bread, "Bread", "Bread"))
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(CheckBoxSample), typeof(ChoiceGroupSample), typeof(ButtonSample), typeof(SegmentedPivotSample));
         }
 
         public HTMLElement Render() => _content.Render();

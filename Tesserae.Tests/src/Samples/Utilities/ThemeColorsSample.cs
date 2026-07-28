@@ -156,7 +156,8 @@ namespace Tesserae.Tests.Samples
                         Label("Primary Dark").Inline().SetContent(cpPrimaryDark),
                         Label("Background Light").Inline().SetContent(cpBackgroundLight),
                         Label("Background Dark").Inline().SetContent(cpBackgroundDark)
-                    )).SetTitle("Usage")));
+                    )).SetTitle("Usage")))
+               .SeeAlso(typeof(ColorsSample), typeof(ThemeBuilderSample), typeof(ColorPaletteSample), typeof(GradientsSample));
         }
 
         public HTMLElement Render()

@@ -54,7 +54,8 @@ namespace Tesserae.Tests.Samples
                     .Right(TextBlock("👈 resize this area to scroll the tab strip — use the chevrons, the mouse wheel, or arrow / Home / End keys, and click the ⋯ button for an All Tabs menu").WS().BreakSpaces()),
                     SampleSubTitle("Many Tabs with Long Titles"),
                     GetManyTabsPivot()
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(SegmentedPivotSample), typeof(CardPivotSample), typeof(PivotSelectorSample), typeof(TabbedModalSample), typeof(AccordionSample));
         }
 
         private Pivot GetManyTabsPivot()

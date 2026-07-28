@@ -26,7 +26,8 @@ namespace Tesserae.Tests.Samples
                    .FlatSection(Stack().Children(
                         Card(VStack().WS().Children(
                         SampleSubTitle("Dynamic Section Generation"),
-                        Label("Number of sections:").SetContent(Slider(5, 0, 10, 1).OnInput((s, e) => SetChildren(stack, s.Value))))).SetTitle("Usage"))),
+                        Label("Number of sections:").SetContent(Slider(5, 0, 10, 1).OnInput((s, e) => SetChildren(stack, s.Value))))).SetTitle("Usage")))
+                   .SeeAlso(typeof(CardSample), typeof(StackSample), typeof(PanelSample), typeof(AccordionSample), typeof(HorizontalSeparatorSample)),
                 stack);
             SetChildren(stack, 5);
         }

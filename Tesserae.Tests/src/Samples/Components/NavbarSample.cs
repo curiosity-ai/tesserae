@@ -35,7 +35,8 @@ namespace Tesserae.Tests.Samples
                         navbar,
                         TextBlock("Page Content below the navbar...").Padding(16.px())
                     )
-               )).SetTitle("Usage")));
+               )).SetTitle("Usage")))
+               .SeeAlso(typeof(SidebarSample), typeof(SidenavSample), typeof(MenuSample), typeof(CommandBarSample), typeof(BreadcrumbSample));
         }
 
         public HTMLElement Render() => _content.Render();

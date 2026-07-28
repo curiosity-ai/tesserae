@@ -35,7 +35,8 @@ namespace Tesserae.Tests.Samples
                             .SegmentedPivot("s6", SegmentTitle("Reports"),    () => CenteredWithBackground(Message("Reports Content")))
                             .SegmentedPivot("s7", SegmentTitle("Settings"),   () => CenteredWithBackground(Message("Settings Content"))))
                     .Right(TextBlock("👈 resize this area to squeeze the segmented control — use the chevrons or the mouse wheel to scroll the tab strip, and click the ⋯ button for an All Tabs menu").WS().BreakSpaces())
-               )).SetTitle("Usage")));
+               )).SetTitle("Usage")))
+               .SeeAlso(typeof(PivotSample), typeof(CardPivotSample), typeof(PivotSelectorSample), typeof(ChoiceGroupSample), typeof(ToggleSample));
         }
 
         public HTMLElement Render()

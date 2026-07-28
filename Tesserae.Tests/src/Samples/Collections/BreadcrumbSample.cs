@@ -54,7 +54,8 @@ namespace Tesserae.Tests.Samples
                         Crumb("Feature"),
                         Crumb("Detail")
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(TextBreadcrumbsSample), typeof(OverflowSetSample), typeof(SidebarSample), typeof(NavbarSample));
         }
 
         public HTMLElement Render() => _content.Render();

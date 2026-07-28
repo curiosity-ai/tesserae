@@ -75,7 +75,8 @@ namespace Tesserae.Tests.Samples
                         KeyboardShortcut("Escape"),
                         TextBlock("to dismiss it.").Small()
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(CommandPaletteSample), typeof(OmniBoxSample), typeof(MenuSample), typeof(ContextMenuSample));
         }
 
         public HTMLElement Render() => _content.Render();

@@ -254,7 +254,8 @@ namespace Tesserae.Tests.Samples
                             Button("gamma").OnClick(() => pivotTab.Value = "gamma"),
                             DeferSync(pivotTab, t => TextBlock($"selected = {t}").SemiBold().ML(8))
                         )
-                    )).SetTitle("Usage")));
+                    )).SetTitle("Usage")))
+               .SeeAlso(typeof(KeyedObservableStackSample), typeof(DeferSample), typeof(PropertyGridSample), typeof(ValidatorSample));
 
             // Keep the bound modal/panel instances alive — they mount themselves to document.body on Show()
             // but their .Bind() subscriptions need to outlive this constructor.

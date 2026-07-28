@@ -66,7 +66,8 @@ namespace Tesserae.Tests.Samples
                         SampleSubTitle("Events and pinned positions"),
                         TextBlock("Click the left node, or right-click it for the context menu event. The right node was pinned with At(x, y). Clicks are not raised after dragging a node."),
                         eventsDiagram
-                    )).SetTitle("Usage")));
+                    )).SetTitle("Usage")))
+               .SeeAlso(typeof(NodeViewSample), typeof(ChartsSample), typeof(PlanSample), typeof(TreeSample));
         }
 
         public HTMLElement Render() => _content.Render();

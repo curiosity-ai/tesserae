@@ -62,7 +62,8 @@ namespace Tesserae.Tests.Samples
                         }
                         animBtn.Disabled(false);
                     })
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(ProgressIndicatorSample), typeof(SpinnerSample), typeof(SkeletonSample), typeof(MetricSample));
         }
 
         public HTMLElement Render() => _content.Render();

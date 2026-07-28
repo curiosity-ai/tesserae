@@ -85,7 +85,8 @@ namespace Tesserae.Tests.Samples
                     TextBlock("TaskBoard provides a Trello-like interface with draggable columns and cards. Use it for Kanban boards and task management."),
                     HStack().Children(toggle, readOnlyToggle),
                     board.Height(600.px())
-               )).SetTitle("Overview")));
+               )).SetTitle("Overview")))
+               .SeeAlso(typeof(CardSample), typeof(PlanSample), typeof(DetailsListSample), typeof(GesturesSample), typeof(StackSample));
         }
 
         public HTMLElement Render() => _content.Render();

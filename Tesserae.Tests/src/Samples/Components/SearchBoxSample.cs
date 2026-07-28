@@ -57,7 +57,8 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Press Ctrl+K (or ⌘K on macOS) anywhere on the page to focus the SearchBox below."),
                         SearchBox("Search...").SetKeyboardShortcut("Ctrl", "K")
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(OmniBoxSample), typeof(SearchableListSample), typeof(CommandPaletteSample), typeof(TextBoxSample), typeof(PickerSample));
         }
 
         public HTMLElement Render() => _content.Render();

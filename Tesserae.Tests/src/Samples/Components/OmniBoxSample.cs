@@ -35,7 +35,8 @@ namespace Tesserae.Tests.Samples
                .FlatSection(VStack().WS().Children(Models()))
                .FlatSection(VStack().WS().Children(Generating()))
                .FlatSection(VStack().WS().Children(ToolsAndAgents()))
-               .FlatSection(VStack().WS().Children(ContextToAdd()));
+               .FlatSection(VStack().WS().Children(ContextToAdd()))
+               .SeeAlso(typeof(ChatSample), typeof(SearchBoxSample), typeof(ContextCardSample), typeof(ToolCallSample), typeof(CommandPaletteSample), typeof(KeyboardShortcutSample), typeof(FileSelectorAndDropAreaSample));
         }
 
         // ---------- Section helpers ----------
@@ -400,7 +401,7 @@ namespace Tesserae.Tests.Samples
             .OnSearch((s, q) => Toast().Information($"Searched for: {q.RawQuery}")));
 
             return FeatureCard("Keyboard shortcut", "A global key that focuses the box",
-                "SetKeyboardShortcut(\"Ctrl\", \"K\") registers a document-level shortcut that focuses the input, and shows the keys as a hint at the end of the search input (the hint is hidden in chat mode). Focus() does the same thing programmatically.",
+                "SetKeyboardShortcut(\"Ctrl\", \"K\") registers a document-level shortcut that focuses the input, and shows the keys as a hint at the end of the search input. The hint is there to be discovered, so it steps out of the way while the input has focus and comes back on blur — and it is hidden in chat mode. Focus() does the same thing programmatically.",
                 box,
                 Button("Focus() it").SetIcon(UIcons.Cursor).MT(8).OnClick(() => box.Focus()));
         }
@@ -508,28 +509,6 @@ namespace Tesserae.Tests.Samples
 
         private IComponent ToolsAndAgents()
         {
-            var selectorForSearch = ToolAgentSelector()
-                .Agents(
-                    ToolAgentSelectorItem("deep-researcher", "Deep Researcher", "Multi-step web research with citations", UIcons.Search).Selected(),
-                    ToolAgentSelectorItem("code-assistant", "Code Assistant", "Plans, writes and debugs code end to end", UIcons.FileCode),
-                    ToolAgentSelectorItem("data-analyst", "Data Analyst", "Explores data and builds charts", UIcons.ChartHistogram))
-                .Tools(
-                    ToolAgentSelectorItem("web-search", "Web Search", "Search the live web for fresh results", UIcons.Globe).Selected(),
-                    ToolAgentSelectorItem("code-interpreter", "Code Interpreter", "Run Python in a sandbox", UIcons.Terminal),
-                    ToolAgentSelectorItem("image-generation", "Image Generation", "Create images from a prompt", UIcons.Picture),
-                    ToolAgentSelectorItem("file-search", "File Search", "Search files in this workspace", UIcons.FolderOpen),
-                    ToolAgentSelectorItem("calculator", "Calculator", "Evaluate math expressions", UIcons.Calculator))
-                .Compact()
-                .OnChange(s => Toast().Information($"{s.SelectedCount} tool(s)/agent(s) enabled"));
-
-            var searchBox = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.Search)
-            {
-                PlaceholderSearch = "Search anything",
-                SearchFooter = new OmniBox.FooterItems { RightSide = new IComponent[] { selectorForSearch } }
-            })
-            .WS()
-            .OnSearch((s, q) => Toast().Information($"Searched for: {q.RawQuery}")));
-
             var selectorForChat = ToolAgentSelector()
                 .Agents(
                     ToolAgentSelectorItem("deep-researcher", "Deep Researcher", "Multi-step web research with citations", UIcons.Search),
@@ -560,10 +539,9 @@ namespace Tesserae.Tests.Samples
                 IsOpen         = ()      => selectorForChat.IsVisible
             }));
 
-            return FeatureCard("Tools & agents", "A selector in the footer, and '@' mentions",
-                "ToolAgentSelector is a trigger button plus a searchable popup for enabling agents and tools, grouped into \"Agents\" and \"Tools\" with an icon, a title and an optional description per row; the trigger shows a count badge, and .Compact() drops the descriptions for a denser list. In chat mode, EnableChatMentions turns typing @ into the same picker anchored at the caret: keep typing to filter, Arrow Up/Down to move, Enter/Tab to pick, Escape to close. ChatMention is a set of plain callbacks, so any anchored popup can be wired to it.",
-                Label("Search mode (trigger button, compact)").SetContent(searchBox),
-                Label("Chat mode (trigger button + @ mentions)").SetContent(chatBox).MT(6));
+            return FeatureCard("Tools & agents", "A selector in the chat footer, and '@' mentions",
+                "ToolAgentSelector is a trigger button plus a searchable popup for enabling agents and tools, grouped into \"Agents\" and \"Tools\" with an icon, a title and an optional description per row; the trigger shows a count badge, and .Compact() drops the descriptions for a denser list. Put it in Config.ChatFooter like any other footer item. EnableChatMentions then turns typing @ into the same picker anchored at the caret: keep typing to filter, Arrow Up/Down to move, Enter/Tab to pick, Escape to close. ChatMention is a set of plain callbacks, so any anchored popup can be wired to it.",
+                chatBox);
         }
 
         // ---------- Context to add ----------

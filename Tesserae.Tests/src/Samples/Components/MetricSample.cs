@@ -46,7 +46,8 @@ namespace Tesserae.Tests.Samples
                         Card(Metric("Web traffic", "1,234,567").Chart(Sparkline(new double[] { 10, 20, 15, 30, 25, 40, 35, 50 })).Change(HStack().AlignItemsCenter().PT(16).Children(Icon(UIcons.ArrowUp).Foreground(Theme.Colors.Green600).S(), TextBlock("+12.3%").Foreground(Theme.Colors.Green600)))).W(250.px()),
                         Card(Metric("Worker invocations", "14,352").Chart(Sparkline(new double[] { 50, 45, 40, 48, 30, 20, 15, 10 }, color: "var(--tss-danger-background-color)")).Change(HStack().AlignItemsCenter().PT(16).Children(Icon(UIcons.ArrowDown).Foreground(Theme.Colors.Red600).S(), TextBlock("-5.1%").Foreground(Theme.Colors.Red600)))).W(250.px())
                     )
-               )).SetTitle("Usage")));
+               )).SetTitle("Usage")))
+               .SeeAlso(typeof(DeltaComponentSample), typeof(SparklineSample), typeof(ChartsSample), typeof(ContributionBarSample));
         }
 
         public HTMLElement Render()

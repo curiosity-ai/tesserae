@@ -37,7 +37,8 @@ namespace Tesserae.Tests.Samples
                     Button("Open YesNoCancel with dark overlay").OnClick((c, ev) => Dialog("Sample Dialog").Dark().YesNoCancel(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), () => response.Text("Clicked Cancel"))),
                     Button("Open Ok with dark overlay").OnClick((c,          ev) => Dialog("Sample Dialog").Dark().Ok(() => response.Text("Clicked Ok"))),
                     Button("Open RetryCancel with dark overlay").OnClick((c, ev) => Dialog("Sample Dialog").Dark().RetryCancel(() => response.Text("Clicked Retry"), () => response.Text("Clicked Cancel"))),
-                    response)).SetTitle("Usage")));
+                    response)).SetTitle("Usage")))
+               .SeeAlso(typeof(ModalSample), typeof(PanelSample), typeof(LayerSample), typeof(MessageSample), typeof(TutorialModalSample));
 
             dialog.Content(Stack().Children(TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit."),
                     Toggle("Is draggable").OnChange((c,    ev) => dialog.IsDraggable = c.IsChecked),

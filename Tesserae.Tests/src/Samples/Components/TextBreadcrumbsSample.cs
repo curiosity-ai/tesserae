@@ -48,7 +48,8 @@ namespace Tesserae.Tests.Samples
                         TextBreadcrumb("Arrows"),
                         TextBreadcrumb("Chevron-Down.png")
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(BreadcrumbSample), typeof(TextBlockSample), typeof(OverflowSetSample));
         }
 
         public HTMLElement Render() => _content.Render();

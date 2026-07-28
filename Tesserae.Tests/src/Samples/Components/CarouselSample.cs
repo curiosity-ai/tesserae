@@ -39,7 +39,8 @@ namespace Tesserae.Tests.Samples
                         VStack().Children(TextBlock("Interactive Slide").Medium(), Button("Click me").OnClick(() => Toast().Success("Clicked!"))).P(32),
                         VStack().Children(TextBlock("Configuration Slide").Medium(), CheckBox("Enable feature")).P(32)
                     ).PadSlides().H(150)
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(MasonrySample), typeof(CardSample), typeof(PivotSample), typeof(GesturesSample));
         }
 
         public HTMLElement Render() => _content.Render();

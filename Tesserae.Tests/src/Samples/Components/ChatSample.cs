@@ -145,7 +145,8 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(Card(VStack().S().Children(
                     TextBlock("ChatArea and ChatMessage components allow building modern chat experiences with dynamic, animatable messages using DeltaComponent."),
                     chatContainer.MT(16)
-                )).SetTitle("Overview").S(), grow: true);
+                )).SetTitle("Overview").S(), grow: true)
+                .SeeAlso(typeof(OmniBoxSample), typeof(ToolCallSample), typeof(PlanSample), typeof(ContextCardSample), typeof(MarkdownBlockSample), typeof(AvatarSample), typeof(PixelAvatarSample));
         }
 
         public HTMLElement Render() => _content.Render();

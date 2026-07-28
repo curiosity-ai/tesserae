@@ -34,7 +34,8 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Large Result Set"),
                     Pagination(totalItems: 1000, pageSize: 20, currentPage: 5)
                        .OnPageChange(p => Toast().Information($"Selected page {p.CurrentPage}"))
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(DetailsListSample), typeof(VirtualizedListSample), typeof(InfiniteScrollingListSample), typeof(ItemsListSample));
         }
 
         public HTMLElement Render() => _content.Render();

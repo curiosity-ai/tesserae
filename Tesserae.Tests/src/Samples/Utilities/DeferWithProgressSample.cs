@@ -56,7 +56,8 @@ namespace Tesserae.Tests.Samples
                         await Task.Delay(500);
                         return TextBlock($"Loaded content for trigger value: {val}").Success();
                     })
-                )).SetTitle("Usage with Observables")));
+                )).SetTitle("Usage with Observables")))
+               .SeeAlso(typeof(DeferSample), typeof(ProgressIndicatorSample), typeof(ProgressModalSample), typeof(SkeletonSample));
         }
 
         public HTMLElement Render()

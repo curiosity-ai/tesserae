@@ -39,7 +39,8 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Interactive Example"),
                     TextBlock("Changing the color picker below will update the button's background.")
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(ColorsSample), typeof(ColorPaletteSample), typeof(GradientsSample), typeof(ThemeBuilderSample));
 
             cp1.OnChange((_, __) => btn1.Background = cp1.Text);
             btn1.OnClick((_, __) => Toast().Information($"Selected Color: {cp1.Text} (Hex: {cp1.Color.ToHex()})"));

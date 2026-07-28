@@ -194,7 +194,8 @@ namespace Tesserae.Tests.Samples
                     TextBlock("Prefer using these predefined colors over hardcoded hex values to ensure your application remains consistent with the theme. Use specific color ranges (e.g., Red for errors, Green for success) to convey semantic meaning. Click on any color name below to copy its C# constant name, or use the icons to copy its RGB or Hex values."))).SetTitle("Best Practices")))
                 .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                    grid)).SetTitle("Usage")));
+                    grid)).SetTitle("Usage")))
+                .SeeAlso(typeof(ThemeColorsSample), typeof(GradientsSample), typeof(ColorPaletteSample), typeof(ColorPickerSample), typeof(ThemeBuilderSample));
         }
 
         private string GetGroupName((string Name, string Value) color)

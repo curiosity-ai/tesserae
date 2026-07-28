@@ -26,7 +26,8 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle($"Strongly-typed {nameof(Emoji)} enum"),
-                    SearchableList(GetAllIcons().ToArray(), 25.percent(), 25.percent(), 25.percent(), 25.percent()))).SetTitle("Usage")).S(), grow: true);
+                    SearchableList(GetAllIcons().ToArray(), 25.percent(), 25.percent(), 25.percent(), 25.percent()))).SetTitle("Usage")).S(), grow: true)
+               .SeeAlso(typeof(UIconsSample), typeof(PixelAvatarSample), typeof(TextBlockSample), typeof(AvatarSample));
         }
 
         public HTMLElement Render()

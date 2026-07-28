@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+using System.Linq;
+using System.Reflection;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 
@@ -16,6 +18,39 @@ namespace Tesserae.Tests.Samples
         {
             var text = Sample.FormatSampleName(sampleType);
             return stack.Title(icon, text, subtitle, Button("Documentation").SetIcon(UIcons.Books).OnClick(() => window.location.href = "https://docs.curiosity.ai/tesserae/"), Button("View Code").SetIcon(UIcons.SquareTerminal).Tooltip("View source-code for this sample page").OnClick(() => ShowSampleCode(sampleType)));
+        }
+
+        /// <summary>
+        /// Closes a sample page with a "See also" section: one button per related sample, each navigating
+        /// to that sample's page. Pass the sample types (e.g. <c>typeof(GridSample)</c>) in the order they
+        /// should be read — most closely related first.
+        /// </summary>
+        public static SectionStack SeeAlso(this SectionStack stack, params Type[] relatedSamples)
+        {
+            var links = HStack().WS().Wrap().Gap(8.px()).PT(8);
+
+            foreach (var sampleType in relatedSamples)
+            {
+                var name = Sample.FormatSampleName(sampleType);
+
+                links.Add(Button(name).SetIcon(IconFor(sampleType)).OnClick(() => Router.Navigate(RouteFor(name))));
+            }
+
+            return stack.FlatSection(VStack().WS().Children(
+                Card(VStack().WS().Children(
+                    TextBlock("Samples that usually come up together with this one — components it composes with, alternatives to it, or the layout and styling topics behind it."),
+                    links)).SetTitle("See also")));
+        }
+
+        // Mirrors the routes App.cs registers for every sample.
+        private static string RouteFor(string sampleName) => $"#/view/{sampleName}";
+
+        // The icon a sample declares on its [SampleDetails], so a link looks like its sidebar entry.
+        private static UIcons IconFor(Type sampleType)
+        {
+            var details = sampleType.GetCustomAttributes(typeof(SampleDetailsAttribute), true).FirstOrDefault() as SampleDetailsAttribute;
+
+            return details is object ? details.Icon : UIcons.Circle;
         }
 
         public static void ShowSampleCode(string sampleType)

@@ -32,7 +32,8 @@ namespace Tesserae.Tests.Samples
                     BuildTimeline(Timeline().SameSide()).Height(400.px()).MB(32),
                     SampleSubTitle("Constrained Width"),
                     BuildTimeline(Timeline().TimelineWidth(400.px())).Height(400.px())
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(StackSample), typeof(StepperSample), typeof(PlanSample), typeof(UptimeSample));
         }
 
         public HTMLElement Render() => _content.Render();

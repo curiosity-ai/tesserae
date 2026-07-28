@@ -37,7 +37,8 @@ namespace Tesserae.Tests.Samples
                         Tag("Metadata").SetIcon(Icon.Transform(UIcons.Tags, UIconsWeight.Regular)).Outline(),
                         Chip("Interactive Chip").Filled().OnRemove(c => Toast().Success("Removed chip")),
                         Chip("Status Chip").Success().Pill())
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(ButtonSample), typeof(MetricSample), typeof(DeltaComponentSample), typeof(ContextCardSample));
         }
 
         public HTMLElement Render() => _content.Render();

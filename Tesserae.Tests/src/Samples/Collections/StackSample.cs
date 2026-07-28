@@ -68,7 +68,8 @@ namespace Tesserae.Tests.Samples
                         VStack().Children(TextBlock("Medium")).P(16).Rounded(BorderRadius.Medium).Background(Theme.Colors.Blue200).W(100).AlignItemsCenter(),
                         VStack().Children(TextBlock("Full")).P(16).Rounded(BorderRadius.Full).Background(Theme.Colors.Blue200).W(100).AlignItemsCenter()
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(GridSample), typeof(SplitViewSample), typeof(MasonrySample), typeof(SectionStackSample), typeof(KeyedObservableStackSample), typeof(HorizontalSeparatorSample));
             SetChildren(stack, 5);
         }
 

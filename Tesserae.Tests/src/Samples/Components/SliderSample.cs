@@ -57,7 +57,8 @@ namespace Tesserae.Tests.Samples
                             TextBlock("Disabled").Small().MT(4)
                         )
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(StepsSliderSample), typeof(NumberPickerSample), typeof(RatingSample), typeof(TimeHistogramPickerSample));
         }
 
         public HTMLElement Render() => _content.Render();

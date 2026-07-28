@@ -32,7 +32,8 @@ namespace Tesserae.Tests.Samples
                         SearchBox().SetPlaceholder("Search...").Width(200.px()),
                         CommandBarItem("Settings", UIcons.Settings).OnClick(() => Toast().Information("Settings clicked"))
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(ButtonSample), typeof(ActionButtonSample), typeof(MenuSample), typeof(ContextMenuSample), typeof(OverflowSetSample));
         }
 
         public HTMLElement Render() => _content.Render();

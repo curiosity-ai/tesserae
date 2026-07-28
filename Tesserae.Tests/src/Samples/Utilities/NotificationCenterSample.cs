@@ -98,7 +98,8 @@ namespace Tesserae.Tests.Samples
                         Button("Clear all").OnClick(() => unreadCount.Value = 0),
                         DeferSync(unreadCount, v => TextBlock($"Unread: {v}").Small().ML(8))
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(ToastSample), typeof(SavingToastSample), typeof(MessageSample), typeof(SidebarSample));
         }
 
         public HTMLElement Render() => _content.Render();

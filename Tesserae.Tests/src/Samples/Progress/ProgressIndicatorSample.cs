@@ -31,7 +31,8 @@ namespace Tesserae.Tests.Samples
                         Label("60%").SetContent(ProgressIndicator().Progress(60).Width(400.px())).AlignCenter(),
                         Label("Full").SetContent(ProgressIndicator().Progress(100).Width(400.px())).AlignCenter(),
                         Label("Indeterminate").SetContent(ProgressIndicator().Indeterminated().Width(400.px())).AlignCenter()
-                    )).SetTitle("Usage")));
+                    )).SetTitle("Usage")))
+               .SeeAlso(typeof(ProgressRingSample), typeof(SpinnerSample), typeof(SkeletonSample), typeof(ProgressModalSample), typeof(DeferWithProgressSample));
         }
 
         public HTMLElement Render()

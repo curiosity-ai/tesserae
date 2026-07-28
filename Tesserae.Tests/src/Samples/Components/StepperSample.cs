@@ -42,7 +42,8 @@ namespace Tesserae.Tests.Samples
                             Button("Complete Registration").Primary().MT(16)
                         ))
                     ).OnStepChange(s => Toast().Information($"Step {s.CurrentStepIndex + 1}: {s.CurrentStep.Title}"))
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(StepsSliderSample), typeof(PlanSample), typeof(TeachingSample), typeof(TutorialModalSample), typeof(TimelineSample));
         }
 
         public HTMLElement Render() => _content.Render();

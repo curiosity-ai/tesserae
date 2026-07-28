@@ -54,7 +54,8 @@ namespace Tesserae.Tests.Samples
                             ContextMenuItem(HStack().Children(Icon(UIcons.Settings), TextBlock("Settings").ML(8)))
                         ).ShowFor(btn2)
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(MenuSample), typeof(PopoverSample), typeof(CommandBarSample), typeof(TippySample), typeof(LayerSample));
         }
 
         public HTMLElement Render() => _content.Render();

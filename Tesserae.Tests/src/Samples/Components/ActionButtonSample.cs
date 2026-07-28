@@ -61,7 +61,8 @@ namespace Tesserae.Tests.Samples
                             ).Render();
                             Tippy.ShowFor(s, menu, out hideAction, TooltipAnimation.None, TooltipPlacement.BottomEnd, 0, 0, 350, true, null);
                         })
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(ButtonSample), typeof(CommandBarSample), typeof(MenuSample), typeof(SaveButtonSample));
         }
 
         public HTMLElement Render() => _content.Render();
