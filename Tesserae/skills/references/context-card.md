@@ -10,9 +10,11 @@ an icon tile on a colored background, a label, and an optional second line ("PDF
 "42.109 rows"). It sizes itself to its content (`inline-flex`, never grows), so a wrapping
 `HStack` above a `ChatArea` composer is the usual home for a row of them.
 
-Give it a remove handler and it grows a round (x) button over its top-right corner that fades in
-while the card is hovered or focused — and stays visible on touch screens, where nothing hovers.
-The button overlays the card, so revealing it never shifts the layout.
+Give it a remove handler and it grows a round (x) button just off its top-right corner that fades in
+while the card is hovered or focused — and stays visible on touch screens, where nothing hovers. The
+button is absolutely positioned and overhangs the card by a few pixels, so revealing it never shifts
+the layout; if the row lives in a container that clips (`overflow: hidden`), give the row a few
+pixels of padding so the disc isn't cut off.
 
 ## Create
 
@@ -35,7 +37,9 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.Background(string)` — the card's own background.
 - `.OnRemove(Action<ContextCard>)` / `.OnRemove(Action)` — adds the (x) button and calls back when
   it is clicked. The card does **not** remove itself: the handler owns the list it lives in, so it
-  usually calls `stack.Remove(card)` and drops the underlying context at the same time.
+  usually calls `stack.Remove(card)` and drops the underlying context at the same time. The disc is a
+  solid neutral (`--tss-colors-neutral-1000`, a mid grey in the dark theme) with a white glyph, and
+  turns `--tss-danger-background-color` while hovered.
 - `.Removable(bool = true)` / `.NoRemove()` — show or hide the button without forgetting the handler.
 - `.Compact()` — one tighter row, with the second line beside the label instead of below it. For a
   composer carrying many pieces of context at once.

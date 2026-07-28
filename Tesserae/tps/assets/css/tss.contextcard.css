@@ -85,42 +85,53 @@
     display: none;
 }
 
-/* The remove button overlays the card's top-right corner, so it costs no layout: only the text
-   column is inset (below) to keep a long label from running underneath it. */
+/* The remove button hangs slightly off the card's top-right corner, so it costs no layout and never
+   sits over the label. It is a solid neutral disc with a white glyph that turns danger-colored while
+   hovered. The z-index keeps it above the next card in a wrapping row, which the overhang can
+   otherwise reach. */
 .tss-contextcard-remove {
     position: absolute;
-    top: 4px;
-    right: 4px;
+    top: -6px;
+    right: -6px;
+    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     padding: 0;
-    border: 1px solid var(--tss-default-border-color);
+    border: none;
     border-radius: 50%;
-    background: var(--tss-default-background-color);
-    color: var(--tss-default-foreground-color);
-    box-shadow: var(--tss-box-shadow);
+    background: var(--tss-colors-neutral-1000);
+    color: var(--tss-colors-neutral-0);
     cursor: pointer;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.12s ease-in-out;
+    transition: opacity 0.12s ease-in-out, background 0.12s ease-in-out;
+}
+
+/* The neutral scale flips with the theme, so in dark mode it takes a mid grey to stay visible on a
+   dark card, and the white glyph comes from the inverted scale (which is light there). */
+.tss-dark-mode .tss-contextcard-remove {
+    background: var(--tss-colors-neutral-500);
+    color: var(--tss-colors-dark-neutral-0);
 }
 
 .tss-contextcard-remove i {
-    font-size: 12px;
+    font-size: 11px;
     line-height: 1;
 }
 
-.tss-contextcard-remove:hover {
-    background: var(--tss-default-background-hover-color);
-    color: var(--tss-default-foreground-hover-color);
+.tss-contextcard-remove:hover,
+.tss-dark-mode .tss-contextcard-remove:hover {
+    background: var(--tss-danger-background-color);
+    color: var(--tss-danger-foreground-color);
 }
 
-.tss-contextcard-removable .tss-contextcard-text {
-    /* Room for the overlay circle, so the label ellipsizes before it reaches the button. */
-    padding-right: 18px;
+.tss-contextcard-remove:active,
+.tss-dark-mode .tss-contextcard-remove:active {
+    background: var(--tss-danger-background-active-color);
+    color: var(--tss-danger-foreground-active-color);
 }
 
 .tss-contextcard:hover > .tss-contextcard-remove,
@@ -167,17 +178,12 @@
 }
 
 .tss-contextcard-compact .tss-contextcard-remove {
-    top: 50%;
-    right: 4px;
-    width: 16px;
-    height: 16px;
-    transform: translateY(-50%);
+    top: -5px;
+    right: -5px;
+    width: 15px;
+    height: 15px;
 }
 
 .tss-contextcard-compact .tss-contextcard-remove i {
     font-size: 9px;
-}
-
-.tss-contextcard-compact.tss-contextcard-removable .tss-contextcard-text {
-    padding-right: 14px;
 }

@@ -11,9 +11,9 @@ namespace Tesserae
     /// <para>
     /// It is an icon tile (a <see cref="UIcons"/> glyph, an arbitrary component, or an image
     /// thumbnail) on a colored background, followed by a label and an optional second line. Passing
-    /// a remove handler to <see cref="OnRemove(Action{ContextCard})"/> adds a round (x) button in the
-    /// card's top-right corner that fades in while the card is hovered, focused, or on touch devices
-    /// where there is no hover to speak of.
+    /// a remove handler to <see cref="OnRemove(Action{ContextCard})"/> adds a round (x) button hanging
+    /// just off the card's top-right corner that fades in while the card is hovered, focused, or on
+    /// touch devices where there is no hover to speak of.
     /// </para>
     /// </summary>
     [Transpose.Name("tss.ContextCard")]
