@@ -47,4 +47,5 @@ btn = Button("Open menu").OnClick((s, e) => menu.ShowFor(btn));
 
 - Dialog — `dialog.md`
 - Panel — `panel.md`
+- ContextCard — attaches one of these to a card's right-click via `OnContextMenu` — `context-card.md`
 - Full docs & API: `/tesserae/surfaces/context-menu`
