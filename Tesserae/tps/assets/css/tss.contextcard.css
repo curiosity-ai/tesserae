@@ -1,0 +1,183 @@
+/* ContextCard — a compact card for one piece of context attached to a conversation */
+
+.tss-contextcard {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 8px 12px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-lg, 8px);
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    /* Cards usually sit in a wrapping row above a composer, so they never grow to fill it. */
+    flex: 0 0 auto;
+}
+
+.tss-contextcard-clickable {
+    cursor: pointer;
+}
+
+.tss-contextcard-clickable:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-contextcard-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 16px;
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+}
+
+.tss-contextcard-icon-nobackground {
+    background: transparent;
+    color: inherit;
+}
+
+/* A thumbnail covers the tile, so whatever background color was set stops showing through. */
+.tss-contextcard-icon-image {
+    background: transparent;
+}
+
+.tss-contextcard-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.tss-contextcard-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.tss-contextcard-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--tss-font-size-small, 14px);
+    font-weight: var(--tss-font-weight-semibold, 600);
+    line-height: 1.3;
+}
+
+.tss-contextcard-sublabel {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--tss-font-size-xsmall, 12px);
+    line-height: 1.3;
+    color: var(--tss-colors-neutral-600, #4b5563);
+}
+
+.tss-contextcard-empty {
+    display: none;
+}
+
+/* The remove button overlays the card's top-right corner, so it costs no layout: only the text
+   column is inset (below) to keep a long label from running underneath it. */
+.tss-contextcard-remove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 50%;
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    box-shadow: var(--tss-box-shadow);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.12s ease-in-out;
+}
+
+.tss-contextcard-remove i {
+    font-size: 12px;
+    line-height: 1;
+}
+
+.tss-contextcard-remove:hover {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-hover-color);
+}
+
+.tss-contextcard-removable .tss-contextcard-text {
+    /* Room for the overlay circle, so the label ellipsizes before it reaches the button. */
+    padding-right: 18px;
+}
+
+.tss-contextcard:hover > .tss-contextcard-remove,
+.tss-contextcard:focus-within > .tss-contextcard-remove,
+.tss-contextcard-remove:focus-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Nothing hovers on a touch screen, so there the button is simply always visible. */
+@media (hover: none) {
+    .tss-contextcard-remove {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+.tss-contextcard-compact {
+    gap: 8px;
+    padding: 4px 8px;
+}
+
+.tss-contextcard-compact .tss-contextcard-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+/* A compact card is one row: the secondary line moves in beside the label. */
+.tss-contextcard-compact .tss-contextcard-text {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.tss-contextcard-compact .tss-contextcard-label {
+    font-size: var(--tss-font-size-xsmall, 12px);
+}
+
+.tss-contextcard-compact .tss-contextcard-sublabel {
+    flex-shrink: 0;
+    font-size: var(--tss-font-size-tiny, 11px);
+}
+
+.tss-contextcard-compact .tss-contextcard-remove {
+    top: 50%;
+    right: 4px;
+    width: 16px;
+    height: 16px;
+    transform: translateY(-50%);
+}
+
+.tss-contextcard-compact .tss-contextcard-remove i {
+    font-size: 9px;
+}
+
+.tss-contextcard-compact.tss-contextcard-removable .tss-contextcard-text {
+    padding-right: 14px;
+}

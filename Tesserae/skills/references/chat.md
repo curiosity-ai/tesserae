@@ -76,4 +76,5 @@ chat.Busy(false);
 - Pixel-art cats as chat avatars — `pixel-avatar.md`
 
 - Avatar — `avatar.md`
+- ContextCard (the attachment row above the composer) — `context-card.md`
 - Full docs & API: `/tesserae/components/chat`

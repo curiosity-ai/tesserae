@@ -1100,6 +1100,19 @@ namespace Tesserae
         public static LiveProgress LiveProgress(string text = null) => new LiveProgress(text);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.ContextCard"/>: a compact card describing one piece of context
+        /// attached to a conversation (a file, a page, a dataset), showing the given icon on a colored
+        /// tile beside the label.
+        /// </summary>
+        public static ContextCard ContextCard(string label, UIcons icon = UIcons.File, UIconsWeight weight = UIconsWeight.Regular) => new ContextCard(label, icon, weight);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ContextCard"/> whose tile shows the given icon or image
+        /// component instead of a <see cref="UIcons"/> glyph.
+        /// </summary>
+        public static ContextCard ContextCard(string label, IComponent iconOrImage) => new ContextCard(label, iconOrImage);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Questionnaire"/> component that
         /// shows the given question and answer options. When the user
         /// picks an option (or one is set programmatically) the component
