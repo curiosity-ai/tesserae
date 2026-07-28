@@ -70,4 +70,5 @@ var omni = new OmniBox(config)
 - TextBox — `/tesserae/components/text-box`
 - SearchBox — `/tesserae/components/search-box`
 - ToolAgentSelector — the tool/agent picker `EnableChatMentions` is commonly wired to — `tool-agent-selector.md`
+- ContextBar — bubbles naming the context attached to the chat, shown above the box — `context-bar.md`
 - Full docs & API: `/tesserae/components/omni-box`

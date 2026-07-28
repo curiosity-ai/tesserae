@@ -1467,6 +1467,17 @@ namespace Tesserae
         public static ToolAgentSelector.Item ToolAgentSelectorItem(string id, string title, string description = null, UIcons? icon = null) => new ToolAgentSelector.Item(id, title, description, icon);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.ContextBar"/> row of bubbles naming the context something is
+        /// scoped to, collapsing everything past the third into a "+N more" button.
+        /// </summary>
+        public static ContextBar ContextBar(params ContextBar.Item[] items) => new ContextBar(items);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ContextBar.Item"/> context bubble.
+        /// </summary>
+        public static ContextBar.Item ContextBarItem(string name, UIcons icon = UIcons.File, bool keepExtensionVisible = true) => new ContextBar.Item(name, icon, keepExtensionVisible);
+
+        /// <summary>
         /// Converts a <see cref="Tesserae.Button"/> to a <see cref="Tesserae.ToggleButton"/>.
         /// </summary>
         public static ToggleButton ToToggle(this Button button) => new ToggleButton(button);

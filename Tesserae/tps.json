@@ -104,6 +104,7 @@
                 "tps/assets/css/tss.chat.css",
                 "tps/assets/css/tss.toolcall.css",
                 "tps/assets/css/tss.liveprogress.css",
+                "tps/assets/css/tss.contextbar.css",
                 "tps/assets/css/tss.questionnaire.css",
                 "tps/assets/css/tss.rating.css",
                 "tps/assets/css/tss.progressring.css",

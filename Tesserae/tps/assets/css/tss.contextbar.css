@@ -1,0 +1,111 @@
+/* ContextBar — a row of small bubbles naming the context something is scoped to */
+
+.tss-contextbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+}
+
+/* An empty bar keeps its element (so the next bubble finds it in place) but takes up no space. */
+.tss-contextbar-empty {
+    display: none;
+}
+
+.tss-contextbar-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    max-width: 100%;
+    height: 24px;
+    padding: 2px 4px 2px 8px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 999px;
+    background: var(--tss-secondary-background-color);
+    color: var(--tss-default-foreground-color);
+    font-size: 12px;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.tss-contextbar-item-clickable {
+    cursor: pointer;
+}
+
+.tss-contextbar-item-clickable:hover,
+.tss-contextbar-item-clickable:focus-visible {
+    border-color: var(--tss-primary-background-color);
+}
+
+.tss-contextbar-item-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    font-size: 12px;
+    line-height: 1;
+}
+
+/* The name is the only part that shrinks: a long one is ellipsized at this width while the icon,
+   the extension and the remove button stay whole. */
+.tss-contextbar-item-name {
+    max-width: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tss-contextbar-item-extension {
+    flex-shrink: 0;
+    opacity: 0.6;
+}
+
+.tss-contextbar-item-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    font-size: 10px;
+    line-height: 1;
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.tss-contextbar-item-remove:hover,
+.tss-contextbar-item-remove:focus-visible {
+    opacity: 1;
+    background: var(--tss-danger-background-color);
+    color: var(--tss-danger-foreground-color);
+}
+
+.tss-contextbar-more {
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+    padding: 0 10px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+    font-size: 12px;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.tss-contextbar-more:hover,
+.tss-contextbar-more:focus-visible {
+    border-color: var(--tss-primary-background-color);
+    color: var(--tss-default-foreground-color);
+}
+
+/* No OnShowAll handler: the button is just a count of what is collapsed. */
+.tss-contextbar-more-static,
+.tss-contextbar-more-static:hover {
+    cursor: default;
+    border-color: var(--tss-default-border-color);
+    color: var(--tss-secondary-foreground-color);
+}

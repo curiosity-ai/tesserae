@@ -76,4 +76,5 @@ chat.Busy(false);
 - Pixel-art cats as chat avatars — `pixel-avatar.md`
 
 - Avatar — `avatar.md`
+- ContextBar — bubbles for the sources a reply cites, usable with `WithReferences` — `context-bar.md`
 - Full docs & API: `/tesserae/components/chat`
