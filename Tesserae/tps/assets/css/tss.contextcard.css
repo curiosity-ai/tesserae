@@ -100,8 +100,8 @@
     font-family: var(--tss-monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
 }
 
-/* What kind of context this is: "Doc", "Sheet", "Table". Quiet, and never shrinks. */
-.tss-contextcard-kind {
+/* Whatever the host wants at the end of the card - a count, a status, a source. Quiet, never shrinks. */
+.tss-contextcard-badge {
     flex-shrink: 0;
     margin-left: auto;
     padding: 2px 10px;
@@ -112,6 +112,13 @@
     font-size: var(--tss-font-size-xsmall, 12px);
     line-height: 1.4;
     white-space: nowrap;
+}
+
+/* A component in the slot brings its own chrome (a Badge, a Spinner), so the pill drops out of the way. */
+.tss-contextcard-badge-custom {
+    padding: 0;
+    border: none;
+    background: transparent;
 }
 
 .tss-contextcard-chevron {
@@ -220,7 +227,7 @@
     font-size: var(--tss-font-size-xsmall, 11px);
 }
 
-.tss-contextcard-compact .tss-contextcard-kind {
+.tss-contextcard-compact .tss-contextcard-badge {
     padding: 1px 8px;
     font-size: var(--tss-font-size-tiny, 10px);
 }

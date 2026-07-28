@@ -11,7 +11,7 @@ namespace Tesserae
     /// <para>
     /// It is an icon tile (a <see cref="UIcons"/> glyph, an arbitrary component, or an image
     /// thumbnail) on a colored background, followed by a label, an optional second line, and an optional
-    /// kind pill ("Doc", "Sheet", "Table"). Passing a remove handler to
+    /// badge pill. Passing a remove handler to
     /// <see cref="OnRemove(Action{ContextCard})"/> adds a round (x) button hanging just off the card's
     /// top-right corner that fades in while the card is hovered, focused, or on touch devices where there
     /// is no hover to speak of.
@@ -33,7 +33,7 @@ namespace Tesserae
         private readonly HTMLElement       _labelExtension;
         private readonly HTMLElement       _subLabelContainer;
         private readonly HTMLElement       _textContainer;
-        private readonly HTMLElement       _kindContainer;
+        private readonly HTMLElement       _badgeContainer;
         private readonly HTMLElement       _chevron;
         private          HTMLButtonElement _removeButton;
         private          string            _label;
@@ -80,14 +80,14 @@ namespace Tesserae
 
             _textContainer = Div(Att("tss-contextcard-text"), _labelContainer, _subLabelContainer);
 
-            _kindContainer = Div(Att("tss-contextcard-kind"));
+            _badgeContainer = Div(Att("tss-contextcard-badge"));
             _chevron       = I(UIcons.AngleDown, cssClass: "tss-contextcard-chevron");
 
-            InnerElement = Div(Att("tss-contextcard"), _iconContainer, _textContainer, _kindContainer, _chevron);
+            InnerElement = Div(Att("tss-contextcard"), _iconContainer, _textContainer, _badgeContainer, _chevron);
 
             SetLabel(null);
             SetSubLabel(null);
-            SetKind(null);
+            SetBadge((string)null);
             WithChevron(false);
 
             AttachClick();
@@ -165,15 +165,38 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the kind of context this card stands for - "Doc", "Sheet", "Email", "Table", "Folder" -
-        /// shown as a small pill at the end of the card. A null or empty value hides it.
+        /// Puts a small pill at the end of the card. The card says nothing about what belongs in it - what
+        /// the context *is* is already carried by the icon - so it takes whatever the host wants there: a
+        /// count, a status, a source. A null or empty value hides it.
         /// </summary>
-        public ContextCard SetKind(string kind)
+        public ContextCard SetBadge(string text)
         {
-            var isEmpty = string.IsNullOrEmpty(kind);
+            ClearChildren(_badgeContainer);
 
-            _kindContainer.innerText = isEmpty ? string.Empty : kind;
-            _kindContainer.UpdateClassIf(isEmpty, "tss-contextcard-empty");
+            var isEmpty = string.IsNullOrEmpty(text);
+
+            if (!isEmpty) _badgeContainer.innerText = text;
+
+            _badgeContainer.UpdateClassIf(isEmpty, "tss-contextcard-empty");
+            _badgeContainer.classList.remove("tss-contextcard-badge-custom");
+
+            return this;
+        }
+
+        /// <summary>
+        /// Puts the given component at the end of the card, in place of the plain pill - a
+        /// <see cref="Badge"/> with a tone of its own, a <see cref="Spinner"/> while the context loads, a
+        /// small button. A null value empties the slot.
+        /// </summary>
+        public ContextCard SetBadge(IComponent badge)
+        {
+            ClearChildren(_badgeContainer);
+
+            if (badge != null) _badgeContainer.appendChild(badge.Render());
+
+            // A component brings its own chrome, so the slot drops the pill border it draws for plain text.
+            _badgeContainer.UpdateClassIf(badge == null, "tss-contextcard-empty");
+            _badgeContainer.UpdateClassIf(badge != null, "tss-contextcard-badge-custom");
 
             return this;
         }

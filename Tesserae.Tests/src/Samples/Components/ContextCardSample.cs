@@ -77,11 +77,14 @@ namespace Tesserae.Tests.Samples
                             ContextCard("Q3-forecast.xlsx", UIcons.FileExcel).SetSubLabel("Spreadsheet").IconBackground("#16a34a").Compact().OnRemove(() => { }),
                             ContextCard("architecture.md", UIcons.FileCode).IconBackground("#6366f1").Compact().OnRemove(() => { })),
 
-                        SampleSubTitle("Kinds"),
-                        TextBlock("SetKind puts a small pill at the end of the card saying what sort of context it is. It comes into its own inside a ContextCards list, where every row ends with one."),
+                        SampleSubTitle("Badge"),
+                        TextBlock("SetBadge puts a small pill at the end of the card. The card says nothing about what belongs there — what a piece of context is is already carried by the icon you pass — so it takes whatever the app wants: a source, a count, a status. The IComponent overload takes a component instead of plain text, and drops the pill chrome so that component's own styling shows."),
                         HStack().Wrap().Gap(8.px()).PT(8).Children(
-                            ContextCard("Q3 revenue model", UIcons.Table).SetSubLabel("finance/q3-model.xlsx · 4 sheets").MonospaceSubLabel().SetKind("Sheet").IconBackground("#16a34a").W(340.px()),
-                            ContextCard("events.request_log", UIcons.Database).SetSubLabel("warehouse · 2.1M rows").MonospaceSubLabel().SetKind("Table").IconBackground("#10b981").W(340.px())),
+                            ContextCard("Q3 revenue model", UIcons.Table).SetSubLabel("finance/q3-model.xlsx · 4 sheets").MonospaceSubLabel().SetBadge("SharePoint").IconTint("#16a34a").W(340.px()),
+                            ContextCard("events.request_log", UIcons.Database).SetSubLabel("warehouse · 2.1M rows").MonospaceSubLabel().SetBadge("2.1M rows").IconTint("#10b981").W(340.px())),
+                        HStack().Wrap().Gap(8.px()).PT(8).Children(
+                            ContextCard("Supplier audit 2026.pdf", UIcons.FilePdf).SetSubLabel("shared with you").SetBadge(Badge("New").Primary()).IconTint("#ef4444").W(340.px()),
+                            ContextCard("design-review/", UIcons.Folder).SetSubLabel("indexing…").SetBadge(Spinner().Small()).IconTint("#94a3b8").W(340.px())),
 
                         SampleSubTitle("Long file names"),
                         TextBlock("MaxLabelWidth caps where the label is cut, and a trailing file extension is held outside that width — the ellipsis is placed by measuring the text, so the card reads \"Quarterly repo….pdf\" rather than \"Quarterly repor…\". KeepExtensionVisible(false) opts out."),

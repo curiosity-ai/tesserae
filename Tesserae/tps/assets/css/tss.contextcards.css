@@ -126,8 +126,8 @@
     font-size: 12px;
 }
 
-/* The kind pill and the ✕ share the row's end, so the pill stops claiming the leftover space. */
-.tss-contextcards-list > .tss-contextcard .tss-contextcard-kind {
+/* The badge and the ✕ share the row's end, so the badge stops claiming the leftover space. */
+.tss-contextcards-list > .tss-contextcard .tss-contextcard-badge {
     margin-left: 8px;
 }
 

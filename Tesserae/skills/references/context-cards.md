@@ -11,7 +11,7 @@ shapes:
 - **Grouped** (default) — a summary pill ("Added 5 items to context") that expands into a bordered list
   of rows and collapses back. Same pill shape and chevron as `ToolsUsed`, so a transcript reads as one
   family of disclosures. In the list, cards render as full-width rows with a divider between each and
-  the ✕ in the row rather than hovering over a corner.
+  the badge and the ✕ in the row rather than hovering over a corner.
 - **Compact** (`.Compact()`) — no header, just a wrapping row of pills. The first `MaxVisible` (5 by
   default) are shown; the rest collapse behind a dashed "+N more" pill.
 
@@ -51,9 +51,9 @@ using static Tesserae.UI;
 
 // Grouped: one pill that opens into a list of rows.
 var sources = ContextCards(
-    ContextCard("Q3 revenue model", UIcons.Table).SetSubLabel("finance/q3-model.xlsx · 4 sheets").MonospaceSubLabel().SetKind("Sheet").IconTint("#16a34a"),
-    ContextCard("Incident 482 postmortem", UIcons.FileInvoice).SetSubLabel("docs/postmortem-482.md").MonospaceSubLabel().SetKind("Doc").IconTint("#3b82f6"),
-    ContextCard("events.request_log", UIcons.Database).SetSubLabel("warehouse · 2.1M rows").MonospaceSubLabel().SetKind("Table").IconTint("#10b981"))
+    ContextCard("Q3 revenue model", UIcons.Table).SetSubLabel("finance/q3-model.xlsx · 4 sheets").MonospaceSubLabel().SetBadge("SharePoint").IconTint("#16a34a"),
+    ContextCard("Incident 482 postmortem", UIcons.FileInvoice).SetSubLabel("docs/postmortem-482.md").MonospaceSubLabel().SetBadge("Wiki").IconTint("#3b82f6"),
+    ContextCard("events.request_log", UIcons.Database).SetSubLabel("warehouse · 2.1M rows").MonospaceSubLabel().SetBadge("Snowflake").IconTint("#10b981"))
    .SetSummary("3 sources for this answer")
    .OnToggle(g => Console.WriteLine(g.IsExpanded));
 
