@@ -7,12 +7,26 @@ namespace Tesserae.Tests.Samples
     [SampleDetails(Group = "Components", Order = 211, Icon = UIcons.OfficePaperclip)]
     public class ContextBarSample : IComponent, ISample
     {
+        private static readonly (string name, UIcons icon)[] _documents =
+        {
+            ("Q3 revenue breakdown.xlsx", UIcons.FileExcel),
+            ("Supplier audit 2026.pdf",   UIcons.FilePdf),
+            ("Onboarding checklist.docx", UIcons.FileWord),
+            ("Kickoff deck.pptx",         UIcons.Presentation),
+            ("Ada Lovelace",              UIcons.UserPen)
+        };
+
         private readonly IComponent _content;
         private readonly TextBlock  _lastAction;
 
+        private readonly ContextBar _composerBar = ContextBar();
+        private readonly TextBlock  _composerState;
+        private          int        _attached;
+
         public ContextBarSample()
         {
-            _lastAction = TextBlock("Nothing removed yet.").Small();
+            _lastAction    = TextBlock("Nothing removed yet.").Small();
+            _composerState = TextBlock("").Small();
 
             _content = SectionStack().Secondary()
                 .SampleTitle(typeof(ContextBarSample), UIcons.OfficePaperclip, "Small bubbles naming the context something is scoped to")
@@ -24,41 +38,49 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                         SampleSubTitle("A bubble per context item"),
-                        TextBlock("Clicking a bubble opens what it names. Without an OnClick handler a bubble is not interactive."),
-                        Bar(Bubble("Q3 revenue breakdown.xlsx", UIcons.FileExcel),
-                            Bubble("Ada Lovelace",              UIcons.UserPen)),
+                        TextBlock("Clicking a bubble opens what it names. Without an OnClick handler a bubble is not interactive. The ✕ stays quiet until its bubble is hovered, so a row reads as names rather than as a row of delete buttons."),
+                        Bar(Bubble(0), Bubble(4)),
 
                         SampleSubTitle("Overflow behind \"+N more\""),
                         TextBlock("Five bubbles, three visible. The button reports how many are collapsed and hands over to the host, which is where the full context belongs — a search restricted to it, a list, a panel."),
-                        Bar(Bubble("Q3 revenue breakdown.xlsx", UIcons.FileExcel),
-                            Bubble("Supplier audit 2026.pdf",   UIcons.FilePdf),
-                            Bubble("Onboarding checklist.docx", UIcons.FileWord),
-                            Bubble("Kickoff deck.pptx",         UIcons.Presentation),
-                            Bubble("Ada Lovelace",              UIcons.UserPen)),
+                        Bar(Bubble(0), Bubble(1), Bubble(2), Bubble(3), Bubble(4)),
                         _lastAction,
 
                         SampleSubTitle("Every bubble visible"),
                         TextBlock("MaxVisible controls where the row stops; a large value renders everything and never shows the button."),
-                        Bar(Bubble("Q3 revenue breakdown.xlsx", UIcons.FileExcel),
-                            Bubble("Supplier audit 2026.pdf",   UIcons.FilePdf),
-                            Bubble("Onboarding checklist.docx", UIcons.FileWord),
-                            Bubble("Kickoff deck.pptx",         UIcons.Presentation),
-                            Bubble("Ada Lovelace",              UIcons.UserPen)).MaxVisible(10),
+                        Bar(Bubble(0), Bubble(1), Bubble(2), Bubble(3), Bubble(4)).MaxVisible(10),
 
                         SampleSubTitle("Wider names, custom overflow text"),
                         TextBlock("MaxNameWidth widens (or narrows) where a name is cut, and MoreText replaces the button's wording."),
-                        Bar(Bubble("Q3 revenue breakdown.xlsx", UIcons.FileExcel).MaxNameWidth(160.px()),
-                            Bubble("Supplier audit 2026.pdf",   UIcons.FilePdf).MaxNameWidth(160.px()),
-                            Bubble("Onboarding checklist.docx", UIcons.FileWord).MaxNameWidth(160.px()),
-                            Bubble("Kickoff deck.pptx",         UIcons.Presentation).MaxNameWidth(160.px()))
+                        Bar(Bubble(0).MaxNameWidth(160.px()),
+                            Bubble(1).MaxNameWidth(160.px()),
+                            Bubble(2).MaxNameWidth(160.px()),
+                            Bubble(3).MaxNameWidth(160.px()))
                            .MaxVisible(2)
                            .MoreText("Show {0} more documents")
-                    )).SetTitle("Usage")));
+                    )).SetTitle("Usage")))
+                .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                        TextBlock("Where the bar usually belongs: inside the chat box itself, above the text being typed, so the message being written says what it will be answered from. OmniBox has a slot for exactly this — pass the bar as Config.ChatHeader, or hand it over later with SetChatHeader. The slot takes up no space while it is empty, so a chat with no context looks untouched."),
+                        BuildComposer().PT(8),
+                        _composerState.PT(4),
+                        HStack().WS().Wrap().PT(8).Children(
+                            Button("Attach a document").SetIcon(UIcons.OfficePaperclip).OnClick(() => AttachToComposer()),
+                            Button("Detach everything").SetIcon(UIcons.Broom).OnClick(() =>
+                            {
+                                _composerBar.Clear();
+                                ReportComposerState();
+                            }))
+                    )).SetTitle("In a chat composer")));
         }
 
-        private ContextBar.Item Bubble(string name, UIcons icon)
+        private ContextBar.Item Bubble(int document)
         {
-            return ContextBarItem(name, icon).OnClick(i => Toast().Information($"Opening {i.Name}"));
+            var doc = _documents[document % _documents.Length];
+
+            return ContextBarItem(doc.name, doc.icon)
+               .Tooltip(doc.name)
+               .OnClick(i => Toast().Information($"Opening {i.Name}"));
         }
 
         // The bar is what knows which bubbles it holds, so removal is wired once the bar exists.
@@ -76,6 +98,46 @@ namespace Tesserae.Tests.Samples
             }
 
             return bar;
+        }
+
+        // A chat box whose context lives inside it, above the text being typed.
+        private IComponent BuildComposer()
+        {
+            _composerBar.OnShowAll(() => Toast().Information("A host opens the full context here."));
+
+            AttachToComposer();
+            AttachToComposer();
+
+            return OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
+            {
+                PlaceholderChat = "Ask about the attached documents",
+                ChatHeader      = _composerBar,
+                ChatFooter      = new OmniBox.FooterItems
+                {
+                    LeftSide = new[] { Button(UIcons.OfficePaperclip).Tooltip("Attach a document").OnClick(() => AttachToComposer()) }
+                }
+            }).WS().OnChat((s, m) => Toast().Success($"Sent, with {_composerBar.Count} document(s) attached"));
+        }
+
+        private void AttachToComposer()
+        {
+            var bubble = Bubble(_attached++);
+
+            bubble.OnRemove(i =>
+            {
+                _composerBar.Remove(i);
+                ReportComposerState();
+            });
+
+            _composerBar.Add(bubble);
+            ReportComposerState();
+        }
+
+        private void ReportComposerState()
+        {
+            _composerState.Text = _composerBar.IsEmpty
+                ? "No context: the slot above the input is empty, and collapsed."
+                : $"This chat is scoped to {_composerBar.Count} document(s).";
         }
 
         public HTMLElement Render() => _content.Render();

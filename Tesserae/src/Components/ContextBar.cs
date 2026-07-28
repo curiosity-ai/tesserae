@@ -198,6 +198,8 @@ namespace Tesserae
 
             private readonly bool _keepExtensionVisible;
 
+            private string       _stem;
+            private bool         _waitingForMount;
             private HTMLElement  _remove;
             private Action<Item> _onClick;
             private Action<Item> _onRemove;
@@ -243,9 +245,12 @@ namespace Tesserae
 
                 var (stem, extension) = SplitExtension(Name, _keepExtensionVisible);
 
-                _name.textContent          = stem;
-                _extension.textContent     = extension ?? string.Empty;
-                _extension.style.display   = string.IsNullOrEmpty(extension) ? "none" : "";
+                _stem                    = stem;
+                _name.textContent        = stem;
+                _extension.textContent   = extension ?? string.Empty;
+                _extension.style.display = string.IsNullOrEmpty(extension) ? "none" : "";
+
+                FitNameWhenMeasurable();
 
                 return this;
             }
@@ -276,6 +281,7 @@ namespace Tesserae
             public Item MaxNameWidth(UnitSize size)
             {
                 _name.style.maxWidth = size is null ? "" : size.ToString();
+                FitNameWhenMeasurable();
                 return this;
             }
 
@@ -326,7 +332,7 @@ namespace Tesserae
 
                 if (_remove is null)
                 {
-                    _remove          = Div(Att("tss-contextbar-item-remove", role: "button"), I(UIcons.Cross));
+                    _remove          = Div(Att("tss-contextbar-item-remove", role: "button"), I(UIcons.CrossSmall));
                     _remove.tabIndex = 0;
 
                     _remove.addEventListener("click", e =>
@@ -360,6 +366,54 @@ namespace Tesserae
             /// Renders the component's root HTML element.
             /// </summary>
             public HTMLElement Render() => _root;
+
+            // CSS alone leaves the tail of the (fixed-width) name box unused, which shows up as a gap
+            // between the ellipsis and the extension - "Q3 rev... .xlsx". Truncating the text ourselves
+            // puts the ellipsis right where the name stops, so the two read as one file name and the
+            // bubble hugs its content. `text-overflow: ellipsis` still covers us until this can measure.
+            private void FitNameWhenMeasurable()
+            {
+                if (_name.isConnected)
+                {
+                    FitName();
+                    return;
+                }
+
+                if (_waitingForMount) return;
+
+                _waitingForMount = true;
+
+                DomObserver.WhenMounted(_root, () =>
+                {
+                    _waitingForMount = false;
+                    FitName();
+                });
+            }
+
+            private void FitName()
+            {
+                _name.textContent = _stem ?? string.Empty;
+
+                var limit = _name.clientWidth;
+
+                if (limit <= 0 || _name.scrollWidth <= limit) return;
+
+                // Longest prefix that still fits once the ellipsis is appended.
+                var low  = 0;
+                var high = _stem.Length;
+
+                while (low < high)
+                {
+                    var middle = (low + high + 1) / 2;
+
+                    _name.textContent = _stem.Substring(0, middle) + "\u2026";
+
+                    if (_name.scrollWidth <= limit) low = middle;
+                    else                            high = middle - 1;
+                }
+
+                _name.textContent = low <= 0 ? "\u2026" : _stem.Substring(0, low) + "\u2026";
+            }
 
             private static (string name, string extension) SplitExtension(string label, bool keepExtensionVisible)
             {

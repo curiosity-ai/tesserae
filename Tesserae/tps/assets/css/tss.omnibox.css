@@ -119,6 +119,21 @@
     border-radius: var(--tss-border-radius-md);
 }
 
+/* Slot above the chat input, inside the box: what the message is being written against (a
+   ContextBar of attached documents, say). Padded to line up with the input's text, and taking up
+   no space at all while nothing is in it. */
+.tss-omnibox-chat-header {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 13px 0 13px;
+}
+
+.tss-omnibox-chat-header:empty {
+    display: none;
+    padding: 0;
+}
+
 .tss-omnibox-chat-container,
 .tss-omnibox-container.tss-omnibox-chat-and-search .tss-omnibox-search-container {
     position: relative;

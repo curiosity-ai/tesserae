@@ -14,10 +14,11 @@
     display: none;
 }
 
+/* Spacing is per-child rather than a flex `gap`: the extension has to butt right up against the
+   ellipsized name so the two read as one file name. */
 .tss-contextbar-item {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
     max-width: 100%;
     height: 24px;
     padding: 2px 4px 2px 8px;
@@ -42,6 +43,7 @@
 .tss-contextbar-item-icon {
     display: inline-flex;
     flex-shrink: 0;
+    margin-right: 5px;
     font-size: 12px;
     line-height: 1;
 }
@@ -60,18 +62,34 @@
     opacity: 0.6;
 }
 
+/* The ✕ is quiet until the bubble is hovered (or it is focused), so a row of bubbles reads as names
+   rather than as a row of delete buttons. Its own hover is what turns it red. */
 .tss-contextbar-item-remove {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
+    flex: 0 0 auto;
     width: 16px;
     height: 16px;
+    margin-left: 5px;
     border-radius: 999px;
-    font-size: 10px;
+    font-size: 8px;
     line-height: 1;
-    opacity: 0.6;
+    color: var(--tss-secondary-foreground-color);
+    background: transparent;
+    opacity: 0.45;
     cursor: pointer;
+    transition: opacity 0.12s ease, background-color 0.12s ease, color 0.12s ease;
+}
+
+/* The glyph is centered by the flexbox above; its own line box must not add to that. */
+.tss-contextbar-item-remove > i {
+    display: block;
+    line-height: 1;
+}
+
+.tss-contextbar-item:hover .tss-contextbar-item-remove {
+    opacity: 1;
 }
 
 .tss-contextbar-item-remove:hover,
@@ -79,6 +97,22 @@
     opacity: 1;
     background: var(--tss-danger-background-color);
     color: var(--tss-danger-foreground-color);
+}
+
+.tss-contextbar-item-remove:focus-visible {
+    outline: 2px solid var(--tss-primary-background-color);
+    outline-offset: 1px;
+}
+
+.tss-contextbar-item-remove:active {
+    transform: scale(0.92);
+}
+
+/* Touch and keyboard-only users never hover, so the ✕ stays visible for them. */
+@media (hover: none) {
+    .tss-contextbar-item-remove {
+        opacity: 0.75;
+    }
 }
 
 .tss-contextbar-more {

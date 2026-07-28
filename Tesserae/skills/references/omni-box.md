@@ -22,6 +22,7 @@ Config (set via object initializer):
 - `PlaceholderSearch` / `PlaceholderChat`, `ExpandOnFocus`, `TokenIgnoreCase`.
 - `SuggestionsFetcher = async input => OmniBoxSuggestionItem[]` — autocomplete source.
 - `IconSearch` / `IconChat` / `IconStop`, `SearchFooter` / `ChatFooter` (`FooterItems`).
+- `ChatHeader` (`IComponent`) — rendered inside the box above the chat input: what the message is being written against, e.g. a `ContextBar` of the attached documents. Swap it later with `.SetChatHeader(component)`, or pass `null` to empty the slot — it takes up no space while empty.
 - `GeneratingText` — label shown in the footer while generating (default `"Generating"`); the live elapsed time is appended, e.g. `"Generating, 1m 25s"`.
 
 OmniBox:
@@ -29,6 +30,7 @@ OmniBox:
 - `.OnChat((sender, ChatMessage) => ...)`, `.OnStop(...)`, `.OnModelChanged(...)`.
 - `.IsGenerating` (bool) — toggles the footer spinner + elapsed-time indicator and swaps the send button for a stop button. `.GeneratingText` (string) — read/write the indicator label; setting it updates the footer live.
 - `.SearchText` / `.ChatText` / `.SetSearchText(string)` — read/write input text.
+- `.SetChatHeader(IComponent)` — replace (or clear, with `null`) whatever sits above the chat input.
 - `.RegisterSnap(SnapHandler)` / `.RegisterFilterSnap(FilterSnapHandler)` — turn recognized input into inline filter chips (search modes only).
 - `.WithHistory(Func<Task<SearchQuery[]>>)` — enable the history button.
 - `.EnableChatMentions(ChatMention)` — turns typing `@` at a word boundary in the chat input into an
@@ -70,5 +72,5 @@ var omni = new OmniBox(config)
 - TextBox — `/tesserae/components/text-box`
 - SearchBox — `/tesserae/components/search-box`
 - ToolAgentSelector — the tool/agent picker `EnableChatMentions` is commonly wired to — `tool-agent-selector.md`
-- ContextBar — bubbles naming the context attached to the chat, shown above the box — `context-bar.md`
+- ContextBar — bubbles naming the context attached to the chat, mounted in the box's `ChatHeader` slot — `context-bar.md`
 - Full docs & API: `/tesserae/components/omni-box`

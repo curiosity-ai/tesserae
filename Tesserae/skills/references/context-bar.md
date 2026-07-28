@@ -14,7 +14,8 @@ Two details it handles that a hand-rolled chip row usually gets wrong:
 
 - **The extension stays readable.** The name is ellipsized at a narrow width (50px by default), but a
   trailing file extension is held outside that width, so a bubble reads `Quarterly repo….pdf` rather
-  than `Quarterly repor…`.
+  than `Quarterly repor…`. The truncation is measured once the bubble is in the DOM, so the ellipsis
+  lands right where the name stops and the extension butts up against it.
 - **Overflow costs nothing.** Only the first `MaxVisible` bubbles are put in the DOM. The rest collapse
   into a `+N more` button, so a host can hand over everything it has without paying to render it.
 
@@ -44,8 +45,10 @@ On a bubble (`ContextBar.Item`):
 
 - `.OnClick(Action<Item>)` — makes the bubble interactive (keyboard included); typically opens what it
   names.
-- `.OnRemove(Action<Item>, string tooltip = "Remove")` — adds the ✕. Activating it never also fires
-  `OnClick`. The handler decides what removal means — call `bar.Remove(item)` to drop it from the row.
+- `.OnRemove(Action<Item>, string tooltip = "Remove")` — adds the ✕, which stays quiet until its bubble
+  is hovered (or it takes focus) and turns red on its own hover, so a row reads as names rather than as
+  a row of delete buttons. Activating it never also fires `OnClick`. The handler decides what removal
+  means — call `bar.Remove(item)` to drop it from the row.
 - `.SetName(string)` / `.SetIcon(UIcons)` / `.IconColor(string)` — update a bubble in place, e.g. once
   an async lookup resolves its real label.
 - `.MaxNameWidth(UnitSize)` — widen or narrow where the name is cut.
@@ -78,14 +81,22 @@ foreach (var doc in chat.Documents)
 bar.OnShowAll(() => OpenContextPanel(chat.Documents));
 ```
 
-Above a chat composer, put it directly over the `OmniBox`:
+Inside a chat composer, hand it to the `OmniBox`'s header slot so it sits above the text being typed,
+within the box's own border:
 
 ```csharp
-VStack().WS().Children(
-    bar,
-    OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)).WS()
-);
+var box = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
+{
+    PlaceholderChat = "Ask about the attached documents",
+    ChatHeader      = bar
+}).WS();
+
+box.SetChatHeader(bar);   // or hand it over later
+box.SetChatHeader(null);  // and take it away again
 ```
+
+The slot collapses while it is empty, and an empty bar renders nothing, so a chat with no context looks
+exactly as it would without either.
 
 The same bubbles work as citations under a reply, since `ChatMessage.WithReferences` takes any
 components:
