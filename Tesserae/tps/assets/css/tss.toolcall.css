@@ -131,12 +131,19 @@
 
 /* ToolsUsed modal layout */
 
+/* The width lives on the frame, not on the body: the detail title is monospace and never wraps,
+   so letting the header size the modal stretched it to the viewport while the body stayed 480px,
+   leaving a band of empty space to the right of the content. */
+.tss-toolsused-modal {
+    width: 720px;
+    max-width: calc(100% - 32px);
+}
+
 .tss-toolsused-modal .tss-modal-content {
     padding: 0;
     overflow: hidden;
-    min-width: 380px;
-    max-width: 90vw;
-    width: 480px;
+    width: 100%;
+    min-width: 0;
     box-sizing: border-box;
 }
 
