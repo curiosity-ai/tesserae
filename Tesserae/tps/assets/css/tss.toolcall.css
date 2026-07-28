@@ -298,3 +298,107 @@
     font-style: italic;
     padding: 12px;
 }
+
+/* ToolCallInspect — arguments above response, each section scrolling on its own */
+
+.tss-toolcallinspect {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    gap: 2px;
+    font-size: 13px;
+    line-height: 1.45;
+    overflow: hidden;
+}
+
+.tss-toolcallinspect > * {
+    flex: 0 0 auto;
+}
+
+.tss-toolcallinspect-label {
+    font-size: 10px;
+    font-weight: var(--tss-font-weight-semibold, 600);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-toolcallinspect-label-error {
+    color: var(--tss-danger-background-color);
+}
+
+.tss-toolcallinspect-label:not(:first-child) {
+    padding-top: 8px;
+}
+
+/* Capped so the arguments never crowd out the response; the modal rules below tighten this to
+   half the pane once the body has a definite height to divide. */
+.tss-toolcallinspect-arguments,
+.tss-toolcallinspect-error,
+.tss-toolcallinspect-response {
+    flex: 0 1 auto;
+    min-height: 0;
+    max-height: 40vh;
+    overflow: auto;
+}
+
+.tss-toolcallinspect-row {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    min-width: 0;
+}
+
+.tss-toolcallinspect-name {
+    flex-shrink: 0;
+    font-weight: var(--tss-font-weight-semibold, 600);
+}
+
+.tss-toolcallinspect-value {
+    min-width: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.tss-toolcallinspect-error {
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: var(--tss-danger-background-color);
+}
+
+.tss-toolcallinspect-response {
+    flex: 1 1 auto;
+    margin: 0;
+    padding: 8px 10px;
+    box-sizing: border-box;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 6px;
+    background: var(--tss-secondary-background-color);
+    font-family: var(--tss-monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+    font-size: 12px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.tss-toolcallinspect-empty {
+    color: var(--tss-colors-neutral-500, #6b7280);
+    font-style: italic;
+}
+
+/* In the ToolsUsed detail pane the body fills the pane it is given: the arguments take at most
+   half of it and the response claims the rest, instead of one scrollbar over both. */
+.tss-toolsused-modal-detail-content .tss-toolcallinspect {
+    height: 100%;
+}
+
+.tss-toolsused-modal-detail-content .tss-toolcallinspect-arguments,
+.tss-toolsused-modal-detail-content .tss-toolcallinspect-error {
+    max-height: 50%;
+}
+
+.tss-toolsused-modal-detail-content .tss-toolcallinspect-response {
+    flex: 1 1 0;
+    max-height: none;
+}

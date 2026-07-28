@@ -1094,6 +1094,13 @@ namespace Tesserae
         public static ToolsUsed ToolsUsed(params ToolCall[] tools) => new ToolsUsed(tools);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.ToolCallInspect"/> body for a tool call: the arguments it
+        /// was called with above the response it returned. Meant as the content of a
+        /// <see cref="Tesserae.ToolCall"/>.
+        /// </summary>
+        public static ToolCallInspect ToolCallInspect(string arguments = null, string response = null) => new ToolCallInspect(arguments, response);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.LiveProgress"/> line: one quiet, ellipsized line of progress
         /// text that is rewritten in place as updates stream in, never rebuilt or re-animated.
         /// </summary>
