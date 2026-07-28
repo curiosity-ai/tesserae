@@ -26,7 +26,7 @@ namespace Tesserae
             LastAnchor
         }
 
-        private const int BOTTOM_THRESHOLD = 5;
+        private const int BOTTOM_THRESHOLD = 32;
 
         private readonly HTMLElement _outerElement;
         private readonly HTMLElement _scrollContainer;
@@ -191,6 +191,10 @@ namespace Tesserae
         /// </summary>
         public ChatArea Add(ChatMessage message)
         {
+            // Measured before this message's DOM lands, so a reader sitting within the threshold
+            // re-engages following instead of needing to nudge the scrollbar or hit the button.
+            ReengageFollowIfNearBottom();
+
             if (_bubbleBackground != null && message.BubbleBackground == null)
             {
                 message.Background(_bubbleBackground);
@@ -376,6 +380,20 @@ namespace Tesserae
 
             _scrollContainer.scrollTop = _scrollContainer.scrollHeight;
             UpdateScrollButton();
+        }
+
+        // Measured against the DOM as it stands right now, i.e. before whatever change is about to grow
+        // it (a new message landing, or a streamed content swap). Re-engages following when the reader is
+        // within BOTTOM_THRESHOLD of the live edge, so they don't have to touch the scrollbar or the button.
+        internal void ReengageFollowIfNearBottom()
+        {
+            if (_followOutput) return;
+
+            var distanceFromBottom = _scrollContainer.scrollHeight - _scrollContainer.scrollTop - _scrollContainer.clientHeight;
+            if (distanceFromBottom <= BOTTOM_THRESHOLD)
+            {
+                _followOutput = true;
+            }
         }
 
         private void OnMessageAdded(ChatMessage message)
@@ -670,6 +688,11 @@ namespace Tesserae
         /// </summary>
         public ChatMessage WithReferences(IEnumerable<IComponent> references)
         {
+            // Attaching references (typically once, after the reply text has finished streaming) grows
+            // the bubble just like a ReplaceContent swap does, so it gets the same follow treatment:
+            // measure before the resize, then keep pinned to the bottom if we're following.
+            _parent?.ReengageFollowIfNearBottom();
+
             _referencesContainer.innerHTML = "";
             bool hasRef = false;
             foreach (var r in references)
@@ -678,6 +701,8 @@ namespace Tesserae
                 hasRef = true;
             }
             _referencesContainer.style.display = hasRef ? "flex" : "none";
+
+            _parent?.EnsureVisible(this);
             return this;
         }
 
@@ -694,6 +719,10 @@ namespace Tesserae
         /// </summary>
         public ChatMessage ReplaceContent(IComponent newContent)
         {
+            // Measured before the swap grows the bubble, so a reader within the threshold re-engages
+            // following even if they had scrolled away earlier in the stream.
+            _parent?.ReengageFollowIfNearBottom();
+
             ContentHash = Guid.NewGuid().ToString();
             _currentContent = newContent;
             _deltaComponent.ReplaceContent(newContent);
