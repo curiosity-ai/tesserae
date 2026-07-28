@@ -47,7 +47,8 @@ namespace Tesserae.Tests.Samples
                     TextBlock("Use Panels for self-contained tasks that are too large for a Dialog or Modal. Choose the 'Far' side (right) for most common actions, and 'Near' (left) for navigation-related content. Provide clear 'Save' and 'Cancel' actions in the footer. Ensure that the Panel size is appropriate for its content, using wider variants for complex forms. Use 'LightDismiss' to allow users to quickly exit by clicking outside the panel."))).SetTitle("Best Practices")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                    Button("Open panel").OnClick((s, e) => panel.Show()))).SetTitle("Usage")));
+                    Button("Open panel").OnClick((s, e) => panel.Show()))).SetTitle("Usage")))
+               .SeeAlso(typeof(ModalSample), typeof(DialogSample), typeof(SectionStackSample), typeof(LayerSample), typeof(SplitViewSample));
         }
 
         public HTMLElement Render()

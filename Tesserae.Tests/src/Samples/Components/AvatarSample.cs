@@ -44,7 +44,8 @@ namespace Tesserae.Tests.Samples
                         Persona("Alex Smith", "Software Engineer", "Focusing...", Avatar(initials: "AS").Presence(AvatarPresence.Busy)),
                         Persona("Kelly Lee", "Project Manager", "Away", Avatar(initials: "KL").Presence(AvatarPresence.Away))
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(PixelAvatarSample), typeof(ChatSample), typeof(ListItemTextSample), typeof(BadgeSample));
         }
 
         public HTMLElement Render() => _content.Render();

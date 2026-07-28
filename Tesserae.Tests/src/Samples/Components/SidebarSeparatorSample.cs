@@ -31,7 +31,8 @@ namespace Tesserae.Tests.Samples
                     Stack().Children(
                         sidebar.S().H(500.px())
                     )
-               )).SetTitle("Usage")));
+               )).SetTitle("Usage")))
+               .SeeAlso(typeof(SidebarSample), typeof(SidenavSample), typeof(HorizontalSeparatorSample));
         }
 
         public HTMLElement Render() => _content.Render();

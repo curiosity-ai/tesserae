@@ -81,7 +81,8 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                         TextBlock("Every index below is one color of the sprite. Indices 1 to 3 are the artwork's highlight shade, 4 to 9 the base shade and 10 to 11 the shadow shade, which is why the single-hue designs are just three colors repeated - and why pasting three colors is enough to build a whole coat."),
                         PaletteEditor()))
-                       .SetTitle("Edit the palette")));
+                       .SetTitle("Edit the palette")))
+               .SeeAlso(typeof(AvatarSample), typeof(ChatSample), typeof(FloatSample), typeof(EmojiSample));
         }
 
         private static IComponent DesignGallery()

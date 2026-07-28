@@ -36,7 +36,8 @@ namespace Tesserae.Tests.Samples
                         await Task.Delay(2000);
                         savingToast.Saved("All done!");
                     })
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(SaveButtonSample), typeof(ToastSample), typeof(NotificationCenterSample), typeof(ProgressIndicatorSample));
         }
 
         private async Task ShowMany()

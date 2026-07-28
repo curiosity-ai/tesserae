@@ -35,7 +35,8 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Grid-based Infinite List"),
                     TextBlock("Displaying items in a 3-column grid that expands as you scroll."),
                     InfiniteScrollingList(GetSomeItems(20, 0, " (Initial Set)"), async () => await GetSomeItemsAsync(20, pageGrid++), 33.percent(), 33.percent(), 34.percent()).Height(400.px())
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(VirtualizedListSample), typeof(ItemsListSample), typeof(PaginationSample), typeof(DetailsListSample));
         }
 
         public HTMLElement Render() => _content.Render();

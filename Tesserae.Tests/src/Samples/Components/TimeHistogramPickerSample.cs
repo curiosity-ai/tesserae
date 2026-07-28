@@ -45,7 +45,8 @@ namespace Tesserae.Tests.Samples
                         BucketPickerDemo(GetDailyBackendBuckets()),
                         SampleSubTitle("Long-range Aggregated Buckets from Backend"),
                         BucketPickerDemo(GetLongRangeBackendBuckets())
-                    )).SetTitle("Backend Precomputed Buckets")));
+                    )).SetTitle("Backend Precomputed Buckets")))
+               .SeeAlso(typeof(DateRangePickerSample), typeof(ChartsSample), typeof(SparklineSample), typeof(SliderSample));
         }
 
         public HTMLElement Render() => _content.Render();

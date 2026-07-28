@@ -61,7 +61,8 @@ namespace Tesserae.Tests.Samples
                         SampleSubTitle("One-liner"),
                         TextBlock("Sanitize once, inject anywhere safe:"),
                         MarkdownBlock("```csharp\nvar safe = SanitizeHTML.Sanitize(untrustedHtml);\nsomeElement.innerHTML = safe;\n```")
-                    )).SetTitle("Usage")));
+                    )).SetTitle("Usage")))
+               .SeeAlso(typeof(MarkdownBlockSample), typeof(SandboxSample), typeof(TextBlockSample), typeof(AnnotatedTextEditorSample));
         }
 
         public HTMLElement Render() => _content.Render();

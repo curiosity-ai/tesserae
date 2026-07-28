@@ -96,7 +96,8 @@ namespace Tesserae.Tests.Samples
                             )
                         )
                     )
-               )).SetTitle("Usage")));
+               )).SetTitle("Usage")))
+               .SeeAlso(typeof(DetailsListSample), typeof(AccordionSample), typeof(PlanSample), typeof(NodeViewSample), typeof(SearchableGroupedListSample));
         }
 
         public HTMLElement Render() => _content.Render();

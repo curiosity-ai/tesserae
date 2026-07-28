@@ -38,7 +38,8 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Responsive Auto-fit Grid"),
                     TextBlock("This grid automatically adjusts the number of columns based on the available width (min 200px per item)."),
                     gridAutoSize
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(StackSample), typeof(SplitViewSample), typeof(MasonrySample), typeof(FloatSample), typeof(SectionStackSample));
         }
 
         public HTMLElement Render() => _content.Render();

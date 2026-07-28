@@ -40,7 +40,8 @@ namespace Tesserae.Tests.Samples
 
                     SampleSubTitle("Observable"),
                     GetObservableExample()
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+                .SeeAlso(typeof(DatePickerSample), typeof(TimePickerSample), typeof(DateRangePickerSample), typeof(DropdownSample));
         }
 
         private IComponent GetObservableExample()

@@ -26,7 +26,8 @@ namespace Tesserae.Tests.Samples
                         SampleSubTitle("Pre-answered (response-selected mode)"),
                         Questionnaire("Which framework should we use?", "React", "Vue", "Svelte", "Solid")
                             .SetAnswer("Svelte")
-                    )).SetTitle("Usage")));
+                    )).SetTitle("Usage")))
+                .SeeAlso(typeof(ChoiceGroupSample), typeof(CheckBoxSample), typeof(RatingSample), typeof(ValidatorSample), typeof(StepperSample));
         }
 
         public HTMLElement Render() => _content.Render();

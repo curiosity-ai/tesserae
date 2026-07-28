@@ -38,7 +38,8 @@ namespace Tesserae.Tests.Samples
                            .OnSave((s, text) => { Toast().Success($"Saved: {text}"); return true; }),
                         Label("Required Field").Required().SetContent(EditableLabel("Can't be empty"))
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(TextBoxSample), typeof(TextAreaSample), typeof(LabelSample), typeof(PropertyGridSample));
         }
 
         public HTMLElement Render() => _content.Render();

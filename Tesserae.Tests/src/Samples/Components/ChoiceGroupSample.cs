@@ -57,7 +57,8 @@ namespace Tesserae.Tests.Samples
                         Choice("Mega").Mega(),
                         Choice("Bold").Bold()
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(CheckBoxSample), typeof(ToggleSample), typeof(DropdownSample), typeof(SegmentedPivotSample));
         }
 
         public HTMLElement Render() => _content.Render();

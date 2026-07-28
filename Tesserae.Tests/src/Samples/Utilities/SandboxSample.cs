@@ -21,7 +21,8 @@ namespace Tesserae.Tests.Samples
                .FlatSection(FitToContentDemo())
                .FlatSection(ExternalUrlDemo())
                .FlatSection(FlagsAndCspReference())
-               .FlatSection(CodeSnippet());
+               .FlatSection(CodeSnippet())
+               .SeeAlso(typeof(CodeDiffSample), typeof(MarkdownBlockSample), typeof(SanitizeHTMLSample), typeof(DiagramSample));
         }
 
         // A fully-sandboxed mini-app: no same-origin, strict CSP, scripts allowed. Shows the post-message

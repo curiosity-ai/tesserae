@@ -38,7 +38,8 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Empty Separator"),
                     TextBlock("A simple line without any label:"),
                     HorizontalSeparator("")
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(StackSample), typeof(SectionStackSample), typeof(SidebarSeparatorSample), typeof(CardSample));
         }
 
         public HTMLElement Render() => _content.Render();

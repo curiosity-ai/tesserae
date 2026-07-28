@@ -34,7 +34,8 @@ namespace Tesserae.Tests.Samples
                         SampleSubTitle("Custom Rendered Items"),
                         TextBlock("Using icons and complex components for both suggestions and selections."),
                         Picker<PickerSampleItemWithComponents>(suggestionsTitleText: "System Items", renderSelectionsInline: false).Items(GetComponentPickerItems())
-                    )).SetTitle("Usage")));
+                    )).SetTitle("Usage")))
+                   .SeeAlso(typeof(DropdownSample), typeof(TagsInputSample), typeof(SearchableListSample), typeof(GridPickerSample));
         }
 
         public HTMLElement Render() => _content.Render();

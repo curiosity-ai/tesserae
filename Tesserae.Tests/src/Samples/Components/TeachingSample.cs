@@ -37,7 +37,8 @@ namespace Tesserae.Tests.Samples
                            .AddStep(btn3, TextBlock("Step 3: This is Feature C. You're done!"), stepType: Teaching.StepType.NextButton)
                            .OnComplete(() => Toast().Success("Walkthrough complete!"))
                            .RunNow())
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(TutorialModalSample), typeof(MessageSample), typeof(TippySample), typeof(PopoverSample), typeof(StepperSample));
         }
 
         public HTMLElement Render() => _content.Render();

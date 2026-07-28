@@ -70,7 +70,8 @@ namespace Tesserae.Tests.Samples
                .Section(Stack().Children(
                     Card(VStack().WS().Children(
                         SampleSubTitle("Donut chart"),
-                        pieChart.H(280).WS())).SetTitle("PieChart")));
+                        pieChart.H(280).WS())).SetTitle("PieChart")))
+               .SeeAlso(typeof(SparklineSample), typeof(MetricSample), typeof(ContributionBarSample), typeof(DeltaComponentSample), typeof(TimeHistogramPickerSample));
         }
 
         public HTMLElement Render() => _content.Render();

@@ -40,7 +40,8 @@ namespace Tesserae.Tests.Samples
                             MenuDivider(),
                             MenuItem("Exit").Disabled()
                         ).ShowFor(fileBtn))
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(ContextMenuSample), typeof(DropdownSample), typeof(CommandBarSample), typeof(NavbarSample), typeof(SidebarSample));
         }
 
         public HTMLElement Render() => _content.Render();

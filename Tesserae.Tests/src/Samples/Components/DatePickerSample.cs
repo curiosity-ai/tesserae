@@ -45,7 +45,8 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Event Handling"),
                     DatePicker().OnChange((s, e) => Toast().Information($"Selected date: {s.Date:d}"))
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(DateTimePickerSample), typeof(DateRangePickerSample), typeof(MonthPickerSample), typeof(WeekPickerSample), typeof(TimePickerSample));
         }
 
         public HTMLElement Render() => _content.Render();

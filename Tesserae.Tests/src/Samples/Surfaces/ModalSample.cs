@@ -46,7 +46,8 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                     Button("Open Modal Below").OnClick((s, e) => container.Content(Modal("Embedded Modal").CenterContent().LightDismiss().Dark().Content(TextBlock("hosted small content").Tiny()).MinHeight(30.vh()).MinWidth(50.vw()).ShowEmbedded())),
                     container
-                )).SetTitle("Embedded Modal")));
+                )).SetTitle("Embedded Modal")))
+               .SeeAlso(typeof(DialogSample), typeof(PanelSample), typeof(TabbedModalSample), typeof(TutorialModalSample), typeof(ProgressModalSample), typeof(LayerSample));
         }
 
         public HTMLElement Render()

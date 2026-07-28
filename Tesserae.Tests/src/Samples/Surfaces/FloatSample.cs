@@ -35,7 +35,8 @@ namespace Tesserae.Tests.Samples
                             Float(Button("BottomLeft"),   Float.Position.BottomLeft),
                             Float(Button("BottonMiddle"), Float.Position.BottonMiddle),
                             Float(Button("BottomRight"),  Float.Position.BottomRight)
-                        ))).SetTitle("Usage")));
+                        ))).SetTitle("Usage")))
+               .SeeAlso(typeof(LayerSample), typeof(GridSample), typeof(PopoverSample), typeof(PixelAvatarSample), typeof(ModalSample));
         }
 
         public HTMLElement Render()

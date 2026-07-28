@@ -930,8 +930,15 @@ namespace Tesserae
                 _searchInput.addEventListener("keyup", (e) => KeyUp?.Invoke(this, e.As<KeyboardEvent>()));
                 _searchInput.addEventListener("keypress", (e) => KeyPress?.Invoke(this, e.As<KeyboardEvent>()));
                 _searchInput.addEventListener("keydown", (e) => KeyDown?.Invoke(this, e.As<KeyboardEvent>()));
-                _searchInput.addEventListener("focus", (e) => ReceivedFocus?.Invoke(this, e));
+                _searchInput.addEventListener("focus", (e) =>
+                {
+                    // The shortcut hint only has a job while the box isn't focused, and it competes for
+                    // room with what is being typed, so it steps aside until focus is lost again.
+                    _container.classList.add("tss-omnibox-search-focused");
+                    ReceivedFocus?.Invoke(this, e);
+                });
                 _searchInput.addEventListener("blur", (e) => {
+                    _container.classList.remove("tss-omnibox-search-focused");
                     LostFocus?.Invoke(this, e);
                     if (_hideSuggestions != null) window.setTimeout(_ => { if (_hideSuggestions != null) _hideSuggestions(); _highlightedSuggestionIndex = -1; }, 200);
                     if (_hideSnapSuggestions != null) window.setTimeout(_ => { HideSnapSuggestions(); }, 200);

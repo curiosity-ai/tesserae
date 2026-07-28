@@ -25,7 +25,8 @@ namespace Tesserae.Tests.Samples
                         .CardPivot("tab3", () => Metric("Cost", "$0.09"), () => Card(TextBlock("Content for Cost").P(32)))
                         .CardPivot("tab4", () => Metric("Errors", "194"), () => Card(TextBlock("Content for Errors").P(32)))
                         .CardPivot("tab5", () => Metric("Cached", "408"), () => Card(TextBlock("Content for Cached").P(32)))
-               )).SetTitle("Usage")));
+               )).SetTitle("Usage")))
+               .SeeAlso(typeof(PivotSample), typeof(SegmentedPivotSample), typeof(PivotSelectorSample), typeof(CardSample), typeof(TabbedModalSample));
         }
 
         public HTMLElement Render()

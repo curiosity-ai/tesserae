@@ -31,7 +31,8 @@ namespace Tesserae.Tests.Samples
                             UptimeCalendar("July 2024", "99.8%").Items(GetCalendarItems(90)),
                             UptimeCalendar("August 2024", "98.1%").Items(GetCalendarItems(60)),
                             UptimeCalendar("September 2024", "100%").Items(GetCalendarItems(30))
-                        )).SetTitle("Service Uptime History"));
+                        )).SetTitle("Service Uptime History"))
+                .SeeAlso(typeof(ContributionBarSample), typeof(SparklineSample), typeof(ChartsSample), typeof(TimelineSample));
         }
 
         private IEnumerable<(UptimeStatus, IComponent)> GetCalendarItems(int startDaysAgo)

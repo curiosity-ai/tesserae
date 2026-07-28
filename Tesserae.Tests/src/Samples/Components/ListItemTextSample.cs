@@ -39,7 +39,8 @@ namespace Tesserae.Tests.Samples
                             .IconForeground("var(--tss-danger-foreground-color)")
                             .IconBackground("var(--tss-danger-background-color)")
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(TextBlockSample), typeof(DetailsListSample), typeof(ItemsListSample), typeof(ResourceCardSample));
         }
 
         public HTMLElement Render() => _content.Render();

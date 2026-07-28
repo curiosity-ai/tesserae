@@ -54,7 +54,8 @@ namespace Tesserae.Tests.Samples
                     topSmaller.MB(16),
                     SampleSubTitle("Bottom Pane Fixed, Top Grows"),
                     bottomSmaller
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(SplitViewSample), typeof(GridSample), typeof(StackSample), typeof(SectionStackSample));
         }
 
         public HTMLElement Render() => _content.Render();

@@ -35,7 +35,8 @@ namespace Tesserae.Tests.Samples
                             droppedFiles.Add(TextBlock(file.name).Small());
                         }
                     }).Multiple()
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(OmniBoxSample), typeof(ChatSample), typeof(ContextCardSample), typeof(ValidatorSample));
         }
 
         public HTMLElement Render() => _content.Render();

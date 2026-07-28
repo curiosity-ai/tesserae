@@ -46,7 +46,8 @@ namespace Tesserae.Tests.Samples
                             .Placement(TooltipPlacement.BottomStart)
                             .Arrow()
                             .ShowFor(btn))
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(TippySample), typeof(ContextMenuSample), typeof(MenuSample), typeof(LayerSample), typeof(TeachingSample));
         }
 
         public HTMLElement Render() => _content.Render();

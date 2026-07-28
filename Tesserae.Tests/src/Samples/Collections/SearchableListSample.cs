@@ -44,7 +44,8 @@ namespace Tesserae.Tests.Samples
                            .WithPagination(5)
                            .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching items found").Padding(16.px()))).WS().HS().MinHeight(100.px()))
                            .Height(400.px()).MB(32)
-                    )).SetTitle("Usage")));
+                    )).SetTitle("Usage")))
+                   .SeeAlso(typeof(SearchableGroupedListSample), typeof(ItemsListSample), typeof(SearchBoxSample), typeof(PickerSample), typeof(DetailsListSample));
         }
 
         public HTMLElement Render() => _content.Render();

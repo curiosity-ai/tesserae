@@ -90,7 +90,8 @@ namespace Tesserae.Tests.Samples
                .Section(Stack().Children(
                     Card(VStack().WS().Children(
                         stage,
-                        VStack().WS().PT(12).Children(status, values))).SetTitle("Interactive box")));
+                        VStack().WS().PT(12).Children(status, values))).SetTitle("Interactive box")))
+               .SeeAlso(typeof(CarouselSample), typeof(SplitViewSample), typeof(SliderSample), typeof(TaskBoardSample));
         }
 
         public HTMLElement Render() => _content.Render();

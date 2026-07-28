@@ -430,7 +430,8 @@
     display: inline-flex;
 }
 
-.tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-shortcut {
+.tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-shortcut,
+.tss-omnibox-container.tss-omnibox-search-focused .tss-omnibox-shortcut {
     display: none;
 }
 
@@ -573,4 +574,13 @@
 .tss-omnibox-model-selector-check {
     color: var(--tss-primary-foreground-color);
     margin-left: 8px;
+}
+
+/* The section headers of the popovers below are TextBlocks, so they carry .tss-fontcolor-default, and
+   tss.tooltip.css paints that class with the *background* color for a tooltip whose background is
+   inverted. These popovers sit on the plain default background instead, where that reads as white text
+   on white. Restated here with enough specificity (and late enough in the bundle) to win. */
+.tippy-content .tss-textblock.tss-omnibox-model-selector-header,
+.tippy-content .tss-textblock.tss-omnibox-help-header {
+    color: var(--tss-secondary-foreground-color);
 }

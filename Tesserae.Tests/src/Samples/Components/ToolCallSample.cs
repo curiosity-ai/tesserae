@@ -85,7 +85,8 @@ namespace Tesserae.Tests.Samples
                         _diffedBubble,
 
                         Button("Stream progress").Primary().OnClick(() => StartProgressDemo())
-                    )).SetTitle("Usage")));
+                    )).SetTitle("Usage")))
+                .SeeAlso(typeof(ChatSample), typeof(PlanSample), typeof(ContextCardSample), typeof(OmniBoxSample), typeof(CodeDiffSample), typeof(MarkdownBlockSample));
         }
 
         // Rebuilt from scratch on every update, the way a chat view rebuilds an in-flight reply. A

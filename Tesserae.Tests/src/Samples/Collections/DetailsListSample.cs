@@ -98,7 +98,8 @@ namespace Tesserae.Tests.Samples
                                    .WithListItems(new DetailsListSampleFileItem[0])
                             )
                         )
-                    )).SetTitle("Usage")));
+                    )).SetTitle("Usage")))
+                   .SeeAlso(typeof(VirtualizedListSample), typeof(ItemsListSample), typeof(SearchableListSample), typeof(PropertyGridSample), typeof(PaginationSample));
         }
 
         private async Task<DetailsListSampleFileItem[]> GetDetailsListItemsAsync(int start = 1, int count = 100)

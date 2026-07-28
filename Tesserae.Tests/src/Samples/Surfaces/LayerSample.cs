@@ -36,7 +36,8 @@ namespace Tesserae.Tests.Samples
                     Toggle("Toggle Component Layer").OnChange((s, e) => layer.IsVisible = s.IsChecked),
                     TextBlock("Using LayerHost to control projection").Medium(),
                     Toggle("Show on Host").OnChange((s, e) => layer.Host = s.IsChecked ? layerHost : null),
-                    layerHost)).SetTitle("Usage")));
+                    layerHost)).SetTitle("Usage")))
+               .SeeAlso(typeof(ModalSample), typeof(DialogSample), typeof(PanelSample), typeof(PopoverSample), typeof(FloatSample));
         }
 
         public HTMLElement Render() => _content.Render();

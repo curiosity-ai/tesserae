@@ -83,7 +83,8 @@ namespace Tesserae.Tests.Samples
                     hourPicker,
                     SampleSubTitle("Dynamic/Calculated Grid"),
                     TextBlock("Using GridPicker for a complex logic visualization (Game of Life)."),
-                    GetGameOfLifeSample())).SetTitle("Usage")));
+                    GetGameOfLifeSample())).SetTitle("Usage")))
+               .SeeAlso(typeof(GridSample), typeof(ChoiceGroupSample), typeof(PickerSample), typeof(EmojiSample));
         }
 
         private static Stack GetGameOfLifeSample()

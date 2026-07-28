@@ -49,7 +49,8 @@ namespace Tesserae.Tests.Samples
                             Label("Test revalidation (will fail if repeated)").SetContent(Button("Validate").OnClick((s, b) => validator.Revalidate()))
                         )
                     )).SetTitle("Usage"))
-                );
+                )
+               .SeeAlso(typeof(TextBoxSample), typeof(PropertyGridSample), typeof(QuestionnaireSample), typeof(SaveButtonSample), typeof(BindingSample));
 
             // 2020-09-16 DWR: The form here follows the pattern of not disabling the submit button (the "Validate" button in this case), so they can enter as much or as little of it as they want and then try to submit and if they
             // have left required fields unfilled (or not corrected any pre-filled invalid values) then they will THEN be informed of it. But if we wanted to disable the form submit button until the form was known to be in a valid

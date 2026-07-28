@@ -91,7 +91,8 @@ namespace Tesserae.Tests.Samples
                         Label("Medium").SetContent(Dropdown().Rounded(BorderRadius.Medium).Items(DropdownItem("Option 1"), DropdownItem("Option 2"))),
                         Label("Full").SetContent(Dropdown().Rounded(BorderRadius.Full).Items(DropdownItem("Option 1"), DropdownItem("Option 2")))
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(PickerSample), typeof(ChoiceGroupSample), typeof(TagsInputSample), typeof(SearchableListSample), typeof(MenuSample));
         }
 
         private static Dropdown StartLoadingAsyncDataImmediately(Dropdown dropdown)

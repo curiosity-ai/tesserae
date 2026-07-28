@@ -51,7 +51,8 @@ namespace Tesserae.Tests.Samples
                         CheckBox("Medium rounded").Rounded(BorderRadius.Medium),
                         CheckBox("Full rounded").Rounded(BorderRadius.Full)
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(ChoiceGroupSample), typeof(ToggleSample), typeof(DropdownSample), typeof(QuestionnaireSample));
         }
 
         public HTMLElement Render() => _content.Render();

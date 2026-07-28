@@ -49,7 +49,8 @@ namespace Tesserae.Tests.Samples
                         Button("Option B").Link(),
                         Button("Option C").Link()
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(BreadcrumbSample), typeof(CommandBarSample), typeof(MenuSample), typeof(StackSample));
         }
 
         public HTMLElement Render() => _content.Render();

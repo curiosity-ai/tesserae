@@ -27,7 +27,8 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                     SampleSubTitle("Basic Masonry Grid (4 Columns)"),
                     Masonry(4).S().Children(GetCards(50).ToArray()).ScrollY()
-                )).SetTitle("Usage")), grow: true);
+                )).SetTitle("Usage")), grow: true)
+               .SeeAlso(typeof(GridSample), typeof(StackSample), typeof(CardSample), typeof(CarouselSample));
         }
 
         private IEnumerable<IComponent> GetCards(int count)

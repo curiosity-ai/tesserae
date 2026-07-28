@@ -52,7 +52,8 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Event Handling"),
                     new WeekPicker((DateTime.Today.Year, 1))
                        .OnChange((s, e) => Toast().Information($"Week changed to {s.Week.year}-W{s.Week.weekNumber}"))
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(DatePickerSample), typeof(MonthPickerSample), typeof(DateRangePickerSample), typeof(DateTimePickerSample));
         }
 
         public HTMLElement Render() => _content.Render();

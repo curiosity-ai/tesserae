@@ -30,7 +30,8 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                     Button("Open Modal Below").OnClick((s, e) => container.Content(SampleTutorialModal().Border("#ffaf66", 5.px()).ShowEmbedded())),
                     container
-                )).SetTitle("Embedded Modal")));
+                )).SetTitle("Embedded Modal")))
+               .SeeAlso(typeof(ModalSample), typeof(TeachingSample), typeof(StepperSample), typeof(DialogSample), typeof(TabbedModalSample));
         }
 
         private static TutorialModal SampleTutorialModal()

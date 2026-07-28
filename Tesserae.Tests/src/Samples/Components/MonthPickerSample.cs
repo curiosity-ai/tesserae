@@ -52,7 +52,8 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Event Handling"),
                     new MonthPicker((DateTime.Today.Year, DateTime.Today.Month))
                        .OnChange((s, e) => Toast().Information($"Month changed to {s.Month.year}-{s.Month.month:D2}"))
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(DatePickerSample), typeof(WeekPickerSample), typeof(DateRangePickerSample), typeof(DateTimePickerSample));
         }
 
         public HTMLElement Render() => _content.Render();

@@ -40,7 +40,8 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("PivotSelector with large number of tabs").PT(16),
                     PivotSelector()
                         .Pivot(Enumerable.Range(1, 20).Select(i => ($"tab{i}", $"Tab {i}", (Func<IComponent>)(() => Card(TextBlock($"Content for Tab {i}").P(32))))).ToArray())
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(PivotSample), typeof(SegmentedPivotSample), typeof(CardPivotSample));
         }
 
         public HTMLElement Render()

@@ -56,7 +56,8 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Foreground Color").Large().Foreground(Theme.Colors.Purple600).Glow(),
                         TextBlock("Custom Glow").Large().Glow(Theme.Colors.Lime300)
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(LabelSample), typeof(MarkdownBlockSample), typeof(ListItemTextSample), typeof(EmojiSample), typeof(ThemeColorsSample));
         }
 
         public HTMLElement Render() => _content.Render();

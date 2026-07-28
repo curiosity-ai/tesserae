@@ -103,7 +103,8 @@ namespace Tesserae.Tests.Samples
                         .Variant(MessageVariant.Info)
                         .Horizontal()
                         .Action(Button("Update now").Primary())
-               )).SetTitle("Action")));
+               )).SetTitle("Action")))
+               .SeeAlso(typeof(ToastSample), typeof(TeachingSample), typeof(DialogSample), typeof(NotificationCenterSample));
         }
 
         public HTMLElement Render() => _content.Render();

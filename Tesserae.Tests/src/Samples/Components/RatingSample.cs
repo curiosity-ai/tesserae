@@ -66,7 +66,8 @@ namespace Tesserae.Tests.Samples
                             Rating(10).SetValue(7)
                         )
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(SliderSample), typeof(NumberPickerSample), typeof(QuestionnaireSample), typeof(MetricSample));
         }
 
         public HTMLElement Render() => _content.Render();

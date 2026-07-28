@@ -45,7 +45,8 @@ namespace Tesserae.Tests.Samples
                         Expander("Why did my last build fail?", TextBlock("")).OptionIcon(UIcons.Exclamation, Theme.Colors.Orange600, Theme.Colors.Orange100).ChevronRight(),
                         Expander("How do I rotate the IMAP token?", TextBlock("")).OptionIcon(UIcons.TriangleWarning, Theme.Colors.Red600, Theme.Colors.Red100).ChevronRight(),
                         Expander("Can I use a custom embedding model?", TextBlock("")).OptionIcon(UIcons.Settings, Theme.Colors.Blue600, Theme.Colors.Blue100).ChevronRight()
-                    ).AllowMultipleOpen(false))).SetTitle("Usage")));
+                    ).AllowMultipleOpen(false))).SetTitle("Usage")))
+               .SeeAlso(typeof(CardSample), typeof(SectionStackSample), typeof(TreeSample), typeof(PivotSample));
         }
 
         public HTMLElement Render() => _content.Render();

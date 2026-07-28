@@ -30,7 +30,8 @@ namespace Tesserae.Tests.Samples
                         Button("Open Non-Closeable Modal").OnClick((_, __) => AddModalTab(closeable: false))
                     ),
                     _pivot.WS().H(500)
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(ModalSample), typeof(PivotSample), typeof(DialogSample), typeof(TutorialModalSample));
 
             // Add an initial modal
             AddModalTab(true);

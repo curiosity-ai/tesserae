@@ -148,7 +148,8 @@ namespace Tesserae.Tests.Samples
                     TextBlock("This DeltaComponent renders its content inside a Shadow DOM root."),
                     HStack().Children(shadowTyping, shadowResetBtn),
                     shadowDeltaComponent
-                )).SetTitle("Shadow DOM")));
+                )).SetTitle("Shadow DOM")))
+                .SeeAlso(typeof(MetricSample), typeof(SparklineSample), typeof(ChartsSample), typeof(ContributionBarSample), typeof(BadgeSample));
         }
 
         public HTMLElement Render() => _content.Render();

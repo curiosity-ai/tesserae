@@ -66,7 +66,8 @@ Type some markdown below to see it rendered live.
                         SampleSubTitle("Sanitization"),
                         TextBlock("MarkdownBlock will strip dangerous HTML even when it is embedded inside Markdown:"),
                         MarkdownBlock("This `<script>alert('xss')</script>` will not run, and this <img src=x onerror=alert(1)> attribute is stripped too.")
-                    )).SetTitle("Usage")));
+                    )).SetTitle("Usage")))
+               .SeeAlso(typeof(TextBlockSample), typeof(ChatSample), typeof(CodeDiffSample), typeof(SanitizeHTMLSample), typeof(AnnotatedTextEditorSample));
         }
 
         public HTMLElement Render() => _content.Render();

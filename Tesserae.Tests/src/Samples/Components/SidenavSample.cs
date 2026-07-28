@@ -83,7 +83,8 @@ namespace Tesserae.Tests.Samples
                                 Message("Application content goes here")
                             )
                         )
-                    )).SetTitle("Standalone")));
+                    )).SetTitle("Standalone")))
+               .SeeAlso(typeof(SidebarSample), typeof(NavbarSample), typeof(MenuSample), typeof(SidebarSeparatorSample));
         }
 
         private static void SwitchTo(Sidenav sidenav, Sidebar sidebar, SidebarText title, string identifier, string sectionName, Action<Sidebar> fill)

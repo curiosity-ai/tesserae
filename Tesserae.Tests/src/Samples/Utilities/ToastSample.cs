@@ -78,7 +78,8 @@ namespace Tesserae.Tests.Samples
                             Button().SetText("Success on top").OnClick(() => Toast().TopFull().Banner().Success("This is a banner", "Success!")),
                             Button().SetText("Warning on bottom").OnClick(() => Toast().BottomFull().Banner().Warning("This is a banner", "Warning!")),
                             Button().SetText("Error on bottom").OnClick(() => Toast().BottomFull().Banner().Error("This is a banner", "Error!")))
-                    )).SetTitle("Usage")));
+                    )).SetTitle("Usage")))
+               .SeeAlso(typeof(NotificationCenterSample), typeof(SavingToastSample), typeof(MessageSample), typeof(TippySample));
         }
 
         public HTMLElement Render()

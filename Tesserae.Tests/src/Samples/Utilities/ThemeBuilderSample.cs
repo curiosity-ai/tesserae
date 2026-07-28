@@ -73,7 +73,8 @@ namespace Tesserae.Tests.Samples
                         Label("A textbox").SetContent(TextBox()).MT(8),
                         Label("A link").SetContent(Link("https://curiosity.ai", "Visit curiosity.ai")).MT(8))
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(ThemeColorsSample), typeof(ColorsSample), typeof(ColorPaletteSample), typeof(GradientsSample), typeof(ColorPickerSample));
         }
 
         public HTMLElement Render() => _content.Render();

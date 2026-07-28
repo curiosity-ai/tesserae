@@ -165,7 +165,8 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                                 "String-label entities can contain '\\n' to render as multi-line hover tooltips. Long lines wrap at the tooltip's max-width. \"ghost\" exercises the transparent-background case — the inline highlight is invisible, but the tooltip must still be readable (default styling kicks in). For rich content set Entity.LabelContent to your own IComponent.")
                             .Small().Foreground(Theme.Secondary.Foreground).MB(8),
                         multiLineTooltipEditor.WS()
-                    )).SetTitle("Usage")));
+                    )).SetTitle("Usage")))
+                .SeeAlso(typeof(TextAreaSample), typeof(MarkdownBlockSample), typeof(CodeDiffSample), typeof(TextBoxSample), typeof(SanitizeHTMLSample));
         }
 
         private static async Task<AnnotatedTextEditor.Entity[]> AnnotateMultiLineAsync(string text)

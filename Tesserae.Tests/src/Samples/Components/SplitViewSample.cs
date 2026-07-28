@@ -38,7 +38,8 @@ namespace Tesserae.Tests.Samples
                         SampleSubTitle("Horizontal SplitView"),
                         horzSplitView
                     )).SetTitle("Usage"))
-                  , grow: true);
+                  , grow: true)
+               .SeeAlso(typeof(HorizontalSplitViewSample), typeof(GridSample), typeof(StackSample), typeof(PanelSample), typeof(SectionStackSample));
         }
 
         public HTMLElement Render() => _content.Render();

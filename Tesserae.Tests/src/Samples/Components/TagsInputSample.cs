@@ -34,7 +34,8 @@ namespace Tesserae.Tests.Samples
                             .AllowingDuplicates()
                             .WithNormalizer(s => s?.Trim().ToLower())
                             .SetPlaceholder("Up to 5 keywords"))
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(PickerSample), typeof(DropdownSample), typeof(BadgeSample), typeof(TextBoxSample));
         }
 
         public HTMLElement Render() => _content.Render();

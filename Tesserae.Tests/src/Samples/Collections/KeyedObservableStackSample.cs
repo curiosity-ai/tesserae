@@ -88,7 +88,8 @@ namespace Tesserae.Tests.Samples
                             Label("Rendered Stack:").SemiBold(),
                             obsStack.H(450.px()).WS()
                        ).P(8))
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(StackSample), typeof(BindingSample), typeof(ItemsListSample), typeof(DetailsListSample));
         }
 
         private void Move(int oldIdx, int newIdx)

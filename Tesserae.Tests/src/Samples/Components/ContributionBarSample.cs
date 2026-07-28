@@ -67,7 +67,8 @@ namespace Tesserae.Tests.Samples
                            .Add("Location", 0.07, Theme.Colors.Orange500)
                            .Add("Program", 0.06, Theme.Colors.Neutral500))).SetTitle("Tooltip")))
                .FlatSection(Stack().Children(
-                    Card(BuildSimilarityCard()).SetTitle("Example: similarity result card")));
+                    Card(BuildSimilarityCard()).SetTitle("Example: similarity result card")))
+               .SeeAlso(typeof(ChartsSample), typeof(SparklineSample), typeof(UptimeSample), typeof(DeltaComponentSample));
         }
 
         private static IComponent BuildSimilarityCard()

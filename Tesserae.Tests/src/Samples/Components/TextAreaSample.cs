@@ -41,7 +41,8 @@ namespace Tesserae.Tests.Samples
                         Label("Required").Required().SetContent(TextArea()),
                         Label("Custom Error").SetContent(TextArea().Error("Something went wrong").IsInvalid())
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(TextBoxSample), typeof(AnnotatedTextEditorSample), typeof(EditableLabelSample), typeof(MarkdownBlockSample));
         }
 
         public HTMLElement Render() => _content.Render();

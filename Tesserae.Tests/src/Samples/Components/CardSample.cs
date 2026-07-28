@@ -52,7 +52,8 @@ namespace Tesserae.Tests.Samples
                     Card(TextBlock("This card has hover effect.")).HoverColor(),
                     TextBlock("Custom Background").SemiBold().PT(16),
                     Card(TextBlock("This card has a custom background.")).BackgroundColor(Theme.Primary.Background)
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+                .SeeAlso(typeof(SectionStackSample), typeof(ResourceCardSample), typeof(AccordionSample), typeof(MasonrySample), typeof(CardPivotSample));
         }
 
         public HTMLElement Render()

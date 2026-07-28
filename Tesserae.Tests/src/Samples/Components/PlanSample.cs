@@ -91,7 +91,8 @@ namespace Tesserae.Tests.Samples
                         TextBlock("").PT(8),
                         streamedPlan
                     )).SetTitle("Data-driven / streaming updates")
-                ));
+                ))
+                .SeeAlso(typeof(ChatSample), typeof(ToolCallSample), typeof(StepperSample), typeof(TimelineSample), typeof(TreeSample));
         }
 
         private static PlanModel BuildModel(PlanStatus planStatus, int runningStep, bool allComplete = false, int failStep = -1)

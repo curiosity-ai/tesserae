@@ -33,7 +33,8 @@ namespace Tesserae.Tests.Samples
                     TextBlock("Use the button below or press Cmd/Ctrl + K to open the palette.").Small().Secondary().PB(8),
                     openButton,
                     TextBlock("Try navigating with arrow keys, Enter, Esc, and Backspace for nested items.").Small().Secondary().PT(12)
-               )).SetTitle("Usage")));
+               )).SetTitle("Usage")))
+               .SeeAlso(typeof(KeyboardShortcutSample), typeof(OmniBoxSample), typeof(SearchBoxSample), typeof(MenuSample), typeof(ContextMenuSample));
         }
 
         private static IEnumerable<CommandPaletteAction> BuildActions()

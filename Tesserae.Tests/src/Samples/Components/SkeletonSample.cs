@@ -35,7 +35,8 @@ namespace Tesserae.Tests.Samples
                         Skeleton().W(80.percent()).H(16).MT(8),
                         Skeleton().W(60.percent()).H(16).MT(8)
                     )
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(SpinnerSample), typeof(ProgressIndicatorSample), typeof(ProgressRingSample), typeof(DeferSample));
         }
 
         public HTMLElement Render() => _content.Render();

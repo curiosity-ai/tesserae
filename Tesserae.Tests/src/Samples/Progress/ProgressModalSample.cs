@@ -72,7 +72,8 @@ namespace Tesserae.Tests.Samples
                     Stack().Width(400.px()).Children(
                         Card(VStack().WS().Children(
                         Button("Open Modal").OnClick((s, e) => PlayModal().FireAndForget())
-                    )).SetTitle("Usage")));
+                    )).SetTitle("Usage")))
+               .SeeAlso(typeof(ProgressIndicatorSample), typeof(ModalSample), typeof(DeferWithProgressSample), typeof(SpinnerSample));
         }
 
         public HTMLElement Render()

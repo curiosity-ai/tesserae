@@ -35,7 +35,8 @@ namespace Tesserae.Tests.Samples
                         Button("Interactive Tooltip").W(200).Tooltip(Button("Click me").OnClick(() => Toast().Success("You clicked!")), interactive: true),
                         Button("Defers on Tooltips").W(200).Tooltip(deferedWithChangingSize),
                         Button("Nested Tooltips").W(200).Tooltip(Button("Click me").OnClick((b1, _) => Tippy.ShowFor(b1, Button("Click me").OnClick(() => Toast().Success("You clicked!")), out var _)), interactive: true)
-                    ))).SetTitle("Usage")));
+                    ))).SetTitle("Usage")))
+               .SeeAlso(typeof(PopoverSample), typeof(TeachingSample), typeof(ContextMenuSample), typeof(ToastSample));
 
             content.WhenMounted(() =>
             {
