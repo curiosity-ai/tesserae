@@ -38,6 +38,14 @@ OmniBox:
   `ShowInlineAt`/`Filter`/`MoveHighlight`/`ActivateHighlighted`/`Hide`/`IsVisible` (see
   `tool-agent-selector.md`). Arrow Up/Down, Enter/Tab and Escape are forwarded to the callbacks
   while the picker is open; a `true` return from `OnCommit` removes the typed `@mention` text.
+- `.WithContextToAdd(params ContextCard[])` — the context that will go with the next message, rendered
+  as a wrapping row of `ContextCard`s **inside the box**, just below the input and above the footer
+  (chat/search-and-chat modes only; it hides itself while the box is in search mode, and the row is
+  invisible while empty). `.AddContext(card)` appends one, `.RemoveContext(card)` / `.ClearContext()`
+  take them out, `.ContextToAdd` (read-only list) and `.HasContextToAdd` read the current state. Each
+  card's (x) is wired to the row, so removing a card from the box needs no extra code — a handler the
+  caller registered with `ContextCard.OnRemove` still runs, which is where the underlying context gets
+  dropped. Cards survive sending: clear the row from `OnChat`. See `context-card.md`.
 - `.Focus()`.
 - `.CaretClientX()` — the viewport x of the text caret in whichever input is focused, clamped to that input's bounds, or `double.NaN` when there is nothing to measure. Used to point something at where the user is typing, e.g. the `PixelAvatar` companion walking over to the caret.
 - `OmniBox.ParseQuery(string, bool tokenIgnoreCase = false)` — static parser returning a `SearchQuery`.
@@ -61,6 +69,22 @@ var config = new OmniBox.Config(OmniBox.Mode.SearchAndChat)
 var omni = new OmniBox(config)
     .OnSearch((s, q) => Console.WriteLine($"Search: {q.Tokens.Count} tokens"))
     .OnChat((s, m) => Console.WriteLine("Chat sent"));
+```
+
+Context attached to the next message, shown inside the box below the input:
+
+```csharp
+var omni = new OmniBox(new OmniBox.Config(OmniBox.Mode.Chat))
+    .WithContextToAdd(
+        ContextCard("Kindersonnenschutzmittel-NEU.pdf", UIcons.FilePdf).SetSubLabel("PDF").IconBackground("#ef4444"))
+    .OnChat((s, m) =>
+    {
+        Send(m.Text, s.ContextToAdd.Select(c => c.Label));   // read it before clearing
+        s.ClearContext();                                    // the box keeps it until told otherwise
+    });
+
+// Later, e.g. from an attach button or a FileDropArea:
+omni.AddContext(ContextCard("Q3-forecast.xlsx", UIcons.FileExcel).SetSubLabel("Spreadsheet").IconBackground("#16a34a"));
 ```
 
 ## Related

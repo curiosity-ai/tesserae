@@ -76,9 +76,21 @@ var page = ContextCard("tesserae.dev/components", UIcons.Globe).SetSubLabel("Web
 var composer = VStack().WS().Children(attached, OmniBox());
 ```
 
+An `OmniBox` in chat mode hosts the row itself, inside the box below the input — that is the usual
+place for these cards, and it wires each card's (x) to the row for you:
+
+```csharp
+var omni = new OmniBox(new OmniBox.Config(OmniBox.Mode.Chat))
+    .WithContextToAdd(ContextCard("report-2026.pdf", UIcons.FilePdf).SetSubLabel("PDF").IconBackground("#ef4444"))
+    .OnChat((s, m) => { Send(m.Text, s.ContextToAdd); s.ClearContext(); });
+
+omni.AddContext(ContextCard("customers", UIcons.Database).SetSubLabel("Dataset"));
+```
+
 ## Related
 
 - Chat (ChatArea / ChatMessage) — `chat.md`
+- OmniBox — hosts a row of these below its chat input via `WithContextToAdd` — `omni-box.md`
 - ResourceCard (the larger, full resource summary) — `resource-card.md`
 - Badge / Tag / Chip (removable inline tokens) — `badge.md`
 - Icon and UIcons — `icon.md`, `uicons.md`

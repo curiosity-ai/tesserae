@@ -332,6 +332,52 @@ namespace Tesserae.Tests.Samples
                 IsOpen         = ()      => toolAgentSelectorForChat.IsVisible
             });
 
+            // Context to add: ContextCards rendered inside the box, just below the input.
+            var contextSpecs = new[]
+            {
+                new[] { "Kindersonnenschutzmittel-NEU.pdf", "PDF",         "#ef4444" },
+                new[] { "Q3-forecast.xlsx",                 "Spreadsheet", "#16a34a" },
+                new[] { "architecture.md",                  "Markdown",    "#6366f1" },
+                new[] { "tesserae.dev/components",          "Web page",    "#0ea5e9" },
+                new[] { "customers",                        "Dataset",     "#f59e0b" }
+            };
+
+            var contextIcons = new[] { UIcons.FilePdf, UIcons.FileExcel, UIcons.FileCode, UIcons.Globe, UIcons.Database };
+
+            var nextContext = 1; // the first one is attached up front, below
+
+            OmniBox contextChatSample = null;
+
+            var addContextBtn = Button(UIcons.Clip).Tooltip("Add context").OnClick(() =>
+            {
+                var i    = nextContext++ % contextSpecs.Length;
+                var spec = contextSpecs[i];
+
+                contextChatSample.AddContext(
+                    ContextCard(spec[0], contextIcons[i]).SetSubLabel(spec[1]).IconBackground(spec[2]));
+            });
+
+            contextChatSample = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
+            {
+                PlaceholderChat = "Ask me anything about the attached context",
+                ChatFooter      = new OmniBox.FooterItems { LeftSide = new IComponent[] { addContextBtn } }
+            })
+            .WS()
+            .WithContextToAdd(
+                ContextCard(contextSpecs[0][0], contextIcons[0]).SetSubLabel(contextSpecs[0][1]).IconBackground(contextSpecs[0][2]))
+            .OnChat((s, q) =>
+            {
+                var sent = s.ContextToAdd.Select(c => c.Label).ToArray();
+
+                // The box keeps the context until it is told otherwise, so the handler is where it gets
+                // sent along with the message and cleared.
+                s.ClearContext();
+
+                Toast().Information(sent.Length > 0
+                    ? $"{q.Text} (with {sent.Length} context: {string.Join(", ", sent)})"
+                    : q.Text);
+            });
+
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(OmniBoxSample), UIcons.Search, "An omnibox search component")
                .FlatSection(VStack().Children(
@@ -360,7 +406,14 @@ namespace Tesserae.Tests.Samples
                     Label("Search mode (trigger button, compact)").SetContent(toolAgentSearchSample).MB(6),
                     TextBlock("In chat mode, the same selector also backs an inline \"@mention\" picker: type @ in the box below to open it anchored at the caret, keep typing to filter, use Arrow Up/Down to navigate, Enter/Tab to select, and Escape to close.").MT(6).MB(8),
                     Label("Chat mode (trigger button + @ mentions)").SetContent(toolAgentChatSample)
-                )).SetTitle("Tools & Agents")));
+                )).SetTitle("Tools & Agents")))
+               .FlatSection(VStack().WS().Children(
+                    Card(VStack().WS().Children(
+                    SampleSubTitle("Context to add"),
+                    TextBlock("In chat mode, WithContextToAdd renders ContextCards inside the box, in a wrapping row just below the input and above the footer — the context that will go with the next message. AddContext appends one card, RemoveContext / ClearContext take them out, and ContextToAdd reads the current list.").MB(8),
+                    TextBlock("Each card's remove button is wired to the row, so hovering a card and clicking its (x) detaches it. Click the clip button below to attach more, then send: the handler reports what went along with the message and clears the row.").MB(8),
+                    Label("Chat with attached context").SetContent(contextChatSample)
+                )).SetTitle("Context")));
         }
 
         private static string DescribeFilterSnap(OmniBox.FilterSnap f)

@@ -315,10 +315,26 @@
 }
 
 .tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-container,
+.tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-context,
 .tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-btn,
 .tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-footer-item {
     display: none;
 }
+
+/* Context attached to the next message: a wrapping row of ContextCards between the chat input and the
+   footer. The top padding leaves room for the cards' remove discs, which overhang their top edge. */
+.tss-omnibox-context {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px 4px 12px;
+}
+
+    /* No context, no row - so an OmniBox that never gets one looks exactly as it did before. */
+    .tss-omnibox-context:empty {
+        display: none;
+    }
 /* Expanded state for Chat and SearchAndChat modes */
 .tss-omnibox-container.tss-omnibox-expanded .tss-omnibox-chat-container,
 .tss-omnibox-container.tss-omnibox-expanded.tss-omnibox-mode-search .tss-omnibox-search-container,

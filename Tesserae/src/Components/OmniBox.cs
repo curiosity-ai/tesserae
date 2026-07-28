@@ -566,6 +566,8 @@ namespace Tesserae
 
         private readonly HTMLTextAreaElement _chatInput;
         private readonly HTMLDivElement   _chatContainer;
+        private readonly HTMLDivElement   _contextContainer;
+        private readonly List<ContextCard> _contextCards = new List<ContextCard>();
         private readonly Button           _chatTriggerBtn;
         private Button                    _modelSelectorBtn;
         private List<ModelOption>         _models = new List<ModelOption>();
@@ -1049,6 +1051,10 @@ namespace Tesserae
 
                 _chatContainer = Div(Att("tss-omnibox-chat-container"), _chatInput);
 
+                // The context row sits between the input and the footer, inside the box. It stays empty
+                // (and, being :empty, invisible) until WithContextToAdd / AddContext put a card in it.
+                _contextContainer = Div(Att("tss-omnibox-context"));
+
                 // Size the input to its content once it's in the DOM (and whenever it's re-shown).
                 DomObserver.WhenMounted(_chatInput, ResizeChatInput);
 
@@ -1151,12 +1157,12 @@ namespace Tesserae
                 }
                 case Mode.Chat:
                 {
-                    _container = Div(Att("tss-omnibox-container"), _chatContainer, _footer);
+                    _container = Div(Att("tss-omnibox-container"), _chatContainer, _contextContainer, _footer);
                     break;
                 }
                 case Mode.SearchAndChat:
                 {
-                    _container = Div(Att("tss-omnibox-container tss-omnibox-chat-and-search"), _searchContainer, _chatContainer, _footer);
+                    _container = Div(Att("tss-omnibox-container tss-omnibox-chat-and-search"), _searchContainer, _chatContainer, _contextContainer, _footer);
                     break;
                 }
             }
@@ -1731,6 +1737,103 @@ namespace Tesserae
             _chatMention = mention;
             return this;
         }
+
+        /// <summary>
+        /// Shows the given <see cref="ContextCard"/>s as the context that will go with the next message,
+        /// in a wrapping row inside the box just below the input and above the footer. Chat modes only.
+        /// <para>
+        /// Each card's remove button is wired to this row, so the (x) takes the card out of the box (any
+        /// handler the caller registered with <see cref="ContextCard.OnRemove(Action{ContextCard})"/> still
+        /// runs, which is where the underlying context gets dropped). A card that should not be removable
+        /// can call <see cref="ContextCard.NoRemove"/> after being handed over. The row is left alone when
+        /// a message is sent - call <see cref="ClearContext"/> from the chat handler to empty it.
+        /// </para>
+        /// </summary>
+        public OmniBox WithContextToAdd(params ContextCard[] context)
+        {
+            if (_mode != Mode.Chat && _mode != Mode.SearchAndChat)
+            {
+                throw new InvalidOperationException("WithContextToAdd can only be called when OmniBox is in Chat or SearchAndChat mode.");
+            }
+
+            ClearContext();
+
+            if (context == null) return this;
+
+            foreach (var card in context)
+            {
+                AddContext(card);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Shows the given context cards as the context for the next message, replacing whatever the row
+        /// held before.
+        /// </summary>
+        public OmniBox WithContextToAdd(IEnumerable<ContextCard> context) => WithContextToAdd(context?.ToArray());
+
+        /// <summary>
+        /// Adds one more card to the context row, keeping the cards already there.
+        /// </summary>
+        public OmniBox AddContext(ContextCard card)
+        {
+            if (_contextContainer == null)
+            {
+                throw new InvalidOperationException("AddContext can only be called when OmniBox is in Chat or SearchAndChat mode.");
+            }
+
+            if (card == null || _contextCards.Contains(card)) return this;
+
+            _contextCards.Add(card);
+            _contextContainer.appendChild(card.Render());
+
+            // The row owns which cards are in it, so it is the row that takes one out when its (x) is
+            // clicked - the caller's own handler, if any, still runs alongside this one.
+            card.OnRemove(c => RemoveContext(c));
+
+            return this;
+        }
+
+        /// <summary>
+        /// Takes one card out of the context row. Does nothing if the card isn't in it.
+        /// </summary>
+        public OmniBox RemoveContext(ContextCard card)
+        {
+            if (card == null || _contextContainer == null) return this;
+
+            if (_contextCards.Remove(card))
+            {
+                TryRemoveChild(_contextContainer, card.Render());
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Empties the context row. Call it from the chat handler once the context has been sent along
+        /// with the message.
+        /// </summary>
+        public OmniBox ClearContext()
+        {
+            if (_contextContainer == null) return this;
+
+            _contextCards.Clear();
+            ClearChildren(_contextContainer);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Gets the cards currently shown in the context row, in the order they were added.
+        /// </summary>
+        public IReadOnlyList<ContextCard> ContextToAdd => _contextCards;
+
+        /// <summary>
+        /// Returns a value indicating whether the context row currently holds any card.
+        /// </summary>
+        public bool HasContextToAdd => _contextCards.Count > 0;
 
         private void TryUpdateChatMention()
         {
