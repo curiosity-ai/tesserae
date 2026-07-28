@@ -275,7 +275,7 @@ namespace Tesserae
             }
 
             /// <summary>
-            /// Configures the width the name is ellipsized at (50px by default, set in CSS). The
+            /// Configures the width the name is ellipsized at (80px by default, set in CSS). The
             /// extension, when kept visible, sits outside this width.
             /// </summary>
             public Item MaxNameWidth(UnitSize size)
@@ -412,7 +412,10 @@ namespace Tesserae
                     else                            high = middle - 1;
                 }
 
-                _name.textContent = low <= 0 ? "\u2026" : _stem.Substring(0, low) + "\u2026";
+                // Trimmed so a cut landing on a space doesn't read as "Q3 revenue ….xlsx".
+                var kept = low <= 0 ? string.Empty : _stem.Substring(0, low).TrimEnd();
+
+                _name.textContent = kept + "\u2026";
             }
 
             private static (string name, string extension) SplitExtension(string label, bool keepExtensionVisible)

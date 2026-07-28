@@ -33,7 +33,7 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                         TextBlock("ContextBar shows what a chat, a search or a generated answer is scoped to: one bubble per document or record, each with an icon, an ellipsized name and an optional remove button. It is the indicator that survives closing whatever panel the context was picked in."),
-                        TextBlock("A name is ellipsized at 50px, but a trailing file extension is held outside that width — a bubble reads \"Quarterly repo….pdf\", never \"Quarterly repor…\". Bubbles past MaxVisible (3 by default) are not rendered at all: they collapse into a \"+N more\" button that calls OnShowAll.")
+                        TextBlock("A name is ellipsized at 80px, but a trailing file extension is held outside that width — a bubble reads \"Quarterly repo….pdf\", never \"Quarterly repor…\". Bubbles past MaxVisible (3 by default) are not rendered at all: they collapse into a \"+N more\" button that calls OnShowAll.")
                     )).SetTitle("Overview")))
                 .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(

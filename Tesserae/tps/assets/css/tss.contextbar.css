@@ -51,7 +51,7 @@
 /* The name is the only part that shrinks: a long one is ellipsized at this width while the icon,
    the extension and the remove button stay whole. */
 .tss-contextbar-item-name {
-    max-width: 50px;
+    max-width: 80px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

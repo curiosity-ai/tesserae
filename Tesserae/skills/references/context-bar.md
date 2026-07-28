@@ -12,7 +12,7 @@ its composer.
 
 Two details it handles that a hand-rolled chip row usually gets wrong:
 
-- **The extension stays readable.** The name is ellipsized at a narrow width (50px by default), but a
+- **The extension stays readable.** The name is ellipsized at a narrow width (80px by default), but a
   trailing file extension is held outside that width, so a bubble reads `Quarterly repo….pdf` rather
   than `Quarterly repor…`. The truncation is measured once the bubble is in the DOM, so the ellipsis
   lands right where the name stops and the extension butts up against it.
