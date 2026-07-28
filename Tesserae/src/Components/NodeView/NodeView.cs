@@ -742,7 +742,8 @@ namespace Tesserae
             public readonly bool isSubgraph;
             public IViewSettings settings;
             [Template("{this}.switchGraph({0})")] public void switchGraph(Graph newGraph) { }
-            [Template("{this}.switchGraph({0})")] public void switchGraph(GraphTemplate newGraph) { }
+            // JS has no overloads, so the second one needs a distinct emitted name - the [Template] is what's written at the call site anyway
+            [Name("switchGraphFromTemplate")] [Template("{this}.switchGraph({0})")] public void switchGraph(GraphTemplate newGraph) { }
 
             //    clipboard: IClipboard;
             //    commandHandler: ICommandHandler;
@@ -787,7 +788,8 @@ namespace Tesserae
             [Template("{this}.name()")] public string name() { return null; }
             [Template("{this}.outputs()")] public ReadOnlyArray<IGraphInterface> outputs() { return null; }
             [Template("{this}.createGraph()")] public Graph createGraph() { return null; }
-            [Template("{this}.createGraph({0})")] public Graph createGraph(Graph graph) { return null; }
+            // JS has no overloads, so the second one needs a distinct emitted name - the [Template] is what's written at the call site anyway
+            [Name("createGraphInto")] [Template("{this}.createGraph({0})")] public Graph createGraph(Graph graph) { return null; }
             [Template("{this}.save()")] public IGraphTemplateState save() { return null; }
             [Template("{this}.update({0})")] public void update(NodeViewGraphState state) { }
             [Template("{this}.fromGraph({0}, {1})")] public static GraphTemplate fromGraph(Graph graph, Editor editor) { return null; }
@@ -880,7 +882,8 @@ namespace Tesserae
             public int connectionCount() { return 0; }
             public void connectionCount(int value) { }
             [Template("{this}.value()")] public object value() { return null; }
-            [Template("{this}.value({0})")] public void value(object value) { }
+            // JS has no overloads, so the setter needs a distinct emitted name - the [Template] is what's written at the call site anyway
+            [Name("setValue")] [Template("{this}.value({0})")] public void value(object value) { }
             [Template("{this}.load({0})")] public void load(INodeInterfaceState state) { }
             [Template("{this}.save()")] public INodeInterfaceState save() {  return null; }
             [Template("{this}.setComponent({0})")] public void setComponent(object component) { }
