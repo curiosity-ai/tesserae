@@ -7,6 +7,13 @@ namespace Tesserae.Tests.Samples
     [SampleDetails(Group = "Components", Order = 102, Icon = UIcons.Tools)]
     public class ToolCallSample : IComponent, ISample
     {
+        // Handed over compact on purpose: ToolCallInspect re-indents JSON as it is set.
+        private const string CONSULT_ARGUMENTS = @"{ ""fileUID"": ""WAwweAZJPrs6nE95L25GbX"", ""page"": 188, ""maxCharacters"": 8000, ""extractTables"": true }";
+
+        private const string CONSULT_RESPONSE = @"{ ""uid"": ""WAwweAZJPrs6nE95L25GbX"", ""name"": ""SETR2025_web-240128.pdf"", ""source"": ""Mailbox"", ""contentType"": ""application/pdf"", ""extension"": ""pdf"", ""sizeBytes"": 13199821, ""language"": ""English"", ""pages"": 240, ""extracted"": { ""page"": 188, ""characters"": 8000, ""text"": ""ACKNOWLEDGMENTS\n\nThe review was prepared with the help of a long list of contributors, whose names run over the next several pages and wrap rather than scroll sideways in the response block."" } }";
+
+        private const string FETCH_ARGUMENTS = @"{ ""url"": ""https://api.example.com/v1/status"", ""method"": ""GET"", ""timeoutMs"": 30000 }";
+
         private readonly IComponent _content;
 
         private readonly ToolCall                     _runningCall;
@@ -29,7 +36,8 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                         TextBlock("ToolCall renders a single tool invocation inline. It behaves like an accordion: a compact header with an icon and label, expanding to reveal arbitrary content the first time it is clicked (the content component is created lazily). A ToolCall without content automatically renders as a plain, non-expandable chip — no chevron is shown until content is set."),
-                        TextBlock("ToolsUsed groups many ToolCalls behind a compact summary. Clicking it opens a popup with the list of tools on the left; selecting one slides to the detail view on the right, with a back button to return to the list.")
+                        TextBlock("ToolsUsed groups many ToolCalls behind a compact summary. Clicking it opens a popup with the list of tools on the left; selecting one slides to the detail view on the right, with a back button to return to the list."),
+                        TextBlock("ToolCallInspect is the ready-made body for a call: the arguments it was called with, one row per property, above the response it returned in a read-only code block. Each section scrolls on its own, and inside a ToolsUsed detail pane the arguments take at most half the height so a long response never scrolls them away.")
                     )).SetTitle("Overview")))
                 .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
@@ -39,6 +47,12 @@ namespace Tesserae.Tests.Samples
                         ToolCall(UIcons.Eye, "Read /home/user/project/README.md", () => TextBlock("# My Project\n\nA sample project demonstrating the ToolCall component.\n\n## Usage\n\n...").BreakSpaces()).Expanded(),
                         ToolCall(UIcons.Search, "Grep \"useEffect\" src/", () => TextBlock("src/App.tsx:5: import { useEffect } from 'react';\nsrc/hooks/useData.ts:1: import { useEffect, useState } from 'react';").BreakSpaces()),
                         ToolCall(UIcons.ListCheck, "Update todos"), // no content -> renders non-expandable automatically
+
+                        SampleSubTitle("Arguments and response"),
+                        TextBlock("ToolCallInspect is the ready-made body for a call: arguments as name/value rows, response in a read-only code block. JSON is re-indented as it is set, so handing it the raw payload is enough."),
+                        ToolCall(UIcons.FilePdf, "Consult 'SETR2025_web-240128.pdf'", () => ToolCallInspect(CONSULT_ARGUMENTS, CONSULT_RESPONSE)).Expanded(),
+                        TextBlock("A call that failed carries its error above the response it never produced."),
+                        ToolCall(UIcons.Globe, "Fetch https://api.example.com/v1/status", () => ToolCallInspect(FETCH_ARGUMENTS).SetError("HTTP 503 - the upstream did not respond within 30s")),
 
                         SampleSubTitle("ToolsUsed summary popup"),
                         TextBlock("When an AI uses many tools, surface a compact summary that opens a list/detail popup, similar to a master-detail navigation on mobile."),
@@ -53,7 +67,8 @@ namespace Tesserae.Tests.Samples
                             ToolCall(UIcons.Eye, "Read /home/user/needle/src/Needle/Inference/Run...", () => TextBlock("namespace Needle.Inference;\n\npublic class Runner { ... }").BreakSpaces()),
                             ToolCall(UIcons.Eye, "Read /home/user/needle/src/Needle/Weights/Weigh...", () => TextBlock("namespace Needle.Weights;\n\npublic class Weights { ... }").BreakSpaces()),
                             ToolCall(UIcons.Eye, "Read /home/user/needle/src/Needle/Model/NeedleM...", () => TextBlock("namespace Needle.Model;\n\npublic class NeedleModel { ... }").BreakSpaces()),
-                            ToolCall(UIcons.Tools, "ToolSearch max_results, query", () => TextBlock("Found 3 candidate tools matching query 'tokenizer'.")),
+                            ToolCall(UIcons.FilePdf, "Consult 'SETR2025_web-240128.pdf'", () => ToolCallInspect(CONSULT_ARGUMENTS, CONSULT_RESPONSE)),
+                            ToolCall(UIcons.Tools, "ToolSearch max_results, query", () => ToolCallInspect(@"{ ""query"": ""tokenizer"", ""max_results"": 3 }", @"{ ""matches"": [""Tokenize"", ""DetectLanguage"", ""CountTokens""], ""searchedTools"": 148 }")),
                             ToolCall(UIcons.ListCheck, "Update todos").NotExpandable(),
                             ToolCall(UIcons.Eye, "Read /home/user/needle/needle/model/run.py", () => TextBlock("import torch\n\ndef run(model, x): ...").BreakSpaces()),
                             ToolCall(UIcons.Eye, "Read /home/user/needle/src/Needle/Tokenizer/Nee...", () => TextBlock("namespace Needle.Tokenizer;\n\npublic class NeedleTokenizer { ... }").BreakSpaces())
