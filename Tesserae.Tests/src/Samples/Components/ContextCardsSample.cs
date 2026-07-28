@@ -14,14 +14,14 @@ namespace Tesserae.Tests.Samples
         private readonly TextBlock    _composerState;
         private          int          _attached;
 
-        // The five items of the grouped list, each with the kind of thing it is.
+        // The five items of the grouped list; the third column is what goes in the badge slot.
         private static readonly string[][] Items =
         {
-            new[] { "Q3 revenue model",       "finance/q3-model.xlsx · 4 sheets",   "Sheet",  "#16a34a" },
-            new[] { "Incident 482 postmortem", "docs/postmortem-482.md",            "Doc",    "#3b82f6" },
-            new[] { "Re: migration window",    "from ops@needle.dev · Nov 14",      "Email",  "#f59e0b" },
-            new[] { "events.request_log",      "warehouse · 2.1M rows",             "Table",  "#10b981" },
-            new[] { "design-review/",          "14 files · 62 MB",                  "Folder", "#94a3b8" }
+            new[] { "Q3 revenue model",        "finance/q3-model.xlsx · 4 sheets",  "SharePoint", "#16a34a" },
+            new[] { "Incident 482 postmortem", "docs/postmortem-482.md",            "Wiki",       "#3b82f6" },
+            new[] { "Re: migration window",    "from ops@needle.dev · Nov 14",      "Inbox",      "#f59e0b" },
+            new[] { "events.request_log",      "warehouse · 2.1M rows",             "Snowflake",  "#10b981" },
+            new[] { "design-review/",          "14 files · 62 MB",                  "Drive",      "#94a3b8" }
         };
 
         private static readonly UIcons[] ItemIcons = { UIcons.Table, UIcons.FileInvoice, UIcons.Envelope, UIcons.Database, UIcons.Folder };
@@ -90,7 +90,7 @@ namespace Tesserae.Tests.Samples
                 .OnToggle(g => Toast().Information(g.IsExpanded ? "Expanded" : "Collapsed"));
 
             return FeatureCard("Grouped", "A summary pill that expands into a list",
-                "Clicking the pill toggles the list; the chevron follows. Rows are the same ContextCards, laid out as list rows — full width, one divider between each, the kind pill and the ✕ at the end. SetSummary replaces the auto-generated \"Added N items to context\" (which keeps itself up to date as cards come and go), SetIcon replaces the layers glyph, and OnToggle reports the state.",
+                "Clicking the pill toggles the list; the chevron follows. Rows are the same ContextCards, laid out as list rows — full width, one divider between each, the badge and the ✕ at the end. SetSummary replaces the auto-generated \"Added N items to context\" (which keeps itself up to date as cards come and go), SetIcon replaces the layers glyph, and OnToggle reports the state.",
                 expanded,
                 _lastRemoved.MT(4),
                 TextBlock("Starting collapsed, with its own summary and icon:").Small().MT(12).MB(8),
@@ -183,7 +183,7 @@ namespace Tesserae.Tests.Samples
                     })));
         }
 
-        // A group of the five items above, each a row with a mono second line and a kind pill.
+        // A group of the five items above, each a row with a mono second line and a badge.
         private ContextCards Group()
         {
             var group = ContextCards();
@@ -195,7 +195,7 @@ namespace Tesserae.Tests.Samples
                 var card = ContextCard(item[0], ItemIcons[i])
                     .SetSubLabel(item[1])
                     .MonospaceSubLabel()
-                    .SetKind(item[2])
+                    .SetBadge(item[2])
                     .IconTint(item[3])
                     .OnRemove(c => _lastRemoved.Text = $"Detached {c.Label}.");
 

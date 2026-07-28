@@ -30,9 +30,10 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.SetSubLabel(string)` — the second line. Null or empty hides it, leaving one centered row.
   `.MonospaceSubLabel()` renders it in the monospace font, for a path, a table name or a size — the
   same treatment `ToolCall` gives the command it names.
-- `.SetKind(string)` — a small pill at the end of the card saying what sort of context it is ("Doc",
-  "Sheet", "Table", "Folder"). Comes into its own inside a `ContextCards` list, where every row ends
-  with one.
+- `.SetBadge(string)` / `.SetBadge(IComponent)` — a small pill at the end of the card. The card says
+  nothing about what belongs there — what a piece of context *is* is carried by the icon you pass — so
+  it takes whatever the app wants: a source, a count, a status. The `IComponent` overload drops the pill
+  chrome so a `Badge`, a `Spinner` or a small button keeps its own styling.
 - `.SetIcon(UIcons, UIconsWeight = Regular)` / `.SetIcon(IComponent)` — what sits on the tile.
 - `.SetImage(string url)` — fill the tile with a thumbnail (cropped to cover it) for context that
   has a preview of its own: an image, a screenshot, a favicon.
