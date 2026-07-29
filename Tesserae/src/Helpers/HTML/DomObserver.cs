@@ -18,6 +18,12 @@ namespace Tesserae
         private const string MountSelector   = "[data-tss-mount-pending]";
         private const string UnmountSelector = "[data-tss-unmount-pending]";
 
+        // A non-element node that isn't parented yet has no element for us to track (see
+        // ClosestTrackableElement) - that happens when a callback is registered right after the node
+        // is created but before it's appended anywhere, so we retry for a few frames instead of
+        // dropping the registration.
+        private const int MaxAttemptsWaitingForAnElementToTrack = 10;
+
         private static readonly List<ElementAndCallback> _elementsToTrackMountingOf;
         private static readonly List<ElementAndCallback> _elementsToTrackRemovalOf;
         private static readonly MutationObserver         _observer;
@@ -267,14 +273,27 @@ namespace Tesserae
             if (callback == null)
                 throw new ArgumentNullException(nameof(callback));
 
-            if (element.IsMounted())
+            WhenMounted(element, callback, attempt: 0);
+        }
+
+        private static void WhenMounted(HTMLElement element, Action callback, int attempt)
+        {
+            var target = ClosestTrackableElement(element);
+
+            if (target is null)
+            {
+                RetryWhenThereIsAnElementToTrack(element, () => WhenMounted(element, callback, attempt + 1), attempt);
+                return;
+            }
+
+            if (target.IsMounted())
             {
                 callback();
                 return;
             }
 
-            element.setAttribute(MountAttr, "");
-            _elementsToTrackMountingOf.Add(new ElementAndCallback(element, callback, "__tssMountCBs"));
+            target.setAttribute(MountAttr, "");
+            _elementsToTrackMountingOf.Add(new ElementAndCallback(target, callback, "__tssMountCBs"));
             StartObservingIfNeeded();
         }
 
@@ -296,9 +315,53 @@ namespace Tesserae
             // already been removed), similar to the check in WhenMounted - however, this doesn't work with a common pattern that we use where we want to register a WhenRemoved callback for
             // an element before its initial render / adding-to-the-DOM and so that check has had to be removed (as, in that case, the element would not be mounted because it hasn't been
             // added yet, not because it WAS added to the DOM and had already been removed again)
-            element.setAttribute(UnmountAttr, "");
-            _elementsToTrackRemovalOf.Add(new ElementAndCallback(element, callback, "__tssUnmountCBs"));
+            WhenRemoved(element, callback, attempt: 0);
+        }
+
+        private static void WhenRemoved(HTMLElement element, Action callback, int attempt)
+        {
+            var target = ClosestTrackableElement(element);
+
+            if (target is null)
+            {
+                RetryWhenThereIsAnElementToTrack(element, () => WhenRemoved(element, callback, attempt + 1), attempt);
+                return;
+            }
+
+            target.setAttribute(UnmountAttr, "");
+            _elementsToTrackRemovalOf.Add(new ElementAndCallback(target, callback, "__tssUnmountCBs"));
             StartObservingIfNeeded();
+        }
+
+        /// <summary>
+        /// A component's Render() is typed as HTMLElement but the object behind it isn't always an element - it can be a Text node (as returned by UI.Text), a comment, or anything else that a
+        /// component chose to render. Those nodes can't take part in the tracking above (they have no setAttribute / querySelectorAll and are invisible to the marker selectors), so we track
+        /// the closest ancestor element instead: it's what actually gets added to or removed from the document, and the node always travels with it. Returns null when there is no ancestor
+        /// element yet (a node that hasn't been appended anywhere, or one living in a detached DocumentFragment).
+        /// </summary>
+        private static HTMLElement ClosestTrackableElement(HTMLElement elementOrNode)
+        {
+            var node = elementOrNode;
+
+            while (node != null && Script.Write<bool>("{0}.nodeType !== 1", node))
+            {
+                node = Script.Write<HTMLElement>("{0}.parentNode || null", node);
+            }
+
+            return node;
+        }
+
+        private static void RetryWhenThereIsAnElementToTrack(HTMLElement node, Action retry, int attempt)
+        {
+            if (attempt >= MaxAttemptsWaitingForAnElementToTrack)
+            {
+                console.warn("DomObserver: cannot track a node that is not an element and has no parent element, the mount / removal callback will not fire", node);
+                return;
+            }
+
+            // The node is usually appended to its parent within the same render pass, so the next frame is
+            // normally enough - the extra attempts cover components that build their DOM over a few frames.
+            window.requestAnimationFrame(_ => retry());
         }
     }
 }

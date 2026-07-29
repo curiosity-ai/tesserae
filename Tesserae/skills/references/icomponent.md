@@ -127,7 +127,9 @@ On validatable inputs: `.Validation(c => error-or-null)`, `.Error("msg")`,
 ## Lifecycle & utility — `IComponentExtensions.cs` / `UI.Components.cs`
 
 - `.WhenMounted(Action)`, `.WhenMountedDelayed(TimeSpan, Action, bool)`,
-  `.WhenRemoved(Action)` — run code when the element enters/leaves the DOM.
+  `.WhenRemoved(Action)` — run code when the element enters/leaves the DOM. If the
+  component renders a node that isn't an element (a text node, for instance), the
+  closest parent element is tracked instead.
 - `.ScrollIntoView()`.
 - `.Do(Action<T>)` — run an arbitrary action on the component inside a chain.
 - `.Var(out T var)` — capture the component into a variable mid-chain.
