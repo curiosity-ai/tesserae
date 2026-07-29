@@ -288,18 +288,27 @@ namespace Tesserae
     /// list of tools on the left. Clicking a tool slides the list to the left
     /// and shows that tool's content on the right with a back button to
     /// return to the list.
+    /// <para>
+    /// <see cref="Inline()"/> swaps the popup for an in-place disclosure: the summary expands
+    /// underneath itself into the list of <see cref="ToolCall"/>s, each one opening its own content
+    /// inline the way a standalone call does.
+    /// </para>
     /// </summary>
     [Transpose.Name("tss.ToolsUsed")]
     public sealed class ToolsUsed : ComponentBase<ToolsUsed, HTMLElement>
     {
+        private readonly HTMLElement      _header;
         private readonly HTMLElement      _summaryIcon;
         private readonly HTMLElement      _summaryText;
         private readonly HTMLElement      _summaryChevron;
+        private readonly HTMLElement      _inlineList;
         private readonly List<ToolCall>   _tools;
         private          LiveProgress     _progress;
         private          string           _summaryLabel;
         private          UIcons           _summaryIconKind = UIcons.Tools;
         private          string           _modalTitle      = "Tools used";
+        private          bool             _inline;
+        private          bool             _isExpanded;
         private          Modal            _modal;
         private          HTMLElement      _slider;
         private          HTMLElement      _listPanel;
@@ -309,6 +318,8 @@ namespace Tesserae
         private          HTMLElement      _detailIconHolder;
         private          HTMLElement      _backButton;
         private          HTMLElement      _titleEl;
+
+        private event Action<ToolsUsed> Toggled;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -321,15 +332,37 @@ namespace Tesserae
             _summaryText    = Div(Att("tss-toolsused-text"));
             _summaryChevron = I(UIcons.AngleRight, cssClass: "tss-toolsused-chevron");
 
-            InnerElement = Div(Att("tss-toolsused", role: "button", ariaLabel: "Show tools used"),
-                               _summaryIcon, _summaryText, _summaryChevron);
+            _header = Div(Att("tss-toolsused-header", role: "button", ariaLabel: "Show tools used"),
+                          _summaryIcon, _summaryText, _summaryChevron);
+
+            // Only ever filled in inline mode, but the element is always there so the list has a place to
+            // land whenever Inline() is called - before or after the summary is on screen.
+            _inlineList = Div(Att("tss-toolsused-inline-list"));
+            _inlineList.style.display = "none";
+
+            InnerElement = Div(Att("tss-toolsused"), _header, _inlineList);
 
             // Open on a tap gesture rather than a raw "click": in a live-streaming chat the surrounding
             // content re-renders and auto-scrolls under the pointer, which moves this element between
             // mousedown and mouseup so the browser never fires a "click" and the summary looked dead.
             // OnTapped captures the pointer and keys off the (stationary) pointer position, so a press-
             // release still opens the popup while the page scrolls, and a scroll-drag off the pill does not.
-            this.OnTapped(() => Show());
+            // The gesture is on the header rather than the root, so tapping an expanded inline list does
+            // not fold it back up.
+            Raw(_header).OnTapped(() => Toggle());
+
+            _header.tabIndex = 0;
+
+            _header.addEventListener("keydown", ev =>
+            {
+                var ke = ev.As<KeyboardEvent>();
+
+                if (ke.key == "Enter" || ke.key == " ")
+                {
+                    StopEvent(ev);
+                    Toggle();
+                }
+            });
 
             if (tools != null)
             {
@@ -350,6 +383,9 @@ namespace Tesserae
             if (tool == null) return this;
             _tools.Add(tool);
             UpdateSummary();
+            // A call arriving while the group is open inline joins the list on screen, the way a live
+            // transcript appends to it as the calls come in.
+            if (_inline && _isExpanded) RebuildInlineList();
             return this;
         }
 
@@ -386,6 +422,7 @@ namespace Tesserae
         {
             _tools.Clear();
             UpdateSummary();
+            ClearChildren(_inlineList);
             return this;
         }
 
@@ -420,6 +457,94 @@ namespace Tesserae
             {
                 _titleEl.innerText = _modalTitle;
             }
+            return this;
+        }
+
+        /// <summary>
+        /// Renders the tools in place instead of in a popup: the summary becomes an accordion that
+        /// expands into the list of <see cref="ToolCall"/>s underneath itself, each one opening its own
+        /// content inline the way a standalone call does. For a transcript where sending the reader to a
+        /// modal for a one-line result is too much ceremony.
+        /// </summary>
+        public ToolsUsed Inline(bool value = true)
+        {
+            _inline = value;
+            InnerElement.UpdateClassIf(value, "tss-toolsused-inline");
+
+            // Sideways for "this opens somewhere else", down-and-rotating for a disclosure that happens
+            // right here.
+            _summaryChevron.className = $"{Tesserae.Icon.Transform(value ? UIcons.AngleDown : UIcons.AngleRight, UIconsWeight.Regular)} tss-toolsused-chevron";
+            _header.setAttribute("aria-label", value ? "Toggle tools used" : "Show tools used");
+
+            if (!value)
+            {
+                _isExpanded = false;
+                ClearChildren(_inlineList);
+            }
+
+            UpdateExpandedState();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether the group renders its tools in place rather than in a popup.
+        /// </summary>
+        public bool IsInline   => _inline;
+
+        /// <summary>
+        /// Returns a value indicating whether the inline list is open. Always false while the group opens
+        /// its tools in the popup instead.
+        /// </summary>
+        public bool IsExpanded => _isExpanded;
+
+        /// <summary>
+        /// Expands or collapses the group.
+        /// </summary>
+        public ToolsUsed Expanded(bool value = true) => value ? Expand() : Collapse();
+
+        /// <summary>
+        /// Opens the group: the inline list when <see cref="Inline()"/> is set, the popup otherwise.
+        /// </summary>
+        public ToolsUsed Expand()
+        {
+            if (!_inline) return ShowModal();
+            if (_isExpanded) return this;
+
+            _isExpanded = true;
+            RebuildInlineList();
+            UpdateExpandedState();
+            Toggled?.Invoke(this);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Closes the group: the inline list when <see cref="Inline()"/> is set, the popup otherwise.
+        /// </summary>
+        public ToolsUsed Collapse()
+        {
+            if (!_inline) return HideModal();
+            if (!_isExpanded) return this;
+
+            _isExpanded = false;
+            UpdateExpandedState();
+            Toggled?.Invoke(this);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Toggles the group between open and closed.
+        /// </summary>
+        public ToolsUsed Toggle() => _isExpanded ? Collapse() : Expand();
+
+        /// <summary>
+        /// Registers a callback invoked whenever the inline list is expanded or collapsed.
+        /// </summary>
+        public ToolsUsed OnToggle(Action<ToolsUsed> onToggle)
+        {
+            Toggled += onToggle;
             return this;
         }
 
@@ -462,16 +587,29 @@ namespace Tesserae
             if (_progress is null)
             {
                 _progress = new LiveProgress().Class("tss-toolsused-progress");
-                InnerElement.insertBefore(_progress.Render(), _summaryChevron);
+                _header.insertBefore(_progress.Render(), _summaryChevron);
             }
 
             return _progress;
         }
 
         /// <summary>
-        /// Shows the component.
+        /// Shows the component: the popup, or the inline list when <see cref="Inline()"/> is set.
         /// </summary>
         public ToolsUsed Show()
+        {
+            return _inline ? Expand() : ShowModal();
+        }
+
+        /// <summary>
+        /// Hides the component: the popup, or the inline list when <see cref="Inline()"/> is set.
+        /// </summary>
+        public ToolsUsed Hide()
+        {
+            return _inline ? Collapse() : HideModal();
+        }
+
+        private ToolsUsed ShowModal()
         {
             BuildModalIfNeeded();
             RebuildList();
@@ -480,13 +618,29 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Hides the component.
-        /// </summary>
-        public ToolsUsed Hide()
+        private ToolsUsed HideModal()
         {
             _modal?.Hide();
             return this;
+        }
+
+        // The inline list holds the calls themselves, so each one carries its own accordion and builds its
+        // content lazily on first open - the same element the caller holds a reference to.
+        private void RebuildInlineList()
+        {
+            ClearChildren(_inlineList);
+
+            foreach (var tool in _tools)
+            {
+                _inlineList.appendChild(tool.Render());
+            }
+        }
+
+        private void UpdateExpandedState()
+        {
+            InnerElement.UpdateClassIf(_isExpanded, "tss-expanded");
+            _header.setAttribute("aria-expanded", _isExpanded ? "true" : "false");
+            _inlineList.style.display = _isExpanded ? "" : "none";
         }
 
         private void UpdateSummary()

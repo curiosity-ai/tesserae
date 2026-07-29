@@ -19,15 +19,23 @@ namespace Tesserae.Tests.Samples
         private readonly ToolCall                     _runningCall;
         private readonly LiveProgress                 _standaloneProgress;
         private readonly DeltaComponent               _diffedBubble;
+        private readonly ToolsUsed                    _inlineTools;
         private readonly SettableObservable<string>   _streamedProgress = new SettableObservable<string>(string.Empty);
         private          double                       _timer;
         private          bool                         _diffedCallOpen;
+        private          int                          _addedTools;
 
         public ToolCallSample()
         {
             _runningCall        = ToolCall(UIcons.Search, "Search documentation \"tesserae popover\"", () => TextBlock("3 pages matched.").BreakSpaces());
             _standaloneProgress = LiveProgress().Stream(_streamedProgress);
             _diffedBubble       = DeltaComponent(BuildDiffedBubbleContent()).Animated();
+
+            _inlineTools = ToolsUsed(
+                    ToolCall(UIcons.Search, "Grep \"Inline\" Tesserae/src/", () => TextBlock("Tesserae/src/Components/ToolCall.cs:  public ToolsUsed Inline(bool value = true)").BreakSpaces()),
+                    ToolCall(UIcons.Terminal, "Bash git log --oneline -3", () => TextBlock("a1b2c3d Add inline mode to ToolsUsed\n4e5f6a7 Add ToolCallInspect\n8b9c0d1 Add ToolCall").BreakSpaces()))
+               .Inline()
+               .Expanded();
 
             _runningCall.SetProgress(_streamedProgress);
 
@@ -36,7 +44,7 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                         TextBlock("ToolCall renders a single tool invocation inline. It behaves like an accordion: a compact header with an icon and label, expanding to reveal arbitrary content the first time it is clicked (the content component is created lazily). A ToolCall without content automatically renders as a plain, non-expandable chip — no chevron is shown until content is set."),
-                        TextBlock("ToolsUsed groups many ToolCalls behind a compact summary. Clicking it opens a popup with the list of tools on the left; selecting one slides to the detail view on the right, with a back button to return to the list."),
+                        TextBlock("ToolsUsed groups many ToolCalls behind a compact summary. Clicking it opens a popup with the list of tools on the left; selecting one slides to the detail view on the right, with a back button to return to the list. Inline() keeps it all in place instead: the summary expands into the calls underneath itself, each one opening its own content inline."),
                         TextBlock("ToolCallInspect is the ready-made body for a call: the arguments it was called with, one row per property, above the response it returned in a read-only code block. Each section scrolls on its own, and inside a ToolsUsed detail pane the arguments take at most half the height so a long response never scrolls them away.")
                     )).SetTitle("Overview")))
                 .FlatSection(Stack().Children(
@@ -74,6 +82,19 @@ namespace Tesserae.Tests.Samples
                             ToolCall(UIcons.Eye, "Read /home/user/needle/src/Needle/Tokenizer/Nee...", () => TextBlock("namespace Needle.Tokenizer;\n\npublic class NeedleTokenizer { ... }").BreakSpaces())
                         ).SetSummary("Ran 14 commands, read 9 files, used a tool").SetTitle("Tools used"),
 
+                        SampleSubTitle("Inline instead of a popup"),
+                        TextBlock("Inline() keeps the group where it is: the summary becomes an accordion that expands into the list of calls underneath itself, each one opening its own content inline the way a standalone ToolCall does. For a transcript where sending the reader to a modal for a one-line result is too much ceremony."),
+                        ToolsUsed(
+                            ToolCall(UIcons.Terminal, "Bash dotnet build", () => TextBlock("Build succeeded.\n    0 Warning(s)\n    0 Error(s)").BreakSpaces()),
+                            ToolCall(UIcons.Eye, "Read /home/user/needle/README.md", () => TextBlock("# Needle\n\nA tiny ML library written in C#.").BreakSpaces()),
+                            ToolCall(UIcons.FilePdf, "Consult 'SETR2025_web-240128.pdf'", () => ToolCallInspect(CONSULT_ARGUMENTS, CONSULT_RESPONSE)),
+                            ToolCall(UIcons.ListCheck, "Update todos") // still a plain, non-expandable row inside the list
+                        ).SetSummary("Used 4 tools").Inline(),
+
+                        TextBlock("Expanded() opens the list from the start, and a call arriving while it is open joins the list on screen - the way a live transcript appends to it as the calls come in."),
+                        _inlineTools,
+                        Button("Add a tool").OnClick(() => AddInlineTool()),
+
                         SampleSubTitle("Live progress while a call runs"),
                         TextBlock("A ToolCall can carry a LiveProgress line on its header row: SetProgress writes into the line already on screen, so a stream of updates never re-renders the call and never replays an animation. Hovering the line shows its full text; expanding the call still opens the content full width underneath."),
                         _runningCall,
@@ -106,6 +127,19 @@ namespace Tesserae.Tests.Samples
             if (_diffedCallOpen) call.Expanded();
 
             return VStack().NoDefaultMargin().Children(call);
+        }
+
+        // A call appended to a group that is already open inline lands in the list on screen, without the
+        // group being rebuilt around it.
+        private void AddInlineTool()
+        {
+            _addedTools++;
+
+            _inlineTools
+               .Add(ToolCall(UIcons.Globe, $"Fetch https://api.example.com/v1/items?page={_addedTools}",
+                             () => ToolCallInspect($@"{{ ""page"": {_addedTools}, ""timeoutMs"": 30000 }}", @"{ ""items"": [], ""hasMore"": false }")))
+               .SetSummary($"Used {2 + _addedTools} tools")
+               .Expand();
         }
 
         // Walks the demo through a few stages and then ends it with an empty progress. The lines on
