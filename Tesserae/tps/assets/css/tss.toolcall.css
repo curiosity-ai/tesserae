@@ -80,12 +80,24 @@
     background: var(--tss-default-background-color);
 }
 
-/* ToolsUsed — clickable summary that opens a list/detail modal */
+/* ToolsUsed — clickable summary that opens a list/detail modal, or expands in place when inline */
 
+/* The root only stacks the summary above the inline list; the pill lives on the header row, so it looks
+   the same whether or not there is a list underneath it. */
 .tss-toolsused {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 100%;
+    min-width: 0;
+    margin-bottom: 8px;
+}
+
+.tss-toolsused-header {
     display: inline-flex;
     align-items: center;
     gap: 10px;
+    max-width: 100%;
     padding: 6px 12px;
     border-radius: 999px;
     border: 1px solid var(--tss-default-border-color);
@@ -94,11 +106,15 @@
     user-select: none;
     color: var(--tss-colors-neutral-800, #1f2937);
     font-size: 13px;
-    margin-bottom: 8px;
 }
 
-.tss-toolsused:hover {
+.tss-toolsused-header:hover {
     background: var(--tss-default-background-hover-color);
+}
+
+.tss-toolsused-header:focus-visible {
+    outline: 2px solid var(--tss-primary-background-color);
+    outline-offset: 1px;
 }
 
 .tss-toolsused-icon {
@@ -127,6 +143,56 @@
 .tss-toolsused-chevron {
     color: var(--tss-colors-neutral-500, #6b7280);
     font-size: 12px;
+    flex-shrink: 0;
+}
+
+/* ToolsUsed inline mode — the tools expand under the summary instead of in a modal */
+
+.tss-toolsused-inline {
+    display: flex;
+    width: 100%;
+}
+
+.tss-toolsused-inline .tss-toolsused-chevron {
+    transition: transform 200ms ease;
+}
+
+.tss-toolsused-inline.tss-expanded .tss-toolsused-chevron {
+    transform: rotate(180deg);
+}
+
+/* Expanded, the calls are rows of one bordered list rather than separate chips - the same shape the
+   ContextCards list uses, so a transcript reads as one family of disclosures. */
+.tss-toolsused-inline-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    margin-top: 8px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-lg, 8px);
+    background: var(--tss-default-background-color);
+    overflow: hidden;
+}
+
+.tss-toolsused-inline-list > .tss-toolcall {
+    display: flex;
+    width: 100%;
+    margin-bottom: 0;
+    border: none;
+    border-radius: 0;
+}
+
+.tss-toolsused-inline-list > .tss-toolcall + .tss-toolcall {
+    border-top: 1px solid var(--tss-default-border-color);
+}
+
+.tss-toolsused-inline-list > .tss-toolcall > .tss-toolcall-header {
+    padding: 8px 12px;
+}
+
+.tss-toolsused-inline-list > .tss-toolcall > .tss-toolcall-content {
+    padding: 8px 12px 10px 12px;
 }
 
 /* ToolsUsed modal layout */
