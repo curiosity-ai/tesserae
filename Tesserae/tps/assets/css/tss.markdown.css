@@ -242,13 +242,15 @@
     font-family: var(--tss-monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace);
 }
 
-.tss-markdown code {
-    padding: 0.2em 0;
-    margin: 0;
-    font-size: 85%;
-    background-color: var(--tss-secondary-background-color);
-    border-radius: var(--tss-border-radius-sm);
-}
+    .tss-markdown code {
+        padding: 0.2em 0.1em;
+        margin: 1px;
+        font-weight: 700;
+        background-color: var(--tss-colors-neutral-100);
+        border-radius: var(--tss-border-radius-sm);
+        color: var(--tss-colors-neutral-900);
+        border: 1px solid var(--tss-colors-neutral-500)
+    }
 
 .tss-markdown pre {
     padding: 16px;
