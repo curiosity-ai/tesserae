@@ -33,7 +33,7 @@ namespace Tesserae.Tests.Samples
             {
                 var name = Sample.FormatSampleName(sampleType);
 
-                links.Add(Button(name).SetIcon(IconFor(sampleType)).OnClick(() => Router.Navigate(RouteFor(name))));
+                links.Add(Button(name).SetIcon(IconFor(sampleType)).OnClick(() => Router.Navigate(RouteFor(sampleType))));
             }
 
             return stack.FlatSection(VStack().WS().Children(
@@ -43,7 +43,7 @@ namespace Tesserae.Tests.Samples
         }
 
         // Mirrors the routes App.cs registers for every sample.
-        private static string RouteFor(string sampleName) => $"#/view/{sampleName}";
+        private static string RouteFor(Type sampleType) => $"#/view/{Sample.FormatSampleName(sampleType)}";
 
         // The icon a sample declares on its [SampleDetails], so a link looks like its sidebar entry.
         private static UIcons IconFor(Type sampleType)

@@ -84,8 +84,7 @@ namespace Tesserae
         /// </summary>
         public Dialog Commands(params IComponent[] content)
         {
-            content.Reverse();
-            _modal.SetFooter(Stack().HorizontalReverse().Children(content));
+            _modal.SetFooter(HStack().AlignItemsCenter().WS().HorizontalReverse().Children(content));
             return this;
         }
 
