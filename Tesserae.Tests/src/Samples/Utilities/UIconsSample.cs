@@ -38,8 +38,8 @@ namespace Tesserae.Tests.Samples
 
         private IEnumerable<IconItem> GetAllIcons()
         {
-            var      names  = Enum.GetNames(typeof(UIcons));
-            UIcons[] values = (UIcons[])Enum.GetValues(typeof(UIcons));
+            var      names  = Enum.GetNames<UIcons>();
+            UIcons[] values = Enum.GetValues<UIcons>();
 
             for (int i = 0; i < values.Length; i++)
             {

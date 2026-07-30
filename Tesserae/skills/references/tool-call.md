@@ -1,11 +1,11 @@
 ---
 name: tool-call
-description: An inline, accordion-style indicator of an AI tool invocation, a ToolsUsed summary that opens a list-and-detail modal, and ToolCallInspect for showing a call's arguments and response. Use when surfacing tool calls in a chat/assistant UI in a Tesserae (C#/Transpose) app.
+description: An inline, accordion-style indicator of an AI tool invocation, a ToolsUsed summary that opens a list-and-detail modal or expands its tools inline, and ToolCallInspect for showing a call's arguments and response. Use when surfacing tool calls in a chat/assistant UI in a Tesserae (C#/Transpose) app.
 ---
 
 # ToolCall / ToolsUsed / ToolCallInspect
 
-`ToolCall` is an inline tool-call row (icon + label + chevron) that expands to show its content; the content is built lazily the first time it expands. `ToolsUsed` is a compact "Used N tools" summary that opens a modal listing the tools, with a back/detail slide. `ToolCallInspect` is the ready-made body for a call — its arguments above its response — for use as either one's content.
+`ToolCall` is an inline tool-call row (icon + label + chevron) that expands to show its content; the content is built lazily the first time it expands. `ToolsUsed` is a compact "Used N tools" summary that opens a modal listing the tools, with a back/detail slide — or, with `.Inline()`, expands into the calls right where it stands. `ToolCallInspect` is the ready-made body for a call — its arguments above its response — for use as either one's content.
 
 Both carry an 8px bottom margin, so when you stack a pill above the answer text in a chat message you don't need to add your own top padding on the text.
 
@@ -45,7 +45,31 @@ the line on screen keeps the last text it was given.
 - `.SetSummary(label)` / `.SetTitle(title)` / `.SetIcon(icon)` — customise.
 - `.SetProgress(string)` / `.SetProgress(IObservable<string>)` / `.ClearProgress()` / `Progress` —
   same live progress line, on the summary pill.
-- `.Show()` / `.Hide()` — open/close the modal.
+- `.Inline()` — render the tools in place instead of in the modal (see below).
+- `.Show()` / `.Hide()` — open/close (the modal, or the inline list when `.Inline()` is set).
+- `.Expand()` / `.Collapse()` / `.Toggle()` / `.Expanded(bool)` / `.OnToggle(tu => ...)` —
+  the inline list's state; without `.Inline()` expanding opens the modal instead.
+- `IsInline`, `IsExpanded` — read state.
+
+### Inline instead of a modal
+
+`.Inline()` turns the summary into an accordion: it expands underneath itself into the list of
+`ToolCall`s, each one opening its own content inline the way a standalone call does — the calls
+themselves are what the list holds, so a reference you kept still drives the row on screen. Use it in a
+transcript where sending the reader to a modal for a one-line result is too much ceremony, and keep the
+modal for groups whose bodies need the room. A call added while the list is open joins it in place, so
+a live transcript can append as the calls come in.
+
+```csharp
+var tools = ToolsUsed(
+    ToolCall(UIcons.Terminal, "Bash dotnet build",
+        () => TextBlock("Build succeeded.").BreakSpaces()),
+    ToolCall(UIcons.Eye, "Read README.md",
+        () => TextBlock("# Needle").BreakSpaces())
+).Inline().Expanded();
+
+tools.Add(ToolCall(UIcons.Globe, "Fetch /v1/items", () => ToolCallInspect("{}", "{}")));
+```
 
 `ToolCallInspect`:
 

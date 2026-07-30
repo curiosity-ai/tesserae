@@ -31,6 +31,56 @@ namespace Tesserae.Tests.Samples
 
             OmniBox input = null;
 
+            // A message typed while the reply is still arriving is parked here instead of interrupting it,
+            // and sent as soon as the reply finishes. Only the latest one is kept.
+            var    queuedStack = VStack().WS().NoDefaultMargin().Style(s => s.opacity = "0.6");
+            string queuedText  = null;
+
+            void RenderQueue()
+            {
+                queuedStack.Clear();
+
+                if (string.IsNullOrEmpty(queuedText))
+                {
+                    queuedStack.Collapse();
+                    return;
+                }
+
+                queuedStack.Show();
+
+                // The (x) drops the queued message; clicking the bubble takes it back into the composer.
+                queuedStack.Add(ChatMessage(TextBlock("Queued: " + queuedText), Avatar(null, "U"))
+                   .RightAligned()
+                   .MaxWidth()
+                   .OnRemove(() => { queuedText = null; RenderQueue(); })
+                   .OnTapped(() =>
+                    {
+                        input.ChatText = queuedText;
+                        queuedText     = null;
+                        RenderQueue();
+                    }));
+            }
+
+            void SendUserMessage(string text)
+            {
+                // Anchor the user's turn: it settles near the top and the reply grows into the screen below it.
+                chatArea.Add(ChatMessage(TextBlock(text), Avatar(null, "U")).RightAligned().MaxWidth().ScrollAnchor());
+
+                input.IsGenerating = true;
+                AddAIAnswer();
+            }
+
+            void FlushQueue()
+            {
+                if (string.IsNullOrEmpty(queuedText)) return;
+
+                var next = queuedText;
+                queuedText = null;
+                RenderQueue();
+
+                SendUserMessage(next);
+            }
+
             void AddAIAnswer()
             {
                 cancelled = false;
@@ -62,6 +112,8 @@ namespace Tesserae.Tests.Samples
                     {
                         input.IsGenerating = false;
                         chatArea.Busy(false);
+                        // The reply is done, so whatever was typed while it streamed goes out now.
+                        FlushQueue();
                         return;
                     }
 
@@ -112,22 +164,30 @@ namespace Tesserae.Tests.Samples
                 TextBlock("I scanned the project, ran the build, and looked at routing options. Here's what I found:")
             ), Avatar(null, "AI")).MaxWidth());
 
+            RenderQueue();
+
             input = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
             {
                 PlaceholderChat = "Ask anything...",
                 IconStop = UIcons.Stop,
-                IconChat = UIcons.ArrowRight
+                IconChat = UIcons.ArrowRight,
+                // With this on, sending while a reply is arriving no longer stops it — the trigger keeps
+                // offering "send" as long as there is text, and this sample queues what it hands over.
+                AllowSendWhileGenerating = true
             })
             .OnChat((sender, msg) =>
             {
                 var text = msg.Text;
                 if (string.IsNullOrWhiteSpace(text)) return;
 
-                // Anchor the user's turn: it settles near the top and the reply grows into the screen below it.
-                chatArea.Add(ChatMessage(TextBlock(text), Avatar(null, "U")).RightAligned().MaxWidth().ScrollAnchor());
+                if (sender.IsGenerating)
+                {
+                    queuedText = text;
+                    RenderQueue();
+                    return;
+                }
 
-                sender.IsGenerating = true;
-                AddAIAnswer();
+                SendUserMessage(text);
             })
             .OnStop((sender) =>
             {
@@ -137,6 +197,7 @@ namespace Tesserae.Tests.Samples
 
             var chatContainer = VStack().WS().H(10).Grow().Children(
                 chatArea.WS().H(10).Grow(),
+                queuedStack,
                 input.WS().H(150)
             );
 
