@@ -52,6 +52,14 @@ ChatMessage:
 - `.KeepVisible()` — keep this message at the live edge while it streams (respects the reader's
   scroll — a no-op if they scrolled away).
 - `.Background(string)` — this bubble's background.
+- `.OnRemove(Action)` / `.OnRemove(Action<ChatMessage>)` — adds a round (x) button hanging off the
+  bubble's outer top corner (fading in while the message is hovered or focused, always visible on
+  touch) and calls the handler when it is clicked. The message does **not** remove itself: the
+  handler owns the list it came from. `.Removable(bool)` toggles the button without dropping the
+  handler, `.NoRemove()` takes it away, `.IsRemovable` reads the state. Use it for a message the
+  reader can take back — a queued message that hasn't been sent yet, a host notice they can clear.
+  The click is stopped on the button, so a bubble that is itself clickable (`.OnTapped(...)`) does
+  not also fire.
 
 ## Example
 
@@ -69,6 +77,21 @@ chat.Busy(true);
 reply.ReplaceContent(TextBlock("Hello, how can I help?")); // call repeatedly to stream
 reply.KeepVisible();
 chat.Busy(false);
+```
+
+## Queueing a message typed mid-reply
+
+An `OmniBox` configured with `AllowSendWhileGenerating = true` (see `omni-box.md`) keeps sending
+while a reply streams instead of stopping it, which lets the host park that message and send it when
+the turn finishes. Show it in its own stack under the transcript, distinct from the messages already
+in it, with an (x) to drop it and a click to bring it back into the composer:
+
+```csharp
+var queued = ChatMessage(TextBlock(text), Avatar(null, "U")).RightAligned().MaxWidth()
+   .OnRemove(() => DropQueued())                     // (x) — the queue is the handler's to update
+   .OnTapped(() => { composer.ChatText = text; DropQueued(); });
+
+queuedStack.Add(queued);                              // a VStack below the ChatArea
 ```
 
 ## Related

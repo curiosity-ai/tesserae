@@ -467,6 +467,13 @@ namespace Tesserae
             /// The elapsed time is appended after it, e.g. "Generating, 1m 25s".
             /// </summary>
             public string GeneratingText { get; set; }
+            /// <summary>
+            /// Gets or sets whether a message typed while a reply is generating is sent instead of the
+            /// trigger stopping that reply — for a host that queues it for the turn in flight. The trigger
+            /// keeps offering "stop" while the input is empty, and turns back into "send" as soon as there
+            /// is something to send. Off by default, so the trigger always stops while generating.
+            /// </summary>
+            public bool AllowSendWhileGenerating { get; set; }
 
             /// <summary>
             /// Gets or sets the chat footer.
@@ -618,6 +625,7 @@ namespace Tesserae
         private readonly IconToggle<Mode> _modeToggle;
         private readonly bool _tokenIgnoreCase;
         private bool _isGenerating = false;
+        private bool _allowSendWhileGenerating = false;
         private readonly UIcons _iconChat;
         private readonly UIcons _iconStop;
         private HTMLElement _generatingText;
@@ -671,6 +679,7 @@ namespace Tesserae
             _tokenIgnoreCase = config.TokenIgnoreCase;
             _iconChat = config.IconChat;
             _iconStop = config.IconStop;
+            _allowSendWhileGenerating = config.AllowSendWhileGenerating;
             _generatingLabel = config.GeneratingText ?? "Generating";
             _suggestionsFetcher = config.SuggestionsFetcher;
 
@@ -2609,7 +2618,7 @@ namespace Tesserae
 
         private void TriggerChat()
         {
-            if (_isGenerating)
+            if (_isGenerating && !CanSendWhileGenerating)
             {
                 TriggerStop();
                 return;
@@ -2621,6 +2630,10 @@ namespace Tesserae
             ResizeChatInput();
         }
 
+        // While generating, the trigger sends instead of stopping only when the host asked for it and
+        // there is actually something to send - an empty input still offers "stop".
+        private bool CanSendWhileGenerating => _allowSendWhileGenerating && _chatInput != null && !string.IsNullOrWhiteSpace(_chatInput.value);
+
         private void UpdateChatTriggerActiveState()
         {
             if (_chatTriggerBtn == null || _chatInput == null) return;
@@ -2628,6 +2641,25 @@ namespace Tesserae
             var el = _chatTriggerBtn.Render();
             if (hasText) el.classList.add("tss-omnibox-chat-btn-active");
             else el.classList.remove("tss-omnibox-chat-btn-active");
+
+            // What the trigger does while generating depends on whether there is text, so typing (or
+            // clearing) the input is what flips it between "send" and "stop".
+            UpdateChatTriggerIcon();
+        }
+
+        private void UpdateChatTriggerIcon()
+        {
+            if (_chatTriggerBtn == null) return;
+
+            if (_isGenerating && !CanSendWhileGenerating)
+            {
+                _chatTriggerBtn.SetIcon(_iconStop).Danger();
+            }
+            else
+            {
+                _chatTriggerBtn.SetIcon(_iconChat);
+                _chatTriggerBtn.IsDanger = false;
+            }
         }
 
         // Maximum height (in px) the chat input grows to before it starts scrolling internally.
@@ -2908,19 +2940,13 @@ namespace Tesserae
             {
                 if (_isGenerating == value) return;
                 _isGenerating = value;
+
+                UpdateChatTriggerIcon();
+
                 if (_chatTriggerBtn != null)
                 {
-                    if (value)
-                    {
-                        _chatTriggerBtn.SetIcon(_iconStop).Danger();
-                        _container.classList.add("tss-omnibox-generating");
-                    }
-                    else
-                    {
-                        _chatTriggerBtn.SetIcon(_iconChat);
-                        _chatTriggerBtn.IsDanger = false;
-                        _container.classList.remove("tss-omnibox-generating");
-                    }
+                    if (value) _container.classList.add("tss-omnibox-generating");
+                    else       _container.classList.remove("tss-omnibox-generating");
                 }
 
                 if (value)
@@ -2931,6 +2957,22 @@ namespace Tesserae
                 {
                     StopGeneratingTimer();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets whether a message typed while <see cref="IsGenerating"/> is set is sent instead of
+        /// the trigger stopping the reply in flight — for a host that queues it for the turn in progress.
+        /// The trigger still offers "stop" while the input is empty.
+        /// </summary>
+        public bool AllowSendWhileGenerating
+        {
+            get => _allowSendWhileGenerating;
+            set
+            {
+                if (_allowSendWhileGenerating == value) return;
+                _allowSendWhileGenerating = value;
+                UpdateChatTriggerIcon();
             }
         }
 

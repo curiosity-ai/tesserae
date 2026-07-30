@@ -519,6 +519,13 @@ namespace Tesserae
         }
     }
 
+    /// <summary>
+    /// One bubble in a <see cref="ChatArea"/>: content (wrapped in a <see cref="DeltaComponent"/>, so it
+    /// can be replaced repeatedly while a reply streams), an optional avatar, and an optional commands
+    /// slot beside it. Passing a remove handler to <see cref="OnRemove(Action{ChatMessage})"/> adds a
+    /// round (x) button hanging just off the bubble's outer top corner, for a message the reader can take
+    /// back — a queued message that hasn't been sent yet, a notice they can clear.
+    /// </summary>
     [Transpose.Name("tss.ChatMessage")]
     public class ChatMessage : IComponentWithID, IComponent
     {
@@ -530,6 +537,9 @@ namespace Tesserae
         private DeltaComponent _deltaComponent;
         private IComponent _currentContent;
         private ChatArea _parent;
+        private HTMLButtonElement _removeButton;
+
+        private event Action<ChatMessage> RemoveRequested;
 
         /// <summary>
         /// Gets or sets the identifier.
@@ -549,6 +559,11 @@ namespace Tesserae
         /// Gets whether this message is a turn boundary that the transcript should settle near the top when a new turn begins.
         /// </summary>
         public bool IsAnchor { get; private set; }
+
+        /// <summary>
+        /// Gets whether the bubble carries a remove (x) button.
+        /// </summary>
+        public bool IsRemovable => _removeButton != null;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -608,6 +623,69 @@ namespace Tesserae
         {
             _deltaComponent.Animated();
             return this;
+        }
+
+        /// <summary>
+        /// Registers a callback invoked when the user clicks the bubble's remove button, and adds that
+        /// button to the bubble if it isn't there yet. The message does not remove itself — the handler
+        /// owns whatever list the message came from, so it can drop it there and rebuild the transcript.
+        /// </summary>
+        public ChatMessage OnRemove(Action<ChatMessage> onRemove)
+        {
+            RemoveRequested += onRemove;
+            EnsureRemoveButton();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a callback invoked when the user clicks the bubble's remove button, and adds that
+        /// button to the bubble if it isn't there yet.
+        /// </summary>
+        public ChatMessage OnRemove(Action onRemove) => OnRemove(_ => onRemove?.Invoke());
+
+        /// <summary>
+        /// Configures whether the bubble shows a remove (x) button. Turning it off keeps any handler
+        /// registered with <see cref="OnRemove(Action{ChatMessage})"/>, so turning it back on restores
+        /// the same behaviour.
+        /// </summary>
+        public ChatMessage Removable(bool value = true)
+        {
+            if (value)
+            {
+                EnsureRemoveButton();
+            }
+            else if (_removeButton != null)
+            {
+                _innerElement.classList.remove("tss-chatmessage-removable");
+                _bubbleContainer.removeChild(_removeButton);
+                _removeButton = null;
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Configures the component to show no remove button.
+        /// </summary>
+        public ChatMessage NoRemove() => Removable(false);
+
+        private void EnsureRemoveButton()
+        {
+            if (_removeButton != null) return;
+
+            _removeButton = Button(Att("tss-chatmessage-remove", type: "button", ariaLabel: "Remove"), I(UIcons.CrossSmall));
+
+            _removeButton.addEventListener("click", ev =>
+            {
+                // The bubble itself can be clickable (a queued message tapped to bring it back into the
+                // composer), so removing it must not read as opening it.
+                StopEvent(ev);
+                RemoveRequested?.Invoke(this);
+            });
+
+            _bubbleContainer.appendChild(_removeButton);
+            _innerElement.classList.add("tss-chatmessage-removable");
         }
         internal void SetParent(ChatArea parent)
         {
