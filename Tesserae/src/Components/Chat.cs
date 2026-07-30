@@ -684,6 +684,11 @@ namespace Tesserae
                 RemoveRequested?.Invoke(this);
             });
 
+            // A gesture recogniser (.OnTapped) reads pointer events, which a stopped click does not cover:
+            // without this, removing the message would also register as a tap on the bubble. The press is
+            // only kept from bubbling - the button's own click still fires.
+            _removeButton.addEventListener("pointerdown", ev => ev.stopImmediatePropagation());
+
             _bubbleContainer.appendChild(_removeButton);
             _innerElement.classList.add("tss-chatmessage-removable");
         }
