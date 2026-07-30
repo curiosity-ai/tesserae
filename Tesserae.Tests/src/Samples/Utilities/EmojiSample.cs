@@ -38,7 +38,7 @@ namespace Tesserae.Tests.Samples
         private IEnumerable<IconItem> GetAllIcons()
         {
             var     names  = Enum.GetNames(typeof(Emoji));
-            Emoji[] values = (Emoji[])Enum.GetValues(typeof(Emoji));
+            Emoji[] values = Enum.GetValues<Emoji>();
 
             for (int i = 0; i < values.Length; i++)
             {
