@@ -43,9 +43,10 @@ OmniBox:
 - `.SetSearchRightText(string)` — a label at the far end of the search input, e.g. a result count.
 - `.Rounded(BorderRadius radius = BorderRadius.Full)` — rounds the box, and everything meeting its
   outline follows: the search container, the buttons at its ends and the "Ask AI" button. `Full` makes
-  the single-row search box a pill (and drops the vertical dividers between its buttons); on the
-  multi-row chat layouts, where a stadium shape would curve through the input, it settles for a
-  generously rounded rectangle instead.
+  the single-row search box a pill — dropping the vertical dividers between its buttons and giving the
+  row a taller, roomier 48px (still overridable with `.Height(...)` / `.H(...)`); on the multi-row chat
+  layouts, where a stadium shape would curve through the input, it settles for a generously rounded
+  rectangle and pulls the footer clear of the corners.
 - `.WithAskAI(string text = "Ask AI", UIcons icon = UIcons.Beacon, Action<OmniBox> onClick = null)` — a
   primary-styled button at the end of the search input (search modes only), following the box's
   roundness. The handler gets the OmniBox, so it can read `.SearchText`. In `SearchAndChat` the button
