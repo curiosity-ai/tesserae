@@ -1,0 +1,106 @@
+/* PagesStack — a fanning stack of page thumbnails, sized to the width the fan needs. */
+
+.tss-pagesstack-holder {
+    position: relative;
+    display: block;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin: 2px 0 0 auto;
+    pointer-events: none; /* only the pages themselves are hoverable, not the reserved rail */
+}
+
+.tss-pagesstack-holder.tss-pagesstack-empty {
+    display: none;
+}
+
+.tss-pagesstack {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: flex-end;
+    width: max-content;
+    pointer-events: auto;
+}
+
+.tss-pagesstack-page {
+    position: relative;
+    flex-grow: 0;
+    flex-shrink: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 4px;
+    background: var(--tss-secondary-background-color);
+    box-shadow: -2px 0 6px rgba(31, 31, 31, .10);
+    margin-left: var(--tss-pagesstack-rest-offset, 0px);
+    transform: rotate(var(--tss-pagesstack-rest-rotation, 0deg));
+    transition: margin-left 240ms cubic-bezier(.22, 1, .36, 1),
+                transform 240ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.tss-pagesstack-page:hover {
+    border-color: var(--tss-dark-border-color);
+}
+
+/* Faux text ruling, for a page with no thumbnail to show. */
+.tss-pagesstack-lines {
+    display: block;
+    height: 100%;
+    margin: 5px 5px 0;
+    background: repeating-linear-gradient(to bottom,
+        var(--tss-default-border-color) 0 2px,
+        transparent 2px 7px);
+}
+
+.tss-pagesstack-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Fanned — wider gaps and an arc lift. Driven by :hover on the stack, or by the class a host sets when
+   it wants the fan to follow hovering something larger (a whole result row). */
+.tss-pagesstack:hover > .tss-pagesstack-page,
+.tss-pagesstack-fanned .tss-pagesstack-page {
+    margin-left: var(--tss-pagesstack-fan-offset, 0px);
+    transform: translateY(var(--tss-pagesstack-fan-lift, 0px)) rotate(var(--tss-pagesstack-fan-rotation, 0deg));
+}
+
+/* The overflow count is absolute, so it never widens the rail. */
+.tss-pagesstack-more {
+    position: absolute;
+    right: 0;
+    top: -2px;
+    z-index: 20;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    color: var(--tss-default-foreground-color);
+    background: var(--tss-default-background-color);
+    pointer-events: none;
+}
+
+/* A page has to read as paper against the row it sits on, which under a dark theme means lifting it off
+   the background rather than tinting it down. */
+.tss-dark-mode .tss-pagesstack-page {
+    background: color-mix(in srgb, var(--tss-default-foreground-color) 14%, var(--tss-secondary-background-color));
+    border-color: var(--tss-dark-border-color);
+    box-shadow: -2px 0 6px rgba(0, 0, 0, .35);
+}
+
+.tss-dark-mode .tss-pagesstack-lines {
+    background: repeating-linear-gradient(to bottom,
+        color-mix(in srgb, var(--tss-default-foreground-color) 20%, transparent) 0 2px,
+        transparent 2px 7px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-pagesstack-page {
+        transition: none;
+    }
+}
