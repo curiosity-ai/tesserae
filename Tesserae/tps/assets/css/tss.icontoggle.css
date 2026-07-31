@@ -1,0 +1,155 @@
+/* IconToggle — a segmented control where exactly one item is selected.
+
+   Visually it follows the same language as SegmentedPivot: the control itself is an inset track in a
+   shade of the secondary background, out of which the selected item is lifted as a raised pill in the
+   default background. Geometry and icon size come entirely from the custom properties below, so the
+   size and roundness variants only need to re-declare those. */
+.tss-icon-toggle {
+    --tss-icon-toggle-radius: var(--tss-border-radius-lg);
+    --tss-icon-toggle-inset: 3px;
+    --tss-icon-toggle-height: 26px;
+    --tss-icon-toggle-padding: 8px;
+    --tss-icon-toggle-icon-size: 13px;
+    box-sizing: border-box;
+    width: fit-content;
+    padding: var(--tss-icon-toggle-inset);
+    border-radius: var(--tss-icon-toggle-radius);
+    /* The secondary background is only a few levels off the default one, which would leave the
+       selected pill barely visible against its track — a touch of the foreground pulls them apart,
+       in both themes. */
+    background: color-mix(in srgb, var(--tss-default-foreground-color) 7%, var(--tss-secondary-background-color));
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* The items are Buttons, so the shared .tss-btn look (min-width, own shadow, hover background) has
+   to be unwound before the segment styling can take over. The selectors go through .tss-stack-item
+   because Stack wraps every child, and they carry enough classes to outrank .tss-btn-default's own
+   states without needing !important. */
+.tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item {
+    min-width: 0;
+    min-height: var(--tss-icon-toggle-height);
+    height: var(--tss-icon-toggle-height);
+    margin: 0;
+    padding: 0 var(--tss-icon-toggle-padding);
+    border: none;
+    border-radius: calc(var(--tss-icon-toggle-radius) - var(--tss-icon-toggle-inset));
+    background: transparent;
+    box-shadow: none;
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-semibold);
+    white-space: nowrap;
+    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+    .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item > i {
+        color: inherit;
+        font-size: var(--tss-icon-toggle-icon-size);
+    }
+
+    /* The 10px the shared button style puts between icon and label is too airy at this scale. */
+    .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item > i + span:not(:empty) {
+        margin-left: 6px;
+        min-width: 0;
+    }
+
+    .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+        background-color: color-mix(in srgb, var(--tss-default-foreground-color) 8%, transparent);
+        color: var(--tss-default-foreground-color);
+    }
+
+    .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):active {
+        background-color: color-mix(in srgb, var(--tss-default-foreground-color) 14%, transparent);
+    }
+
+    .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+    .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+        background: var(--tss-default-background-color);
+        color: var(--tss-default-foreground-color);
+        box-shadow: var(--tss-shadow-sm);
+    }
+
+    /* In the dark theme the default background is darker than the track, and a pill darker than what
+       it sits in reads as recessed rather than raised — so there the selection goes lighter instead. */
+    .tss-dark-mode .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+    .tss-dark-mode .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+        background: color-mix(in srgb, var(--tss-default-foreground-color) 22%, var(--tss-secondary-background-color));
+    }
+
+    /* The dark theme's secondary foreground is the same colour as the default one, so an unselected
+       item needs dimming of its own to keep the selection readable. */
+    .tss-dark-mode .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):not(:hover) {
+        color: color-mix(in srgb, var(--tss-default-foreground-color) 70%, var(--tss-secondary-background-color));
+    }
+
+    /* The segment styling above always wins over .tss-btn:focus's ring (it sets box-shadow), so the
+       keyboard affordance is an outline instead. */
+    .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item:focus-visible {
+        outline: 2px solid var(--tss-primary-background-color);
+        outline-offset: -1px;
+    }
+
+    .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item.tss-disabled {
+        background: transparent;
+        box-shadow: none;
+        color: var(--tss-disabled-foreground-color);
+    }
+
+/* Size variants */
+.tss-icon-toggle.tss-icon-toggle-compact {
+    --tss-icon-toggle-radius: var(--tss-border-radius-md);
+    --tss-icon-toggle-inset: 2px;
+    --tss-icon-toggle-height: 22px;
+    --tss-icon-toggle-padding: 6px;
+    --tss-icon-toggle-icon-size: 11px;
+}
+
+.tss-icon-toggle.tss-icon-toggle-large {
+    --tss-icon-toggle-radius: var(--tss-border-radius-xl);
+    --tss-icon-toggle-inset: 4px;
+    --tss-icon-toggle-height: 32px;
+    --tss-icon-toggle-padding: 12px;
+    --tss-icon-toggle-icon-size: 15px;
+}
+
+/* .Rounded(...) sets the track radius through the shared .tss-rounded-* classes; the segments derive
+   theirs from this variable, so it has to follow along. */
+.tss-icon-toggle.tss-rounded-sm {
+    --tss-icon-toggle-radius: var(--tss-border-radius-sm);
+}
+
+.tss-icon-toggle.tss-rounded-md {
+    --tss-icon-toggle-radius: var(--tss-border-radius-md);
+}
+
+.tss-icon-toggle.tss-rounded-full {
+    --tss-icon-toggle-radius: var(--tss-border-radius-full);
+}
+
+/* Vertical: every segment takes the width of the widest one, so the pills line up as a rail. */
+.tss-icon-toggle.tss-icon-toggle-vertical > .tss-stack-item {
+    align-self: stretch;
+}
+
+.tss-icon-toggle.tss-icon-toggle-vertical > .tss-stack-item > .tss-btn.tss-icon-toggle-item {
+    width: 100%;
+}
+
+/* Full width: the track fills its container and the segments share it equally. */
+.tss-icon-toggle.tss-icon-toggle-full-width {
+    width: 100%;
+}
+
+    .tss-icon-toggle.tss-icon-toggle-full-width > .tss-stack-item {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .tss-icon-toggle.tss-icon-toggle-full-width > .tss-stack-item > .tss-btn.tss-icon-toggle-item {
+        width: 100%;
+    }
+
+.tss-icon-toggle.tss-icon-toggle-disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}

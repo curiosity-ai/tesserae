@@ -22,6 +22,10 @@ Config (set via object initializer):
 - `PlaceholderSearch` / `PlaceholderChat`, `ExpandOnFocus`, `TokenIgnoreCase`.
 - `SuggestionsFetcher = async input => OmniBoxSuggestionItem[]` — autocomplete source.
 - `IconSearch` / `IconChat` / `IconStop`, `SearchFooter` / `ChatFooter` (`FooterItems`).
+- `IconModeToggleChat` / `IconModeToggleSearch`, `TooltipModeToggleChat` / `TooltipModeToggleSearch`,
+  `TextModeToggleChat` / `TextModeToggleSearch` — the `SearchAndChat` mode selector in the footer (an
+  `IconToggle`, see `icon-toggle.md`). It is icon-only unless a text is set, and it takes the box's
+  roundness, so `.Rounded(BorderRadius.Full)` gives a pill-shaped selector.
 - `ChatHeader` (`IComponent`) — rendered inside the box above the chat input: what the message is being written against, e.g. a compact `ContextCards` group of the attached documents. Swap it later with `.SetChatHeader(component)`, or pass `null` to empty the slot — it takes up no space while empty. For individual cards *below* the input, use `.WithContextToAdd(...)`.
 - `GeneratingText` — label shown in the footer while generating (default `"Generating"`); the live elapsed time is appended, e.g. `"Generating, 1m 25s"`.
 - `AllowSendWhileGenerating` (default `false`) — when set, typing a message while `IsGenerating` is true sends it (`OnChat` fires) instead of the trigger stopping the reply, so the host can queue it for the turn in flight. The trigger still shows the stop icon while the input is empty and turns back into the send icon as soon as there is text.

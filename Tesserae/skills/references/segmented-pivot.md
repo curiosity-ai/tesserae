@@ -43,4 +43,5 @@ var pivot = SegmentedPivot()
 
 - Pivot — `pivot.md`
 - CardPivot — `card-pivot.md`
+- IconToggle (same look, for a plain value instead of content panes) — `icon-toggle.md`
 - Full docs & API: `/tesserae/surfaces/segmented-pivot`

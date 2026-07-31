@@ -455,6 +455,14 @@ namespace Tesserae
             /// </summary>
             public string TooltipModeToggleChat { get; set; }
             /// <summary>
+            /// Gets or sets a label to show next to the search icon in the mode selector. Icon-only when null.
+            /// </summary>
+            public string TextModeToggleSearch { get; set; }
+            /// <summary>
+            /// Gets or sets a label to show next to the chat icon in the mode selector. Icon-only when null.
+            /// </summary>
+            public string TextModeToggleChat { get; set; }
+            /// <summary>
             /// Gets or sets the expand on focus.
             /// </summary>
             public bool ExpandOnFocus { get; set; }
@@ -693,7 +701,9 @@ namespace Tesserae
 
             if (_mode == Mode.SearchAndChat)
             {
-                _modeToggle = IconToggle(IconToggleItem(config.IconModeToggleChat, config.TooltipModeToggleChat, Mode.Chat), IconToggleItem(config.IconModeToggleSearch, config.TooltipModeToggleSearch, Mode.Search));
+                _modeToggle = IconToggle(
+                    IconToggleItem(config.IconModeToggleChat, config.TooltipModeToggleChat, Mode.Chat, config.TextModeToggleChat),
+                    IconToggleItem(config.IconModeToggleSearch, config.TooltipModeToggleSearch, Mode.Search, config.TextModeToggleSearch)).Class("tss-omnibox-mode-toggle");
                 _modeToggle.Select(_activeMode.Value);
                 _modeToggle.AsObservable().ObserveFutureChanges(v => _activeMode.Value = v);
                 _footer.appendChild(_modeToggle.Render());

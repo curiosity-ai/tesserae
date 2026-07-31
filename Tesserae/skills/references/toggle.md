@@ -43,4 +43,5 @@ var component = Stack().Children(
 
 - ToggleButton — `.toggle-button.md`
 - CheckBox — `.check-box.md`
+- IconToggle (a segmented control of icons, one selected) — `icon-toggle.md`
 - Full docs & API: `/tesserae/components/toggle`
