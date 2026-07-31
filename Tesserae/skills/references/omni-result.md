@@ -54,8 +54,13 @@ theme: a `var(--…)` is resolved once, at the time it is set.
 
 **Footer**
 
-- `.SetSource(string color, string text)` — a small rounded square in that color plus the text, at the
-  footer's start. Null or empty text drops it.
+- `.SetSource(string color, string text, Action<OmniResult<T>> onClick = null)` — a small rounded square
+  in that color plus the text, at the footer's start. Null or empty text drops it. Given a handler the
+  source becomes clickable — scoping the search to it is the usual thing to do — with its own tab stop,
+  Enter/Space, and an underline on hover; the click never also counts as opening the result.
+- `.OnSourceClick(Action<OmniResult<T>>)` — the same handler on its own (null makes the source plain
+  text again). `SetSource` only replaces the handler when it is given one, so the two compose in either
+  order.
 - `.SetFooterEntries(params string[])` / `.SetFooterEntries(params IComponent[])` — the metadata after
   the source: a path, a size, an owner, a date. Dots between entries are drawn by CSS, so nothing has
   to interleave separators, and a footer with no source never starts with one.
@@ -86,6 +91,14 @@ theme: a `var(--…)` is resolved once, at the time it is set.
   — one or two buttons before the `[...]`, `OnHover` (default) or `AlwaysVisible`. The space is
   reserved either way.
 
+**Contribution bar**
+
+- `.SetContributionBar(ContributionBar)` / `Contribution` — a `ContributionBar` under the footer,
+  spanning the text column (so it lines up with the title and the excerpt rather than running under the
+  icon and the pages rail). The row's place for a relevance breakdown: how much of the score came from
+  the title, the content, recency, how often the document is opened. Its own toggle never counts as a
+  click on the row, so `Collapsable()` works inside a row of results. Pass null to take it away.
+
 **Page preview**
 
 - `.SetPages(PagesStack)` — pinned to the row's end, inside a rail wide enough for the fan (see
@@ -108,8 +121,15 @@ foreach (var hit in results)
         .SetBadge($"{hit.Matches} matches in text")
         .SetText(hit.Excerpt)
         .HighlightWords(terms)
-        .SetSource("#0061d5", hit.Source)
+        .SetSource("#0061d5", hit.Source, r => ScopeSearchTo(r.Result.Source))   // clickable source
         .SetFooterEntries(hit.Path, hit.Size, hit.Owner, hit.Modified)
+        .SetContributionBar(ContributionBar()
+            .Add("Title match", hit.TitleScore)
+            .Add("Content match", hit.ContentScore)
+            .Add("Recency", hit.RecencyScore)
+            .Max(100)
+            .Decimals(0)
+            .Collapsable())                                                      // one line until asked
         .SetPages(PagesStack(5).TotalPages(hit.Pages))
         .Selectable(OmniResultSelectionMode.OnHoverBeforeIcon)
         .OnSelectionChanged((r, isSelected) => RefreshActionBar())
@@ -146,6 +166,7 @@ var pick = OmniResult(file, file.Name)
 - ResourceCard (the larger, tile-shaped resource summary) — `resource-card.md`
 - ContextCard (the compact chat-attachment card) — `context-card.md`
 - Badge — what `SetBadge(IComponent)` takes — `badge.md`
+- ContributionBar — the score breakdown under the footer — `contribution-bar.md`
 - CheckBox — the selection control — `check-box.md`
 - DetailsList / SearchableList (when the results are really a table or a grid) — `details-list.md`, `searchable-list.md`
 - Full docs & API: `/tesserae/components/omni-result`

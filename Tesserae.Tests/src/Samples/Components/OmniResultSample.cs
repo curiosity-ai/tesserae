@@ -21,6 +21,9 @@ namespace Tesserae.Tests.Samples
         // "Commands" section.
         private readonly TextBlock _lastCommand;
 
+        // "Source" section.
+        private readonly TextBlock _sourceState;
+
         private static readonly Hit[] Hits =
         {
             new Hit("brake-sensor-reports", null, UIcons.Folder, "#6366f1", "Name match",
@@ -56,6 +59,7 @@ namespace Tesserae.Tests.Samples
         {
             _selectionState = TextBlock("Nothing selected.").Small().Foreground(Theme.Secondary.Foreground);
             _lastCommand    = TextBlock("No command run yet.").Small().Foreground(Theme.Secondary.Foreground);
+            _sourceState    = TextBlock("No source clicked yet.").Small().Foreground(Theme.Secondary.Foreground);
 
             _content = SectionStack().Secondary()
                 .SampleTitle(typeof(OmniResultSample), UIcons.LayoutFluid, "Search-result rows with highlighted excerpts, a source footer, selection, commands and a page preview")
@@ -65,6 +69,8 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(VStack().WS().Children(NoPages()))
                 .FlatSection(VStack().WS().Children(TitleOnly()))
                 .FlatSection(VStack().WS().Children(Tiles()))
+                .FlatSection(VStack().WS().Children(Sources()))
+                .FlatSection(VStack().WS().Children(Contributions()))
                 .FlatSection(VStack().WS().Children(Highlighting()))
                 .FlatSection(VStack().WS().Children(Selection()))
                 .FlatSection(VStack().WS().Children(Commands()))
@@ -143,6 +149,77 @@ namespace Tesserae.Tests.Samples
                     OmniResult(Hits[6], "brake-calibration-log.txt").SetIcon("TXT", "#94a3b8").SetSource("#0061d5", "Box").SetFooterEntries("A grey color stays grey in both themes"),
                     OmniResult(Hits[0], "curiosity-logo.svg").SetIcon(Image("./assets/img/curiosity-logo.svg")).SetSource("#0061d5", "Box").SetFooterEntries("SetIcon(IComponent) — a thumbnail covers the tile"),
                     OmniResult(Hits[0], "brake-sensor-reports").SetIcon(UIcons.Folder).SetSource("#0061d5", "Box").SetFooterEntries("No color: the tile falls back to the theme's own")));
+        }
+
+        // ---------- Sources ----------
+
+        private IComponent Sources()
+        {
+            return FeatureCard("Sources", "Naming where a result came from, and scoping to it",
+                "SetSource(color, text) puts a small rounded square in that color and the source's name at the start of the footer. Passing a handler as well makes the source clickable — scoping the search to it is the usual thing to do — without the click counting as opening the result: it takes a tab stop of its own, answers Enter and Space, and underlines while hovered. OnSourceClick(handler) sets the same handler on its own, and OnSourceClick(null) makes the source plain text again.",
+                VStack().WS().Children(
+                    OmniResult(Hits[1], "A clickable source — click \"Box\"")
+                        .SetIcon(UIcons.FilePdf, "#ef4444")
+                        .SetSource("#0061d5", "Box", r => ReportSource("Box", r))
+                        .SetFooterEntries(Hits[1].Metadata)
+                        .OnClick((r, _) => Toast().Information($"Opening {r.Result.Title}")),
+                    OmniResult(Hits[2], "Another source, another color")
+                        .SetIcon("XLSX", "#16a34a")
+                        .SetSource("#1a73e8", "Drive", r => ReportSource("Drive", r))
+                        .SetFooterEntries(Hits[2].Metadata)
+                        .OnClick((r, _) => Toast().Information($"Opening {r.Result.Title}")),
+                    OmniResult(Hits[3], "A plain source — nothing to click")
+                        .SetIcon("DOCX", "#3b82f6")
+                        .SetSource("#7b83eb", "Teams")
+                        .SetFooterEntries(Hits[3].Metadata)
+                        .OnClick((r, _) => Toast().Information($"Opening {r.Result.Title}")),
+                    OmniResult(Hits[6], "No source at all — the footer starts with its first entry")
+                        .SetIcon("TXT", "#94a3b8")
+                        .SetFooterEntries(Hits[6].Metadata)),
+                _sourceState.MT(8));
+        }
+
+        private void ReportSource(string source, OmniResult<Hit> row)
+        {
+            _sourceState.Text = $"Scoping the search to {source}, from \"{row.Result.Title}\".";
+            Toast().Information(_sourceState.Text);
+        }
+
+        // ---------- Contribution bars ----------
+
+        private IComponent Contributions()
+        {
+            return FeatureCard("Contribution bar", "What the score is made of, under the footer",
+                "SetContributionBar attaches a ContributionBar below the footer, spanning the text column so it lines up with the title and the excerpt rather than running under the icon and the pages rail. It is the row's place for a relevance breakdown: how much of the score came from the title, the content, how recent the document is, how often it is opened. Clicking the bar's own toggle never counts as opening the result.",
+                VStack().WS().Children(
+                    Row(Hits[1], withText: false, withPages: false)
+                        .SetContributionBar(Relevance()),
+                    Row(Hits[2], withText: false, withPages: false)
+                        .SetContributionBar(Relevance().ShowValues(false)),
+                    Row(Hits[3], withText: false, withPages: false)
+                        .SetContributionBar(Relevance().HideLegend().Thickness(6.px()))),
+                TextBlock("Collapsable(), for a list that should read as one line per result until a breakdown is asked for — the first expands in place, the second shows it in a popover on hover:").Small().MT(12).MB(8),
+                VStack().WS().Children(
+                    Row(Hits[5], withText: false, withPages: false)
+                        .SetContributionBar(Relevance().Collapsable()),
+                    Row(Hits[6], withText: false, withPages: false)
+                        .SetContributionBar(Relevance().Collapsable(reveal: ContributionBarReveal.Tooltip))),
+                TextBlock("On a full row, under the excerpt's footer and beside the page preview:").Small().MT(12).MB(8),
+                VStack().WS().Children(
+                    Row(Hits[1], withText: true, withPages: true)
+                        .SetContributionBar(Relevance().Collapsable())));
+        }
+
+        // The same breakdown every row in the section shows, freshly built per row.
+        private static ContributionBar Relevance()
+        {
+            return ContributionBar()
+                .Add("Title match", 42)
+                .Add("Content match", 31)
+                .Add("Recency", 18)
+                .Add("Opened often", 9)
+                .Max(100)
+                .Decimals(0);
         }
 
         // ---------- Highlighting ----------
@@ -354,7 +431,7 @@ namespace Tesserae.Tests.Samples
         {
             var row = OmniResult(hit, hit.Title)
                 .SetBadge(hit.Badge)
-                .SetSource("#0061d5", "Box")
+                .SetSource("#0061d5", "Box", r => Toast().Information($"Scoping the search to Box, from \"{r.Result.Title}\""))
                 .SetFooterEntries(hit.Metadata)
                 .OnClick((r, _) => Toast().Information($"Opening {r.Result.Title}"));
 

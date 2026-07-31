@@ -287,6 +287,35 @@
     color: var(--tss-secondary-foreground-color);
 }
 
+.tss-omniresult-source-clickable {
+    cursor: pointer;
+    border-radius: var(--tss-border-radius-sm);
+    outline: none;
+}
+
+.tss-omniresult-source-clickable:hover .tss-omniresult-source-text,
+.tss-omniresult-source-clickable:focus-visible .tss-omniresult-source-text {
+    color: var(--tss-highlight-color);
+    text-decoration: underline;
+}
+
+.tss-omniresult-source-clickable:focus-visible {
+    box-shadow: 0 0 0 2px var(--tss-primary-background-color);
+}
+
+/* Contribution bar ------------------------------------------------------------------------------- */
+
+/* Sits under the footer, spanning the text column rather than the whole row, so it lines up with the
+   title and the excerpt instead of running under the icon and the pages rail. */
+.tss-omniresult-contribution {
+    padding-top: 4px;
+    min-width: 0;
+}
+
+.tss-omniresult-contribution .tss-contribution {
+    margin: 0;
+}
+
 /* Pages rail and commands ------------------------------------------------------------------------ */
 
 .tss-omniresult-rail {

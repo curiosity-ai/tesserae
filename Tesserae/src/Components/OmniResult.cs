@@ -75,12 +75,14 @@ namespace Tesserae
         private readonly HTMLElement _sourceSquare;
         private readonly HTMLElement _sourceText;
         private readonly HTMLElement _footerContainer;
+        private readonly HTMLElement _contributionContainer;
         private readonly HTMLElement _mainContainer;
         private readonly HTMLElement _railContainer;
         private readonly HTMLElement _commandsContainer;
         private readonly HTMLElement _inlineCommandsContainer;
 
         private CheckBox          _checkBox;
+        private ContributionBar   _contribution;
         private HTMLButtonElement _menuButton;
         private PagesStack        _pages;
 
@@ -91,6 +93,7 @@ namespace Tesserae
         private bool                         _selectionEnabled;
         private bool                         _pagesFanOnHover = true;
         private Action<OmniResult<T>>        _commandsHandler;
+        private Action<OmniResult<T>>        _sourceClickHandler;
         private Func<OmniResult<T>, ContextMenu.Item[]> _menuGenerator;
         private MouseEvent                   _lastPointerEvent;
 
@@ -120,7 +123,9 @@ namespace Tesserae
 
             _footerContainer = Div(Att("tss-omniresult-footer"));
 
-            _mainContainer = Div(Att("tss-omniresult-main"), _headerContainer, _bodyContainer, _footerContainer);
+            _contributionContainer = Div(Att("tss-omniresult-contribution"));
+
+            _mainContainer = Div(Att("tss-omniresult-main"), _headerContainer, _bodyContainer, _footerContainer, _contributionContainer);
 
             _railContainer           = Div(Att("tss-omniresult-rail"));
             _inlineCommandsContainer = Div(Att("tss-omniresult-inline-commands"));
@@ -132,6 +137,7 @@ namespace Tesserae
             SetText(null);
             SetBadge((string)null);
             SetSource(null, null);
+            SetContributionBar(null);
 
             HookEvents();
         }
@@ -206,6 +212,11 @@ namespace Tesserae
         /// Gets the <see cref="PagesStack"/> preview shown at the end of the row, or null when it has none.
         /// </summary>
         public PagesStack Pages => _pages;
+
+        /// <summary>
+        /// Gets the <see cref="Tesserae.ContributionBar"/> shown under the footer, or null when it has none.
+        /// </summary>
+        public ContributionBar Contribution => _contribution;
 
         /// <summary>
         /// Renders the component's root HTML element.
@@ -371,13 +382,23 @@ namespace Tesserae
         /// <summary>
         /// Names where the result came from: a small rounded square in the given color, followed by the
         /// text, at the start of the footer. A null or empty text hides it.
+        /// <para>
+        /// Passing a handler makes the source itself clickable - scoping a search to that source is the
+        /// usual thing to do with it - without the click counting as opening the result. It takes a tab
+        /// stop of its own and answers Enter and Space, and the result is handed to the handler so one
+        /// shared handler can read <see cref="Result"/>.
+        /// </para>
         /// </summary>
-        public OmniResult<T> SetSource(string color, string text)
+        public OmniResult<T> SetSource(string color, string text, Action<OmniResult<T>> onClick = null)
         {
             var isEmpty = string.IsNullOrEmpty(text);
 
             _sourceText.textContent        = isEmpty ? string.Empty : text;
             _sourceSquare.style.background = color ?? string.Empty;
+
+            // Only when one is given, so a later SetSource can't silently drop a handler an earlier
+            // OnSourceClick registered. OnSourceClick(null) is how a source stops being clickable.
+            if (onClick != null) OnSourceClick(onClick);
 
             // Detached rather than hidden when empty, so the dot separators - which are drawn by CSS off
             // :first-child - don't leave a leading dot in a footer that has no source.
@@ -391,6 +412,33 @@ namespace Tesserae
             }
 
             return UpdateFooterVisibility();
+        }
+
+        /// <summary>
+        /// Registers what clicking the source in the footer does - scope the search to it, open it, filter
+        /// by it - and marks the source as clickable. Clicking it does not also count as opening the
+        /// result. Pass null to make the source plain text again.
+        /// </summary>
+        public OmniResult<T> OnSourceClick(Action<OmniResult<T>> onClick)
+        {
+            _sourceClickHandler = onClick;
+
+            var isClickable = onClick != null;
+
+            _sourceContainer.UpdateClassIf(isClickable, "tss-omniresult-source-clickable");
+
+            if (isClickable)
+            {
+                _sourceContainer.setAttribute("tabindex", "0");
+                _sourceContainer.setAttribute("role", "button");
+            }
+            else
+            {
+                _sourceContainer.removeAttribute("tabindex");
+                _sourceContainer.removeAttribute("role");
+            }
+
+            return this;
         }
 
         /// <summary>
@@ -575,6 +623,28 @@ namespace Tesserae
         public OmniResult<T> InlineCommands(params IComponent[] commands) => InlineCommands(OmniResultCommandsVisibility.OnHover, commands);
 
         /// <summary>
+        /// Puts a <see cref="Tesserae.ContributionBar"/> under the footer, spanning the text column: what
+        /// the result's score is made of - a title match, a content match, recency, popularity - as one
+        /// stacked bar. Pass null to take it away.
+        /// <para>
+        /// A bar with many segments is worth collapsing (<see cref="Tesserae.ContributionBar.Collapsable"/>),
+        /// so a list of results reads as one line each until the breakdown is asked for.
+        /// </para>
+        /// </summary>
+        public OmniResult<T> SetContributionBar(ContributionBar bar)
+        {
+            ClearChildren(_contributionContainer);
+
+            _contribution = bar;
+
+            if (bar is object) _contributionContainer.appendChild(bar.Render());
+
+            _contributionContainer.style.display = bar is null ? "none" : "";
+
+            return this;
+        }
+
+        /// <summary>
         /// Pins the given <see cref="PagesStack"/> preview to the end of the row, in a rail wide enough for
         /// it to fan into. Pass null to take it away.
         /// </summary>
@@ -638,6 +708,40 @@ namespace Tesserae
         {
             InnerElement.setAttribute("tabindex", "0");
             InnerElement.setAttribute("role", "option");
+
+            // Listened for once, whether the source is clickable or not: with no handler the click keeps
+            // bubbling and the row treats it as its own, which is what a plain source should do.
+            _sourceContainer.addEventListener("click", e =>
+            {
+                if (_sourceClickHandler is null) return;
+
+                StopEvent(e);
+
+                _sourceClickHandler(this);
+            });
+
+            _sourceContainer.addEventListener("keydown", e =>
+            {
+                if (_sourceClickHandler is null) return;
+
+                var keyboardEvent = e.As<KeyboardEvent>();
+
+                if (keyboardEvent.key != "Enter" && keyboardEvent.key != " ") return;
+
+                StopEvent(keyboardEvent);
+
+                _sourceClickHandler(this);
+            });
+
+            // The contribution bar rebuilds itself when its toggle is pressed, so by the time the click
+            // reaches the row the element it started on is detached and walking up from it finds nothing.
+            // Stopping here instead keeps expanding a breakdown from counting as opening the result.
+            _contributionContainer.addEventListener("click", e =>
+            {
+                if (_contribution is null) return;
+
+                StopEvent(e);
+            });
 
             InnerElement.addEventListener("click", e =>
             {
@@ -738,8 +842,9 @@ namespace Tesserae
             _commandsHandler?.Invoke(this);
         }
 
-        // Clicks inside the checkbox or a command are handled by that control, and must not also count as a
-        // click on (or a selection of) the row itself.
+        // Clicks inside the checkbox, a command, or the contribution bar (whose toggle opens the
+        // breakdown) are handled by that control, and must not also count as a click on (or a selection
+        // of) the row itself.
         private bool IsWithinControl(MouseEvent e)
         {
             var target = e.target.As<HTMLElement>();
@@ -747,7 +852,8 @@ namespace Tesserae
             while (target is object && target != InnerElement)
             {
                 if (target.classList.contains("tss-omniresult-select")
-                 || target.classList.contains("tss-omniresult-commands"))
+                 || target.classList.contains("tss-omniresult-commands")
+                 || target.classList.contains("tss-omniresult-contribution"))
                 {
                     return true;
                 }
