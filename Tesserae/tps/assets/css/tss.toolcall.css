@@ -117,6 +117,11 @@
     outline-offset: 1px;
 }
 
+.tss-toolsused-text > span{
+    white-space: nowrap;
+    flex-shrink:0;
+}
+
 .tss-toolsused-icon {
     display: flex;
     align-items: center;
