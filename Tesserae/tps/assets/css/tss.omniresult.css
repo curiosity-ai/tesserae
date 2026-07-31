@@ -487,12 +487,43 @@
 /* As a modal ------------------------------------------------------------------------------------- */
 
 /* The modal header repeats the row's identifier, chevron and title, so opening a result reads as the
-   same thing enlarged rather than as a different surface. */
+   same thing enlarged rather than as a different surface. ModalKeepsIcon and ModalKeepsFooter add the
+   tile and the source line back to it, laid out the way the row lays them out. */
+.tss-omniresult-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.tss-omniresult-modal-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex-grow: 1;
+}
+
 .tss-omniresult-modal-title {
     display: flex;
     align-items: center;
     gap: 6px;
     min-width: 0;
+}
+
+/* The copy of the tile is the row's, so it needs the row's positioning context back for its corner
+   badges - the row it was cloned from provided that. */
+.tss-omniresult-modal-icon {
+    position: relative;
+    flex-grow: 0;
+    flex-shrink: 0;
+    line-height: 0;
+}
+
+/* The footer is the header's second line here, so it never wraps into the title's. */
+.tss-omniresult-modal-main > .tss-omniresult-footer {
+    flex-wrap: nowrap;
+    overflow: hidden;
 }
 
 .tss-omniresult-modal-title-text {

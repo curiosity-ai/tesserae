@@ -123,8 +123,10 @@ namespace Tesserae
 
         private Func<OmniResult<T>, Task<IComponent>> _modalContent;
         private Func<OmniResult<T>, IComponent>       _modalHeader;
-        private UnitSize                              _modalWidth  = UnitSize.Auto();
-        private UnitSize                              _modalHeight = UnitSize.Auto();
+        private UnitSize                              _modalWidth     = UnitSize.Auto();
+        private UnitSize                              _modalHeight    = UnitSize.Auto();
+        private bool                                  _modalKeepsIcon;
+        private bool                                  _modalKeepsFooter;
 
         private event Action<OmniResult<T>, bool> SelectionChanged;
         private event Action<OmniResult<T>>       RangeSelectionRequested;
@@ -925,6 +927,31 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Keeps the icon tile in the modal's header, before the identifier and the title - so an opened
+        /// result still shows what kind of thing it is, and the row and the modal read as one thing rather
+        /// than two. Whatever the tile carries comes with it: the glyph or the thumbnail, the color it is
+        /// tinted with, and any corner badges. Off by default.
+        /// </summary>
+        public OmniResult<T> ModalKeepsIcon(bool value = true)
+        {
+            _modalKeepsIcon = value;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Keeps the footer - the source and the metadata beside it - as a second line under the title in the
+        /// modal's header, so where a result came from is still said once it is open. The source stays
+        /// clickable when the row's is. Off by default.
+        /// </summary>
+        public OmniResult<T> ModalKeepsFooter(bool value = true)
+        {
+            _modalKeepsFooter = value;
+
+            return this;
+        }
+
+        /// <summary>
         /// Builds a <see cref="Tesserae.Modal"/> showing this result: the row's identifier, title and badge as
         /// the header, and whatever <c>SetModalContent</c> was given as the body, at the size
         /// <see cref="ModalSize(UnitSize, UnitSize)"/> asked for. Everything else - commands, dismissal,
@@ -952,22 +979,84 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// The header <see cref="ToModal"/> uses by default: the identifier, the title and the badge, drawn
-        /// the way the row draws them. Useful to a caller building its own header around it.
+        /// The header <see cref="ToModal"/> uses by default: the identifier and the title, drawn the way the
+        /// row draws them, plus whatever <see cref="ModalKeepsIcon"/> and <see cref="ModalKeepsFooter"/>
+        /// asked to keep. Useful to a caller building its own header around it.
         /// </summary>
         public IComponent ModalTitle()
         {
-            var header = Div(Att("tss-omniresult-modal-title"));
+            var titleRow = Div(Att("tss-omniresult-modal-title"));
 
             if (!string.IsNullOrEmpty(_id))
             {
-                header.appendChild(Span(Att("tss-omniresult-id-value", text: _id)));
-                header.appendChild(I(UIcons.AngleRight, UIconsWeight.Regular, "tss-omniresult-id-chevron"));
+                titleRow.appendChild(Span(Att("tss-omniresult-id-value", text: _id)));
+                titleRow.appendChild(I(UIcons.AngleRight, UIconsWeight.Regular, "tss-omniresult-id-chevron"));
             }
 
-            header.appendChild(Span(Att("tss-omniresult-modal-title-text", text: _title, title: _title)));
+            titleRow.appendChild(Span(Att("tss-omniresult-modal-title-text", text: _title, title: _title)));
+
+            var main = Div(Att("tss-omniresult-modal-main"), titleRow);
+
+            if (_modalKeepsFooter && _footerContainer.childElementCount > 0)
+            {
+                main.appendChild(CopyOfFooter());
+            }
+
+            var header = Div(Att("tss-omniresult-modal-header"));
+
+            if (_modalKeepsIcon) header.appendChild(CopyOfIcon());
+
+            header.appendChild(main);
 
             return Raw(header);
+        }
+
+        // The row keeps its own tile and footer - the modal gets copies of them, so opening a result never
+        // takes anything out of the row behind it.
+        private HTMLElement CopyOfIcon()
+        {
+            var copy = _iconHolder.cloneNode(true).As<HTMLElement>();
+
+            copy.classList.add("tss-omniresult-modal-icon");
+
+            return copy;
+        }
+
+        private HTMLElement CopyOfFooter()
+        {
+            var copy = _footerContainer.cloneNode(true).As<HTMLElement>();
+
+            copy.style.display = "";
+
+            // A clone carries no listeners, so a clickable source is re-hooked onto the copy rather than
+            // silently becoming plain text in the modal.
+            if (_sourceClickHandler is object)
+            {
+                var source = copy.querySelector(".tss-omniresult-source").As<HTMLElement>();
+
+                if (source is object)
+                {
+                    source.addEventListener("click", e =>
+                    {
+                        StopEvent(e);
+
+                        _sourceClickHandler(this);
+                    });
+
+                    source.addEventListener("keydown", e =>
+                    {
+                        var keyboardEvent = e.As<KeyboardEvent>();
+
+                        if (keyboardEvent.key != "Enter" && keyboardEvent.key != " ") return;
+
+                        StopEvent(keyboardEvent);
+
+                        _sourceClickHandler(this);
+                    });
+                }
+            }
+
+            return copy;
         }
 
         /// <summary>

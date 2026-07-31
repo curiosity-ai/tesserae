@@ -200,18 +200,25 @@ namespace Tesserae.Tests.Samples
             return FeatureCard("Opening as a modal", "The row carries its own full view",
                 "SetModalContent gives the row the full view of the thing it stands for, and ToModal builds a Modal showing it - the same identifier, chevron and title as the row for its header, at the size ModalSize asked for. Everything else is left to the caller to chain on what comes back, so the host still owns the commands, the dismissal and the bounds. The Func overload builds the content on open, so a list of a thousand rows pays for none of them until one is asked for.",
                 VStack().WS().Children(
-                    ModalRow(Hits[1], "A modal built on open"),
-                    ModalRow(Hits[3], "Another one, same header")));
+                    ModalRow(Hits[1], keepsIcon: false, keepsFooter: false),
+                    ModalRow(Hits[3], keepsIcon: true,  keepsFooter: false),
+                    ModalRow(Hits[5], keepsIcon: true,  keepsFooter: true)),
+                TextBlock("ModalKeepsIcon brings the tile into the modal's header, and ModalKeepsFooter brings the source line under the title - so an opened result still says what kind of thing it is and where it came from. Both are off by default, and both copy what the row drew rather than taking it out of the row behind them; a clickable source stays clickable on the copy. Open the three rows above to compare: neither, the tile, then both.").Small().MT(8));
         }
 
-        private OmniResult<Hit> ModalRow(Hit hit, string title)
+        private OmniResult<Hit> ModalRow(Hit hit, bool keepsIcon, bool keepsFooter)
         {
+            var what = !keepsIcon ? "Title only" : (keepsFooter ? "ModalKeepsIcon + ModalKeepsFooter" : "ModalKeepsIcon");
+
             var row = Row(hit, withText: true, withPages: false)
                 .SetId("JR-2214")
+                .SetFooterEntries($"Open me — the header shows: {what}")
                 .SetModalContent(r => Task.FromResult<IComponent>(VStack().WS().P(16).Children(
                     TextBlock($"The full view of \"{r.Result.Title}\", built when the modal opened.").MB(12),
                     TextBlock(r.Result.Text))))
-                .ModalSize(60.vw(), 50.vh());
+                .ModalSize(60.vw(), 50.vh())
+                .ModalKeepsIcon(keepsIcon)
+                .ModalKeepsFooter(keepsFooter);
 
             return row.OnClick((r, _) =>
             {
