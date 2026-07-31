@@ -144,4 +144,5 @@ list of rows, or a compact row of pills with a "+N more". See `context-cards.md`
 - ResourceCard (the larger, full resource summary) — `resource-card.md`
 - Badge / Tag / Chip (removable inline tokens) — `badge.md`
 - Icon and UIcons — `icon.md`, `uicons.md`
+- OmniResult (the search-result row a hit is drawn as) — `omni-result.md`
 - Full docs & API: `/tesserae/components/context-card`

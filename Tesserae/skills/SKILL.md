@@ -151,7 +151,8 @@ date-range-picker · date-time-picker · delta-component · dropdown ·
 editable-area · editable-label · expander · grid-picker · horizontal-separator ·
 icon · icon-toggle · image · label · link · live-progress · markdown-block ·
 menu · message ·
-metric · month-picker · navbar · number-picker · omni-box · option · pagination ·
+metric · month-picker · navbar · number-picker · omni-box · omni-result · option ·
+pages-stack · pagination ·
 picker · pixel-avatar · plan · popover · progress-indicator · progress-ring ·
 property-grid · rating · resource-card · sandbox · save-button · saving-toast ·
 search-box · section-title · sidebar · sidebar-separator · sidenav · skeleton ·
