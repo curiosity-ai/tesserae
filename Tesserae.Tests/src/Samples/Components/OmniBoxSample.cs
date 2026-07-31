@@ -416,7 +416,6 @@ namespace Tesserae.Tests.Samples
                 PlaceholderSearch = "brake sensor calibration"
             })
             .WS()
-            .H(48)
             .Rounded()
             .SetSearchRightText("18 results · 0.21s")
             .WithAskAI("Ask AI", UIcons.Beacon, box => Toast().Information($"Asking AI about: {box.SearchText}"))
