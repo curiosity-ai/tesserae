@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using static Transpose.Core.dom;
@@ -69,6 +70,9 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(VStack().WS().Children(NoPages()))
                 .FlatSection(VStack().WS().Children(TitleOnly()))
                 .FlatSection(VStack().WS().Children(Tiles()))
+                .FlatSection(VStack().WS().Children(Identifiers()))
+                .FlatSection(VStack().WS().Children(Content()))
+                .FlatSection(VStack().WS().Children(Modals()))
                 .FlatSection(VStack().WS().Children(Sources()))
                 .FlatSection(VStack().WS().Children(Contributions()))
                 .FlatSection(VStack().WS().Children(Highlighting()))
@@ -151,6 +155,72 @@ namespace Tesserae.Tests.Samples
                     OmniResult(Hits[0], "brake-sensor-reports").SetIcon(UIcons.Folder).SetSource("#0061d5", "Box").SetFooterEntries("No color: the tile falls back to the theme's own")));
         }
 
+        // ---------- Identifiers ----------
+
+        private IComponent Identifiers()
+        {
+            return FeatureCard("Identifiers", "A number or a key before the title",
+                "SetId puts an identifier before the title - an issue number, a ticket key, a row number - drawn the quiet way an identifier reads, with a chevron pointing at the title. It never shrinks, so a long title ellipsizes before the identifier does, and an empty one drops both the identifier and the chevron.",
+                VStack().WS().Children(
+                    Row(Hits[1], withText: false, withPages: false).SetId("JR-2214"),
+                    Row(Hits[2], withText: false, withPages: false).SetId("4471"),
+                    Row(Hits[3], withText: false, withPages: false).SetId("OPS-88").SetBadge("Blocked"),
+                    Row(Hits[5], withText: false, withPages: false)),
+                TextBlock("The last row has no identifier, so it starts at its title.").Small().MT(8));
+        }
+
+        // ---------- Rich content ----------
+
+        private IComponent Content()
+        {
+            return FeatureCard("Rich content", "When an excerpt isn't enough",
+                "SetContent puts a component of your own under the excerpt, in the text column: a thumbnail, a quoted message, a table of the fields that matched. ContentMaxHeight caps how tall it may grow and fades whatever runs past it out, rather than cutting it off - so a clipped preview reads as \"there is more\" instead of as a rendering fault.",
+                VStack().WS().Children(
+                    Row(Hits[1], withText: true, withPages: false)
+                        .SetContent(HStack().Gap(8.px()).PT(4).Children(
+                            Badge("page 14").Pill(),
+                            Badge("revision C").Pill(),
+                            Badge("BRK-SEN-447").Pill())),
+                    Row(Hits[2], withText: false, withPages: false)
+                        .SetContent(VStack().WS().PT(4).Children(
+                            TextBlock("Column F · drift across 14 units").Small(),
+                            TextBlock("Column G · re-calibration requested").Small(),
+                            TextBlock("Column H · CMMS ticket").Small(),
+                            TextBlock("Column I · signed off by").Small(),
+                            TextBlock("Column J · next due").Small(),
+                            TextBlock("Column K · notes").Small()))
+                        .ContentMaxHeight(56.px())),
+                TextBlock("The second row's content is capped at 56px, so it fades out where it is cut.").Small().MT(8));
+        }
+
+        // ---------- Modals ----------
+
+        private IComponent Modals()
+        {
+            return FeatureCard("Opening as a modal", "The row carries its own full view",
+                "SetModalContent gives the row the full view of the thing it stands for, and ToModal builds a Modal showing it - the same identifier, chevron and title as the row for its header, at the size ModalSize asked for. Everything else is left to the caller to chain on what comes back, so the host still owns the commands, the dismissal and the bounds. The Func overload builds the content on open, so a list of a thousand rows pays for none of them until one is asked for.",
+                VStack().WS().Children(
+                    ModalRow(Hits[1], "A modal built on open"),
+                    ModalRow(Hits[3], "Another one, same header")));
+        }
+
+        private OmniResult<Hit> ModalRow(Hit hit, string title)
+        {
+            var row = Row(hit, withText: true, withPages: false)
+                .SetId("JR-2214")
+                .SetModalContent(r => Task.FromResult<IComponent>(VStack().WS().P(16).Children(
+                    TextBlock($"The full view of \"{r.Result.Title}\", built when the modal opened.").MB(12),
+                    TextBlock(r.Result.Text))))
+                .ModalSize(60.vw(), 50.vh());
+
+            return row.OnClick((r, _) =>
+            {
+                var modal = r.ToModal();
+
+                if (modal is object) modal.LightDismiss().ShowCloseButton().Show();
+            });
+        }
+
         // ---------- Sources ----------
 
         private IComponent Sources()
@@ -175,7 +245,12 @@ namespace Tesserae.Tests.Samples
                         .OnClick((r, _) => Toast().Information($"Opening {r.Result.Title}")),
                     OmniResult(Hits[6], "No source at all — the footer starts with its first entry")
                         .SetIcon("TXT", "#94a3b8")
-                        .SetFooterEntries(Hits[6].Metadata)),
+                        .SetFooterEntries(Hits[6].Metadata),
+                    OmniResult(Hits[0], "A marker of your own, and one on the tile's corner")
+                        .SetIcon(UIcons.Folder, "#6366f1")
+                        .SetIconBadge(Image("./assets/img/box-img.svg"))
+                        .SetSource(Image("./assets/img/box-img.svg"), "Box", r => ReportSource("Box", r))
+                        .SetFooterEntries(Hits[0].Metadata)),
                 _sourceState.MT(8));
         }
 

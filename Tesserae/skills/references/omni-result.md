@@ -1,6 +1,6 @@
 ---
 name: omni-result
-description: A search-result row with an icon tile tinted from one color, a title with a badge, an excerpt whose matched terms are highlighted, a footer naming the source, selectable checkboxes, right-click or button commands, and an optional fanning page preview. Use for search result lists, pickers and file browsers in a Tesserae (C#/Transpose) app.
+description: A search-result row with an icon tile tinted from one color, an optional identifier before the title, a badge, an excerpt whose matched terms are highlighted, a rich content preview, a footer naming the source, selectable checkboxes, right-click or button commands, a fanning page preview, and a modal it can open as. Use for search result lists, pickers and file browsers in a Tesserae (C#/Transpose) app.
 ---
 
 # OmniResult&lt;T&gt;
@@ -10,7 +10,7 @@ description: A search-result row with an icon tile tinted from one color, a titl
 without a closure per row:
 
 ```
-[✓]  [PDF]  BRK-SEN-447 calibration procedure.pdf   3 matches in text                 [pages]  [...]
+[✓]  [PDF]  JR-2214 › BRK-SEN-447 calibration.pdf   3 matches in text                 [pages]  [...]
             Torque the mount to 12 Nm before starting brake sensor work. Full calibration steps …
             ▪ Box · sample-files / pdfs · 2.4 MB · Pius Neuhaus · Apr 12, 2024
 ```
@@ -26,19 +26,30 @@ stands for. Also `new OmniResult<T>(result, title)`. Bring factories into scope 
 
 ## Key configuration
 
-**Title, badge, excerpt**
+**Identifier, title, badge, excerpt, content**
 
+- `.SetId(string)` / `Id` — an identifier before the title (an issue number, a ticket key, a row
+  number), drawn quietly and followed by a chevron pointing at the title. Null or empty drops both.
 - `.SetTitle(string)` / `Title` — one line, ellipsized, with the full text as its tooltip.
+- `.SetTitle(IComponent, string text = null)` — the escape hatch for a title that genuinely isn't
+  text, such as one built from fields an administrator configured. The `text` alongside it stays the
+  row's `Title`, so the tooltip and the modal header still have something to say; `Highlight` does not
+  reach inside a component title.
 - `.SetBadge(string)` — the quiet pill next to the title ("3 matches in text"). Null or empty hides it.
 - `.SetBadge(IComponent)` — a `Badge` with a tone of its own, a `Spinner`, a small button.
 - `.SetText(string)` / `Text` — the excerpt, as **plain text**, ellipsized to two lines.
 - `.TextLines(int)` — how many lines the excerpt gets before it is ellipsized.
-- `.HighlightWords(params string[])` — mark those words in the excerpt, case-insensitively. The marks
-  and the badge share one pair of colors, from the `--tss-highlight-color` token (the same value as
-  `--tss-link-color`, so `Theme.SetPrimary` moves both), and the excerpt itself is a quiet grey.
+- `.SetContent(IComponent)` — a rich preview under the excerpt, in the text column: a thumbnail, a
+  quoted message, a table of the fields that matched. Null takes it away.
+- `.ContentMaxHeight(UnitSize)` — caps how tall that preview may grow, fading the overflow out rather
+  than cutting it off. Null un-caps it.
+- `.HighlightWords(params string[])` — mark those words in the **title and the excerpt**,
+  case-insensitively. The marks and the badge share one pair of colors, from the `--tss-highlight-color`
+  token (the same value as `--tss-link-color`, so `Theme.SetPrimary` moves both), and the excerpt
+  itself is a quiet grey.
 - `.Highlight(Regex)` / `.Highlight(string pattern, bool ignoreCase = true)` — mark every match, e.g.
   the pattern a search backend hands back. Matching runs against the text and each match is wrapped in
-  its own element, so an excerpt containing angle brackets renders them instead of obeying them.
+  its own element, so text containing angle brackets renders them instead of obeying them.
 
 **Icon tile**
 
@@ -48,6 +59,9 @@ stands for. Also `new OmniResult<T>(result, title)`. Bring factories into scope 
   and the computed pair is cached per color (a list drawing one color per file type only pays once).
 - `.SetIcon(string text, string color = null)` — a short type name ("PPTX", "CSV") in place of a glyph.
 - `.SetIcon(IComponent, string color = null)` — an `Image` thumbnail, an `Avatar`, an emoji.
+- `.SetIconBadge(IComponent badge, OmniResultBadgeCorner corner = BottomRight)` — a marker pinned to a
+  corner of the tile, drawn outside its clipping: where the result came from, that it is pinned.
+  Corners: `TopLeft`, `TopRight`, `BottomLeft`, `BottomRight`. Null clears that corner.
 
 Pass a literal color (`"#ef4444"`) rather than a CSS variable when you want the tint to track the
 theme: a `var(--…)` is resolved once, at the time it is set.
@@ -58,6 +72,8 @@ theme: a `var(--…)` is resolved once, at the time it is set.
   in that color plus the text, at the footer's start. Null or empty text drops it. Given a handler the
   source becomes clickable — scoping the search to it is the usual thing to do — with its own tab stop,
   Enter/Space, and an underline on hover; the click never also counts as opening the result.
+- `.SetSource(IComponent marker, string text, Action<OmniResult<T>> onClick = null)` — the same, with a
+  marker of the host's own (the source's logo, an avatar) in place of the colored square.
 - `.OnSourceClick(Action<OmniResult<T>>)` — the same handler on its own (null makes the source plain
   text again). `SetSource` only replaces the handler when it is given one, so the two compose in either
   order.
@@ -90,6 +106,8 @@ theme: a `var(--…)` is resolved once, at the time it is set.
 - `.InlineCommands(params IComponent[])` / `.InlineCommands(OmniResultCommandsVisibility visibility, params IComponent[])`
   — one or two buttons before the `[...]`, `OnHover` (default) or `AlwaysVisible`. The space is
   reserved either way.
+- `CommandsEvent` — the pointer event that last asked for the commands (null when they were asked for
+  from the keyboard), for a host that shows a command surface of its own rather than a `ContextMenu`.
 
 **Contribution bar**
 
@@ -106,6 +124,38 @@ theme: a `var(--…)` is resolved once, at the time it is set.
 - `.PagesFanOnHover(bool = true)` — the stack fans while the whole row is hovered, not only while the
   pointer is over the pages. On by default.
 
+**Opening as a modal**
+
+A row can carry the full view of the thing it stands for and open as a modal showing it, so the list
+and the detail are one object rather than two that have to be kept in step.
+
+- `.SetModalContent(IComponent)` / `.SetModalContent(Func<OmniResult<T>, Task<IComponent>>)` — what the
+  modal shows; the `Func` overload builds it on open, so content nobody asks for is never paid for.
+  Null makes the row modal-less again.
+- `HasModalContent` — whether it has any, so "this result has no preview" is one check.
+- `.ModalSize(UnitSize width, UnitSize height)` — the size it opens at. `Auto` by default.
+- `.SetModalHeader(Func<OmniResult<T>, IComponent>)` — replaces the default header (the same
+  identifier, chevron and title the row shows) with one built from the result — for a header that also
+  carries commands or status beside the title. Null goes back to the default.
+- `.ModalTitle()` — that default header on its own, to build around.
+- `.ToModal()` — a `Modal` with that header and content, at that size, or null when the row has no
+  modal content. Everything else (commands, dismissal, bounds, how it is shown) is left to the caller
+  to chain on what comes back.
+- `.GetModalContentAsync()` — the content on its own, for a host that shows it somewhere other than in
+  a modal: a side panel, a page, a pane.
+
+```csharp
+var modal = row.ToModal();
+
+if (modal is object)
+{
+    modal.MinWidth(60.vw()).MaxHeight(95.vh())
+         .SetHeaderCommands(Button(UIcons.Share).OnClick(() => Share(row.Result)))
+         .LightDismiss()
+         .Show();
+}
+```
+
 ## Example
 
 ```csharp
@@ -118,6 +168,8 @@ foreach (var hit in results)
 {
     var row = OmniResult(hit, hit.Name)                        // T is whatever `hit` is
         .SetIcon(UIcons.FilePdf, "#ef4444")
+        .SetIconBadge(Image(hit.SourceLogo), OmniResultBadgeCorner.BottomRight)
+        .SetId(hit.Reference)                                  // "JR-2214 › the title"
         .SetBadge($"{hit.Matches} matches in text")
         .SetText(hit.Excerpt)
         .HighlightWords(terms)
@@ -142,7 +194,9 @@ foreach (var hit in results)
             ContextMenuItem().Divider(),
             ContextMenuItem("Delete").OnClick(() => Delete(r.Result))
         }, OmniResultCommandsMode.ButtonOnHover)
-        .InlineCommands(Button(UIcons.Download).Tooltip("Download").OnClick(() => Download(hit)));
+        .InlineCommands(Button(UIcons.Download).Tooltip("Download").OnClick(() => Download(hit)))
+        .SetModalContent(async r => await BuildFullViewAsync(r.Result))                  // opens as a modal
+        .ModalSize(80.vw(), 80.vh());
 
     list.Add(row);
 }
