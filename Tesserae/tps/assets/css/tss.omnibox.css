@@ -156,10 +156,12 @@
 
 /* A pill has no straight edge to hang a divider off, and its corners curve away from anything sitting
    flush against them: so in the fully rounded box the dividers go, the buttons at the ends become
-   circles, and the row is inset far enough to stay inside the curve. */
+   circles, and the row is inset far enough to stay inside the curve. The row is also taller than the
+   default one — a pill wants room around what it holds. Height()/H() still overrides this. */
 .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container {
     box-sizing: border-box;
-    padding: 0 6px;
+    height: 48px;
+    padding: 0 8px;
 }
 
 .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
@@ -168,14 +170,26 @@
     border-right-color: transparent;
 }
 
-/* The icon buttons become discs, kept a little short of the row so they clear the pill's own curve
-   (the icon-only buttons hold their 1:1 aspect ratio, so the width follows). */
+/* Everything in the row keeps clear of the taller pill's edges: the icon buttons become discs (the
+   icon-only buttons hold their 1:1 aspect ratio, so the width follows the height) and "Ask AI" is a
+   little shorter than the row it sits in. */
 .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn) {
     align-self: center;
-    height: calc(100% - 8px);
+    height: calc(100% - 16px);
     min-height: 0;
-    max-height: 44px;
+    max-height: 40px;
     padding: 0;
+}
+
+.tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-ask-ai-btn {
+    height: calc(100% - 16px);
+    max-height: 40px;
+}
+
+/* The default row centers its text with a line-height as tall as itself; a taller pill would push the
+   text off-center, so the line box goes back to the font's own height and the input centers it. */
+.tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-input {
+    line-height: normal;
 }
 
 /* Chips lose the grey strip and its divider in a pill — there is no straight edge for either — and go
