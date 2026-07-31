@@ -5,8 +5,9 @@ description: An inline informational message strip with an icon, title, body, op
 
 # Message
 
-A static message block with an icon, title, text body and optional note area.
-Comes with tone variants for standard, success, warning and error states.
+A static message block with an icon, title, text body, and optional note and
+illustration areas. Comes with tone variants for standard, success, warning and
+error states.
 
 ## Create
 
@@ -20,6 +21,7 @@ optional and can also be set fluently. Bring the factory into scope with
 - `.Title(string)` / `.Title(IComponent)` — title.
 - `.Text(string)` / `.Text(IComponent)` — body text.
 - `.Note(string)` / `.Note(IComponent)` — extra note area below the body.
+- `.Illustration(IComponent)` — a picture below the content (drawing, mascot, animation), for empty states.
 - `.Variant(MessageVariant)` — tone: `Default`, `Success`, `Warning`, `Error`.
 
 ## Example
@@ -38,6 +40,10 @@ var empty = Message("No results found", "We couldn't find any items matching you
 var error = Message("Something went wrong", "We couldn't save your changes.")
     .Icon(UIcons.CrossCircle)
     .Variant(MessageVariant.Error);
+
+// An empty state whose picture sits below the text
+var emptyList = Message().Text("Sessions you start will show up here")
+    .Illustration(PixelAvatar(key, PixelAvatarDesign.Grey, PixelAvatarAnimation.SitIdle).PixelSize(8));
 ```
 
 ## Related

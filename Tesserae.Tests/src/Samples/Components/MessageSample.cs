@@ -90,6 +90,14 @@ namespace Tesserae.Tests.Samples
                )).SetTitle("Horizontal layout")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
+                    TextBlock("Use Illustration(...) to place a picture below the content - a drawing, a mascot or an animation. It suits empty states, where the message is the whole screen and the leading icon alone reads a bit thin."),
+
+                    SampleSubTitle("Illustrated empty state"),
+                    Message().Text("Sessions you start will show up here")
+                        .Illustration(PixelAvatar(42, PixelAvatarDesign.Grey, PixelAvatarAnimation.SitIdle).PixelSize(8))
+               )).SetTitle("Illustration")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     TextBlock("Use Action(...) to attach an action component. On the default layout it renders below the content; on a horizontal message it renders on the right side, beside the content."),
 
                     SampleSubTitle("Action (vertical)"),
