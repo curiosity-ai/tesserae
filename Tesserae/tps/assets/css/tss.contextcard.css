@@ -66,8 +66,12 @@
     display: block;
 }
 
+/* The text block owns whatever width the card was given beyond its content (a card stretched across a
+   citations panel, a list row), so the badge and the chevron end up at the card's end rather than
+   trailing the label. A content-sized card has no slack to hand out, so nothing changes there. */
 .tss-contextcard-text {
     display: flex;
+    flex: 1 1 auto;
     flex-direction: column;
     justify-content: center;
     min-width: 0;
@@ -229,7 +233,10 @@
     gap: 6px;
 }
 
+/* Beside the second line, the label is the part that takes the slack, so the two read as "name … kind"
+   with the kind against the card's end and the name as what gets ellipsized when it doesn't fit. */
 .tss-contextcard-compact .tss-contextcard-label {
+    flex: 1 1 auto;
     font-size: var(--tss-font-size-small, 13px);
 }
 

@@ -99,10 +99,6 @@
     border-top: 1px solid var(--tss-default-border-color);
 }
 
-.tss-contextcards-list > .tss-contextcard .tss-contextcard-text {
-    flex: 1 1 auto;
-}
-
 /* One row's ✕: always there (a list is where context gets managed), quiet until hovered. */
 .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove {
     position: static;
@@ -167,6 +163,7 @@
     font-size: 11px;
 }
 
+/* A pill is sized by its content, so here the text block hugs it instead of taking the card's slack. */
 .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-text {
     flex: 0 1 auto;
     flex-direction: row;

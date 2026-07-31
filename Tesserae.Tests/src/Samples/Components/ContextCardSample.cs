@@ -85,6 +85,7 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(VStack().WS().Children(Grouped()))
                 .FlatSection(VStack().WS().Children(CompactRow()))
                 .FlatSection(VStack().WS().Children(LongNames()))
+                .FlatSection(VStack().WS().Children(Stretched()))
                 .FlatSection(VStack().WS().Children(InAComposer()))
                 .SeeAlso(typeof(ChatSample), typeof(OmniBoxSample), typeof(ToolCallSample), typeof(ResourceCardSample), typeof(CardSample));
         }
@@ -323,6 +324,21 @@ namespace Tesserae.Tests.Samples
                 narrow,
                 TextBlock("And with KeepExtensionVisible(false):").Small().MT(12).MB(8),
                 whole);
+        }
+
+        // ---------- Given a width ----------
+
+        private IComponent Stretched()
+        {
+            var panel = VStack().W(300.px()).Children(
+                ContextCard("Annual report", UIcons.FilePdf).SetSubLabel("PDF").IconTint("#ef4444").Compact().WithChevron().WS(),
+                ContextCard("customers", UIcons.Database).SetSubLabel("Dataset").IconTint("#f59e0b").Compact().WithChevron().WS().MT(6),
+                ContextCard("A cited page whose title runs past the panel", UIcons.Globe).SetSubLabel("Web page").IconTint("#0ea5e9").Compact().WithChevron().WS().MT(6),
+                ContextCard("Q3-forecast.xlsx", UIcons.FileExcel).SetSubLabel("Spreadsheet").IconTint("#16a34a").SetBadge("3 refs").Compact().WithChevron().WS().MT(6));
+
+            return FeatureCard("Given a width", "A column of sources in a side panel",
+                "A card sizes itself to its content, but give it a width of its own — .WS() in a panel listing the sources behind a conversation — and the label takes the extra space, so the second line, the badge and the chevron line up at the cards' end and the label is what gets ellipsized.",
+                panel);
         }
 
         // ---------- In a composer ----------
