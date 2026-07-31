@@ -114,6 +114,8 @@
                 "tps/assets/css/tss.notificationcenter.css",
                 "tps/assets/css/tss.markdown.css",
                 "tps/assets/css/tss.plan.css",
+                "tps/assets/css/tss.pagesstack.css",
+                "tps/assets/css/tss.omniresult.css",
                 "tps/assets/css/diff2html.min.css",
                 "tps/assets/css/tss.codediff.css"
             ],

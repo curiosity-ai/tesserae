@@ -1120,6 +1120,25 @@ namespace Tesserae
         public static ContextCard ContextCard(string label, IComponent iconOrImage) => new ContextCard(label, iconOrImage);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.OmniResult{T}"/> search-result row for the given result: an icon
+        /// tile, a title with an optional badge, an optional highlighted excerpt, an optional footer naming
+        /// the source, and an optional <see cref="Tesserae.PagesStack"/> preview.
+        /// </summary>
+        public static OmniResult<T> OmniResult<T>(T result, string title = null) => new OmniResult<T>(result, title);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.PagesStack"/> showing the given page thumbnails: a stack of
+        /// overlapping pages that fans out when hovered, inside a rail wide enough for the fan.
+        /// </summary>
+        public static PagesStack PagesStack(params string[] imageUrls) => new PagesStack(imageUrls);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.PagesStack"/> showing the given number of blank ruled pages, for a
+        /// document with no thumbnails to show.
+        /// </summary>
+        public static PagesStack PagesStack(int pages) => new PagesStack(pages);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.ContextCards"/> group: the given <see cref="Tesserae.ContextCard"/>s
         /// behind one summary pill that expands to list them, or - with <see cref="Tesserae.ContextCards.Compact()"/>
         /// - a compact row of pills that collapses everything past the fifth into a "+N more" pill.

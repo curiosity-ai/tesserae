@@ -1,0 +1,365 @@
+/* OmniResult — a search-result row: icon tile, title + badge, excerpt, footer, pages rail, commands. */
+
+.tss-omniresult {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px 12px 12px 14px;
+    border-radius: var(--tss-border-radius-lg);
+    border-bottom: 1px solid var(--tss-default-border-color);
+    background: transparent;
+    color: var(--tss-default-foreground-color);
+    cursor: pointer;
+    outline: none;
+    transition: background-color 120ms ease-in-out;
+}
+
+.tss-omniresult:hover,
+.tss-omniresult.tss-omniresult-active,
+.tss-omniresult.tss-omniresult-menu-open {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-omniresult:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--tss-primary-background-color);
+}
+
+.tss-omniresult.tss-omniresult-selected {
+    background: color-mix(in srgb, var(--tss-primary-background-color) 10%, transparent);
+}
+
+/* Selection ------------------------------------------------------------------------------------- */
+
+.tss-omniresult-select {
+    display: none;
+    flex-grow: 0;
+    flex-shrink: 0;
+    align-items: center;
+    height: 34px;
+}
+
+.tss-omniresult-select .tss-checkbox-container {
+    margin: 0;
+    padding-left: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+/* Beside the icon: the column is there either way, so revealing the checkbox never shifts the row. */
+.tss-omniresult-select-hover-before .tss-omniresult-select,
+.tss-omniresult-select-always-before .tss-omniresult-select,
+.tss-omniresult-select-replacing .tss-omniresult-select {
+    display: flex;
+}
+
+.tss-omniresult-select-hover-before .tss-omniresult-select {
+    opacity: 0;
+    transition: opacity 120ms ease-in-out;
+}
+
+.tss-omniresult-select-hover-before:hover .tss-omniresult-select,
+.tss-omniresult-select-hover-before.tss-omniresult-active .tss-omniresult-select,
+.tss-omniresult-select-hover-before:focus-within .tss-omniresult-select,
+.tss-omniresult-select-hover-before.tss-omniresult-selected .tss-omniresult-select {
+    opacity: 1;
+}
+
+/* Over the icon: the checkbox sits on the tile, which fades out under it rather than being covered by a
+   backplate - so it blends whatever background the row happens to have (hovered, selected, plain). */
+.tss-omniresult-select-hover-over .tss-omniresult-select {
+    display: flex;
+    position: absolute;
+    left: 14px;
+    top: 12px;
+    z-index: 2;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    opacity: 0;
+    transition: opacity 120ms ease-in-out;
+}
+
+.tss-omniresult-select-hover-over .tss-omniresult-icon {
+    transition: opacity 120ms ease-in-out;
+}
+
+.tss-omniresult-select-hover-over:hover .tss-omniresult-select,
+.tss-omniresult-select-hover-over.tss-omniresult-active .tss-omniresult-select,
+.tss-omniresult-select-hover-over:focus-within .tss-omniresult-select,
+.tss-omniresult-select-hover-over.tss-omniresult-selected .tss-omniresult-select {
+    opacity: 1;
+}
+
+.tss-omniresult-select-hover-over:hover .tss-omniresult-icon,
+.tss-omniresult-select-hover-over.tss-omniresult-active .tss-omniresult-icon,
+.tss-omniresult-select-hover-over:focus-within .tss-omniresult-icon,
+.tss-omniresult-select-hover-over.tss-omniresult-selected .tss-omniresult-icon {
+    opacity: 0;
+}
+
+/* Replacing the icon: no tile at all. */
+.tss-omniresult-select-replacing .tss-omniresult-icon {
+    display: none;
+}
+
+/* Icon tile ------------------------------------------------------------------------------------- */
+
+.tss-omniresult-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 15px;
+    background: var(--tss-omniresult-icon-background, var(--tss-secondary-background-color));
+    color: var(--tss-omniresult-icon-foreground, var(--tss-default-foreground-color));
+}
+
+.tss-dark-mode .tss-omniresult-icon {
+    background: var(--tss-omniresult-icon-background-dark, var(--tss-secondary-background-color));
+    color: var(--tss-omniresult-icon-foreground-dark, var(--tss-default-foreground-color));
+}
+
+.tss-omniresult-icon.tss-omniresult-icon-plain,
+.tss-dark-mode .tss-omniresult-icon.tss-omniresult-icon-plain {
+    background: var(--tss-secondary-background-color);
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-omniresult-icon-glyph {
+    line-height: 1;
+}
+
+/* A file type spelled out ("PPTX", "XLSX") in place of a glyph. */
+.tss-omniresult-icon-text {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.tss-omniresult-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Title, badge, excerpt --------------------------------------------------------------------------- */
+
+.tss-omniresult-main {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.tss-omniresult-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.tss-omniresult-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-omniresult-badge {
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    align-items: center;
+}
+
+.tss-omniresult-badge .tss-token {
+    margin: 0;
+}
+
+.tss-omniresult-badge-pill {
+    padding: 2px 8px;
+    font-weight: 600;
+    background: color-mix(in srgb, var(--tss-link-color) 12%, transparent);
+    color: var(--tss-link-color);
+}
+
+.tss-dark-mode .tss-omniresult-badge-pill {
+    background: color-mix(in srgb, var(--tss-link-color) 26%, transparent);
+    color: color-mix(in srgb, var(--tss-link-color) 70%, white);
+}
+
+.tss-omniresult-body {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-omniresult-highlight {
+    border-radius: 3px;
+    padding: 0 2px;
+    background: color-mix(in srgb, var(--tss-primary-background-color) 18%, transparent);
+    color: inherit;
+}
+
+.tss-dark-mode .tss-omniresult-highlight {
+    background: color-mix(in srgb, var(--tss-primary-background-color) 35%, transparent);
+}
+
+/* Footer ----------------------------------------------------------------------------------------- */
+
+.tss-omniresult-footer {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: 2px;
+    min-width: 0;
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--tss-secondary-foreground-color);
+}
+
+/* One dot between entries, drawn by CSS so no host has to interleave separators. */
+.tss-omniresult-footer > .tss-omniresult-footer-entry::before {
+    content: "·";
+    margin: 0 7px;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-omniresult-footer > .tss-omniresult-footer-entry:first-child::before {
+    content: none;
+    margin: 0;
+}
+
+.tss-omniresult-footer-entry {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tss-omniresult-footer-entry .tss-textblock {
+    margin: 0;
+    color: var(--tss-secondary-foreground-color);
+    white-space: nowrap;
+}
+
+.tss-omniresult-source {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.tss-omniresult-source-square {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    background: var(--tss-primary-background-color);
+}
+
+.tss-omniresult-source-text {
+    color: var(--tss-secondary-foreground-color);
+}
+
+/* Pages rail and commands ------------------------------------------------------------------------ */
+
+.tss-omniresult-rail {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.tss-omniresult-commands {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    align-self: flex-start;
+    flex-grow: 0;
+    flex-shrink: 0;
+    /* Aligned with the title's line box, so the [...] sits level with the title however tall the row is. */
+    height: 22px;
+    z-index: 3;
+}
+
+.tss-omniresult-inline-commands {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Hidden rather than absent, so the row keeps its width whether the commands show or not. */
+.tss-omniresult-commands > .tss-omniresult-menu-button,
+.tss-omniresult-inline-commands {
+    opacity: 0;
+    transition: opacity 120ms ease-in-out;
+}
+
+.tss-omniresult:hover .tss-omniresult-menu-button,
+.tss-omniresult.tss-omniresult-active .tss-omniresult-menu-button,
+.tss-omniresult:focus-within .tss-omniresult-menu-button,
+.tss-omniresult.tss-omniresult-menu-open .tss-omniresult-menu-button,
+.tss-omniresult-commands.tss-omniresult-commands-visible > .tss-omniresult-menu-button,
+.tss-omniresult:hover .tss-omniresult-inline-commands,
+.tss-omniresult.tss-omniresult-active .tss-omniresult-inline-commands,
+.tss-omniresult:focus-within .tss-omniresult-inline-commands,
+.tss-omniresult-inline-commands.tss-omniresult-commands-visible {
+    opacity: 1;
+}
+
+.tss-omniresult-menu-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: none;
+    border-radius: var(--tss-border-radius-sm);
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.tss-omniresult-menu-button:hover {
+    background: var(--tss-default-background-active-color);
+    color: var(--tss-default-foreground-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-omniresult,
+    .tss-omniresult-select,
+    .tss-omniresult-inline-commands,
+    .tss-omniresult-menu-button {
+        transition: none;
+    }
+}

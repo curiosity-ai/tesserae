@@ -112,4 +112,5 @@ omni.AddContext(ContextCard("Q3-forecast.xlsx", UIcons.FileExcel).SetSubLabel("S
 - ToolAgentSelector — the tool/agent picker `EnableChatMentions` is commonly wired to — `tool-agent-selector.md`
 - ContextCards — a compact row of pills naming the attached context, mounted in the box's `ChatHeader` slot — `context-cards.md`
 - ContextCard — the cards `WithContextToAdd` renders below the input — `context-card.md`
+- OmniResult — the search-result rows a query typed here is answered with — `omni-result.md`
 - Full docs & API: `/tesserae/components/omni-box`

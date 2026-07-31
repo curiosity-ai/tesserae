@@ -44,4 +44,5 @@ var card = ResourceCard()
 
 - Card — `.card.md`
 - ContextCard (the compact chat-attachment variant) — `.context-card.md`
+- OmniResult (the search-result row, with highlighting and a page preview) — `omni-result.md`
 - Full docs & API: `/tesserae/components/resource-card`
