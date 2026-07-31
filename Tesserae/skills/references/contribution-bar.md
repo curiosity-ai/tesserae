@@ -41,4 +41,5 @@ var bar = ContributionBar()
 ## Related
 
 - DeltaComponent — `delta-component.md`
+- OmniResult — hosts one under a search result's footer as its score breakdown — `omni-result.md`
 - Full docs & API: `/tesserae/components/contribution-bar`
