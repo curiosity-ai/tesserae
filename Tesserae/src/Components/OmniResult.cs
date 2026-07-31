@@ -1,12 +1,28 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using Transpose.Core;
 using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Which corner of an <see cref="OmniResult{T}"/> icon tile a badge is pinned to.
+    /// </summary>
+    public enum OmniResultBadgeCorner
+    {
+        /// <summary>The top-left corner - where a "pinned" marker usually goes.</summary>
+        TopLeft,
+        /// <summary>The top-right corner.</summary>
+        TopRight,
+        /// <summary>The bottom-left corner.</summary>
+        BottomLeft,
+        /// <summary>The bottom-right corner - where a "where it came from" marker usually goes.</summary>
+        BottomRight
+    }
+
     /// <summary>
     /// Where the selection checkbox of an <see cref="OmniResult{T}"/> lives, and when it shows. A selected
     /// result always shows its checkbox, whatever the mode.
@@ -66,13 +82,17 @@ namespace Tesserae
     public sealed class OmniResult<T> : ComponentBase<OmniResult<T>, HTMLElement>
     {
         private readonly HTMLElement _selectContainer;
+        private readonly HTMLElement _iconHolder;
         private readonly HTMLElement _iconContainer;
+        private readonly HTMLElement _idContainer;
+        private readonly HTMLElement _idText;
         private readonly HTMLElement _titleElement;
         private readonly HTMLElement _badgeContainer;
         private readonly HTMLElement _headerContainer;
         private readonly HTMLElement _bodyContainer;
+        private readonly HTMLElement _contentContainer;
         private readonly HTMLElement _sourceContainer;
-        private readonly HTMLElement _sourceSquare;
+        private readonly HTMLElement _sourceMarker;
         private readonly HTMLElement _sourceText;
         private readonly HTMLElement _footerContainer;
         private readonly HTMLElement _contributionContainer;
@@ -81,12 +101,16 @@ namespace Tesserae
         private readonly HTMLElement _commandsContainer;
         private readonly HTMLElement _inlineCommandsContainer;
 
+        private readonly Dictionary<string, HTMLElement> _iconBadges = new Dictionary<string, HTMLElement>();
+
         private CheckBox          _checkBox;
         private ContributionBar   _contribution;
         private HTMLButtonElement _menuButton;
         private PagesStack        _pages;
 
+        private string                       _id;
         private string                       _title;
+        private IComponent                   _titleComponent;
         private string                       _text;
         private Regex                        _highlighter;
         private OmniResultSelectionMode      _selectionMode = OmniResultSelectionMode.OnHoverBeforeIcon;
@@ -96,6 +120,11 @@ namespace Tesserae
         private Action<OmniResult<T>>        _sourceClickHandler;
         private Func<OmniResult<T>, ContextMenu.Item[]> _menuGenerator;
         private MouseEvent                   _lastPointerEvent;
+
+        private Func<OmniResult<T>, Task<IComponent>> _modalContent;
+        private Func<OmniResult<T>, IComponent>       _modalHeader;
+        private UnitSize                              _modalWidth  = UnitSize.Auto();
+        private UnitSize                              _modalHeight = UnitSize.Auto();
 
         private event Action<OmniResult<T>, bool> SelectionChanged;
         private event Action<OmniResult<T>>       RangeSelectionRequested;
@@ -109,34 +138,41 @@ namespace Tesserae
 
             _selectContainer = Div(Att("tss-omniresult-select"));
             _iconContainer   = Div(Att("tss-omniresult-icon"));
+            _iconHolder      = Div(Att("tss-omniresult-icon-holder"), _iconContainer);
+
+            _idText       = Span(Att("tss-omniresult-id-value"));
+            _idContainer  = Div(Att("tss-omniresult-id"), _idText, I(UIcons.AngleRight, UIconsWeight.Regular, "tss-omniresult-id-chevron"));
 
             _titleElement   = Span(Att("tss-omniresult-title"));
             _badgeContainer = Div(Att("tss-omniresult-badge"));
 
-            _headerContainer = Div(Att("tss-omniresult-header"), _titleElement, _badgeContainer);
+            _headerContainer = Div(Att("tss-omniresult-header"), _idContainer, _titleElement, _badgeContainer);
 
-            _bodyContainer = Div(Att("tss-omniresult-body"));
+            _bodyContainer    = Div(Att("tss-omniresult-body"));
+            _contentContainer = Div(Att("tss-omniresult-content"));
 
-            _sourceSquare    = Span(Att("tss-omniresult-source-square"));
+            _sourceMarker    = Span(Att("tss-omniresult-source-square"));
             _sourceText      = Span(Att("tss-omniresult-source-text"));
-            _sourceContainer = Div(Att("tss-omniresult-source"), _sourceSquare, _sourceText);
+            _sourceContainer = Div(Att("tss-omniresult-source"), _sourceMarker, _sourceText);
 
             _footerContainer = Div(Att("tss-omniresult-footer"));
 
             _contributionContainer = Div(Att("tss-omniresult-contribution"));
 
-            _mainContainer = Div(Att("tss-omniresult-main"), _headerContainer, _bodyContainer, _footerContainer, _contributionContainer);
+            _mainContainer = Div(Att("tss-omniresult-main"), _headerContainer, _bodyContainer, _contentContainer, _footerContainer, _contributionContainer);
 
             _railContainer           = Div(Att("tss-omniresult-rail"));
             _inlineCommandsContainer = Div(Att("tss-omniresult-inline-commands"));
             _commandsContainer       = Div(Att("tss-omniresult-commands"), _inlineCommandsContainer);
 
-            InnerElement = Div(Att("tss-omniresult"), _selectContainer, _iconContainer, _mainContainer, _railContainer, _commandsContainer);
+            InnerElement = Div(Att("tss-omniresult"), _selectContainer, _iconHolder, _mainContainer, _railContainer, _commandsContainer);
 
+            SetId(null);
             SetTitle(title);
             SetText(null);
+            SetContent(null);
             SetBadge((string)null);
-            SetSource(null, null);
+            SetSource((string)null, null);
             SetContributionBar(null);
 
             HookEvents();
@@ -154,6 +190,16 @@ namespace Tesserae
         {
             get => _title;
             set => SetTitle(value);
+        }
+
+        /// <summary>
+        /// Gets or sets the identifier shown before the title - an issue number, a ticket key, a row number -
+        /// followed by a chevron pointing at the title. A null or empty value drops both.
+        /// </summary>
+        public string Id
+        {
+            get => _id;
+            set => SetId(value);
         }
 
         /// <summary>
@@ -224,15 +270,51 @@ namespace Tesserae
         public override HTMLElement Render() => InnerElement;
 
         /// <summary>
-        /// Sets the title of the result. The title is ellipsized to one line, and carries the full text as
-        /// its native tooltip.
+        /// Sets the title of the result. The title is ellipsized to one line, carries the full text as its
+        /// native tooltip, and has the terms of <see cref="Highlight(Regex)"/> marked in it.
         /// </summary>
         public OmniResult<T> SetTitle(string title)
         {
-            _title = title ?? string.Empty;
+            _titleComponent = null;
+            _title          = title ?? string.Empty;
 
-            _titleElement.textContent = _title;
-            _titleElement.setAttribute("title", _title);
+            RenderTitle();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Puts a component in the title slot in place of the plain title - the escape hatch for a result
+        /// whose title genuinely isn't text, such as one built from fields an administrator configured. The
+        /// text passed alongside it stays the row's <see cref="Title"/>, so the tooltip, the modal header and
+        /// anything else reading the title still have something to say. Pass null to go back to plain text.
+        /// <para>
+        /// A component title is drawn as it was given: <see cref="Highlight(Regex)"/> does not reach inside it.
+        /// </para>
+        /// </summary>
+        public OmniResult<T> SetTitle(IComponent title, string text = null)
+        {
+            _titleComponent = title;
+            _title          = text ?? _title ?? string.Empty;
+
+            RenderTitle();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the identifier shown before the title - an issue number, a ticket key, a row number - drawn in
+        /// the quiet way an identifier reads and followed by a chevron pointing at the title. A null or empty
+        /// value drops the identifier and the chevron with it.
+        /// </summary>
+        public OmniResult<T> SetId(string id)
+        {
+            _id = id;
+
+            var isEmpty = string.IsNullOrEmpty(id);
+
+            _idText.textContent      = isEmpty ? string.Empty : id;
+            _idContainer.style.display = isEmpty ? "none" : "";
 
             return this;
         }
@@ -336,14 +418,84 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Marks every match of the given expression in the excerpt - the same pattern a search backend
-        /// hands back for highlighting. Matching is done against the text itself and the matches are wrapped
-        /// in their own elements, so the excerpt is never treated as markup.
+        /// Puts a component under the excerpt, in the text column: the rich preview a result has of its own -
+        /// a thumbnail, a quoted message, a table of the fields that matched - for everything a plain excerpt
+        /// can't say. Pass null to take it away.
+        /// <para>
+        /// Cap how tall it is allowed to be with <see cref="ContentMaxHeight(UnitSize)"/>, which fades the
+        /// overflow out rather than cutting it off.
+        /// </para>
+        /// </summary>
+        public OmniResult<T> SetContent(IComponent content)
+        {
+            ClearChildren(_contentContainer);
+
+            if (content is object) _contentContainer.appendChild(content.Render());
+
+            _contentContainer.style.display = content is null ? "none" : "";
+
+            return this;
+        }
+
+        /// <summary>
+        /// Caps how tall the <see cref="SetContent(IComponent)"/> preview is allowed to grow, fading whatever
+        /// runs past it out instead of cutting it off. Pass null to un-cap it.
+        /// </summary>
+        public OmniResult<T> ContentMaxHeight(UnitSize maxHeight)
+        {
+            var isCapped = maxHeight is object;
+
+            _contentContainer.style.maxHeight = isCapped ? maxHeight.ToString() : "";
+            _contentContainer.UpdateClassIf(isCapped, "tss-omniresult-content-masked");
+
+            return this;
+        }
+
+        /// <summary>
+        /// Pins a badge to a corner of the icon tile - where a result came from, that it is pinned - drawn
+        /// over the tile's corner and outside its clipping. Pass null to clear that corner.
+        /// </summary>
+        public OmniResult<T> SetIconBadge(IComponent badge, OmniResultBadgeCorner corner = OmniResultBadgeCorner.BottomRight)
+        {
+            var cornerClass = CornerClass(corner);
+
+            if (_iconBadges.TryGetValue(cornerClass, out var stale))
+            {
+                _iconHolder.removeChild(stale);
+                _iconBadges.Remove(cornerClass);
+            }
+
+            if (badge is null) return this;
+
+            var holder = Div(Att("tss-omniresult-icon-badge " + cornerClass), badge.Render());
+
+            _iconHolder.appendChild(holder);
+            _iconBadges[cornerClass] = holder;
+
+            return this;
+        }
+
+        private static string CornerClass(OmniResultBadgeCorner corner)
+        {
+            switch (corner)
+            {
+                case OmniResultBadgeCorner.TopLeft:     return "tss-omniresult-icon-badge-tl";
+                case OmniResultBadgeCorner.TopRight:    return "tss-omniresult-icon-badge-tr";
+                case OmniResultBadgeCorner.BottomLeft:  return "tss-omniresult-icon-badge-bl";
+                default:                                return "tss-omniresult-icon-badge-br";
+            }
+        }
+
+        /// <summary>
+        /// Marks every match of the given expression in the title and the excerpt - the same pattern a search
+        /// backend hands back for highlighting. Matching is done against the text itself and the matches are
+        /// wrapped in their own elements, so neither is ever treated as markup.
         /// </summary>
         public OmniResult<T> Highlight(Regex highlighter)
         {
             _highlighter = highlighter;
 
+            RenderTitle();
             RenderText();
 
             return this;
@@ -391,10 +543,43 @@ namespace Tesserae
         /// </summary>
         public OmniResult<T> SetSource(string color, string text, Action<OmniResult<T>> onClick = null)
         {
+            ClearChildren(_sourceMarker);
+
+            _sourceMarker.classList.remove("tss-omniresult-source-custom");
+            _sourceMarker.style.background = color ?? string.Empty;
+
+            return SetSourceText(text, onClick);
+        }
+
+        /// <summary>
+        /// Names where the result came from with a marker of the host's own - the source's logo, an avatar -
+        /// in place of the plain colored square, followed by the text. Everything else behaves as
+        /// <see cref="SetSource(string, string, Action{OmniResult{T}})"/>: a null or empty text hides it, and
+        /// passing a handler makes the source clickable.
+        /// </summary>
+        public OmniResult<T> SetSource(IComponent marker, string text, Action<OmniResult<T>> onClick = null)
+        {
+            ClearChildren(_sourceMarker);
+
+            _sourceMarker.style.background = string.Empty;
+            _sourceMarker.UpdateClassIf(marker is object, "tss-omniresult-source-custom");
+
+            if (marker is object) _sourceMarker.appendChild(marker.Render());
+
+            return SetSourceText(text, onClick);
+        }
+
+        private OmniResult<T> SetSourceText(string text, Action<OmniResult<T>> onClick)
+        {
             var isEmpty = string.IsNullOrEmpty(text);
 
-            _sourceText.textContent        = isEmpty ? string.Empty : text;
-            _sourceSquare.style.background = color ?? string.Empty;
+            _sourceText.textContent = isEmpty ? string.Empty : text;
+
+            // No color and no marker of its own: the source is its name alone, rather than a name behind a
+            // blank square.
+            var hasMarker = !string.IsNullOrEmpty(_sourceMarker.style.background) || _sourceMarker.childElementCount > 0;
+
+            _sourceMarker.style.display = hasMarker ? "" : "none";
 
             // Only when one is given, so a later SetSource can't silently drop a handler an earlier
             // OnSourceClick registered. OnSourceClick(null) is how a source stops being clickable.
@@ -672,6 +857,117 @@ namespace Tesserae
             if (!value) _pages?.Fanned(false);
 
             return this;
+        }
+
+        /// <summary>
+        /// Gets the pointer event that last asked for this result's commands - the right-click, or the click
+        /// on the [...] button - or null when they were asked for from the keyboard. A host that shows its own
+        /// command surface (rather than a <see cref="ContextMenu"/> through <see cref="ShowMenu"/>) reads this
+        /// to place it where the user asked.
+        /// </summary>
+        public MouseEvent CommandsEvent => _lastPointerEvent;
+
+        /// <summary>
+        /// Gets a value indicating whether the result has content to open as a modal
+        /// (see <see cref="ToModal"/>).
+        /// </summary>
+        public bool HasModalContent => _modalContent is object;
+
+        /// <summary>
+        /// Sets what <see cref="ToModal"/> puts inside the modal for this result - the full view of the thing
+        /// the row stands for. Pass null to make the result modal-less again.
+        /// </summary>
+        public OmniResult<T> SetModalContent(IComponent content)
+        {
+            _modalContent = content is null ? (Func<OmniResult<T>, Task<IComponent>>)null : (_ => Task.FromResult(content));
+
+            return this;
+        }
+
+        /// <summary>
+        /// Sets what <see cref="ToModal"/> puts inside the modal, built on open and given the result - for
+        /// content that shouldn't be paid for until someone asks to see it.
+        /// </summary>
+        public OmniResult<T> SetModalContent(Func<OmniResult<T>, Task<IComponent>> content)
+        {
+            _modalContent = content;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Builds the modal content on its own, for a host that shows it somewhere other than in a modal - a
+        /// side panel, a page, a pane of its own. Returns null when the result has no modal content.
+        /// </summary>
+        public Task<IComponent> GetModalContentAsync() => _modalContent is null ? Task.FromResult((IComponent)null) : _modalContent(this);
+
+        /// <summary>
+        /// Replaces the modal's header - by default the same identifier, title and badge the row shows - with
+        /// one built from the result. Pass null to go back to the default header.
+        /// </summary>
+        public OmniResult<T> SetModalHeader(Func<OmniResult<T>, IComponent> header)
+        {
+            _modalHeader = header;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the size the modal of <see cref="ToModal"/> opens at. Auto by default, which lets the modal
+        /// size itself to its content (and to whatever bounds the caller sets on it afterwards).
+        /// </summary>
+        public OmniResult<T> ModalSize(UnitSize width, UnitSize height)
+        {
+            _modalWidth  = width  ?? UnitSize.Auto();
+            _modalHeight = height ?? UnitSize.Auto();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Builds a <see cref="Tesserae.Modal"/> showing this result: the row's identifier, title and badge as
+        /// the header, and whatever <c>SetModalContent</c> was given as the body, at the size
+        /// <see cref="ModalSize(UnitSize, UnitSize)"/> asked for. Everything else - commands, dismissal,
+        /// bounds, how it is shown - is left to the caller to chain on the returned modal.
+        /// <para>
+        /// Returns null when the result has no modal content, so a caller can treat "this result has no
+        /// preview" as one check.
+        /// </para>
+        /// </summary>
+        public Modal ToModal()
+        {
+            if (_modalContent is null) return null;
+
+            var content = _modalContent;
+
+            var modal = UI.Modal()
+               .Class("tss-omniresult-modal")
+               .SetHeader(_modalHeader is object ? _modalHeader(this) : ModalTitle())
+               .Width(_modalWidth)
+               .Height(_modalHeight);
+
+            modal.Content(Defer(() => content(this)).WS());
+
+            return modal;
+        }
+
+        /// <summary>
+        /// The header <see cref="ToModal"/> uses by default: the identifier, the title and the badge, drawn
+        /// the way the row draws them. Useful to a caller building its own header around it.
+        /// </summary>
+        public IComponent ModalTitle()
+        {
+            var header = Div(Att("tss-omniresult-modal-title"));
+
+            if (!string.IsNullOrEmpty(_id))
+            {
+                header.appendChild(Span(Att("tss-omniresult-id-value", text: _id)));
+                header.appendChild(I(UIcons.AngleRight, UIconsWeight.Regular, "tss-omniresult-id-chevron"));
+            }
+
+            header.appendChild(Span(Att("tss-omniresult-modal-title-text", text: _title, title: _title)));
+
+            return Raw(header);
         }
 
         /// <summary>
@@ -960,26 +1256,47 @@ namespace Tesserae
             return this;
         }
 
-        // The excerpt is built out of text nodes and marker spans, never out of markup, so a result whose
-        // text happens to contain angle brackets renders them rather than obeying them.
+        private void RenderTitle()
+        {
+            _titleElement.setAttribute("title", _title ?? string.Empty);
+            _titleElement.UpdateClassIf(_titleComponent is object, "tss-omniresult-title-custom");
+
+            if (_titleComponent is null)
+            {
+                RenderHighlighted(_titleElement, _title);
+                return;
+            }
+
+            ClearChildren(_titleElement);
+
+            _titleElement.appendChild(_titleComponent.Render());
+        }
+
         private void RenderText()
         {
-            ClearChildren(_bodyContainer);
-
             var isEmpty = string.IsNullOrEmpty(_text);
 
             _bodyContainer.style.display = isEmpty ? "none" : "";
 
-            if (isEmpty) return;
+            RenderHighlighted(_bodyContainer, _text);
+        }
+
+        // Text is built out of text nodes and marker spans, never out of markup, so a title or an excerpt
+        // that happens to contain angle brackets renders them rather than obeying them.
+        private void RenderHighlighted(HTMLElement target, string text)
+        {
+            ClearChildren(target);
+
+            if (string.IsNullOrEmpty(text)) return;
 
             if (_highlighter is null)
             {
-                _bodyContainer.textContent = _text;
+                target.textContent = text;
                 return;
             }
 
             var position = 0;
-            var matches  = _highlighter.Matches(_text);
+            var matches  = _highlighter.Matches(text);
 
             for (int i = 0; i < matches.Count; i++)
             {
@@ -989,17 +1306,17 @@ namespace Tesserae
 
                 if (match.Index > position)
                 {
-                    _bodyContainer.appendChild(document.createTextNode(_text.Substring(position, match.Index - position)));
+                    target.appendChild(document.createTextNode(text.Substring(position, match.Index - position)));
                 }
 
-                _bodyContainer.appendChild(Span(Att("tss-omniresult-highlight", text: match.Value)));
+                target.appendChild(Span(Att("tss-omniresult-highlight", text: match.Value)));
 
                 position = match.Index + match.Length;
             }
 
-            if (position < _text.Length)
+            if (position < text.Length)
             {
-                _bodyContainer.appendChild(document.createTextNode(_text.Substring(position)));
+                target.appendChild(document.createTextNode(text.Substring(position)));
             }
         }
     }

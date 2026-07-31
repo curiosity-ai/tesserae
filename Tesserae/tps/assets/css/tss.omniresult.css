@@ -102,11 +102,42 @@
 }
 
 /* Replacing the icon: no tile at all. */
-.tss-omniresult-select-replacing .tss-omniresult-icon {
+.tss-omniresult-select-replacing .tss-omniresult-icon-holder {
     display: none;
 }
 
 /* Icon tile ------------------------------------------------------------------------------------- */
+
+/* The tile clips its own content, so corner badges hang off this holder instead - which doesn't. */
+.tss-omniresult-icon-holder {
+    position: relative;
+    flex-grow: 0;
+    flex-shrink: 0;
+    line-height: 0;
+}
+
+.tss-omniresult-icon-badge {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    line-height: 0;
+    pointer-events: none;
+}
+
+.tss-omniresult-icon-badge img,
+.tss-omniresult-icon-badge svg {
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+}
+
+.tss-omniresult-icon-badge-tl { left: -4px;  top: -4px; }
+.tss-omniresult-icon-badge-tr { right: -4px; top: -4px; }
+.tss-omniresult-icon-badge-bl { left: -4px;  bottom: -4px; }
+.tss-omniresult-icon-badge-br { right: -4px; bottom: -4px; }
 
 .tss-omniresult-icon {
     display: flex;
@@ -182,6 +213,46 @@
     color: var(--tss-default-foreground-color);
 }
 
+/* A title built from a component of the host's own lays itself out, so the one-line ellipsis the plain
+   title gets would only fight it. */
+.tss-omniresult-title.tss-omniresult-title-custom {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    flex-grow: 1;
+    overflow: visible;
+    white-space: normal;
+}
+
+/* The identifier before the title - an issue number, a ticket key - and the chevron pointing at it. It
+   never shrinks, so a long title ellipsizes before the identifier does. */
+.tss-omniresult-id {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    min-width: 0;
+}
+
+.tss-omniresult-id-value {
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 22px;
+    font-variant-numeric: tabular-nums;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-omniresult-id-chevron {
+    font-size: 11px;
+    line-height: 1;
+    color: var(--tss-secondary-foreground-color);
+}
+
 .tss-omniresult-badge {
     display: flex;
     flex-grow: 0;
@@ -224,6 +295,18 @@
 .tss-omniresult-highlight {
     border-radius: 3px;
     padding: 0 2px;
+}
+
+/* The rich preview under the excerpt, capped by ContentMaxHeight - which fades the overflow out rather
+   than cutting it off, so a clipped preview reads as "there is more" instead of as a rendering fault. */
+.tss-omniresult-content {
+    min-width: 0;
+    overflow: hidden;
+}
+
+.tss-omniresult-content-masked {
+    -webkit-mask-image: linear-gradient(to bottom, black calc(100% - 28px), transparent 100%);
+    mask-image: linear-gradient(to bottom, black calc(100% - 28px), transparent 100%);
 }
 
 /* Footer ----------------------------------------------------------------------------------------- */
@@ -281,6 +364,23 @@
     height: 10px;
     border-radius: 2px;
     background: var(--tss-primary-background-color);
+}
+
+/* A marker of the host's own - a source logo, an avatar - in place of the plain colored square. */
+.tss-omniresult-source-square.tss-omniresult-source-custom {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    background: none;
+    line-height: 0;
+}
+
+.tss-omniresult-source-square.tss-omniresult-source-custom img,
+.tss-omniresult-source-square.tss-omniresult-source-custom svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .tss-omniresult-source-text {
@@ -381,6 +481,26 @@
 
 .tss-omniresult-menu-button:hover {
     background: var(--tss-default-background-active-color);
+    color: var(--tss-default-foreground-color);
+}
+
+/* As a modal ------------------------------------------------------------------------------------- */
+
+/* The modal header repeats the row's identifier, chevron and title, so opening a result reads as the
+   same thing enlarged rather than as a different surface. */
+.tss-omniresult-modal-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.tss-omniresult-modal-title-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 16px;
+    font-weight: 600;
     color: var(--tss-default-foreground-color);
 }
 
