@@ -134,10 +134,20 @@ and the detail are one object rather than two that have to be kept in step.
   Null makes the row modal-less again.
 - `HasModalContent` — whether it has any, so "this result has no preview" is one check.
 - `.ModalSize(UnitSize width, UnitSize height)` — the size it opens at. `Auto` by default.
+- `.ModalKeepsIcon(bool = true)` — keeps the icon tile in the modal's header, before the identifier
+  and the title, so an opened result still shows what kind of thing it is. Everything the tile
+  carries comes with it: the glyph or thumbnail, its tint, and any corner badges. Off by default.
+- `.ModalKeepsFooter(bool = true)` — keeps the footer (the source and the metadata beside it) as a
+  second line under the title, so where a result came from is still said once it is open. A clickable
+  source stays clickable. Off by default.
 - `.SetModalHeader(Func<OmniResult<T>, IComponent>)` — replaces the default header (the same
-  identifier, chevron and title the row shows) with one built from the result — for a header that also
-  carries commands or status beside the title. Null goes back to the default.
+  identifier, chevron and title the row shows, plus whatever the two options above kept) with one
+  built from the result — for a header that also carries commands or status beside the title. Null
+  goes back to the default.
 - `.ModalTitle()` — that default header on its own, to build around.
+
+Both options **copy** what the row drew rather than moving it, so opening a result never takes the
+tile or the footer out of the row behind it.
 - `.ToModal()` — a `Modal` with that header and content, at that size, or null when the row has no
   modal content. Everything else (commands, dismissal, bounds, how it is shown) is left to the caller
   to chain on what comes back.
@@ -145,6 +155,8 @@ and the detail are one object rather than two that have to be kept in step.
   a modal: a side panel, a page, a pane.
 
 ```csharp
+row.ModalKeepsIcon().ModalKeepsFooter();     // the header shows the tile and the source line too
+
 var modal = row.ToModal();
 
 if (modal is object)
@@ -196,7 +208,9 @@ foreach (var hit in results)
         }, OmniResultCommandsMode.ButtonOnHover)
         .InlineCommands(Button(UIcons.Download).Tooltip("Download").OnClick(() => Download(hit)))
         .SetModalContent(async r => await BuildFullViewAsync(r.Result))                  // opens as a modal
-        .ModalSize(80.vw(), 80.vh());
+        .ModalSize(80.vw(), 80.vh())
+        .ModalKeepsIcon()                                                                // tile in the header
+        .ModalKeepsFooter();                                                             // source line under the title
 
     list.Add(row);
 }
