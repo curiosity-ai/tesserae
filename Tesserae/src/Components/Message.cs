@@ -16,6 +16,7 @@ namespace Tesserae
         private readonly HTMLDivElement _titleContainer;
         private readonly HTMLDivElement _textContainer;
         private readonly HTMLDivElement _noteContainer;
+        private readonly HTMLDivElement _illustrationContainer;
 
         private IComponent  _action;
         private HTMLElement _actionContainer;
@@ -33,6 +34,8 @@ namespace Tesserae
             _textContainer    = Div(Att("tss-message-text"));
             _noteContainer    = Div(Att("tss-message-note"));
             _actionContainer  = Div(Att("tss-message-action"));
+
+            _illustrationContainer = Div(Att("tss-message-illustration"));
 
             if (!string.IsNullOrEmpty(title)) Title(title);
             if (!string.IsNullOrEmpty(message)) Text(message);
@@ -123,6 +126,20 @@ namespace Tesserae
             _noteContainer.innerHTML = "";
             _noteContainer.appendChild(note.Render());
             if(!_contentContainer.contains(_noteContainer)) _contentContainer.appendChild(_noteContainer);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds an illustration below the message content, for empty states that want a picture
+        /// (a drawing, a mascot, an animation) instead of - or on top of - the leading icon.
+        /// </summary>
+        public Message Illustration(IComponent illustration)
+        {
+            ClearChildren(_illustrationContainer);
+            _illustrationContainer.appendChild(illustration.Render());
+
+            if (!InnerElement.contains(_illustrationContainer)) InnerElement.insertBefore(_illustrationContainer, _actionContainer);
+
             return this;
         }
 

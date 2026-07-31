@@ -29,6 +29,15 @@
         margin-top: 4px;
     }
 
+/* No icon, no title: an empty slot would still draw its circle / claim its margin. */
+.tss-message-icon:empty {
+    display: none;
+}
+
+.tss-message-title:empty {
+    margin-bottom: 0;
+}
+
 .tss-message-content {
     display: flex;
     flex-direction: column;
@@ -71,6 +80,15 @@
     font-size: 16px;
 }
 
+.tss-message-illustration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    margin-top: 8px;
+    opacity: 0.5;
+}
+
 /* Horizontal layout: icon sits beside the content instead of stacked above it */
 .tss-message-horizontal {
     flex-direction: row;
@@ -110,6 +128,10 @@
 
     .tss-message-horizontal .tss-message-note {
         margin-top: 12px;
+    }
+
+    .tss-message-horizontal .tss-message-illustration {
+        margin-top: 0;
     }
 
 /* Variants: soft tinted background with a rounded border */
