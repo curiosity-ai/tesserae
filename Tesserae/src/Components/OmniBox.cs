@@ -575,6 +575,8 @@ namespace Tesserae
         private readonly Button      _searchHelpBtn;
         private readonly Button      _searchClearBtn;
         private readonly Button      _searchTriggerBtn;
+        private Button          _askAIBtn;
+        private Action<OmniBox> _onAskAI;
         private bool _helpShowSyntax;
 
         private string[]      _shortcutKeys;
@@ -1245,6 +1247,10 @@ namespace Tesserae
                     _activeInput = _chatInput;
                     _container.classList.add("tss-omnibox-mode-chat");
                     _container.classList.remove("tss-omnibox-mode-search");
+                    // A textarea measured while it was display:none reports no content height at all, so a
+                    // box that started in search mode arrives here with a zero-height input: size it now
+                    // that it is the visible one.
+                    ResizeChatInput();
                     break;
                 }
                 case Mode.SearchAndChat:
@@ -3123,6 +3129,55 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds a primary-styled action button at the end of the search input — the way out of a search
+        /// that isn't finding it, over to whatever answers the question instead. The button follows the
+        /// box's roundness, so a box made round with <see cref="Rounded(BorderRadius)"/> gets a pill.
+        /// Search modes only: in <see cref="Mode.SearchAndChat"/> the button sits at the end of the
+        /// footer and hides itself while the box is in chat mode. Calling this again updates the button
+        /// that is already there; passing a null or empty <paramref name="text"/> hides it.
+        /// </summary>
+        /// <param name="text">The button label, e.g. "Ask AI".</param>
+        /// <param name="icon">The icon shown before the label.</param>
+        /// <param name="onClick">Called with this OmniBox when the button is clicked — read
+        /// <see cref="SearchText"/> from it to know what was typed.</param>
+        public OmniBox WithAskAI(string text = "Ask AI", UIcons icon = UIcons.Beacon, Action<OmniBox> onClick = null)
+        {
+            if (_mode != Mode.Search && _mode != Mode.SearchAndChat)
+            {
+                throw new InvalidOperationException("WithAskAI can only be called when OmniBox is in Search or SearchAndChat mode.");
+            }
+
+            _onAskAI = onClick;
+
+            if (_askAIBtn is null)
+            {
+                _askAIBtn = Button().Primary().Class("tss-omnibox-ask-ai-btn").OnClick(() =>
+                {
+                    if (!IsEnabled) return;
+                    _onAskAI?.Invoke(this);
+                });
+
+                if (_mode == Mode.Search)
+                {
+                    _searchContainer.appendChild(_askAIBtn.Render());
+                }
+                else
+                {
+                    _footer.appendChild(_askAIBtn.Render());
+                }
+            }
+
+            if (string.IsNullOrEmpty(text))
+            {
+                _askAIBtn.Collapse();
+                return this;
+            }
+
+            _askAIBtn.SetText(text).SetIcon(icon).Show();
+            return this;
+        }
+
         private void ShowSearchHelp()
         {
             var content = VStack().NoDefaultMargin().W(520).MaxHeight(500.px()).ScrollY().Class("tss-omnibox-help-panel");
@@ -3741,6 +3796,34 @@ namespace Tesserae
             _chatHeader.innerHTML = string.Empty;
 
             if (component is object) _chatHeader.appendChild(component.Render());
+
+            return this;
+        }
+
+        /// <summary>
+        /// Renders the box with rounded corners (defaults to a fully rounded "pill" shape). The radius
+        /// carries over to everything that meets the box's outline — the search container, the buttons at
+        /// its ends and the "Ask AI" button added with
+        /// <see cref="WithAskAI(string, UIcons, Action{OmniBox})"/> — and the pill shape also drops the
+        /// vertical dividers between them, so the contents sit inside the curve.
+        /// </summary>
+        /// <param name="radius">The border radius to apply. Defaults to <see cref="BorderRadius.Full"/>.</param>
+        public OmniBox Rounded(BorderRadius radius = BorderRadius.Full)
+        {
+            _container.classList.remove("tss-omnibox-rounded-sm", "tss-omnibox-rounded-md", "tss-omnibox-rounded-full");
+
+            switch (radius)
+            {
+                case BorderRadius.Small:
+                    _container.classList.add("tss-omnibox-rounded-sm");
+                    break;
+                case BorderRadius.Medium:
+                    _container.classList.add("tss-omnibox-rounded-md");
+                    break;
+                case BorderRadius.Full:
+                    _container.classList.add("tss-omnibox-rounded-full");
+                    break;
+            }
 
             return this;
         }
