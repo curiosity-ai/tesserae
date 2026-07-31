@@ -79,7 +79,9 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `Label`, `SubLabel`, `IsRemovable` — read state.
 
 Sizing helpers work as usual: `.MaxWidth(260.px())` is the normal way to cap a card whose label may
-be long, since the label ellipsizes to whatever width the card ends up with.
+be long, since the label ellipsizes to whatever width the card ends up with. Give the card a width of
+its own (`.WS()` in a side panel listing sources, say) and the label takes the extra space, so the
+second line, the badge and the chevron sit against the card's end and the label is what gets cut.
 
 ## Example
 
