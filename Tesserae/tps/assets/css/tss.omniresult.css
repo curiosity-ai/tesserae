@@ -316,6 +316,13 @@
     margin: 0;
 }
 
+/* The bar itself is capped - a score breakdown stretched across a wide result row reads as a progress
+   bar rather than a breakdown. Only the bar: the legend under it keeps the full width it needs to wrap
+   its labels, and the toggle stays right after the bar's end. */
+.tss-omniresult-contribution .tss-contribution-bar {
+    max-width: 320px;
+}
+
 /* Pages rail and commands ------------------------------------------------------------------------ */
 
 .tss-omniresult-rail {

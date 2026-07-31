@@ -96,8 +96,10 @@ theme: a `var(--…)` is resolved once, at the time it is set.
 - `.SetContributionBar(ContributionBar)` / `Contribution` — a `ContributionBar` under the footer,
   spanning the text column (so it lines up with the title and the excerpt rather than running under the
   icon and the pages rail). The row's place for a relevance breakdown: how much of the score came from
-  the title, the content, recency, how often the document is opened. Its own toggle never counts as a
-  click on the row, so `Collapsable()` works inside a row of results. Pass null to take it away.
+  the title, the content, recency, how often the document is opened. The bar itself is capped at 320px,
+  so a breakdown on a wide row doesn't read as a progress bar; the legend under it keeps the column's
+  full width to wrap its labels. Its own toggle never counts as a click on the row, so `Collapsable()`
+  works inside a row of results. Pass null to take it away.
 
 **Page preview**
 
