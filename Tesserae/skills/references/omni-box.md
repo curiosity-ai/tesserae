@@ -41,6 +41,16 @@ OmniBox:
   input, for filters the app owns rather than ones the user typed. A chip takes a text (with optional
   background/foreground colors and an `onClick`) or an arbitrary `IComponent`.
 - `.SetSearchRightText(string)` — a label at the far end of the search input, e.g. a result count.
+- `.Rounded(BorderRadius radius = BorderRadius.Full)` — rounds the box, and everything meeting its
+  outline follows: the search container, the buttons at its ends and the "Ask AI" button. `Full` makes
+  the single-row search box a pill (and drops the vertical dividers between its buttons); on the
+  multi-row chat layouts, where a stadium shape would curve through the input, it settles for a
+  generously rounded rectangle instead.
+- `.WithAskAI(string text = "Ask AI", UIcons icon = UIcons.Beacon, Action<OmniBox> onClick = null)` — a
+  primary-styled button at the end of the search input (search modes only), following the box's
+  roundness. The handler gets the OmniBox, so it can read `.SearchText`. In `SearchAndChat` the button
+  sits at the end of the footer and hides itself while the box is in chat mode. Calling it again updates
+  the button that is there; a null or empty `text` hides it.
 - `.SetModels(params ModelOption[])` / `.LockModel(ModelOption)` / `.SetThinkingEffort(ThinkingEffort)`
   — the chat footer's model selector; a locked model shows with a lock and stops opening the popover.
 - `.SetKeyboardShortcut(params string[] keys)` — e.g. `("Ctrl", "K")`: a document-level shortcut that
@@ -85,6 +95,16 @@ var config = new OmniBox.Config(OmniBox.Mode.SearchAndChat)
 var omni = new OmniBox(config)
     .OnSearch((s, q) => Console.WriteLine($"Search: {q.Tokens.Count} tokens"))
     .OnChat((s, m) => Console.WriteLine("Chat sent"));
+```
+
+A pill-shaped search box with a result count and an "Ask AI" action:
+
+```csharp
+var omni = new OmniBox(new OmniBox.Config(OmniBox.Mode.Search) { PlaceholderSearch = "Search…" })
+    .Rounded()                                   // BorderRadius.Full — a pill
+    .SetSearchRightText("18 results · 0.21s")
+    .WithAskAI("Ask AI", UIcons.Beacon, box => AskAI(box.SearchText))
+    .OnSearch((s, q) => Search(q.RawQuery));
 ```
 
 Context attached to the next message, shown inside the box below the input:
