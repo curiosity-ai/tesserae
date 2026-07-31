@@ -1,4 +1,7 @@
 .tss-omnibox-container {
+    /* The box's own roundness, picked by .Rounded(BorderRadius) and followed by everything that meets
+       its outline: the search container, the buttons at its ends and the "Ask AI" button. */
+    --tss-omnibox-radius: var(--tss-border-radius-md);
     display: inline-flex;
     flex-direction: row;
     position: relative;
@@ -6,7 +9,7 @@
     margin: 0px;
     padding: 0px;
     border: 1px solid var(--tss-default-border-color);
-    border-radius: var(--tss-border-radius-md);
+    border-radius: var(--tss-omnibox-radius);
     background: var(--tss-default-background-color) none repeat scroll 0% 0%;
     color: var(--tss-default-foreground-color);
     align-items: stretch;
@@ -34,8 +37,8 @@
             background: var(--tss-secondary-background-color);
             color: var(--tss-secondary-foreground-color);
             flex-shrink: 0;
-            border-top-left-radius: var(--tss-border-radius-md);
-            border-bottom-left-radius: var(--tss-border-radius-md);
+            border-top-left-radius: var(--tss-omnibox-radius);
+            border-bottom-left-radius: var(--tss-omnibox-radius);
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
         }
@@ -61,13 +64,15 @@
             background: transparent;
             border-left: 1px solid var(--tss-default-border-color);
             flex-shrink: 0;
-            border-top-right-radius: var(--tss-border-radius-md);
-            border-bottom-right-radius: var(--tss-border-radius-md);
+            border-top-right-radius: var(--tss-omnibox-radius);
+            border-bottom-right-radius: var(--tss-omnibox-radius);
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
 
-        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:hover {
+        /* The icon buttons at the ends of the row, only: the "Ask AI" button is styled by its own
+           (primary) button style, and this rule outweighs it — a grey hover on a blue button. */
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):hover {
             color: var(--tss-default-foreground-hover-color);
             background-color: var(--tss-default-background-hover-color);
         }
@@ -116,7 +121,87 @@
     align-items: stretch;
     width: 100%;
     height: 36px;
-    border-radius: var(--tss-border-radius-md);
+    border-radius: var(--tss-omnibox-radius);
+}
+
+/* Roundness, picked with .Rounded(BorderRadius) */
+.tss-omnibox-container.tss-omnibox-rounded-sm {
+    --tss-omnibox-radius: var(--tss-border-radius-sm);
+}
+
+.tss-omnibox-container.tss-omnibox-rounded-md {
+    --tss-omnibox-radius: var(--tss-border-radius-md);
+}
+
+.tss-omnibox-container.tss-omnibox-rounded-full {
+    --tss-omnibox-radius: var(--tss-border-radius-full);
+}
+
+/* A stadium shape only reads well on the single-row search box: on the multi-row chat layouts a
+   9999px radius curves in through the input and the footer, so BorderRadius.Full settles for a
+   generously rounded rectangle there instead. */
+.tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-chat-and-search,
+.tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-mode-chat {
+    --tss-omnibox-radius: 24px;
+}
+
+/* Those corners curve well into where the footer sits, so the footer pulls away from both the side and
+   the bottom of the box (the width takes the padding with it — everything here is border-box). */
+.tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-chat-and-search .tss-omnibox-footer,
+.tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-mode-chat .tss-omnibox-footer {
+    width: calc(100% - 16px);
+    padding-left: 16px;
+    margin-bottom: 16px;
+}
+
+/* A pill has no straight edge to hang a divider off, and its corners curve away from anything sitting
+   flush against them: so in the fully rounded box the dividers go, the buttons at the ends become
+   circles, and the row is inset far enough to stay inside the curve. The row is also taller than the
+   default one — a pill wants room around what it holds. Height()/H() still overrides this. */
+.tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container {
+    box-sizing: border-box;
+    height: 48px;
+    padding: 0 8px;
+}
+
+.tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+    border-radius: var(--tss-border-radius-full);
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
+
+/* Everything in the row keeps clear of the taller pill's edges: the icon buttons become discs (the
+   icon-only buttons hold their 1:1 aspect ratio, so the width follows the height) and "Ask AI" is a
+   little shorter than the row it sits in. */
+.tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn) {
+    align-self: center;
+    height: calc(100% - 16px);
+    min-height: 0;
+    max-height: 40px;
+    padding: 0;
+}
+
+.tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-ask-ai-btn {
+    height: calc(100% - 16px);
+    max-height: 40px;
+}
+
+/* The default row centers its text with a line-height as tall as itself; a taller pill would push the
+   text off-center, so the line box goes back to the font's own height and the input centers it. */
+.tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-input {
+    line-height: normal;
+}
+
+/* Chips lose the grey strip and its divider in a pill — there is no straight edge for either — and go
+   fully round themselves, so their corners don't cut across the box's curve. */
+.tss-omnibox-container.tss-omnibox-rounded-full .tss-omnibox-inline-chips {
+    background: transparent;
+    border-right: none;
+    padding-left: 6px;
+}
+
+.tss-omnibox-container.tss-omnibox-rounded-full .tss-omnibox-inline-chip {
+    border-radius: var(--tss-border-radius-full);
 }
 
 /* Slot above the chat input, inside the box: what the message is being written against (a
@@ -325,6 +410,7 @@
 .tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-history-btn,
 .tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-clear-btn,
 .tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-btn,
+.tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-ask-ai-btn,
 .tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-footer-item {
     display: none;
 }
@@ -503,6 +589,49 @@
 .tss-dark-mode .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger):hover {
     background: #e6e6e6;
     color: #000;
+}
+
+/* "Ask AI" button (WithAskAI): a primary action at the end of the search input that follows the box's
+   roundness, so a pill box gets a pill button. It sizes itself to the box with room left around it,
+   whatever height the box is given. */
+.tss-omnibox-container .tss-omnibox-search-container .tss-btn.tss-omnibox-ask-ai-btn,
+.tss-omnibox-container .tss-omnibox-footer .tss-btn.tss-omnibox-ask-ai-btn {
+    border-radius: var(--tss-omnibox-radius);
+    align-self: center;
+    flex-shrink: 0;
+    min-width: 0;
+    min-height: 28px;
+    margin: 0 4px;
+    padding: 0 14px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.tss-omnibox-container .tss-omnibox-search-container .tss-btn.tss-omnibox-ask-ai-btn {
+    height: calc(100% - 8px);
+    max-height: 44px;
+}
+
+.tss-omnibox-container .tss-omnibox-footer .tss-btn.tss-omnibox-ask-ai-btn {
+    height: 32px;
+}
+
+/* The label is a plain span, so it takes the button's foreground; the icon needs telling. */
+.tss-btn.tss-omnibox-ask-ai-btn:not(.tss-disabled) > i {
+    color: inherit;
+}
+
+/* A disabled box ignores the click, so the button says as much. */
+.tss-omnibox-container.tss-disabled .tss-btn.tss-omnibox-ask-ai-btn {
+    opacity: 0.5;
+    cursor: default;
+}
+
+/* Tighter than the 10px a .tss-btn puts between an icon and its label: this button is compact. */
+.tss-btn.tss-omnibox-ask-ai-btn > i + span:not(:empty) {
+    margin-left: 6px;
+    min-width: 0;
 }
 
 /* Model selector button (chat footer) */

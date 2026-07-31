@@ -31,6 +31,7 @@ namespace Tesserae.Tests.Samples
                .FlatSection(VStack().WS().Children(InlineChips()))
                .FlatSection(VStack().WS().Children(FooterItems()))
                .FlatSection(VStack().WS().Children(KeyboardShortcut()))
+               .FlatSection(VStack().WS().Children(RoundedAndAskAI()))
                .FlatSection(VStack().WS().Children(FileDrop()))
                .FlatSection(VStack().WS().Children(Models()))
                .FlatSection(VStack().WS().Children(Generating()))
@@ -404,6 +405,46 @@ namespace Tesserae.Tests.Samples
                 "SetKeyboardShortcut(\"Ctrl\", \"K\") registers a document-level shortcut that focuses the input, and shows the keys as a hint at the end of the search input. The hint is there to be discovered, so it steps out of the way while the input has focus and comes back on blur — and it is hidden in chat mode. Focus() does the same thing programmatically.",
                 box,
                 Button("Focus() it").SetIcon(UIcons.Cursor).MT(8).OnClick(() => box.Focus()));
+        }
+
+        // ---------- Rounded shape and the Ask AI button ----------
+
+        private IComponent RoundedAndAskAI()
+        {
+            var pill = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.Search)
+            {
+                PlaceholderSearch = "brake sensor calibration"
+            })
+            .WS()
+            .Rounded()
+            .SetSearchRightText("18 results · 0.21s")
+            .WithAskAI("Ask AI", UIcons.Beacon, box => Toast().Information($"Asking AI about: {box.SearchText}"))
+            .OnSearch((s, q) => Toast().Information($"Searched for: {q.RawQuery}")));
+
+            var square = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.Search)
+            {
+                PlaceholderSearch = "The default box, with the same Ask AI button"
+            })
+            .WS()
+            .WithAskAI(onClick: box => Toast().Information($"Asking AI about: {box.SearchText}"))
+            .OnSearch((s, q) => Toast().Information($"Searched for: {q.RawQuery}")));
+
+            var both = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.SearchAndChat)
+            {
+                PlaceholderSearch = "Ask AI sits in the footer here — switch to chat and it steps aside",
+                PlaceholderChat   = "Switch back to search to see the Ask AI button again"
+            })
+            .WS()
+            .Rounded()
+            .WithAskAI("Ask AI", UIcons.Beacon, box => Toast().Information($"Asking AI about: {box.SearchText}"))
+            .OnSearch((s, q) => Toast().Information($"Searched for: {q.RawQuery}"))
+            .OnChat((s, q) => Toast().Information(q.Text)));
+
+            return FeatureCard("Rounded and Ask AI", "A pill-shaped box with a primary action",
+                "Rounded(BorderRadius radius = BorderRadius.Full) rounds the box, and everything meeting its outline follows: the search container, the buttons at its ends, and the Ask AI button. WithAskAI(text, icon, onClick) adds that primary button at the end of the search input (search modes only) and hands the OmniBox to the click handler, so it can read SearchText. In SearchAndChat the button sits at the end of the footer and hides itself in chat mode.",
+                Label("Rounded() with Ask AI").SetContent(pill),
+                Label("The default roundness, same button").SetContent(square).MT(6),
+                Label("Mode.SearchAndChat").SetContent(both).MT(6));
         }
 
         // ---------- File drop ----------
