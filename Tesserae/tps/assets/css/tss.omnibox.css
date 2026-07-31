@@ -110,8 +110,23 @@
     display: none !important;
 }
 
-.tss-omnibox-footer .tss-icon-toggle{
-    margin-bottom:0px;
+.tss-omnibox-footer .tss-icon-toggle {
+    margin-bottom: 0px;
+    margin-right: 4px;
+    align-self: center;
+    flex-shrink: 0;
+}
+
+/* The mode selector takes the shape of the box it sits in, so a pill-shaped OmniBox gets a
+   pill-shaped selector rather than a rounded rectangle floating inside the curve. */
+.tss-omnibox-container.tss-omnibox-rounded-full .tss-omnibox-mode-toggle {
+    --tss-icon-toggle-radius: var(--tss-border-radius-full);
+    border-radius: var(--tss-border-radius-full);
+}
+
+.tss-omnibox-container.tss-omnibox-rounded-sm .tss-omnibox-mode-toggle {
+    --tss-icon-toggle-radius: var(--tss-border-radius-sm);
+    border-radius: var(--tss-border-radius-sm);
 }
 
 
