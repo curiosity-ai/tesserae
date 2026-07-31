@@ -33,7 +33,9 @@ stands for. Also `new OmniResult<T>(result, title)`. Bring factories into scope 
 - `.SetBadge(IComponent)` — a `Badge` with a tone of its own, a `Spinner`, a small button.
 - `.SetText(string)` / `Text` — the excerpt, as **plain text**, ellipsized to two lines.
 - `.TextLines(int)` — how many lines the excerpt gets before it is ellipsized.
-- `.HighlightWords(params string[])` — mark those words in the excerpt, case-insensitively.
+- `.HighlightWords(params string[])` — mark those words in the excerpt, case-insensitively. The marks
+  and the badge share one pair of colors, from the `--tss-highlight-color` token (the same value as
+  `--tss-link-color`, so `Theme.SetPrimary` moves both), and the excerpt itself is a quiet grey.
 - `.Highlight(Regex)` / `.Highlight(string pattern, bool ignoreCase = true)` — mark every match, e.g.
   the pattern a search backend hands back. Matching runs against the text and each match is wrapped in
   its own element, so an excerpt containing angle brackets renders them instead of obeying them.

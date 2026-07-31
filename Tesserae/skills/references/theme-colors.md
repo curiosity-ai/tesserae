@@ -11,7 +11,9 @@ description: The static `Theme` class for switching light/dark mode and overridi
 
 - `Theme.Light()` — switch to light mode.
 - `Theme.Dark()` — switch to dark mode (toggles the `tss-dark-mode` body class).
-- `Theme.SetPrimary(Color light, Color dark)` — set primary color for both modes.
+- `Theme.SetPrimary(Color light, Color dark)` — set primary color for both modes. It also drives the
+  colors derived from it: `--tss-link-color` (links, `Badge().Info()`) and `--tss-highlight-color`
+  (marked search terms, see `omni-result.md`).
 - `Theme.SetBackground(Color light, Color dark)` — set background for both modes.
 
 ## Properties

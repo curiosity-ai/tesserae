@@ -196,13 +196,6 @@
 .tss-omniresult-badge-pill {
     padding: 2px 8px;
     font-weight: 600;
-    background: color-mix(in srgb, var(--tss-link-color) 12%, transparent);
-    color: var(--tss-link-color);
-}
-
-.tss-dark-mode .tss-omniresult-badge-pill {
-    background: color-mix(in srgb, var(--tss-link-color) 26%, transparent);
-    color: color-mix(in srgb, var(--tss-link-color) 70%, white);
 }
 
 .tss-omniresult-body {
@@ -212,18 +205,25 @@
     overflow: hidden;
     font-size: 14px;
     line-height: 20px;
-    color: var(--tss-default-foreground-color);
+    color: var(--tss-colors-dark-neutral-600);
+}
+
+/* What matched reads the same wherever it is said: the badge naming the match and the marks on the
+   terms inside the excerpt share one pair of colors. */
+.tss-omniresult-badge-pill,
+.tss-omniresult-highlight {
+    background: color-mix(in srgb, var(--tss-highlight-color) 12%, transparent);
+    color: var(--tss-highlight-color);
+}
+
+.tss-dark-mode .tss-omniresult-badge-pill,
+.tss-dark-mode .tss-omniresult-highlight {
+    background: color-mix(in srgb, var(--tss-highlight-color) 26%, transparent);
 }
 
 .tss-omniresult-highlight {
     border-radius: 3px;
     padding: 0 2px;
-    background: color-mix(in srgb, var(--tss-primary-background-color) 18%, transparent);
-    color: inherit;
-}
-
-.tss-dark-mode .tss-omniresult-highlight {
-    background: color-mix(in srgb, var(--tss-primary-background-color) 35%, transparent);
 }
 
 /* Footer ----------------------------------------------------------------------------------------- */

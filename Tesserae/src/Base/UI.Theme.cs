@@ -299,6 +299,7 @@ namespace Tesserae
                 sb.AppendLine(":root {");
                 sb.Append("  --tss-primary-background-color-root: ").Append(primaryLightColor.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-link-color-root: ").Append(primaryLightColor.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-highlight-color-root: ").Append(primaryLightColor.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-primary-border-color-root: ").Append(borderColorLight.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-primary-background-hover-color-root: ").Append(borderColorLight.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-primary-background-active-color-root: ").Append(backgroundActiveLight.ToRGBvar()).AppendLine(";");
@@ -308,6 +309,7 @@ namespace Tesserae
                 sb.Append(@"
     --tss-primary-background-color: rgb(var(--tss-primary-background-color-root ));
     --tss-link-color: rgb(var(--tss-link-color-root ));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root ));
     --tss-primary-border-color: rgb(var(--tss-primary-border-color-root ));
     --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root ));
     --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root ));
@@ -319,6 +321,7 @@ namespace Tesserae
                 sb.AppendLine(".tss-dark-mode {");
                 sb.Append("  --tss-primary-background-color-root: ").Append(primaryDarkColor.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-link-color-root: ").Append(primaryDarkColor.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-highlight-color-root: ").Append(primaryDarkColor.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-primary-border-color-root: ").Append(borderColorDark.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-primary-background-hover-color-root: ").Append(borderColorDark.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-primary-background-active-color-root: ").Append(backgroundActiveDark.ToRGBvar()).AppendLine(";");
@@ -328,6 +331,7 @@ namespace Tesserae
                 sb.Append(@"
     --tss-primary-background-color: rgb(var(--tss-primary-background-color-root ));
     --tss-link-color: rgb(var(--tss-link-color-root ));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root ));
     --tss-primary-border-color: rgb(var(--tss-primary-border-color-root ));
     --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root ));
     --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root ));
