@@ -70,7 +70,9 @@
             border-bottom-left-radius: 0;
         }
 
-        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:hover {
+        /* The icon buttons at the ends of the row, only: the "Ask AI" button is styled by its own
+           (primary) button style, and this rule outweighs it — a grey hover on a blue button. */
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):hover {
             color: var(--tss-default-foreground-hover-color);
             background-color: var(--tss-default-background-hover-color);
         }
@@ -141,6 +143,15 @@
 .tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-chat-and-search,
 .tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-mode-chat {
     --tss-omnibox-radius: 24px;
+}
+
+/* Those corners curve well into where the footer sits, so the footer pulls away from both the side and
+   the bottom of the box (the width takes the padding with it — everything here is border-box). */
+.tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-chat-and-search .tss-omnibox-footer,
+.tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-mode-chat .tss-omnibox-footer {
+    width: calc(100% - 16px);
+    padding-left: 16px;
+    margin-bottom: 16px;
 }
 
 /* A pill has no straight edge to hang a divider off, and its corners curve away from anything sitting
