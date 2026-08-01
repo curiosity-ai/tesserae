@@ -1186,7 +1186,7 @@ namespace Tesserae
 
             if (_modalHasFullScreen)
             {
-                commands.Add(Raw(ModalButton(UIcons.Expand, "Open full screen", _ => ToggleModalFullScreen())));
+                commands.Add(Raw(ModalButton(UIcons.ArrowUpRightAndArrowDownLeftFromCenter, "Open full screen", _ => ToggleModalFullScreen())));
             }
 
             commands.Add(Raw(ModalButton(UIcons.Cross, "Close", _ => _modal?.Hide())));
