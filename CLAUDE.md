@@ -79,6 +79,43 @@ it does and when to use it (no `<`/`>`). Keep `SKILL.md` a focused overview and
 push detail into `references/`. The same applies to the matching pages in the
 `documentation` repo under `tesserae/` — update them alongside the references.
 
+## Icon fonts
+
+The UIcons webfonts and the `UIcons` enum are generated, not hand-written. Two
+console projects own them, and both are in the solution:
+
+- **`Build.UpdateInterfaceIcons`** — downloads the woff2/css for every UIcons
+  weight from Flaticon into `Tesserae/tps/assets/`, and regenerates
+  `Tesserae/src/Icons/UIcons.cs`. Run it from its own folder (it checks the
+  working directory). Bumping the icon set is this project's job.
+- **`Build.UIconsOpticalCentering`** — renders every glyph of every bundled
+  weight in headless Chromium (Playwright), measures how far each one is from
+  being optically centred in the box the browser lays it out in, and writes
+  `Tesserae/tps/assets/css/tss.uicons.adjustments.css`. That file is generated
+  output — regenerate it, never edit it:
+
+  ```bash
+  dotnet run --project Build.UIconsOpticalCentering            # rewrite the stylesheet
+  dotnet run --project Build.UIconsOpticalCentering -- --help  # tuning knobs
+  ```
+
+  It reads the `uicons-*.css` files for the codepoints, so **run it after
+  `Build.UpdateInterfaceIcons`** whenever the icon set is bumped — the
+  codepoints change with every UIcons release, and stale adjustments would land
+  on the wrong glyphs. It exits non-zero if its own checks fail (icons that must
+  overlap drifting apart, generated selectors not matching real icon markup), so
+  it is safe to wire into CI.
+
+  `--preview` also writes annotated before/after screenshots under the project's
+  `bin/.../preview/`. Those are local artefacts; don't commit them.
+
+  The adjustments are deliberately conservative: only offsets between the dead
+  zone and the cap are emitted, so an icon that is a long way off centre (a half
+  circle, an empty crate drawn at the bottom of its box) is left as drawn rather
+  than half-corrected. Icons that share an ink box, and the ones the toolkit
+  swaps in place (`--uicon-var-square` / `--uicon-var-checkbox`, the `-slash`
+  variants, mirrored arrows), are pinned to each other so they keep overlapping.
+
 ## Installing Transpose
 
 Install or update the Transpose compiler and the dotnet serve tool globally before getting started:
