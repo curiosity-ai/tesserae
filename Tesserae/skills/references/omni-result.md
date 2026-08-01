@@ -172,6 +172,8 @@ full-screen, so a modal never offers something the host didn't wire up:
   asked for a new tab (they shift-clicked, or pressed Shift+Enter).
 - `.OpenInSource(string name, Func<T, Uri> url, UIcons? icon = null)` — the same, for a source that is
   an address computed from the result. An address is always opened in a new tab.
+- Both take a `Func<IComponent>` instead of a `UIcons?` when the mark is the source's own logo; it is a
+  factory so that showing an action twice never moves one element between two places.
 - Call it more than once for several: the first stays the button, the rest hang off an arrow beside it
   that opens them as a menu. `.NoOpenInSource()` clears them; `OpenActions` / `CanOpenInSource` read
   them; `.Open(bool inNewTab = false)` runs the primary one from code.

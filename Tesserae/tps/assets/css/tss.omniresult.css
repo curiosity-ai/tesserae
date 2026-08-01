@@ -656,6 +656,31 @@
     background: color-mix(in srgb, #000 12%, transparent);
 }
 
+/* Whatever marks the action - a glyph, or the source's own logo - drawn at one size either way. */
+.tss-omniresult-modal-open-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    line-height: 0;
+    font-size: 13px;
+}
+
+.tss-omniresult-modal-open-icon img,
+.tss-omniresult-modal-open-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.tss-omniresult-modal-open-icon .tss-icon {
+    margin: 0;
+}
+
 .tss-omniresult-modal-open-text {
     min-width: 0;
     overflow: hidden;

@@ -909,6 +909,16 @@ namespace Tesserae
         /// </summary>
         public OmniResult<T> OpenInSource(string name, Action<bool> onOpen, UIcons? icon = null)
         {
+            return OpenInSource(name, onOpen, icon is null ? null : (Func<IComponent>)(() => Icon(icon.Value)));
+        }
+
+        /// <summary>
+        /// Adds a way to open the result where it actually lives, marked with an icon of the host's own -
+        /// the source's logo, usually. The factory runs every time the icon is drawn, so one action can be
+        /// shown more than once without the two fighting over the same element.
+        /// </summary>
+        public OmniResult<T> OpenInSource(string name, Action<bool> onOpen, Func<IComponent> icon)
+        {
             if (onOpen is null) return this;
 
             _openActions.Add(new OmniResultOpenAction<T>(name, icon, onOpen, null));
@@ -922,6 +932,14 @@ namespace Tesserae
         /// tab either way: an external address replacing the page the user is on would lose their place.
         /// </summary>
         public OmniResult<T> OpenInSource(string name, Func<T, Uri> url, UIcons? icon = null)
+        {
+            return OpenInSource(name, url, icon is null ? null : (Func<IComponent>)(() => Icon(icon.Value)));
+        }
+
+        /// <summary>
+        /// Adds a way to open the result at a computed address, marked with an icon of the host's own.
+        /// </summary>
+        public OmniResult<T> OpenInSource(string name, Func<T, Uri> url, Func<IComponent> icon)
         {
             if (url is null) return this;
 
@@ -1215,7 +1233,7 @@ namespace Tesserae
 
             var button = UI.Button(Att("tss-omniresult-modal-open-primary", type: "button", title: primary.Name));
 
-            if (primary.Icon is object) button.appendChild(I(primary.Icon.Value, UIconsWeight.Regular));
+            if (primary.Icon is object) button.appendChild(Div(Att("tss-omniresult-modal-open-icon"), primary.Icon().Render()));
 
             button.appendChild(Span(Att("tss-omniresult-modal-open-text", text: primary.Name)));
 
@@ -1254,7 +1272,7 @@ namespace Tesserae
                 var action = _openActions[i];
 
                 var item = action.Icon is object
-                    ? ContextMenuItem(HStack().AlignItemsCenter().Children(Icon(action.Icon.Value).PR(8), TextBlock(action.Name)))
+                    ? ContextMenuItem(HStack().AlignItemsCenter().Children(action.Icon().PR(8), TextBlock(action.Name)))
                     : ContextMenuItem(action.Name);
 
                 menu.Add(item.OnClick(() => action.Invoke(this, false)));
@@ -1799,7 +1817,7 @@ namespace Tesserae
         private readonly Action<bool> _handler;
         private readonly Func<T, Uri> _url;
 
-        internal OmniResultOpenAction(string name, UIcons? icon, Action<bool> handler, Func<T, Uri> url)
+        internal OmniResultOpenAction(string name, Func<IComponent> icon, Action<bool> handler, Func<T, Uri> url)
         {
             Name     = name ?? string.Empty;
             Icon     = icon;
@@ -1810,8 +1828,11 @@ namespace Tesserae
         /// <summary>Gets what this way of opening the result is called.</summary>
         public string Name { get; }
 
-        /// <summary>Gets the glyph shown before the name, or null when it has none.</summary>
-        public UIcons? Icon { get; }
+        /// <summary>
+        /// Gets what draws the mark shown before the name, or null when it has none. It is a factory rather
+        /// than a component so that showing the action twice never moves one element between two places.
+        /// </summary>
+        public Func<IComponent> Icon { get; }
 
         /// <summary>
         /// Gets the address this action opens for the given result, or null when it isn't an address at all
