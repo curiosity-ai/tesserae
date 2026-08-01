@@ -1127,6 +1127,12 @@ namespace Tesserae
         public static OmniResult<T> OmniResult<T>(T result, string title = null) => new OmniResult<T>(result, title);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.DetailsGrid"/>: a bordered table of label/value rows - the
+        /// "Owner / Size / Modified" block of metadata a preview shows beside what it is previewing.
+        /// </summary>
+        public static DetailsGrid DetailsGrid() => new DetailsGrid();
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.PagesStack"/> showing the given page thumbnails: a stack of
         /// overlapping pages that fans out when hovered, inside a rail wide enough for the fan.
         /// </summary>

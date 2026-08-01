@@ -535,6 +535,156 @@
     color: var(--tss-default-foreground-color);
 }
 
+/* Modal chrome ------------------------------------------------------------------------------------ */
+
+/* A result opened is a sheet, not a dialog box: rounder than a modal usually is, and with a header and a
+   footer that are visibly its edges rather than bands of the same color as its content. */
+.tss-modal.tss-omniresult-modal {
+    border-radius: 16px;
+}
+
+.tss-modal.tss-omniresult-modal > .tss-modal-header {
+    gap: 8px;
+    padding: 8px 10px 8px 16px;
+    border-bottom: 1px solid var(--tss-default-border-color);
+}
+
+/* Only when the shortcuts are actually in it - a modal built without them keeps a footer that takes no
+   room, and drawing its edge would be drawing an edge around nothing. */
+.tss-modal.tss-omniresult-modal > .tss-modal-footer:has(.tss-omniresult-modal-shortcuts) {
+    padding: 0 16px;
+    border-top: 1px solid var(--tss-default-border-color);
+    background: var(--tss-secondary-background-color);
+}
+
+/* Full screen with nowhere else to go: the sheet grows to the window instead of opening a page. */
+.tss-modal.tss-omniresult-modal.tss-omniresult-modal-full {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    border-radius: 0;
+}
+
+.tss-omniresult-modal-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-width: 32px;
+    height: 32px;
+    margin: 0;
+    padding: 0 4px;
+    border: none;
+    border-radius: var(--tss-border-radius-sm);
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.tss-omniresult-modal-button:hover:not(:disabled) {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-omniresult-modal-button:disabled {
+    opacity: .35;
+    cursor: default;
+}
+
+/* Previous / next, with where in the list this result is between them. */
+.tss-omniresult-modal-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin: 0 4px;
+    padding: 0 2px;
+    border-radius: var(--tss-border-radius-md);
+    background: var(--tss-secondary-background-color);
+}
+
+.tss-omniresult-modal-nav-label {
+    padding: 0 6px;
+    font-size: 12px;
+    line-height: 18px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    color: var(--tss-secondary-foreground-color);
+}
+
+/* "Open in Dropbox", with the other ways to open it behind the arrow beside it. */
+.tss-omniresult-modal-open {
+    display: inline-flex;
+    align-items: stretch;
+    flex-grow: 0;
+    flex-shrink: 1;
+    min-width: 0;
+    margin-right: 8px;
+    border-radius: var(--tss-border-radius-md);
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+    overflow: hidden;
+}
+
+.tss-omniresult-modal-open-primary,
+.tss-omniresult-modal-open-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-sizing: border-box;
+    height: 32px;
+    margin: 0;
+    padding: 0 12px;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.tss-omniresult-modal-open-more {
+    padding: 0 8px;
+    border-left: 1px solid color-mix(in srgb, var(--tss-primary-foreground-color) 28%, transparent);
+}
+
+.tss-omniresult-modal-open-primary:hover,
+.tss-omniresult-modal-open-more:hover {
+    background: color-mix(in srgb, #000 12%, transparent);
+}
+
+.tss-omniresult-modal-open-text {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* What the modal answers, along its bottom edge. */
+.tss-omniresult-modal-shortcuts {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 18px;
+    padding: 6px 0;
+    font-size: 11px;
+    line-height: 18px;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-omniresult-modal-shortcut {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.tss-omniresult-modal-shortcut-label {
+    white-space: nowrap;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .tss-omniresult,
     .tss-omniresult-select,
