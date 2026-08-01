@@ -692,7 +692,7 @@ namespace Tesserae
         /// <summary>
         /// Creates a <see cref="Tesserae.IconToggle.Item"/> component.
         /// </summary>
-        public static IconToggle<T>.Item IconToggleItem<T>(UIcons icon, string tooltip, T data) => new IconToggle<T>.Item(icon, tooltip, data);
+        public static IconToggle<T>.Item IconToggleItem<T>(UIcons icon, string tooltip, T data, string text = null) => new IconToggle<T>.Item(icon, tooltip, data, text);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.ChoiceGroup.Choice"/> component.
