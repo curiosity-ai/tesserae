@@ -43,6 +43,17 @@
     border-color: var(--tss-dark-border-color);
 }
 
+/* A page that opens the document at itself says so, and shows where the keyboard is. */
+.tss-pagesstack-page-clickable {
+    cursor: pointer;
+    outline: none;
+}
+
+.tss-pagesstack-page-clickable:focus-visible {
+    border-color: var(--tss-primary-background-color);
+    box-shadow: 0 0 0 2px var(--tss-primary-background-color);
+}
+
 /* Faux text ruling, for a page with no thumbnail to show. */
 .tss-pagesstack-lines {
     display: block;

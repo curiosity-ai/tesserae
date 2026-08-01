@@ -41,6 +41,7 @@ namespace Tesserae
         private int          _maxVisible = DEFAULT_MAX_VISIBLE;
         private int          _pageWidth  = DEFAULT_PAGE_WIDTH;
         private int          _pageHeight = DEFAULT_PAGE_HEIGHT;
+        private Action<int>  _pageClickHandler;
 
         /// <summary>
         /// Initializes a new instance of this class showing the given thumbnails, at most
@@ -177,6 +178,19 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Makes each drawn page clickable, handing the handler the page's index (0-based) - so opening a
+        /// document at the page the user pointed at is one call. The click is the page's alone: it does not
+        /// also count as a click on the row the stack sits in. Each page takes a tab stop of its own and
+        /// answers Enter and Space. Pass null to make the pages plain again.
+        /// </summary>
+        public PagesStack OnPageClick(Action<int> onPageClick)
+        {
+            _pageClickHandler = onPageClick;
+
+            return Rebuild();
+        }
+
         private PagesStack Rebuild()
         {
             ClearChildren(_stack);
@@ -239,7 +253,35 @@ namespace Tesserae
             page.style.setProperty("--tss-pagesstack-fan-rotation", $"{-FAN_ROTATION + 2 * FAN_ROTATION * t:0.##}deg");
             page.style.setProperty("--tss-pagesstack-fan-lift",     $"{-2 - 4 * Math.Sin(Math.PI * t):0.##}px");
 
+            if (_pageClickHandler is object) MakePageClickable(page, index);
+
             return page;
+        }
+
+        private void MakePageClickable(HTMLElement page, int index)
+        {
+            page.classList.add("tss-pagesstack-page-clickable");
+            page.setAttribute("role",       "button");
+            page.setAttribute("tabindex",   "0");
+            page.setAttribute("aria-label", $"Page {index + 1}");
+
+            page.addEventListener("click", e =>
+            {
+                StopEvent(e);
+
+                _pageClickHandler?.Invoke(index);
+            });
+
+            page.addEventListener("keydown", e =>
+            {
+                var keyboardEvent = e.As<KeyboardEvent>();
+
+                if (keyboardEvent.key != "Enter" && keyboardEvent.key != " ") return;
+
+                StopEvent(keyboardEvent);
+
+                _pageClickHandler?.Invoke(index);
+            });
         }
     }
 }

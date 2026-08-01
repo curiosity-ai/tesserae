@@ -538,8 +538,10 @@ namespace Tesserae.Tests.Samples
                     PagesLabel("Thumbnails", PagesStack(thumbnails).TotalPages(9)),
                     PagesLabel("Larger pages", PagesStack(4).PageSize(60, 78)),
                     PagesLabel("MaxVisible(3)", PagesStack(12).MaxVisible(3))),
-                TextBlock("Held open with Fanned(), which is how OmniResult makes the stack follow hovering the whole row (PagesFanOnHover, on by default):").Small().MT(8).MB(8),
-                PagesLabel("Fanned()", PagesStack(5).TotalPages(19).Fanned()));
+                TextBlock("Held open with Fanned(), which is how OmniResult makes the stack follow hovering the whole row (PagesFanOnHover, on by default). OnPageClick makes each drawn page open the document at itself — the click is the page's alone, so it never also counts as a click on the row:").Small().MT(8).MB(8),
+                HStack().WS().Wrap().Gap(32.px()).AlignItems(ItemAlign.End).Children(
+                    PagesLabel("Fanned()", PagesStack(5).TotalPages(19).Fanned()),
+                    PagesLabel("OnPageClick", PagesStack(thumbnails).TotalPages(9).OnPageClick(page => Toast().Information($"Opening page {page + 1}")))));
         }
 
         private static IComponent PagesLabel(string label, PagesStack pages)
