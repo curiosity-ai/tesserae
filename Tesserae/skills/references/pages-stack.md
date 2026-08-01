@@ -36,6 +36,10 @@ Also `new PagesStack(...)`. Bring factories into scope with `using static Tesser
 - `.Fanned(bool = true)` — hold the stack open, for a host that wants the fan to follow hovering
   something larger than the stack. `OmniResult` does exactly this for the row it sits in
   (`PagesFanOnHover`, on by default).
+- `.OnPageClick(Action<int>)` — makes each drawn page clickable, handing the handler its 0-based
+  index, so "open the document at the page the user pointed at" is one call. The click is the page's
+  alone — it never also counts as a click on the row the stack sits in — and each page takes a tab
+  stop of its own and answers Enter and Space. Pass null to make the pages plain again.
 - `TotalPageCount` / `VisiblePageCount` / `IsFanned` — what it is showing right now.
 
 Motion is 240ms and honours `prefers-reduced-motion`. Pages read as paper in both themes: a pale fill
@@ -56,7 +60,7 @@ var thumbs = PagesStack(page1Url, page2Url, page3Url).TotalPages(12);
 var row = OmniResult(hit, hit.Name)
     .SetIcon(UIcons.FilePdf, "#ef4444")
     .SetText(hit.Excerpt)
-    .SetPages(PagesStack(5).TotalPages(hit.Pages));
+    .SetPages(PagesStack(thumbnailUrls).TotalPages(hit.Pages).OnPageClick(page => Open(hit, page)));
 ```
 
 Standalone, in a row of its own, remember it is right-aligned inside its rail — put it in an
