@@ -189,7 +189,8 @@ full-screen, so a modal never offers something the host didn't wire up:
 - `.ModalTitle()` — the default header on its own, to build around.
 - `.SetModalHeader(Func<OmniResult<T>, IComponent>)` — replaces the default header (identifier, chevron,
   title, plus whatever `ModalKeepsIcon`/`ModalKeepsFooter` kept) with one built from the result. Null
-  goes back to the default; the header commands and the footer are unaffected.
+  goes back to the default; the header commands and the footer are unaffected. `HasModalHeader` says
+  whether one was set, so a caller applying a default can tell whether anyone got there first.
 
 Keys the modal answers: **Esc** closes it (left to `ModalStack` when it is one of its sheets),
 **←/→** step through the results, **Ctrl+Enter** opens it at its source and **Shift+Enter** opens it

@@ -1072,6 +1072,13 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Gets a value indicating whether a header of the host's own was set with
+        /// <see cref="SetModalHeader(Func{OmniResult{T}, IComponent})"/> - so a caller applying a default one
+        /// can tell whether anyone got there first.
+        /// </summary>
+        public bool HasModalHeader => _modalHeader is object;
+
+        /// <summary>
         /// Sets the size the modal of <see cref="ToModal"/> opens at. Auto by default, which lets the modal
         /// size itself to its content (and to whatever bounds the caller sets on it afterwards).
         /// </summary>
