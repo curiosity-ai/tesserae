@@ -43,6 +43,7 @@ modal.Show();
 
 ## Related
 
+- ModalStack — `modal-stack.md` (a deck of modals, when one opens another)
 - Dialog — `dialog.md` (prebuilt confirmation buttons)
 - Panel — `panel.md` (side drawer)
 - Float — `float.md`

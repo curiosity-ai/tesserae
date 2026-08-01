@@ -149,22 +149,70 @@ and the detail are one object rather than two that have to be kept in step.
 Both options **copy** what the row drew rather than moving it, so opening a result never takes the
 tile or the footer out of the row behind it.
 - `.ToModal()` — a `Modal` with that header and content, at that size, or null when the row has no
-  modal content. Everything else (commands, dismissal, bounds, how it is shown) is left to the caller
-  to chain on what comes back.
+  modal content. Dismissal, bounds and how it is shown are still the caller's.
+- `.CurrentModal` — the modal `ToModal()` last built, or null.
 - `.GetModalContentAsync()` — the content on its own, for a host that shows it somewhere other than in
   a modal: a side panel, a page, a pane.
 
+**The modal's chrome**
+
+`ToModal()` puts a standard set of commands at the end of the header and, along the bottom, the
+keyboard shortcuts the modal actually answers. Every one of them is opt-in except close and
+full-screen, so a modal never offers something the host didn't wire up:
+
+```
+[tile]  JR-2214 › BRK-SEN-447 calibration.pdf   [Open in Box ▾]  ‹ 2 of 7 ›  [...]  [⤢]  [✕]
+        ▪ Box · sample-files / pdfs · 2.4 MB · Pius Neuhaus · Apr 12, 2024
+        …
+        Esc Close   ← → Navigate results   Ctrl+↵ Open in source   Shift+↵ Open in a new tab
+```
+
+- `.OpenInSource(string name, Action<bool> onOpen, UIcons? icon = null)` — the named button that opens
+  the result where it actually lives ("Open in Dropbox", "Reveal in folder"). The `bool` says the user
+  asked for a new tab (they shift-clicked, or pressed Shift+Enter).
+- `.OpenInSource(string name, Func<T, Uri> url, UIcons? icon = null)` — the same, for a source that is
+  an address computed from the result. An address is always opened in a new tab.
+- Both take a `Func<IComponent>` instead of a `UIcons?` when the mark is the source's own logo; it is a
+  factory so that showing an action twice never moves one element between two places.
+- Call it more than once for several: the first stays the button, the rest hang off an arrow beside it
+  that opens them as a menu. `.NoOpenInSource()` clears them; `OpenActions` / `CanOpenInSource` read
+  them; `.Open(bool inNewTab = false)` runs the primary one from code.
+- `.ModalNavigation(Action<OmniResult<T>> onPrevious, Action<OmniResult<T>> onNext, int position = 0, int count = 0)`
+  — the ‹ › arrows, with "2 of 7" between them when a position and count are given (both 1-based). A
+  null handler greys its arrow out, which is how the first and last result say so.
+- `.ModalCommands(Action<OmniResult<T>>)` — the `[...]` button; read `CommandsEvent` in the handler to
+  place a command surface of the host's own where the user clicked. Null leaves the button out.
+- `.ModalFullScreen(Action<OmniResult<T>>)` — what `[⤢]` does; without one it grows the modal to fill
+  the window and back. `.NoModalFullScreen()` leaves the button out.
+- `.ModalShortcuts(bool = true)` — the shortcut hints along the bottom. On by default.
+- `.ModalHeaderCommands()` / `.ModalShortcutsBar()` — those two pieces on their own, to build around.
+- `.ModalTitle()` — the default header on its own, to build around.
+- `.SetModalHeader(Func<OmniResult<T>, IComponent>)` — replaces the default header (identifier, chevron,
+  title, plus whatever `ModalKeepsIcon`/`ModalKeepsFooter` kept) with one built from the result. Null
+  goes back to the default; the header commands and the footer are unaffected. `HasModalHeader` says
+  whether one was set, so a caller applying a default can tell whether anyone got there first.
+
+Keys the modal answers: **Esc** closes it (left to `ModalStack` when it is one of its sheets),
+**←/→** step through the results, **Ctrl+Enter** opens it at its source and **Shift+Enter** opens it
+in a new tab — the last two only when an open-in-source action is set. None of them fire while the
+focus is in a text field.
+
 ```csharp
-row.ModalKeepsIcon().ModalKeepsFooter();     // the header shows the tile and the source line too
+row.ModalKeepsIcon()
+   .ModalKeepsFooter()
+   .OpenInSource("Open in Box", inNewTab => OpenInBox(row.Result, inNewTab), UIcons.ArrowUpRightFromSquare)
+   .OpenInSource("Open on the web", hit => new Uri(hit.WebUrl), UIcons.Globe)
+   .ModalCommands(r => CommandPalette.ShowFor(r.Result, r.CommandsEvent))
+   .ModalFullScreen(r => Navigate(Routes.For(r.Result)))
+   .ModalNavigation(_ => Step(-1), _ => Step(+1), position: index + 1, count: total);
 
 var modal = row.ToModal();
 
 if (modal is object)
 {
-    modal.MinWidth(60.vw()).MaxHeight(95.vh())
-         .SetHeaderCommands(Button(UIcons.Share).OnClick(() => Share(row.Result)))
-         .LightDismiss()
-         .Show();
+    modal.MinWidth(60.vw()).MaxHeight(95.vh());
+
+    ModalStack.Push(row.Result.Id, row.Title, modal);   // or modal.LightDismiss().Show()
 }
 ```
 
@@ -228,6 +276,8 @@ var pick = OmniResult(file, file.Name)
 
 ## Related
 
+- ModalStack — the deck a result's modal is usually pushed onto — `modal-stack.md`
+- DetailsGrid — the metadata block that usually fills the modal's head — `details-grid.md`
 - PagesStack — the page preview it takes — `pages-stack.md`
 - ContextMenu — the menu the commands open, and its items — `context-menu.md`
 - OmniBox — the search input these rows usually answer — `omni-box.md`

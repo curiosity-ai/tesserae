@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,9 @@ namespace Tesserae.Tests.Samples
 
         // "Source" section.
         private readonly TextBlock _sourceState;
+
+        // "Modals" section: the rows are kept so stepping and stacking can reach them by index.
+        private readonly List<OmniResult<Hit>> _modalRows = new List<OmniResult<Hit>>();
 
         private static readonly Hit[] Hits =
         {
@@ -197,35 +201,81 @@ namespace Tesserae.Tests.Samples
 
         private IComponent Modals()
         {
+            for (int i = 0; i < 3; i++)
+            {
+                _modalRows.Add(ModalRow(Hits[i + 1], i));
+            }
+
+            var rows = VStack().WS();
+
+            foreach (var row in _modalRows)
+            {
+                rows.Add(row);
+            }
+
             return FeatureCard("Opening as a modal", "The row carries its own full view",
-                "SetModalContent gives the row the full view of the thing it stands for, and ToModal builds a Modal showing it - the same identifier, chevron and title as the row for its header, at the size ModalSize asked for. Everything else is left to the caller to chain on what comes back, so the host still owns the commands, the dismissal and the bounds. The Func overload builds the content on open, so a list of a thousand rows pays for none of them until one is asked for.",
-                VStack().WS().Children(
-                    ModalRow(Hits[1], keepsIcon: false, keepsFooter: false),
-                    ModalRow(Hits[3], keepsIcon: true,  keepsFooter: false),
-                    ModalRow(Hits[5], keepsIcon: true,  keepsFooter: true)),
-                TextBlock("ModalKeepsIcon brings the tile into the modal's header, and ModalKeepsFooter brings the source line under the title - so an opened result still says what kind of thing it is and where it came from. Both are off by default, and both copy what the row drew rather than taking it out of the row behind them; a clickable source stays clickable on the copy. Open the three rows above to compare: neither, the tile, then both.").Small().MT(8));
+                "SetModalContent gives the row the full view of the thing it stands for, and ToModal builds a Modal showing it: the row's identifier, chevron and title for its header - plus the tile and the source line when ModalKeepsIcon and ModalKeepsFooter ask for them - a standard set of commands at the end of that header, and the keyboard shortcuts it answers along its bottom edge. The Func overload builds the content on open, so a list of a thousand rows pays for none of them until one is asked for.",
+                rows,
+                TextBlock("The header's commands are whatever the row was configured for: OpenInSource adds the named button (and hangs the rest off the arrow beside it), ModalNavigation adds the arrows and \"2 of 3\" between them, ModalCommands adds [...], and the full-screen and close buttons are always there. Open one and try Esc, the arrow keys, Ctrl+Enter and Shift+Enter. \"Open a related result\" inside pushes a second sheet onto the stack - go three deep and the ones behind peek out above it; click one to go back to it, or the backdrop to dismiss the chain.").Small().MT(8));
         }
 
-        private OmniResult<Hit> ModalRow(Hit hit, bool keepsIcon, bool keepsFooter)
+        private OmniResult<Hit> ModalRow(Hit hit, int index)
         {
-            var what = !keepsIcon ? "Title only" : (keepsFooter ? "ModalKeepsIcon + ModalKeepsFooter" : "ModalKeepsIcon");
-
             var row = Row(hit, withText: true, withPages: false)
                 .SetId("JR-2214")
-                .SetFooterEntries($"Open me — the header shows: {what}")
-                .SetModalContent(r => Task.FromResult<IComponent>(VStack().WS().P(16).Children(
-                    TextBlock($"The full view of \"{r.Result.Title}\", built when the modal opened.").MB(12),
-                    TextBlock(r.Result.Text))))
-                .ModalSize(60.vw(), 50.vh())
-                .ModalKeepsIcon(keepsIcon)
-                .ModalKeepsFooter(keepsFooter);
+                .SetModalContent(r => Task.FromResult<IComponent>(ModalBody(r, index)))
+                .ModalSize(60.vw(), 60.vh())
+                .ModalKeepsIcon()
+                .ModalKeepsFooter()
+                .OpenInSource("Open in Box", inNewTab => Toast().Information(inNewTab ? $"Opening \"{hit.Title}\" in a new tab" : $"Opening \"{hit.Title}\" in Box"), UIcons.ArrowUpRightFromSquare)
+                .OpenInSource("Open on the web", _ => new System.Uri("https://github.com/curiosity-ai/tesserae"), UIcons.Globe)
+                .ModalCommands(r => r.ShowMenu(ContextMenu().Items(
+                    ContextMenuItem("Pin").OnClick(() => Toast().Information($"Pinned \"{r.Result.Title}\"")),
+                    ContextMenuItem("Share").OnClick(() => Toast().Information($"Shared \"{r.Result.Title}\"")),
+                    ContextMenuItem("Download").OnClick(() => Toast().Information($"Downloading \"{r.Result.Title}\"")))))
+                .ModalNavigation(
+                    index > 0 ? new Action<OmniResult<Hit>>(_ => StepModalTo(index - 1)) : null,
+                    index < 2 ? new Action<OmniResult<Hit>>(_ => StepModalTo(index + 1)) : null,
+                    index + 1,
+                    3);
 
-            return row.OnClick((r, _) =>
+            return row.OnClick((_, __) => OpenModal(index, replaceTop: false));
+        }
+
+        private IComponent ModalBody(OmniResult<Hit> result, int index)
+        {
+            var metadata = result.Result.Metadata;
+
+            return VStack().WS().P(16).Children(
+                DetailsGrid()
+                    .Row("Location", metadata.Length > 0 ? metadata[0] : null)
+                    .Row("Size",     metadata.Length > 1 ? metadata[1] : null)
+                    .Row("Owner",    metadata.Length > 2 ? metadata[2] : null)
+                    .Row("Modified", metadata.Length > 3 ? metadata[3] : null)
+                    .Row("Pages",    Badge($"{result.Result.Pages}").Pill()),
+                TextBlock(result.Result.Text).MT(16),
+                Button("Open a related result").Primary().MT(16).OnClick(() => OpenModal((index + 1) % _modalRows.Count, replaceTop: false)));
+        }
+
+        // Stepping through the results swaps the sheet in front and leaves the chain behind it alone;
+        // opening something out of one puts a new sheet on top of it.
+        private void StepModalTo(int index) => OpenModal(index, replaceTop: true);
+
+        private void OpenModal(int index, bool replaceTop)
+        {
+            var row   = _modalRows[index];
+            var modal = row.ToModal();
+
+            if (modal is null) return;
+
+            if (replaceTop)
             {
-                var modal = r.ToModal();
-
-                if (modal is object) modal.LightDismiss().ShowCloseButton().Show();
-            });
+                ModalStack.Replace($"hit-{index}", row.Title, modal);
+            }
+            else
+            {
+                ModalStack.Push($"hit-{index}", row.Title, modal);
+            }
         }
 
         // ---------- Sources ----------

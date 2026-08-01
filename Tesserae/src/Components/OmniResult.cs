@@ -121,12 +121,24 @@ namespace Tesserae
         private Func<OmniResult<T>, ContextMenu.Item[]> _menuGenerator;
         private MouseEvent                   _lastPointerEvent;
 
+        private readonly List<OmniResultOpenAction<T>> _openActions = new List<OmniResultOpenAction<T>>();
+
         private Func<OmniResult<T>, Task<IComponent>> _modalContent;
         private Func<OmniResult<T>, IComponent>       _modalHeader;
         private UnitSize                              _modalWidth     = UnitSize.Auto();
         private UnitSize                              _modalHeight    = UnitSize.Auto();
         private bool                                  _modalKeepsIcon;
         private bool                                  _modalKeepsFooter;
+
+        private Modal                 _modal;
+        private Action<OmniResult<T>> _modalCommands;
+        private Action<OmniResult<T>> _modalFullScreen;
+        private bool                  _modalHasFullScreen = true;
+        private Action<OmniResult<T>> _modalPrevious;
+        private Action<OmniResult<T>> _modalNext;
+        private int                   _modalPosition;
+        private int                   _modalCount;
+        private bool                  _modalShortcuts = true;
 
         private event Action<OmniResult<T>, bool> SelectionChanged;
         private event Action<OmniResult<T>>       RangeSelectionRequested;
@@ -876,6 +888,151 @@ namespace Tesserae
         public bool HasModalContent => _modalContent is object;
 
         /// <summary>
+        /// Gets the ways this result can be opened where it actually lives, in the order they were added -
+        /// the first one is the primary, and the rest hang off the arrow beside it.
+        /// </summary>
+        public IReadOnlyList<OmniResultOpenAction<T>> OpenActions => _openActions;
+
+        /// <summary>
+        /// Gets a value indicating whether the result can be opened at its source.
+        /// </summary>
+        public bool CanOpenInSource => _openActions.Count > 0;
+
+        /// <summary>
+        /// Adds a way to open the result where it actually lives - "Open in Dropbox", "Open in Outlook",
+        /// "Reveal in folder" - as a named button in the modal's header. The handler is told whether the
+        /// user asked for a new tab (they shift-clicked the button, or pressed Shift+Enter).
+        /// <para>
+        /// Call it more than once to offer several: the first one stays the button, and the rest are reached
+        /// through an arrow beside it.
+        /// </para>
+        /// </summary>
+        public OmniResult<T> OpenInSource(string name, Action<bool> onOpen, UIcons? icon = null)
+        {
+            return OpenInSource(name, onOpen, icon is null ? null : (Func<IComponent>)(() => Icon(icon.Value)));
+        }
+
+        /// <summary>
+        /// Adds a way to open the result where it actually lives, marked with an icon of the host's own -
+        /// the source's logo, usually. The factory runs every time the icon is drawn, so one action can be
+        /// shown more than once without the two fighting over the same element.
+        /// </summary>
+        public OmniResult<T> OpenInSource(string name, Action<bool> onOpen, Func<IComponent> icon)
+        {
+            if (onOpen is null) return this;
+
+            _openActions.Add(new OmniResultOpenAction<T>(name, icon, onOpen, null));
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a way to open the result at an address computed from what it stands for - the usual shape of
+        /// "open this where it came from" when the source is a web address. The result is opened in a new
+        /// tab either way: an external address replacing the page the user is on would lose their place.
+        /// </summary>
+        public OmniResult<T> OpenInSource(string name, Func<T, Uri> url, UIcons? icon = null)
+        {
+            return OpenInSource(name, url, icon is null ? null : (Func<IComponent>)(() => Icon(icon.Value)));
+        }
+
+        /// <summary>
+        /// Adds a way to open the result at a computed address, marked with an icon of the host's own.
+        /// </summary>
+        public OmniResult<T> OpenInSource(string name, Func<T, Uri> url, Func<IComponent> icon)
+        {
+            if (url is null) return this;
+
+            _openActions.Add(new OmniResultOpenAction<T>(name, icon, null, url));
+
+            return this;
+        }
+
+        /// <summary>
+        /// Takes every way of opening the result at its source away again.
+        /// </summary>
+        public OmniResult<T> NoOpenInSource()
+        {
+            _openActions.Clear();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Opens the result at its source the way the primary action says to, as pressing the button (or
+        /// Ctrl+Enter in the modal) would. Does nothing on a result that has no such action.
+        /// </summary>
+        public OmniResult<T> Open(bool inNewTab = false)
+        {
+            if (_openActions.Count > 0) _openActions[0].Invoke(this, inNewTab);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Registers what the [...] button in the modal's header opens - the same commands the row's own
+        /// [...] opens, usually. Read <see cref="CommandsEvent"/> in the handler to place a command surface
+        /// of the host's own where the user clicked. Pass null to leave the button out.
+        /// </summary>
+        public OmniResult<T> ModalCommands(Action<OmniResult<T>> onCommands)
+        {
+            _modalCommands = onCommands;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Registers what the full-screen button in the modal's header does - open the result on a page of
+        /// its own, usually. Without one the button is still there and simply grows the modal to fill the
+        /// window (and back), which is what "full screen" means to a modal that has nowhere else to go.
+        /// </summary>
+        public OmniResult<T> ModalFullScreen(Action<OmniResult<T>> onFullScreen)
+        {
+            _modalFullScreen    = onFullScreen;
+            _modalHasFullScreen = true;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Leaves the full-screen button out of the modal's header.
+        /// </summary>
+        public OmniResult<T> NoModalFullScreen()
+        {
+            _modalHasFullScreen = false;
+            _modalFullScreen    = null;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Puts the previous/next arrows in the modal's header, so a result opened out of a list can be
+        /// stepped through without going back to it. A null handler greys its arrow out - that is how the
+        /// first and the last result say so. Passing a position and a count (both 1-based, the count being
+        /// how many results there are) draws "3 of 27" between the arrows.
+        /// </summary>
+        public OmniResult<T> ModalNavigation(Action<OmniResult<T>> onPrevious, Action<OmniResult<T>> onNext, int position = 0, int count = 0)
+        {
+            _modalPrevious = onPrevious;
+            _modalNext     = onNext;
+            _modalPosition = position;
+            _modalCount    = count;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Configures whether the modal shows the keyboard shortcuts it answers along its bottom edge - what
+        /// closes it, what steps through the results, what opens the result at its source. On by default.
+        /// </summary>
+        public OmniResult<T> ModalShortcuts(bool value = true)
+        {
+            _modalShortcuts = value;
+
+            return this;
+        }
+
+        /// <summary>
         /// Sets what <see cref="ToModal"/> puts inside the modal for this result - the full view of the thing
         /// the row stands for. Pass null to make the result modal-less again.
         /// </summary>
@@ -913,6 +1070,13 @@ namespace Tesserae
 
             return this;
         }
+
+        /// <summary>
+        /// Gets a value indicating whether a header of the host's own was set with
+        /// <see cref="SetModalHeader(Func{OmniResult{T}, IComponent})"/> - so a caller applying a default one
+        /// can tell whether anyone got there first.
+        /// </summary>
+        public bool HasModalHeader => _modalHeader is object;
 
         /// <summary>
         /// Sets the size the modal of <see cref="ToModal"/> opens at. Auto by default, which lets the modal
@@ -973,9 +1137,248 @@ namespace Tesserae
                .Width(_modalWidth)
                .Height(_modalHeight);
 
+            _modal = modal;
+
+            modal.HideCloseButton().SetHeaderCommands(ModalHeaderCommands());
+
+            if (_modalShortcuts) modal.SetFooter(ModalShortcutsBar());
+
             modal.Content(Defer(() => content(this)).WS());
 
+            HookModalKeys(modal);
+
             return modal;
+        }
+
+        /// <summary>
+        /// Gets the modal <see cref="ToModal"/> last built for this result, or null when it has not built
+        /// one yet - what a host reaches for to close, resize or otherwise get at the surface it opened.
+        /// </summary>
+        public Modal CurrentModal => _modal;
+
+        /// <summary>
+        /// The commands <see cref="ToModal"/> puts at the end of the modal's header: the way to open the
+        /// result at its source, the arrows stepping through the results, the [...] commands, the
+        /// full-screen button and the close button - whichever of them this result was configured for.
+        /// Useful to a caller building a header of its own around them.
+        /// </summary>
+        public IComponent[] ModalHeaderCommands()
+        {
+            var commands = new List<IComponent>();
+
+            var open = BuildOpenInSource();
+
+            if (open is object) commands.Add(open);
+
+            var navigation = BuildModalNavigation();
+
+            if (navigation is object) commands.Add(navigation);
+
+            if (_modalCommands is object)
+            {
+                commands.Add(Raw(ModalButton(UIcons.MenuDots, "More commands", e =>
+                {
+                    _lastPointerEvent = e;
+
+                    _modalCommands(this);
+                })));
+            }
+
+            if (_modalHasFullScreen)
+            {
+                commands.Add(Raw(ModalButton(UIcons.Expand, "Open full screen", _ => ToggleModalFullScreen())));
+            }
+
+            commands.Add(Raw(ModalButton(UIcons.Cross, "Close", _ => _modal?.Hide())));
+
+            return commands.ToArray();
+        }
+
+        /// <summary>
+        /// The keyboard shortcuts <see cref="ToModal"/> lists along the bottom of the modal - only the ones
+        /// this result actually answers, so a modal that can't be stepped through never says it can.
+        /// </summary>
+        public IComponent ModalShortcutsBar()
+        {
+            var bar = Div(Att("tss-omniresult-modal-shortcuts"));
+
+            bar.appendChild(Shortcut("Close", KeyboardShortcut("Esc")));
+
+            if (_modalPrevious is object || _modalNext is object)
+            {
+                bar.appendChild(Shortcut("Navigate results", KeyboardShortcut("←"), KeyboardShortcut("→")));
+            }
+
+            if (_openActions.Count > 0)
+            {
+                bar.appendChild(Shortcut("Open in source", KeyboardShortcut("Ctrl", "Enter")));
+                bar.appendChild(Shortcut("Open in a new tab", KeyboardShortcut("Shift", "Enter")));
+            }
+
+            return Raw(bar);
+        }
+
+        private static HTMLElement Shortcut(string label, params IComponent[] keys)
+        {
+            var shortcut = Div(Att("tss-omniresult-modal-shortcut"));
+
+            foreach (var key in keys)
+            {
+                shortcut.appendChild(key.Render());
+            }
+
+            shortcut.appendChild(Span(Att("tss-omniresult-modal-shortcut-label", text: label)));
+
+            return shortcut;
+        }
+
+        private IComponent BuildOpenInSource()
+        {
+            if (_openActions.Count == 0) return null;
+
+            var primary = _openActions[0];
+
+            var button = UI.Button(Att("tss-omniresult-modal-open-primary", type: "button", title: primary.Name));
+
+            if (primary.Icon is object) button.appendChild(Div(Att("tss-omniresult-modal-open-icon"), primary.Icon().Render()));
+
+            button.appendChild(Span(Att("tss-omniresult-modal-open-text", text: primary.Name)));
+
+            button.addEventListener("click", e =>
+            {
+                StopEvent(e);
+
+                // Shift-clicking asks for a new tab, the same as Shift+Enter does.
+                primary.Invoke(this, e.As<MouseEvent>().shiftKey);
+            });
+
+            var holder = Div(Att("tss-omniresult-modal-open"), button);
+
+            if (_openActions.Count == 1) return Raw(holder);
+
+            var more = UI.Button(Att("tss-omniresult-modal-open-more", type: "button", ariaLabel: "More ways to open", title: "More ways to open"), I(UIcons.AngleSmallDown, UIconsWeight.Regular));
+
+            more.addEventListener("click", e =>
+            {
+                StopEvent(e);
+
+                ShowOpenInSourceMenu(more);
+            });
+
+            holder.appendChild(more);
+
+            return Raw(holder);
+        }
+
+        private void ShowOpenInSourceMenu(HTMLElement anchor)
+        {
+            var menu = UI.ContextMenu();
+
+            for (int i = 1; i < _openActions.Count; i++)
+            {
+                var action = _openActions[i];
+
+                var item = action.Icon is object
+                    ? ContextMenuItem(HStack().AlignItemsCenter().Children(action.Icon().PR(8), TextBlock(action.Name)))
+                    : ContextMenuItem(action.Name);
+
+                menu.Add(item.OnClick(() => action.Invoke(this, false)));
+            }
+
+            menu.ShowFor(anchor);
+        }
+
+        private IComponent BuildModalNavigation()
+        {
+            if (_modalPrevious is null && _modalNext is null) return null;
+
+            var previous = ModalButton(UIcons.AngleLeft,  "Previous result", _ => _modalPrevious?.Invoke(this));
+            var next     = ModalButton(UIcons.AngleRight, "Next result",     _ => _modalNext?.Invoke(this));
+
+            previous.disabled = _modalPrevious is null;
+            next.disabled     = _modalNext is null;
+
+            var navigation = Div(Att("tss-omniresult-modal-nav"), previous);
+
+            if (_modalCount > 0)
+            {
+                navigation.appendChild(Span(Att("tss-omniresult-modal-nav-label", text: $"{_modalPosition} of {_modalCount}")));
+            }
+
+            navigation.appendChild(next);
+
+            return Raw(navigation);
+        }
+
+        private static HTMLButtonElement ModalButton(UIcons icon, string label, Action<MouseEvent> onClick)
+        {
+            var button = UI.Button(Att("tss-omniresult-modal-button", type: "button", ariaLabel: label, title: label), I(icon, UIconsWeight.Regular));
+
+            button.addEventListener("click", e =>
+            {
+                StopEvent(e);
+
+                onClick(e.As<MouseEvent>());
+            });
+
+            return button;
+        }
+
+        private void ToggleModalFullScreen()
+        {
+            if (_modalFullScreen is object)
+            {
+                _modalFullScreen(this);
+                return;
+            }
+
+            if (_modal is null) return;
+
+            var surface = _modal.StylingContainer;
+
+            surface.UpdateClassIf(!surface.classList.contains("tss-omniresult-modal-full"), "tss-omniresult-modal-full");
+        }
+
+        // The modal answers the shortcuts its footer says it does. Escape is left to ModalStack when the
+        // modal is one of its sheets, so a chain of them closes one sheet per press rather than all of them.
+        private void HookModalKeys(Modal modal)
+        {
+            modal.StylingContainer.addEventListener("keydown", e =>
+            {
+                var keyboardEvent = e.As<KeyboardEvent>();
+
+                if (IsEditing(keyboardEvent.target.As<HTMLElement>())) return;
+
+                if (keyboardEvent.key == "Escape")
+                {
+                    if (ModalStack.IsStacked(modal)) return;
+
+                    StopEvent(keyboardEvent);
+                    modal.Hide();
+                }
+                else if (keyboardEvent.key == "ArrowLeft" && _modalPrevious is object)
+                {
+                    StopEvent(keyboardEvent);
+                    _modalPrevious(this);
+                }
+                else if (keyboardEvent.key == "ArrowRight" && _modalNext is object)
+                {
+                    StopEvent(keyboardEvent);
+                    _modalNext(this);
+                }
+                else if (keyboardEvent.key == "Enter" && _openActions.Count > 0 && (keyboardEvent.ctrlKey || keyboardEvent.metaKey || keyboardEvent.shiftKey))
+                {
+                    StopEvent(keyboardEvent);
+                    _openActions[0].Invoke(this, keyboardEvent.shiftKey);
+                }
+            });
+        }
+
+        private static bool IsEditing(HTMLElement target)
+        {
+            if (target is null) return false;
+
+            return target.isContentEditable || target.tagName == "INPUT" || target.tagName == "TEXTAREA" || target.tagName == "SELECT";
         }
 
         /// <summary>
@@ -1407,6 +1810,60 @@ namespace Tesserae
             {
                 target.appendChild(document.createTextNode(text.Substring(position)));
             }
+        }
+    }
+
+    /// <summary>
+    /// One named way of opening an <see cref="OmniResult{T}"/> where it actually lives - "Open in Dropbox",
+    /// "Open in Outlook", "Reveal in folder" - either as something the host does itself or as an address
+    /// computed from the result.
+    /// </summary>
+    [Transpose.Name("tss.OmniResultOpenAction")]
+    public sealed class OmniResultOpenAction<T>
+    {
+        private readonly Action<bool> _handler;
+        private readonly Func<T, Uri> _url;
+
+        internal OmniResultOpenAction(string name, Func<IComponent> icon, Action<bool> handler, Func<T, Uri> url)
+        {
+            Name     = name ?? string.Empty;
+            Icon     = icon;
+            _handler = handler;
+            _url     = url;
+        }
+
+        /// <summary>Gets what this way of opening the result is called.</summary>
+        public string Name { get; }
+
+        /// <summary>
+        /// Gets what draws the mark shown before the name, or null when it has none. It is a factory rather
+        /// than a component so that showing the action twice never moves one element between two places.
+        /// </summary>
+        public Func<IComponent> Icon { get; }
+
+        /// <summary>
+        /// Gets the address this action opens for the given result, or null when it isn't an address at all
+        /// but something the host does itself.
+        /// </summary>
+        public Uri UrlFor(OmniResult<T> result) => _url is null || result is null ? null : _url(result.Result);
+
+        /// <summary>
+        /// Opens the given result this way. An address is always opened in a new tab, whatever was asked for:
+        /// replacing the page with somewhere else entirely would lose the user's place.
+        /// </summary>
+        public void Invoke(OmniResult<T> result, bool inNewTab = false)
+        {
+            if (_handler is object)
+            {
+                _handler(inNewTab);
+                return;
+            }
+
+            var url = UrlFor(result);
+
+            if (url is null) return;
+
+            window.open(url.ToString(), "_blank", "noopener,noreferrer");
         }
     }
 

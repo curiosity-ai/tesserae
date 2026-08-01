@@ -1,0 +1,82 @@
+/* DetailsGrid — a bordered table of label/value rows: the metadata block of a preview. */
+
+.tss-detailsgrid {
+    --tss-detailsgrid-columns: 1;
+    --tss-detailsgrid-label-width: 120px;
+
+    display: grid;
+    grid-template-columns: repeat(var(--tss-detailsgrid-columns), minmax(0, 1fr));
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-lg);
+    overflow: hidden;
+    font-size: 13px;
+    line-height: 20px;
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-detailsgrid-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    box-sizing: border-box;
+    min-width: 0;
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--tss-default-border-color);
+}
+
+.tss-detailsgrid-row:last-child {
+    border-bottom: none;
+}
+
+.tss-detailsgrid-label {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: var(--tss-detailsgrid-label-width);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-detailsgrid-value {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    flex-grow: 1;
+    min-width: 0;
+}
+
+/* Only the plain-text value ellipsizes - a component the host put in the slot lays itself out. */
+.tss-detailsgrid-value-text {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Whatever a host drops in a value cell sits on the row's baseline rather than carrying the margins it
+   would have had in a stack. */
+.tss-detailsgrid-value > .tss-textblock,
+.tss-detailsgrid-value > .tss-link,
+.tss-detailsgrid-value > .tss-token {
+    margin: 0;
+}
+
+.tss-detailsgrid-compact .tss-detailsgrid-row {
+    padding: 5px 10px;
+}
+
+.tss-detailsgrid-borderless {
+    border: none;
+    border-radius: 0;
+}
+
+.tss-detailsgrid-borderless .tss-detailsgrid-row {
+    border-bottom: none;
+    padding-left: 0;
+    padding-right: 0;
+}

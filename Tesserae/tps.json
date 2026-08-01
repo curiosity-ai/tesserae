@@ -117,6 +117,8 @@
                 "tps/assets/css/tss.plan.css",
                 "tps/assets/css/tss.pagesstack.css",
                 "tps/assets/css/tss.omniresult.css",
+                "tps/assets/css/tss.detailsgrid.css",
+                "tps/assets/css/tss.modalstack.css",
                 "tps/assets/css/diff2html.min.css",
                 "tps/assets/css/tss.codediff.css"
             ],
