@@ -72,9 +72,14 @@ namespace Build.UIconsOpticalCentering
             sb.AppendLine(" *");
             sb.AppendLine(" *  \"Visual centre\" is the centre of the trimmed ink extent - the icon's frame, with hairlines");
             sb.AppendLine(" *  and antialiasing discounted - pulled towards the centre of ink mass, so an icon that carries");
-            sb.AppendLine(" *  its weight to one side is balanced rather than merely boxed. The pull is capped, and icons");
-            sb.AppendLine(" *  that share a frame (a square and a checkbox, say) are forced to share one offset, so");
-            sb.AppendLine(" *  lookalikes keep overlapping exactly.");
+            sb.AppendLine(" *  its weight to one side is balanced rather than merely boxed. The pull is capped.");
+            sb.AppendLine(" *");
+            sb.AppendLine(" *  Icons that have to stay on top of each other keep one shared offset. Exactly, for the icons");
+            sb.AppendLine(" *  the toolkit swaps in place (square and checkbox, the -slash variants on their base icon) and");
+            sb.AppendLine(" *  for any set of icons drawn on the same frame that agrees on where its centre is. Elsewhere it");
+            sb.AppendLine(" *  is a tendency, not a promise: rounding to a grid can always separate two values a hair apart.");
+            sb.AppendLine(" *  What is guaranteed is the other direction - no icon is moved further off centre than rounding");
+            sb.AppendLine(" *  explains, the exception being the ones deliberately pinned to an icon they get swapped with.");
             sb.AppendLine(" *");
             sb.AppendLine($" *  {adjusted} of {totalGlyphs} glyphs need an adjustment, in {rules.Count} groups.");
             sb.AppendLine(" *");
@@ -84,6 +89,7 @@ namespace Build.UIconsOpticalCentering
                           $" dead zone {Em(settings.DeadZone)}," +
                           $" cap {Em(settings.MaxAdjustment)},");
             sb.AppendLine($" *  frame tolerance {Em(settings.FrameTolerance)}," +
+                          $" shared frame spread {Em(settings.MaxSharedFrameSpread)}," +
                           $" trim {settings.Trim.ToString(CultureInfo.InvariantCulture)}," +
                           $" rasterized at {settings.RasterEm}px.");
             sb.AppendLine(" *");
@@ -139,7 +145,7 @@ namespace Build.UIconsOpticalCentering
             sb.Append(line);
         }
 
-        private static string Em(double value) => value == 0 ? "0" : value.ToString("0.###", CultureInfo.InvariantCulture) + "em";
+        private static string Em(double value) => value == 0 ? "0" : value.ToString("0.####", CultureInfo.InvariantCulture) + "em";
 
         private static string Signed(double value) => value == 0 ? "0" : (value > 0 ? "+" : "") + value.ToString("0.###", CultureInfo.InvariantCulture) + "em";
     }

@@ -369,6 +369,7 @@ namespace Build.UIconsOpticalCentering
                     case "--dead-zone":       options.Settings.DeadZone = Number(Value(option)); break;
                     case "--cap":             options.Settings.MaxAdjustment = Number(Value(option)); break;
                     case "--frame-tolerance": options.Settings.FrameTolerance = Number(Value(option)); break;
+                    case "--frame-spread":    options.Settings.MaxSharedFrameSpread = Number(Value(option)); break;
                     case "--trim":            options.Settings.Trim = Number(Value(option)); break;
                     default:                  throw new ArgumentException($"Unknown option '{option}'. Try --help.");
                 }
@@ -398,7 +399,8 @@ namespace Build.UIconsOpticalCentering
                   --step <em>           rounding step for the emitted offsets (default 0.005)
                   --dead-zone <em>      offsets below this are dropped (default 0.01)
                   --cap <em>            cap on the emitted offset (default 0.06)
-                  --frame-tolerance <em> how close two ink boxes must be to share an offset (default 0.015)
+                  --frame-tolerance <em> how close two ink boxes must be to count as the same frame (default 0.004)
+                  --frame-spread <em>   how closely same-frame icons must agree to be pinned (default 0.005)
                   --trim <f>            ink mass trimmed off each side to find the frame (default 0.02)
                 """);
         }

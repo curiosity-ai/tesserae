@@ -112,9 +112,16 @@ console projects own them, and both are in the solution:
   The adjustments are deliberately conservative: only offsets between the dead
   zone and the cap are emitted, so an icon that is a long way off centre (a half
   circle, an empty crate drawn at the bottom of its box) is left as drawn rather
-  than half-corrected. Icons that share an ink box, and the ones the toolkit
-  swaps in place (`--uicon-var-square` / `--uicon-var-checkbox`, the `-slash`
-  variants, mirrored arrows), are pinned to each other so they keep overlapping.
+  than half-corrected. Icons that are the same drawing — matching ink boxes
+  *and* already agreeing on where their centre is — are pinned to one shared
+  offset so rounding cannot separate them, as are the ones the toolkit swaps in
+  place (`--uicon-var-square` / `--uicon-var-checkbox`, the `-slash` variants,
+  mirrored arrows). Agreement is what identifies a lookalike: thousands of icons
+  are drawn edge to edge and so share an ink box without being related, and
+  pinning those to each other would drag well-centred icons off centre. The run
+  enforces that: no icon may end up further off centre than rounding explains,
+  the only exception being icons pinned to a curated group, where overlapping
+  the icon they get swapped with outranks their own centering.
 
 ## Installing Transpose
 

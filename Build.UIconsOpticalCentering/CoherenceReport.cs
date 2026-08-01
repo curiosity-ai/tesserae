@@ -6,9 +6,11 @@ using System.Linq;
 namespace Build.UIconsOpticalCentering
 {
     /// <summary>
-    /// Prints what the pass did and checks the properties that matter: that the reference box the icons
-    /// were centred against is the one the browser actually uses, that most icons were left alone, and
-    /// that icons meant to sit on top of each other still do.
+    /// Prints what the pass did and holds it to the properties that matter. Three of them fail the run:
+    /// no icon may end up further off centre than rounding explains, icons meant to sit on top of each
+    /// other may not drift apart, and a set of icons pinned to one offset must actually all have it.
+    /// The rest is reported for a human to judge - the font metrics that define the reference box, how
+    /// many icons were left alone, and how far the lookalike guarantee reaches.
     /// </summary>
     internal static class CoherenceReport
     {
@@ -18,8 +20,9 @@ namespace Build.UIconsOpticalCentering
 
             PrintFontMetrics(fonts);
             PrintDistribution(fonts, settings);
+            ok &= PrintResiduals(fonts, settings);
             ok &= PrintAlignmentGroups(fonts, settings);
-            ok &= PrintFrameClusters(fonts, settings);
+            ok &= PrintPinnedGroups(fonts, settings);
             PrintLargestAdjustments(fonts);
 
             return ok;
@@ -79,6 +82,61 @@ namespace Build.UIconsOpticalCentering
         }
 
         private static double Magnitude(GlyphAdjustment g) => Math.Max(Math.Abs(g.X), Math.Abs(g.Y));
+
+        /// <summary>How far the icon's optical centre still sits from the centre of its box, in em.</summary>
+        private static double OffCentreAfter(GlyphAdjustment g) => Math.Max(Math.Abs(g.OpticalX - g.X), Math.Abs(g.OpticalY - g.Y));
+
+        private static double OffCentreBefore(GlyphAdjustment g) => Math.Max(Math.Abs(g.OpticalX), Math.Abs(g.OpticalY));
+
+        /// <summary>
+        /// Does this actually centre the icons? Reports how far off centre they sit before and after, and
+        /// holds the run to the rule that no icon may end up further off centre than it started. Rounding
+        /// can cost half a step; anything beyond that means a shared offset dragged an icon off centre,
+        /// which is what the pinning rules exist to avoid. Icons pinned to a curated group are exempt:
+        /// there, overlapping the icon they are swapped with deliberately outranks their own centering.
+        /// </summary>
+        private static bool PrintResiduals(List<FontAdjustments> fonts, CenteringSettings settings)
+        {
+            var pinned = new HashSet<string>(AlignmentGroups.All.SelectMany(g => g.Icons), StringComparer.Ordinal);
+            var usable = fonts.SelectMany(f => f.Glyphs).Where(g => g.Measurement.IsUsable).ToList();
+
+            Console.WriteLine();
+            Console.WriteLine("How far the icons sit from the centre of their box, before and after (em)");
+            Console.WriteLine($"  {"set",-24} {"n",6} {"mean",16} {"worst",16}");
+
+            void Row(string name, List<GlyphAdjustment> glyphs)
+            {
+                if (glyphs.Count == 0) return;
+
+                Console.WriteLine($"  {name,-24} {glyphs.Count,6} " +
+                                  $"{glyphs.Average(OffCentreBefore),7:0.0000} ->{glyphs.Average(OffCentreAfter),7:0.0000} " +
+                                  $"{glyphs.Max(OffCentreBefore),7:0.0000} ->{glyphs.Max(OffCentreAfter),7:0.0000}");
+            }
+
+            Row("all glyphs", usable);
+            Row("given a rule", usable.Where(g => g.IsAdjusted).ToList());
+            Row("left alone as drawn", usable.Where(g => g.IsRejected).ToList());
+
+            var tolerance = settings.Step / 2 + 1e-9;
+            var worsened  = usable
+               .Where(g => !pinned.Contains(g.Glyph.IconName))
+               .Where(g => OffCentreAfter(g) > OffCentreBefore(g) + tolerance)
+               .OrderByDescending(g => OffCentreAfter(g) - OffCentreBefore(g))
+               .ToList();
+
+            var exempt = usable.Count(g => pinned.Contains(g.Glyph.IconName) && OffCentreAfter(g) > OffCentreBefore(g) + tolerance);
+
+            Console.WriteLine($"  {worsened.Count} glyphs ended up further off centre than rounding explains" +
+                              $" (plus {exempt} pinned to a curated group, which is by design)");
+
+            foreach (var glyph in worsened.Take(10))
+            {
+                Console.WriteLine($"  FAILED: {glyph.Glyph.CssClass,-40} {OffCentreBefore(glyph):0.0000} -> {OffCentreAfter(glyph):0.0000}" +
+                                  $"   pinned to {glyph.PinnedGroupSize - 1} other icons");
+            }
+
+            return worsened.Count == 0;
+        }
 
         private static string Bar(int count, int total)
         {
@@ -177,7 +235,7 @@ namespace Build.UIconsOpticalCentering
         /// must still agree. The only glyphs allowed to differ are the ones a curated alignment group
         /// deliberately pulled out of their cluster.
         /// </summary>
-        private static bool PrintFrameClusters(List<FontAdjustments> fonts, CenteringSettings settings)
+        private static bool PrintPinnedGroups(List<FontAdjustments> fonts, CenteringSettings settings)
         {
             var pinned = new HashSet<string>(AlignmentGroups.All.SelectMany(g => g.Icons), StringComparer.Ordinal);
             var ok     = true;
@@ -187,8 +245,8 @@ namespace Build.UIconsOpticalCentering
             foreach (var font in fonts)
             {
                 foreach (var cluster in font.Glyphs
-                   .Where(g => g.Measurement.IsUsable && g.SharesFrame && !pinned.Contains(g.Glyph.IconName))
-                   .GroupBy(g => g.FrameCluster))
+                   .Where(g => g.Measurement.IsUsable && g.IsPinned && !pinned.Contains(g.Glyph.IconName))
+                   .GroupBy(g => g.PinnedGroup))
                 {
                     var spread = Math.Max(
                         cluster.Max(g => g.X) - cluster.Min(g => g.X),
@@ -203,16 +261,17 @@ namespace Build.UIconsOpticalCentering
                 }
             }
 
-            var glyphs    = fonts.SelectMany(f => f.Glyphs).ToList();
-            var shared    = glyphs.Count(g => g.SharesFrame);
-            var oversized = glyphs.Count(g => g.FrameClusterSize > settings.MaxSharedFrameGroup);
+            var glyphs     = fonts.SelectMany(f => f.Glyphs).ToList();
+            var shared     = glyphs.Count(g => g.IsPinned);
+            var disagreed  = glyphs.Count(g => g.FrameGroupSize > 1 && !g.IsPinned);
 
             Console.WriteLine();
             Console.WriteLine($"Icons drawn on the same frame: {shared} glyphs are pinned to the other icons sharing their ink box");
-            Console.WriteLine($"  {oversized} glyphs are in groups bigger than {settings.MaxSharedFrameGroup} and stay un-pinned " +
-                              "(an ink box shared by hundreds of icons says nothing about shape)");
+            Console.WriteLine($"  {disagreed} glyphs share an ink box with something but disagree by more than " +
+                              $"{settings.MaxSharedFrameSpread:0.0000}em on where their centre is, so they stay un-pinned " +
+                              "(a shared ink box alone does not make two icons the same drawing)");
             Console.WriteLine($"  largest offset spread inside a pinned group {worst.ToString("0.0000", CultureInfo.InvariantCulture)}em " +
-                              "(must be zero: same frame means same offset)");
+                              "(must be zero: a pinned group is one offset by construction)");
 
             if (worst > 1e-9)
             {
@@ -220,7 +279,65 @@ namespace Build.UIconsOpticalCentering
                 ok = false;
             }
 
+            PrintLookalikeDivergence(fonts, settings);
             return ok;
+        }
+
+        /// <summary>
+        /// Measures, rather than assumes, how well icons that look alike end up with the same offset.
+        /// <para>
+        /// Two things stop this being a guarantee. Pinning groups icons around a leader, so two icons that
+        /// agree with each other can still land in different groups — being within a tolerance is not
+        /// transitive, and no rounding grid escapes that. And the dead zone and the cap are cliffs: two
+        /// values a hair apart either side of one get told to do different things.
+        /// </para>
+        /// <para>
+        /// So this compares every pair of icons that shares an ink box and agrees on its centre to within
+        /// half a step. That is a loose proxy for "the same drawing" — it also catches icons that merely
+        /// fill their box and happen to want the same nudge, which is why the pairs are printed rather than
+        /// counted alone. The guarantees live elsewhere: curated groups and pinned groups are exact.
+        /// </para>
+        /// </summary>
+        private static void PrintLookalikeDivergence(List<FontAdjustments> fonts, CenteringSettings settings)
+        {
+            var tolerance = settings.Step / 2 + 1e-9;
+            var pairs     = 0;
+            var diverged  = new List<(double Divergence, string Pair)>();
+
+            foreach (var font in fonts)
+            {
+                foreach (var frame in font.Glyphs
+                   .Where(g => g.Measurement.IsUsable && g.FrameGroupSize > 1)
+                   .GroupBy(g => g.FrameGroup))
+                {
+                    var members = frame.ToList();
+
+                    for (int i = 0; i < members.Count; i++)
+                    {
+                        for (int j = i + 1; j < members.Count; j++)
+                        {
+                            var a = members[i];
+                            var b = members[j];
+
+                            if (Math.Abs(a.OpticalX - b.OpticalX) > tolerance || Math.Abs(a.OpticalY - b.OpticalY) > tolerance) continue;
+
+                            pairs++;
+                            var divergence = Math.Max(Math.Abs(a.X - b.X), Math.Abs(a.Y - b.Y));
+
+                            if (divergence > settings.Step + 1e-9) diverged.Add((divergence, $"{a.Glyph.CssClass} vs {b.Glyph.IconName}"));
+                        }
+                    }
+                }
+            }
+
+            Console.WriteLine($"  {pairs} pairs of icons share an ink box and agree on their centre to within half a step;" +
+                              $" {diverged.Count} of them were given offsets more than one rounding step apart," +
+                              " because the dead zone and the cap are cliffs and two near-identical values can fall either side");
+
+            foreach (var (divergence, pair) in diverged.OrderByDescending(d => d.Divergence).Take(8))
+            {
+                Console.WriteLine($"    {divergence.ToString("0.0000", CultureInfo.InvariantCulture)}em  {pair}");
+            }
         }
 
         private static void PrintLargestAdjustments(List<FontAdjustments> fonts)

@@ -47,11 +47,14 @@ namespace Build.UIconsOpticalCentering
         public double FrameTolerance { get; set; } = 0.004;
 
         /// <summary>
-        /// Largest group of same-frame icons that is still treated as one shape. Thousands of icons are
-        /// drawn edge to edge and so share an ink box without being related at all; pinning those to each
-        /// other would average away every real correction, so oversized groups are left un-pinned.
+        /// How closely two same-frame icons must already agree on where their optical centre is before they
+        /// are pinned to one shared offset. Sharing an ink box does not by itself make two icons the same
+        /// drawing - thousands are simply drawn edge to edge - so agreement is what identifies a lookalike.
+        /// Icons that agree lose nothing by being pinned and gain immunity to landing either side of a
+        /// rounding step; icons that disagree are left to their own offsets rather than dragged off centre.
+        /// Half a rounding step, so pinning can never cost more than the rounding already does.
         /// </summary>
-        public int MaxSharedFrameGroup { get; set; } = 24;
+        public double MaxSharedFrameSpread { get; set; } = 0.0025;
     }
 
     /// <summary>The offset computed for one glyph, in em, along with the numbers it came from.</summary>
@@ -85,14 +88,20 @@ namespace Build.UIconsOpticalCentering
 
         public double Y { get; set; }
 
-        /// <summary>Index of the frame cluster this glyph shares its offset with.</summary>
-        public int FrameCluster { get; set; }
+        /// <summary>Index of the set of icons with the same ink box as this glyph.</summary>
+        public int FrameGroup { get; set; } = -1;
 
         /// <summary>How many icons have the same ink box as this glyph, itself included.</summary>
-        public int FrameClusterSize { get; set; }
+        public int FrameGroupSize { get; set; }
 
-        /// <summary>Set when this glyph's offset is pinned to the other icons drawn on the same frame.</summary>
-        public bool SharesFrame { get; set; }
+        /// <summary>Index of the set of icons this glyph shares its offset with, or -1 when it is on its own.</summary>
+        public int PinnedGroup { get; set; } = -1;
+
+        /// <summary>How many icons share this glyph's offset, itself included.</summary>
+        public int PinnedGroupSize { get; set; }
+
+        /// <summary>Set when this glyph is pinned to other icons that are the same drawing.</summary>
+        public bool IsPinned { get; set; }
 
         public bool IsAdjusted => X != 0 || Y != 0;
 
@@ -111,7 +120,11 @@ namespace Build.UIconsOpticalCentering
 
         public double BaselineY { get; set; }
 
-        public int FrameClusters { get; set; }
+        /// <summary>How many distinct ink boxes the font's glyphs fall into.</summary>
+        public int FrameGroups { get; set; }
+
+        /// <summary>How many sets of icons ended up sharing one offset.</summary>
+        public int PinnedGroups { get; set; }
     }
 
     /// <summary>
@@ -194,7 +207,7 @@ namespace Build.UIconsOpticalCentering
 
             var final = usable.ToDictionary(g => g, g => (X: g.OpticalX, Y: g.OpticalY));
 
-            result.FrameClusters = ShareWithinFrameClusters(usable, final, em, settings);
+            (result.FrameGroups, result.PinnedGroups) = PinIconsThatAreTheSameDrawing(usable, final, em, settings);
             ApplyAlignmentGroups(font, usable, final, warnings);
 
             foreach (var glyph in usable)
@@ -216,50 +229,95 @@ namespace Build.UIconsOpticalCentering
         }
 
         /// <summary>
-        /// Groups glyphs whose ink boxes are effectively the same and gives every member of a group the
-        /// same offset. This is what keeps a square and a checkbox — same frame, different interior —
-        /// from drifting apart, and it does so for every lookalike in the set, not just the known ones.
+        /// Finds the icons that are the same drawing and gives each such set one shared offset, so a
+        /// square and a checkbox cannot end up either side of a rounding step. Two icons count as the same
+        /// drawing when their ink boxes match <em>and</em> they already agree on where their optical centre
+        /// is; a shared ink box alone means nothing, since thousands of icons are simply drawn edge to edge.
         /// <para>
-        /// Clusters are built around a leader rather than by merging neighbours, so a long chain of
-        /// slightly different frames cannot collapse into one oversized cluster.
+        /// Both passes cluster around a leader rather than merging neighbours, so a long chain of slightly
+        /// different values cannot collapse into one oversized group. Because a member is always within the
+        /// tolerance of its leader, sharing the group mean moves nobody by more than that tolerance - which
+        /// is set to half a rounding step, so pinning never costs more than the rounding already does.
         /// </para>
         /// </summary>
-        private static int ShareWithinFrameClusters(
-            List<GlyphAdjustment>                                  glyphs,
-            Dictionary<GlyphAdjustment, (double X, double Y)>       final,
-            double                                                  em,
-            CenteringSettings                                       settings)
+        private static (int Frames, int Pinned) PinIconsThatAreTheSameDrawing(
+            List<GlyphAdjustment>                            glyphs,
+            Dictionary<GlyphAdjustment, (double X, double Y)> final,
+            double                                           em,
+            CenteringSettings                                settings)
         {
-            var tolerance = settings.FrameTolerance;
-
-            double[] Signature(GlyphAdjustment g) => new[]
+            double[] InkBox(GlyphAdjustment g) => new[]
             {
                 g.Measurement.InkLeft / em, g.Measurement.InkTop / em,
                 g.Measurement.InkRight / em, g.Measurement.InkBottom / em,
             };
 
+            var frames = Cluster(glyphs, InkBox, settings.FrameTolerance);
+            var pinned = 0;
+
+            for (int f = 0; f < frames.Count; f++)
+            {
+                var frame = frames[f];
+
+                foreach (var member in frame)
+                {
+                    member.FrameGroup     = f;
+                    member.FrameGroupSize = frame.Count;
+                }
+
+                // Same ink box, now split by where the icons actually look centred.
+                foreach (var group in Cluster(frame, g => new[] { final[g].X, final[g].Y }, settings.MaxSharedFrameSpread))
+                {
+                    if (group.Count < 2) continue;
+
+                    var x = group.Average(m => final[m].X);
+                    var y = group.Average(m => final[m].Y);
+
+                    foreach (var member in group)
+                    {
+                        member.PinnedGroup     = pinned;
+                        member.PinnedGroupSize = group.Count;
+                        member.IsPinned        = true;
+                        final[member]          = (x, y);
+                    }
+
+                    pinned++;
+                }
+            }
+
+            return (frames.Count, pinned);
+        }
+
+        /// <summary>
+        /// Leader clustering: each item joins the first existing group whose leader is within tolerance on
+        /// every axis, or starts one. Bounds every group's radius at the tolerance, unlike merging
+        /// neighbours, which lets a chain of near-matches grow without limit.
+        /// </summary>
+        private static List<List<GlyphAdjustment>> Cluster(
+            IReadOnlyList<GlyphAdjustment>           glyphs,
+            Func<GlyphAdjustment, double[]> signature,
+            double                                   tolerance)
+        {
             var ordered = glyphs
-               .Select(g => (Glyph: g, Signature: Signature(g)))
+               .Select(g => (Glyph: g, Signature: signature(g)))
                .OrderBy(g => g.Signature[0])
-               .ThenBy(g => g.Signature[1])
-               .ThenBy(g => g.Signature[2])
-               .ThenBy(g => g.Signature[3])
+               .ThenBy(g => g.Signature.Length > 1 ? g.Signature[1] : 0)
                .ToList();
 
             var leaders  = new List<double[]>();
             var clusters = new List<List<GlyphAdjustment>>();
 
-            foreach (var (glyph, signature) in ordered)
+            foreach (var (glyph, values) in ordered)
             {
                 int match = -1;
 
-                // Leaders are visited newest first: the list is sorted, so a match is almost always the
-                // cluster that was just created, which keeps this linear in practice.
+                // Leaders are visited newest first: the input is sorted on the first axis, so a match is
+                // almost always the group that was just created, which keeps this linear in practice.
                 for (int i = leaders.Count - 1; i >= 0; i--)
                 {
-                    if (leaders[i][0] < signature[0] - tolerance) break;
+                    if (leaders[i][0] < values[0] - tolerance) break;
 
-                    if (Enumerable.Range(0, 4).All(k => Math.Abs(leaders[i][k] - signature[k]) <= tolerance))
+                    if (Enumerable.Range(0, values.Length).All(k => Math.Abs(leaders[i][k] - values[k]) <= tolerance))
                     {
                         match = i;
                         break;
@@ -268,7 +326,7 @@ namespace Build.UIconsOpticalCentering
 
                 if (match < 0)
                 {
-                    leaders.Add(signature);
+                    leaders.Add(values);
                     clusters.Add(new List<GlyphAdjustment>());
                     match = leaders.Count - 1;
                 }
@@ -276,24 +334,7 @@ namespace Build.UIconsOpticalCentering
                 clusters[match].Add(glyph);
             }
 
-            for (int i = 0; i < clusters.Count; i++)
-            {
-                var members = clusters[i];
-                var shared  = members.Count > 1 && members.Count <= settings.MaxSharedFrameGroup;
-                var x       = members.Average(m => final[m].X);
-                var y       = members.Average(m => final[m].Y);
-
-                foreach (var member in members)
-                {
-                    member.FrameCluster     = i;
-                    member.FrameClusterSize = members.Count;
-                    member.SharesFrame      = shared;
-
-                    if (shared) final[member] = (x, y);
-                }
-            }
-
-            return clusters.Count;
+            return clusters;
         }
 
         /// <summary>
