@@ -178,8 +178,9 @@ full-screen, so a modal never offers something the host didn't wire up:
   that opens them as a menu. `.NoOpenInSource()` clears them; `OpenActions` / `CanOpenInSource` read
   them; `.Open(bool inNewTab = false)` runs the primary one from code.
 - `.ModalNavigation(Action<OmniResult<T>> onPrevious, Action<OmniResult<T>> onNext, int position = 0, int count = 0)`
-  — the ‹ › arrows, with "2 of 7" between them when a position and count are given (both 1-based). A
-  null handler greys its arrow out, which is how the first and last result say so.
+  — an `InlinePagination` (`inline-pagination.md`): the ‹ › chevrons with "2 of 7" between them when a
+  position and count are given (both 1-based). A null handler greys its chevron out, which is how the
+  first and last result say so.
 - `.ModalCommands(Action<OmniResult<T>>)` — the `[...]` button; read `CommandsEvent` in the handler to
   place a command surface of the host's own where the user clicked. Null leaves the button out.
 - `.ModalFullScreen(Action<OmniResult<T>>)` — what `[⤢]` does; without one it grows the modal to fill
@@ -277,6 +278,7 @@ var pick = OmniResult(file, file.Name)
 ## Related
 
 - ModalStack — the deck a result's modal is usually pushed onto — `modal-stack.md`
+- InlinePagination — the previous/next control in its modal header — `inline-pagination.md`
 - DetailsGrid — the metadata block that usually fills the modal's head — `details-grid.md`
 - PagesStack — the page preview it takes — `pages-stack.md`
 - ContextMenu — the menu the commands open, and its items — `context-menu.md`

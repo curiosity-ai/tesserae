@@ -593,24 +593,10 @@
     cursor: default;
 }
 
-/* Previous / next, with where in the list this result is between them - one filled group rather than
-   an outline around each arrow. */
+/* Previous / next, with where in the list this result is between them - an InlinePagination, which
+   draws its own pill; the header only says where it sits. */
 .tss-omniresult-modal-nav {
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
-    flex-grow: 0;
-    flex-shrink: 0;
-    margin: 0 4px;
-}
-
-.tss-omniresult-modal-nav-label {
-    padding: 0 6px;
-    font-size: 12px;
-    line-height: 18px;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-    color: var(--tss-secondary-foreground-color);
+    margin: 0 6px;
 }
 
 /* "Open in Dropbox", with the other ways to open it behind the arrow beside it. */
@@ -699,10 +685,17 @@
 }
 
 .tss-modalstack-peek .tss-omniresult-modal-icon .tss-omniresult-icon {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     border-radius: 6px;
     font-size: 11px;
+}
+
+/* A tile that spells its file type out has to shrink with the tile, or "DOCX" is cropped rather than
+   scaled. */
+.tss-modalstack-peek .tss-omniresult-modal-icon .tss-omniresult-icon-text {
+    font-size: 6.5px;
+    letter-spacing: 0;
 }
 
 .tss-modalstack-peek .tss-omniresult-modal-title-text,

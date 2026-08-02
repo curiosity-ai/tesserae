@@ -1292,22 +1292,11 @@ namespace Tesserae
         {
             if (_modalPrevious is null && _modalNext is null) return null;
 
-            var previous = ModalButton(UIcons.AngleLeft,  "Previous result", _ => _modalPrevious?.Invoke(this));
-            var next     = ModalButton(UIcons.AngleRight, "Next result",     _ => _modalNext?.Invoke(this));
-
-            previous.disabled = _modalPrevious is null;
-            next.disabled     = _modalNext is null;
-
-            var navigation = Div(Att("tss-omniresult-modal-nav"), previous);
-
-            if (_modalCount > 0)
-            {
-                navigation.appendChild(Span(Att("tss-omniresult-modal-nav-label", text: $"{_modalPosition} of {_modalCount}")));
-            }
-
-            navigation.appendChild(next);
-
-            return Raw(navigation);
+            return InlinePagination(_modalPosition, _modalCount)
+               .Class("tss-omniresult-modal-nav")
+               .SetTooltips("Previous result", "Next result")
+               .OnPrevious(_modalPrevious is null ? null : (Action<InlinePagination>)(_ => _modalPrevious(this)))
+               .OnNext(_modalNext is null ? null : (Action<InlinePagination>)(_ => _modalNext(this)));
         }
 
         private static HTMLButtonElement ModalButton(UIcons icon, string label, Action<MouseEvent> onClick)

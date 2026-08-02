@@ -38,4 +38,6 @@ var view = VStack().Children(
 
 ## Related
 
+- InlinePagination — the compact "3 of 7" pill, for stepping one at a time from a toolbar — `inline-pagination.md`
+
 - Full docs & API: `/tesserae/components/pagination`
