@@ -156,11 +156,11 @@
        light theme, where a dark surface with a trace of the primary's hue in it reads as its own. The
        page is the darkest thing on it and every surface lifts off that - a card, the composer, a hovered
        row - so depth comes from getting lighter, which is the direction a dark theme has to work in. */
-    --tss-default-background-color-root: 10, 12, 16;
+    --tss-default-background-color-root: 14, 15, 24;
     --tss-default-foreground-color-root: 231, 237, 243;
     --tss-secondary-background-color-root: 18, 22, 32;
     --tss-secondary-foreground-color-root: 138, 148, 166;
-    --tss-sidebar-background-color-root: 13, 15, 20;
+    --tss-sidebar-background-color-root: 14, 15, 24;
     --tss-disabled-background-color-root: 18, 20, 26;
     --tss-disabled-foreground-color-root: 105, 114, 130;
     --tss-default-border-color-root: 30, 35, 44;
@@ -266,9 +266,7 @@
     --tss-border-radius-lg: 8px;
     --tss-border-radius-xl: 12px;
     --tss-border-radius-full: 9999px;
-
     --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
-
     --tss-shadow-color-from: rgba(0, 0, 0, 0.4);
     --tss-shadow-color-to: rgba(0, 0, 0, 0.3);
     --tss-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
