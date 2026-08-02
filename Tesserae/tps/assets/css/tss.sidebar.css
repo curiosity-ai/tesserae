@@ -620,6 +620,95 @@
     margin-bottom: 16px;
 }
 
+/* Sidebar shift (sliding into a child sidebar)
+
+   When a child sidebar is mounted, the sidebar sections move into a track that holds the main
+   panel and the child panel side by side. The track slides horizontally by one full width, and
+   the panel that ends up out of view is hidden once the transition is over.
+
+   The horizontal padding moves from the sidebar to the panels so that the off-screen panel is
+   fully clipped instead of peeking into the padding area. The child panel doesn't need it: the
+   nested .tss-sidebar brings its own. */
+.tss-sidebar.tss-sidebar-has-shift {
+    overflow: hidden;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+    .tss-sidebar.tss-sidebar-has-shift > .tss-stack-item {
+        display: flex;
+        min-height: 0;
+    }
+
+.tss-sidebar-shift-track {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 0;
+    transform: translateX(0);
+    transition: 0.3s transform ease-out;
+}
+
+    .tss-sidebar-shift-track.tss-sidebar-shifted {
+        transform: translateX(-100%);
+    }
+
+/* Panels are absolutely positioned so that hiding one doesn't move the other */
+.tss-sidebar-shift-panel {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+    .tss-sidebar-shift-panel.tss-sidebar-shift-panel-child {
+        left: 100%;
+    }
+
+    .tss-sidebar-shift-panel.tss-sidebar-shift-panel-hidden {
+        display: none;
+    }
+
+.tss-sidebar-shift-panel-main {
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-shift-panel-main {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+/* Same full-bleed middle section as .tss-sidebar > .tss-stack-item:nth-child(2) */
+.tss-sidebar-shift-panel-main > .tss-stack-item:nth-child(2) {
+    margin: 0px -12px !important;
+    width: calc(100% + 24px) !important;
+    padding-left: 12px !important;
+}
+
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-shift-panel-main > .tss-stack-item:nth-child(2) {
+    margin: 0px -4px !important;
+    width: calc(100% + 8px) !important;
+    padding-left: 4px !important;
+}
+
+/* The nested child sidebar fills its panel and lets the hosting sidebar own width and background */
+.tss-sidebar-shift-panel-child > .tss-sidebar {
+    width: 100% !important;
+    max-width: none;
+    flex: 1 1 auto;
+    min-height: 0;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background: transparent;
+    transition: none;
+}
+
 /* SidebarSegmentedPivot styles */
 .tss-sidebar-segmentedpivot-wrapper-open {
     margin-left: 8px;
