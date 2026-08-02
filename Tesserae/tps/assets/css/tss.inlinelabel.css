@@ -88,6 +88,25 @@
     box-shadow: 0 0 0 2px var(--tss-primary-background-color);
 }
 
+/* Looking up what it says ---------------------------------------------------------------------------- */
+
+/* While the task runs the label is nothing but the skeleton: the pill's chrome would be a promise about
+   a size it doesn't know yet, and a label that turns out to have nothing to say removes itself anyway. */
+.tss-inlinelabel-loading {
+    height: auto;
+    padding: 0;
+    border: none;
+    background: none;
+    pointer-events: none;
+}
+
+.tss-inlinelabel-skeleton {
+    display: block;
+    width: 72px;
+    height: 12px;
+    border-radius: var(--tss-border-radius-sm);
+}
+
 /* In a footer -------------------------------------------------------------------------------------- */
 
 /* A footer is a line of facts, not a row of chips, so the pill's chrome comes off and the label takes
