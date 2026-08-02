@@ -35,7 +35,27 @@ Bring factories into scope with `using static Tesserae.UI;`.
 Common item types: `SidebarButton(id, UIcons icon, text)` (`.Selected()`,
 `.OnClick(...)`, `.Primary()`, `.Danger()`, `.Rounded()`, `.Tooltip(...)`),
 `SidebarSeparator(id, text)`, `SidebarNav(id, icon, text, initiallyCollapsed)`,
-`SidebarText(id, text)`, `SidebarSearchBox(id, placeholder)`.
+`SidebarText(id, text)`, `SidebarSearchBox(id, placeholder)`,
+`SidebarComponent(id, component)`.
+
+## A component of your own in the sidebar
+
+`new SidebarComponent(id, component, closedComponent = null)` stands where a
+sidebar item would and draws whatever you hand it — a chat history, a tree of
+spaces, a filter form, a model picker. The component keeps its own state and
+only asks the sidebar for a place to stand.
+
+- The **closed** (icon-rail) state takes a component of its own, because almost
+  nothing worth hosting fits a 48px rail. Passing none — the default — leaves
+  the item out of the rail entirely, which is usually what a list wants.
+- `.Grow()` lets it take the leftover height of the middle section, for a
+  component that scrolls its own content.
+- `.NotSortable()` keeps it out of drag reordering, which a hosted region
+  normally wants.
+
+```csharp
+chatBar.AddContent(new SidebarComponent("history", chatHistory).Grow().NotSortable());
+```
 
 ## SidebarSearchBox
 
