@@ -23,6 +23,8 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.InsertAfterContent(item, addAfter)` — insert relative to an existing item.
 - `.RemoveContent(item)`, `.ClearContent()`, `.Clear()` — remove items.
 - `.Closed(bool = true)` / `.Toggle()` / `.IsClosed` — collapse to icon rail.
+- `.ShiftTo(childSidebar)` / `.ShiftBack()` / `.IsShifted` — slide into a nested
+  sidebar (see below).
 - `.AsNavbar()` — render horizontally as a top bar with a hamburger drawer.
 - `.Secondary()` — use the secondary background colour.
 - `.Sortable(bool)` — enable/disable drag reordering.
@@ -51,6 +53,43 @@ filters searchable items. Configure it fluently:
 `SidebarSearchBox.Rounded(BorderRadius = Full)` render the item with rounded
 corners (a full pill by default; pass `BorderRadius.Small`/`Medium`/`Full`).
 Combine `.Primary().Rounded()` on a button for a prominent call-to-action.
+
+## Shift into a child sidebar
+
+When navigating into an interface that has its own navigation (a chat view, a
+project workspace, ...), shift the sidebar into a second `Sidebar` instead of
+rebuilding the items. The child slides in horizontally from the right, and the
+panel that ends up out of view is set to `display: none` once the animation is
+over, so it can't be tabbed or read into.
+
+- `.ShiftTo(childSidebar)` — mount the child sidebar and slide into it. Calling
+  it with a different sidebar replaces the mounted one.
+- `.ShiftBack()` — slide back into the main sidebar.
+- `.IsShifted` / `.ShiftedSidebar` — current state and mounted child.
+- `.OnShiftChanged(isShifted => ...)` — run when the sidebar shifts, e.g. to swap
+  the content area alongside it.
+
+Only one depth level is supported: a child sidebar can't shift again. The child
+is rendered inside the hosting sidebar and follows its open/closed state, so
+`.Toggle()` on the main sidebar collapses both. Shifting is ignored in
+`.AsNavbar()` mode.
+
+```csharp
+var sidebar = Sidebar();
+var chatBar = Sidebar();
+
+sidebar.AddContent(new SidebarButton("assistant", UIcons.Sparkles, "AI assistant",
+        new SidebarCommand(UIcons.AngleRight))
+    .CommandsAlwaysVisible()
+    .OnClick(() => sidebar.ShiftTo(chatBar)));
+
+chatBar.AddHeader(new SidebarButton("back", UIcons.AngleLeft, "AI assistant")
+    .OnClick(() => sidebar.ShiftBack()));
+chatBar.AddContent(new SidebarSeparator("today", "Today"));
+chatBar.AddContent(new SidebarButton("chat-1", UIcons.Comment, "Brake sensor calibration"));
+
+sidebar.OnShiftChanged(isShifted => Router.Navigate(isShifted ? "#/chat" : "#/home"));
+```
 
 ## Example
 

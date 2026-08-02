@@ -29,6 +29,17 @@ namespace Tesserae
 
         private HTMLDivElement _mobileBackdrop;
 
+        // Shift support: when a child sidebar is mounted, the sections are moved inside a
+        // horizontally sliding track that holds the main panel and the child panel side by side.
+        private Sidebar        _shiftChild;
+        private HTMLDivElement _shiftTrack;
+        private HTMLDivElement _shiftChildPanel;
+        private Stack          _shiftMainPanel;
+        private IComponent     _shiftHost;
+        private bool           _isShifted;
+        private double         _shiftTimeout;
+        private Action<bool>   _onShiftChanged;
+
         /// <summary>
         /// The transition time for sidebar animations in milliseconds.
         /// </summary>
@@ -55,6 +66,12 @@ namespace Tesserae
 
             _closed.Observe(isClosed =>
             {
+                // A shifted child sidebar is rendered inside this one, so it has to follow the same open/closed state
+                if (_shiftChild is object)
+                {
+                    _shiftChild.IsClosed = isClosed;
+                }
+
                 // Show or hide the mobile backdrop (used in navbar/mobile mode)
                 if (_mobileBackdrop is object)
                 {
@@ -239,10 +256,23 @@ namespace Tesserae
             }
             else
             {
-                _sidebar.Children(VStack().Class("tss-sidebar-header").WS().NoShrink().Children(header.Select(si => closed ? si.RenderClosed() : si.RenderOpen())),
+                var sections = new IComponent[]
+                {
+                    VStack().Class("tss-sidebar-header").WS().NoShrink().Children(header.Select(si => closed ? si.RenderClosed() : si.RenderOpen())),
                     stackMiddle.Class("tss-sidebar-middle").WS().H(10).Grow().ScrollY().Children(middle.Select(si => closed ? si.RenderClosed() : si.RenderOpen())),
                     VStack().Class("tss-sidebar-footer").WS().NoShrink().Children(footer.Select(si => closed ? si.RenderClosed() : si.RenderOpen()))
-                );
+                };
+
+                if (_shiftChild is object)
+                {
+                    // The sections live in the main panel of the sliding track instead of directly in the sidebar
+                    _shiftMainPanel.Children(sections);
+                    _sidebar.Children(_shiftHost);
+                }
+                else
+                {
+                    _sidebar.Children(sections);
+                }
             }
         }
 
@@ -277,6 +307,119 @@ namespace Tesserae
         {
             _closed.Toggle();
             return this;
+        }
+
+        /// <summary>
+        /// Gets whether the sidebar is currently showing the shifted (child) sidebar.
+        /// </summary>
+        public bool IsShifted => _isShifted;
+
+        /// <summary>
+        /// Gets the child sidebar that is currently mounted for shifting, if any.
+        /// </summary>
+        public Sidebar ShiftedSidebar => _shiftChild;
+
+        /// <summary>
+        /// Slides horizontally into a child sidebar, used when navigating into an interface that has its own sidebar.
+        /// The child sidebar is rendered inside this one and follows its open/closed state.
+        /// Only one depth level is supported: shifting into another child replaces the current one.
+        /// Call <see cref="ShiftBack"/> to slide back into this sidebar.
+        /// </summary>
+        /// <param name="child">The sidebar to shift into.</param>
+        /// <returns>The current instance of the type.</returns>
+        public Sidebar ShiftTo(Sidebar child)
+        {
+            if (child is null)
+            {
+                return ShiftBack();
+            }
+
+            if (_isNavbar)
+            {
+                return this; //shifting is not supported while rendering as a navbar
+            }
+
+            if (!ReferenceEquals(_shiftChild, child))
+            {
+                EnsureShiftScaffolding();
+
+                _shiftChild = child;
+                child.IsClosed = _closed.Value;
+
+                ClearChildren(_shiftChildPanel);
+                _shiftChildPanel.appendChild(child.Render());
+
+                Refresh(); //moves the sections into the main panel of the track
+            }
+
+            SetShifted(true);
+            return this;
+        }
+
+        /// <summary>
+        /// Slides back from the child sidebar into this sidebar.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
+        public Sidebar ShiftBack()
+        {
+            SetShifted(false);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a handler that is called whenever the sidebar shifts into the child sidebar (true) or back (false).
+        /// </summary>
+        /// <param name="onShiftChanged">The event handler.</param>
+        /// <returns>The current instance of the type.</returns>
+        public Sidebar OnShiftChanged(Action<bool> onShiftChanged)
+        {
+            _onShiftChanged = onShiftChanged;
+            return this;
+        }
+
+        private void EnsureShiftScaffolding()
+        {
+            if (_shiftTrack is object) return;
+
+            _shiftMainPanel  = VStack().Class("tss-sidebar-shift-panel").Class("tss-sidebar-shift-panel-main");
+            _shiftChildPanel = Div(Att("tss-sidebar-shift-panel tss-sidebar-shift-panel-child tss-sidebar-shift-panel-hidden"));
+            _shiftTrack      = Div(Att("tss-sidebar-shift-track"), _shiftMainPanel.Render(), _shiftChildPanel);
+            _shiftHost       = Raw(_shiftTrack).WS().Grow();
+
+            _sidebar.Class("tss-sidebar-has-shift");
+        }
+
+        private void SetShifted(bool shifted)
+        {
+            if (_shiftTrack is null || _isShifted == shifted) return;
+
+            _isShifted = shifted;
+
+            window.clearTimeout(_shiftTimeout);
+
+            var mainPanel  = _shiftMainPanel.Render();
+            var enterPanel = shifted ? _shiftChildPanel : mainPanel;
+            var leavePanel = shifted ? mainPanel : _shiftChildPanel;
+
+            // The panel we're sliding into is display:none, so it has to be laid out before the
+            // transform starts, otherwise the browser has nothing to animate towards.
+            enterPanel.classList.remove("tss-sidebar-shift-panel-hidden");
+            var _flush = _shiftTrack.offsetWidth;
+
+            if (shifted)
+            {
+                _shiftTrack.classList.add("tss-sidebar-shifted");
+            }
+            else
+            {
+                _shiftTrack.classList.remove("tss-sidebar-shifted");
+            }
+
+            // Once the slide is over the panel that moved out of view is hidden, so it stops
+            // taking focus and is no longer reachable by screen readers.
+            _shiftTimeout = window.setTimeout((_) => leavePanel.classList.add("tss-sidebar-shift-panel-hidden"), SIDEBAR_TRANSITION_TIME);
+
+            _onShiftChanged?.Invoke(shifted);
         }
 
         /// <summary>
