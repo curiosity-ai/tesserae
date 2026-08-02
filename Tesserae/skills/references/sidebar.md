@@ -38,6 +38,12 @@ Common item types: `SidebarButton(id, UIcons icon, text)` (`.Selected()`,
 `SidebarText(id, text)`, `SidebarSearchBox(id, placeholder)`,
 `SidebarComponent(id, component)`.
 
+A `.Selected()` item is outlined in the theme's primary color and filled with a
+wash of it, rather than with the grey a hover uses — so where you are still
+reads while the pointer is somewhere else in the list. It follows
+`Theme.SetPrimary(...)`, so an app's own brand color is what marks its current
+page.
+
 ## A component of your own in the sidebar
 
 `new SidebarComponent(id, component, closedComponent = null)` stands where a

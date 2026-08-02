@@ -91,9 +91,7 @@ namespace Tesserae
         private readonly HTMLElement _headerContainer;
         private readonly HTMLElement _bodyContainer;
         private readonly HTMLElement _contentContainer;
-        private readonly HTMLElement _sourceContainer;
-        private readonly HTMLElement _sourceMarker;
-        private readonly HTMLElement _sourceText;
+        private readonly InlineLabel _source;
         private readonly HTMLElement _footerContainer;
         private readonly HTMLElement _contributionContainer;
         private readonly HTMLElement _mainContainer;
@@ -165,9 +163,8 @@ namespace Tesserae
             _bodyContainer    = Div(Att("tss-omniresult-body"));
             _contentContainer = Div(Att("tss-omniresult-content"));
 
-            _sourceMarker    = Span(Att("tss-omniresult-source-square"));
-            _sourceText      = Span(Att("tss-omniresult-source-text"));
-            _sourceContainer = Div(Att("tss-omniresult-source"), _sourceMarker, _sourceText);
+            //The source is an InlineLabel like every other footer entry - it just leads the line.
+            _source = InlineLabel().Class("tss-omniresult-source");
 
             _footerContainer = Div(Att("tss-omniresult-footer"));
 
@@ -557,10 +554,9 @@ namespace Tesserae
         /// </summary>
         public OmniResult<T> SetSource(string color, string text, Action<OmniResult<T>> onClick = null)
         {
-            ClearChildren(_sourceMarker);
-
-            _sourceMarker.classList.remove("tss-omniresult-source-custom");
-            _sourceMarker.style.background = color ?? string.Empty;
+            //No colour and no marker: the source is its name alone, rather than a name behind a blank square.
+            if (string.IsNullOrEmpty(color)) _source.NoMark();
+            else                             _source.SetColor(color);
 
             return SetSourceText(text, onClick);
         }
@@ -573,12 +569,7 @@ namespace Tesserae
         /// </summary>
         public OmniResult<T> SetSource(IComponent marker, string text, Action<OmniResult<T>> onClick = null)
         {
-            ClearChildren(_sourceMarker);
-
-            _sourceMarker.style.background = string.Empty;
-            _sourceMarker.UpdateClassIf(marker is object, "tss-omniresult-source-custom");
-
-            if (marker is object) _sourceMarker.appendChild(marker.Render());
+            _source.SetIcon(marker);
 
             return SetSourceText(text, onClick);
         }
@@ -587,13 +578,7 @@ namespace Tesserae
         {
             var isEmpty = string.IsNullOrEmpty(text);
 
-            _sourceText.textContent = isEmpty ? string.Empty : text;
-
-            // No color and no marker of its own: the source is its name alone, rather than a name behind a
-            // blank square.
-            var hasMarker = !string.IsNullOrEmpty(_sourceMarker.style.background) || _sourceMarker.childElementCount > 0;
-
-            _sourceMarker.style.display = hasMarker ? "" : "none";
+            _source.SetText(text);
 
             // Only when one is given, so a later SetSource can't silently drop a handler an earlier
             // OnSourceClick registered. OnSourceClick(null) is how a source stops being clickable.
@@ -601,13 +586,15 @@ namespace Tesserae
 
             // Detached rather than hidden when empty, so the dot separators - which are drawn by CSS off
             // :first-child - don't leave a leading dot in a footer that has no source.
+            var element = _source.Render();
+
             if (isEmpty)
             {
-                if (_sourceContainer.parentElement is object) _footerContainer.removeChild(_sourceContainer);
+                if (element.parentElement is object) _footerContainer.removeChild(element);
             }
-            else if (_sourceContainer.parentElement is null)
+            else if (element.parentElement is null)
             {
-                _footerContainer.insertBefore(_sourceContainer, _footerContainer.firstChild);
+                _footerContainer.insertBefore(element, _footerContainer.firstChild);
             }
 
             return UpdateFooterVisibility();
@@ -622,20 +609,10 @@ namespace Tesserae
         {
             _sourceClickHandler = onClick;
 
-            var isClickable = onClick != null;
-
-            _sourceContainer.UpdateClassIf(isClickable, "tss-omniresult-source-clickable");
-
-            if (isClickable)
-            {
-                _sourceContainer.setAttribute("tabindex", "0");
-                _sourceContainer.setAttribute("role", "button");
-            }
-            else
-            {
-                _sourceContainer.removeAttribute("tabindex");
-                _sourceContainer.removeAttribute("role");
-            }
+            //The label owns the tab stop, the Enter/Space handling and stopping the click from counting as
+            //opening the row; the class is kept for hosts styling a clickable source.
+            _source.Render().UpdateClassIf(onClick != null, "tss-omniresult-source-clickable");
+            _source.OnClick(onClick is null ? null : (Action<InlineLabel>)(_ => _sourceClickHandler(this)));
 
             return this;
         }
@@ -1487,30 +1464,6 @@ namespace Tesserae
         {
             InnerElement.setAttribute("tabindex", "0");
             InnerElement.setAttribute("role", "option");
-
-            // Listened for once, whether the source is clickable or not: with no handler the click keeps
-            // bubbling and the row treats it as its own, which is what a plain source should do.
-            _sourceContainer.addEventListener("click", e =>
-            {
-                if (_sourceClickHandler is null) return;
-
-                StopEvent(e);
-
-                _sourceClickHandler(this);
-            });
-
-            _sourceContainer.addEventListener("keydown", e =>
-            {
-                if (_sourceClickHandler is null) return;
-
-                var keyboardEvent = e.As<KeyboardEvent>();
-
-                if (keyboardEvent.key != "Enter" && keyboardEvent.key != " ") return;
-
-                StopEvent(keyboardEvent);
-
-                _sourceClickHandler(this);
-            });
 
             // The contribution bar rebuilds itself when its toggle is pressed, so by the time the click
             // reaches the row the element it started on is detached and walking up from it finds nothing.

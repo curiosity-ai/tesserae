@@ -172,12 +172,12 @@
     --tss-highlight-color-root: 85, 179, 251;
     --tss-tooltip-background-color-root: 101, 103, 107;
     --tss-tooltip-foreground-color-root: 249, 250, 251;
-    --tss-primary-background-color-root: 85, 179, 251;
+    --tss-primary-background-color-root: 4, 67, 211;
     --tss-primary-foreground-color-root: 255, 255, 255;
-    --tss-primary-border-color-root: 16, 110, 190;
-    --tss-primary-background-hover-color-root: 16, 110, 190;
+    --tss-primary-border-color-root: 30, 92, 226;
+    --tss-primary-background-hover-color-root: 30, 92, 226;
     --tss-primary-foreground-hover-color-root: 255, 255, 255;
-    --tss-primary-background-active-color-root: 0, 90, 158;
+    --tss-primary-background-active-color-root: 3, 53, 168;
     --tss-primary-foreground-active-color-root: 255, 255, 255;
     --tss-warning-background-color-root: 255, 174, 81;
     --tss-warning-foreground-color-root: 255, 255, 255;

@@ -89,15 +89,64 @@
     /*color: var(--tss-default-foreground-hover-color);*/
 }
 
-.tss-sidebar-btn.tss-sidebar-selected,
-.tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn,
-.tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn,
-.tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn,
-.tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn,
-.tss-sidebar-nav.tss-sidebar-selected > .tss-btn,
-.tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn {
-    color: var(--tss-default-foreground-hover-color);
-    background-color: rgba(var(--tss-default-background-hover-color-root), 0.5);
+/* Where you are: outlined in the primary colour and filled with a wash of it, rather than with the same
+   grey a hover uses - so the selection still reads while the pointer is somewhere else in the list. Only
+   the border *colour* is set: every sidebar button already carries a 1px transparent border, so turning
+   it on shifts nothing. :not(.tss-disabled) is what carries this past .tss-btn-default's own colours. */
+.tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+.tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+.tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+.tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+.tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled),
+.tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
+.tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
+    color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+    background: rgba(var(--tss-primary-background-color-root), 0.1);
+}
+
+/* Hovering the selected item deepens its own wash instead of handing it the plain grey hover, which
+   would drop the outline and make the current item look like any other while the pointer is on it. */
+.tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+.tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+.tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+.tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+.tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
+.tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled):hover,
+.tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled):hover,
+.tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled):hover,
+.tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled):hover {
+    color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+    background: rgba(var(--tss-primary-background-color-root), 0.18);
+}
+
+/* The wash sits on a dark surface here, so the same alpha would barely register - it takes about twice
+   as much of the primary to read as a tint rather than as noise. The text is lifted towards white for
+   the same reason: a fill colour chosen to sit behind white text is, by definition, too dark to be text
+   on a dark surface itself. The border stays the primary - it is a line on the background, not type. */
+.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled),
+.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
+.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
+    color: color-mix(in srgb, var(--tss-primary-background-color) 55%, white);
+    background: rgba(var(--tss-primary-background-color-root), 0.22);
+}
+
+.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
+.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled):hover,
+.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled):hover,
+.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled):hover,
+.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled):hover {
+    color: color-mix(in srgb, var(--tss-primary-background-color) 55%, white);
+    background: rgba(var(--tss-primary-background-color-root), 0.32);
 }
 
 
