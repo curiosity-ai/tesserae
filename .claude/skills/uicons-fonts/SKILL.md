@@ -62,6 +62,12 @@ glyph means rewriting its *first* point and nothing else — every other glyph, 
 boxes, the side bearings, the instructions and every other table stay as the vendor shipped them,
 byte for byte. `Woff2File` only re-compresses the Brotli block around the one table that changed.
 
+This used to be a python script driving fontTools, and it is kept verbatim in
+`PythonReferenceImplementation.cs` — as a comment, since the build no longer needs python — together
+with the script that compares two sets of fonts glyph by glyph. Reach for it to second-guess a change
+to the font surgery: outlines, declared boxes and `hmtx` must come out identical, while `head` and
+`cmap` will not, because fontTools rewrites those and the C# writer copies them from the vendor.
+
 ## Two traps in these fonts
 
 Both were found the hard way, and both are enforced in the code:
