@@ -27,7 +27,7 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle($"Strongly-typed {nameof(UIcons)} enum"),
-                    SearchableList(GetAllIcons().ToArray(), 25.percent(), 25.percent(), 25.percent(), 25.percent()))).SetTitle("Usage")).S(), grow: true)
+                    SearchableList(GetAllIcons().ToArray(), 25.percent(), 25.percent(), 25.percent(), 25.percent()).Height(55.vh()).MinHeight(320.px()))).SetTitle("Usage")))
                .SeeAlso(typeof(EmojiSample), typeof(ButtonSample), typeof(BadgeSample), typeof(TextBlockSample));
         }
 
