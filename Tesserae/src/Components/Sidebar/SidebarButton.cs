@@ -345,6 +345,32 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Dresses the button as a search field: a rounded outline, the label set as a placeholder rather
+        /// than as a label, and - when keys are given - the shortcut that reaches it shown at the far end.
+        /// <para>
+        /// For a search that answers somewhere else, which is most of them now: what the box would be for
+        /// happens in a palette or on a page, so the thing on the rail only has to look like where a search
+        /// starts and be pressable. A real input would take a caret it has nothing to do with.
+        /// </para>
+        /// </summary>
+        /// <param name="shortcutKeys">The keys to show at the end, e.g. <c>("Ctrl", "K")</c>. None hides it.</param>
+        public SidebarButton AsSearchBox(params string[] shortcutKeys)
+        {
+            Rounded();
+
+            _open.Class("tss-sidebar-btn-searchbox");
+            _openButton.Class("tss-sidebar-btn-searchbox-button");
+            _closedButton.Class("tss-sidebar-btn-searchbox-button");
+
+            if (shortcutKeys is object && shortcutKeys.Length > 0)
+            {
+                _openButton.Render().appendChild(Div(Att("tss-sidebar-btn-searchbox-shortcut"), KeyboardShortcut(shortcutKeys).Render()));
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Sets the button to use a danger style.
         /// </summary>
         /// <returns>The current instance of the type.</returns>

@@ -831,3 +831,40 @@
 .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab:last-child {
     margin-bottom: 0px;
 }
+
+/* A button dressed as a search field ---------------------------------------------------------------- */
+
+/* What is on the rail is a way in, not an input - see SidebarButton.AsSearchBox. It borrows the field's
+   outline and its muted label so it reads as where a search starts, and keeps the button's behaviour. */
+.tss-sidebar-btn-searchbox > .tss-btn.tss-sidebar-btn-searchbox-button,
+.tss-sidebar-btn-searchbox > a > .tss-btn.tss-sidebar-btn-searchbox-button {
+    position: relative;
+    height: 40px !important;
+    padding-right: 44px;
+    border-color: var(--tss-default-border-color);
+    background: var(--tss-secondary-background-color);
+    color: var(--tss-secondary-foreground-color);
+    font-weight: var(--tss-font-weight-regular);
+}
+
+.tss-sidebar-btn-searchbox > .tss-btn.tss-sidebar-btn-searchbox-button:hover,
+.tss-sidebar-btn-searchbox > a > .tss-btn.tss-sidebar-btn-searchbox-button:hover {
+    border-color: var(--tss-dark-border-color);
+    background: var(--tss-default-background-hover-color);
+}
+
+/* The shortcut sits at the end of the field, out of the way of a long label. */
+.tss-sidebar-btn-searchbox-shortcut {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* On the closed rail there is only the glyph, so the field's chrome would be a box around one icon. */
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-searchbox-button {
+    padding-right: 0;
+    border-color: transparent;
+    background: none;
+}

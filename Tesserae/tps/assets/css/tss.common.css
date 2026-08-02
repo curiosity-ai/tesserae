@@ -152,22 +152,26 @@
 
 .tss-dark-mode {
     /* Colors */
-    --tss-default-background-color-root: 34, 34, 34;
-    --tss-default-foreground-color-root: 217, 217, 217;
-    --tss-secondary-background-color-root: 51, 51, 51;
-    --tss-secondary-foreground-color-root: 217, 217, 217;
-    --tss-sidebar-background-color-root: 51, 51, 51;
-    --tss-disabled-background-color-root: 0, 0, 0;
-    --tss-disabled-foreground-color-root: 173, 181, 189;
-    --tss-default-border-color-root: 51, 51, 51;
-    --tss-dark-border-color-root: 68, 68, 68;
-    --tss-default-separator-color-root: 51, 51, 51;
+    /* Near-black rather than grey, and cooled slightly towards blue: a flat mid-grey reads as an unlit
+       light theme, where a dark surface with a trace of the primary's hue in it reads as its own. The
+       page is the darkest thing on it and every surface lifts off that - a card, the composer, a hovered
+       row - so depth comes from getting lighter, which is the direction a dark theme has to work in. */
+    --tss-default-background-color-root: 10, 12, 16;
+    --tss-default-foreground-color-root: 231, 237, 243;
+    --tss-secondary-background-color-root: 18, 22, 32;
+    --tss-secondary-foreground-color-root: 138, 148, 166;
+    --tss-sidebar-background-color-root: 13, 15, 20;
+    --tss-disabled-background-color-root: 18, 20, 26;
+    --tss-disabled-foreground-color-root: 105, 114, 130;
+    --tss-default-border-color-root: 30, 35, 44;
+    --tss-dark-border-color-root: 45, 52, 64;
+    --tss-default-separator-color-root: 30, 35, 44;
     --tss-invalid-border-color-root: 231, 76, 60;
-    --tss-default-background-hover-color-root: 40, 40, 40;
+    --tss-default-background-hover-color-root: 24, 28, 38;
     --tss-default-foreground-hover-color-root: 255, 255, 255;
-    --tss-default-background-active-color-root: 68, 68, 68;
+    --tss-default-background-active-color-root: 32, 38, 50;
     --tss-default-foreground-active-color-root: 255, 255, 255;
-    --tss-progress-background-color-root: 68, 68, 68;
+    --tss-progress-background-color-root: 32, 38, 50;
     --tss-link-color-root: 85, 179, 251;
     --tss-highlight-color-root: 85, 179, 251;
     --tss-tooltip-background-color-root: 101, 103, 107;

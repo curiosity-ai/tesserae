@@ -44,11 +44,8 @@ namespace Tesserae
         private int _activeIndex = -1;
         private HTMLElement _focusBeforeShow;
 
-        private sealed class PaletteEntry
-        {
-            public CommandPaletteAction Action { get; set; }
-            public CommandPaletteResult Result { get; set; }
-        }
+        /// <summary>How long <see cref="Layer{T}"/> takes to fade a hidden layer out before removing it.</summary>
+        private const int LAYER_FADE_OUT_MS = 150;
 
         private readonly Action<Event> _globalKeyDownHandler;
         private bool _globalListenerActive;
@@ -305,38 +302,44 @@ namespace Tesserae
         /// </summary>
         public override void Hide(Action onHidden = null)
         {
-            //The palette holds the focus while it is open, and its search box leaves the document with it -
-            //which leaves the page with nothing focused at all, and a page with nothing focused receives no
-            //keystrokes, so the very shortcut that opened the palette stops working until something is
-            //clicked. Focus goes back *before* the layer is taken away, so there is never a moment with
-            //nowhere for it to be.
             var restoreTo = _focusBeforeShow;
 
             _focusBeforeShow = null;
 
+            base.Hide(onHidden);
+
+            //The palette holds the focus while it is open and its search box leaves the document with it,
+            //so closing it leaves the page with nothing focused - and the browser then takes the next
+            //Ctrl+K for itself and drops the caret in the address bar. The document has to be given the
+            //focus back, actively, once the layer is actually gone: the layer fades out on a timer, so
+            //doing it only now would put the focus on something that is about to be removed.
+            RestoreFocus(restoreTo);
+
+            window.setTimeout(_ => RestoreFocus(restoreTo), 0);
+            window.setTimeout(_ => RestoreFocus(restoreTo), LAYER_FADE_OUT_MS);
+        }
+
+        private void RestoreFocus(HTMLElement restoreTo)
+        {
             var active = document.activeElement.As<HTMLElement>();
 
-            //Something outside the palette already has the focus - a modal an activated row opened - and it
-            //is more entitled to it than whatever was focused before.
-            if (active is null || active == document.body || _contentHtml.contains(active))
-            {
-                if (restoreTo is object && restoreTo != document.body && document.body.contains(restoreTo))
-                {
-                    restoreTo.focus();
-                }
-                else
-                {
-                    //body only accepts the focus once it is focusable, which is what the tabindex is for -
-                    //and the window has to be told too, or the page keeps reporting a focused body while
-                    //the browser sends its keystrokes nowhere.
-                    if (document.body.tabIndex < 0) document.body.tabIndex = -1;
+            //Something outside the palette has the focus - a modal an activated row opened, or the page
+            //itself, already restored by an earlier pass - and it is more entitled to it than this.
+            if (active is object && active != document.body && !_contentHtml.contains(active)) return;
 
-                    document.body.focus();
-                    window.focus();
-                }
+            if (restoreTo is object && restoreTo != document.body && document.body.contains(restoreTo))
+            {
+                restoreTo.focus();
+                return;
             }
 
-            base.Hide(onHidden);
+            //Nothing to hand it back to, so the document holds it itself. body only accepts the focus once
+            //it is focusable, and the window has to be told separately, or the page keeps reporting a
+            //focused body while the browser goes on treating the keystrokes as its own.
+            if (document.body.tabIndex < 0) document.body.tabIndex = -1;
+
+            window.focus();
+            document.body.focus();
         }
 
         private void ResetState()

@@ -34,9 +34,14 @@
     background: var(--tss-secondary-background-color);
     box-shadow: -2px 0 6px rgba(31, 31, 31, .10);
     margin-left: var(--tss-pagesstack-rest-offset, 0px);
-    transform: rotate(var(--tss-pagesstack-rest-rotation, 0deg));
-    transition: margin-left 240ms cubic-bezier(.22, 1, .36, 1),
-                transform 240ms cubic-bezier(.22, 1, .36, 1);
+    /* Only the transform animates, and the margin never does: a fan is a row of these in every search
+       result, and animating a margin would relayout the row on every frame of every one of them. A
+       transform is handed to the compositor instead, which is why the pages are given a layer up front -
+       promoting them when the fan starts would cost a paint at the exact moment it must not. */
+    transform: translate3d(0, 0, 0) rotate(var(--tss-pagesstack-rest-rotation, 0deg));
+    transition: transform 240ms cubic-bezier(.22, 1, .36, 1);
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .tss-pagesstack-page:hover {
@@ -75,8 +80,8 @@
    it wants the fan to follow hovering something larger (a whole result row). */
 .tss-pagesstack:hover > .tss-pagesstack-page,
 .tss-pagesstack-fanned .tss-pagesstack-page {
-    margin-left: var(--tss-pagesstack-fan-offset, 0px);
-    transform: translateY(var(--tss-pagesstack-fan-lift, 0px)) rotate(var(--tss-pagesstack-fan-rotation, 0deg));
+    transform: translate3d(var(--tss-pagesstack-fan-shift, 0px), var(--tss-pagesstack-fan-lift, 0px), 0)
+               rotate(var(--tss-pagesstack-fan-rotation, 0deg));
 }
 
 /* The overflow count is absolute, so it never widens the rail. */
@@ -113,5 +118,6 @@
 @media (prefers-reduced-motion: reduce) {
     .tss-pagesstack-page {
         transition: none;
+        will-change: auto;
     }
 }

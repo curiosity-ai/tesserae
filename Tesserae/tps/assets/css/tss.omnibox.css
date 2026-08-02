@@ -139,6 +139,13 @@
     border-radius: var(--tss-omnibox-radius);
 }
 
+/* A box with a chat half is a panel rather than a field - it is several rows tall and carries a footer -
+   so it takes a panel's corner. Pure search stays a field, and keeps the field's. */
+.tss-omnibox-container.tss-omnibox-chat-and-search,
+.tss-omnibox-container.tss-omnibox-mode-chat {
+    --tss-omnibox-radius: 16px;
+}
+
 /* Roundness, picked with .Rounded(BorderRadius) */
 .tss-omnibox-container.tss-omnibox-rounded-sm {
     --tss-omnibox-radius: var(--tss-border-radius-sm);
