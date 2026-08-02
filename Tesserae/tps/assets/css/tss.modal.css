@@ -146,7 +146,10 @@
 
 
 
+/* Matched by class, not by element: a Button built with an href renders as an anchor. */
+.tss-modal-header-commands > .tss-btn,
 .tss-modal-header-commands > button,
+.tss-modal-left-header-commands > .tss-btn,
 .tss-modal-left-header-commands > button {
     background-color: transparent;
     color: var(--tss-secondary-foreground-color);
@@ -163,17 +166,21 @@
     box-shadow: none;
 }
 
-    .tss-modal-header-commands > button:not(:first-of-type) {
+    .tss-modal-header-commands > *:not(:first-child) {
         margin-left: 4px;
     }
 
+    .tss-modal-header-commands > .tss-btn:hover,
     .tss-modal-header-commands > button:hover,
+    .tss-modal-left-header-commands > .tss-btn:hover,
     .tss-modal-left-header-commands > button:hover {
         background-color: var(--tss-default-background-hover-color);
         color: var(--tss-default-foreground-color);
     }
 
+    .tss-modal-header-commands > .tss-btn:active,
     .tss-modal-header-commands > button:active,
+    .tss-modal-left-header-commands > .tss-btn:active,
     .tss-modal-left-header-commands > button:active {
         background-color: var(--tss-default-background-active-color);
         color: var(--tss-primary-background-active-color);

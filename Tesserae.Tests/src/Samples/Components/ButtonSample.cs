@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -29,7 +29,7 @@ namespace Tesserae.Tests.Samples
                     HStack().Children(
                         Button().SetText("Standard").Tooltip("This is a standard button").OnClick(() => alert("Clicked!")),
                         Button().SetText("Primary").Tooltip("This is a primary button").Primary().OnClick(() => alert("Clicked!")),
-                        Button().SetText("Link").Tooltip("This is a link button").Link().OnClick(() => alert("Clicked!"))
+                        Button("Open the repository", href: "https://github.com/curiosity-ai/tesserae").Tooltip("An href makes it an anchor - middle-clickable, and it shows where it goes")
                     ),
                     SampleSubTitle("Icons and States"),
                     HStack().Children(

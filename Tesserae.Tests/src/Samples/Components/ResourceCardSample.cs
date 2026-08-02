@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -85,7 +85,7 @@ namespace Tesserae.Tests.Samples
                     .SetTags(Badge(Capability))
                     .SetDescription(Description)
                     .SetDate(Date)
-                    .SetFooter(Link("https://example.com/terms", "Terms"))
+                    .SetFooter(Button("Terms", href: "https://example.com/terms").Class("tss-btn-link"))
                     .SetFooterCommands(Button("Copy ID").SetIcon(UIcons.Copy).NoBorder().NoBackground());
             }
 

@@ -1,23 +1,38 @@
 ---
 name: button
-description: The standard clickable button with tone variants, icons, link styling, and inline async spinner states. Use for any action trigger — submit, confirm, navigate, run — in a Tesserae (C#/Transpose) app.
+description: The standard clickable button with tone variants, icons, an href that makes it a real link, and inline async spinner states. Use for any action trigger — submit, confirm, navigate, run — in a Tesserae (C#/Transpose) app.
 ---
 
 # Button
 
-`Button` is the primary action control. It supports tone variants, icons, link styling,
-hotkeys, and an inline spinner for async actions.
+`Button` is the primary action control. It supports tone variants, icons, hotkeys, an inline
+spinner for async actions, and an href that turns it into a real link.
 
 ## Create
 
-`UI.Button(string text = "")` or `UI.Button(UIcons icon)` (icon-only).
+`UI.Button(string text = "", string href = null)` or `UI.Button(UIcons icon)` (icon-only).
 Bring factories into scope with `using static Tesserae.UI;`.
+
+## A button that goes somewhere
+
+Pass an `href` and the button renders as an **anchor** rather than a `button` element, so it is
+middle-clickable, opens in a new tab on ctrl/cmd-click and shows where it goes in the status bar —
+while looking exactly like any other button. There is no separate `Link` component: a link that
+looks like a link is `Button(text, href).Class("tss-btn-link")`, and a small fact that happens to
+link somewhere is an `InlineLabel` with `.SetHref(...)`.
+
+```csharp
+Button("Open documentation", href: DocsUrl).Primary().SetIcon(UIcons.ArrowUpRightFromSquare)
+```
+
+Only a button with an href underlines its label on hover (and only in the link-toned variant) — one
+that merely runs a handler is a button, and underlining it would promise an address it doesn't have.
 
 ## Key configuration
 
 Tone: `.Primary()`, `.Success()`, `.Danger()` (default is neutral).
-Style: `.Link()`, `.DefaultLink()`, `.DangerLink()`, `.Compact()`, `.NoBorder()`,
-`.NoBackground()`, `.Color(background, textColor, borderColor, iconColor)`.
+Style: `.Compact()`, `.NoBorder()`, `.NoBackground()`, `.Class("tss-btn-link")` (reads as text
+rather than as a box), `.Color(background, textColor, borderColor, iconColor)`.
 
 Content:
 

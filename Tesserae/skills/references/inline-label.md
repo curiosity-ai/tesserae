@@ -110,5 +110,5 @@ row.SetFooterEntries(
 
 - OmniResult — its footer takes an array of these — `omni-result.md`
 - Badge — a filled pill, for a status or a count rather than a fact on a line — `badge.md`
-- Link — a standalone hyperlink with its own text styling — `link.md`
+- Button — an action, or a link that looks like a button (`Button(text, href)`) — `button.md`
 - Full docs & API: `/tesserae/components/inline-label`

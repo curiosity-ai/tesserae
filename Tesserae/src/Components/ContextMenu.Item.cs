@@ -50,7 +50,7 @@ namespace Tesserae
             /// </summary>
             public Item(IComponent component)
             {
-                if (component is ITextFormating itf && (itf is Button || itf is Link))
+                if (component is ITextFormating itf && itf is Button)
                 {
                     itf.SetTextAlign(TextAlign.Left);
                 }

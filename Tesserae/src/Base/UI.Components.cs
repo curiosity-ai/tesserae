@@ -645,9 +645,10 @@ namespace Tesserae
         public static Float Float(IComponent child, Float.Position position) => new Float(child, position);
 
         /// <summary>
-        /// Creates a <see cref="Tesserae.Button"/> component.
+        /// Creates a <see cref="Tesserae.Button"/> component. Give it an <paramref name="href"/> and it is a
+        /// real link - an anchor rather than a button element - that still looks like a button.
         /// </summary>
-        public static Button Button(string text = string.Empty) => new Button(text);
+        public static Button Button(string text = string.Empty, string href = null) => new Button(text, href);
         /// <summary>
         /// Creates a new <see cref="Button"/>.
         /// </summary>
@@ -1330,20 +1331,8 @@ namespace Tesserae
         /// </summary>
         public static Spinner Spinner(string text = string.Empty) => new Spinner(text);
 
-        /// <summary>
-        /// Creates a <see cref="Tesserae.Link"/> component.
-        /// </summary>
-        public static Link Link(string url, IComponent content, bool noUnderline = false) => new Link(url, content, noUnderline);
 
-        /// <summary>
-        /// Creates a <see cref="Tesserae.Link"/> component.
-        /// </summary>
-        public static Link Link(string url, string text) => new Link(url, TextBlock(text));
 
-        /// <summary>
-        /// Creates a <see cref="Tesserae.Link"/> component.
-        /// </summary>
-        public static Link Link(string url, string text, UIcons icon, bool noUnderline = false) => new Link(url, Button(text).SetIcon(icon).NoBorder().NoBackground().Padding(0.px()), noUnderline);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.SplitView"/> component.

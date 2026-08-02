@@ -1,4 +1,4 @@
-using static Transpose.Core.dom;
+﻿using static Transpose.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
 
@@ -71,7 +71,7 @@ namespace Tesserae.Tests.Samples
                             Button("Default")
                         ).MT(8),
                         Label("A textbox").SetContent(TextBox()).MT(8),
-                        Label("A link").SetContent(Link("https://curiosity.ai", "Visit curiosity.ai")).MT(8))
+                        Label("A link").SetContent(Button("Visit curiosity.ai", href: "https://curiosity.ai").Class("tss-btn-link")).MT(8))
                     )
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(ThemeColorsSample), typeof(ColorsSample), typeof(ColorPaletteSample), typeof(GradientsSample), typeof(ColorPickerSample));

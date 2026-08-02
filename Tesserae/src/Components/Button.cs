@@ -10,19 +10,23 @@ namespace Tesserae
     /// dropdown / split-button support.
     /// </summary>
     [Transpose.Name("tss.Button")]
-    public class Button : ComponentBase<Button, HTMLButtonElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, ICanWrap, IRoundedStyle
+    public class Button : ComponentBase<Button, HTMLElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, ICanWrap, IRoundedStyle
     {
         private HTMLSpanElement   _textSpan;
         private HTMLElement       _iconSpan;
-        private HTMLButtonElement _spinner;
+        private HTMLElement       _spinner;
 
         /// <summary>
-        /// Initializes a new instance of this class.
+        /// Initializes a new instance of this class. Give it an <paramref name="href"/> and it becomes a real
+        /// link - an anchor rather than a button - so it is middle-clickable and shows where it goes in the
+        /// status bar, while looking exactly like any other button.
         /// </summary>
-        public Button(string text = string.Empty)
+        public Button(string text = string.Empty, string href = null)
         {
+            const string CLASSES = "tss-btn tss-btn-default tss-default-component-margin";
+
             _textSpan    = Span(Att(text: text));
-            InnerElement = Button(Att("tss-btn tss-btn-default tss-default-component-margin"), _textSpan);
+            InnerElement = string.IsNullOrEmpty(href) ? (HTMLElement)Button(Att(CLASSES), _textSpan) : A(Att(CLASSES, href: href), _textSpan);
             Weight       = TextWeight.Regular;
             Size         = TextSize.Small;
 
@@ -128,6 +132,26 @@ namespace Tesserae
         {
             get => InnerElement.classList.contains("tss-btn-link");
             set => InnerElement.UpdateClassIf(value, "tss-btn-link");
+        }
+
+        /// <summary>
+        /// Gets or sets where this button goes. Setting it on a button that was not built with an href has
+        /// no effect - the element is decided when the button is built.
+        /// </summary>
+        public string Href
+        {
+            get => InnerElement.getAttribute("href");
+            set => InnerElement.setAttribute("href", value ?? string.Empty);
+        }
+
+        /// <summary>
+        /// Opens this button's href in a new tab. Only means anything on a button built with one.
+        /// </summary>
+        public Button OpenInNewTab()
+        {
+            InnerElement.setAttribute("target", "_blank");
+            InnerElement.setAttribute("rel",    "noopener noreferrer");
+            return this;
         }
 
         /// <summary>
@@ -305,42 +329,13 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Renders the component as a hyperlink.
-        /// </summary>
-        public Button Link()
-        {
-            IsLink = true;
-            return this;
-        }
-
-        /// <summary>
-        /// Renders the component as a default-toned hyperlink.
-        /// </summary>
-        public Button DefaultLink()
-        {
-            IsLink = true;
-            InnerElement.classList.add("tss-dark");
-            return this;
-        }
-
-        /// <summary>
-        /// Renders the component as a danger-toned hyperlink.
-        /// </summary>
-        public Button DangerLink()
-        {
-            IsLink = true;
-            InnerElement.classList.add("tss-danger");
-            return this;
-        }
-
-        /// <summary>
         /// Replaces the button's content with an inline spinner (commonly used while an async action is in progress).
         /// </summary>
         public void ToSpinner(string text = null)
         {
             if (_spinner is null)
             {
-                var s = (HTMLButtonElement)InnerElement.cloneNode(false);
+                var s = (HTMLElement)InnerElement.cloneNode(false);
                 _spinner = s;
                 _spinner.classList.add("tss-btn-nominsize", "tss-disabled");
                 ClearChildren(_spinner);

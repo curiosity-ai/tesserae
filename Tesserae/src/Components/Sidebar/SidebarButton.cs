@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Transpose.Core;
@@ -85,7 +85,7 @@ namespace Tesserae
             _closedButton = buttonWithIconClosed.Class("tss-sidebar-btn").Id(identifier);
             _openButton   = buttonWithIconOpen.SetText(text).Class("tss-sidebar-btn").Id(identifier);
 
-            _closed = string.IsNullOrWhiteSpace(href) ? (IComponent)_closedButton : UI.Link(href, _closedButton, noUnderline: true);
+            _closed = string.IsNullOrWhiteSpace(href) ? (IComponent)_closedButton : Raw(A(Att("tss-link-no-underline", href: href), _closedButton.Render()));
 
             _commands = commands;
             _badge    = badge;
@@ -119,10 +119,10 @@ namespace Tesserae
 
                 if (!string.IsNullOrWhiteSpace(href))
                 {
-                    var link = UI.Link(href, Raw(button.Render()), noUnderline: true);
-                    link.Render().style.display        = "block";
-                    link.Render().style.textDecoration = "none";
-                    div.appendChild(link.Render());
+                    var link = A(Att("tss-link-no-underline", href: href), button.Render());
+                    link.style.display        = "block";
+                    link.style.textDecoration = "none";
+                    div.appendChild(link);
                 }
                 else
                 {
@@ -199,7 +199,7 @@ namespace Tesserae
 
             _openButton = Button(text).ReplaceContent(Raw(Div(Att("tss-btn-with-image"), image.Clone().Render(), Span(Att(text: text))))).Class("tss-sidebar-btn").Id(identifier);
 
-            _closed = string.IsNullOrWhiteSpace(href) ? (IComponent)_closedButton : UI.Link(href, _closedButton, noUnderline: true);
+            _closed = string.IsNullOrWhiteSpace(href) ? (IComponent)_closedButton : Raw(A(Att("tss-link-no-underline", href: href), _closedButton.Render()));
 
             _commands = commands;
             _badge    = badge;
@@ -226,10 +226,10 @@ namespace Tesserae
 
                 if (!string.IsNullOrWhiteSpace(href))
                 {
-                    var link = UI.Link(href, Raw(button.Render()), noUnderline: true);
-                    link.Render().style.display        = "block";
-                    link.Render().style.textDecoration = "none";
-                    div.appendChild(link.Render());
+                    var link = A(Att("tss-link-no-underline", href: href), button.Render());
+                    link.style.display        = "block";
+                    link.style.textDecoration = "none";
+                    div.appendChild(link);
                 }
                 else
                 {

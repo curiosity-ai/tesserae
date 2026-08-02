@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -187,7 +187,7 @@ namespace Tesserae
 
                         var toolbar = HStack().WS().AlignItems(ItemAlign.Center).Children(
                             TextBlock($"{items.Length} notification{(items.Length == 1 ? "" : "s")}").Small().Foreground(Theme.Secondary.Foreground).Grow(),
-                            Button("Mark all read").Link().Small().OnClick(() =>
+                            Button("Mark all read").Class("tss-btn-link").Small().OnClick(() =>
                             {
                                 foreach (var item in items) _onMarkRead?.Invoke(item.Id);
                                 _panel?.Hide();
