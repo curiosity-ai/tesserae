@@ -114,6 +114,17 @@ namespace Tesserae.Tests.Samples
             chatBar.AddContent(new SidebarButton("chat-5", UIcons.Comment, "Ingolstadt drift report"));
             chatBar.AddContent(new SidebarButton("chat-6", UIcons.Comment, "Harness rev C rollout"));
 
+            // A component of the host's own, standing where a sidebar item would - see SidebarComponent.
+            // A whole chat-history component, a tree, a filter form: it keeps its own state and only asks
+            // the sidebar for a place to stand.
+            chatBar.AddFooter(new SidebarComponent("model",
+                VStack().WS().PL(8).PR(8).PB(8).Children(
+                    TextBlock("Model").XSmall().Secondary().PB(4),
+                    Dropdown().WS().Items(
+                        DropdownItem("OpenAI · gpt-5.2").Selected(),
+                        DropdownItem("Anthropic · Claude Opus 5"),
+                        DropdownItem("Local · Ollama")))).NotSortable());
+
             chatBar.AddFooter(CurrentUser("chat"));
         }
 
