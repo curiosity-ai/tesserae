@@ -47,6 +47,12 @@ namespace Tesserae
         /// <summary>How long <see cref="Layer{T}"/> takes to fade a hidden layer out before removing it.</summary>
         private const int LAYER_FADE_OUT_MS = 150;
 
+        private sealed class PaletteEntry
+        {
+            public CommandPaletteAction Action { get; set; }
+            public CommandPaletteResult Result { get; set; }
+        }
+
         private readonly Action<Event> _globalKeyDownHandler;
         private bool _globalListenerActive;
 

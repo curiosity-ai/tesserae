@@ -138,7 +138,7 @@
     border: none;
     border-radius: var(--tss-border-radius-sm);
     background: none;
-    color: inherit;
+    color: var(--tss-secondary-foreground-color);
     font-size: inherit;
     line-height: inherit;
 }
@@ -150,6 +150,16 @@
 
 .tss-omniresult-footer .tss-inlinelabel-mark-icon {
     font-size: 11px;
+}
+
+/* A glyph in the footer is punctuation for the fact beside it, not an accent of its own: the row already
+   has one thing carrying a node's colour - its icon tile - and repeating that colour on a 11px glyph
+   under the title turns a quiet line of facts into a row of little flags. So the glyph takes the
+   footer's own colour even when the host asked for one, which it does by an inline style, hence the
+   !important. A colour swatch (tss-inlinelabel-mark-color) is exempt - it is nothing but its colour. */
+.tss-omniresult-footer .tss-inlinelabel-mark-icon,
+.tss-omniresult-footer .tss-inlinelabel-mark-icon .tss-inlinelabel-glyph {
+    color: var(--tss-secondary-foreground-color) !important;
 }
 
 /* The footer's labels have no box of their own, so the hover background is drawn just around them
@@ -167,4 +177,13 @@
 .tss-omniresult-footer .tss-inlinelabel-interactive:focus-visible {
     background: var(--tss-colors-neutral-400);
     color: var(--tss-default-foreground-hover-color);
+}
+
+/* The glyph lifts with the text it belongs to - the rule above muted it with !important, so this one
+   has to raise it the same way or a hovered label would brighten from the text leftwards only. */
+.tss-omniresult-footer .tss-inlinelabel-interactive:hover .tss-inlinelabel-mark-icon,
+.tss-omniresult-footer .tss-inlinelabel-interactive:hover .tss-inlinelabel-mark-icon .tss-inlinelabel-glyph,
+.tss-omniresult-footer .tss-inlinelabel-interactive:focus-visible .tss-inlinelabel-mark-icon,
+.tss-omniresult-footer .tss-inlinelabel-interactive:focus-visible .tss-inlinelabel-mark-icon .tss-inlinelabel-glyph {
+    color: var(--tss-default-foreground-hover-color) !important;
 }
