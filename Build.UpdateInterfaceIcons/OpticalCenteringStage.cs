@@ -5,8 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Diagnostics;
-using System.Text.Json;
+using System.Buffers.Binary;
 using Microsoft.Playwright;
 
 namespace Build.UpdateInterfaceIcons
@@ -90,7 +89,15 @@ namespace Build.UpdateInterfaceIcons
                 Console.WriteLine($"Wrote measurements {options.DumpPath}");
             }
 
-            var moved = BakeIntoFontOutlines(repoRoot, fontsDir, cssDir, adjustments);
+            BakeIntoFontOutlines(fontsDir, adjustments);
+
+            // Nothing downstream means anything if the browser will not take the files, so ask it first.
+            if (!await VerifyFontsDecodeInTheBrowser(page, server.BaseUrl, fonts))
+            {
+                Console.WriteLine();
+                Console.WriteLine("Some checks FAILED, see above.");
+                return false;
+            }
 
             // Re-measure the fonts that were just edited: the correction only counts if the glyphs now
             // sit at the centre of their box, measured the same way as before, from the shipped files.
@@ -103,54 +110,110 @@ namespace Build.UpdateInterfaceIcons
         }
 
         /// <summary>
-        /// Hands the measured offsets to fontTools, which shifts the glyph outlines in the woff2 files.
-        /// The python side verifies its own edit and fails loudly, so a bad patch cannot pass silently.
+        /// Shifts the glyph outlines in the woff2 files by the measured offsets. Done in the woff2 glyph
+        /// encoding directly, where coordinates are deltas, so moving a glyph is a matter of rewriting its
+        /// first point: nothing else in the font is re-encoded, which is what keeps the declared bounding
+        /// boxes, the side bearings and every untouched glyph exactly as the vendor shipped them.
         /// </summary>
-        private static int BakeIntoFontOutlines(string repoRoot, string fontsDir, string cssDir, List<FontAdjustments> fonts)
+        private static void BakeIntoFontOutlines(string fontsDir, List<FontAdjustments> fonts)
         {
-            var payload = fonts.ToDictionary(
-                f => f.Font.FontFamily,
-                f => f.Glyphs.Where(g => g.IsAdjusted)
-                             .ToDictionary(g => g.Glyph.CssClass, g => new[] { g.X, g.Y }));
-
-            var moved       = payload.Sum(p => p.Value.Count);
-            var offsetsPath = Path.Combine(Path.GetTempPath(), "uicons-centering-offsets.json");
-            File.WriteAllText(offsetsPath, JsonSerializer.Serialize(payload), new UTF8Encoding(false));
-
-            var script = Path.Combine(AppContext.BaseDirectory, "centre-uicons-outlines.py");
-            if (!File.Exists(script)) script = Path.Combine(repoRoot, "Build.UpdateInterfaceIcons", "centre-uicons-outlines.py");
 
             Console.WriteLine();
-            Console.WriteLine($"Baking {moved} offsets into the glyph outlines");
+            Console.WriteLine("Baking the offsets into the glyph outlines");
 
-            var process = Process.Start(new ProcessStartInfo(PythonExecutable(), new[]
+            foreach (var font in fonts)
             {
-                script, "--offsets", offsetsPath, "--fonts", fontsDir, "--css", cssDir,
-            })
-            {
-                RedirectStandardOutput = true,
-                RedirectStandardError  = true,
-            }) ?? throw new InvalidOperationException("could not start python");
+                var fontPath = Path.Combine(fontsDir, $"{font.Font.FontFamily}.woff2");
+                var file     = Woff2File.Read(fontPath);
+                var upem     = BinaryPrimitives.ReadUInt16BigEndian(file["head"].Data.AsSpan(18));
+                var byCode   = CmapLookup.Read(file["cmap"].Data);
+                var glyf     = TransformedGlyf.Parse(file["glyf"].Data);
 
-            process.OutputDataReceived += (_, e) => { if (e.Data is object && !e.Data.StartsWith("{")) Console.WriteLine(e.Data); };
-            process.ErrorDataReceived  += (_, e) => { if (e.Data is object) Console.WriteLine($"  [python] {e.Data}"); };
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-            process.WaitForExit();
+                var shifts  = new Dictionary<int, (int Dx, int Dy)>();
+                var worst   = 0.0;
 
-            if (process.ExitCode != 0)
-            {
-                throw new InvalidOperationException(
-                    $"centre-uicons-outlines.py exited with {process.ExitCode}. It needs fontTools and brotli: pip install fonttools brotli");
+                foreach (var glyph in font.Glyphs.Where(g => g.IsAdjusted))
+                {
+                    if (!byCode.TryGetValue(glyph.Glyph.CodePoint, out var id)) continue;
+
+                    // css x grows right and y grows down; font units grow right and up
+                    var dx = (int)Math.Round(glyph.X * upem);
+                    var dy = (int)Math.Round(-glyph.Y * upem);
+                    worst  = Math.Max(worst, Math.Max(Math.Abs(dx - glyph.X * upem), Math.Abs(dy + glyph.Y * upem)));
+
+                    if (dx == 0 && dy == 0) continue;
+
+                    if (shifts.ContainsKey(id))
+                    {
+                        throw new InvalidOperationException(
+                            $"{font.Font.FontFamily}: glyph {id} is claimed by two icon classes, refusing to move it twice");
+                    }
+
+                    shifts[id] = (dx, dy);
+                }
+
+                // The container declares how big glyf is once rebuilt from the transformed streams. If the
+                // model that computes it disagrees with what the vendor declared for the untouched font, it
+                // is wrong, and the patched font would be rejected as malformed rather than looking off.
+                var declared      = file["glyf"].OriginalLength;
+                var reconstructed = glyf.ReconstructedLength();
+
+                if (reconstructed != declared)
+                {
+                    throw new InvalidOperationException(
+                        $"{font.Font.FontFamily}: the glyf table rebuilds to {reconstructed} bytes but the font declares " +
+                        $"{declared}, so the size model is wrong and the patched length cannot be trusted");
+                }
+
+                var delta = glyf.Move(shifts);
+                file["glyf"].Data           = glyf.Serialize();
+                file["glyf"].OriginalLength = (uint)(declared + delta);
+                file.AdjustTotalSfntSize(delta);
+                file.Write(fontPath);
+
+                Console.WriteLine($"  {font.Font.FontFamily + ".woff2",-34} {shifts.Count,5} glyphs moved, " +
+                                  $"worst rounding {worst / upem:0.#####}em, " +
+                                  $"{glyf.BoxesAdded} boxes pinned down, {new FileInfo(fontPath).Length / 1024} KB");
             }
-
-            File.Delete(offsetsPath);
-            return moved;
         }
 
-        private static string PythonExecutable() =>
-            Environment.GetEnvironmentVariable("PYTHON") ??
-            (OperatingSystem.IsWindows() ? "python" : "python3");
+        /// <summary>
+        /// Asks the browser to decode each patched font. Worth its own check because the woff2 container has
+        /// consistency rules that a font library will read straight past - a stale table length, a file that
+        /// does not end on a four byte boundary - and the browser will not. A font it rejects renders as
+        /// nothing at all, which would show up in the next stage as every glyph being wildly off centre
+        /// rather than as the malformed file it is.
+        /// </summary>
+        private static async Task<bool> VerifyFontsDecodeInTheBrowser(IPage page, string baseUrl, List<IconFont> fonts)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Checking the browser accepts the patched fonts");
+
+            var broken = new List<string>();
+
+            foreach (var font in fonts)
+            {
+                // The query string is ignored by the server and defeats the cache, so this is the file on
+                // disk being decoded and not the copy the first pass loaded.
+                var error = await page.EvaluateAsync<string>(
+                    @"async url => {
+                          const face = new FontFace('decode-probe', 'url(""' + url + '"") format(""woff2"")');
+                          try { await face.load(); return ''; }
+                          catch (e) { return String((e && e.message) || e); }
+                      }",
+                    $"{baseUrl}fonts/{font.FontFamily}.woff2?patched");
+
+                if (error.Length > 0) broken.Add($"{font.FontFamily}.woff2 was rejected: {error}");
+            }
+
+            foreach (var problem in broken) Console.WriteLine($"  {problem}");
+
+            Console.WriteLine(broken.Count == 0
+                ? $"  all {fonts.Count} patched fonts decode"
+                : $"  {broken.Count} of {fonts.Count} patched fonts are malformed, so the container was written wrong");
+
+            return broken.Count == 0;
+        }
 
         /// <summary>
         /// Measures the patched fonts again and checks that the corrections landed: for every glyph that
