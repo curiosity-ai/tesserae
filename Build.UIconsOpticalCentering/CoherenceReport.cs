@@ -92,12 +92,12 @@ namespace Build.UIconsOpticalCentering
         /// Does this actually centre the icons? Reports how far off centre they sit before and after, and
         /// holds the run to the rule that no icon may end up further off centre than it started. Rounding
         /// can cost half a step; anything beyond that means a shared offset dragged an icon off centre,
-        /// which is what the pinning rules exist to avoid. Icons pinned to a curated group are exempt:
-        /// there, overlapping the icon they are swapped with deliberately outranks their own centering.
+        /// which is what the pinning rules exist to avoid. Exempt are the icons that deliberately give up
+        /// their own centering to stay registered with another one - a state variant taking its base icon's
+        /// offset, a frame family left as drawn - where overlapping correctly outranks being centred.
         /// </summary>
         private static bool PrintResiduals(List<FontAdjustments> fonts, CenteringSettings settings)
         {
-            var pinned = new HashSet<string>(AlignmentGroups.All.SelectMany(g => g.Icons), StringComparer.Ordinal);
             var usable = fonts.SelectMany(f => f.Glyphs).Where(g => g.Measurement.IsUsable).ToList();
 
             Console.WriteLine();
@@ -119,15 +119,16 @@ namespace Build.UIconsOpticalCentering
 
             var tolerance = settings.Step / 2 + 1e-9;
             var worsened  = usable
-               .Where(g => !pinned.Contains(g.Glyph.IconName))
+               .Where(g => !g.PinnedToPartner && !g.LeftAloneForItsFamily)
                .Where(g => OffCentreAfter(g) > OffCentreBefore(g) + tolerance)
                .OrderByDescending(g => OffCentreAfter(g) - OffCentreBefore(g))
                .ToList();
 
-            var exempt = usable.Count(g => pinned.Contains(g.Glyph.IconName) && OffCentreAfter(g) > OffCentreBefore(g) + tolerance);
+            var exempt = usable.Count(g => (g.PinnedToPartner || g.LeftAloneForItsFamily)
+                                        && OffCentreAfter(g) > OffCentreBefore(g) + tolerance);
 
             Console.WriteLine($"  {worsened.Count} glyphs ended up further off centre than rounding explains" +
-                              $" (plus {exempt} pinned to a curated group, which is by design)");
+                              $" (plus {exempt} that give up their own centering to stay registered with another icon)");
 
             foreach (var glyph in worsened.Take(10))
             {
@@ -183,6 +184,12 @@ namespace Build.UIconsOpticalCentering
 
                 // A mirrored pair is only expected to agree on the axis it shares, so its mismatch is
                 // reported but not held against the run.
+                if (group.Kind == AlignmentKind.Fixed)
+                {
+                    Console.WriteLine($"  {group.Name,-28} {"-",9} {"-",9}  never adjusted, so nothing can drift");
+                    continue;
+                }
+
                 var enforced = group.Kind == AlignmentKind.Aligned || group.Kind == AlignmentKind.AnchorFirst;
                 var failed   = enforced && worstAfter > worstBefore + settings.Step + 1e-9;
                 ok          &= !failed;
@@ -237,15 +244,17 @@ namespace Build.UIconsOpticalCentering
         /// </summary>
         private static bool PrintPinnedGroups(List<FontAdjustments> fonts, CenteringSettings settings)
         {
-            var pinned = new HashSet<string>(AlignmentGroups.All.SelectMany(g => g.Icons), StringComparer.Ordinal);
             var ok     = true;
             var worst  = 0.0;
             string worstCluster = null;
 
             foreach (var font in fonts)
             {
+                // A glyph whose offset a later rule replaced - a state variant taking its base icon's, a
+                // frame family left as drawn - is no longer bound by the group it was pinned into, and
+                // should not be: following the icon you are a state of outranks matching a lookalike.
                 foreach (var cluster in font.Glyphs
-                   .Where(g => g.Measurement.IsUsable && g.IsPinned && !pinned.Contains(g.Glyph.IconName))
+                   .Where(g => g.Measurement.IsUsable && g.IsPinned && !g.PinnedToPartner && !g.LeftAloneForItsFamily)
                    .GroupBy(g => g.PinnedGroup))
                 {
                     var spread = Math.Max(
@@ -280,7 +289,32 @@ namespace Build.UIconsOpticalCentering
             }
 
             PrintLookalikeDivergence(fonts, settings);
+            PrintCompositionRules(fonts);
             return ok;
+        }
+
+        /// <summary>
+        /// The icons that gave up their own centering to stay registered with another icon: state variants
+        /// taking their base icon's offset, and frame families where the members could not agree.
+        /// </summary>
+        private static void PrintCompositionRules(List<FontAdjustments> fonts)
+        {
+            var glyphs = fonts.SelectMany(f => f.Glyphs).ToList();
+
+            Console.WriteLine();
+            Console.WriteLine("Icons that compose with another icon");
+            Console.WriteLine($"  {fonts.Sum(f => f.StateVariantsAnchored)} state variants (-{string.Join(", -", StateVariants.Suffixes)})" +
+                              " took the offset of the icon they are a state of");
+            Console.WriteLine($"  {fonts.Sum(f => f.FrameFamiliesSuppressed)} offsets dropped because a frame family " +
+                              $"({string.Join(", ", FrameShapes.Words)}) could not agree on one");
+
+            var byFrame = glyphs.Where(g => g.LeftAloneForItsFamily).ToList();
+
+            foreach (var example in byFrame.Where(g => g.Glyph.CssClass.StartsWith("fi-rr-", StringComparison.Ordinal))
+                                           .OrderBy(g => g.Glyph.IconName, StringComparer.Ordinal).Take(8))
+            {
+                Console.WriteLine($"    {example.Glyph.CssClass,-40} wanted {example.TargetX,7:0.000} / {example.TargetY,7:0.000}, left as drawn");
+            }
         }
 
         /// <summary>

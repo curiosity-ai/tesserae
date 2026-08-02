@@ -103,6 +103,12 @@ namespace Build.UIconsOpticalCentering
         /// <summary>Set when this glyph is pinned to other icons that are the same drawing.</summary>
         public bool IsPinned { get; set; }
 
+        /// <summary>Set when this glyph's offset was taken from another icon it has to stay registered with.</summary>
+        public bool PinnedToPartner { get; set; }
+
+        /// <summary>Set when the offset was dropped so the frame family this icon belongs to stays registered.</summary>
+        public bool LeftAloneForItsFamily { get; set; }
+
         public bool IsAdjusted => X != 0 || Y != 0;
 
         public bool IsRejected => RejectedX || RejectedY;
@@ -125,6 +131,12 @@ namespace Build.UIconsOpticalCentering
 
         /// <summary>How many sets of icons ended up sharing one offset.</summary>
         public int PinnedGroups { get; set; }
+
+        /// <summary>How many state variants took their base icon's offset.</summary>
+        public int StateVariantsAnchored { get; set; }
+
+        /// <summary>How many offsets were dropped to keep a frame family registered.</summary>
+        public int FrameFamiliesSuppressed { get; set; }
     }
 
     /// <summary>
@@ -208,6 +220,7 @@ namespace Build.UIconsOpticalCentering
             var final = usable.ToDictionary(g => g, g => (X: g.OpticalX, Y: g.OpticalY));
 
             (result.FrameGroups, result.PinnedGroups) = PinIconsThatAreTheSameDrawing(usable, final, em, settings);
+            result.StateVariantsAnchored = AnchorStateVariantsToTheirBase(usable, final);
             ApplyAlignmentGroups(font, usable, final, warnings);
 
             foreach (var glyph in usable)
@@ -224,6 +237,8 @@ namespace Build.UIconsOpticalCentering
                 glyph.X = glyph.RejectedX ? 0 : Quantize(glyph.TargetX, settings);
                 glyph.Y = glyph.RejectedY ? 0 : Quantize(glyph.TargetY, settings);
             }
+
+            result.FrameFamiliesSuppressed = LeaveDisagreeingFrameFamiliesAlone(usable, em, settings);
 
             return result;
         }
@@ -364,6 +379,73 @@ namespace Build.UIconsOpticalCentering
             }
         }
 
+        /// <summary>
+        /// Gives every <c>X-slash</c> / <c>X-crossed</c> / <c>X-off</c> / <c>X-mute</c> icon the offset of the
+        /// <c>X</c> it is a state of, so the drawing the two share stays put when a UI swaps one for the other.
+        /// </summary>
+        private static int AnchorStateVariantsToTheirBase(
+            List<GlyphAdjustment>                            glyphs,
+            Dictionary<GlyphAdjustment, (double X, double Y)> final)
+        {
+            var byName  = glyphs.ToDictionary(g => g.Glyph.IconName, StringComparer.Ordinal);
+            var anchored = 0;
+
+            foreach (var glyph in glyphs)
+            {
+                var baseName = StateVariants.BaseIconOf(glyph.Glyph.IconName);
+
+                if (baseName is null || !byName.TryGetValue(baseName, out var baseGlyph)) continue;
+
+                final[glyph]           = final[baseGlyph];
+                glyph.PinnedToPartner  = true;
+                anchored++;
+            }
+
+            return anchored;
+        }
+
+        /// <summary>
+        /// Icons drawn on the same frame — same ink box, and the frame's name in common — have to keep that
+        /// frame registered with each other. Where they cannot agree on one offset, none of them is moved:
+        /// leaving a family as drawn is always safe, whereas nudging part of it is what makes a row of
+        /// square-framed icons look ragged.
+        /// </summary>
+        private static int LeaveDisagreeingFrameFamiliesAlone(List<GlyphAdjustment> glyphs, double em, CenteringSettings settings)
+        {
+            var suppressed = 0;
+
+            foreach (var word in FrameShapes.Words)
+            {
+                var family = glyphs.Where(g => FrameShapes.Mentions(g.Glyph.IconName, word)).ToList();
+
+                if (family.Count < 2) continue;
+
+                foreach (var sharingAFrame in family.GroupBy(g => (
+                             Math.Round(g.Measurement.InkLeft / em, 3), Math.Round(g.Measurement.InkRight / em, 3),
+                             Math.Round(g.Measurement.InkTop / em, 3), Math.Round(g.Measurement.InkBottom / em, 3))))
+                {
+                    var members = sharingAFrame.ToList();
+
+                    if (members.Count < 2) continue;
+
+                    var disagrees = members.Max(m => m.X) - members.Min(m => m.X) > 1e-9
+                                 || members.Max(m => m.Y) - members.Min(m => m.Y) > 1e-9;
+
+                    if (!disagrees) continue;
+
+                    foreach (var member in members.Where(m => m.IsAdjusted))
+                    {
+                        member.X                   = 0;
+                        member.Y                   = 0;
+                        member.LeftAloneForItsFamily = true;
+                        suppressed++;
+                    }
+                }
+            }
+
+            return suppressed;
+        }
+
         /// <summary>Pins the icons the toolkit swaps in place to each other.</summary>
         private static void ApplyAlignmentGroups(
             IconFont                                         font,
@@ -387,7 +469,21 @@ namespace Build.UIconsOpticalCentering
                     }
                 }
 
+                // Fixed is the one kind that is meaningful for a single icon.
+                if (group.Kind == AlignmentKind.Fixed)
+                {
+                    foreach (var member in members)
+                    {
+                        final[member]         = (0, 0);
+                        member.PinnedToPartner = true;
+                    }
+
+                    continue;
+                }
+
                 if (members.Count < 2) continue;
+
+                foreach (var member in members) member.PinnedToPartner = true;
 
                 switch (group.Kind)
                 {

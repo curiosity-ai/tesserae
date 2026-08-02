@@ -23,7 +23,7 @@ namespace Build.UIconsOpticalCentering
                 "centroid_x_em", "centroid_y_em", "mass_em2",
                 "frame_x", "frame_y", "optical_x", "optical_y",
                 "target_x", "target_y", "rejected_x", "rejected_y", "css_left", "css_top",
-                "frame_group", "frame_group_size", "pinned_group", "pinned_group_size"));
+                "frame_group", "frame_group_size", "pinned_group", "pinned_group_size", "pinned_to_partner", "left_alone_for_family"));
 
             foreach (var font in fonts)
             {
@@ -49,7 +49,9 @@ namespace Build.UIconsOpticalCentering
                         glyph.FrameGroup.ToString(CultureInfo.InvariantCulture),
                         glyph.FrameGroupSize.ToString(CultureInfo.InvariantCulture),
                         glyph.PinnedGroup.ToString(CultureInfo.InvariantCulture),
-                        glyph.PinnedGroupSize.ToString(CultureInfo.InvariantCulture)));
+                        glyph.PinnedGroupSize.ToString(CultureInfo.InvariantCulture),
+                        glyph.PinnedToPartner ? "1" : "0",
+                        glyph.LeftAloneForItsFamily ? "1" : "0"));
                 }
             }
 

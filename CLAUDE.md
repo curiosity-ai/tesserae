@@ -124,16 +124,36 @@ console projects own them, and both are in the solution:
   The adjustments are deliberately conservative: only offsets between the dead
   zone and the cap are emitted, so an icon that is a long way off centre (a half
   circle, an empty crate drawn at the bottom of its box) is left as drawn rather
-  than half-corrected. Icons that are the same drawing — matching ink boxes
-  *and* already agreeing on where their centre is — are pinned to one shared
-  offset so rounding cannot separate them, as are the ones the toolkit swaps in
-  place (`--uicon-var-square` / `--uicon-var-checkbox`, the `-slash` variants,
-  mirrored arrows). Agreement is what identifies a lookalike: thousands of icons
-  are drawn edge to edge and so share an ink box without being related, and
-  pinning those to each other would drag well-centred icons off centre. The run
-  enforces that: no icon may end up further off centre than rounding explains,
-  the only exception being icons pinned to a curated group, where overlapping
-  the icon they get swapped with outranks their own centering.
+  than half-corrected.
+
+  Icons that compose with each other must stay registered, and three mechanisms
+  keep them that way — in increasing order of priority:
+
+  - **Lookalikes** are pinned to one shared offset when they have matching ink
+    boxes *and* already agree on where their centre is, so rounding cannot
+    separate them. Agreement is what identifies a lookalike: thousands of icons
+    are drawn edge to edge and so share an ink box without being related
+    (`circle` and `square` have identical ink boxes), and pinning those to each
+    other would drag well-centred icons off centre.
+  - **State variants** — `X-slash`, `X-crossed`, `X-off`, `X-mute`,
+    `X-muted`, `X-disabled` — take the offset of the `X` they are a state of,
+    since a UI swaps one for the other in place. 464 such pairs exist and 93 of
+    them disagreed before the rule.
+  - **Frame families** — icons sharing an ink box *and* a shape word
+    (`square`, `circle`, `rectangle`, `hexagon`, `octagon`, `diamond`,
+    `triangle`) are drawn on the same frame, so if they cannot agree on one
+    offset none of them is moved. The name is essential here: the ink box alone
+    cannot tell a circle-framed icon from any other icon that fills its box.
+
+  On top of those, `AlignmentGroups` names the handful a rule cannot derive,
+  because their names have nothing in common: the `square`/`checkbox`/`square-a`
+  set the toolkit swaps through `--uicon-var-*`, `toggle-on`/`toggle-off`,
+  `lock`/`unlock`/`lock-open-alt`, the mirrored pairs, and `slash`, which is
+  composited over other icons and so is never moved at all.
+
+  The run enforces the outcome: no icon may end up further off centre than
+  rounding explains, the only exceptions being the icons that deliberately give
+  up their own centering to stay registered with another one.
 
 ## Installing Transpose
 
