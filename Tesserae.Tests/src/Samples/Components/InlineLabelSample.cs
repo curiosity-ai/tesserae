@@ -57,7 +57,15 @@ namespace Tesserae.Tests.Samples
                 HStack().WS().Wrap().Gap(8.px()).AlignItemsCenter().PT(8).PB(8).Children(
                     InlineLabel("Pressable").SetIcon(UIcons.Folder).OnClick(l => Toast().Information($"Pressed \"{l.Text}\"")),
                     InlineLabel("A real link").SetIcon(UIcons.Globe).SetHref("https://github.com/curiosity-ai/tesserae", openInNewTab: true),
-                    InlineLabel("Not pressable").SetIcon(UIcons.Lock)));
+                    InlineLabel("Not pressable").SetIcon(UIcons.Lock)),
+                TextBlock("Hovering either kind lifts the background; only a real link also underlines, since a label that just runs a handler is a button and has no address to promise.").Small().MT(8).MB(8),
+                TextBlock("A label says as much as fits, so the rest belongs in a tooltip - the full path, what a code stands for, when \"2 days ago\" actually was:").Small().MT(16).MB(8),
+                HStack().WS().Wrap().Gap(8.px()).AlignItemsCenter().PT(8).PB(8).Children(
+                    InlineLabel("sample-files / procedures").SetIcon(UIcons.Folder).Tooltip("All Files / sample-files / procedures / BRK-SEN-447"),
+                    InlineLabel("2 days ago").SetIcon(UIcons.Clock).Tooltip("Apr 12, 2024 at 14:03"),
+                    InlineLabel("BRK-447").SetColor("#6366f1").Tooltip("Brake sensor family 447"),
+                    InlineLabel().SetIcon(UIcons.Lock).Tooltip("Confidential - do not share outside the company"),
+                    InlineLabel("Marie Lang").SetIcon(UIcons.User).Tooltip("marie.lang@example.com").OnClick(_ => Toast().Information("Opening the owner"))));
         }
 
         private IComponent InAGrid()
@@ -94,8 +102,21 @@ namespace Tesserae.Tests.Samples
 
         private IComponent LookedUp()
         {
+            // The whole area is deferred so the Reload button can rebuild it: Refresh() re-runs the
+            // generator, which builds a fresh set of labels that look themselves up all over again.
+            var lookups = DeferSync(BuildLookups);
+
+            var reload = Button("Reload").SetIcon(UIcons.Refresh).OnClick(() => lookups.Refresh());
+
             return FeatureCard("Facts it has to look up", "InlineLabel(async label => ...)",
                 "Built from a task, a label draws as a skeleton rectangle while the task runs. If the task ends without giving it anything to say, the label takes itself out of the document - and the slot it was standing in with it, so the line it belonged to closes up rather than keeping a gap for something that turned out not to exist.",
+                reload.MT(8).MB(8),
+                lookups);
+        }
+
+        private static IComponent BuildLookups()
+        {
+            return VStack().WS().Children(
                 TextBlock("Two of the five below resolve to nothing. Watch the row close up:").Small().MT(8).MB(8),
                 HStack().WS().Wrap().Gap(8.px()).AlignItemsCenter().PT(8).PB(8).Children(
                     InlineLabel(async label => { await LookUp(600); label.SetText("Marie Lang").SetIcon(UIcons.User); }),

@@ -13,9 +13,8 @@ Every combination is allowed: text alone, a mark alone, or both.
 
 It draws at one of two sizes, decided by where it is rather than by a flag: on its own it is a **compact
 button** — a bordered pill at 24px, which is the shape a chip of related things wants — and inside an
-`OmniResult` footer the chrome comes off and it takes the footer's own colour and type size. A pressable
-label in a footer underlines on hover instead of filling, so one clickable fact doesn't turn the line
-into a row of buttons.
+`OmniResult` footer the chrome comes off and it takes the footer's own colour and type size, so one
+clickable fact doesn't turn a line of facts into a row of buttons.
 
 ```
 ▪ Box      📁 sample-files / pdfs      2.4 MB      👤 Pius Neuhaus      🔒
@@ -73,7 +72,13 @@ row.SetFooterEntries(
   either way, so a link is middle-clickable and shows its address in the status bar.
 
 Whatever the mark is it takes one box — 14px on the compact button, 12px in a footer — and the text
-ellipsizes rather than wrapping, so a long path gives way to whatever it shares the line with.
+ellipsizes rather than wrapping, so a long path gives way to whatever it shares the line with. What a
+label had to cut belongs in `.Tooltip(...)`: the full path, what a code stands for, the date behind
+"2 days ago".
+
+**Hover.** A pressable or linked label lifts its background on hover, in a footer as well as on its own.
+Only a label with an `href` also underlines — one that merely runs a handler is a button, and
+underlining it would promise an address it doesn't have.
 
 ## Example
 

@@ -73,19 +73,56 @@
     white-space: nowrap;
 }
 
-/* Pressable, or a real link. */
+/* Pressable, or a real link. Either way hovering it lifts the background - the whole label answers the
+   pointer, which is what says it can be pressed. Nothing else moves - no border change, no reflow. */
 .tss-inlinelabel-interactive {
     cursor: pointer;
+    transition: background 120ms ease-out;
 }
 
-.tss-inlinelabel-interactive:hover {
-    border-color: var(--tss-default-background-hover-color);
+.tss-inlinelabel-interactive:hover,
+.tss-inlinelabel-interactive:focus-visible {
     background: var(--tss-default-background-hover-color);
-    color: var(--tss-default-foreground-hover-color);
+}
+
+.tss-inlinelabel-interactive:active {
+    background: var(--tss-secondary-background-color);
 }
 
 .tss-inlinelabel-interactive:focus-visible {
-    box-shadow: 0 0 0 2px var(--tss-primary-background-color);
+    outline: 2px solid var(--tss-primary-background-color);
+    outline-offset: 1px;
+}
+
+/* Only a real link underlines. The label is an anchor whether or not it links anywhere, so the global
+   a:hover underline has to be turned off first - a label that merely runs a handler is a button, and
+   underlining it would promise an address it doesn't have. */
+.tss-inlinelabel:hover {
+    text-decoration: none;
+}
+
+.tss-inlinelabel[href]:hover .tss-inlinelabel-text,
+.tss-inlinelabel[href]:focus-visible .tss-inlinelabel-text {
+    text-decoration: underline;
+}
+
+/* Looking up what it says ---------------------------------------------------------------------------- */
+
+/* While the task runs the label is nothing but the skeleton: the pill's chrome would be a promise about
+   a size it doesn't know yet, and a label that turns out to have nothing to say removes itself anyway. */
+.tss-inlinelabel-loading {
+    height: auto;
+    padding: 0;
+    border: none;
+    background: none;
+    pointer-events: none;
+}
+
+.tss-inlinelabel-skeleton {
+    display: block;
+    width: 72px;
+    height: 12px;
+    border-radius: var(--tss-border-radius-sm);
 }
 
 /* Looking up what it says ---------------------------------------------------------------------------- */
@@ -132,14 +169,15 @@
     font-size: 11px;
 }
 
-.tss-omniresult-footer .tss-inlinelabel-interactive:hover,
-.tss-omniresult-footer .tss-inlinelabel-interactive:focus-visible {
-    background: none;
-    color: inherit;
+/* The footer's labels have no box of their own, so the hover background is drawn just around them
+   rather than edge to edge - enough to say "this one answers the pointer" on a line of plain facts. */
+.tss-omniresult-footer .tss-inlinelabel-interactive {
+    margin: 0 -4px;
+    padding: 0 4px;
 }
 
-.tss-omniresult-footer .tss-inlinelabel-interactive:hover .tss-inlinelabel-text,
-.tss-omniresult-footer .tss-inlinelabel-interactive:focus-visible .tss-inlinelabel-text {
-    color: var(--tss-highlight-color);
-    text-decoration: underline;
+.tss-omniresult-footer .tss-inlinelabel-interactive:hover,
+.tss-omniresult-footer .tss-inlinelabel-interactive:focus-visible {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-hover-color);
 }
