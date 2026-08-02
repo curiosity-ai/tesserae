@@ -13,5 +13,15 @@ body {
     color: var(--tss-default-foreground-color);
     background-color: var(--tss-default-background-color);
     font-size: var(--tss-font-size-small);
-    font-family: Segoe UI, SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: var(--tss-sansserif-font-family);
+}
+
+/* Form controls do not inherit the document font, so an app that overrides
+   --tss-sansserif-font-family would otherwise keep the browser's own font inside every input. */
+input,
+textarea,
+select,
+button,
+optgroup {
+    font-family: inherit;
 }

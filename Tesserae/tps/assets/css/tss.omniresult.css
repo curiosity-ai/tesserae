@@ -340,6 +340,19 @@
     margin: 0;
 }
 
+/* An entry that emptied itself - a label that looked something up and found nothing to say, and took
+   itself out of the document - must take its separator with it, or the line keeps a dot with nothing on
+   one side of it. The dot belongs to the entry, so hiding the entry is all it takes. */
+.tss-omniresult-footer > .tss-omniresult-footer-entry:empty {
+    display: none;
+}
+
+/* Same for one holding nothing but a label with neither text nor mark in it - a label says so about
+   itself (see InlineLabel), so the footer does not have to look inside it. */
+.tss-omniresult-footer > .tss-omniresult-footer-entry:has(> .tss-inlinelabel-empty:only-child) {
+    display: none;
+}
+
 /* An entry is a box around one InlineLabel, and the label does its own ellipsizing - so the entry must
    NOT clip: a hovered label's background reaches 4px past its text on each side, and hiding the
    overflow cut the right end of it (the left survived by eating into the separator's gap). */

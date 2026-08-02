@@ -38,22 +38,24 @@
     gap: 8px;
     padding: 12px 16px;
     border-bottom: 1px solid var(--tss-default-border-color);
-    display: inline-flex;
+    display: flex;
     flex-direction: row;
-    min-height:60px;
+    align-items: center;
+    min-height: 60px;
 }
 
-.tss-commandpalette-search {
-    width: 100%;
-    border: none;
-    outline: none;
+/* The palette is typed into an OmniBox, which brings its own outline - inside the palette's own box that
+   would be a border around a border, so it gives its chrome up and keeps only its behaviour. */
+.tss-omnibox-container.tss-commandpalette-search {
+    flex: 1 1 auto;
+    min-width: 0;
+    border-color: transparent;
     background: transparent;
-    color: var(--tss-default-foreground-color);
-    font-size: 16px;
+    box-shadow: none;
 }
 
-.tss-commandpalette-search::placeholder {
-    color: var(--tss-secondary-foreground-color);
+.tss-omnibox-container.tss-commandpalette-search .tss-omnibox-search-input {
+    font-size: 16px;
 }
 
 .tss-commandpalette-breadcrumbs {
@@ -122,14 +124,20 @@
    so the palette gives it the full width and only keeps the part of an item that says "this is the one":
    the rounded highlight behind it. */
 .tss-commandpalette-result {
-    display: block;
+    display: inline-flex;
+    align-items: stretch;
+    width: 100%;
+    box-sizing: border-box;
     padding: 0;
     gap: 0;
     overflow: hidden;
 }
 
+/* The row is the only thing in the item, so it takes all of it - and may shrink below its content's
+   intrinsic width, which is what lets a long title ellipsize instead of widening the palette. */
 .tss-commandpalette-result > * {
-    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 /* The active row is filled with the primary colour, which a result's own hover background would fight -

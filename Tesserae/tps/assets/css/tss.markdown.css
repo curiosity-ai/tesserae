@@ -7,7 +7,7 @@
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     color: var(--tss-default-foreground-color);
-    font-family: var(--tss-font-family, "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif);
+    font-family: var(--tss-sansserif-font-family);
     font-size: var(--tss-font-size-small);
     line-height: 1.6;
     word-wrap: break-word;
@@ -239,7 +239,7 @@
 .tss-markdown code,
 .tss-markdown kbd,
 .tss-markdown pre {
-    font-family: var(--tss-monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace);
+    font-family: var(--tss-monospace-font-family);
 }
 
     .tss-markdown code {

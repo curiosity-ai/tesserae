@@ -112,7 +112,7 @@
 
 /* A path, a table name or a size, given the same monospace treatment ToolCall gives its command. */
 .tss-contextcard-mono .tss-contextcard-sublabel {
-    font-family: var(--tss-monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+    font-family: var(--tss-monospace-font-family);
 }
 
 /* Whatever the host wants at the end of the card - a count, a status, a source. Quiet, never shrinks. */

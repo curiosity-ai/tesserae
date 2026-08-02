@@ -83,7 +83,7 @@
 }
 
 .tss-cron-custom-input .tss-textbox {
-    font-family: monospace;
+    font-family: var(--tss-monospace-font-family);
 }
 
 .tss-cron-actions {

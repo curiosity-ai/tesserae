@@ -68,6 +68,30 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// The text in the box. Setting it does not raise <see cref="OnSearch"/> - a caller that clears the
+        /// box usually has its own idea of what to do about the results.
+        /// </summary>
+        public string Text
+        {
+            get => _searchBox.Text;
+            set => _searchBox.SetText(value);
+        }
+
+        /// <summary>Sets the text in the box, without raising <see cref="OnSearch"/>.</summary>
+        public SidebarSearchBox SetText(string text)
+        {
+            _searchBox.SetText(text);
+            return this;
+        }
+
+        /// <summary>Puts the caret in the box.</summary>
+        public SidebarSearchBox Focus()
+        {
+            _searchBox.Focus();
+            return this;
+        }
+
+        /// <summary>
         /// Makes the box a way in rather than a place to type: clicking it - open, or as the icon on the
         /// closed rail - runs the handler, and so does focusing it, which is what
         /// <see cref="SetKeyboardShortcut"/> does. Nothing can be typed into it, because what is typed

@@ -22,6 +22,27 @@ CommandPalette:
 - `.ActionExecuted` event — fires after an action runs.
 - `.SetResults(...)` / `.OnSearch(...)` / `.ResultActivated` — rows of your own, below.
 - `.CurrentQuery` — what is typed in the search box right now, trimmed.
+- `.LightDismiss()` / `.NoLightDismiss()` / `.CanLightDismiss` — whether clicking beside the palette closes
+  it, the way it does on a `Modal`. On by default. Escape closes it too, wherever the focus ended up.
+- `.SearchBox` / `.ConfigureSearchBox(Action&lt;OmniBox&gt;)` — the box itself, below.
+
+## The search box is an OmniBox
+
+The palette is typed into a full `OmniBox` (`omni-box.md`) in `Search` mode, not a bare input, so it can
+offer whatever the app's own search box offers — snaps (`@file`), value filters (`kind:pdf`), history,
+suggestions. Reach it with `.SearchBox`, or configure it in a chain with `.ConfigureSearchBox(...)`:
+
+```csharp
+palette.ConfigureSearchBox(box =>
+{
+    box.RegisterSnaps(mySnaps);
+    box.RegisterFilterSnaps(myFilters);
+    box.SetSearchPlaceholder("Type a filter or search...");
+});
+```
+
+Give a palette that stands in for a search page the *same* configuration that page's box has — otherwise
+the preview answers a different question than the page it hands over to.
 
 `CommandPaletteAction(string id, string name)` properties:
 - `Perform` (`Action`), `Subtitle`, `Keywords`, `Section`, `Icon` (`UIcons?`).
@@ -38,9 +59,13 @@ result looks the same wherever it is shown.
 - `.SetResults(IEnumerable<CommandPaletteResult>)` (also `params`) — replace the rows. They are shown as
   given: the palette does not filter them, because whoever produced them for a query already knows which
   ones answer it. The actions beneath them are still filtered as usual.
-- `.OnSearch(Func<string, Task<IEnumerable<CommandPaletteResult>>> search, int debounceMs = 200)` — have
-  the rows refreshed as the query changes. Debounced, and an answer that arrives after a newer query was
-  typed is dropped, so a slow search never overwrites a faster one behind it.
+- `.OnSearch(Func<OmniBox.SearchQuery, Task<IEnumerable<CommandPaletteResult>>> search, int debounceMs = 200)`
+  — have the rows refreshed as the query changes. Debounced, and an answer that arrives after a newer query
+  was typed is dropped, so a slow search never overwrites a faster one behind it. The `SearchQuery` carries
+  the parsed text (`RawQuery`, `Tokens`) plus whatever snaps and value filters the box picked out of it, so
+  a filter typed on its own (`kind:pdf`) is a search like any other.
+- `.OnSearch(Func<string, Task<IEnumerable<CommandPaletteResult>>> search, int debounceMs = 200)` — the same,
+  for a palette that only needs the text that was typed.
 - `new CommandPaletteResult(IComponent component, Action activate = null)` — the row and what Enter does
   with it, plus a `Section` heading like an action's. With no `activate` the row is only clickable, which
   is what a component that already answers its own click wants.
@@ -50,9 +75,10 @@ Rows join the arrow-key walk like any other item, and the palette closes after o
 what the palette only had room to preview.
 
 ```csharp
-palette.OnSearch(async query =>
+palette.OnSearch(async searchQuery =>
 {
-    var hits = await SearchAsync(query);
+    var query = searchQuery.RawQuery?.Trim() ?? "";
+    var hits  = await SearchAsync(query, searchQuery.FilterSnaps);
 
     var rows = hits.Take(5).Select(hit => new CommandPaletteResult(
         OmniResult(hit, hit.Title).SetIcon(hit.Extension, hit.Color).Highlight(query),

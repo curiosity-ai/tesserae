@@ -1685,13 +1685,25 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// What the box says right now, parsed - the same <see cref="SearchQuery"/> pressing Enter would
+        /// raise, chips included. For a host that answers as the query is typed rather than on Enter.
+        /// </summary>
+        public SearchQuery CurrentSearchQuery => BuildSearchQuery();
+
+        private SearchQuery BuildSearchQuery()
+        {
+            var query = ParseQuery(_searchInput is object ? _searchInput.value : string.Empty, _tokenIgnoreCase);
+
+            query.Snaps       = GetActiveSnaps();
+            query.FilterSnaps = GetActiveFilterSnaps();
+
+            return query;
+        }
+
         private void TriggerSearch()
         {
-            var val = _searchInput.value;
-            var query = ParseQuery(val, _tokenIgnoreCase);
-            query.Snaps = GetActiveSnaps();
-            query.FilterSnaps = GetActiveFilterSnaps();
-            Searched?.Invoke(this, query);
+            Searched?.Invoke(this, BuildSearchQuery());
         }
 
         private SnapHandler[] GetActiveSnaps()

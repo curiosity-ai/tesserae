@@ -571,7 +571,7 @@
 
 .tss-omnibox-help-trigger {
     color: var(--tss-primary-foreground-color);
-    font-family: var(--tss-font-mono, monospace);
+    font-family: var(--tss-monospace-font-family);
     font-weight: 600;
 }
 

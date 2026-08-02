@@ -18,6 +18,32 @@ On components implementing `ITextFormating` (`ITextFormatingExtensions`):
 - Alignment: `.TextCenter()`.
 - Explicit: `.SetTextSize(TextSize.Small)`, `.SetTextWeight(TextWeight.SemiBold)`.
 
+## Fonts
+
+Tesserae draws with exactly two font stacks, and every rule that sets a
+`font-family` names one of them with no inline fallback list:
+
+- `--tss-sansserif-font-family` — everything but code. Defaults to
+  `"Plus Jakarta Sans", "Inter", "Segoe UI", …`; Tesserae does not ship the font
+  files, so an app that wants the first name in that list serves its own
+  `@font-face` for it.
+- `--tss-monospace-font-family` — code, paths, identifiers.
+
+Override either one on `:root` (or on any sub-tree) and the whole UI follows,
+form controls included. From C#, reference them as `Theme.Fonts.SansSerif` /
+`Theme.Fonts.Monospace` rather than repeating the `var(...)` literal:
+
+```css
+:root {
+    --tss-sansserif-font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+    --tss-monospace-font-family: "Monaspace Neon", ui-monospace, monospace;
+}
+```
+
+```csharp
+TextBlock(path).Style(s => s.fontFamily = Theme.Fonts.Monospace);
+```
+
 ## Spacing & sizing (IComponentExtensions)
 
 - Padding/margin: `.Padding(...)`, `.MarginBottom(...)`, etc.

@@ -427,6 +427,25 @@ namespace Tesserae
                 public const string Foreground = "var(--tss-sidebar-foreground-color)";
             }
 
+            /// <summary>
+            /// The two font stacks Tesserae draws with. Override the variables these point at - on
+            /// <c>:root</c>, or on any sub-tree - to change the font everywhere, rather than setting a
+            /// font-family per component.
+            /// </summary>
+            public static class Fonts
+            {
+                /// <summary>
+                /// CSS variable reference for the app's sans-serif font stack, which everything but code
+                /// is drawn in.
+                /// </summary>
+                public const string SansSerif = "var(--tss-sansserif-font-family)";
+                /// <summary>
+                /// CSS variable reference for the monospace font stack code, paths and identifiers are
+                /// drawn in.
+                /// </summary>
+                public const string Monospace = "var(--tss-monospace-font-family)";
+            }
+
             public static class Secondary
             {
                 /// <summary>
