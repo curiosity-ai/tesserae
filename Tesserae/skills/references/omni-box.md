@@ -35,6 +35,10 @@ OmniBox:
 - `.OnChat((sender, ChatMessage) => ...)`, `.OnStop(...)`, `.OnModelChanged(...)`.
 - `.IsGenerating` (bool) — toggles the footer spinner + elapsed-time indicator and swaps the send button for a stop button. `.GeneratingText` (string) — read/write the indicator label; setting it updates the footer live. `.AllowSendWhileGenerating` (bool) — read/write the config flag above.
 - `.SearchText` / `.ChatText` / `.SetSearchText(string)` — read/write input text.
+- `.ActiveMode` (`Mode`) — which half of a `SearchAndChat` box is showing. Setting it switches the box
+  and moves the box's own toggle with it. `.ActiveModeObservable` follows it, and `.NoModeToggle()`
+  takes the toggle out of the footer for a host that puts a mode control somewhere of its own (a page
+  header) — the box still switches through `.ActiveMode`.
 - `.SetChatHeader(IComponent)` — replace (or clear, with `null`) whatever sits above the chat input.
 - `.RegisterSnap(SnapHandler)` / `.RegisterFilterSnap(FilterSnapHandler)` — turn recognized input into inline filter chips (search modes only).
 - `.WithHistory(Func<Task<SearchQuery[]>>)` — enable the history button.
