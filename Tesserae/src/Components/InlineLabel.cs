@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 
@@ -17,6 +18,13 @@ namespace Tesserae
     /// A label can be pressed (<see cref="OnClick(Action{InlineLabel})"/>) or be a real link
     /// (<see cref="SetHref(string, bool)"/>) - it is an anchor either way, so a link is middle-clickable
     /// and shows its address in the status bar rather than being a div pretending.
+    /// </para>
+    /// <para>
+    /// A label can also be built from a task (<see cref="InlineLabel(Func{InlineLabel, Task})"/>) for a
+    /// fact that has to be looked up. It draws as a skeleton rectangle while the task runs, and if the
+    /// task ends without giving it anything to say it takes itself out of the document - along with the
+    /// slot it was standing in, so a line of facts doesn't keep a gap for something that turned out not
+    /// to exist.
     /// </para>
     /// </summary>
     [Transpose.Name("tss.InlineLabel")]
@@ -65,8 +73,26 @@ namespace Tesserae
             });
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class that looks up what it says. It draws as a skeleton
+        /// rectangle while <paramref name="load"/> runs, and takes itself - and the slot it stands in -
+        /// out of the document if the task ends without setting any text or mark on it.
+        /// </summary>
+        public InlineLabel(Func<InlineLabel, Task> load) : this((string)null)
+        {
+            if (load is null) return;
+
+            InnerElement.classList.add("tss-inlinelabel-loading");
+            InnerElement.appendChild(Span(Att("tss-inlinelabel-skeleton tss-skeleton tss-skeleton-animated")));
+
+            LoadAsync(load).FireAndForget();
+        }
+
         /// <summary>Gets the text the label shows, or null when it is a mark on its own.</summary>
         public string Text { get; private set; }
+
+        /// <summary>Whether the label has nothing to show - no text, and no mark.</summary>
+        private bool IsEmpty => string.IsNullOrEmpty(Text) && _mark.style.display == "none";
 
         /// <summary>
         /// Renders the component's root HTML element.
@@ -208,6 +234,71 @@ namespace Tesserae
             if (content is object) _mark.appendChild(content);
 
             return this;
+        }
+
+        private async Task LoadAsync(Func<InlineLabel, Task> load)
+        {
+            try
+            {
+                await load(this);
+            }
+            finally
+            {
+                InnerElement.classList.remove("tss-inlinelabel-loading");
+
+                foreach (var skeleton in InnerElement.querySelectorAll(".tss-inlinelabel-skeleton"))
+                {
+                    skeleton.As<HTMLElement>().remove();
+                }
+
+                //Nothing to say: the label takes its slot with it rather than leaving a gap in the line.
+                if (IsEmpty) this.WhenMounted(RemoveWithItsSlot);
+            }
+        }
+
+        /// <summary>
+        /// Takes the label out of the document along with whatever is standing in for it in its container:
+        /// a stack's item wrapper, a footer's entry, or - when the label is all a details row has to show -
+        /// the whole row, label cell included. Anywhere else, just the label goes.
+        /// </summary>
+        private void RemoveWithItsSlot()
+        {
+            HTMLElement node   = InnerElement;
+            var         parent = node.parentElement;
+
+            while (parent is object)
+            {
+                //A details row whose value is this label alone has nothing left to say either
+                if (parent.classList.contains("tss-detailsgrid-value"))
+                {
+                    if (parent.childElementCount <= 1 && parent.parentElement is object && parent.parentElement.classList.contains("tss-detailsgrid-row"))
+                    {
+                        parent.parentElement.remove();
+                        return;
+                    }
+
+                    break;
+                }
+
+                if (parent.classList.contains("tss-omniresult-footer-entry"))
+                {
+                    parent.remove();
+                    return;
+                }
+
+                //A stack wraps every child in an item div - that wrapper is the slot, and it may itself
+                //be sitting in a details value, so keep climbing.
+                if (parent.classList.contains("tss-stack-item"))
+                {
+                    node   = parent;
+                    parent = parent.parentElement;
+                    continue;
+                }
+
+                break;
+            }
+
+            node.remove();
         }
 
         private InlineLabel UpdateInteractive(bool force = false)

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -17,6 +18,7 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(VStack().WS().Children(Interactive()))
                 .FlatSection(VStack().WS().Children(InAGrid()))
                 .FlatSection(VStack().WS().Children(InAFooter()))
+                .FlatSection(VStack().WS().Children(LookedUp()))
                 .SeeAlso(typeof(OmniResultSample), typeof(DetailsGridSample), typeof(BadgeSample), typeof(ButtonSample));
         }
 
@@ -88,6 +90,45 @@ namespace Tesserae.Tests.Samples
                         InlineLabel("Pius Neuhaus").SetIcon(UIcons.User),
                         InlineLabel("Apr 12, 2024"),
                         InlineLabel("Confidential").SetColor("#ef4444")));
+        }
+
+        private IComponent LookedUp()
+        {
+            return FeatureCard("Facts it has to look up", "InlineLabel(async label => ...)",
+                "Built from a task, a label draws as a skeleton rectangle while the task runs. If the task ends without giving it anything to say, the label takes itself out of the document - and the slot it was standing in with it, so the line it belonged to closes up rather than keeping a gap for something that turned out not to exist.",
+                TextBlock("Two of the five below resolve to nothing. Watch the row close up:").Small().MT(8).MB(8),
+                HStack().WS().Wrap().Gap(8.px()).AlignItemsCenter().PT(8).PB(8).Children(
+                    InlineLabel(async label => { await LookUp(600); label.SetText("Marie Lang").SetIcon(UIcons.User); }),
+                    InlineLabel(async label => { await LookUp(1400); /* nothing to say */ }),
+                    InlineLabel(async label => { await LookUp(900); label.SetText("sample-files / procedures").SetIcon(UIcons.Folder); }),
+                    InlineLabel(async label => { await LookUp(2000); /* nothing to say either */ }),
+                    InlineLabel(async label => { await LookUp(1100); label.SetText("Box").SetImage("./assets/img/box-img.svg"); })),
+                TextBlock("In a footer the entry goes with it, dot and all:").Small().MT(16).MB(8),
+                OmniResult("looked-up", "Supplier notice — Bismuth BRK-447.pdf")
+                    .SetIcon("PDF", "#ef4444")
+                    .SetSource("#0061d5", "Box")
+                    .SetFooterEntries(
+                        InlineLabel(async label => { await LookUp(700); label.SetText("sample-files / suppliers").SetIcon(UIcons.Folder); }),
+                        InlineLabel("320 KB"),
+                        InlineLabel(async label => { await LookUp(1800); /* the file has no author recorded */ }),
+                        InlineLabel("Mar 19, 2024")),
+                TextBlock("In a details grid the whole row goes - a label with nothing in it would leave a labelled blank:").Small().MT(16).MB(8),
+                DetailsGrid()
+                    .Row("Owner",     InlineLabel(async label => { await LookUp(800);  label.SetText("Anja Vogt").SetIcon(UIcons.User); }))
+                    .Row("Retention", InlineLabel(async label => { await LookUp(1600); /* no policy on this one */ }))
+                    .Row("Folder",    InlineLabel(async label => { await LookUp(1200); label.SetText("sample-files / suppliers").SetIcon(UIcons.Folder); }))
+                    .Row("Size",      "320 KB")
+                    .MaxWidth(520.px()));
+        }
+
+        // Stands in for whatever the host would really be waiting on.
+        private static Task LookUp(int milliseconds)
+        {
+            var waited = new TaskCompletionSource<bool>();
+
+            window.setTimeout(_ => waited.SetResult(true), milliseconds);
+
+            return waited.Task;
         }
 
         public HTMLElement Render() => _content.Render();

@@ -277,6 +277,13 @@ namespace Tesserae
         public static InlineLabel InlineLabel(string text = null) => new InlineLabel(text);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.InlineLabel"/> that looks up what it says: it draws as a skeleton
+        /// rectangle while the task runs, and takes itself - and the slot it stands in - out of the document
+        /// if the task ends without setting any text or mark on it.
+        /// </summary>
+        public static InlineLabel InlineLabel(System.Func<InlineLabel, System.Threading.Tasks.Task> load) => new InlineLabel(load);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.CommandBar"/> component.
         /// </summary>
         public static CommandBar CommandBar(params IComponent[] items) => new CommandBar(items);

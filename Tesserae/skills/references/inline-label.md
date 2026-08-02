@@ -23,7 +23,37 @@ into a row of buttons.
 
 ## Create
 
-`UI.InlineLabel(string text = null)`. Bring factories into scope with `using static Tesserae.UI;`.
+`UI.InlineLabel(string text = null)` — a label you already know the content of.
+`UI.InlineLabel(Func<InlineLabel, Task> load)` — a fact it has to look up (see below).
+Bring factories into scope with `using static Tesserae.UI;`.
+
+## A fact it has to look up
+
+Built from a task, a label draws as a **skeleton rectangle** while the task runs, then shows whatever the
+task set on it. If the task ends **without setting any text or mark**, the label takes itself out of the
+document — and the slot it was standing in with it, so the line it belonged to closes up instead of
+keeping a gap for something that turned out not to exist:
+
+| Where it sits | What is removed |
+|---|---|
+| A `Stack` (the usual row of labels) | the `tss-stack-item` wrapper the stack put it in |
+| An `OmniResult` footer | the whole footer entry, so no orphan separator dot is left |
+| A `DetailsGrid` value, alone | the **whole row**, label cell included — a labelled blank says nothing |
+| A `DetailsGrid` value, beside others | only its own slot; the row keeps the labels that did resolve |
+| Anywhere else | the label itself |
+
+A task that throws is treated as one that found nothing: the label removes itself, and the exception is
+reported the way any fire-and-forget task's is.
+
+```csharp
+row.SetFooterEntries(
+    InlineLabel(hit.Size),
+    InlineLabel(async label =>
+    {
+        var author = await LookUpAuthorAsync(hit.Id);   // nothing set -> the entry disappears
+        if (author is object) label.SetText(author.Name).SetIcon(UIcons.User);
+    }));
+```
 
 ## Key configuration
 

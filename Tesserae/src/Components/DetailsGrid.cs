@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 
@@ -30,7 +31,9 @@ namespace Tesserae
         /// <summary>
         /// Gets how many rows the grid has.
         /// </summary>
-        public int Count => _rows.Count;
+        /// <summary>The number of rows the grid is showing. A row a self-removing value took with it
+        /// (see <see cref="InlineLabel"/>) is no longer counted.</summary>
+        public int Count => _rows.Count(row => row.parentElement is object);
 
         /// <summary>
         /// Renders the component's root HTML element.
