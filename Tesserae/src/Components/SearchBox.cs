@@ -20,6 +20,7 @@ namespace Tesserae
 
         private string[]                       _shortcutKeys;
         private Action<Event>                  _globalShortcutHandler;
+        private Action                         _onShortcut;
 
         protected event SearchEventHandler Searched;
         public delegate void               SearchEventHandler(SearchBox sender, string value);
@@ -361,11 +362,33 @@ namespace Tesserae
                 if (!MatchesShortcut(e, _shortcutKeys)) return;
 
                 StopEvent(e);
+
+                //A box that leads somewhere - one whose shortcut opens a palette or a page - is pressed
+                //rather than focused: focusing a box the user is not going to type in would only make the
+                //next keystroke go nowhere, and pressing the key again while it already had focus would
+                //do nothing at all.
+                if (_onShortcut is object)
+                {
+                    _onShortcut();
+                    return;
+                }
+
                 InnerElement.focus();
                 InnerElement.select();
             };
 
             window.addEventListener("keydown", _globalShortcutHandler);
+            return this;
+        }
+
+        /// <summary>
+        /// What the shortcut set by <see cref="SetKeyboardShortcut"/> does instead of focusing the box - for
+        /// a box that stands for a search happening somewhere else. Pass null to have it focus again.
+        /// </summary>
+        public SearchBox OnShortcut(Action onShortcut)
+        {
+            _onShortcut = onShortcut;
+
             return this;
         }
 

@@ -23,6 +23,8 @@ namespace Tesserae
 
         private event Action<string> Searched;
 
+        private Action _onClick;
+
         public SidebarSearchBox(string identifier, string placeholder = "Search...")
         {
             Identifier = identifier;
@@ -38,6 +40,9 @@ namespace Tesserae
 
             _closed = Raw(_closedElement);
             _open   = Raw(_openElement);
+
+            _openElement.addEventListener("click", RaiseClick);
+            _closedElement.addEventListener("click", RaiseClick);
         }
 
         /// <summary>
@@ -60,6 +65,52 @@ namespace Tesserae
         {
             Searched += onSearch;
             return this;
+        }
+
+        /// <summary>
+        /// Makes the box a way in rather than a place to type: clicking it - open, or as the icon on the
+        /// closed rail - runs the handler, and so does focusing it, which is what
+        /// <see cref="SetKeyboardShortcut"/> does. Nothing can be typed into it, because what is typed
+        /// belongs to whatever the handler opened.
+        /// <para>
+        /// This is the shape a search that answers somewhere else takes: the box says where to start and
+        /// which key gets there, and a palette or a page does the searching.
+        /// </para>
+        /// </summary>
+        public SidebarSearchBox OnClick(Action onClick)
+        {
+            _onClick = onClick;
+
+            var input = _openElement.querySelector("input").As<HTMLInputElement>();
+
+            if (input is object)
+            {
+                input.readOnly = onClick is object;
+                input.style.cursor = onClick is object ? "pointer" : "";
+            }
+
+            _openElement.classList.toggle("tss-sidebar-searchbox-opens-elsewhere", onClick is object);
+
+            //The shortcut presses the box rather than focusing it, so it works the same whether or not the
+            //box happens to be holding the caret already.
+            _searchBox.OnShortcut(onClick is null ? null : (Action)(() => RaiseClick(null)));
+
+            return this;
+        }
+
+        private void RaiseClick(Event e)
+        {
+            if (_onClick is null) return;
+
+            if (e is object) StopEvent(e);
+
+            //A box that only leads somewhere should never be left holding the caret - the thing it opened
+            //is what the next keystroke is for.
+            var input = _openElement.querySelector("input").As<HTMLInputElement>();
+
+            input?.blur();
+
+            _onClick();
         }
 
         public SidebarSearchBox SetKeyboardShortcut(params string[] keys)

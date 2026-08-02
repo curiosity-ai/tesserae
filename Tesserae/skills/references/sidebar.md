@@ -35,8 +35,22 @@ Bring factories into scope with `using static Tesserae.UI;`.
 Common item types: `SidebarButton(id, UIcons icon, text)` (`.Selected()`,
 `.OnClick(...)`, `.Primary()`, `.Danger()`, `.Rounded()`, `.Tooltip(...)`),
 `SidebarSeparator(id, text)`, `SidebarNav(id, icon, text, initiallyCollapsed)`,
-`SidebarText(id, text)`, `SidebarSearchBox(id, placeholder)`,
+`SidebarText(id, text)`,
+`SidebarSearchBox(id, placeholder)` (`.OnSearch(...)`, `.OnClick(...)`,
+`.SetKeyboardShortcut("Ctrl", "K")`, `.Rounded()`),
 `SidebarComponent(id, component)`.
+
+A search box that answers somewhere else — in a `CommandPalette`
+(`command-palette.md`), on a search page — takes `.OnClick(...)` instead of
+`.OnSearch(...)`: clicking it, or pressing the key `.SetKeyboardShortcut(...)`
+shows beside it, runs the handler, and nothing can be typed into the box because
+what is typed belongs to whatever opened.
+
+```csharp
+sidebar.AddHeader(new SidebarSearchBox("search", "Search")
+    .SetKeyboardShortcut("Ctrl", "K")
+    .OnClick(() => palette.Open()));
+```
 
 A `.Selected()` item is outlined in the theme's primary color and filled with a
 wash of it, rather than with the grey a hover uses — so where you are still
