@@ -83,7 +83,9 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(VStack().WS().Children(Selection()))
                 .FlatSection(VStack().WS().Children(Commands()))
                 .FlatSection(VStack().WS().Children(Pages()))
-                .SeeAlso(typeof(OmniBoxSample), typeof(ContextCardSample), typeof(ResourceCardSample), typeof(CardSample), typeof(DetailsListSample));
+                .FlatSection(VStack().WS().Children(InlinePaginationSection()))
+                .FlatSection(VStack().WS().Children(InlineLabels()))
+                .SeeAlso(typeof(OmniBoxSample), typeof(InlineLabelSample), typeof(ContextCardSample), typeof(ResourceCardSample), typeof(CardSample), typeof(DetailsListSample));
         }
 
         // One feature per card: a subtitle, a line or two saying what to try, then the rows themselves.
@@ -542,6 +544,54 @@ namespace Tesserae.Tests.Samples
                 HStack().WS().Wrap().Gap(32.px()).AlignItems(ItemAlign.End).Children(
                     PagesLabel("Fanned()", PagesStack(5).TotalPages(19).Fanned()),
                     PagesLabel("OnPageClick", PagesStack(thumbnails).TotalPages(9).OnPageClick(page => Toast().Information($"Opening page {page + 1}")))));
+        }
+
+        // ---------- Inline labels ----------
+
+        private IComponent InlineLabels()
+        {
+            return FeatureCard("InlineLabel", "What a footer is a line of",
+                "The footer's entries are InlineLabels: an optional mark - a glyph, an image, or a rounded square of colour - followed by optional text, drawn small and separated by the dot the footer puts between them. The same label outside a footer is a compact button instead; the InlineLabel sample has the whole set.",
+                OmniResult(Hits[1], Hits[1].Title)
+                    .SetIcon("PDF", "#ef4444")
+                    .SetSource("#0061d5", "Box")
+                    .SetFooterEntries(
+                        InlineLabel("sample-files / pdfs").SetIcon(UIcons.Folder).OnClick(_ => Toast().Information("Opening the folder")),
+                        InlineLabel("2.4 MB"),
+                        InlineLabel("Pius Neuhaus").SetIcon(UIcons.User),
+                        InlineLabel("Apr 12, 2024")));
+        }
+
+        // ---------- Inline pagination ----------
+
+        private IComponent InlinePaginationSection()
+        {
+            var stepped = InlinePagination(3, 7)
+               .OnPrevious(p => Step(p, -1))
+               .OnNext(p => Step(p, +1));
+
+            return FeatureCard("InlinePagination", "Stepping through a set, in one pill",
+                "InlinePagination is the \"3 of 7\" control the modal's header uses for its previous/next arrows, and it stands on its own wherever a toolbar needs to step through something one at a time - a lightbox, an editor, a preview. Each chevron is enabled by having a handler, so leaving one out is how the first and the last of a set say so; the position and the count only write the label.",
+                HStack().WS().Wrap().Gap(24.px()).AlignItemsCenter().PT(8).PB(8).Children(
+                    InlinePagination(3, 7).OnPrevious(_ => { }).OnNext(_ => { }),
+                    InlinePagination(1, 7).OnNext(_ => { }),
+                    InlinePagination(7, 7).OnPrevious(_ => { }),
+                    InlinePagination().OnPrevious(_ => { }).OnNext(_ => { }),
+                    InlinePagination(3, 7).SetFormat((position, count) => $"{position} / {count}").OnPrevious(_ => { }).OnNext(_ => { }),
+                    InlinePagination().SetLabel("March").OnPrevious(_ => { }).OnNext(_ => { })),
+                TextBlock("In order: both ways, the first of a set, the last of it, no count at all, another format, and a label of the host's own. The one below actually steps:").Small().MT(8).MB(8),
+                stepped);
+        }
+
+        private static void Step(InlinePagination pagination, int by)
+        {
+            var next = pagination.Position + by;
+
+            if (next < 1 || next > pagination.Count) return;
+
+            pagination.SetPosition(next, pagination.Count)
+               .OnPrevious(next > 1 ? new Action<InlinePagination>(p => Step(p, -1)) : null)
+               .OnNext(next < pagination.Count ? new Action<InlinePagination>(p => Step(p, +1)) : null);
         }
 
         private static IComponent PagesLabel(string label, PagesStack pages)

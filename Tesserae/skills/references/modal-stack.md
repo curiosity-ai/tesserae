@@ -23,6 +23,11 @@ still works: `Hide()` pops it, and its show/hide handlers run as they would have
   becomes true — which only the breadcrumb needs to say.
 - Clicking a peeking sheet goes back to it (it is a real button labelled
   "Back to `<name>`"; everything under it is `inert` and `aria-hidden`).
+- A peeking sheet is **only the strip of itself that clears the one in front**: its content and its
+  footer are `display: none` rather than laid out and covered, its header commands are hidden, and
+  what is left of its header is squeezed into that strip - so its icon and title sit alone at the top
+  of it. Colour drains out of it (`saturate`) and its title fades with how far back it is, while the
+  sheet itself stays solid.
 - **Escape** closes the sheet in front — unless a menu, dropdown or dialog is
   open above it, which answers Escape itself.
 - **Clicking the backdrop** dismisses the whole chain.

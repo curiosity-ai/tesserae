@@ -315,17 +315,18 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    row-gap: 2px;
+    gap: 2px 8px;
     min-width: 0;
     font-size: 12px;
     line-height: 18px;
     color: var(--tss-secondary-foreground-color);
 }
 
-/* One dot between entries, drawn by CSS so no host has to interleave separators. */
+/* One dot between entries, drawn by CSS so no host has to interleave separators. The gap either side of
+   it is the footer's, so an entry that is only a mark still sits the same distance from its neighbours. */
 .tss-omniresult-footer > .tss-omniresult-footer-entry::before {
     content: "·";
-    margin: 0 7px;
+    margin-right: 8px;
     color: var(--tss-secondary-foreground-color);
 }
 
@@ -593,26 +594,10 @@
     cursor: default;
 }
 
-/* Previous / next, with where in the list this result is between them. */
+/* Previous / next, with where in the list this result is between them - an InlinePagination, which
+   draws its own pill; the header only says where it sits. */
 .tss-omniresult-modal-nav {
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
-    flex-grow: 0;
-    flex-shrink: 0;
-    margin: 0 4px;
-    padding: 0 2px;
-    border-radius: var(--tss-border-radius-md);
-    background: var(--tss-secondary-background-color);
-}
-
-.tss-omniresult-modal-nav-label {
-    padding: 0 6px;
-    font-size: 12px;
-    line-height: 18px;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-    color: var(--tss-secondary-foreground-color);
+    margin: 0 6px;
 }
 
 /* "Open in Dropbox", with the other ways to open it behind the arrow beside it. */
@@ -686,6 +671,45 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+/* Behind the sheet in front, only the strip of the header shows - so it is the tile and the title
+   alone, on one line, sized to fit it. The source line under them, and the corner badges on the tile,
+   are dropped rather than clipped in half. */
+.tss-modalstack-peek .tss-omniresult-modal-main > .tss-omniresult-footer,
+.tss-modalstack-peek .tss-omniresult-modal-icon .tss-omniresult-icon-badge {
+    display: none;
+}
+
+.tss-modalstack-peek .tss-omniresult-modal-header {
+    gap: 8px;
+}
+
+.tss-modalstack-peek .tss-omniresult-modal-icon .tss-omniresult-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    font-size: 11px;
+}
+
+/* A tile that spells its file type out has to shrink with the tile, or "DOCX" is cropped rather than
+   scaled. */
+.tss-modalstack-peek .tss-omniresult-modal-icon .tss-omniresult-icon-text {
+    font-size: 6.5px;
+    letter-spacing: 0;
+}
+
+.tss-modalstack-peek .tss-omniresult-modal-title-text,
+.tss-modalstack-peek .tss-omniresult-id-value {
+    font-size: 13px;
+    line-height: 18px;
+}
+
+/* The commands beside the group are outlined buttons of their own - the arrows inside it are not,
+   since the group already draws their edge. */
+.tss-modal.tss-omniresult-modal .tss-modal-header-commands > .tss-omniresult-modal-button {
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
 }
 
 /* What the modal answers, along its bottom edge. */

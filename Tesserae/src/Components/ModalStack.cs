@@ -56,8 +56,8 @@ namespace Tesserae
         /// <summary>How many sheets the stack keeps before it starts dropping the oldest one.</summary>
         public const int MaxDepth = 4;
 
-        // How far up each sheet behind the front one is lifted, and how much of its size and of its
-        // presence it gives up per step back - enough to read as "there is something behind this".
+        // How far up each sheet behind the front one is lifted, and how much of its size and of how
+        // strongly it reads it gives up per step back - enough to say "there is something behind this".
         private const double PeekOffset  = 34;
         private const double PeekScale   = 0.028;
         private const double PeekFade    = 0.18;
@@ -335,6 +335,10 @@ namespace Tesserae
 
             _root = Div(Att("tss-layer tss-fade tss-fade-instant tss-modalstack"), _scrim, _sheets, _trail);
 
+            // How much of a sheet behind clears the one in front is what its header is squeezed into, so
+            // the two follow one number rather than drifting apart.
+            _root.style.setProperty("--tss-modalstack-peek-strip", $"{PeekOffset}px");
+
             _root.style.zIndex = Layers.PushLayer(_root);
 
             document.body.appendChild(_root);
@@ -426,8 +430,8 @@ namespace Tesserae
                     entry.Sheet.classList.remove("tss-modalstack-peek");
                     entry.Sheet.classList.add("tss-modalstack-sheet", "tss-modalstack-front");
                     entry.Sheet.style.transform = "";
-                    entry.Sheet.style.opacity   = "";
                     entry.Sheet.style.zIndex    = "40";
+                    entry.Sheet.style.removeProperty("--tss-modalstack-peek-fade");
 
                     if (entry.Tab is object)
                     {
@@ -443,8 +447,11 @@ namespace Tesserae
                     entry.Sheet.classList.remove("tss-modalstack-front");
                     entry.Sheet.classList.add("tss-modalstack-sheet", "tss-modalstack-peek");
                     entry.Sheet.style.transform = $"translateY(-{PeekOffset * depth}px) scale({1 - (PeekScale * depth)})";
-                    entry.Sheet.style.opacity   = $"{1 - (PeekFade * depth)}";
                     entry.Sheet.style.zIndex    = $"{30 - depth}";
+
+                    // The sheet itself stays solid - a deck is cards, not glass - and it is what the sheet
+                    // still shows (its title) that fades with how far back it is.
+                    entry.Sheet.style.setProperty("--tss-modalstack-peek-fade", $"{1 - (PeekFade * depth)}");
 
                     EnsureTab(entry);
                     MuteSheet(entry.Sheet, entry.Tab);

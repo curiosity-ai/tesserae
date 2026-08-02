@@ -264,6 +264,19 @@ namespace Tesserae
         public static Pagination Pagination(int totalItems = 0, int pageSize = 10, int currentPage = 1) => new Pagination(totalItems, pageSize, currentPage);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.InlinePagination"/>: the compact "3 of 7" pill with a chevron
+        /// either side, for stepping through a set one at a time from a toolbar or a modal's header.
+        /// </summary>
+        public static InlinePagination InlinePagination(int position = 0, int count = 0) => new InlinePagination(position, count);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.InlineLabel"/>: one small piece of metadata - an optional mark (a
+        /// glyph, an image, a square of colour) followed by optional text - of the kind an
+        /// <see cref="Tesserae.OmniResult{T}"/> footer is a line of.
+        /// </summary>
+        public static InlineLabel InlineLabel(string text = null) => new InlineLabel(text);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.CommandBar"/> component.
         /// </summary>
         public static CommandBar CommandBar(params IComponent[] items) => new CommandBar(items);
