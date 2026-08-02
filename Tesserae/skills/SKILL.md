@@ -149,7 +149,7 @@ color-picker · command-bar · context-card · context-cards · contribution-bar
 cron-editor · date-picker · details-grid ·
 date-range-picker · date-time-picker · delta-component · dropdown ·
 editable-area · editable-label · expander · grid-picker · horizontal-separator ·
-icon · icon-toggle · image · inline-label · inline-pagination · label · link · live-progress · markdown-block ·
+icon · icon-toggle · image · inline-label · inline-pagination · label · live-progress · markdown-block ·
 menu · message ·
 metric · month-picker · navbar · number-picker · omni-box · omni-result · option ·
 pages-stack · pagination ·

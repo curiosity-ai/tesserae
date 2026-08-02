@@ -27,14 +27,14 @@ namespace Tesserae
         public SidebarCommand(string href, ISidebarIcon image)
         {
             _button = Button().ReplaceContent(image).Class("tss-sidebar-command");
-            _renderedComponent = string.IsNullOrWhiteSpace(href) ? (IComponent)_button : UI.Link(href, _button, noUnderline: true);
+            _renderedComponent = string.IsNullOrWhiteSpace(href) ? (IComponent)_button : Raw(A(Att("tss-link-no-underline", href: href), _button.Render()));
         }
 
         private SidebarCommand(Button buttonWithIcon) : this(null, buttonWithIcon) { }
         private SidebarCommand(string href, Button buttonWithIcon)
         {
             _button = buttonWithIcon.Class("tss-sidebar-command");
-            _renderedComponent = string.IsNullOrWhiteSpace(href) ? (IComponent)_button : UI.Link(href, _button, noUnderline: true);
+            _renderedComponent = string.IsNullOrWhiteSpace(href) ? (IComponent)_button : Raw(A(Att("tss-link-no-underline", href: href), _button.Render()));
         }
 
         /// <summary>

@@ -20,6 +20,15 @@ a {
         text-decoration: underline;
     }
 
+/* A Button built with an href renders as an anchor, so the global a / a:hover rules above would give it
+   a link colour and underline its label. It is a button: it keeps the button's colours, and the
+   underline is left to the link-toned variant (and only when it has somewhere to go). */
+.tss-btn,
+.tss-btn:hover {
+    color: inherit;
+    text-decoration: none;
+}
+
 .tss-btn {
     border: 1px solid transparent;
     border-radius: var(--tss-border-radius-md);
@@ -338,7 +347,9 @@ a {
                 color: var(--tss-link-color);
             }
 
-            .tss-btn.tss-btn-link:hover > span {
+            /* Only a button that really goes somewhere underlines - same rule as InlineLabel: one that
+               merely runs a handler is a button, and underlining it promises an address it doesn't have. */
+            .tss-btn.tss-btn-link[href]:hover > span {
                 text-decoration: underline;
             }
 

@@ -1,4 +1,4 @@
-using static Transpose.Core.dom;
+﻿using static Transpose.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
 
@@ -51,7 +51,7 @@ namespace Tesserae.Tests.Samples
                 DetailsGrid()
                     .Row("Owner",  HStack().AlignItemsCenter().Children(Avatar(initials: "PN").Size(AvatarSize.Small).MR(8), TextBlock("Pius Neuhaus")))
                     .Row("Status", Badge("Approved").Pill().Success())
-                    .Row("Source", Link("https://github.com/curiosity-ai/tesserae", "curiosity-ai/tesserae"))
+                    .Row("Source", InlineLabel("curiosity-ai/tesserae").SetIcon(UIcons.Globe).SetHref("https://github.com/curiosity-ai/tesserae", openInNewTab: true))
                     .Row("Labels", HStack().Children(Badge("brakes").Pill().MR(4), Badge("calibration").Pill()))
                     .MaxWidth(480.px()));
         }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 
@@ -45,14 +45,14 @@ namespace Tesserae
         public TreeCommand(string href, ISidebarIcon image)
         {
             _button = Button().ReplaceContent(image).Class("tss-tree-command");
-            _renderedComponent = string.IsNullOrWhiteSpace(href) ? (IComponent)_button : UI.Link(href, _button, noUnderline: true);
+            _renderedComponent = string.IsNullOrWhiteSpace(href) ? (IComponent)_button : Raw(A(Att("tss-link-no-underline", href: href), _button.Render()));
         }
 
         private TreeCommand(Button buttonWithIcon) : this(null, buttonWithIcon) { }
         private TreeCommand(string href, Button buttonWithIcon)
         {
             _button = buttonWithIcon.Class("tss-tree-command");
-            _renderedComponent = string.IsNullOrWhiteSpace(href) ? (IComponent)_button : UI.Link(href, _button, noUnderline: true);
+            _renderedComponent = string.IsNullOrWhiteSpace(href) ? (IComponent)_button : Raw(A(Att("tss-link-no-underline", href: href), _button.Render()));
         }
 
         /// <summary>

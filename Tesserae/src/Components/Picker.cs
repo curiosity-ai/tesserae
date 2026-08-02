@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Transpose.Core.dom;
@@ -290,7 +290,7 @@ namespace Tesserae
             var selectionComponent        = selectedItem.Render();
 
             var removeButton = Button()
-               .Link()
+               .Class("tss-btn-link")
                .SetIcon(UIcons.Cross, size: TextSize.Tiny, color: "var(--tss-default-foreground-color)")
                .OnClick((_, __) =>
                 {
