@@ -641,10 +641,12 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the metadata shown after the source in the footer - a path, a size, an owner, a date - each
-        /// entry separated from the next by a dot. Replaces whatever entries were there.
+        /// Sets the metadata shown after the source in the footer - a path, a size, an owner, a date - as
+        /// <see cref="InlineLabel"/>s, each separated from the next by a dot. Each one can carry a mark (a
+        /// glyph, an image, a square of colour), be pressable, or be a real link, and they are all drawn at
+        /// one size so the line reads as one row of facts. Replaces whatever entries were there.
         /// </summary>
-        public OmniResult<T> SetFooterEntries(params IComponent[] entries)
+        public OmniResult<T> SetFooterEntries(params InlineLabel[] entries)
         {
             foreach (var stale in _footerContainer.querySelectorAll(".tss-omniresult-footer-entry"))
             {
@@ -669,16 +671,16 @@ namespace Tesserae
         /// </summary>
         public OmniResult<T> SetFooterEntries(params string[] entries)
         {
-            if (entries is null) return SetFooterEntries((IComponent[])null);
+            if (entries is null) return SetFooterEntries((InlineLabel[])null);
 
-            var components = new List<IComponent>();
+            var labels = new List<InlineLabel>();
 
             foreach (var entry in entries)
             {
-                if (!string.IsNullOrEmpty(entry)) components.Add(TextBlock(entry).XSmall());
+                if (!string.IsNullOrEmpty(entry)) labels.Add(InlineLabel(entry));
             }
 
-            return SetFooterEntries(components.ToArray());
+            return SetFooterEntries(labels.ToArray());
         }
 
         /// <summary>

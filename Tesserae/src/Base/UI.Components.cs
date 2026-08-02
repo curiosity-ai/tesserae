@@ -270,6 +270,13 @@ namespace Tesserae
         public static InlinePagination InlinePagination(int position = 0, int count = 0) => new InlinePagination(position, count);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.InlineLabel"/>: one small piece of metadata - an optional mark (a
+        /// glyph, an image, a square of colour) followed by optional text - of the kind an
+        /// <see cref="Tesserae.OmniResult{T}"/> footer is a line of.
+        /// </summary>
+        public static InlineLabel InlineLabel(string text = null) => new InlineLabel(text);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.CommandBar"/> component.
         /// </summary>
         public static CommandBar CommandBar(params IComponent[] items) => new CommandBar(items);
