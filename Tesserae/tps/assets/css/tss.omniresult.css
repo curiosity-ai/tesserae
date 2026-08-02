@@ -686,6 +686,31 @@
     white-space: nowrap;
 }
 
+/* Behind the sheet in front, only the strip of the header shows - so it is the tile and the title
+   alone, on one line, sized to fit it. The source line under them, and the corner badges on the tile,
+   are dropped rather than clipped in half. */
+.tss-modalstack-peek .tss-omniresult-modal-main > .tss-omniresult-footer,
+.tss-modalstack-peek .tss-omniresult-modal-icon .tss-omniresult-icon-badge {
+    display: none;
+}
+
+.tss-modalstack-peek .tss-omniresult-modal-header {
+    gap: 8px;
+}
+
+.tss-modalstack-peek .tss-omniresult-modal-icon .tss-omniresult-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    font-size: 11px;
+}
+
+.tss-modalstack-peek .tss-omniresult-modal-title-text,
+.tss-modalstack-peek .tss-omniresult-id-value {
+    font-size: 13px;
+    line-height: 18px;
+}
+
 /* A command the host put in the header beside these reads as one of them: a glyph, not an outlined
    chip with a fill of its own. */
 .tss-modal.tss-omniresult-modal > .tss-modal-header .tss-modal-header-commands > .tss-btn,
