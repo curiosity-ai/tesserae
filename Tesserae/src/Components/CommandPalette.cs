@@ -161,6 +161,17 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// What is said when there is nothing to show. Defaults to "No results", which is right for a
+        /// palette that filters a list it already has; a palette that goes and searches usually wants to
+        /// say what to do instead ("Type to search").
+        /// </summary>
+        public string EmptyText
+        {
+            get => _emptyState.innerText;
+            set => _emptyState.innerText = value ?? string.Empty;
+        }
+
+        /// <summary>
         /// Sets the actions of the component.
         /// </summary>
         public CommandPalette SetActions(IEnumerable<CommandPaletteAction> actions)

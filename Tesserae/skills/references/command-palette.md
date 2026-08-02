@@ -17,6 +17,7 @@ CommandPalette:
 - `.AddAction(action)` / `.SetActions(actions)` — manage the action list.
 - `.Open()` / `.Close()` / `.Toggle()` — control visibility.
 - `.Placeholder` — search box hint text.
+- `.EmptyText` — what is said when there is nothing to show (default `"No results"`).
 - `.GlobalShortcutKey` (default `"k"`), `.EnableGlobalShortcut`, `.EnableGlobalActionShortcuts`, `.HideOnAction`.
 - `.ActionExecuted` event — fires after an action runs.
 - `.SetResults(...)` / `.OnSearch(...)` / `.ResultActivated` — rows of your own, below.
