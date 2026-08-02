@@ -76,9 +76,13 @@ ellipsizes rather than wrapping, so a long path gives way to whatever it shares 
 label had to cut belongs in `.Tooltip(...)`: the full path, what a code stands for, the date behind
 "2 days ago".
 
-**Hover.** A pressable or linked label lifts its background on hover, in a footer as well as on its own.
-Only a label with an `href` also underlines — one that merely runs a handler is a button, and
-underlining it would promise an address it doesn't have.
+**Hover.** A pressable or linked label lifts its background on hover, in a footer as well as on its own —
+in a footer with a shade the row itself can't be, since the row is already on its own hover background by
+the time the pointer reaches a label. Only a label with an `href` also underlines — one that merely runs a
+handler is a button, and underlining it would promise an address it doesn't have.
+
+**Selection.** A label is something you press, not prose: its text isn't selectable, so dragging across a
+line of them never leaves half a path highlighted.
 
 ## Example
 

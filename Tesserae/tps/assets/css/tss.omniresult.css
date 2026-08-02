@@ -1,6 +1,11 @@
 /* OmniResult — a search-result row: icon tile, title + badge, excerpt, footer, pages rail, commands. */
 
+/* A row is something you click, not something you read a sentence out of: dragging across a list of
+   results should never leave half an excerpt highlighted. The modal is where a result is read, so its
+   title opts back in below - its content is the modal's own and is untouched by this. */
 .tss-omniresult {
+    -webkit-user-select: none;
+    user-select: none;
     position: relative;
     display: flex;
     align-items: flex-start;
@@ -490,11 +495,21 @@
 /* The modal header repeats the row's identifier, chevron and title, so opening a result reads as the
    same thing enlarged rather than as a different surface. ModalKeepsIcon and ModalKeepsFooter add the
    tile and the source line back to it, laid out the way the row lays them out. */
+/* The modal's header is chrome like the row's is - only the title is worth copying out of it, and the
+   modal's content below is the caller's own and stays selectable. */
 .tss-omniresult-modal-header {
     display: flex;
     align-items: center;
     gap: 12px;
     min-width: 0;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.tss-omniresult-modal-title-text {
+    -webkit-user-select: text;
+    user-select: text;
+    cursor: text;
 }
 
 .tss-omniresult-modal-main {

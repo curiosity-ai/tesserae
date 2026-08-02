@@ -8,6 +8,8 @@
     display: inline-flex;
     align-items: center;
     box-sizing: border-box;
+    -webkit-user-select: none;
+    user-select: none;
     gap: 6px;
     max-width: 100%;
     min-width: 0;
@@ -157,8 +159,12 @@
     padding: 0 4px;
 }
 
+/* The row is already sitting on the hover background by the time the pointer reaches one of its labels,
+   so the label needs a step further away from it - a shade the row can't be - or its own hover is
+   invisible. The neutral scale flips with the theme, so this reads as darker on light and lighter on
+   dark, which is "further" either way. */
 .tss-omniresult-footer .tss-inlinelabel-interactive:hover,
 .tss-omniresult-footer .tss-inlinelabel-interactive:focus-visible {
-    background: var(--tss-default-background-hover-color);
+    background: var(--tss-colors-neutral-400);
     color: var(--tss-default-foreground-hover-color);
 }

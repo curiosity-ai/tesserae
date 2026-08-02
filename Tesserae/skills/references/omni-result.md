@@ -278,6 +278,14 @@ var pick = OmniResult(file, file.Name)
     .Selectable(OmniResultSelectionMode.AlwaysBeforeIcon);
 ```
 
+## Selecting text
+
+A row is a click target rather than something you read a sentence out of, so its text — title, excerpt,
+footer — isn't selectable; dragging across a list never leaves half an excerpt highlighted. The modal is
+where a result is actually read: there the **title** is selectable, the rest of the header is not, and the
+content you passed to `SetModalContent` is untouched, so a document, a transcript or a details grid
+selects and copies normally.
+
 ## Related
 
 - ModalStack — the deck a result's modal is usually pushed onto — `modal-stack.md`
