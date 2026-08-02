@@ -57,14 +57,13 @@ steps:
       git config --global user.name "$(USER)"
       git config --global user.password  "$(PAT)"
 
-# The uicons step measures every glyph in headless Chromium and shifts the glyph outlines with
-# fontTools, so it needs a browser and the two python packages. Cheap to install, and the step
-# below stops early on the common run where the icon set has not changed.
+# The uicons step measures every glyph in headless Chromium, so it needs a browser, installed by the
+# script the Playwright package drops in the build output - hence building the project first. Cheap,
+# and the step below stops early on the common run where the icon set has not changed.
 - task: CmdLine@2
   displayName: 'install uicons centering prerequisites'
   inputs:
     script: |
-      python -m pip install --disable-pip-version-check --quiet fonttools brotli
       dotnet build $(Build.SourcesDirectory)\Build.UpdateInterfaceIcons\Build.UpdateInterfaceIcons.csproj
       pwsh $(Build.SourcesDirectory)\Build.UpdateInterfaceIcons\bin\Debug\net10.0\playwright.ps1 install chromium
 
