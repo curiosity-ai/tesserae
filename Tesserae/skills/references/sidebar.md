@@ -40,17 +40,22 @@ Common item types: `SidebarButton(id, UIcons icon, text)` (`.Selected()`,
 `.SetKeyboardShortcut("Ctrl", "K")`, `.Rounded()`),
 `SidebarComponent(id, component)`.
 
-A search box that answers somewhere else — in a `CommandPalette`
-(`command-palette.md`), on a search page — takes `.OnClick(...)` instead of
-`.OnSearch(...)`: clicking it, or pressing the key `.SetKeyboardShortcut(...)`
-shows beside it, runs the handler, and nothing can be typed into the box because
-what is typed belongs to whatever opened.
+A search that answers somewhere else — in a `CommandPalette`
+(`command-palette.md`), on a search page — is a **button dressed as a field**
+rather than a box: `SidebarButton.AsSearchBox("Ctrl", "K")` gives it the field's
+rounded outline, its muted label and the shortcut at the far end, and it stays a
+button, so there is no caret with nothing to do.
 
 ```csharp
-sidebar.AddHeader(new SidebarSearchBox("search", "Search")
-    .SetKeyboardShortcut("Ctrl", "K")
+sidebar.AddHeader(new SidebarButton("search", UIcons.Search, "Search everything")
+    .AsSearchBox("Ctrl", "K")
     .OnClick(() => palette.Open()));
 ```
+
+`SidebarSearchBox` is the real input, for filtering in place (`.OnSearch(...)`).
+It also takes `.OnClick(...)` — which makes it read-only and hands presses, and
+its `.SetKeyboardShortcut(...)` key, to the handler — but a button is the simpler
+thing when nothing is ever typed into it.
 
 A `.Selected()` item is outlined in the theme's primary color and filled with a
 wash of it, rather than with the grey a hover uses — so where you are still

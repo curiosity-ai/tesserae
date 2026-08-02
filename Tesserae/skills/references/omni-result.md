@@ -86,6 +86,8 @@ The source leads the line and the metadata follows it, and all of it is `InlineL
   entries are drawn by CSS, so nothing has to interleave separators, and a footer with no source never
   starts with one.
 - `.SetFooterEntries(params string[])` — the same, as plain text.
+- `.AddFooterEntry(IComponent)` — one more entry at the end of the line, as a component of your own
+  rather than a label: a badge, a chip, a small control. Same box, same separating dot.
 
 **Selection**
 

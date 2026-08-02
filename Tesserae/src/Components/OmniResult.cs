@@ -644,6 +644,20 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Adds one more entry to the end of the footer line, as a component of the host's own rather than
+        /// an <see cref="InlineLabel"/> - a badge, a chip, a small control a label cannot be. It gets the
+        /// same box and the same separating dot as every other entry.
+        /// </summary>
+        public OmniResult<T> AddFooterEntry(IComponent entry)
+        {
+            if (entry is null) return this;
+
+            _footerContainer.appendChild(Div(Att("tss-omniresult-footer-entry"), entry.Render()));
+
+            return UpdateFooterVisibility();
+        }
+
+        /// <summary>
         /// Sets the metadata shown after the source in the footer, as plain text entries.
         /// </summary>
         public OmniResult<T> SetFooterEntries(params string[] entries)

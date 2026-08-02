@@ -177,7 +177,7 @@
 
 /* A file type spelled out ("PPTX", "XLSX") in place of a glyph. */
 .tss-omniresult-icon-text {
-    font-size: 9px;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: .02em;
     text-transform: uppercase;

@@ -243,13 +243,19 @@ namespace Tesserae
             page.style.zIndex = $"{shown - index}";
 
             // At rest: the first page in place, every other one pulled back over it with a growing tilt.
+            // The margin is the resting layout and never animates - see the fan shift below.
             page.style.setProperty("--tss-pagesstack-rest-offset",   index == 0 ? "0px" : $"-{_pageWidth - REST_STEP}px");
             page.style.setProperty("--tss-pagesstack-rest-rotation", $"{REST_ROTATION * index}deg");
 
             // Fanned: wider gaps, and the pages lifted along a shallow arc, tilting out from the middle.
             var t = shown == 1 ? 0.5f : (float)index / (shown - 1);
 
-            page.style.setProperty("--tss-pagesstack-fan-offset",   index == 0 ? "0px" : $"-{_pageWidth - FAN_STEP}px");
+            // The wider gaps are a translation rather than a bigger margin. Animating margin-left would
+            // relayout the whole row on every frame of the fan - and a row of these sits in every search
+            // result - where a transform is handed to the compositor and costs the main thread nothing.
+            // The row is pinned to the right, so opening it moves each page left by the gap it gains,
+            // times the number of pages between it and the anchored last one.
+            page.style.setProperty("--tss-pagesstack-fan-shift",    $"-{(shown - 1 - index) * (FAN_STEP - REST_STEP)}px");
             page.style.setProperty("--tss-pagesstack-fan-rotation", $"{-FAN_ROTATION + 2 * FAN_ROTATION * t:0.##}deg");
             page.style.setProperty("--tss-pagesstack-fan-lift",     $"{-2 - 4 * Math.Sin(Math.PI * t):0.##}px");
 
