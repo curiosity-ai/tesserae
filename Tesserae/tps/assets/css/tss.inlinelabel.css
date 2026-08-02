@@ -1,0 +1,126 @@
+/* InlineLabel — one small fact: an optional mark, then optional text.
+
+   On its own it is a compact button: a bordered pill sized to be clicked. Inside an OmniResult footer -
+   a line of facts rather than a row of chips - the nested rules at the bottom of this file strip the
+   chrome and shrink it back to the footer's own type size. */
+
+.tss-inlinelabel {
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    gap: 6px;
+    max-width: 100%;
+    min-width: 0;
+    height: 24px;
+    padding: 0 8px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+    background: var(--tss-secondary-background-color);
+    color: var(--tss-default-foreground-color);
+    font-size: 13px;
+    line-height: 1;
+    text-decoration: none;
+    outline: none;
+}
+
+/* Whatever the mark is - a glyph, an image, a square of colour - it takes the same box, so a row of
+   labels built out of different things still sits on one baseline. */
+.tss-inlinelabel-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    line-height: 0;
+}
+
+.tss-inlinelabel-mark-icon {
+    font-size: 13px;
+    line-height: 1;
+}
+
+.tss-inlinelabel-mark-color {
+    border-radius: 3px;
+}
+
+/* A component of the host's own - an Avatar, a Spinner - is fitted to the mark box rather than keeping
+   the size it has on its own, so it lines up with a glyph or a logo in the same row of labels. */
+.tss-inlinelabel-mark-image > * {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    font-size: 0.6em;
+    line-height: 1;
+}
+
+.tss-inlinelabel-mark-image img,
+.tss-inlinelabel-mark-image svg,
+.tss-inlinelabel-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 2px;
+}
+
+.tss-inlinelabel-text {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Pressable, or a real link. */
+.tss-inlinelabel-interactive {
+    cursor: pointer;
+}
+
+.tss-inlinelabel-interactive:hover {
+    border-color: var(--tss-default-background-hover-color);
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-hover-color);
+}
+
+.tss-inlinelabel-interactive:focus-visible {
+    box-shadow: 0 0 0 2px var(--tss-primary-background-color);
+}
+
+/* In a footer -------------------------------------------------------------------------------------- */
+
+/* A footer is a line of facts, not a row of chips, so the pill's chrome comes off and the label takes
+   the footer's own colour and type size. It stays pressable - it just underlines instead of filling. */
+.tss-omniresult-footer .tss-inlinelabel {
+    height: auto;
+    padding: 0;
+    gap: 4px;
+    border: none;
+    border-radius: var(--tss-border-radius-sm);
+    background: none;
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.tss-omniresult-footer .tss-inlinelabel-mark {
+    width: 12px;
+    height: 12px;
+}
+
+.tss-omniresult-footer .tss-inlinelabel-mark-icon {
+    font-size: 11px;
+}
+
+.tss-omniresult-footer .tss-inlinelabel-interactive:hover,
+.tss-omniresult-footer .tss-inlinelabel-interactive:focus-visible {
+    background: none;
+    color: inherit;
+}
+
+.tss-omniresult-footer .tss-inlinelabel-interactive:hover .tss-inlinelabel-text,
+.tss-omniresult-footer .tss-inlinelabel-interactive:focus-visible .tss-inlinelabel-text {
+    color: var(--tss-highlight-color);
+    text-decoration: underline;
+}

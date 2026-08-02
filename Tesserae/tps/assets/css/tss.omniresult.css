@@ -315,17 +315,18 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    row-gap: 2px;
+    gap: 2px 8px;
     min-width: 0;
     font-size: 12px;
     line-height: 18px;
     color: var(--tss-secondary-foreground-color);
 }
 
-/* One dot between entries, drawn by CSS so no host has to interleave separators. */
+/* One dot between entries, drawn by CSS so no host has to interleave separators. The gap either side of
+   it is the footer's, so an entry that is only a mark still sits the same distance from its neighbours. */
 .tss-omniresult-footer > .tss-omniresult-footer-entry::before {
     content: "·";
-    margin: 0 7px;
+    margin-right: 8px;
     color: var(--tss-secondary-foreground-color);
 }
 

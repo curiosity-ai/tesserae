@@ -64,6 +64,7 @@
                 "tps/assets/css/tss.dialog.css",
                 "tps/assets/css/tss.pagination.css",
                 "tps/assets/css/tss.inlinepagination.css",
+                "tps/assets/css/tss.inlinelabel.css",
                 "tps/assets/css/tss.nav.css",
                 "tps/assets/css/tss.searchbox.css",
                 "tps/assets/css/tss.omnibox.css",

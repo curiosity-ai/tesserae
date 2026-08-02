@@ -84,7 +84,8 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(VStack().WS().Children(Commands()))
                 .FlatSection(VStack().WS().Children(Pages()))
                 .FlatSection(VStack().WS().Children(InlinePaginationSection()))
-                .SeeAlso(typeof(OmniBoxSample), typeof(ContextCardSample), typeof(ResourceCardSample), typeof(CardSample), typeof(DetailsListSample));
+                .FlatSection(VStack().WS().Children(InlineLabels()))
+                .SeeAlso(typeof(OmniBoxSample), typeof(InlineLabelSample), typeof(ContextCardSample), typeof(ResourceCardSample), typeof(CardSample), typeof(DetailsListSample));
         }
 
         // One feature per card: a subtitle, a line or two saying what to try, then the rows themselves.
@@ -543,6 +544,22 @@ namespace Tesserae.Tests.Samples
                 HStack().WS().Wrap().Gap(32.px()).AlignItems(ItemAlign.End).Children(
                     PagesLabel("Fanned()", PagesStack(5).TotalPages(19).Fanned()),
                     PagesLabel("OnPageClick", PagesStack(thumbnails).TotalPages(9).OnPageClick(page => Toast().Information($"Opening page {page + 1}")))));
+        }
+
+        // ---------- Inline labels ----------
+
+        private IComponent InlineLabels()
+        {
+            return FeatureCard("InlineLabel", "What a footer is a line of",
+                "The footer's entries are InlineLabels: an optional mark - a glyph, an image, or a rounded square of colour - followed by optional text, drawn small and separated by the dot the footer puts between them. The same label outside a footer is a compact button instead; the InlineLabel sample has the whole set.",
+                OmniResult(Hits[1], Hits[1].Title)
+                    .SetIcon("PDF", "#ef4444")
+                    .SetSource("#0061d5", "Box")
+                    .SetFooterEntries(
+                        InlineLabel("sample-files / pdfs").SetIcon(UIcons.Folder).OnClick(_ => Toast().Information("Opening the folder")),
+                        InlineLabel("2.4 MB"),
+                        InlineLabel("Pius Neuhaus").SetIcon(UIcons.User),
+                        InlineLabel("Apr 12, 2024")));
         }
 
         // ---------- Inline pagination ----------

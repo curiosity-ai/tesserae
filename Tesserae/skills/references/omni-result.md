@@ -77,9 +77,12 @@ theme: a `var(--…)` is resolved once, at the time it is set.
 - `.OnSourceClick(Action<OmniResult<T>>)` — the same handler on its own (null makes the source plain
   text again). `SetSource` only replaces the handler when it is given one, so the two compose in either
   order.
-- `.SetFooterEntries(params string[])` / `.SetFooterEntries(params IComponent[])` — the metadata after
-  the source: a path, a size, an owner, a date. Dots between entries are drawn by CSS, so nothing has
-  to interleave separators, and a footer with no source never starts with one.
+- `.SetFooterEntries(params InlineLabel[])` — the metadata after the source: a path, a size, an owner,
+  a date. Each entry is an `InlineLabel` (`inline-label.md`), so it can carry a mark (a glyph, an image,
+  a square of colour), be pressable, or be a real link, and they are all drawn at one size. Dots between
+  entries are drawn by CSS, so nothing has to interleave separators, and a footer with no source never
+  starts with one.
+- `.SetFooterEntries(params string[])` — the same, as plain text.
 
 **Selection**
 
@@ -279,6 +282,7 @@ var pick = OmniResult(file, file.Name)
 
 - ModalStack — the deck a result's modal is usually pushed onto — `modal-stack.md`
 - InlinePagination — the previous/next control in its modal header — `inline-pagination.md`
+- InlineLabel — what its footer is a line of — `inline-label.md`
 - DetailsGrid — the metadata block that usually fills the modal's head — `details-grid.md`
 - PagesStack — the page preview it takes — `pages-stack.md`
 - ContextMenu — the menu the commands open, and its items — `context-menu.md`
