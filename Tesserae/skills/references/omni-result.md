@@ -68,10 +68,13 @@ theme: a `var(--…)` is resolved once, at the time it is set.
 
 **Footer**
 
+The source leads the line and the metadata follows it, and all of it is `InlineLabel`s
+(`inline-label.md`) — so the source answers the pointer the same way the entries beside it do.
+
 - `.SetSource(string color, string text, Action<OmniResult<T>> onClick = null)` — a small rounded square
   in that color plus the text, at the footer's start. Null or empty text drops it. Given a handler the
   source becomes clickable — scoping the search to it is the usual thing to do — with its own tab stop,
-  Enter/Space, and an underline on hover; the click never also counts as opening the result.
+  Enter/Space and a hover background; the click never also counts as opening the result.
 - `.SetSource(IComponent marker, string text, Action<OmniResult<T>> onClick = null)` — the same, with a
   marker of the host's own (the source's logo, an avatar) in place of the colored square.
 - `.OnSourceClick(Action<OmniResult<T>>)` — the same handler on its own (null makes the source plain

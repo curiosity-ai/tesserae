@@ -340,13 +340,15 @@
     margin: 0;
 }
 
+/* An entry is a box around one InlineLabel, and the label does its own ellipsizing - so the entry must
+   NOT clip: a hovered label's background reaches 4px past its text on each side, and hiding the
+   overflow cut the right end of it (the left survived by eating into the separator's gap). */
 .tss-omniresult-footer-entry {
     display: flex;
     align-items: center;
     min-width: 0;
     max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: visible;
     white-space: nowrap;
 }
 
@@ -356,57 +358,19 @@
     white-space: nowrap;
 }
 
+/* The source leads the footer line: it is an InlineLabel like every other entry, so it already draws at
+   the footer's size and answers the pointer the same way. Only the two things that are the source's own
+   are set here - it never shrinks, and its square of colour is smaller than a glyph would be. */
 .tss-omniresult-source {
-    display: flex;
-    align-items: center;
-    gap: 6px;
     flex-grow: 0;
     flex-shrink: 0;
 }
 
-.tss-omniresult-source-square {
-    display: block;
+/* A flat square of colour reads bigger than a glyph filling the same box, so it is drawn smaller. */
+.tss-omniresult-source .tss-inlinelabel-mark-color {
     width: 10px;
     height: 10px;
     border-radius: 2px;
-    background: var(--tss-primary-background-color);
-}
-
-/* A marker of the host's own - a source logo, an avatar - in place of the plain colored square. */
-.tss-omniresult-source-square.tss-omniresult-source-custom {
-    width: 14px;
-    height: 14px;
-    border-radius: 3px;
-    background: none;
-    line-height: 0;
-}
-
-.tss-omniresult-source-square.tss-omniresult-source-custom img,
-.tss-omniresult-source-square.tss-omniresult-source-custom svg {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.tss-omniresult-source-text {
-    color: var(--tss-secondary-foreground-color);
-}
-
-.tss-omniresult-source-clickable {
-    cursor: pointer;
-    border-radius: var(--tss-border-radius-sm);
-    outline: none;
-}
-
-.tss-omniresult-source-clickable:hover .tss-omniresult-source-text,
-.tss-omniresult-source-clickable:focus-visible .tss-omniresult-source-text {
-    color: var(--tss-highlight-color);
-    text-decoration: underline;
-}
-
-.tss-omniresult-source-clickable:focus-visible {
-    box-shadow: 0 0 0 2px var(--tss-primary-background-color);
 }
 
 /* Contribution bar ------------------------------------------------------------------------------- */
