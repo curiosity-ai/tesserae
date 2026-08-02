@@ -340,6 +340,15 @@
     margin: 0;
 }
 
+/* An entry is its content plus the dot that separates it from the one before, so an entry whose content
+   collapsed itself has nothing left to separate - and a host that hands the footer several renderers,
+   each of which had nothing to say about this node, would otherwise end the line in a row of bare dots.
+   An InlineLabel with nothing to say takes its own slot out of the document; a component of the host's
+   own (AddFooterEntry) only hides itself, which is what this catches. */
+.tss-omniresult-footer > .tss-omniresult-footer-entry:has(> .tss-collapse) {
+    display: none;
+}
+
 /* An entry is a box around one InlineLabel, and the label does its own ellipsizing - so the entry must
    NOT clip: a hovered label's background reaches 4px past its text on each side, and hiding the
    overflow cut the right end of it (the left survived by eating into the separator's gap). */
