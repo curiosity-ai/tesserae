@@ -79,6 +79,45 @@ it does and when to use it (no `<`/`>`). Keep `SKILL.md` a focused overview and
 push detail into `references/`. The same applies to the matching pages in the
 `documentation` repo under `tesserae/` — update them alongside the references.
 
+## Icon fonts
+
+Everything about the bundled icon set is generated: the woff2 files under
+`Tesserae/tps/assets/fonts/`, the `uicons-*.css` files, and
+`Tesserae/src/Icons/UIcons.cs`. **`Build.UpdateInterfaceIcons` owns all of it** —
+never edit those files by hand.
+
+```bash
+pip install fonttools brotli                     # once; the outline surgery needs them
+dotnet run --project Build.UpdateInterfaceIcons   # download, regenerate, re-centre
+dotnet run --project Build.UpdateInterfaceIcons -- --help
+```
+
+One run, four stages in a fixed order: download the nine weights, rewrite the
+stylesheets and the enum, measure every glyph in headless Chromium, then bake the
+optical centering into the glyph outlines (via `centre-uicons-outlines.py`) and
+re-measure to prove it landed. It exits non-zero if any check fails and only then
+writes the `uicons-source.txt` marker, so a failed run does not look finished.
+
+Bumping icons is rare and the run takes minutes, so it is gated: the downloaded
+version plus a hash of every woff2 is compared against
+`Build.UpdateInterfaceIcons/uicons-source.txt`, and an unchanged set stops the run.
+`--force` overrides; `--centre-only` re-centres what is already in the tree
+without downloading. The fonts in the tree no longer match the vendor bytes, which
+is why the marker records what was *downloaded* rather than hashing the tree.
+
+The centering used to be a generated stylesheet that nudged icons with
+`position: relative`. It was removed because measurement showed it could not work
+at Tesserae's sizes: a paint-time offset is rounded to a whole CSS pixel, so at the
+13px `Icon()` default a 0.02–0.035em nudge did nothing, and the rounding applies to
+the accumulated position, so the same icon moved a pixel in one container and not in
+another. An offset baked into the outline is part of the shape the rasterizer draws
+and survives at any size.
+
+**When touching any of this, read `.claude/skills/uicons-fonts/SKILL.md`** — it
+covers the two traps in these fonts (declared bboxes that disagree with the
+outlines, and the 300-unit em square), the rules that keep composed icons
+registered with each other, and which checks fail the run.
+
 ## Installing Transpose
 
 Install or update the Transpose compiler and the dotnet serve tool globally before getting started:

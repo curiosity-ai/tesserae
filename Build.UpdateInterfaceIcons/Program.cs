@@ -39,13 +39,19 @@ namespace Build.UpdateInterfaceIcons
         }
 
 
-        static async Task Main()
+        static async Task<int> Main(string[] args)
         {
-            var version = await FetchVersion();
+            var options = CenteringOptions.Parse(args);
 
-            var tempDir = Path.GetTempPath();
+            if (options.ShowHelp)
+            {
+                CenteringOptions.PrintUsage();
+                return 0;
+            }
 
-            if (!Directory.GetCurrentDirectory().EndsWith("Build.UpdateInterfaceIcons")) throw new InvalidOperationException("make sure to set the working directory to Build.UpdateInterfaceIcons");
+            var repoRoot = OpticalCenteringStage.LocateRepositoryRoot();
+            var tempDir  = Path.Combine(Path.GetTempPath(), "uicons-download");
+            Directory.CreateDirectory(tempDir);
 
 
             var types = new string[]
@@ -62,20 +68,63 @@ namespace Build.UpdateInterfaceIcons
             };
 
 
-            var tesseraeFontsDir = Path.Combine("..", "Tesserae", "tps", "assets", "fonts");
-            var tesseraeCssDir   = Path.Combine("..", "Tesserae", "tps", "assets", "css");
-            if (!Directory.Exists(tesseraeFontsDir)) throw new InvalidOperationException("tesserae dir does not exit");
-            if (!Directory.Exists(tesseraeCssDir)) throw new InvalidOperationException("tesserae dir does not exit");
+            var tesseraeFontsDir = Path.Combine(repoRoot, "Tesserae", "tps", "assets", "fonts");
+            var tesseraeCssDir   = Path.Combine(repoRoot, "Tesserae", "tps", "assets", "css");
+            if (!Directory.Exists(tesseraeFontsDir)) throw new InvalidOperationException($"no fonts directory at {tesseraeFontsDir}");
+            if (!Directory.Exists(tesseraeCssDir)) throw new InvalidOperationException($"no css directory at {tesseraeCssDir}");
 
+            // Deliberately not in the assets tree: tps.json bundles tps/assets/fonts/* into the package,
+            // and this is build metadata, not something consumers should receive.
+            var marker = Path.Combine(repoRoot, "Build.UpdateInterfaceIcons", SourceMarkerFile);
+
+            if (options.CentreOnly)
+            {
+                // Right now the fonts in the tree are whatever is on disk; fingerprint them before they are
+                // edited, so the marker still records what the tree was built from.
+                var inTree = SourceFingerprint(VersionFromStylesheets(tesseraeCssDir),
+                                               types.Select(t => Path.Combine(tesseraeFontsDir, $"{t}.woff2")));
+
+                if (!options.Force && File.Exists(marker) && File.ReadAllText(marker).Trim() != inTree)
+                {
+                    Console.WriteLine("The fonts in the tree do not match the marker, which means they have already been");
+                    Console.WriteLine("centred. Centring them again would shift the outlines a second time. Re-download");
+                    Console.WriteLine("first, or pass --force if you know the fonts are pristine.");
+                    return 1;
+                }
+
+                Console.WriteLine("Skipping the download, centring the fonts already in the tree.");
+                var centredOnly = await OpticalCenteringStage.RunAsync(repoRoot, options);
+
+                if (centredOnly) File.WriteAllText(marker, inTree);
+                return centredOnly ? 0 : 1;
+            }
+
+            var version = await FetchVersion();
 
             Console.WriteLine("download fonts");
 
             foreach (var type in types)
             {
-                var fontFileName = $"{type}.woff2";
+                await DownloadFileAsync(GetWoff2Url(version, type), Path.Combine(tempDir, $"{type}.woff2"));
+            }
 
-                await DownloadFileAsync(GetWoff2Url(version, type), Path.Combine(tempDir, fontFileName));
-                System.IO.File.Copy(Path.Combine(tempDir, fontFileName), Path.Combine(tesseraeFontsDir, fontFileName), overwrite: true);
+            // The fonts in the tree have had the optical centering baked into their outlines, so they no
+            // longer match the vendor bytes. This records what was downloaded last time instead, which is
+            // what makes "only run when the icon set actually changed" answerable.
+            var downloaded = SourceFingerprint(version, types.Select(t => Path.Combine(tempDir, $"{t}.woff2")));
+
+            if (!options.Force && File.Exists(marker) && File.ReadAllText(marker).Trim() == downloaded)
+            {
+                Console.WriteLine();
+                Console.WriteLine($"UIcons {version} is already what the tree was built from, and the woff2 files are byte for byte");
+                Console.WriteLine("the same as last time. Nothing to do - the fonts in the tree are already centred.");
+                Console.WriteLine("Pass --force to rebuild them anyway.");
+                return 0;
+            }
+
+            foreach (var type in types)
+            {
+                System.IO.File.Copy(Path.Combine(tempDir, $"{type}.woff2"), Path.Combine(tesseraeFontsDir, $"{type}.woff2"), overwrite: true);
             }
 
             Console.WriteLine("download css");
@@ -178,7 +227,7 @@ namespace Build.UpdateInterfaceIcons
 
             Console.WriteLine($"Found {icons.Count} icons from css");
 
-            var uiconsCsPath = Path.Combine("..", "Tesserae", "src", "Icons", "UIcons.cs");
+            var uiconsCsPath = Path.Combine(repoRoot, "Tesserae", "src", "Icons", "UIcons.cs");
             var allIcons     = icons.OrderBy(i => i.Key).ToArray();
 
 
@@ -196,6 +245,53 @@ namespace Build.UpdateInterfaceIcons
                 allIcons.Where(i => i.Value.Any(v => v.Contains(_brandsPrefix))).Select(i => i.Key).ToArray()
             ));
             Console.WriteLine($"Parsed css files, found {allIcons.Length} icons.");
+
+            // Last, because it edits the fonts that were just written and keys off the codepoints in the
+            // stylesheets that were just parsed. Both change with every UIcons release.
+            var centred = await OpticalCenteringStage.RunAsync(repoRoot, options);
+
+            if (!centred)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Optical centering failed its checks, so the source marker was not written:");
+                Console.WriteLine("the next run will start over rather than treat these fonts as finished.");
+                return 1;
+            }
+
+            File.WriteAllText(marker, downloaded);
+            Console.WriteLine();
+            Console.WriteLine($"UIcons {version} downloaded, centred and recorded in {Path.GetFileName(marker)}.");
+            return 0;
+        }
+
+        /// <summary>File recording which vendor download the fonts in the tree were built from.</summary>
+        private const string SourceMarkerFile = "uicons-source.txt";
+
+        /// <summary>The UIcons version, read out of the banner the vendor puts in every stylesheet.</summary>
+        private static string VersionFromStylesheets(string cssDir)
+        {
+            foreach (var file in Directory.GetFiles(cssDir, "uicons-*.css"))
+            {
+                var match = System.Text.RegularExpressions.Regex.Match(File.ReadAllText(file), @"UIcons (\d+\.\d+\.\d+)");
+                if (match.Success) return match.Groups[1].Value;
+            }
+
+            throw new InvalidOperationException($"could not find the UIcons version banner in any stylesheet under {cssDir}");
+        }
+
+        /// <summary>The version plus a hash of every downloaded woff2, so any change to the set shows up.</summary>
+        private static string SourceFingerprint(string version, IEnumerable<string> woff2Files)
+        {
+            using var sha = System.Security.Cryptography.SHA256.Create();
+            var parts = new List<string> { $"uicons {version}" };
+
+            foreach (var file in woff2Files.OrderBy(f => f, StringComparer.Ordinal))
+            {
+                var hash = Convert.ToHexString(sha.ComputeHash(File.ReadAllBytes(file))).ToLowerInvariant();
+                parts.Add($"{Path.GetFileName(file)} {hash[..16]}");
+            }
+
+            return string.Join("\n", parts);
         }
 
 

@@ -290,3 +290,5 @@ __pycache__/
 
 # Local-only Playwright scripts and artifacts (per CLAUDE.md)
 Tesserae.Tests/playwright/
+# Ignore the consumer skill that Tesserae.targets copies in on build
+.claude/skills/tesserae/
