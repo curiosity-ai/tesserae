@@ -89,11 +89,16 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Puts a glyph before the text.
+        /// Puts a glyph before the text, in a colour of its own when one is given - the accent a node type,
+        /// a source or a status is known by - and in the label's own colour otherwise.
         /// </summary>
-        public InlineLabel SetIcon(UIcons icon, UIconsWeight weight = UIconsWeight.Regular)
+        public InlineLabel SetIcon(UIcons icon, UIconsWeight weight = UIconsWeight.Regular, string color = null)
         {
-            return SetMark(I(icon, weight, "tss-inlinelabel-glyph"), "tss-inlinelabel-mark-icon");
+            var glyph = I(icon, weight, "tss-inlinelabel-glyph");
+
+            if (!string.IsNullOrEmpty(color)) glyph.style.color = color;
+
+            return SetMark(glyph, "tss-inlinelabel-mark-icon");
         }
 
         /// <summary>
