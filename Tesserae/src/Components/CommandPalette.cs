@@ -42,6 +42,13 @@ namespace Tesserae
 
         private string _currentParentId;
         private int _activeIndex = -1;
+        private HTMLElement _focusBeforeShow;
+
+        private sealed class PaletteEntry
+        {
+            public CommandPaletteAction Action { get; set; }
+            public CommandPaletteResult Result { get; set; }
+        }
 
         private sealed class PaletteEntry
         {
@@ -290,6 +297,9 @@ namespace Tesserae
         /// </summary>
         public override CommandPalette Show()
         {
+            //Whatever had the focus gets it back when the palette closes - see Hide.
+            _focusBeforeShow = document.activeElement.As<HTMLElement>();
+
             base.Show();
             ResetState();
             window.setTimeout(_ => _searchInput.focus(), 0);
@@ -301,6 +311,37 @@ namespace Tesserae
         /// </summary>
         public override void Hide(Action onHidden = null)
         {
+            //The palette holds the focus while it is open, and its search box leaves the document with it -
+            //which leaves the page with nothing focused at all, and a page with nothing focused receives no
+            //keystrokes, so the very shortcut that opened the palette stops working until something is
+            //clicked. Focus goes back *before* the layer is taken away, so there is never a moment with
+            //nowhere for it to be.
+            var restoreTo = _focusBeforeShow;
+
+            _focusBeforeShow = null;
+
+            var active = document.activeElement.As<HTMLElement>();
+
+            //Something outside the palette already has the focus - a modal an activated row opened - and it
+            //is more entitled to it than whatever was focused before.
+            if (active is null || active == document.body || _contentHtml.contains(active))
+            {
+                if (restoreTo is object && restoreTo != document.body && document.body.contains(restoreTo))
+                {
+                    restoreTo.focus();
+                }
+                else
+                {
+                    //body only accepts the focus once it is focusable, which is what the tabindex is for -
+                    //and the window has to be told too, or the page keeps reporting a focused body while
+                    //the browser sends its keystrokes nowhere.
+                    if (document.body.tabIndex < 0) document.body.tabIndex = -1;
+
+                    document.body.focus();
+                    window.focus();
+                }
+            }
+
             base.Hide(onHidden);
         }
 

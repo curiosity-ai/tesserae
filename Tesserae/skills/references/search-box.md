@@ -20,6 +20,9 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.SetText(string)` / `.Text`, `.SetPlaceholder(string)` / `.Placeholder`.
 - `.SetIcon(UIcons)` / `.NoIcon()` — leading glyph.
 - `.SetKeyboardShortcut(params string[] keys)` — global focus shortcut + visible chip, e.g. `SetKeyboardShortcut("Ctrl", "K")` (renders ⌘K on macOS).
+- `.OnShortcut(Action)` — what that shortcut does *instead* of focusing the box, for a box that
+  stands for a search happening somewhere else (a `CommandPalette`, a search page). Pressing the key
+  works the same whether or not the box already holds the caret, which focusing does not.
 - `.Focus()`, `.Disabled(bool = true)`, `.Height(UnitSize)` / `.H(int)`.
 
 ## Example

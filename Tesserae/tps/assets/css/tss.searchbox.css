@@ -57,6 +57,10 @@
         color: var(--tss-disabled-foreground-color);
     }
 
+    /* The underline eats a pixel off the bottom of a box whose height is fixed, and the input inside is
+       fixed at that same height - so stretching it left the text sitting a pixel high in a box that looks
+       like it should be centred. The row centres its content instead, and the input gives up its fixed
+       height to be centred rather than stretched. */
     .tss-searchbox-container.tss-underlined {
         border-radius: 0px;
         border-style: solid;
@@ -64,6 +68,12 @@
         border-image: initial;
         border-width: 0px 0px 1px;
         padding-bottom: 1px;
+        align-items: center;
+    }
+
+    .tss-searchbox-container.tss-underlined > .tss-searchbox {
+        height: auto;
+        line-height: normal;
     }
 
         .tss-searchbox-container.tss-underlined:focus-within {
