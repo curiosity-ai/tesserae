@@ -28,7 +28,9 @@ into a row of buttons.
 ## Key configuration
 
 - `.SetText(string)` / `Text` — the text. Null or empty leaves the label as its mark alone.
-- `.SetIcon(UIcons icon, UIconsWeight weight = Regular)` — a glyph before the text.
+- `.SetIcon(UIcons icon, UIconsWeight weight = Regular, string color = null)` — a glyph before the text,
+  in a colour of its own when one is given (a node type's accent, a source's brand) and in the label's
+  own colour otherwise.
 - `.SetIcon(IComponent)` — a component of the host's own (an `Avatar`, an emoji, a `Spinner`), drawn in
   the same box as any other mark.
 - `.SetImage(string url)` — an image (a source's logo, a favicon), fitted rather than cropped.
