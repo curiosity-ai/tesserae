@@ -593,8 +593,8 @@
     cursor: default;
 }
 
-/* Previous / next, with where in the list this result is between them. The group is only a group for
-   spacing - the arrows read as the same plain glyph buttons as the ones beside them. */
+/* Previous / next, with where in the list this result is between them - one filled group rather than
+   an outline around each arrow. */
 .tss-omniresult-modal-nav {
     display: inline-flex;
     align-items: center;
@@ -602,6 +602,9 @@
     flex-grow: 0;
     flex-shrink: 0;
     margin: 0 4px;
+    padding: 0 2px;
+    border-radius: var(--tss-border-radius-md);
+    background: var(--tss-secondary-background-color);
 }
 
 .tss-omniresult-modal-nav-label {
@@ -711,20 +714,11 @@
     line-height: 18px;
 }
 
-/* A command the host put in the header beside these reads as one of them: a glyph, not an outlined
-   chip with a fill of its own. */
-.tss-modal.tss-omniresult-modal > .tss-modal-header .tss-modal-header-commands > .tss-btn,
-.tss-modal.tss-omniresult-modal > .tss-modal-header .tss-modal-left-header-commands > .tss-btn {
-    border: none;
-    background: transparent;
-    box-shadow: none;
-    color: var(--tss-secondary-foreground-color);
-}
-
-.tss-modal.tss-omniresult-modal > .tss-modal-header .tss-modal-header-commands > .tss-btn:hover,
-.tss-modal.tss-omniresult-modal > .tss-modal-header .tss-modal-left-header-commands > .tss-btn:hover {
-    background: var(--tss-default-background-hover-color);
-    color: var(--tss-default-foreground-color);
+/* The commands beside the group are outlined buttons of their own - the arrows inside it are not,
+   since the group already draws their edge. */
+.tss-modal.tss-omniresult-modal .tss-modal-header-commands > .tss-omniresult-modal-button {
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
 }
 
 /* What the modal answers, along its bottom edge. */
