@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Transpose.Core;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -27,11 +28,26 @@ namespace Tesserae
 
         private readonly List<CommandPaletteAction> _actions = new List<CommandPaletteAction>();
         private readonly Dictionary<string, CommandPaletteAction> _actionLookup = new Dictionary<string, CommandPaletteAction>();
-        private readonly List<CommandPaletteAction> _visibleActions = new List<CommandPaletteAction>();
-        private readonly List<HTMLElement> _actionElements = new List<HTMLElement>();
+
+        // One entry per navigable row, actions and host results alike, so the arrow keys walk the list the
+        // user sees rather than the actions inside it.
+        private readonly List<PaletteEntry> _entries = new List<PaletteEntry>();
+        private readonly List<HTMLElement> _entryElements = new List<HTMLElement>();
+
+        private readonly List<CommandPaletteResult> _hostResults = new List<CommandPaletteResult>();
+        private Func<string, Task<IEnumerable<CommandPaletteResult>>> _search;
+        private int _searchDebounceMs = 200;
+        private double _searchTimer = -1;
+        private int _searchGeneration;
 
         private string _currentParentId;
         private int _activeIndex = -1;
+
+        private sealed class PaletteEntry
+        {
+            public CommandPaletteAction Action { get; set; }
+            public CommandPaletteResult Result { get; set; }
+        }
 
         private readonly Action<Event> _globalKeyDownHandler;
         private bool _globalListenerActive;
@@ -40,6 +56,11 @@ namespace Tesserae
         /// Raised when action executed occurs.
         /// </summary>
         public event Action<CommandPaletteAction> ActionExecuted;
+
+        /// <summary>
+        /// Raised when one of the host's own rows is activated - see <see cref="SetResults(IEnumerable{CommandPaletteResult})"/>.
+        /// </summary>
+        public event Action<CommandPaletteResult> ResultActivated;
 
         /// <summary>
         /// Enables the global shortcut on the component.
@@ -140,6 +161,17 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// What is said when there is nothing to show. Defaults to "No results", which is right for a
+        /// palette that filters a list it already has; a palette that goes and searches usually wants to
+        /// say what to do instead ("Type to search").
+        /// </summary>
+        public string EmptyText
+        {
+            get => _emptyState.innerText;
+            set => _emptyState.innerText = value ?? string.Empty;
+        }
+
+        /// <summary>
         /// Sets the actions of the component.
         /// </summary>
         public CommandPalette SetActions(IEnumerable<CommandPaletteAction> actions)
@@ -172,6 +204,58 @@ namespace Tesserae
             RefreshResults();
             return this;
         }
+
+        /// <summary>
+        /// Puts rows of the host's own at the top of the palette, above its actions - search results drawn
+        /// as <see cref="OmniResult{T}"/>s, recent files, anything a list of actions can't say. Each carries
+        /// what Enter does with it, and they take part in the arrow-key walk like any other row.
+        /// <para>
+        /// These are shown as given: the palette does not filter them, because the host that produced them
+        /// for a query already knows which ones answer it. Use <see cref="OnSearch"/> to have them refreshed
+        /// as the query changes, or call this whenever the host has new ones.
+        /// </para>
+        /// </summary>
+        public CommandPalette SetResults(IEnumerable<CommandPaletteResult> results)
+        {
+            _hostResults.Clear();
+
+            if (results != null) _hostResults.AddRange(results.Where(r => r != null));
+
+            RenderEntries();
+
+            return this;
+        }
+
+        /// <summary>Puts one row of the host's own at the top of the palette. See <see cref="SetResults"/>.</summary>
+        public CommandPalette SetResults(params CommandPaletteResult[] results) => SetResults((IEnumerable<CommandPaletteResult>)results);
+
+        /// <summary>
+        /// Asks the host for the rows to show, every time the query changes and once when the palette opens.
+        /// The call is debounced, and an answer that arrives after a newer query was typed is dropped, so a
+        /// slow search can never overwrite a faster one behind it.
+        /// </summary>
+        /// <param name="search">Given the current query, the rows to show. Null clears the search.</param>
+        /// <param name="debounceMs">How long typing has to stop before the search runs.</param>
+        public CommandPalette OnSearch(Func<string, Task<IEnumerable<CommandPaletteResult>>> search, int debounceMs = 200)
+        {
+            _search           = search;
+            _searchDebounceMs = debounceMs < 0 ? 0 : debounceMs;
+
+            if (_search is null)
+            {
+                CancelPendingSearch();
+                SetResults((IEnumerable<CommandPaletteResult>)null);
+            }
+            else if (IsVisible)
+            {
+                RunSearch(CurrentQuery);
+            }
+
+            return this;
+        }
+
+        /// <summary>What is typed in the palette's search box right now, trimmed.</summary>
+        public string CurrentQuery => _searchInput.value?.Trim() ?? string.Empty;
 
         /// <summary>
         /// Opens the component.
@@ -338,13 +422,25 @@ namespace Tesserae
 
         private void ActivateSelected()
         {
-            if (_activeIndex < 0 || _activeIndex >= _visibleActions.Count)
+            if (_activeIndex < 0 || _activeIndex >= _entries.Count)
             {
                 return;
             }
 
-            var action = _visibleActions[_activeIndex];
-            ExecuteAction(action);
+            var entry = _entries[_activeIndex];
+
+            if (entry.Action is object) ExecuteAction(entry.Action);
+            else                        ActivateResult(entry.Result);
+        }
+
+        private void ActivateResult(CommandPaletteResult result)
+        {
+            if (result is null || result.Activate is null) return;
+
+            result.Activate.Invoke();
+            ResultActivated?.Invoke(result);
+
+            if (HideOnAction) Hide();
         }
 
         private void ExecuteAction(CommandPaletteAction action)
@@ -382,7 +478,7 @@ namespace Tesserae
 
         private void MoveActive(int delta)
         {
-            if (_actionElements.Count == 0)
+            if (_entryElements.Count == 0)
             {
                 _activeIndex = -1;
                 return;
@@ -391,9 +487,9 @@ namespace Tesserae
             var nextIndex = _activeIndex + delta;
             if (nextIndex < 0)
             {
-                nextIndex = _actionElements.Count - 1;
+                nextIndex = _entryElements.Count - 1;
             }
-            else if (nextIndex >= _actionElements.Count)
+            else if (nextIndex >= _entryElements.Count)
             {
                 nextIndex = 0;
             }
@@ -403,21 +499,21 @@ namespace Tesserae
 
         private void SetActiveIndex(int index)
         {
-            if (_actionElements.Count == 0)
+            if (_entryElements.Count == 0)
             {
                 _activeIndex = -1;
                 return;
             }
 
-            if (_activeIndex >= 0 && _activeIndex < _actionElements.Count)
+            if (_activeIndex >= 0 && _activeIndex < _entryElements.Count)
             {
-                _actionElements[_activeIndex].classList.remove("tss-active");
+                _entryElements[_activeIndex].classList.remove("tss-active");
             }
 
             _activeIndex = index;
-            if (_activeIndex >= 0 && _activeIndex < _actionElements.Count)
+            if (_activeIndex >= 0 && _activeIndex < _entryElements.Count)
             {
-                var activeEl = _actionElements[_activeIndex];
+                var activeEl = _entryElements[_activeIndex];
                 activeEl.classList.add("tss-active");
                 try
                 {
@@ -432,32 +528,108 @@ namespace Tesserae
 
         private void RefreshResults()
         {
-            var query = _searchInput.value?.Trim() ?? string.Empty;
+            RenderEntries();
+            ScheduleSearch();
+        }
+
+        private void RenderEntries()
+        {
+            var query   = CurrentQuery;
             var actions = FilterActions(query).ToList();
 
             _results.RemoveChildElements();
-            _visibleActions.Clear();
-            _actionElements.Clear();
+            _entries.Clear();
+            _entryElements.Clear();
 
             string lastSection = null;
-            for (var i = 0; i < actions.Count; i++)
-            {
-                var action = actions[i];
-                if (!string.IsNullOrWhiteSpace(action.Section) && action.Section != lastSection)
-                {
-                    _results.appendChild(Div(Att("tss-commandpalette-section", text: action.Section)));
-                    lastSection = action.Section;
-                }
 
-                var item = BuildActionElement(action, i);
+            //The host's own rows lead: they answer the query itself, where an action only offers to go
+            //somewhere that might.
+            foreach (var result in _hostResults)
+            {
+                lastSection = AppendSection(result.Section, lastSection);
+
+                var item = BuildResultElement(result, _entryElements.Count);
+
                 _results.appendChild(item);
-                _visibleActions.Add(action);
-                _actionElements.Add(item);
+                _entries.Add(new PaletteEntry { Result = result });
+                _entryElements.Add(item);
             }
 
-            _emptyState.style.display = _visibleActions.Count == 0 ? "block" : "none";
+            foreach (var action in actions)
+            {
+                lastSection = AppendSection(action.Section, lastSection);
+
+                var item = BuildActionElement(action, _entryElements.Count);
+
+                _results.appendChild(item);
+                _entries.Add(new PaletteEntry { Action = action });
+                _entryElements.Add(item);
+            }
+
+            _emptyState.style.display = _entries.Count == 0 ? "block" : "none";
             UpdateBreadcrumbs();
-            SetActiveIndex(_visibleActions.Count > 0 ? 0 : -1);
+            SetActiveIndex(_entries.Count > 0 ? 0 : -1);
+        }
+
+        private string AppendSection(string section, string lastSection)
+        {
+            if (string.IsNullOrWhiteSpace(section) || section == lastSection) return lastSection;
+
+            _results.appendChild(Div(Att("tss-commandpalette-section", text: section)));
+
+            return section;
+        }
+
+        private void ScheduleSearch()
+        {
+            if (_search is null) return;
+
+            CancelPendingSearch();
+
+            var query = CurrentQuery;
+
+            if (_searchDebounceMs == 0)
+            {
+                RunSearch(query);
+                return;
+            }
+
+            _searchTimer = window.setTimeout(_ =>
+            {
+                _searchTimer = -1;
+                RunSearch(query);
+            }, _searchDebounceMs);
+        }
+
+        private void CancelPendingSearch()
+        {
+            if (_searchTimer < 0) return;
+
+            window.clearTimeout(_searchTimer);
+            _searchTimer = -1;
+        }
+
+        private void RunSearch(string query)
+        {
+            var search = _search;
+
+            if (search is null) return;
+
+            //An answer to a query the user has already typed past is thrown away rather than replacing the
+            //rows a later, faster search already put up.
+            var generation = ++_searchGeneration;
+
+            RunSearchAsync(search, query, generation).FireAndForget();
+        }
+
+        private async Task RunSearchAsync(Func<string, Task<IEnumerable<CommandPaletteResult>>> search, string query, int generation)
+        {
+            var results = await search(query);
+
+            if (generation != _searchGeneration) return;
+
+            SetResults(results);
         }
 
         private IEnumerable<CommandPaletteAction> FilterActions(string query)
@@ -547,6 +719,32 @@ namespace Tesserae
             return item;
         }
 
+        private HTMLElement BuildResultElement(CommandPaletteResult result, int index)
+        {
+            var item = Div(Att("tss-commandpalette-item tss-commandpalette-result", role: "option"));
+
+            if (result.Component is object) item.appendChild(result.Component.Render());
+
+            item.addEventListener("mousemove", _ => SetActiveIndex(index));
+
+            //A row of the host's own usually answers its own click - an OmniResult opens what it stands for -
+            //so the palette only steps in when it was given something to do, and gets out of the way after
+            //either, because a palette that stays open over what it just opened is in the way.
+            item.addEventListener("click", e =>
+            {
+                if (result.Activate is object)
+                {
+                    StopEvent(e);
+                    ActivateResult(result);
+                    return;
+                }
+
+                if (HideOnAction) Hide();
+            });
+
+            return item;
+        }
+
         private CommandPaletteAction FindShortcutAction(string key)
         {
             if (string.IsNullOrWhiteSpace(key))
@@ -593,6 +791,34 @@ namespace Tesserae
             _pathText.innerText = string.Join(" / ", names);
             _breadcrumbs.style.display = "flex";
         }
+    }
+
+    /// <summary>
+    /// A row of the host's own in a <see cref="CommandPalette"/> - a search result drawn as an
+    /// <see cref="OmniResult{T}"/>, a recent file, a preview card - rather than one of the palette's actions.
+    /// </summary>
+    [Transpose.Name("tss.CommandPaletteResult")]
+    public sealed class CommandPaletteResult
+    {
+        /// <summary>
+        /// A row and what Enter does with it. With no <paramref name="activate"/> the row is only clickable,
+        /// which is what a component that already answers its own click (an <see cref="OmniResult{T}"/> with
+        /// an <c>OpenWith</c>) wants.
+        /// </summary>
+        public CommandPaletteResult(IComponent component, Action activate = null)
+        {
+            Component = component;
+            Activate  = activate;
+        }
+
+        /// <summary>The row itself.</summary>
+        public IComponent Component { get; }
+
+        /// <summary>What Enter - and a click, when it is given - does with the row.</summary>
+        public Action Activate { get; }
+
+        /// <summary>The heading this row sits under, when a palette groups its rows.</summary>
+        public string Section { get; set; }
     }
 
     [Transpose.Name("tss.CommandPaletteAction")]

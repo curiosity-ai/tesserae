@@ -2816,6 +2816,43 @@ namespace Tesserae
         /// Gets or sets the selected model.
         /// </summary>
         public ModelOption SelectedModel => _selectedModel;
+
+        /// <summary>
+        /// Which half of a <see cref="Mode.SearchAndChat"/> box is showing. Setting it switches the box and
+        /// moves its own toggle with it, so a host that drives the mode from somewhere else - a control in a
+        /// page header - and the box never disagree. On a box that is only search or only chat this is that
+        /// mode and setting it does nothing.
+        /// </summary>
+        public Mode ActiveMode
+        {
+            get => _mode == Mode.SearchAndChat ? _activeMode.Value : _mode;
+            set
+            {
+                if (_mode != Mode.SearchAndChat || value == Mode.SearchAndChat || value == _activeMode.Value) return;
+
+                //Selecting on the toggle is what tells its own observer, which then sets the active mode; a
+                //box whose toggle has been taken away has to be told directly.
+                if (_modeToggle is object) _modeToggle.Select(value);
+                else                       _activeMode.Value = value;
+            }
+        }
+
+        /// <summary>
+        /// Follows <see cref="ActiveMode"/> - what a host with a mode control of its own, or a header that
+        /// shows different things in each mode, listens to.
+        /// </summary>
+        public IObservable<Mode> ActiveModeObservable => _activeMode;
+
+        /// <summary>
+        /// Takes the Search/Chat toggle out of the box's own footer, for a host that puts one somewhere of
+        /// its own. <see cref="ActiveMode"/> still switches the box, and still reports which half is showing.
+        /// </summary>
+        public OmniBox NoModeToggle()
+        {
+            if (_modeToggle is object) _modeToggle.Collapse();
+
+            return this;
+        }
         /// <summary>
         /// Gets or sets the selected thinking effort.
         /// </summary>

@@ -118,6 +118,32 @@
     cursor: not-allowed;
 }
 
+/* A row of the host's own - a search result, a preview card - brings its own layout and its own padding,
+   so the palette gives it the full width and only keeps the part of an item that says "this is the one":
+   the rounded highlight behind it. */
+.tss-commandpalette-result {
+    display: block;
+    padding: 0;
+    gap: 0;
+    overflow: hidden;
+}
+
+.tss-commandpalette-result > * {
+    width: 100%;
+}
+
+/* The active row is filled with the primary colour, which a result's own hover background would fight -
+   the highlight has to be the thing that says where you are. */
+.tss-commandpalette-result.tss-active,
+.tss-commandpalette-result:hover {
+    background: color-mix(in srgb, var(--tss-primary-background-color) 12%, transparent);
+}
+
+.tss-commandpalette-result.tss-active {
+    box-shadow: inset 0 0 0 1px var(--tss-primary-background-color);
+    color: var(--tss-default-foreground-color);
+}
+
 .tss-commandpalette-icon {
     width: 28px;
     height: 28px;
