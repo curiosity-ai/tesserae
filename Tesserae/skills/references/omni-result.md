@@ -84,7 +84,9 @@ The source leads the line and the metadata follows it, and all of it is `InlineL
   a date. Each entry is an `InlineLabel` (`inline-label.md`), so it can carry a mark (a glyph, an image,
   a square of colour), be pressable, or be a real link, and they are all drawn at one size. Dots between
   entries are drawn by CSS, so nothing has to interleave separators, and a footer with no source never
-  starts with one.
+  starts with one. The whole line — text and glyphs alike — is drawn in the secondary text colour, so a
+  glyph given an accent of its own elsewhere is muted here; the source's colour square keeps its colour,
+  being nothing but a colour.
 - `.SetFooterEntries(params string[])` — the same, as plain text.
 - `.AddFooterEntry(IComponent)` — one more entry at the end of the line, as a component of your own
   rather than a label: a badge, a chip, a small control. Same box, same separating dot.

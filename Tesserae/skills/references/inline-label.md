@@ -59,7 +59,9 @@ row.SetFooterEntries(
 - `.SetText(string)` / `Text` — the text. Null or empty leaves the label as its mark alone.
 - `.SetIcon(UIcons icon, UIconsWeight weight = Regular, string color = null)` — a glyph before the text,
   in a colour of its own when one is given (a node type's accent, a source's brand) and in the label's
-  own colour otherwise.
+  own colour otherwise. In an `OmniResult` footer the colour is ignored and the glyph takes the footer's
+  secondary text colour, like the text beside it — the row's accent belongs on its icon tile, not
+  repeated on a line of small facts.
 - `.SetIcon(IComponent)` — a component of the host's own (an `Avatar`, an emoji, a `Spinner`), drawn in
   the same box as any other mark.
 - `.SetImage(string url)` — an image (a source's logo, a favicon), fitted rather than cropped.
