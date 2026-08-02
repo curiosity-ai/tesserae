@@ -17,10 +17,11 @@ Tesserae ships an auto-generated `UIcons` enum for the UIcons (Flaticon) glyph s
 - Passed directly to component helpers like `Button(UIcons.Camera)`, `.SetIcon(UIcons.Copy, color: "white")`, and in `CommandPaletteAction.Icon`.
 - Color via the `color:` argument or `.Foreground(...)` on the resulting `Icon`.
 - For emoji glyphs, use the `Emoji` enum instead (see emoji skill).
-- A handful of glyphs are drawn slightly off centre in the font. The bundled stylesheet nudges those
-  back with `position: relative` and an em offset on the icon's `::before`, so an icon lands centred in
-  whatever box you put it in, at any size. Icons meant to overlap (a checkbox on a square, a slashed
-  variant on its base icon) are pinned to each other, so swapping one for the other never shifts.
+- A handful of glyphs are drawn slightly off centre in the font, so the bundled webfonts carry a
+  correction baked into those glyph outlines: an icon lands optically centred in whatever box you put
+  it in, at any size, with no styling on your part. Icons meant to overlap (a checkbox on a square, a
+  slashed variant on its base icon) are held to the same offset, so swapping one for the other never
+  shifts.
 
 ## Example
 

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Build.UIconsOpticalCentering
+namespace Build.UpdateInterfaceIcons
 {
     /// <summary>
     /// Builds the page the icons are measured on, and holds the browser side script that renders and

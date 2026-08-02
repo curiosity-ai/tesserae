@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace Build.UIconsOpticalCentering
+namespace Build.UpdateInterfaceIcons
 {
     /// <summary>Tuning for the centering pass. Every distance is a fraction of the font size (i.e. em).</summary>
     internal sealed class CenteringSettings

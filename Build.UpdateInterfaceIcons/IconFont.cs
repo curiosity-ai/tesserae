@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
-namespace Build.UIconsOpticalCentering
+namespace Build.UpdateInterfaceIcons
 {
     /// <summary>A single glyph of an icon font: the CSS class that selects it and the codepoint it maps to.</summary>
     internal sealed class IconGlyph

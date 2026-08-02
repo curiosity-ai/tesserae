@@ -81,79 +81,42 @@ push detail into `references/`. The same applies to the matching pages in the
 
 ## Icon fonts
 
-The UIcons webfonts and the `UIcons` enum are generated, not hand-written. Two
-console projects own them, and both are in the solution:
+Everything about the bundled icon set is generated: the woff2 files under
+`Tesserae/tps/assets/fonts/`, the `uicons-*.css` files, and
+`Tesserae/src/Icons/UIcons.cs`. **`Build.UpdateInterfaceIcons` owns all of it** —
+never edit those files by hand.
 
-- **`Build.UpdateInterfaceIcons`** — downloads the woff2/css for every UIcons
-  weight from Flaticon into `Tesserae/tps/assets/`, and regenerates
-  `Tesserae/src/Icons/UIcons.cs`. Run it from its own folder (it checks the
-  working directory). Bumping the icon set is this project's job.
-- **`Build.UIconsOpticalCentering`** — renders every glyph of every bundled
-  weight in headless Chromium (Playwright), measures how far each one is from
-  being optically centred in the box the browser lays it out in, and writes
-  `Tesserae/tps/assets/css/tss.uicons.adjustments.css`. That file is generated
-  output — regenerate it, never edit it:
+```bash
+pip install fonttools brotli                     # once; the outline surgery needs them
+dotnet run --project Build.UpdateInterfaceIcons   # download, regenerate, re-centre
+dotnet run --project Build.UpdateInterfaceIcons -- --help
+```
 
-  ```bash
-  dotnet run --project Build.UIconsOpticalCentering            # rewrite the stylesheet
-  dotnet run --project Build.UIconsOpticalCentering -- --help  # tuning knobs
-  ```
+One run, four stages in a fixed order: download the nine weights, rewrite the
+stylesheets and the enum, measure every glyph in headless Chromium, then bake the
+optical centering into the glyph outlines (via `centre-uicons-outlines.py`) and
+re-measure to prove it landed. It exits non-zero if any check fails and only then
+writes the `uicons-source.txt` marker, so a failed run does not look finished.
 
-  It reads the `uicons-*.css` files for the codepoints, so **run it after
-  `Build.UpdateInterfaceIcons`** whenever the icon set is bumped — the
-  codepoints change with every UIcons release, and stale adjustments would land
-  on the wrong glyphs. It exits non-zero if its own checks fail (icons that must
-  overlap drifting apart, generated selectors not matching real icon markup), so
-  it is safe to wire into CI.
+Bumping icons is rare and the run takes minutes, so it is gated: the downloaded
+version plus a hash of every woff2 is compared against
+`Build.UpdateInterfaceIcons/uicons-source.txt`, and an unchanged set stops the run.
+`--force` overrides; `--centre-only` re-centres what is already in the tree
+without downloading. The fonts in the tree no longer match the vendor bytes, which
+is why the marker records what was *downloaded* rather than hashing the tree.
 
-  `--preview` also writes annotated before/after screenshots under the project's
-  `bin/.../preview/`. Those are local artefacts; don't commit them.
+The centering used to be a generated stylesheet that nudged icons with
+`position: relative`. It was removed because measurement showed it could not work
+at Tesserae's sizes: a paint-time offset is rounded to a whole CSS pixel, so at the
+13px `Icon()` default a 0.02–0.035em nudge did nothing, and the rounding applies to
+the accumulated position, so the same icon moved a pixel in one container and not in
+another. An offset baked into the outline is part of the shape the rasterizer draws
+and survives at any size.
 
-  Known limitation, measured: a `position: relative` offset is rounded to a whole
-  CSS pixel when the icon is painted, so an offset only takes effect once it
-  reaches half a pixel. At `TextSize.Small` (13px, the `Icon()` default) that is
-  6% of the emitted offsets; at 24px it is 78%. The generated file declares each
-  offset twice — the em value, then `round(<value>, 1px)` — so the pixel is
-  chosen from the font size rather than by paint-time snapping, which otherwise
-  makes the same icon shift in one container and not in another depending on
-  where it lands on the pixel grid. Baking the offsets into the glyph outlines
-  instead would survive at sub-pixel sizes and remove this stylesheet entirely;
-  that would have to happen inside `Build.UpdateInterfaceIcons`, right after the
-  woff2 files are downloaded.
-
-  The adjustments are deliberately conservative: only offsets between the dead
-  zone and the cap are emitted, so an icon that is a long way off centre (a half
-  circle, an empty crate drawn at the bottom of its box) is left as drawn rather
-  than half-corrected.
-
-  Icons that compose with each other must stay registered, and three mechanisms
-  keep them that way — in increasing order of priority:
-
-  - **Lookalikes** are pinned to one shared offset when they have matching ink
-    boxes *and* already agree on where their centre is, so rounding cannot
-    separate them. Agreement is what identifies a lookalike: thousands of icons
-    are drawn edge to edge and so share an ink box without being related
-    (`circle` and `square` have identical ink boxes), and pinning those to each
-    other would drag well-centred icons off centre.
-  - **State variants** — `X-slash`, `X-crossed`, `X-off`, `X-mute`,
-    `X-muted`, `X-disabled` — take the offset of the `X` they are a state of,
-    since a UI swaps one for the other in place. 464 such pairs exist and 93 of
-    them disagreed before the rule.
-  - **Frame families** — icons sharing an ink box *and* a shape word
-    (`square`, `circle`, `rectangle`, `hexagon`, `octagon`, `diamond`,
-    `triangle`) are drawn on the same frame, so if they cannot agree on one
-    offset none of them is moved. The name is essential here: the ink box alone
-    cannot tell a circle-framed icon from any other icon that fills its box.
-
-  On top of those, `AlignmentGroups` names the handful a rule cannot derive,
-  because their names have nothing in common: the `square`/`checkbox`/`square-a`
-  set the toolkit swaps through `--uicon-var-*`, `toggle-on`/`toggle-off`,
-  `lock`/`unlock`/`lock-open-alt`, the mirrored pairs, and `slash`, which is
-  composited over other icons and so is never moved at all.
-
-  The run enforces the outcome: no icon may end up further off centre than
-  rounding explains, the only exceptions being the icons that deliberately give
-  up their own centering to stay registered with another one.
+**When touching any of this, read `.claude/skills/uicons-fonts/SKILL.md`** — it
+covers the two traps in these fonts (declared bboxes that disagree with the
+outlines, and the 300-unit em square), the rules that keep composed icons
+registered with each other, and which checks fail the run.
 
 ## Installing Transpose
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace Build.UIconsOpticalCentering
+namespace Build.UpdateInterfaceIcons
 {
     /// <summary>
     /// Prints what the pass did and holds it to the properties that matter. Three of them fail the run:

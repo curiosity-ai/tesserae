@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Build.UIconsOpticalCentering
+namespace Build.UpdateInterfaceIcons
 {
     /// <summary>
     /// Writes every measurement and every intermediate number to a csv, so a questionable adjustment can

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace Build.UIconsOpticalCentering
+namespace Build.UpdateInterfaceIcons
 {
     /// <summary>What the browser reported for a single glyph, in pixels relative to the pen position and baseline.</summary>
     internal sealed class GlyphMeasurement

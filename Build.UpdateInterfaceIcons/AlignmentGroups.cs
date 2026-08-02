@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Build.UIconsOpticalCentering
+namespace Build.UpdateInterfaceIcons
 {
     /// <summary>How the members of an alignment group must relate to each other.</summary>
     internal enum AlignmentKind
