@@ -158,7 +158,7 @@
        row - so depth comes from getting lighter, which is the direction a dark theme has to work in. */
     --tss-default-background-color-root: 14, 15, 24;
     --tss-default-foreground-color-root: 231, 237, 243;
-    --tss-secondary-background-color-root: 18, 22, 32;
+    --tss-secondary-background-color-root: 23, 24, 33;
     --tss-secondary-foreground-color-root: 138, 148, 166;
     --tss-sidebar-background-color-root: 14, 15, 24;
     --tss-disabled-background-color-root: 18, 20, 26;
