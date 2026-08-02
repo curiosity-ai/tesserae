@@ -13,9 +13,8 @@ Every combination is allowed: text alone, a mark alone, or both.
 
 It draws at one of two sizes, decided by where it is rather than by a flag: on its own it is a **compact
 button** — a bordered pill at 24px, which is the shape a chip of related things wants — and inside an
-`OmniResult` footer the chrome comes off and it takes the footer's own colour and type size. A pressable
-label in a footer underlines on hover instead of filling, so one clickable fact doesn't turn the line
-into a row of buttons.
+`OmniResult` footer the chrome comes off and it takes the footer's own colour and type size, so one
+clickable fact doesn't turn a line of facts into a row of buttons.
 
 ```
 ▪ Box      📁 sample-files / pdfs      2.4 MB      👤 Pius Neuhaus      🔒
