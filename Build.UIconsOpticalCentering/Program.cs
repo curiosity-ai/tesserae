@@ -197,12 +197,27 @@ namespace Build.UIconsOpticalCentering
                     continue;
                 }
 
-                var expectedLeft = glyph.X * probeFontSize;
-                var expectedTop  = glyph.Y * probeFontSize;
-
                 if (actual.Position != "relative") problems.Add($"{glyph.Glyph.CssClass}: position is '{actual.Position}', expected 'relative'");
-                if (Math.Abs(actual.Left - expectedLeft) > 0.6) problems.Add($"{glyph.Glyph.CssClass}: left is {actual.Left}px, expected {expectedLeft}px");
-                if (Math.Abs(actual.Top - expectedTop) > 0.6) problems.Add($"{glyph.Glyph.CssClass}: top is {actual.Top}px, expected {expectedTop}px");
+
+                Check("left", actual.Left, glyph.X);
+                Check("top", actual.Top, glyph.Y);
+
+                // The offsets resolve through round(..., 1px), so the computed value must be a whole number
+                // of pixels, and the nearest one to the em value asked for. Checking both catches a selector
+                // that never matched and a round() the browser did not understand.
+                void Check(string property, double resolved, double em)
+                {
+                    var wanted = em * probeFontSize;
+
+                    if (Math.Abs(resolved - Math.Round(resolved)) > 0.01)
+                    {
+                        problems.Add($"{glyph.Glyph.CssClass}: {property} is {resolved}px, which is not a whole pixel");
+                    }
+                    else if (Math.Abs(resolved - wanted) > 0.5 + 0.01)
+                    {
+                        problems.Add($"{glyph.Glyph.CssClass}: {property} is {resolved}px, further than a rounding step from {wanted}px");
+                    }
+                }
             }
 
             Console.WriteLine();

@@ -109,6 +109,18 @@ console projects own them, and both are in the solution:
   `--preview` also writes annotated before/after screenshots under the project's
   `bin/.../preview/`. Those are local artefacts; don't commit them.
 
+  Known limitation, measured: a `position: relative` offset is rounded to a whole
+  CSS pixel when the icon is painted, so an offset only takes effect once it
+  reaches half a pixel. At `TextSize.Small` (13px, the `Icon()` default) that is
+  6% of the emitted offsets; at 24px it is 78%. The generated file declares each
+  offset twice — the em value, then `round(<value>, 1px)` — so the pixel is
+  chosen from the font size rather than by paint-time snapping, which otherwise
+  makes the same icon shift in one container and not in another depending on
+  where it lands on the pixel grid. Baking the offsets into the glyph outlines
+  instead would survive at sub-pixel sizes and remove this stylesheet entirely;
+  that would have to happen inside `Build.UpdateInterfaceIcons`, right after the
+  woff2 files are downloaded.
+
   The adjustments are deliberately conservative: only offsets between the dead
   zone and the cap are emitted, so an icon that is a long way off centre (a half
   circle, an empty crate drawn at the bottom of its box) is left as drawn rather

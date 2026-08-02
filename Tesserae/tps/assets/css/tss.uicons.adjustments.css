@@ -13,6 +13,13 @@
  *  and antialiasing discounted - pulled towards the centre of ink mass, so an icon that carries
  *  its weight to one side is balanced rather than merely boxed. The pull is capped.
  *
+ *  An offset applied at paint time cannot be a fraction of a pixel: the browser rounds it to a
+ *  whole one. So each offset is also declared through round(), which fixes the value from the font
+ *  size instead of leaving it to paint-time snapping - otherwise the same icon shifts by a pixel
+ *  in one container and not at all in another, depending on where it lands on the pixel grid.
+ *  The consequence is that an offset only takes effect once it reaches half a pixel, so these
+ *  corrections act on larger icons and correctly do nothing on the smallest ones.
+ *
  *  Icons that have to stay on top of each other keep one shared offset. Exactly, for the icons
  *  the toolkit swaps in place (square and checkbox, the -slash variants on their base icon) and
  *  for any set of icons drawn on the same frame that agrees on where its centre is. Elsewhere it
@@ -43,19 +50,19 @@
  */
 
 /* left -0.04em, top -0.04em - 1 icon */
-.fi-tr-hat-cowboy::before { position: relative; left: -0.04em; top: -0.04em; }
+.fi-tr-hat-cowboy::before { position: relative; left: -0.04em; left: round(-0.04em, 1px); top: -0.04em; top: round(-0.04em, 1px); }
 
 /* left -0.035em, top -0.04em - 2 icons */
-.fi-bs-swipe-up::before,.fi-bs-trumpet::before { position: relative; left: -0.035em; top: -0.04em; }
+.fi-bs-swipe-up::before,.fi-bs-trumpet::before { position: relative; left: -0.035em; left: round(-0.035em, 1px); top: -0.04em; top: round(-0.04em, 1px); }
 
 /* left -0.03em, top -0.04em - 3 icons */
-.fi-rr-rocking-horse::before,.fi-rs-joint::before,.fi-rs-rocking-horse::before { position: relative; left: -0.03em; top: -0.04em; }
+.fi-rr-rocking-horse::before,.fi-rs-joint::before,.fi-rs-rocking-horse::before { position: relative; left: -0.03em; left: round(-0.03em, 1px); top: -0.04em; top: round(-0.04em, 1px); }
 
 /* left -0.025em, top -0.04em - 2 icons */
-.fi-sr-supply-chain::before,.fi-ts-Revenue::before { position: relative; left: -0.025em; top: -0.04em; }
+.fi-sr-supply-chain::before,.fi-ts-Revenue::before { position: relative; left: -0.025em; left: round(-0.025em, 1px); top: -0.04em; top: round(-0.04em, 1px); }
 
 /* left -0.02em, top -0.04em - 3 icons */
-.fi-sr-gramophone::before,.fi-ss-laptop-no-camera::before,.fi-ss-pinata::before { position: relative; left: -0.02em; top: -0.04em; }
+.fi-sr-gramophone::before,.fi-ss-laptop-no-camera::before,.fi-ss-pinata::before { position: relative; left: -0.02em; left: round(-0.02em, 1px); top: -0.04em; top: round(-0.04em, 1px); }
 
 /* left 0, top -0.04em - 235 icons */
 .fi-br-benefit-increase::before,.fi-br-cake-birthday::before,.fi-br-canned-food::before,
@@ -124,50 +131,50 @@
 .fi-ts-angle::before,.fi-ts-cage-empty::before,.fi-ts-devices::before,.fi-ts-dong-sign::before,
 .fi-ts-dreidel::before,.fi-ts-followers::before,.fi-ts-game-level::before,.fi-ts-gifts::before,
 .fi-ts-hand-holding-water::before,.fi-ts-legal-fees::before,.fi-ts-nesting-dolls::before,.fi-ts-sweep::before,
-.fi-ts-wifi-lock::before { position: relative; top: -0.04em; }
+.fi-ts-wifi-lock::before { position: relative; top: -0.04em; top: round(-0.04em, 1px); }
 
 /* left +0.02em, top -0.04em - 5 icons */
 .fi-br-holding-hand-revenue::before,.fi-rr-benefit-thumbs-down::before,.fi-rr-holding-hand-revenue::before,
-.fi-ss-gifts::before,.fi-ts-hand-holding-medical::before { position: relative; left: 0.02em; top: -0.04em; }
+.fi-ss-gifts::before,.fi-ts-hand-holding-medical::before { position: relative; left: 0.02em; left: round(0.02em, 1px); top: -0.04em; top: round(-0.04em, 1px); }
 
 /* left +0.025em, top -0.04em - 12 icons */
 .fi-br-chart-gantt::before,.fi-br-compliance::before,.fi-rr-chart-gantt::before,.fi-rr-compliance::before,
 .fi-rs-no-vaping::before,.fi-sr-chart-gantt::before,.fi-sr-gifts::before,.fi-ss-cloud-sun::before,
-.fi-ss-fist-move::before,.fi-tr-broken-arm::before,.fi-tr-chart-gantt::before,.fi-ts-broken-arm::before { position: relative; left: 0.025em; top: -0.04em; }
+.fi-ss-fist-move::before,.fi-tr-broken-arm::before,.fi-tr-chart-gantt::before,.fi-ts-broken-arm::before { position: relative; left: 0.025em; left: round(0.025em, 1px); top: -0.04em; top: round(-0.04em, 1px); }
 
 /* left +0.03em, top -0.04em - 2 icons */
-.fi-br-graph-curve::before,.fi-rs-accident::before { position: relative; left: 0.03em; top: -0.04em; }
+.fi-br-graph-curve::before,.fi-rs-accident::before { position: relative; left: 0.03em; left: round(0.03em, 1px); top: -0.04em; top: round(-0.04em, 1px); }
 
 /* left +0.035em, top -0.04em - 1 icon */
-.fi-ss-house-tree::before { position: relative; left: 0.035em; top: -0.04em; }
+.fi-ss-house-tree::before { position: relative; left: 0.035em; left: round(0.035em, 1px); top: -0.04em; top: round(-0.04em, 1px); }
 
 /* left +0.04em, top -0.04em - 4 icons */
-.fi-rr-angle-90::before,.fi-ss-ruler-triangle::before,.fi-ss-serum::before,.fi-ss-shovel::before { position: relative; left: 0.04em; top: -0.04em; }
+.fi-rr-angle-90::before,.fi-ss-ruler-triangle::before,.fi-ss-serum::before,.fi-ss-shovel::before { position: relative; left: 0.04em; left: round(0.04em, 1px); top: -0.04em; top: round(-0.04em, 1px); }
 
 /* left -0.04em, top -0.035em - 5 icons */
 .fi-bs-down-right::before,.fi-bs-melon::before,.fi-sr-hand-love::before,.fi-ss-limit-thumbs-down::before,
-.fi-ss-phone-flip::before { position: relative; left: -0.04em; top: -0.035em; }
+.fi-ss-phone-flip::before { position: relative; left: -0.04em; left: round(-0.04em, 1px); top: -0.035em; top: round(-0.035em, 1px); }
 
 /* left -0.035em, top -0.035em - 9 icons */
 .fi-rr-resources::before,.fi-rs-melon::before,.fi-rs-watermelon::before,.fi-ss-cursor-finger::before,
 .fi-ss-hand-sparkles::before,.fi-ss-joint::before,.fi-ss-stretcher::before,.fi-tr-wifi-lock::before,
-.fi-ts-hat-cowboy::before { position: relative; left: -0.035em; top: -0.035em; }
+.fi-ts-hat-cowboy::before { position: relative; left: -0.035em; left: round(-0.035em, 1px); top: -0.035em; top: round(-0.035em, 1px); }
 
 /* left -0.03em, top -0.035em - 11 icons */
 .fi-br-crane-building::before,.fi-br-hand-love::before,.fi-bs-crane-building::before,.fi-rr-house-day::before,
 .fi-rs-citrus-slice::before,.fi-rs-house-day::before,.fi-rs-stretcher::before,.fi-sr-rocking-horse::before,
-.fi-ss-rocking-horse::before,.fi-tr-rocking-horse::before,.fi-ts-rocking-horse::before { position: relative; left: -0.03em; top: -0.035em; }
+.fi-ss-rocking-horse::before,.fi-tr-rocking-horse::before,.fi-ts-rocking-horse::before { position: relative; left: -0.03em; left: round(-0.03em, 1px); top: -0.035em; top: round(-0.035em, 1px); }
 
 /* left -0.025em, top -0.035em - 13 icons */
 .fi-br-gramophone::before,.fi-br-pinata::before,.fi-br-supply-chain::before,.fi-bs-laptop-signal::before,
 .fi-rr-gramophone::before,.fi-rr-journey::before,.fi-rs-supply-chain::before,.fi-sr-laptop-lock::before,
 .fi-ss-hand-back-point-ribbon::before,.fi-ss-hand-love::before,.fi-ss-laptop-mute::before,
-.fi-ss-supply-chain::before,.fi-ts-gramophone::before { position: relative; left: -0.025em; top: -0.035em; }
+.fi-ss-supply-chain::before,.fi-ts-gramophone::before { position: relative; left: -0.025em; left: round(-0.025em, 1px); top: -0.035em; top: round(-0.035em, 1px); }
 
 /* left -0.02em, top -0.035em - 8 icons */
 .fi-bs-laptop-dollar::before,.fi-rr-supply-chain::before,.fi-sr-cloud-sun-tear::before,
 .fi-sr-laptop-mute::before,.fi-sr-laptop-no-camera::before,.fi-ss-foam-thumbs-down::before,
-.fi-tr-Revenue::before,.fi-tr-nose::before { position: relative; left: -0.02em; top: -0.035em; }
+.fi-tr-Revenue::before,.fi-tr-nose::before { position: relative; left: -0.02em; left: round(-0.02em, 1px); top: -0.035em; top: round(-0.035em, 1px); }
 
 /* left 0, top -0.035em - 551 icons */
 .fi-br-Revenue::before,.fi-br-angle::before,.fi-br-arrow-alt-from-bottom::before,
@@ -326,12 +333,12 @@
 .fi-ts-radio-alt::before,.fi-ts-scanner-image::before,.fi-ts-schedule::before,.fi-ts-school::before,
 .fi-ts-sewing-machine::before,.fi-ts-share-square::before,.fi-ts-shower-down::before,.fi-ts-sunrise::before,
 .fi-ts-toothpaste::before,.fi-ts-transporter-7::before,.fi-ts-tv-retro::before,.fi-ts-wildfire::before,
-.fi-ts-wireless-mouse::before,.fi-ts-workflow::before,.fi-ts-yogurt::before { position: relative; top: -0.035em; }
+.fi-ts-wireless-mouse::before,.fi-ts-workflow::before,.fi-ts-yogurt::before { position: relative; top: -0.035em; top: round(-0.035em, 1px); }
 
 /* left +0.02em, top -0.035em - 10 icons */
 .fi-br-hand-holding-usd::before,.fi-br-multitasking::before,.fi-br-ship-side::before,
 .fi-bs-hand-holding-medical::before,.fi-bs-hand-holding-usd::before,.fi-bs-holding-hand-revenue::before,
-.fi-rs-chart-gantt::before,.fi-ss-chart-gantt::before,.fi-ss-supplier-alt::before,.fi-ts-chart-gantt::before { position: relative; left: 0.02em; top: -0.035em; }
+.fi-rs-chart-gantt::before,.fi-ss-chart-gantt::before,.fi-ss-supplier-alt::before,.fi-ts-chart-gantt::before { position: relative; left: 0.02em; left: round(0.02em, 1px); top: -0.035em; top: round(-0.035em, 1px); }
 
 /* left +0.025em, top -0.035em - 28 icons */
 .fi-br-candle-lotus-yoga::before,.fi-br-holding-hand-gear::before,.fi-br-no-vaping::before,
@@ -342,7 +349,7 @@
 .fi-rs-graph-curve::before,.fi-rs-hand-holding-droplet::before,.fi-rs-hand-holding-medical::before,
 .fi-rs-holding-hand-revenue::before,.fi-sr-graph-curve::before,.fi-sr-person-arrow-down-to-line::before,
 .fi-ss-fuel-station-arrow::before,.fi-ss-graph-curve::before,.fi-tr-angle::before,.fi-tr-broken-leg::before,
-.fi-ts-accident::before,.fi-ts-broken-leg::before { position: relative; left: 0.025em; top: -0.035em; }
+.fi-ts-accident::before,.fi-ts-broken-leg::before { position: relative; left: 0.025em; left: round(0.025em, 1px); top: -0.035em; top: round(-0.035em, 1px); }
 
 /* left +0.03em, top -0.035em - 15 icons */
 .fi-br-chart-scatter::before,.fi-bs-method::before,.fi-bs-person-arrow-up-from-line::before,
@@ -350,7 +357,7 @@
 .fi-ss-discount::before,.fi-ss-hand-holding-usd::before,.fi-ss-holding-hand-nft::before,
 .fi-ss-house-thumbs-down::before,.fi-ss-loan::before,.fi-ss-multitasking::before,
 .fi-ss-person-arrow-down-to-line::before,.fi-ss-person-arrow-up-from-line::before,
-.fi-ss-rocket-holding-thumbs-down::before { position: relative; left: 0.03em; top: -0.035em; }
+.fi-ss-rocket-holding-thumbs-down::before { position: relative; left: 0.03em; left: round(0.03em, 1px); top: -0.035em; top: round(-0.035em, 1px); }
 
 /* left +0.035em, top -0.035em - 24 icons */
 .fi-br-angle-90::before,.fi-br-person-arrow-down-to-line::before,.fi-br-person-arrow-up-from-line::before,
@@ -360,24 +367,24 @@
 .fi-sr-serum::before,.fi-sr-skate-park::before,.fi-ss-arrow-down-left::before,.fi-ss-banjo::before,
 .fi-ss-customize-edit::before,.fi-ss-holding-hand-direction::before,.fi-ss-lung-ribbon::before,
 .fi-ss-plug-bolt-charger::before,.fi-ss-sensor-on::before,.fi-tr-chart-scatter::before,.fi-tr-dreidel::before,
-.fi-ts-angle-90::before { position: relative; left: 0.035em; top: -0.035em; }
+.fi-ts-angle-90::before { position: relative; left: 0.035em; left: round(0.035em, 1px); top: -0.035em; top: round(-0.035em, 1px); }
 
 /* left +0.04em, top -0.035em - 4 icons */
-.fi-bs-down-left::before,.fi-sr-dreidel::before,.fi-sr-strawberry::before,.fi-tr-angle-90::before { position: relative; left: 0.04em; top: -0.035em; }
+.fi-bs-down-left::before,.fi-sr-dreidel::before,.fi-sr-strawberry::before,.fi-tr-angle-90::before { position: relative; left: 0.04em; left: round(0.04em, 1px); top: -0.035em; top: round(-0.035em, 1px); }
 
 /* left -0.04em, top -0.03em - 1 icon */
-.fi-sr-limit-thumbs-down::before { position: relative; left: -0.04em; top: -0.03em; }
+.fi-sr-limit-thumbs-down::before { position: relative; left: -0.04em; left: round(-0.04em, 1px); top: -0.03em; top: round(-0.03em, 1px); }
 
 /* left -0.035em, top -0.03em - 11 icons */
 .fi-br-nose::before,.fi-bs-phone-flip::before,.fi-bs-shaka::before,.fi-bs-swipe-down::before,
 .fi-bs-watermelon::before,.fi-rs-down-right::before,.fi-rs-phone-flip::before,.fi-sr-hat-cowboy::before,
-.fi-ss-choose-alt::before,.fi-ss-hand-back-point-left::before,.fi-ts-melon::before { position: relative; left: -0.035em; top: -0.03em; }
+.fi-ss-choose-alt::before,.fi-ss-hand-back-point-left::before,.fi-ts-melon::before { position: relative; left: -0.035em; left: round(-0.035em, 1px); top: -0.03em; top: round(-0.03em, 1px); }
 
 /* left -0.03em, top -0.03em - 12 icons */
 .fi-brands-dailymotion::before,.fi-bs-laptop-lock::before,.fi-bs-stretcher::before,.fi-rr-hat-cowboy::before,
 .fi-sr-chess-knight::before,.fi-sr-choose-alt::before,.fi-sr-hand-sparkles::before,
 .fi-sr-laptop-shield::before,.fi-ss-dice-alt::before,.fi-ss-laptop-lock::before,.fi-ts-citrus-slice::before,
-.fi-ts-watermelon::before { position: relative; left: -0.03em; top: -0.03em; }
+.fi-ts-watermelon::before { position: relative; left: -0.03em; left: round(-0.03em, 1px); top: -0.03em; top: round(-0.03em, 1px); }
 
 /* left -0.025em, top -0.03em - 23 icons */
 .fi-br-laptop-lock::before,.fi-bs-house-day::before,.fi-bs-laptop-shield::before,.fi-bs-mountains::before,
@@ -385,12 +392,12 @@
 .fi-rr-stretcher::before,.fi-sr-down-right::before,.fi-sr-glacier::before,.fi-sr-hand-middle-finger::before,
 .fi-sr-j::before,.fi-sr-stretcher::before,.fi-ss-mountains::before,.fi-tr-gramophone::before,
 .fi-tr-laptop-signal::before,.fi-tr-steps-carreer::before,.fi-tr-stretcher::before,
-.fi-ts-mosquito-net::before,.fi-ts-nose::before,.fi-ts-steps-carreer::before,.fi-ts-stretcher::before { position: relative; left: -0.025em; top: -0.03em; }
+.fi-ts-mosquito-net::before,.fi-ts-nose::before,.fi-ts-steps-carreer::before,.fi-ts-stretcher::before { position: relative; left: -0.025em; left: round(-0.025em, 1px); top: -0.03em; top: round(-0.03em, 1px); }
 
 /* left -0.02em, top -0.03em - 10 icons */
 .fi-br-followers::before,.fi-br-house-day::before,.fi-br-j::before,.fi-br-laptop-no-camera::before,
 .fi-br-stretcher::before,.fi-bs-followers::before,.fi-bs-undo::before,.fi-rr-pinata::before,
-.fi-ss-mower::before,.fi-ss-person-rifle::before { position: relative; left: -0.02em; top: -0.03em; }
+.fi-ss-mower::before,.fi-ss-person-rifle::before { position: relative; left: -0.02em; left: round(-0.02em, 1px); top: -0.03em; top: round(-0.03em, 1px); }
 
 /* left 0, top -0.03em - 940 icons */
 .fi-br-apricot::before,.fi-br-arrow-alt-to-bottom::before,.fi-br-arrow-to-bottom::before,
@@ -662,7 +669,7 @@
 .fi-ts-rings-wedding::before,.fi-ts-school-circle-chek::before,.fi-ts-school-circle-xmark::before,
 .fi-ts-school-lock::before,.fi-ts-score-board::before,.fi-ts-shirt-running::before,
 .fi-ts-signal-alt-2::before,.fi-ts-siren-on::before,.fi-ts-skin-drop::before,.fi-ts-spring-calendar::before,
-.fi-ts-stationary-bike::before,.fi-ts-trading::before,.fi-ts-wednesday::before,.fi-ts-whistle::before { position: relative; top: -0.03em; }
+.fi-ts-stationary-bike::before,.fi-ts-trading::before,.fi-ts-wednesday::before,.fi-ts-whistle::before { position: relative; top: -0.03em; top: round(-0.03em, 1px); }
 
 /* left +0.02em, top -0.03em - 19 icons */
 .fi-br-app-notification::before,.fi-br-hand-point-ribbon::before,.fi-br-house-thumbs-down::before,
@@ -671,7 +678,7 @@
 .fi-rr-hand-holding-water::before,.fi-rs-attribution-pen::before,.fi-sr-chart-histogram::before,
 .fi-sr-fist-move::before,.fi-sr-rocket-holding-thumbs-down::before,.fi-ss-car-bump::before,
 .fi-ss-grow-graphs-box::before,.fi-ss-hiking-boot::before,.fi-tr-hand-holding-usd::before,
-.fi-ts-hand-holding-usd::before { position: relative; left: 0.02em; top: -0.03em; }
+.fi-ts-hand-holding-usd::before { position: relative; left: 0.02em; left: round(0.02em, 1px); top: -0.03em; top: round(-0.03em, 1px); }
 
 /* left +0.025em, top -0.03em - 32 icons */
 .fi-br-leader::before,.fi-bs-benefit::before,.fi-bs-car-bump::before,.fi-bs-chart-scatter::before,
@@ -683,7 +690,7 @@
 .fi-sr-calendar-gavel-legal::before,.fi-sr-holding-hand-delivery::before,.fi-sr-multitasking::before,
 .fi-sr-person-arrow-up-from-line::before,.fi-sr-tip-coin::before,.fi-ss-boot-heeled::before,
 .fi-ss-character::before,.fi-ss-chart-histogram::before,.fi-ss-holding-hand-delivery::before,
-.fi-ss-supply-chain-steps::before,.fi-tr-gun-squirt::before,.fi-ts-bonus-alt::before { position: relative; left: 0.025em; top: -0.03em; }
+.fi-ss-supply-chain-steps::before,.fi-tr-gun-squirt::before,.fi-ts-bonus-alt::before { position: relative; left: 0.025em; left: round(0.025em, 1px); top: -0.03em; top: round(-0.03em, 1px); }
 
 /* left +0.03em, top -0.03em - 37 icons */
 .fi-br-arrow-down-left::before,.fi-br-broken-leg::before,.fi-br-dreidel::before,.fi-br-l::before,
@@ -696,33 +703,33 @@
 .fi-ss-makeup-brush::before,.fi-ss-mandolin::before,.fi-ss-onboarding::before,.fi-ss-tip-coin::before,
 .fi-tr-arrow-down-left::before,.fi-tr-plug-bolt-charger::before,.fi-tr-skate-park::before,
 .fi-tr-smile-plus::before,.fi-tr-strawberry::before,.fi-ts-arrow-down-left::before,
-.fi-ts-plug-bolt-charger::before,.fi-ts-shovel::before,.fi-ts-smile-plus::before,.fi-ts-strawberry::before { position: relative; left: 0.03em; top: -0.03em; }
+.fi-ts-plug-bolt-charger::before,.fi-ts-shovel::before,.fi-ts-smile-plus::before,.fi-ts-strawberry::before { position: relative; left: 0.03em; left: round(0.03em, 1px); top: -0.03em; top: round(-0.03em, 1px); }
 
 /* left +0.035em, top -0.03em - 16 icons */
 .fi-br-broken-arm::before,.fi-br-ice-skate::before,.fi-bs-angle-90::before,.fi-bs-banjo::before,
 .fi-bs-puzzle-piece::before,.fi-bs-ruler-triangle::before,.fi-rr-chart-scatter::before,.fi-rr-dreidel::before,
 .fi-rs-ruler-triangle::before,.fi-rs-shovel::before,.fi-sr-benefit-increase::before,
 .fi-sr-broken-nail::before,.fi-sr-user-up::before,.fi-ss-hand-back-point-right::before,
-.fi-ss-strawberry::before,.fi-ts-chart-scatter::before { position: relative; left: 0.035em; top: -0.03em; }
+.fi-ss-strawberry::before,.fi-ts-chart-scatter::before { position: relative; left: 0.035em; left: round(0.035em, 1px); top: -0.03em; top: round(-0.03em, 1px); }
 
 /* left +0.04em, top -0.03em - 2 icons */
-.fi-br-hand-cleaning::before,.fi-tr-chart-histogram::before { position: relative; left: 0.04em; top: -0.03em; }
+.fi-br-hand-cleaning::before,.fi-tr-chart-histogram::before { position: relative; left: 0.04em; left: round(0.04em, 1px); top: -0.03em; top: round(-0.03em, 1px); }
 
 /* left -0.04em, top -0.025em - 3 icons */
-.fi-br-person-praying::before,.fi-rr-microscope::before,.fi-sr-microscope::before { position: relative; left: -0.04em; top: -0.025em; }
+.fi-br-person-praying::before,.fi-rr-microscope::before,.fi-sr-microscope::before { position: relative; left: -0.04em; left: round(-0.04em, 1px); top: -0.025em; top: round(-0.025em, 1px); }
 
 /* left -0.035em, top -0.025em - 15 icons */
 .fi-rr-hand-bandage-wound::before,.fi-rs-hand-bandage-wound::before,.fi-rs-microscope::before,
 .fi-sr-hashtag-lock::before,.fi-sr-joint::before,.fi-sr-mission::before,.fi-sr-swipe-down::before,
 .fi-sr-user-salary::before,.fi-ss-arrow-down-triangle-square::before,.fi-ss-cursor-plus::before,
 .fi-ss-hat-cowboy::before,.fi-ss-microscope::before,.fi-tr-hashtag-lock::before,.fi-ts-down-right::before,
-.fi-ts-heart-arrow::before { position: relative; left: -0.035em; top: -0.025em; }
+.fi-ts-heart-arrow::before { position: relative; left: -0.035em; left: round(-0.035em, 1px); top: -0.025em; top: round(-0.025em, 1px); }
 
 /* left -0.03em, top -0.025em - 15 icons */
 .fi-br-pets::before,.fi-bs-old-people::before,.fi-rr-cursor-finger-click::before,.fi-rr-hashtag-lock::before,
 .fi-rr-pets::before,.fi-rs-cursor-finger-click::before,.fi-rs-hat-cowboy::before,.fi-rs-nose::before,
 .fi-ss-laptop-shield::before,.fi-ss-person-praying::before,.fi-ss-rabbit::before,.fi-tr-heart-arrow::before,
-.fi-tr-microscope::before,.fi-ts-microscope::before,.fi-ts-phone-flip::before { position: relative; left: -0.03em; top: -0.025em; }
+.fi-tr-microscope::before,.fi-ts-microscope::before,.fi-ts-phone-flip::before { position: relative; left: -0.03em; left: round(-0.03em, 1px); top: -0.025em; top: round(-0.025em, 1px); }
 
 /* left -0.025em, top -0.025em - 26 icons */
 .fi-br-bridge-construction::before,.fi-br-hat-cowboy::before,.fi-br-laptop-shield::before,
@@ -732,7 +739,7 @@
 .fi-sr-person-circle-check::before,.fi-sr-person-circle-exclamation::before,
 .fi-sr-person-circle-minus::before,.fi-sr-person-circle-plus::before,.fi-sr-person-circle-question::before,
 .fi-sr-person-circle-xmark::before,.fi-sr-rabbit::before,.fi-ss-house-night::before,
-.fi-ss-rocket-thumbs-down::before,.fi-ss-user-salary::before,.fi-tr-mouse-pointer-click::before { position: relative; left: -0.025em; top: -0.025em; }
+.fi-ss-rocket-thumbs-down::before,.fi-ss-user-salary::before,.fi-tr-mouse-pointer-click::before { position: relative; left: -0.025em; left: round(-0.025em, 1px); top: -0.025em; top: round(-0.025em, 1px); }
 
 /* left -0.02em, top -0.025em - 21 icons */
 .fi-br-citrus-slice::before,.fi-br-hat-santa::before,.fi-bs-highlighter-line::before,.fi-bs-mower::before,
@@ -740,7 +747,7 @@
 .fi-ss-hand-fingers-crossed::before,.fi-ss-j::before,.fi-ss-person-circle-check::before,
 .fi-ss-person-circle-exclamation::before,.fi-ss-person-circle-minus::before,.fi-ss-person-circle-plus::before,
 .fi-ss-person-circle-question::before,.fi-ss-person-circle-xmark::before,.fi-ss-plane-lock::before,
-.fi-tr-laptop-lock::before,.fi-tr-supply-chain::before,.fi-ts-laptop-lock::before,.fi-ts-laptop-signal::before { position: relative; left: -0.02em; top: -0.025em; }
+.fi-tr-laptop-lock::before,.fi-tr-supply-chain::before,.fi-ts-laptop-lock::before,.fi-ts-laptop-signal::before { position: relative; left: -0.02em; left: round(-0.02em, 1px); top: -0.025em; top: round(-0.025em, 1px); }
 
 /* left 0, top -0.025em - 1435 icons */
 .fi-br-accident::before,.fi-br-accountant::before,.fi-br-age-alt::before,.fi-br-aloe-vera::before,
@@ -1149,7 +1156,7 @@
 .fi-ts-tent-arrows-down::before,.fi-ts-terminal::before,.fi-ts-thursday::before,.fi-ts-tomato::before,
 .fi-ts-tower-control::before,.fi-ts-traffic-cone::before,.fi-ts-truck-tow::before,.fi-ts-tuesday::before,
 .fi-ts-up-from-bracket::before,.fi-ts-user-pen-head::before,.fi-ts-video-camera::before,
-.fi-ts-warehouse-alt::before,.fi-ts-warranty::before,.fi-ts-workflow-setting-alt::before { position: relative; top: -0.025em; }
+.fi-ts-warehouse-alt::before,.fi-ts-warranty::before,.fi-ts-workflow-setting-alt::before { position: relative; top: -0.025em; top: round(-0.025em, 1px); }
 
 /* left +0.02em, top -0.025em - 40 icons */
 .fi-br-bell-ring::before,.fi-br-cursor-finger::before,.fi-bs-expense::before,
@@ -1163,7 +1170,7 @@
 .fi-ss-assessment-alt::before,.fi-ss-glue-stick::before,.fi-ss-l::before,.fi-ss-lawyer-man::before,
 .fi-ss-payroll-calendar::before,.fi-ss-seller::before,.fi-ss-truck-plow::before,.fi-tr-pen-nib::before,
 .fi-ts-fuel-station-arrow::before,.fi-ts-gun-squirt::before,.fi-ts-house-tree::before,
-.fi-ts-megaphone::before,.fi-ts-truck-plow::before { position: relative; left: 0.02em; top: -0.025em; }
+.fi-ts-megaphone::before,.fi-ts-truck-plow::before { position: relative; left: 0.02em; left: round(0.02em, 1px); top: -0.025em; top: round(-0.025em, 1px); }
 
 /* left +0.025em, top -0.025em - 70 icons */
 .fi-br-customize-edit::before,.fi-br-gun-shooting::before,.fi-br-high-temperature-alert::before,
@@ -1185,7 +1192,7 @@
 .fi-ss-house-key::before,.fi-ss-lawyer-woman::before,.fi-ss-lead::before,.fi-ss-padlock-check::before,
 .fi-ss-person-harassing::before,.fi-ss-phone-slash::before,.fi-ss-smart-home-key::before,
 .fi-ss-task-calendar::before,.fi-ss-user-pen::before,.fi-ss-user-tag::before,.fi-tr-shovel::before,
-.fi-ts-attribution-pen::before,.fi-ts-pen-nib::before,.fi-ts-serum::before { position: relative; left: 0.025em; top: -0.025em; }
+.fi-ts-attribution-pen::before,.fi-ts-pen-nib::before,.fi-ts-serum::before { position: relative; left: 0.025em; left: round(0.025em, 1px); top: -0.025em; top: round(-0.025em, 1px); }
 
 /* left +0.03em, top -0.025em - 38 icons */
 .fi-br-broken-nail::before,.fi-bs-tip-coin::before,.fi-rr-ice-skate::before,.fi-rr-match-fire::before,
@@ -1199,34 +1206,34 @@
 .fi-ss-hand-holding-skull::before,.fi-ss-holding-hand-key::before,.fi-ss-man-scientist::before,
 .fi-ss-user-writer::before,.fi-ss-woman-scientist::before,.fi-tr-attribution-pen::before,.fi-tr-l::before,
 .fi-ts-car-tilt::before,.fi-ts-front-loader::before,.fi-ts-l::before,.fi-ts-phone-slash::before,
-.fi-ts-ruler-triangle::before { position: relative; left: 0.03em; top: -0.025em; }
+.fi-ts-ruler-triangle::before { position: relative; left: 0.03em; left: round(0.03em, 1px); top: -0.025em; top: round(-0.025em, 1px); }
 
 /* left +0.035em, top -0.025em - 18 icons */
 .fi-br-puzzle-piece::before,.fi-bs-broken-arm::before,.fi-bs-elephant::before,.fi-bs-skating::before,
 .fi-rs-high-temperature-alert::before,.fi-sr-holding-hand-direction::before,.fi-sr-marriage-proposal::before,
 .fi-sr-user-check::before,.fi-ss-admin-alt::before,.fi-ss-expense::before,.fi-ss-marriage-proposal::before,
 .fi-ss-puzzle-piece::before,.fi-ss-skate-park::before,.fi-ss-user-logout::before,.fi-ss-user-xmark::before,
-.fi-tr-match-fire::before,.fi-ts-chart-waterfall::before,.fi-ts-tax-alt::before { position: relative; left: 0.035em; top: -0.025em; }
+.fi-tr-match-fire::before,.fi-ts-chart-waterfall::before,.fi-ts-tax-alt::before { position: relative; left: 0.035em; left: round(0.035em, 1px); top: -0.025em; top: round(-0.025em, 1px); }
 
 /* left +0.04em, top -0.025em - 8 icons */
 .fi-bs-hand-horns-bolt::before,.fi-rs-front-loader::before,.fi-rs-ice-skate::before,
 .fi-sr-hand-horns-bolt::before,.fi-sr-patient::before,.fi-ss-user-gear::before,.fi-tr-chart-waterfall::before,
-.fi-tr-tax-alt::before { position: relative; left: 0.04em; top: -0.025em; }
+.fi-tr-tax-alt::before { position: relative; left: 0.04em; left: round(0.04em, 1px); top: -0.025em; top: round(-0.025em, 1px); }
 
 /* left -0.04em, top -0.02em - 3 icons */
-.fi-rr-joint::before,.fi-rr-person-praying::before,.fi-rr-vacuum::before { position: relative; left: -0.04em; top: -0.02em; }
+.fi-rr-joint::before,.fi-rr-person-praying::before,.fi-rr-vacuum::before { position: relative; left: -0.04em; left: round(-0.04em, 1px); top: -0.02em; top: round(-0.02em, 1px); }
 
 /* left -0.035em, top -0.02em - 9 icons */
 .fi-br-limit-thumbs-down::before,.fi-sr-apple-juice::before,.fi-sr-person-praying::before,
 .fi-sr-swipe-up::before,.fi-ss-hand-bandage-wound::before,.fi-ss-hashtag-lock::before,.fi-ss-rent::before,
-.fi-ss-writing::before,.fi-ts-hashtag-lock::before { position: relative; left: -0.035em; top: -0.02em; }
+.fi-ss-writing::before,.fi-ts-hashtag-lock::before { position: relative; left: -0.035em; left: round(-0.035em, 1px); top: -0.02em; top: round(-0.02em, 1px); }
 
 /* left -0.03em, top -0.02em - 17 icons */
 .fi-br-apple-juice::before,.fi-br-rabbit::before,.fi-rr-heart-arrow::before,.fi-rr-information::before,
 .fi-rr-limit-thumbs-down::before,.fi-rs-heart-arrow::before,.fi-rs-person-praying::before,.fi-rs-pets::before,
 .fi-sr-hat-witch::before,.fi-sr-information::before,.fi-sr-orange-juice::before,.fi-sr-picaxe-minning::before,
 .fi-sr-videoconference::before,.fi-sr-writing::before,.fi-ss-apple-juice::before,.fi-ss-mission::before,
-.fi-ss-sword-spade::before { position: relative; left: -0.03em; top: -0.02em; }
+.fi-ss-sword-spade::before { position: relative; left: -0.03em; left: round(-0.03em, 1px); top: -0.02em; top: round(-0.02em, 1px); }
 
 /* left -0.025em, top -0.02em - 25 icons */
 .fi-br-hashtag-lock::before,.fi-br-hat-witch::before,.fi-br-orange-juice::before,.fi-br-plane-lock::before,
@@ -1236,14 +1243,14 @@
 .fi-sr-person-lunge::before,.fi-sr-wheelchair-move::before,.fi-ss-goals::before,.fi-ss-hand-scissors::before,
 .fi-ss-information::before,.fi-ss-waterpolo-thumbs-down::before,.fi-tr-mosquito-net::before,
 .fi-tr-wheat-awn-circle-exclamation::before,.fi-ts-mountains::before,.fi-ts-trust::before,
-.fi-ts-wheat-awn-circle-exclamation::before { position: relative; left: -0.025em; top: -0.02em; }
+.fi-ts-wheat-awn-circle-exclamation::before { position: relative; left: -0.025em; left: round(-0.025em, 1px); top: -0.02em; top: round(-0.02em, 1px); }
 
 /* left -0.02em, top -0.02em - 16 icons */
 .fi-br-object-subtract::before,.fi-br-person-luggage::before,.fi-brands-artstation::before,
 .fi-bs-bridge-construction::before,.fi-bs-cursor-plus::before,.fi-bs-scraper::before,.fi-rr-trust::before,
 .fi-rs-person-lunge::before,.fi-sr-brand::before,.fi-sr-mango::before,.fi-sr-waterpolo-thumbs-down::before,
 .fi-ss-sleeping-cat::before,.fi-tr-arrow-down-triangle-square::before,.fi-tr-brand::before,
-.fi-tr-laptop-shield::before,.fi-tr-trust::before { position: relative; left: -0.02em; top: -0.02em; }
+.fi-tr-laptop-shield::before,.fi-tr-trust::before { position: relative; left: -0.02em; left: round(-0.02em, 1px); top: -0.02em; top: round(-0.02em, 1px); }
 
 /* left 0, top -0.02em - 945 icons */
 .fi-br-5g-lock::before,.fi-br-CRM::before,.fi-br-angel::before,.fi-br-bed::before,.fi-br-bench-tree::before,
@@ -1513,7 +1520,7 @@
 .fi-ts-sauce::before,.fi-ts-scalpel-path::before,.fi-ts-seat-airline::before,.fi-ts-shirt-tank-top::before,
 .fi-ts-signal-alt::before,.fi-ts-smart-home-key::before,.fi-ts-smoothie::before,.fi-ts-spade::before,
 .fi-ts-stapler::before,.fi-ts-tip-coin::before,.fi-ts-triangle::before,.fi-ts-uv-sign::before,
-.fi-ts-windsurf::before { position: relative; top: -0.02em; }
+.fi-ts-windsurf::before { position: relative; top: -0.02em; top: round(-0.02em, 1px); }
 
 /* left +0.02em, top -0.02em - 27 icons */
 .fi-br-banjo::before,.fi-br-hand-holding-skull::before,.fi-br-hand-present::before,.fi-br-leader-alt::before,
@@ -1523,7 +1530,7 @@
 .fi-tr-method::before,.fi-tr-no-vaping::before,.fi-ts-banjo::before,.fi-ts-benefit::before,
 .fi-ts-benefit-increase::before,.fi-ts-benefit-porcent::before,.fi-ts-holding-hand-brain::before,
 .fi-ts-house-thumbs-down::before,.fi-ts-knitting::before,.fi-ts-mandolin::before,.fi-ts-no-vaping::before,
-.fi-ts-onboarding::before,.fi-ts-puzzle-piece::before { position: relative; left: 0.02em; top: -0.02em; }
+.fi-ts-onboarding::before,.fi-ts-puzzle-piece::before { position: relative; left: 0.02em; left: round(0.02em, 1px); top: -0.02em; top: round(-0.02em, 1px); }
 
 /* left +0.025em, top -0.02em - 30 icons */
 .fi-br-elephant::before,.fi-br-holding-hand-brain::before,.fi-bs-customer-care::before,
@@ -1534,7 +1541,7 @@
 .fi-sr-folder-open::before,.fi-ss-calendar-pen::before,.fi-ss-compliance-clipboard::before,
 .fi-ss-guitar::before,.fi-ss-insurance::before,.fi-ss-meteor::before,.fi-ss-person-dolly::before,
 .fi-ss-refer-arrow::before,.fi-ss-shuttlecock::before,.fi-tr-ruler-triangle::before,.fi-tr-serum::before,
-.fi-tr-shovel-snow::before { position: relative; left: 0.025em; top: -0.02em; }
+.fi-tr-shovel-snow::before { position: relative; left: 0.025em; left: round(0.025em, 1px); top: -0.02em; top: round(-0.02em, 1px); }
 
 /* left +0.03em, top -0.02em - 20 icons */
 .fi-br-boot-heeled::before,.fi-br-hand-horns-bolt::before,.fi-br-tip-coin::before,.fi-bs-broken-leg::before,
@@ -1542,17 +1549,17 @@
 .fi-sr-benefit-porcent::before,.fi-sr-checklist-task-budget::before,.fi-sr-expense::before,
 .fi-sr-holding-hand-key::before,.fi-ss-benefit-diamond::before,.fi-ss-benefit-porcent::before,
 .fi-ss-checklist-task-budget::before,.fi-ss-game::before,.fi-ss-hand-holding-heart::before,
-.fi-ss-hand-present::before,.fi-ss-snowplow::before,.fi-tr-ice-skate::before,.fi-ts-ice-skate::before { position: relative; left: 0.03em; top: -0.02em; }
+.fi-ss-hand-present::before,.fi-ss-snowplow::before,.fi-tr-ice-skate::before,.fi-ts-ice-skate::before { position: relative; left: 0.03em; left: round(0.03em, 1px); top: -0.02em; top: round(-0.02em, 1px); }
 
 /* left +0.035em, top -0.02em - 11 icons */
 .fi-br-person-dolly::before,.fi-br-person-dolly-empty::before,.fi-rs-cloud-sun::before,
 .fi-sr-hill-rockslide::before,.fi-sr-hotel-room-key::before,.fi-sr-lock-hashtag::before,
 .fi-sr-pipe-smoking::before,.fi-ss-file-backup::before,.fi-ss-ship-side::before,
-.fi-ss-user-sitting-toilet::before,.fi-tr-car-tilt::before { position: relative; left: 0.035em; top: -0.02em; }
+.fi-ss-user-sitting-toilet::before,.fi-tr-car-tilt::before { position: relative; left: 0.035em; left: round(0.035em, 1px); top: -0.02em; top: round(-0.02em, 1px); }
 
 /* left +0.04em, top -0.02em - 4 icons */
 .fi-rs-person-dolly-empty::before,.fi-ss-chart-scatter-bubble::before,.fi-ss-hill-avalanche::before,
-.fi-ss-lock-hashtag::before { position: relative; left: 0.04em; top: -0.02em; }
+.fi-ss-lock-hashtag::before { position: relative; left: 0.04em; left: round(0.04em, 1px); top: -0.02em; top: round(-0.02em, 1px); }
 
 /* left -0.04em, top 0 - 85 icons */
 .fi-br-arrow-right-to-bracket::before,.fi-br-arrow-right-to-city::before,.fi-br-arrow-small-left::before,
@@ -1580,7 +1587,7 @@
 .fi-tr-diary-bookmarks::before,.fi-tr-improve-user::before,.fi-tr-racquet::before,
 .fi-tr-shopping-cart-heart::before,.fi-tr-sort-size-down::before,.fi-tr-truck-flatbed::before,
 .fi-tr-user-ninja::before,.fi-ts-crane-building::before,.fi-ts-features-alt::before,.fi-ts-house-day::before,
-.fi-ts-portal-enter::before,.fi-ts-truck-flatbed::before,.fi-ts-user-language::before { position: relative; left: -0.04em; }
+.fi-ts-portal-enter::before,.fi-ts-truck-flatbed::before,.fi-ts-user-language::before { position: relative; left: -0.04em; left: round(-0.04em, 1px); }
 
 /* left -0.035em, top 0 - 175 icons */
 .fi-br-airplane-journey::before,.fi-br-arrow-alt-from-right::before,.fi-br-arrow-up-square-triangle::before,
@@ -1637,7 +1644,7 @@
 .fi-ts-person-rifle::before,.fi-ts-pointer-loading::before,.fi-ts-resources::before,
 .fi-ts-shopping-cart-buyer::before,.fi-ts-shopping-cart-heart::before,.fi-ts-smiling-boy::before,
 .fi-ts-syringe-injection-blood::before,.fi-ts-umbrella-beach::before,.fi-ts-user-beard::before,
-.fi-ts-user-graduate::before,.fi-ts-user-moustache::before,.fi-ts-wisdom::before { position: relative; left: -0.035em; }
+.fi-ts-user-graduate::before,.fi-ts-user-moustache::before,.fi-ts-wisdom::before { position: relative; left: -0.035em; left: round(-0.035em, 1px); }
 
 /* left -0.03em, top 0 - 234 icons */
 .fi-br-angle-small-right::before,.fi-br-arrow-alt-to-right::before,.fi-br-arrow-down-triangle-square::before,
@@ -1708,7 +1715,7 @@
 .fi-ts-mug::before,.fi-ts-person-praying::before,.fi-ts-robotic-arm::before,
 .fi-ts-shopping-cart-notification::before,.fi-ts-split::before,.fi-ts-student::before,.fi-ts-summer::before,
 .fi-ts-tattoo-machine::before,.fi-ts-temperature-frigid::before,.fi-ts-toilet-paper-blank::before,
-.fi-ts-truck-ramp::before,.fi-ts-yoga-moon::before { position: relative; left: -0.03em; }
+.fi-ts-truck-ramp::before,.fi-ts-yoga-moon::before { position: relative; left: -0.03em; left: round(-0.03em, 1px); }
 
 /* left -0.025em, top 0 - 398 icons */
 .fi-br-arrow-trend-down::before,.fi-br-arrow-trend-up::before,.fi-br-arrows-cross::before,
@@ -1830,7 +1837,7 @@
 .fi-ts-shopping-cart-add::before,.fi-ts-shopping-cart-checkout::before,.fi-ts-shopping-cart-favourite::before,
 .fi-ts-sort-shapes-down::before,.fi-ts-square-root::before,.fi-ts-swipe-down::before,.fi-ts-swipe-up::before,
 .fi-ts-trash-clock::before,.fi-ts-trophy-achievement-skill::before,.fi-ts-user-ninja::before,
-.fi-ts-vision-sense::before { position: relative; left: -0.025em; }
+.fi-ts-vision-sense::before { position: relative; left: -0.025em; left: round(-0.025em, 1px); }
 
 /* left -0.02em, top 0 - 232 icons */
 .fi-br-address-card::before,.fi-br-badminton::before,.fi-br-bell-notification-social-media::before,
@@ -1898,7 +1905,7 @@
 .fi-ts-scraper::before,.fi-ts-scythe::before,.fi-ts-shopping-cart-check::before,
 .fi-ts-shopping-cart-clear::before,.fi-ts-skiing::before,.fi-ts-skin-laser::before,
 .fi-ts-sort-shapes-up::before,.fi-ts-sparkles::before,.fi-ts-symbols::before,.fi-ts-track::before,
-.fi-ts-trust-alt::before,.fi-ts-user-dj::before,.fi-ts-writing::before,.fi-ts-y2k::before { position: relative; left: -0.02em; }
+.fi-ts-trust-alt::before,.fi-ts-user-dj::before,.fi-ts-writing::before,.fi-ts-y2k::before { position: relative; left: -0.02em; left: round(-0.02em, 1px); }
 
 /* left +0.02em, top 0 - 474 icons */
 .fi-br-Booking::before,.fi-br-air-freshener::before,.fi-br-angle-double-right::before,.fi-br-beer::before,
@@ -2042,7 +2049,7 @@
 .fi-ts-playing-cards::before,.fi-ts-problem-solving::before,.fi-ts-refer-arrow::before,.fi-ts-refund::before,
 .fi-ts-republican::before,.fi-ts-screw-alt::before,.fi-ts-server-key::before,.fi-ts-soju::before,
 .fi-ts-tap::before,.fi-ts-terms-info::before,.fi-ts-user-logout::before,.fi-ts-validating-receipt::before,
-.fi-ts-visit::before { position: relative; left: 0.02em; }
+.fi-ts-visit::before { position: relative; left: 0.02em; left: round(0.02em, 1px); }
 
 /* left +0.025em, top 0 - 610 icons */
 .fi-br-age::before,.fi-br-airplane-mode-off::before,.fi-br-airplane-mode-on::before,
@@ -2225,7 +2232,7 @@
 .fi-ts-space-shuttle::before,.fi-ts-star-and-crescent::before,.fi-ts-stomach-ache::before,
 .fi-ts-sunscreen::before,.fi-ts-tape::before,.fi-ts-tax::before,.fi-ts-timeline-arrow::before,
 .fi-ts-transcription::before,.fi-ts-trauma::before,.fi-ts-user-xmark::before,.fi-ts-users-loyalty::before,
-.fi-ts-volume-mute::before,.fi-ts-wishlist-heart::before,.fi-ts-woman-scientist::before { position: relative; left: 0.025em; }
+.fi-ts-volume-mute::before,.fi-ts-wishlist-heart::before,.fi-ts-woman-scientist::before { position: relative; left: 0.025em; left: round(0.025em, 1px); }
 
 /* left +0.03em, top 0 - 394 icons */
 .fi-br-age-restriction-eighteen::before,.fi-br-age-restriction-sixteen::before,
@@ -2345,7 +2352,7 @@
 .fi-ts-moon::before,.fi-ts-mouse-scroll::before,.fi-ts-person-seat::before,.fi-ts-pipe-smoking::before,
 .fi-ts-portfolio::before,.fi-ts-sleep-tracker::before,.fi-ts-snowplow::before,.fi-ts-task-checklist::before,
 .fi-ts-urban-planning::before,.fi-ts-user-down::before,.fi-ts-user-left::before,.fi-ts-user-up::before,
-.fi-ts-wheelchair::before { position: relative; left: 0.03em; }
+.fi-ts-wheelchair::before { position: relative; left: 0.03em; left: round(0.03em, 1px); }
 
 /* left +0.035em, top 0 - 257 icons */
 .fi-br-arrow-alt-from-left::before,.fi-br-arrow-alt-to-left::before,.fi-br-assessment::before,
@@ -2425,7 +2432,7 @@
 .fi-ts-match-fire::before,.fi-ts-mobile-app-cleaner::before,.fi-ts-paper-plane-top::before,
 .fi-ts-patient::before,.fi-ts-person-dolly::before,.fi-ts-remove-user::before,.fi-ts-spinner::before,
 .fi-ts-temperature-down::before,.fi-ts-turn-left-down::before,.fi-ts-two-paperclip::before,
-.fi-ts-user-add::before,.fi-ts-user-check::before,.fi-ts-user-minus::before { position: relative; left: 0.035em; }
+.fi-ts-user-add::before,.fi-ts-user-check::before,.fi-ts-user-minus::before { position: relative; left: 0.035em; left: round(0.035em, 1px); }
 
 /* left +0.04em, top 0 - 97 icons */
 .fi-br-auction-paddle::before,.fi-br-driller::before,.fi-br-file-export::before,.fi-br-hotel-room-key::before,
@@ -2456,24 +2463,24 @@
 .fi-tr-database-management::before,.fi-ts-enter::before,.fi-ts-magnifying-glass-binary::before,
 .fi-ts-member-search::before,.fi-ts-music-magnifying-glass::before,.fi-ts-pennant::before,
 .fi-ts-phone-guide::before,.fi-ts-search-alt::before,.fi-ts-temperature-up::before,
-.fi-ts-users-medical::before { position: relative; left: 0.04em; }
+.fi-ts-users-medical::before { position: relative; left: 0.04em; left: round(0.04em, 1px); }
 
 /* left -0.035em, top +0.02em - 4 icons */
-.fi-sr-hand-lizard::before,.fi-ss-laptop-mobile::before,.fi-ts-man-head::before,.fi-ts-trademark::before { position: relative; left: -0.035em; top: 0.02em; }
+.fi-sr-hand-lizard::before,.fi-ss-laptop-mobile::before,.fi-ts-man-head::before,.fi-ts-trademark::before { position: relative; left: -0.035em; left: round(-0.035em, 1px); top: 0.02em; top: round(0.02em, 1px); }
 
 /* left -0.03em, top +0.02em - 3 icons */
-.fi-rs-goalkeeper::before,.fi-rs-syringe-injection-blood::before,.fi-sr-candy-alt::before { position: relative; left: -0.03em; top: 0.02em; }
+.fi-rs-goalkeeper::before,.fi-rs-syringe-injection-blood::before,.fi-sr-candy-alt::before { position: relative; left: -0.03em; left: round(-0.03em, 1px); top: 0.02em; top: round(0.02em, 1px); }
 
 /* left -0.025em, top +0.02em - 8 icons */
 .fi-rr-hand-back-point-left::before,.fi-rr-mask-snorkel::before,.fi-sr-knife::before,
 .fi-sr-sun-salutation-yoga::before,.fi-sr-thermometer-alt::before,.fi-ss-shopping-cart-favourite::before,
-.fi-tr-arrow-up-square-triangle::before,.fi-ts-person-dress-burst::before { position: relative; left: -0.025em; top: 0.02em; }
+.fi-tr-arrow-up-square-triangle::before,.fi-ts-person-dress-burst::before { position: relative; left: -0.025em; left: round(-0.025em, 1px); top: 0.02em; top: round(0.02em, 1px); }
 
 /* left -0.02em, top +0.02em - 14 icons */
 .fi-br-customize::before,.fi-br-squid::before,.fi-rr-lacrosse-stick::before,.fi-rr-person-burst::before,
 .fi-rr-squid::before,.fi-rr-time-quarter-past::before,.fi-rr-turtle::before,.fi-sr-takoyaki::before,
 .fi-ss-carrot::before,.fi-tr-lacrosse-stick::before,.fi-tr-mask-snorkel::before,.fi-tr-peppermint::before,
-.fi-tr-spoon::before,.fi-tr-staff::before { position: relative; left: -0.02em; top: 0.02em; }
+.fi-tr-spoon::before,.fi-tr-staff::before { position: relative; left: -0.02em; left: round(-0.02em, 1px); top: 0.02em; top: round(0.02em, 1px); }
 
 /* left 0, top +0.02em - 455 icons */
 .fi-br-4::before,.fi-br-armor::before,.fi-br-basketball-hoop::before,.fi-br-bed-bunk::before,
@@ -2601,7 +2608,7 @@
 .fi-ts-trailer::before,.fi-ts-train-clock::before,.fi-ts-train-side::before,.fi-ts-usa-map::before,
 .fi-ts-user-circle-down::before,.fi-ts-user-circle-left::before,.fi-ts-user-circle-right::before,
 .fi-ts-user-cowboy::before,.fi-ts-user-group-crown::before,.fi-ts-user-headset::before,
-.fi-ts-users-slash::before,.fi-ts-utensils-slash::before,.fi-ts-washing-dishes::before,.fi-ts-wifi::before { position: relative; top: 0.02em; }
+.fi-ts-users-slash::before,.fi-ts-utensils-slash::before,.fi-ts-washing-dishes::before,.fi-ts-wifi::before { position: relative; top: 0.02em; top: round(0.02em, 1px); }
 
 /* left +0.02em, top +0.02em - 23 icons */
 .fi-br-analyse-alt::before,.fi-br-curve::before,.fi-br-evidence::before,.fi-br-issue-loupe::before,
@@ -2610,37 +2617,37 @@
 .fi-br-zoom-in::before,.fi-rr-comedy-podcast::before,.fi-rr-curve::before,.fi-rr-grate-droplet::before,
 .fi-rr-search::before,.fi-rr-zoom-out::before,.fi-sr-caulk-gun::before,.fi-sr-curve::before,
 .fi-sr-fingerprint-magnifying-glass::before,.fi-sr-timeline-arrow::before,.fi-sr-truck-medical::before,
-.fi-tr-sperm::before,.fi-ts-leader-alt::before { position: relative; left: 0.02em; top: 0.02em; }
+.fi-tr-sperm::before,.fi-ts-leader-alt::before { position: relative; left: 0.02em; left: round(0.02em, 1px); top: 0.02em; top: round(0.02em, 1px); }
 
 /* left +0.025em, top +0.02em - 9 icons */
 .fi-br-comedy-podcast::before,.fi-br-up-left::before,.fi-rr-fingerprint-magnifying-glass::before,
 .fi-rs-choose::before,.fi-rs-floppy-disk-pen::before,.fi-rs-mirror::before,.fi-sr-comedy-podcast::before,
-.fi-sr-truck-fire::before,.fi-tr-nfc-pen::before { position: relative; left: 0.025em; top: 0.02em; }
+.fi-sr-truck-fire::before,.fi-tr-nfc-pen::before { position: relative; left: 0.025em; left: round(0.025em, 1px); top: 0.02em; top: round(0.02em, 1px); }
 
 /* left +0.03em, top +0.02em - 7 icons */
 .fi-bs-dove::before,.fi-rs-cheap-dollar::before,.fi-sr-free-delivery::before,.fi-ss-autosave::before,
-.fi-ss-sunscreen::before,.fi-ts-nfc-pen::before,.fi-ts-priority-importance::before { position: relative; left: 0.03em; top: 0.02em; }
+.fi-ss-sunscreen::before,.fi-ts-nfc-pen::before,.fi-ts-priority-importance::before { position: relative; left: 0.03em; left: round(0.03em, 1px); top: 0.02em; top: round(0.02em, 1px); }
 
 /* left +0.035em, top +0.02em - 3 icons */
-.fi-bs-music-magnifying-glass::before,.fi-rr-mirror::before,.fi-sr-cheap-dollar::before { position: relative; left: 0.035em; top: 0.02em; }
+.fi-bs-music-magnifying-glass::before,.fi-rr-mirror::before,.fi-sr-cheap-dollar::before { position: relative; left: 0.035em; left: round(0.035em, 1px); top: 0.02em; top: round(0.02em, 1px); }
 
 /* left +0.04em, top +0.02em - 5 icons */
 .fi-br-exit-alt::before,.fi-bs-timeline-arrow::before,.fi-rr-quiz::before,.fi-ss-floppy-disk-pen::before,
-.fi-ts-mirror::before { position: relative; left: 0.04em; top: 0.02em; }
+.fi-ts-mirror::before { position: relative; left: 0.04em; left: round(0.04em, 1px); top: 0.02em; top: round(0.02em, 1px); }
 
 /* left -0.04em, top +0.025em - 5 icons */
 .fi-rr-eyeliner::before,.fi-ss-airplane-journey::before,.fi-tr-arrow-up-small-big::before,
-.fi-tr-sort-size-up::before,.fi-ts-eyeliner::before { position: relative; left: -0.04em; top: 0.025em; }
+.fi-tr-sort-size-up::before,.fi-ts-eyeliner::before { position: relative; left: -0.04em; left: round(-0.04em, 1px); top: 0.025em; top: round(0.025em, 1px); }
 
 /* left -0.035em, top +0.025em - 9 icons */
 .fi-br-trademark::before,.fi-bs-subscript::before,.fi-rr-trademark::before,.fi-rs-hairbrush::before,
 .fi-sr-trademark::before,.fi-ss-candy-alt::before,.fi-tr-eyeliner::before,.fi-tr-trademark::before,
-.fi-ts-person-burst::before { position: relative; left: -0.035em; top: 0.025em; }
+.fi-ts-person-burst::before { position: relative; left: -0.035em; left: round(-0.035em, 1px); top: 0.025em; top: round(0.025em, 1px); }
 
 /* left -0.03em, top +0.025em - 10 icons */
 .fi-br-person-sign::before,.fi-rr-person-sign::before,.fi-rs-person-sign::before,.fi-sr-laptop-mobile::before,
 .fi-sr-mace::before,.fi-ss-goalkeeper::before,.fi-ss-knife::before,.fi-tr-turtle::before,.fi-tr-wheat::before,
-.fi-ts-images::before { position: relative; left: -0.03em; top: 0.025em; }
+.fi-ts-images::before { position: relative; left: -0.03em; left: round(-0.03em, 1px); top: 0.025em; top: round(0.025em, 1px); }
 
 /* left -0.025em, top +0.025em - 35 icons */
 .fi-br-bay-leaf::before,.fi-br-chart-user::before,.fi-br-dart::before,.fi-br-hairbrush::before,
@@ -2651,7 +2658,7 @@
 .fi-rs-mace::before,.fi-rs-manicure::before,.fi-rs-mask-snorkel::before,.fi-rs-meat::before,
 .fi-rs-squid::before,.fi-sr-axe::before,.fi-sr-leaf-oak::before,.fi-sr-peppermint::before,
 .fi-sr-pickaxe::before,.fi-sr-squid::before,.fi-tr-dart::before,.fi-tr-faucet::before,.fi-ts-faucet::before,
-.fi-ts-lacrosse-stick::before,.fi-ts-spoon::before { position: relative; left: -0.025em; top: 0.025em; }
+.fi-ts-lacrosse-stick::before,.fi-ts-spoon::before { position: relative; left: -0.025em; left: round(-0.025em, 1px); top: 0.025em; top: round(0.025em, 1px); }
 
 /* left -0.02em, top +0.025em - 27 icons */
 .fi-bs-claw-marks::before,.fi-bs-feather-pointed::before,.fi-bs-sort-amount-down-alt::before,
@@ -2661,7 +2668,7 @@
 .fi-ss-bullseye-pointer::before,.fi-ss-candy-cane::before,.fi-ss-highlighter::before,
 .fi-ss-mask-snorkel::before,.fi-ss-sword-alt::before,.fi-ss-takoyaki::before,.fi-tr-person-burst::before,
 .fi-ts-bullseye-pointer::before,.fi-ts-feather::before,.fi-ts-leaf::before,.fi-ts-mask-snorkel::before,
-.fi-ts-squid::before,.fi-ts-wheat::before { position: relative; left: -0.02em; top: 0.025em; }
+.fi-ts-squid::before,.fi-ts-wheat::before { position: relative; left: -0.02em; left: round(-0.02em, 1px); top: 0.025em; top: round(0.025em, 1px); }
 
 /* left 0, top +0.025em - 798 icons */
 .fi-br-3d-printing-pen::before,.fi-br-404::before,.fi-br-angle-small-down::before,.fi-br-ankh::before,
@@ -2886,7 +2893,7 @@
 .fi-ts-tornado::before,.fi-ts-tree-deciduous::before,.fi-ts-tty::before,.fi-ts-user-eating::before,
 .fi-ts-user-nurse::before,.fi-ts-user-nurse-hair::before,.fi-ts-user-nurse-hair-long::before,
 .fi-ts-users-alt::before,.fi-ts-utensils::before,.fi-ts-venus::before,.fi-ts-venus-double::before,
-.fi-ts-web-browser-bomb::before,.fi-ts-welding::before,.fi-ts-witness::before,.fi-ts-y::before { position: relative; top: 0.025em; }
+.fi-ts-web-browser-bomb::before,.fi-ts-welding::before,.fi-ts-witness::before,.fi-ts-y::before { position: relative; top: 0.025em; top: round(0.025em, 1px); }
 
 /* left +0.02em, top +0.025em - 31 icons */
 .fi-br-analyse::before,.fi-br-autosave::before,.fi-br-box-diamond::before,.fi-br-comb::before,
@@ -2897,7 +2904,7 @@
 .fi-rs-login::before,.fi-sr-sperm::before,.fi-ss-comb::before,.fi-ss-folder-gear::before,
 .fi-ss-users-gear::before,.fi-tr-cache-clean::before,.fi-tr-guide::before,.fi-tr-house-leave::before,
 .fi-tr-smart-watch-calendar::before,.fi-tr-zoom-in::before,.fi-ts-allergy::before,
-.fi-ts-grate-droplet::before,.fi-ts-stairs::before,.fi-ts-up-left::before { position: relative; left: 0.02em; top: 0.025em; }
+.fi-ts-grate-droplet::before,.fi-ts-stairs::before,.fi-ts-up-left::before { position: relative; left: 0.02em; left: round(0.02em, 1px); top: 0.025em; top: round(0.025em, 1px); }
 
 /* left +0.025em, top +0.025em - 48 icons */
 .fi-br-bug-magnifier::before,.fi-br-search-dollar::before,.fi-br-stairs::before,.fi-brands-mysql::before,
@@ -2912,23 +2919,23 @@
 .fi-ss-free-delivery::before,.fi-ss-gun::before,.fi-ss-interactive::before,.fi-ss-login::before,
 .fi-ss-person-falling::before,.fi-tr-magnifying-glass-play::before,.fi-tr-not-found-alt::before,
 .fi-tr-not-found-magnifying-glass::before,.fi-ts-camera-cctv::before,.fi-ts-hand-fist::before,
-.fi-ts-house-leave::before,.fi-ts-login::before,.fi-ts-search::before,.fi-ts-smart-watch-calendar::before { position: relative; left: 0.025em; top: 0.025em; }
+.fi-ts-house-leave::before,.fi-ts-login::before,.fi-ts-search::before,.fi-ts-smart-watch-calendar::before { position: relative; left: 0.025em; left: round(0.025em, 1px); top: 0.025em; top: round(0.025em, 1px); }
 
 /* left +0.03em, top +0.025em - 8 icons */
 .fi-br-gun::before,.fi-br-lamp-street::before,.fi-br-mirror::before,.fi-br-nfc-pen::before,
-.fi-bs-sunscreen::before,.fi-rr-guide::before,.fi-rs-nfc-pen::before,.fi-ss-mirror::before { position: relative; left: 0.03em; top: 0.025em; }
+.fi-bs-sunscreen::before,.fi-rr-guide::before,.fi-rs-nfc-pen::before,.fi-ss-mirror::before { position: relative; left: 0.03em; left: round(0.03em, 1px); top: 0.025em; top: round(0.025em, 1px); }
 
 /* left +0.035em, top +0.025em - 4 icons */
-.fi-rs-caravan::before,.fi-rs-trailer::before,.fi-sr-cheap::before,.fi-sr-floppy-disk-pen::before { position: relative; left: 0.035em; top: 0.025em; }
+.fi-rs-caravan::before,.fi-rs-trailer::before,.fi-sr-cheap::before,.fi-sr-floppy-disk-pen::before { position: relative; left: 0.035em; left: round(0.035em, 1px); top: 0.025em; top: round(0.025em, 1px); }
 
 /* left +0.04em, top +0.025em - 2 icons */
-.fi-rs-caravan-alt::before,.fi-tr-camera-cctv::before { position: relative; left: 0.04em; top: 0.025em; }
+.fi-rs-caravan-alt::before,.fi-tr-camera-cctv::before { position: relative; left: 0.04em; left: round(0.04em, 1px); top: 0.025em; top: round(0.025em, 1px); }
 
 /* left -0.04em, top +0.03em - 2 icons */
-.fi-br-eyeliner::before,.fi-sr-hairbrush::before { position: relative; left: -0.04em; top: 0.03em; }
+.fi-br-eyeliner::before,.fi-sr-hairbrush::before { position: relative; left: -0.04em; left: round(-0.04em, 1px); top: 0.03em; top: round(0.03em, 1px); }
 
 /* left -0.035em, top +0.03em - 1 icon */
-.fi-bs-hairbrush::before { position: relative; left: -0.035em; top: 0.03em; }
+.fi-bs-hairbrush::before { position: relative; left: -0.035em; left: round(-0.035em, 1px); top: 0.03em; top: round(0.03em, 1px); }
 
 /* left -0.03em, top +0.03em - 30 icons */
 .fi-br-candy-alt::before,.fi-br-customization::before,.fi-bs-peppermint::before,.fi-bs-turtle::before,
@@ -2938,7 +2945,7 @@
 .fi-ss-person-sign::before,.fi-ss-satellite::before,.fi-ss-squid::before,.fi-ss-thermometer-alt::before,
 .fi-ss-thumbtack::before,.fi-ss-thumbtack-slash::before,.fi-ss-turtle::before,.fi-tr-arrow-up-right::before,
 .fi-tr-customization::before,.fi-ts-mace::before,.fi-ts-peppermint::before,.fi-ts-staff::before,
-.fi-ts-turtle::before { position: relative; left: -0.03em; top: 0.03em; }
+.fi-ts-turtle::before { position: relative; left: -0.03em; left: round(-0.03em, 1px); top: 0.03em; top: round(0.03em, 1px); }
 
 /* left -0.025em, top +0.03em - 20 icons */
 .fi-br-letter-case::before,.fi-br-takoyaki::before,.fi-br-volleyball-player::before,.fi-bs-feather::before,
@@ -2946,11 +2953,11 @@
 .fi-rr-bay-leaf::before,.fi-rr-flying-kite::before,.fi-rs-bullseye-pointer::before,
 .fi-rs-lacrosse-stick::before,.fi-rs-peppermint::before,.fi-rs-thumbtack::before,
 .fi-rs-thumbtack-slash::before,.fi-sr-feather::before,.fi-sr-up-right::before,.fi-ss-leaf-oak::before,
-.fi-ss-longboard::before,.fi-ss-mace::before { position: relative; left: -0.025em; top: 0.03em; }
+.fi-ss-longboard::before,.fi-ss-mace::before { position: relative; left: -0.025em; left: round(-0.025em, 1px); top: 0.03em; top: round(0.03em, 1px); }
 
 /* left -0.02em, top +0.03em - 7 icons */
 .fi-bs-candy-cane::before,.fi-rs-candy-cane::before,.fi-ss-bay-leaf::before,.fi-tr-chart-user::before,
-.fi-tr-goalkeeper::before,.fi-tr-key-person::before,.fi-ts-choose::before { position: relative; left: -0.02em; top: 0.03em; }
+.fi-tr-goalkeeper::before,.fi-tr-key-person::before,.fi-ts-choose::before { position: relative; left: -0.02em; left: round(-0.02em, 1px); top: 0.03em; top: round(0.03em, 1px); }
 
 /* left 0, top +0.03em - 521 icons */
 .fi-br-360-degrees::before,.fi-br-7::before,.fi-br-Sickle::before,.fi-br-angle-double-small-down::before,
@@ -3102,11 +3109,11 @@
 .fi-ts-speech-bubble-story::before,.fi-ts-sprinkler::before,.fi-ts-subway::before,.fi-ts-t::before,
 .fi-ts-table-picnic::before,.fi-ts-text-shadow::before,.fi-ts-text-size::before,.fi-ts-tie::before,
 .fi-ts-usa-map-pin::before,.fi-ts-user-question::before,.fi-ts-voice-note::before,
-.fi-ts-waterpolo-thumbs-down::before,.fi-ts-windsock::before,.fi-ts-wishlist-star::before { position: relative; top: 0.03em; }
+.fi-ts-waterpolo-thumbs-down::before,.fi-ts-windsock::before,.fi-ts-wishlist-star::before { position: relative; top: 0.03em; top: round(0.03em, 1px); }
 
 /* left +0.02em, top +0.03em - 6 icons */
 .fi-tr-analyse::before,.fi-tr-lamp-street::before,.fi-tr-paragraph::before,.fi-ts-blinds::before,
-.fi-ts-lamp-street::before,.fi-ts-paragraph::before { position: relative; left: 0.02em; top: 0.03em; }
+.fi-ts-lamp-street::before,.fi-ts-paragraph::before { position: relative; left: 0.02em; left: round(0.02em, 1px); top: 0.03em; top: round(0.03em, 1px); }
 
 /* left +0.025em, top +0.03em - 39 icons */
 .fi-br-paddle-tennis-racket::before,.fi-bs-bacon::before,.fi-bs-comb::before,.fi-bs-f::before,
@@ -3119,7 +3126,7 @@
 .fi-sr-module::before,.fi-sr-paddle-tennis-racket::before,.fi-sr-staff-wizard::before,.fi-ss-blinds::before,
 .fi-ss-staff-wizard::before,.fi-ss-stairs::before,.fi-ss-sticker::before,.fi-tr-allergy::before,
 .fi-tr-issue-loupe::before,.fi-tr-running::before,.fi-ts-comb::before,.fi-ts-issue-loupe::before,
-.fi-ts-not-found-alt::before,.fi-ts-zoom-out::before { position: relative; left: 0.025em; top: 0.03em; }
+.fi-ts-not-found-alt::before,.fi-ts-zoom-out::before { position: relative; left: 0.025em; left: round(0.025em, 1px); top: 0.03em; top: round(0.03em, 1px); }
 
 /* left +0.03em, top +0.03em - 48 icons */
 .fi-br-arrow-up-left::before,.fi-br-category::before,.fi-br-floppy-disk-pen::before,
@@ -3137,17 +3144,17 @@
 .fi-tr-megaphone-magnifying-glass::before,.fi-tr-pan-frying::before,.fi-tr-risk-alt::before,
 .fi-tr-search-dollar::before,.fi-tr-search-heart::before,.fi-tr-search-location::before,
 .fi-ts-cache-clean::before,.fi-ts-magnifying-glass-play::before,.fi-ts-not-found-magnifying-glass::before,
-.fi-ts-zoom-in::before { position: relative; left: 0.03em; top: 0.03em; }
+.fi-ts-zoom-in::before { position: relative; left: 0.03em; left: round(0.03em, 1px); top: 0.03em; top: round(0.03em, 1px); }
 
 /* left +0.035em, top +0.03em - 7 icons */
 .fi-br-nfc-magnifying-glass::before,.fi-br-welding::before,.fi-bs-caravan-alt::before,
-.fi-sr-house-leave::before,.fi-sr-mirror::before,.fi-ss-nfc-pen::before,.fi-ts-search-dollar::before { position: relative; left: 0.035em; top: 0.03em; }
+.fi-sr-house-leave::before,.fi-sr-mirror::before,.fi-ss-nfc-pen::before,.fi-ts-search-dollar::before { position: relative; left: 0.035em; left: round(0.035em, 1px); top: 0.03em; top: round(0.03em, 1px); }
 
 /* left +0.04em, top +0.03em - 2 icons */
-.fi-bs-floppy-disk-pen::before,.fi-bs-nfc-pen::before { position: relative; left: 0.04em; top: 0.03em; }
+.fi-bs-floppy-disk-pen::before,.fi-bs-nfc-pen::before { position: relative; left: 0.04em; left: round(0.04em, 1px); top: 0.03em; top: round(0.03em, 1px); }
 
 /* left -0.04em, top +0.035em - 2 icons */
-.fi-br-earnings::before,.fi-ss-hairbrush::before { position: relative; left: -0.04em; top: 0.035em; }
+.fi-br-earnings::before,.fi-ss-hairbrush::before { position: relative; left: -0.04em; left: round(-0.04em, 1px); top: 0.035em; top: round(0.035em, 1px); }
 
 /* left -0.035em, top +0.035em - 28 icons */
 .fi-bs-dart::before,.fi-bs-images::before,.fi-bs-pickaxe::before,.fi-bs-racquet::before,.fi-bs-spoon::before,
@@ -3156,21 +3163,21 @@
 .fi-sr-customization::before,.fi-sr-drumstick::before,.fi-sr-lacrosse-stick::before,.fi-sr-racquet::before,
 .fi-ss-axe::before,.fi-ss-drumstick::before,.fi-ss-feather::before,.fi-ss-flying-kite::before,
 .fi-ss-leaf::before,.fi-ss-peppermint::before,.fi-ss-pickaxe::before,.fi-tr-bay-leaf::before,
-.fi-tr-candy-alt::before,.fi-tr-mace::before,.fi-ts-takoyaki::before { position: relative; left: -0.035em; top: 0.035em; }
+.fi-tr-candy-alt::before,.fi-tr-mace::before,.fi-ts-takoyaki::before { position: relative; left: -0.035em; left: round(-0.035em, 1px); top: 0.035em; top: round(0.035em, 1px); }
 
 /* left -0.03em, top +0.035em - 14 icons */
 .fi-br-arrow-up-right::before,.fi-bs-bay-leaf::before,.fi-bs-lacrosse-stick::before,.fi-bs-satellite::before,
 .fi-rr-candy-alt::before,.fi-rs-flying-kite::before,.fi-rs-takoyaki::before,.fi-sr-flying-kite::before,
 .fi-sr-picking::before,.fi-ss-pan::before,.fi-ss-staff::before,.fi-tr-takoyaki::before,
-.fi-ts-arrow-up-right::before,.fi-ts-dart::before { position: relative; left: -0.03em; top: 0.035em; }
+.fi-ts-arrow-up-right::before,.fi-ts-dart::before { position: relative; left: -0.03em; left: round(-0.03em, 1px); top: 0.035em; top: round(0.035em, 1px); }
 
 /* left -0.025em, top +0.035em - 8 icons */
 .fi-bs-picking::before,.fi-bs-takoyaki::before,.fi-rs-bay-leaf::before,.fi-rs-key-person::before,
-.fi-sr-drumstick-bite::before,.fi-sr-feather-pointed::before,.fi-tr-pickaxe::before,.fi-ts-pen-clip::before { position: relative; left: -0.025em; top: 0.035em; }
+.fi-sr-drumstick-bite::before,.fi-sr-feather-pointed::before,.fi-tr-pickaxe::before,.fi-ts-pen-clip::before { position: relative; left: -0.025em; left: round(-0.025em, 1px); top: 0.035em; top: round(0.035em, 1px); }
 
 /* left -0.02em, top +0.035em - 4 icons */
 .fi-sr-ladybug-leaf::before,.fi-ss-drumstick-bite::before,.fi-ss-ladybug-leaf::before,
-.fi-ts-goalkeeper::before { position: relative; left: -0.02em; top: 0.035em; }
+.fi-ts-goalkeeper::before { position: relative; left: -0.02em; left: round(-0.02em, 1px); top: 0.035em; top: round(0.035em, 1px); }
 
 /* left 0, top +0.035em - 447 icons */
 .fi-br-add-image::before,.fi-br-answer::before,.fi-br-answer-alt::before,.fi-br-arrow-alt-from-top::before,
@@ -3309,15 +3316,15 @@
 .fi-ts-subscription::before,.fi-ts-subscription-user::before,.fi-ts-three-leaf-clover::before,
 .fi-ts-tip-button-thumbs-down::before,.fi-ts-translate::before,.fi-ts-user-fast-running::before,
 .fi-ts-utility-pole::before,.fi-ts-virtual-assistant::before,.fi-ts-wallet-buyer::before,
-.fi-ts-website-speed::before { position: relative; top: 0.035em; }
+.fi-ts-website-speed::before { position: relative; top: 0.035em; top: round(0.035em, 1px); }
 
 /* left +0.02em, top +0.035em - 4 icons */
-.fi-br-p::before,.fi-rr-gun::before,.fi-rs-comedy-podcast::before,.fi-tr-paragraph-left::before { position: relative; left: 0.02em; top: 0.035em; }
+.fi-br-p::before,.fi-rr-gun::before,.fi-rs-comedy-podcast::before,.fi-tr-paragraph-left::before { position: relative; left: 0.02em; left: round(0.02em, 1px); top: 0.035em; top: round(0.035em, 1px); }
 
 /* left +0.025em, top +0.035em - 10 icons */
 .fi-bs-comedy-podcast::before,.fi-bs-megaphone-magnifying-glass::before,.fi-bs-p::before,.fi-rs-f::before,
 .fi-sr-gun::before,.fi-ss-auto-reply::before,.fi-ss-comedy-podcast::before,.fi-ss-f::before,
-.fi-tr-comment-alt::before,.fi-ts-analyse::before { position: relative; left: 0.025em; top: 0.035em; }
+.fi-tr-comment-alt::before,.fi-ts-analyse::before { position: relative; left: 0.025em; left: round(0.025em, 1px); top: 0.035em; top: round(0.035em, 1px); }
 
 /* left +0.03em, top +0.035em - 31 icons */
 .fi-bs-analyse::before,.fi-bs-job-search::before,.fi-bs-magnifying-glass-eye::before,
@@ -3329,7 +3336,7 @@
 .fi-sr-users-medical::before,.fi-ss-paddle-tennis-racket::before,.fi-tr-bug-magnifier::before,
 .fi-tr-job-search::before,.fi-tr-staff-wizard::before,.fi-ts-arrow-up-left::before,
 .fi-ts-megaphone-magnifying-glass::before,.fi-ts-risk-alt::before,.fi-ts-search-heart::before,
-.fi-ts-search-location::before,.fi-ts-staff-wizard::before { position: relative; left: 0.03em; top: 0.035em; }
+.fi-ts-search-location::before,.fi-ts-staff-wizard::before { position: relative; left: 0.03em; left: round(0.03em, 1px); top: 0.035em; top: round(0.035em, 1px); }
 
 /* left +0.035em, top +0.035em - 30 icons */
 .fi-br-f::before,.fi-bs-bug-magnifier::before,.fi-bs-evidence::before,.fi-rs-up-left::before,
@@ -3340,27 +3347,27 @@
 .fi-sr-virus-scan::before,.fi-ss-camera-cctv::before,.fi-ss-caravan-alt::before,.fi-ss-trailer::before,
 .fi-tr-category::before,.fi-tr-evidence::before,.fi-tr-f::before,.fi-tr-magnifying-glass-wave::before,
 .fi-tr-virus-scan::before,.fi-ts-analyse-alt::before,.fi-ts-f::before,.fi-ts-magnifying-glass-eye::before,
-.fi-ts-pan-frying::before { position: relative; left: 0.035em; top: 0.035em; }
+.fi-ts-pan-frying::before { position: relative; left: 0.035em; left: round(0.035em, 1px); top: 0.035em; top: round(0.035em, 1px); }
 
 /* left +0.04em, top +0.035em - 2 icons */
-.fi-ss-virus-scan::before,.fi-tr-paddle-tennis-racket::before { position: relative; left: 0.04em; top: 0.035em; }
+.fi-ss-virus-scan::before,.fi-tr-paddle-tennis-racket::before { position: relative; left: 0.04em; left: round(0.04em, 1px); top: 0.035em; top: round(0.035em, 1px); }
 
 /* left -0.04em, top +0.04em - 2 icons */
-.fi-tr-earnings::before,.fi-ts-bay-leaf::before { position: relative; left: -0.04em; top: 0.04em; }
+.fi-tr-earnings::before,.fi-ts-bay-leaf::before { position: relative; left: -0.04em; left: round(-0.04em, 1px); top: 0.04em; top: round(0.04em, 1px); }
 
 /* left -0.035em, top +0.04em - 11 icons */
 .fi-rs-images::before,.fi-sr-dart::before,.fi-sr-earnings::before,.fi-ss-customization::before,
 .fi-ss-dart::before,.fi-ss-hand-back-point-down::before,.fi-ss-spoon::before,.fi-ts-candy-alt::before,
-.fi-ts-customization::before,.fi-ts-pickaxe::before,.fi-ts-up-right::before { position: relative; left: -0.035em; top: 0.04em; }
+.fi-ts-customization::before,.fi-ts-pickaxe::before,.fi-ts-up-right::before { position: relative; left: -0.035em; left: round(-0.035em, 1px); top: 0.04em; top: round(0.04em, 1px); }
 
 /* left -0.03em, top +0.04em - 1 icon */
-.fi-ss-feather-pointed::before { position: relative; left: -0.03em; top: 0.04em; }
+.fi-ss-feather-pointed::before { position: relative; left: -0.03em; left: round(-0.03em, 1px); top: 0.04em; top: round(0.04em, 1px); }
 
 /* left -0.025em, top +0.04em - 2 icons */
-.fi-tr-flying-kite::before,.fi-ts-key-person::before { position: relative; left: -0.025em; top: 0.04em; }
+.fi-tr-flying-kite::before,.fi-ts-key-person::before { position: relative; left: -0.025em; left: round(-0.025em, 1px); top: 0.04em; top: round(0.04em, 1px); }
 
 /* left -0.02em, top +0.04em - 2 icons */
-.fi-rs-scythe::before,.fi-ts-volleyball-player::before { position: relative; left: -0.02em; top: 0.04em; }
+.fi-rs-scythe::before,.fi-ts-volleyball-player::before { position: relative; left: -0.02em; left: round(-0.02em, 1px); top: 0.04em; top: round(0.04em, 1px); }
 
 /* left 0, top +0.04em - 184 icons */
 .fi-br-banner-5::before,.fi-br-comment-alt-dots::before,.fi-br-comment-alt-medical::before,
@@ -3416,18 +3423,18 @@
 .fi-ts-bitcoin-card::before,.fi-ts-filter::before,.fi-ts-franc-sign::before,.fi-ts-open-notebook::before,
 .fi-ts-p::before,.fi-ts-peseta-sign::before,.fi-ts-scarecrow::before,.fi-ts-science-podcast::before,
 .fi-ts-seedling::before,.fi-ts-spam-filter::before,.fi-ts-thought-bubble::before,.fi-ts-turn-right::before,
-.fi-ts-venus-mars::before,.fi-ts-video-lesson::before { position: relative; top: 0.04em; }
+.fi-ts-venus-mars::before,.fi-ts-video-lesson::before { position: relative; top: 0.04em; top: round(0.04em, 1px); }
 
 /* left +0.03em, top +0.04em - 2 icons */
-.fi-rr-ballet-dance::before,.fi-ss-paragraph::before { position: relative; left: 0.03em; top: 0.04em; }
+.fi-rr-ballet-dance::before,.fi-ss-paragraph::before { position: relative; left: 0.03em; left: round(0.03em, 1px); top: 0.04em; top: round(0.04em, 1px); }
 
 /* left +0.035em, top +0.04em - 11 icons */
 .fi-bs-paddle-tennis-racket::before,.fi-bs-welding::before,.fi-rr-nfc-magnifying-glass::before,
 .fi-rs-job-search::before,.fi-sr-bug-magnifier::before,.fi-sr-issue-loupe::before,.fi-ss-pan-frying::before,
 .fi-ts-bug-magnifier::before,.fi-ts-evidence::before,.fi-ts-magnifying-glass-wave::before,
-.fi-ts-virus-scan::before { position: relative; left: 0.035em; top: 0.04em; }
+.fi-ts-virus-scan::before { position: relative; left: 0.035em; left: round(0.035em, 1px); top: 0.04em; top: round(0.04em, 1px); }
 
 /* left +0.04em, top +0.04em - 6 icons */
 .fi-bs-category::before,.fi-bs-nfc-magnifying-glass::before,.fi-sr-not-found-magnifying-glass::before,
-.fi-sr-zoom-in::before,.fi-ts-job-search::before,.fi-ts-paddle-tennis-racket::before { position: relative; left: 0.04em; top: 0.04em; }
+.fi-sr-zoom-in::before,.fi-ts-job-search::before,.fi-ts-paddle-tennis-racket::before { position: relative; left: 0.04em; left: round(0.04em, 1px); top: 0.04em; top: round(0.04em, 1px); }
 

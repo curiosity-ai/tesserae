@@ -74,6 +74,13 @@ namespace Build.UIconsOpticalCentering
             sb.AppendLine(" *  and antialiasing discounted - pulled towards the centre of ink mass, so an icon that carries");
             sb.AppendLine(" *  its weight to one side is balanced rather than merely boxed. The pull is capped.");
             sb.AppendLine(" *");
+            sb.AppendLine(" *  An offset applied at paint time cannot be a fraction of a pixel: the browser rounds it to a");
+            sb.AppendLine(" *  whole one. So each offset is also declared through round(), which fixes the value from the font");
+            sb.AppendLine(" *  size instead of leaving it to paint-time snapping - otherwise the same icon shifts by a pixel");
+            sb.AppendLine(" *  in one container and not at all in another, depending on where it lands on the pixel grid.");
+            sb.AppendLine(" *  The consequence is that an offset only takes effect once it reaches half a pixel, so these");
+            sb.AppendLine(" *  corrections act on larger icons and correctly do nothing on the smallest ones.");
+            sb.AppendLine(" *");
             sb.AppendLine(" *  Icons that have to stay on top of each other keep one shared offset. Exactly, for the icons");
             sb.AppendLine(" *  the toolkit swaps in place (square and checkbox, the -slash variants on their base icon) and");
             sb.AppendLine(" *  for any set of icons drawn on the same frame that agrees on where its centre is. Elsewhere it");
@@ -115,8 +122,12 @@ namespace Build.UIconsOpticalCentering
                               $"{rule.Selectors.Count} {(rule.Selectors.Count == 1 ? "icon" : "icons")} */");
                 AppendSelectors(sb, rule.Selectors);
                 sb.Append(" { position: relative;");
-                if (rule.X != 0) sb.Append($" left: {Em(rule.X)};");
-                if (rule.Y != 0) sb.Append($" top: {Em(rule.Y)};");
+
+                // Each offset is declared twice: the em value, then the same value rounded to a whole
+                // pixel. A browser without round() keeps the em and lets paint-time snapping deal with it;
+                // one with round() takes the second declaration and gets the same pixel every time.
+                if (rule.X != 0) sb.Append($" left: {Em(rule.X)}; left: round({Em(rule.X)}, 1px);");
+                if (rule.Y != 0) sb.Append($" top: {Em(rule.Y)}; top: round({Em(rule.Y)}, 1px);");
                 sb.AppendLine(" }");
                 sb.AppendLine();
             }
