@@ -87,16 +87,17 @@ Everything about the bundled icon set is generated: the woff2 files under
 never edit those files by hand.
 
 ```bash
-pip install fonttools brotli                     # once; the outline surgery needs them
 dotnet run --project Build.UpdateInterfaceIcons   # download, regenerate, re-centre
 dotnet run --project Build.UpdateInterfaceIcons -- --help
 ```
 
 One run, four stages in a fixed order: download the nine weights, rewrite the
 stylesheets and the enum, measure every glyph in headless Chromium, then bake the
-optical centering into the glyph outlines (via `centre-uicons-outlines.py`) and
-re-measure to prove it landed. It exits non-zero if any check fails and only then
-writes the `uicons-source.txt` marker, so a failed run does not look finished.
+optical centering into the glyph outlines and re-measure to prove it landed. It exits
+non-zero if any check fails and only then writes the `uicons-source.txt` marker, so a
+failed run does not look finished. The only prerequisite is a Chromium for Playwright
+(`bin/Debug/net10.0/playwright.ps1 install chromium`); the font surgery is C#
+(`Woff2File.cs`, `TransformedGlyf.cs`, `CmapLookup.cs`) and needs nothing installed.
 
 Bumping icons is rare and the run takes minutes, so it is gated: the downloaded
 version plus a hash of every woff2 is compared against
