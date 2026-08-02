@@ -51,9 +51,44 @@
 }
 
 /* The sheets behind the front one show only the strip of themselves that clears it, so they read as a
-   deck rather than as several things open at once. */
+   deck rather than as several things open at once. Colour drains out of them as well, so the sheet in
+   front is the only one that reads as live. */
 .tss-modalstack-sheet.tss-modalstack-peek {
     overflow: hidden;
+    filter: saturate(.15);
+}
+
+/* Nothing below the strip is ever seen, so it is taken out of the layout rather than drawn and covered:
+   a peeking sheet costs its header and nothing else. */
+.tss-modalstack-peek > .tss-modal-content,
+.tss-modalstack-peek > .tss-modal-footer {
+    display: none;
+}
+
+/* Commands belong to the sheet you are on, not the ones behind it. */
+.tss-modalstack-peek .tss-modal-header-commands,
+.tss-modalstack-peek .tss-modal-left-header-commands {
+    display: none;
+}
+
+/* What is left of the header is squeezed into that strip, so its title sits alone at the top of the
+   sheet rather than being cut through the middle by the one in front. */
+.tss-modalstack-peek > .tss-modal-header {
+    box-sizing: border-box;
+    height: var(--tss-modalstack-peek-strip, 34px);
+    min-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+
+    /* The sheet stays solid - a deck is cards, not glass - so what fades with how far back a sheet is
+       is the one thing it still shows. */
+    opacity: var(--tss-modalstack-peek-fade, 1);
+}
+
+.tss-modalstack-peek > .tss-modal-header > .tss-modal-header-content {
+    padding: 0;
+    align-items: center;
 }
 
 /* The way back to a sheet behind: a button covering it, of which only that strip is ever reachable. */

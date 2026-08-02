@@ -593,8 +593,8 @@
     cursor: default;
 }
 
-/* Previous / next, with where in the list this result is between them. The group is only a group for
-   spacing - the arrows read as the same plain glyph buttons as the ones beside them. */
+/* Previous / next, with where in the list this result is between them - one filled group rather than
+   an outline around each arrow. */
 .tss-omniresult-modal-nav {
     display: inline-flex;
     align-items: center;
@@ -686,20 +686,36 @@
     white-space: nowrap;
 }
 
-/* A command the host put in the header beside these reads as one of them: a glyph, not an outlined
-   chip with a fill of its own. */
-.tss-modal.tss-omniresult-modal > .tss-modal-header .tss-modal-header-commands > .tss-btn,
-.tss-modal.tss-omniresult-modal > .tss-modal-header .tss-modal-left-header-commands > .tss-btn {
-    border: none;
-    background: transparent;
-    box-shadow: none;
-    color: var(--tss-secondary-foreground-color);
+/* Behind the sheet in front, only the strip of the header shows - so it is the tile and the title
+   alone, on one line, sized to fit it. The source line under them, and the corner badges on the tile,
+   are dropped rather than clipped in half. */
+.tss-modalstack-peek .tss-omniresult-modal-main > .tss-omniresult-footer,
+.tss-modalstack-peek .tss-omniresult-modal-icon .tss-omniresult-icon-badge {
+    display: none;
 }
 
-.tss-modal.tss-omniresult-modal > .tss-modal-header .tss-modal-header-commands > .tss-btn:hover,
-.tss-modal.tss-omniresult-modal > .tss-modal-header .tss-modal-left-header-commands > .tss-btn:hover {
-    background: var(--tss-default-background-hover-color);
-    color: var(--tss-default-foreground-color);
+.tss-modalstack-peek .tss-omniresult-modal-header {
+    gap: 8px;
+}
+
+.tss-modalstack-peek .tss-omniresult-modal-icon .tss-omniresult-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    font-size: 11px;
+}
+
+.tss-modalstack-peek .tss-omniresult-modal-title-text,
+.tss-modalstack-peek .tss-omniresult-id-value {
+    font-size: 13px;
+    line-height: 18px;
+}
+
+/* The commands beside the group are outlined buttons of their own - the arrows inside it are not,
+   since the group already draws their edge. */
+.tss-modal.tss-omniresult-modal .tss-modal-header-commands > .tss-omniresult-modal-button {
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
 }
 
 /* What the modal answers, along its bottom edge. */
