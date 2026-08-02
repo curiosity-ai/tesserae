@@ -1,0 +1,63 @@
+/* InlinePagination — the compact "‹ 3 of 7 ›" pill, for stepping through a set from a toolbar. */
+
+.tss-inlinepagination {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    height: 28px;
+    padding: 0 2px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-lg);
+    background: var(--tss-secondary-background-color);
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-inlinepagination-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: var(--tss-border-radius-sm);
+    background: transparent;
+    color: inherit;
+    font-size: 11px;
+    line-height: 1;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.tss-inlinepagination-button:hover:not(:disabled) {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-inlinepagination-button:focus-visible {
+    outline: 2px solid var(--tss-primary-background-color);
+    outline-offset: -2px;
+}
+
+.tss-inlinepagination-button:disabled {
+    opacity: .35;
+    cursor: default;
+}
+
+/* Tabular figures, so stepping through a set doesn't shuffle the chevrons sideways. */
+.tss-inlinepagination-label {
+    padding: 0 6px;
+    font-size: 12px;
+    line-height: 18px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    user-select: none;
+}
