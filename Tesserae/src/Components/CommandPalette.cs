@@ -50,6 +50,12 @@ namespace Tesserae
             public CommandPaletteResult Result { get; set; }
         }
 
+        private sealed class PaletteEntry
+        {
+            public CommandPaletteAction Action { get; set; }
+            public CommandPaletteResult Result { get; set; }
+        }
+
         private readonly Action<Event> _globalKeyDownHandler;
         private bool _globalListenerActive;
 
