@@ -57,17 +57,33 @@ steps:
       git config --global user.name "$(USER)"
       git config --global user.password  "$(PAT)"
 
+# The uicons step measures every glyph in headless Chromium, so it needs a browser, installed by the
+# script the Playwright package drops in the build output - hence building the project first. Cheap,
+# and the step below stops early on the common run where the icon set has not changed.
+- task: CmdLine@2
+  displayName: 'install uicons centering prerequisites'
+  inputs:
+    script: |
+      dotnet build $(Build.SourcesDirectory)\Build.UpdateInterfaceIcons\Build.UpdateInterfaceIcons.csproj
+      pwsh $(Build.SourcesDirectory)\Build.UpdateInterfaceIcons\bin\Debug\net10.0\playwright.ps1 install chromium
+
 - task: CmdLine@2
   displayName: 'update uicons'
   inputs:
+    # Downloads the icon set, regenerates the stylesheets and the UIcons enum, then bakes the optical
+    # centering into the glyph outlines. Gated on the download having changed: an unchanged set exits
+    # in seconds without touching anything, so committing the result here is what stops it recurring.
     script: |
-      cd $(Build.SourcesDirectory)/Build.UpdateInterfaceIcons/
-      dotnet run
-      cd ..
-      git rm --cached Build.UpdateInterfaceIcons/flaticon-uicons
+      dotnet run --project $(Build.SourcesDirectory)\Build.UpdateInterfaceIcons
+      if errorlevel 1 exit /b 1
       git add .
-      git commit -m "Updated uicons [skip ci]"
-      git push origin HEAD:master
+      git diff --cached --quiet
+      if errorlevel 1 (
+        git commit -m "Updated uicons [skip ci]"
+        git push origin HEAD:master
+      ) else (
+        echo The icon set has not changed, nothing to commit.
+      )
 
 # This has to run after the git commit above, so the injected source-code stays out of the repository
 - task: CmdLine@2

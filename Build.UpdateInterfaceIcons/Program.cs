@@ -84,7 +84,7 @@ namespace Build.UpdateInterfaceIcons
                 var inTree = SourceFingerprint(VersionFromStylesheets(tesseraeCssDir),
                                                types.Select(t => Path.Combine(tesseraeFontsDir, $"{t}.woff2")));
 
-                if (!options.Force && File.Exists(marker) && File.ReadAllText(marker).Trim() != inTree)
+                if (!options.Force && File.Exists(marker) && !SameFingerprint(File.ReadAllText(marker), inTree))
                 {
                     Console.WriteLine("The fonts in the tree do not match the marker, which means they have already been");
                     Console.WriteLine("centred. Centring them again would shift the outlines a second time. Re-download");
@@ -113,7 +113,7 @@ namespace Build.UpdateInterfaceIcons
             // what makes "only run when the icon set actually changed" answerable.
             var downloaded = SourceFingerprint(version, types.Select(t => Path.Combine(tempDir, $"{t}.woff2")));
 
-            if (!options.Force && File.Exists(marker) && File.ReadAllText(marker).Trim() == downloaded)
+            if (!options.Force && File.Exists(marker) && SameFingerprint(File.ReadAllText(marker), downloaded))
             {
                 Console.WriteLine();
                 Console.WriteLine($"UIcons {version} is already what the tree was built from, and the woff2 files are byte for byte");
@@ -266,6 +266,14 @@ namespace Build.UpdateInterfaceIcons
 
         /// <summary>File recording which vendor download the fonts in the tree were built from.</summary>
         private const string SourceMarkerFile = "uicons-source.txt";
+
+        /// <summary>
+        /// Compares two fingerprints ignoring line endings. The marker is committed and checked out again,
+        /// and a Windows agent with core.autocrlf turns its newlines into CRLF - comparing the raw text
+        /// would then never match, and the whole set would be rebuilt on every single build.
+        /// </summary>
+        private static bool SameFingerprint(string a, string b) =>
+            a.Replace("\r\n", "\n").Trim() == b.Replace("\r\n", "\n").Trim();
 
         /// <summary>The UIcons version, read out of the banner the vendor puts in every stylesheet.</summary>
         private static string VersionFromStylesheets(string cssDir)
