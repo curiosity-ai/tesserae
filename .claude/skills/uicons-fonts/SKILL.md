@@ -103,9 +103,20 @@ than leaving them. Around 2,200 glyphs fall in this bucket and the run lists the
 - A set of icons pinned to one offset must actually all have it.
 - After patching, every adjusted glyph must measure as centred.
 
-## Wiring it into CI
+## In CI
 
-The gate makes it safe to run on every build, but it needs Python with `fonttools` and `brotli`, and
-a Chromium for Playwright. On Azure DevOps, prefer a separate manually-triggered job for the icon
-bump over adding both to the main build; the marker file in the diff is what tells you the fonts
-were rebuilt.
+It runs on every build, in the `update uicons` step of
+[`.azure-devops/build-nuget-h5.yml`](../../../.azure-devops/build-nuget-h5.yml), and that is safe
+because the gate and the commit-back make it self-limiting: the run that sees a new icon set does the
+work and commits the patched woff2 files, the enum, the stylesheets and `uicons-source.txt` back to
+master with `[skip ci]`; every build after that finds the marker matching and exits in seconds.
+
+Two things the step depends on, installed by the step before it:
+
+- Python with `fonttools` and `brotli`, for the outline surgery.
+- A Chromium for Playwright, via the `playwright.ps1` that the Microsoft.Playwright package drops in
+  the build output — so the project has to be built before the browser can be installed.
+
+The commit is conditional on `git diff --cached --quiet`, because on the common run nothing changes
+and `git commit` would otherwise fail the step. A `uicons-source.txt` change in the diff is the
+signal that the fonts were actually rebuilt.
