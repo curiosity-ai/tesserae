@@ -602,9 +602,6 @@
     flex-grow: 0;
     flex-shrink: 0;
     margin: 0 4px;
-    padding: 0 2px;
-    border-radius: var(--tss-border-radius-md);
-    background: var(--tss-secondary-background-color);
 }
 
 .tss-omniresult-modal-nav-label {
