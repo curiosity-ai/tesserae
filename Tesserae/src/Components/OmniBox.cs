@@ -3889,7 +3889,7 @@ namespace Tesserae
         /// </summary>
         public OmniBox Focus()
         {
-            DomObserver.WhenMounted(_searchInput, () =>
+            DomObserver.WhenMounted(_container, () =>
             {
                 _activeInput.focus();
             });
