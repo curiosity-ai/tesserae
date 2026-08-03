@@ -66,7 +66,11 @@
     .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
         background: var(--tss-default-background-color);
         color: var(--tss-default-foreground-color);
-        box-shadow: var(--tss-shadow-sm);
+        /* --tss-shadow-sm on its own is a 5%-opacity drop in the light theme, which against a track only
+           a few percent off the pill's own colour left the selection reading as barely more than a hover.
+           A hairline in the foreground colour gives the pill an edge in either theme; the drop stays for
+           the lift. */
+        box-shadow: var(--tss-shadow-sm), 0 0 0 1px color-mix(in srgb, var(--tss-default-foreground-color) 14%, transparent);
     }
 
     /* In the dark theme the default background is darker than the track, and a pill darker than what
