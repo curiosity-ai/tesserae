@@ -67,11 +67,18 @@ row.SetFooterEntries(
 - `.SetImage(string url)` — an image (a source's logo, a favicon), fitted rather than cropped.
 - `.SetColor(string color)` — a small rounded square of that colour.
 - `.NoMark()` — text alone.
+- `.IsEmpty` — whether there is nothing to show (no text and no mark). A label that ends up empty also
+  carries the `tss-inlinelabel-empty` class, which is how a container leaves out what stands for it — the
+  dot an `OmniResult` footer puts before every entry — without looking inside it. A label that is still
+  loading is not empty: it is showing a skeleton in place of what it is about to say.
 - `.OnClick(Action<InlineLabel>)` — makes it pressable: it takes a tab stop, answers Enter and Space,
   and the click stops at the label so pressing it never also counts as a click on the row it sits in.
   The usual `OnClick(ComponentEventHandler<InlineLabel, MouseEvent>)` works too.
 - `.SetHref(string href, bool openInNewTab = false)` — makes it a real link. The label is an anchor
   either way, so a link is middle-clickable and shows its address in the status bar.
+- `.IsEmpty` — whether there is neither text nor mark in it. A label that is empty and not still loading
+  also carries the `tss-inlinelabel-empty` class, which is how a container leaves out what stands for it —
+  an `OmniResult` footer hides the entry, and its separating dot with it — without looking inside.
 
 Whatever the mark is it takes one box — 14px on the compact button, 12px in a footer — and the text
 ellipsizes rather than wrapping, so a long path gives way to whatever it shares the line with. What a

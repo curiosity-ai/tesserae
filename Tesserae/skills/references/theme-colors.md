@@ -20,6 +20,7 @@ description: The static `Theme` class for switching light/dark mode and overridi
 
 - `Theme.IsLight` / `Theme.IsDark` — current mode (bool).
 - `Theme.Default`, `Theme.Primary`, `Theme.Secondary`, `Theme.Danger`, `Theme.Success` — color accessors exposing `.Background`, `.Foreground`, `.Border`, etc.
+- `Theme.Fonts.SansSerif` / `Theme.Fonts.Monospace` — the two font stacks the toolkit draws with, as CSS variable references. See `styling.md`.
 - `Theme.OnThemeChanged` — event raised on mode change.
 
 ## Example

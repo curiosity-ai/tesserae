@@ -365,7 +365,7 @@
 .tss-plan-substep-message {
     font-size: var(--tss-font-size-xsmall);
     color: var(--tss-secondary-foreground-color);
-    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    font-family: var(--tss-monospace-font-family);
     margin-top: 1px;
 }
 

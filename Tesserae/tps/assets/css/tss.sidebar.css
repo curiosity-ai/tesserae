@@ -95,11 +95,7 @@
    it on shifts nothing. :not(.tss-disabled) is what carries this past .tss-btn-default's own colours. */
 .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
 .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
-.tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
-.tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
-.tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled),
-.tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
-.tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
+.tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled) {
     color: var(--tss-primary-background-color);
     border-color: var(--tss-primary-background-color);
     background: rgba(var(--tss-primary-background-color-root), 0.1);
@@ -111,11 +107,7 @@
 .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
 .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
 .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
-.tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
-.tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled):hover,
-.tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled):hover,
-.tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled):hover,
-.tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled):hover {
+.tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
     color: var(--tss-primary-background-color);
     border-color: var(--tss-primary-background-color);
     background: rgba(var(--tss-primary-background-color-root), 0.18);
@@ -127,11 +119,7 @@
    on a dark surface itself. The border stays the primary - it is a line on the background, not type. */
 .tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
 .tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
-.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
-.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
-.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled),
-.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
-.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
+.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled) {
     color: color-mix(in srgb, var(--tss-primary-background-color) 55%, white);
     background: rgba(var(--tss-primary-background-color-root), 0.22);
 }
@@ -140,13 +128,22 @@
 .tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
 .tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
 .tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
-.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
-.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled):hover,
-.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled):hover,
-.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled):hover,
-.tss-dark-mode .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled):hover {
+.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
     color: color-mix(in srgb, var(--tss-primary-background-color) 55%, white);
     background: rgba(var(--tss-primary-background-color-root), 0.32);
+}
+
+/* A nav is a group, not a destination - it reads as selected while something inside it is open - so it
+   gets the plain hover the rest of the rail uses rather than the primary wash a selected button gets.
+   The wash also recoloured everything inside the header, which on a dark surface left the glyph the same
+   colour as the fill it sat on; the hover colours are the ones the buttons are drawn for. */
+.tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+.tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled),
+.tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
+.tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
+    color: var(--tss-default-foreground-hover-color);
+    border-color: var(--tss-default-background-hover-color);
+    background: var(--tss-default-background-hover-color);
 }
 
 

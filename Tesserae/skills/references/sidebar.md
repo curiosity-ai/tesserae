@@ -91,6 +91,14 @@ filters searchable items. Configure it fluently:
 - `.SetKeyboardShortcut("Ctrl", "K")` — show a shortcut chip (renders ⌘K on
   macOS, Ctrl+K elsewhere) and focus the box when the shortcut is pressed.
 - `.Rounded(BorderRadius = Full)` — render as a full bordered, rounded "pill".
+- `.Text` / `.SetText(text)` — read or replace what is in the box. Setting it
+  does not raise `.OnSearch(...)`, so a caller that clears the box decides for
+  itself what to do about the results.
+- `.Focus()` — put the caret in the box.
+
+It is an `ISidebarItem`, so it is normally added to a `Sidebar`; `.RenderOpen()`
+gives you the box as an `IComponent` when the list it filters is drawn by a
+component of your own rather than by the sidebar itself.
 
 ## Rounded (pill) style
 

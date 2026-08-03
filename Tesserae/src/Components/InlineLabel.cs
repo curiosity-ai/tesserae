@@ -92,7 +92,18 @@ namespace Tesserae
         public string Text { get; private set; }
 
         /// <summary>Whether the label has nothing to show - no text, and no mark.</summary>
-        private bool IsEmpty => string.IsNullOrEmpty(Text) && _mark.style.display == "none";
+        public bool IsEmpty => string.IsNullOrEmpty(Text) && _mark.style.display == "none";
+
+        /// <summary>
+        /// Says on the element itself whether there is anything in it, so a container can leave out what
+        /// stands for an empty label - the dot an <see cref="OmniResult{T}"/> footer puts before every
+        /// entry - without having to look inside it. A label that is still loading is not empty: it is
+        /// showing a skeleton in place of what it is about to say.
+        /// </summary>
+        private void UpdateEmptyClass()
+        {
+            InnerElement.UpdateClassIf(IsEmpty && !InnerElement.classList.contains("tss-inlinelabel-loading"), "tss-inlinelabel-empty");
+        }
 
         /// <summary>
         /// Renders the component's root HTML element.
@@ -110,6 +121,8 @@ namespace Tesserae
 
             _text.textContent   = isEmpty ? string.Empty : text;
             _text.style.display = isEmpty ? "none" : "";
+
+            UpdateEmptyClass();
 
             return this;
         }
@@ -170,6 +183,8 @@ namespace Tesserae
             _mark.className        = "tss-inlinelabel-mark";
             _mark.style.background = string.Empty;
             _mark.style.display    = "none";
+
+            UpdateEmptyClass();
 
             return this;
         }
@@ -233,6 +248,8 @@ namespace Tesserae
 
             if (content is object) _mark.appendChild(content);
 
+            UpdateEmptyClass();
+
             return this;
         }
 
@@ -250,6 +267,8 @@ namespace Tesserae
                 {
                     skeleton.As<HTMLElement>().remove();
                 }
+
+                UpdateEmptyClass();
 
                 //Nothing to say: the label takes its slot with it rather than leaving a gap in the line.
                 if (IsEmpty) this.WhenMounted(RemoveWithItsSlot);

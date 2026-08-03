@@ -1,5 +1,11 @@
 ﻿/* Variables - Colors should reflect in the Theme.cs file*/
 :root {
+    /* Families - the only two font stacks Tesserae draws with. Every rule that sets a font-family
+       references one of them with no inline fallback list, so an app that overrides either variable
+       (on :root, or on a sub-tree) actually replaces the stack everywhere instead of only in the
+       places that happened to name it. */
+    --tss-sansserif-font-family: "Plus Jakarta Sans", "Inter", "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --tss-monospace-font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
     /* Weights */
     --tss-font-weight-regular: 400;
     --tss-font-weight-semibold: 600;

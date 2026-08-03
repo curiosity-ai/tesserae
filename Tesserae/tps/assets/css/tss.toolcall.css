@@ -53,7 +53,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-family: var(--tss-monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+    font-family: var(--tss-monospace-font-family);
     font-size: 12px;
 }
 
@@ -268,7 +268,7 @@
 }
 
 .tss-toolsused-modal-detail-title {
-    font-family: var(--tss-monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+    font-family: var(--tss-monospace-font-family);
     font-weight: var(--tss-font-weight-medium, 500);
 }
 
@@ -342,7 +342,7 @@
 
 .tss-toolsused-list-text {
     flex: 1;
-    font-family: var(--tss-monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+    font-family: var(--tss-monospace-font-family);
     font-size: 13px;
     color: var(--tss-colors-neutral-800, #1f2937);
     overflow: hidden;
@@ -447,7 +447,7 @@
     border: 1px solid var(--tss-default-border-color);
     border-radius: 6px;
     background: var(--tss-secondary-background-color);
-    font-family: var(--tss-monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+    font-family: var(--tss-monospace-font-family);
     font-size: 12px;
     white-space: pre-wrap;
     word-break: break-word;

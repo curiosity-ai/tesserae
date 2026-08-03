@@ -84,6 +84,9 @@ OmniBox:
 - `.Focus()`.
 - `.CaretClientX()` — the viewport x of the text caret in whichever input is focused, clamped to that input's bounds, or `double.NaN` when there is nothing to measure. Used to point something at where the user is typing, e.g. the `PixelAvatar` companion walking over to the caret.
 - `OmniBox.ParseQuery(string, bool tokenIgnoreCase = false)` — static parser returning a `SearchQuery`.
+- `.CurrentSearchQuery` — what the box says right now, parsed: the same `SearchQuery` pressing Enter would
+  raise, chips included. For a host that answers as the query is typed rather than on Enter (a
+  `CommandPalette`, a search-as-you-type page).
 
 ## Example
 

@@ -19,7 +19,7 @@ namespace Tesserae
         private readonly HTMLDivElement _positioner;
         private readonly HTMLDivElement _animator;
         private readonly HTMLDivElement _searchContainer;
-        private readonly HTMLInputElement _searchInput;
+        private readonly OmniBox _searchBox;
         private readonly HTMLDivElement _breadcrumbs;
         private readonly HTMLButtonElement _backButton;
         private readonly HTMLSpanElement _pathText;
@@ -35,7 +35,7 @@ namespace Tesserae
         private readonly List<HTMLElement> _entryElements = new List<HTMLElement>();
 
         private readonly List<CommandPaletteResult> _hostResults = new List<CommandPaletteResult>();
-        private Func<string, Task<IEnumerable<CommandPaletteResult>>> _search;
+        private Func<OmniBox.SearchQuery, Task<IEnumerable<CommandPaletteResult>>> _search;
         private int _searchDebounceMs = 200;
         private double _searchTimer = -1;
         private int _searchGeneration;
@@ -55,6 +55,9 @@ namespace Tesserae
 
         private readonly Action<Event> _globalKeyDownHandler;
         private bool _globalListenerActive;
+
+        private readonly Action<Event> _lightDismissHandler;
+        private bool _canLightDismiss;
 
         /// <summary>
         /// Raised when action executed occurs.
@@ -85,6 +88,63 @@ namespace Tesserae
         public string GlobalShortcutKey { get; set; } = "k";
 
         /// <summary>
+        /// Whether clicking beside the palette closes it, the way it does on a <see cref="Modal"/>. On by
+        /// default.
+        /// </summary>
+        public bool CanLightDismiss
+        {
+            get => _canLightDismiss;
+            set
+            {
+                if (_canLightDismiss == value) return;
+
+                _canLightDismiss = value;
+
+                if (value)
+                {
+                    _overlay.addEventListener("click",    _lightDismissHandler);
+                    _positioner.addEventListener("click", _lightDismissHandler);
+                }
+                else
+                {
+                    _overlay.removeEventListener("click",    _lightDismissHandler);
+                    _positioner.removeEventListener("click", _lightDismissHandler);
+                }
+            }
+        }
+
+        /// <summary>Enables light-dismiss behaviour (clicking outside the palette closes it).</summary>
+        public CommandPalette LightDismiss()
+        {
+            CanLightDismiss = true;
+            return this;
+        }
+
+        /// <summary>Removes / disables the light dismiss on the component.</summary>
+        public CommandPalette NoLightDismiss()
+        {
+            CanLightDismiss = false;
+            return this;
+        }
+
+        /// <summary>
+        /// The box the palette is typed into. It is a full <see cref="OmniBox"/>, so a host can give the
+        /// palette the same snaps, value filters, history and suggestions its own search box has instead of
+        /// the palette being a lesser search than the page it stands in for.
+        /// </summary>
+        public OmniBox SearchBox => _searchBox;
+
+        /// <summary>
+        /// Configures <see cref="SearchBox"/> - the place to hand the palette the search box configuration
+        /// the rest of the app shares.
+        /// </summary>
+        public CommandPalette ConfigureSearchBox(Action<OmniBox> configure)
+        {
+            configure?.Invoke(_searchBox);
+            return this;
+        }
+
+        /// <summary>
         /// Creates a CommandPalette whose global Ctrl/Cmd keyboard listener is bound
         /// to the lifetime of <paramref name="host"/>: the listener is attached when
         /// <paramref name="host"/> first mounts to the DOM and detached when it is
@@ -95,18 +155,22 @@ namespace Tesserae
         {
             if (host is null) throw new ArgumentNullException(nameof(host));
 
-            _searchInput = UI.TextBox(Att("tss-commandpalette-search", type: "search", placeholder: "Type a command"));
-            _searchInput.setAttribute("aria-label", "Command palette search");
-            _searchInput.addEventListener("input", _ => RefreshResults());
-            _searchInput.addEventListener("keydown", e => HandleSearchKeyDown(e.As<KeyboardEvent>()));
-            _searchInput.addEventListener("blur", e =>
-            {
-                if(_searchInput.IsMounted())
-                {
-                    StopEvent(e);
-                    _searchInput.focus();
-                }
-            });
+            //The palette searches with the same box the rest of the app searches with, so a host can give it
+            //the snaps, filters, history and suggestions its own search box has - see ConfigureSearchBox.
+            _searchBox = UI.OmniBox(new OmniBox.Config(OmniBox.Mode.Search) { PlaceholderSearch = "Type a command" })
+               .Class("tss-commandpalette-search");
+
+            _searchBox.OnInput((_, __) => RefreshResults());
+            _searchBox.OnKeyDown((_, e) => HandleSearchKeyDown(e));
+
+            //A chip is part of the query - picking "kind:pdf" out of a suggestion narrows the search the
+            //same way typing does - and it arrives without an input event, so it has to be watched for.
+            _searchBox.InlineFilterChips?.ObserveFutureChanges(_ => RefreshResults());
+
+            //Enter is the OmniBox's own - it commits a snap suggestion or raises a search - so what the
+            //palette does with it hangs off the search rather than off the key.
+            _searchBox.OnSearch((_, __) => ActivateSelected());
+
             _backButton = UI.Button(Att("tss-commandpalette-back tss-fontweight-semibold", type: "button", title: "Go Back"),
                                     Div(Att("tss-commandpalette-icon"), I(Att($"tss-commandpalette-icon-item {UIcons.AngleLeft}"))));
 
@@ -119,18 +183,25 @@ namespace Tesserae
             _pathText = Span(Att("tss-commandpalette-path tss-fontweight-semibold"));
             _breadcrumbs = Div(Att("tss-commandpalette-breadcrumbs"), _backButton, _pathText);
 
-            _searchContainer = Div(Att("tss-commandpalette-search-container"), _breadcrumbs, _searchInput);
+            _searchContainer = Div(Att("tss-commandpalette-search-container"), _breadcrumbs, _searchBox.Render());
             _results = Div(Att("tss-commandpalette-results", role: "listbox"));
             _emptyState = Div(Att("tss-commandpalette-empty", text: "No results"));
 
             _animator = Div(Att("tss-commandpalette-animator"), _searchContainer, _results, _emptyState);
             _positioner = Div(Att("tss-commandpalette-positioner"), _animator);
             _overlay = Div(Att("tss-commandpalette-overlay"));
-            _overlay.addEventListener("click", e =>
+
+            //The positioner covers the overlay, so a click beside the palette lands on it rather than on the
+            //backdrop - both have to answer, or light dismiss only works on the strip the positioner misses.
+            _lightDismissHandler = e =>
             {
+                if (e.target is object && e.target != _overlay && e.target != _positioner) return;
+
                 StopEvent(e);
                 Hide();
-            });
+            };
+
+            CanLightDismiss = true;
 
             _contentHtml = Div(Att("tss-commandpalette-container"), _overlay, _positioner);
 
@@ -160,8 +231,8 @@ namespace Tesserae
         /// </summary>
         public string Placeholder
         {
-            get => _searchInput.placeholder;
-            set => _searchInput.placeholder = value ?? string.Empty;
+            get => _searchBox.SearchPlaceholder;
+            set => _searchBox.SetSearchPlaceholder(value ?? string.Empty);
         }
 
         /// <summary>
@@ -238,9 +309,12 @@ namespace Tesserae
         /// The call is debounced, and an answer that arrives after a newer query was typed is dropped, so a
         /// slow search can never overwrite a faster one behind it.
         /// </summary>
-        /// <param name="search">Given the current query, the rows to show. Null clears the search.</param>
+        /// <param name="search">
+        /// Given what the box says - parsed, with whatever snaps and value filters the host registered on
+        /// <see cref="SearchBox"/> already picked out of it - the rows to show. Null clears the search.
+        /// </param>
         /// <param name="debounceMs">How long typing has to stop before the search runs.</param>
-        public CommandPalette OnSearch(Func<string, Task<IEnumerable<CommandPaletteResult>>> search, int debounceMs = 200)
+        public CommandPalette OnSearch(Func<OmniBox.SearchQuery, Task<IEnumerable<CommandPaletteResult>>> search, int debounceMs = 200)
         {
             _search           = search;
             _searchDebounceMs = debounceMs < 0 ? 0 : debounceMs;
@@ -252,14 +326,24 @@ namespace Tesserae
             }
             else if (IsVisible)
             {
-                RunSearch(CurrentQuery);
+                RunSearch(_searchBox.CurrentSearchQuery);
             }
 
             return this;
         }
 
+        /// <summary>
+        /// Asks the host for the rows to show, for a palette that only needs the text that was typed. See
+        /// <see cref="OnSearch(Func{OmniBox.SearchQuery, Task{IEnumerable{CommandPaletteResult}}}, int)"/>
+        /// for the overload that also hands over the box's filters.
+        /// </summary>
+        public CommandPalette OnSearch(Func<string, Task<IEnumerable<CommandPaletteResult>>> search, int debounceMs = 200)
+        {
+            return OnSearch(search is null ? null : (Func<OmniBox.SearchQuery, Task<IEnumerable<CommandPaletteResult>>>)(query => search(query?.RawQuery?.Trim() ?? string.Empty)), debounceMs);
+        }
+
         /// <summary>What is typed in the palette's search box right now, trimmed.</summary>
-        public string CurrentQuery => _searchInput.value?.Trim() ?? string.Empty;
+        public string CurrentQuery => _searchBox.SearchText?.Trim() ?? string.Empty;
 
         /// <summary>
         /// Opens the component.
@@ -299,7 +383,7 @@ namespace Tesserae
 
             base.Show();
             ResetState();
-            window.setTimeout(_ => _searchInput.focus(), 0);
+            window.setTimeout(_ => _searchBox.Focus(), 0);
             return this;
         }
 
@@ -350,7 +434,7 @@ namespace Tesserae
 
         private void ResetState()
         {
-            _searchInput.value = string.Empty;
+            _searchBox.SetSearchText(string.Empty);
             _currentParentId = null;
             RefreshResults();
         }
@@ -370,11 +454,26 @@ namespace Tesserae
 
         private void HandleGlobalKeyDown(Event ev)
         {
+            var e = ev.As<KeyboardEvent>();
+
+            //Escape closes the palette wherever the focus ended up - activating a row takes it out of the
+            //search box, and a palette that can only be closed with the mouse after that is a trap.
+            if (IsVisible && e.key == "Escape")
+            {
+                var focused = document.activeElement.As<HTMLElement>();
+
+                if (focused is null || !_searchContainer.contains(focused))
+                {
+                    StopEvent(e);
+                    Hide();
+                    return;
+                }
+            }
+
             if (!EnableGlobalShortcut && !EnableGlobalActionShortcuts)
             {
                 return;
             }
-            var e = ev.As<KeyboardEvent>();
 
             var target = (e.target is object ? e.target : e.srcElement).As<HTMLElement>();
             if (target != null && (target.isContentEditable || target.tagName == "INPUT" || target.tagName == "TEXTAREA" || target.tagName == "SELECT"))
@@ -420,7 +519,9 @@ namespace Tesserae
                 return;
             }
 
-            if (e.key == "Enter" | e.key == "Tab")
+            //Enter never reaches here - the OmniBox stops it and raises its search instead, which is what
+            //the palette listens to (see the constructor).
+            if (e.key == "Tab")
             {
                 StopEvent(e);
                 ActivateSelected();
@@ -442,7 +543,7 @@ namespace Tesserae
                 return;
             }
 
-            if (e.key == "Backspace" && string.IsNullOrEmpty(_searchInput.value) && !string.IsNullOrEmpty(_currentParentId))
+            if (e.key == "Backspace" && string.IsNullOrEmpty(_searchBox.SearchText) && !string.IsNullOrEmpty(_currentParentId))
             {
                 StopEvent(e);
                 NavigateBack();
@@ -459,9 +560,9 @@ namespace Tesserae
 
             var current = _actionLookup.ContainsKey(_currentParentId) ? _actionLookup[_currentParentId] : null;
             _currentParentId = current?.ParentId;
-            _searchInput.value = string.Empty;
+            _searchBox.SetSearchText(string.Empty);
             RefreshResults();
-            window.setTimeout(_ => _searchInput.focus(), 0);
+            window.setTimeout(_ => _searchBox.Focus(), 0);
         }
 
         private void ActivateSelected()
@@ -497,7 +598,7 @@ namespace Tesserae
             if (HasChildren(action))
             {
                 _currentParentId = action.Id;
-                _searchInput.value = string.Empty;
+                _searchBox.SetSearchText(string.Empty);
                 RefreshResults();
                 return;
             }
@@ -631,7 +732,7 @@ namespace Tesserae
 
             CancelPendingSearch();
 
-            var query = CurrentQuery;
+            var query = _searchBox.CurrentSearchQuery;
 
             if (_searchDebounceMs == 0)
             {
@@ -654,7 +755,7 @@ namespace Tesserae
             _searchTimer = -1;
         }
 
-        private void RunSearch(string query)
+        private void RunSearch(OmniBox.SearchQuery query)
         {
             var search = _search;
 
@@ -667,7 +768,7 @@ namespace Tesserae
             RunSearchAsync(search, query, generation).FireAndForget();
         }
 
-        private async Task RunSearchAsync(Func<string, Task<IEnumerable<CommandPaletteResult>>> search, string query, int generation)
+        private async Task RunSearchAsync(Func<OmniBox.SearchQuery, Task<IEnumerable<CommandPaletteResult>>> search, OmniBox.SearchQuery query, int generation)
         {
             var results = await search(query);
 

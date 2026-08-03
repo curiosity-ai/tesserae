@@ -13,16 +13,19 @@
     min-width: 22px;
     height: 22px;
     padding: 0 5px;
-    font-family: var(--tss-font-family, system-ui, sans-serif);
+    font-family: var(--tss-sansserif-font-family);
     font-size: 11px;
     font-weight: 500;
     line-height: 1;
-    color: var(--tss-default-foreground-color);
-    background: var(--tss-secondary-background-color, #f3f3f3);
-    border: 1px solid var(--tss-default-border-color);
+    color: var(--tss-secondary-foreground-color);
+    /* A wash of the opposite tone rather than a named surface colour: the chip is nearly always drawn
+       on top of one of those surfaces (a search field, the sidebar), and painting it the same colour is
+       what made it invisible. dark-neutral-0 is near-black on a light theme and white on a dark one, so
+       the same two rules read as a raised key in both. */
+    background: rgba(var(--tss-colors-dark-neutral-0-root), 0.07);
+    border: 1px solid rgba(var(--tss-colors-dark-neutral-0-root), 0.16);
     border-bottom-width: 2px;
     border-radius: 4px;
-    box-shadow: 0 1px 0 rgba(0,0,0,0.08);
     user-select: none;
     white-space: nowrap;
 }
