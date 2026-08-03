@@ -162,3 +162,8 @@
 .tss-segmentedpivot-content > .tss-background-area {
     border-radius: var(--tss-border-radius-lg);
 }
+
+
+.tss-segmentedpivot-tab > * {
+    display: inline-flex;
+}
