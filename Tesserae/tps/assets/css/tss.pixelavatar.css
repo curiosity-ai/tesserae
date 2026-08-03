@@ -209,7 +209,11 @@
     transition: left var(--tss-pxav-walk, 0ms) linear;
 }
 
-/* Overlap mode: no reserved room, the avatar hangs outside the host's box. */
+/* Overlap mode: no reserved room, the avatar hangs outside the host's box.
+   The 1px gaps are the outline halo, not padding: .tss-pixelavatar-canvas draws it with four hard
+   1px drop-shadows, which paint one pixel outside the avatar's own box on every side. Flush against
+   the host (`bottom: 100%`) that pixel lands on the host and reads as the cat overlapping it, so
+   each edge backs off by exactly the halo. */
 
 .tss-pixelavatar-overlap {
     padding: 0;
@@ -219,14 +223,14 @@
 .tss-pixelavatar-overlap.tss-pixelavatar-anchor-topcenter > .tss-pixelavatar,
 .tss-pixelavatar-overlap.tss-pixelavatar-anchor-topright > .tss-pixelavatar {
     top: auto;
-    bottom: 100%;
+    bottom: calc(100% + 1px);
 }
 
 .tss-pixelavatar-overlap.tss-pixelavatar-anchor-bottomleft > .tss-pixelavatar,
 .tss-pixelavatar-overlap.tss-pixelavatar-anchor-bottomcenter > .tss-pixelavatar,
 .tss-pixelavatar-overlap.tss-pixelavatar-anchor-bottomright > .tss-pixelavatar {
     bottom: auto;
-    top: 100%;
+    top: calc(100% + 1px);
 }
 
 .tss-pixelavatar-overlap.tss-pixelavatar-anchor-leftcenter > .tss-pixelavatar {

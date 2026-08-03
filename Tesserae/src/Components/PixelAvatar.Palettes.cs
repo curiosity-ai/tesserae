@@ -29,7 +29,10 @@ namespace Tesserae
         [Name("Grey")]          Grey,
         [Name("Sparkle")]       Sparkle,
         [Name("Lynx")]          Lynx,
-        [Name("Sudo")]          Sudo
+        [Name("Sudo")]          Sudo,
+        [Name("Cobalt")]        Cobalt,
+        [Name("Ember")]         Ember,
+        [Name("Bubblegum")]     Bubblegum
     }
 
     /// <summary>
@@ -62,6 +65,9 @@ namespace Tesserae
             PixelAvatarDesign.Sparkle,
             PixelAvatarDesign.Lynx,
             PixelAvatarDesign.Sudo,
+            PixelAvatarDesign.Cobalt,
+            PixelAvatarDesign.Ember,
+            PixelAvatarDesign.Bubblegum,
         };
 
         // Shorthand so the palette rows below stay readable.
@@ -89,6 +95,12 @@ namespace Tesserae
             palettes[PixelAvatarDesign.Lynx] = PixelAvatarPalette.FromColors("Lynx", C("#338CCC"), C("#E3CDA8"), C("#F0E2C8"), C("#9A7448"), C("#7A5630"), C("#C4A375"), C("#C4A375"), C("#C4A375"), C("#7A5630"), C("#F5EAD6"), C("#5A3F24"), C("#C7B291"));
             // A near-black navy coat with slate ears and an electric blue accent on the ear tips.
             palettes[PixelAvatarDesign.Sudo] = PixelAvatarPalette.FromColors("Sudo", C("#CC33CC"), C("#47525F"), C("#47525F"), C("#47525F"), C("#1D2531"), C("#1D2531"), C("#1D2531"), C("#1D2531"), C("#1D2531"), C("#1D2531"), C("#12171F"), C("#12171F")).WithAccent(C("#0029E7"));
+            // A royal blue coat under a navy head and haunch, with a pale sky-blue chest and silver on the muzzle and paws.
+            palettes[PixelAvatarDesign.Cobalt] = PixelAvatarPalette.FromColors("Cobalt", C("#CC7333"), C("#2F66CC"), C("#8CC3F7"), C("#4A85E8"), C("#1E3A6E"), C("#2F66CC"), C("#1E3A6E"), C("#BCC4CD"), C("#BCC4CD"), C("#8CC3F7"), C("#1E3A6E"), C("#2F66CC"));
+            // A coral red coat with amber ears, tail and chest, an orange forepaw and a plum flank over a violet hind paw.
+            palettes[PixelAvatarDesign.Ember] = PixelAvatarPalette.FromColors("Ember", C("#33CCB2"), C("#F9BE2C"), C("#F9BE2C"), C("#F9BE2C"), C("#F5464F"), C("#F5464F"), C("#F5464F"), C("#92277F"), C("#F98A34"), C("#F9BE2C"), C("#5B21A8"), C("#F5464F"));
+            // A hot pink coat shading into magenta, with a peach chest and a mint sock.
+            palettes[PixelAvatarDesign.Bubblegum] = PixelAvatarPalette.FromColors("Bubblegum", C("#33CC59"), C("#F5399A"), C("#FBC191"), C("#F5399A"), C("#F5399A"), C("#F5399A"), C("#E5148C"), C("#E5148C"), C("#FBC191"), C("#FBC191"), C("#6FE0D0"), C("#F5399A"));
 
             return palettes;
         }
