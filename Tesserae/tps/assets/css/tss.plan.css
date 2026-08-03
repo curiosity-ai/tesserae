@@ -38,15 +38,6 @@
 .tss-plan-failed    { --plan-accent: var(--tss-danger-background-color);  --plan-accent-soft: var(--tss-colors-red-100); }
 .tss-plan-canceled  { --plan-accent: var(--tss-warning-background-color); --plan-accent-soft: var(--tss-colors-orange-100); }
 
-/* A slim accent strip across the very top of the card. */
-.tss-plan::before {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: 3px;
-    background: var(--plan-accent);
-}
-
 /* ---------- Header ---------- */
 .tss-plan-header {
     display: flex;
