@@ -80,4 +80,4 @@ individual cards *below* the input instead, see `OmniBox.WithContextToAdd` in `o
 - ToolCall / ToolsUsed — the disclosures this matches — `tool-call.md`
 - OmniBox — `ChatHeader` / `WithContextToAdd` — `omni-box.md`
 - Chat — `chat.md`
-- Full docs & API: `/tesserae/components/context-cards`
+- Full docs & API: `/tesserae/components/context-card#contextcards`

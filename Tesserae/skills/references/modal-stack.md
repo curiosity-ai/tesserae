@@ -66,4 +66,4 @@ ModalStack.Changed += () => Route.Set("open", string.Join(",", ModalStack.Entrie
 - Modal — the surface a sheet is — `modal.md`
 - OmniResult — `ToModal()` builds the sheet a search result opens into — `omni-result.md`
 - Layer — the overlay infrastructure underneath — `layer.md`
-- Full docs & API: `/tesserae/components/modal-stack`
+- Full docs & API: `/tesserae/surfaces/modal#modalstack`

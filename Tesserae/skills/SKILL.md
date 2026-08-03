@@ -145,16 +145,17 @@ references. Open the reference for whatever you are working with. The full set:
 **Components** (plain widgets)
 accordion · action-button · annotated-text-editor · avatar · background-area ·
 badge · button · card · carousel · charts · chat · check-box · choice-group ·
-color-picker · command-bar · context-card · context-cards · contribution-bar ·
-cron-editor · date-picker · details-grid ·
+code-diff · color-picker · command-bar · context-card · context-cards ·
+contribution-bar · cron-editor · date-picker · details-grid · diagram ·
 date-range-picker · date-time-picker · delta-component · dropdown ·
 editable-area · editable-label · expander · grid-picker · horizontal-separator ·
-icon · icon-toggle · image · inline-label · inline-pagination · label · live-progress · markdown-block ·
-menu · message ·
+icon · icon-toggle · image · inline-label · inline-pagination · label ·
+list-item-text · live-progress · markdown-block · menu · message ·
 metric · month-picker · navbar · number-picker · omni-box · omni-result · option ·
 pages-stack · pagination ·
 picker · pixel-avatar · plan · popover · progress-indicator · progress-ring ·
-property-grid · rating · resource-card · sandbox · save-button · saving-toast ·
+property-grid · questionnaire · rating · resource-card · sandbox · save-button ·
+saving-toast ·
 search-box · section-title · sidebar · sidebar-separator · sidenav · skeleton ·
 slider · sparkline · spinner · stepper · steps-slider · tags-input · task-board ·
 teaching · text-area · text-block · text-box · text-breadcrumbs ·
