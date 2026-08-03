@@ -51,6 +51,7 @@ tab or a removed subtree costs nothing.
 - `.SetDesign(PixelAvatarDesign)` — swap the coat. See **Custom palettes** below for the ways to supply your own colors.
 - `.Outline(bool = true)` — a hairline halo in the theme's contrasting color, **on by default**. Several palettes contain pure white (`White`, `SpottedGrey`, `SpottedOrange`) and several near-black (`Black`, `Tuxedo`, `Siamese`), so without it those designs disappear against one theme or the other. `.OutlineColor(string)` overrides the color, which defaults to translucent black in light mode and translucent white in dark mode.
 - `.OnAnimationStarted((avatar, animation) => ...)` / `.OnAnimationFinished((avatar, animation) => ...)` — the second fires when a non-looping animation reaches its last frame, just before its follow-up takes over; calling `Play` from the handler suppresses that hand-over.
+- `.ReactToClicks(bool = true)` — the built-in click reaction; see **Clicking the cat** below.
 
 `PixelAvatarDesign`: `Black`, `Orange`, `White`, `Beige`, `Siamese`, `SpottedGrey`,
 `SpottedOrange`, `Tuxedo` (extracted from the source sprite sheets), plus `Grey`, `Sparkle`
@@ -100,6 +101,36 @@ jittered by ±20% on use, so nothing the cat does lands on a stopwatch:
 - `.SleepAfter(ms)` — resting time before it sleeps, jittered on use. `PixelAvatar.DefaultSleepAfterMs` is 60000; pass zero to keep it awake indefinitely.
 - `.Wake()` — restarts the sleep countdown, and plays the wake-up performance if the cat was actually out.
 - `.Speed(x)` — scales every frame duration and rest hold together.
+
+## Clicking the cat
+
+A cat that ignores you is furniture, so an avatar with no click of its own to do answers when
+you click it:
+
+- One click plays `Interact`.
+- A second click within `PixelAvatar.DoubleClickWindowMs` (400ms) plays `Startle` instead. The first click's reaction starts immediately rather than waiting the window out, so the cat answers at once and the second click simply overrides it.
+- Either one on a sleeping cat calls `Wake()`, which is its own `Stretch` and `Startle` performance, and any click restarts the sleep countdown.
+
+The reaction hands the avatar back to whatever it was doing when it ends, so an auto-idling cat
+goes on drifting between resting poses afterwards rather than being left standing wherever the
+reaction chained into.
+
+It is **on by default and turns itself off as soon as the click belongs to the application**:
+registering an `OnClick` handler on the avatar, or wrapping the cat in a button with
+`AsButton()`, hands the click over. A **paused** avatar never reacts either, which is what keeps
+a `PixelAvatarBadge` still.
+
+`.ReactToClicks(bool = true)` overrides all of that — call it after `AsButton()` to have the cat
+answer as well as act, or `.ReactToClicks(false)` to have a decorative avatar ignore clicks
+entirely.
+
+```csharp
+// Reacts on its own: click for Interact, double click for Startle.
+var cat = PixelAvatar(SpriteKey.Value, PixelAvatarDesign.Beige, PixelAvatarAnimation.AutoIdle);
+
+// Its own handler, so no built-in reaction - unless you ask for it back.
+cat.OnClick((_, __) => OpenProfile()).ReactToClicks();
+```
 
 ## Custom palettes
 
@@ -188,6 +219,7 @@ the target is an `OmniBox` and the anchor is one of the `Top*` ones, and wires u
 - Typing settles it back to `Idle` — a one-shot animation is allowed to play out first, only the looping poses are cut short.
 - About 10s after your **last** keystroke the cat walks over to the text caret and watches you type; each keystroke pushes that back, and it takes priority over the spontaneous animations. Arriving, it plays `Startle` or `Interact` — picked at random, so it reads as having noticed what you are typing rather than quietly sitting down — and then the ordinary random flow resumes.
 - Focusing or typing wakes a sleeping cat with `Stretch` then `Startle` rather than snapping it back to `Idle`.
+- Clicking the cat works here too — see **Clicking the cat**; the reaction plays and the companion picks the roaming back up when it ends.
 
 ```csharp
 var perched = PixelAvatar(SpriteKey.Value, PixelAvatarDesign.Orange).AttachTo(omniBox, PixelAvatarAnchor.TopLeft);
@@ -249,6 +281,10 @@ if `PixelSize` changes later.
 var avatar = PixelAvatar(SpriteKey.Value, PixelAvatarDesign.Orange, PixelAvatarAnimation.SitIdle).PixelSize(8);
 var button = avatar.AsButton().OnClick(() => avatar.Play(PixelAvatarAnimation.Stretch));
 ```
+
+The button owns the click from there, so `AsButton()` turns the built-in click reaction off —
+see **Clicking the cat**. `avatar.ReactToClicks()` after it puts the reaction back on top of the
+button's own handler.
 
 This claims the same pixel-size tracking slot `AttachTo` uses, so don't call both on the same
 avatar — perch it on a button with `AttachTo` for a mascot next to the click target, or make the

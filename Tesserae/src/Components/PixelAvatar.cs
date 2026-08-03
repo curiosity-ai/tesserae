@@ -29,6 +29,12 @@ namespace Tesserae
         /// </summary>
         public const int DefaultSleepAfterMs = 16000;
 
+        /// <summary>
+        /// How long after a click a second one still counts as a double click, in milliseconds.
+        /// See <see cref="ReactToClicks"/>.
+        /// </summary>
+        public const int DoubleClickWindowMs = 400;
+
         // How far the viewer sits from the sprite, as a multiple of its rendered width. Low enough
         // that the near edge visibly swings toward you mid-turn, high enough that the sprite does
         // not distort at rest.
@@ -55,6 +61,12 @@ namespace Tesserae
             PixelAvatarAnimation.Stretch,
             PixelAvatarAnimation.Startle
         };
+
+        // The two click reactions. They are sequences of one rather than a plain Play so that the
+        // avatar hands back to whatever it was doing once the reaction is over - an auto-idling cat
+        // goes on drifting instead of being left standing in whatever the reaction chained into.
+        private static readonly PixelAvatarAnimation[] PokeSequence    = { PixelAvatarAnimation.Interact };
+        private static readonly PixelAvatarAnimation[] StartleSequence = { PixelAvatarAnimation.Startle };
 
         // The accent is not a palette index - it is an extra half-size pixel laid over each ear
         // tip, so a design can carry a spot of color the shared artwork has no cell for.
@@ -90,6 +102,9 @@ namespace Tesserae
         private int                          _lastHoldMs;
         private PixelAvatarAnimation[]       _sequence;
         private int                          _sequenceIndex;
+        private bool                         _reactsToClicks = true;
+        private bool                         _hasClickHandler;
+        private double                       _clickTimer;
 
         private event Action<PixelAvatar, PixelAvatarAnimation> AnimationFinished;
         private event Action<PixelAvatar, PixelAvatarAnimation> AnimationStarted;
@@ -138,6 +153,12 @@ namespace Tesserae
             SetDesign(design);
             RenderFrame();
             UpdateAriaLabel();
+
+            AttachClick();
+
+            // Registered after AttachClick so an application's own handler runs first. It only ever
+            // does something when there is no such handler - see ReactToClicks.
+            InnerElement.addEventListener("click", _ => ReactToClick());
 
             TrackMounting();
         }
@@ -207,9 +228,42 @@ namespace Tesserae
 
             if (!IsAsleep) return this;
 
-            _sequence      = WakeSequence;
-            _sequenceIndex = 1;
-            return PlayCore(WakeSequence[0]);
+            return PlaySequence(WakeSequence);
+        }
+
+        /// <summary>
+        /// Sets whether the avatar reacts to being clicked on its own: a click plays
+        /// <see cref="PixelAvatarAnimation.Interact"/>, a second one inside
+        /// <see cref="DoubleClickWindowMs"/> plays <see cref="PixelAvatarAnimation.Startle"/>
+        /// instead, and either one on a sleeping cat wakes it with <see cref="Wake"/>. The reaction
+        /// hands the avatar back to what it was doing, so an auto-idling cat goes on drifting
+        /// between resting poses afterwards.
+        ///
+        /// It is on by default and turns itself off as soon as the avatar has a click of its own to
+        /// do: registering an <see cref="OnClick"/> handler or wrapping the cat in a button with
+        /// <see cref="AsButton"/> hands the click to the application. Call this to get the reaction
+        /// back on top of that, or to turn it off entirely. A paused avatar never reacts, which is
+        /// what keeps a <see cref="PixelAvatarBadge"/> still.
+        /// </summary>
+        public PixelAvatar ReactToClicks(bool value = true)
+        {
+            _reactsToClicks = value;
+
+            if (!value) ClearClickTimer();
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a callback invoked when the avatar is clicked. Doing so turns off the built-in
+        /// click reaction described in <see cref="ReactToClicks"/>, since the click now belongs to
+        /// the application.
+        /// </summary>
+        public override PixelAvatar OnClick(ComponentEventHandler<PixelAvatar, MouseEvent> onClick, bool clearPrevious = true)
+        {
+            if (onClick != null) _hasClickHandler = true;
+            else if (clearPrevious) _hasClickHandler = false;
+
+            return base.OnClick(onClick, clearPrevious);
         }
 
         /// <summary>Gets the index of the frame currently shown.</summary>
@@ -401,6 +455,56 @@ namespace Tesserae
             return PlayCore(animation);
         }
 
+        // Plays a scripted run of animations in place of the usual hand-over chain. Tick hands the
+        // avatar back to whatever it was doing when the last step finishes, which is what lets a
+        // wake-up or a click reaction happen without cancelling auto-idling.
+        private PixelAvatar PlaySequence(PixelAvatarAnimation[] sequence)
+        {
+            _sequence      = sequence;
+            _sequenceIndex = 1;
+            return PlayCore(sequence[0]);
+        }
+
+        // A cat that ignores you is furniture. One click and it looks up; click again while it is
+        // still looking and you have startled it.
+        private void ReactToClick()
+        {
+            if (!_reactsToClicks || _hasClickHandler || _paused) return;
+
+            var wasAsleep = IsAsleep;
+
+            // Pushes the sleep countdown back either way, and when the cat was actually out this
+            // plays the wake-up performance - which already ends in a startle, so there is no
+            // reaction to add on top of it.
+            Wake();
+
+            if (wasAsleep)
+            {
+                ClearClickTimer();
+                return;
+            }
+
+            if (_clickTimer != 0)
+            {
+                ClearClickTimer();
+                PlaySequence(StartleSequence);
+                return;
+            }
+
+            // The reaction plays on the first click rather than waiting out the double-click window,
+            // so the cat answers immediately; a second click within the window simply overrides it.
+            _clickTimer = window.setTimeout(_ => _clickTimer = 0, DoubleClickWindowMs);
+            PlaySequence(PokeSequence);
+        }
+
+        private void ClearClickTimer()
+        {
+            if (_clickTimer == 0) return;
+
+            window.clearTimeout(_clickTimer);
+            _clickTimer = 0;
+        }
+
         private PixelAvatar PlayCore(PixelAvatarAnimation animation)
         {
             _animation = PixelAvatarSprites.Get(animation);
@@ -494,9 +598,15 @@ namespace Tesserae
         ///
         /// This claims the same pixel-size tracking slot <see cref="AttachTo"/> uses, so an avatar
         /// already attached to another component should not also be turned into a button.
+        ///
+        /// The button owns the click from here on, so the built-in click reaction is turned off -
+        /// see <see cref="ReactToClicks"/>, which turns it back on if you want the cat to answer as
+        /// well as act.
         /// </summary>
         public Button AsButton()
         {
+            ReactToClicks(false);
+
             var button = UI.Button()
                .ReplaceContent(this)
                .NoBackground()
