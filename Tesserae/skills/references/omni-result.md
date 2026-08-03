@@ -57,7 +57,10 @@ stands for. Also `new OmniResult<T>(result, title)`. Bring factories into scope 
   over a wash computed from that same color: a pale tint under a light theme, a deep one under a dark
   theme. Both variants are written to the element, so flipping the theme at runtime needs no redraw,
   and the computed pair is cached per color (a list drawing one color per file type only pays once).
-- `.SetIcon(string text, string color = null)` — a short type name ("PPTX", "CSV") in place of a glyph.
+- `.SetIcon(string text, string color = null, TextSize? size = null)` — a short type name ("PPTX",
+  "CSV") in place of a glyph. It is drawn at the size the tile is sized for; pass a `TextSize`
+  (`Tiny`, `XSmall`, `Small`, …) to override that — `Tiny` for text longer than the three or four
+  letters a type name usually is.
 - `.SetIcon(IComponent, string color = null)` — an `Image` thumbnail, an `Avatar`, an emoji.
 - `.SetIconBadge(IComponent badge, OmniResultBadgeCorner corner = BottomRight)` — a marker pinned to a
   corner of the tile, drawn outside its clipping: where the result came from, that it is pinned.
