@@ -346,13 +346,17 @@ namespace Tesserae
 
         /// <summary>
         /// Puts the given short text on the tile in place of an icon - a file type, "PPTX" or "CSV", where
-        /// no glyph says it as plainly - in the given color, over a paler wash of that same color.
+        /// no glyph says it as plainly - in the given color, over a paler wash of that same color. It is drawn
+        /// at the size the tile is sized for unless <paramref name="size"/> asks for another one - text longer
+        /// than the three or four letters a type name usually is wants <see cref="TextSize.Tiny"/>.
         /// </summary>
-        public OmniResult<T> SetIcon(string text, string color = null)
+        public OmniResult<T> SetIcon(string text, string color = null, TextSize? size = null)
         {
             ClearChildren(_iconContainer);
 
-            _iconContainer.appendChild(Span(Att("tss-omniresult-icon-text", text: text ?? string.Empty)));
+            var className = size.HasValue ? $"tss-omniresult-icon-text {size.Value}" : "tss-omniresult-icon-text";
+
+            _iconContainer.appendChild(Span(Att(className, text: text ?? string.Empty)));
 
             return TintIcon(color);
         }

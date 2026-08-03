@@ -177,11 +177,16 @@
 
 /* A file type spelled out ("PPTX", "XLSX") in place of a glyph. */
 .tss-omniresult-icon-text {
-    font-size: 12px;
     font-weight: 700;
     letter-spacing: .02em;
     text-transform: uppercase;
     line-height: 1;
+}
+
+/* The size the tile is sized for, declared through :where() so it costs no specificity - a tss-fontsize-*
+   class from the TextSize passed to SetIcon then wins over it without needing !important. */
+:where(.tss-omniresult-icon-text) {
+    font-size: 12px;
 }
 
 .tss-omniresult-icon img {
