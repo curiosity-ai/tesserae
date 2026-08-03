@@ -23,11 +23,12 @@ On components implementing `ITextFormating` (`ITextFormatingExtensions`):
 Tesserae draws with exactly two font stacks, and every rule that sets a
 `font-family` names one of them with no inline fallback list:
 
-- `--tss-sansserif-font-family` — everything but code. Defaults to
-  `"Plus Jakarta Sans", "Inter", "Segoe UI", …`; Tesserae does not ship the font
-  files, so an app that wants the first name in that list serves its own
-  `@font-face` for it.
+- `--tss-sansserif-font-family` — everything but code.
 - `--tss-monospace-font-family` — code, paths, identifiers.
+
+Both default to system fonts only. A webfont has to be served by whoever uses
+it, so the toolkit never names one — an app that ships one puts it in front by
+overriding the variable.
 
 Override either one on `:root` (or on any sub-tree) and the whole UI follows,
 form controls included. From C#, reference them as `Theme.Fonts.SansSerif` /
