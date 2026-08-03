@@ -123,7 +123,11 @@
 .tss-toolagent-item {
     position: relative;
     display: flex;
-    align-items: flex-start;
+    /* The box, the icon tile and the text block are all different heights, so they have to be centred
+       against each other rather than hung from the top of the row: compact rows have one line of text
+       and looked plainly misaligned, and a row with a description centres the way any list row with a
+       subtitle does. */
+    align-items: center;
     gap: 10px;
     padding: 8px;
     border-radius: 8px;
@@ -149,7 +153,6 @@
         flex-shrink: 0;
         width: 18px;
         height: 18px;
-        margin-top: 1px;
         border-radius: 4px;
         border: 1px solid var(--tss-default-foreground-color);
         background: var(--tss-default-background-color);
@@ -165,13 +168,15 @@
             content: "";
             position: absolute;
             display: block;
-            left: 5px;
-            top: 1px;
+            /* The tick's ink is the element's right and bottom borders, which span its whole box, so
+               centring the element is what centres the tick. Fixed offsets left it high and right. */
+            left: 50%;
+            top: 50%;
             width: 5px;
             height: 10px;
             border: solid var(--tss-primary-foreground-color);
             border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
+            transform: translate(-50%, -50%) rotate(45deg);
         }
 
     .tss-toolagent-item-icon {

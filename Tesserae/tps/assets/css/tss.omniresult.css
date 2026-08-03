@@ -358,6 +358,14 @@
     display: none;
 }
 
+/* And for one holding nothing but a component that collapsed itself, which is how anything that is not
+   an InlineLabel says it has nothing to show - AddFooterEntry takes any component, and one that looks
+   something up (a list of neighbours, say) only finds out there is nothing after the entry already
+   exists. So this has to be a rule the collapsing satisfies later, not a check when the entry is added. */
+.tss-omniresult-footer > .tss-omniresult-footer-entry:has(> .tss-collapse:only-child) {
+    display: none;
+}
+
 /* An entry is a box around one InlineLabel, and the label does its own ellipsizing - so the entry must
    NOT clip: a hovered label's background reaches 4px past its text on each side, and hiding the
    overflow cut the right end of it (the left survived by eating into the separator's gap). */
