@@ -1,13 +1,13 @@
----
+﻿---
 name: pixel-avatar
-description: An animated pixel-art cat avatar drawn as one absolutely-positioned div per pixel, with twelve coat designs and thirteen animations, attachable to any other component. Use when adding a small animated mascot or decorative character to a Tesserae (C#/Transpose) app.
+description: An animated pixel-art cat avatar drawn as one absolutely-positioned div per pixel, with fifteen coat designs and thirteen animations, attachable to any other component. Use when adding a small animated mascot or decorative character to a Tesserae (C#/Transpose) app.
 ---
 
 # PixelAvatar
 
 `PixelAvatar` renders a 10x8 pixel-art sprite as a grid of absolutely positioned square
 divs. The artwork lives in the library as a byte grid of palette indices
-(`PixelAvatarSprites`), so all twelve designs share the same frames and differ only in
+(`PixelAvatarSprites`), so all fifteen designs share the same frames and differ only in
 their `PixelAvatarPalette` — switching design rewrites eleven CSS variables and repaints
 nothing.
 
@@ -54,8 +54,10 @@ tab or a removed subtree costs nothing.
 
 `PixelAvatarDesign`: `Black`, `Orange`, `White`, `Beige`, `Siamese`, `SpottedGrey`,
 `SpottedOrange`, `Tuxedo` (extracted from the source sprite sheets), plus `Grey`, `Sparkle`
-(violet with magenta markings), `Lynx` (tawny with dark ear tufts and spots) and `Sudo`
-(near-black navy with an electric blue accent on the ear tips), which are authored against the
+(violet with magenta markings), `Lynx` (tawny with dark ear tufts and spots), `Sudo`
+(near-black navy with an electric blue accent on the ear tips), `Cobalt` (royal blue under a
+navy head, with a sky-blue chest and silver paws), `Ember` (coral red with amber ears and tail)
+and `Bubblegum` (hot pink with a peach chest and a mint sock), which are authored against the
 same palette indices. `PixelAvatarPalettes.All` enumerates them and
 `PixelAvatarPalettes.Get(design)` returns the palette.
 
