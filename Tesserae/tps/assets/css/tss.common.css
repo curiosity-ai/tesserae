@@ -3,8 +3,11 @@
     /* Families - the only two font stacks Tesserae draws with. Every rule that sets a font-family
        references one of them with no inline fallback list, so an app that overrides either variable
        (on :root, or on a sub-tree) actually replaces the stack everywhere instead of only in the
-       places that happened to name it. */
-    --tss-sansserif-font-family: "Plus Jakarta Sans", "Inter", "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
+       places that happened to name it.
+       Both name system fonts only: a webfont has to be served by whoever uses it, so naming one here
+       would be a promise the toolkit cannot keep. An app that ships one puts it in front by overriding
+       the variable. */
+    --tss-sansserif-font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
     --tss-monospace-font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
     /* Weights */
     --tss-font-weight-regular: 400;
