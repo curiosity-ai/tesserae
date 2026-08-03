@@ -30,8 +30,8 @@
         }
 
     .tss-sidebar > .tss-stack-item:nth-child(2) {
-        margin: 0px -12px !important;
-        width: calc(100% + 24px) !important;
+        margin: 0px 0px 0px -12px !important;
+        width: calc(100% + 20px) !important;
         padding-left: 12px !important;
     }
 
