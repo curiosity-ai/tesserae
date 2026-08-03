@@ -55,8 +55,8 @@
 }
 
 .tss-plan-title {
-    font-size: var(--tss-font-size-mediumplus);
-    font-weight: 600;
+    font-size: var(--tss-font-size-smallplus);
+    font-weight: var(--tss-font-weight-bold);
     line-height: 1.25;
     letter-spacing: -0.01em;
     color: var(--tss-default-foreground-color);
@@ -148,7 +148,7 @@
     position: relative;
     display: flex;
     justify-content: center;
-    padding-top: 10px;
+    padding-top: calc(0.5 * var(--tss-font-size-small) - 2px);
 }
 
 .tss-plan-step:not(:last-child) .tss-plan-step-rail::after {
@@ -222,11 +222,12 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: var(--tss-font-size-smallplus);
+    font-size: var(--tss-font-size-small);
     font-weight: 400;
     color: var(--tss-default-foreground-color);
     line-height: 1.4;
 }
+
 .is-pending  .tss-plan-step-title { color: var(--tss-secondary-foreground-color); }
 .is-running  .tss-plan-step-title { font-weight: 600; }
 .is-canceled .tss-plan-step-title { color: var(--tss-secondary-foreground-color); text-decoration: line-through; text-decoration-color: var(--tss-colors-neutral-400); }
@@ -364,7 +365,7 @@
 .tss-plan-footer {
     border-top: 1px solid var(--tss-default-separator-color);
     background: color-mix(in srgb, var(--tss-default-foreground-color) 3%, transparent);
-    padding: 14px 24px 18px;
+    padding: 10px 16px 12px;
     display: flex;
     flex-direction: column;
     gap: 10px;
