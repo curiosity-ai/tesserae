@@ -230,3 +230,14 @@
     font-size: 13px;
     color: var(--tss-secondary-foreground-color);
 }
+
+
+.tss-commandpalette-search-container .tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover .tss-omnibox-search-container {
+    border-color: unset;
+    box-shadow: unset;
+}
+
+.tss-commandpalette-search-container .tss-omnibox-container:focus-within .tss-omnibox-search-container {
+    border-color: unset;
+    box-shadow: unset;
+}
