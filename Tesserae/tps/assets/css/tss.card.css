@@ -102,6 +102,7 @@
     font-weight: 600;
     font-size: 14px;
     color: var(--tss-text-color, #333);
+    width: 100%;
 }
 
 .tss-card-content {
