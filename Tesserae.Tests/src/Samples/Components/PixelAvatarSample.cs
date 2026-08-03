@@ -44,6 +44,9 @@ namespace Tesserae.Tests.Samples
                         SampleSubTitle("Pixel size and facing"),
                         TextBlock("The sprite is 10x8 pixels; PixelSize sets how many CSS pixels each of them takes. Facing mirrors the artwork, which is drawn facing right."),
                         SizeGallery(),
+                        SampleSubTitle("Clicking the cat"),
+                        TextBlock("An avatar with no click of its own to do answers when you click it: once plays Interact, twice in quick succession plays Startle, and either one wakes a sleeping cat. The reaction hands the avatar back to what it was doing, so an auto-idling cat carries on drifting afterwards. Registering an OnClick handler - or wrapping the cat in a button with AsButton - hands the click to your code and turns the reaction off; ReactToClicks() overrides either way."),
+                        ClickGallery(),
                         SampleSubTitle("As a button"),
                         TextBlock("AsButton() wraps the avatar in a Button with no background, border, padding or minimum size, so the button hugs the cat exactly instead of the usual button chrome - the avatar becomes the clickable surface via ReplaceContent. Click a cat to play an animation."),
                         AsButtonGallery(),
@@ -224,6 +227,34 @@ namespace Tesserae.Tests.Samples
                     TextBlock("Speed 3").Tiny().Secondary().PT(8)));
 
             return VStack().WS().Children(sizes, facing.PT(24));
+        }
+
+        private static IComponent ClickGallery()
+        {
+            var reacting = PixelAvatar(42, PixelAvatarDesign.Beige, PixelAvatarAnimation.AutoIdle).PixelSize(8);
+            var sleepy   = PixelAvatar(42, PixelAvatarDesign.Grey, PixelAvatarAnimation.AutoIdle).PixelSize(8).SleepAfter(2000);
+            var handled  = PixelAvatar(42, PixelAvatarDesign.Cobalt, PixelAvatarAnimation.AutoIdle).PixelSize(8);
+            var counter  = TextBlock("Clicked 0 times").Tiny().Secondary();
+            var clicks   = 0;
+
+            // A handler of its own means the cat does what the application says instead of reacting.
+            handled.OnClick((_, __) =>
+            {
+                clicks++;
+                counter.Text = $"Clicked {clicks} time{(clicks == 1 ? "" : "s")}";
+            });
+
+            return HStack().AlignItems(ItemAlign.End).Children(
+                VStack().AlignItemsCenter().PR(32).Children(
+                    reacting,
+                    TextBlock("Click, or double click").Tiny().Secondary().PT(8)),
+                VStack().AlignItemsCenter().PR(32).Children(
+                    sleepy,
+                    TextBlock("Nods off quickly: click to wake").Tiny().Secondary().PT(8)),
+                VStack().AlignItemsCenter().PR(32).Children(
+                    handled,
+                    TextBlock("Has its own OnClick").Tiny().Secondary().PT(8),
+                    counter));
         }
 
         private static IComponent AsButtonGallery()
