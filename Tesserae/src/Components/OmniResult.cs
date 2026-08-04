@@ -79,7 +79,7 @@ namespace Tesserae
     /// </para>
     /// </summary>
     [Transpose.Name("tss.OmniResult")]
-    public sealed class OmniResult<T> : ComponentBase<OmniResult<T>, HTMLElement>
+    public class OmniResult<T> : ComponentBase<OmniResult<T>, HTMLElement>
     {
         private readonly HTMLElement _selectContainer;
         private readonly HTMLElement _iconHolder;
