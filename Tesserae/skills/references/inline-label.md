@@ -75,7 +75,9 @@ row.SetFooterEntries(
   and the click stops at the label so pressing it never also counts as a click on the row it sits in.
   The usual `OnClick(ComponentEventHandler<InlineLabel, MouseEvent>)` works too.
 - `.SetHref(string href, bool openInNewTab = false)` — makes it a real link. The label is an anchor
-  either way, so a link is middle-clickable and shows its address in the status bar.
+  either way, so a link is middle-clickable and shows its address in the status bar. A label with both
+  an href and an `OnClick` runs the handler on a plain click, but leaves ctrl/cmd-click, shift-click and
+  middle-click to the browser, which opens the address in a new tab or a new window.
 - `.IsEmpty` — whether there is neither text nor mark in it. A label that is empty and not still loading
   also carries the `tss-inlinelabel-empty` class, which is how a container leaves out what stands for it —
   an `OmniResult` footer hides the entry, and its separating dot with it — without looking inside.
