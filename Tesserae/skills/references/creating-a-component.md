@@ -78,6 +78,14 @@ public class MyToggle : ComponentBase<MyToggle, HTMLDivElement>
 `Margin`/`Padding`, and `AriaLabel`/`AriaRole`. Return `this` from configuration
 methods to keep the fluent chain.
 
+`AttachClick()` already leaves modified clicks on a link alone: when the component
+is — or sits inside — an anchor with an href, a ctrl/cmd-click, shift-click or
+middle-click raises nothing, so the browser opens the address in a new tab or
+window instead of a handler swallowing the event. A component that dispatches its
+own clicks (a raw `element.onclick`) should make the same check first with
+`UI.IsModifiedLinkClick(element, mouseEvent)`, and return without calling
+`StopEvent` when it is true — the open is the anchor's own default action.
+
 ## Wiring it into the toolkit (the repo convention)
 
 1. Add the class under `Tesserae/src/Components/`.
