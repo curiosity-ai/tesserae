@@ -228,7 +228,20 @@ namespace Tesserae
 
         protected void AttachClick()
         {
-            InnerElement.addEventListener("click",     e => RaiseOnClick(e.As<MouseEvent>()));
+            InnerElement.addEventListener("click", e =>
+            {
+                var mouseEvent = e.As<MouseEvent>();
+
+                //A component that is a link - or that sits inside one, the way a Sidebar button sits inside
+                //its anchor - answers Ctrl/Cmd-click and Shift-click with the browser's own "open in a new
+                //tab / new window" rather than with its click handler. The handler is what would otherwise
+                //stop the event (most of them do, to keep the press from counting twice), and the new tab
+                //would never open.
+                if (UI.IsModifiedLinkClick(InnerElement, mouseEvent)) return;
+
+                RaiseOnClick(mouseEvent);
+            });
+
             InnerElement.addEventListener("mouseover", e => RaiseOnMouseOver(e.As<MouseEvent>()));
             InnerElement.addEventListener("mouseout",  e => RaiseOnMouseOut(e.As<MouseEvent>()));
         }

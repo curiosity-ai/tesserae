@@ -54,6 +54,10 @@ namespace Tesserae
             {
                 if (_clickHandler is null) return;
 
+                //A label that is also a link leaves Ctrl/Cmd-click and Shift-click to the browser, so it
+                //opens where it points in a new tab or window instead of running the handler.
+                if (IsModifiedLinkClick(InnerElement, e.As<MouseEvent>())) return;
+
                 StopEvent(e);
 
                 _clickHandler(this);

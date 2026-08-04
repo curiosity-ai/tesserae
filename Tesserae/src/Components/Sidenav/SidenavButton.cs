@@ -111,7 +111,7 @@ namespace Tesserae
                 _anchor.onclick = (e) =>
                 {
                     var me = e.As<MouseEvent>();
-                    if (me.ctrlKey || me.metaKey || me.shiftKey || me.button != 0) return;
+                    if (me.button != 0 || IsModifiedLinkClick(_anchor, me)) return;
                     action();
                 };
             }

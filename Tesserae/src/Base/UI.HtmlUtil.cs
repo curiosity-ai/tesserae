@@ -106,6 +106,47 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Whether a click is asking for the address behind it to be opened somewhere else rather than for
+        /// the thing that was clicked to be pressed: Ctrl (Cmd on a Mac) and the middle button ask for a new
+        /// tab, Shift asks for a new window. It is only true when <paramref name="element"/> is - or sits
+        /// inside - a real anchor with somewhere to go, since that is the only case where there is an address
+        /// for the browser to open.
+        /// <para>
+        /// A click dispatch that sees this true must return without running its handlers and, above all,
+        /// without calling <see cref="StopEvent"/>: opening in a new tab or window is the anchor's own default
+        /// action, so leaving the event alone is what performs it - and it is then the browser that decides
+        /// tab versus window, honours <c>target</c> and <c>rel</c>, and keeps the popup blocker out of it.
+        /// Without this, a component that is both a link and has a click handler loses the modified click
+        /// entirely: the handler stops the event, and the new tab never opens.
+        /// </para>
+        /// <para>
+        /// Alt-click is left out on purpose - it is the browser's "download this", not an open, so the
+        /// component's own handler is still what should run.
+        /// </para>
+        /// </summary>
+        public static bool IsModifiedLinkClick(HTMLElement element, MouseEvent ev)
+        {
+            if (element is null || ev is null) return false;
+
+            //Middle-click is compared for equality rather than `!= 0` so a synthetic click event with no
+            //button on it - `element.click()`, a hotkey - is never mistaken for one.
+            if (!ev.ctrlKey && !ev.metaKey && !ev.shiftKey && ev.button != 1) return false;
+
+            var link = element.tagName.ToUpper() == "A" ? element : element.TryToFindAncestor("A");
+
+            if (link is null) return false;
+
+            var href = link.getAttribute("href");
+
+            if (string.IsNullOrWhiteSpace(href)) return false;
+
+            //An anchor that goes nowhere - a "#" placeholder, or a javascript: URL - has no address to open.
+            href = href.Trim();
+
+            return href != "#" && !href.ToLower().StartsWith("javascript:");
+        }
+
+        /// <summary>
         /// Creates a new <see cref="List"/>.
         /// </summary>
         public static List<Element> ToList(HTMLCollection c)

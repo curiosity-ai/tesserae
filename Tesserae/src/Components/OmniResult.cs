@@ -194,6 +194,47 @@ namespace Tesserae
         /// </summary>
         public T Result { get; }
 
+        //The parts a row is built from, for a subclass that has something of its own to put between them - a
+        //line above the header, an area below the footer, actions beside the title. Reading and adding to
+        //them is a subclass's business; the slots the row manages itself are still set through the methods
+        //above them, which keep track of what is in them and whether they are shown.
+
+        /// <summary>The text column: the header, the excerpt, the content, the footer and the contribution bar.</summary>
+        protected HTMLElement MainContainer => _mainContainer;
+
+        /// <summary>The line the identifier, the title and the badge share.</summary>
+        protected HTMLElement HeaderContainer => _headerContainer;
+
+        /// <summary>What <see cref="SetText(string)"/> writes the excerpt into.</summary>
+        protected HTMLElement BodyContainer => _bodyContainer;
+
+        /// <summary>What <see cref="SetContent(IComponent)"/> puts the rich preview into.</summary>
+        protected HTMLElement ContentContainer => _contentContainer;
+
+        /// <summary>The line the source and the footer entries share.</summary>
+        protected HTMLElement FooterContainer => _footerContainer;
+
+        /// <summary>The tile, and whatever <see cref="SetIconBadge"/> pinned to its corners.</summary>
+        protected HTMLElement IconHolder => _iconHolder;
+
+        /// <summary>The tile itself, inside <see cref="IconHolder"/>.</summary>
+        protected HTMLElement IconContainer => _iconContainer;
+
+        /// <summary>What <see cref="SetBadge(IComponent)"/> puts the badge into.</summary>
+        protected HTMLElement BadgeContainer => _badgeContainer;
+
+        /// <summary>What <see cref="SetContributionBar"/> puts the bar into.</summary>
+        protected HTMLElement ContributionContainer => _contributionContainer;
+
+        /// <summary>The strip between the text column and the commands.</summary>
+        protected HTMLElement RailContainer => _railContainer;
+
+        /// <summary>The commands at the end of the row, inline ones included.</summary>
+        protected HTMLElement CommandsContainer => _commandsContainer;
+
+        /// <summary>Where the selection checkbox goes when it has a column of its own.</summary>
+        protected HTMLElement SelectContainer => _selectContainer;
+
         /// <summary>
         /// Gets or sets the title of the result.
         /// </summary>
