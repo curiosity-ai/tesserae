@@ -221,7 +221,7 @@
 }
 
 .tss-dark-mode .tss-message-note {
-    background-color: var(--tss-colors-blue-800);
+    background-color: rgba(var(--tss-colors-blue-800-root), 0.2);
     color: var(--tss-colors-blue-100);
     border-color: var(--tss-colors-blue-600);
 }
@@ -231,7 +231,7 @@
     }
 
 .tss-dark-mode .tss-message-info {
-    background-color: var(--tss-colors-blue-900);
+    background-color: rgba(var(--tss-colors-blue-900-root), 0.2);
     border-color: var(--tss-colors-blue-700);
 }
 
@@ -249,7 +249,7 @@
     }
 
 .tss-dark-mode .tss-message-success {
-    background-color: var(--tss-colors-green-900);
+    background-color: rgba(var(--tss-colors-green-900-root), 0.2);
     border-color: var(--tss-colors-green-700);
 }
 
@@ -267,7 +267,7 @@
     }
 
 .tss-dark-mode .tss-message-warning {
-    background-color: var(--tss-colors-orange-900);
+    background-color: rgba(var(--tss-colors-orange-900-root), 0.2);
     border-color: var(--tss-colors-orange-700);
 }
 
@@ -285,7 +285,7 @@
     }
 
 .tss-dark-mode .tss-message-error {
-    background-color: var(--tss-colors-red-900);
+    background-color: rgba(var(--tss-colors-red-900-root), 0.2);
     border-color: var(--tss-colors-red-700);
 }
 
