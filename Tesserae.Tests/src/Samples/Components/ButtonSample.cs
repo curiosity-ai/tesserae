@@ -29,7 +29,8 @@ namespace Tesserae.Tests.Samples
                     HStack().Children(
                         Button().SetText("Standard").Tooltip("This is a standard button").OnClick(() => alert("Clicked!")),
                         Button().SetText("Primary").Tooltip("This is a primary button").Primary().OnClick(() => alert("Clicked!")),
-                        Button("Open the repository", href: "https://github.com/curiosity-ai/tesserae").Tooltip("An href makes it an anchor - middle-clickable, and it shows where it goes")
+                        Button("Open the repository", href: "https://github.com/curiosity-ai/tesserae").Tooltip("An href makes it an anchor - middle-clickable, and it shows where it goes"),
+                        Button("Link with a handler", href: "https://github.com/curiosity-ai/tesserae").OnClick(() => Toast().Information("The handler ran instead of following the link")).Tooltip("A plain click runs the handler; Ctrl/Cmd-click opens the href in a new tab and Shift-click in a new window")
                     ),
                     SampleSubTitle("Icons and States"),
                     HStack().Children(
