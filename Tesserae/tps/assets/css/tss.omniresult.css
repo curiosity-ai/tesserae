@@ -181,6 +181,7 @@
     letter-spacing: .02em;
     text-transform: uppercase;
     line-height: 1;
+    text-align: center;
 }
 
 /* The size the tile is sized for, declared through :where() so it costs no specificity - a tss-fontsize-*
