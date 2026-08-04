@@ -28,6 +28,14 @@ Button("Open documentation", href: DocsUrl).Primary().SetIcon(UIcons.ArrowUpRigh
 Only a button with an href underlines its label on hover (and only in the link-toned variant) — one
 that merely runs a handler is a button, and underlining it would promise an address it doesn't have.
 
+A button can have both an href and an `.OnClick(...)` — the usual shape of a link the app would
+rather route itself. A plain click runs the handler (which stops the event, so the browser does not
+navigate as well), but **ctrl/cmd-click, shift-click and middle-click skip the handler entirely** and
+let the browser open the href in a new tab or a new window. Handlers never see a modified click on a
+link, so there is nothing to check for in one; the same holds for anything with an `OnClick` that
+sits inside a link (a `SidebarButton` or `SidenavButton` built with an href, say). `UI.IsModifiedLinkClick(element, mouseEvent)`
+is the check itself, for a custom component that dispatches its own clicks.
+
 ## Key configuration
 
 Tone: `.Primary()`, `.Success()`, `.Danger()` (default is neutral).
