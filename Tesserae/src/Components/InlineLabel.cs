@@ -28,7 +28,7 @@ namespace Tesserae
     /// </para>
     /// </summary>
     [Transpose.Name("tss.InlineLabel")]
-    public sealed class InlineLabel : ComponentBase<InlineLabel, HTMLAnchorElement>
+    public class InlineLabel : ComponentBase<InlineLabel, HTMLAnchorElement>
     {
         private readonly HTMLElement _mark;
         private readonly HTMLElement _text;
