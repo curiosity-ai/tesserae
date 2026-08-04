@@ -78,14 +78,55 @@ namespace Tesserae
         /// rectangle while <paramref name="load"/> runs, and takes itself - and the slot it stands in -
         /// out of the document if the task ends without setting any text or mark on it.
         /// </summary>
-        public InlineLabel(Func<InlineLabel, Task> load) : this((string)null)
+        public InlineLabel(Func<InlineLabel, Task> load) : this(deferred: load is object)
         {
             if (load is null) return;
 
-            InnerElement.classList.add("tss-inlinelabel-loading");
-            InnerElement.appendChild(Span(Att("tss-inlinelabel-skeleton tss-skeleton tss-skeleton-animated")));
+            RunDeferred(load).FireAndForget();
+        }
 
-            LoadAsync(load).FireAndForget();
+        /// <summary>
+        /// Initializes a new instance of a derived label that looks up what it says, drawing as a skeleton
+        /// rectangle from the moment it is built but starting nothing: a subclass has fields of its own to
+        /// assign before its lookup can run, so it calls <see cref="RunDeferred"/> once it is ready.
+        /// <para>
+        /// Pass false to build a plain label - the same thing <see cref="InlineLabel(string)"/> gives you.
+        /// </para>
+        /// </summary>
+        protected InlineLabel(bool deferred) : this((string)null)
+        {
+            if (deferred) ShowSkeleton();
+        }
+
+        /// <summary>
+        /// Runs a lookup for what the label says: it shows the skeleton while the task runs and, if the task
+        /// ends without giving it anything to say, takes the label - and the slot it stands in - out of the
+        /// document. Safe to call more than once, which is how a label refreshes itself: every run starts
+        /// from nothing, so one that used to say something and now finds nothing goes away rather than
+        /// keeping what it said last time.
+        /// </summary>
+        protected Task RunDeferred(Func<InlineLabel, Task> load)
+        {
+            if (load is null) return Task.CompletedTask;
+
+            //The skeleton goes on before the reset, so clearing the text doesn't briefly mark the label as
+            //having nothing to say while it is in fact still looking.
+            ShowSkeleton();
+
+            SetText(null);
+            NoMark();
+
+            return LoadAsync(load);
+        }
+
+        private void ShowSkeleton()
+        {
+            InnerElement.classList.add("tss-inlinelabel-loading");
+
+            if (InnerElement.querySelector(".tss-inlinelabel-skeleton") is null)
+            {
+                InnerElement.appendChild(Span(Att("tss-inlinelabel-skeleton tss-skeleton tss-skeleton-animated")));
+            }
         }
 
         /// <summary>Gets the text the label shows, or null when it is a mark on its own.</summary>
