@@ -727,10 +727,9 @@
     margin-left: 8px;
 }
 
-/* The section headers of the popovers below are TextBlocks, so they carry .tss-fontcolor-default, and
-   tss.tooltip.css paints that class with the *background* color for a tooltip whose background is
-   inverted. These popovers sit on the plain default background instead, where that reads as white text
-   on white. Restated here with enough specificity (and late enough in the bundle) to win. */
+/* The section headers of the popovers below are TextBlocks, so they carry .tss-fontcolor-default, which
+   tss.tooltip.css paints with the tooltip's foreground. A header wants the muted one instead, and these
+   popovers draw their own default-background surface, so the secondary foreground is what reads on it. */
 .tippy-content .tss-textblock.tss-omnibox-model-selector-header,
 .tippy-content .tss-textblock.tss-omnibox-help-header {
     color: var(--tss-secondary-foreground-color);

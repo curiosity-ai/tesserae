@@ -207,8 +207,13 @@
 }
 
 
+/* A tooltip is its own surface, so text in it takes the tooltip's foreground - which is what .tippy-box
+   above sets for anything that simply inherits. A component carries a colour of its own (a TextBlock is
+   .tss-fontcolor-default), and that colour is the page's, not this surface's. This used to hand it the
+   page *background* instead, which is white on a near-white bubble in the light theme and near-black on
+   a grey one in the dark: a tooltip built from a component read as empty either way. */
 .tippy-content .tss-fontcolor-default {
-    color: var(--tss-default-background-color);
+    color: var(--tss-tooltip-foreground-color);
 }
 
 

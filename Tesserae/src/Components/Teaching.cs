@@ -218,13 +218,17 @@ namespace Tesserae
 
             //RFO: This has a key difference against .Tooltip() in that it hard-cods appendTo: document.body so it's not stuck in an element that will cut it off, see https://atomiks.github.io/tippyjs/v6/faq/
 
+            //Into the application z-index lane, as .Tooltip() and Tippy.ShowFor do: a teaching bubble points
+            //at something, and tippy's fixed 9999 would put it behind any Layer opened over that thing.
+            if (!int.TryParse(Layers.AboveCurrent(), out var zIndex)) zIndex = 9999;
+
             if (animation == TooltipAnimation.None)
             {
-                Transpose.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}],  trigger: 'manual', hideOnClick: {6}, appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), 0, 0, hideOnClick);
+                Transpose.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}],  trigger: 'manual', hideOnClick: {6}, appendTo: document.body, zIndex: {7} });", element, renderedTooltip, interactive, placement.ToString(), 0, 0, hideOnClick, zIndex);
             }
             else
             {
-                Transpose.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}],  trigger: 'manual', hideOnClick: {7}, appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), 0, 0, hideOnClick);
+                Transpose.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}],  trigger: 'manual', hideOnClick: {7}, appendTo: document.body, zIndex: {8} });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), 0, 0, hideOnClick, zIndex);
             }
 
             Transpose.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly
