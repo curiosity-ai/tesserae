@@ -24,6 +24,9 @@ namespace Tesserae
         private          Action<IComponent>       _tooltipOpen;
         private readonly SettableObservable<bool> _selected;
         private readonly string                   _text;
+        private          HTMLElement              _shortcutChip;
+        private          string[]                 _shortcutKeys;
+        private          Action<Event>            _globalShortcutHandler;
 
         private event Action<HTMLElement> _onRendered;
 
@@ -345,6 +348,21 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Draws the button with a field's chrome - a border and the secondary surface behind it - instead of
+        /// as a bare row. What a rail's own action wants when it stands next to a search box: the same outline,
+        /// so the two read as a pair of controls rather than as a button beside a form field.
+        /// <para>
+        /// Only the open button takes it; around a single glyph on the closed rail an outline is just a box.
+        /// </para>
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
+        public SidebarButton Outlined()
+        {
+            _openButton.Class("tss-sidebar-btn-outlined");
+            return this;
+        }
+
+        /// <summary>
         /// Dresses the button as a search field: a rounded outline, the label set as a placeholder rather
         /// than as a label, and - when keys are given - the shortcut that reaches it shown at the far end.
         /// <para>
@@ -353,21 +371,94 @@ namespace Tesserae
         /// starts and be pressable. A real input would take a caret it has nothing to do with.
         /// </para>
         /// </summary>
-        /// <param name="shortcutKeys">The keys to show at the end, e.g. <c>("Ctrl", "K")</c>. None hides it.</param>
+        /// <param name="shortcutKeys">
+        /// The keys to show at the end, e.g. <c>("Ctrl", "K")</c>. None hides it. The chip is a label only -
+        /// use <see cref="SetKeyboardShortcut"/> for the key to press the button as well, which a search that
+        /// answers somewhere else usually does not want: the palette or page it opens owns that key, and
+        /// answers it from inside a text field too, where a button's shortcut steps aside.
+        /// </param>
         public SidebarButton AsSearchBox(params string[] shortcutKeys)
         {
             Rounded();
+            Outlined();
 
             _open.Class("tss-sidebar-btn-searchbox");
             _openButton.Class("tss-sidebar-btn-searchbox-button");
             _closedButton.Class("tss-sidebar-btn-searchbox-button");
 
-            if (shortcutKeys is object && shortcutKeys.Length > 0)
-            {
-                _openButton.Render().appendChild(Div(Att("tss-sidebar-btn-searchbox-shortcut"), KeyboardShortcut(shortcutKeys).Render()));
-            }
+            ShowShortcutChip(shortcutKeys);
 
             return this;
+        }
+
+        /// <summary>
+        /// Shows the shortcut that presses this button at its far end, and answers that shortcut for as long
+        /// as the button is on screen - which is what makes the chip a promise rather than a note. The keys
+        /// are the ones <see cref="Tesserae.KeyboardShortcut"/> displays, so <c>("Ctrl", "Shift", "O")</c>
+        /// reads Ctrl+Shift+O and triggers on ⌘⇧O on a Mac.
+        /// <para>
+        /// Only the open button carries the chip: the closed rail has room for the glyph and nothing else.
+        /// A collapsed button holds no shortcut either - there is nothing on screen for the key to press.
+        /// </para>
+        /// </summary>
+        /// <param name="keys">The keys, e.g. <c>("Ctrl", "Shift", "O")</c>. None removes chip and binding.</param>
+        public SidebarButton SetKeyboardShortcut(params string[] keys)
+        {
+            if (_globalShortcutHandler is object)
+            {
+                window.removeEventListener("keydown", _globalShortcutHandler);
+                _globalShortcutHandler = null;
+            }
+
+            ShowShortcutChip(keys);
+
+            _shortcutKeys = (keys is object && keys.Length > 0) ? keys : null;
+
+            if (_shortcutKeys is null) return this;
+
+            _globalShortcutHandler = ev =>
+            {
+                var element = _open.Render();
+
+                //Mounted is not enough: a collapsed button, or one on a sidebar that is not the one showing,
+                //is not something the user can see themselves pressing.
+                if (!element.IsMounted() || element.clientHeight <= 0) return;
+                if (!_openButton.IsEnabled) return;
+
+                var e = ev.As<KeyboardEvent>();
+
+                if (!Tesserae.KeyboardShortcut.Matches(e, _shortcutKeys)) return;
+
+                StopEvent(e);
+
+                //Pressed rather than called: whatever is hooked to the button - the click handler, an href
+                //wrapper - is then reached by the key exactly as it is by the pointer.
+                _openButton.Render().click();
+            };
+
+            window.addEventListener("keydown", _globalShortcutHandler);
+
+            return this;
+        }
+
+        private void ShowShortcutChip(string[] keys)
+        {
+            if (_shortcutChip is object)
+            {
+                _shortcutChip.remove();
+                _shortcutChip = null;
+            }
+
+            if (keys is null || keys.Length == 0)
+            {
+                _openButton.RemoveClass("tss-sidebar-btn-has-shortcut");
+                return;
+            }
+
+            _shortcutChip = Div(Att("tss-sidebar-btn-shortcut"), KeyboardShortcut(keys).Render());
+
+            _openButton.Class("tss-sidebar-btn-has-shortcut");
+            _openButton.Render().appendChild(_shortcutChip);
         }
 
         /// <summary>
