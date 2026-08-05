@@ -32,6 +32,9 @@ namespace Tesserae.Tests.Samples
                     VStack().Children(
                         Button("Hover me").W(200).Tooltip("This is a simple text tooltip"),
                         Button("Animated Tooltip").W(200).Tooltip("This is a simple text tooltip with animations", TooltipAnimation.ShiftAway),
+                        //A component tooltip made of text rather than of controls: it has a colour of its
+                        //own, so it is the case that catches the tooltip surface and its text disagreeing.
+                        Button("Text Component Tooltip").W(200).Tooltip(TextBlock("Two lines of text,\nas a component.").BreakSpaces().MaxWidth(350.px())),
                         Button("Interactive Tooltip").W(200).Tooltip(Button("Click me").OnClick(() => Toast().Success("You clicked!")), interactive: true),
                         Button("Defers on Tooltips").W(200).Tooltip(deferedWithChangingSize),
                         Button("Nested Tooltips").W(200).Tooltip(Button("Click me").OnClick((b1, _) => Tippy.ShowFor(b1, Button("Click me").OnClick(() => Toast().Success("You clicked!")), out var _)), interactive: true)
