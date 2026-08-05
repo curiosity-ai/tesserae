@@ -693,7 +693,10 @@
     width: 100%;
     min-height: 0;
     transform: translateX(0);
-    transition: 0.3s transform ease-out;
+    /* Half the sidebar's own open/close time: shifting into an interface and back is a move between two
+       places that are already there, so it wants to feel immediate rather than animated. Kept in step with
+       Sidebar.SIDEBAR_SHIFT_TRANSITION_TIME, which times the hiding of whichever panel left. */
+    transition: 0.15s transform ease-out;
 }
 
     .tss-sidebar-shift-track.tss-sidebar-shifted {
