@@ -885,16 +885,8 @@
     pointer-events: none;
 }
 
-/* A chip washes the surface under it (see tss.kbd.css), which only works over one of the neutral tones.
-   On a filled button it takes the label's own colour and a wash of white instead. */
-.tss-sidebar-btn-open .tss-btn-primary .tss-sidebar-btn-shortcut .tss-kbd-key,
-.tss-sidebar-btn-open .tss-btn-danger .tss-sidebar-btn-shortcut .tss-kbd-key,
-.tss-sidebar-btn-open .tss-btn-success .tss-sidebar-btn-shortcut .tss-kbd-key {
-    color: inherit;
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.38);
-}
-
+/* The keys keep their own grey plate on a filled button - see tss.kbd.css - but the separator between them
+   is text on the fill, not a key, so it takes the label's colour rather than staying grey on blue. */
 .tss-sidebar-btn-open .tss-btn-primary .tss-sidebar-btn-shortcut .tss-kbd-separator,
 .tss-sidebar-btn-open .tss-btn-danger .tss-sidebar-btn-shortcut .tss-kbd-separator,
 .tss-sidebar-btn-open .tss-btn-success .tss-sidebar-btn-shortcut .tss-kbd-separator {

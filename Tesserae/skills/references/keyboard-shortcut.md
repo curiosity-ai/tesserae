@@ -14,6 +14,8 @@ Renders one or more keys as styled chips joined by `+`. Modifier labels adapt to
 ## Key points
 
 - Pass raw key names; normalization to OS-correct glyphs is automatic.
+- A key's plate is one fixed grey per theme, so a chip looks the same wherever it is
+  drawn — on a card, inside a search field, or on a filled `.Primary()` button.
 - Recognized special keys: `Ctrl`, `Control`, `Alt`, `Shift`, `Meta`/`Cmd`, `Enter`, `Escape`/`Esc`, `ArrowUp/Down/Left/Right`, `Backspace`, `Delete`, `Tab`. Anything else renders verbatim.
 - It is a regular `IComponent` — place it inline in a `Stack` alongside `TextBlock`.
 
