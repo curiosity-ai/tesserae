@@ -397,8 +397,9 @@ namespace Tesserae
         /// are the ones <see cref="Tesserae.KeyboardShortcut"/> displays, so <c>("Ctrl", "Shift", "O")</c>
         /// reads Ctrl+Shift+O and triggers on ⌘⇧O on a Mac.
         /// <para>
-        /// Only the open button carries the chip: the closed rail has room for the glyph and nothing else.
-        /// A collapsed button holds no shortcut either - there is nothing on screen for the key to press.
+        /// Only the open button carries the chip - the closed rail has room for the glyph and nothing else -
+        /// but the key works on either, because a collapsed rail is a smaller rail and not a different one.
+        /// A button that is nowhere on screen holds no shortcut: there is nothing for the key to press.
         /// </para>
         /// </summary>
         /// <param name="keys">The keys, e.g. <c>("Ctrl", "Shift", "O")</c>. None removes chip and binding.</param>
@@ -418,12 +419,9 @@ namespace Tesserae
 
             _globalShortcutHandler = ev =>
             {
-                var element = _open.Render();
+                var button = ButtonOnScreen();
 
-                //Mounted is not enough: a collapsed button, or one on a sidebar that is not the one showing,
-                //is not something the user can see themselves pressing.
-                if (!element.IsMounted() || element.clientHeight <= 0) return;
-                if (!_openButton.IsEnabled) return;
+                if (button is null || !button.IsEnabled) return;
 
                 var e = ev.As<KeyboardEvent>();
 
@@ -433,13 +431,28 @@ namespace Tesserae
 
                 //Pressed rather than called: whatever is hooked to the button - the click handler, an href
                 //wrapper - is then reached by the key exactly as it is by the pointer.
-                _openButton.Render().click();
+                button.Render().click();
             };
 
             window.addEventListener("keydown", _globalShortcutHandler);
 
             return this;
         }
+
+        /// <summary>
+        /// Whichever of the two renderings the user can actually see, or null when neither is. Mounted is not
+        /// enough on its own: both are mounted at once while the sidebar hides the one it is not showing, and
+        /// a collapsed button is mounted too.
+        /// </summary>
+        private Button ButtonOnScreen()
+        {
+            if (IsOnScreen(_open.Render())) return _openButton;
+            if (IsOnScreen(_closed.Render())) return _closedButton;
+
+            return null;
+        }
+
+        private static bool IsOnScreen(HTMLElement element) => element is object && element.IsMounted() && element.clientHeight > 0;
 
         private void ShowShortcutChip(string[] keys)
         {
