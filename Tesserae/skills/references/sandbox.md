@@ -24,6 +24,26 @@ Both return a `Sandbox`. Bring factories into scope with `using static Tesserae.
 - `.ContentSecurityPolicy(string)` / `.NoContentSecurityPolicy()` — override or disable the CSP.
 - `.AllowSameOrigin()` — **weakens isolation**; only for trusted content.
 
+## What the default CSP does and does not stop
+
+`Sandbox.DefaultContentSecurityPolicy` is
+`default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; form-action 'none'; base-uri 'none';`
+
+It stops every way the content can *fetch* something: remote images, stylesheets, fonts,
+`fetch`/`XHR`/`sendBeacon`, WebSockets, nested frames, `prefetch`, and CSS `url()` — including
+`@import` and `@font-face`. `form-action` and `base-uri` are spelled out because neither falls back
+to `default-src`; without `form-action 'none'` a framed document with `allow-forms` can submit a
+form to any host on load and exfiltrate that way.
+
+It does **not** stop the document navigating *itself* — `location = …`, a `meta refresh`, or a click
+on a link — because no fetch directive covers that. Sandbox flags are what govern those: without
+`allow-scripts` the automatic ones (`location`, `meta refresh`, a scripted `.click()`) are blocked
+too, but a **reader's click on a link inside the frame still navigates it**. To close that, strip the
+links out of the content before framing it — e.g. sanitize with
+`MarkdownSanitization.NoLinksOrEmbeddedContent`'s DOMPurify configuration (see
+`markdown-block.md`). `allow-popups` and top-level navigation are already blocked by the default
+flags.
+
 ## Example
 
 ```csharp
