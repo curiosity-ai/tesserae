@@ -83,6 +83,7 @@ namespace Tesserae
 
         private void UnHookCheck()
         {
+            window.clearTimeout(_debounce);
             window.removeEventListener("focus", _onScrollAction, true);
             _observer?.disconnect();
             _observer = null;
@@ -101,6 +102,11 @@ namespace Tesserae
             // getBoundingClientRect() is already viewport-relative, so it must be compared against
             // the viewport (0 .. innerHeight), not the document scroll offset (window.scrollY).
             var rect = (DOMRect)InnerElement.getBoundingClientRect();
+
+            // Something that is not being displayed at all - inside a collapsed pivot, a hidden panel, a
+            // sidebar that has been shifted away - reports an all-zero rect, and zero satisfies both bounds
+            // below. Without this it reads as "fully visible" and fires while nobody can see it.
+            if (rect.width == 0 && rect.height == 0) return;
 
             if (rect.top >= 0 && rect.bottom <= window.innerHeight)
             {
