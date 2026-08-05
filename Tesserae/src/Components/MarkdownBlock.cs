@@ -13,15 +13,22 @@ namespace Tesserae
     {
         private string                _text;
         private Action<HTMLElement>   _onAfterRender;
+        private MarkdownSanitization  _sanitization;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownBlock"/> class.
         /// </summary>
         /// <param name="text">The Markdown source text to render.</param>
-        public MarkdownBlock(string text = "")
+        /// <param name="sanitization">
+        /// How strictly to sanitize the rendered HTML. Pass
+        /// <see cref="MarkdownSanitization.NoLinksOrEmbeddedContent"/> for Markdown from a source you
+        /// don't trust to link or to load a remote URL.
+        /// </param>
+        public MarkdownBlock(string text = "", MarkdownSanitization sanitization = MarkdownSanitization.Default)
         {
             InnerElement                  = Div(Att("tss-markdown"));
             InnerElement.style.whiteSpace = "break-spaces";
+            _sanitization                 = sanitization;
             Text                          = text ?? string.Empty;
         }
 
@@ -32,9 +39,19 @@ namespace Tesserae
             set
             {
                 _text                  = value ?? string.Empty;
-                InnerElement.innerHTML = Tesserae.Markdown.ConvertMarkdownSanitized(_text);
+                InnerElement.innerHTML = Tesserae.Markdown.ConvertMarkdownSanitized(_text, _sanitization);
                 _onAfterRender?.Invoke(InnerElement);
             }
+        }
+
+        /// <summary>
+        /// Sets how strictly the rendered HTML is sanitized and re-renders the current source with it.
+        /// </summary>
+        public MarkdownBlock Sanitization(MarkdownSanitization sanitization)
+        {
+            _sanitization = sanitization;
+            Text          = _text;
+            return this;
         }
 
         /// <summary>Gets the rendered sanitized HTML (derived from <see cref="Text"/>).</summary>
