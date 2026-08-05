@@ -33,7 +33,8 @@ Bring factories into scope with `using static Tesserae.UI;`.
   persist item order.
 
 Common item types: `SidebarButton(id, UIcons icon, text)` (`.Selected()`,
-`.OnClick(...)`, `.Primary()`, `.Danger()`, `.Rounded()`, `.Tooltip(...)`),
+`.OnClick(...)`, `.Primary()`, `.Danger()`, `.Rounded()`,
+`.SetKeyboardShortcut("Ctrl", "Shift", "O")`, `.Tooltip(...)`),
 `SidebarSeparator(id, text)`, `SidebarNav(id, icon, text, initiallyCollapsed)`,
 `SidebarText(id, text)`,
 `SidebarSearchBox(id, placeholder)` (`.OnSearch(...)`, `.OnClick(...)`,
@@ -56,6 +57,32 @@ sidebar.AddHeader(new SidebarButton("search", UIcons.Search, "Search everything"
 It also takes `.OnClick(...)` — which makes it read-only and hands presses, and
 its `.SetKeyboardShortcut(...)` key, to the handler — but a button is the simpler
 thing when nothing is ever typed into it.
+
+## The shortcut that presses a button
+
+`SidebarButton.SetKeyboardShortcut("Ctrl", "Shift", "O")` shows the shortcut as a
+chip at the button's far end *and* answers it for as long as the button is on
+screen, so the chip is a promise rather than a note. The keys are the ones
+`KeyboardShortcut` displays (`keyboard-shortcut.md`), so `Ctrl` is the platform's
+command modifier: the chip above reads Ctrl+Shift+O and triggers on ⌘⇧O on a Mac.
+
+```csharp
+chatBar.AddHeader(new SidebarButton("new-chat", UIcons.Edit, "New chat")
+    .Rounded()
+    .SetKeyboardShortcut("Ctrl", "Shift", "O")
+    .OnClick(StartNewChat));
+```
+
+The key presses the button, so anything hooked to it — the click handler, an
+`href` wrapper — is reached by the keyboard exactly as it is by the pointer. Only
+the open button carries the chip; the closed rail has room for the glyph and
+nothing else. A collapsed button holds no shortcut either, because there is
+nothing on screen for the key to press.
+
+`.AsSearchBox(keys)` shows the same chip *without* binding the key, because the
+palette or page it opens is what owns that key — and answers it from inside a text
+field too, where a button's shortcut steps aside. Pass no keys and call
+`.SetKeyboardShortcut(...)` when the button itself should answer.
 
 A `.Selected()` item is outlined in the theme's primary color and filled with a
 wash of it, rather than with the grey a hover uses — so where you are still

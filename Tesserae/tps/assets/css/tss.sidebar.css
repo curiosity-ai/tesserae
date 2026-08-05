@@ -829,39 +829,76 @@
     margin-bottom: 0px;
 }
 
-/* A button dressed as a search field ---------------------------------------------------------------- */
+/* A button drawn with a field's outline -------------------------------------------------------------- */
 
-/* What is on the rail is a way in, not an input - see SidebarButton.AsSearchBox. It borrows the field's
-   outline and its muted label so it reads as where a search starts, and keeps the button's behaviour. */
-.tss-sidebar-btn-searchbox > .tss-btn.tss-sidebar-btn-searchbox-button,
-.tss-sidebar-btn-searchbox > a > .tss-btn.tss-sidebar-btn-searchbox-button {
-    position: relative;
-    height: 40px !important;
-    padding-right: 44px;
+/* See SidebarButton.Outlined. The rail's own action borrows the field's border and surface so that it and
+   the search box it stands next to read as a pair of controls, not as a button beside a form field. */
+.tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+.tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
     border-color: var(--tss-default-border-color);
     background: var(--tss-secondary-background-color);
-    color: var(--tss-secondary-foreground-color);
-    font-weight: var(--tss-font-weight-regular);
 }
 
-.tss-sidebar-btn-searchbox > .tss-btn.tss-sidebar-btn-searchbox-button:hover,
-.tss-sidebar-btn-searchbox > a > .tss-btn.tss-sidebar-btn-searchbox-button:hover {
+.tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined:hover,
+.tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined:hover {
     border-color: var(--tss-dark-border-color);
     background: var(--tss-default-background-hover-color);
 }
 
-/* The shortcut sits at the end of the field, out of the way of a long label. */
-.tss-sidebar-btn-searchbox-shortcut {
+/* Around a single glyph on the closed rail an outline is just a box. */
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    border-color: transparent;
+    background: none;
+}
+
+/* A button dressed as a search field ---------------------------------------------------------------- */
+
+/* What is on the rail is a way in, not an input - see SidebarButton.AsSearchBox. On top of the outline
+   above it takes the field's muted label, so it reads as where a search starts rather than as an action,
+   and it keeps the button's behaviour. */
+.tss-sidebar-btn-searchbox > .tss-btn.tss-sidebar-btn-searchbox-button,
+.tss-sidebar-btn-searchbox > a > .tss-btn.tss-sidebar-btn-searchbox-button {
+    height: 40px !important;
+    color: var(--tss-secondary-foreground-color);
+    font-weight: var(--tss-font-weight-regular);
+}
+
+/* The shortcut that presses a button ---------------------------------------------------------------- */
+
+/* See SidebarButton.SetKeyboardShortcut, and AsSearchBox, which shows the chip without binding the key.
+   Room at the end for the chip, and the positioning context the chip below is placed against. */
+.tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-has-shortcut,
+.tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-has-shortcut {
+    position: relative;
+    padding-right: 44px;
+}
+
+/* The chip is placed rather than laid out, so it is always at the end and always whole - a label longer
+   than the room reserved for it above ends up running under it, which is the better of the two failures.
+   The offset is the rounded search box's own, so a button and a box stacked on a rail line up. */
+.tss-sidebar-btn-shortcut {
     position: absolute;
     top: 50%;
-    right: 10px;
+    right: 6px;
     transform: translateY(-50%);
     pointer-events: none;
 }
 
-/* On the closed rail there is only the glyph, so the field's chrome would be a box around one icon. */
-.tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-searchbox-button {
+/* The keys keep their own grey plate on a filled button - see tss.kbd.css - but the separator between them
+   is text on the fill, not a key, so it takes the label's colour rather than staying grey on blue. */
+.tss-sidebar-btn-open .tss-btn-primary .tss-sidebar-btn-shortcut .tss-kbd-separator,
+.tss-sidebar-btn-open .tss-btn-danger .tss-sidebar-btn-shortcut .tss-kbd-separator,
+.tss-sidebar-btn-open .tss-btn-success .tss-sidebar-btn-shortcut .tss-kbd-separator {
+    color: inherit;
+}
+
+/* On the closed rail there is only the glyph, and nowhere for the chip to sit beside it. */
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-shortcut {
+    display: none;
+}
+
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-has-shortcut,
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-has-shortcut {
     padding-right: 0;
-    border-color: transparent;
-    background: none;
 }

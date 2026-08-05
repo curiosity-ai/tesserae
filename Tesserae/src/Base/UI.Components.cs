@@ -742,7 +742,7 @@ namespace Tesserae
         /// <summary>
         /// Creates a <see cref="Tesserae.MarkdownBlock"/> component that renders Markdown source as sanitized HTML.
         /// </summary>
-        public static MarkdownBlock MarkdownBlock(string text = "") => new MarkdownBlock(text);
+        public static MarkdownBlock MarkdownBlock(string text = "", MarkdownSanitization sanitization = MarkdownSanitization.Default) => new MarkdownBlock(text, sanitization);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.CodeDiff"/> component that renders a unified diff using diff2html.

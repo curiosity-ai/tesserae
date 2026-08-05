@@ -3665,7 +3665,7 @@ namespace Tesserae
                 if (!IsEnabled) return;
 
                 var e = ev.As<KeyboardEvent>();
-                if (!MatchesShortcut(e, _shortcutKeys)) return;
+                if (!KeyboardShortcut.Matches(e, _shortcutKeys)) return;
 
                 StopEvent(e);
                 if (_mode == Mode.SearchAndChat && _activeMode.Value != Mode.Search)
@@ -3678,67 +3678,6 @@ namespace Tesserae
 
             window.addEventListener("keydown", _globalShortcutHandler);
             return this;
-        }
-
-        private static bool MatchesShortcut(KeyboardEvent e, string[] keys)
-        {
-            bool needCtrl  = false;
-            bool needAlt   = false;
-            bool needShift = false;
-            bool needMeta  = false;
-            string mainKey = null;
-
-            foreach (var raw in keys)
-            {
-                if (raw is null) continue;
-                var k = raw.Trim();
-                switch (k)
-                {
-                    case "Ctrl":
-                    case "ctrl":
-                    case "Control":
-                        needCtrl = true;
-                        break;
-                    case "Alt":
-                    case "alt":
-                        needAlt = true;
-                        break;
-                    case "Shift":
-                    case "shift":
-                        needShift = true;
-                        break;
-                    case "Meta":
-                    case "meta":
-                    case "Cmd":
-                    case "cmd":
-                        needMeta = true;
-                        break;
-                    default:
-                        mainKey = k;
-                        break;
-                }
-            }
-
-            // On macOS, treat "Ctrl" in the shortcut as either Ctrl or Cmd so a single
-            // declaration like ("Ctrl", "K") renders ⌘K and triggers on Cmd+K.
-            bool isApple = navigator.userAgent.IndexOf("Mac") >= 0 || navigator.userAgent.IndexOf("iPhone") >= 0 || navigator.userAgent.IndexOf("iPad") >= 0;
-
-            if (needCtrl && !needMeta && isApple)
-            {
-                if (!e.metaKey && !e.ctrlKey) return false;
-            }
-            else
-            {
-                if (needCtrl != e.ctrlKey) return false;
-                if (needMeta != e.metaKey) return false;
-            }
-
-            if (needAlt   != e.altKey)   return false;
-            if (needShift != e.shiftKey) return false;
-
-            if (mainKey is null) return false;
-
-            return string.Equals(e.key, mainKey, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
