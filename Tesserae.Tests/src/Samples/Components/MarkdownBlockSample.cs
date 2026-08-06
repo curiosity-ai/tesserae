@@ -41,6 +41,13 @@ Type some markdown below to see it rendered live.
 | Sanitize | yes       |
 ";
 
+            const string paranoidSample =
+@"A [link to somewhere](https://example.com/phishing) reads as its label only, an autolink like
+https://example.com/tracker is plain text, and this image never loads:
+
+![a pixel that would call home](https://example.com/pixel.png)
+";
+
             var live   = MarkdownBlock(startingMarkdown);
             var editor = TextArea(startingMarkdown).WS().H(220).OnInput((ta, _) => live.Text = ta.Text);
 
@@ -65,7 +72,10 @@ Type some markdown below to see it rendered live.
                         ),
                         SampleSubTitle("Sanitization"),
                         TextBlock("MarkdownBlock will strip dangerous HTML even when it is embedded inside Markdown:"),
-                        MarkdownBlock("This `<script>alert('xss')</script>` will not run, and this <img src=x onerror=alert(1)> attribute is stripped too.")
+                        MarkdownBlock("This `<script>alert('xss')</script>` will not run, and this <img src=x onerror=alert(1)> attribute is stripped too."),
+                        SampleSubTitle("No links or embedded content"),
+                        TextBlock("For Markdown you don't trust to link or to load a remote URL - an LLM reply, say - pass MarkdownSanitization.NoLinksOrEmbeddedContent. Anchors keep their label as plain text and images are dropped:"),
+                        MarkdownBlock(paranoidSample, MarkdownSanitization.NoLinksOrEmbeddedContent)
                     )).SetTitle("Usage")))
                .SeeAlso(typeof(TextBlockSample), typeof(ChatSample), typeof(CodeDiffSample), typeof(SanitizeHTMLSample), typeof(AnnotatedTextEditorSample));
         }

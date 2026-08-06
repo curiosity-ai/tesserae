@@ -46,6 +46,13 @@ namespace Tesserae
         public const int SIDEBAR_TRANSITION_TIME = 300;
 
         /// <summary>
+        /// How long shifting into a child sidebar and back takes - half the time the sidebar's own open/close
+        /// animation takes, since both places are already there and the move wants to feel immediate. Kept in
+        /// step with the transition on <c>.tss-sidebar-shift-track</c> in tss.sidebar.css.
+        /// </summary>
+        public const int SIDEBAR_SHIFT_TRANSITION_TIME = 150;
+
+        /// <summary>
         /// Gets or sets whether the sidebar is closed.
         /// </summary>
         public bool IsClosed { get { return _closed.Value; } set { _closed.Value = value; } }
@@ -417,7 +424,7 @@ namespace Tesserae
 
             // Once the slide is over the panel that moved out of view is hidden, so it stops
             // taking focus and is no longer reachable by screen readers.
-            _shiftTimeout = window.setTimeout((_) => leavePanel.classList.add("tss-sidebar-shift-panel-hidden"), SIDEBAR_TRANSITION_TIME);
+            _shiftTimeout = window.setTimeout((_) => leavePanel.classList.add("tss-sidebar-shift-panel-hidden"), SIDEBAR_SHIFT_TRANSITION_TIME);
 
             _onShiftChanged?.Invoke(shifted);
         }

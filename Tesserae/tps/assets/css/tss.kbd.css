@@ -18,12 +18,12 @@
     font-weight: 500;
     line-height: 1;
     color: var(--tss-secondary-foreground-color);
-    /* A wash of the opposite tone rather than a named surface colour: the chip is nearly always drawn
-       on top of one of those surfaces (a search field, the sidebar), and painting it the same colour is
-       what made it invisible. dark-neutral-0 is near-black on a light theme and white on a dark one, so
-       the same two rules read as a raised key in both. */
-    background: rgba(var(--tss-colors-dark-neutral-0-root), 0.07);
-    border: 1px solid rgba(var(--tss-colors-dark-neutral-0-root), 0.16);
+    /* A key is a key: one grey plate, whatever it is drawn on. These were washes of the opposite tone,
+       which reads correctly on the surfaces a chip usually sits on (a search field, the sidebar) but takes
+       the colour of anything else - on a filled button the same chip came out blue, red or green. The
+       neutral scale flips with the theme, so the plate is one tone per theme and never the surface's. */
+    background: var(--tss-colors-neutral-200);
+    border: 1px solid var(--tss-colors-neutral-300);
     border-bottom-width: 2px;
     border-radius: 4px;
     user-select: none;

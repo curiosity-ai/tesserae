@@ -17,10 +17,12 @@ namespace Tesserae.Tests.Samples
         {
             var sidebar = Sidebar();
 
-            // A rounded, primary "pill" button (see .Rounded()), matching the rounded search box below.
+            // A rounded, primary "pill" button (see .Rounded()), matching the rounded search box below,
+            // with the shortcut that presses it shown at its far end (see .SetKeyboardShortcut()).
             var newDocument = new SidebarButton("new-doc", UIcons.Plus, "New document")
                 .Primary()
                 .Rounded()
+                .SetKeyboardShortcut("Ctrl", "Shift", "O")
                 .OnClick(() => Toast().Success("New document"));
 
             sidebar.AddHeader(newDocument);
@@ -123,7 +125,7 @@ namespace Tesserae.Tests.Samples
                .SampleTitle(typeof(SidebarSample), UIcons.Apps, "A sidebar navigation component")
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                    TextBlock("A fully featured Sidebar with Search, Navigation, Buttons, and Separators. The header shows a rounded (pill) primary button and a rounded search box with a keyboard shortcut (⌘K / Ctrl+K) — enable both with .Rounded()."))).SetTitle("Overview"),
+                    TextBlock("A fully featured Sidebar with Search, Navigation, Buttons, and Separators. The header shows a rounded (pill) primary button and a rounded search box, each with the shortcut that reaches it at its far end — enable the pill with .Rounded() and the shortcut with .SetKeyboardShortcut()."))).SetTitle("Overview"),
                     Card(VStack().WS().Children(
                         SplitView().WS().H(800).LeftIsSmaller(400.px()).Resizable()
                                    .Left(sidebar.S())

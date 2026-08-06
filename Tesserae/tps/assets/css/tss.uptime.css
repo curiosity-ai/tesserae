@@ -144,11 +144,15 @@
   text-align: left;
 }
 
-.tippy-box[data-theme~='uptime'] .tss-text-block {
+/* This box keeps a dark surface of its own in both themes, so the text on it is light in both - the
+   tooltip's own foreground would be dark here in the light theme. The class names below were
+   .tss-text-block / .tss-font-weight-semibold, which nothing renders (they are .tss-textblock and
+   .tss-fontweight-semibold), so this leant on whatever the base tooltip rules happened to give. */
+.tippy-box[data-theme~='uptime'] .tss-textblock {
   color: #fff !important;
 }
 
-.tippy-box[data-theme~='uptime'] .tss-font-weight-semibold {
+.tippy-box[data-theme~='uptime'] .tss-fontweight-semibold {
   color: #fff !important;
   font-weight: 600 !important;
 }

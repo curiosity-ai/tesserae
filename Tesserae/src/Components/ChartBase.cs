@@ -221,7 +221,11 @@ namespace Tesserae
 
             if (_showTooltips)
             {
-                Script.Write("tippy({0}, { content: {1}, allowHTML: true, delay: [100, 0], appendTo: document.body });", el, content);
+                //Into the application z-index lane, like every other tippy here: a chart in a Modal would
+                //otherwise hand its tooltips tippy's fixed 9999 and draw them behind the Layer above it.
+                if (!int.TryParse(Layers.AboveCurrent(), out var zIndex)) zIndex = 9999;
+
+                Script.Write("tippy({0}, { content: {1}, allowHTML: true, delay: [100, 0], appendTo: document.body, zIndex: {2} });", el, content, zIndex);
             }
         }
 
