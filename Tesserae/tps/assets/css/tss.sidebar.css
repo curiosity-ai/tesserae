@@ -905,3 +905,23 @@
 .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-has-shortcut {
     padding-right: 0;
 }
+
+/* ...and the same chip only while the row is pointed at ---------------------------------------------- */
+
+/* See SidebarButton.ShortcutOnlyOnHover and SidebarSearchBox.ShortcutOnlyOnHover. On a rail where most rows
+   carry a key, every chip at once is a column of noise beside the labels, while one chip on the row under the
+   pointer is still how the key gets found. Faded rather than removed: the room it takes stays reserved, so no
+   label re-flows as it comes back. Focus counts as a hover, so a row reached by tabbing - or a box holding the
+   caret - shows its key too. The class sits on the open row, which both items share. */
+.tss-sidebar-btn-open.tss-sidebar-shortcut-on-hover .tss-sidebar-btn-shortcut,
+.tss-sidebar-btn-open.tss-sidebar-shortcut-on-hover .tss-searchbox-shortcut {
+    opacity: 0;
+    transition: opacity 0.167s ease 0s;
+}
+
+.tss-sidebar-btn-open.tss-sidebar-shortcut-on-hover:hover .tss-sidebar-btn-shortcut,
+.tss-sidebar-btn-open.tss-sidebar-shortcut-on-hover:focus-within .tss-sidebar-btn-shortcut,
+.tss-sidebar-btn-open.tss-sidebar-shortcut-on-hover:hover .tss-searchbox-shortcut,
+.tss-sidebar-btn-open.tss-sidebar-shortcut-on-hover:focus-within .tss-searchbox-shortcut {
+    opacity: 1;
+}

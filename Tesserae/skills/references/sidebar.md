@@ -34,7 +34,8 @@ Bring factories into scope with `using static Tesserae.UI;`.
 
 Common item types: `SidebarButton(id, UIcons icon, text)` (`.Selected()`,
 `.OnClick(...)`, `.Primary()`, `.Danger()`, `.Rounded()`,
-`.SetKeyboardShortcut("Ctrl", "Shift", "O")`, `.Tooltip(...)`),
+`.SetKeyboardShortcut("Ctrl", "Shift", "O")`, `.ShortcutOnlyOnHover()`,
+`.Tooltip(...)`),
 `SidebarSeparator(id, text)`, `SidebarNav(id, icon, text, initiallyCollapsed)`,
 `SidebarText(id, text)`,
 `SidebarSearchBox(id, placeholder)` (`.OnSearch(...)`, `.OnClick(...)`,
@@ -84,6 +85,21 @@ palette or page it opens is what owns that key — and answers it from inside a 
 field too, where a button's shortcut steps aside. Pass no keys and call
 `.SetKeyboardShortcut(...)` when the button itself should answer.
 
+`.ShortcutOnlyOnHover()` — on both `SidebarButton` and `SidebarSearchBox` — keeps
+the chip out of sight until the pointer is on the row, or something inside it has
+focus, so a row reached by tabbing shows its key too. For a rail where most rows
+carry a key: all the chips at once read as a column of noise beside the labels,
+while one chip on the row being pointed at is still how the key gets discovered.
+The binding is untouched, and the room the chip takes stays reserved, so no label
+re-flows as it fades in. Pass `false` for the default, a chip that is always there.
+
+```csharp
+sidebar.AddContent(new SidebarButton("home", UIcons.Home, "Home")
+    .SetKeyboardShortcut("Ctrl", "Shift", "H")
+    .ShortcutOnlyOnHover()
+    .OnClick(GoHome));
+```
+
 A `.Selected()` item is outlined in the theme's primary color and filled with a
 wash of it, rather than with the grey a hover uses — so where you are still
 reads while the pointer is somewhere else in the list. It follows
@@ -117,6 +133,8 @@ filters searchable items. Configure it fluently:
 - `.OnSearch(term => sidebar.Search(term))` — run on every keystroke.
 - `.SetKeyboardShortcut("Ctrl", "K")` — show a shortcut chip (renders ⌘K on
   macOS, Ctrl+K elsewhere) and focus the box when the shortcut is pressed.
+- `.ShortcutOnlyOnHover(bool = true)` — hide that chip until the box is hovered
+  or holds the caret; the key still works either way.
 - `.Rounded(BorderRadius = Full)` — render as a full bordered, rounded "pill".
 - `.Text` / `.SetText(text)` — read or replace what is in the box. Setting it
   does not raise `.OnSearch(...)`, so a caller that clears the box decides for
