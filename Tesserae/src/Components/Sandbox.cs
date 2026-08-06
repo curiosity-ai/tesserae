@@ -25,8 +25,20 @@ namespace Tesserae
     [Transpose.Name("tss.Sandbox")]
     public sealed class Sandbox : ComponentBase<Sandbox, HTMLIFrameElement>, ISpecialCaseStyling
     {
-        /// <summary>The fully-locked default CSP: inline scripts and styles only, images limited to data/blob URIs, no network access.</summary>
-        public const string DefaultContentSecurityPolicy = "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:;";
+        /// <summary>
+        /// The fully-locked default CSP: inline scripts and styles only, images limited to data/blob URIs,
+        /// no network access.
+        ///
+        /// <para><c>form-action 'none'</c> is spelled out because it has no fallback to
+        /// <c>default-src</c>: without it a framed document can post a form to any host and reach the
+        /// network that way, and with <c>allow-scripts allow-forms</c> it can do so on load without the
+        /// reader touching anything. <c>base-uri 'none'</c> keeps a <c>base</c> tag from repointing the
+        /// document's relative URLs. Note that a document navigating *itself* - <c>location=</c>, a
+        /// <c>meta refresh</c>, a click on a link - is governed by neither, only by the sandbox flags:
+        /// drop <see cref="AllowScripts"/> to stop the automatic ones, and strip the links out of the
+        /// content to stop the clicked ones.</para>
+        /// </summary>
+        public const string DefaultContentSecurityPolicy = "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; form-action 'none'; base-uri 'none';";
 
         // Injected into the sandboxed document. Captures errors / CSP violations / unhandled rejections
         // and (when the host asks for it) reports the document height, posting everything back over the
