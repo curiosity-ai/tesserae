@@ -434,6 +434,10 @@
     margin-left: auto;
     flex-grow: 0;
     flex-shrink: 0;
+    /* The title's own line box, which the 26px buttons overflow rather than stretch - so a row with commands
+       is exactly as tall as one without, and the buttons still sit level with the title. */
+    height: 22px;
+    align-self: center;
     /* Last on the line whatever a host appends to the header after it - the flags a result picks up go
        beside the title, not past the buttons. */
     order: 1;
