@@ -865,3 +865,8 @@
     border-color: transparent;
     background: none;
 }
+
+/* Hide the + between keys for shortcuts shown in the sidebar so they're more compact*/
+.tss-sidebar .tss-kbd-separator {
+    display:none;
+}
