@@ -119,6 +119,9 @@ The source leads the line and the metadata follows it, and all of it is `InlineL
 - `.InlineCommands(params IComponent[])` / `.InlineCommands(OmniResultCommandsVisibility visibility, params IComponent[])`
   — one or two buttons before the `[...]`, `OnHover` (default) or `AlwaysVisible`. The space is
   reserved either way.
+- The commands and the `[...]` sit at the far end of the **title's own line**, so they take room from
+  the title and from nothing else: the excerpt, the footer and the contribution bar keep the row's
+  whole width whether the row has commands or not.
 - `CommandsEvent` — the pointer event that last asked for the commands (null when they were asked for
   from the keyboard), for a host that shows a command surface of its own rather than a `ContextMenu`.
 

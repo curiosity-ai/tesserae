@@ -158,7 +158,13 @@ namespace Tesserae
             _titleElement   = Span(Att("tss-omniresult-title"));
             _badgeContainer = Div(Att("tss-omniresult-badge"));
 
-            _headerContainer = Div(Att("tss-omniresult-header"), _idContainer, _titleElement, _badgeContainer);
+            _inlineCommandsContainer = Div(Att("tss-omniresult-inline-commands"));
+            _commandsContainer       = Div(Att("tss-omniresult-commands"), _inlineCommandsContainer);
+
+            //The commands sit at the end of the title's own line rather than in a column of their own beside
+            //the whole card: a column would narrow the excerpt and the footer too, for buttons that are only
+            //ever level with the title. Here the title is the only thing that gives up room for them.
+            _headerContainer = Div(Att("tss-omniresult-header"), _idContainer, _titleElement, _badgeContainer, _commandsContainer);
 
             _bodyContainer    = Div(Att("tss-omniresult-body"));
             _contentContainer = Div(Att("tss-omniresult-content"));
@@ -172,11 +178,9 @@ namespace Tesserae
 
             _mainContainer = Div(Att("tss-omniresult-main"), _headerContainer, _bodyContainer, _contentContainer, _footerContainer, _contributionContainer);
 
-            _railContainer           = Div(Att("tss-omniresult-rail"));
-            _inlineCommandsContainer = Div(Att("tss-omniresult-inline-commands"));
-            _commandsContainer       = Div(Att("tss-omniresult-commands"), _inlineCommandsContainer);
+            _railContainer = Div(Att("tss-omniresult-rail"));
 
-            InnerElement = Div(Att("tss-omniresult"), _selectContainer, _iconHolder, _mainContainer, _railContainer, _commandsContainer);
+            InnerElement = Div(Att("tss-omniresult"), _selectContainer, _iconHolder, _mainContainer, _railContainer);
 
             SetId(null);
             SetTitle(title);
@@ -202,7 +206,7 @@ namespace Tesserae
         /// <summary>The text column: the header, the excerpt, the content, the footer and the contribution bar.</summary>
         protected HTMLElement MainContainer => _mainContainer;
 
-        /// <summary>The line the identifier, the title and the badge share.</summary>
+        /// <summary>The line the identifier, the title, the badge and the commands share.</summary>
         protected HTMLElement HeaderContainer => _headerContainer;
 
         /// <summary>What <see cref="SetText(string)"/> writes the excerpt into.</summary>
@@ -229,7 +233,7 @@ namespace Tesserae
         /// <summary>The strip between the text column and the commands.</summary>
         protected HTMLElement RailContainer => _railContainer;
 
-        /// <summary>The commands at the end of the row, inline ones included.</summary>
+        /// <summary>The commands at the end of the header line, inline ones included.</summary>
         protected HTMLElement CommandsContainer => _commandsContainer;
 
         /// <summary>Where the selection checkbox goes when it has a column of its own.</summary>
