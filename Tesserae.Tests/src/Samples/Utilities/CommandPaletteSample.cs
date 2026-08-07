@@ -30,7 +30,14 @@ namespace Tesserae.Tests.Samples
                 EnableGlobalShortcut = false,
             };
 
-            searchPalette.OnSearch(query => Task.FromResult(SearchFiles(query, searchPalette)));
+            //The search takes as long as a server would, so the box's magnifier turns into a spinner while it
+            //does - the rows from the last query stay where they are until the new ones are in.
+            searchPalette.OnSearch(async query =>
+            {
+                await Task.Delay(700);
+
+                return SearchFiles(query);
+            });
 
             var openSearchButton = Button("Open Search Palette")
                .OnClick(() => searchPalette.Open());
@@ -53,7 +60,8 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                     TextBlock("SetResults puts rows of your own above the actions, and OnSearch refreshes them as the query changes — so a palette can answer a question rather than only list commands. The rows here are OmniResults, the same component a search page draws, and the last one is the way out to the full result list.").Small().Secondary().PB(8),
                     openSearchButton,
-                    TextBlock("Type to filter, walk the rows with the arrow keys, and press Enter on one.").Small().Secondary().PT(12)
+                    TextBlock("Type to filter, walk the rows with the arrow keys, and press Enter on one.").Small().Secondary().PT(12),
+                    TextBlock("This search waits 700ms, like a server would: while it does, the search box's magnifier turns into a spinner. The palette does that on its own while an OnSearch call is in flight — a palette that fills its rows some other way says it with SetSearching(true).").Small().Secondary().PT(8)
                )).SetTitle("Searching, with results of your own")))
                .SeeAlso(typeof(KeyboardShortcutSample), typeof(OmniBoxSample), typeof(SearchBoxSample), typeof(MenuSample), typeof(ContextMenuSample));
         }
@@ -112,7 +120,7 @@ namespace Tesserae.Tests.Samples
             ("Supplier agreement 2024",           "DOCX", "#2563eb", "Pius Neuhaus"),
         };
 
-        private static IEnumerable<CommandPaletteResult> SearchFiles(string query, CommandPalette palette)
+        private static IEnumerable<CommandPaletteResult> SearchFiles(string query)
         {
             var matches = Files.Where(f => string.IsNullOrEmpty(query) || f.Name.ToLower().Contains(query.ToLower())).Take(4).ToList();
 

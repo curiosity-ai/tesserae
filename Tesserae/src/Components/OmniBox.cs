@@ -583,6 +583,7 @@ namespace Tesserae
         private readonly Button      _searchHelpBtn;
         private readonly Button      _searchClearBtn;
         private readonly Button      _searchTriggerBtn;
+        private bool                 _isSearching;
         private Button          _askAIBtn;
         private Action<OmniBox> _onAskAI;
         private bool _helpShowSyntax;
@@ -737,6 +738,11 @@ namespace Tesserae
 
                 _searchClearBtn = Button().SetIcon(UIcons.CrossCircle).Class("tss-omnibox-search-clear-btn");
                 _searchTriggerBtn = Button().SetIcon(config.IconSearch).Class("tss-omnibox-search-btn");
+
+                //A search that has been asked for and not answered yet takes the magnifier's place - see
+                //SetSearching. It lives inside the button, over the icon, so the row keeps its shape whether
+                //the box is searching or not.
+                _searchTriggerBtn.Render().appendChild(UI.Spinner().XSmall().Class("tss-omnibox-search-spinner").Render());
 
                 if (_mode == Mode.Search)
                 {
@@ -3761,6 +3767,28 @@ namespace Tesserae
         public OmniBox SetSearchPlaceholder(string text)
         {
             SearchPlaceholder = text;
+            return this;
+        }
+
+        /// <summary>
+        /// Whether the box is showing that a search is running - see <see cref="SetSearching"/>.
+        /// </summary>
+        public bool IsSearching => _isSearching;
+
+        /// <summary>
+        /// Says that a search is running: the magnifier gives its place to a spinner, in the same spot, so
+        /// the box keeps its shape while it runs. A fast answer never makes it blink - the spinner only fades
+        /// in after a moment.
+        /// </summary>
+        public OmniBox SetSearching(bool searching)
+        {
+            if (_isSearching == searching) return this;
+
+            _isSearching = searching;
+
+            if (searching) _container.classList.add("tss-omnibox-searching");
+            else           _container.classList.remove("tss-omnibox-searching");
+
             return this;
         }
 
