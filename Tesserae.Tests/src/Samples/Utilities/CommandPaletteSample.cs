@@ -31,7 +31,7 @@ namespace Tesserae.Tests.Samples
             };
 
             //The search takes as long as a server would, so the box's magnifier turns into a spinner while it
-            //does - the rows from the last query stay where they are until the new ones are in.
+            //does, and the rows the last query left behind come down.
             searchPalette.OnSearch(async query =>
             {
                 await Task.Delay(700);
@@ -61,7 +61,7 @@ namespace Tesserae.Tests.Samples
                     TextBlock("SetResults puts rows of your own above the actions, and OnSearch refreshes them as the query changes — so a palette can answer a question rather than only list commands. The rows here are OmniResults, the same component a search page draws, and the last one is the way out to the full result list.").Small().Secondary().PB(8),
                     openSearchButton,
                     TextBlock("Type to filter, walk the rows with the arrow keys, and press Enter on one.").Small().Secondary().PT(12),
-                    TextBlock("This search waits 700ms, like a server would: while it does, the search box's magnifier turns into a spinner. The palette does that on its own while an OnSearch call is in flight — a palette that fills its rows some other way says it with SetSearching(true).").Small().Secondary().PT(8)
+                    TextBlock("This search waits 700ms, like a server would: while it does, the search box's magnifier turns into a spinner and the rows of the previous query come down, since they are not an answer to this one. The palette does that on its own while an OnSearch call is in flight — a palette that fills its rows some other way says it with SetSearching(true).").Small().Secondary().PT(8)
                )).SetTitle("Searching, with results of your own")))
                .SeeAlso(typeof(KeyboardShortcutSample), typeof(OmniBoxSample), typeof(SearchBoxSample), typeof(MenuSample), typeof(ContextMenuSample));
         }

@@ -88,6 +88,12 @@
     gap: 4px;
 }
 
+/* With no rows to show - while a search is running, or before one has been asked for - the list is not a
+   thinner list, it is not there: its padding alone would read as a strip of empty palette under the box. */
+.tss-commandpalette-results:empty {
+    display: none;
+}
+
 .tss-commandpalette-section {
     padding: 8px 12px 4px;
     font-size: 11px;
