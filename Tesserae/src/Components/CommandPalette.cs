@@ -44,9 +44,16 @@ namespace Tesserae
         private int _activeIndex = -1;
         private HTMLElement _focusBeforeShow;
         private bool _isSearching;
+        private double _clearRowsTimer = -1;
 
         /// <summary>How long <see cref="Layer{T}"/> takes to fade a hidden layer out before removing it.</summary>
         private const int LAYER_FADE_OUT_MS = 150;
+
+        /// <summary>
+        /// How long the rows of the query before this one stay up once a search starts - the same grace the
+        /// search box takes to turn its magnifier into a spinner, so the two happen together.
+        /// </summary>
+        private const int SEARCHING_GRACE_MS = 140;
 
         private sealed class PaletteEntry
         {
@@ -249,8 +256,8 @@ namespace Tesserae
 
         /// <summary>
         /// Whether the palette is saying that a search is running - the search box's magnifier turns into a
-        /// spinner, and there is no "No results" until it is known that there are none. Kept up to date on
-        /// its own while an
+        /// spinner, the rows that answered the query before this one come down, and there is no "No results"
+        /// until it is known that there are none. Kept up to date on its own while an
         /// <see cref="OnSearch(Func{OmniBox.SearchQuery, Task{IEnumerable{CommandPaletteResult}}}, int)"/>
         /// call is in flight; set it with <see cref="SetSearching"/> for a palette that fills its rows some
         /// other way.
@@ -270,10 +277,34 @@ namespace Tesserae
 
             _searchBox.SetSearching(searching);
 
+            CancelPendingRowClear();
+
+            if (searching)
+            {
+                //Rows that answered the query before this one are not an answer to this one, so they come
+                //down while the search runs rather than staying up to be clicked by mistake - after the same
+                //grace the spinner waits, so an answer that is back before then replaces them outright
+                //instead of the palette blinking through an empty list.
+                _clearRowsTimer = window.setTimeout(_ =>
+                {
+                    _clearRowsTimer = -1;
+
+                    if (_isSearching) SetResults((IEnumerable<CommandPaletteResult>)null);
+                }, SEARCHING_GRACE_MS);
+            }
+
             //"No results" is only true once the search that would have found some has come back.
             UpdateEmptyState();
 
             return this;
+        }
+
+        private void CancelPendingRowClear()
+        {
+            if (_clearRowsTimer < 0) return;
+
+            window.clearTimeout(_clearRowsTimer);
+            _clearRowsTimer = -1;
         }
 
         /// <summary>
