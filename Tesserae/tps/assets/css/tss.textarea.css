@@ -3,3 +3,26 @@
     resize: none;
 }
 
+/* The container is a full-height flex column so that whenever it is given a height -
+   directly with .Height(...), or indirectly because .Grow()/.HS() stretched the
+   tss-stack-item that wraps it - the text area fills that height instead of staying at
+   its intrinsic size, and the error message still gets its own space below it. */
+.tss-textarea-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+
+    .tss-textarea-container > .tss-textarea {
+        flex: 1 1 auto;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+    }
+
+/* AutoResize() drives the height from scrollHeight, so it must not be stretched by the flex line. */
+.tss-textarea-container > .tss-textarea.tss-textarea-autoresize {
+    flex: 0 0 auto;
+    height: auto;
+}
