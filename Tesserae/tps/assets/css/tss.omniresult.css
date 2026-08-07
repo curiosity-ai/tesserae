@@ -36,6 +36,24 @@
     background: color-mix(in srgb, var(--tss-primary-background-color) 10%, transparent);
 }
 
+/* TextSelectable(): a row that is read rather than glanced at - a message in a thread, a comment - opts its
+   text back into selecting and copying, and stops reading as a click target. What is a control rather than
+   text stays unselectable, so dragging from the tile or the checkbox still does nothing. The click that ends
+   such a drag is dropped by the row itself, so copying a line never opens the result it came from. */
+.tss-omniresult.tss-omniresult-text-selectable {
+    -webkit-user-select: text;
+    user-select: text;
+    cursor: auto;
+}
+
+.tss-omniresult-text-selectable .tss-omniresult-select,
+.tss-omniresult-text-selectable .tss-omniresult-icon-holder,
+.tss-omniresult-text-selectable .tss-omniresult-commands,
+.tss-omniresult-text-selectable .tss-omniresult-rail {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
 /* Selection ------------------------------------------------------------------------------------- */
 
 .tss-omniresult-select {

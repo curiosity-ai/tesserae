@@ -106,6 +106,8 @@ The source leads the line and the metadata follows it, and all of it is `InlineL
   siblings, so the host list decides what "between" means and selects them itself.
 - Ctrl-click toggles the row; Space toggles the focused row; Enter activates it (`OnClick`).
 - `IsActive` — styles the row like a hovered one, for a keyboard-driven list.
+- `.TextSelectable(bool = true)` — the row's own **text** selects and copies, for a row that is read
+  rather than glanced at (see *Selecting text* below). Off by default.
 
 **Commands**
 
@@ -298,6 +300,20 @@ footer — isn't selectable; dragging across a list never leaves half an excerpt
 where a result is actually read: there the **title** is selectable, the rest of the header is not, and the
 content you passed to `SetModalContent` is untouched, so a document, a transcript or a details grid
 selects and copies normally.
+
+`.TextSelectable()` opts a row back in, for the rows that *are* read where they sit — a message in a
+thread, a comment, a note someone copies a line out of. Its text selects and copies, the cursor stops
+saying "click me", and the click that ends a drag across it is dropped rather than opening the result
+underneath. The tile, the checkbox and the commands stay unselectable — they are controls, not text —
+and the row still selects, commands and opens by keyboard exactly as before.
+
+```csharp
+OmniResult(message)
+    .SetTitle(message.Subject)
+    .SetContent(MessageBody(message))
+    .TextSelectable()                        // read here, not opened from here
+    .Selectable(OmniResultSelectionMode.ReplacingIcon);
+```
 
 ## Related
 

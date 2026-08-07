@@ -113,6 +113,7 @@ namespace Tesserae
         private Regex                        _highlighter;
         private OmniResultSelectionMode      _selectionMode = OmniResultSelectionMode.OnHoverBeforeIcon;
         private bool                         _selectionEnabled;
+        private bool                         _textSelectable;
         private bool                         _pagesFanOnHover = true;
         private Action<OmniResult<T>>        _commandsHandler;
         private Action<OmniResult<T>>        _sourceClickHandler;
@@ -748,6 +749,26 @@ namespace Tesserae
             _selectionEnabled = false;
 
             ApplySelectionMode();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Makes the row's own text - the title, the excerpt, the content and the footer - selectable, for a
+        /// row that is read rather than glanced at: a message in a thread, a comment, a note someone copies a
+        /// line out of. Off by default, so dragging across an ordinary list of results never leaves half an
+        /// excerpt highlighted.
+        /// <para>
+        /// A click that ended a selection inside the row does not count as a click on the row, so copying a
+        /// line out of one never opens it. The tile, the checkbox and the commands stay unselectable: they are
+        /// controls, not text.
+        /// </para>
+        /// </summary>
+        public OmniResult<T> TextSelectable(bool value = true)
+        {
+            _textSelectable = value;
+
+            InnerElement.UpdateClassIf(value, "tss-omniresult-text-selectable");
 
             return this;
         }
@@ -1545,6 +1566,11 @@ namespace Tesserae
                 // A click on the checkbox, or on a command, is that control's business - not the row's.
                 if (IsWithinControl(mouseEvent)) return;
 
+                // On a row whose text can be selected, the click that ends a drag across it is the end of a
+                // selection rather than a click on the row: opening the result under the text someone is
+                // copying out of it is never what they asked for.
+                if (_textSelectable && HasTextSelectionInside()) return;
+
                 if (_selectionEnabled && mouseEvent.ctrlKey)
                 {
                     StopEvent(mouseEvent);
@@ -1660,6 +1686,19 @@ namespace Tesserae
         }
 
         private static void ClearTextSelection() => window.getSelection()?.removeAllRanges();
+
+        private bool HasTextSelectionInside()
+        {
+            var selection = window.getSelection();
+
+            if (selection is null || selection.isCollapsed) return false;
+
+            //What a selection is anchored to is the text node itself, so the row is asked about the element
+            //holding it - and contains() answers for the element itself as well as for its descendants.
+            var anchor = selection.anchorNode?.parentElement;
+
+            return anchor is object && InnerElement.contains(anchor);
+        }
 
         private void EnsureCheckBox()
         {
