@@ -531,6 +531,14 @@ namespace Tesserae.Tests.Samples
                 "./assets/img/curiosity-logo.svg"
             };
 
+            var slides = new[]
+            {
+                "./assets/img/slide-16-9.svg",
+                "./assets/img/slide-16-9.svg",
+                "./assets/img/slide-16-9.svg",
+                "./assets/img/slide-16-9.svg"
+            };
+
             return FeatureCard("PagesStack", "The page preview on its own",
                 "PagesStack is the preview rail: up to five overlapping, slightly rotated pages that fan out on a shallow arc when hovered, with a +N badge over the stack counting the pages it doesn't draw. Given thumbnail urls it draws them (all cropped to one page size); given only a count it draws blank ruled pages. The holder is sized to the width the fan needs and pinned to its right edge, so opening the fan never widens the row — which is why a row can sit right beside it.",
                 HStack().WS().Wrap().Gap(32.px()).PT(8).PB(8).AlignItems(ItemAlign.End).Children(
@@ -541,6 +549,17 @@ namespace Tesserae.Tests.Samples
                     PagesLabel("Thumbnails", PagesStack(thumbnails).TotalPages(9)),
                     PagesLabel("Larger pages", PagesStack(4).PageSize(60, 78)),
                     PagesLabel("MaxVisible(3)", PagesStack(12).MaxVisible(3))),
+                TextBlock("The pages take their shape from the document: the first thumbnail that loads wider than it is tall turns the whole stack landscape, keeping the long side of the page size and taking the short one from the thumbnail's aspect ratio — so a deck of slides isn't drawn as a pile of portrait pages. MatchThumbnailShape(false) keeps the configured size whatever loads:").Small().MT(8).MB(8),
+                HStack().WS().Wrap().Gap(32.px()).PB(8).AlignItems(ItemAlign.End).Children(
+                    PagesLabel("16:9 slides", PagesStack(slides).TotalPages(18)),
+                    PagesLabel("Larger slides", PagesStack(slides).PageSize(60, 78)),
+                    PagesLabel("MatchThumbnailShape(false)", PagesStack(slides).MatchThumbnailShape(false))),
+                TextBlock("The reshaping is a rail the row was already holding open for the fan, so a deck previews in a result row the same way a document does:").Small().MT(8).MB(8),
+                OmniResult(Hits[1], "Q3 line review.pptx")
+                   .SetIcon("PPTX", "#f97316")
+                   .SetSource("#0061d5", "Box")
+                   .SetFooterEntries("18 slides", "4.1 MB", "Sep 30, 2024")
+                   .SetPages(PagesStack(slides).TotalPages(18).OnPageClick(page => Toast().Information($"Opening slide {page + 1}"))),
                 TextBlock("Held open with Fanned(), which is how OmniResult makes the stack follow hovering the whole row (PagesFanOnHover, on by default). OnPageClick makes each drawn page open the document at itself — the click is the page's alone, so it never also counts as a click on the row:").Small().MT(8).MB(8),
                 HStack().WS().Wrap().Gap(32.px()).AlignItems(ItemAlign.End).Children(
                     PagesLabel("Fanned()", PagesStack(5).TotalPages(19).Fanned()),
