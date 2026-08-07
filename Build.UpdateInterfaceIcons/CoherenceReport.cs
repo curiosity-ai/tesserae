@@ -307,6 +307,10 @@ namespace Build.UpdateInterfaceIcons
                               " took the offset of the icon they are a state of");
             Console.WriteLine($"  {fonts.Sum(f => f.FrameFamiliesSuppressed)} offsets dropped because a frame family " +
                               $"({string.Join(", ", FrameShapes.Words)}) could not agree on one");
+            Console.WriteLine($"  {fonts.Sum(f => f.LeftAloneByName)} glyphs left exactly as drawn because their name " +
+                              $"is in a never-adjusted family ({string.Join(", ", NeverAdjusted.Words)}): a rotated glyph " +
+                              "orbits instead of spinning if it is off its box centre, and a circular frame is swapped " +
+                              "in place against the other icons drawn on it");
 
             var byFrame = glyphs.Where(g => g.LeftAloneForItsFamily).ToList();
 

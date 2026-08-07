@@ -109,6 +109,9 @@ namespace Build.UpdateInterfaceIcons
         /// <summary>Set when the offset was dropped so the frame family this icon belongs to stays registered.</summary>
         public bool LeftAloneForItsFamily { get; set; }
 
+        /// <summary>Set when the icon's name puts it in a family that is never adjusted (see <see cref="NeverAdjusted"/>).</summary>
+        public bool LeftAloneByName { get; set; }
+
         public bool IsAdjusted => X != 0 || Y != 0;
 
         public bool IsRejected => RejectedX || RejectedY;
@@ -137,6 +140,9 @@ namespace Build.UpdateInterfaceIcons
 
         /// <summary>How many offsets were dropped to keep a frame family registered.</summary>
         public int FrameFamiliesSuppressed { get; set; }
+
+        /// <summary>How many glyphs were left as drawn because their name puts them in a never-adjusted family.</summary>
+        public int LeftAloneByName { get; set; }
     }
 
     /// <summary>
@@ -222,6 +228,9 @@ namespace Build.UpdateInterfaceIcons
             (result.FrameGroups, result.PinnedGroups) = PinIconsThatAreTheSameDrawing(usable, final, em, settings);
             result.StateVariantsAnchored = AnchorStateVariantsToTheirBase(usable, final);
             ApplyAlignmentGroups(font, usable, final, warnings);
+
+            // Last, so it wins over every rule above: these families are not adjusted at all.
+            result.LeftAloneByName = LeaveNeverAdjustedFamiliesAlone(usable, final);
 
             foreach (var glyph in usable)
             {
@@ -402,6 +411,32 @@ namespace Build.UpdateInterfaceIcons
             }
 
             return anchored;
+        }
+
+        /// <summary>
+        /// Zeroes the offset of every icon whose name puts it in a never-adjusted family, so those glyphs
+        /// ship exactly as the vendor drew them. Runs after every other rule and overrides all of them: a
+        /// spinner has to rotate about its own centre, and a circular frame has to stay registered with the
+        /// other icons drawn on it, and neither survives being nudged. See <see cref="NeverAdjusted"/>.
+        /// </summary>
+        private static int LeaveNeverAdjustedFamiliesAlone(
+            List<GlyphAdjustment>                            glyphs,
+            Dictionary<GlyphAdjustment, (double X, double Y)> final)
+        {
+            var left = 0;
+
+            foreach (var glyph in glyphs.Where(g => NeverAdjusted.Matches(g.Glyph.IconName)))
+            {
+                final[glyph]            = (0, 0);
+                glyph.LeftAloneByName   = true;
+
+                // Same exemption a Fixed group gets: this glyph is meant to stay off its own centre if
+                // that is where it was drawn, so the residual checks must not hold it to being centred.
+                glyph.PinnedToPartner   = true;
+                left++;
+            }
+
+            return left;
         }
 
         /// <summary>

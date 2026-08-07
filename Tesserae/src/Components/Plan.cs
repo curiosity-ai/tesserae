@@ -17,6 +17,13 @@ namespace Tesserae
         Completed,
         Failed,
         Canceled,
+
+        /// <summary>
+        /// In progress, but without work streaming in: styled like <see cref="Running"/>
+        /// (primary accent, bold text) but with a static circle instead of a spinner.
+        /// Appended last so the existing values keep their numeric ordinals.
+        /// </summary>
+        Active,
     }
 
     /// <summary>
@@ -55,6 +62,12 @@ namespace Tesserae
         public string CurrentStage;
         public IList<PlanSubstepModel> Substeps;
         public bool? IsExpanded;
+
+        /// <summary>
+        /// Optional component rendered at the end of the step's title row — typically a
+        /// <see cref="Tesserae.Badge"/>, but any <see cref="IComponent"/> works.
+        /// </summary>
+        public IComponent Badge;
     }
 
     /// <summary>
@@ -84,6 +97,7 @@ namespace Tesserae
             switch (status)
             {
                 case PlanStatus.Running:   return "tss-plan-running";
+                case PlanStatus.Active:    return "tss-plan-active";
                 case PlanStatus.Completed: return "tss-plan-completed";
                 case PlanStatus.Failed:    return "tss-plan-failed";
                 case PlanStatus.Canceled:  return "tss-plan-canceled";
@@ -100,6 +114,7 @@ namespace Tesserae
             switch (status)
             {
                 case PlanStatus.Running:   return "is-running";
+                case PlanStatus.Active:    return "is-active";
                 case PlanStatus.Completed: return "is-completed";
                 case PlanStatus.Failed:    return "is-failed";
                 case PlanStatus.Canceled:  return "is-canceled";
@@ -125,6 +140,7 @@ namespace Tesserae
             switch (status)
             {
                 case PlanStatus.Running:   return UIcons.Spinner;     // rotated via CSS
+                case PlanStatus.Active:    return UIcons.Circle;      // in progress, but nothing to spin
                 case PlanStatus.Completed: return UIcons.CheckCircle;
                 case PlanStatus.Failed:    return UIcons.CrossCircle;
                 case PlanStatus.Canceled:  return UIcons.Ban;
@@ -133,12 +149,31 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// The class list for a status glyph. In compact mode every status but
+        /// <see cref="PlanStatus.Running"/> collapses to a plain circle — the status
+        /// then reads from the color alone, which is the point of the compact rail —
+        /// and the running spinner is kept because its motion is the information.
+        /// </summary>
+        private static string StatusIconClass(PlanStatus status, bool compact)
+        {
+            if (compact && status != PlanStatus.Running)
+            {
+                // The straight-style circle, in the one weight that draws it filled: every
+                // other weight (including RegularStraight) draws a ring, and a ring at the
+                // compact rail's 12px reads as a smudge rather than a status mark.
+                return "tss-icon tss-plan-dot " + Icon.Transform(UIcons.Circle, UIconsWeight.SolidStraight);
+            }
+
+            return "tss-icon " + StatusIcon(status);
+        }
+
+        /// <summary>
         /// Creates the status-glyph element (a UIcons <c>&lt;i&gt;</c>) for
         /// <paramref name="status"/>.
         /// </summary>
-        public static HTMLElement CreateStatusIcon(PlanStatus status)
+        public static HTMLElement CreateStatusIcon(PlanStatus status, bool compact = false)
         {
-            return I(Att("tss-icon " + StatusIcon(status)));
+            return I(Att(StatusIconClass(status, compact)));
         }
 
         /// <summary>
@@ -146,9 +181,9 @@ namespace Tesserae
         /// <paramref name="status"/>. Only the icon class changes, so a running
         /// spinner's CSS animation is not restarted when unrelated fields update.
         /// </summary>
-        public static void SetStatusIcon(HTMLElement iconEl, PlanStatus status)
+        public static void SetStatusIcon(HTMLElement iconEl, PlanStatus status, bool compact = false)
         {
-            iconEl.className = "tss-icon " + StatusIcon(status);
+            iconEl.className = StatusIconClass(status, compact);
         }
 
         public static string StatusText(PlanStatus status)
@@ -156,6 +191,7 @@ namespace Tesserae
             switch (status)
             {
                 case PlanStatus.Running:   return "Running";
+                case PlanStatus.Active:    return "Active";
                 case PlanStatus.Completed: return "Completed";
                 case PlanStatus.Failed:    return "Failed";
                 case PlanStatus.Canceled:  return "Canceled";
@@ -174,8 +210,10 @@ namespace Tesserae
         public static bool DefaultExpanded(PlanStepModel step)
         {
             if (step.IsExpanded.HasValue) return step.IsExpanded.Value;
-            // Auto-expand when running / failed; auto-collapse otherwise.
-            return step.Status == PlanStatus.Running || step.Status == PlanStatus.Failed;
+            // Auto-expand when in progress / failed; auto-collapse otherwise.
+            return step.Status == PlanStatus.Running
+                || step.Status == PlanStatus.Active
+                || step.Status == PlanStatus.Failed;
         }
 
         public static string StepKey(PlanStepModel step, int positionalIndex)
@@ -199,7 +237,7 @@ namespace Tesserae
                 foreach (var s in model.Steps)
                 {
                     if (s.Status == PlanStatus.Completed) completed++;
-                    else if (s.Status == PlanStatus.Running) running++;
+                    else if (s.Status == PlanStatus.Running || s.Status == PlanStatus.Active) running++;
                     else if (s.Status == PlanStatus.Failed) failed++;
                 }
             }
@@ -215,6 +253,7 @@ namespace Tesserae
         {
             el.classList.remove("is-pending");
             el.classList.remove("is-running");
+            el.classList.remove("is-active");
             el.classList.remove("is-completed");
             el.classList.remove("is-failed");
             el.classList.remove("is-canceled");
@@ -253,6 +292,7 @@ namespace Tesserae
         private readonly HTMLElement _innerElement;
 
         // Header
+        private readonly HTMLElement _headerEl;
         private readonly HTMLElement _titleEl;
         private readonly HTMLElement _badge;
         private readonly HTMLElement _badgeText;
@@ -264,6 +304,7 @@ namespace Tesserae
         private readonly Dictionary<string, Task> _tasksByKey = new Dictionary<string, Task>();
 
         // Footer status strip
+        private readonly HTMLElement _footerEl;
         private readonly HTMLElement _summaryEl;
         private readonly HTMLElement _countEl;
         private readonly HTMLElement _progressEl;
@@ -273,6 +314,7 @@ namespace Tesserae
         private readonly HTMLElement _timestampsEl;
 
         private string _footerMessage;
+        private bool   _compact;
 
         // Model
         private PlanModel _model;
@@ -299,7 +341,7 @@ namespace Tesserae
             _headerCommandsEl = Div(Att("tss-plan-header-commands"));
 
             var titleWrap = Div(Att("tss-plan-titlewrap"), _titleEl, _badge);
-            var header = Div(Att("tss-plan-header"), titleWrap, _headerCommandsEl);
+            _headerEl = Div(Att("tss-plan-header"), titleWrap, _headerCommandsEl);
 
             // ---- Steps / timeline ----
             _stepsEl = Div(Att("tss-plan-steps"));
@@ -325,12 +367,12 @@ namespace Tesserae
 
             _timestampsEl = Div(Att("tss-plan-timestamps"));
 
-            var footer = Div(Att("tss-plan-footer"), footerTop, progressRow, _timestampsEl);
+            _footerEl = Div(Att("tss-plan-footer"), footerTop, progressRow, _timestampsEl);
 
             // Default determinate progress at 0%.
             SetDeterminate(0f);
 
-            _innerElement = Div(Att("tss-plan tss-plan-pending"), header, _stepsEl, footer);
+            _innerElement = Div(Att("tss-plan tss-plan-pending"), _headerEl, _stepsEl, _footerEl);
         }
 
         /// <summary>
@@ -353,6 +395,52 @@ namespace Tesserae
         public Plan Title(string title)
         {
             _titleEl.innerText = title ?? string.Empty;
+            return this;
+        }
+
+        /// <summary>
+        /// Switches the timeline to its compact rail: tighter rows and a plain
+        /// status dot in place of the check / cross / ban glyphs, so the status
+        /// reads from the dot's color alone. A running step keeps its spinner,
+        /// because there the motion is the information.
+        /// </summary>
+        public Plan Compact(bool compact = true)
+        {
+            _compact = compact;
+            _innerElement.UpdateClassIf(compact, "tss-plan-compact");
+            foreach (var task in _tasks) task.SetCompact(compact);
+            return this;
+        }
+
+        /// <summary>
+        /// Hides the header strip (title, status badge and header commands), for
+        /// when the plan is embedded in something that already has a heading —
+        /// a <see cref="Card"/> with a title, say.
+        /// </summary>
+        public Plan NoHeader(bool noHeader = true)
+        {
+            _innerElement.UpdateClassIf(noHeader, "tss-plan-no-header");
+            _headerEl.style.display = noHeader ? "none" : "";
+            return this;
+        }
+
+        /// <summary>
+        /// Hides the footer status strip (summary, progress bar and start / stop button).
+        /// </summary>
+        public Plan NoFooter(bool noFooter = true)
+        {
+            _innerElement.UpdateClassIf(noFooter, "tss-plan-no-footer");
+            _footerEl.style.display = noFooter ? "none" : "";
+            return this;
+        }
+
+        /// <summary>
+        /// Drops the card chrome — border, rounded corners and shadow — leaving the
+        /// plan transparent so it sits flush inside whatever contains it.
+        /// </summary>
+        public Plan NoBorder(bool noBorder = true)
+        {
+            _innerElement.UpdateClassIf(noBorder, "tss-plan-no-border");
             return this;
         }
 
@@ -480,14 +568,16 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Adds a task with an explicit <see cref="PlanStatus"/>.
+        /// Adds a task with an explicit <see cref="PlanStatus"/> and an optional
+        /// badge component rendered at the end of its title row.
         /// Auto-generates a positional key so a later <see cref="SetModel"/>
         /// call still reconciles correctly.
         /// </summary>
-        public Plan AddTask(string title, PlanStatus status)
+        public Plan AddTask(string title, PlanStatus status, IComponent badge = null)
         {
             var key = "tss-plan-step-" + _tasks.Count;
-            var task = new Task(key, title, status);
+            var task = new Task(key, title, status, _compact);
+            if (badge != null) task.SetBadge(badge);
             _tasks.Add(task);
             _tasksByKey[key] = task;
             _stepsEl.appendChild(task.Render());
@@ -519,7 +609,7 @@ namespace Tesserae
             {
                 SetDeterminate(PlanVisuals.ClampProgress(model.Progress.Value) * 100f);
             }
-            else if (model.Status == PlanStatus.Running)
+            else if (model.Status == PlanStatus.Running || model.Status == PlanStatus.Active)
             {
                 SetIndeterminate();
             }
@@ -533,7 +623,8 @@ namespace Tesserae
             }
 
             // Start/stop icon reflects the running state.
-            _startStopButton.SetIcon(model.Status == PlanStatus.Running ? UIcons.SquareSmall : UIcons.Play);
+            var inProgress = model.Status == PlanStatus.Running || model.Status == PlanStatus.Active;
+            _startStopButton.SetIcon(inProgress ? UIcons.SquareSmall : UIcons.Play);
 
             // Footer message + summary
             _footerMessage = model.FooterMessage;
@@ -609,6 +700,7 @@ namespace Tesserae
         {
             _innerElement.classList.remove("tss-plan-pending");
             _innerElement.classList.remove("tss-plan-running");
+            _innerElement.classList.remove("tss-plan-active");
             _innerElement.classList.remove("tss-plan-completed");
             _innerElement.classList.remove("tss-plan-failed");
             _innerElement.classList.remove("tss-plan-canceled");
@@ -643,7 +735,7 @@ namespace Tesserae
                 }
                 else
                 {
-                    task = new Task(key, stepModel.Title ?? string.Empty, stepModel.Status);
+                    task = new Task(key, stepModel.Title ?? string.Empty, stepModel.Status, _compact);
                     task.UpdateFromModel(stepModel);
                     _tasksByKey[key] = task;
                 }
@@ -685,6 +777,7 @@ namespace Tesserae
             private readonly HTMLElement _iconSlot;
             private readonly HTMLElement _statusIcon;
             private readonly HTMLElement _textEl;
+            private readonly HTMLElement _badgeEl;
             private readonly HTMLElement _stageEl;
             private readonly HTMLElement _toggleEl;
             private readonly HTMLElement _progressEl;
@@ -695,6 +788,8 @@ namespace Tesserae
             private readonly List<string> _substepOrder = new List<string>();
             private PlanStatus _status;
             private bool _expanded;
+            private bool _compact;
+            private IComponent _badge;
 
             internal string Key { get; private set; }
 
@@ -728,26 +823,30 @@ namespace Tesserae
                 set => Status = value ? PlanStatus.Completed : PlanStatus.Pending;
             }
 
-            internal Task(string key, string title, PlanStatus status)
+            internal Task(string key, string title, PlanStatus status, bool compact = false)
             {
                 Key = key;
                 _status = status;
+                _compact = compact;
 
                 // Rail / status node (UIcons glyph; the spinner spins in place
                 // when running — see the centering note in PlanVisuals).
-                _statusIcon = PlanVisuals.CreateStatusIcon(status);
+                _statusIcon = PlanVisuals.CreateStatusIcon(status, compact);
                 _iconSlot = Div(Att("tss-plan-step-icon"), _statusIcon);
                 var rail = Div(Att("tss-plan-step-rail"), _iconSlot);
 
-                // Title row (text + expand/collapse chevron).
+                // Title row (text + badge + expand/collapse chevron).
                 _textEl = Span(Att("tss-plan-step-text"));
                 _textEl.innerText = title ?? string.Empty;
+
+                _badgeEl = Span(Att("tss-plan-step-badge"));
+                _badgeEl.style.display = "none";
 
                 _toggleEl = Button(Att("tss-plan-step-toggle"), Icon(UIcons.AngleDown).Render());
                 _toggleEl.style.display = "none";
                 _toggleEl.onclick = e => { ToggleExpanded(); };
 
-                var titleRow = Div(Att("tss-plan-step-title"), _textEl, _toggleEl);
+                var titleRow = Div(Att("tss-plan-step-title"), _textEl, _badgeEl, _toggleEl);
 
                 _stageEl = Div(Att("tss-plan-step-stage"));
                 _stageEl.style.display = "none";
@@ -778,11 +877,47 @@ namespace Tesserae
             /// </summary>
             public HTMLElement Render() => _root;
 
+            /// <summary>
+            /// Sets (or clears, when <paramref name="badge"/> is <c>null</c>) the component
+            /// rendered at the end of this task's title row.
+            /// </summary>
+            public Task SetBadge(IComponent badge)
+            {
+                // Same component instance means the same DOM node: re-rendering it would
+                // drop any state it holds for no reason.
+                if (ReferenceEquals(_badge, badge)) return this;
+
+                _badge = badge;
+                PlanVisuals.ClearChildren(_badgeEl);
+
+                if (badge == null)
+                {
+                    _badgeEl.style.display = "none";
+                }
+                else
+                {
+                    _badgeEl.appendChild(badge.Render());
+                    _badgeEl.style.display = "";
+                }
+
+                return this;
+            }
+
+            /// <summary>Switches this task between the default and the compact rail.</summary>
+            internal void SetCompact(bool compact)
+            {
+                if (_compact == compact) return;
+                _compact = compact;
+                PlanVisuals.SetStatusIcon(_statusIcon, _status, compact);
+                foreach (var key in _substepOrder) RefreshSubstepIcon(_substepsByKey[key], compact);
+            }
+
             internal void UpdateFromModel(PlanStepModel model)
             {
                 if (model.Title != null) _textEl.innerText = model.Title;
 
                 ApplyStatus(model.Status);
+                SetBadge(model.Badge);
 
                 if (!string.IsNullOrEmpty(model.CurrentStage))
                 {
@@ -828,7 +963,7 @@ namespace Tesserae
                 // Color + spin come from the parent `.is-*` class via CSS.
                 if (status != _status)
                 {
-                    PlanVisuals.SetStatusIcon(_statusIcon, status);
+                    PlanVisuals.SetStatusIcon(_statusIcon, status, _compact);
                 }
                 _status = status;
                 PlanVisuals.RemoveStepStatusClasses(_root);
@@ -862,11 +997,11 @@ namespace Tesserae
                     HTMLElement el;
                     if (_substepsByKey.TryGetValue(key, out el))
                     {
-                        UpdateSubstepEl(el, sub);
+                        UpdateSubstepEl(el, sub, _compact);
                     }
                     else
                     {
-                        el = BuildSubstepEl(sub);
+                        el = BuildSubstepEl(sub, _compact);
                         _substepsByKey[key] = el;
                     }
                 }
@@ -889,18 +1024,39 @@ namespace Tesserae
                 }
             }
 
-            private static HTMLElement BuildSubstepEl(PlanSubstepModel sub)
+            private static HTMLElement BuildSubstepEl(PlanSubstepModel sub, bool compact)
             {
                 var iconWrap = Div(Att("tss-plan-substep-icon"));
                 var titleEl = Div(Att("tss-plan-substep-title"));
                 var msgEl = Div(Att("tss-plan-substep-message"));
                 var body = Div(Att("tss-plan-substep-body"), titleEl, msgEl);
                 var root = Div(Att("tss-plan-substep"), iconWrap, body);
-                UpdateSubstepEl(root, sub);
+                UpdateSubstepEl(root, sub, compact);
                 return root;
             }
 
-            private static void UpdateSubstepEl(HTMLElement root, PlanSubstepModel sub)
+            /// <summary>
+            /// Re-draws a substep's glyph for the current rail density, keeping the status
+            /// it already has. Used when the whole plan is switched to (or out of) compact.
+            /// </summary>
+            private static void RefreshSubstepIcon(HTMLElement root, bool compact)
+            {
+                var iconWrap = (HTMLElement)root.childNodes[0];
+                var icon = iconWrap.childNodes.length > 0 ? (HTMLElement)iconWrap.childNodes[0] : null;
+                if (icon == null) return;
+
+                var statusName = root.dataset["pstatus"].As<string>();
+                var status = PlanStatus.Pending;
+                if (statusName == "Running")        status = PlanStatus.Running;
+                else if (statusName == "Active")    status = PlanStatus.Active;
+                else if (statusName == "Completed") status = PlanStatus.Completed;
+                else if (statusName == "Failed")    status = PlanStatus.Failed;
+                else if (statusName == "Canceled")  status = PlanStatus.Canceled;
+
+                PlanVisuals.SetStatusIcon(icon, status, compact);
+            }
+
+            private static void UpdateSubstepEl(HTMLElement root, PlanSubstepModel sub, bool compact)
             {
                 // Children: [iconWrap, body[titleEl, msgEl]]
                 var iconWrap = (HTMLElement)root.childNodes[0];
@@ -916,7 +1072,7 @@ namespace Tesserae
                     PlanVisuals.RemoveStepStatusClasses(root);
                     root.classList.add(PlanVisuals.StepStatusClass(sub.Status));
                     PlanVisuals.ClearChildren(iconWrap);
-                    iconWrap.appendChild(PlanVisuals.CreateStatusIcon(sub.Status));
+                    iconWrap.appendChild(PlanVisuals.CreateStatusIcon(sub.Status, compact));
                     root.dataset["pstatus"] = statusName;
                 }
 

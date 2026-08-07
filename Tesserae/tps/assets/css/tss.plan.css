@@ -34,9 +34,24 @@
 /* Status accent drives the top hairline + assorted accents per state. */
 .tss-plan-pending   { --plan-accent: var(--tss-colors-neutral-500); --plan-accent-soft: var(--tss-colors-neutral-200); }
 .tss-plan-running   { --plan-accent: var(--tss-primary-background-color); --plan-accent-soft: var(--tss-colors-blue-100); }
+.tss-plan-active    { --plan-accent: var(--tss-primary-background-color); --plan-accent-soft: var(--tss-colors-blue-100); }
 .tss-plan-completed { --plan-accent: var(--tss-success-background-color); --plan-accent-soft: var(--tss-colors-green-100); }
 .tss-plan-failed    { --plan-accent: var(--tss-danger-background-color);  --plan-accent-soft: var(--tss-colors-red-100); }
 .tss-plan-canceled  { --plan-accent: var(--tss-warning-background-color); --plan-accent-soft: var(--tss-colors-orange-100); }
+
+/* ---------- Chrome opt-outs ----------
+   NoBorder() strips the card treatment so the plan sits flush inside whatever
+   contains it (a Card that already draws its own frame, a ResourceCard body). */
+.tss-plan-no-border {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+}
+/* Without a header the first step would start hard against the top edge. */
+.tss-plan-no-header .tss-plan-steps { padding-top: 12px; }
+/* Without a footer the last step's own bottom padding is all there is. */
+.tss-plan-no-footer .tss-plan-steps { padding-bottom: 4px; }
 
 /* ---------- Header ---------- */
 .tss-plan-header {
@@ -166,6 +181,7 @@
    a completed step pushes a green line down to the next node. */
 .tss-plan-step.is-completed { --seg-color: var(--tss-success-background-color); }
 .tss-plan-step.is-running   { --seg-color: var(--tss-primary-background-color); }
+.tss-plan-step.is-active    { --seg-color: var(--tss-primary-background-color); }
 .tss-plan-step.is-failed    { --seg-color: var(--tss-danger-background-color); }
 .tss-plan-step.is-canceled  { --seg-color: var(--tss-warning-background-color); }
 .tss-plan-step.is-pending   { --seg-color: var(--tss-colors-neutral-300); }
@@ -198,8 +214,12 @@
     transform-origin: 50% 50%;
 }
 
-.is-pending   .tss-plan-step-icon { color: var(--tss-colors-neutral-400); }
+/* Status color coding, shared by the step icon and the substep icon:
+     completed -> success, running/active -> primary, failed -> danger,
+     pending -> secondary foreground, canceled -> warning. */
+.is-pending   .tss-plan-step-icon { color: var(--tss-secondary-foreground-color); }
 .is-running   .tss-plan-step-icon { color: var(--tss-primary-background-color); }
+.is-active    .tss-plan-step-icon { color: var(--tss-primary-background-color); }
 .is-completed .tss-plan-step-icon { color: var(--tss-success-background-color); }
 .is-failed    .tss-plan-step-icon { color: var(--tss-danger-background-color); }
 .is-canceled  .tss-plan-step-icon { color: var(--tss-warning-background-color); }
@@ -223,16 +243,32 @@
     align-items: center;
     gap: 8px;
     font-size: var(--tss-font-size-small);
-    font-weight: 400;
+    font-weight: var(--tss-font-weight-semibold);
     color: var(--tss-default-foreground-color);
     line-height: 1.4;
 }
 
-.is-pending  .tss-plan-step-title { color: var(--tss-secondary-foreground-color); }
-.is-running  .tss-plan-step-title { font-weight: 600; }
-.is-canceled .tss-plan-step-title { color: var(--tss-secondary-foreground-color); text-decoration: line-through; text-decoration-color: var(--tss-colors-neutral-400); }
+/* Text treatment per status. Weight carries "how much attention does this want"
+   (in progress > everything else) and color carries "is anything wrong": only a
+   failure and a not-yet-started step leave the default foreground color. */
+.is-pending   .tss-plan-step-title { font-weight: var(--tss-font-weight-semibold); color: var(--tss-secondary-foreground-color); }
+.is-running   .tss-plan-step-title { font-weight: var(--tss-font-weight-bold); color: var(--tss-default-foreground-color); }
+.is-active    .tss-plan-step-title { font-weight: var(--tss-font-weight-bold); color: var(--tss-default-foreground-color); }
+.is-completed .tss-plan-step-title { font-weight: var(--tss-font-weight-semibold); color: var(--tss-default-foreground-color); }
+.is-failed    .tss-plan-step-title { font-weight: var(--tss-font-weight-bold); color: var(--tss-danger-background-color); }
+.is-canceled  .tss-plan-step-title { font-weight: var(--tss-font-weight-semibold); color: var(--tss-default-foreground-color); }
 
 .tss-plan-step-text { min-width: 0; }
+
+/* Per-step badge slot: whatever component the caller handed us, pushed to the
+   end of the title row so a row of them lines up down the right edge. */
+.tss-plan-step-badge {
+    display: inline-flex;
+    align-items: center;
+    margin-left: auto;
+    flex: 0 0 auto;
+}
+.tss-plan-step-badge > * { margin: 0; }
 
 .tss-plan-step-toggle {
     appearance: none;
@@ -260,13 +296,15 @@
 
 /* The active (running) step gets promoted into a tinted panel that
    visually spans the body column so progress + substeps read as one unit. */
-.tss-plan-step.is-running .tss-plan-step-body {
+.tss-plan-step.is-running .tss-plan-step-body,
+.tss-plan-step.is-active .tss-plan-step-body {
     margin: 2px 0 14px;
     padding: 10px 14px 14px;
     background: var(--tss-colors-blue-100);
     border-radius: var(--tss-border-radius-md);
 }
-.tss-dark-mode .tss-plan-step.is-running .tss-plan-step-body {
+.tss-dark-mode .tss-plan-step.is-running .tss-plan-step-body,
+.tss-dark-mode .tss-plan-step.is-active .tss-plan-step-body {
     background: color-mix(in srgb, var(--tss-primary-background-color) 14%, transparent);
 }
 
@@ -337,8 +375,9 @@
     justify-content: center;
     transform-origin: 50% 50%;
 }
-.tss-plan-substep.is-pending   .tss-plan-substep-icon { color: var(--tss-colors-neutral-400); }
+.tss-plan-substep.is-pending   .tss-plan-substep-icon { color: var(--tss-secondary-foreground-color); }
 .tss-plan-substep.is-running   .tss-plan-substep-icon { color: var(--tss-primary-background-color); }
+.tss-plan-substep.is-active    .tss-plan-substep-icon { color: var(--tss-primary-background-color); }
 .tss-plan-substep.is-completed .tss-plan-substep-icon { color: var(--tss-success-background-color); }
 .tss-plan-substep.is-failed    .tss-plan-substep-icon { color: var(--tss-danger-background-color); }
 .tss-plan-substep.is-canceled  .tss-plan-substep-icon { color: var(--tss-warning-background-color); }
@@ -352,7 +391,10 @@
     color: var(--tss-default-foreground-color);
     line-height: 1.35;
 }
-.tss-plan-substep.is-pending .tss-plan-substep-title { color: var(--tss-secondary-foreground-color); font-weight: 400; }
+.tss-plan-substep.is-pending .tss-plan-substep-title { color: var(--tss-secondary-foreground-color); font-weight: var(--tss-font-weight-semibold); }
+.tss-plan-substep.is-running .tss-plan-substep-title,
+.tss-plan-substep.is-active  .tss-plan-substep-title { font-weight: var(--tss-font-weight-bold); }
+.tss-plan-substep.is-failed  .tss-plan-substep-title { font-weight: var(--tss-font-weight-bold); color: var(--tss-danger-background-color); }
 
 .tss-plan-substep-message {
     font-size: var(--tss-font-size-xsmall);
@@ -458,6 +500,68 @@
     font-variant-numeric: tabular-nums;
 }
 .tss-plan-timestamps:empty { display: none; }
+
+/* ---------- Compact rail ----------
+ *
+ * Compact() trades the per-status glyph vocabulary for a single plain dot,
+ * colored by status, on a tighter grid. It is the shape to use when the plan
+ * is a detail inside something else — a Card, a ResourceCard — rather than the
+ * page's main subject. The running step keeps its spinner: there the motion is
+ * the information, and a spinning disc says nothing.
+ */
+.tss-plan-compact .tss-plan-header  { padding: 12px 14px 8px; }
+.tss-plan-compact .tss-plan-steps   { padding: 2px 6px 4px; }
+.tss-plan-compact .tss-plan-footer  { padding: 8px 12px 10px; gap: 8px; }
+.tss-plan-compact.tss-plan-no-header .tss-plan-steps { padding-top: 6px; }
+.tss-plan-compact.tss-plan-no-footer .tss-plan-steps { padding-bottom: 2px; }
+
+.tss-plan-compact .tss-plan-step {
+    grid-template-columns: 16px 1fr;
+    column-gap: 10px;
+}
+
+.tss-plan-compact .tss-plan-step-rail { padding-top: calc(0.5 * var(--tss-font-size-small) + 1px); }
+
+.tss-plan-compact .tss-plan-step-icon {
+    width: 14px;
+    height: 14px;
+}
+.tss-plan-compact .tss-plan-step-icon .tss-icon {
+    width: 12px;
+    height: 12px;
+    font-size: 12px;
+}
+
+/* `tss-plan-dot` marks the filled status disc, as opposed to the running step's
+   spinner ring. It is drawn a shade smaller because a solid disc carries more
+   visual weight than a ring of the same diameter, and the rail wants them to
+   read as the same size. */
+.tss-plan-compact .tss-plan-step-icon .tss-plan-dot {
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+}
+
+.tss-plan-compact .tss-plan-step:not(:last-child) .tss-plan-step-rail::after {
+    top: 21px;
+    bottom: -6px;
+}
+
+.tss-plan-compact .tss-plan-step-body { padding: 2px 0 8px; }
+.tss-plan-compact .tss-plan-step-stage { margin-top: 1px; }
+
+/* No tinted panel in compact: the rows are the point, and a panel on one of
+   them makes the rail step sideways. */
+.tss-plan-compact .tss-plan-step.is-running .tss-plan-step-body,
+.tss-plan-compact .tss-plan-step.is-active .tss-plan-step-body {
+    margin: 0;
+    padding: 2px 0 8px;
+    background: transparent;
+    border-radius: 0;
+}
+
+.tss-plan-compact .tss-plan-substeps { margin-top: 6px; }
+.tss-plan-compact .tss-plan-substep { padding: 3px 0; }
 
 /* Respect reduced motion. */
 @media (prefers-reduced-motion: reduce) {

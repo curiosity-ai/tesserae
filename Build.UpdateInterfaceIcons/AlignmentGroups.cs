@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Build.UpdateInterfaceIcons
 {
@@ -71,6 +72,33 @@ namespace Build.UpdateInterfaceIcons
             iconName.StartsWith(word + "-", System.StringComparison.Ordinal) ||
             iconName.EndsWith("-" + word, System.StringComparison.Ordinal) ||
             iconName.Contains("-" + word + "-", System.StringComparison.Ordinal);
+    }
+
+    /// <summary>
+    /// Icons that are left exactly as the vendor drew them, matched by name rather than listed one by one.
+    /// The rule is the same shape as <see cref="AlignmentKind.Fixed"/> — never adjusted — but keyed on a
+    /// word in the name, because these two families run to hundreds of members across the nine weights.
+    /// <para>
+    /// <c>spinner</c>: the toolkit rotates these glyphs (the Plan component's running step, and anything
+    /// else that spins an icon in place). CSS rotates around the centre of the glyph's layout box, so a
+    /// glyph nudged off that centre no longer spins — it orbits, tracing a circle whose radius is the
+    /// nudge. Being centred is worth nothing next to that.
+    /// </para>
+    /// <para>
+    /// <c>circle</c>: a circular frame is the toolkit's status slot — <c>circle</c>, <c>check-circle</c>,
+    /// <c>cross-circle</c> and friends are swapped in and out of the same 22px node as a step's status
+    /// changes. Their frames have to stay registered with each other or the node visibly hops when the
+    /// status changes, and the frame family rule only covers members whose ink boxes match to within a
+    /// few thousandths of an em. A circle is symmetric anyway, so it has the least to gain from centering
+    /// and the most to lose from moving.
+    /// </para>
+    /// </summary>
+    internal static class NeverAdjusted
+    {
+        public static readonly string[] Words = { "circle", "spinner" };
+
+        /// <summary>True when the icon's name mentions one of the words, i.e. it belongs to one of those families.</summary>
+        public static bool Matches(string iconName) => Words.Any(word => FrameShapes.Mentions(iconName, word));
     }
 
     /// <summary>A set of icons that must keep lining up with each other after the adjustment.</summary>

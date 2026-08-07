@@ -116,6 +116,15 @@ rules handle the general case, in increasing priority:
   `hexagon`, `octagon`, `diamond`, `triangle`) — are drawn on the same frame, so if they cannot agree
   on one offset, none of them is moved.
 
+- **Never-adjusted families** (`NeverAdjusted.Words`) — any icon whose name mentions `circle` or
+  `spinner` ships exactly as the vendor drew it. This runs last and overrides every rule above.
+  A `spinner` is *rotated* by the toolkit, and CSS rotates about the centre of the glyph's layout
+  box: a glyph nudged off that centre stops spinning and starts orbiting, tracing a circle the size
+  of the nudge. A circular frame is the toolkit's status slot — `circle`, `check-circle`,
+  `cross-circle` swap in and out of the same node — so the frame has to stay put, and the frame
+  family rule only covers members whose ink boxes match to a few thousandths of an em. A circle is
+  symmetric, so it has the least to gain from centering and the most to lose from moving.
+
 `AlignmentGroups.All` then names only what no rule can derive, because the names have nothing in
 common: `square`/`checkbox`/`square-a`, `toggle-on`/`toggle-off`, `lock`/`unlock`/`lock-open-alt`,
 the mirrored pairs, and `slash`, which is composited over other icons and so is never moved at all.
