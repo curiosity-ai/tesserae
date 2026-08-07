@@ -28,6 +28,22 @@ returns a `TextArea`. Bring factories into scope with `using static Tesserae.UI;
   — grow with content; clamp with min/max pixel heights.
 - `.Focus()` — scroll into view and focus.
 
+## Sizing
+
+A `TextArea` fills whatever height it is given, so the usual sizing helpers work:
+`.Height(200)` for a fixed height, and `.Grow()` / `.HS()` inside a `Stack` to take
+the leftover space.
+
+```csharp
+VStack().H(220).Children(
+    TextBlock("Fixed header"),
+    TextArea().Grow().WS()   // fills the rest of the 220px
+);
+```
+
+`.AutoResize(...)` is the opposite mode — the height follows the content — so don't
+combine it with `.Grow()` / `.Height(...)`; use `minHeight`/`maxHeight` instead.
+
 ## Example
 
 ```csharp

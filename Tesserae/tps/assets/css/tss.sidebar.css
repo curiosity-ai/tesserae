@@ -906,6 +906,10 @@
     padding-right: 0;
 }
 
+/* Hide the + between keys for shortcuts shown in the sidebar so they're more compact*/
+.tss-sidebar .tss-kbd-separator {
+    display:none;
+}
 /* ...and the same chip only while the row is pointed at ---------------------------------------------- */
 
 /* See SidebarButton.ShortcutOnlyOnHover and SidebarSearchBox.ShortcutOnlyOnHover. On a rail where most rows

@@ -19,6 +19,11 @@ namespace Tesserae
     /// (<see cref="PagesStack(int)"/>), for a document whose thumbnails haven't been generated - or aren't
     /// worth generating - yet.
     /// </para>
+    /// <para>
+    /// Pages are drawn portrait until a thumbnail says otherwise: the first one that loads wider than it is
+    /// tall turns the whole stack landscape, so a deck of slides isn't previewed as a pile of A4. See
+    /// <see cref="MatchThumbnailShape(bool)"/>.
+    /// </para>
     /// </summary>
     [Transpose.Name("tss.PagesStack")]
     public sealed class PagesStack : ComponentBase<PagesStack, HTMLElement>
@@ -33,8 +38,13 @@ namespace Tesserae
         private const float REST_ROTATION       = 1.2f; // degrees added per page at rest
         private const float FAN_ROTATION        = 7f;   // degrees the outermost pages reach when fanned
 
-        private readonly HTMLElement _stack;
-        private readonly HTMLElement _more;
+        // A landscape page is drawn as wide as a portrait one is tall, so past this the pages would be
+        // slivers - a panorama thumbnail should not flatten the stack out of being read as pages.
+        private const float MAX_LANDSCAPE_ASPECT = 3f;
+
+        private readonly HTMLElement       _stack;
+        private readonly HTMLElement       _more;
+        private readonly List<HTMLElement> _pages;
 
         private List<string> _urls;
         private int          _pageCount;
@@ -42,6 +52,9 @@ namespace Tesserae
         private int          _pageWidth  = DEFAULT_PAGE_WIDTH;
         private int          _pageHeight = DEFAULT_PAGE_HEIGHT;
         private Action<int>  _pageClickHandler;
+        private bool         _matchThumbnailShape = true;
+        private bool         _thumbnailMeasured;
+        private float        _landscapeAspect; // 0 until a landscape thumbnail has reported its size
 
         /// <summary>
         /// Initializes a new instance of this class showing the given thumbnails, at most
@@ -72,6 +85,7 @@ namespace Tesserae
             InnerElement = Div(Att("tss-pagesstack-holder"), _stack);
 
             _urls      = new List<string>();
+            _pages     = new List<HTMLElement>();
             _pageCount = 0;
 
             _more.style.display = "none";
@@ -96,6 +110,31 @@ namespace Tesserae
         public bool IsFanned => InnerElement.classList.contains("tss-pagesstack-fanned");
 
         /// <summary>
+        /// Returns a value indicating whether the pages are drawn landscape, which they are once a
+        /// thumbnail has loaded that is wider than it is tall - see
+        /// <see cref="MatchThumbnailShape(bool)"/>.
+        /// </summary>
+        public bool IsLandscape => _landscapeAspect > 0;
+
+        /// <summary>
+        /// Gets the width every page is currently drawn at, which is <see cref="PageSize(int,int)"/>'s
+        /// width unless a landscape thumbnail has reshaped the pages.
+        /// </summary>
+        public int DrawnPageWidth => IsLandscape ? LongSide : _pageWidth;
+
+        /// <summary>
+        /// Gets the height every page is currently drawn at, which is <see cref="PageSize(int,int)"/>'s
+        /// height unless a landscape thumbnail has reshaped the pages.
+        /// </summary>
+        public int DrawnPageHeight => IsLandscape
+            ? Math.Max(1, (int)Math.Round((double)LongSide / _landscapeAspect))
+            : _pageHeight;
+
+        // A landscape page keeps the long side of the configured page size and takes its short side from
+        // the thumbnail, so a page of a landscape document is the portrait page turned on its side.
+        private int LongSide => Math.Max(_pageWidth, _pageHeight);
+
+        /// <summary>
         /// Renders the component's root HTML element.
         /// </summary>
         public override HTMLElement Render() => InnerElement;
@@ -118,6 +157,8 @@ namespace Tesserae
 
             _pageCount = _urls.Count;
 
+            ForgetThumbnailShape();
+
             return Rebuild();
         }
 
@@ -128,6 +169,8 @@ namespace Tesserae
         {
             _urls      = new List<string>();
             _pageCount = pages < 0 ? 0 : pages;
+
+            ForgetThumbnailShape();
 
             return Rebuild();
         }
@@ -155,14 +198,34 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the size every page is drawn at. All pages share one size, whatever their thumbnails'
-        /// aspect ratios are (a thumbnail is cropped to fill), so the stack reads as one document.
+        /// Sets the size every page is drawn at, portrait. All pages share one size, whatever their
+        /// individual thumbnails' aspect ratios are (a thumbnail is cropped to fill), so the stack reads
+        /// as one document - though the shape the pages share follows the document's own, see
+        /// <see cref="MatchThumbnailShape(bool)"/>.
         /// </summary>
         public PagesStack PageSize(int width, int height)
         {
             _pageWidth  = width  < 1 ? 1 : width;
             _pageHeight = height < 1 ? 1 : height;
 
+            return Rebuild();
+        }
+
+        /// <summary>
+        /// Sets whether the pages take their shape from the thumbnails, which they do by default: the
+        /// first thumbnail to load that is wider than it is tall turns the pages landscape - keeping the
+        /// long side of <see cref="PageSize(int,int)"/> and taking the short one from the thumbnail's
+        /// aspect ratio - so a deck of slides isn't drawn as a stack of portrait pages. Pass false to keep
+        /// the configured page size whatever the thumbnails turn out to be.
+        /// </summary>
+        public PagesStack MatchThumbnailShape(bool value = true)
+        {
+            _matchThumbnailShape = value;
+
+            ForgetThumbnailShape();
+
+            // Rebuilt rather than just resized: the pages that were measured are replaced by ones whose
+            // load fires again, so switching this back on re-measures instead of waiting for new urls.
             return Rebuild();
         }
 
@@ -195,20 +258,19 @@ namespace Tesserae
         {
             ClearChildren(_stack);
 
+            _pages.Clear();
+
             var shown = VisiblePageCount;
-
-            // The rail is as wide as the fan gets, so the pages have room to open into without the row
-            // they sit in reflowing. The few extra pixels are for the rotation of the outermost pages.
-            var railWidth = shown < 1 ? 0 : _pageWidth + (shown - 1) * FAN_STEP + 4;
-
-            InnerElement.style.width     = $"{railWidth}px";
-            InnerElement.style.flexBasis = $"{railWidth}px";
-            InnerElement.style.height    = $"{_pageHeight + 12}px";
 
             for (int i = 0; i < shown; i++)
             {
-                _stack.appendChild(BuildPage(i, shown));
+                var page = BuildPage(i, shown);
+
+                _pages.Add(page);
+                _stack.appendChild(page);
             }
+
+            ApplyPageMetrics();
 
             var hidden = _pageCount - shown;
 
@@ -222,16 +284,89 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Writes the page size and everything measured from it: the rail the fan opens into, and how far
+        /// each page is pulled back over the one in front of it. Kept out of <see cref="BuildPage"/> so a
+        /// thumbnail that turns out to be landscape can reshape a stack that is already on screen without
+        /// the pages - and the thumbnails inside them - being built again.
+        /// </summary>
+        private void ApplyPageMetrics()
+        {
+            var shown  = _pages.Count;
+            var width  = DrawnPageWidth;
+            var height = DrawnPageHeight;
+
+            // The rail is as wide as the fan gets, so the pages have room to open into without the row
+            // they sit in reflowing. The few extra pixels are for the rotation of the outermost pages.
+            var railWidth = shown < 1 ? 0 : width + (shown - 1) * FAN_STEP + 4;
+
+            InnerElement.style.width     = $"{railWidth}px";
+            InnerElement.style.flexBasis = $"{railWidth}px";
+            InnerElement.style.height    = $"{height + 12}px";
+
+            for (int i = 0; i < shown; i++)
+            {
+                var page = _pages[i];
+
+                page.style.width  = $"{width}px";
+                page.style.height = $"{height}px";
+
+                // At rest: the first page in place, every other one pulled back over it. The margin is the
+                // resting layout and never animates - see the fan shift in BuildPage.
+                page.style.setProperty("--tss-pagesstack-rest-offset", i == 0 ? "0px" : $"-{width - REST_STEP}px");
+            }
+        }
+
+        /// <summary>
+        /// Takes the page shape from the first thumbnail to report a natural size. The pages of one
+        /// document share one shape - and a stack that reshaped itself once per thumbnail would rewrite
+        /// the layout of the row it sits in on every image that arrived - so the first one that loads
+        /// speaks for all of them.
+        /// </summary>
+        private void MeasureThumbnail(HTMLImageElement image)
+        {
+            if (!_matchThumbnailShape || _thumbnailMeasured) return;
+
+            var w = image.naturalWidth;
+            var h = image.naturalHeight;
+
+            // Not decoded yet, or an image that never will be - either way there is nothing to measure.
+            if (w <= 0 || h <= 0) return;
+
+            _thumbnailMeasured = true;
+
+            // Portrait and square thumbnails already match the shape the pages are drawn at by default.
+            if (w <= h) return;
+
+            var aspect = (float)w / h;
+
+            _landscapeAspect = aspect > MAX_LANDSCAPE_ASPECT ? MAX_LANDSCAPE_ASPECT : aspect;
+
+            ApplyPageMetrics();
+        }
+
+        private void ForgetThumbnailShape()
+        {
+            _thumbnailMeasured = false;
+            _landscapeAspect   = 0;
+        }
+
         private HTMLElement BuildPage(int index, int shown)
         {
             var page = Div(Att("tss-pagesstack-page"));
 
-            page.style.width  = $"{_pageWidth}px";
-            page.style.height = $"{_pageHeight}px";
-
             if (index < _urls.Count)
             {
-                page.appendChild(Image(Att("tss-pagesstack-image", src: _urls[index])));
+                var image = Image(Att("tss-pagesstack-image", src: _urls[index]));
+
+                // A thumbnail only knows its own shape once it has loaded, hence measuring on the event
+                // rather than here - and hence the second check, for one served from cache and already
+                // decoded by the time this runs, whose load event has been and gone.
+                image.onload = _ => MeasureThumbnail(image);
+
+                if (image.complete) MeasureThumbnail(image);
+
+                page.appendChild(image);
             }
             else
             {
@@ -242,9 +377,8 @@ namespace Tesserae
             // behind it shows on the right, the way a pile of paper nudged sideways looks.
             page.style.zIndex = $"{shown - index}";
 
-            // At rest: the first page in place, every other one pulled back over it with a growing tilt.
-            // The margin is the resting layout and never animates - see the fan shift below.
-            page.style.setProperty("--tss-pagesstack-rest-offset",   index == 0 ? "0px" : $"-{_pageWidth - REST_STEP}px");
+            // At rest, the pages tilt a little more the further back they are. How far each is pulled back
+            // over the one in front depends on the page size, so ApplyPageMetrics writes that part.
             page.style.setProperty("--tss-pagesstack-rest-rotation", $"{REST_ROTATION * index}deg");
 
             // Fanned: wider gaps, and the pages lifted along a shallow arc, tilting out from the middle.
