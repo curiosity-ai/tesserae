@@ -31,8 +31,17 @@ Also `new PagesStack(...)`. Bring factories into scope with `using static Tesser
   `+N` badge. A stack given thumbnails draws only those, so `PagesStack(4 urls).TotalPages(9)` is four
   thumbnails and a `+5`.
 - `.MaxVisible(int)` — how many pages are drawn before the rest collapse into the badge (5 by default).
-- `.PageSize(int width, int height)` — the size every page is drawn at (48×62 by default). The rail
-  width follows from it, so a larger page reserves more room for the fan.
+- `.PageSize(int width, int height)` — the size every page is drawn at, portrait (48×62 by default).
+  The rail width follows from it, so a larger page reserves more room for the fan.
+- `.MatchThumbnailShape(bool = true)` — on by default: the first thumbnail to load that is wider than
+  it is tall turns the pages landscape, keeping the long side of `PageSize` and taking the short one
+  from that thumbnail's aspect ratio (clamped at 3:1, so a panorama doesn't draw the stack as
+  slivers). All the pages of one document share the shape the first measured thumbnail reports —
+  reshaping per thumbnail would rewrite the row's layout on every image that arrived. The rail and the
+  page overlap are rewritten in place, without rebuilding the pages. Pass `false` to keep the
+  configured size whatever loads.
+- `IsLandscape` / `DrawnPageWidth` / `DrawnPageHeight` — the shape the pages are actually drawn at
+  right now, which is `PageSize`'s until a landscape thumbnail has reshaped them.
 - `.Fanned(bool = true)` — hold the stack open, for a host that wants the fan to follow hovering
   something larger than the stack. `OmniResult` does exactly this for the row it sits in
   (`PagesFanOnHover`, on by default).
@@ -55,6 +64,9 @@ var preview = PagesStack(5).TotalPages(24);
 
 // Real thumbnails, and more pages than there are thumbnails for.
 var thumbs = PagesStack(page1Url, page2Url, page3Url).TotalPages(12);
+
+// A deck: the slides load landscape, so the pages turn landscape with them.
+var deck = PagesStack(slideUrls).TotalPages(32);
 
 // Where it usually goes: the preview rail of a search result.
 var row = OmniResult(hit, hit.Name)
