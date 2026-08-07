@@ -79,11 +79,12 @@
 
 /* The Spinner brings its own display:flex, so every rule here has to outweigh it - hence the child selector
    rather than the class on its own. */
-.tss-omnibox-search-btn > .tss-omnibox-search-spinner {
-    display: none;
-    position: absolute;
-    inset: 0;
-}
+    .tss-omnibox-search-btn > .tss-omnibox-search-spinner {
+        display: none;
+        position: absolute;
+        inset: 0;
+        margin-left: 8px;
+    }
 
 .tss-omnibox-search-btn > .tss-omnibox-search-spinner .tss-spinner {
     --tss-spinner-size: 2px;
