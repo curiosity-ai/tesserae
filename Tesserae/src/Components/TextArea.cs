@@ -21,11 +21,11 @@ namespace Tesserae
         {
             InnerElement = UI.TextArea(Att("tss-textbox tss-textarea", type: "text", value: text));
             _errorSpan   = Span(Att("tss-textbox-error"));
-            _container   = Div(Att("tss-textbox-container"), InnerElement, _errorSpan);
 
-            //TODO: Need to make container display:flex, and use flex-grow to have correct sizing with _errorSpan
-            InnerElement.style.width  = "100%";
-            InnerElement.style.height = "100%";
+            // tss-textarea-container is a flex column of full height, so the text area fills whatever
+            // height the container gets from its parent (e.g. when Grow() stretches the stack item)
+            // while the error message keeps its own space. See tss.textarea.css.
+            _container = Div(Att("tss-textbox-container tss-textarea-container"), InnerElement, _errorSpan);
 
             _observable = new SettableObservable<string>(text);
             AttachChange();
@@ -265,6 +265,9 @@ namespace Tesserae
         /// <returns>The current instance.</returns>
         public TextArea AutoResize(bool allowShrink = true, int? minHeight = null, int? maxHeight = null)
         {
+            // Opts the text area out of filling the container's height, since here the height is driven by the content
+            InnerElement.classList.add("tss-textarea-autoresize");
+
             if (minHeight.HasValue)
             {
                 InnerElement.style.minHeight = minHeight.Value + "px";

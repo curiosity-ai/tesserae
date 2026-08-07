@@ -36,6 +36,14 @@ namespace Tesserae.Tests.Samples
                         Label("AutoResize (minHeight = 100)").SetContent(TextArea("Type here...").AutoResize(minHeight: 100)),
                         Label("AutoResize (maxHeight = 150)").SetContent(TextArea("Type many lines to see scrolling...").AutoResize(maxHeight: 150))
                     ),
+                    SampleSubTitle("Filling the available height"),
+                    VStack().Children(
+                        TextBlock("A TextArea with Grow() stretches to fill whatever height is left over in its parent stack."),
+                        VStack().WS().H(220).Children(
+                            TextBlock("Fixed header"),
+                            TextArea("This text area fills the rest of the 220px stack.").Grow().WS()
+                        )
+                    ),
                     SampleSubTitle("Validation"),
                     VStack().Children(
                         Label("Required").Required().SetContent(TextArea()),

@@ -440,6 +440,31 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Keeps the shortcut chip out of sight until the pointer is on the row - or something inside it has
+        /// focus, so a row reached by tabbing shows its key too. The binding is untouched: the key works the
+        /// same whether or not the chip is on screen.
+        /// <para>
+        /// For a rail where most rows carry a key: all the chips at once read as a column of noise beside the
+        /// labels, while one chip on the row being pointed at is still how the key gets discovered. The room
+        /// at the end stays reserved either way, so a label does not re-flow as the chip appears.
+        /// </para>
+        /// </summary>
+        /// <param name="onlyOnHover">Whether the chip waits for a hover. False shows it at all times, the default.</param>
+        public SidebarButton ShortcutOnlyOnHover(bool onlyOnHover = true)
+        {
+            if (onlyOnHover)
+            {
+                _open.Class("tss-sidebar-shortcut-on-hover");
+            }
+            else
+            {
+                _open.RemoveClass("tss-sidebar-shortcut-on-hover");
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Whichever of the two renderings the user can actually see, or null when neither is. Mounted is not
         /// enough on its own: both are mounted at once while the sidebar hides the one it is not showing, and
         /// a collapsed button is mounted too.

@@ -143,6 +143,22 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Keeps the shortcut chip out of sight until the pointer is on the box - or the caret is in it, so a
+        /// box reached by tabbing shows its key too. The binding is untouched: the key works the same whether
+        /// or not the chip is on screen.
+        /// <para>
+        /// The room the chip takes at the end is reserved either way, so what is typed does not re-flow as the
+        /// chip appears.
+        /// </para>
+        /// </summary>
+        /// <param name="onlyOnHover">Whether the chip waits for a hover. False shows it at all times, the default.</param>
+        public SidebarSearchBox ShortcutOnlyOnHover(bool onlyOnHover = true)
+        {
+            _openElement.classList.toggle("tss-sidebar-shortcut-on-hover", onlyOnHover);
+            return this;
+        }
+
         public void AddGroupIdentifier(string groupIdentifier)
         {
              Identifier = groupIdentifier + Sidebar.GroupIdentifierSeparator + Identifier;

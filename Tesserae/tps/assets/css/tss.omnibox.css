@@ -70,6 +70,56 @@
             border-bottom-left-radius: 0;
         }
 
+/* A search that was asked for and not answered yet: the magnifier gives its place to a spinner. The spinner
+   lies over the icon rather than beside it, so the button keeps its size and nothing in the row moves; and
+   both only cross over after a moment, so a cached or local answer never makes the button blink. */
+.tss-omnibox-search-btn {
+    position: relative;
+}
+
+/* The Spinner brings its own display:flex, so every rule here has to outweigh it - hence the child selector
+   rather than the class on its own. */
+.tss-omnibox-search-btn > .tss-omnibox-search-spinner {
+    display: none;
+    position: absolute;
+    inset: 0;
+}
+
+.tss-omnibox-search-btn > .tss-omnibox-search-spinner .tss-spinner {
+    --tss-spinner-size: 2px;
+    width: 14px;
+    height: 14px;
+}
+
+.tss-omnibox-searching .tss-omnibox-search-btn > .tss-omnibox-search-spinner {
+    display: flex;
+    animation: tss-omnibox-searching-in 120ms linear 140ms both;
+}
+
+.tss-omnibox-container.tss-omnibox-searching .tss-omnibox-search-btn > i {
+    animation: tss-omnibox-searching-out 120ms linear 140ms both;
+}
+
+@keyframes tss-omnibox-searching-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes tss-omnibox-searching-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
         /* The icon buttons at the ends of the row, only: the "Ask AI" button is styled by its own
            (primary) button style, and this rule outweighs it — a grey hover on a blue button. */
         .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):hover {

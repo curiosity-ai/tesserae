@@ -423,15 +423,24 @@
     flex-shrink: 0;
 }
 
+/* The commands are the last thing on the header line, pushed to its far end - so they are level with the
+   title by construction rather than by a height matching its line box, and the excerpt, the footer and the
+   contribution bar below keep the card's whole width. Only the title gives up room for them, and it is the
+   one thing on the line that ellipsizes. */
 .tss-omniresult-commands {
     display: flex;
     align-items: center;
     gap: 4px;
-    align-self: flex-start;
+    margin-left: auto;
     flex-grow: 0;
     flex-shrink: 0;
-    /* Aligned with the title's line box, so the [...] sits level with the title however tall the row is. */
+    /* The title's own line box, which the 26px buttons overflow rather than stretch - so a row with commands
+       is exactly as tall as one without, and the buttons still sit level with the title. */
     height: 22px;
+    align-self: center;
+    /* Last on the line whatever a host appends to the header after it - the flags a result picks up go
+       beside the title, not past the buttons. */
+    order: 1;
     z-index: 3;
 }
 

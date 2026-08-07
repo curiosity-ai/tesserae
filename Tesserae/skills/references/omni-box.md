@@ -49,6 +49,10 @@ OmniBox:
   input, for filters the app owns rather than ones the user typed. A chip takes a text (with optional
   background/foreground colors and an `onClick`) or an arbitrary `IComponent`.
 - `.SetSearchRightText(string)` — a label at the far end of the search input, e.g. a result count.
+- `.SetSearching(bool)` / `.IsSearching` — says a search is running: the magnifier gives its place to a
+  spinner, in the same spot, so the box keeps its shape while it runs. The two cross over only after
+  ~140ms, so a fast or cached answer never makes the button blink. (`CommandPalette` drives this for you
+  while its `OnSearch` is in flight — `command-palette.md`.)
 - `.Rounded(BorderRadius radius = BorderRadius.Full)` — rounds the box, and everything meeting its
   outline follows: the search container, the buttons at its ends and the "Ask AI" button. `Full` makes
   the single-row search box a pill — dropping the vertical dividers between its buttons and giving the

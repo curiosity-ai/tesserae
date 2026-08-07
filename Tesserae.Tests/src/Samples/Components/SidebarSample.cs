@@ -35,8 +35,17 @@ namespace Tesserae.Tests.Samples
 
             sidebar.AddHeader(searchBox);
 
-            sidebar.AddContent(new SidebarButton("home", UIcons.Home, "Home"));
-            sidebar.AddContent(new SidebarButton("profile", UIcons.User, "Profile"));
+            // Rows that each carry a key: every chip at once would be a column of noise beside the labels, so
+            // they wait for the pointer (or for keyboard focus) — see .ShortcutOnlyOnHover().
+            sidebar.AddContent(new SidebarButton("home", UIcons.Home, "Home")
+                .SetKeyboardShortcut("Ctrl", "Shift", "H")
+                .ShortcutOnlyOnHover()
+                .OnClick(() => Toast().Success("Home")));
+
+            sidebar.AddContent(new SidebarButton("profile", UIcons.User, "Profile")
+                .SetKeyboardShortcut("Ctrl", "Shift", "P")
+                .ShortcutOnlyOnHover()
+                .OnClick(() => Toast().Success("Profile")));
 
             sidebar.AddContent(new SidebarSeparator("sep1", "Grouping"));
 
@@ -125,7 +134,7 @@ namespace Tesserae.Tests.Samples
                .SampleTitle(typeof(SidebarSample), UIcons.Apps, "A sidebar navigation component")
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                    TextBlock("A fully featured Sidebar with Search, Navigation, Buttons, and Separators. The header shows a rounded (pill) primary button and a rounded search box, each with the shortcut that reaches it at its far end — enable the pill with .Rounded() and the shortcut with .SetKeyboardShortcut()."))).SetTitle("Overview"),
+                    TextBlock("A fully featured Sidebar with Search, Navigation, Buttons, and Separators. The header shows a rounded (pill) primary button and a rounded search box, each with the shortcut that reaches it at its far end — enable the pill with .Rounded() and the shortcut with .SetKeyboardShortcut(). Home and Profile carry keys too, but add .ShortcutOnlyOnHover(), so their chips wait for the pointer instead of standing in a column beside the labels."))).SetTitle("Overview"),
                     Card(VStack().WS().Children(
                         SplitView().WS().H(800).LeftIsSmaller(400.px()).Resizable()
                                    .Left(sidebar.S())
