@@ -58,6 +58,34 @@
     font-size: 16px;
 }
 
+/* A search that has been asked for and not answered yet, said beside the box that asked - the rows the last
+   query left behind stay put, so the palette does not empty out and fill back up on every keystroke. */
+.tss-commandpalette-searching {
+    display: none;
+    align-items: center;
+    flex: 0 0 auto;
+    margin-left: 8px;
+    /* A local or cached answer is back within a frame or two, and a spinner that blinks on every keystroke
+       reads as breakage rather than as progress - so the first moments of a search show nothing. */
+    animation: tss-commandpalette-searching-appear 120ms linear 140ms both;
+}
+
+.tss-commandpalette-searching .tss-spinner-label {
+    color: var(--tss-secondary-foreground-color);
+    margin: 0 6px 0 0;
+    white-space: nowrap;
+}
+
+@keyframes tss-commandpalette-searching-appear {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
 .tss-commandpalette-breadcrumbs {
     display: none;
     align-items: center;

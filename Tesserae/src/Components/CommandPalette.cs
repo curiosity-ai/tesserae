@@ -25,6 +25,8 @@ namespace Tesserae
         private readonly HTMLSpanElement _pathText;
         private readonly HTMLDivElement _results;
         private readonly HTMLDivElement _emptyState;
+        private readonly Spinner        _searchingSpinner;
+        private readonly HTMLDivElement _searching;
 
         private readonly List<CommandPaletteAction> _actions = new List<CommandPaletteAction>();
         private readonly Dictionary<string, CommandPaletteAction> _actionLookup = new Dictionary<string, CommandPaletteAction>();
@@ -43,6 +45,7 @@ namespace Tesserae
         private string _currentParentId;
         private int _activeIndex = -1;
         private HTMLElement _focusBeforeShow;
+        private bool _isSearching;
 
         /// <summary>How long <see cref="Layer{T}"/> takes to fade a hidden layer out before removing it.</summary>
         private const int LAYER_FADE_OUT_MS = 150;
@@ -183,7 +186,15 @@ namespace Tesserae
             _pathText = Span(Att("tss-commandpalette-path tss-fontweight-semibold"));
             _breadcrumbs = Div(Att("tss-commandpalette-breadcrumbs"), _backButton, _pathText);
 
-            _searchContainer = Div(Att("tss-commandpalette-search-container"), _breadcrumbs, _searchBox.Render());
+            //A search that has been asked for and not answered yet is said beside the box that asked for it,
+            //so the rows the last query left behind stay where they are instead of the palette emptying out
+            //and filling back up on every keystroke.
+            _searchingSpinner = UI.Spinner("Searching").XSmall().Left();
+            _searching        = Div(Att("tss-commandpalette-searching", role: "status"), _searchingSpinner.Render());
+
+            _searching.style.display = "none";
+
+            _searchContainer = Div(Att("tss-commandpalette-search-container"), _breadcrumbs, _searchBox.Render(), _searching);
             _results = Div(Att("tss-commandpalette-results", role: "listbox"));
             _emptyState = Div(Att("tss-commandpalette-empty", text: "No results"));
 
@@ -244,6 +255,44 @@ namespace Tesserae
         {
             get => _emptyState.innerText;
             set => _emptyState.innerText = value ?? string.Empty;
+        }
+
+        /// <summary>
+        /// What is said beside the search box while a search is running. Defaults to "Searching" - set it to
+        /// the translation the rest of the app uses, or to an empty string for the spinner on its own.
+        /// </summary>
+        public string SearchingText
+        {
+            get => _searchingSpinner.Text;
+            set => _searchingSpinner.Text = value ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Whether the palette is saying that a search is running - a spinner beside the box, and no
+        /// "No results" until it is known that there are none. Kept up to date on its own while an
+        /// <see cref="OnSearch(Func{OmniBox.SearchQuery, Task{IEnumerable{CommandPaletteResult}}}, int)"/>
+        /// call is in flight; set it with <see cref="SetSearching"/> for a palette that fills its rows some
+        /// other way.
+        /// </summary>
+        public bool IsSearching => _isSearching;
+
+        /// <summary>
+        /// Says whether a search is running - see <see cref="IsSearching"/>. A palette that searches through
+        /// <see cref="OnSearch(Func{OmniBox.SearchQuery, Task{IEnumerable{CommandPaletteResult}}}, int)"/>
+        /// does not need to call this: the palette knows when its own search is in flight.
+        /// </summary>
+        public CommandPalette SetSearching(bool searching)
+        {
+            if (_isSearching == searching) return this;
+
+            _isSearching = searching;
+
+            _searching.style.display = searching ? "flex" : "none";
+
+            //"No results" is only true once the search that would have found some has come back.
+            UpdateEmptyState();
+
+            return this;
         }
 
         /// <summary>
@@ -322,6 +371,11 @@ namespace Tesserae
             if (_search is null)
             {
                 CancelPendingSearch();
+
+                //Nothing is searching any more, and whatever was in flight is nobody's answer now.
+                _searchGeneration++;
+
+                SetSearching(false);
                 SetResults((IEnumerable<CommandPaletteResult>)null);
             }
             else if (IsVisible)
@@ -395,6 +449,10 @@ namespace Tesserae
             var restoreTo = _focusBeforeShow;
 
             _focusBeforeShow = null;
+
+            //A closed palette is not searching for anything, whatever is still on its way back.
+            CancelPendingSearch();
+            SetSearching(false);
 
             base.Hide(onHidden);
 
@@ -712,9 +770,14 @@ namespace Tesserae
                 _entryElements.Add(item);
             }
 
-            _emptyState.style.display = _entries.Count == 0 ? "block" : "none";
+            UpdateEmptyState();
             UpdateBreadcrumbs();
             SetActiveIndex(_entries.Count > 0 ? 0 : -1);
+        }
+
+        private void UpdateEmptyState()
+        {
+            _emptyState.style.display = _entries.Count == 0 && !_isSearching ? "block" : "none";
         }
 
         private string AppendSection(string section, string lastSection)
@@ -765,16 +828,30 @@ namespace Tesserae
             //rows a later, faster search already put up.
             var generation = ++_searchGeneration;
 
+            SetSearching(true);
+
             RunSearchAsync(search, query, generation).FireAndForget();
         }
 
         private async Task RunSearchAsync(Func<OmniBox.SearchQuery, Task<IEnumerable<CommandPaletteResult>>> search, OmniBox.SearchQuery query, int generation)
         {
-            var results = await search(query);
+            try
+            {
+                var results = await search(query);
 
-            if (generation != _searchGeneration) return;
+                if (generation != _searchGeneration) return;
 
-            SetResults(results);
+                SetSearching(false);
+                SetResults(results);
+            }
+            catch
+            {
+                //A search that threw is over too - the spinner has to stop, or the palette goes on claiming
+                //to be looking for something nobody is looking for any more.
+                if (generation == _searchGeneration) SetSearching(false);
+
+                throw;
+            }
         }
 
         private IEnumerable<CommandPaletteAction> FilterActions(string query)
