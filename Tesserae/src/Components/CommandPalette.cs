@@ -25,8 +25,6 @@ namespace Tesserae
         private readonly HTMLSpanElement _pathText;
         private readonly HTMLDivElement _results;
         private readonly HTMLDivElement _emptyState;
-        private readonly Spinner        _searchingSpinner;
-        private readonly HTMLDivElement _searching;
 
         private readonly List<CommandPaletteAction> _actions = new List<CommandPaletteAction>();
         private readonly Dictionary<string, CommandPaletteAction> _actionLookup = new Dictionary<string, CommandPaletteAction>();
@@ -186,15 +184,7 @@ namespace Tesserae
             _pathText = Span(Att("tss-commandpalette-path tss-fontweight-semibold"));
             _breadcrumbs = Div(Att("tss-commandpalette-breadcrumbs"), _backButton, _pathText);
 
-            //A search that has been asked for and not answered yet is said beside the box that asked for it,
-            //so the rows the last query left behind stay where they are instead of the palette emptying out
-            //and filling back up on every keystroke.
-            _searchingSpinner = UI.Spinner("Searching").XSmall().Left();
-            _searching        = Div(Att("tss-commandpalette-searching", role: "status"), _searchingSpinner.Render());
-
-            _searching.style.display = "none";
-
-            _searchContainer = Div(Att("tss-commandpalette-search-container"), _breadcrumbs, _searchBox.Render(), _searching);
+            _searchContainer = Div(Att("tss-commandpalette-search-container"), _breadcrumbs, _searchBox.Render());
             _results = Div(Att("tss-commandpalette-results", role: "listbox"));
             _emptyState = Div(Att("tss-commandpalette-empty", text: "No results"));
 
@@ -258,18 +248,9 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// What is said beside the search box while a search is running. Defaults to "Searching" - set it to
-        /// the translation the rest of the app uses, or to an empty string for the spinner on its own.
-        /// </summary>
-        public string SearchingText
-        {
-            get => _searchingSpinner.Text;
-            set => _searchingSpinner.Text = value ?? string.Empty;
-        }
-
-        /// <summary>
-        /// Whether the palette is saying that a search is running - a spinner beside the box, and no
-        /// "No results" until it is known that there are none. Kept up to date on its own while an
+        /// Whether the palette is saying that a search is running - the search box's magnifier turns into a
+        /// spinner, and there is no "No results" until it is known that there are none. Kept up to date on
+        /// its own while an
         /// <see cref="OnSearch(Func{OmniBox.SearchQuery, Task{IEnumerable{CommandPaletteResult}}}, int)"/>
         /// call is in flight; set it with <see cref="SetSearching"/> for a palette that fills its rows some
         /// other way.
@@ -287,7 +268,7 @@ namespace Tesserae
 
             _isSearching = searching;
 
-            _searching.style.display = searching ? "flex" : "none";
+            _searchBox.SetSearching(searching);
 
             //"No results" is only true once the search that would have found some has come back.
             UpdateEmptyState();

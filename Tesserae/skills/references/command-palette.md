@@ -18,7 +18,7 @@ CommandPalette:
 - `.Open()` / `.Close()` / `.Toggle()` — control visibility.
 - `.Placeholder` — search box hint text.
 - `.EmptyText` — what is said when there is nothing to show (default `"No results"`).
-- `.SearchingText` (default `"Searching"`) / `.IsSearching` / `.SetSearching(bool)` — the searching mode, below.
+- `.IsSearching` / `.SetSearching(bool)` — the searching mode, below.
 - `.GlobalShortcutKey` (default `"k"`), `.EnableGlobalShortcut`, `.EnableGlobalActionShortcuts`, `.HideOnAction`.
 - `.ActionExecuted` event — fires after an action runs.
 - `.SetResults(...)` / `.OnSearch(...)` / `.ResultActivated` — rows of your own, below.
@@ -95,14 +95,15 @@ palette.OnSearch(async searchQuery =>
 ## Saying that a search is running
 
 A palette that reaches a server has a moment where the rows on screen answer the *previous* query. It says so
-with a spinner beside the search box — `SearchingText` ("Searching" by default) is the label next to it — and
-while it is searching it does not claim `EmptyText`: "No results" is only true once the search that would have
-found some has come back.
+by turning the search box's magnifier into a spinner (`OmniBox.SetSearching`, `omni-box.md`), and while it is
+searching it does not claim `EmptyText`: "No results" is only true once the search that would have found some
+has come back.
 
 `OnSearch` drives this on its own: the mode goes on when the call starts and off when it answers (or throws),
 and an answer to a query the user has already typed past leaves it alone. The rows from the last query stay
 where they are meanwhile, so the palette does not empty out and fill back up on every keystroke. A fast or
-cached answer shows nothing at all — the spinner fades in only after ~140ms, so it never blinks.
+cached answer shows nothing at all — the spinner crosses over with the magnifier only after ~140ms, so the
+button never blinks.
 
 A palette that fills its rows some other way says it itself:
 
