@@ -134,11 +134,13 @@ namespace Tesserae
 
             if (!icon.HasValue) return SetTitle(TextBlock(title).SemiBold());
 
-            var glyph = Icon(icon.Value, iconWeight, TextSize.Medium).Class("tss-card-title-icon");
+            // The glyph is sized from the title's own font-size in CSS rather than from this TextSize, so it
+            // matches the words beside it whatever the header is set to - see tss.card.css.
+            var glyph = Icon(icon.Value, iconWeight, TextSize.Small).Class("tss-card-title-icon");
 
             if (!string.IsNullOrEmpty(iconColor)) glyph.Foreground(iconColor);
 
-            return SetTitle(HStack().AlignItemsCenter().Gap(8.px()).Children(glyph, TextBlock(title).SemiBold()));
+            return SetTitle(HStack().AlignItemsCenter().Gap(6.px()).Children(glyph, TextBlock(title).SemiBold()));
         }
 
         /// <summary>

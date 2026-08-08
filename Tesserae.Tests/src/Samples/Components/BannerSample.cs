@@ -38,10 +38,10 @@ namespace Tesserae.Tests.Samples
         {
             return FeatureCard("Overview", UIcons.Megaphone, "One strip, inline or floated",
                 "A Banner is a notice the user should read but doesn't have to answer: an IconTile saying what kind of notice it is, a title with an optional badge, a message under it, an action at the far end and a dismiss button after that. It is a plain IComponent, so it renders wherever you put it — and it is also exactly what a Toast floats over the page, so the same strip reads the same in both places.",
-                Banner("1 new DAILY MUST criterion in your queue", "High-priority items require immediate pre-qualification — review them before the PAWO deadline.")
+                Banner("3 items need your review", "They were flagged as high priority and are waiting in your queue — the oldest has been there for two days.")
                    .Danger()
                    .SetIcon(UIcons.Flame)
-                   .SetBadge("PAH1.1.6")
+                   .SetBadge("Priority")
                    .Action("Review now", () => Toast().Success("Opening the queue"))
                    .OnDismiss(() => Toast().Information("Banner dismissed")));
         }
@@ -110,8 +110,8 @@ namespace Tesserae.Tests.Samples
                     Button("Toast, no dismiss").OnClick(() => Toast().NoDismiss().Show(
                         Banner("Indexing", "This one has no [x]: the toast was told not to dismiss.").Primary())),
                     Button("As a page banner").OnClick(() => Toast().TopFull().Banner().Duration(System.TimeSpan.FromSeconds(15)).Show(
-                        Banner("1 new DAILY MUST criterion in your queue", "High-priority items require immediate pre-qualification.")
-                           .Danger().SetIcon(UIcons.Flame).SetBadge("PAH1.1.6").Flat()
+                        Banner("3 items need your review", "They were flagged as high priority and are waiting in your queue.")
+                           .Danger().SetIcon(UIcons.Flame).SetBadge("Priority").Flat()
                            .Action("Review now", () => Toast().Success("Opening the queue"))))));
         }
 

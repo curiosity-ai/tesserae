@@ -51,11 +51,11 @@ tone also brings a default icon (`Info`, `CheckCircle`, `TriangleWarning`,
 using static Tesserae.UI;
 
 // Inline
-var notice = Banner("1 new DAILY MUST criterion in your queue",
-                    "High-priority items require immediate pre-qualification.")
+var notice = Banner("3 items need your review",
+                    "They were flagged as high priority and are waiting in your queue.")
     .Danger()
     .SetIcon(UIcons.Flame)
-    .SetBadge("PAH1.1.6")
+    .SetBadge("Priority")
     .Action("Review now", () => OpenQueue())
     .OnDismiss(() => Remember("queue-banner-dismissed"));
 

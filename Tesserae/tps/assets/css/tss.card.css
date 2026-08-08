@@ -135,9 +135,16 @@
     margin-top: -8px;
 }
 
-/* SetTitle(text, icon): the glyph that leads a card's title keeps its size whatever the title does. */
-.tss-card-title-icon {
+/* SetTitle(text, icon): the glyph that leads a card's title is sized from the title itself rather than
+   from the TextSize it was built with, so it stays level with the words beside it instead of towering
+   over them - and follows the header if that is ever set to another size. The element selector is there
+   to outrank the tss-fontsize-* class the Icon carries. */
+i.tss-card-title-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     flex-grow: 0;
     flex-shrink: 0;
+    font-size: 1.07em;
     line-height: 1;
 }

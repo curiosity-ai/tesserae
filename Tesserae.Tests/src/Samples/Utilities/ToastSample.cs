@@ -89,7 +89,7 @@ namespace Tesserae.Tests.Samples
                             Button().SetText("With an action").OnClick(() => Toast().Show(
                                 Banner("Export finished", "18 documents, 42 MB.").Success().SetIcon(UIcons.Download).Action("Download", () => Toast().Information("Downloading")))),
                             Button().SetText("With a badge").OnClick(() => Toast().Show(
-                                Banner("1 new DAILY MUST criterion", "High-priority items need pre-qualification.").Danger().SetIcon(UIcons.Flame).SetBadge("PAH1.1.6"))),
+                                Banner("3 items need your review", "They were flagged as high priority.").Danger().SetIcon(UIcons.Flame).SetBadge("Priority"))),
                             Button().SetText("Letters on the tile").OnClick(() => Toast().Show(
                                 Banner("Report ready", "Q3-line-review.pdf, 2.4 MB.").Primary().SetIcon("PDF"))),
                             Button().SetText("No icon").OnClick(() => Toast().Show(
@@ -99,8 +99,8 @@ namespace Tesserae.Tests.Samples
                         SampleSubTitle("As a page banner"),
                         HStack().Wrap().Gap(8.px()).Children(
                             Button().SetText("Top, with an action").OnClick(() => Toast().TopFull().Banner().Duration(TimeSpan.FromSeconds(15)).Show(
-                                Banner("1 new DAILY MUST criterion in your queue", "High-priority items require immediate pre-qualification — review them before the PAWO deadline.")
-                                   .Danger().SetIcon(UIcons.Flame).SetBadge("PAH1.1.6").Flat()
+                                Banner("3 items need your review", "They were flagged as high priority and are waiting in your queue — the oldest has been there for two days.")
+                                   .Danger().SetIcon(UIcons.Flame).SetBadge("Priority").Flat()
                                    .Action("Review now", () => Toast().Success("Opening the queue")))),
                             Button().SetText("Bottom, no hide button").OnClick(() => Toast().BottomFull().Banner(showHideButton: false).Show(
                                 Banner("Scheduled maintenance tonight, 23:00 – 01:00 UTC", "Search stays available; indexing is paused for the window.").Primary().Flat())))
