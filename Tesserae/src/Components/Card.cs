@@ -124,13 +124,21 @@ namespace Tesserae
         public Card OnClick(Action action) => OnClick((_, __) => action.Invoke());
 
         /// <summary>
-        /// Sets the title of the component.
+        /// Sets the title of the component, optionally with an icon drawn just before it - what the card is
+        /// about, said in a glyph as well as in words. Pass <paramref name="iconColor"/> to give the icon a
+        /// color of its own; without one it takes the title's.
         /// </summary>
-        public Card SetTitle(string title)
+        public Card SetTitle(string title, UIcons? icon = null, string iconColor = null, UIconsWeight iconWeight = UIconsWeight.Regular)
         {
             EnsureHeader();
-            SetTitle(TextBlock(title).SemiBold());
-            return this;
+
+            if (!icon.HasValue) return SetTitle(TextBlock(title).SemiBold());
+
+            var glyph = Icon(icon.Value, iconWeight, TextSize.Medium).Class("tss-card-title-icon");
+
+            if (!string.IsNullOrEmpty(iconColor)) glyph.Foreground(iconColor);
+
+            return SetTitle(HStack().AlignItemsCenter().Gap(8.px()).Children(glyph, TextBlock(title).SemiBold()));
         }
 
         /// <summary>

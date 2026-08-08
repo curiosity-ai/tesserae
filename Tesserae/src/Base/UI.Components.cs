@@ -1006,6 +1006,24 @@ namespace Tesserae
         public static Metric Metric(IComponent title, IComponent value) => new Metric(title, value);
 
         /// <summary>
+        /// Creates a new <see cref="Tesserae.IconTile"/> showing the given icon: the rounded, tinted square
+        /// that leads a result row, a banner or a metric.
+        /// </summary>
+        public static IconTile IconTile(UIcons icon, string color = null, UIconsWeight weight = UIconsWeight.Regular) => new IconTile(icon, color, weight);
+
+        /// <summary>
+        /// Creates a new <see cref="Tesserae.IconTile"/> spelling the given short text out ("PPTX", "CSV")
+        /// in place of a glyph.
+        /// </summary>
+        public static IconTile IconTile(string text, string color = null, TextSize? size = null) => new IconTile(text, color, size);
+
+        /// <summary>
+        /// Creates a new <see cref="Tesserae.IconTile"/> holding the given component - an
+        /// <see cref="Tesserae.Image"/> thumbnail, an <see cref="Tesserae.Avatar"/>, an emoji.
+        /// </summary>
+        public static IconTile IconTile(IComponent iconOrImage, string color = null) => new IconTile(iconOrImage, color);
+
+        /// <summary>
         /// Creates a new <see cref="Tesserae.ContributionBar"/>.
         /// </summary>
         public static ContributionBar ContributionBar() => new ContributionBar();
@@ -1072,6 +1090,13 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.Message"/> component.
         /// </summary>
         public static Message Message(string title = null, string message = null) => new Message(title, message);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Banner"/>: a notice strip with an icon tile, a title and message, an
+        /// action and a dismiss button. It renders inline anywhere, and is also what a
+        /// <see cref="Tesserae.Toast"/> floats over the page.
+        /// </summary>
+        public static Banner Banner(string title = null, string message = null) => new Banner(title, message);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.ChatArea"/> component.
@@ -1151,7 +1176,8 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.DetailsGrid"/>: a bordered table of label/value rows - the
         /// "Owner / Size / Modified" block of metadata a preview shows beside what it is previewing.
         /// </summary>
-        public static DetailsGrid DetailsGrid() => new DetailsGrid();
+        /// <param name="columns">How many label/value columns to lay the rows out in. One by default.</param>
+        public static DetailsGrid DetailsGrid(int columns = 1) => new DetailsGrid(columns);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.PagesStack"/> showing the given page thumbnails: a stack of

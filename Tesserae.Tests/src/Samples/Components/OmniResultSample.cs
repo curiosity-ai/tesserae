@@ -85,7 +85,7 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(VStack().WS().Children(Pages()))
                 .FlatSection(VStack().WS().Children(InlinePaginationSection()))
                 .FlatSection(VStack().WS().Children(InlineLabels()))
-                .SeeAlso(typeof(OmniBoxSample), typeof(InlineLabelSample), typeof(ContextCardSample), typeof(ResourceCardSample), typeof(CardSample), typeof(DetailsListSample));
+                .SeeAlso(typeof(OmniBoxSample), typeof(PagesStackSample), typeof(InlineLabelSample), typeof(ContextCardSample), typeof(ResourceCardSample), typeof(CardSample), typeof(DetailsListSample));
         }
 
         // One feature per card: a subtitle, a line or two saying what to try, then the rows themselves.

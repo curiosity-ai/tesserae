@@ -68,7 +68,64 @@ namespace Tesserae.Tests.Samples
                            .Add("Program", 0.06, Theme.Colors.Neutral500))).SetTitle("Tooltip")))
                .FlatSection(Stack().Children(
                     Card(BuildSimilarityCard()).SetTitle("Example: similarity result card")))
-               .SeeAlso(typeof(ChartsSample), typeof(SparklineSample), typeof(UptimeSample), typeof(DeltaComponentSample));
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                        SampleSubTitle("A card built out of nothing but bars"),
+                        TextBlock("Every proportion on this card is a ContributionBar. The headline split is one two-segment bar with its legend off and its own labels under the ends; each rejection reason is a one-segment bar pinned to Max(100), so the orange runs are all measured against the same width and can be read off against each other."),
+                        BuildPeerFeedbackCard().MT(16).MaxWidth(560.px()))).SetTitle("Example: peer feedback card")))
+               .SeeAlso(typeof(ChartsSample), typeof(SparklineSample), typeof(UptimeSample), typeof(DeltaComponentSample), typeof(MetricSample));
+        }
+
+        // ---------- Peer feedback card ----------
+
+        private static IComponent BuildPeerFeedbackCard()
+        {
+            var split = ContributionBar()
+               .Max(100)
+               .Thickness(14.px())
+               .HideLegend()
+               .Add("Accepted", 71, Theme.Colors.Green600)
+               .Add("Rejected", 29, Theme.Colors.Red500);
+
+            var headline = HStack().WS().AlignItems(ItemAlign.Center).Gap(20.px()).PT(4).Children(
+                VStack().NoShrink().AlignItems(ItemAlign.Center).Children(
+                    TextBlock("71%").XXLarge().Bold().Foreground(Theme.Colors.Green600),
+                    TextBlock("Accepted").Tiny().SemiBold().Foreground(Theme.Secondary.Foreground)),
+                VStack().Grow().WS().Children(
+                    split,
+                    HStack().WS().PT(6).Children(
+                        TextBlock("71% accepted").XSmall().Foreground(Theme.Secondary.Foreground).Grow(),
+                        TextBlock("29% rejected").XSmall().Foreground(Theme.Secondary.Foreground))));
+
+            var reasons = VStack().WS().PT(20).Children(
+                TextBlock("Top rejection reasons").Tiny().SemiBold().Foreground(Theme.Secondary.Foreground).PB(10),
+                ReasonRow("Scope too broad",  40),
+                ReasonRow("Wrong criticality", 20),
+                ReasonRow("Source mismatch",   16));
+
+            return VStack().WS().Children(
+                HStack().WS().AlignItems(ItemAlign.Center).Gap(8.px()).Children(
+                    Icon(UIcons.Users, size: TextSize.Medium).Foreground(Theme.Colors.Purple600),
+                    TextBlock("Peer feedback on similar suggestions").MediumPlus().SemiBold(),
+                    Badge("PAH3.5.2").Pill()),
+                TextBlock("Anonymized — 23 comparable past cases").Small().Foreground(Theme.Secondary.Foreground).PB(16),
+                headline,
+                reasons);
+        }
+
+        // One reason: its name, a bar measured against the same 100 every other reason is, and the number.
+        private static IComponent ReasonRow(string label, double percent)
+        {
+            var bar = ContributionBar()
+               .Max(100)
+               .Thickness(8.px())
+               .HideLegend()
+               .Add(label, percent, Theme.Colors.Orange500);
+
+            return HStack().WS().AlignItems(ItemAlign.Center).Gap(12.px()).PB(8).Children(
+                TextBlock(label).Small().W(160.px()).NoShrink(),
+                bar.Grow(),
+                TextBlock($"{percent:0}%").Small().SemiBold().W(40.px()).NoShrink().TextRight());
         }
 
         private static IComponent BuildSimilarityCard()

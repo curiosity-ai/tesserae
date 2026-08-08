@@ -36,16 +36,13 @@ namespace Tesserae
         {
             _toast.Duration(TimeSpan.FromDays(1)); // Indefinite
 
-            var t = HStack().H(20).MinWidth(200.px()).WS().Children(
-                Icon(UIcons.Disk).Foreground(Theme.Primary.Background),
-                TextBlock(title).SemiBold().SmallPlus().Primary()
-            ).AlignItems(ItemAlign.Center).Gap(8.px()).PL(8);
+            _toast.Show(new Banner(title)
+               .Primary()
+               .SetIcon(UIcons.Disk)
+               .SetText(VStack().WS().Gap(8.px()).Children(
+                    TextBlock(message ?? _initialMessage).WS().BreakSpaces(),
+                    ProgressIndicator().WS().Indeterminated())));
 
-            var msg = VStack().WS().PL(8).Children(
-                TextBlock(message ?? _initialMessage).WS().BreakSpaces().PB(16).PT(8),
-                ProgressIndicator().WS().Indeterminated());
-
-            _toast.Information(t, msg);
             return this;
         }
 
@@ -56,12 +53,8 @@ namespace Tesserae
         {
             _toast.Duration(MinimumDisplayTime);
 
-            var t = HStack().H(20).MinWidth(200.px()).WS().Children(
-                Icon(UIcons.Check).Foreground(Theme.Success.Background),
-                TextBlock(title).SemiBold().SmallPlus().Success()
-            ).AlignItems(ItemAlign.Center).Gap(8.px()).PL(8);
+            _toast.Show(new Banner(title, message).Success().SetIcon(UIcons.Check));
 
-            _toast.Success(t, TextBlock(message).PL(8).PT(8).WS().BreakSpaces());
             return this;
         }
 
@@ -71,16 +64,9 @@ namespace Tesserae
         public SavingToast Error(string message = null, string title = "Error", bool untilDismissed = false)
         {
             _toast.Duration(untilDismissed ? TimeSpan.FromDays(1) : MinimumDisplayTime);
-            
-            var btnHide = Button().SetIcon(UIcons.Cross).OnClick(() => _toast.Hide());
 
-            var t = HStack().H(20).MinWidth(200.px()).WS().Children(
-                Icon(UIcons.OctagonXmark).Foreground(Theme.Danger.Background),
-                TextBlock(title).Grow().SemiBold().SmallPlus().Danger(),
-                If(untilDismissed, btnHide)
-            ).AlignItems(ItemAlign.Center).Gap(8.px()).PL(8);
+            _toast.Show(new Banner(title, message).Danger().SetIcon(UIcons.OctagonXmark));
 
-            _toast.Error(t, TextBlock(message).PL(8).PT(8).WS().BreakSpaces());
             return this;
         }
     }
