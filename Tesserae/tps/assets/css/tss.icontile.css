@@ -1,0 +1,59 @@
+/* IconTile — the rounded, tinted square that leads a row: a glyph, a few letters, or a small component. */
+
+.tss-icontile {
+    --tss-icontile-size: 34px;
+    --tss-icontile-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    width: var(--tss-icontile-size);
+    height: var(--tss-icontile-size);
+    border-radius: var(--tss-icontile-radius);
+    overflow: hidden;
+    /* The glyph follows the tile unless the host pinned it: a bigger tile should not hold a 15px icon. */
+    font-size: var(--tss-icontile-glyph-size, calc(var(--tss-icontile-size) * 0.45));
+    background: var(--tss-icontile-background, var(--tss-secondary-background-color));
+    color: var(--tss-icontile-foreground, var(--tss-default-foreground-color));
+}
+
+.tss-dark-mode .tss-icontile {
+    background: var(--tss-icontile-background-dark, var(--tss-secondary-background-color));
+    color: var(--tss-icontile-foreground-dark, var(--tss-default-foreground-color));
+}
+
+/* Untinted: the neutral tile, whatever CSS variables an earlier Tint() left behind. */
+.tss-icontile.tss-icontile-plain,
+.tss-dark-mode .tss-icontile.tss-icontile-plain {
+    background: var(--tss-secondary-background-color);
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-icontile-glyph {
+    line-height: 1;
+}
+
+/* A file type spelled out ("PPTX", "XLSX") in place of a glyph. */
+.tss-icontile-text {
+    font-weight: 700;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    line-height: 1;
+    text-align: center;
+}
+
+/* The size the tile is sized for, declared through :where() so it costs no specificity - a tss-fontsize-*
+   class from the TextSize passed to SetIcon then wins over it without needing !important. */
+:where(.tss-icontile-text) {
+    font-size: calc(var(--tss-icontile-size) * 0.35);
+}
+
+.tss-icontile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}

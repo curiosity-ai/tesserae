@@ -134,3 +134,10 @@
     padding-top: 12px;
     margin-top: -8px;
 }
+
+/* SetTitle(text, icon): the glyph that leads a card's title keeps its size whatever the title does. */
+.tss-card-title-icon {
+    flex-grow: 0;
+    flex-shrink: 0;
+    line-height: 1;
+}

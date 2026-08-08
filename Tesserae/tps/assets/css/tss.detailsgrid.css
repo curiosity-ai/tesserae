@@ -80,3 +80,60 @@
     padding-left: 0;
     padding-right: 0;
 }
+
+/* Columns(n > 1): no rules between rows - see the note in DetailsGrid.Columns - so the rows are told
+   apart by the space around them instead. */
+.tss-detailsgrid-multicolumn {
+    padding: 4px 0;
+    column-gap: 8px;
+}
+
+.tss-detailsgrid-multicolumn .tss-detailsgrid-row {
+    border-bottom: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+/* Stacked ---------------------------------------------------------------------------------------- */
+
+/* Stacked(): the label becomes a small semibold header over its value rather than a column beside it -
+   for a sheet of dates and references whose labels ("FIRST MSN AFFECTED") are longer than the values. */
+.tss-detailsgrid-stacked,
+.tss-detailsgrid-stacked.tss-detailsgrid-multicolumn {
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    column-gap: 24px;
+    row-gap: 16px;
+}
+
+.tss-detailsgrid-stacked .tss-detailsgrid-row,
+.tss-detailsgrid-stacked.tss-detailsgrid-multicolumn .tss-detailsgrid-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    padding: 0;
+    border-bottom: none;
+}
+
+.tss-detailsgrid-stacked .tss-detailsgrid-label {
+    width: auto;
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-semibold);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    line-height: 16px;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-detailsgrid-stacked .tss-detailsgrid-value {
+    font-size: var(--tss-font-size-medium);
+    line-height: 20px;
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-detailsgrid-stacked.tss-detailsgrid-compact {
+    row-gap: 10px;
+    column-gap: 16px;
+}

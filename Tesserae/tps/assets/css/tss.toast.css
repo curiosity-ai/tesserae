@@ -1,4 +1,4 @@
-﻿/* Toast */
+/* Toast — a Banner floated over the page: the container positions and times it, the banner draws it. */
 
 .tss-toast {
     display: flex;
@@ -7,35 +7,27 @@
     pointer-events: none;
 }
 
+/* Every toast holds a Banner (see tss.banner.css), which brings the tone, the icon tile and the padding -
+   so the container is only the floating surface it sits on. */
 .tss-toast-container {
-    padding: 12px;
-    width: 300px;
+    width: 360px;
+    padding: 0;
     margin-left: auto;
     margin-right: auto;
     margin-top: auto;
     margin-bottom: auto;
     box-shadow: var(--tss-toast-shadow);
     pointer-events: all;
-    opacity: 0.85;
-    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+    border-radius: var(--tss-border-radius-lg);
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
     transition: all 0.3s ease-in-out;
 }
 
 .tss-toast-container:hover {
-    opacity: 1;
     cursor: pointer;
-}
-
-.tss-toast-title {
-    font-size: var(--tss-font-size-mediumplus);
-    font-weight: var(--tss-font-weight-semibold);
-}
-
-.tss-toast-message {
-    display: flex;
-    font-size: var(--tss-font-size-small);
-    font-weight: var(--tss-font-weight-regular);
-    word-wrap: break-word;
 }
 
 .tss-toast-topright > .tss-toast-container {
@@ -47,7 +39,7 @@
     margin-top: 16px;
     margin-right: auto;
     margin-left: auto;
-    min-width: 300px;
+    min-width: 360px;
     max-width: 50vw;
     align-items: center;
     justify-content: center;
@@ -67,7 +59,7 @@
     margin-bottom: 16px;
     margin-right: auto;
     margin-left: auto;
-    min-width: 300px;
+    min-width: 360px;
     max-width: 50vw;
     align-items: center;
     justify-content: center;
@@ -88,57 +80,14 @@
     width: 96vw;
 }
 
-.tss-toast-title > .tss-textblock {
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.tss-toast-message > .tss-textblock {
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
 .tss-toast .tss-fontcolor-default {
     color: var(--tss-default-foreground-color) !important;
 }
 
-.tss-toast > .tss-toast-container:before {
-    content: ' ';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 6px;
-    left: 0;
-}
-
-.tss-toast > .tss-toast-container {
-    background: var(--tss-default-background-color) !important;
-    color: var(--tss-default-foreground-color) !important;
-    position: relative;
-}
-
-
-.tss-toast-error > .tss-toast-container:before {
-    background: var(--tss-danger-background-color) !important;
-    color: var(--tss-danger-foreground-color) !important;
-}
-
-.tss-toast-success > .tss-toast-container:before {
-    background: var(--tss-success-background-color);
-    color: var(--tss-success-foreground-color);
-}
-
-.tss-toast-information > .tss-toast-container:before {
-    background: var(--tss-primary-background-color);
-    color: var(--tss-primary-foreground-color);
-}
-
-.tss-toast-warning > .tss-toast-container:before {
-    background: var(--tss-warning-background-color);
-    color: var(--tss-warning-foreground-color);
-}
-
-.tss-banner {
+/* Banner(): pinned edge to edge across the top (or the bottom) of the page rather than floated in a
+   corner. The container gives up its rounding, its shadow and its margins so the strip reaches both
+   edges - the Banner inside keeps its own padding. */
+.tss-toast-fullwidth {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -146,27 +95,19 @@
     margin: 0px;
 }
 
-.tss-banner.tss-banner-bottom {
+.tss-toast-fullwidth.tss-toast-fullwidth-bottom {
     top: unset;
     /*no need to set bottom:0 because the banner will already render on the bottom */
 }
 
-    .tss-banner.tss-toast > .tss-toast-container {
-        margin: 0px;
-        height: fit-content;
-        width: 100%;
-        margin-top: 0px !important;
-        opacity: 1;
-        box-shadow: unset !important;
-        border-bottom: 1px solid var(--tss-dark-border-color);
-        border-radius: 0px;
-        padding: 4px 12px;
-    }
-
-    .tss-banner .tss-banner-hide-button {
-        position: absolute;
-        right: 4px;
-        height: 24px;
-        width: 24px;
-        top: calc(50% - 12px - 4px);
-    }
+.tss-toast-fullwidth.tss-toast > .tss-toast-container {
+    margin: 0px;
+    height: fit-content;
+    width: 100%;
+    margin-top: 0px !important;
+    opacity: 1;
+    box-shadow: unset !important;
+    border-bottom: 1px solid var(--tss-default-border-color);
+    border-radius: 0px;
+    padding: 0px;
+}

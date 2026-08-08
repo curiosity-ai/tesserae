@@ -47,8 +47,9 @@ namespace Tesserae
             }
         }
 
-        private                 IComponent                        _title;
-        private                 IComponent                        _message;
+        private                 Banner                            _content;
+        private                 Banner                            _hookedContent;
+        private                 Action                            _hookedCallerHandler;
         private                 double                            _height    = 0;
         private static readonly Dictionary<Position, List<Toast>> OpenToasts = new Dictionary<Position, List<Toast>>();
 
@@ -195,28 +196,15 @@ namespace Tesserae
         /// <param name="title">The title of the toast.</param>
         /// <param name="message">The message content of the toast.</param>
         /// <returns>The current instance of the type.</returns>
-        public Toast Success(IComponent title, IComponent message)
-        {
-            _type    = Type.Success;
-            _title   = title;
-            _message = message;
-            Fire();
-            return this;
-        }
+        public Toast Success(IComponent title, IComponent message) => ShowAs(Type.Success, title, message);
+
         /// <summary>
         /// Displays an information toast.
         /// </summary>
         /// <param name="title">The title of the toast.</param>
         /// <param name="message">The message content of the toast.</param>
         /// <returns>The current instance of the type.</returns>
-        public Toast Information(IComponent title, IComponent message)
-        {
-            _type    = Type.Information;
-            _title   = title;
-            _message = message;
-            Fire();
-            return this;
-        }
+        public Toast Information(IComponent title, IComponent message) => ShowAs(Type.Information, title, message);
 
         /// <summary>
         /// Displays a warning toast.
@@ -224,14 +212,7 @@ namespace Tesserae
         /// <param name="title">The title of the toast.</param>
         /// <param name="message">The message content of the toast.</param>
         /// <returns>The current instance of the type.</returns>
-        public Toast Warning(IComponent title, IComponent message)
-        {
-            _type    = Type.Warning;
-            _title   = title;
-            _message = message;
-            Fire();
-            return this;
-        }
+        public Toast Warning(IComponent title, IComponent message) => ShowAs(Type.Warning, title, message);
 
         /// <summary>
         /// Displays an error toast.
@@ -239,14 +220,7 @@ namespace Tesserae
         /// <param name="title">The title of the toast.</param>
         /// <param name="message">The message content of the toast.</param>
         /// <returns>The current instance of the type.</returns>
-        public Toast Error(IComponent title, IComponent message)
-        {
-            _type    = Type.Error;
-            _title   = title;
-            _message = message;
-            Fire();
-            return this;
-        }
+        public Toast Error(IComponent title, IComponent message) => ShowAs(Type.Error, title, message);
 
         /// <summary>
         /// Displays a success toast with only a message.
@@ -282,28 +256,15 @@ namespace Tesserae
         /// <param name="title">The title of the toast.</param>
         /// <param name="message">The message content of the toast.</param>
         /// <returns>The current instance of the type.</returns>
-        public Toast Success(string title, string message)
-        {
-            _type    = Type.Success;
-            _title   = string.IsNullOrEmpty(title) ? null : TextBlock(title, textSize: TextSize.Medium, textWeight: TextWeight.SemiBold);
-            _message = TextBlock(message, textSize: TextSize.Small);
-            Fire();
-            return this;
-        }
+        public Toast Success(string title, string message) => ShowAs(Type.Success, title, message);
+
         /// <summary>
         /// Displays an information toast with string content.
         /// </summary>
         /// <param name="title">The title of the toast.</param>
         /// <param name="message">The message content of the toast.</param>
         /// <returns>The current instance of the type.</returns>
-        public Toast Information(string title, string message)
-        {
-            _type    = Type.Information;
-            _title   = string.IsNullOrEmpty(title) ? null : TextBlock(title, textSize: TextSize.Medium, textWeight: TextWeight.SemiBold);
-            _message = TextBlock(message, textSize: TextSize.Small);
-            Fire();
-            return this;
-        }
+        public Toast Information(string title, string message) => ShowAs(Type.Information, title, message);
 
         /// <summary>
         /// Displays a warning toast with string content.
@@ -311,28 +272,15 @@ namespace Tesserae
         /// <param name="title">The title of the toast.</param>
         /// <param name="message">The message content of the toast.</param>
         /// <returns>The current instance of the type.</returns>
-        public Toast Warning(string title, string message)
-        {
-            _type    = Type.Warning;
-            _title   = string.IsNullOrEmpty(title) ? null : TextBlock(title, textSize: TextSize.Medium, textWeight: TextWeight.SemiBold);
-            _message = TextBlock(message, textSize: TextSize.Small);
-            Fire();
-            return this;
-        }
+        public Toast Warning(string title, string message) => ShowAs(Type.Warning, title, message);
+
         /// <summary>
         /// Displays an error toast with string content.
         /// </summary>
         /// <param name="title">The title of the toast.</param>
         /// <param name="message">The message content of the toast.</param>
         /// <returns>The current instance of the type.</returns>
-        public Toast Error(string title, string message)
-        {
-            _type    = Type.Error;
-            _title   = string.IsNullOrEmpty(title) ? null : TextBlock(title, textSize: TextSize.Medium, textWeight: TextWeight.SemiBold);
-            _message = TextBlock(message, textSize: TextSize.Small);
-            Fire();
-            return this;
-        }
+        public Toast Error(string title, string message) => ShowAs(Type.Error, title, message);
 
         /// <summary>
         /// Displays a success toast with string message.
@@ -361,6 +309,80 @@ namespace Tesserae
         /// <param name="message">The message content of the toast.</param>
         /// <returns>The current instance of the type.</returns>
         public Toast Error(string       message) => Error(null, message);
+
+        /// <summary>
+        /// Floats the given <see cref="Tesserae.Banner"/> over the page as a toast: the same strip that
+        /// renders inline, positioned and timed out by the toast instead. Everything the banner carries -
+        /// its tone, its icon tile, its badge, its action - comes along.
+        /// <para>
+        /// The banner's dismiss button is hooked to this toast's own hiding, chained after whatever handler
+        /// the caller already set. A toast asked not to dismiss (<see cref="NoDismiss"/>), or a banner shown
+        /// as an edge-to-edge banner with its hide button turned off, gets no dismiss button at all.
+        /// </para>
+        /// </summary>
+        /// <param name="banner">The banner to show.</param>
+        /// <returns>The current instance of the type.</returns>
+        public Toast Show(Banner banner)
+        {
+            if (banner is null) return this;
+
+            _type    = TypeFor(banner.CurrentStyle);
+            _content = banner;
+
+            Fire();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="Tesserae.Banner"/> this toast is showing, so a caller that used one of the
+        /// string helpers can still reach the strip it built - to add an action to it, say.
+        /// </summary>
+        public Banner Content => _content;
+
+        private Toast ShowAs(Type type, string title, string message)
+        {
+            _type    = type;
+            _content = BuildBanner(type).SetTitle(title).SetText(message);
+
+            Fire();
+
+            return this;
+        }
+
+        private Toast ShowAs(Type type, IComponent title, IComponent message)
+        {
+            _type    = type;
+            _content = BuildBanner(type).SetTitle(title).SetText(message);
+
+            Fire();
+
+            return this;
+        }
+
+        private static Banner BuildBanner(Type type) => new Banner().Style(StyleFor(type));
+
+        private static BannerStyle StyleFor(Type type)
+        {
+            switch (type)
+            {
+                case Type.Success: return BannerStyle.Success;
+                case Type.Warning: return BannerStyle.Warning;
+                case Type.Error:   return BannerStyle.Danger;
+                default:           return BannerStyle.Primary;
+            }
+        }
+
+        private static Type TypeFor(BannerStyle style)
+        {
+            switch (style)
+            {
+                case BannerStyle.Success: return Type.Success;
+                case BannerStyle.Warning: return Type.Warning;
+                case BannerStyle.Danger:  return Type.Error;
+                default:                  return Type.Information;
+            }
+        }
 
         /// <summary>
         /// Sets the width of the toast.
@@ -410,54 +432,7 @@ namespace Tesserae
         {
             _contentHtml.className = "tss-toast tss-toast-" + _type + " tss-toast-" + _pos;
 
-            if (_title is object)
-            {
-                var newTitle = Div(Att("tss-toast-title"), _title.Render());
-
-                if (_toastContainer.children.TryGetFirst(c => c.className.Contains("tss-toast-title"), out var currentTitle))
-                {
-                    _toastContainer.replaceChild(newTitle, currentTitle);
-                }
-                else
-                {
-                    if (_toastContainer.children.Any())
-                    {
-                        _toastContainer.insertBefore(newTitle, _toastContainer.firstChild);
-                    }
-                    else
-                    {
-                        _toastContainer.appendChild(newTitle);
-                    }
-                }
-            }
-            else
-            {
-                if (_toastContainer.children.TryGetFirst(c => c.className.Contains("tss-toast-title"), out var currentTitle))
-                {
-                    _toastContainer.removeChild(currentTitle);
-                }
-            }
-
-            if (_message is object)
-            {
-                var newMessage = Div(Att("tss-toast-message"), _message.Render());
-
-                if (_toastContainer.children.TryGetFirst(c => c.className.Contains("tss-toast-message"), out var currentMessage))
-                {
-                    _toastContainer.replaceChild(newMessage, currentMessage);
-                }
-                else
-                {
-                    _toastContainer.appendChild(newMessage);
-                }
-            }
-            else
-            {
-                if (_toastContainer.children.TryGetFirst(c => c.className.Contains("tss-toast-message"), out var currentMessage))
-                {
-                    _toastContainer.removeChild(currentMessage);
-                }
-            }
+            RenderContent();
 
             _toastContainer.onmouseenter = (e) =>
             {
@@ -512,17 +487,7 @@ namespace Tesserae
             {
                 _contentHtml = Div(Att("tss-toast tss-toast-" + _type + " tss-toast-" + _pos), _toastContainer);
 
-                Script.Write("{0}.replaceChildren()", _toastContainer); // clear all children
-
-                if (_title is object)
-                {
-                    _toastContainer.appendChild(Div(Att("tss-toast-title"), _title.Render()));
-                }
-
-                if (_message is object)
-                {
-                    _toastContainer.appendChild(Div(Att("tss-toast-message"), _message.Render()));
-                }
+                RenderContent();
 
                 _toastContainer.onmouseenter = (e) =>
                 {
@@ -583,22 +548,64 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Puts the banner - the one the caller passed, or the one a string helper built - into the toast's
+        /// container, and hooks its dismiss button to this toast's own hiding.
+        /// </summary>
+        private void RenderContent()
+        {
+            Script.Write("{0}.replaceChildren()", _toastContainer); // clear all children
+
+            if (_content is null) return;
+
+            HookDismiss();
+
+            _toastContainer.appendChild(_content.Render());
+        }
+
+        /// <summary>
+        /// A toast is dismissed by the toast, not by the strip inside it, so the banner's dismiss button
+        /// hides the whole layer - after whatever the caller's own handler does. Whether there is a button
+        /// at all follows the toast's settings: an edge-to-edge banner asked to show one, or an ordinary
+        /// toast that can be dismissed at all.
+        /// </summary>
+        private void HookDismiss()
+        {
+            // The caller's own handler is read once per banner: re-firing a toast (a SavingToast stepping
+            // from "saving" to "saved") runs this again, and wrapping the wrapper would hide twice.
+            if (!ReferenceEquals(_hookedContent, _content))
+            {
+                _hookedContent       = _content;
+                _hookedCallerHandler = _content.DismissHandler;
+            }
+
+            var wanted = _banner ? _showHideButton : _dismissOnClick;
+
+            if (!wanted && _hookedCallerHandler is null)
+            {
+                _content.OnDismiss(null, hide: false);
+                return;
+            }
+
+            var callerHandler = _hookedCallerHandler;
+
+            _content.OnDismiss(() =>
+            {
+                callerHandler?.Invoke();
+                Hide();
+            }, hide: false);
+        }
+
         private void ShowAsBanner()
         {
             _renderedContent = BuildRenderedContent();
             var captured = _renderedContent;
 
-            if (_showHideButton)
-            {
-                var btn = Button().SetIcon(UIcons.Cross).OnClick(() => Hide()).NoMinSize().NoPadding().Class("tss-banner-hide-button");
-                _renderedContent.querySelector(".tss-toast-container").As<HTMLElement>().appendChild(btn.Render());
-            }
-
-            _renderedContent.classList.add("tss-banner");
+            _renderedContent.classList.add("tss-toast-fullwidth");
 
             if (_pos == Position.BottomFull)
             {
-                _renderedContent.classList.add("tss-banner-bottom");
+                _renderedContent.classList.add("tss-toast-fullwidth-bottom");
             }
 
             document.body.appendChild(_renderedContent);

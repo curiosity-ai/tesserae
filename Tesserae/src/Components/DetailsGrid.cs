@@ -6,6 +6,26 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     /// <summary>
+    /// How a <see cref="DetailsGrid"/> arranges each label against its value.
+    /// </summary>
+    [Transpose.Name("tss.DetailsGridMode")]
+    public enum DetailsGridMode
+    {
+        /// <summary>
+        /// Label and value side by side, one row each, the labels sharing a column of a fixed width
+        /// (see <see cref="DetailsGrid.LabelWidth(UnitSize)"/>) so the values line up.
+        /// </summary>
+        Rows,
+
+        /// <summary>
+        /// The label above its value: a small, semibold, uppercase header in the secondary color with the
+        /// value under it - the shape a sheet of dates and references takes when the labels are longer than
+        /// a column would like and the values are short.
+        /// </summary>
+        Stacked
+    }
+
+    /// <summary>
     /// A bordered table of label/value rows - the "Owner / Size / Modified / Pages" block a preview shows
     /// beside (or under) whatever it is previewing.
     /// <para>
@@ -14,6 +34,11 @@ namespace Tesserae
     /// plain text or a component of the host's own - a <see cref="Link"/>, a <see cref="Badge"/>, an
     /// <see cref="Avatar"/> - so a grid of metadata never forces the host to spell its values out as strings.
     /// </para>
+    /// <para>
+    /// <see cref="Stacked"/> turns that around: each label becomes a small semibold header over its value,
+    /// which - with <see cref="Columns(int)"/> - is the two- or three-up sheet of dates and references a
+    /// record's header block is made of.
+    /// </para>
     /// </summary>
     [Transpose.Name("tss.DetailsGrid")]
     public sealed class DetailsGrid : ComponentBase<DetailsGrid, HTMLElement>
@@ -21,11 +46,15 @@ namespace Tesserae
         private readonly List<HTMLElement> _rows = new List<HTMLElement>();
 
         /// <summary>
-        /// Initializes a new instance of this class, with no rows in it yet.
+        /// Initializes a new instance of this class, with no rows in it yet, laid out in the given number of
+        /// columns - one by default, which is the "one row each" block. Two or three suit a grid of short
+        /// values that would otherwise leave most of its width empty.
         /// </summary>
-        public DetailsGrid()
+        public DetailsGrid(int columns = 1)
         {
             InnerElement = Div(Att("tss-detailsgrid", role: "table"));
+
+            Columns(columns);
         }
 
         /// <summary>
@@ -94,10 +123,35 @@ namespace Tesserae
         /// </summary>
         public DetailsGrid Columns(int columns)
         {
-            InnerElement.style.setProperty("--tss-detailsgrid-columns", $"{(columns < 1 ? 1 : columns)}");
+            var count = columns < 1 ? 1 : columns;
+
+            InnerElement.style.setProperty("--tss-detailsgrid-columns", $"{count}");
+
+            // Past one column the rules between rows can't be drawn honestly - the last row of the grid is
+            // several children, not the last child - so a multi-column grid separates its rows by space.
+            InnerElement.UpdateClassIf(count > 1, "tss-detailsgrid-multicolumn");
 
             return this;
         }
+
+        /// <summary>
+        /// Chooses how each label sits against its value: <see cref="DetailsGridMode.Rows"/> (the default)
+        /// puts them side by side, <see cref="DetailsGridMode.Stacked"/> puts the label above its value as a
+        /// small semibold header in the secondary color.
+        /// </summary>
+        public DetailsGrid Mode(DetailsGridMode mode)
+        {
+            InnerElement.UpdateClassIf(mode == DetailsGridMode.Stacked, "tss-detailsgrid-stacked");
+
+            return this;
+        }
+
+        /// <summary>
+        /// Puts each label above its value as a small, semibold, uppercase header in the secondary color -
+        /// the sheet of dates and references a record's header block is made of. Pair it with
+        /// <see cref="Columns(int)"/> to read two or three of them across.
+        /// </summary>
+        public DetailsGrid Stacked(bool value = true) => Mode(value ? DetailsGridMode.Stacked : DetailsGridMode.Rows);
 
         /// <summary>
         /// Tightens the rows, for a grid that has to sit inside something small.

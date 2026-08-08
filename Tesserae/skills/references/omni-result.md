@@ -62,6 +62,9 @@ stands for. Also `new OmniResult<T>(result, title)`. Bring factories into scope 
   (`Tiny`, `XSmall`, `Small`, …) to override that — `Tiny` for text longer than the three or four
   letters a type name usually is.
 - `.SetIcon(IComponent, string color = null)` — an `Image` thumbnail, an `Avatar`, an emoji.
+
+  The tile itself is an `IconTile` (`icon-tile.md`), the same square a `Banner` and a `Metric` lead
+  with — these three overloads hand straight through to it.
 - `.SetIconBadge(IComponent badge, OmniResultBadgeCorner corner = BottomRight)` — a marker pinned to a
   corner of the tile, drawn outside its clipping: where the result came from, that it is pinned.
   Corners: `TopLeft`, `TopRight`, `BottomLeft`, `BottomRight`. Null clears that corner.
@@ -317,6 +320,7 @@ OmniResult(message)
 
 ## Related
 
+- IconTile — the tile the row leads with, on its own — `icon-tile.md`
 - ModalStack — the deck a result's modal is usually pushed onto — `modal-stack.md`
 - InlinePagination — the previous/next control in its modal header — `inline-pagination.md`
 - InlineLabel — what its footer is a line of — `inline-label.md`
