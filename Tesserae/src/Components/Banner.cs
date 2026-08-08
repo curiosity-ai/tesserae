@@ -39,10 +39,10 @@ namespace Tesserae
     /// </summary>
     /// <example>
     /// <code>
-    /// Banner("1 new DAILY MUST criterion in your queue", "High-priority items require immediate pre-qualification.")
+    /// Banner("3 items need your review", "They were flagged as high priority and are waiting in your queue.")
     ///    .Danger()
     ///    .SetIcon(UIcons.Fire)
-    ///    .SetBadge("PAH1.1.6")
+    ///    .SetBadge("Priority")
     ///    .Action("Review now", () =&gt; OpenQueue())
     ///    .OnDismiss(() =&gt; Remember("queue-banner-dismissed"));
     /// </code>
