@@ -22,6 +22,14 @@ host to confine layers to a sub-tree. Bring factories into scope with
 - `.IsVisible` — get/set visibility.
 - `.Host` — assign a `LayerHost` to control where content projects.
 
+## Stacking
+
+`Layers` hands out the z-indices. A custom overlay appended to the body yourself takes one with
+`Layers.PushLayer(element)`; `Layers.AboveCurrent()` is the value to sit just above whatever is
+showing (that is what popovers use). `Layers.PushAlwaysOnTop(element)` is for page chrome that lives
+outside the body box — an edge-to-edge `Toast().Banner()` — and keeps it above layers pushed later.
+Don't invent a z-index of your own.
+
 ## Example
 
 ```csharp

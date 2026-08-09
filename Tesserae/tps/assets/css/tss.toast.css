@@ -111,3 +111,10 @@
     border-radius: 0px;
     padding: 0px;
 }
+
+/* The rule that divides the strip from the page goes on the edge facing the page, so a banner pinned
+   to the bottom draws it on top rather than off the bottom of the screen. */
+.tss-toast-fullwidth.tss-toast-fullwidth-bottom.tss-toast > .tss-toast-container {
+    border-bottom: none;
+    border-top: 1px solid var(--tss-default-border-color);
+}

@@ -608,6 +608,11 @@ namespace Tesserae
                 _renderedContent.classList.add("tss-toast-fullwidth-bottom");
             }
 
+            // A banner goes to the body on its own rather than through Layer.Show, so it takes its own place
+            // in the z-index stack - pinned above the layers, because it reserves its strip by shrinking the
+            // body and a modal opened later would otherwise cover it.
+            _renderedContent.style.zIndex = Layers.PushAlwaysOnTop(_renderedContent);
+
             document.body.appendChild(_renderedContent);
             var rect = _renderedContent.querySelector(".tss-toast-container").As<HTMLElement>().getBoundingClientRect().As<DOMRect>();
             var h    = rect.height + "px";

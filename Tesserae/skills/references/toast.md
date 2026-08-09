@@ -31,6 +31,14 @@ Other: `.Banner(bool showHideButton = true)` (full-width banner that shifts page
 
 `.Hide()` / `.Remove()` dismiss programmatically.
 
+## Banner mode and stacking
+
+`.Banner()` pins the strip edge to edge and shrinks the page to make room for it, so it is page
+chrome rather than an overlay: it stays above every layer, and a `Modal`, `Panel` or node preview
+opened afterwards is stacked *under* it instead of covering it. A popover opened from inside the
+banner still lands in front of the banner itself. Nothing to configure — don't hand a banner a
+z-index of your own.
+
 ## Dismissing
 
 The banner's `[x]` is hooked to the toast's own hiding, chained *after* whatever `OnDismiss` handler
