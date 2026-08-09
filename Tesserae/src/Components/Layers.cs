@@ -10,11 +10,37 @@ namespace Tesserae
     public static class Layers
     {
         private const int BaseZIndex = 1000;
+
+        // Elements pinned above the whole layer stack. A full-width banner is page chrome: it shrinks the
+        // body and stays fixed to a viewport edge, so a modal opened after it must not cover it. Pushing a
+        // layer lifts them again, and AboveCurrent() counts them so a popover opened from inside one still
+        // lands in front of it.
+        private const string AlwaysOnTopClass    = "tss-always-on-top";
+        private const string AlwaysOnTopSelector = ".tss-always-on-top";
+
         /// <summary>
         /// Configures the push layer on the component.
         /// </summary>
         public static string PushLayer(HTMLElement element)
         {
+            int zIndex = CurrentZIndex() + 10;
+
+            foreach (HTMLElement pinned in document.querySelectorAll(AlwaysOnTopSelector))
+            {
+                pinned.style.zIndex = (zIndex + 5).ToString();
+            }
+
+            return zIndex.ToString();
+        }
+
+        /// <summary>
+        /// Pins an element above every layer and keeps it there: whatever is pushed afterwards lifts it
+        /// again rather than covering it. For page chrome that lives outside the body box, such as an
+        /// edge-to-edge banner - an ordinary overlay wants <see cref="PushLayer"/> instead.
+        /// </summary>
+        public static string PushAlwaysOnTop(HTMLElement element)
+        {
+            element.classList.add(AlwaysOnTopClass);
             return (CurrentZIndex() + 10).ToString();
         }
 
@@ -43,7 +69,14 @@ namespace Tesserae
         /// </summary>
         public static string AboveCurrent()
         {
-            return (CurrentZIndex() + 5).ToString();
+            int maxIndex = CurrentZIndex();
+
+            foreach (HTMLElement pinned in document.querySelectorAll(AlwaysOnTopSelector))
+            {
+                if (int.TryParse(pinned.style.zIndex, out var zIndex) && zIndex > maxIndex) maxIndex = zIndex;
+            }
+
+            return (maxIndex + 5).ToString();
         }
     }
 }
