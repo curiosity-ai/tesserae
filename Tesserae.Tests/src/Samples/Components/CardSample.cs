@@ -53,6 +53,14 @@ namespace Tesserae.Tests.Samples
                     TextBlock("Custom Background").SemiBold().PT(16),
                     Card(TextBlock("This card has a custom background.")).BackgroundColor(Theme.Primary.Background)
                 )).SetTitle("Usage")))
+                .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("SetTitle(text) takes an optional icon drawn just before the title — what the card is about, said in a glyph as well as in words. Pass a color for the icon to give it one of its own; without one it takes the title's."),
+                    TextBlock("Titled cards with icons").SemiBold().PT(16),
+                    Card(TextBlock("The icon takes the title's own color.")).SetTitle("Documents", UIcons.Folder),
+                    Card(TextBlock("A color of its own says something the words don't.")).SetTitle("Rejected items", UIcons.CircleXmark, Theme.Colors.Red600).MT(8),
+                    Card(TextBlock("Any UIcons glyph works, in any weight.")).SetTitle("In my scope", UIcons.Inbox, Theme.Colors.Purple600, UIconsWeight.Solid).MT(8)
+                )).SetTitle("Icons in the title", UIcons.AddressCard, Theme.Colors.Blue600)))
                 .SeeAlso(typeof(SectionStackSample), typeof(ResourceCardSample), typeof(AccordionSample), typeof(MasonrySample), typeof(CardPivotSample));
         }
 

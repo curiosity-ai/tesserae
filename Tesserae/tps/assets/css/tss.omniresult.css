@@ -36,6 +36,24 @@
     background: color-mix(in srgb, var(--tss-primary-background-color) 10%, transparent);
 }
 
+/* TextSelectable(): a row that is read rather than glanced at - a message in a thread, a comment - opts its
+   text back into selecting and copying, and stops reading as a click target. What is a control rather than
+   text stays unselectable, so dragging from the tile or the checkbox still does nothing. The click that ends
+   such a drag is dropped by the row itself, so copying a line never opens the result it came from. */
+.tss-omniresult.tss-omniresult-text-selectable {
+    -webkit-user-select: text;
+    user-select: text;
+    cursor: auto;
+}
+
+.tss-omniresult-text-selectable .tss-omniresult-select,
+.tss-omniresult-text-selectable .tss-omniresult-icon-holder,
+.tss-omniresult-text-selectable .tss-omniresult-commands,
+.tss-omniresult-text-selectable .tss-omniresult-rail {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
 /* Selection ------------------------------------------------------------------------------------- */
 
 .tss-omniresult-select {
@@ -144,58 +162,8 @@
 .tss-omniresult-icon-badge-bl { left: -4px;  bottom: -4px; }
 .tss-omniresult-icon-badge-br { right: -4px; bottom: -4px; }
 
-.tss-omniresult-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-grow: 0;
-    flex-shrink: 0;
-    box-sizing: border-box;
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-    overflow: hidden;
-    font-size: 15px;
-    background: var(--tss-omniresult-icon-background, var(--tss-secondary-background-color));
-    color: var(--tss-omniresult-icon-foreground, var(--tss-default-foreground-color));
-}
-
-.tss-dark-mode .tss-omniresult-icon {
-    background: var(--tss-omniresult-icon-background-dark, var(--tss-secondary-background-color));
-    color: var(--tss-omniresult-icon-foreground-dark, var(--tss-default-foreground-color));
-}
-
-.tss-omniresult-icon.tss-omniresult-icon-plain,
-.tss-dark-mode .tss-omniresult-icon.tss-omniresult-icon-plain {
-    background: var(--tss-secondary-background-color);
-    color: var(--tss-default-foreground-color);
-}
-
-.tss-omniresult-icon-glyph {
-    line-height: 1;
-}
-
-/* A file type spelled out ("PPTX", "XLSX") in place of a glyph. */
-.tss-omniresult-icon-text {
-    font-weight: 700;
-    letter-spacing: .02em;
-    text-transform: uppercase;
-    line-height: 1;
-    text-align: center;
-}
-
-/* The size the tile is sized for, declared through :where() so it costs no specificity - a tss-fontsize-*
-   class from the TextSize passed to SetIcon then wins over it without needing !important. */
-:where(.tss-omniresult-icon-text) {
-    font-size: 12px;
-}
-
-.tss-omniresult-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
+/* The tile itself is an IconTile (see tss.icontile.css): the row only adds this class so the rules above -
+   and the peek overrides below - have something of its own to hang off. */
 
 /* Title, badge, excerpt --------------------------------------------------------------------------- */
 
@@ -709,7 +677,7 @@
 
 /* A tile that spells its file type out has to shrink with the tile, or "DOCX" is cropped rather than
    scaled. */
-.tss-modalstack-peek .tss-omniresult-modal-icon .tss-omniresult-icon-text {
+.tss-modalstack-peek .tss-omniresult-modal-icon .tss-icontile-text {
     font-size: 6.5px;
     letter-spacing: 0;
 }

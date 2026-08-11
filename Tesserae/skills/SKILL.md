@@ -144,12 +144,12 @@ references. Open the reference for whatever you are working with. The full set:
 
 **Components** (plain widgets)
 accordion · action-button · annotated-text-editor · avatar · background-area ·
-badge · button · card · carousel · charts · chat · check-box · choice-group ·
+badge · banner · button · card · carousel · charts · chat · check-box · choice-group ·
 color-picker · command-bar · context-card · context-cards · contribution-bar ·
 cron-editor · date-picker · details-grid ·
 date-range-picker · date-time-picker · delta-component · dropdown ·
 editable-area · editable-label · expander · grid-picker · horizontal-separator ·
-icon · icon-toggle · image · inline-label · inline-pagination · label · live-progress · markdown-block ·
+icon · icon-tile · icon-toggle · image · inline-label · inline-pagination · label · live-progress · markdown-block ·
 menu · message ·
 metric · month-picker · navbar · number-picker · omni-box · omni-result · option ·
 pages-stack · pagination ·

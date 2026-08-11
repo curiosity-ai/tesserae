@@ -83,6 +83,7 @@ namespace Tesserae
     {
         private readonly HTMLElement _selectContainer;
         private readonly HTMLElement _iconHolder;
+        private readonly IconTile    _iconTile;
         private readonly HTMLElement _iconContainer;
         private readonly HTMLElement _idContainer;
         private readonly HTMLElement _idText;
@@ -113,6 +114,7 @@ namespace Tesserae
         private Regex                        _highlighter;
         private OmniResultSelectionMode      _selectionMode = OmniResultSelectionMode.OnHoverBeforeIcon;
         private bool                         _selectionEnabled;
+        private bool                         _textSelectable;
         private bool                         _pagesFanOnHover = true;
         private Action<OmniResult<T>>        _commandsHandler;
         private Action<OmniResult<T>>        _sourceClickHandler;
@@ -149,7 +151,12 @@ namespace Tesserae
             Result = result;
 
             _selectContainer = Div(Att("tss-omniresult-select"));
-            _iconContainer   = Div(Att("tss-omniresult-icon"));
+
+            // The tile is the shared IconTile - the row only adds the class its own rules hang off.
+            _iconTile        = new IconTile();
+            _iconContainer   = _iconTile.Render();
+            _iconContainer.classList.add("tss-omniresult-icon");
+
             _iconHolder      = Div(Att("tss-omniresult-icon-holder"), _iconContainer);
 
             _idText       = Span(Att("tss-omniresult-id-value"));
@@ -382,11 +389,9 @@ namespace Tesserae
         /// </summary>
         public OmniResult<T> SetIcon(UIcons icon, string color = null, UIconsWeight weight = UIconsWeight.Regular)
         {
-            ClearChildren(_iconContainer);
+            _iconTile.SetIcon(icon, color, weight);
 
-            _iconContainer.appendChild(I(icon, weight, "tss-omniresult-icon-glyph"));
-
-            return TintIcon(color);
+            return this;
         }
 
         /// <summary>
@@ -397,13 +402,9 @@ namespace Tesserae
         /// </summary>
         public OmniResult<T> SetIcon(string text, string color = null, TextSize? size = null)
         {
-            ClearChildren(_iconContainer);
+            _iconTile.SetIcon(text, color, size);
 
-            var className = size.HasValue ? $"tss-omniresult-icon-text {size.Value}" : "tss-omniresult-icon-text";
-
-            _iconContainer.appendChild(Span(Att(className, text: text ?? string.Empty)));
-
-            return TintIcon(color);
+            return this;
         }
 
         /// <summary>
@@ -412,11 +413,9 @@ namespace Tesserae
         /// </summary>
         public OmniResult<T> SetIcon(IComponent iconOrImage, string color = null)
         {
-            ClearChildren(_iconContainer);
+            _iconTile.SetIcon(iconOrImage, color);
 
-            if (iconOrImage != null) _iconContainer.appendChild(iconOrImage.Render());
-
-            return TintIcon(color);
+            return this;
         }
 
         /// <summary>
@@ -748,6 +747,26 @@ namespace Tesserae
             _selectionEnabled = false;
 
             ApplySelectionMode();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Makes the row's own text - the title, the excerpt, the content and the footer - selectable, for a
+        /// row that is read rather than glanced at: a message in a thread, a comment, a note someone copies a
+        /// line out of. Off by default, so dragging across an ordinary list of results never leaves half an
+        /// excerpt highlighted.
+        /// <para>
+        /// A click that ended a selection inside the row does not count as a click on the row, so copying a
+        /// line out of one never opens it. The tile, the checkbox and the commands stay unselectable: they are
+        /// controls, not text.
+        /// </para>
+        /// </summary>
+        public OmniResult<T> TextSelectable(bool value = true)
+        {
+            _textSelectable = value;
+
+            InnerElement.UpdateClassIf(value, "tss-omniresult-text-selectable");
 
             return this;
         }
@@ -1545,6 +1564,11 @@ namespace Tesserae
                 // A click on the checkbox, or on a command, is that control's business - not the row's.
                 if (IsWithinControl(mouseEvent)) return;
 
+                // On a row whose text can be selected, the click that ends a drag across it is the end of a
+                // selection rather than a click on the row: opening the result under the text someone is
+                // copying out of it is never what they asked for.
+                if (_textSelectable && HasTextSelectionInside()) return;
+
                 if (_selectionEnabled && mouseEvent.ctrlKey)
                 {
                     StopEvent(mouseEvent);
@@ -1661,6 +1685,19 @@ namespace Tesserae
 
         private static void ClearTextSelection() => window.getSelection()?.removeAllRanges();
 
+        private bool HasTextSelectionInside()
+        {
+            var selection = window.getSelection();
+
+            if (selection is null || selection.isCollapsed) return false;
+
+            //What a selection is anchored to is the text node itself, so the row is asked about the element
+            //holding it - and contains() answers for the element itself as well as for its descendants.
+            var anchor = selection.anchorNode?.parentElement;
+
+            return anchor is object && InnerElement.contains(anchor);
+        }
+
         private void EnsureCheckBox()
         {
             if (_checkBox is object) return;
@@ -1731,26 +1768,6 @@ namespace Tesserae
         private OmniResult<T> UpdateFooterVisibility()
         {
             _footerContainer.style.display = _footerContainer.childElementCount == 0 ? "none" : "";
-
-            return this;
-        }
-
-        private OmniResult<T> TintIcon(string color)
-        {
-            _iconContainer.classList.remove("tss-omniresult-icon-plain");
-
-            if (string.IsNullOrEmpty(color))
-            {
-                _iconContainer.classList.add("tss-omniresult-icon-plain");
-                return this;
-            }
-
-            var tint = OmniResultTints.For(color);
-
-            _iconContainer.style.setProperty("--tss-omniresult-icon-background",      tint.Background);
-            _iconContainer.style.setProperty("--tss-omniresult-icon-foreground",      tint.Foreground);
-            _iconContainer.style.setProperty("--tss-omniresult-icon-background-dark", tint.BackgroundDark);
-            _iconContainer.style.setProperty("--tss-omniresult-icon-foreground-dark", tint.ForegroundDark);
 
             return this;
         }
@@ -1874,75 +1891,4 @@ namespace Tesserae
         }
     }
 
-    /// <summary>
-    /// The colors an <see cref="OmniResult{T}"/> icon tile is drawn with, derived from the one color the
-    /// host passed: the glyph in that color and the tile in a wash of it, in a light and a dark variant.
-    /// </summary>
-    internal sealed class OmniResultTint
-    {
-        internal OmniResultTint(string background, string foreground, string backgroundDark, string foregroundDark)
-        {
-            Background     = background;
-            Foreground     = foreground;
-            BackgroundDark = backgroundDark;
-            ForegroundDark = foregroundDark;
-        }
-
-        internal string Background     { get; }
-        internal string Foreground     { get; }
-        internal string BackgroundDark { get; }
-        internal string ForegroundDark { get; }
-    }
-
-    /// <summary>
-    /// Computes - and remembers - the tile colors derived from a given icon color. A list of results
-    /// usually draws the same handful of colors over and over (one per file type), and every one of them
-    /// costs a parse and two HSL round-trips, so the results are cached by the color they came from.
-    /// </summary>
-    internal static class OmniResultTints
-    {
-        private static readonly Dictionary<string, OmniResultTint> _cache = new Dictionary<string, OmniResultTint>();
-
-        internal static OmniResultTint For(string color)
-        {
-            if (_cache.TryGetValue(color, out var cached)) return cached;
-
-            var tint = Compute(color);
-
-            _cache[color] = tint;
-
-            return tint;
-        }
-
-        private static OmniResultTint Compute(string color)
-        {
-            try
-            {
-                var parsed     = Color.FromString(color);
-                var hue        = parsed.GetHue();
-                var saturation = parsed.GetSaturation();
-                var lightness  = parsed.GetBrightness();
-
-                // Light theme: a pale wash of the color under the glyph, which keeps the color it was given.
-                var background = Color.FromHsl(hue, Math.Min(saturation, 0.85f), 0.925f).ToHex();
-
-                // Dark theme: the wash goes deep instead of pale, and the glyph is lifted until it reads
-                // against it. A grey (unsaturated) color stays grey through both.
-                var backgroundDark = Color.FromHsl(hue, Math.Min(saturation, 0.5f),  0.19f).ToHex();
-                var foregroundDark = Color.FromHsl(hue, Math.Min(saturation, 0.85f), Math.Max(lightness, 0.68f)).ToHex();
-
-                return new OmniResultTint(background, color, backgroundDark, foregroundDark);
-            }
-            catch (Exception)
-            {
-                // Not a color this can take apart (a gradient, a color function, an unknown keyword): mix it
-                // down for the wash instead of computing one, and let the glyph keep it as it was given.
-                return new OmniResultTint(
-                    $"color-mix(in srgb, {color} 14%, transparent)",
-                    color,
-                    $"color-mix(in srgb, {color} 24%, transparent)",
-                    color);
-            }
-        }
-    }
 }

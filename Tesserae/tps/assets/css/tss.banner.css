@@ -1,0 +1,182 @@
+/* Banner — a notice strip: an icon tile, a title with a badge, a message, an action and a dismiss. */
+
+.tss-banner {
+    /* Every color the strip is drawn in comes off this one, so a tone is a single line below. */
+    --tss-banner-accent: var(--tss-secondary-foreground-color);
+    --tss-banner-title-color: var(--tss-default-foreground-color);
+    --tss-banner-text-color: var(--tss-secondary-foreground-color);
+    --tss-banner-surface: color-mix(in srgb, var(--tss-banner-accent) 7%, var(--tss-default-background-color));
+    --tss-banner-border-color: color-mix(in srgb, var(--tss-banner-accent) 22%, transparent);
+
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+    padding: 12px 14px;
+    border: 1px solid var(--tss-banner-border-color);
+    border-radius: var(--tss-border-radius-lg);
+    background: var(--tss-banner-surface);
+    color: var(--tss-banner-text-color);
+}
+
+/* The tones. Primary, Success, Warning and Danger say what they mean loudly enough that the title takes
+   the accent too; the neutral one leaves the text in the page's own colors. */
+.tss-banner-primary { --tss-banner-accent: var(--tss-primary-background-color); }
+.tss-banner-success { --tss-banner-accent: var(--tss-success-background-color); }
+.tss-banner-warning { --tss-banner-accent: var(--tss-warning-background-color); }
+.tss-banner-danger  { --tss-banner-accent: var(--tss-danger-background-color); }
+
+.tss-banner-primary,
+.tss-banner-success,
+.tss-banner-warning,
+.tss-banner-danger {
+    --tss-banner-title-color: color-mix(in srgb, var(--tss-banner-accent) 85%, var(--tss-default-foreground-color));
+    --tss-banner-text-color: color-mix(in srgb, var(--tss-banner-accent) 65%, var(--tss-default-foreground-color));
+}
+
+/* Flat(): pinned edge to edge across a page, so the corners and the side rules would only cut it short. */
+.tss-banner-flat {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+}
+
+.tss-banner-compact {
+    padding: 6px 10px;
+    gap: 8px;
+}
+
+/* Icon tile ------------------------------------------------------------------------------------- */
+
+.tss-banner-icon {
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    align-items: center;
+}
+
+/* Painted from the tone in CSS rather than from a computed tint, so it follows a theme switch. An icon
+   the host gave a color of its own drops this class and keeps its own tint instead. */
+.tss-icontile.tss-banner-icon-tile,
+.tss-dark-mode .tss-icontile.tss-banner-icon-tile {
+    background: color-mix(in srgb, var(--tss-banner-accent) 14%, transparent);
+    color: var(--tss-banner-accent);
+}
+
+.tss-banner-compact .tss-banner-icon > .tss-icontile {
+    --tss-icontile-size: 26px;
+    --tss-icontile-radius: 7px;
+}
+
+/* Title, badge, message --------------------------------------------------------------------------- */
+
+.tss-banner-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.tss-banner-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-width: 0;
+}
+
+.tss-banner-title {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    font-size: var(--tss-font-size-medium);
+    font-weight: var(--tss-font-weight-semibold);
+    line-height: 20px;
+    color: var(--tss-banner-title-color);
+}
+
+.tss-banner-title-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tss-banner-badge {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* The badge borrows the tone rather than a color of its own - it is a label on the notice, not a second
+   thing to read. */
+.tss-banner-badge-pill.tss-badge {
+    background: color-mix(in srgb, var(--tss-banner-accent) 16%, transparent);
+    color: var(--tss-banner-accent);
+    border-color: transparent;
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+.tss-banner-text {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    font-size: var(--tss-font-size-small);
+    line-height: 18px;
+    color: var(--tss-banner-text-color);
+}
+
+/* Whatever the host drops into the title or the message sits on the line rather than carrying the margins
+   it would have had in a stack. */
+.tss-banner-title > .tss-textblock,
+.tss-banner-text > .tss-textblock {
+    margin: 0;
+}
+
+/* Action and dismiss ------------------------------------------------------------------------------ */
+
+.tss-banner-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+/* Warning has no button tone of its own, so the banner paints one. */
+.tss-btn.tss-banner-action-warning {
+    background: var(--tss-warning-background-color);
+    color: var(--tss-warning-foreground-color);
+    border-color: var(--tss-warning-background-color);
+}
+
+.tss-banner-dismiss {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.tss-btn.tss-banner-dismiss-button {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    background: transparent;
+    color: var(--tss-banner-text-color);
+    opacity: 0.7;
+}
+
+.tss-btn.tss-banner-dismiss-button:hover {
+    background: color-mix(in srgb, var(--tss-banner-accent) 14%, transparent);
+    color: var(--tss-banner-title-color);
+    opacity: 1;
+}
+
+/* Inside a toast the strip is the whole surface: the toast container brings the shadow and the rounding,
+   so the banner drops its own frame rather than drawing a second one inside it. */
+.tss-toast-container > .tss-banner {
+    border: none;
+    border-radius: inherit;
+    height: 100%;
+}

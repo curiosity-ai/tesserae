@@ -62,6 +62,9 @@ stands for. Also `new OmniResult<T>(result, title)`. Bring factories into scope 
   (`Tiny`, `XSmall`, `Small`, …) to override that — `Tiny` for text longer than the three or four
   letters a type name usually is.
 - `.SetIcon(IComponent, string color = null)` — an `Image` thumbnail, an `Avatar`, an emoji.
+
+  The tile itself is an `IconTile` (`icon-tile.md`), the same square a `Banner` and a `Metric` lead
+  with — these three overloads hand straight through to it.
 - `.SetIconBadge(IComponent badge, OmniResultBadgeCorner corner = BottomRight)` — a marker pinned to a
   corner of the tile, drawn outside its clipping: where the result came from, that it is pinned.
   Corners: `TopLeft`, `TopRight`, `BottomLeft`, `BottomRight`. Null clears that corner.
@@ -106,6 +109,8 @@ The source leads the line and the metadata follows it, and all of it is `InlineL
   siblings, so the host list decides what "between" means and selects them itself.
 - Ctrl-click toggles the row; Space toggles the focused row; Enter activates it (`OnClick`).
 - `IsActive` — styles the row like a hovered one, for a keyboard-driven list.
+- `.TextSelectable(bool = true)` — the row's own **text** selects and copies, for a row that is read
+  rather than glanced at (see *Selecting text* below). Off by default.
 
 **Commands**
 
@@ -299,8 +304,23 @@ where a result is actually read: there the **title** is selectable, the rest of 
 content you passed to `SetModalContent` is untouched, so a document, a transcript or a details grid
 selects and copies normally.
 
+`.TextSelectable()` opts a row back in, for the rows that *are* read where they sit — a message in a
+thread, a comment, a note someone copies a line out of. Its text selects and copies, the cursor stops
+saying "click me", and the click that ends a drag across it is dropped rather than opening the result
+underneath. The tile, the checkbox and the commands stay unselectable — they are controls, not text —
+and the row still selects, commands and opens by keyboard exactly as before.
+
+```csharp
+OmniResult(message)
+    .SetTitle(message.Subject)
+    .SetContent(MessageBody(message))
+    .TextSelectable()                        // read here, not opened from here
+    .Selectable(OmniResultSelectionMode.ReplacingIcon);
+```
+
 ## Related
 
+- IconTile — the tile the row leads with, on its own — `icon-tile.md`
 - ModalStack — the deck a result's modal is usually pushed onto — `modal-stack.md`
 - InlinePagination — the previous/next control in its modal header — `inline-pagination.md`
 - InlineLabel — what its footer is a line of — `inline-label.md`
