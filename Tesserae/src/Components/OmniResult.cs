@@ -130,6 +130,7 @@ namespace Tesserae
         private bool                                  _modalKeepsIcon;
         private bool                                  _modalKeepsFooter;
 
+        private HTMLElement           _footerStandIn;
         private Modal                 _modal;
         private Action<OmniResult<T>> _modalCommands;
         private Action<OmniResult<T>> _modalFullScreen;
@@ -1166,8 +1167,13 @@ namespace Tesserae
 
         /// <summary>
         /// Keeps the footer - the source and the metadata beside it - as a second line under the title in the
-        /// modal's header, so where a result came from is still said once it is open. The source stays
-        /// clickable when the row's is. Off by default.
+        /// modal's header, so where a result came from is still said once it is open. Off by default.
+        /// <para>
+        /// The modal shows the row's own footer line, not a snapshot of it: entries that only arrive once a
+        /// query answers show up in the open modal, and every entry stays as clickable as it is in the row.
+        /// The row keeps a copy of the line in its place while the modal holds the original, and gets the
+        /// original back when the modal hides.
+        /// </para>
         /// </summary>
         public OmniResult<T> ModalKeepsFooter(bool value = true)
         {
@@ -1201,6 +1207,9 @@ namespace Tesserae
             _modal = modal;
 
             modal.HideCloseButton().SetHeaderCommands(ModalHeaderCommands());
+
+            //The header borrowed the row's own footer line; the row gets it back when the sheet closes.
+            if (_modalKeepsFooter) modal.OnHide(_ => ReturnFooterToRow());
 
             if (_modalShortcuts) modal.SetFooter(ModalShortcutsBar());
 
@@ -1450,9 +1459,11 @@ namespace Tesserae
 
             var main = Div(Att("tss-omniresult-modal-main"), titleRow);
 
-            if (_modalKeepsFooter && _footerContainer.childElementCount > 0)
+            //Not gated on the footer having entries yet: the line hides itself while it is empty, so one that
+            //is still waiting on a query shows up in the open modal once the query answers.
+            if (_modalKeepsFooter)
             {
-                main.appendChild(CopyOfFooter());
+                main.appendChild(FooterForModal());
             }
 
             var header = Div(Att("tss-omniresult-modal-header"));
@@ -1464,8 +1475,41 @@ namespace Tesserae
             return Raw(header);
         }
 
-        // The row keeps its own tile and footer - the modal gets copies of them, so opening a result never
-        // takes anything out of the row behind it.
+        // The modal shows the row's own footer rather than a copy of it: an entry that only arrives once a
+        // query answers lands in the open modal, and the handlers on the entries already there still answer.
+        // A copy takes its place in the row behind - so nothing disappears from under the sheet - and the row
+        // gets the original back when the modal hides.
+        private HTMLElement FooterForModal()
+        {
+            if (_footerContainer.parentElement == _mainContainer)
+            {
+                _footerStandIn = CopyOfFooter();
+
+                _mainContainer.replaceChild(_footerStandIn, _footerContainer);
+            }
+
+            return _footerContainer;
+        }
+
+        private void ReturnFooterToRow()
+        {
+            if (_footerStandIn is null) return;
+
+            var standIn = _footerStandIn;
+
+            _footerStandIn = null;
+
+            //The modal keeps a copy of the line it is handing back, so showing it again doesn't show a header
+            //with a gap where the footer was.
+            _footerContainer.parentElement?.replaceChild(CopyOfFooter(), _footerContainer);
+
+            standIn.parentElement?.replaceChild(_footerContainer, standIn);
+
+            UpdateFooterVisibility();
+        }
+
+        // The row keeps its own tile - the modal gets a copy of it, so opening a result never takes the tile
+        // out of the row behind it.
         private HTMLElement CopyOfIcon()
         {
             var copy = _iconHolder.cloneNode(true).As<HTMLElement>();

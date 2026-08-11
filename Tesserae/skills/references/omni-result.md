@@ -159,16 +159,18 @@ and the detail are one object rather than two that have to be kept in step.
   and the title, so an opened result still shows what kind of thing it is. Everything the tile
   carries comes with it: the glyph or thumbnail, its tint, and any corner badges. Off by default.
 - `.ModalKeepsFooter(bool = true)` — keeps the footer (the source and the metadata beside it) as a
-  second line under the title, so where a result came from is still said once it is open. A clickable
-  source stays clickable. Off by default.
+  second line under the title, so where a result came from is still said once it is open. Off by
+  default.
 - `.SetModalHeader(Func<OmniResult<T>, IComponent>)` — replaces the default header (the same
   identifier, chevron and title the row shows, plus whatever the two options above kept) with one
   built from the result — for a header that also carries commands or status beside the title. Null
   goes back to the default.
 - `.ModalTitle()` — that default header on its own, to build around.
 
-Both options **copy** what the row drew rather than moving it, so opening a result never takes the
-tile or the footer out of the row behind it.
+The tile is **copied** into the header, so opening a result never takes it out of the row behind it.
+The footer is the row's **own** line, moved into the header with a copy left in the row's place and
+handed back when the modal hides — so an entry that only arrives once a query answers shows up in the
+open modal, and every entry stays as clickable there as it is in the row.
 - `.ToModal()` — a `Modal` with that header and content, at that size, or null when the row has no
   modal content. Dismissal, bounds and how it is shown are still the caller's.
 - `.CurrentModal` — the modal `ToModal()` last built, or null.
