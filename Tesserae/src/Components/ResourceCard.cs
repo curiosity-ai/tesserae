@@ -31,39 +31,39 @@ namespace Tesserae
         {
             _iconContainer = Div(Att("tss-default-component-no-margin"));
             _titleContainer = Div(Att("tss-default-component-no-margin"));
-            var titleRow = HStack().AlignItems(ItemAlign.Center).Children(
+            var titleRow = HStack().AlignItems(ItemAlign.Center).NoWrap().Children(
                 Raw(_iconContainer),
-                Raw(_titleContainer).WS().PaddingLeft(8.px())
+                Raw(_titleContainer).WS().PL(8)
             );
 
             _subtitleContainer = Div(Att("tss-default-component-no-margin"));
             _tagsContainer = Div(Att("tss-default-component-no-margin"));
 
-            var subtitleRow = HStack().AlignItems(ItemAlign.Center).PaddingTop(8.px()).Children(
+            var subtitleRow = HStack().AlignItems(ItemAlign.Center).NoWrap().PT(8).W(10).Grow().Children(
                 Raw(_subtitleContainer),
-                Raw(_tagsContainer).WS().PaddingLeft(8.px())
+                Raw(_tagsContainer).WS().PL(8)
             );
 
-            var headerContainer = VStack().Children(titleRow, subtitleRow);
+            var headerContainer = VStack().WS().Children(titleRow, subtitleRow);
 
             _descriptionContainer = Div(Att("tss-default-component-no-margin"));
             _dateContainer = Div(Att("tss-default-component-no-margin"));
 
-            var bodyContainer = VStack().PaddingTop(16.px()).PaddingBottom(16.px()).Children(
+            var bodyContainer = VStack().PT(16).PB(16).WS().Children(
                 Raw(_descriptionContainer),
-                Raw(_dateContainer).WS().PaddingTop(16.px())
+                Raw(_dateContainer).WS().PT(16)
             );
 
             _footerLeft = Div(Att("tss-default-component-no-margin"));
             _footerRight = Div(Att("tss-default-component-no-margin"));
 
-            _footerContainer = HStack().AlignItems(ItemAlign.Center).JustifyContent(ItemJustify.Between)
-                .PaddingTop(12.px())
+            _footerContainer = HStack().WS().AlignItems(ItemAlign.Center).JustifyContent(ItemJustify.Between)
+                .PT(12)
                 .Children(Raw(_footerLeft), Raw(_footerRight));
 
             _footerContainer.Render().style.borderTop = "1px solid var(--tss-default-border-color, var(--tss-card-border-color, #e1dfdd))";
 
-            var mainStack = VStack().Padding(16.px()).Children(headerContainer, bodyContainer, _footerContainer);
+            var mainStack = VStack().S().P(16).Children(headerContainer, bodyContainer, _footerContainer);
 
             _card = Card(mainStack).NoPadding();
 
