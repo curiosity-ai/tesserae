@@ -22,6 +22,12 @@ namespace Tesserae
                 onClick?.Invoke();
             });
 
+            // A ToolsUsed summary toggles on a tap gesture rather than on a click (see its
+            // constructor), and a gesture is recognised from the pointer events - which a stopped
+            // click never reaches. Without this the group folds up under the action being pressed.
+            button.addEventListener("pointerdown", ev => StopEvent(ev));
+            button.addEventListener("pointerup",   ev => StopEvent(ev));
+
             if (!string.IsNullOrEmpty(tooltip)) Raw(button).Tooltip(tooltip);
 
             return button;
