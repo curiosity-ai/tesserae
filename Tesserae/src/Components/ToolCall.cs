@@ -6,6 +6,29 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     /// <summary>
+    /// The buttons a <see cref="ToolCall"/> / <see cref="ToolsUsed"/> header carries, built the same
+    /// way for both so an action looks identical whether it sits on a single call or on a group.
+    /// </summary>
+    internal static class ToolCallActions
+    {
+        internal static HTMLElement Build(UIcons icon, string tooltip, Action onClick)
+        {
+            var button = UI.Button(Att("tss-toolcall-action", type: "button", ariaLabel: tooltip), I(icon));
+
+            // The header toggles the call, so an action inside it has to keep its click to itself.
+            button.addEventListener("click", ev =>
+            {
+                StopEvent(ev);
+                onClick?.Invoke();
+            });
+
+            if (!string.IsNullOrEmpty(tooltip)) Raw(button).Tooltip(tooltip);
+
+            return button;
+        }
+    }
+
+    /// <summary>
     /// Inline tool-call indicator that expands accordion-style to show the
     /// associated content. The content component is created lazily the first
     /// time the user expands the tool call.
@@ -18,6 +41,7 @@ namespace Tesserae
         private readonly HTMLElement      _textContainer;
         private readonly HTMLElement      _chevron;
         private readonly HTMLElement      _content;
+        private          HTMLElement      _actions;
         private          UIcons           _icon;
         private          string           _text;
         private          Func<IComponent> _contentFactory;
@@ -186,6 +210,44 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Adds a button to the header of this call, next to the chevron - a way into whatever the call
+        /// stands for that doesn't fit inside its content (opening the run it started, retrying it, ...).
+        /// Clicking it runs the handler only: the call is neither expanded nor collapsed by it.
+        /// </summary>
+        public ToolCall AddAction(UIcons icon, string tooltip, Action<ToolCall> onClick)
+        {
+            EnsureActions().appendChild(ToolCallActions.Build(icon, tooltip, () => onClick?.Invoke(this)));
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a button to the header of this call, next to the chevron.
+        /// </summary>
+        public ToolCall AddAction(UIcons icon, string tooltip, Action onClick) => AddAction(icon, tooltip, _ => onClick?.Invoke());
+
+        /// <summary>
+        /// Removes every button added with <see cref="AddAction(UIcons, string, Action{ToolCall})"/>.
+        /// </summary>
+        public ToolCall ClearActions()
+        {
+            if (_actions is object) ClearChildren(_actions);
+
+            return this;
+        }
+
+        private HTMLElement EnsureActions()
+        {
+            if (_actions is null)
+            {
+                _actions = Div(Att("tss-toolcall-actions"));
+                _header.insertBefore(_actions, _chevron);
+            }
+
+            return _actions;
+        }
+
+        /// <summary>
         /// Configures the not expandable on the component.
         /// </summary>
         public ToolCall NotExpandable()
@@ -303,6 +365,7 @@ namespace Tesserae
         private readonly HTMLElement      _summaryChevron;
         private readonly HTMLElement      _inlineList;
         private readonly List<ToolCall>   _tools;
+        private          HTMLElement      _actions;
         private          LiveProgress     _progress;
         private          string           _summaryLabel;
         private          UIcons           _summaryIconKind = UIcons.Tools;
@@ -591,6 +654,44 @@ namespace Tesserae
             }
 
             return _progress;
+        }
+
+        /// <summary>
+        /// Adds a button to the summary of this group, next to the chevron - a way into whatever the
+        /// group stands for (the run whose calls it lists, for instance) that isn't one of the calls
+        /// themselves. Clicking it runs the handler only: the group is neither opened nor folded by it.
+        /// </summary>
+        public ToolsUsed AddAction(UIcons icon, string tooltip, Action<ToolsUsed> onClick)
+        {
+            EnsureActions().appendChild(ToolCallActions.Build(icon, tooltip, () => onClick?.Invoke(this)));
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a button to the summary of this group, next to the chevron.
+        /// </summary>
+        public ToolsUsed AddAction(UIcons icon, string tooltip, Action onClick) => AddAction(icon, tooltip, _ => onClick?.Invoke());
+
+        /// <summary>
+        /// Removes every button added with <see cref="AddAction(UIcons, string, Action{ToolsUsed})"/>.
+        /// </summary>
+        public ToolsUsed ClearActions()
+        {
+            if (_actions is object) ClearChildren(_actions);
+
+            return this;
+        }
+
+        private HTMLElement EnsureActions()
+        {
+            if (_actions is null)
+            {
+                _actions = Div(Att("tss-toolsused-actions"));
+                _header.insertBefore(_actions, _summaryChevron);
+            }
+
+            return _actions;
         }
 
         /// <summary>
