@@ -1,15 +1,29 @@
 /* ToolCall — inline accordion-like tool call indicator */
 
+/* The box does not clip: an action hangs off its right edge (see below) and would be cut off by it.
+   What the clipping was for - the header's hover fill and the content's own background painting
+   square corners over the rounded border - is done by giving those two the matching radii instead. */
 .tss-toolcall {
     display: inline-flex;
     flex-direction: column;
     border: 1px solid var(--tss-default-border-color);
     border-radius: 8px;
     background: var(--tss-default-background-color);
-    overflow: hidden;
     max-width: 100%;
     box-sizing: border-box;
     margin-bottom: 8px;
+}
+
+.tss-toolcall > .tss-toolcall-header {
+    border-radius: 7px;
+}
+
+.tss-toolcall.tss-expanded > .tss-toolcall-header {
+    border-radius: 7px 7px 0 0;
+}
+
+.tss-toolcall > .tss-toolcall-content {
+    border-radius: 0 0 7px 7px;
 }
 
 .tss-toolcall-header {
@@ -63,13 +77,43 @@
     margin-left: 8px;
 }
 
-/* Header actions — a way into what the call stands for, sitting between the progress and the chevron. */
+/* Header actions — a way into what the call stands for. They hang off the right of the header rather
+   than sitting inside it: the header is the call, and an action is about what the call led to, so it
+   reads as something beside the chip instead of another control on it. Out of flow, so a call is the
+   same width with or without them, and quiet until the pointer is anywhere on the call. */
 .tss-toolcall-actions,
 .tss-toolsused-actions {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 6px;
     display: flex;
     align-items: center;
     gap: 2px;
     flex-shrink: 0;
+    opacity: 0.35;
+    transition: opacity 0.12s ease-in-out;
+}
+
+.tss-toolcall-header,
+.tss-toolsused-header {
+    position: relative;
+}
+
+.tss-toolcall:hover .tss-toolcall-actions,
+.tss-toolcall:focus-within .tss-toolcall-actions,
+.tss-toolsused:hover .tss-toolsused-actions,
+.tss-toolsused:focus-within .tss-toolsused-actions {
+    opacity: 1;
+}
+
+/* Nothing hovers on a touch screen, so there the actions are simply always at full strength. */
+@media (hover: none) {
+    .tss-toolcall-actions,
+    .tss-toolsused-actions {
+        opacity: 1;
+    }
 }
 
 .tss-toolcall-action {
@@ -95,6 +139,7 @@
 .tss-toolcall-action:focus-visible {
     outline: 2px solid var(--tss-primary-background-color);
     outline-offset: 1px;
+    opacity: 1;
 }
 
 .tss-toolcall-chevron {
@@ -226,12 +271,15 @@
     border-top: 1px solid var(--tss-default-border-color);
 }
 
+/* A row of the list is not a box of its own, so it keeps the square corners the list clips for it. */
 .tss-toolsused-inline-list > .tss-toolcall > .tss-toolcall-header {
     padding: 8px 12px;
+    border-radius: 0;
 }
 
 .tss-toolsused-inline-list > .tss-toolcall > .tss-toolcall-content {
     padding: 8px 12px 10px 12px;
+    border-radius: 0;
 }
 
 /* ToolsUsed modal layout */
