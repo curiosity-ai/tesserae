@@ -356,3 +356,25 @@
 .tss-dropdown-layer {
     align-items: flex-start;
 }
+
+/* SearchAsync: while a lookup is in flight the search box swaps its magnifier for a spinner. The
+   glyph lives on a span inside the icon container, so hide that and draw the spinner on the
+   container itself rather than fighting the icon font's own ::before. */
+.tss-dropdown-popup .tss-dropdown-searchbox.tss-dropdown-searchbox-busy > .tss-searchbox-icon > span {
+    display: none;
+}
+
+.tss-dropdown-popup .tss-dropdown-searchbox.tss-dropdown-searchbox-busy > .tss-searchbox-icon::after {
+    content: "";
+    align-self: center;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1.5px solid;
+    border-color: var(--tss-primary-background-color) var(--tss-progress-background-color) var(--tss-progress-background-color);
+    box-sizing: border-box;
+    animation-name: tss-spinner-animation;
+    animation-duration: 1.3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(0.53, 0.21, 0.29, 0.67);
+}
