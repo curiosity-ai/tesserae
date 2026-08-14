@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -77,6 +78,14 @@ namespace Tesserae.Tests.Samples
                         )),
                         Label("Empty State").SetContent(Dropdown("No items available").Items(new Dropdown.Item[0]))
                     ),
+                    SampleSubTitle("Lazy Search (SearchAsync)"),
+                    VStack().Children(
+                        TextBlock("With thousands of options there is no loading them all up front. Seed the dropdown with the first page, and let SearchAsync fetch the rest as the User types - the items it returns are added to the ones already there, so the seed and the current selection survive every lookup. This example holds 5,000 people and seeds only the first 20.").Medium(),
+                        Label("Search 5,000 people").SetContent(
+                            Dropdown()
+                               .Items(FirstPageOfPeople())
+                               .SearchAsync(SearchPeopleAsync, placeholder: "Type a name..."))
+                    ),
                     SampleSubTitle("Validation"),
                     VStack().Children(
                         Label("Required Dropdown").SetContent(Dropdown().Required().Items(
@@ -109,6 +118,29 @@ namespace Tesserae.Tests.Samples
                 return Label($"Loaded {text}");
             }, loadMessage: Skeleton().Animated().W(500).H(32)));
         }
+
+        // Stands in for the server: 5,000 options that would be senseless to render up front.
+        private static readonly string[] _people = Enumerable.Range(1, 5000).Select(i => $"Person {i:0000}").ToArray();
+
+        private static Dropdown.Item[] FirstPageOfPeople() => _people.Take(20).Select(PersonItem).ToArray();
+
+        // Whatever this returns is ADDED to the items already in the dropdown, and anything whose key
+        // is already listed is dropped - so returning a page that overlaps the seed is harmless.
+        private static async Task<Dropdown.Item[]> SearchPeopleAsync(string searchTerm)
+        {
+            await Task.Delay(400); // The round trip a real lookup would pay for
+
+            if (string.IsNullOrWhiteSpace(searchTerm)) return FirstPageOfPeople();
+
+            return _people.Where(p => p.ToLower().Contains(searchTerm.ToLower()))
+                          .Take(50)
+                          .Select(PersonItem)
+                          .ToArray();
+        }
+
+        // The key is what tells two options apart when their text is not unique, and what lets a
+        // lookup return options the dropdown already knows about without duplicating them.
+        private static Dropdown.Item PersonItem(string person) => DropdownItem(person).SetKey(person);
 
         private async Task<Dropdown.Item[]> GetItemsAsync()
         {
