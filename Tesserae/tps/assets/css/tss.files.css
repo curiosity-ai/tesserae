@@ -109,7 +109,18 @@
     position: relative;
     display: inline-flex;
     flex-direction: column;
+    cursor: pointer;
 }
+
+    .tss-filedroparea-wrapper a,
+    .tss-filedroparea-wrapper button,
+    .tss-filedroparea-wrapper input,
+    .tss-filedroparea-wrapper select,
+    .tss-filedroparea-wrapper textarea,
+    .tss-filedroparea-wrapper [role="button"],
+    .tss-filedroparea-wrapper [role="link"] {
+        cursor: revert;
+    }
 
 .tss-filedroparea-overlay {
     position: absolute;
