@@ -36,6 +36,12 @@ namespace Tesserae.Tests.Samples
             var sidebarOpen = SettableObservable.Of(true);
             var tags        = SettableObservable.Of<IReadOnlyList<string>>(new[] { "red", "green" });
             var speed       = SettableObservable.Of("medium");
+
+            // A list whose items are themselves observables: ObservableList hooks each item, so an edit
+            // to one item's value raises a change on the list.
+            var firstTask   = SettableObservable.Of("Write the spec");
+            var secondTask  = SettableObservable.Of("Review the spec");
+            var taskList    = new ObservableList<SettableObservable<string>>(firstTask, secondTask);
             var size        = SettableObservable.Of<ChoiceGroup.Choice>(null);
             var pinned      = SettableObservable.Of(false);
             var view        = SettableObservable.Of("list");
@@ -253,7 +259,15 @@ namespace Tesserae.Tests.Samples
                             Button("beta").OnClick(() => pivotTab.Value  = "beta"),
                             Button("gamma").OnClick(() => pivotTab.Value = "gamma"),
                             DeferSync(pivotTab, t => TextBlock($"selected = {t}").SemiBold().ML(8))
-                        )
+                        ),
+                        SampleSubTitle("A list of observables reports nested changes"),
+                        TextBlock("An ObservableList<T> whose T is itself an observable subscribes to each item it holds, so the read-out below refreshes when an item's value changes — not only when items are added or removed."),
+                        HStack().Children(
+                            TextBox().Bind(firstTask).Width(200.px()),
+                            TextBox().Bind(secondTask).Width(200.px()),
+                            Button("Add a task").OnClick(() => taskList.Add(SettableObservable.Of($"Task {taskList.Count + 1}")))
+                        ),
+                        DeferSync(taskList, tasks => TextBlock(string.Join(" · ", tasks.Select(t => t.Value))).SemiBold())
                     )).SetTitle("Usage")))
                .SeeAlso(typeof(KeyedObservableStackSample), typeof(DeferSample), typeof(PropertyGridSample), typeof(ValidatorSample));
 
