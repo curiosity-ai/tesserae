@@ -42,6 +42,10 @@
     transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
+    .tss-icon-toggle > .tss-btn.tss-btn-only-icon {
+        aspect-ratio:unset;
+    }
+
     .tss-icon-toggle > .tss-btn.tss-icon-toggle-item > i {
         color: inherit;
         font-size: var(--tss-icon-toggle-icon-size);

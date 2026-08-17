@@ -182,7 +182,7 @@ segmented-pivot · split-view · tabbed-modal · tool-agent-selector · tutorial
 **Utilities** (non-visual helpers, theming, gestures)
 color-palette · command-palette · defer · defer-with-progress · emoji ·
 file-selector-and-drop-area · gestures · gradients · keyboard-shortcut ·
-node-view · notification-center · tippy · toast · uicons · validator
+node-view · notification-center · tippy · toast · uicons · unsaved-changes-guard · validator
 
 To find the reference for a component, lowercase-kebab its name and open
 `references/<that>.md` (e.g. `DetailsList` → `references/details-list.md`). If you
