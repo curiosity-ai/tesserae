@@ -21,7 +21,7 @@ Bring factories into scope with `using static Tesserae.UI;`.
 
 ## Key configuration
 
-- `.Add(IComponent)` — add a child (wrapped in a `tss-stack-item`).
+- `.Add(IComponent)` — add a child (its element becomes the grid item, tagged `tss-stack-item`).
 - `.Columns(params UnitSize[])` / `.Rows(UnitSize[])` — (re)define tracks.
 - `.Gap(UnitSize)` / `.RowGap(...)` / `.ColumnGap(...)` — spacing.
 - `.AutoRows(UnitSize)` / `.AutoColumn(UnitSize)` / `.FlowColumn()` — implicit tracks and flow.

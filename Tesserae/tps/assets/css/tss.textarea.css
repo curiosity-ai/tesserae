@@ -5,7 +5,7 @@
 
 /* The container is a full-height flex column so that whenever it is given a height -
    directly with .Height(...), or indirectly because .Grow()/.HS() stretched the
-   tss-stack-item that wraps it - the text area fills that height instead of staying at
+   stack item it is - the text area fills that height instead of staying at
    its intrinsic size, and the error message still gets its own space below it. */
 .tss-textarea-container {
     display: flex;

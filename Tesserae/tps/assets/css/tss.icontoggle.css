@@ -22,10 +22,10 @@
 }
 
 /* The items are Buttons, so the shared .tss-btn look (min-width, own shadow, hover background) has
-   to be unwound before the segment styling can take over. The selectors go through .tss-stack-item
+   to be unwound before the segment styling can take over. The buttons are the stack items themselves (they carry .tss-stack-item)
    because Stack wraps every child, and they carry enough classes to outrank .tss-btn-default's own
    states without needing !important. */
-.tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item {
+.tss-icon-toggle > .tss-btn.tss-icon-toggle-item {
     min-width: 0;
     min-height: var(--tss-icon-toggle-height);
     height: var(--tss-icon-toggle-height);
@@ -42,28 +42,28 @@
     transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-    .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item > i {
+    .tss-icon-toggle > .tss-btn.tss-icon-toggle-item > i {
         color: inherit;
         font-size: var(--tss-icon-toggle-icon-size);
     }
 
     /* The 10px the shared button style puts between icon and label is too airy at this scale. */
-    .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item > i + span:not(:empty) {
+    .tss-icon-toggle > .tss-btn.tss-icon-toggle-item > i + span:not(:empty) {
         margin-left: 6px;
         min-width: 0;
     }
 
-    .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
         background-color: color-mix(in srgb, var(--tss-default-foreground-color) 8%, transparent);
         color: var(--tss-default-foreground-color);
     }
 
-    .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):active {
+    .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):active {
         background-color: color-mix(in srgb, var(--tss-default-foreground-color) 14%, transparent);
     }
 
-    .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
-    .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+    .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
         background: var(--tss-default-background-color);
         color: var(--tss-default-foreground-color);
         /* --tss-shadow-sm on its own is a 5%-opacity drop in the light theme, which against a track only
@@ -75,25 +75,25 @@
 
     /* In the dark theme the default background is darker than the track, and a pill darker than what
        it sits in reads as recessed rather than raised — so there the selection goes lighter instead. */
-    .tss-dark-mode .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
-    .tss-dark-mode .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    .tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+    .tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
         background: color-mix(in srgb, var(--tss-default-foreground-color) 22%, var(--tss-secondary-background-color));
     }
 
     /* The dark theme's secondary foreground is the same colour as the default one, so an unselected
        item needs dimming of its own to keep the selection readable. */
-    .tss-dark-mode .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):not(:hover) {
+    .tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):not(:hover) {
         color: color-mix(in srgb, var(--tss-default-foreground-color) 70%, var(--tss-secondary-background-color));
     }
 
     /* The segment styling above always wins over .tss-btn:focus's ring (it sets box-shadow), so the
        keyboard affordance is an outline instead. */
-    .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item:focus-visible {
+    .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
         outline: 2px solid var(--tss-primary-background-color);
         outline-offset: -1px;
     }
 
-    .tss-icon-toggle > .tss-stack-item > .tss-btn.tss-icon-toggle-item.tss-disabled {
+    .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-disabled {
         background: transparent;
         box-shadow: none;
         color: var(--tss-disabled-foreground-color);
@@ -135,7 +135,7 @@
     align-self: stretch;
 }
 
-.tss-icon-toggle.tss-icon-toggle-vertical > .tss-stack-item > .tss-btn.tss-icon-toggle-item {
+.tss-icon-toggle.tss-icon-toggle-vertical > .tss-btn.tss-icon-toggle-item {
     width: 100%;
 }
 
@@ -149,7 +149,7 @@
         min-width: 0;
     }
 
-    .tss-icon-toggle.tss-icon-toggle-full-width > .tss-stack-item > .tss-btn.tss-icon-toggle-item {
+    .tss-icon-toggle.tss-icon-toggle-full-width > .tss-btn.tss-icon-toggle-item {
         width: 100%;
     }
 
