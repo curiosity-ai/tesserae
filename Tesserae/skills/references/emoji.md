@@ -18,6 +18,9 @@ Tesserae ships an auto-generated `Emoji` enum covering the Emoji.css set. Render
 - `Emoji.Smile`, `Emoji.Rocket`, `Emoji.HeartEyes`, … — discover values via IntelliSense on the `Emoji` enum.
 - Style the resulting `Icon` like any component: `.Foreground(...)`, sizing helpers, etc.
 - For UI glyphs (non-emoji) use `UIcons` instead (see uicons skill).
+- Need the raw CSS class of an emoji? Call `emoji.ToCssClass()` rather than `emoji.ToString()` —
+  the enum is large enough that the runtime's `Enum.ToString()` scan is noticeable in a list; the
+  extension answers from a lookup table instead.
 
 ## Example
 

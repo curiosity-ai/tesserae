@@ -36,7 +36,7 @@ namespace Tesserae
         /// </summary>
         public Icon(Emoji icon, TextSize size = TextSize.Medium)
         {
-            var iconStr = $"ec {icon} {size}";
+            var iconStr = $"ec {icon.ToCssClass()} {size}";
 
             InnerElement                 = I(Att("tss-icon " + iconStr));
             InnerElement.dataset["icon"] = iconStr;
@@ -47,7 +47,7 @@ namespace Tesserae
         /// </summary>
         public Icon SetIcon(Emoji icon, TextSize size = TextSize.Medium)
         {
-            var iconStr = $"ec {icon} {size}";
+            var iconStr = $"ec {icon.ToCssClass()} {size}";
             var current = InnerElement.dataset["icon"].As<string>();
 
             if (!string.IsNullOrWhiteSpace(current))
@@ -86,7 +86,7 @@ namespace Tesserae
         /// </summary>
         public static string Transform(UIcons icon, UIconsWeight weight)
         {
-            string v = icon.ToString();
+            string v = icon.ToCssClass();
             if (weight == UIconsWeight.Regular) return v;
             return weight + v.Substring(6);
         }

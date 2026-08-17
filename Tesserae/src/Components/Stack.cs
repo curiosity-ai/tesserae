@@ -100,7 +100,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-as", "");
+                Mark(item, "tss-stk-as");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -132,7 +132,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-js", "");
+                Mark(item, "tss-stk-js");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -290,7 +290,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-w", "");
+                Mark(item, "tss-stk-w");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -307,7 +307,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-mw", "");
+                Mark(item, "tss-stk-mw");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -324,7 +324,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-mxw", "");
+                Mark(item, "tss-stk-mxw");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -341,7 +341,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-h", "");
+                Mark(item, "tss-stk-h");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -358,7 +358,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-mh", "");
+                Mark(item, "tss-stk-mh");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -375,7 +375,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-mxh", "");
+                Mark(item, "tss-stk-mxh");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -392,7 +392,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-m", "");
+                Mark(item, "tss-stk-m");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -409,7 +409,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-m", "");
+                Mark(item, "tss-stk-m");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -426,7 +426,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-m", "");
+                Mark(item, "tss-stk-m");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -443,7 +443,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-m", "");
+                Mark(item, "tss-stk-m");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -460,7 +460,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-p", "");
+                Mark(item, "tss-stk-p");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -477,7 +477,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-p", "");
+                Mark(item, "tss-stk-p");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -494,7 +494,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-p", "");
+                Mark(item, "tss-stk-p");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -512,7 +512,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-p", "");
+                Mark(item, "tss-stk-p");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -530,7 +530,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-fg", "");
+                Mark(item, "tss-stk-fg");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -547,7 +547,7 @@ namespace Tesserae
 
             if (remember)
             {
-                item.setAttribute("tss-stk-fs", "");
+                Mark(item, "tss-stk-fs");
 
                 if (component.HasOwnProperty("StackItem"))
                 {
@@ -804,6 +804,18 @@ namespace Tesserae
             return item;
         }
 
+        // Marks an element as carrying one of the sizing markers below, and records that fact under a
+        // single umbrella attribute. Every child added to a Stack or Grid runs through
+        // CopyStylesDefinedWithExtension, and most children were never given a sizing helper at all —
+        // the umbrella lets that case cost one attribute lookup instead of thirteen.
+        private const string AnyMarker = "tss-stk";
+
+        private static void Mark(HTMLElement item, string marker)
+        {
+            item.setAttribute(marker,    "");
+            item.setAttribute(AnyMarker, "");
+        }
+
         internal static void CopyStylesDefinedWithExtension(HTMLElement from, HTMLElement to)
         {
             // RFO: this class does some magic to move any styles applied to an element using the extensions methods like Width, etc... to the actual StackItem HTML element
@@ -811,6 +823,14 @@ namespace Tesserae
 
             var fs = from.style;
             var ts = to.style;
+
+            if (!from.hasAttribute(AnyMarker))
+            {
+                PropagateStyleClasses(from, to);
+                return;
+            }
+
+            from.removeAttribute(AnyMarker);
 
             bool has(string att)
             {
@@ -885,9 +905,18 @@ namespace Tesserae
             if (has("tss-stk-as")) { ts.alignSelf = fs.alignSelf; /*fs.alignSelf = "";*/ }
             if (has("tss-stk-js")) { ts.justifySelf= fs.justifySelf; /*fs.justifySelf = "";*/ }
 
-            //We need to propagate some styles otherwise they don't work if they were applied before adding to the stack
-            foreach (var s in _stylesToPropagate)
+            PropagateStyleClasses(from, to);
+        }
+
+        //We need to propagate some styles otherwise they don't work if they were applied before adding to the stack
+        private static void PropagateStyleClasses(HTMLElement from, HTMLElement to)
+        {
+            // Indexed rather than foreach — this runs for every child added to a Stack or Grid, and a
+            // foreach over the array still costs an enumerator allocation and a try/finally.
+            for (int i = 0; i < _stylesToPropagate.Length; i++)
             {
+                var s = _stylesToPropagate[i];
+
                 if (from.classList.contains(s))
                 {
                     from.classList.remove(s);

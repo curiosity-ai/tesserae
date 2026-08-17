@@ -34,7 +34,7 @@ namespace Tesserae
         public SearchBox(string placeholder = string.Empty)
         {
             InnerElement = UI.TextBox(Att(className: "tss-searchbox tss-fontsize-small tss-fontweight-regular", type: "search", placeholder: placeholder));
-            _icon              = Span(Att(UIcons.Search.ToString()));
+            _icon              = Span(Att(UIcons.Search.ToCssClass()));
             _iconContainer     = Div(Att("tss-searchbox-icon"), _icon);
             _shortcutContainer = Div(Att("tss-searchbox-shortcut"));
             _paddingContainer  = Div(Att("tss-searchbox-padding"));
@@ -215,7 +215,7 @@ namespace Tesserae
         /// </summary>
         public void Attach(ComponentEventHandler<SearchBox> handler)
         {
-            InputUpdated += (s, _) => handler(s);
+            SubscribeInputUpdated((s, _) => handler(s));
         }
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace Tesserae
         /// </summary>
         public SearchBox SetIcon(UIcons icon)
         {
-            _icon.className = icon.ToString();
+            _icon.className = icon.ToCssClass();
             return this;
         }
 

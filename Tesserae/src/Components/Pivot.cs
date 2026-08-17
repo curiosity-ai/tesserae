@@ -175,7 +175,7 @@ namespace Tesserae
 
             if (tab.Closeable)
             {
-                var closeIcon = I(Att("tss-pivot-tab-close tss-fontsize-tiny " + UIcons.Cross.ToString(), ariaLabel: "Close tab"));
+                var closeIcon = I(Att("tss-pivot-tab-close tss-fontsize-tiny " + UIcons.Cross.ToCssClass(), ariaLabel: "Close tab"));
 
                 closeIcon.onclick = (e) =>
                 {

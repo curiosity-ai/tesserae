@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 
 namespace Tesserae
 {
@@ -66,28 +65,31 @@ namespace Tesserae
             if (receiver is null) throw new ArgumentNullException(nameof(receiver));
             if (source is null) return false;
 
-            var wrappedValueTypeIfSourceIsAnObserverable = TryToGetFirstWrappedValueFromAnIsObservable(source.GetType());
-
-            if (wrappedValueTypeIfSourceIsAnObserverable is null)
+            if (TryToGetFirstWrappedValueFromAnIsObservable(source.GetType()) is null)
                 return false;
 
-            // Two very important notes:
-            //  1. We know that source is an instance of IObservable<T> and we know what T is but we need reflection to hook it up such that we can call ObserveFutureChanges or StopObserving on the
-            //     generic types when we only know the generic type information at runtime, not compile time.
-            //  2. When we pass the "receiver" (that is type Action) to ObserveFutureChanges or StopObserving, we might worry that it won't be accepted by those methods because they expect methods
-            //     that are of type ObservableEvent.ValueChanged<T> and so which receive an argument (which, of course, Action does not). However, it doesn't matter to JavaScript if a function is
-            //     called with too many parameters AND there is a really important gotcha to be aware of; if we wrapped the Action receiver up in a lambda to change it into a ValueChanged<T> then
-            //     we would be passing an anonymous function reference to ObserveFutureChanges.. which would work but things would go wrong when we tried to call StopObserving because we would get
-            //     a NEW anonymous function reference, which wouldn't appear as one of the items on the underlying observable's OnValueChanged invocation list and so the StopObserving would silently
-            //     fail, in effect.
-            var methodName    = listenForFutureChanges ? nameof(HookCallbackForFutureChanges) : nameof(UnhookCallbackForFutureChanges);
-            var unboundMethod = typeof(PossibleObservableHelpers).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static);
-            var boundMethod   = unboundMethod.MakeGenericMethod(wrappedValueTypeIfSourceIsAnObserverable).Invoke(null, source, receiver); // "obj" is null for a static method
+            // The source's T is only known at runtime, but it does not need to be known at all: every
+            // member of IObservable<T> compiles to a single name that does not carry the type argument
+            // (tss$IOBS$1$ObserveFutureChanges), so a call through any closed IObservable<> reaches the
+            // same method on the instance. As<T>() is the compiler's no-op reinterpretation, which
+            // erases the type argument here without a runtime check.
+            //
+            // This used to go through GetMethod + MakeGenericMethod + Invoke on a pair of generic
+            // helpers. That never worked: binding the ObservableEvent.ValueChanged<T> parameter needs
+            // the generic delegate as a runtime type, and reflection cannot produce one, so every call
+            // threw and constructing an ObservableList<T> over an observable T threw with it.
+            //
+            // The receiver is handed over as-is rather than wrapped in a lambda that drops the value
+            // argument: JavaScript does not mind a callback declared with fewer parameters than it is
+            // called with, and a wrapper would be a fresh function reference on each call, so
+            // StopObserving would never find the registration it was asked to remove.
+            var observable = source.As<IObservable<object>>();
+            var callback   = receiver.As<ObservableEvent.ValueChanged<object>>();
+
+            if (listenForFutureChanges) observable.ObserveFutureChanges(callback);
+            else observable.StopObserving(callback);
+
             return true;
         }
-
-        private static void HookCallbackForFutureChanges<T>(IObservable<T> observable, ObservableEvent.ValueChanged<T> receiver) => observable.ObserveFutureChanges(receiver);
-
-        private static void UnhookCallbackForFutureChanges<T>(IObservable<T> observable, ObservableEvent.ValueChanged<T> receiver) => observable.StopObserving(receiver);
     }
 }

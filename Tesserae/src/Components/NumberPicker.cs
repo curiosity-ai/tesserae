@@ -21,8 +21,8 @@
 
             // Keep the int-shaped observable in sync with the text-level events that
             // Input&lt;NumberPicker&gt; already wires up.
-            Changed      += (_, __) => UpdateIntObservable();
-            InputUpdated += (_, __) => UpdateIntObservable();
+            SubscribeChanged((_,      __) => UpdateIntObservable());
+            SubscribeInputUpdated((_, __) => UpdateIntObservable());
         }
 
         private void UpdateIntObservable()

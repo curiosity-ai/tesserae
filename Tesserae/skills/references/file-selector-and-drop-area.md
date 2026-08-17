@@ -28,6 +28,8 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.OnFilesDropped((sender, File[] files) => …)` — handler.
 - `.SetContent(IComponent)` / `.OpenFileSelection()` / `.Reset()`.
 
+Both overloads open the file dialog on click. With `FileDropArea(component)`, a click that lands on an interactive element of your own content (`a`, `button`, `input`, `select`, `textarea`, `label`, `[role=button]`, `[role=link]`, `[contenteditable=true]`) runs that element's handler instead, so wrapped content can keep its own buttons.
+
 ## Example
 
 ```csharp

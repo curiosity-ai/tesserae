@@ -11,10 +11,51 @@ namespace Tesserae
     /// </summary>
     public static class UIconHelper
     {
+        // UIcons has more than five thousand members and Emoji more than a thousand. The Transpose
+        // runtime implements Enum.ToString() as a linear scan over every member of the enum, so a
+        // single icon.ToString() costs ~80µs — and the toolkit does one per icon it renders, which
+        // made icons by far the most expensive thing on a busy page. Both enums number their members
+        // contiguously from zero in declaration order, so a single pass over Enum.GetNames() gives a
+        // value-indexed table and turns the lookup into an array read.
+        private static string[] _uiconNames;
+        private static string[] _emojiNames;
+
+        /// <summary>
+        /// Returns the CSS class of an icon. Same result as <c>icon.ToString()</c>, but an array
+        /// lookup instead of a scan over the whole enum — use it on rendering paths.
+        /// </summary>
+        public static string ToCssClass(this UIcons icon)
+        {
+            // WithCss() packs extra classes into the value and casts the resulting string back to
+            // UIcons, so a value that is not a plain ordinal is already the class list to render.
+            // The test is parenthesised inside the script: the compiler splices the expression in
+            // as-is, and a bare `!typeof x === 'number'` would parse as `(!typeof x) === 'number'`.
+            if (Transpose.Script.Write<bool>("(typeof {0} !== 'number')", icon)) return icon.As<string>();
+
+            var names = _uiconNames ?? (_uiconNames = Enum.GetNames(typeof(UIcons)));
+            var index = (int)icon;
+
+            return index >= 0 && index < names.Length ? names[index] : icon.ToString();
+        }
+
+        /// <summary>
+        /// Returns the CSS class of an emoji. Same result as <c>emoji.ToString()</c>, but an array
+        /// lookup instead of a scan over the whole enum — use it on rendering paths.
+        /// </summary>
+        public static string ToCssClass(this Emoji emoji)
+        {
+            if (Transpose.Script.Write<bool>("(typeof {0} !== 'number')", emoji)) return emoji.As<string>();
+
+            var names = _emojiNames ?? (_emojiNames = Enum.GetNames(typeof(Emoji)));
+            var index = (int)emoji;
+
+            return index >= 0 && index < names.Length ? names[index] : emoji.ToString();
+        }
+
         /// <summary>Returns the icon, or a default value if the icon is not specified.</summary>
-        public static UIcons WithDefaultUIcon(UIcons icon, UIcons defaultIcon) => string.IsNullOrWhiteSpace(icon.ToString()) ? defaultIcon : icon;
+        public static UIcons WithDefaultUIcon(UIcons icon, UIcons defaultIcon) => string.IsNullOrWhiteSpace(icon.ToCssClass()) ? defaultIcon : icon;
         /// <summary>Returns the icon, or UIcons.Default if the icon is not specified.</summary>
-        public static UIcons WithDefaultUIcon(UIcons icon) => string.IsNullOrWhiteSpace(icon.ToString()) ? UIcons.Default : icon;
+        public static UIcons WithDefaultUIcon(UIcons icon) => string.IsNullOrWhiteSpace(icon.ToCssClass()) ? UIcons.Default : icon;
 
         /// <summary>Applies a text size to an Emoji.</summary>
         public static Emoji  WithTextSize(this  Emoji  icon, TextSize  size)  => icon.WithCss(size.ToString());
@@ -68,13 +109,13 @@ namespace Tesserae
         /// <summary>Applies CSS classes to a UIcons icon.</summary>
         public static UIcons WithCss(this UIcons value, params string[] cssClasses)
         {
-            return $"{value} {string.Join(" ", cssClasses)}".As<UIcons>();
+            return $"{value.ToCssClass()} {string.Join(" ", cssClasses)}".As<UIcons>();
         }
 
         /// <summary>Applies CSS classes to an Emoji icon.</summary>
         public static Emoji WithCss(this Emoji value, params string[] cssClasses)
         {
-            return $"{value} {string.Join(" ", cssClasses)}".As<Emoji>();
+            return $"{value.ToCssClass()} {string.Join(" ", cssClasses)}".As<Emoji>();
         }
 
 
@@ -101,7 +142,7 @@ namespace Tesserae
         /// <summary>Retrieves the Unicode character associated with the specified UIcons icon from the stylesheets.</summary>
         public static string GetUnicode(UIcons icon)
         {
-            var iconStr = icon.ToString();
+            var iconStr = icon.ToCssClass();
 
             if (string.IsNullOrWhiteSpace(iconStr)) return GetUnicode(UIcons.Default);
 
@@ -118,7 +159,7 @@ namespace Tesserae
 
         private static string GetContent(UIcons icon)
         {
-            var iconSelectorString = icon.ToString();
+            var iconSelectorString = icon.ToCssClass();
 
             foreach (var sheet in document.styleSheets)
             {
@@ -166,7 +207,7 @@ namespace Tesserae
         /// <summary>Returns the font family name for the specified icon and weight.</summary>
         public static string GetFontText(UIcons icon, UIconsWeight weight)
         {
-            if (icon.ToString().Contains("-brands-")) return "uicons-brands";
+            if (icon.ToCssClass().Contains("-brands-")) return "uicons-brands";
 
             switch (weight)
             {
