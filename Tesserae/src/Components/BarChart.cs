@@ -30,7 +30,7 @@ namespace Tesserae
         public BarChart Stacked(bool stacked = true) { _stacked = stacked; QueueRender(); return this; }
 
         // Bars are read against a zero baseline.
-        protected override bool IncludeZeroBaseline => true;
+        protected override bool DefaultIncludeZeroBaseline => true;
 
         /// <inheritdoc />
         protected override void CollectRangeValues(List<double> into)

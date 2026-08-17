@@ -49,8 +49,14 @@ Cartesian (`Line`/`Bar`/`Area`):
 - `.XAxis(params string[])` — evenly spaced categories.
 - `.XAxisTitle(string)`, `.YAxisTitle(string)`, `.Grid(bool)`, `.Axes(bool)`.
 - `.MaxXTicks(int)` — cap the tick labels; 0 (default) derives the cap from the width.
+- `.ZeroBaseline(bool)` — override whether the value axis includes zero. Bar and area
+  default to including it, line to fitting the data; a metric that hovers far from zero
+  reads better fitted (`.ZeroBaseline(false)`) with the fill still running to the bottom.
 - `LineChart`/`AreaChart`: `.Points(bool)`. `BarChart`: `.Rounded(double radius = 2)`,
   `.Stacked()`.
+
+The value axis sizes its own margin to the widest tick label, so a formatter that
+produces long strings (byte counts, currency) is not clipped.
 
 Markers (and their tooltips) are suppressed above 300 points in a series — use
 `.Spikelines()` for dense data instead.
@@ -66,7 +72,10 @@ irregular spacing:
 - `.XValues(double[])` — shared X positions for every series.
 - `ChartSeries.XValues` — per-series positions (these win over the shared array).
 - `.FormatXAxis(Func<double,string>)` — tick label formatter.
-- `.XAxisTime(string format = "HH:mm")` — treats X as Unix seconds and formats as local time.
+- `.XAxisTime(string format = null)` — treats X as Unix seconds and formats as local time.
+  Ticks land on whole seconds/minutes/hours/days, and with no explicit format the labels
+  follow the tick step (`HH:mm:ss` zoomed into a minute, `HH:mm`, `MM-dd`, `yyyy-MM`), so
+  neighbouring labels never read the same.
 
 ## Zoom, pan and spikelines
 

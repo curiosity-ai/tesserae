@@ -21,7 +21,7 @@ namespace Tesserae
         public LineChart Points(bool show = true) { _showPoints = show; QueueRender(); return this; }
 
         // Line charts fit the data range rather than forcing a zero baseline.
-        protected override bool IncludeZeroBaseline => false;
+        protected override bool DefaultIncludeZeroBaseline => false;
 
         protected override void RenderSeries()
         {

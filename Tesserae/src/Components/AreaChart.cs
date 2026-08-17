@@ -22,7 +22,7 @@ namespace Tesserae
         public AreaChart Points(bool show = true) { _showPoints = show; QueueRender(); return this; }
 
         // Areas read most naturally filled down to a zero baseline.
-        protected override bool IncludeZeroBaseline => true;
+        protected override bool DefaultIncludeZeroBaseline => true;
 
         protected override void RenderSeries()
         {

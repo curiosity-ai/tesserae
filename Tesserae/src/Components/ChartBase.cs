@@ -709,10 +709,14 @@ namespace Tesserae
 
         private double[] _sharedX;
         private Func<double, string> _xFormatter;
+        private bool _xIsTime;
+        private string _xTimeFormat;
+        private double _lastTimeStep;
         private int _maxXTicks;
         private bool _hasExplicitRange;
         private double _rangeMin;
         private double _rangeMax;
+        private bool? _zeroBaseline;
         private bool _zoomable;
         private bool _showSpikes;
         private bool _interactionsAttached;
@@ -741,12 +745,14 @@ namespace Tesserae
         public T FormatXAxis(Func<double, string> formatter) { _xFormatter = formatter; QueueRender(); return Self; }
 
         /// <summary>
-        /// Formats continuous X values as local times, treating them as Unix timestamps in seconds. Pass a
-        /// standard or custom .NET date format string.
+        /// Formats continuous X values as local times, treating them as Unix timestamps in seconds. With no
+        /// format the labels adapt to the visible span — seconds when zoomed into a minute, dates when showing
+        /// months — and the ticks land on whole seconds, minutes, hours or days rather than on powers of ten.
         /// </summary>
-        public T XAxisTime(string format = "HH:mm")
+        public T XAxisTime(string format = null)
         {
-            _xFormatter = v => DateTimeOffset.FromUnixTimeSeconds((long)v).ToLocalTime().ToString(format);
+            _xIsTime      = true;
+            _xTimeFormat  = format;
             QueueRender();
             return Self;
         }
@@ -838,8 +844,18 @@ namespace Tesserae
         /// </summary>
         public T OnRangeChanged(Action<ChartRange> handler) { _onRangeChanged = handler; return Self; }
 
-        /// <summary>When true the value axis always includes zero as a baseline (bar/area); when false it fits the data.</summary>
-        protected virtual bool IncludeZeroBaseline => true;
+        /// <summary>
+        /// Overrides whether the value axis includes zero, regardless of the chart type's default. An area chart
+        /// of a metric that hovers far from zero reads better fitted to its data, with the fill still running to
+        /// the bottom of the plot.
+        /// </summary>
+        public T ZeroBaseline(bool include = true) { _zeroBaseline = include; QueueRender(); return Self; }
+
+        /// <summary>The chart type's default: true when the value axis should always include zero as a baseline.</summary>
+        protected virtual bool DefaultIncludeZeroBaseline => true;
+
+        /// <summary>Whether the value axis includes zero, honouring <see cref="ZeroBaseline"/> over the type default.</summary>
+        protected bool IncludeZeroBaseline => _zeroBaseline ?? DefaultIncludeZeroBaseline;
 
         /// <summary>Maps a value to its pixel Y coordinate within the plot area.</summary>
         protected double PixelY(double value)
@@ -908,17 +924,19 @@ namespace Tesserae
             ResolveXRange();
             RenderLegend(width, height);
 
+            //Before the plot rectangle, because the value labels decide how much room the axis needs: a byte
+            //count formatted to ten characters would otherwise be clipped by a fixed margin.
+            ComputeValueRange();
+
             double marginTop    = 8 + _legendInsetTop;
             double marginRight  = 12 + _legendInsetRight;
             double marginBottom = (_showAxes ? (_categories.Length > 0 || _continuousX || !string.IsNullOrEmpty(_xAxisTitle) ? 34 : 18) : 6) + _legendInsetBottom;
-            double marginLeft   = (_showAxes ? 44 : 6) + _legendInsetLeft;
+            double marginLeft   = (_showAxes ? MeasureValueAxisWidth(width) : 6) + _legendInsetLeft;
 
             _plotLeft   = marginLeft;
             _plotTop    = marginTop;
             _plotWidth  = Math.Max(1, width - marginLeft - marginRight);
             _plotHeight = Math.Max(1, height - marginTop - marginBottom);
-
-            ComputeValueRange();
 
             if (_showGrid || _showAxes) DrawGridAndAxes();
 
@@ -1069,6 +1087,25 @@ namespace Tesserae
             _maxValue = dataMax;
         }
 
+        // The value-axis equivalent of Plotly's automargin: wide enough for the widest tick label it will draw.
+        private double MeasureValueAxisWidth(double width)
+        {
+            var widest = 0;
+
+            for (int i = 0; i <= ValueTicks; i++)
+            {
+                var text = _valueFormatter(_minValue + (_maxValue - _minValue) * i / ValueTicks);
+                if (text != null && text.Length > widest) widest = text.Length;
+            }
+
+            //~6px per character at the 10px label size, plus the 6px gap to the axis and a little slack.
+            var needed = widest * 6 + 12 + (string.IsNullOrEmpty(_yAxisTitle) ? 0 : 14);
+
+            return Math.Max(28, Math.Min(needed, width * 0.4));
+        }
+
+        private const int ValueTicks = 4;
+
         private int EffectiveMaxXTicks()
         {
             if (_maxXTicks > 0) return _maxXTicks;
@@ -1076,11 +1113,33 @@ namespace Tesserae
         }
 
         /// <summary>Formats a continuous X value using the configured X formatter, falling back to a plain number.</summary>
-        protected string FormatXValue(double value) => _xFormatter is object ? _xFormatter(value) : value.ToString("0.##");
+        protected string FormatXValue(double value)
+        {
+            if (_xIsTime)
+            {
+                var format = _xTimeFormat ?? AdaptiveTimeFormat(_viewXMax - _viewXMin);
+                return DateTimeOffset.FromUnixTimeSeconds((long)value).ToLocalTime().ToString(format);
+            }
+
+            return _xFormatter is object ? _xFormatter(value) : value.ToString("0.##");
+        }
+
+        // A fixed "HH:mm" prints the same label ten times across a one-minute window, and no time at all across
+        // a year, so the precision follows the tick step: sub-minute steps need seconds, day-scale steps need
+        // the date. Keyed off the step rather than the span so neighbouring ticks can never print the same label.
+        private string AdaptiveTimeFormat(double spanSeconds)
+        {
+            var step = _lastTimeStep > 0 ? _lastTimeStep : spanSeconds / 8;
+
+            if (step < 60) return "HH:mm:ss";
+            if (step < 86400) return "HH:mm";
+            if (step < 2592000) return "MM-dd";
+            return "yyyy-MM";
+        }
 
         private void DrawGridAndAxes()
         {
-            const int ticks = 4;
+            const int ticks = ValueTicks;
             var gridColor = Theme.Colors.Neutral500Alpha;
             var textColor = Theme.Default.Foreground;
 
@@ -1154,7 +1213,9 @@ namespace Tesserae
 
         private void DrawContinuousXLabels(string textColor)
         {
-            var tickValues = NiceTicks(_viewXMin, _viewXMax, EffectiveMaxXTicks());
+            var tickValues = _xIsTime
+                ? TimeTicks(_viewXMin, _viewXMax, EffectiveMaxXTicks())
+                : NiceTicks(_viewXMin, _viewXMax, EffectiveMaxXTicks());
 
             foreach (var tick in tickValues)
             {
@@ -1185,7 +1246,50 @@ namespace Tesserae
             }
         }
 
-        // Ticks land on 1/2/5 x 10^n so labels read as round numbers (and round timestamps) at any zoom level.
+        // Wall-clock steps, so a time axis reads 30s / 5min / 6h rather than the 20s and 50s a decimal
+        // 1/2/5 x 10^n progression would land on.
+        private static readonly double[] TimeSteps =
+        {
+            1, 2, 5, 10, 15, 30,                            // seconds
+            60, 120, 300, 600, 900, 1800,                   // minutes
+            3600, 7200, 10800, 21600, 43200,                // hours
+            86400, 172800, 604800, 1209600,                 // days and weeks
+            2592000, 7776000, 15552000, 31536000            // months and a year
+        };
+
+        private List<double> TimeTicks(double min, double max, int maxCount)
+        {
+            var span = max - min;
+
+            if (span <= 0 || maxCount < 1) return new List<double>();
+
+            var target = span / maxCount;
+            var step   = TimeSteps[TimeSteps.Length - 1];
+
+            for (int i = 0; i < TimeSteps.Length; i++)
+            {
+                if (TimeSteps[i] >= target)
+                {
+                    step = TimeSteps[i];
+                    break;
+                }
+            }
+
+            _lastTimeStep = step;
+
+            var result = new List<double>();
+            var start  = Math.Ceiling(min / step) * step;
+
+            for (var tick = start; tick <= max; tick += step)
+            {
+                result.Add(tick);
+                if (result.Count > 200) break;
+            }
+
+            return result;
+        }
+
+        // Ticks land on 1/2/5 x 10^n so labels read as round numbers at any zoom level.
         private static List<double> NiceTicks(double min, double max, int maxCount)
         {
             var result = new List<double>();
