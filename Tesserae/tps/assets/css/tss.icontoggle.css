@@ -22,9 +22,9 @@
 }
 
 /* The items are Buttons, so the shared .tss-btn look (min-width, own shadow, hover background) has
-   to be unwound before the segment styling can take over. The buttons are the stack items themselves (they carry .tss-stack-item)
-   because Stack wraps every child, and they carry enough classes to outrank .tss-btn-default's own
-   states without needing !important. */
+   to be unwound before the segment styling can take over. The buttons are the stack items themselves,
+   so they carry .tss-stack-item as well, and they carry enough classes to outrank .tss-btn-default's
+   own states without needing !important. */
 .tss-icon-toggle > .tss-btn.tss-icon-toggle-item {
     min-width: 0;
     min-height: var(--tss-icon-toggle-height);

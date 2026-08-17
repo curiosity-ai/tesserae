@@ -19,10 +19,12 @@ Bring factories into scope with `using static Tesserae.UI;`.
 ## Key configuration
 
 - `data` — the series; single-point arrays render flat, empty arrays render nothing.
-- `width` / `height` — SVG viewbox size (the element itself stretches to fill).
+- `width` / `height` — the size the chart is drawn at, and the size the component
+  asks for. Call `.WS()` (or `.W()` / `.H()`) to override either; the SVG scales
+  to whatever box it ends up in, so a stretched chart keeps its shape.
 - `color` — stroke + gradient colour; accepts CSS values, `Theme.Colors.*`,
   or CSS vars like `"var(--tss-danger-background-color)"`.
-- Sizing helpers (`.WS()`, `.W()`, `.PT()`, ...) apply to the wrapper.
+- Sizing helpers (`.WS()`, `.W()`, `.PT()`, ...) apply to the chart element itself.
 
 The chart re-renders when re-added to a container, so swap in a fresh instance
 (e.g. `host.Replace(newChart, oldChart)`) to update it.

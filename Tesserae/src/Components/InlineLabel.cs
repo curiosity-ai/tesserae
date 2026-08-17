@@ -322,26 +322,23 @@ namespace Tesserae
 
         /// <summary>
         /// Takes the label out of the document along with whatever is standing in for it in its container:
-        /// a stack's item wrapper, a footer's entry, or - when the label is all a details row has to show -
-        /// the whole row, label cell included. Anywhere else, just the label goes.
+        /// a footer's entry, or - when the label is all a details row has to show - the whole row, label
+        /// cell included. Anywhere else, just the label goes.
         /// </summary>
         private void RemoveWithItsSlot()
         {
-            HTMLElement node   = InnerElement;
-            var         parent = node.parentElement;
+            var parent = InnerElement.parentElement;
 
-            while (parent is object)
+            if (parent is object)
             {
                 //A details row whose value is this label alone has nothing left to say either
-                if (parent.classList.contains("tss-detailsgrid-value"))
+                if (parent.classList.contains("tss-detailsgrid-value")
+                 && parent.childElementCount <= 1
+                 && parent.parentElement is object
+                 && parent.parentElement.classList.contains("tss-detailsgrid-row"))
                 {
-                    if (parent.childElementCount <= 1 && parent.parentElement is object && parent.parentElement.classList.contains("tss-detailsgrid-row"))
-                    {
-                        parent.parentElement.remove();
-                        return;
-                    }
-
-                    break;
+                    parent.parentElement.remove();
+                    return;
                 }
 
                 if (parent.classList.contains("tss-omniresult-footer-entry"))
@@ -349,20 +346,11 @@ namespace Tesserae
                     parent.remove();
                     return;
                 }
-
-                //A stack wraps every child in an item div - that wrapper is the slot, and it may itself
-                //be sitting in a details value, so keep climbing.
-                if (parent.classList.contains("tss-stack-item"))
-                {
-                    node   = parent;
-                    parent = parent.parentElement;
-                    continue;
-                }
-
-                break;
             }
 
-            node.remove();
+            //In a stack the label is its own item, so taking the label out takes the slot with it. There is
+            //no wrapper left to climb to - and climbing to the stack itself would take the siblings along.
+            InnerElement.remove();
         }
 
         private InlineLabel UpdateInteractive(bool force = false)

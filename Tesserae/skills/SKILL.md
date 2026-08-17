@@ -112,6 +112,12 @@ Sizes are `UnitSize` values from numeric helpers: `100.px()`, `50.percent()`,
 > `.MinHeight()` if you want a floor as well. Full catalog in
 > `references/icomponent.md`.
 
+> **What stretches by default.** A stack stretches its children across the cross
+> axis, so a `TextBox`, `Card` or nested `Stack` fills the width of a vertical
+> stack without being asked. Components that are inline by nature — `Button`,
+> `Toggle`, `Avatar`, `Icon`, `Rating` and friends — hug their content instead;
+> call `.WS()` on one to make it fill the row.
+
 ## Picking a layout
 
 - One-axis flow (toolbar, sidebar, form) → `Stack` (`references/stack.md`).

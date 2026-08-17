@@ -270,3 +270,13 @@ Playwright scripts under `Tesserae.Tests/playwright/` are local-only — use the
 to verify components in the browser during development, but do **not** commit
 them. The same applies to any screenshots or other artifacts produced by those
 runs.
+
+The committed harness lives in `Tesserae.Bench/` instead: a ten-page app shaped
+like a real product, plus the Playwright scripts that measure its build cost and
+prove a change did not alter what renders. Use it whenever you touch `Stack`,
+`Grid`, the sizing extensions or anything under `Tesserae/tps/assets/css` — the
+sample gallery is the real surface, and `textdiff-samples.js` is what tells you
+whether it still renders the same. See
+[`Tesserae.Bench/README.md`](Tesserae.Bench/README.md) and the
+`tesserae-benchmarking` skill. One-off probe scripts go in
+`Tesserae.Bench/playwright/_*.js`, which is gitignored.
