@@ -32,6 +32,15 @@ namespace Tesserae.Tests.Samples
                .Legend()
                .Rounded(3);
 
+            var stackedChart = BarChart()
+               .Series(new ChartSeries("Chat", new double[] { 120, 180, 150, 260, 240, 310 }),
+                       new ChartSeries("Search", new double[] { 80, 95, 130, 140, 175, 205 }),
+                       new ChartSeries("Indexing", new double[] { 40, 35, 60, 55, 70, 90 }))
+               .XAxis(months)
+               .Stacked()
+               .Legend(ChartLegendPosition.Bottom)
+               .Rounded(1);
+
             var areaChart = AreaChart()
                .Series(liveData, "Sessions")
                .XAxis(months);
@@ -42,11 +51,17 @@ namespace Tesserae.Tests.Samples
                .Donut()
                .Legend();
 
+            var gapsChart = LineChart()
+               .Series("With a dropout", new double[] { 14, 17, double.NaN, double.NaN, 21, 19, 24 })
+               .XAxis("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+               .ConnectGaps(false)
+               .Legend();
+
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(ChartsSample), UIcons.ChartHistogram, "Lightweight, dependency-free SVG charts")
                .Section(Stack().Children(
                     Card(VStack().WS().Children(
-                        TextBlock("LineChart, BarChart, AreaChart and PieChart render as responsive, dependency-free SVG that scales to its container, adapts to the light/dark theme, and exposes hover tooltips plus a role=\"img\" accessibility summary. Data can be supplied as plain values or as an observable that re-renders the chart on change."))).SetTitle("Overview")))
+                        TextBlock("LineChart, BarChart, AreaChart and PieChart render as responsive, dependency-free SVG that scales to its container, adapts to the light/dark theme, and exposes hover tooltips plus a role=\"img\" accessibility summary. Data can be supplied as plain values, as an observable that re-renders the chart on change, or as (x, y) pairs on a continuous scale that supports zoom, pan and a spikeline readout."))).SetTitle("Overview")))
                .Section(Stack().Children(
                     Card(VStack().WS().Children(
                         SampleSubTitle("Line chart"),
@@ -55,6 +70,10 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                         SampleSubTitle("Bar chart (grouped series)"),
                         barChart.H(280).WS())).SetTitle("BarChart")))
+               .Section(Stack().Children(
+                    Card(VStack().WS().Children(
+                        SampleSubTitle("Stacked bars with the legend below"),
+                        stackedChart.H(300).WS())).SetTitle("BarChart (stacked)")))
                .Section(Stack().Children(
                     Card(VStack().WS().Children(
                         SampleSubTitle("Area chart bound to an observable"),
@@ -71,7 +90,74 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                         SampleSubTitle("Donut chart"),
                         pieChart.H(280).WS())).SetTitle("PieChart")))
+               .Section(Stack().Children(
+                    Card(VStack().WS().Children(
+                        SampleSubTitle("Missing samples: NaN breaks the line when gaps are not connected"),
+                        gapsChart.H(260).WS())).SetTitle("Gaps")))
+               .Section(Stack().Children(
+                    Card(BuildTimeSeriesSection()).SetTitle("Time series: continuous X, zoom, spikelines")))
                .SeeAlso(typeof(SparklineSample), typeof(MetricSample), typeof(ContributionBarSample), typeof(DeltaComponentSample), typeof(TimeHistogramPickerSample));
+        }
+
+        // Two charts sharing one timeline: zooming or panning either one pushes its range onto the other,
+        // which is what OnRangeChanged + XRange are for (XRange itself never re-raises the event).
+        private static IComponent BuildTimeSeriesSection()
+        {
+            var start = DateTimeOffset.UtcNow.AddHours(-2).ToUnixTimeSeconds();
+            var rnd   = new Random();
+
+            var times = new double[120];
+            var cpu   = new double[120];
+            var ram   = new double[120];
+
+            double cpuValue = 35;
+            double ramValue = 1400;
+
+            for (var i = 0; i < times.Length; i++)
+            {
+                times[i] = start + i * 60;
+
+                cpuValue = Math.Max(2, Math.Min(98, cpuValue + rnd.Next(-6, 7)));
+                ramValue = Math.Max(600, ramValue + rnd.Next(-40, 55));
+
+                cpu[i] = cpuValue;
+                ram[i] = ramValue;
+            }
+
+            var cpuChart = AreaChart()
+               .Series(new ChartSeries("CPU %", times, cpu) { LineWidth = 1, FillOpacity = 0.2 })
+               .XAxisTime()
+               .FormatValues(v => v.ToString("0") + "%")
+               .Zoomable()
+               .Spikelines()
+               .ExportButton(fileName: "cpu")
+               .Legend();
+
+            var ramChart = LineChart()
+               .Series(new ChartSeries("Working set (MB)", times, ram) { LineWidth = 1 })
+               .XAxisTime()
+               .Points(false)
+               .Zoomable()
+               .Spikelines()
+               .ExportButton(fileName: "working-set")
+               .Legend();
+
+            cpuChart.OnRangeChanged(range =>
+            {
+                if (range.IsAutoRange) ramChart.AutoRangeX();
+                else ramChart.XRange(range.Min, range.Max);
+            });
+
+            ramChart.OnRangeChanged(range =>
+            {
+                if (range.IsAutoRange) cpuChart.AutoRangeX();
+                else cpuChart.XRange(range.Min, range.Max);
+            });
+
+            return VStack().WS().Children(
+                SampleSubTitle("Wheel to zoom, drag to pan, double-click to reset — both charts stay on the same timeline"),
+                cpuChart.H(200).WS(),
+                ramChart.H(200).WS().PT(8));
         }
 
         public HTMLElement Render() => _content.Render();

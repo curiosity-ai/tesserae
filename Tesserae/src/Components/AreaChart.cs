@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using static Transpose.Core.dom;
 
 namespace Tesserae
@@ -22,7 +22,7 @@ namespace Tesserae
         public AreaChart Points(bool show = true) { _showPoints = show; QueueRender(); return this; }
 
         // Areas read most naturally filled down to a zero baseline.
-        protected override bool IncludeZeroBaseline => true;
+        protected override bool DefaultIncludeZeroBaseline => true;
 
         protected override void RenderSeries()
         {
@@ -48,55 +48,82 @@ namespace Tesserae
                 var stop1 = El("stop");
                 Attr(stop1, "offset", "0%");
                 Attr(stop1, "stop-color", color);
-                Attr(stop1, "stop-opacity", "0.45");
+                Attr(stop1, "stop-opacity", series.FillOpacity.ToString("0.###"));
                 var stop2 = El("stop");
                 Attr(stop2, "offset", "100%");
                 Attr(stop2, "stop-color", color);
-                Attr(stop2, "stop-opacity", "0.02");
+                Attr(stop2, "stop-opacity", (series.FillOpacity * 0.045).ToString("0.####"));
                 linearGradient.appendChild(stop1);
                 linearGradient.appendChild(stop2);
                 defs.appendChild(linearGradient);
-                _svg.appendChild(defs);
+                _plotSurface.appendChild(defs);
 
-                var linePoints = string.Join(" ", series.Values.Select((v, i) => $"{PointX(i).ToString("0.###")},{PixelY(v).ToString("0.###")}"));
+                foreach (var run in SeriesRuns(series))
+                {
+                    if (run.Count == 0) continue;
 
-                var firstX = PointX(0).ToString("0.###");
-                var lastX  = PointX(series.Values.Length - 1).ToString("0.###");
+                    var segments = BuildSegments(series, run);
+                    var linePath = "M " + segments;
 
-                var polygon = El("polygon");
-                Attr(polygon, "fill", "url(#" + gradientId + ")");
-                Attr(polygon, "points", $"{firstX},{baselineY.ToString("0.###")} {linePoints} {lastX},{baselineY.ToString("0.###")}");
-                _svg.appendChild(polygon);
+                    var firstX = SeriesPointX(series, run[0]).ToString("0.###");
+                    var lastX  = SeriesPointX(series, run[run.Count - 1]).ToString("0.###");
+                    var baseY  = baselineY.ToString("0.###");
 
-                var polyline = El("polyline");
-                Attr(polyline, "fill", "none");
-                Attr(polyline, "stroke", color);
-                Attr(polyline, "stroke-width", 2);
-                Attr(polyline, "stroke-linejoin", "round");
-                Attr(polyline, "stroke-linecap", "round");
-                Attr(polyline, "points", linePoints);
-                _svg.appendChild(polyline);
+                    var polygon = El("path");
+                    Attr(polygon, "fill", "url(#" + gradientId + ")");
+                    Attr(polygon, "stroke", "none");
+                    Attr(polygon, "d", $"M {firstX} {baseY} L {segments} L {lastX} {baseY} Z");
+                    _plotSurface.appendChild(polygon);
 
-                if (_showPoints)
+                    var line = El("path");
+                    Attr(line, "fill", "none");
+                    Attr(line, "stroke", color);
+                    Attr(line, "stroke-width", series.LineWidth);
+                    Attr(line, "stroke-linejoin", "round");
+                    Attr(line, "stroke-linecap", "round");
+                    Attr(line, "d", linePath);
+                    _plotSurface.appendChild(line);
+                }
+
+                if (_showPoints && series.Values.Length <= MaxMarkersPerSeries)
                 {
                     for (int i = 0; i < series.Values.Length; i++)
                     {
+                        if (double.IsNaN(series.Values[i])) continue;
+
                         var circle = El("circle");
-                        Attr(circle, "cx", PointX(i));
+                        Attr(circle, "cx", SeriesPointX(series, i));
                         Attr(circle, "cy", PixelY(series.Values[i]));
                         Attr(circle, "r", 3);
                         Attr(circle, "fill", color);
                         AttachPointTooltip(circle, TooltipFor(series, i));
-                        _svg.appendChild(circle);
+                        _plotSurface.appendChild(circle);
                     }
                 }
             }
         }
 
+        // "x y L x y L …" — usable both as the line's own path and as the top edge of the filled polygon.
+        private string BuildSegments(ChartSeries series, List<int> run)
+        {
+            var parts = new List<string>();
+
+            for (int p = 0; p < run.Count; p++)
+            {
+                var i = run[p];
+                parts.Add(SeriesPointX(series, i).ToString("0.###") + " " + PixelY(series.Values[i]).ToString("0.###"));
+            }
+
+            return string.Join(" L ", parts);
+        }
+
         private string TooltipFor(ChartSeries series, int i)
         {
-            var label = i < _categories.Length ? _categories[i] : "#" + (i + 1);
-            var name  = string.IsNullOrEmpty(series.Name) ? "" : series.Name + " — ";
+            var label = _continuousX
+                ? FormatXValue(XOf(series, i))
+                : (i < _categories.Length ? _categories[i] : "#" + (i + 1));
+
+            var name = string.IsNullOrEmpty(series.Name) ? "" : series.Name + " — ";
             return $"{name}{label}: {_valueFormatter(series.Values[i])}";
         }
     }
