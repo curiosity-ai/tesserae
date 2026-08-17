@@ -2,7 +2,7 @@
     "output": "$(OutDir)/tps/",
     "outputFormatting": "Both",
     "reflection": {
-        "disabled": false,
+        "disabled": true,
         "target": "file"
     },
     "resources": [
