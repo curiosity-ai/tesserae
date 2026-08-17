@@ -43,4 +43,5 @@ var pivot = Pivot()
 - SegmentedPivot — `segmented-pivot.md`
 - CardPivot — `card-pivot.md`
 - TabbedModal — `tabbed-modal.md`
+- UnsavedChangesGuard / TabSaveIndicator (warn before losing a dirty tab) — `unsaved-changes-guard.md`
 - Full docs & API: `/tesserae/surfaces/pivot`
