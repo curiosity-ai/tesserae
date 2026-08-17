@@ -28,7 +28,9 @@ namespace Tesserae
         {
             // WithCss() packs extra classes into the value and casts the resulting string back to
             // UIcons, so a value that is not a plain ordinal is already the class list to render.
-            if (!Transpose.Script.Write<bool>("typeof {0} === 'number'", icon)) return icon.As<string>();
+            // The test is parenthesised inside the script: the compiler splices the expression in
+            // as-is, and a bare `!typeof x === 'number'` would parse as `(!typeof x) === 'number'`.
+            if (Transpose.Script.Write<bool>("(typeof {0} !== 'number')", icon)) return icon.As<string>();
 
             var names = _uiconNames ?? (_uiconNames = Enum.GetNames(typeof(UIcons)));
             var index = (int)icon;
@@ -42,7 +44,7 @@ namespace Tesserae
         /// </summary>
         public static string ToCssClass(this Emoji emoji)
         {
-            if (!Transpose.Script.Write<bool>("typeof {0} === 'number'", emoji)) return emoji.As<string>();
+            if (Transpose.Script.Write<bool>("(typeof {0} !== 'number')", emoji)) return emoji.As<string>();
 
             var names = _emojiNames ?? (_emojiNames = Enum.GetNames(typeof(Emoji)));
             var index = (int)emoji;
