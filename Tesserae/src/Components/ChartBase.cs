@@ -197,21 +197,6 @@ namespace Tesserae
         /// <summary>Space the legend claimed on the right of the surface, in pixels.</summary>
         protected double _legendInsetRight;
 
-        /// <summary>The element subclasses draw their series into; clipped to the plot rectangle on cartesian charts.</summary>
-        protected Element _plotSurface;
-
-        /// <summary>Space the legend claimed at the top of the surface, in pixels.</summary>
-        protected double _legendInsetTop;
-
-        /// <summary>Space the legend claimed at the bottom of the surface, in pixels.</summary>
-        protected double _legendInsetBottom;
-
-        /// <summary>Space the legend claimed on the left of the surface, in pixels.</summary>
-        protected double _legendInsetLeft;
-
-        /// <summary>Space the legend claimed on the right of the surface, in pixels.</summary>
-        protected double _legendInsetRight;
-
         private bool _renderQueued;
         private Button _exportButton;
 
@@ -1154,56 +1139,6 @@ namespace Tesserae
             foreach (var tick in _valueTicks)
             {
                 var text = _valueFormatter(tick);
-                if (text != null && text.Length > widest) widest = text.Length;
-            }
-
-            //~6px per character at the 10px label size, plus the 6px gap to the axis and a little slack.
-            var needed = widest * 6 + 12 + (string.IsNullOrEmpty(_yAxisTitle) ? 0 : 14);
-
-            return Math.Max(28, Math.Min(needed, width * 0.4));
-        }
-
-        private const int ValueTicks = 4;
-
-        private int EffectiveMaxXTicks()
-        {
-            if (_maxXTicks > 0) return _maxXTicks;
-            return Math.Max(2, (int)(_plotWidth / 70));
-        }
-
-        /// <summary>Formats a continuous X value using the configured X formatter, falling back to a plain number.</summary>
-        protected string FormatXValue(double value)
-        {
-            if (_xIsTime)
-            {
-                var format = _xTimeFormat ?? AdaptiveTimeFormat(_viewXMax - _viewXMin);
-                return DateTimeOffset.FromUnixTimeSeconds((long)value).ToLocalTime().ToString(format);
-            }
-
-            return _xFormatter is object ? _xFormatter(value) : value.ToString("0.##");
-        }
-
-        // A fixed "HH:mm" prints the same label ten times across a one-minute window, and no time at all across
-        // a year, so the precision follows the tick step: sub-minute steps need seconds, day-scale steps need
-        // the date. Keyed off the step rather than the span so neighbouring ticks can never print the same label.
-        private string AdaptiveTimeFormat(double spanSeconds)
-        {
-            var step = _lastTimeStep > 0 ? _lastTimeStep : spanSeconds / 8;
-
-            if (step < 60) return "HH:mm:ss";
-            if (step < 86400) return "HH:mm";
-            if (step < 2592000) return "MM-dd";
-            return "yyyy-MM";
-        }
-
-        // The value-axis equivalent of Plotly's automargin: wide enough for the widest tick label it will draw.
-        private double MeasureValueAxisWidth(double width)
-        {
-            var widest = 0;
-
-            for (int i = 0; i <= ValueTicks; i++)
-            {
-                var text = _valueFormatter(_minValue + (_maxValue - _minValue) * i / ValueTicks);
                 if (text != null && text.Length > widest) widest = text.Length;
             }
 
