@@ -5,11 +5,18 @@
 // same list in the same order whatever the tree looks like underneath. Matching runs by their
 // content gives a comparison that survives a structural change and still catches a real one.
 //
+// Text alone has a blind spot: an empty box — a TextBox with no value, a colour swatch, an icon —
+// can move or resize without a single text run shifting. So a second pass compares the boxes of the
+// elements themselves, keyed by tag plus their first `tss-` class and the ordinal of that key on the
+// page. Marker classes that the change itself moves around (tss-stack-item and the margin utilities)
+// are left out of the key, so the same component matches in both builds however it is wrapped.
+//
 // Report per sample:
 //   COUNT   the two builds render a different number of text runs — content appeared or vanished
 //   TEXT    the runs diverge in order — a structural break
 //   X/W     a run moved horizontally or changed width — a real layout difference
 //   Y       a run moved vertically only — usually a deliberate change in vertical rhythm
+//   BOX     a component's own content width changed (its position is left to the checks above)
 //
 // Usage: node textdiff-samples.js --a http://127.0.0.1:5083/index.html --b http://127.0.0.1:5082/index.html
 //        add --only Banner to look at one sample, --tol 2 to ignore drift under N px, --verbose to
@@ -34,7 +41,7 @@ async function capture(url, labels) {
                 .filter(l => l && l !== 'Source Code')))];
     }
 
-    const runs = {};
+    const runs = {}, boxes = {};
     for (const label of labels) {
         await page.evaluate(l => {
             const btn = [...document.querySelectorAll('.tss-sidebar-btn')]
@@ -58,9 +65,34 @@ async function capture(url, labels) {
             }
             return out;
         });
+        boxes[label] = await page.evaluate(() => {
+            // Classes the wrap-and-transfer change itself moves between elements: keying on them
+            // would match a wrapper in one build against a component in the other.
+            const MOVES_AROUND = new Set(['tss-stack-item', 'tss-grid-item', 'tss-default-component-margin',
+                'tss-default-component-no-margin', 'tss-ismounted']);
+            const seen = {}, out = {};
+            for (const e of document.querySelectorAll('[class*="tss-"]')) {
+                const classes = ((e.className.baseVal !== undefined ? e.className.baseVal : e.className) || '').trim().split(/\s+/);
+                const own = classes.find(c => c.startsWith('tss-') && !MOVES_AROUND.has(c));
+                if (!own) continue;
+                const box = e.getBoundingClientRect();
+                if (!box.width && !box.height) continue;
+                // Content width, not border-box width. A padding or margin utility that used to live
+                // on the wrapper now lives on the component, which grows its border box by exactly
+                // that padding while the space the content gets is unchanged — reporting the border
+                // box would flag every one of those as a difference.
+                const cs = getComputedStyle(e);
+                const px = p => parseFloat(cs[p]) || 0;
+                const inset = px('paddingLeft') + px('paddingRight') + px('borderLeftWidth') + px('borderRightWidth');
+                const key = e.tagName.toLowerCase() + '.' + own;
+                const n = seen[key] = (seen[key] || 0) + 1;
+                out[key + '#' + n] = [Math.round(box.width - inset), Math.round(box.height)];
+            }
+            return out;
+        });
     }
     await browser.close();
-    return { labels, runs };
+    return { labels, runs, boxes };
 }
 
 (async () => {
@@ -86,12 +118,27 @@ async function capture(url, labels) {
                 if (VERBOSE) console.log(`      ${label} #${i} "${ra[i][0]}" dy=${dy}`);
             }
         }
+        // Widths of the components' own boxes, which catches an empty one moving or resizing when no
+        // text does. Heights are deliberately not reported: a change in vertical rhythm moves every
+        // height on the page and would drown the signal, and the Y check above already covers it.
+        const ba = a.boxes[label] || {}, bb = b.boxes[label] || {};
+        let boxDiffs = 0, firstBox = null;
+        for (const key of Object.keys(ba)) {
+            if (!bb[key]) continue;
+            const dw = bb[key][0] - ba[key][0];
+            if (Math.abs(dw) <= TOL) continue;
+            boxDiffs++;
+            if (!firstBox) firstBox = `${key} dw=${dw} (${ba[key][0]} -> ${bb[key][0]})`;
+            if (VERBOSE) console.log(`      ${label} ${key} dw=${dw} (${ba[key][0]} -> ${bb[key][0]})`);
+        }
+
         if (order >= 0) report.push({ label, kind: 'TEXT', detail: `runs diverge at #${order}: "${ra[order][0]}" vs "${rb[order][0]}"` });
         else if (xw) report.push({ label, kind: 'X/W', detail: `${xw} run(s), e.g. ${firstXw}` });
+        else if (boxDiffs) report.push({ label, kind: 'BOX', detail: `${boxDiffs} element(s), e.g. ${firstBox}` });
         else if (y) report.push({ label, kind: 'Y', detail: `${y} run(s), max drift ${worstY}px` });
     }
 
-    const rank = { COUNT: 0, TEXT: 1, 'X/W': 2, Y: 3 };
+    const rank = { COUNT: 0, TEXT: 1, 'X/W': 2, BOX: 3, Y: 4 };
     report.sort((p, q) => rank[p.kind] - rank[q.kind] || p.label.localeCompare(q.label));
     for (const r of report) console.log(`${r.kind.padEnd(5)} ${r.label.padEnd(26)} ${r.detail}`);
     const counts = report.reduce((m, r) => (m[r.kind] = (m[r.kind] || 0) + 1, m), {});

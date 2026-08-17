@@ -156,7 +156,17 @@ namespace Tesserae
             ClearChildren(_chartContainer);
             if (chart != null)
             {
-                _chartContainer.appendChild(chart.Render());
+                var rendered = chart.Render();
+
+                // The chart reads as a trend under the number, so it spans the tile rather than keeping
+                // whatever intrinsic size it came with — a Sparkline's default 100x30 would sit in the
+                // corner of the card. Height goes back to auto so the chart keeps its own proportions at
+                // that width. A caller who asked for a size with .W()/.WS()/.H() left the marker Stack
+                // writes, and that size is kept.
+                if (!rendered.hasAttribute("tss-stk-w")) rendered.style.width  = "100%";
+                if (!rendered.hasAttribute("tss-stk-h")) rendered.style.height = "auto";
+
+                _chartContainer.appendChild(rendered);
             }
             return this;
         }
