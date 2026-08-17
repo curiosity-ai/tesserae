@@ -134,3 +134,11 @@
 .tss-pivot .tss-pivot-cached-hidden{
     display:none !important;
 }
+
+/* Unsaved-changes indicator toggled by TabSaveIndicator / UnsavedChangesGuard. */
+.tss-pivot-tab-needs-saving::after {
+    content: '*';
+    margin-left: 4px;
+    color: var(--tss-primary-background-color, currentColor);
+    font-weight: bold;
+}
