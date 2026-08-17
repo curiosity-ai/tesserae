@@ -231,10 +231,10 @@ namespace Tesserae
             /// </summary>
             public Item(string text = null, UIcons? icon = null, params TreeCommand[] commands)
             {
-                _chevronSpan    = I(Att("tss-tree-chevron " + UIcons.AngleRight.ToString()));
+                _chevronSpan    = I(Att("tss-tree-chevron " + UIcons.AngleRight.ToCssClass()));
                 _textSpan = Span(Att("tss-tree-text",   text: text));
                 _childContainer = Ul(Att("tss-tree-children", role: "group"));
-                _checkboxSpan   = I(Att("tss-tree-checkbox " + UIcons.Square.ToString()));
+                _checkboxSpan   = I(Att("tss-tree-checkbox " + UIcons.Square.ToCssClass()));
                 _commands       = commands ?? new TreeCommand[0];
 
                 _headerDiv = Div(Att("tss-tree-item-content"), _chevronSpan, _checkboxSpan);
@@ -242,7 +242,7 @@ namespace Tesserae
                 if (icon.HasValue)
                 {
                     _icon     = icon.Value;
-                    _iconSpan = I(Att("tss-tree-icon " + icon.Value.ToString()));
+                    _iconSpan = I(Att("tss-tree-icon " + icon.Value.ToCssClass()));
                     _headerDiv.appendChild(_iconSpan);
                 }
 
@@ -328,12 +328,12 @@ namespace Tesserae
                     {
                         if (_iconSpan == null)
                         {
-                            _iconSpan = I(Att("tss-tree-icon " + value.Value.ToString()));
+                            _iconSpan = I(Att("tss-tree-icon " + value.Value.ToCssClass()));
                             _headerDiv.insertBefore(_iconSpan, _textSpan);
                         }
                         else
                         {
-                            _iconSpan.className = "tss-tree-icon " + value.Value.ToString();
+                            _iconSpan.className = "tss-tree-icon " + value.Value.ToCssClass();
                         }
                     }
                 }
@@ -355,15 +355,15 @@ namespace Tesserae
                         if (_isExpanded)
                         {
                             InnerElement.classList.add("tss-expanded");
-                            _chevronSpan.classList.remove(UIcons.AngleRight.ToString());
-                            _chevronSpan.classList.add(UIcons.AngleDown.ToString());
+                            _chevronSpan.classList.remove(UIcons.AngleRight.ToCssClass());
+                            _chevronSpan.classList.add(UIcons.AngleDown.ToCssClass());
                             ExpandedItem?.Invoke(this);
                         }
                         else
                         {
                             InnerElement.classList.remove("tss-expanded");
-                            _chevronSpan.classList.remove(UIcons.AngleDown.ToString());
-                            _chevronSpan.classList.add(UIcons.AngleRight.ToString());
+                            _chevronSpan.classList.remove(UIcons.AngleDown.ToCssClass());
+                            _chevronSpan.classList.add(UIcons.AngleRight.ToCssClass());
                             CollapsedItem?.Invoke(this);
                         }
                     }
@@ -386,14 +386,14 @@ namespace Tesserae
                         if (_isSelected)
                         {
                             _headerDiv.classList.add("tss-selected");
-                            _checkboxSpan.classList.replace(UIcons.Square.ToString(), UIcons.Checkbox.ToString());
+                            _checkboxSpan.classList.replace(UIcons.Square.ToCssClass(), UIcons.Checkbox.ToCssClass());
                             InternalSelectedItem?.Invoke(this);
                             SelectedItem?.Invoke(this);
                         }
                         else
                         {
                             _headerDiv.classList.remove("tss-selected");
-                            _checkboxSpan.classList.replace(UIcons.Checkbox.ToString(), UIcons.Square.ToString());
+                            _checkboxSpan.classList.replace(UIcons.Checkbox.ToCssClass(), UIcons.Square.ToCssClass());
                         }
                     }
                 }

@@ -12,7 +12,7 @@ namespace Tesserae
     [Transpose.Name("tss.OverflowSet")]
     public class OverflowSet : IComponent, IContainer<Breadcrumb, IComponent>
     {
-        private readonly string         _expandIcon = UIcons.ArrowDown.ToString();
+        private readonly string         _expandIcon = UIcons.ArrowDown.ToCssClass();
         private readonly HTMLElement    _childContainer;
         private readonly ResizeObserver _resizeObserver;
         private          int            _maximumItemsToDisplay = 10;

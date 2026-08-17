@@ -200,10 +200,10 @@ namespace Tesserae
                 AttachFocus();
                 AttachBlur();
 
-                Changed += (s, e) =>
+                SubscribeChanged((s, e) =>
                 {
                     if (IsSelected) SelectedItem?.Invoke(this);
-                };
+                });
             }
 
             /// <summary>

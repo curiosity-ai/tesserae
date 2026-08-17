@@ -656,7 +656,7 @@ namespace Tesserae
         /// </summary>
         public Button SetIcon(Emoji icon, bool afterText = false)
         {
-            Icon = $"ec {icon}";
+            Icon = $"ec {icon.ToCssClass()}";
 
             if (_iconSpan is object)
             {

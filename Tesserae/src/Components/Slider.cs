@@ -48,12 +48,13 @@ namespace Tesserae
             // Subscribe to the underlying events so the observable (and the
             // exposed aria value) stay in sync on user input, not just when the
             // value is set programmatically.
-            Changed += (_, __) => _observable.Value = Value;
-            InputUpdated += (_, __) =>
+            SubscribeChanged((_, __) => _observable.Value = Value);
+
+            SubscribeInputUpdated((_, __) =>
             {
                 InnerElement.setAttribute("aria-valuenow", Value.ToString());
                 _observable.Value = Value;
-            };
+            });
 
             if (navigator.userAgent.IndexOf("AppleWebKit") != -1)
             {
@@ -61,10 +62,10 @@ namespace Tesserae
                 double percent = ((double)(val - min) / (max - min)) * 100.0;
                 _fakeDiv.style.width = $"{percent:0.##}%";
 
-                InputUpdated += (e, s) =>
+                SubscribeInputUpdated((e, s) =>
                 {
                     percent = UpdateFakeProgress();
-                };
+                });
 
                 _outerLabel = Label(Att("tss-slider-container"), InnerElement, Div(Att("tss-slider-fake-background")), _fakeDiv);
                 InnerElement.classList.add("tss-fake");

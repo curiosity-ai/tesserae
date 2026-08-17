@@ -180,7 +180,7 @@ namespace Tesserae
             _searchBox.OnSearch((_, __) => ActivateSelected());
 
             _backButton = UI.Button(Att("tss-commandpalette-back tss-fontweight-semibold", type: "button", title: "Go Back"),
-                                    Div(Att("tss-commandpalette-icon"), I(Att($"tss-commandpalette-icon-item {UIcons.AngleLeft}"))));
+                                    Div(Att("tss-commandpalette-icon"), I(Att($"tss-commandpalette-icon-item {UIcons.AngleLeft.ToCssClass()}"))));
 
             _backButton.addEventListener("click", e =>
             {
@@ -908,7 +908,7 @@ namespace Tesserae
             var iconContainer = Div(Att("tss-commandpalette-icon"));
             if (action.Icon.HasValue)
             {
-                iconContainer.appendChild(I(Att($"tss-commandpalette-icon-item {action.Icon.Value}")));
+                iconContainer.appendChild(I(Att($"tss-commandpalette-icon-item {action.Icon.Value.ToCssClass()}")));
             }
             else
             {

@@ -184,7 +184,7 @@ namespace Tesserae
         /// </summary>
         public CommandBarItem SetIcon(UIcons icon)
         {
-            Icon = $"ec {icon}";
+            Icon = $"ec {icon.ToCssClass()}";
             return this;
         }
 

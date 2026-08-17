@@ -478,7 +478,7 @@ namespace Tesserae
         /// </summary>
         public void Attach(ComponentEventHandler<Dropdown> handler)
         {
-            InputUpdated += (s, _) => handler(this);
+            SubscribeInputUpdated((s, _) => handler(this));
         }
 
         /// <summary>

@@ -99,7 +99,7 @@ namespace Tesserae
             _raw = Raw(component);
             wrapper.appendChild(_raw.Render());
 
-            var overlay = Div(Att("tss-filedroparea-overlay"), Div(Att("tss-filedroparea-message"), I(Att($"{UIcons.Upload} tss-filedroparea-icon")), TextBlock("Drop files here").SemiBold().Render()));
+            var overlay = Div(Att("tss-filedroparea-overlay"), Div(Att("tss-filedroparea-message"), I(Att($"{UIcons.Upload.ToCssClass()} tss-filedroparea-icon")), TextBlock("Drop files here").SemiBold().Render()));
             wrapper.appendChild(overlay);
 
             wrapper.onclick = (e) =>
@@ -166,7 +166,7 @@ namespace Tesserae
             var dropArea = Div(Att("tss-filedroparea"));
             dropArea.appendChild(_fileInput);
 
-            _raw = Raw(Div(Att("tss-filedroparea-message"), I(Att($"{UIcons.Upload} tss-filedroparea-icon")), TextBlock("Drop files here or click to upload").SemiBold().Render()));
+            _raw = Raw(Div(Att("tss-filedroparea-message"), I(Att($"{UIcons.Upload.ToCssClass()} tss-filedroparea-icon")), TextBlock("Drop files here or click to upload").SemiBold().Render()));
 
             dropArea.appendChild(_raw.Render());
             dropArea.onclick = (e) => { _fileInput.click(); };
