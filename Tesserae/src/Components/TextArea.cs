@@ -158,7 +158,7 @@ namespace Tesserae
         /// <param name="handler">The handler.</param>
         public void Attach(ComponentEventHandler<TextArea> handler)
         {
-            InputUpdated += (s, _) => handler(s);
+            SubscribeInputUpdated((s, _) => handler(s));
         }
 
         /// <summary>

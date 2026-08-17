@@ -18,6 +18,12 @@ namespace Tesserae
         private const string AlwaysOnTopClass    = "tss-always-on-top";
         private const string AlwaysOnTopSelector = ".tss-always-on-top";
 
+        // One selector rather than one query per kind: every caller here needs the maximum z-index
+        // over the same union of elements, and each document.querySelectorAll walks the whole tree.
+        // This is on the path of every tooltip that gets created, so the scans add up quickly.
+        private const string LayerSelector           = ".tss-layer,[data-tippy-root]";
+        private const string LayerOrAlwaysOnTopScope = ".tss-layer,[data-tippy-root],.tss-always-on-top";
+
         /// <summary>
         /// Configures the push layer on the component.
         /// </summary>
@@ -44,39 +50,28 @@ namespace Tesserae
             return (CurrentZIndex() + 10).ToString();
         }
 
-        internal static int CurrentZIndex()
-        {
-            int maxIndex = BaseZIndex;
-
-            foreach (HTMLElement htmlElement in document.querySelectorAll(".tss-layer"))
-            {
-                if (int.TryParse(htmlElement.style.zIndex, out var zIndex) && zIndex > maxIndex) maxIndex = zIndex;
-            }
-            // Imperatively-shown Tippy popovers (Popover / Menu / TreeCommand / SidebarCommand / Teaching)
-            // also participate in the application z-index stack: when one of them is visible, any new
-            // Layer (Dropdown, Modal, Panel, …) opened on top of it must sit above it visually, not
-            // be hidden behind Tippy's hard-coded z-index. Including [data-tippy-root] in the scan
-            // means PushLayer() naturally lifts subsequent layers above the popover.
-            foreach (HTMLElement htmlElement in document.querySelectorAll("[data-tippy-root]"))
-            {
-                if (int.TryParse(htmlElement.style.zIndex, out var zIndex) && zIndex > maxIndex) maxIndex = zIndex;
-            }
-            return maxIndex;
-        }
+        // Imperatively-shown Tippy popovers (Popover / Menu / TreeCommand / SidebarCommand / Teaching)
+        // also participate in the application z-index stack: when one of them is visible, any new
+        // Layer (Dropdown, Modal, Panel, …) opened on top of it must sit above it visually, not
+        // be hidden behind Tippy's hard-coded z-index. Including [data-tippy-root] in the scan
+        // means PushLayer() naturally lifts subsequent layers above the popover.
+        internal static int CurrentZIndex() => MaxZIndex(LayerSelector);
 
         /// <summary>
         /// Configures the above current on the component.
         /// </summary>
-        public static string AboveCurrent()
-        {
-            int maxIndex = CurrentZIndex();
+        public static string AboveCurrent() => (MaxZIndex(LayerOrAlwaysOnTopScope) + 5).ToString();
 
-            foreach (HTMLElement pinned in document.querySelectorAll(AlwaysOnTopSelector))
+        private static int MaxZIndex(string selector)
+        {
+            int maxIndex = BaseZIndex;
+
+            foreach (HTMLElement htmlElement in document.querySelectorAll(selector))
             {
-                if (int.TryParse(pinned.style.zIndex, out var zIndex) && zIndex > maxIndex) maxIndex = zIndex;
+                if (int.TryParse(htmlElement.style.zIndex, out var zIndex) && zIndex > maxIndex) maxIndex = zIndex;
             }
 
-            return (maxIndex + 5).ToString();
+            return maxIndex;
         }
     }
 }

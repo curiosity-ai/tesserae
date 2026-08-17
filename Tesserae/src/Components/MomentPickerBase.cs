@@ -25,8 +25,8 @@ namespace Tesserae
 
             // Mirror the text-level events that Input&lt;TInput&gt; already wires up so the typed
             // observable stays in sync with user input.
-            Changed      += (_, __) => UpdateMomentObservable();
-            InputUpdated += (_, __) => UpdateMomentObservable();
+            SubscribeChanged((_,      __) => UpdateMomentObservable());
+            SubscribeInputUpdated((_, __) => UpdateMomentObservable());
         }
 
         private TMoment? ParseOrNull(string text) => string.IsNullOrEmpty(text) ? (TMoment?)null : FormatMoment(text);

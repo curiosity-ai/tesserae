@@ -161,7 +161,7 @@ namespace Tesserae
             public Item SubMenu(ContextMenu cm)
             {
                 _subMenu = cm;
-                InnerElement.appendChild(I(Att($"{UIcons.AngleRight} tss-contextmenu-submenu-button-icon")));
+                InnerElement.appendChild(I(Att($"{UIcons.AngleRight.ToCssClass()} tss-contextmenu-submenu-button-icon")));
                 return this;
             }
 
@@ -178,7 +178,7 @@ namespace Tesserae
                     }
                     else
                     {
-                        Clicked += e;
+                        SubscribeClicked(e);
 
                         if (_innerComponent is object)
                         {

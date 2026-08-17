@@ -211,6 +211,14 @@ namespace Tesserae
         /// Attaches a hover tooltip to an SVG element: a native &lt;title&gt; child (for accessibility / no-JS fallback)
         /// and, when enabled, a tippy popover reusing the bundled tippy.js.
         /// </summary>
+        /// <remarks>
+        /// The tippy instance is created the first time the point is hovered rather than at render time.
+        /// A chart is drawn point by point, so building one instance per point up front cost a tippy
+        /// object, its listeners and a full-document z-index scan for every value in the series — all of
+        /// it before the user has pointed at anything. One delegated listener on the SVG surface replaces
+        /// them; the created instance keeps tippy's own trigger from then on, so hover behaviour and the
+        /// show delay are unchanged.
+        /// </remarks>
         protected void AttachPointTooltip(Element el, string content)
         {
             if (string.IsNullOrEmpty(content)) return;
@@ -221,17 +229,63 @@ namespace Tesserae
 
             if (_showTooltips)
             {
+                el[TooltipContentProperty] = content;
+                EnsureTooltipDelegate();
+            }
+        }
+
+        private const string TooltipContentProperty = "_tssChartTooltip";
+
+        private bool _tooltipDelegateAttached;
+
+        private bool _hasCreatedTooltip;
+
+        private void EnsureTooltipDelegate()
+        {
+            if (_tooltipDelegateAttached) return;
+            _tooltipDelegateAttached = true;
+
+            _svg.addEventListener("mouseover", (Action<Event>)(e =>
+            {
+                var target = e.As<MouseEvent>().target.As<Element>();
+
+                while (target is object && target != _svg)
+                {
+                    if (target.HasOwnProperty(TooltipContentProperty)) break;
+                    target = target.parentElement;
+                }
+
+                if (target is null || target == _svg || !target.HasOwnProperty(TooltipContentProperty)) return;
+                if (target.HasOwnProperty("_tippy")) return;
+
+                _hasCreatedTooltip = true;
+
+                var content = target[TooltipContentProperty].As<string>();
+
                 //Into the application z-index lane, like every other tippy here: a chart in a Modal would
                 //otherwise hand its tooltips tippy's fixed 9999 and draw them behind the Layer above it.
                 if (!int.TryParse(Layers.AboveCurrent(), out var zIndex)) zIndex = 9999;
 
-                Script.Write("tippy({0}, { content: {1}, allowHTML: true, delay: [100, 0], appendTo: document.body, zIndex: {2} });", el, content, zIndex);
-            }
+                Script.Write("tippy({0}, { content: {1}, allowHTML: true, delay: [100, 0], appendTo: document.body, zIndex: {2} });", target, content, zIndex);
+
+                //The mouseenter that would normally open it has already gone by, so replay it against the
+                //instance we just built — tippy then applies its own show delay, as it would on any hover.
+                Script.Write("{0}.dispatchEvent(new MouseEvent('mouseenter'));", target);
+            }));
         }
 
         /// <summary>Removes every child of the SVG surface.</summary>
         protected void ClearSvg()
         {
+            //Tippy keeps its instances alive independently of the DOM, so a chart that re-renders (on
+            //resize, or whenever its data changes) would otherwise strand one popover per hovered point.
+            //Charts re-render on every resize, so only pay for the scan once something was hovered.
+            if (_hasCreatedTooltip)
+            {
+                Script.Write(@"{0}.querySelectorAll('*').forEach(function (e) { if (e._tippy) e._tippy.destroy(); });", _svg);
+                _hasCreatedTooltip = false;
+            }
+
             while (_svg.firstChild != null) _svg.removeChild(_svg.firstChild);
         }
 

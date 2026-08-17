@@ -30,11 +30,11 @@ namespace Tesserae
         public EditableLabel(string text = string.Empty)
         {
             _labelText = Span(Att("tss-editablelabel-textspan", text: text, title: "Click to edit"));
-            _editIcon  = I(Att($"tss-editablelabel-edit-icon {UIcons.Pencil}"));
+            _editIcon  = I(Att($"tss-editablelabel-edit-icon {UIcons.Pencil.ToCssClass()}"));
             _labelView = Div(Att("tss-editablelabel-displaybox"), _labelText, _editIcon);
 
             InnerElement = UI.TextBox(Att("tss-editablelabel-textbox", type: "text"));
-            _cancelEditIcon = Div(Att("tss-editablelabel-cancel-icon", title: "Cancel edit"), I(Att(UIcons.Cross.ToString())));
+            _cancelEditIcon = Div(Att("tss-editablelabel-cancel-icon", title: "Cancel edit"), I(Att(UIcons.Cross.ToCssClass())));
             _editView       = Div(Att("tss-editablelabel-editbox"),                           InnerElement, _cancelEditIcon);
 
             _container = Div(Att("tss-editablelabel tss-fontcolor-default tss-fontsize-small tss-fontweight-regular"), _labelView, _editView);
