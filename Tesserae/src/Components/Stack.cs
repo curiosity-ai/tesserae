@@ -911,8 +911,12 @@ namespace Tesserae
         //We need to propagate some styles otherwise they don't work if they were applied before adding to the stack
         private static void PropagateStyleClasses(HTMLElement from, HTMLElement to)
         {
-            foreach (var s in _stylesToPropagate)
+            // Indexed rather than foreach — this runs for every child added to a Stack or Grid, and a
+            // foreach over the array still costs an enumerator allocation and a try/finally.
+            for (int i = 0; i < _stylesToPropagate.Length; i++)
             {
+                var s = _stylesToPropagate[i];
+
                 if (from.classList.contains(s))
                 {
                     from.classList.remove(s);
