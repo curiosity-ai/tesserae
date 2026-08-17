@@ -1,13 +1,14 @@
 ---
 name: charts
-description: Four dependency-free responsive SVG charts — LineChart, BarChart, AreaChart, PieChart — with a shared fluent series/palette API, tooltips, legend, and observable-driven updates. Use to plot trends, comparisons, or part-to-whole data in a Tesserae (C#/Transpose) app.
+description: Four dependency-free responsive SVG charts — LineChart, BarChart, AreaChart, PieChart — with a shared fluent series/palette API, tooltips, legend, stacking, a continuous/time X axis, zoom and pan, spikelines, PNG export and observable-driven updates. Use to plot trends, comparisons, part-to-whole data or live time series in a Tesserae (C#/Transpose) app.
 ---
 
 # Charts
 
 Four SVG chart types share a fluent API. Cartesian charts (`LineChart`, `BarChart`,
-`AreaChart`) take X-axis categories; `PieChart` renders part-to-whole and can be a donut.
-Each fills its container via a `ResizeObserver` — give it a height (e.g. `.H(200.px())`).
+`AreaChart`) plot against either X-axis categories or a continuous X scale; `PieChart`
+renders part-to-whole and can be a donut. Each fills its container via a
+`ResizeObserver` — give it a height (e.g. `.H(200.px())`).
 
 ## Create
 
@@ -22,19 +23,67 @@ Data (all types):
 - `.Data(double[])` — one unnamed series.
 - `.Series(string name, double[] values, string color = null)` — append a named series.
 - `.Series(IObservable<double[]> values, ...)` — bind to an observable; re-renders on change.
+- `.Series(params ChartSeries[])` / `.Series(IObservable<ChartSeries[]>)` — full control.
+- `double.NaN` marks a missing sample. `.ConnectGaps(false)` breaks the line at a gap
+  instead of drawing straight across it.
+
+`ChartSeries` carries `Name`, `Values`, `Color`, plus `XValues` (continuous X positions),
+`LineWidth` (default 2) and `FillOpacity` (default 0.45, area charts):
+
+```csharp
+new ChartSeries("CPU %", times, values) { LineWidth = 1, FillOpacity = 0.2 }
+```
 
 Appearance (all types):
 
-- `.Colors(params string[])`, `.Legend(bool = true)`, `.Tooltips(bool = true)`,
-  `.Title(string)` (aria summary), `.FormatValues(Func<double,string>)`.
+- `.Colors(params string[])`, `.Tooltips(bool = true)`, `.Title(string)` (aria summary),
+  `.FormatValues(Func<double,string>)`.
+- `.Legend(bool = true)` and `.Legend(ChartLegendPosition)` — `Top` (default), `Bottom`,
+  `Left`, `Right`. `PieChart` defaults to `Right`.
+- `.ExportButton()` — a hover-revealed button that saves the chart as a PNG.
+  `.ExportPng(fileName)` does the same from code (CSS-variable colors are flattened
+  first, so the image matches the current theme).
 
 Cartesian (`Line`/`Bar`/`Area`):
 
-- `.XAxis(params string[])`, `.XAxisTitle(string)`, `.YAxisTitle(string)`,
-  `.Grid(bool)`, `.Axes(bool)`.
-- `LineChart`/`AreaChart`: `.Points(bool)`. `BarChart`: `.Rounded(double radius = 2)`.
+- `.XAxis(params string[])` — evenly spaced categories.
+- `.XAxisTitle(string)`, `.YAxisTitle(string)`, `.Grid(bool)`, `.Axes(bool)`.
+- `.MaxXTicks(int)` — cap the tick labels; 0 (default) derives the cap from the width.
+- `LineChart`/`AreaChart`: `.Points(bool)`. `BarChart`: `.Rounded(double radius = 2)`,
+  `.Stacked()`.
+
+Markers (and their tooltips) are suppressed above 300 points in a series — use
+`.Spikelines()` for dense data instead.
 
 PieChart: `.Labels(params string[])`, `.Donut(double holeRatio = 0.6)`.
+
+## Continuous / time X axis
+
+Give the points real X positions and the chart switches from evenly spaced categories to
+a continuous scale, so each series can have its own X values, its own point count and
+irregular spacing:
+
+- `.XValues(double[])` — shared X positions for every series.
+- `ChartSeries.XValues` — per-series positions (these win over the shared array).
+- `.FormatXAxis(Func<double,string>)` — tick label formatter.
+- `.XAxisTime(string format = "HH:mm")` — treats X as Unix seconds and formats as local time.
+
+## Zoom, pan and spikelines
+
+- `.Zoomable()` — wheel zooms the X axis, drag pans it, double-click resets. The value
+  axis rescales to the visible window.
+- `.Spikelines()` — a vertical line follows the cursor with a readout of the X position
+  and each series' nearest value.
+- `.XRange(min, max)` / `.AutoRangeX()` / `.TryGetXRange(out min, out max)` / `.IsXRangePinned`.
+- `.OnRangeChanged(Action<ChartRange>)` — raised on user zoom/pan/reset only. `.XRange()`
+  never re-raises it, so pushing a range onto sibling charts cannot loop.
+
+Keeping two charts on one timeline:
+
+```csharp
+a.OnRangeChanged(r => { if (r.IsAutoRange) b.AutoRangeX(); else b.XRange(r.Min, r.Max); });
+b.OnRangeChanged(r => { if (r.IsAutoRange) a.AutoRangeX(); else a.XRange(r.Min, r.Max); });
+```
 
 ## Example
 
@@ -46,6 +95,14 @@ var chart = LineChart()
     .Series("Target",  new double[] { 15, 15, 20, 20, 25 })
     .XAxis("Mon", "Tue", "Wed", "Thu", "Fri")
     .Legend()
+    .WS().H(200.px());
+
+var live = AreaChart()
+    .Series(new ChartSeries("CPU %", unixSeconds, values) { LineWidth = 1, FillOpacity = 0.2 })
+    .XAxisTime()
+    .Zoomable()
+    .Spikelines()
+    .ExportButton()
     .WS().H(200.px());
 ```
 

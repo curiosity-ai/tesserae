@@ -1,10 +1,10 @@
-using System.Linq;
+using System.Collections.Generic;
 using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
-    /// A lightweight, dependency-free SVG line chart. Plots one or more series as connected polylines with
+    /// A lightweight, dependency-free SVG line chart. Plots one or more series as connected lines with
     /// hoverable points, value gridlines, category labels and a theme-aware palette. Fluent and responsive.
     /// </summary>
     [Transpose.Name("tss.LineChart")]
@@ -32,37 +32,60 @@ namespace Tesserae
 
                 if (series.Values.Length == 0) continue;
 
-                var points = string.Join(" ", series.Values.Select((v, i) => $"{PointX(i).ToString("0.###")},{PixelY(v).ToString("0.###")}"));
+                foreach (var run in SeriesRuns(series))
+                {
+                    if (run.Count == 0) continue;
 
-                var polyline = El("polyline");
-                Attr(polyline, "fill", "none");
-                Attr(polyline, "stroke", color);
-                Attr(polyline, "stroke-width", 2);
-                Attr(polyline, "stroke-linejoin", "round");
-                Attr(polyline, "stroke-linecap", "round");
-                Attr(polyline, "points", points);
-                _svg.appendChild(polyline);
+                    var path = El("path");
+                    Attr(path, "fill", "none");
+                    Attr(path, "stroke", color);
+                    Attr(path, "stroke-width", series.LineWidth);
+                    Attr(path, "stroke-linejoin", "round");
+                    Attr(path, "stroke-linecap", "round");
+                    Attr(path, "d", BuildPath(series, run));
+                    _plotSurface.appendChild(path);
+                }
 
-                if (_showPoints)
+                if (_showPoints && series.Values.Length <= MaxMarkersPerSeries)
                 {
                     for (int i = 0; i < series.Values.Length; i++)
                     {
+                        if (double.IsNaN(series.Values[i])) continue;
+
                         var circle = El("circle");
-                        Attr(circle, "cx", PointX(i));
+                        Attr(circle, "cx", SeriesPointX(series, i));
                         Attr(circle, "cy", PixelY(series.Values[i]));
                         Attr(circle, "r", 3);
                         Attr(circle, "fill", color);
                         AttachPointTooltip(circle, TooltipFor(series, i));
-                        _svg.appendChild(circle);
+                        _plotSurface.appendChild(circle);
                     }
                 }
             }
         }
 
+        private string BuildPath(ChartSeries series, List<int> run)
+        {
+            var d = "";
+
+            for (int p = 0; p < run.Count; p++)
+            {
+                var i = run[p];
+                var x = SeriesPointX(series, i).ToString("0.###");
+                var y = PixelY(series.Values[i]).ToString("0.###");
+                d += (p == 0 ? "M " : " L ") + x + " " + y;
+            }
+
+            return d;
+        }
+
         private string TooltipFor(ChartSeries series, int i)
         {
-            var label = i < _categories.Length ? _categories[i] : "#" + (i + 1);
-            var name  = string.IsNullOrEmpty(series.Name) ? "" : series.Name + " — ";
+            var label = _continuousX
+                ? FormatXValue(XOf(series, i))
+                : (i < _categories.Length ? _categories[i] : "#" + (i + 1));
+
+            var name = string.IsNullOrEmpty(series.Name) ? "" : series.Name + " — ";
             return $"{name}{label}: {_valueFormatter(series.Values[i])}";
         }
     }

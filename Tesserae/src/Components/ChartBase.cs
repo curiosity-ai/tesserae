@@ -8,6 +8,48 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     /// <summary>
+    /// Where a chart draws its legend.
+    /// </summary>
+    [Transpose.Name("tss.ChartLegendPosition")]
+    public enum ChartLegendPosition
+    {
+        /// <summary>A horizontal row of swatches above the plot.</summary>
+        Top,
+        /// <summary>A horizontal row of swatches below the plot.</summary>
+        Bottom,
+        /// <summary>A vertical column of swatches to the left of the plot.</summary>
+        Left,
+        /// <summary>A vertical column of swatches to the right of the plot.</summary>
+        Right
+    }
+
+    /// <summary>
+    /// The visible X range of a cartesian chart, reported when the user zooms or pans.
+    /// </summary>
+    [Transpose.Name("tss.ChartRange")]
+    public sealed class ChartRange
+    {
+        /// <summary>The lowest visible X value.</summary>
+        public double Min { get; set; }
+
+        /// <summary>The highest visible X value.</summary>
+        public double Max { get; set; }
+
+        /// <summary>True when the chart is back to fitting its data instead of showing an explicit range.</summary>
+        public bool IsAutoRange { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChartRange"/> class.
+        /// </summary>
+        public ChartRange(double min, double max, bool isAutoRange)
+        {
+            Min         = min;
+            Max         = max;
+            IsAutoRange = isAutoRange;
+        }
+    }
+
+    /// <summary>
     /// A single named data series for a chart, with an optional explicit color (falling back to the chart palette).
     /// </summary>
     [Transpose.Name("tss.ChartSeries")]
@@ -16,11 +58,24 @@ namespace Tesserae
         /// <summary>The series display name, used in the legend, tooltips and accessibility summary.</summary>
         public string Name { get; set; }
 
-        /// <summary>The series values, one per category/point.</summary>
+        /// <summary>The series values, one per category/point. <see cref="double.NaN"/> marks a missing sample.</summary>
         public double[] Values { get; set; }
 
         /// <summary>An optional explicit CSS color; when null the chart assigns a palette color by index.</summary>
         public string Color { get; set; }
+
+        /// <summary>
+        /// Optional X positions for this series' values, one per entry in <see cref="Values"/>. Setting these on
+        /// any series switches the chart to a continuous X scale, which lets each series carry its own X positions
+        /// (irregular sampling, differing time windows, differing point counts) instead of sharing one category list.
+        /// </summary>
+        public double[] XValues { get; set; }
+
+        /// <summary>The stroke width of this series' line, in pixels (line and area charts).</summary>
+        public double LineWidth { get; set; } = 2;
+
+        /// <summary>The opacity of this series' area fill at its peak, fading to near-transparent at the baseline (area charts).</summary>
+        public double FillOpacity { get; set; } = 0.45;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChartSeries"/> class.
@@ -31,12 +86,24 @@ namespace Tesserae
             Values = values ?? new double[0];
             Color  = color;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChartSeries"/> class with explicit X positions,
+        /// putting the chart on a continuous X scale.
+        /// </summary>
+        public ChartSeries(string name, double[] xValues, double[] values, string color = null)
+        {
+            Name    = name;
+            Values  = values ?? new double[0];
+            Color   = color;
+            XValues = xValues;
+        }
     }
 
     /// <summary>
     /// Shared base for Tesserae's lightweight, dependency-free SVG charts. Handles the responsive SVG surface
     /// (sized 1:1 to its container via a <see cref="ResizeObserver"/>), the series/palette model, observable-driven
-    /// re-rendering, theme colors, tooltips (reusing tippy) and the role="img" accessibility summary.
+    /// re-rendering, theme colors, tooltips (reusing tippy), PNG export and the role="img" accessibility summary.
     /// Mirrors <see cref="Sparkline"/>'s SVG rendering style.
     /// </summary>
     [Transpose.Name("tss.ChartBase")]
@@ -44,6 +111,13 @@ namespace Tesserae
     {
         /// <summary>The SVG namespace used for every chart element.</summary>
         protected const string SvgNs = "http://www.w3.org/2000/svg";
+
+        /// <summary>
+        /// Above this many points in a series, per-point markers (and their tooltips) are suppressed: one DOM
+        /// node plus one tooltip per sample stops being readable long before it stops being expensive. Use the
+        /// spikeline readout instead of markers for dense series.
+        /// </summary>
+        protected const int MaxMarkersPerSeries = 300;
 
         /// <summary>The default theme-aware palette (CSS variables that adapt to light/dark mode).</summary>
         protected static readonly string[] DefaultPalette =
@@ -79,13 +153,35 @@ namespace Tesserae
         /// <summary>Whether to render the legend.</summary>
         protected bool _showLegend = false;
 
+        /// <summary>Where the legend is drawn.</summary>
+        protected ChartLegendPosition _legendPosition = ChartLegendPosition.Top;
+
+        /// <summary>Whether a line/area series draws straight across a <see cref="double.NaN"/> gap instead of breaking.</summary>
+        protected bool _connectGaps = true;
+
         /// <summary>An optional caption used as the accessibility summary; falls back to a generated description.</summary>
         protected string _title;
 
         /// <summary>Optional formatter for values shown in tooltips / axis labels.</summary>
         protected Func<double, string> _valueFormatter = v => v.ToString("0.##");
 
+        /// <summary>The element subclasses draw their series into; clipped to the plot rectangle on cartesian charts.</summary>
+        protected Element _plotSurface;
+
+        /// <summary>Space the legend claimed at the top of the surface, in pixels.</summary>
+        protected double _legendInsetTop;
+
+        /// <summary>Space the legend claimed at the bottom of the surface, in pixels.</summary>
+        protected double _legendInsetBottom;
+
+        /// <summary>Space the legend claimed on the left of the surface, in pixels.</summary>
+        protected double _legendInsetLeft;
+
+        /// <summary>Space the legend claimed on the right of the surface, in pixels.</summary>
+        protected double _legendInsetRight;
+
         private bool _renderQueued;
+        private Button _exportButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChartBase{T}"/> class.
@@ -97,6 +193,7 @@ namespace Tesserae
             _container.style.height    = "100%";
             _container.style.minWidth  = minWidth + "px";
             _container.style.minHeight = minHeight + "px";
+            _container.style.position  = "relative";
             _container.setAttribute("role", "img");
 
             _svg = document.createElementNS(SvgNs, "svg");
@@ -104,6 +201,8 @@ namespace Tesserae
             _svg.setAttribute("height", "100%");
             _svg.As<HTMLElement>().style.display = "block";
             _container.appendChild(_svg);
+
+            _plotSurface = _svg;
 
             _resizeObserver = new ResizeObserver((entries, obs) => QueueRender());
             _resizeObserver.observe(_container);
@@ -189,11 +288,130 @@ namespace Tesserae
         /// <summary>Enables or disables the legend.</summary>
         public T Legend(bool show = true) { _showLegend = show; QueueRender(); return Self; }
 
+        /// <summary>Sets which edge of the chart the legend is drawn on (and enables it).</summary>
+        public T Legend(ChartLegendPosition position)
+        {
+            _legendPosition = position;
+            _showLegend     = true;
+            QueueRender();
+            return Self;
+        }
+
+        /// <summary>
+        /// When true (the default) a line or area series draws straight across a <see cref="double.NaN"/> value;
+        /// when false the line breaks, leaving the gap visible.
+        /// </summary>
+        public T ConnectGaps(bool connect = true) { _connectGaps = connect; QueueRender(); return Self; }
+
         /// <summary>Sets an accessibility caption / summary for the chart.</summary>
         public T Title(string title) { _title = title; QueueRender(); return Self; }
 
         /// <summary>Sets the formatter used for values in tooltips and labels.</summary>
         public T FormatValues(Func<double, string> formatter) { if (formatter != null) _valueFormatter = formatter; QueueRender(); return Self; }
+
+        /// <summary>
+        /// Shows a small download button in the chart's top-right corner (revealed on hover) that saves the
+        /// chart as a PNG.
+        /// </summary>
+        public T ExportButton(bool show = true, string fileName = null)
+        {
+            if (!show)
+            {
+                if (_exportButton is object)
+                {
+                    _container.removeChild(_exportButton.Render());
+                    _exportButton = null;
+                }
+                return Self;
+            }
+
+            if (_exportButton is object) return Self;
+
+            //Bound through a local so the click handler keeps this chart as its receiver.
+            var chart = this;
+
+            _exportButton = Button().Compact().SetIcon(UIcons.Download).Tooltip("Save as PNG").OnClick(() => chart.ExportPng(fileName));
+
+            var el = _exportButton.Render();
+            el.style.position   = "absolute";
+            el.style.top        = "2px";
+            el.style.right      = "2px";
+            el.style.opacity    = "0";
+            el.style.transition = "opacity 0.15s";
+
+            _container.addEventListener("mouseenter", (Action<Event>)(_ => el.style.opacity = "1"));
+            _container.addEventListener("mouseleave", (Action<Event>)(_ => el.style.opacity = "0"));
+
+            _container.appendChild(el);
+            return Self;
+        }
+
+        /// <summary>
+        /// Saves the chart as a PNG. CSS-variable colors are resolved to concrete values first, so the exported
+        /// image matches the theme the chart is currently rendered in.
+        /// </summary>
+        public void ExportPng(string fileName = null)
+        {
+            var name = string.IsNullOrEmpty(fileName)
+                ? (string.IsNullOrEmpty(_title) ? "chart" : _title)
+                : fileName;
+
+            if (!name.EndsWith(".png")) name = name + ".png";
+
+            var rect       = _container.getBoundingClientRect().As<DOMRect>();
+            var width      = Math.Max(1, rect.width);
+            var height     = Math.Max(1, rect.height);
+            var background = Color.EvalVar(Theme.Default.Background);
+
+            //Through a local: the template below runs inside an IIFE, so a substituted `this._svg` would
+            //resolve `this` to undefined.
+            var surface = _svg;
+
+            //Serialising a live SVG needs the var(--tss-*) colors flattened and the result rasterised through an
+            //Image, neither of which has a typed binding here.
+            Script.Write(@"(function () {
+                var svg = {0}.cloneNode(true);
+                var computed = window.getComputedStyle(document.body);
+                function flatten(el) {
+                    ['fill', 'stroke', 'stop-color'].forEach(function (attribute) {
+                        var value = el.getAttribute(attribute);
+                        if (value && value.indexOf('var(') === 0) {
+                            el.setAttribute(attribute, computed.getPropertyValue(value.substring(4, value.length - 1)).trim());
+                        }
+                    });
+                }
+                flatten(svg);
+                var all = svg.querySelectorAll('*');
+                for (var i = 0; i < all.length; i++) flatten(all[i]);
+                svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+                svg.setAttribute('width', {1});
+                svg.setAttribute('height', {2});
+                var serialized = new XMLSerializer().serializeToString(svg);
+                var image = new Image();
+                image.onload = function () {
+                    var scale = window.devicePixelRatio > 1 ? 2 : 1;
+                    var canvas = document.createElement('canvas');
+                    canvas.width = {1} * scale;
+                    canvas.height = {2} * scale;
+                    var ctx = canvas.getContext('2d');
+                    ctx.scale(scale, scale);
+                    ctx.fillStyle = {3};
+                    ctx.fillRect(0, 0, {1}, {2});
+                    ctx.drawImage(image, 0, 0);
+                    canvas.toBlob(function (blob) {
+                        var url = URL.createObjectURL(blob);
+                        var link = document.createElement('a');
+                        link.href = url;
+                        link.download = {4};
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        window.setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+                    });
+                };
+                image.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(serialized);
+            })();", surface, width, height, background, name);
+        }
 
         /// <summary>Returns the color for the series at the given index (explicit color or palette by index).</summary>
         protected string ColorFor(int index, ChartSeries series) => series.Color ?? _palette[index % _palette.Length];
@@ -313,6 +531,8 @@ namespace Tesserae
             _svg.setAttribute("preserveAspectRatio", "none");
 
             ClearSvg();
+            _plotSurface = _svg;
+            ResetLegendInsets();
             RenderChart(w, h);
             _container.setAttribute("aria-label", BuildAriaLabel());
         }
@@ -331,50 +551,105 @@ namespace Tesserae
 
             var parts = _series.Select(s =>
             {
-                var name = string.IsNullOrEmpty(s.Name) ? "series" : s.Name;
-                if (s.Values.Length == 0) return name + " (empty)";
-                return $"{name}: {s.Values.Length} points, from {_valueFormatter(s.Values.Min())} to {_valueFormatter(s.Values.Max())}";
+                var name   = string.IsNullOrEmpty(s.Name) ? "series" : s.Name;
+                var actual = s.Values.Where(v => !double.IsNaN(v)).ToArray();
+                if (actual.Length == 0) return name + " (empty)";
+                return $"{name}: {actual.Length} points, from {_valueFormatter(actual.Min())} to {_valueFormatter(actual.Max())}";
             });
 
             return $"{kind}. " + string.Join("; ", parts);
         }
 
-        /// <summary>Renders the legend swatches into the supplied container element, returning its height.</summary>
-        protected double RenderLegend(double width, double y)
+        /// <summary>Clears the space reserved for the legend, before a fresh render measures it again.</summary>
+        protected void ResetLegendInsets()
         {
-            if (!_showLegend || _series.Count == 0) return 0;
+            _legendInsetTop    = 0;
+            _legendInsetBottom = 0;
+            _legendInsetLeft   = 0;
+            _legendInsetRight  = 0;
+        }
 
-            const double swatch = 10;
-            const double gap    = 6;
-            const double itemGap = 16;
-            double x = 8;
+        /// <summary>Renders the legend for the chart's series, recording the space it consumed in the legend insets.</summary>
+        protected void RenderLegend(double width, double height)
+        {
+            if (_series.Count == 0) return;
+
+            var labels = new string[_series.Count];
+            var colors = new string[_series.Count];
 
             for (int i = 0; i < _series.Count; i++)
             {
-                var color = ColorFor(i, _series[i]);
-                var name  = string.IsNullOrEmpty(_series[i].Name) ? $"Series {i + 1}" : _series[i].Name;
-
-                var rect = El("rect");
-                Attr(rect, "x", x);
-                Attr(rect, "y", y);
-                Attr(rect, "width", swatch);
-                Attr(rect, "height", swatch);
-                Attr(rect, "rx", 2);
-                Attr(rect, "fill", color);
-                _svg.appendChild(rect);
-
-                var text = El("text");
-                Attr(text, "x", x + swatch + gap);
-                Attr(text, "y", y + swatch);
-                Attr(text, "font-size", "11");
-                Attr(text, "fill", Theme.Default.Foreground);
-                text.textContent = name;
-                _svg.appendChild(text);
-
-                x += swatch + gap + name.Length * 6.5 + itemGap;
+                labels[i] = string.IsNullOrEmpty(_series[i].Name) ? $"Series {i + 1}" : _series[i].Name;
+                colors[i] = ColorFor(i, _series[i]);
             }
 
-            return 22;
+            RenderLegend(labels, colors, width, height);
+        }
+
+        /// <summary>
+        /// Renders a legend of the given labels and colors on the configured edge, recording the space it
+        /// consumed in <see cref="_legendInsetTop"/> and friends so the caller can lay the plot out around it.
+        /// </summary>
+        protected void RenderLegend(string[] labels, string[] colors, double width, double height)
+        {
+            if (!_showLegend || labels == null || labels.Length == 0) return;
+
+            const double swatch  = 10;
+            const double gap     = 6;
+            const double itemGap = 16;
+            const double rowStep = 18;
+
+            if (_legendPosition == ChartLegendPosition.Left || _legendPosition == ChartLegendPosition.Right)
+            {
+                var columnWidth = labels.Max(l => l.Length) * 6.5 + swatch + gap + 16;
+                columnWidth     = Math.Min(columnWidth, Math.Max(40, width * 0.4));
+
+                var x = _legendPosition == ChartLegendPosition.Left ? 8 : width - columnWidth + 8;
+                var y = Math.Max(8, height / 2 - labels.Length * rowStep / 2);
+
+                for (int i = 0; i < labels.Length; i++)
+                {
+                    DrawLegendEntry(labels[i], colors[i], x, y, swatch, gap);
+                    y += rowStep;
+                }
+
+                if (_legendPosition == ChartLegendPosition.Left) _legendInsetLeft = columnWidth;
+                else _legendInsetRight = columnWidth;
+
+                return;
+            }
+
+            var rowY = _legendPosition == ChartLegendPosition.Top ? 6 : height - 16;
+            double cursor = 8;
+
+            for (int i = 0; i < labels.Length; i++)
+            {
+                DrawLegendEntry(labels[i], colors[i], cursor, rowY, swatch, gap);
+                cursor += swatch + gap + labels[i].Length * 6.5 + itemGap;
+            }
+
+            if (_legendPosition == ChartLegendPosition.Top) _legendInsetTop = 22;
+            else _legendInsetBottom = 22;
+        }
+
+        private void DrawLegendEntry(string label, string color, double x, double y, double swatch, double gap)
+        {
+            var rect = El("rect");
+            Attr(rect, "x", x);
+            Attr(rect, "y", y);
+            Attr(rect, "width", swatch);
+            Attr(rect, "height", swatch);
+            Attr(rect, "rx", 2);
+            Attr(rect, "fill", color);
+            _svg.appendChild(rect);
+
+            var text = El("text");
+            Attr(text, "x", x + swatch + gap);
+            Attr(text, "y", y + swatch);
+            Attr(text, "font-size", "11");
+            Attr(text, "fill", Theme.Default.Foreground);
+            text.textContent = label;
+            _svg.appendChild(text);
         }
 
         /// <summary>
@@ -386,7 +661,8 @@ namespace Tesserae
     /// <summary>
     /// Base for cartesian (x/y) charts — line, bar and area. Draws the value (Y) gridlines and labels, the
     /// category (X) axis labels, the axis lines, and computes the plot rectangle and value-to-pixel scale that
-    /// subclasses use to plot their series.
+    /// subclasses use to plot their series. Also owns the continuous X scale, tick thinning, zoom/pan and the
+    /// spikeline readout.
     /// </summary>
     [Transpose.Name("tss.CartesianChartBase")]
     public abstract class CartesianChartBase<T> : ChartBase<T> where T : CartesianChartBase<T>
@@ -422,6 +698,28 @@ namespace Tesserae
         /// <summary>The number of categories/points along the X axis.</summary>
         protected int _pointCount;
 
+        /// <summary>True when the chart plots against a continuous X scale rather than evenly spaced categories.</summary>
+        protected bool _continuousX;
+
+        /// <summary>The lowest visible X value on a continuous scale.</summary>
+        protected double _viewXMin;
+
+        /// <summary>The highest visible X value on a continuous scale.</summary>
+        protected double _viewXMax;
+
+        private double[] _sharedX;
+        private Func<double, string> _xFormatter;
+        private int _maxXTicks;
+        private bool _hasExplicitRange;
+        private double _rangeMin;
+        private double _rangeMax;
+        private bool _zoomable;
+        private bool _showSpikes;
+        private bool _interactionsAttached;
+        private Action<ChartRange> _onRangeChanged;
+        private Element _overlay;
+        private readonly string _clipId = "tss-chart-clip-" + Guid.NewGuid().ToString("N").Substring(0, 8);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CartesianChartBase{T}"/> class.
         /// </summary>
@@ -431,6 +729,33 @@ namespace Tesserae
 
         /// <summary>Sets the category labels along the X axis.</summary>
         public T XAxis(params string[] categories) { _categories = categories ?? new string[0]; QueueRender(); return Self; }
+
+        /// <summary>
+        /// Sets shared X positions for every series, putting the chart on a continuous X scale so points sit at
+        /// their real distance apart instead of being evenly spaced. Per-series positions
+        /// (<see cref="ChartSeries.XValues"/>) win over these.
+        /// </summary>
+        public T XValues(double[] values) { _sharedX = values; QueueRender(); return Self; }
+
+        /// <summary>Sets the formatter used for continuous X axis tick labels (and the spikeline readout).</summary>
+        public T FormatXAxis(Func<double, string> formatter) { _xFormatter = formatter; QueueRender(); return Self; }
+
+        /// <summary>
+        /// Formats continuous X values as local times, treating them as Unix timestamps in seconds. Pass a
+        /// standard or custom .NET date format string.
+        /// </summary>
+        public T XAxisTime(string format = "HH:mm")
+        {
+            _xFormatter = v => DateTimeOffset.FromUnixTimeSeconds((long)v).ToLocalTime().ToString(format);
+            QueueRender();
+            return Self;
+        }
+
+        /// <summary>
+        /// Caps how many X axis tick labels are drawn; categories beyond the cap are skipped evenly. Pass 0
+        /// (the default) to derive the cap from the available width, which keeps dense axes readable.
+        /// </summary>
+        public T MaxXTicks(int count) { _maxXTicks = Math.Max(0, count); QueueRender(); return Self; }
 
         /// <summary>Sets the X axis title.</summary>
         public T XAxisTitle(string title) { _xAxisTitle = title; QueueRender(); return Self; }
@@ -444,6 +769,75 @@ namespace Tesserae
         /// <summary>Shows or hides the axes and their labels.</summary>
         public T Axes(bool show = true) { _showAxes = show; QueueRender(); return Self; }
 
+        /// <summary>
+        /// Allows the user to zoom the X axis with the wheel, pan it by dragging, and reset to the full data
+        /// range by double-clicking. Only meaningful on a continuous X scale.
+        /// </summary>
+        public T Zoomable(bool enable = true)
+        {
+            _zoomable = enable;
+            if (enable) EnsureInteractions();
+            return Self;
+        }
+
+        /// <summary>
+        /// Draws a vertical spikeline that follows the cursor across the plot, with a readout of the X position
+        /// and each series' nearest value. The readable alternative to a marker per sample on a dense series.
+        /// </summary>
+        public T Spikelines(bool enable = true)
+        {
+            _showSpikes = enable;
+            if (enable) EnsureInteractions();
+            return Self;
+        }
+
+        /// <summary>
+        /// Pins the visible X range on a continuous scale. Setting the range does not raise
+        /// <see cref="OnRangeChanged"/>, so charts can be kept in sync with each other without a re-entrancy guard.
+        /// </summary>
+        public T XRange(double min, double max)
+        {
+            if (max <= min) return Self;
+
+            _hasExplicitRange = true;
+            _rangeMin         = min;
+            _rangeMax         = max;
+
+            //Apply to the visible range now rather than waiting for the queued render: TryGetXRange and the
+            //range reported to OnRangeChanged both read these, and a zoom that published the pre-zoom range
+            //would hand a sibling chart the range it already had.
+            _viewXMin = min;
+            _viewXMax = max;
+
+            QueueRender();
+            return Self;
+        }
+
+        /// <summary>Returns the chart to fitting the full X extent of its data, undoing any zoom or pan.</summary>
+        public T AutoRangeX()
+        {
+            _hasExplicitRange = false;
+            QueueRender();
+            return Self;
+        }
+
+        /// <summary>Gets the X range the chart is currently showing. False when the chart has no continuous X data yet.</summary>
+        public bool TryGetXRange(out double min, out double max)
+        {
+            min = _viewXMin;
+            max = _viewXMax;
+            return _continuousX && _viewXMax > _viewXMin;
+        }
+
+        /// <summary>True when the visible X range came from a zoom / pan rather than fitting the data.</summary>
+        public bool IsXRangePinned => _hasExplicitRange;
+
+        /// <summary>
+        /// Raised when the user zooms, pans or resets the X axis — not when <see cref="XRange"/> is called, so a
+        /// handler that pushes the range onto sibling charts cannot loop.
+        /// </summary>
+        public T OnRangeChanged(Action<ChartRange> handler) { _onRangeChanged = handler; return Self; }
+
         /// <summary>When true the value axis always includes zero as a baseline (bar/area); when false it fits the data.</summary>
         protected virtual bool IncludeZeroBaseline => true;
 
@@ -455,17 +849,69 @@ namespace Tesserae
             return _plotTop + _plotHeight - ((value - _minValue) / range) * _plotHeight;
         }
 
+        /// <summary>Maps a continuous X value to its pixel X coordinate within the plot area.</summary>
+        protected double PixelXForValue(double x)
+        {
+            var range = _viewXMax - _viewXMin;
+            if (range <= 0) range = 1;
+            return _plotLeft + ((x - _viewXMin) / range) * _plotWidth;
+        }
+
+        /// <summary>Returns the X position of point <paramref name="index"/> of a series on a continuous scale.</summary>
+        protected double XOf(ChartSeries series, int index)
+        {
+            if (series.XValues != null) return index < series.XValues.Length ? series.XValues[index] : index;
+            if (_sharedX != null) return index < _sharedX.Length ? _sharedX[index] : index;
+            return index;
+        }
+
+        /// <summary>
+        /// Returns the pixel X coordinate for point <paramref name="index"/> of <paramref name="series"/>, using
+        /// the continuous scale when the chart has X values and evenly spaced slots otherwise.
+        /// </summary>
+        protected double SeriesPointX(ChartSeries series, int index) => _continuousX ? PixelXForValue(XOf(series, index)) : PointX(index);
+
+        /// <summary>
+        /// Splits a series into runs of consecutive plottable points, breaking at <see cref="double.NaN"/> gaps.
+        /// Returns a single run covering every non-gap point when gaps are connected.
+        /// </summary>
+        protected List<List<int>> SeriesRuns(ChartSeries series)
+        {
+            var runs    = new List<List<int>>();
+            var current = new List<int>();
+
+            for (int i = 0; i < series.Values.Length; i++)
+            {
+                if (double.IsNaN(series.Values[i]))
+                {
+                    if (!_connectGaps && current.Count > 0)
+                    {
+                        runs.Add(current);
+                        current = new List<int>();
+                    }
+                    continue;
+                }
+
+                current.Add(i);
+            }
+
+            if (current.Count > 0) runs.Add(current);
+            return runs;
+        }
+
         /// <inheritdoc />
         protected override void RenderChart(double width, double height)
         {
-            _pointCount = _series.Count == 0 ? 0 : _series.Max(s => s.Values.Length);
+            _pointCount  = _series.Count == 0 ? 0 : _series.Max(s => s.Values.Length);
+            _continuousX = _sharedX != null || _series.Any(s => s.XValues != null);
 
-            var legendHeight = RenderLegend(width, 6);
+            ResolveXRange();
+            RenderLegend(width, height);
 
-            double marginTop    = 8 + legendHeight;
-            double marginRight  = 12;
-            double marginBottom = _showAxes ? (_categories.Length > 0 || !string.IsNullOrEmpty(_xAxisTitle) ? 34 : 18) : 6;
-            double marginLeft   = _showAxes ? 44 : 6;
+            double marginTop    = 8 + _legendInsetTop;
+            double marginRight  = 12 + _legendInsetRight;
+            double marginBottom = (_showAxes ? (_categories.Length > 0 || _continuousX || !string.IsNullOrEmpty(_xAxisTitle) ? 34 : 18) : 6) + _legendInsetBottom;
+            double marginLeft   = (_showAxes ? 44 : 6) + _legendInsetLeft;
 
             _plotLeft   = marginLeft;
             _plotTop    = marginTop;
@@ -476,14 +922,121 @@ namespace Tesserae
 
             if (_showGrid || _showAxes) DrawGridAndAxes();
 
-            if (_pointCount > 0) RenderSeries();
+            if (_pointCount > 0)
+            {
+                _plotSurface = CreateClippedPlotSurface();
+                RenderSeries();
+            }
+
+            _overlay = El("g");
+            _svg.appendChild(_overlay);
+
+            if (_zoomable || _showSpikes) EnsureInteractions();
+        }
+
+        // Zoom clips a series to the plot rectangle; without it a panned line draws over the axis labels.
+        private Element CreateClippedPlotSurface()
+        {
+            var defs = El("defs");
+            var clip = El("clipPath");
+            Attr(clip, "id", _clipId);
+
+            var rect = El("rect");
+            Attr(rect, "x", _plotLeft);
+            Attr(rect, "y", _plotTop);
+            Attr(rect, "width", _plotWidth);
+            Attr(rect, "height", _plotHeight);
+            clip.appendChild(rect);
+            defs.appendChild(clip);
+            _svg.appendChild(defs);
+
+            var group = El("g");
+            Attr(group, "clip-path", "url(#" + _clipId + ")");
+            _svg.appendChild(group);
+            return group;
+        }
+
+        private void ResolveXRange()
+        {
+            if (!_continuousX)
+            {
+                _viewXMin = 0;
+                _viewXMax = Math.Max(1, _pointCount - 1);
+                return;
+            }
+
+            if (_hasExplicitRange)
+            {
+                _viewXMin = _rangeMin;
+                _viewXMax = _rangeMax;
+                return;
+            }
+
+            var min = double.MaxValue;
+            var max = double.MinValue;
+
+            for (int s = 0; s < _series.Count; s++)
+            {
+                var series = _series[s];
+                for (int i = 0; i < series.Values.Length; i++)
+                {
+                    if (double.IsNaN(series.Values[i])) continue;
+                    var x = XOf(series, i);
+                    if (x < min) min = x;
+                    if (x > max) max = x;
+                }
+            }
+
+            if (min > max)
+            {
+                _viewXMin = 0;
+                _viewXMax = 1;
+                return;
+            }
+
+            if (min == max)
+            {
+                _viewXMin = min - 1;
+                _viewXMax = max + 1;
+                return;
+            }
+
+            _viewXMin = min;
+            _viewXMax = max;
+        }
+
+        /// <summary>
+        /// Collects the values the Y axis must accommodate. Only points inside the visible X window count on a
+        /// continuous scale, so zooming rescales the value axis to what is on screen.
+        /// </summary>
+        protected virtual void CollectRangeValues(List<double> into)
+        {
+            for (int s = 0; s < _series.Count; s++)
+            {
+                var series = _series[s];
+
+                for (int i = 0; i < series.Values.Length; i++)
+                {
+                    var v = series.Values[i];
+                    if (double.IsNaN(v)) continue;
+
+                    if (_continuousX)
+                    {
+                        var x = XOf(series, i);
+                        if (x < _viewXMin || x > _viewXMax) continue;
+                    }
+
+                    into.Add(v);
+                }
+            }
         }
 
         private void ComputeValueRange()
         {
-            var all = _series.SelectMany(s => s.Values).ToArray();
+            var all = new List<double>();
+            CollectRangeValues(all);
 
-            if (all.Length == 0)
+            if (all.Count == 0)
             {
                 _minValue = 0;
                 _maxValue = 1;
@@ -515,6 +1068,15 @@ namespace Tesserae
             _minValue = dataMin;
             _maxValue = dataMax;
         }
+
+        private int EffectiveMaxXTicks()
+        {
+            if (_maxXTicks > 0) return _maxXTicks;
+            return Math.Max(2, (int)(_plotWidth / 70));
+        }
+
+        /// <summary>Formats a continuous X value using the configured X formatter, falling back to a plain number.</summary>
+        protected string FormatXValue(double value) => _xFormatter is object ? _xFormatter(value) : value.ToString("0.##");
 
         private void DrawGridAndAxes()
         {
@@ -554,22 +1116,10 @@ namespace Tesserae
 
             if (!_showAxes) return;
 
-            // X category labels
-            if (_categories.Length > 0 && _pointCount > 0)
-            {
-                for (int i = 0; i < _categories.Length && i < _pointCount; i++)
-                {
-                    var x = CategoryCenterX(i);
-                    var label = El("text");
-                    Attr(label, "x", x);
-                    Attr(label, "y", _plotTop + _plotHeight + 14);
-                    Attr(label, "text-anchor", "middle");
-                    Attr(label, "font-size", "10");
-                    Attr(label, "fill", textColor);
-                    label.textContent = _categories[i];
-                    _svg.appendChild(label);
-                }
-            }
+            if (_continuousX) DrawContinuousXLabels(textColor);
+            else DrawCategoryXLabels(textColor);
+
+            DrawAxisTitles(textColor);
 
             // Axis lines
             var axis = El("line");
@@ -580,6 +1130,117 @@ namespace Tesserae
             Attr(axis, "stroke", textColor);
             Attr(axis, "stroke-width", 1);
             _svg.appendChild(axis);
+        }
+
+        private void DrawCategoryXLabels(string textColor)
+        {
+            if (_categories.Length == 0 || _pointCount == 0) return;
+
+            var count = Math.Min(_categories.Length, _pointCount);
+            var step  = Math.Max(1, (int)Math.Ceiling(count / (double)EffectiveMaxXTicks()));
+
+            for (int i = 0; i < count; i += step)
+            {
+                var label = El("text");
+                Attr(label, "x", CategoryCenterX(i));
+                Attr(label, "y", _plotTop + _plotHeight + 14);
+                Attr(label, "text-anchor", "middle");
+                Attr(label, "font-size", "10");
+                Attr(label, "fill", textColor);
+                label.textContent = _categories[i];
+                _svg.appendChild(label);
+            }
+        }
+
+        private void DrawContinuousXLabels(string textColor)
+        {
+            var tickValues = NiceTicks(_viewXMin, _viewXMax, EffectiveMaxXTicks());
+
+            foreach (var tick in tickValues)
+            {
+                if (tick < _viewXMin || tick > _viewXMax) continue;
+
+                var x = PixelXForValue(tick);
+
+                if (_showGrid)
+                {
+                    var line = El("line");
+                    Attr(line, "x1", x);
+                    Attr(line, "y1", _plotTop);
+                    Attr(line, "x2", x);
+                    Attr(line, "y2", _plotTop + _plotHeight);
+                    Attr(line, "stroke", Theme.Colors.Neutral500Alpha);
+                    Attr(line, "stroke-width", 1);
+                    _svg.appendChild(line);
+                }
+
+                var label = El("text");
+                Attr(label, "x", x);
+                Attr(label, "y", _plotTop + _plotHeight + 14);
+                Attr(label, "text-anchor", "middle");
+                Attr(label, "font-size", "10");
+                Attr(label, "fill", textColor);
+                label.textContent = FormatXValue(tick);
+                _svg.appendChild(label);
+            }
+        }
+
+        // Ticks land on 1/2/5 x 10^n so labels read as round numbers (and round timestamps) at any zoom level.
+        private static List<double> NiceTicks(double min, double max, int maxCount)
+        {
+            var result = new List<double>();
+            var span   = max - min;
+
+            if (span <= 0 || maxCount < 1) return result;
+
+            var rough     = span / maxCount;
+            var magnitude = Math.Pow(10, Math.Floor(Math.Log10(rough)));
+            var normalized = rough / magnitude;
+
+            double stepMultiple;
+            if (normalized <= 1) stepMultiple = 1;
+            else if (normalized <= 2) stepMultiple = 2;
+            else if (normalized <= 5) stepMultiple = 5;
+            else stepMultiple = 10;
+
+            var step  = stepMultiple * magnitude;
+            var start = Math.Ceiling(min / step) * step;
+
+            for (var tick = start; tick <= max + step * 0.001; tick += step)
+            {
+                result.Add(tick);
+                if (result.Count > 200) break; // guard against a pathological step
+            }
+
+            return result;
+        }
+
+        private void DrawAxisTitles(string textColor)
+        {
+            if (!string.IsNullOrEmpty(_xAxisTitle))
+            {
+                var label = El("text");
+                Attr(label, "x", _plotLeft + _plotWidth / 2);
+                Attr(label, "y", _plotTop + _plotHeight + 30);
+                Attr(label, "text-anchor", "middle");
+                Attr(label, "font-size", "10");
+                Attr(label, "fill", textColor);
+                label.textContent = _xAxisTitle;
+                _svg.appendChild(label);
+            }
+
+            if (!string.IsNullOrEmpty(_yAxisTitle))
+            {
+                var label = El("text");
+                Attr(label, "x", 10);
+                Attr(label, "y", _plotTop + _plotHeight / 2);
+                Attr(label, "text-anchor", "middle");
+                Attr(label, "font-size", "10");
+                Attr(label, "fill", textColor);
+                Attr(label, "transform", $"rotate(-90 10 {(_plotTop + _plotHeight / 2).ToString("0.###")})");
+                label.textContent = _yAxisTitle;
+                _svg.appendChild(label);
+            }
         }
 
         /// <summary>Returns the pixel X coordinate of the center of category slot <paramref name="index"/>.</summary>
@@ -600,5 +1261,228 @@ namespace Tesserae
 
         /// <summary>Plots the series into the computed plot rectangle.</summary>
         protected abstract void RenderSeries();
+
+        // ===================================================================
+        //                     ZOOM / PAN / SPIKELINES
+        // ===================================================================
+
+        private void EnsureInteractions()
+        {
+            if (_interactionsAttached) return;
+            _interactionsAttached = true;
+
+            _svg.addEventListener("wheel", (Action<Event>)(e =>
+            {
+                if (!_zoomable || !_continuousX) return;
+
+                var we = e.As<WheelEvent>();
+                we.preventDefault();
+
+                var factor = we.deltaY < 0 ? 0.8 : 1.25;
+                ZoomAround(PlotXValueAt(we.clientX), factor);
+            }));
+
+            _svg.addEventListener("mousedown", (Action<Event>)(e =>
+            {
+                if (!_zoomable || !_continuousX) return;
+
+                var me = e.As<MouseEvent>();
+                me.preventDefault();
+                BeginPan(me.clientX);
+            }));
+
+            _svg.addEventListener("dblclick", (Action<Event>)(e =>
+            {
+                if (!_zoomable || !_continuousX || !_hasExplicitRange) return;
+
+                AutoRangeX();
+                ResolveXRange(); // so the reported range is the data extent, not the range we just dropped
+                RaiseRangeChanged(isAutoRange: true);
+            }));
+
+            _svg.addEventListener("mousemove", (Action<Event>)(e =>
+            {
+                if (!_showSpikes) return;
+                UpdateSpike(e.As<MouseEvent>().clientX);
+            }));
+
+            _svg.addEventListener("mouseleave", (Action<Event>)(_ => ClearOverlay()));
+        }
+
+        private double PlotXValueAt(double clientX)
+        {
+            var rect  = _container.getBoundingClientRect().As<DOMRect>();
+            var local = clientX - rect.left;
+            var ratio = (local - _plotLeft) / Math.Max(1, _plotWidth);
+
+            ratio = Math.Max(0, Math.Min(1, ratio));
+            return _viewXMin + (_viewXMax - _viewXMin) * ratio;
+        }
+
+        private void ZoomAround(double anchor, double factor)
+        {
+            var newSpan = (_viewXMax - _viewXMin) * factor;
+
+            if (newSpan <= 0) return;
+
+            var leftShare = (anchor - _viewXMin) / Math.Max(1e-9, _viewXMax - _viewXMin);
+
+            XRange(anchor - newSpan * leftShare, anchor + newSpan * (1 - leftShare));
+            RaiseRangeChanged(isAutoRange: false);
+        }
+
+        private void BeginPan(double startClientX)
+        {
+            var startMin = _viewXMin;
+            var startMax = _viewXMax;
+            var rect     = _container.getBoundingClientRect().As<DOMRect>();
+            var perPixel = (startMax - startMin) / Math.Max(1, _plotWidth);
+
+            Action<Event> onMove = null;
+            Action<Event> onUp   = null;
+
+            onMove = e =>
+            {
+                var delta = (e.As<MouseEvent>().clientX - startClientX) * perPixel;
+                XRange(startMin - delta, startMax - delta);
+            };
+
+            onUp = e =>
+            {
+                document.body.removeEventListener("mousemove", onMove);
+                document.body.removeEventListener("mouseup", onUp);
+                RaiseRangeChanged(isAutoRange: false);
+            };
+
+            document.body.addEventListener("mousemove", onMove);
+            document.body.addEventListener("mouseup", onUp);
+        }
+
+        private void RaiseRangeChanged(bool isAutoRange)
+        {
+            if (_onRangeChanged is null) return;
+            _onRangeChanged(new ChartRange(_viewXMin, _viewXMax, isAutoRange));
+        }
+
+        private void ClearOverlay()
+        {
+            if (_overlay is null) return;
+            while (_overlay.firstChild != null) _overlay.removeChild(_overlay.firstChild);
+        }
+
+        private void UpdateSpike(double clientX)
+        {
+            if (_overlay is null || _pointCount == 0) return;
+
+            ClearOverlay();
+
+            var rect  = _container.getBoundingClientRect().As<DOMRect>();
+            var pixel = clientX - rect.left;
+
+            if (pixel < _plotLeft || pixel > _plotLeft + _plotWidth) return;
+
+            var line = El("line");
+            Attr(line, "x1", pixel);
+            Attr(line, "y1", _plotTop);
+            Attr(line, "x2", pixel);
+            Attr(line, "y2", _plotTop + _plotHeight);
+            Attr(line, "stroke", Theme.Default.Foreground);
+            Attr(line, "stroke-width", 1);
+            Attr(line, "stroke-dasharray", "3 3");
+            Attr(line, "opacity", "0.6");
+            _overlay.appendChild(line);
+
+            var readout = new List<string>();
+            var xValue  = _continuousX ? PlotXValueAt(clientX) : 0.0;
+
+            if (_continuousX) readout.Add(FormatXValue(xValue));
+
+            for (int s = 0; s < _series.Count; s++)
+            {
+                var series = _series[s];
+                var index  = NearestIndex(series, pixel);
+
+                if (index < 0) continue;
+
+                var name = string.IsNullOrEmpty(series.Name) ? "" : series.Name + ": ";
+
+                if (!_continuousX && readout.Count == 0)
+                {
+                    readout.Add(index < _categories.Length ? _categories[index] : "#" + (index + 1));
+                }
+
+                readout.Add(name + _valueFormatter(series.Values[index]));
+
+                var marker = El("circle");
+                Attr(marker, "cx", SeriesPointX(series, index));
+                Attr(marker, "cy", PixelY(series.Values[index]));
+                Attr(marker, "r", 3.5);
+                Attr(marker, "fill", ColorFor(s, series));
+                Attr(marker, "stroke", Theme.Default.Background);
+                Attr(marker, "stroke-width", 1);
+                _overlay.appendChild(marker);
+            }
+
+            if (readout.Count > 0) DrawSpikeReadout(readout, pixel);
+        }
+
+        private int NearestIndex(ChartSeries series, double pixel)
+        {
+            var best         = -1;
+            var bestDistance = double.MaxValue;
+
+            for (int i = 0; i < series.Values.Length; i++)
+            {
+                if (double.IsNaN(series.Values[i])) continue;
+
+                var distance = Math.Abs(SeriesPointX(series, i) - pixel);
+
+                if (distance < bestDistance)
+                {
+                    bestDistance = distance;
+                    best         = i;
+                }
+            }
+
+            return best;
+        }
+
+        private void DrawSpikeReadout(List<string> lines, double pixel)
+        {
+            const double lineHeight = 13;
+            const double padding    = 5;
+
+            var boxWidth  = lines.Max(l => l.Length) * 6.2 + padding * 2;
+            var boxHeight = lines.Count * lineHeight + padding * 2;
+
+            // Flip to the other side of the spike when the box would overflow the plot.
+            var boxLeft = pixel + 10;
+            if (boxLeft + boxWidth > _plotLeft + _plotWidth) boxLeft = pixel - 10 - boxWidth;
+
+            var boxTop = _plotTop + 4;
+
+            var box = El("rect");
+            Attr(box, "x", boxLeft);
+            Attr(box, "y", boxTop);
+            Attr(box, "width", boxWidth);
+            Attr(box, "height", boxHeight);
+            Attr(box, "rx", 3);
+            Attr(box, "fill", Theme.Default.Background);
+            Attr(box, "stroke", Theme.Default.Border);
+            Attr(box, "stroke-width", 1);
+            Attr(box, "opacity", "0.95");
+            _overlay.appendChild(box);
+
+            for (int i = 0; i < lines.Count; i++)
+            {
+                var text = El("text");
+                Attr(text, "x", boxLeft + padding);
+                Attr(text, "y", boxTop + padding + lineHeight * (i + 1) - 3);
+                Attr(text, "font-size", "10");
+                Attr(text, "fill", Theme.Default.Foreground);
+                text.textContent = lines[i];
+                _overlay.appendChild(text);
+            }
+        }
     }
 }

@@ -18,7 +18,11 @@ namespace Tesserae
         /// <summary>
         /// Initializes a new instance of the <see cref="PieChart"/> class.
         /// </summary>
-        public PieChart() : base() { }
+        public PieChart() : base()
+        {
+            // A pie's slice labels read better in a column beside it than in a row above it.
+            _legendPosition = ChartLegendPosition.Right;
+        }
 
         /// <summary>Sets the per-slice labels.</summary>
         public PieChart Labels(params string[] labels) { _labels = labels ?? new string[0]; QueueRender(); return this; }
@@ -29,19 +33,16 @@ namespace Tesserae
         protected override void RenderChart(double width, double height)
         {
             var values = _series.Count > 0 ? _series[0].Values : new double[0];
-            var total  = values.Sum();
+            var total  = values.Where(v => !double.IsNaN(v)).Sum();
 
-            var legendWidth = 0.0;
-            if (_showLegend && values.Length > 0)
-            {
-                legendWidth = Math.Min(width * 0.4, 140);
-            }
+            DrawLegend(values, width, height);
 
-            var chartWidth = width - legendWidth;
-            var cx         = chartWidth / 2;
-            var cy         = height / 2;
-            var radius     = Math.Max(4, Math.Min(chartWidth, height) / 2 - 8);
-            var innerR     = radius * _donutRatio;
+            var chartWidth  = width - _legendInsetLeft - _legendInsetRight;
+            var chartHeight = height - _legendInsetTop - _legendInsetBottom;
+            var cx          = _legendInsetLeft + chartWidth / 2;
+            var cy          = _legendInsetTop + chartHeight / 2;
+            var radius      = Math.Max(4, Math.Min(chartWidth, chartHeight) / 2 - 8);
+            var innerR      = radius * _donutRatio;
 
             if (total <= 0 || values.Length == 0)
             {
@@ -52,7 +53,7 @@ namespace Tesserae
 
             for (int i = 0; i < values.Length; i++)
             {
-                if (values[i] <= 0) continue;
+                if (double.IsNaN(values[i]) || values[i] <= 0) continue;
 
                 var sweep    = values[i] / total * Math.PI * 2;
                 var endAngle = startAngle + sweep;
@@ -68,8 +69,6 @@ namespace Tesserae
 
                 startAngle = endAngle;
             }
-
-            DrawLegend(values, chartWidth, height);
         }
 
         private string SlicePath(double cx, double cy, double ro, double ri, double a0, double a1, double sweep)
@@ -99,37 +98,21 @@ namespace Tesserae
 
         private static string F(double v) => v.ToString("0.###");
 
-        private void DrawLegend(double[] values, double chartWidth, double height)
+        // A pie legend labels slices, not series, so it feeds the shared renderer its own labels and colors.
+        private void DrawLegend(double[] values, double width, double height)
         {
-            if (!_showLegend) return;
+            if (!_showLegend || values.Length == 0) return;
 
-            double x = chartWidth + 8;
-            double y = Math.Max(12, height / 2 - values.Length * 9);
+            var labels = new string[values.Length];
+            var colors = new string[values.Length];
 
             for (int i = 0; i < values.Length; i++)
             {
-                var color = _palette[i % _palette.Length];
-                var label = i < _labels.Length ? _labels[i] : "#" + (i + 1);
-
-                var rect = El("rect");
-                Attr(rect, "x", x);
-                Attr(rect, "y", y);
-                Attr(rect, "width", 10);
-                Attr(rect, "height", 10);
-                Attr(rect, "rx", 2);
-                Attr(rect, "fill", color);
-                _svg.appendChild(rect);
-
-                var text = El("text");
-                Attr(text, "x", x + 16);
-                Attr(text, "y", y + 9);
-                Attr(text, "font-size", "11");
-                Attr(text, "fill", Theme.Default.Foreground);
-                text.textContent = label;
-                _svg.appendChild(text);
-
-                y += 18;
+                labels[i] = i < _labels.Length ? _labels[i] : "#" + (i + 1);
+                colors[i] = _palette[i % _palette.Length];
             }
+
+            RenderLegend(labels, colors, width, height);
         }
 
         private string TooltipFor(int i, double value, double total)
@@ -146,7 +129,7 @@ namespace Tesserae
             var values = _series.Count > 0 ? _series[0].Values : new double[0];
             if (values.Length == 0) return (_donutRatio > 0 ? "Donut" : "Pie") + " chart with no data";
 
-            var total = values.Sum();
+            var total = values.Where(v => !double.IsNaN(v)).Sum();
             var parts = values.Select((v, i) =>
             {
                 var label = i < _labels.Length ? _labels[i] : "#" + (i + 1);
