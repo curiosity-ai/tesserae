@@ -244,15 +244,16 @@ namespace Tesserae
         /// </summary>
         public static void AppendElements(HTMLElement parent, params HTMLElement[] children)
         {
-            if (children != null)
+            if (children is null) return;
+
+            // Indexed rather than foreach: the compiler emits getEnumerator + try/finally + dispose
+            // for a foreach even over a plain array, and this runs once for every element the
+            // toolkit creates with children, so that enumerator is one of the most-allocated objects
+            // in a page build.
+            for (int i = 0; i < children.Length; i++)
             {
-                foreach (var child in children)
-                {
-                    if (child != null)
-                    {
-                        parent.appendChild(child);
-                    }
-                }
+                var child = children[i];
+                if (child != null) parent.appendChild(child);
             }
         }
 

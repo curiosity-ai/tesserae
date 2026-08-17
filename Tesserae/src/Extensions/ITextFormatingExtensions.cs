@@ -140,9 +140,27 @@ namespace Tesserae
             return hasTextSize;
         }
 
+        // A plain scan of the class list rather than FirstOrDefault over it. These three run on the
+        // read side of Size/Weight/TextAlign, and each of those setters reads before it writes — so
+        // a Button, which sets both Size and Weight while it is being built, went through two LINQ
+        // enumerations (an enumerator object and a predicate closure each) before adding a class.
+        // On a screen made of a few hundred buttons that was the single largest cost in the toolkit.
+        private static string FirstClassStartingWith(HTMLElement element, string prefix)
+        {
+            var classes = element.classList;
+
+            for (uint i = 0; i < classes.length; i++)
+            {
+                var current = classes.item(i);
+                if (current is object && current.StartsWith(prefix)) return current;
+            }
+
+            return null;
+        }
+
         internal static TextSize FromClassList(HTMLElement element, TextSize defaultValue)
         {
-            var curFontSize = element.classList.FirstOrDefault(t => t.StartsWith("tss-fontsize-"));
+            var curFontSize = FirstClassStartingWith(element, "tss-fontsize-");
             if (string.IsNullOrEmpty(curFontSize)) return defaultValue;
             return curFontSize.As<TextSize>(); //Only works because TextSize has [Enum(Emit.StringName)]
 
@@ -164,7 +182,7 @@ namespace Tesserae
 
         internal static TextAlign FromClassList(HTMLElement element, TextAlign defaultValue)
         {
-            var curTextAlign = element.classList.FirstOrDefault(t => t.StartsWith("tss-textalign-"));
+            var curTextAlign = FirstClassStartingWith(element, "tss-textalign-");
             if (string.IsNullOrEmpty(curTextAlign)) return defaultValue;
             return curTextAlign.As<TextAlign>(); //Only works because TextAlign has [Enum(Emit.StringName)]
 
@@ -179,7 +197,7 @@ namespace Tesserae
 
         internal static TextWeight FromClassList(HTMLElement element, TextWeight defaultValue)
         {
-            var curWeight = element.classList.FirstOrDefault(t => t.StartsWith("tss-fontweight-"));
+            var curWeight = FirstClassStartingWith(element, "tss-fontweight-");
             if (string.IsNullOrEmpty(curWeight)) return defaultValue;
             return curWeight.As<TextWeight>(); //Only works because TextWeight has [Enum(Emit.StringName)]
 
