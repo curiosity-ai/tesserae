@@ -163,7 +163,24 @@ namespace Tesserae
         protected string _title;
 
         /// <summary>Optional formatter for values shown in tooltips / axis labels.</summary>
-        protected Func<double, string> _valueFormatter = v => v.ToString("0.##");
+        protected Func<double, string> _valueFormatter = FormatValueCompact;
+
+        /// <summary>
+        /// The default value format: large magnitudes are abbreviated with an SI prefix, because an axis of byte
+        /// counts or token totals is unreadable at full length. Small values are left alone. Override with
+        /// <see cref="FormatValues"/>.
+        /// </summary>
+        protected static string FormatValueCompact(double value)
+        {
+            var abs = Math.Abs(value);
+
+            if (abs >= 1e12) return (value / 1e12).ToString("0.##") + "T";
+            if (abs >= 1e9) return (value / 1e9).ToString("0.##") + "G";
+            if (abs >= 1e6) return (value / 1e6).ToString("0.##") + "M";
+            if (abs >= 1e4) return (value / 1e3).ToString("0.##") + "k";
+
+            return value.ToString("0.##");
+        }
 
         /// <summary>The element subclasses draw their series into; clipped to the plot rectangle on cartesian charts.</summary>
         protected Element _plotSurface;
@@ -707,6 +724,7 @@ namespace Tesserae
         /// <summary>The highest visible X value on a continuous scale.</summary>
         protected double _viewXMax;
 
+        private readonly List<double> _valueTicks = new List<double>();
         private double[] _sharedX;
         private Func<double, string> _xFormatter;
         private bool _xIsTime;
@@ -1054,10 +1072,14 @@ namespace Tesserae
             var all = new List<double>();
             CollectRangeValues(all);
 
+            _valueTicks.Clear();
+
             if (all.Count == 0)
             {
                 _minValue = 0;
                 _maxValue = 1;
+                _valueTicks.Add(0);
+                _valueTicks.Add(1);
                 return;
             }
 
@@ -1083,8 +1105,30 @@ namespace Tesserae
                 dataMax += pad;
             }
 
-            _minValue = dataMin;
-            _maxValue = dataMax;
+            var step = NiceStep((dataMax - dataMin) / ValueTicks);
+
+            // A series of whole numbers should not be labelled in halves and quarters.
+            if (step > 0 && step < 1 && all.All(v => v == Math.Floor(v))) step = 1;
+
+            if (step <= 0)
+            {
+                // Degenerate range (infinities, or a step too small to represent) - fall back to the raw bounds.
+                _minValue = dataMin;
+                _maxValue = dataMax;
+                _valueTicks.Add(dataMin);
+                _valueTicks.Add(dataMax);
+                return;
+            }
+
+            // Snap the axis outward onto the step so every gridline lands on a round number.
+            _minValue = Math.Floor(dataMin / step) * step;
+            _maxValue = Math.Ceiling(dataMax / step) * step;
+
+            for (var tick = _minValue; tick <= _maxValue + step * 0.001; tick += step)
+            {
+                _valueTicks.Add(tick);
+                if (_valueTicks.Count > 100) break; // guard against a pathological step
+            }
         }
 
         // The value-axis equivalent of Plotly's automargin: wide enough for the widest tick label it will draw.
@@ -1092,9 +1136,9 @@ namespace Tesserae
         {
             var widest = 0;
 
-            for (int i = 0; i <= ValueTicks; i++)
+            foreach (var tick in _valueTicks)
             {
-                var text = _valueFormatter(_minValue + (_maxValue - _minValue) * i / ValueTicks);
+                var text = _valueFormatter(tick);
                 if (text != null && text.Length > widest) widest = text.Length;
             }
 
@@ -1139,14 +1183,12 @@ namespace Tesserae
 
         private void DrawGridAndAxes()
         {
-            const int ticks = ValueTicks;
             var gridColor = Theme.Colors.Neutral500Alpha;
             var textColor = Theme.Default.Foreground;
 
-            for (int i = 0; i <= ticks; i++)
+            foreach (var value in _valueTicks)
             {
-                var value = _minValue + (_maxValue - _minValue) * i / ticks;
-                var y     = PixelY(value);
+                var y = PixelY(value);
 
                 if (_showGrid)
                 {
@@ -1289,6 +1331,23 @@ namespace Tesserae
             return result;
         }
 
+        /// <summary>
+        /// Rounds a rough interval up to the nearest 1, 2 or 5 times a power of ten, which is what makes an axis
+        /// read as 0 / 200 / 400 rather than 0 / 168.4 / 336.8. Returns 0 for an interval it cannot represent.
+        /// </summary>
+        private static double NiceStep(double rough)
+        {
+            if (rough <= 0 || double.IsNaN(rough) || double.IsInfinity(rough)) return 0;
+
+            var magnitude  = Math.Pow(10, Math.Floor(Math.Log10(rough)));
+            var normalized = rough / magnitude;
+
+            if (normalized <= 1) return magnitude;
+            if (normalized <= 2) return 2 * magnitude;
+            if (normalized <= 5) return 5 * magnitude;
+            return 10 * magnitude;
+        }
+
         // Ticks land on 1/2/5 x 10^n so labels read as round numbers at any zoom level.
         private static List<double> NiceTicks(double min, double max, int maxCount)
         {
@@ -1297,17 +1356,10 @@ namespace Tesserae
 
             if (span <= 0 || maxCount < 1) return result;
 
-            var rough     = span / maxCount;
-            var magnitude = Math.Pow(10, Math.Floor(Math.Log10(rough)));
-            var normalized = rough / magnitude;
+            var step = NiceStep(span / maxCount);
 
-            double stepMultiple;
-            if (normalized <= 1) stepMultiple = 1;
-            else if (normalized <= 2) stepMultiple = 2;
-            else if (normalized <= 5) stepMultiple = 5;
-            else stepMultiple = 10;
+            if (step <= 0) return result;
 
-            var step  = stepMultiple * magnitude;
             var start = Math.Ceiling(min / step) * step;
 
             for (var tick = start; tick <= max + step * 0.001; tick += step)

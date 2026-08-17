@@ -38,6 +38,10 @@ Appearance (all types):
 
 - `.Colors(params string[])`, `.Tooltips(bool = true)`, `.Title(string)` (aria summary),
   `.FormatValues(Func<double,string>)`.
+- The value axis snaps outward onto a 1/2/5 x 10^n step, so gridlines land on round
+  numbers (`0 / 200 / 400`, never `168.4 / 336.8`), and a series of whole numbers is
+  never labelled in fractions. By default large values are abbreviated with an SI
+  prefix (`1.4G`, `250k`) — pass `.FormatValues(...)` to take that over.
 - `.Legend(bool = true)` and `.Legend(ChartLegendPosition)` — `Top` (default), `Bottom`,
   `Left`, `Right`. `PieChart` defaults to `Right`.
 - `.ExportButton()` — a hover-revealed button that saves the chart as a PNG.

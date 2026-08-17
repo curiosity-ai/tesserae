@@ -111,14 +111,14 @@ namespace Tesserae.Tests.Samples
             var ram   = new double[120];
 
             double cpuValue = 35;
-            double ramValue = 1400;
+            double ramValue = 1_400_000_000; // raw bytes, as a real metric reports them
 
             for (var i = 0; i < times.Length; i++)
             {
                 times[i] = start + i * 60;
 
                 cpuValue = Math.Max(2, Math.Min(98, cpuValue + rnd.Next(-6, 7)));
-                ramValue = Math.Max(600, ramValue + rnd.Next(-40, 55));
+                ramValue = Math.Max(600_000_000, ramValue + rnd.Next(-40, 55) * 1_000_000);
 
                 cpu[i] = cpuValue;
                 ram[i] = ramValue;
@@ -134,7 +134,7 @@ namespace Tesserae.Tests.Samples
                .Legend();
 
             var ramChart = LineChart()
-               .Series(new ChartSeries("Working set (MB)", times, ram) { LineWidth = 1 })
+               .Series(new ChartSeries("Working set", times, ram) { LineWidth = 1 })
                .XAxisTime()
                .Points(false)
                .Zoomable()
