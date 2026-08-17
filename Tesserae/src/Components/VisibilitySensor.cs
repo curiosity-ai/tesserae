@@ -30,6 +30,8 @@ namespace Tesserae
         {
             InnerElement = DIV();
 
+            InnerElement.style.width = "1px"; //We need to set a size so the visibility detection in CheckVisibility correctly handles not visible 
+
             if (message is object)
             {
                 InnerElement.appendChild(message.Render());
