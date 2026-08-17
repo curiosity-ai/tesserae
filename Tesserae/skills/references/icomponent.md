@@ -27,9 +27,11 @@ concrete type and keep the chain going. Bring them into scope with:
 using static Tesserae.UI;
 ```
 
-Call them before adding the component to a container — sizing/placement markers
-are transferred onto the container's item wrapper (the wrap-and-transfer
-protocol). See `tesserae-overview` and the repo `CLAUDE.md` "Layout system".
+Call them before adding the component to a container. In a `Stack` or `Grid` they
+write straight onto the component's own element, which is the item the container
+measures; `Masonry` and `SectionStack` build a real wrapper for their item and the
+markers are transferred onto it. See `tesserae-overview` and the repo `CLAUDE.md`
+"Layout system".
 
 ## Sizing — `IComponentExtensions.cs`
 

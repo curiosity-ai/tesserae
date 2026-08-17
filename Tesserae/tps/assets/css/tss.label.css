@@ -1,8 +1,13 @@
 ﻿/* Label */
 .tss-label {
-    margin: 0;
+    /* No margin: 0 here — a div has none to clear. It was silently cancelling the standard component
+       margin now that the label carries that class itself instead of handing it to a wrapper. */
     position: relative;
-    width: 100%;
+    /* No width: 100% here. The label used to sit inside a stack item that carried the margin, so a
+       100% width filled that box exactly. Now the label is the stack item and carries the margin
+       itself, and 100% is measured before margins — it overflowed its container by the margin on
+       every side. Stretching as a flex item (or filling as a block) gives the intended width and
+       leaves room for the margin. */
     -webkit-user-select: none;
     user-select: none;
 }
@@ -15,7 +20,7 @@
     margin-top:4px;
 }
 
-.tss-stack-item:first-child > .tss-label:first-child {
+.tss-label.tss-stack-item:first-child {
     margin-top: 0px;
 }
 

@@ -1,0 +1,20 @@
+﻿<Project Sdk="Transpose.Build.Target/26.7.3049">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <!-- playwright/node_modules sits inside this folder; keep the default globs away from it -->
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="src\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Transpose.BCL" Version="26.8.4045" />
+    <PackageReference Include="Transpose.Core" Version="26.7.3304" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tesserae\Tesserae.csproj" />
+  </ItemGroup>
+</Project>

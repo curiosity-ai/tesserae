@@ -4,6 +4,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    /* A tile takes the width it is given. It used to reach the edges of its card only by accident —
+       the chart inside reported a wide intrinsic size and the tile was shrunk back to fit — so a
+       chart with a modest declared size left the number floating in a corner. Claiming the leftover
+       space says it directly, and two tiles sharing one card still split it. */
+    flex-grow: 1;
     gap: 12px;
     padding: 0px;
     background: transparent;

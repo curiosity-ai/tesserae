@@ -283,10 +283,23 @@ namespace Tesserae
         }
 
         /// <summary>Sets the width of a component within a stack.</summary>
+        // A component may declare an intrinsic minimum in its own CSS or inline style — a chart asks
+        // for at least 120px, a text area for a line of text. That minimum is meant as a floor for
+        // when nothing else decides the size, but it silently beat an explicit .Width()/.Height():
+        // min-width/min-height win over width/height in CSS, so a chart told to be 80px tall stayed
+        // 120px. The stack-item wrapper used to hide this, because the size landed on the wrapper and
+        // the component was stretched to fill it; the moment the component is its own item, the
+        // contradiction surfaces. An explicit size is the stronger statement, so it clears the
+        // intrinsic floor — unless the caller asked for a minimum too, which these markers record.
+        private const string ExplicitMinWidth  = "tss-min-w";
+        private const string ExplicitMinHeight = "tss-min-h";
+
         public static void SetWidth(IComponent component, UnitSize unitSize)
         {
             var (item, remember) = GetCorrectItemToApplyStyle(component);
             item.style.width     = unitSize.ToString();
+
+            if (!item.hasAttribute(ExplicitMinWidth)) item.style.minWidth = "0";
 
             if (remember)
             {
@@ -304,6 +317,7 @@ namespace Tesserae
         {
             var (item, remember) = GetCorrectItemToApplyStyle(component);
             item.style.minWidth  = unitSize.ToString();
+            item.setAttribute(ExplicitMinWidth, "");
 
             if (remember)
             {
@@ -339,6 +353,8 @@ namespace Tesserae
             var (item, remember) = GetCorrectItemToApplyStyle(component);
             item.style.height    = unitSize.ToString();
 
+            if (!item.hasAttribute(ExplicitMinHeight)) item.style.minHeight = "0";
+
             if (remember)
             {
                 Mark(item, "tss-stk-h");
@@ -355,6 +371,7 @@ namespace Tesserae
         {
             var (item, remember) = GetCorrectItemToApplyStyle(component);
             item.style.minHeight = unitSize.ToString();
+            item.setAttribute(ExplicitMinHeight, "");
 
             if (remember)
             {
@@ -777,29 +794,21 @@ namespace Tesserae
 
             if (item is null)
             {
+                // The rendered element is the flex child itself and carries the item class, rather
+                // than being put inside a div that does. The wrapper existed so a size set on the
+                // component could be moved onto the box the flexbox measures — with no wrapper the
+                // component's own element *is* that box, so the size is already in the right place.
+                // It cost a div per child: between a quarter and a third of every node on a
+                // component-heavy screen. Keeping the class on the child is what lets the positional
+                // CSS (.tss-sidebar > .tss-stack-item:nth-child(2) and friends) go on matching.
                 var rendered = component.Render();
 
                 if (forceAdd || (rendered.parentElement is object && rendered.parentElement.classList.contains("tss-stack")))
                 {
-                    item = Div(Att("tss-stack-item", styles: s =>
-                    {
-                        s.alignSelf  = "auto";
-                        s.width      = "auto";
-                        s.height     = "auto";
-                        s.flexShrink = "1";
-                    }), component.Render());
-
-                    component["StackItem"] = item;
-
-                    if (forceAdd)
-                    {
-                        CopyStylesDefinedWithExtension(rendered, item);
-                    }
+                    rendered.classList.add("tss-stack-item");
                 }
-                else
-                {
-                    item = rendered;
-                }
+
+                item = rendered;
             }
             return item;
         }
@@ -820,6 +829,12 @@ namespace Tesserae
         {
             // RFO: this class does some magic to move any styles applied to an element using the extensions methods like Width, etc... to the actual StackItem HTML element
             // so that they're relevant on the flex-box and not only inside of each child item of the flexbox
+
+            // Stack and Grid no longer wrap, so the child is its own item and there is nothing to
+            // move: the sizing helpers already wrote to the element the container measures. Copying
+            // onto itself would damage it — the width branch would overwrite the width it just read
+            // with "100%". Masonry, SectionStack and KeyedObservableStack still build real wrappers.
+            if (from == to) return;
 
             var fs = from.style;
             var ts = to.style;

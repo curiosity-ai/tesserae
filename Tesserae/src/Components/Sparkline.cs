@@ -27,8 +27,13 @@ namespace Tesserae
                 Att("tss-sparkline")
             );
 
-            _innerElement.style.width = "100%";
-            _innerElement.style.height = "100%";
+            // The chart is drawn into a viewBox of exactly these dimensions, so that is the size the
+            // component asks for. This used to say 100% / 100% and rely on the stack item wrapping it
+            // to bound the percentage; with the component as the stack item itself, that percentage
+            // resolves against the whole stack and the chart stretches across it. Callers that want it
+            // to fill the row still say so — .WS() / .Width() / .Height() are written afterwards and win.
+            _innerElement.style.width     = width + "px";
+            _innerElement.style.height    = height + "px";
             _innerElement.style.minHeight = height + "px";
 
             if (data == null || data.Length == 0)

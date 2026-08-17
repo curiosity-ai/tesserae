@@ -514,6 +514,11 @@ i.tss-fontsize-tiny {
     border-radius: var(--tss-border-radius-full) !important;
 }
 
+/* This utility used to be moved onto the stack-item wrapper, a bare div with no styling of its own,
+   so nothing ever competed with it. It now stays on the component, where a component's own single
+   class rule is equally specific and the bundle order decides — so a component that sets its own
+   margin must mean it (`.tss-pivot-titlebar > .tss-btn` and friends are more specific and still win),
+   and one that only wanted to clear a margin it never had must not say so. */
 .tss-default-component-margin {
     --tss-default-margin: 4px;
     margin: var(--tss-default-margin);
@@ -521,6 +526,45 @@ i.tss-fontsize-tiny {
 
 .tss-default-component-no-margin > .tss-default-component-margin {
     --tss-default-margin: 0px;
+}
+
+/* Components that are inline-level in normal flow.
+
+   A flex item is blockified: a child of a Stack or Grid that says `display: inline-flex` is laid out
+   as `flex`, and a `width`/`height` of `auto` then stretches to the container's cross size. That used
+   to be harmless, because the flex item was a wrapper div and the component sat inside it at its own
+   content size. Now the component *is* the flex item, so a Button in a vertical Stack would span the
+   whole row and an Avatar in a horizontal one would stretch into an ellipse.
+
+   `fit-content` restores the content sizing without touching alignment — `align-items: center` on the
+   Stack still centres these, which `align-self: start` here would have broken. The selector is wrapped
+   in `:where()` so it carries no specificity at all: a component's own `width`/`height` rule wins
+   whatever its position in the bundle, and `.Width()` / `.WS()` / `.Height()` write inline styles that
+   win over both. Add a component here only when it is inline-level *and* means to hug its content. */
+:where(.tss-avatar,
+       .tss-btn,
+       .tss-contextcard,
+       .tss-cron-editor,
+       .tss-daterange-picker,
+       .tss-editablelabel,
+       .tss-icon,
+       .tss-inlinelabel,
+       .tss-inlinepagination,
+       .tss-omnibox-container,
+       .tss-pixelavatar,
+       .tss-pixelavatar-badge,
+       .tss-pixelavatar-host,
+       .tss-progressring,
+       .tss-rating,
+       .tss-sandbox,
+       .tss-slider-div-vertical,
+       .tss-textbreadcrumb-container,
+       .tss-toggle-container,
+       .tss-token,
+       .tss-toolcall,
+       .tss-toolsused) {
+    width: fit-content;
+    height: fit-content;
 }
 
 

@@ -105,11 +105,18 @@ Sizes are `UnitSize` values from numeric helpers: `100.px()`, `50.percent()`,
 > `Stack`/`Grid` that centers *all* children. `.AlignCenter()` is an extension on a
 > single child (align-self). `.Grow()` only matters inside a `Stack`.
 
-> **Wrap-and-transfer:** when you call `.WS()`/`.W()`/`.Grow()` on a child, the
-> container moves those styles onto the item wrapper (`tss-stack-item`) it creates.
-> If a sizing helper "doesn't work", inspect the DOM — the style usually landed on
-> the wrapper, not the element you called it on. Full catalog in
-> `references/icomponent.md`; the protocol is in this repo's `CLAUDE.md`.
+> **Where sizing lands:** `.WS()`/`.W()`/`.Grow()` write to the child's own element,
+> which is the flex/grid item the container measures (it is tagged `tss-stack-item`).
+> An explicit `.Width()`/`.Height()` also clears the component's own intrinsic
+> `min-width`/`min-height`, so the size you asked for wins; ask for `.MinWidth()`/
+> `.MinHeight()` if you want a floor as well. Full catalog in
+> `references/icomponent.md`.
+
+> **What stretches by default.** A stack stretches its children across the cross
+> axis, so a `TextBox`, `Card` or nested `Stack` fills the width of a vertical
+> stack without being asked. Components that are inline by nature — `Button`,
+> `Toggle`, `Avatar`, `Icon`, `Rating` and friends — hug their content instead;
+> call `.WS()` on one to make it fill the row.
 
 ## Picking a layout
 

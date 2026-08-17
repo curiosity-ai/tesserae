@@ -134,27 +134,13 @@ namespace Tesserae
             {
                 var rendered = component.Render();
 
+                // Same as Stack.GetItem: the rendered element is the grid child and carries the class.
                 if (forceAdd || (rendered.parentElement is object && rendered.parentElement.classList.contains("tss-stack")))
                 {
-                    item = Div(Att("tss-stack-item", styles: s =>
-                    {
-                        s.alignSelf  = "auto";
-                        s.width      = "auto";
-                        s.height     = "auto";
-                        s.flexShrink = "1";
-                    }), component.Render());
-
-                    component["GridItem"] = item;
-
-                    if (forceAdd)
-                    {
-                        CopyStylesDefinedWithExtension(rendered, item);
-                    }
+                    rendered.classList.add("tss-stack-item");
                 }
-                else
-                {
-                    item = rendered;
-                }
+
+                item = rendered;
             }
             return item;
         }
@@ -163,6 +149,9 @@ namespace Tesserae
         {
             //Copy base-styles using same method from Stack
             Stack.CopyStylesDefinedWithExtension(from, to);
+
+            // Nothing to move when the child is its own grid item — see the note in Stack's copy.
+            if (from == to) return;
 
             var fs = from.style;
             var ts = to.style;

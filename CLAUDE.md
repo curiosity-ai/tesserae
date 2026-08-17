@@ -170,8 +170,8 @@ When adding a new component:
 ## Layout system
 
 Tesserae has a small set of layout containers and a unified set of sizing
-helpers that work across all of them. Understanding the wrap-and-transfer
-protocol below is the key to debugging layout problems.
+helpers that work across all of them. Understanding how a child becomes a
+stack/grid item, below, is the key to debugging layout problems.
 
 ### Sizing helpers (apply to any `IComponent`)
 
@@ -192,32 +192,38 @@ All of these write the CSS property to the element, tag it with a marker
 attribute (`tss-stk-w`, `tss-stk-h`, `tss-stk-fg`, `tss-grd-c`, …), and — if
 the component has already been wrapped — mirror the value onto its wrapper.
 
-### The wrap-and-transfer protocol
+### How a child becomes a stack/grid item
 
 Flexbox/Grid only obey sizing properties on the **direct child** of the
-container, but users naturally call `.WS()` on the rendered component before
-adding it. To bridge this, every container's `GetItem(component)` wraps the
-child in an item div (`tss-stack-item` for Stack/Grid, `tss-masonry-item` for
-Masonry) and then calls `CopyStylesDefinedWithExtension`, which:
+container, and that direct child is the component's own rendered element:
+`Stack.GetItem` / `Grid.GetItem` add the `tss-stack-item` class to it and add it
+as-is. So `.WS()` and friends write to exactly the box the container measures,
+and nothing has to be moved afterwards.
 
-1. Looks for the marker attributes set by the fluent helpers.
-2. For each one found, moves the relevant CSS property from the inner element
-   onto the wrapper.
-3. For width/height markers, sets the inner element to `100%` so it fills the
-   now-correctly-sized wrapper.
+`Masonry`, `SectionStack` and `KeyedObservableStack` are the exceptions — they
+still build a real wrapper element because their item carries its own structure
+(a masonry cell, a section card). Those go on calling
+`CopyStylesDefinedWithExtension`, which reads the marker attributes the fluent
+helpers set (`tss-stk-w`, `tss-stk-h`, `tss-grd-c`, …) and moves the matching
+CSS property from the inner element onto the wrapper. That copy is a no-op when
+the source and target are the same element, which is the ordinary Stack/Grid case.
 
-`Stack.CopyStylesDefinedWithExtension` ([Stack.cs](Tesserae/src/Components/Stack.cs))
-is the canonical implementation; `Grid` and `Masonry` delegate to it and add
-their own marker handling for grid placement.
+Stack and Grid used to wrap every child in an item div too. It was between a
+quarter and a third of every node in a component-heavy page, and it hid a class
+of bug: because the size landed on the wrapper and the component was stretched to
+fill it, a component's own `min-width`/`min-height` could silently beat an
+explicit `.Width()`/`.Height()`. `SetWidth`/`SetHeight` now clear that intrinsic
+floor (unless `.MinWidth()`/`.MinHeight()` was asked for), so an explicit size
+wins — see the note on `ExplicitMinWidth` in [Stack.cs](Tesserae/src/Components/Stack.cs).
 
-A component can opt out of wrapping by implementing `ISpecialCaseStyling` and
-exposing a `StylingContainer` — the sizing helpers then write directly onto
-that container instead of a wrapper. This is how nested containers (e.g. a
-`Grid` inside a `Stack`) avoid an extra wrapper layer.
+A component can still take charge of its own styling by implementing
+`ISpecialCaseStyling` and exposing a `StylingContainer` — the sizing helpers then
+write onto that container. This is how nested containers (e.g. a `Grid` inside a
+`Stack`) route sizing to the right element.
 
-**Debugging tip:** if `.WS()` "doesn't work", inspect the rendered DOM. The
-sizing styles likely live on the `tss-stack-item` wrapper, not on the element
-you called the helper on.
+**Debugging tip:** if `.WS()` "doesn't work", inspect the rendered DOM — the
+sizing styles are on the element you called the helper on, unless the component
+is inside a Masonry/SectionStack, where they are on its wrapper.
 
 ### Layout containers
 
@@ -264,3 +270,13 @@ Playwright scripts under `Tesserae.Tests/playwright/` are local-only — use the
 to verify components in the browser during development, but do **not** commit
 them. The same applies to any screenshots or other artifacts produced by those
 runs.
+
+The committed harness lives in `Tesserae.Bench/` instead: a ten-page app shaped
+like a real product, plus the Playwright scripts that measure its build cost and
+prove a change did not alter what renders. Use it whenever you touch `Stack`,
+`Grid`, the sizing extensions or anything under `Tesserae/tps/assets/css` — the
+sample gallery is the real surface, and `textdiff-samples.js` is what tells you
+whether it still renders the same. See
+[`Tesserae.Bench/README.md`](Tesserae.Bench/README.md) and the
+`tesserae-benchmarking` skill. One-off probe scripts go in
+`Tesserae.Bench/playwright/_*.js`, which is gitignored.
