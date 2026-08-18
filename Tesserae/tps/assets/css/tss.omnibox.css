@@ -381,10 +381,23 @@
     overflow: visible;
 }
 
+/* In a chat-and-search box the two halves swap in and out of the same slot, so the caret, the text
+   and the placeholder have to land on the same line whichever half is showing. The chat textarea sets
+   that line: its first line box is 20px tall and starts at the container's 12px top padding. The
+   search input and the token overlay take the same 20px box at top 0, so switching modes (and typing
+   the first character, which hands the drawing from the input's placeholder to the overlay) moves
+   nothing. The overlay's pills overhang that box by a few pixels and are meant to — hence the
+   overflow. */
+.tss-omnibox-container.tss-omnibox-chat-and-search .tss-omnibox-search-input {
+    height: 20px;
+    line-height: 20px;
+}
+
 .tss-omnibox-container.tss-omnibox-chat-and-search .tss-omnibox-search-tokens {
     position: absolute;
-    height: 34px;
-    top: -8px;
+    height: 20px;
+    line-height: 20px;
+    top: 0;
     overflow: visible;
 }
 
