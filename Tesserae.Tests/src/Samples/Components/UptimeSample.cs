@@ -10,6 +10,10 @@ namespace Tesserae.Tests.Samples
     {
         private readonly IComponent _content;
 
+        // Fixed seed: the fake 90 days of history has to render the same on every run, so a diff of
+        // the gallery only shows what a change actually did.
+        private readonly SampleRandom _rng = new SampleRandom(90_210);
+
         public UptimeSample()
         {
             var barsItems = new List<(UptimeStatus, IComponent)>();
@@ -53,7 +57,7 @@ namespace Tesserae.Tests.Samples
 
         private UptimeStatus GetRandomStatus()
         {
-            var r = Math.Random();
+            var r = _rng.NextDouble();
             if (r > 0.95) return UptimeStatus.Major;
             if (r > 0.90) return UptimeStatus.Minor;
             if (r > 0.85) return UptimeStatus.Maintenance;

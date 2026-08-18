@@ -24,7 +24,7 @@ namespace Tesserae.Tests.Samples
                 "Excellent! Let's proceed with the proposed plan."
             };
 
-            var random = new Random();
+            var random = new SampleRandom(1_337);
 
             // Shared cancellation flag — set to true to abort the current typing animation
             var cancelled = false;

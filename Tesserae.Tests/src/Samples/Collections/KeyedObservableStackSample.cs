@@ -16,6 +16,10 @@ namespace Tesserae.Tests.Samples
         private static int _elementIndex = 4;
         private static ObservableList<IComponentWithID> _stackElementsList;
 
+        // Fixed seed: the item colours and the "Randomize Order" shuffle are the same on every run,
+        // so two captures of this page only differ where the reconciliation actually differs.
+        private static readonly SampleRandom _rng = new SampleRandom(2_468);
+
         public class StackElement : IComponentWithID
         {
             public string Id { get; set; }
@@ -28,7 +32,7 @@ namespace Tesserae.Tests.Samples
             {
                 Id = id;
                 DisplayName = displayName;
-                Color = '#' + Math.Floor(Math.Random() * 16777215).ToString(16).PadLeft(6, '0');
+                Color = '#' + Math.Floor(_rng.NextDouble() * 16777215).ToString(16).PadLeft(6, '0');
             }
 
             public HTMLElement Render()
@@ -64,7 +68,7 @@ namespace Tesserae.Tests.Samples
                     SplitView().Height(500.px()).WS()
                        .Left(VStack().Children(
                             HStack().Children(
-                                Button("Randomize Order").OnClick(() => _stackElementsList.ReplaceAll(_stackElementsList.Value.OrderBy(_ => Math.Random()).ToList())),
+                                Button("Randomize Order").OnClick(() => _stackElementsList.ReplaceAll(_stackElementsList.Value.OrderBy(_ => _rng.NextDouble()).ToList())),
                                 Button("Add New Item").Primary().OnClick(() => AddItem())
                             ).MB(16),
                             Label("Edit items in-place:").SemiBold(),

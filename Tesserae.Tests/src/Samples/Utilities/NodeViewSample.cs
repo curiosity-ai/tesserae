@@ -61,9 +61,14 @@ namespace Tesserae.Tests.Samples
 
             var stateBuilder = NodeView.State();
 
-            var node1_id  = Guid.NewGuid().ToString();
-            var node1_inp = Guid.NewGuid().ToString();
-            var node1_out = Guid.NewGuid().ToString();
+            // Seeded ids rather than Guid.NewGuid(): the node view prints its whole state as JSON in
+            // the text area below, ids included, so fresh guids would make this page differ from
+            // itself on every load.
+            var ids = new SampleRandom(6_180);
+
+            var node1_id  = ids.NextId();
+            var node1_inp = ids.NextId();
+            var node1_out = ids.NextId();
 
 
             stateBuilder.AddNode(node1_id, "Hello World", "My First Node", 100, 100, 200, nb => nb
@@ -71,15 +76,15 @@ namespace Tesserae.Tests.Samples
                 .AddOutput("out", node1_out)
             );
 
-            var node2_id      = Guid.NewGuid().ToString();
-            var node2_text_id = Guid.NewGuid().ToString(); 
-            var node2_int_id  = Guid.NewGuid().ToString();
-            var node2_num_id  = Guid.NewGuid().ToString();
-            var node2_btn_id  = Guid.NewGuid().ToString();
-            var node2_chk_id  = Guid.NewGuid().ToString();
-            var node2_sel_id  = Guid.NewGuid().ToString();
-            var node2_sld_id  = Guid.NewGuid().ToString();
-            var node2_out_id = Guid.NewGuid().ToString();
+            var node2_id      = ids.NextId();
+            var node2_text_id = ids.NextId(); 
+            var node2_int_id  = ids.NextId();
+            var node2_num_id  = ids.NextId();
+            var node2_btn_id  = ids.NextId();
+            var node2_chk_id  = ids.NextId();
+            var node2_sel_id  = ids.NextId();
+            var node2_sld_id  = ids.NextId();
+            var node2_out_id = ids.NextId();
 
             stateBuilder.AddNode(node2_id, "Complex", "A Complex Node", 400, 100, 320, nb => nb
                 .AddInput("text", node2_text_id , "World")
