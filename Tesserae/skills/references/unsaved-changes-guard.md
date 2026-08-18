@@ -82,9 +82,13 @@ ask its own confirmation before hiding the modal.
   (rather than a registry) means a torn-down tab can't leave a stale entry
   behind.
 
-The tab title element needs the matching `id` for any of this to find it —
-give the `IComponent` returned by your `PivotTitle`-equivalent that `id` (see
-`.Id(...)` in `icomponent.md`).
+The tab title element needs the matching `id` for any of this to find it, which
+is what `TabSaveIndicator.Title(...)` is for. Building the title by hand works
+too, as long as it carries the `id` (see `.Id(...)` in `icomponent.md`) — but
+build it from `Button(text).NoBackground().Regular()` like `PivotTitle` does,
+because a bare `TextBlock` gets none of the tab strip's padding and sits wrong
+in the strip. The `*` itself is a `::after` on the title element, so it needs no
+room made for it.
 
 ## Example
 
@@ -117,6 +121,10 @@ const string tabIndicatorId = "tab-endpoint-abc123";
 
 hostView.WhenMounted(() => UnsavedChangesGuard.TrackOpenTabs());
 hostView.WhenRemoved(() => UnsavedChangesGuard.ForgetOpenTabs());
+
+pivot.Pivot("endpoint-abc123",
+    TabSaveIndicator.Title(tabIndicatorId, "Endpoint", UIcons.Code),
+    () => EndpointEditor(), cached: true, closeable: true);
 
 codeEditor.OnChanged(() => TabSaveIndicator.MarkDirty(tabIndicatorId));
 TabSaveIndicator.OnSave(tabIndicatorId, SaveEndpointAsync);

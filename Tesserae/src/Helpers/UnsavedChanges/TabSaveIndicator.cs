@@ -33,6 +33,20 @@ namespace Tesserae
         /// <summary>Builds a stable tab indicator id from an item type and uid, e.g. <c>tab-endpoint-{uid}</c>.</summary>
         public static string TabId(string itemType, object uid) => $"tab-{itemType}-{uid}";
 
+        /// <summary>
+        /// A pivot tab title that carries <paramref name="tabIndicatorId"/>, so
+        /// <see cref="MarkDirty"/> can find it. Same styling as <see cref="UI.PivotTitle(string)"/>
+        /// — a title built from anything else (a bare <c>TextBlock</c>, say) gets none of the
+        /// tab strip's padding and sits wrong in the strip.
+        /// </summary>
+        public static Func<IComponent> Title(string tabIndicatorId, string text) => () => UI.Button(text).NoBackground().Regular().Id(tabIndicatorId);
+
+        /// <summary>
+        /// A pivot tab title with an icon that carries <paramref name="tabIndicatorId"/>.
+        /// See <see cref="Title(string, string)"/>.
+        /// </summary>
+        public static Func<IComponent> Title(string tabIndicatorId, string text, UIcons icon) => () => UI.Button(text).NoBackground().Regular().SetIcon(icon).Id(tabIndicatorId);
+
         public static void MarkDirty(string tabIndicatorId)
         {
             if (string.IsNullOrEmpty(tabIndicatorId)) return;

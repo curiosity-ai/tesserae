@@ -53,7 +53,9 @@ namespace Tesserae.Tests.Samples
                        .Pivot("tab8", PivotTitle("Tab 8"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true))
                     .Right(TextBlock("👈 resize this area to scroll the tab strip — use the chevrons, the mouse wheel, or arrow / Home / End keys, and click the ⋯ button for an All Tabs menu").WS().BreakSpaces()),
                     SampleSubTitle("Many Tabs with Long Titles"),
-                    GetManyTabsPivot()
+                    GetManyTabsPivot(),
+                    SampleSubTitle("Drag to Reorder"),
+                    GetReorderablePivot()
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(SegmentedPivotSample), typeof(CardPivotSample), typeof(PivotSelectorSample), typeof(TabbedModalSample), typeof(AccordionSample));
         }
@@ -75,6 +77,24 @@ namespace Tesserae.Tests.Samples
                                     () => TextBlock($"Content for: {titles[idx]}").P(16), cached: true);
             }
             return pivot;
+        }
+
+        private IComponent GetReorderablePivot()
+        {
+            var order = TextBlock("Drag a tab title to reorder the strip").Small();
+
+            var pivot = Pivot().H(180).Reorderable()
+               .OnReorder((s, e) => order.Text = $"Moved '{e.TabId}' from {e.OldIndex} to {e.NewIndex} — now: {string.Join(", ", e.TabIds)}");
+
+            foreach (var name in new[] { "Alpha", "Beta", "Gamma", "Delta", "Epsilon" })
+            {
+                var tab = name;
+                pivot = pivot.Pivot($"reorder-{tab}", PivotTitle(tab), () => TextBlock($"Content for: {tab}").P(16), cached: true, closeable: true);
+            }
+
+            return VStack().WS().Children(pivot, HStack().WS().Children(
+                Button("Move Alpha to front").OnClick(() => pivot.MoveTab("reorder-Alpha", 0)),
+                order.AlignCenter()));
         }
 
         private Pivot GetPivot()

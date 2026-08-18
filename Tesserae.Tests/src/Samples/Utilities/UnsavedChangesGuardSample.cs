@@ -43,7 +43,9 @@ namespace Tesserae.Tests.Samples
             });
 
             // TabSaveIndicator side: a Pivot tab shows the same "*" a real hosting
-            // view (e.g. one tab per open editor) would toggle.
+            // view (e.g. one tab per open editor) would toggle. TabSaveIndicator.Title
+            // gives the title the id the indicator looks for, and the same styling as
+            // PivotTitle so the tab sits in the strip like any other.
             const string tabId  = "tab-sample-doc";
             var tabTextBox      = TextBox("");
             tabTextBox.OnInput((s, e) =>
@@ -54,13 +56,16 @@ namespace Tesserae.Tests.Samples
             TabSaveIndicator.OnSave(tabId, () =>
             {
                 TabSaveIndicator.MarkClean(tabId);
+                tabTextBox.Text = "";
                 return System.Threading.Tasks.Task.FromResult(true);
             });
 
             var pivot = Pivot()
-               .Pivot("doc", () => TextBlock("Document").Id(tabId), () => Card(VStack().WS().Children(
-                    TextBlock("Typing below marks this tab dirty; the pivot title shows a \"*\" via TabSaveIndicator.MarkDirty."),
-                    tabTextBox)));
+               .Pivot("doc", TabSaveIndicator.Title(tabId, "Document", UIcons.Document), () => Card(VStack().WS().Children(
+                    TextBlock("Typing below marks this tab dirty; the pivot title shows a \"*\" via TabSaveIndicator.MarkDirty, and leaving this page asks about it just like the tracked editor above."),
+                    tabTextBox)))
+               .Pivot("readme", PivotTitle("Read me", UIcons.Info), () => Card(VStack().WS().Children(
+                    TextBlock("This tab has no editor in it, so it never shows the \"*\".").WS().BreakSpaces())));
 
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(UnsavedChangesGuardSample), UIcons.Disk, "Warn before losing an editor's unsaved changes")
