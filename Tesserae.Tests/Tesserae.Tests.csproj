@@ -1,10 +1,10 @@
-﻿<Project Sdk="Transpose.Build.Target/26.7.3049">
+﻿<Project Sdk="Transpose.Build.Target/26.8.4125">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Transpose.BCL" Version="26.8.4102" />
+    <PackageReference Include="Transpose.BCL" Version="26.8.4131" />
     <PackageReference Include="Transpose.Core" Version="26.7.3304" />
   </ItemGroup>
 
