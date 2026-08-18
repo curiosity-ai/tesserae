@@ -61,9 +61,9 @@ namespace Tesserae
         public HTMLElement StylingContainer => _container;
 
         /// <summary>
-        /// Gets or sets the propagate to stack item parent.
+        /// Gets whether a sizing helper applied to this component should tag it so a wrapper-building container hoists the style onto the wrapper.
         /// </summary>
-        public bool PropagateToStackItemParent => false;
+        public bool PropagateStylesToWrapper => false;
 
         /// <summary>
         /// Gets or sets a value indicating whether the component is rendered in compact form.

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Transpose;
 using static Tesserae.UI;
 using static Transpose.Core.dom;
@@ -58,11 +58,6 @@ namespace Tesserae
                 item.style.overflow  = "hidden";
 
                 (component as dynamic).SectionStackItem = item;
-            }
-
-            if (component.HasOwnProperty("StackItem"))
-            {
-                Transpose.Script.Delete(component["StackItem"]);
             }
 
             item.style.height     = grow ? "10px" : "auto";

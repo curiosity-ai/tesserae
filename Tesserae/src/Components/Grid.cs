@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -32,9 +32,9 @@ namespace Tesserae
         public HTMLElement StylingContainer => _grid;
 
         /// <summary>
-        /// Gets or sets the propagate to stack item parent.
+        /// Gets whether a sizing helper applied to this component should tag it so a wrapper-building container hoists the style onto the wrapper.
         /// </summary>
-        public bool PropagateToStackItemParent { get; private set; } = true;
+        public bool PropagateStylesToWrapper { get; private set; } = true;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -125,11 +125,6 @@ namespace Tesserae
         {
             HTMLElement item = null;
 
-            if (component.HasOwnProperty("GridItem"))
-            {
-                item = component["GridItem"].As<HTMLElement>();
-            }
-
             if (item is null)
             {
                 var rendered = component.Render();
@@ -185,17 +180,12 @@ namespace Tesserae
         /// </summary>
         public static void SetGridColumn(IComponent component, int start, int end)
         {
-            var (item, rememberAndPropagate) = GetCorrectItemToApplyStyle(component);
-            item.style.gridColumn            = $"{start} / {end}";
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.gridColumn      = $"{start} / {end}";
 
-            if (rememberAndPropagate)
+            if (markForWrapper)
             {
                 item.setAttribute("tss-grd-c", "");
-
-                if (component.HasOwnProperty("GridItem"))
-                {
-                    component["GridItem"].As<HTMLElement>().style.gridColumn = item.style.gridColumn;
-                }
             }
         }
 
@@ -204,25 +194,20 @@ namespace Tesserae
         /// </summary>
         public static void SetGridRow(IComponent component, int start, int end)
         {
-            var (item, rememberAndPropagate) = GetCorrectItemToApplyStyle(component);
-            item.style.gridRow               = $"{start} / {end}";
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.gridRow         = $"{start} / {end}";
 
-            if (rememberAndPropagate)
+            if (markForWrapper)
             {
                 item.setAttribute("tss-grd-r", "");
-
-                if (component.HasOwnProperty("GridItem"))
-                {
-                    component["GridItem"].As<HTMLElement>().style.gridRow = item.style.gridRow;
-                }
             }
         }
 
-        internal static (HTMLElement item, bool remember) GetCorrectItemToApplyStyle(IComponent component)
+        internal static (HTMLElement item, bool markForWrapper) GetCorrectItemToApplyStyle(IComponent component)
         {
             if (component is ISpecialCaseStyling specialCase)
             {
-                return (specialCase.StylingContainer, specialCase.PropagateToStackItemParent);
+                return (specialCase.StylingContainer, specialCase.PropagateStylesToWrapper);
             }
             else
             {
@@ -366,7 +351,7 @@ namespace Tesserae
         /// </summary>
         public Grid RemovePropagation()
         {
-            PropagateToStackItemParent = false;
+            PropagateStylesToWrapper = false;
             return this;
         }
 

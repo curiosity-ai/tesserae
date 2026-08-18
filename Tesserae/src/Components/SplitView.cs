@@ -27,9 +27,9 @@ namespace Tesserae
         public HTMLElement StylingContainer => _splitContainer;
 
         /// <summary>
-        /// Gets whether styling should propagate to the stack item parent.
+        /// Gets whether a sizing helper applied to this component should tag it so a wrapper-building container hoists the style onto the wrapper.
         /// </summary>
-        public bool PropagateToStackItemParent => true;
+        public bool PropagateStylesToWrapper => true;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SplitView"/> class.

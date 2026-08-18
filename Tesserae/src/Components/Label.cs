@@ -105,7 +105,7 @@ namespace Tesserae
         }
 
         HTMLElement ISpecialCaseStyling.StylingContainer           => InnerElement;
-        bool ISpecialCaseStyling.       PropagateToStackItemParent => true;
+        bool ISpecialCaseStyling.       PropagateStylesToWrapper => true;
 
         /// <summary>
         /// Sets the content of the component.
