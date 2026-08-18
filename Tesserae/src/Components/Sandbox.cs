@@ -73,8 +73,8 @@ namespace Tesserae
 
         /// <summary>The element that receives sizing styles (the iframe itself).</summary>
         public HTMLElement StylingContainer           => InnerElement;
-        /// <summary>Styling propagates up to the stack item parent.</summary>
-        public bool        PropagateToStackItemParent => true;
+        /// <summary>Gets whether a sizing helper applied to this component should tag it so a wrapper-building container hoists the style onto the wrapper.</summary>
+        public bool        PropagateStylesToWrapper => true;
 
         private string _html;
         private string _url;

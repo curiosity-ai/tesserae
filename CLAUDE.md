@@ -194,9 +194,13 @@ Defined in `Tesserae/src/Extensions/IComponentExtensions.cs`:
   `.GridRowStretch()` — placement inside a `Grid` (call before `Add`).
 - `.AlignStretch()` — `align-self: stretch` on the stack item.
 
-All of these write the CSS property to the element, tag it with a marker
-attribute (`tss-stk-w`, `tss-stk-h`, `tss-stk-fg`, `tss-grd-c`, …), and — if
-the component has already been wrapped — mirror the value onto its wrapper.
+All of these write the CSS property to the element and tag it with a marker
+attribute (`tss-stk-w`, `tss-stk-h`, `tss-stk-fg`, `tss-grd-c`, …) so that a
+container which *does* build a wrapper can hoist the property onto it — see
+`CopyStylesDefinedWithExtension` below. A component implementing
+`ISpecialCaseStyling` suppresses the tagging by answering `false` to
+`PropagateStylesToWrapper`, which is what a component that sizes its own
+container (Masonry, Modal, DetailsList, Diagram) does.
 
 ### How a child becomes a stack/grid item
 

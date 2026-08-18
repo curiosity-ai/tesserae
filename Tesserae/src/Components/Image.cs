@@ -16,9 +16,9 @@ namespace Tesserae
         public HTMLElement StylingContainer => InnerElement;
 
         /// <summary>
-        /// Gets or sets the propagate to stack item parent.
+        /// Gets whether a sizing helper applied to this component should tag it so a wrapper-building container hoists the style onto the wrapper.
         /// </summary>
-        public bool PropagateToStackItemParent { get; private set; }
+        public bool PropagateStylesToWrapper { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -45,7 +45,7 @@ namespace Tesserae
                 InnerElement = UI.Image(Att("tss-image", src: source));
             }
 
-            PropagateToStackItemParent = true;
+            PropagateStylesToWrapper = true;
             AttachClick();
             AttachContextMenu();
         }
@@ -136,7 +136,7 @@ namespace Tesserae
         public Image Circle()
         {
             InnerElement.style.borderRadius = "50%";
-            PropagateToStackItemParent      = false;
+            PropagateStylesToWrapper      = false;
             return this;
         }
 

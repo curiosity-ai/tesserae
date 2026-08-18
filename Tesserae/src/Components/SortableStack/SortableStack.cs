@@ -156,8 +156,8 @@ namespace Tesserae
         /// <summary>Gets the styling container.</summary>
         public dom.HTMLElement StylingContainer           => _container.StylingContainer;
 
-        /// <summary>Gets whether styling should propagate to the stack item parent.</summary>
-        public bool            PropagateToStackItemParent => _container.PropagateToStackItemParent;
+        /// <summary>Gets whether a sizing helper applied to this component should tag it so a wrapper-building container hoists the style onto the wrapper.</summary>
+        public bool            PropagateStylesToWrapper => _container.PropagateStylesToWrapper;
 
         /// <summary>Gets or sets whether the stack can wrap its items.</summary>
         public bool CanWrap
