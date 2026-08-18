@@ -23,8 +23,10 @@ Register routes once at startup (not inside `Render()`), then initialize:
 
 Navigate (changes the URL only — does **not** re-run the callback by itself):
 
-- `Router.Push(path)` — push a new history entry.
-- `Router.Replace(path)` — update the URL in place.
+- `Router.Push(path)` — push a new history entry. Returns `false` when an
+  `OnBeforeNavigate` guard refused: the URL is left alone and the caller must not
+  show the new view either.
+- `Router.Replace(path)` — update the URL in place; same `bool` contract.
 - `Router.Navigate(path, reload: true)` / `Router.ForceMatchCurrent()` — re-run
   the matcher and re-activate the matching route.
 
@@ -51,6 +53,21 @@ segment so it survives refresh and can be shared as a deep link:
 
 Guards / events: `Router.OnBeforeNavigate(...)` (return `false` to cancel),
 `Router.OnNavigated(...)`, `Router.OnNotMatched(...)`.
+
+`OnBeforeNavigate` sees every navigation the router performs: `Router.Navigate`,
+`ForceMatchCurrent`, a hash change from a link or the address bar (and so the
+browser's back/forward buttons), and `Push`/`Replace` — those two skip route
+matching but still ask the guard, and report the refusal by returning `false` so
+a caller that renders the new view itself can stop too:
+
+```csharp
+if (!Router.Push($"#/view/{item.Name}")) return; // guard said no
+currentPage.Value = item;
+```
+
+Leaving the page altogether (tab close, reload, a link to another site) never
+reaches the router — that needs a `beforeunload` listener, which is what
+`UnsavedChangesGuard` installs (see `unsaved-changes-guard.md`).
 
 ## Example
 

@@ -37,11 +37,13 @@ dirty" semantics across all of them at once.
   `Pivot` tabs mounts/unmounts. While active, the guard also reads
   `TabSaveIndicator.DirtyTabIds()` off the DOM instead of requiring every tab
   to register itself individually.
-- `CanNavigateAway(Router.State target)` — the `Router.OnBeforeNavigate` answer.
-  Returns `true` when nothing would be lost. Otherwise it cancels this
-  navigation attempt, shows the confirmation dialog, and — if the user
-  chooses to leave (with or without saving) — re-issues the navigation itself
-  once they've decided, since the router can't `await` inside its own hook.
+- `CanNavigateAway(Router.State target, Router.State from = null)` — the
+  `Router.OnBeforeNavigate` answer. Returns `true` when nothing would be lost.
+  Otherwise it cancels this navigation attempt, shows the confirmation dialog,
+  and — if the user chooses to leave (with or without saving) — re-issues the
+  navigation itself once they've decided, since the router can't `await` inside
+  its own hook. Pass the handler's second argument as `from` so that a
+  "navigation" to the route already showing isn't taken for leaving it.
 
 `Router` only keeps a single `OnBeforeNavigate` handler (see `routing.md`), so
 an app with other before-navigate logic (e.g. closing a preview panel) has to
@@ -53,19 +55,54 @@ Router.OnBeforeNavigate((newState, currentState, isBack) =>
 {
     if (SomeOtherReasonToBlock(newState)) return false;
 
-    return UnsavedChangesGuard.CanNavigateAway(newState);
+    return UnsavedChangesGuard.CanNavigateAway(newState, currentState);
 });
 ```
 
-Closing a modal directly (its own close button, a light-dismiss click) is
-**not** covered by the guard — that path never reaches `Router`, so it has to
-ask its own confirmation before hiding the modal.
+That one handler covers every navigation the router performs — `Router.Navigate`,
+a hash change from a link or the address bar, the browser's back/forward buttons,
+and `Router.Push`/`Replace`. `Push`/`Replace` skip route matching but still ask
+the guard, and return `false` when it refuses, so an app whose nav pushes the URL
+and then swaps the view itself (a sidebar, a breadcrumb) must respect that answer
+instead of rendering anyway:
+
+```csharp
+sidebarItem.OnClick(() =>
+{
+    if (!Router.Push($"#/view/{item.Name}")) return; // guard said no
+
+    currentPage.Value = item;
+});
+```
+
+Once the user chooses to leave, the guard re-issues the navigation through
+`Router.Navigate`, so the route registered for that path is what actually shows
+the new view — an app that navigates by `Push` alone needs that route registered
+for the "leave" path to land anywhere.
+
+Pass the handler's `fromState` through to `CanNavigateAway` as well: a
+"navigation" to the route already showing (re-clicking the current nav item)
+loses nothing, and the guard uses `fromState` to tell that apart from leaving.
+
+Two exits don't go through the router, and are handled differently:
+
+- **Leaving the page** (tab close, reload, a link to another site) — the guard's
+  own `beforeunload` listener covers this, with the browser's native prompt. It
+  is installed while anything is tracked, so there is nothing to wire up.
+- **Closing a modal directly** (its own close button, a light-dismiss click) or
+  **closing a pivot tab** — nothing reaches `Router`, so the surface has to ask
+  first: a `Pivot` tab takes an `onBeforeClose` guard for exactly this, and
+  `TabSaveIndicator.IsDirty`/`CanSave`/`SaveAsync` are what it needs to answer.
 
 ## TabSaveIndicator
 
 - `TabId(string itemType, object uid)` — a stable id convention, e.g.
   `tab-endpoint-{uid}`. Any stable string works; this is just a helper for the
   common "one editor per graph node" case.
+- `Title(string tabIndicatorId, string text)` /
+  `Title(string tabIndicatorId, string text, UIcons icon)` — the tab title
+  `Func<IComponent>` to pass to `.Pivot(...)`. Same styling as `PivotTitle`, plus
+  the `id` the indicator needs.
 - `MarkDirty(string tabIndicatorId)` / `MarkClean(string tabIndicatorId)` —
   toggle the tab's "*" indicator. Call from the editor's own change-tracking
   (a `TextArea.OnChanged`, a `Validator`, a `SettingsHolder.HasChanged`

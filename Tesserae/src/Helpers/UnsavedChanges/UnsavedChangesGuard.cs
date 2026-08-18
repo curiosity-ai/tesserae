@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TNT;
+using Transpose;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 using static TNT.T;
@@ -90,10 +91,16 @@ namespace Tesserae
         /// A <see cref="Router.OnBeforeNavigate"/> answer. Returns true when nothing would be
         /// lost; otherwise cancels this navigation and asks the user what to do with the
         /// unsaved editors, re-issuing the navigation once they have decided.
+        /// <paramref name="from"/> is the route being left (the handler's second argument) — pass
+        /// it so that going nowhere isn't mistaken for leaving.
         /// </summary>
-        public static bool CanNavigateAway(Router.State target)
+        public static bool CanNavigateAway(Router.State target, Router.State from = null)
         {
             if (target is null) return true;
+
+            // Nothing is lost by "navigating" to the route we are already on — re-clicking the
+            // current nav item, or a URL rewritten in place under the running view.
+            if (from is object && SameRoute(from.FullPath, target.FullPath)) return true;
 
             if (_confirmedTarget is object && SameRoute(_confirmedTarget, target.FullPath))
             {
@@ -235,16 +242,40 @@ namespace Tesserae
 
         /// <summary>
         /// Whether two full URLs address the same route. Only the hash carries the route, and
-        /// the browser may hand back a differently-spelled absolute URL for the same one.
+        /// the browser may hand back a differently-spelled absolute URL for the same one — it
+        /// percent-encodes whatever we navigated to, so a route we confirmed as "#/view/My page"
+        /// comes back as "#/view/My%20page". Compare the decoded hashes, or the guard would ask
+        /// again about the navigation the user just confirmed and never let it through.
         /// </summary>
         private static bool SameRoute(string a, string b)
         {
+            // A route we can't read is never "the same" as another: better to ask once too often
+            // than to wave through a navigation that loses an editor.
+            if (string.IsNullOrEmpty(a) || string.IsNullOrEmpty(b)) return false;
+
             if (a == b) return true;
 
             var hashA = a.IndexOf('#');
             var hashB = b.IndexOf('#');
 
-            return hashA >= 0 && hashB >= 0 && a.Substring(hashA) == b.Substring(hashB);
+            if (hashA < 0 || hashB < 0) return false;
+
+            return DecodeRoute(a.Substring(hashA)) == DecodeRoute(b.Substring(hashB));
+        }
+
+        /// <summary>Percent-decodes a route, leaving it alone if it isn't valid encoding.</summary>
+        private static string DecodeRoute(string route)
+        {
+            if (route.IndexOf('%') < 0) return route;
+
+            try
+            {
+                return Script.DecodeURIComponent(route);
+            }
+            catch (Exception)
+            {
+                return route;
+            }
         }
 
         private static string DescribeUnsaved(List<UnsavedEditor> unsaved)

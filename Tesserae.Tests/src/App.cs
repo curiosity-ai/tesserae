@@ -192,7 +192,12 @@ namespace Tesserae.Tests
 
                     sidebarItem.OnClick(() =>
                     {
-                        Router.Push($"#/view/{item.Name}");
+                        // Push asks the OnBeforeNavigate handler registered below and returns false
+                        // when it refuses, so a sample holding unsaved changes isn't swapped out from
+                        // under the dialog. The guard re-issues the navigation once the user decides,
+                        // and the route registered below is what shows the new sample then.
+                        if (!Router.Push($"#/view/{item.Name}")) return;
+
                         currentPage.Value = item;
                     });
 
@@ -223,6 +228,12 @@ namespace Tesserae.Tests
                 }
                 sidebar.LoadSorting(itemOrder);
             }
+
+            // One handler covers every way out of a sample: the browser's back/forward buttons,
+            // Router.Navigate, and the sidebar's Router.Push. (Closing or reloading the browser tab
+            // is handled by the guard's own beforeunload listener.) Router keeps a single handler,
+            // so a sample needing its own before-navigate logic has to call CanNavigateAway from it.
+            Router.OnBeforeNavigate((toState, fromState, isBack) => UnsavedChangesGuard.CanNavigateAway(toState, fromState));
 
             Router.Register("home", "/", _ => currentPage.Value = null);
 
