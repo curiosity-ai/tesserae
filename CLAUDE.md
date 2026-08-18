@@ -301,3 +301,42 @@ whether it still renders the same. See
 [`Tesserae.Bench/README.md`](Tesserae.Bench/README.md) and the
 `tesserae-benchmarking` skill. One-off probe scripts go in
 `Tesserae.Bench/playwright/_*.js`, which is gitignored.
+
+### Samples must render the same on every run
+
+A sample that fakes data uses `SampleRandom`
+([`Tesserae.Tests/src/Samples/SampleRandom.cs`](Tesserae.Tests/src/Samples/SampleRandom.cs)) —
+a seeded `Random` — **not** `new Random()`, `Math.Random()` or `Guid.NewGuid()`. Two
+captures of the gallery have to differ only where the change under test made them differ,
+and an unseeded generator makes `textdiff-samples.js` report noise on every run. Each
+sample constructs its own `SampleRandom` with its own fixed seed, so the sequence a page
+sees does not depend on which samples were opened before it — which matters with the
+on-demand module loading. `SampleRandom.NextId()` replaces `Guid.NewGuid().ToString()`
+where a sample shows its own ids (`NodeViewSample` prints its state as JSON).
+
+The clock is the same problem: a date rendered as text makes a page differ from itself
+minute to minute. Values a sample *displays* come from `SampleDate`
+([`SampleDate.cs`](Tesserae.Tests/src/Samples/SampleDate.cs)) — May 25th of the **current**
+year, so the page is stable within a run without looking stale a year later. Validation
+rules that judge what the user just typed stay on the real clock; they are about the
+person using the page and render nothing until someone interacts.
+
+Not everything is anchored yet: `DetailsListSample`, `NotificationCenterSample`, the
+month/week pickers and `PivotSample` still render clock-derived text, so they drift
+across days (or, for Pivot, every second). `PixelAvatar`'s timing jitter is deliberately
+left random — it is an animation, not data.
+
+### Expected console noise
+
+The **Sandbox** sample logs a browser error on load, and it is correct:
+
+```
+Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed
+and the 'allow-scripts' permission is not set.
+```
+
+That is the "Fit height to content (host-side, no scripts)" demo, which sets
+`.AllowScripts(false)` on purpose to prove the host-side measurement path works with no
+script in the frame. The browser blocks `Sandbox`'s injected bootstrap script and says
+so; the frame still resizes because the host measures it through `AllowSameOrigin`.
+Don't "fix" it, and don't let a test fail the run on it.

@@ -20,6 +20,10 @@ namespace Tesserae.Tests.Samples
             // An observable series so the chart re-renders when the data changes.
             var liveData = new SettableObservable<double[]>(new double[] { 5, 8, 6, 12, 9, 15 });
 
+            // Seeded, and outside the click handler: every click still shows different numbers, but
+            // the Nth click of a given session always shows the same ones.
+            var randomizer = new SampleRandom(3_101);
+
             var lineChart = LineChart()
                .Series(new ChartSeries("Revenue", revenue), new ChartSeries("Costs", costs))
                .XAxis(months)
@@ -81,9 +85,8 @@ namespace Tesserae.Tests.Samples
                         HStack().WS().Children(
                             Button("Randomize data").SetIcon(UIcons.Dice).OnClick(() =>
                             {
-                                var rnd = new Random();
                                 var next = new double[6];
-                                for (var i = 0; i < next.Length; i++) next[i] = rnd.Next(2, 30);
+                                for (var i = 0; i < next.Length; i++) next[i] = randomizer.Next(2, 30);
                                 liveData.Value = next;
                             })))).SetTitle("AreaChart + observable")))
                .Section(Stack().Children(
@@ -103,8 +106,11 @@ namespace Tesserae.Tests.Samples
         // which is what OnRangeChanged + XRange are for (XRange itself never re-raises the event).
         private static IComponent BuildTimeSeriesSection()
         {
-            var start = DateTimeOffset.UtcNow.AddHours(-2).ToUnixTimeSeconds();
-            var rnd   = new Random();
+            // Anchored to SampleDate rather than "two hours ago": the axis labels are rendered text,
+            // so a clock-driven start makes this page differ from itself every minute.
+            var start = SampleDate.UnixSeconds(SampleDate.Now);
+
+            var rnd = new SampleRandom(7_720);
 
             var times = new double[120];
             var cpu   = new double[120];

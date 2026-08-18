@@ -275,10 +275,17 @@ namespace Tesserae
     }
 
     /// <summary>
-    /// Random numbers for the avatar's own timing. Exists because
-    /// <c>Random.Next(minValue, maxValue)</c> is broken under Transpose - it always returns
-    /// minValue - so everything goes through the single-argument overload, which works.
+    /// Random numbers for the avatar's own timing: an inclusive-range draw and the jitter every
+    /// timing here is spread by, in one place so the animation code reads as intent rather than
+    /// arithmetic.
     /// </summary>
+    /// <remarks>
+    /// This used to say <c>Random.Next(minValue, maxValue)</c> was broken under Transpose (always
+    /// returning minValue), which is why everything goes through the single-argument overload. That
+    /// is no longer true - the current compiler emits the two-argument overload correctly and its
+    /// output matches .NET value for value for a given seed - so the workaround is only a habit now,
+    /// kept because <see cref="Between"/> is inclusive of its upper bound and <c>Next</c> is not.
+    /// </remarks>
     [Transpose.Name("tss.PixelAvatarRandom")]
     internal static class PixelAvatarRandom
     {

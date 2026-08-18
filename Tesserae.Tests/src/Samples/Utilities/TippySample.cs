@@ -43,7 +43,7 @@ namespace Tesserae.Tests.Samples
 
             content.WhenMounted(() =>
             {
-                var rng = new Random();
+                var rng = new SampleRandom(8_808);
                 var repeat = window.setInterval(_ =>
                 {
                     size.Value = rng.Next(0, 10) * 50 + 50;

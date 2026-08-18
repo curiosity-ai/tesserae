@@ -22,10 +22,11 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                     SampleSubTitle("Basic"),
                     Label("Pick a range").SetContent(DateRangePicker()),
-                    SampleSubTitle("Pre-filled (today → next week)"),
-                    Label("Selected range").SetContent(DateRangePicker(DateTime.Today, DateTime.Today.AddDays(7))),
+                    // SampleDate rather than DateTime.Today: the picker renders the dates as text.
+                    SampleSubTitle("Pre-filled (a day → a week later)"),
+                    Label("Selected range").SetContent(DateRangePicker(SampleDate.Today, SampleDate.Today.AddDays(7))),
                     SampleSubTitle("Reactive"),
-                    DateRangePicker(DateTime.Today, DateTime.Today.AddDays(14))
+                    DateRangePicker(SampleDate.Today, SampleDate.Today.AddDays(14))
                         .OnChange(r => Toast().Information($"{r.From:d} → {r.To:d}"))
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(DatePickerSample), typeof(DateTimePickerSample), typeof(TimeHistogramPickerSample), typeof(MonthPickerSample));

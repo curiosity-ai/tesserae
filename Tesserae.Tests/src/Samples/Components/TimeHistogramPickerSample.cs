@@ -100,9 +100,12 @@ namespace Tesserae.Tests.Samples
 
         private static string DefaultRenderTime(DateTime time) => time.ToString("g");
 
+        // Every generator below is anchored to SampleDate rather than the clock: the picker renders
+        // its range as text ("25/05/2026 09:41 - ..."), so a clock-driven anchor would make this page
+        // differ from itself minute to minute.
         private static DateTime[] GetSmallValues()
         {
-            var now = DateTime.Now;
+            var now = SampleDate.Now;
             return new[]
             {
                 now.AddMinutes(30),
@@ -113,7 +116,7 @@ namespace Tesserae.Tests.Samples
 
         private static DateTime[] GetDenseValues()
         {
-            var start = DateTime.Today.AddHours(8);
+            var start = SampleDate.Today.AddHours(8);
             return Enumerable.Range(0, 720)
                .SelectMany(i => Enumerable.Range(0, 1 + (i % 9)).Select(j => start.AddMinutes(i).AddSeconds(j * 7)))
                .ToArray();
@@ -121,7 +124,7 @@ namespace Tesserae.Tests.Samples
 
         private static DateTime[] GetFineGrainedValues()
         {
-            var start = DateTime.Today.AddHours(14);
+            var start = SampleDate.Today.AddHours(14);
             return Enumerable.Range(0, 360)
                .SelectMany(second =>
                {
@@ -133,7 +136,7 @@ namespace Tesserae.Tests.Samples
 
         private static DateTime[] GetMultiYearValues()
         {
-            var start = DateTime.Today.AddYears(-6);
+            var start = SampleDate.Today.AddYears(-6);
             return Enumerable.Range(0, 180)
                .Select(i => start.AddDays((i * 17) % 2190).AddHours((i * 11) % 24))
                .ToArray();
@@ -141,7 +144,7 @@ namespace Tesserae.Tests.Samples
 
         private static DateTime[] GetGappedClusterValues()
         {
-            var start = DateTime.Today.AddYears(-4);
+            var start = SampleDate.Today.AddYears(-4);
 
             var tinyBurst = Enumerable.Range(0, 18)
                .Select(i => start.AddSeconds(i * 11));
@@ -168,7 +171,7 @@ namespace Tesserae.Tests.Samples
 
         private static TimeHistogramBucket[] GetDailyBackendBuckets()
         {
-            var start = DateTime.Today.AddDays(-18);
+            var start = SampleDate.Today.AddDays(-18);
             var counts = new[] { 12, 0, 3, 45, 0, 0, 18, 95, 30, 0, 4, 8, 0, 150, 70, 0, 22, 6, -5 };
 
             return counts
@@ -179,7 +182,7 @@ namespace Tesserae.Tests.Samples
 
         private static TimeHistogramBucket[] GetLongRangeBackendBuckets()
         {
-            var start = DateTime.Today.AddYears(-8);
+            var start = SampleDate.Today.AddYears(-8);
             var counts = new[] { 20, 0, 45, 140, 12, 0, 0, 260, 410, 90, 0, 35, 75, 0, 510, 180 };
 
             return counts.Select((count, i) =>
@@ -191,7 +194,7 @@ namespace Tesserae.Tests.Samples
 
         private static DateTime[] GetLargeValues()
         {
-            var start = DateTime.Today.AddYears(-1);
+            var start = SampleDate.Today.AddYears(-1);
             var minutesInYear = 365 * 24 * 60;
             return Enumerable.Range(0, 100000)
                .Select(i => start.AddMinutes((i * 37) % minutesInYear).AddSeconds(i % 60))
