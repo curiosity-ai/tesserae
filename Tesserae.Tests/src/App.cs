@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -91,9 +91,9 @@ namespace Tesserae.Tests
             searchBox.OnSearch((term) => sidebar.Search(term));
             sidebar.AddHeader(searchBox);
 
-            var contentArea = DeferSync(currentPage, page => page is null
+            var contentArea = Defer(currentPage, async page => page is null
                 ? (IComponent)CenteredCardWithBackground(Message("Welcome to Tesserae", "Select a component to see more details").Icon(UIcons.Search))
-                : VStack().S().ScrollY().Children(page.ContentGenerator().WS().MinHeight(100.percent())));
+                : VStack().S().ScrollY().Children((await page.ContentGenerator()).WS().MinHeight(100.percent())));
 
             // On mobile the sidebar is a fixed top navbar, so the layout is vertical (sidebar then content).
             // On desktop the layout is horizontal (sidebar left, content right).
@@ -120,7 +120,7 @@ namespace Tesserae.Tests
                    var group = sg is object ? sg.Group : "Others";
                    int order = sg is object ? sg.Order : 0;
                    UIcons icon = sg is object ? sg.Icon : UIcons.Circle;
-                   return new Sample(sampleType.Name, Sample.FormatSampleName(sampleType), group, order, icon, () => Activator.CreateInstance(sampleType) as IComponent);
+                   return new Sample(sampleType.Name, Sample.FormatSampleName(sampleType), group, order, icon, async () => await Activator.CreateInstanceAsync(sampleType) as IComponent);
                })
                .ToDictionary(s => s.Name, s => s);
 
