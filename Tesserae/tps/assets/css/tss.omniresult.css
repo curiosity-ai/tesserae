@@ -418,6 +418,14 @@
     gap: 4px;
 }
 
+/* Both command rows space themselves with `gap`, so a command must not also bring the standard 4px
+   component margin - two buttons beside each other were sitting 12px apart (4 of gap plus 4 of margin
+   each) and read as separate controls rather than as one group. */
+.tss-omniresult-commands > .tss-default-component-margin,
+.tss-omniresult-inline-commands > .tss-default-component-margin {
+    --tss-default-margin: 0px;
+}
+
 /* Hidden rather than absent, so the row keeps its width whether the commands show or not. */
 .tss-omniresult-commands > .tss-omniresult-menu-button,
 .tss-omniresult-inline-commands {
