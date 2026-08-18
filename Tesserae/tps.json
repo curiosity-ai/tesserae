@@ -1,6 +1,5 @@
-﻿{
+{
     "output": "$(OutDir)/tps/",
-    "outputFormatting": "Both",
     "outputBy": "Module",
     "reflection": {
         "disabled": true,

@@ -274,11 +274,22 @@ is inside a Masonry/SectionStack, where they are on its wrapper.
 - Modal/popover that must escape clipping → `Layer` (usually wrapped by
   higher-level components like `Dialog`, `Modal`, `ContextMenu`).
 
-## Module output
+## Module output — in Release
 
-`Tesserae/tps.json` and `Tesserae.Tests/tps.json` set `"outputBy": "Module"`, so `tps` emits one ES
-module per chunk and the gallery fetches a sample's code when it is opened — 1,055 KB of initial
-JavaScript instead of 3,542 KB. Two consequences to know about when working here:
+`Tesserae/tps.json` and `Tesserae.Tests/tps.json` set `"outputBy": "Module"`, so a **Release** build
+emits one ES module per chunk and the gallery fetches a sample's code when it is opened — 1,055 KB of
+initial JavaScript instead of 3,542 KB.
+
+**A Debug build is one readable bundle and no chunks**, whatever `outputBy` says: that is the
+compiler's decision, not a setting, because stepping through one file is what a Debug build is for
+(`JsOutputProfile` in the transpose repo). So a chunking bug reproduces in Release only, and a Debug
+build is the fastest way to rule chunking out of a symptom. `outputFormatting` no longer exists — the
+Tesserae **package** ships all three variants of its compiled code (formatted bundle, minified bundle,
+module entry plus chunks) and the application referencing it picks the one its own configuration calls
+for, which is what lets one published Tesserae be debugged as a single file by one app and fetched in
+pieces by another.
+
+Two consequences to know about when working here:
 
 - **Constructing a deferred type is asynchronous.** `Activator.CreateInstanceAsync` loads the module
   and then constructs; the synchronous `Activator.CreateInstance` throws and names the module. That
