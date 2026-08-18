@@ -148,6 +148,12 @@ dotnet serve --port 5000
 - Component creation goes through the static `UI` class (`UI.Components.cs`), which exposes factory methods like `UI.Button`, `UI.TextBlock`, etc.
 - `UI` is a static partial class with a static constructor used as the central entry point.
 - Components are configured via fluent-style extension methods (e.g., `UI.Id`, `UI.Class`, `UI.Do`).
+- `UI` carries **`[Transpose.SkipTypeClustering]`**, which is load-bearing for the module build and
+  must stay. A module chunk is a strongly-connected component of the reference graph, and a facade
+  whose factories construct half the library — while every component calls back into it for
+  `Div`/`VStack` — fuses that half into one 1.6 MB chunk. The attribute moves the facade's outgoing
+  edges to its call sites, where a static method body actually runs. See
+  [docs/module-output.md](docs/module-output.md).
 
 ## Conventions
 
@@ -263,6 +269,21 @@ is inside a Masonry/SectionStack, where they are on its wrapper.
 - Variable-height tile feed → `Masonry`.
 - Modal/popover that must escape clipping → `Layer` (usually wrapped by
   higher-level components like `Dialog`, `Modal`, `ContextMenu`).
+
+## Module output
+
+`Tesserae/tps.json` and `Tesserae.Tests/tps.json` set `"outputBy": "Module"`, so `tps` emits one ES
+module per chunk and the gallery fetches a sample's code when it is opened — 1,055 KB of initial
+JavaScript instead of 3,542 KB. Two consequences to know about when working here:
+
+- **Constructing a deferred type is asynchronous.** `Activator.CreateInstanceAsync` loads the module
+  and then constructs; the synchronous `Activator.CreateInstance` throws and names the module. That
+  is why `Sample.ContentGenerator` returns a `Task<IComponent>`.
+- **Reflection still sees everything.** A deferred type is registered as a stub carrying its name,
+  interfaces and attributes, so `Assembly.GetTypes()`, `IsAssignableFrom` and `GetCustomAttributes`
+  work with the code absent — which is what keeps the sample discovery working.
+
+[docs/module-output.md](docs/module-output.md) has the numbers and the full change list.
 
 ## Testing
 

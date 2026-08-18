@@ -10,6 +10,7 @@ namespace Tesserae
     /// Static class containing factory methods for all Tesserae components and various UI helpers.
     /// </summary>
     [Transpose.Name("tss.UI")]
+    [Transpose.SkipTypeClustering]
     public static partial class UI
     {
         static UI()

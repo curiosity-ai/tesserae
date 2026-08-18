@@ -1,6 +1,7 @@
 {
     "output": "$(OutDir)/tps/",
     "fileName": "app.js",
+    "outputBy": "Module",
     "outputFormatting": "Minified",
     "html": {
         "disabled": false,
