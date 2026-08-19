@@ -956,7 +956,11 @@ namespace Tesserae
         protected override void RenderChart(double width, double height)
         {
             _pointCount  = _series.Count == 0 ? 0 : _series.Max(s => s.Values.Length);
-            _continuousX = _sharedX != null || _series.Any(s => s.XValues != null);
+            //A pinned range is a continuous X scale in its own right. A chart whose data came back empty for the
+            //range it was given still has to draw that range's axis, and above all has to go on answering the
+            //wheel and the drag: deciding the scale from the points alone leaves an empty period unnavigable,
+            //which is exactly the period the user needs to get out of.
+            _continuousX = _sharedX != null || _series.Any(s => s.XValues != null) || (_hasExplicitRange && _categories.Length == 0);
 
             ResolveXRange();
             RenderLegend(width, height);

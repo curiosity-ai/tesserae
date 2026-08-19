@@ -111,6 +111,10 @@ chart.ZoomLimits(minSpan: 10, maxSpan: 3600)          // 10s to 1h of samples
      .OnRangeChanged(r => ScheduleLoad(r.Min, r.Max)); // then chart.XRange(from, to) once loaded
 ```
 
+A pinned range is itself a continuous X scale, so a range the data does not cover still draws
+its axis and still answers the wheel and the drag — the period the user has to navigate out of
+is exactly the one with nothing in it.
+
 ## Example
 
 ```csharp
