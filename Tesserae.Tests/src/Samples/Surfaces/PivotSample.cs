@@ -57,7 +57,7 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Drag to Reorder"),
                     GetReorderablePivot()
                 )).SetTitle("Usage")))
-               .SeeAlso(typeof(SegmentedPivotSample), typeof(CardPivotSample), typeof(PivotSelectorSample), typeof(TabbedModalSample), typeof(AccordionSample));
+               .SeeAlso(typeof(SegmentedPivotSample), typeof(CardPivotSample), typeof(PivotSelectorSample), typeof(TabbedModalSample), typeof(AccordionSample), typeof(UnsavedChangesGuardSample));
         }
 
         private Pivot GetManyTabsPivot()
