@@ -143,6 +143,43 @@
     display: flex;
 }
 
+/* Compact density - row height, font size and indentation matching a code editor's file explorer */
+.tss-tree-compact .tss-tree-item-content {
+    padding: 0 6px;
+    border-radius: 3px;
+}
+
+.tss-tree-compact .tss-tree-text {
+    min-height: 22px;
+    line-height: 22px;
+    font-size: 13px;
+}
+
+.tss-tree-compact .tss-tree-chevron {
+    width: 14px;
+    height: 14px;
+    font-size: 11px;
+    margin-right: 2px;
+}
+
+.tss-tree-compact .tss-tree-icon,
+.tss-tree-compact .tss-tree-checkbox {
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.tss-tree-compact .tss-tree-children {
+    margin-left: 8px;
+}
+
+.tss-tree-compact .tss-tree-commands > .tss-tree-command,
+.tss-tree-compact .tss-tree-commands > a > .tss-tree-command {
+    min-width: 18px;
+    height: 18px;
+    padding: 0 3px;
+    font-size: 12px;
+}
+
 .tss-tree-menu {
     display: flex;
     flex-direction: column;

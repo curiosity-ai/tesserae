@@ -89,13 +89,18 @@
     opacity: 0.5;
 }
 
-/* Horizontal layout: icon sits beside the content instead of stacked above it */
+/* Horizontal layout: icon sits beside the content instead of stacked above it.
+
+   The 32px the stacked layout uses is the padding of a full empty state — a panel with nothing else
+   on it. A horizontal message is a strip that sits above or beside real content, so it takes the
+   padding of a notice instead; at 32px it read as a second empty state rather than as a note. */
 .tss-message-horizontal {
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
     text-align: left;
     gap: 16px;
+    padding: 16px 20px;
 }
 
     .tss-message-horizontal .tss-message-icon {

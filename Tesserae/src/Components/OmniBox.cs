@@ -1785,6 +1785,37 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Adds an active filter chip as if the user had typed the trigger and picked
+        /// <paramref name="value"/>, and re-runs the search. Use it to open a box already filtered — a
+        /// palette that starts from the filters the view behind it is applying, say. Without
+        /// <paramref name="trigger"/> the handler's first trigger word is used.
+        /// </summary>
+        public OmniBox AddFilterSnap(FilterSnapHandler handler, string value, string trigger = null)
+        {
+            if (handler == null) return this;
+
+            var triggerWord = trigger ?? handler.TriggerWords?.FirstOrDefault() ?? handler.FilterId;
+
+            InlineFilterChips.Add(new InlineFilterChip(new FilterSnap(handler, triggerWord, value)));
+            OnSearchInputChanged();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Removes every active snap and filter chip from the box, and re-runs the search.
+        /// </summary>
+        public OmniBox ClearSnaps()
+        {
+            if (InlineFilterChips == null || InlineFilterChips.Count == 0) return this;
+
+            InlineFilterChips.Clear();
+            OnSearchInputChanged();
+
+            return this;
+        }
+
+        /// <summary>
         /// Enables an "@mention" style inline picker in the chat input: typing <see cref="ChatMention.Trigger"/>
         /// (default <c>@</c>) at a word boundary shows a picker anchored at the text caret, live-filters as more is
         /// typed, and forwards Arrow Up/Down, Enter/Tab and Escape to the callbacks below. This is a thin,

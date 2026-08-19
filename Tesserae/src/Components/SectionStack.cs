@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Transpose;
 using static Tesserae.UI;
 using static Transpose.Core.dom;
@@ -50,14 +50,14 @@ namespace Tesserae
 
                 item.style.alignSelf = "auto";
                 item.style.width     = "auto";
+                // Stated here rather than inherited from a .tss-stack-item rule: Stack and Grid no
+                // longer wrap, so that class now lands on real components and a global height rule
+                // would override theirs. SectionStack still builds a real wrapper, so its wrapper
+                // says what it needs — the same way KeyedObservableStack's does.
+                item.style.height    = "auto";
                 item.style.overflow  = "hidden";
 
                 (component as dynamic).SectionStackItem = item;
-            }
-
-            if (component.HasOwnProperty("StackItem"))
-            {
-                Transpose.Script.Delete(component["StackItem"]);
             }
 
             item.style.height     = grow ? "10px" : "auto";

@@ -27,9 +27,9 @@ namespace Tesserae
         public HTMLElement StylingContainer => _modal.StylingContainer;
 
         /// <summary>
-        /// Gets whether styling should propagate to the stack item parent.
+        /// Gets whether a sizing helper applied to this component should tag it so a wrapper-building container hoists the style onto the wrapper.
         /// </summary>
-        public bool PropagateToStackItemParent => _modal.PropagateToStackItemParent;
+        public bool PropagateStylesToWrapper => _modal.PropagateStylesToWrapper;
 
         /// <summary>
         /// Initializes a new instance of the TutorialModal class.

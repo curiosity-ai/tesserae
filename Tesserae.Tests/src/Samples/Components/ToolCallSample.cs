@@ -95,6 +95,16 @@ namespace Tesserae.Tests.Samples
                         _inlineTools,
                         Button("Add a tool").OnClick(() => AddInlineTool()),
 
+                        SampleSubTitle("A button beside the call"),
+                        TextBlock("AddAction hangs an icon button off the right of the call, outside the chip, for a way into what the call stands for that isn't its content - the run it started, say. It sits at a third of its strength until the pointer is anywhere on the call, so a transcript of them reads as calls rather than as a column of controls. Clicking it runs the handler only: the call is neither expanded nor collapsed by it. A ToolsUsed group takes the same button beside its summary pill."),
+                        ToolCall(UIcons.UserRobot, "Invoke agent \"researcher\"", () => TextBlock("Summarised 4 sources.").BreakSpaces())
+                           .AddAction(UIcons.Eye, "Watch this agent run", () => Toast().Information("Opening the run...")),
+                        ToolsUsed(
+                            ToolCall(UIcons.Search, "Search documentation", () => TextBlock("3 pages matched.").BreakSpaces()),
+                            ToolCall(UIcons.Eye, "Read README.md", () => TextBlock("# Needle").BreakSpaces())
+                        ).SetSummary("researcher").Inline()
+                         .AddAction(UIcons.Eye, "Watch this agent run", () => Toast().Information("Opening the run...")),
+
                         SampleSubTitle("Live progress while a call runs"),
                         TextBlock("A ToolCall can carry a LiveProgress line on its header row: SetProgress writes into the line already on screen, so a stream of updates never re-renders the call and never replays an animation. Hovering the line shows its full text; expanding the call still opens the content full width underneath."),
                         _runningCall,

@@ -116,6 +116,23 @@
     transition: none;
 }
 
+/* Unsaved-changes indicator, toggled by TabSaveIndicator.MarkDirty / MarkClean.
+   The marker is a pseudo-element so the tab title stays whatever component the
+   caller built, and "order" keeps it next to the label rather than after the
+   close button on a closeable tab (titles built with PivotTitle are flex). */
+.tss-pivot-tab-needs-saving::after {
+    content: "*";
+    order: 1;
+    margin-left: 3px;
+    color: var(--tss-primary-background-color, currentColor);
+    font-weight: var(--tss-font-weight-bold);
+    line-height: 1;
+}
+
+.tss-pivot-tab-needs-saving > .tss-pivot-tab-close {
+    order: 2;
+}
+
 .tss-pivot-tab-closeable {
     padding-right: 8px !important;
 }
@@ -133,4 +150,27 @@
 
 .tss-pivot .tss-pivot-cached-hidden{
     display:none !important;
+}
+
+/* Drag-to-reorder (Pivot.Reorderable) */
+.tss-pivot-titlebar.tss-pivot-reordering > .tss-pivot-tab {
+    cursor: grabbing;
+}
+
+.tss-pivot-tab-ghost {
+    opacity: 0.35;
+}
+
+.tss-pivot-tab-drag,
+.tss-pivot-tab-fallback {
+    opacity: 1;
+    cursor: grabbing;
+    background: var(--tss-secondary-background-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* The underline can't track a tab that is mid-flight, so park it until the drop. */
+.tss-pivot-titlebar.tss-pivot-reordering > .tss-pivot-line {
+    opacity: 0;
+    transition: none;
 }

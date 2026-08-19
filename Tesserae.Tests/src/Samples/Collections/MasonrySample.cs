@@ -33,7 +33,7 @@ namespace Tesserae.Tests.Samples
 
         private IEnumerable<IComponent> GetCards(int count)
         {
-            var rng = new Random();
+            var rng = new SampleRandom(5_004);
             for (int i = 0; i < count; i++)
             {
                 var height = 80 + (int)(rng.NextDouble() * 4) * 40;

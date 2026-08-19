@@ -4,9 +4,9 @@
     flex-direction: column;
 }
 
-.tss-stack-item {
-    height: auto;
-}
+/* The stack item is the child component itself now, not a wrapper around it, so this rule would
+   override whatever height the component sets for itself. It existed only to make the wrapper size
+   to its content, which is the default for a div anyway. */
 
 .tss-stack.tss-invalid {
     border-color: var(--tss-invalid-border-color);

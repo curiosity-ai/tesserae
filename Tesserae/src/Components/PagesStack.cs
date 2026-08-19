@@ -300,9 +300,12 @@ namespace Tesserae
             // they sit in reflowing. The few extra pixels are for the rotation of the outermost pages.
             var railWidth = shown < 1 ? 0 : width + (shown - 1) * FAN_STEP + 4;
 
-            InnerElement.style.width     = $"{railWidth}px";
-            InnerElement.style.flexBasis = $"{railWidth}px";
-            InnerElement.style.height    = $"{height + 12}px";
+            // No flex-basis: the rail is a stack item itself now, and flex-basis follows the stack's main
+            // axis — the rail width became the rail *height* in a vertical stack. `flex-shrink: 0` in the
+            // stylesheet is what keeps a horizontal stack from squeezing it, and with basis left at auto
+            // the width and height below are the base size on whichever axis the stack runs.
+            InnerElement.style.width  = $"{railWidth}px";
+            InnerElement.style.height = $"{height + 12}px";
 
             for (int i = 0; i < shown; i++)
             {

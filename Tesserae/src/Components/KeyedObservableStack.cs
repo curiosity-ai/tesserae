@@ -109,9 +109,9 @@ namespace Tesserae
         public HTMLElement StylingContainer => InnerElement;
 
         /// <summary>
-        /// Gets or sets the propagate to stack item parent.
+        /// Gets whether a sizing helper applied to this component should tag it so a wrapper-building container hoists the style onto the wrapper.
         /// </summary>
-        public bool PropagateToStackItemParent { get; private set; } = true;
+        public bool PropagateStylesToWrapper { get; private set; } = true;
 
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace Tesserae
         /// </summary>
         public KeyedObservableStack RemovePropagation()
         {
-            PropagateToStackItemParent = false;
+            PropagateStylesToWrapper = false;
             return this;
         }
 

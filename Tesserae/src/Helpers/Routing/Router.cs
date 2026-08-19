@@ -76,32 +76,69 @@ namespace Tesserae
         private static double _tryNavigateAgain;
         private static bool _tryNavigateAgainSet = false;
 
-        public static void Push(string path)
+        /// <summary>
+        /// Pushes a new history entry for <paramref name="path"/> without re-matching routes.
+        /// Returns false when an <see cref="OnBeforeNavigate"/> guard refused the navigation, in
+        /// which case the URL is left alone and the caller must not show the new view either
+        /// (see <see cref="UnsavedChangesGuard"/>); true otherwise, including when the browser
+        /// was already at <paramref name="path"/> and there was nothing to do.
+        /// </summary>
+        public static bool Push(string path)
         {
             if (AlreadyThere(path))
             {
                 // Nothing to do
-                return;
+                return true;
             }
 
+            var toState = StateFromPath(path);
+
+            if (!AllowedToNavigateTo(toState)) return false;
+
             _lastState    = _currentState;
-            _currentState = StateFromPath(path);
+            _currentState = toState;
 
             window.history.pushState(null, "", path);
+            return true;
         }
 
-        public static void Replace(string path)
+        /// <summary>
+        /// Replaces the current history entry with <paramref name="path"/> without re-matching
+        /// routes. Returns false when an <see cref="OnBeforeNavigate"/> guard refused it — see
+        /// <see cref="Push"/>.
+        /// </summary>
+        public static bool Replace(string path)
         {
             if (AlreadyThere(path))
             {
                 // Nothing to do
-                return;
+                return true;
             }
 
+            var toState = StateFromPath(path);
+
+            if (!AllowedToNavigateTo(toState)) return false;
+
             _lastState    = _currentState;
-            _currentState = StateFromPath(path);
+            _currentState = toState;
 
             window.history.replaceState(null, "", path);
+            return true;
+        }
+
+        /// <summary>
+        /// Asks the <see cref="OnBeforeNavigate"/> guard about a navigation that doesn't go
+        /// through route matching. Push/Replace skip the matcher, but they are still navigation
+        /// as far as a guard is concerned: an app that renders the new view itself after pushing
+        /// would otherwise walk straight past a guard that wanted to stop it.
+        /// </summary>
+        private static bool AllowedToNavigateTo(State toState)
+        {
+            if (_beforeNavigate is null) return true;
+
+            var isBack = _lastState is object && _lastState.Path == toState.Path;
+
+            return _beforeNavigate(toState, _currentState, isBack: isBack);
         }
 
         // Push/Replace bypass route matching, so derive the state's Path and Parameters from the pushed

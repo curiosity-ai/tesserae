@@ -105,7 +105,7 @@ namespace Tesserae
         }
 
         HTMLElement ISpecialCaseStyling.StylingContainer           => InnerElement;
-        bool ISpecialCaseStyling.       PropagateToStackItemParent => true;
+        bool ISpecialCaseStyling.       PropagateStylesToWrapper => true;
 
         /// <summary>
         /// Sets the content of the component.
@@ -167,7 +167,11 @@ namespace Tesserae
 
             DomObserver.WhenMounted(InnerElement, () =>
             {
-                HTMLElement parent = string.IsNullOrEmpty(parentSelector) ? InnerElement.parentElement.parentElement : document.querySelector(parentSelector).As<HTMLElement>();
+                // The scope for the width sync is the container the label sits in, so that labels in one
+                // Stack line up with each other and not with labels in a different Stack. That is now the
+                // label's direct parent — the two-step walk was skipping the stack item that used to wrap
+                // every child, and without it the scope widened to the grandparent and merged sibling groups.
+                HTMLElement parent = string.IsNullOrEmpty(parentSelector) ? InnerElement.parentElement : document.querySelector(parentSelector).As<HTMLElement>();
 
                 if (parent is object)
                 {

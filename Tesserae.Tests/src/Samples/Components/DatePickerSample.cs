@@ -12,8 +12,9 @@ namespace Tesserae.Tests.Samples
 
         public DatePickerSample()
         {
-            var from = DateTime.Now.AddDays(-7);
-            var to   = DateTime.Now.AddDays(7);
+            // Anchored to SampleDate rather than the clock: these dates are rendered as text.
+            var from = SampleDate.Now.AddDays(-7);
+            var to   = SampleDate.Now.AddDays(7);
 
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(DatePickerSample), UIcons.Calendar, "A component to select a date")
@@ -29,7 +30,7 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Basic DatePicker"),
                     VStack().Children(
                         Label("Standard").SetContent(DatePicker()),
-                        Label("Pre-selected Date (Next Week)").SetContent(DatePicker(DateTime.Now.AddDays(7))),
+                        Label("Pre-selected Date (A Week On)").SetContent(DatePicker(SampleDate.Now.AddDays(7))),
                         Label("Disabled").Disabled().SetContent(DatePicker().Disabled())
                     ),
                     SampleSubTitle("Range and Constraints"),

@@ -30,6 +30,12 @@ Both carry an 8px bottom margin, so when you stack a pill above the answer text 
   the line already on screen, so a stream of updates never re-renders the call, and expanding it
   still opens the content full width underneath.
 - `Progress` — the `LiveProgress` itself, for finer control.
+- `.AddAction(UIcons icon, string tooltip, Action)` (also `Action<ToolCall>`) / `.ClearActions()` — an
+  icon button hanging off the right of the call, outside the chip and out of flow (so a call is the
+  same width with or without one). It shows at a third of its strength until the pointer is anywhere
+  on the call, and at full strength on hover, focus, or on a touch screen. Clicking it runs the
+  handler only, never expanding or collapsing the call. Use it for a way into what the call stands
+  for that isn't its content — opening the run it started, retrying it.
 - `IsExpanded`, `HasContent`, `Icon`, `Text` — read state.
 
 Expansion is per instance, so a host that rebuilds its layout into a diffing container (a streaming
@@ -45,6 +51,10 @@ the line on screen keeps the last text it was given.
 - `.SetSummary(label)` / `.SetTitle(title)` / `.SetIcon(icon)` — customise.
 - `.SetProgress(string)` / `.SetProgress(IObservable<string>)` / `.ClearProgress()` / `Progress` —
   same live progress line, on the summary pill.
+- `.AddAction(UIcons icon, string tooltip, Action)` (also `Action<ToolsUsed>`) / `.ClearActions()` —
+  the same icon button, beside the summary pill, for an action that belongs to the group rather than
+  to one of its calls (opening the run whose calls it lists, say). It stays next to the pill whether
+  or not the group is expanded, and does not open or fold it.
 - `.Inline()` — render the tools in place instead of in the modal (see below).
 - `.Show()` / `.Hide()` — open/close (the modal, or the inline list when `.Inline()` is set).
 - `.Expand()` / `.Collapse()` / `.Toggle()` / `.Expanded(bool)` / `.OnToggle(tu => ...)` —

@@ -7,12 +7,11 @@ namespace Tesserae
     [Transpose.Name("tss.att")]
     public sealed class Attributes
     {
-        private readonly List<(string attributeName, string attributeValue)> _data;
+        // An Attributes instance is built for every element the toolkit creates, but data-* attributes
+        // are rare, so the list is only allocated once WithData is actually called.
+        private List<(string attributeName, string attributeValue)> _data;
 
-        public Attributes()
-        {
-            _data = new List<(string name, string value)>();
-        }
+        private static readonly (string name, string value)[] _noData = new (string, string)[0];
 
         public string ClassName { get; internal set; }
         public string Id        { get; internal set; }
@@ -37,7 +36,7 @@ namespace Tesserae
         public string AriaLabelledBy  { get; internal set; }
         public string AriaDescribedBy { get; internal set; }
 
-        public IEnumerable<(string name, string value)> Data => _data.AsReadOnly();
+        public IEnumerable<(string name, string value)> Data => _data is object ? (IEnumerable<(string, string)>)_data.AsReadOnly() : _noData;
 
         public void InitElement(HTMLElement element)
         {
@@ -69,9 +68,12 @@ namespace Tesserae
 
             if (!string.IsNullOrEmpty(AriaDescribedBy)) { element.setAttribute("aria-describedby", AriaDescribedBy); }
 
-            foreach (var (attributeName, attributeValue) in _data)
+            if (_data is object)
             {
-                element.setAttribute($"data-{attributeName}", attributeValue);
+                foreach (var (attributeName, attributeValue) in _data)
+                {
+                    element.setAttribute($"data-{attributeName}", attributeValue);
+                }
             }
 
             Styles?.Invoke(element.style);
@@ -220,6 +222,8 @@ namespace Tesserae
             {
                 throw new ArgumentException(attributeValue);
             }
+
+            if (_data is null) _data = new List<(string name, string value)>();
 
             _data.Add((attributeName, attributeValue));
 

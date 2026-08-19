@@ -31,18 +31,7 @@ namespace Tesserae
 
             _container = CreateDefaultDropArea();
 
-            _fileInput.onchange = (e) => triggerDroppedOnFile();
-
-            void triggerDroppedOnFile()
-            {
-                if (_fileInput.files.length > 0)
-                {
-                    FilesDropped(this,
-                        IsMultiple
-                            ? _fileInput.files.ToArray()
-                            : new[] { _fileInput.files.First() });
-                }
-            }
+            _fileInput.onchange = (e) => OnFileInputChanged();
         }
 
         /// <summary>
@@ -54,18 +43,17 @@ namespace Tesserae
 
             _container = CreateWrappedDropArea(component);
 
-            _fileInput.onchange = (e) => triggerDroppedOnFile();
+            _fileInput.onchange = (e) => OnFileInputChanged();
+        }
 
-            void triggerDroppedOnFile()
-            {
-                if (_fileInput.files.length > 0)
-                {
-                    FilesDropped(this,
-                        IsMultiple
-                            ? _fileInput.files.ToArray()
-                            : new[] { _fileInput.files.First() });
-                }
-            }
+        private void OnFileInputChanged()
+        {
+            if (_fileInput.files.length == 0) return;
+
+            FilesDropped?.Invoke(this,
+                IsMultiple
+                    ? _fileInput.files.ToArray()
+                    : new[] { _fileInput.files.First() });
         }
 
         /// <summary>
@@ -107,10 +95,18 @@ namespace Tesserae
         {
             var wrapper = Div(Att("tss-filedroparea-wrapper"));
             wrapper.appendChild(_fileInput);
-            wrapper.appendChild(component.Render());
 
-            var overlay = Div(Att("tss-filedroparea-overlay"), Div(Att("tss-filedroparea-message"), I(Att($"{UIcons.Upload} tss-filedroparea-icon")), TextBlock("Drop files here").SemiBold().Render()));
+            _raw = Raw(component);
+            wrapper.appendChild(_raw.Render());
+
+            var overlay = Div(Att("tss-filedroparea-overlay"), Div(Att("tss-filedroparea-message"), I(Att($"{UIcons.Upload.ToCssClass()} tss-filedroparea-icon")), TextBlock("Drop files here").SemiBold().Render()));
             wrapper.appendChild(overlay);
+
+            wrapper.onclick = (e) =>
+            {
+                if (IsOwnClickOfWrappedContent(e)) return;
+                _fileInput.click();
+            };
 
             int dragCounter = 0;
 
@@ -154,12 +150,23 @@ namespace Tesserae
             return wrapper;
         }
 
+        // The wrapped content brings its own buttons and links, and the hidden file input re-dispatches
+        // the click we open it with - those clicks belong to the element that was hit, not to browsing.
+        private static bool IsOwnClickOfWrappedContent(MouseEvent e)
+        {
+            var target = e?.target.As<HTMLElement>();
+
+            if (target is null) return false;
+
+            return target.closest("a, button, input, select, textarea, label, [role=button], [role=link], [contenteditable=true]") is object;
+        }
+
         private HTMLElement CreateDefaultDropArea()
         {
             var dropArea = Div(Att("tss-filedroparea"));
             dropArea.appendChild(_fileInput);
 
-            _raw = Raw(Div(Att("tss-filedroparea-message"), I(Att($"{UIcons.Upload} tss-filedroparea-icon")), TextBlock("Drop files here or click to upload").SemiBold().Render()));
+            _raw = Raw(Div(Att("tss-filedroparea-message"), I(Att($"{UIcons.Upload.ToCssClass()} tss-filedroparea-icon")), TextBlock("Drop files here or click to upload").SemiBold().Render()));
 
             dropArea.appendChild(_raw.Render());
             dropArea.onclick = (e) => { _fileInput.click(); };

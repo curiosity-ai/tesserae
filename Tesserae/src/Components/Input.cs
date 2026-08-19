@@ -40,8 +40,8 @@ namespace Tesserae
             // OnChange / OnInput methods, which would dispatch to derived overrides before
             // the derived constructor has finished running (a classic virtual-in-constructor
             // antipattern). This achieves the same observable-update behaviour safely.
-            Changed       += (_, __) => _observable.Value = Text;
-            InputUpdated  += (_, __) => _observable.Value = Text;
+            SubscribeChanged((_,      __) => _observable.Value = Text);
+            SubscribeInputUpdated((_, __) => _observable.Value = Text);
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace Tesserae
         /// </summary>
         public void Attach(ComponentEventHandler<TInput> handler)
         {
-            InputUpdated += (s, _) => handler(s);
+            SubscribeInputUpdated((s, _) => handler(s));
         }
 
         /// <summary>

@@ -127,7 +127,7 @@ namespace Tesserae
             /// </summary>
             public Node SetIcon(Emoji icon, TextSize size = TextSize.Small)
             {
-                ReplaceIcon(I(Att($"tss-diagram-node-icon ec {icon} {size}")));
+                ReplaceIcon(I(Att($"tss-diagram-node-icon ec {icon.ToCssClass()} {size}")));
                 return this;
             }
 

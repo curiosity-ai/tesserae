@@ -989,8 +989,8 @@ namespace Tesserae
         /// avatar stays anchored to the target's edges.</summary>
         public HTMLElement StylingContainer => _host;
 
-        /// <summary>Gets whether styling should propagate to the stack item parent.</summary>
-        public bool PropagateToStackItemParent => true;
+        /// <summary>Gets whether a sizing helper applied to this component should tag it so a wrapper-building container hoists the style onto the wrapper.</summary>
+        public bool PropagateStylesToWrapper => true;
 
         /// <summary>
         /// Moves the avatar to a different edge of the target.

@@ -16,7 +16,8 @@ Bring factories into scope with `using static Tesserae.UI;`.
 
 ## Key configuration
 
-- `.SetTitle(string)` or `.SetTitle(IComponent)` — add/replace the header.
+- `.SetTitle(string title, UIcons? icon = null, string iconColor = null, UIconsWeight iconWeight = UIconsWeight.Regular)` — add/replace the header, optionally with an icon drawn just before the title. Without `iconColor` the glyph takes the title's colour.
+- `.SetTitle(IComponent)` — a header of your own.
 - `.SetContent(IComponent)` — replace the body.
 - `.SetFooter(IComponent)` — add/replace the footer.
 - `.Compact()` — denser layout.
@@ -32,7 +33,7 @@ Bring factories into scope with `using static Tesserae.UI;`.
 using static Tesserae.UI;
 
 var card = Card(TextBlock("Card body content."))
-    .SetTitle("Header")
+    .SetTitle("Rejected items", UIcons.CircleXmark, Theme.Colors.Red600)
     .SetFooter(Button("Action").Primary())
     .HoverColor();
 ```
@@ -40,4 +41,5 @@ var card = Card(TextBlock("Card body content."))
 ## Related
 
 - BackgroundArea — `background-area.md`
+- UIcons — the glyph set `SetTitle`'s icon comes from — `uicons.md`
 - Full docs & API: `/tesserae/components/card`

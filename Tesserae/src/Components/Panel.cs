@@ -41,7 +41,7 @@ namespace Tesserae
 
             _panelTitle = Div(Att("tss-panel-title"));
 
-            _closeButton  = Button(Att($"tss-panel-command-button", el: el => el.onclick = (e) => Hide()), I(Att("tss-fontsize-small " + UIcons.Cross.ToString())));
+            _closeButton  = Button(Att($"tss-panel-command-button", el: el => el.onclick = (e) => Hide()), I(Att("tss-fontsize-small " + UIcons.Cross.ToCssClass())));
             _panelCommand = Div(Att("tss-panel-command"), _panelTitle, _closeButton);
             _panelContent = Div(Att("tss-panel-content"));
             _panelFooter  = Div(Att("tss-panel-footer"));

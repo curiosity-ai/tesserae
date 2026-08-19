@@ -17,6 +17,11 @@ Tesserae ships an auto-generated `UIcons` enum for the UIcons (Flaticon) glyph s
 - Passed directly to component helpers like `Button(UIcons.Camera)`, `.SetIcon(UIcons.Copy, color: "white")`, and in `CommandPaletteAction.Icon`.
 - Color via the `color:` argument or `.Foreground(...)` on the resulting `Icon`.
 - For emoji glyphs, use the `Emoji` enum instead (see emoji skill).
+- Need the raw CSS class of an icon (to build a class string by hand, say)? Call
+  `icon.ToCssClass()`, not `icon.ToString()`. `UIcons` has thousands of members and the runtime
+  implements `Enum.ToString()` as a scan over all of them — about 80µs a call, which shows up
+  immediately in a list or table. `ToCssClass()` returns the same string from a lookup table, and
+  `Emoji` has the same extension for the same reason.
 - A handful of glyphs are drawn slightly off centre in the font, so the bundled webfonts carry a
   correction baked into those glyph outlines: an icon lands optically centred in whatever box you put
   it in, at any size, with no styling on your part. Icons meant to overlap (a checkbox on a square, a

@@ -360,7 +360,6 @@ namespace Tesserae
         public static T Collapse<T>(this T component) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
-            el          = TryGetParentStackItem(el);
             el.classList.add("tss-collapse");
             return component;
         }
@@ -382,7 +381,6 @@ namespace Tesserae
         public static T Fade<T>(this T component, Action andThen) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
-            el          = TryGetParentStackItem(el);
             el.classList.add("tss-fade");
             el.classList.remove("tss-fade-light", "tss-show");
             component.Render().classList.remove("tss-fade-light", "tss-show"); //Need to remove from component as well, because it could have been set before it was added to a stack
@@ -408,7 +406,6 @@ namespace Tesserae
         public static T LightFade<T>(this T component, Action andThen = null) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
-            el          = TryGetParentStackItem(el);
             el.classList.add("tss-fade-light");
             el.classList.remove("tss-fade", "tss-show");
             component.Render().classList.remove("tss-fade", "tss-show"); //Need to remove from component as well, because it could have been set before it was added to a stack
@@ -428,20 +425,10 @@ namespace Tesserae
         public static T Show<T>(this T component) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
-            el          = TryGetParentStackItem(el);
             el.classList.add("tss-fade", "tss-show");
             el.classList.remove("tss-fade-light", "tss-collapse");
             component.Render().classList.remove("tss-fade-light", "tss-collapse", "tss-fade"); //Need to remove all from component as well, because it could have been set before it was added to a stack
             return component;
-        }
-
-        private static HTMLElement TryGetParentStackItem(HTMLElement el)
-        {
-            if (el.parentElement is object && el.parentElement.classList.contains("tss-stack-item"))
-            {
-                return el.parentElement;
-            }
-            return el;
         }
 
         /// <summary>Adds a tooltip with HTML content to the component.</summary>

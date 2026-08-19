@@ -105,11 +105,18 @@ Sizes are `UnitSize` values from numeric helpers: `100.px()`, `50.percent()`,
 > `Stack`/`Grid` that centers *all* children. `.AlignCenter()` is an extension on a
 > single child (align-self). `.Grow()` only matters inside a `Stack`.
 
-> **Wrap-and-transfer:** when you call `.WS()`/`.W()`/`.Grow()` on a child, the
-> container moves those styles onto the item wrapper (`tss-stack-item`) it creates.
-> If a sizing helper "doesn't work", inspect the DOM — the style usually landed on
-> the wrapper, not the element you called it on. Full catalog in
-> `references/icomponent.md`; the protocol is in this repo's `CLAUDE.md`.
+> **Where sizing lands:** `.WS()`/`.W()`/`.Grow()` write to the child's own element,
+> which is the flex/grid item the container measures (it is tagged `tss-stack-item`).
+> An explicit `.Width()`/`.Height()` also clears the component's own intrinsic
+> `min-width`/`min-height`, so the size you asked for wins; ask for `.MinWidth()`/
+> `.MinHeight()` if you want a floor as well. Full catalog in
+> `references/icomponent.md`.
+
+> **What stretches by default.** A stack stretches its children across the cross
+> axis, so a `TextBox`, `Card` or nested `Stack` fills the width of a vertical
+> stack without being asked. Components that are inline by nature — `Button`,
+> `Toggle`, `Avatar`, `Icon`, `Rating` and friends — hug their content instead;
+> call `.WS()` on one to make it fill the row.
 
 ## Picking a layout
 
@@ -144,12 +151,12 @@ references. Open the reference for whatever you are working with. The full set:
 
 **Components** (plain widgets)
 accordion · action-button · annotated-text-editor · avatar · background-area ·
-badge · button · card · carousel · charts · chat · check-box · choice-group ·
+badge · banner · button · card · carousel · charts · chat · check-box · choice-group ·
 color-picker · command-bar · context-card · context-cards · contribution-bar ·
 cron-editor · date-picker · details-grid ·
 date-range-picker · date-time-picker · delta-component · dropdown ·
 editable-area · editable-label · expander · grid-picker · horizontal-separator ·
-icon · icon-toggle · image · inline-label · inline-pagination · label · live-progress · markdown-block ·
+icon · icon-tile · icon-toggle · image · inline-label · inline-pagination · label · live-progress · markdown-block ·
 menu · message ·
 metric · month-picker · navbar · number-picker · omni-box · omni-result · option ·
 pages-stack · pagination ·
@@ -175,7 +182,7 @@ segmented-pivot · split-view · tabbed-modal · tool-agent-selector · tutorial
 **Utilities** (non-visual helpers, theming, gestures)
 color-palette · command-palette · defer · defer-with-progress · emoji ·
 file-selector-and-drop-area · gestures · gradients · keyboard-shortcut ·
-node-view · notification-center · tippy · toast · uicons · validator
+node-view · notification-center · tippy · toast · uicons · unsaved-changes-guard · validator
 
 To find the reference for a component, lowercase-kebab its name and open
 `references/<that>.md` (e.g. `DetailsList` → `references/details-list.md`). If you

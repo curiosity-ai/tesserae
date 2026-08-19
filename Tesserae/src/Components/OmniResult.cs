@@ -83,6 +83,7 @@ namespace Tesserae
     {
         private readonly HTMLElement _selectContainer;
         private readonly HTMLElement _iconHolder;
+        private readonly IconTile    _iconTile;
         private readonly HTMLElement _iconContainer;
         private readonly HTMLElement _idContainer;
         private readonly HTMLElement _idText;
@@ -129,6 +130,7 @@ namespace Tesserae
         private bool                                  _modalKeepsIcon;
         private bool                                  _modalKeepsFooter;
 
+        private HTMLElement           _footerStandIn;
         private Modal                 _modal;
         private Action<OmniResult<T>> _modalCommands;
         private Action<OmniResult<T>> _modalFullScreen;
@@ -150,7 +152,12 @@ namespace Tesserae
             Result = result;
 
             _selectContainer = Div(Att("tss-omniresult-select"));
-            _iconContainer   = Div(Att("tss-omniresult-icon"));
+
+            // The tile is the shared IconTile - the row only adds the class its own rules hang off.
+            _iconTile        = new IconTile();
+            _iconContainer   = _iconTile.Render();
+            _iconContainer.classList.add("tss-omniresult-icon");
+
             _iconHolder      = Div(Att("tss-omniresult-icon-holder"), _iconContainer);
 
             _idText       = Span(Att("tss-omniresult-id-value"));
@@ -383,11 +390,9 @@ namespace Tesserae
         /// </summary>
         public OmniResult<T> SetIcon(UIcons icon, string color = null, UIconsWeight weight = UIconsWeight.Regular)
         {
-            ClearChildren(_iconContainer);
+            _iconTile.SetIcon(icon, color, weight);
 
-            _iconContainer.appendChild(I(icon, weight, "tss-omniresult-icon-glyph"));
-
-            return TintIcon(color);
+            return this;
         }
 
         /// <summary>
@@ -398,13 +403,9 @@ namespace Tesserae
         /// </summary>
         public OmniResult<T> SetIcon(string text, string color = null, TextSize? size = null)
         {
-            ClearChildren(_iconContainer);
+            _iconTile.SetIcon(text, color, size);
 
-            var className = size.HasValue ? $"tss-omniresult-icon-text {size.Value}" : "tss-omniresult-icon-text";
-
-            _iconContainer.appendChild(Span(Att(className, text: text ?? string.Empty)));
-
-            return TintIcon(color);
+            return this;
         }
 
         /// <summary>
@@ -413,11 +414,9 @@ namespace Tesserae
         /// </summary>
         public OmniResult<T> SetIcon(IComponent iconOrImage, string color = null)
         {
-            ClearChildren(_iconContainer);
+            _iconTile.SetIcon(iconOrImage, color);
 
-            if (iconOrImage != null) _iconContainer.appendChild(iconOrImage.Render());
-
-            return TintIcon(color);
+            return this;
         }
 
         /// <summary>
@@ -1173,8 +1172,13 @@ namespace Tesserae
 
         /// <summary>
         /// Keeps the footer - the source and the metadata beside it - as a second line under the title in the
-        /// modal's header, so where a result came from is still said once it is open. The source stays
-        /// clickable when the row's is. Off by default.
+        /// modal's header, so where a result came from is still said once it is open. Off by default.
+        /// <para>
+        /// The modal shows the row's own footer line, not a snapshot of it: entries that only arrive once a
+        /// query answers show up in the open modal, and every entry stays as clickable as it is in the row.
+        /// The row keeps a copy of the line in its place while the modal holds the original, and gets the
+        /// original back when the modal hides.
+        /// </para>
         /// </summary>
         public OmniResult<T> ModalKeepsFooter(bool value = true)
         {
@@ -1208,6 +1212,9 @@ namespace Tesserae
             _modal = modal;
 
             modal.HideCloseButton().SetHeaderCommands(ModalHeaderCommands());
+
+            //The header borrowed the row's own footer line; the row gets it back when the sheet closes.
+            if (_modalKeepsFooter) modal.OnHide(_ => ReturnFooterToRow());
 
             if (_modalShortcuts) modal.SetFooter(ModalShortcutsBar());
 
@@ -1457,9 +1464,11 @@ namespace Tesserae
 
             var main = Div(Att("tss-omniresult-modal-main"), titleRow);
 
-            if (_modalKeepsFooter && _footerContainer.childElementCount > 0)
+            //Not gated on the footer having entries yet: the line hides itself while it is empty, so one that
+            //is still waiting on a query shows up in the open modal once the query answers.
+            if (_modalKeepsFooter)
             {
-                main.appendChild(CopyOfFooter());
+                main.appendChild(FooterForModal());
             }
 
             var header = Div(Att("tss-omniresult-modal-header"));
@@ -1471,8 +1480,41 @@ namespace Tesserae
             return Raw(header);
         }
 
-        // The row keeps its own tile and footer - the modal gets copies of them, so opening a result never
-        // takes anything out of the row behind it.
+        // The modal shows the row's own footer rather than a copy of it: an entry that only arrives once a
+        // query answers lands in the open modal, and the handlers on the entries already there still answer.
+        // A copy takes its place in the row behind - so nothing disappears from under the sheet - and the row
+        // gets the original back when the modal hides.
+        private HTMLElement FooterForModal()
+        {
+            if (_footerContainer.parentElement == _mainContainer)
+            {
+                _footerStandIn = CopyOfFooter();
+
+                _mainContainer.replaceChild(_footerStandIn, _footerContainer);
+            }
+
+            return _footerContainer;
+        }
+
+        private void ReturnFooterToRow()
+        {
+            if (_footerStandIn is null) return;
+
+            var standIn = _footerStandIn;
+
+            _footerStandIn = null;
+
+            //The modal keeps a copy of the line it is handing back, so showing it again doesn't show a header
+            //with a gap where the footer was.
+            _footerContainer.parentElement?.replaceChild(CopyOfFooter(), _footerContainer);
+
+            standIn.parentElement?.replaceChild(_footerContainer, standIn);
+
+            UpdateFooterVisibility();
+        }
+
+        // The row keeps its own tile - the modal gets a copy of it, so opening a result never takes the tile
+        // out of the row behind it.
         private HTMLElement CopyOfIcon()
         {
             var copy = _iconHolder.cloneNode(true).As<HTMLElement>();
@@ -1779,26 +1821,6 @@ namespace Tesserae
             return this;
         }
 
-        private OmniResult<T> TintIcon(string color)
-        {
-            _iconContainer.classList.remove("tss-omniresult-icon-plain");
-
-            if (string.IsNullOrEmpty(color))
-            {
-                _iconContainer.classList.add("tss-omniresult-icon-plain");
-                return this;
-            }
-
-            var tint = OmniResultTints.For(color);
-
-            _iconContainer.style.setProperty("--tss-omniresult-icon-background",      tint.Background);
-            _iconContainer.style.setProperty("--tss-omniresult-icon-foreground",      tint.Foreground);
-            _iconContainer.style.setProperty("--tss-omniresult-icon-background-dark", tint.BackgroundDark);
-            _iconContainer.style.setProperty("--tss-omniresult-icon-foreground-dark", tint.ForegroundDark);
-
-            return this;
-        }
-
         private void RenderTitle()
         {
             _titleElement.setAttribute("title", _title ?? string.Empty);
@@ -1918,75 +1940,4 @@ namespace Tesserae
         }
     }
 
-    /// <summary>
-    /// The colors an <see cref="OmniResult{T}"/> icon tile is drawn with, derived from the one color the
-    /// host passed: the glyph in that color and the tile in a wash of it, in a light and a dark variant.
-    /// </summary>
-    internal sealed class OmniResultTint
-    {
-        internal OmniResultTint(string background, string foreground, string backgroundDark, string foregroundDark)
-        {
-            Background     = background;
-            Foreground     = foreground;
-            BackgroundDark = backgroundDark;
-            ForegroundDark = foregroundDark;
-        }
-
-        internal string Background     { get; }
-        internal string Foreground     { get; }
-        internal string BackgroundDark { get; }
-        internal string ForegroundDark { get; }
-    }
-
-    /// <summary>
-    /// Computes - and remembers - the tile colors derived from a given icon color. A list of results
-    /// usually draws the same handful of colors over and over (one per file type), and every one of them
-    /// costs a parse and two HSL round-trips, so the results are cached by the color they came from.
-    /// </summary>
-    internal static class OmniResultTints
-    {
-        private static readonly Dictionary<string, OmniResultTint> _cache = new Dictionary<string, OmniResultTint>();
-
-        internal static OmniResultTint For(string color)
-        {
-            if (_cache.TryGetValue(color, out var cached)) return cached;
-
-            var tint = Compute(color);
-
-            _cache[color] = tint;
-
-            return tint;
-        }
-
-        private static OmniResultTint Compute(string color)
-        {
-            try
-            {
-                var parsed     = Color.FromString(color);
-                var hue        = parsed.GetHue();
-                var saturation = parsed.GetSaturation();
-                var lightness  = parsed.GetBrightness();
-
-                // Light theme: a pale wash of the color under the glyph, which keeps the color it was given.
-                var background = Color.FromHsl(hue, Math.Min(saturation, 0.85f), 0.925f).ToHex();
-
-                // Dark theme: the wash goes deep instead of pale, and the glyph is lifted until it reads
-                // against it. A grey (unsaturated) color stays grey through both.
-                var backgroundDark = Color.FromHsl(hue, Math.Min(saturation, 0.5f),  0.19f).ToHex();
-                var foregroundDark = Color.FromHsl(hue, Math.Min(saturation, 0.85f), Math.Max(lightness, 0.68f)).ToHex();
-
-                return new OmniResultTint(background, color, backgroundDark, foregroundDark);
-            }
-            catch (Exception)
-            {
-                // Not a color this can take apart (a gradient, a color function, an unknown keyword): mix it
-                // down for the wash instead of computing one, and let the glyph keep it as it was given.
-                return new OmniResultTint(
-                    $"color-mix(in srgb, {color} 14%, transparent)",
-                    color,
-                    $"color-mix(in srgb, {color} 24%, transparent)",
-                    color);
-            }
-        }
-    }
 }

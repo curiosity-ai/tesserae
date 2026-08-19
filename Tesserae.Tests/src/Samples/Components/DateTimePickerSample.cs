@@ -12,8 +12,9 @@ namespace Tesserae.Tests.Samples
 
         public DateTimePickerSample()
         {
-            var from = DateTime.Now.AddDays(-7);
-            var to   = DateTime.Now.AddDays(7);
+            // Anchored to SampleDate rather than the clock: these dates are rendered as text.
+            var from = SampleDate.Now.AddDays(-7);
+            var to   = SampleDate.Now.AddDays(7);
 
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(DateTimePickerSample), UIcons.Calendar, "A control to pick a date and time")
@@ -29,7 +30,7 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Basic DateTimePicker"),
                     VStack().Children(
                         Label("Standard").SetContent(DateTimePicker()),
-                        Label("Pre-selected (Now)").SetContent(DateTimePicker(DateTime.Now)),
+                        Label("Pre-selected").SetContent(DateTimePicker(SampleDate.Now)),
                         Label("Disabled").Disabled().SetContent(DateTimePicker().Disabled())
                     ),
                     SampleSubTitle("Constraints"),

@@ -1,0 +1,11 @@
+{
+    "output": "$(OutDir)/tps/",
+    "fileName": "app.js",
+    "html": {
+        "disabled": false,
+        "title": "Tesserae Bench"
+    },
+    "reflection": {
+        "disabled": true
+    }
+}

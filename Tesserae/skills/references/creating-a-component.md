@@ -78,6 +78,13 @@ public class MyToggle : ComponentBase<MyToggle, HTMLDivElement>
 `Margin`/`Padding`, and `AriaLabel`/`AriaRole`. Return `this` from configuration
 methods to keep the fluent chain.
 
+The `Attach*` calls declare which events the component takes part in; the DOM
+listener itself is only added once someone subscribes, so a component nobody wires
+a handler to costs nothing. That is why a subclass that wants to listen to its own
+base events calls `SubscribeClicked(...)`, `SubscribeChanged(...)`,
+`SubscribeInputUpdated(...)` and friends rather than `Clicked += …` — the
+subscribe methods are what trigger the wiring.
+
 `AttachClick()` already leaves modified clicks on a link alone: when the component
 is — or sits inside — an anchor with an href, a ctrl/cmd-click, shift-click or
 middle-click raises nothing, so the browser opens the address in a new tab or

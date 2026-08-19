@@ -78,8 +78,8 @@ namespace Tesserae
         /// <summary>Gets the styling container.</summary>
         public HTMLElement StylingContainer => InnerElement;
 
-        /// <summary>Gets or sets whether to propagate styling to the stack item parent.</summary>
-        public bool PropagateToStackItemParent { get; private set; } = true;
+        /// <summary>Gets whether a sizing helper applied to this component should tag it so a wrapper-building container hoists the style onto the wrapper.</summary>
+        public bool PropagateStylesToWrapper { get; private set; } = true;
 
         /// <summary>
         /// Sets the alignment for a component within a stack.
@@ -88,7 +88,7 @@ namespace Tesserae
         /// <param name="align">The alignment.</param>
         public static void SetAlign(IComponent component, ItemAlign align)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
             var cssAlign = align.ToString();
 
             if (cssAlign == "end" || cssAlign == "start")
@@ -98,18 +98,9 @@ namespace Tesserae
 
             item.style.alignSelf = cssAlign;
 
-            if (remember)
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-as", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.alignSelf = item.style.alignSelf;
-                }
-                else if (component.HasOwnProperty("GridItem"))
-                {
-                    component["GridItem"].As<HTMLElement>().style.justifySelf = item.style.justifySelf;
-                }
+                Mark(item, "tss-stk-as");
             }
         }
 
@@ -120,7 +111,7 @@ namespace Tesserae
         /// <param name="align">The justification.</param>
         public static void SetJustify(IComponent component, ItemJustify align)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
             var cssAlign = align.ToString();
 
             if (cssAlign == "end" || cssAlign == "start")
@@ -130,18 +121,9 @@ namespace Tesserae
 
             item.style.justifySelf = cssAlign;
 
-            if (remember)
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-js", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.justifySelf = item.style.justifySelf;
-                }
-                else if (component.HasOwnProperty("GridItem"))
-                {
-                    component["GridItem"].As<HTMLElement>().style.justifySelf = item.style.justifySelf;
-                }
+                Mark(item, "tss-stk-js");
             }
         }
 
@@ -260,11 +242,11 @@ namespace Tesserae
             return this;
         }
 
-        internal static (HTMLElement item, bool remember) GetCorrectItemToApplyStyle(IComponent component)
+        internal static (HTMLElement item, bool markForWrapper) GetCorrectItemToApplyStyle(IComponent component)
         {
             if (component is ISpecialCaseStyling specialCase)
             {
-                return (specialCase.StylingContainer, specialCase.PropagateToStackItemParent);
+                return (specialCase.StylingContainer, specialCase.PropagateStylesToWrapper);
             }
             else
             {
@@ -273,233 +255,185 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Disables propagation of styling to the stack item parent.
+        /// Stops sizing helpers applied to this stack from being tagged for a wrapper-building container to hoist.
         /// </summary>
         /// <returns>The current instance.</returns>
         public Stack RemovePropagation()
         {
-            PropagateToStackItemParent = false;
+            PropagateStylesToWrapper = false;
             return this;
         }
 
         /// <summary>Sets the width of a component within a stack.</summary>
+        // A component may declare an intrinsic minimum in its own CSS or inline style — a chart asks
+        // for at least 120px, a text area for a line of text. That minimum is meant as a floor for
+        // when nothing else decides the size, but it silently beat an explicit .Width()/.Height():
+        // min-width/min-height win over width/height in CSS, so a chart told to be 80px tall stayed
+        // 120px. The stack-item wrapper used to hide this, because the size landed on the wrapper and
+        // the component was stretched to fill it; the moment the component is its own item, the
+        // contradiction surfaces. An explicit size is the stronger statement, so it clears the
+        // intrinsic floor — unless the caller asked for a minimum too, which these markers record.
+        private const string ExplicitMinWidth  = "tss-min-w";
+        private const string ExplicitMinHeight = "tss-min-h";
+
         public static void SetWidth(IComponent component, UnitSize unitSize)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
-            item.style.width     = unitSize.ToString();
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.width           = unitSize.ToString();
 
-            if (remember)
+            if (!item.hasAttribute(ExplicitMinWidth)) item.style.minWidth = "0";
+
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-w", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.width = item.style.width;
-                }
+                Mark(item, "tss-stk-w");
             }
         }
 
         /// <summary>Sets the minimum width of a component within a stack.</summary>
         public static void SetMinWidth(IComponent component, UnitSize unitSize)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
-            item.style.minWidth  = unitSize.ToString();
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.minWidth        = unitSize.ToString();
+            item.setAttribute(ExplicitMinWidth, "");
 
-            if (remember)
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-mw", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.minWidth = item.style.minWidth;
-                }
+                Mark(item, "tss-stk-mw");
             }
         }
 
         /// <summary>Sets the maximum width of a component within a stack.</summary>
         public static void SetMaxWidth(IComponent component, UnitSize unitSize)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
-            item.style.maxWidth  = unitSize.ToString();
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.maxWidth        = unitSize.ToString();
 
-            if (remember)
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-mxw", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.maxWidth = item.style.maxWidth;
-                }
+                Mark(item, "tss-stk-mxw");
             }
         }
 
         /// <summary>Sets the height of a component within a stack.</summary>
         public static void SetHeight(IComponent component, UnitSize unitSize)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
-            item.style.height    = unitSize.ToString();
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.height          = unitSize.ToString();
 
-            if (remember)
+            if (!item.hasAttribute(ExplicitMinHeight)) item.style.minHeight = "0";
+
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-h", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.height = item.style.height;
-                }
+                Mark(item, "tss-stk-h");
             }
         }
 
         /// <summary>Sets the minimum height of a component within a stack.</summary>
         public static void SetMinHeight(IComponent component, UnitSize unitSize)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
-            item.style.minHeight = unitSize.ToString();
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.minHeight       = unitSize.ToString();
+            item.setAttribute(ExplicitMinHeight, "");
 
-            if (remember)
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-mh", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.minHeight = item.style.minHeight;
-                }
+                Mark(item, "tss-stk-mh");
             }
         }
 
         /// <summary>Sets the maximum height of a component within a stack.</summary>
         public static void SetMaxHeight(IComponent component, UnitSize unitSize)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
-            item.style.maxHeight = unitSize.ToString();
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.maxHeight       = unitSize.ToString();
 
-            if (remember)
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-mxh", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.maxHeight = item.style.maxHeight;
-                }
+                Mark(item, "tss-stk-mxh");
             }
         }
 
         /// <summary>Sets the left margin of a component within a stack.</summary>
         public static void SetMarginLeft(IComponent component, UnitSize unitSize)
         {
-            var (item, remember)  = GetCorrectItemToApplyStyle(component);
-            item.style.marginLeft = unitSize.ToString();
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.marginLeft      = unitSize.ToString();
 
-            if (remember)
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-m", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.marginLeft = item.style.marginLeft;
-                }
+                Mark(item, "tss-stk-m");
             }
         }
 
         /// <summary>Sets the right margin of a component within a stack.</summary>
         public static void SetMarginRight(IComponent component, UnitSize unitSize)
         {
-            var (item, remember)   = GetCorrectItemToApplyStyle(component);
-            item.style.marginRight = unitSize.ToString();
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.marginRight     = unitSize.ToString();
 
-            if (remember)
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-m", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.marginRight = item.style.marginRight;
-                }
+                Mark(item, "tss-stk-m");
             }
         }
 
         /// <summary>Sets the top margin of a component within a stack.</summary>
         public static void SetMarginTop(IComponent component, UnitSize unitSize)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
-            item.style.marginTop = unitSize.ToString();
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.marginTop       = unitSize.ToString();
 
-            if (remember)
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-m", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.marginTop = item.style.marginTop;
-                }
+                Mark(item, "tss-stk-m");
             }
         }
 
         /// <summary>Sets the bottom margin of a component within a stack.</summary>
         public static void SetMarginBottom(IComponent component, UnitSize unitSize)
         {
-            var (item, remember)    = GetCorrectItemToApplyStyle(component);
-            item.style.marginBottom = unitSize.ToString();
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.marginBottom    = unitSize.ToString();
 
-            if (remember)
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-m", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.marginBottom = item.style.marginBottom;
-                }
+                Mark(item, "tss-stk-m");
             }
         }
 
         /// <summary>Sets the left padding of a component within a stack.</summary>
         public static void SetPaddingLeft(IComponent component, UnitSize unitSize)
         {
-            var (item, remember)   = GetCorrectItemToApplyStyle(component);
-            item.style.paddingLeft = unitSize.ToString();
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.paddingLeft     = unitSize.ToString();
 
-            if (remember)
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-p", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.paddingLeft = item.style.paddingLeft;
-                }
+                Mark(item, "tss-stk-p");
             }
         }
 
         /// <summary>Sets the right padding of a component within a stack.</summary>
         public static void SetPaddingRight(IComponent component, UnitSize unitSize)
         {
-            var (item, remember)    = GetCorrectItemToApplyStyle(component);
-            item.style.paddingRight = unitSize.ToString();
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.paddingRight    = unitSize.ToString();
 
-            if (remember)
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-p", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.paddingRight = item.style.paddingRight;
-                }
+                Mark(item, "tss-stk-p");
             }
         }
 
         /// <summary>Sets the top padding of a component within a stack.</summary>
         public static void SetPaddingTop(IComponent component, UnitSize unitSize)
         {
-            var (item, remember)  = GetCorrectItemToApplyStyle(component);
-            item.style.paddingTop = unitSize.ToString();
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.paddingTop      = unitSize.ToString();
 
-            if (remember)
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-p", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.paddingTop = item.style.paddingTop;
-                }
+                Mark(item, "tss-stk-p");
             }
 
         }
@@ -507,17 +441,12 @@ namespace Tesserae
         /// <summary>Sets the bottom padding of a component within a stack.</summary>
         public static void SetPaddingBottom(IComponent component, UnitSize unitSize)
         {
-            var (item, remember)     = GetCorrectItemToApplyStyle(component);
-            item.style.paddingBottom = unitSize.ToString();
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.paddingBottom   = unitSize.ToString();
 
-            if (remember)
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-p", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.paddingBottom = item.style.paddingBottom;
-                }
+                Mark(item, "tss-stk-p");
             }
 
         }
@@ -525,34 +454,24 @@ namespace Tesserae
         /// <summary>Sets the flex-grow of a component within a stack.</summary>
         public static void SetGrow(IComponent component, int grow)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
-            item.style.flexGrow  = grow.ToString();
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.flexGrow        = grow.ToString();
 
-            if (remember)
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-fg", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.flexGrow = item.style.flexGrow;
-                }
+                Mark(item, "tss-stk-fg");
             }
         }
 
         /// <summary>Sets the flex-shrink of a component within a stack.</summary>
         public static void SetShrink(IComponent component, bool shrink)
         {
-            var (item, remember)  = GetCorrectItemToApplyStyle(component);
-            item.style.flexShrink = shrink ? "1" : "0";
+            var (item, markForWrapper) = GetCorrectItemToApplyStyle(component);
+            item.style.flexShrink      = shrink ? "1" : "0";
 
-            if (remember)
+            if (markForWrapper)
             {
-                item.setAttribute("tss-stk-fs", "");
-
-                if (component.HasOwnProperty("StackItem"))
-                {
-                    component["StackItem"].As<HTMLElement>().style.flexShrink = item.style.flexShrink;
-                }
+                Mark(item, "tss-stk-fs");
             }
         }
 
@@ -770,38 +689,37 @@ namespace Tesserae
                 }
             }
 
-            if (item is null && component.HasOwnProperty("StackItem"))
-            {
-                item = component["StackItem"] as HTMLElement;
-            }
-
             if (item is null)
             {
+                // The rendered element is the flex child itself and carries the item class, rather
+                // than being put inside a div that does. The wrapper existed so a size set on the
+                // component could be moved onto the box the flexbox measures — with no wrapper the
+                // component's own element *is* that box, so the size is already in the right place.
+                // It cost a div per child: between a quarter and a third of every node on a
+                // component-heavy screen. Keeping the class on the child is what lets the positional
+                // CSS (.tss-sidebar > .tss-stack-item:nth-child(2) and friends) go on matching.
                 var rendered = component.Render();
 
                 if (forceAdd || (rendered.parentElement is object && rendered.parentElement.classList.contains("tss-stack")))
                 {
-                    item = Div(Att("tss-stack-item", styles: s =>
-                    {
-                        s.alignSelf  = "auto";
-                        s.width      = "auto";
-                        s.height     = "auto";
-                        s.flexShrink = "1";
-                    }), component.Render());
-
-                    component["StackItem"] = item;
-
-                    if (forceAdd)
-                    {
-                        CopyStylesDefinedWithExtension(rendered, item);
-                    }
+                    rendered.classList.add("tss-stack-item");
                 }
-                else
-                {
-                    item = rendered;
-                }
+
+                item = rendered;
             }
             return item;
+        }
+
+        // Marks an element as carrying one of the sizing markers below, and records that fact under a
+        // single umbrella attribute. Every child added to a Stack or Grid runs through
+        // CopyStylesDefinedWithExtension, and most children were never given a sizing helper at all —
+        // the umbrella lets that case cost one attribute lookup instead of thirteen.
+        private const string AnyMarker = "tss-stk";
+
+        private static void Mark(HTMLElement item, string marker)
+        {
+            item.setAttribute(marker,    "");
+            item.setAttribute(AnyMarker, "");
         }
 
         internal static void CopyStylesDefinedWithExtension(HTMLElement from, HTMLElement to)
@@ -809,8 +727,22 @@ namespace Tesserae
             // RFO: this class does some magic to move any styles applied to an element using the extensions methods like Width, etc... to the actual StackItem HTML element
             // so that they're relevant on the flex-box and not only inside of each child item of the flexbox
 
+            // Stack and Grid no longer wrap, so the child is its own item and there is nothing to
+            // move: the sizing helpers already wrote to the element the container measures. Copying
+            // onto itself would damage it — the width branch would overwrite the width it just read
+            // with "100%". Masonry, SectionStack and KeyedObservableStack still build real wrappers.
+            if (from == to) return;
+
             var fs = from.style;
             var ts = to.style;
+
+            if (!from.hasAttribute(AnyMarker))
+            {
+                PropagateStyleClasses(from, to);
+                return;
+            }
+
+            from.removeAttribute(AnyMarker);
 
             bool has(string att)
             {
@@ -885,9 +817,18 @@ namespace Tesserae
             if (has("tss-stk-as")) { ts.alignSelf = fs.alignSelf; /*fs.alignSelf = "";*/ }
             if (has("tss-stk-js")) { ts.justifySelf= fs.justifySelf; /*fs.justifySelf = "";*/ }
 
-            //We need to propagate some styles otherwise they don't work if they were applied before adding to the stack
-            foreach (var s in _stylesToPropagate)
+            PropagateStyleClasses(from, to);
+        }
+
+        //We need to propagate some styles otherwise they don't work if they were applied before adding to the stack
+        private static void PropagateStyleClasses(HTMLElement from, HTMLElement to)
+        {
+            // Indexed rather than foreach — this runs for every child added to a Stack or Grid, and a
+            // foreach over the array still costs an enumerator allocation and a try/finally.
+            for (int i = 0; i < _stylesToPropagate.Length; i++)
             {
+                var s = _stylesToPropagate[i];
+
                 if (from.classList.contains(s))
                 {
                     from.classList.remove(s);

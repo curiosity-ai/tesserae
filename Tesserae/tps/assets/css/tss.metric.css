@@ -1,14 +1,52 @@
+/* Metric — a KPI tile: an optional icon tile, a title, a big value, a chart and a change indicator. */
+
 .tss-metric {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+    /* A tile takes the width it is given. It used to reach the edges of its card only by accident —
+       the chart inside reported a wide intrinsic size and the tile was shrunk back to fit — so a
+       chart with a modest declared size left the number floating in a corner. Claiming the leftover
+       space says it directly, and two tiles sharing one card still split it. */
+    flex-grow: 1;
+    gap: 12px;
     padding: 0px;
     background: transparent;
+}
+
+/* Everything but the leading tile: the title, the value, the chart and the change, stacked. */
+.tss-metric-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width: 0;
+}
+
+/* The tile leads the whole block, so it stays centred against a two-line title/value pair. */
+.tss-metric-icon {
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    align-items: center;
+}
+
+.tss-metric-icon > .tss-icontile {
+    --tss-icontile-size: 44px;
+    --tss-icontile-radius: 12px;
+}
+
+.tss-metric-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
 }
 
 .tss-metric-title {
     margin-bottom: 8px;
     display: flex;
     align-items: center;
+    min-width: 0;
 }
 
 .tss-metric-value {
@@ -21,4 +59,50 @@
     display: flex;
     align-items: center;
     font-size: var(--tss-font-size-small);
+}
+
+/* ValueFirst(): the number on top and the words under it - "5 / In my scope" rather than the other way
+   round. Only the order changes, so the title keeps reading as the title. */
+.tss-metric-value-first .tss-metric-header {
+    order: 2;
+}
+
+.tss-metric-value-first .tss-metric-value {
+    order: 1;
+}
+
+.tss-metric-value-first .tss-metric-title {
+    margin-bottom: 0;
+}
+
+/* ChangeInHeader(): the trend pulled up level with the title and pushed to the far end of its line. */
+.tss-metric-change-in-header .tss-metric-header {
+    width: 100%;
+}
+
+.tss-metric-change-in-header .tss-metric-header > .tss-metric-title {
+    flex-grow: 1;
+    margin-bottom: 0;
+}
+
+.tss-metric-change-in-header .tss-metric-header > .tss-metric-change {
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.tss-metric-change-in-header .tss-metric-header {
+    margin-bottom: 8px;
+}
+
+/* A chart under the value - a Sparkline, a ContributionBar - takes the full width of the card rather than
+   the width of its own content, so a bar reaches both edges the way the value does. */
+.tss-metric-chart {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+}
+
+.tss-metric-chart:not(:empty) {
+    margin-top: 8px;
 }

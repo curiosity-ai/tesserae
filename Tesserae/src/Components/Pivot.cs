@@ -17,6 +17,7 @@ namespace Tesserae
 
         private event PivotEventHandler<PivotBeforeNavigateEvent> _beforeNavigated;
         private event PivotEventHandler<PivotNavigateEvent>       _navigated;
+        private event PivotEventHandler<PivotReorderEvent>        _reordered;
 
         private readonly SettableObservable<string>   _observable     = new SettableObservable<string>();
         private readonly List<Tab>                    _orderedTabs    = new List<Tab>();
@@ -43,9 +44,14 @@ namespace Tesserae
         private readonly Button         _scrollRightBtn;
 
         private Action<Event> _tabSwitchHandler;
+        private Sortable      _sortable;
 
         // Fraction of the scroller's visible width to move per scroll-button click.
         private const double ScrollButtonStep = 0.7;
+
+        // Class stamped on every rendered tab title so Sortable can tell the tabs
+        // apart from the underline element that shares the titlebar.
+        private const string TabClass = "tss-pivot-tab";
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -78,9 +84,9 @@ namespace Tesserae
         public HTMLElement StylingContainer { get; }
 
         /// <summary>
-        /// Gets or sets the propagate to stack item parent.
+        /// Gets whether a sizing helper applied to this component should tag it so a wrapper-building container hoists the style onto the wrapper.
         /// </summary>
-        public bool PropagateToStackItemParent => true;
+        public bool PropagateStylesToWrapper => true;
 
         /// <summary>
         /// Configures the component to justified.
@@ -109,6 +115,123 @@ namespace Tesserae
             _hideIfSingle = true;
             UpdateTitlebarVisibility();
             return this;
+        }
+
+        /// <summary>
+        /// Lets the user reorder the tabs by dragging their titles along the tab
+        /// strip. Pass <c>false</c> to turn dragging back off — the tabs keep the
+        /// order they were dragged into. Use <see cref="OnReorder"/> to persist the
+        /// new order.
+        /// </summary>
+        public Pivot Reorderable(bool reorderable = true)
+        {
+            if (_sortable is null)
+            {
+                if (!reorderable) return this;
+
+                _sortable = new Sortable(_renderedTabs, new SortableOptions()
+                {
+                    animation = 150,
+                    direction = "horizontal",
+                    // The underline shares the titlebar with the tabs, and the close
+                    // icon has to stay a click target rather than a drag handle.
+                    draggable       = "." + TabClass,
+                    filter          = ".tss-pivot-tab-close",
+                    preventOnFilter = false, // let the filtered click reach the close handler
+                    // Titles are usually buttons, which Firefox refuses to drag with
+                    // the native HTML5 API — the fallback drives it with mouse events.
+                    forceFallback  = true,
+                    fallbackOnBody = true,
+                    ghostClass     = "tss-pivot-tab-ghost",
+                    chosenClass    = "tss-pivot-tab-chosen",
+                    dragClass      = "tss-pivot-tab-drag",
+                    fallbackClass  = "tss-pivot-tab-fallback",
+                    onStart        = e => _renderedTabs.classList.add("tss-pivot-reordering"),
+                    onEnd          = e => FinishReorder(e)
+                });
+            }
+
+            _sortable.Disabled = !reorderable;
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a callback invoked after the user drags a tab into a new
+        /// position. Requires <see cref="Reorderable"/>.
+        /// </summary>
+        public Pivot OnReorder(PivotEventHandler<PivotReorderEvent> onReorder)
+        {
+            _reordered += onReorder;
+            return this;
+        }
+
+        /// <summary>
+        /// Gets the ids of the tabs, in the order they appear on the tab strip.
+        /// </summary>
+        public string[] TabIds => _orderedTabs.Select(t => t.Id).ToArray();
+
+        /// <summary>
+        /// Moves the tab with the given id to <paramref name="newIndex"/> on the tab
+        /// strip, clamping the index into range. Does not raise <see cref="OnReorder"/>,
+        /// which reports user-driven reordering only.
+        /// </summary>
+        public Pivot MoveTab(string id, int newIndex)
+        {
+            var oldIndex = _orderedTabs.FindIndex(t => t.Id == id);
+            if (oldIndex < 0) return this;
+
+            newIndex = Math.Max(0, Math.Min(newIndex, _orderedTabs.Count - 1));
+            if (newIndex == oldIndex) return this;
+
+            var tab = _orderedTabs[oldIndex];
+            _orderedTabs.RemoveAt(oldIndex);
+            _orderedTabs.Insert(newIndex, tab);
+            ReorderDomToMatchTabs();
+            TriggerAnimation();
+            UpdateScrollState();
+
+            return this;
+        }
+
+        // Sortable has already moved the title element; mirror that into _orderedTabs
+        // and put the underline back where the rest of the component expects it.
+        private void FinishReorder(SortableEvent e)
+        {
+            _renderedTabs.appendChild(_line); // Sortable may have dropped a tab past it
+            _hoveredNav = null;
+
+            var oldIndex = e.oldDraggableIndex;
+            var newIndex = e.newDraggableIndex;
+            var moved    = oldIndex != newIndex && oldIndex >= 0 && oldIndex < _orderedTabs.Count && newIndex >= 0 && newIndex < _orderedTabs.Count;
+            Tab tab      = null;
+
+            if (moved)
+            {
+                tab = _orderedTabs[oldIndex];
+                _orderedTabs.RemoveAt(oldIndex);
+                _orderedTabs.Insert(newIndex, tab);
+            }
+
+            // Snap before revealing: the line was parked during the drag, so animating
+            // it in from its stale position would read as a glitch.
+            TriggerAnimation(instant: true);
+            _renderedTabs.classList.remove("tss-pivot-reordering");
+
+            if (!moved) return;
+
+            UpdateScrollState();
+            _reordered?.Invoke(this, new PivotReorderEvent(tab.Id, oldIndex, newIndex, TabIds));
+        }
+
+        private void ReorderDomToMatchTabs()
+        {
+            foreach (var tab in _orderedTabs)
+            {
+                if (_renderedTitles.TryGetValue(tab, out var title))
+                {
+                    _renderedTabs.insertBefore(title, _line); // moving each in turn re-sorts the strip
+                }
+            }
         }
 
         /// <summary>
@@ -172,10 +295,11 @@ namespace Tesserae
             if (_initiallySelectedID is null) _initiallySelectedID = tab.Id;
             _orderedTabs.Add(tab);
             var title = tab.RenderTitle();
+            title.classList.add(TabClass);
 
             if (tab.Closeable)
             {
-                var closeIcon = I(Att("tss-pivot-tab-close tss-fontsize-tiny " + UIcons.Cross.ToString(), ariaLabel: "Close tab"));
+                var closeIcon = I(Att("tss-pivot-tab-close tss-fontsize-tiny " + UIcons.Cross.ToCssClass(), ariaLabel: "Close tab"));
 
                 closeIcon.onclick = (e) =>
                 {
@@ -311,6 +435,17 @@ namespace Tesserae
                 foreach (var x in clone.querySelectorAll(".tss-pivot-tab-close").ToList())
                 {
                     x.As<HTMLElement>().remove();
+                }
+
+                // The clone is a copy of the title, not the tab itself, so it must not keep
+                // its ids — a lookup by id (e.g. TabSaveIndicator marking a tab dirty) has to
+                // keep finding the real title while this menu is open. Classes are kept, so a
+                // dirty tab still shows its "*" in the menu.
+                clone.removeAttribute("id");
+
+                foreach (var x in clone.querySelectorAll("[id]").ToList())
+                {
+                    x.As<HTMLElement>().removeAttribute("id");
                 }
                 var id = tab.Id;
                 items[i] = ContextMenuItem(Raw(clone)).OnClick(() => Select(id));
@@ -606,7 +741,7 @@ namespace Tesserae
             return StylingContainer;
         }
 
-        private void TriggerAnimation()
+        private void TriggerAnimation(bool instant = false)
         {
             var target = _hoveredNav ?? _selectedNav;
             if (target is null) return;
@@ -614,7 +749,7 @@ namespace Tesserae
             // offsetLeft/offsetWidth are relative to the titlebar, which is the line's
             // offsetParent (it's position: relative). This stays correct regardless of
             // scroll position. CSS transitions on .tss-pivot-line interpolate width/left.
-            if (_firstRender)
+            if (_firstRender || instant)
             {
                 // Snap to position on first render so the line doesn't animate in from 0/0.
                 _line.classList.add("tss-pivot-line-instant");
@@ -687,6 +822,37 @@ namespace Tesserae
         public sealed class PivotNavigateEvent : PivotEvent
         {
             internal PivotNavigateEvent(string currentPivot, string targetPivot) : base(currentPivot, targetPivot) { }
+        }
+
+        public sealed class PivotReorderEvent
+        {
+            internal PivotReorderEvent(string tabId, int oldIndex, int newIndex, string[] tabIds)
+            {
+                TabId    = tabId;
+                OldIndex = oldIndex;
+                NewIndex = newIndex;
+                TabIds   = tabIds;
+            }
+
+            /// <summary>
+            /// Gets the id of the tab the user dragged.
+            /// </summary>
+            public string TabId { get; }
+
+            /// <summary>
+            /// Gets the position the dragged tab was at before the drag.
+            /// </summary>
+            public int OldIndex { get; }
+
+            /// <summary>
+            /// Gets the position the dragged tab was dropped at.
+            /// </summary>
+            public int NewIndex { get; }
+
+            /// <summary>
+            /// Gets the ids of every tab, in the order they now appear on the tab strip.
+            /// </summary>
+            public string[] TabIds { get; }
         }
 
         public class PivotBeforeNavigateEvent : PivotEvent

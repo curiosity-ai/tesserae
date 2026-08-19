@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <!-- The optical centering stage measures every glyph in a real browser -->
-    <PackageReference Include="Microsoft.Playwright" Version="1.56.0" />
+    <PackageReference Include="Microsoft.Playwright" Version="1.62.0" />
   </ItemGroup>
 
   <ItemGroup>

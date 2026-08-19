@@ -34,7 +34,20 @@ namespace Tesserae.Tests.Samples
                         {
                             droppedFiles.Add(TextBlock(file.name).Small());
                         }
-                    }).Multiple()
+                    }).Multiple(),
+                    SampleSubTitle("File Drop Area wrapping your own content"),
+                    TextBlock("Clicking anywhere opens the file dialog, except on the button below, which keeps its own click.").Small(),
+                    FileDropArea(VStack().WS().AlignItemsCenter().P(16).Children(
+                        TextBlock("Drag and drop a file here").SemiBold().PB(4),
+                        TextBlock("or click to browse").Small(),
+                        Button("I have my own click").PT(12).OnClick(() => droppedFiles.Add(TextBlock("button clicked").Small()))
+                    )).OnFilesDropped((s, e) =>
+                    {
+                        foreach (var file in e)
+                        {
+                            droppedFiles.Add(TextBlock(file.name).Small());
+                        }
+                    }).Multiple().WS()
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(OmniBoxSample), typeof(ChatSample), typeof(ContextCardSample), typeof(ValidatorSample));
         }

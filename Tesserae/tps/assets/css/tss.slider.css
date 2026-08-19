@@ -1,11 +1,13 @@
 ﻿/* Slider */
+/* No width: 100% on the horizontal slider. It filled the stack item that used to wrap it; now that
+   the slider is the stack item, 100% is measured against the whole stack — in a vertical one that is
+   the same thing (stretching already does it), but in a horizontal one it claims the entire row and
+   squeezes everything after it. Letting the width stay auto gives the old result on both axes. */
 .tss-slider-div {
-    width: 100%;
     padding-bottom: 8px;
 }
 
 .tss-slider-div-vertical {
-    width: auto;
     padding-bottom: 0;
     display: inline-flex;
     height: 100%;

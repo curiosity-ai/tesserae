@@ -35,7 +35,7 @@ keeping a gap for something that turned out not to exist:
 
 | Where it sits | What is removed |
 |---|---|
-| A `Stack` (the usual row of labels) | the `tss-stack-item` wrapper the stack put it in |
+| A `Stack` (the usual row of labels) | the label's own element, which is the stack item |
 | An `OmniResult` footer | the whole footer entry, so no orphan separator dot is left |
 | A `DetailsGrid` value, alone | the **whole row**, label cell included — a labelled blank says nothing |
 | A `DetailsGrid` value, beside others | only its own slot; the row keeps the labels that did resolve |

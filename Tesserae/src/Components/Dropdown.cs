@@ -39,6 +39,11 @@ namespace Tesserae
         private int                      _latestRequestID;
         private Func<Item[], IComponent> _customRenderer;
 
+        private Func<string, Task<Item[]>> _asyncSearcher;
+        private int                        _asyncSearchDebounce;
+        private double                     _asyncSearchTimeout;
+        private int                        _latestAsyncSearchID;
+
         private readonly Action<Event> _onWindowClickAction;
         private readonly Action<Event> _onPopupKeyDownAction;
 
@@ -473,7 +478,7 @@ namespace Tesserae
         /// </summary>
         public void Attach(ComponentEventHandler<Dropdown> handler)
         {
-            InputUpdated += (s, _) => handler(this);
+            SubscribeInputUpdated((s, _) => handler(this));
         }
 
         /// <summary>
@@ -505,8 +510,85 @@ namespace Tesserae
                 _search = e;
                 SearchItems();
                 RecomputePopupPosition();
+                QueueAsyncSearch();
             });
             return this;
+        }
+
+        /// <summary>
+        /// Turns the built-in search box into a lazy loader, for option lists too large to load up
+        /// front. Whatever the User types is handed to <paramref name="searcher"/> (debounced), and
+        /// the items it returns are <b>added</b> to the ones already rendered rather than replacing
+        /// them - so the seed items, and above all the current selection, survive every lookup.
+        /// Items whose <see cref="Item.Key"/> is already listed are dropped, so a lookup that
+        /// returns options the dropdown already knows about does not duplicate them. The normal
+        /// client-side filter still runs on top, so the list stays narrowed to the search term.
+        /// <para>
+        /// Seed the dropdown with <see cref="Items(Item[])"/> as usual (the first page of options,
+        /// plus whatever has to be selectable without searching), and let this fill in the rest.
+        /// This also enables the search box, so <see cref="Searchable"/> does not need to be called
+        /// as well.
+        /// </para>
+        /// </summary>
+        /// <param name="searcher">Looks up the options matching a search term. Called with an empty string when the User clears the box.</param>
+        /// <param name="placeholder">Placeholder of the search box.</param>
+        /// <param name="debounceMilliseconds">How long typing has to pause before a lookup is issued.</param>
+        public Dropdown SearchAsync(Func<string, Task<Item[]>> searcher, string placeholder = "Search", int debounceMilliseconds = 250)
+        {
+            _asyncSearcher              = searcher ?? throw new ArgumentNullException(nameof(searcher));
+            _asyncSearchDebounce        = debounceMilliseconds;
+
+            return Searchable(placeholder);
+        }
+
+        private void QueueAsyncSearch()
+        {
+            if (_asyncSearcher is null) return;
+
+            window.clearTimeout(_asyncSearchTimeout);
+
+            _asyncSearchTimeout = window.setTimeout(_ => RunAsyncSearchAsync(_search).FireAndForget(), _asyncSearchDebounce);
+        }
+
+        private async Task RunAsyncSearchAsync(string searchTerm)
+        {
+            var searcher = _asyncSearcher;
+
+            if (searcher is null) return;
+
+            // Terms typed while a lookup is in flight supersede it - only the newest one gets to add its items.
+            var currentRequestID = ++_latestAsyncSearchID;
+
+            SetAsyncSearchBusy(true);
+
+            try
+            {
+                var found = await searcher(searchTerm ?? string.Empty);
+
+                if (currentRequestID != _latestAsyncSearchID) return;
+
+                if (found is object && found.Length > 0)
+                {
+                    AddItems(found);
+
+                    // The items that just arrived have never been through the filter for the term they were fetched for.
+                    if (_searchBox is object) SearchItems();
+                }
+
+                if (IsVisible) RecomputePopupPosition();
+            }
+            finally
+            {
+                if (currentRequestID == _latestAsyncSearchID) SetAsyncSearchBusy(false);
+            }
+        }
+
+        private void SetAsyncSearchBusy(bool isBusy)
+        {
+            if (_searchBox is null) return;
+
+            if (isBusy) _searchBox.Render().classList.add("tss-dropdown-searchbox-busy");
+            else _searchBox.Render().classList.remove("tss-dropdown-searchbox-busy");
         }
 
         /// <summary>
@@ -585,6 +667,57 @@ namespace Tesserae
                 Disabled(true);
                 _noItemsSpan.style.display = "";
             }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Appends options to the ones already rendered, instead of replacing them the way
+        /// <see cref="Items(Item[])"/> does - so the current selection is untouched. Items whose
+        /// <see cref="Item.Key"/> matches one that is already listed are skipped, which is what lets
+        /// a <see cref="SearchAsync"/> lookup return options the dropdown already knows about
+        /// without duplicating them.
+        /// </summary>
+        public Dropdown AddItems(params Item[] children)
+        {
+            if (children is null || children.Length == 0) return this;
+
+            var existing = new List<Item>(_lastRenderedItems ?? new Item[0]);
+            var known    = new HashSet<string>();
+
+            foreach (var item in existing)
+            {
+                var key = item.Key;
+
+                if (!string.IsNullOrEmpty(key)) known.Add(key);
+            }
+
+            var added = 0;
+
+            foreach (var child in children)
+            {
+                var key = child.Key;
+
+                if (!string.IsNullOrEmpty(key) && !known.Add(key)) continue;
+
+                _childContainer.appendChild(child.Render());
+                child.SelectedItem -= OnItemSelected; //Ensure OnItemSelected is only hooked once
+                child.SelectedItem += OnItemSelected;
+
+                existing.Add(child);
+                added++;
+            }
+
+            if (added == 0) return this;
+
+            _lastRenderedItems = existing.ToArray();
+
+            EnsureAsyncLoadingStateDisabled();
+
+            UpdateStateBasedUponCurrentSelections();
+
+            Disabled(false);
+            _noItemsSpan.style.display = "none";
 
             return this;
         }
@@ -1214,6 +1347,25 @@ namespace Tesserae
             {
                 get => InnerElement.innerText;
                 set => InnerElement.innerText = value;
+            }
+
+            /// <summary>
+            /// A stable identity for this option, used to tell it apart from an option that merely
+            /// reads the same - <see cref="Dropdown.AddItems"/> drops an incoming item whose key is
+            /// already listed, which is how a <see cref="Dropdown.SearchAsync"/> lookup avoids
+            /// duplicating options that are already there. Defaults to the item's text, so give a
+            /// key whenever the text is not unique (two people with the same name, …).
+            /// </summary>
+            public string Key => string.IsNullOrEmpty(_key) ? InnerElement.textContent : _key;
+            private string _key;
+
+            /// <summary>
+            /// Sets the item's <see cref="Key"/>.
+            /// </summary>
+            public Item SetKey(string key)
+            {
+                _key = key;
+                return this;
             }
 
             /// <summary>

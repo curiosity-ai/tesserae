@@ -148,6 +148,12 @@ dotnet serve --port 5000
 - Component creation goes through the static `UI` class (`UI.Components.cs`), which exposes factory methods like `UI.Button`, `UI.TextBlock`, etc.
 - `UI` is a static partial class with a static constructor used as the central entry point.
 - Components are configured via fluent-style extension methods (e.g., `UI.Id`, `UI.Class`, `UI.Do`).
+- `UI` carries **`[Transpose.SkipTypeClustering]`**, which is load-bearing for the module build and
+  must stay. A module chunk is a strongly-connected component of the reference graph, and a facade
+  whose factories construct half the library — while every component calls back into it for
+  `Div`/`VStack` — fuses that half into one 1.6 MB chunk. The attribute moves the facade's outgoing
+  edges to its call sites, where a static method body actually runs. See
+  [docs/module-output.md](docs/module-output.md).
 
 ## Conventions
 
@@ -170,8 +176,8 @@ When adding a new component:
 ## Layout system
 
 Tesserae has a small set of layout containers and a unified set of sizing
-helpers that work across all of them. Understanding the wrap-and-transfer
-protocol below is the key to debugging layout problems.
+helpers that work across all of them. Understanding how a child becomes a
+stack/grid item, below, is the key to debugging layout problems.
 
 ### Sizing helpers (apply to any `IComponent`)
 
@@ -188,36 +194,46 @@ Defined in `Tesserae/src/Extensions/IComponentExtensions.cs`:
   `.GridRowStretch()` — placement inside a `Grid` (call before `Add`).
 - `.AlignStretch()` — `align-self: stretch` on the stack item.
 
-All of these write the CSS property to the element, tag it with a marker
-attribute (`tss-stk-w`, `tss-stk-h`, `tss-stk-fg`, `tss-grd-c`, …), and — if
-the component has already been wrapped — mirror the value onto its wrapper.
+All of these write the CSS property to the element and tag it with a marker
+attribute (`tss-stk-w`, `tss-stk-h`, `tss-stk-fg`, `tss-grd-c`, …) so that a
+container which *does* build a wrapper can hoist the property onto it — see
+`CopyStylesDefinedWithExtension` below. A component implementing
+`ISpecialCaseStyling` suppresses the tagging by answering `false` to
+`PropagateStylesToWrapper`, which is what a component that sizes its own
+container (Masonry, Modal, DetailsList, Diagram) does.
 
-### The wrap-and-transfer protocol
+### How a child becomes a stack/grid item
 
 Flexbox/Grid only obey sizing properties on the **direct child** of the
-container, but users naturally call `.WS()` on the rendered component before
-adding it. To bridge this, every container's `GetItem(component)` wraps the
-child in an item div (`tss-stack-item` for Stack/Grid, `tss-masonry-item` for
-Masonry) and then calls `CopyStylesDefinedWithExtension`, which:
+container, and that direct child is the component's own rendered element:
+`Stack.GetItem` / `Grid.GetItem` add the `tss-stack-item` class to it and add it
+as-is. So `.WS()` and friends write to exactly the box the container measures,
+and nothing has to be moved afterwards.
 
-1. Looks for the marker attributes set by the fluent helpers.
-2. For each one found, moves the relevant CSS property from the inner element
-   onto the wrapper.
-3. For width/height markers, sets the inner element to `100%` so it fills the
-   now-correctly-sized wrapper.
+`Masonry`, `SectionStack` and `KeyedObservableStack` are the exceptions — they
+still build a real wrapper element because their item carries its own structure
+(a masonry cell, a section card). Those go on calling
+`CopyStylesDefinedWithExtension`, which reads the marker attributes the fluent
+helpers set (`tss-stk-w`, `tss-stk-h`, `tss-grd-c`, …) and moves the matching
+CSS property from the inner element onto the wrapper. That copy is a no-op when
+the source and target are the same element, which is the ordinary Stack/Grid case.
 
-`Stack.CopyStylesDefinedWithExtension` ([Stack.cs](Tesserae/src/Components/Stack.cs))
-is the canonical implementation; `Grid` and `Masonry` delegate to it and add
-their own marker handling for grid placement.
+Stack and Grid used to wrap every child in an item div too. It was between a
+quarter and a third of every node in a component-heavy page, and it hid a class
+of bug: because the size landed on the wrapper and the component was stretched to
+fill it, a component's own `min-width`/`min-height` could silently beat an
+explicit `.Width()`/`.Height()`. `SetWidth`/`SetHeight` now clear that intrinsic
+floor (unless `.MinWidth()`/`.MinHeight()` was asked for), so an explicit size
+wins — see the note on `ExplicitMinWidth` in [Stack.cs](Tesserae/src/Components/Stack.cs).
 
-A component can opt out of wrapping by implementing `ISpecialCaseStyling` and
-exposing a `StylingContainer` — the sizing helpers then write directly onto
-that container instead of a wrapper. This is how nested containers (e.g. a
-`Grid` inside a `Stack`) avoid an extra wrapper layer.
+A component can still take charge of its own styling by implementing
+`ISpecialCaseStyling` and exposing a `StylingContainer` — the sizing helpers then
+write onto that container. This is how nested containers (e.g. a `Grid` inside a
+`Stack`) route sizing to the right element.
 
-**Debugging tip:** if `.WS()` "doesn't work", inspect the rendered DOM. The
-sizing styles likely live on the `tss-stack-item` wrapper, not on the element
-you called the helper on.
+**Debugging tip:** if `.WS()` "doesn't work", inspect the rendered DOM — the
+sizing styles are on the element you called the helper on, unless the component
+is inside a Masonry/SectionStack, where they are on its wrapper.
 
 ### Layout containers
 
@@ -258,9 +274,84 @@ you called the helper on.
 - Modal/popover that must escape clipping → `Layer` (usually wrapped by
   higher-level components like `Dialog`, `Modal`, `ContextMenu`).
 
+## Module output — in Release
+
+`Tesserae/tps.json` and `Tesserae.Tests/tps.json` set `"outputBy": "Module"`, so a **Release** build
+emits one ES module per chunk and the gallery fetches a sample's code when it is opened — 1,055 KB of
+initial JavaScript instead of 3,542 KB.
+
+**A Debug build is one readable bundle and no chunks**, whatever `outputBy` says: that is the
+compiler's decision, not a setting, because stepping through one file is what a Debug build is for
+(`JsOutputProfile` in the transpose repo). So a chunking bug reproduces in Release only, and a Debug
+build is the fastest way to rule chunking out of a symptom. `outputFormatting` no longer exists — the
+Tesserae **package** ships all three variants of its compiled code (formatted bundle, minified bundle,
+module entry plus chunks) and the application referencing it picks the one its own configuration calls
+for, which is what lets one published Tesserae be debugged as a single file by one app and fetched in
+pieces by another.
+
+Two consequences to know about when working here:
+
+- **Constructing a deferred type is asynchronous.** `Activator.CreateInstanceAsync` loads the module
+  and then constructs; the synchronous `Activator.CreateInstance` throws and names the module. That
+  is why `Sample.ContentGenerator` returns a `Task<IComponent>`.
+- **Reflection still sees everything.** A deferred type is registered as a stub carrying its name,
+  interfaces and attributes, so `Assembly.GetTypes()`, `IsAssignableFrom` and `GetCustomAttributes`
+  work with the code absent — which is what keeps the sample discovery working.
+
+[docs/module-output.md](docs/module-output.md) has the numbers and the full change list.
+
 ## Testing
 
 Playwright scripts under `Tesserae.Tests/playwright/` are local-only — use them
 to verify components in the browser during development, but do **not** commit
 them. The same applies to any screenshots or other artifacts produced by those
 runs.
+
+The committed harness lives in `Tesserae.Bench/` instead: a ten-page app shaped
+like a real product, plus the Playwright scripts that measure its build cost and
+prove a change did not alter what renders. Use it whenever you touch `Stack`,
+`Grid`, the sizing extensions or anything under `Tesserae/tps/assets/css` — the
+sample gallery is the real surface, and `textdiff-samples.js` is what tells you
+whether it still renders the same. See
+[`Tesserae.Bench/README.md`](Tesserae.Bench/README.md) and the
+`tesserae-benchmarking` skill. One-off probe scripts go in
+`Tesserae.Bench/playwright/_*.js`, which is gitignored.
+
+### Samples must render the same on every run
+
+A sample that fakes data uses `SampleRandom`
+([`Tesserae.Tests/src/Samples/SampleRandom.cs`](Tesserae.Tests/src/Samples/SampleRandom.cs)) —
+a seeded `Random` — **not** `new Random()`, `Math.Random()` or `Guid.NewGuid()`. Two
+captures of the gallery have to differ only where the change under test made them differ,
+and an unseeded generator makes `textdiff-samples.js` report noise on every run. Each
+sample constructs its own `SampleRandom` with its own fixed seed, so the sequence a page
+sees does not depend on which samples were opened before it — which matters with the
+on-demand module loading. `SampleRandom.NextId()` replaces `Guid.NewGuid().ToString()`
+where a sample shows its own ids (`NodeViewSample` prints its state as JSON).
+
+The clock is the same problem: a date rendered as text makes a page differ from itself
+minute to minute. Values a sample *displays* come from `SampleDate`
+([`SampleDate.cs`](Tesserae.Tests/src/Samples/SampleDate.cs)) — May 25th of the **current**
+year, so the page is stable within a run without looking stale a year later. Validation
+rules that judge what the user just typed stay on the real clock; they are about the
+person using the page and render nothing until someone interacts.
+
+Not everything is anchored yet: `DetailsListSample`, `NotificationCenterSample`, the
+month/week pickers and `PivotSample` still render clock-derived text, so they drift
+across days (or, for Pivot, every second). `PixelAvatar`'s timing jitter is deliberately
+left random — it is an animation, not data.
+
+### Expected console noise
+
+The **Sandbox** sample logs a browser error on load, and it is correct:
+
+```
+Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed
+and the 'allow-scripts' permission is not set.
+```
+
+That is the "Fit height to content (host-side, no scripts)" demo, which sets
+`.AllowScripts(false)` on purpose to prove the host-side measurement path works with no
+script in the frame. The browser blocks `Sandbox`'s injected bootstrap script and says
+so; the frame still resizes because the host measures it through `AllowSameOrigin`.
+Don't "fix" it, and don't let a test fail the run on it.
