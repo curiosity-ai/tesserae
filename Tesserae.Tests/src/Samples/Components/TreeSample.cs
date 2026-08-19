@@ -45,6 +45,21 @@ namespace Tesserae.Tests.Samples
                             new Tree.Item("MarkdownRenderer...", UIcons.File)
                         )
                     ),
+                    SampleSubTitle("Compact Tree"),
+                    new Tree().Compact().Items(
+                        new Tree.Item("skills", UIcons.Folder).Expanded().Items(
+                            new Tree.Item("docx", UIcons.Folder).Expanded().Items(
+                                new Tree.Item("examples", UIcons.Folder),
+                                new Tree.Item("ooxml", UIcons.Folder).Expanded().Items(
+                                    new Tree.Item("comments.md", UIcons.File),
+                                    new Tree.Item("hyperlinks_and_fields.md", UIcons.File),
+                                    new Tree.Item("rels_and_content_types.md", UIcons.File),
+                                    new Tree.Item("tracked_changes.md", UIcons.File)
+                                )
+                            ),
+                            new Tree.Item("pptx", UIcons.Folder)
+                        )
+                    ),
                     SampleSubTitle("Asynchronous Tree"),
                     new Tree().Items(
                         new Tree.Item("Lazy Loaded Folder", UIcons.Folder).ItemsAsync(async () =>
