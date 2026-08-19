@@ -1,4 +1,4 @@
----
+﻿---
 name: routing
 description: The built-in lightweight hash-based Router for SPA-style navigation, route parameters, and guards. Use when setting up routing/navigation between views in a Tesserae (C#/Transpose) app.
 ---
@@ -64,6 +64,11 @@ a caller that renders the new view itself can stop too:
 if (!Router.Push($"#/view/{item.Name}")) return; // guard said no
 currentPage.Value = item;
 ```
+
+The handler's `isBack` is only ever `true` on the hash-change path: a `Push` adds a
+forward entry and a `Replace` rewrites the current one, so both report `false`. A
+guard that acts on `isBack` (closing an open overlay instead of leaving the page,
+say) therefore stays out of the way of a URL rewritten under the running view.
 
 Leaving the page altogether (tab close, reload, a link to another site) never
 reaches the router — that needs a `beforeunload` listener, which is what

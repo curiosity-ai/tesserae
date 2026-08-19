@@ -136,9 +136,12 @@ namespace Tesserae
         {
             if (_beforeNavigate is null) return true;
 
-            var isBack = _lastState is object && _lastState.Path == toState.Path;
-
-            return _beforeNavigate(toState, _currentState, isBack: isBack);
+            // Never isBack: a Push adds a forward history entry and a Replace rewrites the current one,
+            // so neither is the user going back - only the hash-change path can be. Reporting the
+            // matcher's heuristic here (the state before the current one shares the target's path) made
+            // every repeated in-place rewrite of the same route look like a back navigation from the
+            // second call onwards, and a guard that acts on isBack then fires under the running view.
+            return _beforeNavigate(toState, _currentState, isBack: false);
         }
 
         // Push/Replace bypass route matching, so derive the state's Path and Parameters from the pushed
