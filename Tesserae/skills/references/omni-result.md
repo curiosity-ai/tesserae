@@ -315,6 +315,10 @@ OmniResult(message)
     .Selectable(OmniResultSelectionMode.ReplacingIcon);
 ```
 
+One catch: a row the host also made a **drag handle** (`element.draggable = true`) can't have its text
+selected — the browser starts a drag where the selection would have begun, whatever `user-select` says.
+Dragging and reading are one choice, so turn the list's dragging off for rows you make text-selectable.
+
 ## Related
 
 - ModalStack — the deck a result's modal is usually pushed onto — `modal-stack.md`
