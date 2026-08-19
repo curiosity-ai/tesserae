@@ -83,6 +83,24 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Switches the tree to a compact density, matching the row height, font size and indentation of a code
+        /// editor's file explorer.
+        /// </summary>
+        public Tree Compact(bool compact = true)
+        {
+            if (compact)
+            {
+                InnerElement.classList.add("tss-tree-compact");
+            }
+            else
+            {
+                InnerElement.classList.remove("tss-tree-compact");
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Enables or disables item selection on the tree.
         /// </summary>
         public Tree SelectionEnabled(bool enabled = true)
