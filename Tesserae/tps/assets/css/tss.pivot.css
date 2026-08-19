@@ -116,35 +116,100 @@
     transition: none;
 }
 
-/* Unsaved-changes indicator, toggled by TabSaveIndicator.MarkDirty / MarkClean.
-   The marker is a pseudo-element so the tab title stays whatever component the
-   caller built, and "order" keeps it next to the label rather than after the
-   close button on a closeable tab (titles built with PivotTitle are flex). */
-.tss-pivot-tab-needs-saving::after {
-    content: "*";
-    order: 1;
-    margin-left: 3px;
-    color: var(--tss-primary-background-color, currentColor);
-    font-weight: var(--tss-font-weight-bold);
-    line-height: 1;
-}
-
-.tss-pivot-tab-needs-saving > .tss-pivot-tab-close {
-    order: 2;
-}
-
 .tss-pivot-tab-closeable {
     padding-right: 8px !important;
 }
 
+/* The close glyph draws exactly what it always did. The box around it is there only to
+   centre the unsaved-changes marker over the glyph (below) and to give the keyboard
+   somewhere to land — it paints nothing of its own. */
 .tss-pivot-tab-close {
-    margin-top: 2px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
     cursor: pointer;
-    vertical-align: middle;
 }
 
 .tss-pivot-tab-close:hover {
     color: var(--tss-danger-background-color, red);
+}
+
+.tss-pivot-tab-close:focus-visible {
+    outline: 2px solid var(--tss-primary-background-color);
+    outline-offset: 2px;
+}
+
+/* Unsaved-changes marker, toggled by TabSaveIndicator.MarkDirty / MarkClean. On a
+   closeable tab it stands in for the close glyph rather than sitting beside it, so going
+   dirty never resizes the tab and the two can't crowd each other. The icon font draws the
+   glyph in ::before, which leaves ::after for the marker; hiding the glyph with
+   "visibility" rather than "display" keeps the slot exactly as wide as the glyph. */
+.tss-pivot-tab-needs-saving .tss-pivot-tab-close::before {
+    visibility: hidden;
+}
+
+.tss-pivot-tab-needs-saving .tss-pivot-tab-close::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--tss-primary-background-color, currentColor);
+}
+
+/* Pointing at the tab — which includes pointing at the marker — brings the glyph back,
+   so there is always something to close the tab with. Same on keyboard focus. */
+.tss-pivot-titlebar > .tss-pivot-tab:hover .tss-pivot-tab-close::before,
+.tss-pivot-tab-close:focus-visible::before {
+    visibility: visible;
+}
+
+.tss-pivot-titlebar > .tss-pivot-tab:hover .tss-pivot-tab-close::after,
+.tss-pivot-tab-close:focus-visible::after {
+    display: none;
+}
+
+/* The same marker beside the label, for the cases with no glyph to stand in for. Only
+   "content" decides whether it renders, so the look is written once; "order" keeps it next
+   to the label rather than after anything the caller's title appended. */
+.tss-pivot-tab-needs-saving::after,
+.tss-pivot-tab-mark {
+    order: 1;
+    width: 7px;
+    height: 7px;
+    margin-left: 6px;
+    border-radius: 50%;
+    background: var(--tss-primary-background-color, currentColor);
+    flex-shrink: 0;
+}
+
+/* A tab with no close button has no slot, so it always draws it here. */
+.tss-pivot-tab-needs-saving:not(.tss-pivot-tab-closeable)::after {
+    content: "";
+}
+
+/* Nothing hovers on a touch screen, so the glyph can never be brought back — the marker
+   has to sit beside the label there instead of standing in for it. */
+@media (hover: none) {
+    .tss-pivot-tab-needs-saving .tss-pivot-tab-close::before {
+        visibility: visible;
+    }
+
+    .tss-pivot-tab-needs-saving .tss-pivot-tab-close::after {
+        display: none;
+    }
+
+    .tss-pivot-tab-needs-saving::after {
+        content: "";
+    }
+
+    /* The marker reads as belonging to the label, so it goes before the close button. */
+    .tss-pivot-tab-needs-saving > .tss-pivot-tab-close {
+        order: 2;
+    }
 }
 
 

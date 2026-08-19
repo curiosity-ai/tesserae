@@ -19,6 +19,7 @@ A vertically-stacked tree of `Tree.Item` nodes. Nodes expand/collapse to reveal 
 
 - `.Items(params Tree.Item[])` — add top-level nodes.
 - `.SelectionEnabled(bool = true)` — turn on item selection.
+- `.Compact(bool = true)` — compact density (22px rows, 13px text, 8px indent), matching a code editor's file explorer.
 - `.OnSelected((s, item) => ...)` — fires when selection changes; `SelectedItem` holds the current.
 - `.Clear()` / `.Replace(newItem, oldItem)` — manage nodes.
 
@@ -36,7 +37,7 @@ A vertically-stacked tree of `Tree.Item` nodes. Nodes expand/collapse to reveal 
 ```csharp
 using static Tesserae.UI;
 
-var tree = new Tree().SelectionEnabled().Items(
+var tree = new Tree().Compact().SelectionEnabled().Items(
     new Tree.Item("src", UIcons.Folder).Expanded().Items(
         new Tree.Item("index.tsx", UIcons.File).Selected(),
         new Tree.Item("Button.tsx", UIcons.File)

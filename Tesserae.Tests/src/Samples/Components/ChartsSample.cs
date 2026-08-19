@@ -130,11 +130,15 @@ namespace Tesserae.Tests.Samples
                 ram[i] = ramValue;
             }
 
+            //Ten seconds to a day: the wheel is unbounded, and without limits it reaches spans with no tick to
+            //print at one end and no calendar at the other. A chart that loads to match its range sets the
+            //maximum to whatever its source can serve.
             var cpuChart = AreaChart()
                .Series(new ChartSeries("CPU %", times, cpu) { LineWidth = 1, FillOpacity = 0.2 })
                .XAxisTime()
                .FormatValues(v => v.ToString("0") + "%")
                .Zoomable()
+               .ZoomLimits(minSpan: 10, maxSpan: 86_400)
                .Spikelines()
                .ExportButton(fileName: "cpu")
                .Legend();
@@ -144,6 +148,7 @@ namespace Tesserae.Tests.Samples
                .XAxisTime()
                .Points(false)
                .Zoomable()
+               .ZoomLimits(minSpan: 10, maxSpan: 86_400)
                .Spikelines()
                .ExportButton(fileName: "working-set")
                .Legend();
@@ -160,10 +165,23 @@ namespace Tesserae.Tests.Samples
                 else cpuChart.XRange(range.Min, range.Max);
             });
 
+            //The case a chart that fetches per range runs into: the user scrolls to a period the source has
+            //nothing for. The pinned range still draws its axis and still answers the wheel, so the period is
+            //navigable rather than a dead blank box.
+            var emptyChart = AreaChart()
+               .Series(new ChartSeries[0])
+               .XAxisTime()
+               .XRange(start - 7_200, start - 3_600)
+               .Zoomable()
+               .Spikelines()
+               .Legend();
+
             return VStack().WS().Children(
                 SampleSubTitle("Wheel to zoom, drag to pan, double-click to reset — both charts stay on the same timeline"),
                 cpuChart.H(200).WS(),
-                ramChart.H(200).WS().PT(8));
+                ramChart.H(200).WS().PT(8),
+                SampleSubTitle("A range the data does not cover still draws its axis, and still zooms and pans").PT(16),
+                emptyChart.H(140).WS());
         }
 
         public HTMLElement Render() => _content.Render();

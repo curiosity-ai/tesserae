@@ -762,6 +762,11 @@ namespace Tesserae
         /// line out of one never opens it. The tile, the checkbox and the commands stay unselectable: they are
         /// controls, not text.
         /// </para>
+        /// <para>
+        /// A host that also makes the row a drag handle (<c>draggable</c>) takes this away again, whatever is
+        /// asked for here: the browser starts a drag where the selection would have begun. The two are one
+        /// choice - a row is dragged around or it is read, not both.
+        /// </para>
         /// </summary>
         public OmniResult<T> TextSelectable(bool value = true)
         {

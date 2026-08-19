@@ -8,7 +8,8 @@ namespace Tesserae
 {
     /// <summary>
     /// Toggles a CSS class on a <see cref="Pivot"/> tab title element so it can show an
-    /// "unsaved changes" indicator (a "*" rendered via <c>::after</c>).
+    /// "unsaved changes" marker: a dot standing in for the close cross on a closeable tab,
+    /// or beside the label on a tab without one. Both are drawn from <c>tss.pivot.css</c>.
     /// </summary>
     /// <remarks>
     /// An editor hosted as a pivot tab calls <see cref="MarkDirty"/> / <see cref="MarkClean"/>

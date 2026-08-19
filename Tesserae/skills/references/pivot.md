@@ -16,7 +16,7 @@ factories into scope with `using static Tesserae.UI;`.
 ## Key configuration
 
 - `.Pivot(id, titleCreator, contentCreator, cached = false, closeable = false, onClosed = null)` — add a tab. `titleCreator`/`contentCreator` are `Func<IComponent>`; `cached: true` keeps content alive between switches.
-- `PivotTitle("Text")` / `PivotTitle("Text", UIcons.Folder)` — convenient title `Func<IComponent>`. A custom title component gets no padding of its own, so build one from `Button(text).NoBackground().Regular()` if you need to go beyond these; for a tab that shows an unsaved-changes "*", use `TabSaveIndicator.Title(id, "Text")` (`unsaved-changes-guard.md`).
+- `PivotTitle("Text")` / `PivotTitle("Text", UIcons.Folder)` — convenient title `Func<IComponent>`. A custom title component gets no padding of its own, so build one from `Button(text).NoBackground().Regular()` if you need to go beyond these; for a tab that shows an unsaved-changes marker, use `TabSaveIndicator.Title(id, "Text")` (`unsaved-changes-guard.md`).
 - `.Host(Modal modal, id, titleCreator, closeable = true, onClosed = null)` — embed a `Modal` as a tab (basis of TabbedModal).
 - `.Select(id, refresh = false)` — switch to a tab.
 - `.RemoveTab(id)` — remove a tab.
@@ -40,6 +40,28 @@ var pivot = Pivot()
     .Pivot("second", PivotTitle("Second"), () => TextBlock("Content two"), cached: true)
     .Centered();
 ```
+
+## The close cross, and the unsaved marker that stands in for it
+
+A `closeable: true` tab ends in its close cross, which is simply there — the tab's own
+foreground colour, turning `danger` under the pointer. What changes is what occupies that
+spot when the tab has unsaved changes:
+
+| Tab state | The spot shows |
+| --- | --- |
+| clean | the close cross |
+| unsaved changes (`TabSaveIndicator.MarkDirty`) | a dot in the cross's place |
+| unsaved changes, pointer anywhere on the tab, or the cross keyboard-focused | the close cross again |
+
+The marker replaces the cross rather than sitting beside it, so a tab never resizes when its
+editor goes dirty, and the two can't crowd each other. Pointing at the tab always brings the
+cross back, so there is always something to close with.
+
+The cross is reachable by keyboard: it takes focus after its tab title, and Enter or Space
+closes the tab through the same `onBeforeClose` guard a click goes through. On a touch
+screen — where nothing hovers, so the cross could never be brought back — the marker sits
+beside the label instead. A tab that is *not* closeable has no cross to stand in for, so its
+marker sits beside the label too.
 
 ## Reordering by drag
 
