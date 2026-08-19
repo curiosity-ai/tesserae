@@ -299,12 +299,32 @@ namespace Tesserae
 
             if (tab.Closeable)
             {
-                var closeIcon = I(Att("tss-pivot-tab-close tss-fontsize-tiny " + UIcons.Cross.ToCssClass(), ariaLabel: "Close tab"));
+                var closeIcon = I(Att("tss-pivot-tab-close tss-fontsize-tiny " + UIcons.Cross.ToCssClass(), role: "button", ariaLabel: "Close tab"));
+                closeIcon.tabIndex = 0;
 
                 closeIcon.onclick = (e) =>
                 {
                     StopEvent(e);
                     RequestCloseTab(tab);
+                };
+
+                // Same split as SegmentedPivot: swallow Space on the way down so the page
+                // doesn't scroll, and close on the way up.
+                closeIcon.onkeydown = (e) =>
+                {
+                    if (e.key == " ")
+                    {
+                        StopEvent(e);
+                    }
+                };
+
+                closeIcon.onkeyup = (e) =>
+                {
+                    if (e.key == "Enter" || e.key == " ")
+                    {
+                        StopEvent(e);
+                        RequestCloseTab(tab);
+                    }
                 };
                 title.appendChild(closeIcon);
                 title.classList.add("tss-pivot-tab-closeable");
@@ -432,15 +452,26 @@ namespace Tesserae
 
                 // The cloned close icon is non-functional inside the menu; strip it
                 // so the user gets a clean title row.
+                var removedCloseSlot = false;
+
                 foreach (var x in clone.querySelectorAll(".tss-pivot-tab-close").ToList())
                 {
                     x.As<HTMLElement>().remove();
+                    removedCloseSlot = true;
+                }
+
+                // On a closeable tab the unsaved-changes marker lives in that slot, so hand
+                // it back as a plain element or the menu loses the state. A tab without one
+                // draws the marker on the title itself, which the clone already carries.
+                if (removedCloseSlot && clone.classList.contains(TabSaveIndicator.NeedsSavingClass))
+                {
+                    clone.appendChild(Div(Att("tss-pivot-tab-mark")));
                 }
 
                 // The clone is a copy of the title, not the tab itself, so it must not keep
                 // its ids — a lookup by id (e.g. TabSaveIndicator marking a tab dirty) has to
                 // keep finding the real title while this menu is open. Classes are kept, so a
-                // dirty tab still shows its "*" in the menu.
+                // dirty tab still shows its marker in the menu.
                 clone.removeAttribute("id");
 
                 foreach (var x in clone.querySelectorAll("[id]").ToList())
