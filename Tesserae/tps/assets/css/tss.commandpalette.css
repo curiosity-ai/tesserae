@@ -134,6 +134,8 @@
     padding: 0;
     gap: 0;
     overflow: hidden;
+    min-height: fit-content;
+    padding:4px 8px;
 }
 
 /* The row is the only thing in the item, so it takes all of it - and may shrink below its content's
