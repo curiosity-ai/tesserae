@@ -484,6 +484,14 @@ namespace Tesserae
             public bool AllowSendWhileGenerating { get; set; }
 
             /// <summary>
+            /// Gets or sets how many characters a chat message can hold. The input stops accepting text at
+            /// the limit, and the footer shows a "used / max" counter next to the send button once more than
+            /// half of it is spent - below that the counter is collapsed, so an ordinary message never has a
+            /// number hanging off it. Leave it unset (or at zero) for no limit and no counter.
+            /// </summary>
+            public int MaxCharacters { get; set; }
+
+            /// <summary>
             /// Gets or sets the chat footer.
             /// </summary>
             public FooterItems ChatFooter { get; set; }
@@ -597,6 +605,8 @@ namespace Tesserae
         private readonly HTMLDivElement   _contextContainer;
         private readonly List<ContextCard> _contextCards = new List<ContextCard>();
         private readonly Button           _chatTriggerBtn;
+        private readonly TextBlock        _chatCounter;
+        private int                       _maxChatCharacters;
         private Button                    _modelSelectorBtn;
         private List<ModelOption>         _models = new List<ModelOption>();
         private ModelOption               _selectedModel;
@@ -1084,6 +1094,7 @@ namespace Tesserae
                 _chatInput.addEventListener("input", (e) =>
                 {
                     UpdateChatTriggerActiveState();
+                    UpdateChatCounter();
                     ResizeChatInput();
                     Input?.Invoke(this, e);
                     TryUpdateChatMention();
@@ -1107,6 +1118,10 @@ namespace Tesserae
                 DomObserver.WhenMounted(_chatInput, ResizeChatInput);
 
                 _chatTriggerBtn = Button().SetIcon(config.IconChat).Class("tss-omnibox-chat-btn").OnClick(TriggerChat);
+
+                _chatCounter = TextBlock("").Small().Class("tss-omnibox-chat-counter").Foreground(Theme.Secondary.Foreground).Collapse();
+
+                MaxChatCharacters = config.MaxCharacters;
 
                 _modelSelectorBtn = Button().Class("tss-omnibox-model-selector-btn").NoBorder().NoBackground().OnClick(ShowModelPopover);
                 _modelSelectorBtn.Collapse();
@@ -1152,6 +1167,7 @@ namespace Tesserae
             if (_mode == Mode.Chat || _mode == Mode.SearchAndChat)
             {
                 footerEnd.Add(_modelSelectorBtn);
+                footerEnd.Add(_chatCounter);
                 footerEnd.Add(_chatTriggerBtn);
             }
 
@@ -2007,6 +2023,7 @@ namespace Tesserae
             _chatInput.setSelectionRange((uint)before.Length, (uint)before.Length);
 
             HideChatMention();
+            UpdateChatCounter();
             ResizeChatInput();
             _chatInput.focus();
         }
@@ -2692,6 +2709,7 @@ namespace Tesserae
             Chatted?.Invoke(this, new ChatMessage() { Text = val });
             _chatInput.value = "";
             UpdateChatTriggerActiveState();
+            UpdateChatCounter();
             ResizeChatInput();
         }
 
@@ -2724,6 +2742,28 @@ namespace Tesserae
             {
                 _chatTriggerBtn.SetIcon(_iconChat);
                 _chatTriggerBtn.IsDanger = false;
+            }
+        }
+
+        // Below this share of the budget the counter says nothing: a message nowhere near the limit
+        // has no use for a number next to the send button.
+        private const double CHAT_COUNTER_VISIBLE_FROM = 0.5;
+
+        // Shows how much of the character budget the message has spent, once it is worth knowing.
+        private void UpdateChatCounter()
+        {
+            if (_chatCounter is null || _chatInput is null) return;
+
+            var used = _chatInput.value is null ? 0 : _chatInput.value.Length;
+
+            if (_maxChatCharacters > 0 && used > _maxChatCharacters * CHAT_COUNTER_VISIBLE_FROM)
+            {
+                _chatCounter.Text = used + " / " + _maxChatCharacters;
+                _chatCounter.Show();
+            }
+            else
+            {
+                _chatCounter.Collapse();
             }
         }
 
@@ -3544,8 +3584,30 @@ namespace Tesserae
             {
                 _chatInput.value = value;
                 UpdateChatTriggerActiveState();
+                UpdateChatCounter();
                 ResizeChatInput();
                 Input?.Invoke(this, null);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets how many characters a chat message can hold, as <see cref="Config.MaxCharacters"/>
+        /// does at construction. Set it to zero to lift the limit again.
+        /// </summary>
+        public int MaxChatCharacters
+        {
+            get => _maxChatCharacters;
+            set
+            {
+                _maxChatCharacters = value > 0 ? value : 0;
+
+                if (_chatInput is object)
+                {
+                    if (_maxChatCharacters > 0) _chatInput.maxLength = _maxChatCharacters;
+                    else _chatInput.removeAttribute("maxlength");
+                }
+
+                UpdateChatCounter();
             }
         }
 

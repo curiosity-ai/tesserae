@@ -504,6 +504,7 @@
 .tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-container,
 .tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-context,
 .tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-btn,
+.tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-counter,
 .tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-footer-item {
     display: none;
 }
@@ -642,6 +643,16 @@
 .tss-omnibox-help-example {
     color: var(--tss-secondary-foreground-color);
     opacity: 0.85;
+}
+
+/* How much of the message's character budget is spent, next to the send button. It only appears past
+   half the budget (the component collapses it below that), so it never crowds an ordinary message. */
+.tss-omnibox-chat-counter {
+    align-self: center;
+    flex-shrink: 0;
+    padding: 0 8px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
 }
 
 /* Chat trigger (send) button */
