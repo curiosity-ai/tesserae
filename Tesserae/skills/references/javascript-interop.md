@@ -51,6 +51,37 @@ console.error(ex);
 
 Convert between C# and JS views of a value with `.As<T>()` when needed.
 
+## Dynamic access by name — `Script.Get` / `Set` / `Call`
+
+For a global you do not want to write a binding for, reach it by name. The name is
+inserted as **raw JavaScript**, so it can be a whole path. `Get` and `Set` also have a
+scope overload, which takes a value you already hold and indexes it:
+
+```csharp
+double now   = Script.Get<double>("performance.timeOrigin");   // performance.timeOrigin
+Script.Set("window.myFlag", true);
+Script.Call("myLib.reset");
+
+object opts  = Script.Get("myLib.defaults");
+int    gutter = Script.Get<int>(opts, "gutter");               // opts["gutter"]
+Script.Set(opts, "gutter", 10);
+```
+
+`undefined` has no C# equivalent, so `Script` exposes it and its test directly — prefer
+these to a hand-written `typeof … === 'undefined'` string:
+
+```csharp
+object nothing  = Script.Undefined;                // the `undefined` literal
+bool   absent   = Script.IsUndefined(value);       // value === undefined
+bool   isNull   = Script.IsNull(value);            // value === null
+bool   hasValue = Script.HasValue(value);          // neither null nor undefined
+```
+
+`IsUndefined` is a strict comparison, so a `null` answers `false` — that is what tells an
+absent member apart from one set to `null`. `Script.IsDefined` is its complement
+(`typeof value !== "undefined"`), so a `null` counts as defined; use `HasValue` for "holds
+a real value".
+
 ## Binding to existing JS with attributes
 
 When you want a *typed* C# surface over existing JS instead of scattering
@@ -82,7 +113,9 @@ public class ReadOnlyArray<T>
 - `Script.Write` strings are opaque to the compiler — typos surface only at
   runtime. Pass C# values as `{n}` placeholders rather than interpolating them
   into the string so they compile correctly under minification.
-- Property/feature checks: `Script.Write<bool>("(typeof {0}.disabled === 'undefined')", el)`.
+- Property/feature checks: `Script.IsUndefined(Script.Get(el, "disabled"))` — or
+  `Script.Write<bool>("(typeof {0}.disabled === 'undefined')", el)` when you need
+  `typeof` semantics on an identifier that may not exist at all.
 - Transpose renames JS files between Debug/Release (`.min.js`); any external script you
   call must be bundled so the global exists at runtime — see `wrap-a-javascript-library`.
 
