@@ -130,11 +130,15 @@ namespace Tesserae.Tests.Samples
                 ram[i] = ramValue;
             }
 
+            //Ten seconds to a day: the wheel is unbounded, and without limits it reaches spans with no tick to
+            //print at one end and no calendar at the other. A chart that loads to match its range sets the
+            //maximum to whatever its source can serve.
             var cpuChart = AreaChart()
                .Series(new ChartSeries("CPU %", times, cpu) { LineWidth = 1, FillOpacity = 0.2 })
                .XAxisTime()
                .FormatValues(v => v.ToString("0") + "%")
                .Zoomable()
+               .ZoomLimits(minSpan: 10, maxSpan: 86_400)
                .Spikelines()
                .ExportButton(fileName: "cpu")
                .Legend();
@@ -144,6 +148,7 @@ namespace Tesserae.Tests.Samples
                .XAxisTime()
                .Points(false)
                .Zoomable()
+               .ZoomLimits(minSpan: 10, maxSpan: 86_400)
                .Spikelines()
                .ExportButton(fileName: "working-set")
                .Legend();

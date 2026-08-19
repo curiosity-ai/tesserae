@@ -89,13 +89,26 @@ irregular spacing:
   and each series' nearest value.
 - `.XRange(min, max)` / `.AutoRangeX()` / `.TryGetXRange(out min, out max)` / `.IsXRangePinned`.
 - `.OnRangeChanged(Action<ChartRange>)` — raised on user zoom/pan/reset only. `.XRange()`
-  never re-raises it, so pushing a range onto sibling charts cannot loop.
+  never re-raises it, so pushing a range onto sibling charts cannot loop. A drag that
+  moved nothing does not raise it either, so a plain click never reads as a pan.
+- `.ZoomLimits(minSpan, maxSpan)` — the smallest and largest visible X span the wheel may
+  reach, in X units. Pass 0 for either to keep the default, which is 1/1000 and 100× the
+  data's own X extent. Set an explicit maximum on a chart that fetches its data to match
+  the visible range: the widest span the user can reach decides how much has to be loaded.
 
 Keeping two charts on one timeline:
 
 ```csharp
 a.OnRangeChanged(r => { if (r.IsAutoRange) b.AutoRangeX(); else b.XRange(r.Min, r.Max); });
 b.OnRangeChanged(r => { if (r.IsAutoRange) a.AutoRangeX(); else a.XRange(r.Min, r.Max); });
+```
+
+Loading data to match the window — `OnRangeChanged` is the trigger, debounced so a wheel
+gesture fetches once rather than once a notch:
+
+```csharp
+chart.ZoomLimits(minSpan: 10, maxSpan: 3600)          // 10s to 1h of samples
+     .OnRangeChanged(r => ScheduleLoad(r.Min, r.Max)); // then chart.XRange(from, to) once loaded
 ```
 
 ## Example
