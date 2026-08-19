@@ -23,6 +23,9 @@ namespace Tesserae
         // Line charts fit the data range rather than forcing a zero baseline.
         protected override bool DefaultIncludeZeroBaseline => false;
 
+        // The line runs between the points, so a segment crossing the window sizes the value axis on its own.
+        protected override bool ConnectsPointsAcrossX => true;
+
         protected override void RenderSeries()
         {
             for (int s = 0; s < _series.Count; s++)

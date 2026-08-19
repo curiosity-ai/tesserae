@@ -24,6 +24,9 @@ namespace Tesserae
         // Areas read most naturally filled down to a zero baseline.
         protected override bool DefaultIncludeZeroBaseline => true;
 
+        // The line runs between the points, so a segment crossing the window sizes the value axis on its own.
+        protected override bool ConnectsPointsAcrossX => true;
+
         protected override void RenderSeries()
         {
             var baselineY = PixelY(Math.Max(0, _minValue));

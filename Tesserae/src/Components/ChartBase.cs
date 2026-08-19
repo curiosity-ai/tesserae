@@ -740,6 +740,12 @@ namespace Tesserae
         private bool _interactionsAttached;
         private Action<ChartRange> _onRangeChanged;
         private Element _overlay;
+        private double _dataXMin;
+        private double _dataXMax;
+        private bool _hasDataExtent;
+        private double _minXSpan;
+        private double _maxXSpan;
+        private Action _endPan;
         private readonly string _clipId = "tss-chart-clip-" + Guid.NewGuid().ToString("N").Substring(0, 8);
 
         /// <summary>
@@ -801,6 +807,19 @@ namespace Tesserae
         {
             _zoomable = enable;
             if (enable) EnsureInteractions();
+            return Self;
+        }
+
+        /// <summary>
+        /// Bounds how far the wheel may zoom the X axis, as the smallest and largest visible span. Pass 0 for
+        /// either to keep the default, which is a fraction (and a multiple) of the data's own X extent. A chart
+        /// that loads its data to match the visible range wants an explicit maximum: the widest span the user
+        /// can reach is what decides how much has to be fetched.
+        /// </summary>
+        public T ZoomLimits(double minSpan, double maxSpan)
+        {
+            _minXSpan = minSpan > 0 ? minSpan : 0;
+            _maxXSpan = maxSpan > 0 ? maxSpan : 0;
             return Self;
         }
 
@@ -996,10 +1015,13 @@ namespace Tesserae
         {
             if (!_continuousX)
             {
-                _viewXMin = 0;
-                _viewXMax = Math.Max(1, _pointCount - 1);
+                _hasDataExtent = false;
+                _viewXMin      = 0;
+                _viewXMax      = Math.Max(1, _pointCount - 1);
                 return;
             }
+
+            ComputeDataExtent();
 
             if (_hasExplicitRange)
             {
@@ -1008,6 +1030,21 @@ namespace Tesserae
                 return;
             }
 
+            if (!_hasDataExtent)
+            {
+                _viewXMin = 0;
+                _viewXMax = 1;
+                return;
+            }
+
+            _viewXMin = _dataXMin;
+            _viewXMax = _dataXMax;
+        }
+
+        // Measured on every render, not only when the view is fitting the data: the zoom limits are expressed
+        // relative to the data's own extent, so a wheel gesture over a pinned range needs it too.
+        private void ComputeDataExtent()
+        {
             var min = double.MaxValue;
             var max = double.MinValue;
 
@@ -1025,24 +1062,29 @@ namespace Tesserae
 
             if (min > max)
             {
-                _viewXMin = 0;
-                _viewXMax = 1;
+                _hasDataExtent = false;
                 return;
             }
 
             if (min == max)
             {
-                _viewXMin = min - 1;
-                _viewXMax = max + 1;
-                return;
+                min -= 1;
+                max += 1;
             }
 
-            _viewXMin = min;
-            _viewXMax = max;
+            _hasDataExtent = true;
+            _dataXMin      = min;
+            _dataXMax      = max;
         }
 
         /// <summary>
-        /// Collects the values the Y axis must accommodate. Only points inside the visible X window count on a
+        /// True when the chart draws a continuous line between consecutive points, so a segment crossing the
+        /// visible window sizes the value axis even with neither of its ends inside it.
+        /// </summary>
+        protected virtual bool ConnectsPointsAcrossX => false;
+
+        /// <summary>
+        /// Collects the values the Y axis must accommodate. Only what is inside the visible X window counts on a
         /// continuous scale, so zooming rescales the value axis to what is on screen.
         /// </summary>
         protected virtual void CollectRangeValues(List<double> into)
@@ -1051,21 +1093,58 @@ namespace Tesserae
             {
                 var series = _series[s];
 
-                for (int i = 0; i < series.Values.Length; i++)
+                if (!_continuousX)
                 {
-                    var v = series.Values[i];
-                    if (double.IsNaN(v)) continue;
-
-                    if (_continuousX)
+                    for (int i = 0; i < series.Values.Length; i++)
                     {
-                        var x = XOf(series, i);
-                        if (x < _viewXMin || x > _viewXMax) continue;
+                        if (!double.IsNaN(series.Values[i])) into.Add(series.Values[i]);
                     }
-
-                    into.Add(v);
+                    continue;
                 }
+
+                CollectVisibleValues(series, into);
             }
         }
+
+        // A zoom can land between two samples, with the line crossing the whole window and not one point inside
+        // it. Fitting the axis to the points alone leaves it nothing to fit and blanks the chart, so a segment
+        // that straddles an edge contributes the value it has at that edge.
+        private void CollectVisibleValues(ChartSeries series, List<double> into)
+        {
+            var previous = -1;
+
+            for (int i = 0; i < series.Values.Length; i++)
+            {
+                var value = series.Values[i];
+
+                if (double.IsNaN(value))
+                {
+                    if (!_connectGaps) previous = -1;
+                    continue;
+                }
+
+                var x = XOf(series, i);
+
+                if (x >= _viewXMin && x <= _viewXMax) into.Add(value);
+
+                if (previous >= 0 && ConnectsPointsAcrossX) AddSegmentInsideWindow(XOf(series, previous), series.Values[previous], x, value, into);
+
+                previous = i;
+            }
+        }
+
+        private void AddSegmentInsideWindow(double x0, double v0, double x1, double v1, List<double> into)
+        {
+            var lo = Math.Min(x0, x1);
+            var hi = Math.Max(x0, x1);
+
+            if (hi <= lo || hi < _viewXMin || lo > _viewXMax) return;
+
+            into.Add(ValueAt(x0, v0, x1, v1, Math.Max(lo, _viewXMin)));
+            into.Add(ValueAt(x0, v0, x1, v1, Math.Min(hi, _viewXMax)));
+        }
+
+        private static double ValueAt(double x0, double v0, double x1, double v1, double x) => v0 + (v1 - v0) * ((x - x0) / (x1 - x0));
 
         private void ComputeValueRange()
         {
@@ -1162,10 +1241,21 @@ namespace Tesserae
             if (_xIsTime)
             {
                 var format = _xTimeFormat ?? AdaptiveTimeFormat(_viewXMax - _viewXMin);
-                return DateTimeOffset.FromUnixTimeSeconds((long)value).ToLocalTime().ToString(format);
+                return DateTimeOffset.FromUnixTimeSeconds(ClampToUnixSeconds(value)).ToLocalTime().ToString(format);
             }
 
             return _xFormatter is object ? _xFormatter(value) : value.ToString("0.##");
+        }
+
+        // Year 1 and year 9999 as Unix seconds: FromUnixTimeSeconds throws outside them, and an axis label is
+        // not worth an exception. A range that ran past either end still draws, pinned to the end it ran past.
+        private const double MinUnixSeconds = -62135596800.0;
+        private const double MaxUnixSeconds = 253402300799.0;
+
+        private static long ClampToUnixSeconds(double value)
+        {
+            if (double.IsNaN(value)) return 0;
+            return (long)Math.Max(MinUnixSeconds, Math.Min(MaxUnixSeconds, value));
         }
 
         // A fixed "HH:mm" prints the same label ten times across a one-minute window, and no time at all across
@@ -1477,22 +1567,47 @@ namespace Tesserae
 
         private void ZoomAround(double anchor, double factor)
         {
-            var newSpan = (_viewXMax - _viewXMin) * factor;
+            var span    = _viewXMax - _viewXMin;
+            var newSpan = ClampXSpan(span * factor);
 
-            if (newSpan <= 0) return;
+            if (newSpan <= 0 || newSpan == span) return; // already against a zoom limit
 
-            var leftShare = (anchor - _viewXMin) / Math.Max(1e-9, _viewXMax - _viewXMin);
+            var leftShare = (anchor - _viewXMin) / Math.Max(1e-9, span);
 
             XRange(anchor - newSpan * leftShare, anchor + newSpan * (1 - leftShare));
             RaiseRangeChanged(isAutoRange: false);
         }
 
+        // A wheel gesture is unbounded and nothing downstream copes with where that ends up: a span of a few
+        // microseconds leaves the axis without a tick to print, and one of a hundred thousand years runs the
+        // time formatter off the end of the calendar. Limits are relative to the data unless the caller pinned them.
+        private double ClampXSpan(double span)
+        {
+            if (double.IsNaN(span) || double.IsInfinity(span) || span <= 0) return 0;
+
+            var reference = _hasDataExtent ? _dataXMax - _dataXMin : span;
+            var min       = _minXSpan > 0 ? _minXSpan : reference * DefaultMinSpanFraction;
+            var max       = _maxXSpan > 0 ? _maxXSpan : reference * DefaultMaxSpanFactor;
+
+            if (max > 0 && span > max) return max;
+            if (min > 0 && span < min) return min;
+
+            return span;
+        }
+
+        private const double DefaultMinSpanFraction = 0.001;
+        private const double DefaultMaxSpanFactor   = 100;
+
         private void BeginPan(double startClientX)
         {
+            //A mouseup released outside the document never reaches us, so the previous pan can still be
+            //attached; leaving it there would have two of them fight over the range on the next drag.
+            if (_endPan is object) _endPan();
+
             var startMin = _viewXMin;
             var startMax = _viewXMax;
-            var rect     = _container.getBoundingClientRect().As<DOMRect>();
             var perPixel = (startMax - startMin) / Math.Max(1, _plotWidth);
+            var moved    = false;
 
             Action<Event> onMove = null;
             Action<Event> onUp   = null;
@@ -1500,14 +1615,27 @@ namespace Tesserae
             onMove = e =>
             {
                 var delta = (e.As<MouseEvent>().clientX - startClientX) * perPixel;
+
+                if (delta == 0) return;
+
+                moved = true;
                 XRange(startMin - delta, startMax - delta);
             };
 
             onUp = e =>
             {
+                if (_endPan is object) _endPan();
+
+                //A plain click is a mousedown and a mouseup with nothing in between; republishing the range
+                //there would make every click on the chart look like a pan to whatever OnRangeChanged drives.
+                if (moved) RaiseRangeChanged(isAutoRange: false);
+            };
+
+            _endPan = () =>
+            {
+                _endPan = null;
                 document.body.removeEventListener("mousemove", onMove);
                 document.body.removeEventListener("mouseup", onUp);
-                RaiseRangeChanged(isAutoRange: false);
             };
 
             document.body.addEventListener("mousemove", onMove);
