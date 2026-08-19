@@ -103,10 +103,36 @@ own clicks (a raw `element.onclick`) should make the same check first with
 
 ## Sizing, containers, mounting
 
-- Sizing helpers (`.W()`, `.WS()`, `.Grow()`, …) work on any `IComponent` via
-  the wrap-and-transfer protocol — see `Stack.CopyStylesDefinedWithExtension`.
-  A component can opt out of wrapping by implementing `ISpecialCaseStyling` and
-  exposing a `StylingContainer`.
+- Sizing helpers (`.W()`, `.WS()`, `.Grow()`, …) work on any `IComponent`.
+  `Stack` and `Grid` do not wrap their children, so a helper writes the CSS
+  property straight onto the element your `Render()` returns — that element *is*
+  the flex or grid item.
+- A component that returns a shell around the element it actually wants sized —
+  a wrapped JS library that measures its own host, for instance — implements
+  `ISpecialCaseStyling` to redirect the helpers:
+
+  ```csharp
+  public class MyComponent : IComponent, ISpecialCaseStyling
+  {
+      // the element the sizing helpers write to
+      public HTMLElement StylingContainer => _container;
+
+      // false when this component sizes its own container: the helpers then skip
+      // the tss-stk-* / tss-grd-* marker attributes that a container which *does*
+      // build a wrapper (Masonry, SectionStack, KeyedObservableStack) reads to
+      // hoist the property onto that wrapper
+      public bool PropagateStylesToWrapper => false;
+  }
+  ```
+
+  Give such a container a definite size of its own (`width: 100%; height: 100%;
+  overflow: hidden; position: relative`) and let the caller size it with `.WS()`,
+  `.H(220.px())` and friends — a library that measures a zero-height parent
+  renders nothing.
+- An explicit `.Width()` / `.Height()` clears the element's intrinsic
+  `min-width` / `min-height` unless `.MinWidth()` / `.MinHeight()` was asked for
+  too, so a floor declared in your own CSS does not silently beat the size the
+  caller asked for.
 - To accept children, implement `IContainer<T, TChild>` and wrap each child with
   the stack-item protocol; most custom components instead *compose* existing
   components (return a `Stack().Children(...)`).

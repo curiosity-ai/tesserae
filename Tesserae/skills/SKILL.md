@@ -39,7 +39,9 @@ private static void Main()
 - **Create**: `Button("Save")`, `TextBox()`, `Stack()`, … (some components are also
   `new`-ed, e.g. `new Modal(...)`).
 - **Configure**: chain fluent methods — `.Primary()`, `.Disabled()`, `.OnClick(...)`.
-- **Compose**: containers take children via `.Children(...)` or `.Add(...)`.
+- **Compose**: `.Add(child)` appends one child; `.Children(...)` **replaces** the
+  container's children with the ones passed. Pass the whole list in a single call —
+  `.Children(a).Children(b)` leaves only `b`, silently.
 - **Mount**: `MountToBody` / `MountCenteredToBody` attach the root to the DOM.
 
 ## Layout: Stack and Grid
@@ -188,3 +190,12 @@ To find the reference for a component, lowercase-kebab its name and open
 `references/<that>.md` (e.g. `DetailsList` → `references/details-list.md`). If you
 are unsure which component fits, scan the lists above by category, then open the
 candidate's reference.
+
+The reverse also holds, and is the cheap way to avoid guessing an API that does not
+exist: the factory is the slug in PascalCase, spelled exactly as the reference spells
+it — `check-box` is `CheckBox()`, not `Checkbox()`; `text-box` is `TextBox()`. C# is
+case-sensitive, so a wrong hump is a `CS0103` at build time and not a runtime
+surprise. When a helper you expect is missing from a component's reference, look for
+it in `references/icomponent.md` (the extension methods every component has) before
+concluding it is absent; `Raw(HTMLElement)` wraps a DOM element you manage yourself as
+an `IComponent` when there is genuinely no component for the job.

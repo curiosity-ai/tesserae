@@ -131,7 +131,12 @@ On validatable inputs: `.Validation(c => error-or-null)`, `.Error("msg")`,
 - `.WhenMounted(Action)`, `.WhenMountedDelayed(TimeSpan, Action, bool)`,
   `.WhenRemoved(Action)` — run code when the element enters/leaves the DOM. If the
   component renders a node that isn't an element (a text node, for instance), the
-  closest parent element is tracked instead.
+  closest parent element is tracked instead. Each registration fires **once**: a
+  component removed from the DOM and re-added gets no second `.WhenMounted(...)`
+  callback unless something registers again. `.WhenMounted(...)` on an element that
+  is already mounted runs the callback immediately. See
+  `wrap-a-javascript-library` for the teardown-and-re-arm recipe a component that
+  owns a live instance needs.
 - `.ScrollIntoView()`.
 - `.Do(Action<T>)` — run an arbitrary action on the component inside a chain.
 - `.Var(out T var)` — capture the component into a variable mid-chain.

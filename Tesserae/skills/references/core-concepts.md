@@ -36,7 +36,9 @@ Grab a mid-chain reference with `.Var(out var saveButton)`.
 ## Layout containers
 
 `VStack()` / `HStack()` (flexbox), `Grid(...)` (CSS grid), `SplitView`,
-`Float`, `Masonry`. Add children with `.Children(...)` or `.Add(...)`.
+`Float`, `Masonry`. `.Add(child)` appends; `.Children(...)` clears the container
+and adds what you pass, so build the full list and pass it once — chaining
+`.Children(a).Children(b)` leaves only `b`, with no error.
 
 ## Reactive state
 

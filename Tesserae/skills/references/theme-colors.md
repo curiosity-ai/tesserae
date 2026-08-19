@@ -21,7 +21,11 @@ description: The static `Theme` class for switching light/dark mode and overridi
 - `Theme.IsLight` / `Theme.IsDark` — current mode (bool).
 - `Theme.Default`, `Theme.Primary`, `Theme.Secondary`, `Theme.Danger`, `Theme.Success` — color accessors exposing `.Background`, `.Foreground`, `.Border`, etc.
 - `Theme.Fonts.SansSerif` / `Theme.Fonts.Monospace` — the two font stacks the toolkit draws with, as CSS variable references. See `styling.md`.
-- `Theme.OnThemeChanged` — event raised on mode change.
+- `Theme.OnThemeChanged` — event raised on mode change and on `SetPrimary`/`SetBackground`.
+  It is a **static** event, so a component that subscribes must unsubscribe when it is
+  removed, or it keeps itself and its DOM alive for the life of the page. Anything that
+  reads a theme value into a non-CSS form (a hex string for a canvas or a JS library) has
+  to recompute here — see `colors.md` and `wrap-a-javascript-library.md`.
 
 ## Example
 

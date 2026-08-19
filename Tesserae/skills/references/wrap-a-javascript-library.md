@@ -84,12 +84,112 @@ public class Masonry : IContainer<Masonry, IComponent>, ISpecialCaseStyling
 }
 ```
 
+## 3. Lifecycle: the mount callbacks fire once
+
+`Masonry` above gets away with a single `WhenMounted` because it holds no state the
+user can lose. A wrapper whose instance owns *content* — an editor, a chart with a
+selection, anything the person on the page can change — has to handle removal and
+re-addition, and the two observers make that a trap with no error message:
+`DomObserver.WhenMounted` and `DomObserver.WhenRemoved` each fire **once** and then
+forget the element. If teardown does not re-arm the mount observer, a component
+removed from the DOM and re-added renders an **empty container ever after**, silently.
+Tearing down without re-arming leaks the wrapped instance; re-arming without tearing
+down leaks harder. Do both, and keep `Dispose()` as the one-way door:
+
+```csharp
+public HTMLElement Render()
+{
+    if (!_mountRequested)
+    {
+        _mountRequested = true;
+        DomObserver.WhenMounted(_host, OnMounted);
+    }
+    return _host;
+}
+
+private void OnMounted()
+{
+    if (_instance is object) return;   // a second mount signal must not create a second instance
+
+    _instance = CreateInstance(_host);
+    Replay();                          // options, subscriptions and captured state
+    DomObserver.WhenRemoved(_host, OnRemoved);
+}
+
+private void OnRemoved()
+{
+    if (_disposed) return;
+
+    Capture();                         // read back text / scroll / selection before it is gone
+    Teardown();                        // dispose the JS instance, release every subscription
+    _instance = null;
+    DomObserver.WhenMounted(_host, OnMounted);   // re-arm: a re-added host rebuilds
+}
+
+public void Dispose()                  // the deliberate, final release
+{
+    if (_disposed) return;
+
+    _disposed = true;
+    Teardown();
+}
+```
+
+Three things this has to get right:
+
+- **Guard the create.** A second mount signal for an instance that already exists
+  produces two of them, and the first one leaks with the DOM it drew.
+- **Capture what the user can change.** Text, scroll offset, caret, selection: read
+  them during teardown and restore them after the next create, or a remount silently
+  reverts the user's work.
+- **Replay standing configuration, drop transient acts.** Options, event subscriptions
+  and content configured before the first mount (or before a remount) have to be
+  replayed after every create. Focus, reveal and scroll-to calls made while there is
+  no instance should be **dropped** — replaying them later is a bug, not a nicety.
+
+Tesserae ships no `WhenMountedOrRemoved` helper on purpose — there is a commented-out
+one in `IComponentExtensions.cs` with the reasoning — so this loop is yours to own.
+
+## 4. Handing theme colors to the library
+
+Tesserae's theme values are CSS variables, so a library that wants a concrete
+`#rrggbb` needs one resolved. `Color.FromString` resolves a `var(...)` token itself:
+
+```csharp
+var background = Color.FromString(Theme.Secondary.Background).ToHex();
+var isDark     = Theme.IsDark;
+```
+
+Resolve when you create or refresh the instance rather than baking the value into a
+static field at load time, and rebuild on `Theme.OnThemeChanged` — a host can switch
+theme at runtime and whatever you handed the library will not follow. Subscribe where
+you create the instance and unsubscribe in the teardown above, so a removed component
+stops rebuilding themes:
+
+```csharp
+private void OnMounted()
+{
+    // …create the instance…
+    ApplyTheme();
+    Theme.OnThemeChanged += ApplyTheme;
+}
+
+private void Teardown()
+{
+    Theme.OnThemeChanged -= ApplyTheme;
+    // …dispose the instance…
+}
+```
+
+`Theme.OnThemeChanged` is a static event: a subscription you never remove keeps the
+component (and the DOM it captured) alive for the life of the page.
+
 ## Key points
 
 - **Instantiate against a real element.** Pass your host element as `{0}`.
 - **Defer DOM-measuring calls to mount.** Use `DomObserver.WhenMounted(el, …)`
   (and `DomObserver.WhenRemoved` to tear down) — the element has no size until
-  it is in the document.
+  it is in the document. Both fire once each; see the lifecycle section above.
 - **Debounce expensive relayouts** with `window.setTimeout`/`clearTimeout`.
 - **Hold the instance as `object`** and reach its methods/properties via
   `Script.Write("{0}.method({1})", _instance, arg)`.
@@ -102,4 +202,7 @@ public class Masonry : IContainer<Masonry, IComponent>, ISpecialCaseStyling
 - `javascript-interop` — the `Script.Write` / `[External]` mechanics in detail.
 - `creating-a-component` — the `IComponent` shell you are filling in.
 - `masonry`, `tippy`, `charts` — existing wrappers to copy from.
+- `colors`, `theme-colors` — resolving a theme token to a concrete color, and
+  `Theme.OnThemeChanged`.
+- `icomponent` — the mount/removal extensions (`.WhenMounted`, `.WhenRemoved`).
 - Docs: `/tesserae/extending/wrapping-a-javascript-library`

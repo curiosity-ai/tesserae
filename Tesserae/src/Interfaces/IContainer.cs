@@ -38,7 +38,7 @@ namespace Tesserae
     public static class IContainerExtensions
     {
         /// <summary>
-        /// Sets the children of the container.
+        /// Replaces the children of the container - the existing children are cleared first, so pass every child in one call rather than chaining several Children calls.
         /// </summary>
         /// <typeparam name="T">The type of the container.</typeparam>
         /// <param name="container">The container.</param>
@@ -59,7 +59,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the children of the container.
+        /// Replaces the children of the container - the existing children are cleared first, so pass every child in one call rather than chaining several Children calls.
         /// </summary>
         /// <typeparam name="T">The type of the container.</typeparam>
         /// <param name="container">The container.</param>
@@ -84,7 +84,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the children of the container.
+        /// Replaces the children of the container - the existing children are cleared first, so pass every child in one call rather than chaining several Children calls.
         /// </summary>
         /// <typeparam name="T">The type of the container.</typeparam>
         /// <param name="container">The container.</param>
@@ -114,7 +114,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the children of the container.
+        /// Replaces the children of the container - the existing children are cleared first, so pass every child in one call rather than chaining several Children calls.
         /// </summary>
         /// <typeparam name="T">The type of the container.</typeparam>
         /// <param name="container">The container.</param>
@@ -128,7 +128,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the children of the container (specialized for Nav.NavLink).
+        /// Replaces the children of the container - the existing children are cleared first (specialized for Nav.NavLink).
         /// </summary>
         /// <typeparam name="T">The type of the container.</typeparam>
         /// <param name="container">The container.</param>
@@ -147,7 +147,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the children of the container (specialized for Nav.NavLink).
+        /// Replaces the children of the container - the existing children are cleared first (specialized for Nav.NavLink).
         /// </summary>
         /// <typeparam name="T">The type of the container.</typeparam>
         /// <param name="container">The container.</param>
@@ -161,7 +161,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the children of the container (specialized for ChoiceGroup.Choice).
+        /// Replaces the children of the container - the existing children are cleared first (specialized for ChoiceGroup.Choice).
         /// </summary>
         /// <typeparam name="T">The type of the container.</typeparam>
         /// <param name="container">The container.</param>
@@ -180,7 +180,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the children of the container (specialized for ChoiceGroup.Choice).
+        /// Replaces the children of the container - the existing children are cleared first (specialized for ChoiceGroup.Choice).
         /// </summary>
         /// <typeparam name="T">The type of the container.</typeparam>
         /// <param name="container">The container.</param>
