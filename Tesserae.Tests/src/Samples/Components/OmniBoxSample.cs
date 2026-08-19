@@ -30,6 +30,7 @@ namespace Tesserae.Tests.Samples
                .FlatSection(VStack().WS().Children(Help()))
                .FlatSection(VStack().WS().Children(InlineChips()))
                .FlatSection(VStack().WS().Children(FooterItems()))
+               .FlatSection(VStack().WS().Children(CharacterLimit()))
                .FlatSection(VStack().WS().Children(KeyboardShortcut()))
                .FlatSection(VStack().WS().Children(RoundedAndAskAI()))
                .FlatSection(VStack().WS().Children(FileDrop()))
@@ -387,6 +388,27 @@ namespace Tesserae.Tests.Samples
                 "Config.SearchFooter and Config.ChatFooter each take LeftSide / RightSide arrays of components, placed beside the built-in buttons of that mode — an attachment button, a mode dropdown, a dictate button. In SearchAndChat mode the items of the side that isn't active are hidden along with the rest of that mode's chrome.",
                 Label("Search footer").SetContent(searchBox),
                 Label("Chat footer").SetContent(chatBox).MT(6));
+        }
+
+        // ---------- Character limit ----------
+
+        private IComponent CharacterLimit()
+        {
+            var box = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
+            {
+                PlaceholderChat = "Type past 60 characters and the counter appears next to the send button",
+                MaxCharacters   = 120
+            })
+            .WS()
+            .OnChat((s, q) => Toast().Information(q.Text)));
+
+            var raise = Button("Raise the limit to 500").OnClick(() => box.MaxChatCharacters = 500);
+            var lift  = Button("Lift the limit").OnClick(() => box.MaxChatCharacters = 0);
+
+            return FeatureCard("Character limit", "A budget the composer shows as it runs out",
+                "Config.MaxCharacters caps how long a chat message can be: the input stops taking text at the limit, and a \"used / max\" counter sits next to the send button. It only shows past half the budget — below that it is collapsed, so a short message never has a number hanging off it. OmniBox.MaxChatCharacters changes the cap later, and zero lifts it.",
+                box,
+                HStack().MT(8).Children(raise, lift.ML(8)));
         }
 
         // ---------- Keyboard shortcut ----------
