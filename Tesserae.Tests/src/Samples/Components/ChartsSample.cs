@@ -165,10 +165,23 @@ namespace Tesserae.Tests.Samples
                 else cpuChart.XRange(range.Min, range.Max);
             });
 
+            //The case a chart that fetches per range runs into: the user scrolls to a period the source has
+            //nothing for. The pinned range still draws its axis and still answers the wheel, so the period is
+            //navigable rather than a dead blank box.
+            var emptyChart = AreaChart()
+               .Series(new ChartSeries[0])
+               .XAxisTime()
+               .XRange(start - 7_200, start - 3_600)
+               .Zoomable()
+               .Spikelines()
+               .Legend();
+
             return VStack().WS().Children(
                 SampleSubTitle("Wheel to zoom, drag to pan, double-click to reset — both charts stay on the same timeline"),
                 cpuChart.H(200).WS(),
-                ramChart.H(200).WS().PT(8));
+                ramChart.H(200).WS().PT(8),
+                SampleSubTitle("A range the data does not cover still draws its axis, and still zooms and pans").PT(16),
+                emptyChart.H(140).WS());
         }
 
         public HTMLElement Render() => _content.Render();
