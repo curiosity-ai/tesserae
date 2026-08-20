@@ -130,16 +130,17 @@ namespace Tesserae
         private bool                                  _modalKeepsIcon;
         private bool                                  _modalKeepsFooter;
 
-        private HTMLElement           _footerStandIn;
-        private Modal                 _modal;
-        private Action<OmniResult<T>> _modalCommands;
-        private Action<OmniResult<T>> _modalFullScreen;
-        private bool                  _modalHasFullScreen = true;
-        private Action<OmniResult<T>> _modalPrevious;
-        private Action<OmniResult<T>> _modalNext;
-        private int                   _modalPosition;
-        private int                   _modalCount;
-        private bool                  _modalShortcuts = true;
+        private HTMLElement            _footerStandIn;
+        private Modal                  _modal;
+        private Action<OmniResult<T>>  _modalCommands;
+        private Action<OmniResult<T>>  _modalFullScreen;
+        private bool                   _modalHasFullScreen = true;
+        private Action<OmniResult<T>>  _modalPrevious;
+        private Action<OmniResult<T>>  _modalNext;
+        private int                    _modalPosition;
+        private int                    _modalCount;
+        private Func<int, int, string> _modalCountFormat;
+        private bool                   _modalShortcuts = true;
 
         private event Action<OmniResult<T>, bool> SelectionChanged;
         private event Action<OmniResult<T>>       RangeSelectionRequested;
@@ -1076,14 +1077,22 @@ namespace Tesserae
         /// Puts the previous/next arrows in the modal's header, so a result opened out of a list can be
         /// stepped through without going back to it. A null handler greys its arrow out - that is how the
         /// first and the last result say so. Passing a position and a count (both 1-based, the count being
-        /// how many results there are) draws "3 of 27" between the arrows.
+        /// how many results there are) draws "3 of 27" between the arrows, and a <paramref name="format"/>
+        /// writes that label another way - "3 / 27", or "3 of many" for a count too large to be worth
+        /// spelling out.
         /// </summary>
-        public OmniResult<T> ModalNavigation(Action<OmniResult<T>> onPrevious, Action<OmniResult<T>> onNext, int position = 0, int count = 0)
+        public OmniResult<T> ModalNavigation(
+            Action<OmniResult<T>>  onPrevious,
+            Action<OmniResult<T>>  onNext,
+            int                    position = 0,
+            int                    count    = 0,
+            Func<int, int, string> format   = null)
         {
-            _modalPrevious = onPrevious;
-            _modalNext     = onNext;
-            _modalPosition = position;
-            _modalCount    = count;
+            _modalPrevious    = onPrevious;
+            _modalNext        = onNext;
+            _modalPosition    = position;
+            _modalCount       = count;
+            _modalCountFormat = format;
 
             return this;
         }
@@ -1369,6 +1378,7 @@ namespace Tesserae
 
             return InlinePagination(_modalPosition, _modalCount)
                .Class("tss-omniresult-modal-nav")
+               .SetFormat(_modalCountFormat)
                .SetTooltips("Previous result", "Next result")
                .OnPrevious(_modalPrevious is null ? null : (Action<InlinePagination>)(_ => _modalPrevious(this)))
                .OnNext(_modalNext is null ? null : (Action<InlinePagination>)(_ => _modalNext(this)));

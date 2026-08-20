@@ -200,10 +200,11 @@ full-screen, so a modal never offers something the host didn't wire up:
 - Call it more than once for several: the first stays the button, the rest hang off an arrow beside it
   that opens them as a menu. `.NoOpenInSource()` clears them; `OpenActions` / `CanOpenInSource` read
   them; `.Open(bool inNewTab = false)` runs the primary one from code.
-- `.ModalNavigation(Action<OmniResult<T>> onPrevious, Action<OmniResult<T>> onNext, int position = 0, int count = 0)`
+- `.ModalNavigation(Action<OmniResult<T>> onPrevious, Action<OmniResult<T>> onNext, int position = 0, int count = 0, Func<int, int, string> format = null)`
   — an `InlinePagination` (`inline-pagination.md`): the ‹ › chevrons with "2 of 7" between them when a
   position and count are given (both 1-based). A null handler greys its chevron out, which is how the
-  first and last result say so.
+  first and last result say so. The `format` writes that label another way — "2 / 7", or "2 of many"
+  for a count too large to be worth spelling out.
 - `.ModalCommands(Action<OmniResult<T>>)` — the `[...]` button; read `CommandsEvent` in the handler to
   place a command surface of the host's own where the user clicked. Null leaves the button out.
 - `.ModalFullScreen(Action<OmniResult<T>>)` — what `[⤢]` does; without one it grows the modal to fill
