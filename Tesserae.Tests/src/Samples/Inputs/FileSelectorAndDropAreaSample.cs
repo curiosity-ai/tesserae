@@ -1,0 +1,57 @@
+﻿using Tesserae.Tests;
+using static Transpose.Core.dom;
+using static Tesserae.Tests.Samples.SamplesHelper;
+using static Tesserae.UI;
+
+namespace Tesserae.Tests.Samples
+{
+    [SampleDetails(Group = SampleGroup.Inputs, Order = 170, Icon = UIcons.Upload)]
+    public class FileSelectorAndDropAreaSample : IComponent, ISample
+    {
+        private readonly IComponent _content;
+        public FileSelectorAndDropAreaSample()
+        {
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(FileSelectorAndDropAreaSample), UIcons.FileUpload, "A control to select and drop files")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("FileSelector and FileDropArea provide two different ways for users to upload files. FileSelector uses a standard button that opens the system file dialog, while FileDropArea provides a larger target area for users to drag and drop files directly into the application."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use FileSelector for simple, single-file selections in forms. Use FileDropArea when users are likely to be uploading multiple files or when a more prominent upload target is desired. Always specify the allowed file types using the 'Accepts' property. Provide immediate feedback after files are selected or dropped, such as displaying the file names or sizes."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    SampleSubTitle("File Selector"),
+                    Label("Selected file size: ").Inline().SetContent(TextBlock("").Var(out var size)),
+                    FileSelector().OnFileSelected((fs,                                                                            e) => size.Text = fs.SelectedFile.size.ToString() + " bytes"),
+                    FileSelector().SetPlaceholder("You must select a zip file").Required().SetAccepts(".zip").OnFileSelected((fs, e) => size.Text = fs.SelectedFile.size.ToString() + " bytes"),
+                    FileSelector().SetPlaceholder("Please select any image").SetAccepts("image/*").OnFileSelected((fs,            e) => size.Text = fs.SelectedFile.size.ToString() + " bytes"),
+                    SampleSubTitle("File Drop Area"),
+                    Label("Dropped Files: ").SetContent(Stack().Var(out var droppedFiles)),
+                    FileDropArea().OnFilesDropped((s, e) =>
+                    {
+                        foreach (var file in e)
+                        {
+                            droppedFiles.Add(TextBlock(file.name).Small());
+                        }
+                    }).Multiple(),
+                    SampleSubTitle("File Drop Area wrapping your own content"),
+                    TextBlock("Clicking anywhere opens the file dialog, except on the button below, which keeps its own click.").Small(),
+                    FileDropArea(VStack().WS().AlignItemsCenter().P(16).Children(
+                        TextBlock("Drag and drop a file here").SemiBold().PB(4),
+                        TextBlock("or click to browse").Small(),
+                        Button("I have my own click").PT(12).OnClick(() => droppedFiles.Add(TextBlock("button clicked").Small()))
+                    )).OnFilesDropped((s, e) =>
+                    {
+                        foreach (var file in e)
+                        {
+                            droppedFiles.Add(TextBlock(file.name).Small());
+                        }
+                    }).Multiple().WS()
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(OmniBoxSample), typeof(ChatSample), typeof(ContextCardSample), typeof(ValidatorSample));
+        }
+
+        public HTMLElement Render() => _content.Render();
+    }
+}

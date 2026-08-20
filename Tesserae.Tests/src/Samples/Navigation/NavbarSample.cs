@@ -1,0 +1,44 @@
+﻿using System;
+using Tesserae;
+using static Transpose.Core.dom;
+using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
+
+namespace Tesserae.Tests.Samples
+{
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 40, Icon = UIcons.BarsStaggered)]
+    public class NavbarSample : IComponent, ISample
+    {
+        private readonly IComponent _content;
+
+        public NavbarSample()
+        {
+            var navbar = Sidebar().AsNavbar();
+
+            navbar.AddHeader(new SidebarButton("brand", UIcons.Rocket, "My App").Primary());
+            navbar.AddHeader(new SidebarButton("dashboard", UIcons.Dashboard, "Dashboard"));
+
+            navbar.AddContent(new SidebarButton("profile", UIcons.User, "Profile"));
+            navbar.AddContent(new SidebarButton("settings", UIcons.Settings, "Settings"));
+            navbar.AddContent(new SidebarSeparator("sep1"));
+            navbar.AddContent(new SidebarButton("logout", UIcons.SignOutAlt, "Logout"));
+
+            navbar.AddFooter(new SidebarButton("footer", UIcons.Info, "About"));
+
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(NavbarSample), UIcons.MapMarker, "A navigation bar component")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("A Sidebar rendered as a Navbar. Header items are inline, others are in a drawer."))).SetTitle("Overview"),
+                    Card(VStack().WS().Children(
+                    VStack().H(500.px()).Children(
+                        navbar,
+                        TextBlock("Page Content below the navbar...").Padding(16.px())
+                    )
+               )).SetTitle("Usage")))
+               .SeeAlso(typeof(SidebarSample), typeof(SidenavSample), typeof(MenuSample), typeof(CommandBarSample), typeof(BreadcrumbSample));
+        }
+
+        public HTMLElement Render() => _content.Render();
+    }
+}

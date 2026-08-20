@@ -171,7 +171,29 @@ When adding a new component:
 1. Add the implementation under `Tesserae/src/Components`.
 2. Add a factory method in `UI.Components.cs`.
 3. Add fluent helpers or extension methods in `Tesserae/src/Extensions` if needed.
-4. Add a sample in `Tesserae.Tests` demonstrating usage.
+4. Add a sample in `Tesserae.Tests` demonstrating usage — see below for where it goes.
+
+### Where a sample goes in the gallery
+
+The gallery groups samples by *what you are trying to do*, not by how the component
+is implemented. The categories live in one place,
+[`Tesserae.Tests/src/Samples/SampleGroup.cs`](Tesserae.Tests/src/Samples/SampleGroup.cs):
+a constant per category plus `InDisplayOrder`, which is what the sidebar sorts by
+(`App.cs` orders groups through `SampleGroup.DisplayIndex`, not alphabetically). A
+sample picks its category on its attribute, and `Order` places it inside that
+category — the list runs from the most fundamental member outwards, in steps of 10:
+
+```csharp
+[SampleDetails(Group = SampleGroup.Inputs, Order = 10, Icon = UIcons.InputText)]
+```
+
+Two conventions keep it navigable: the file lives in
+`Tesserae.Tests/src/Samples/<Constant>/` (the folder is named after the *constant* —
+`Inputs`, `DateTime`, `Overlays` — not the display string), and the icon is unique
+within the gallery, since the sidebar is read by glyph as much as by label. The same
+categories are used by the `tesserae` skill's reference index and by the
+`documentation` repo under `tesserae/`; a component that moves category has to move
+in all three.
 
 ## Layout system
 

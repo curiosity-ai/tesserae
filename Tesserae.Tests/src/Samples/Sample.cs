@@ -28,7 +28,7 @@ namespace Tesserae.Tests
         }
         public static string FormatSampleName(string sampleType)
         {
-            return string.Join("", sampleType.Replace("Sample", "").Select(c => char.IsUpper(c) ? " " + c : "" + c)).Trim().Replace("U Icons", "UIcons").Replace(" And ", " and ");
+            return string.Join("", sampleType.Replace("Sample", "").Select(c => char.IsUpper(c) ? " " + c : "" + c)).Trim().Replace("U Icons", "UIcons").Replace("H T M L", "HTML").Replace(" And ", " and ");
         }
     }
 }

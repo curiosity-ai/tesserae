@@ -176,7 +176,10 @@ namespace Tesserae.Tests
 
             var groupIndex = 0;
 
-            foreach (var group in samples.Values.GroupBy(s => s.Group).OrderBy(g => g.Key))
+            // Groups are laid out in SampleGroup.InDisplayOrder, not alphabetically: the sidebar
+            // reads top-down from the containers a page is built out of to the helpers that render
+            // nothing on their own, and alphabetical ordering would scatter that.
+            foreach (var group in samples.Values.GroupBy(s => s.Group).OrderBy(g => SampleGroup.DisplayIndex(g.Key)).ThenBy(g => g.Key))
             {
                 var groupKey = group.Key + groupIndex++;
 

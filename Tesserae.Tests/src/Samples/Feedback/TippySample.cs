@@ -1,0 +1,60 @@
+﻿using System;
+using System.Threading.Tasks;
+using static Transpose.Core.dom;
+using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
+
+namespace Tesserae.Tests.Samples
+{
+    [SampleDetails(Group = SampleGroup.Feedback, Order = 50, Icon = UIcons.CommentInfo)]
+    public class TippySample : IComponent, ISample
+    {
+        private readonly IComponent content;
+
+        public TippySample()
+        {
+            var stack       = SectionStack().Secondary();
+            var countSlider = Slider(5, 0, 10, 1);
+
+            var size = new SettableObservable<int>();
+            var deferedWithChangingSize = DeferSync(size, sz => Button($"Height = {sz:n0}px").H(sz)).WS();
+
+            content = SectionStack().Secondary()
+               .SampleTitle(typeof(TippySample), UIcons.Comment, "A utility to display tippy tooltips")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Tippy is the underlying engine for tooltips and popovers in Tesserae. It provides a flexible way to attach rich, interactive content to any component, with support for various animations, placements, and trigger events."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use tooltips to provide additional context or information without cluttering the main UI. Keep text tooltips brief and focused. For interactive tooltips, ensure the content is easy to use and provides clear affordances. Utilize animations sparingly to enhance the user experience without being distracting. Always consider the placement of the tooltip to ensure it doesn't obscure relevant content."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    VStack().Children(
+                        Button("Hover me").W(200).Tooltip("This is a simple text tooltip"),
+                        Button("Animated Tooltip").W(200).Tooltip("This is a simple text tooltip with animations", TooltipAnimation.ShiftAway),
+                        //A component tooltip made of text rather than of controls: it has a colour of its
+                        //own, so it is the case that catches the tooltip surface and its text disagreeing.
+                        Button("Text Component Tooltip").W(200).Tooltip(TextBlock("Two lines of text,\nas a component.").BreakSpaces().MaxWidth(350.px())),
+                        Button("Interactive Tooltip").W(200).Tooltip(Button("Click me").OnClick(() => Toast().Success("You clicked!")), interactive: true),
+                        Button("Defers on Tooltips").W(200).Tooltip(deferedWithChangingSize),
+                        Button("Nested Tooltips").W(200).Tooltip(Button("Click me").OnClick((b1, _) => Tippy.ShowFor(b1, Button("Click me").OnClick(() => Toast().Success("You clicked!")), out var _)), interactive: true)
+                    ))).SetTitle("Usage")))
+               .SeeAlso(typeof(PopoverSample), typeof(TeachingSample), typeof(ContextMenuSample), typeof(ToastSample));
+
+            content.WhenMounted(() =>
+            {
+                var rng = new SampleRandom(8_808);
+                var repeat = window.setInterval(_ =>
+                {
+                    size.Value = rng.Next(0, 10) * 50 + 50;
+                }, 1000);
+                content.WhenRemoved(() => window.clearInterval(repeat));
+            });
+        }
+
+        public HTMLElement Render()
+        {
+            return content.Render();
+        }
+    }
+}

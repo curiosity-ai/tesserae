@@ -1,10 +1,10 @@
-using static Transpose.Core.dom;
+﻿using static Transpose.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Utilities", Order = 30, Icon = UIcons.ShieldCheck)]
+    [SampleDetails(Group = SampleGroup.Utilities, Order = 60, Icon = UIcons.ShieldCheck)]
     public class SanitizeHTMLSample : IComponent, ISample
     {
         private readonly IComponent _content;

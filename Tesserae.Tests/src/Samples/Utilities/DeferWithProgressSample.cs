@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Utilities", Order = 10, Icon = UIcons.Spinner)]
+    [SampleDetails(Group = SampleGroup.Utilities, Order = 30, Icon = UIcons.HourglassEnd)]
     public class DeferWithProgressSample : IComponent, ISample
     {
         private readonly IComponent content;

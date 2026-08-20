@@ -1,0 +1,40 @@
+﻿using System;
+using static Transpose.Core.dom;
+using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
+
+namespace Tesserae.Tests.Samples
+{
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 20, Icon = UIcons.GripLines)]
+    public class SidebarSeparatorSample : IComponent, ISample
+    {
+        private readonly IComponent _content;
+
+        public SidebarSeparatorSample()
+        {
+            var sidebar = Sidebar();
+
+            sidebar.AddHeader(new SidebarText("header", "Header"));
+            sidebar.AddContent(new SidebarButton("1", UIcons.Home, "Home"));
+            sidebar.AddContent(new SidebarSeparator("sep1"));
+            sidebar.AddContent(new SidebarButton("2", UIcons.User, "Profile"));
+            sidebar.AddContent(new SidebarSeparator("sep2", "More Options"));
+            sidebar.AddContent(new SidebarButton("3", UIcons.Settings, "Settings"));
+
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(SidebarSeparatorSample), UIcons.Minus, "A visual separator for sidebar items")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("A separator for the Sidebar component to visually group items."))).SetTitle("Overview"),
+                    Card(VStack().WS().Children(
+                    TextBlock("Basic separator:"),
+                    Stack().Children(
+                        sidebar.S().H(500.px())
+                    )
+               )).SetTitle("Usage")))
+               .SeeAlso(typeof(SidebarSample), typeof(SidenavSample), typeof(HorizontalSeparatorSample));
+        }
+
+        public HTMLElement Render() => _content.Render();
+    }
+}
