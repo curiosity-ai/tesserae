@@ -20,3 +20,10 @@
     white-space: pre-wrap;
     word-break: break-word;
 }
+
+/* SidebarCommandsSample: a skin that insets a row's commands from the edge, the way a product's own
+   stylesheet does. It goes on the row rather than on the strip of commands, because the label's
+   reservation reads the same value and a custom property only reaches it from an ancestor they share. */
+.tss-sample-commands-inset {
+    --tss-sidebar-commands-inset: 12px;
+}
