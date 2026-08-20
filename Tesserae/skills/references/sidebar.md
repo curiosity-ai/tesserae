@@ -145,6 +145,32 @@ It is an `ISidebarItem`, so it is normally added to a `Sidebar`; `.RenderOpen()`
 gives you the box as an `IComponent` when the list it filters is drawn by a
 component of your own rather than by the sidebar itself.
 
+## Commands on a row
+
+A `SidebarCommand` is a small icon button that lives on the right of a
+`SidebarButton` — rename, pin, close, search. Pass them to the button's
+constructor after the text:
+
+```csharp
+new SidebarButton("workspace", new ImageIcon(logoUrl), "Technical Support",
+    new SidebarCommand(UIcons.Search).OnClick(() => palette.Open()).Tooltip("Search"),
+    new SidebarCommand(UIcons.AngleLeft).OnClick(() => sidebar.ShiftBack()))
+```
+
+They are drawn over the row, not in it, and appear on hover — so a long label
+runs the full width of the rail and only its tail is covered while the pointer
+is on that row. `.CommandsAlwaysVisible()` keeps them drawn at all times; the
+row then reserves room for exactly as many commands as it has, and the label
+truncates with an ellipsis before them instead of running underneath.
+
+A skin that moves the commands further in from the edge sets
+`--tss-sidebar-commands-inset` **on the row** (not on the command strip) so the
+label's reservation moves with them:
+
+```css
+.my-brand-row { --tss-sidebar-commands-inset: 12px; }
+```
+
 ## Rounded (pill) style
 
 `SidebarButton.Rounded(BorderRadius = Full)` and

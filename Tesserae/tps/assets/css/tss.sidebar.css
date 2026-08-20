@@ -176,10 +176,15 @@
     margin-top: 2px;
 }
 
+/* A flex item's automatic minimum size is its own content, so without min-width the row that holds the
+   image and the name refuses to shrink and paints straight through whatever padding the row reserved -
+   which is why a long name ran under the commands rather than stopping before them. */
 .tss-sidebar-btn.tss-btn > .tss-btn-with-image {
     display: inline-flex;
     flex-wrap: nowrap;
     align-items: center;
+    min-width: 0;
+    overflow: hidden;
 }
 
     .tss-sidebar-btn.tss-btn > .tss-btn-with-image > .tss-image {
@@ -190,9 +195,14 @@
         padding:2px;
     }
 
+/* The ellipsis the plain button gets from `.tss-sidebar-btn.tss-btn > span` never reached this one: with
+   an image icon the name is a grandchild, not a direct child. */
 .tss-sidebar-btn.tss-btn .tss-btn-with-image > .tss-image + span:not(:empty) {
     margin-left: 10px;
     min-width: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn.tss-btn,
@@ -246,9 +256,23 @@
     min-width: 24px !important;
 }
 
+/* Commands sit over the row rather than in it, so a row that shows them permanently has to keep its
+   label out from under them. The wrapper carries how wide its own strip of commands is
+   (--tss-sidebar-commands-width, written from the command count when the row is built) and reads the
+   same inset the strip is positioned by, so the room is exact for two commands and for five and a skin
+   that moves the strip in from the edge only has to say so once. The label runs right up to the strip
+   rather than stopping short of it: each command is a 22px box around a 16px glyph, so the gap is
+   already drawn, and every pixel spent here is a word the name loses. A hover-only command reserves
+   nothing - it covers the tail of the label while the pointer is on that row, and indenting every label
+   in the rail for something not drawn would cost more. */
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-open.tss-sidebar-commands-always-open > .tss-btn,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-open.tss-sidebar-commands-always-open > a > .tss-btn {
+    padding-right: calc(var(--tss-sidebar-commands-width, 0px) + var(--tss-sidebar-commands-inset, 4px));
+}
+
 .tss-sidebar-commands {
     position: absolute;
-    right: 4px;
+    right: var(--tss-sidebar-commands-inset, 4px);
     display: none;
     z-index: 2;
     top: 3px;
