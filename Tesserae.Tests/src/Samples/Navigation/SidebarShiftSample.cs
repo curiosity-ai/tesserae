@@ -49,7 +49,7 @@ namespace Tesserae.Tests.Samples
                                    .Left(sidebar.S())
                                    .Right(Stack().WS().HS().Children(homePane, chatPane))
                     )).SetTitle("Usage")))
-               .SeeAlso(typeof(SidebarSample), typeof(SidebarSeparatorSample), typeof(SidenavSample), typeof(NavbarSample));
+               .SeeAlso(typeof(SidebarSample), typeof(SidebarCommandsSample), typeof(SidebarSeparatorSample), typeof(SidenavSample), typeof(NavbarSample));
         }
 
         private static void BuildMainSidebar(Sidebar sidebar, Sidebar chatBar)
