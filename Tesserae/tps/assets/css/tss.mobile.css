@@ -260,16 +260,6 @@ body.tss-mobile .tss-sectiontitle-title {
     white-space: normal !important;
 }
 
-/* ─── Navbar top bar — keep always-visible commands off the label ─────────── */
-/* In the horizontal top bar a sidebar button shrinks to its content width, so
-   its absolutely-positioned commands (shown via CommandsAlwaysVisible) would
-   overlap the text. Reserve room on the right so the label and command icons
-   don't collide. */
-body.tss-mobile .tss-navbar .tss-sidebar-header:not(.tss-navbar-drawer-header) .tss-sidebar-btn-open.tss-sidebar-commands-always-open > .tss-btn,
-body.tss-mobile .tss-navbar .tss-sidebar-header:not(.tss-navbar-drawer-header) .tss-sidebar-btn-open.tss-sidebar-commands-always-open > a > .tss-btn {
-    padding-right: 36px !important;
-}
-
 /* ─── Cards — tighter inner padding to reclaim horizontal space ───────────── */
 /* The default card padding eats a large share of a phone's width; trim it so
    form fields and text get more room without touching the desktop layout. */
