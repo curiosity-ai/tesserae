@@ -77,14 +77,38 @@ public class ReadOnlyArray<T>
 }
 ```
 
+## Loading a library at run time
+
+A bundle only some screens need does not belong in `index.html`. Fetch it when it is first
+used, through the Transpose runtime's loader:
+
+```csharp
+using Transpose;
+
+await Require.RequireAsync("assets/js/chart.min.js");                  // classic script
+await Require.RequireAsync("assets/css/chart.css", "assets/js/chart.js"); // in order: css, then js
+await Require.RequireAsync(RequireKind.Module, "./viewer.js");         // a module that keeps a .js name
+```
+
+It picks the element from the URL (`.css` → a stylesheet link, `.mjs` → a module, anything else →
+a classic script), resolves the URL against the document base, shares one fetch between every
+caller, and — the part worth knowing — **falls back between the `.js` and `.min.js` spellings** of
+the same file, because a site keeps whichever variant its own build produced. Several URLs load in
+order, so a plugin arrives after the library it extends.
+
+`Tesserae.Require` (`LoadScriptAsync` / `LoadModuleAsync` / `LoadStyle`) still works and forwards
+to exactly this.
+
 ## Gotchas
 
 - `Script.Write` strings are opaque to the compiler — typos surface only at
   runtime. Pass C# values as `{n}` placeholders rather than interpolating them
   into the string so they compile correctly under minification.
 - Property/feature checks: `Script.Write<bool>("(typeof {0}.disabled === 'undefined')", el)`.
-- Transpose renames JS files between Debug/Release (`.min.js`); any external script you
-  call must be bundled so the global exists at runtime — see `wrap-a-javascript-library`.
+- A Debug build and a Release build link different variants of a bundle (`x.js` vs `x.min.js`);
+  any external script you call must be bundled so the global exists at runtime — see
+  `wrap-a-javascript-library` — and fetched through `Require.RequireAsync`, which resolves the
+  variant difference for you.
 
 ## Related
 
