@@ -157,6 +157,19 @@ dotnet serve --port 5000
 
 ## Conventions
 
+### Loading a script, module or stylesheet at run time
+
+Use **`Transpose.Require.RequireAsync`** — the loader in the Transpose runtime. `Tesserae.Require`
+still exists so applications that call it keep compiling, but it is now four forwarding lines: the
+loading itself is shared with every other library on Transpose rather than reimplemented here.
+
+What the shared one does that the old `Require` did not: it picks the element from the URL (`.css`
+→ a stylesheet link, `.mjs` → a module, anything else → a classic script), resolves the URL against
+the document base first — so every spelling of one file is one entry, and a file `index.html`
+already carries is waited on rather than fetched twice — forgets a failed load instead of
+remembering it as done, and falls back between the `.js` and `.min.js` spellings of the same file,
+which is what lets a library published once work in a site built either way.
+
 ### Type safety
 
 Favor strong, static typing. Avoid `dynamic` unless absolutely necessary
