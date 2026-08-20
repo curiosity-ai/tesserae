@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -83,6 +84,10 @@ namespace Tesserae.Tests.Samples
                             new Tree.Item("Child D", UIcons.File)
                         )
                     ),
+                    SampleSubTitle("Multiple Selection, Cascading Into Folders"),
+                    TextBlock("Click a checkbox to pick one row, ctrl (or cmd) click a row to do the same, and shift-click one to pick everything up to it. Selecting a folder selects everything inside it; a folder only part of which is picked is drawn half-selected. The read-only file cannot be picked at all.").Small().Secondary(),
+                    MultipleSelectionTree(out var selectionLabel),
+                    selectionLabel,
                     SampleSubTitle("Tree with Commands and Context Menu"),
                     new Tree().Items(
                         new Tree.Item("src", UIcons.Folder,
@@ -113,6 +118,37 @@ namespace Tesserae.Tests.Samples
                     )
                )).SetTitle("Usage")))
                .SeeAlso(typeof(DetailsListSample), typeof(AccordionSample), typeof(PlanSample), typeof(NodeViewSample), typeof(SearchableGroupedListSample));
+        }
+
+        private static IComponent MultipleSelectionTree(out TextBlock selectionLabel)
+        {
+            var label = TextBlock("Nothing selected").Small().Secondary();
+
+            var tree = new Tree().Compact().Selectable(TreeSelectionMode.Multiple).CascadeSelection().Items(
+                new Tree.Item("config", UIcons.Folder).Expanded().Items(
+                    new Tree.Item("endpoints", UIcons.Folder).Expanded().Items(
+                        new Tree.Item("search.cs",   UIcons.File),
+                        new Tree.Item("upload.cs",   UIcons.File),
+                        new Tree.Item("webhook.cs",  UIcons.File)
+                    ),
+                    new Tree.Item("indexes", UIcons.Folder).Expanded().Items(
+                        new Tree.Item("people.json",    UIcons.File),
+                        new Tree.Item("documents.json", UIcons.File)
+                    ),
+                    new Tree.Item("workspace.json", UIcons.File).Selectable(false)
+                )
+            );
+
+            tree.OnSelectionChanged((_, items) =>
+            {
+                var files = items.Where(i => !i.HasChildren).Select(i => i.Text).ToArray();
+
+                label.Text = files.Length == 0 ? "Nothing selected" : files.Length + " selected: " + string.Join(", ", files);
+            });
+
+            selectionLabel = label;
+
+            return tree;
         }
 
         public HTMLElement Render() => _content.Render();

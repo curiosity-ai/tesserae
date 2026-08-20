@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,15 +8,36 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     /// <summary>
+    /// How many items of a <see cref="Tree"/> can be selected at once, and with which gestures.
+    /// </summary>
+    public enum TreeSelectionMode
+    {
+        /// <summary>Items cannot be selected.</summary>
+        None,
+        /// <summary>One item at a time: selecting an item unselects whatever was selected before.</summary>
+        Single,
+        /// <summary>
+        /// Any number of items, with the gestures of a search-results list: the checkbox toggles one item,
+        /// ctrl (or cmd) clicking a row does the same, and shift-clicking a row selects everything between it
+        /// and the last item the user picked.
+        /// </summary>
+        Multiple
+    }
+
+    /// <summary>
     /// A vertically-stacked tree view with expand / collapse, keyboard navigation, selection and arbitrary item
     /// rendering.
     /// </summary>
     [Transpose.Name("tss.Tree")]
     public sealed class Tree : ComponentBase<Tree, HTMLUListElement>, IContainer<Tree.Item, Tree.Item>, IObservableComponent<Tree.Item>
     {
-        private readonly List<Item>               _children         = new List<Item>();
-        private readonly SettableObservable<Item> _observable       = new SettableObservable<Item>();
-        private          bool                     _selectionEnabled = false;
+        private readonly List<Item>               _children      = new List<Item>();
+        private readonly SettableObservable<Item> _observable    = new SettableObservable<Item>();
+        private          TreeSelectionMode        _selectionMode = TreeSelectionMode.None;
+        private          bool                     _cascade;
+        private          Item                     _anchor;
+        private          int                      _updateDepth;
+        private          bool                     _updatePending;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -64,9 +85,24 @@ namespace Tesserae
         public override HTMLElement Render() => InnerElement;
 
         /// <summary>
-        /// Gets the currently selected item.
+        /// Gets the currently selected item - the last one the user picked when several are selected.
         /// </summary>
         public Item SelectedItem { get; private set; }
+
+        /// <summary>
+        /// Returns every selected item, in the order they appear in the tree.
+        /// </summary>
+        public Item[] SelectedItems => Flatten(includeCollapsed: true).Where(i => i.IsSelected).ToArray();
+
+        /// <summary>
+        /// Returns how many items of the tree can be selected at once.
+        /// </summary>
+        public TreeSelectionMode SelectionMode => _selectionMode;
+
+        /// <summary>
+        /// Returns a value indicating whether selecting an item also selects everything below it.
+        /// </summary>
+        public bool IsCascading => _cascade;
 
         /// <summary>
         /// Raised when selected item changed occurs.
@@ -74,11 +110,26 @@ namespace Tesserae
         public event ComponentEventHandler<Tree, Item> SelectedItemChanged;
 
         /// <summary>
+        /// Raised when any item is selected or unselected, with everything that is selected afterwards.
+        /// </summary>
+        public event ComponentEventHandler<Tree, Item[]> SelectionChanged;
+
+        /// <summary>
         /// Registers a callback invoked when the selected event fires.
         /// </summary>
         public Tree OnSelected(ComponentEventHandler<Tree, Item> onSelected)
         {
             SelectedItemChanged += onSelected;
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a callback invoked whenever the selection changes, with every selected item. A gesture
+        /// that moves several items at once - a range, or a cascade into a folder's contents - runs it once.
+        /// </summary>
+        public Tree OnSelectionChanged(ComponentEventHandler<Tree, Item[]> onSelectionChanged)
+        {
+            SelectionChanged += onSelectionChanged;
             return this;
         }
 
@@ -101,27 +152,105 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Enables or disables item selection on the tree.
+        /// Enables or disables single-item selection on the tree. Shorthand for
+        /// <see cref="Selectable(TreeSelectionMode)"/> with <see cref="TreeSelectionMode.Single"/>.
         /// </summary>
-        public Tree SelectionEnabled(bool enabled = true)
+        public Tree SelectionEnabled(bool enabled = true) => Selectable(enabled ? TreeSelectionMode.Single : TreeSelectionMode.None);
+
+        /// <summary>
+        /// Makes the items of the tree selectable, as many at a time as the given mode allows. In
+        /// <see cref="TreeSelectionMode.Multiple"/> every item shows a checkbox, ctrl (or cmd) clicking a row
+        /// toggles it, and shift-clicking one selects everything between it and the last item picked.
+        /// </summary>
+        public Tree Selectable(TreeSelectionMode mode = TreeSelectionMode.Multiple)
         {
-            _selectionEnabled = enabled;
+            _selectionMode = mode;
 
-            if (enabled)
-            {
-                InnerElement.classList.add("tss-tree-selection-enabled");
-            }
-            else
-            {
-                InnerElement.classList.remove("tss-tree-selection-enabled");
-            }
+            InnerElement.UpdateClassIf(mode != TreeSelectionMode.None, "tss-tree-selection-enabled");
+            InnerElement.UpdateClassIf(mode == TreeSelectionMode.Multiple, "tss-tree-selection-multiple");
 
-            foreach (var item in _children)
+            if (mode == TreeSelectionMode.None)
             {
-                item.SelectionEnabled = enabled;
+                ClearSelection();
             }
 
             return this;
+        }
+
+        /// <summary>
+        /// Takes selection away again, unselecting whatever was selected.
+        /// </summary>
+        public Tree NotSelectable() => Selectable(TreeSelectionMode.None);
+
+        /// <summary>
+        /// Makes an item's selection carry to everything below it: selecting a folder selects every item
+        /// inside it, unselecting it unselects them, and a folder only some of whose contents are selected is
+        /// drawn as partially selected.
+        /// </summary>
+        public Tree CascadeSelection(bool cascade = true)
+        {
+            _cascade = cascade;
+
+            if (cascade) RefreshCascadeState();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Unselects every item of the tree.
+        /// </summary>
+        public Tree ClearSelection()
+        {
+            BeginSelectionUpdate();
+
+            foreach (var item in Flatten(includeCollapsed: true))
+            {
+                item.SetSelected(false, cascade: false);
+            }
+
+            _anchor = null;
+
+            EndSelectionUpdate();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Selects every selectable item of the tree.
+        /// </summary>
+        public Tree SelectAll()
+        {
+            if (_selectionMode != TreeSelectionMode.Multiple) return this;
+
+            BeginSelectionUpdate();
+
+            foreach (var item in Flatten(includeCollapsed: true))
+            {
+                item.SetSelected(true, cascade: false);
+            }
+
+            RefreshCascadeState();
+
+            EndSelectionUpdate();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Re-reads every folder's state from its contents, deepest first.
+        /// </summary>
+        private void RefreshCascadeState()
+        {
+            if (!_cascade) return;
+
+            BeginSelectionUpdate();
+
+            foreach (var child in _children)
+            {
+                child.RefreshCascadeSubtree();
+            }
+
+            EndSelectionUpdate();
         }
 
         /// <summary>
@@ -129,21 +258,28 @@ namespace Tesserae
         /// </summary>
         public void Add(Item component)
         {
-            component.SelectionEnabled = _selectionEnabled;
+            component.AttachTo(this, null);
             _children.Add(component);
             InnerElement.appendChild(component.Render());
-            component.InternalSelectedItem += OnItemSelected;
+            component.InternalSelectionChanged += OnItemSelectionChanged;
+
+            if (_cascade)
+            {
+                BeginSelectionUpdate();
+                component.RefreshCascadeSubtree();
+                EndSelectionUpdate();
+            }
 
             if (component.IsSelected)
             {
-                if (SelectedItem != null) SelectedItem.IsSelected = false;
+                if (_selectionMode != TreeSelectionMode.Multiple && SelectedItem != null) SelectedItem.IsSelected = false;
                 SelectedItem      = component;
                 _observable.Value = component;
             }
 
             if (component.SelectedChild != null)
             {
-                if (SelectedItem != null) SelectedItem.IsSelected = false;
+                if (_selectionMode != TreeSelectionMode.Multiple && SelectedItem != null) SelectedItem.IsSelected = false;
                 SelectedItem = component.SelectedChild;
             }
         }
@@ -154,6 +290,8 @@ namespace Tesserae
         public void Clear()
         {
             _children.Clear();
+            _anchor      = null;
+            SelectedItem = null;
             ClearChildren(InnerElement);
         }
 
@@ -166,29 +304,37 @@ namespace Tesserae
 
             if (index >= 0)
             {
-                newComponent.SelectionEnabled = _selectionEnabled;
-                _children[index]              = newComponent;
+                newComponent.AttachTo(this, null);
+                _children[index] = newComponent;
                 InnerElement.replaceChild(newComponent.Render(), oldComponent.Render());
-                newComponent.InternalSelectedItem += OnItemSelected;
+                newComponent.InternalSelectionChanged += OnItemSelectionChanged;
 
                 if (newComponent.IsSelected)
                 {
-                    if (SelectedItem != null) SelectedItem.IsSelected = false;
+                    if (_selectionMode != TreeSelectionMode.Multiple && SelectedItem != null) SelectedItem.IsSelected = false;
                     SelectedItem = newComponent;
                 }
             }
         }
 
-        private void OnItemSelected(Item sender)
+        private void OnItemSelectionChanged(Item sender, bool isSelected)
         {
-            foreach (var c in _children)
+            if (isSelected)
             {
-                c.UnselectRecursively(sender);
+                if (_selectionMode != TreeSelectionMode.Multiple)
+                {
+                    foreach (var c in _children)
+                    {
+                        c.UnselectRecursively(sender);
+                    }
+                }
+
+                SelectedItem      = sender;
+                _observable.Value = sender;
+                SelectedItemChanged?.Invoke(this, sender);
             }
 
-            SelectedItem      = sender;
-            _observable.Value = sender;
-            SelectedItemChanged?.Invoke(this, sender);
+            RaiseSelectionChanged();
         }
 
         /// <summary>
@@ -205,13 +351,115 @@ namespace Tesserae
             return this;
         }
 
+        // A gesture moves several items at once - a range, or a folder cascading into its contents - and each
+        // of them reports its own change. The depth counter holds the tree-wide event back until the whole
+        // gesture has run, so a handler that reads SelectedItems never sees a half-applied selection.
+        internal void BeginSelectionUpdate() => _updateDepth++;
+
+        internal void EndSelectionUpdate()
+        {
+            _updateDepth--;
+
+            if (_updateDepth > 0) return;
+
+            _updateDepth = 0;
+
+            if (_updatePending)
+            {
+                _updatePending = false;
+                SelectionChanged?.Invoke(this, SelectedItems);
+            }
+        }
+
+        private void RaiseSelectionChanged()
+        {
+            if (_updateDepth > 0)
+            {
+                _updatePending = true;
+                return;
+            }
+
+            SelectionChanged?.Invoke(this, SelectedItems);
+        }
+
+        /// <summary>
+        /// Toggles the given item, and makes it the anchor the next shift-click ranges from.
+        /// </summary>
+        internal void ToggleSelection(Item item)
+        {
+            if (_selectionMode == TreeSelectionMode.None || !item.IsSelectable) return;
+
+            BeginSelectionUpdate();
+
+            item.SetSelected(!item.IsSelected, cascade: _cascade);
+            _anchor = item;
+
+            EndSelectionUpdate();
+        }
+
+        /// <summary>
+        /// Selects everything between the anchor - the last item the user picked - and the given item,
+        /// unselecting whatever falls outside it, the way a shift-click through a list of search results does.
+        /// The range runs over the rows that are actually on screen, so a collapsed folder counts as one row
+        /// (and, when the tree cascades, brings its contents with it).
+        /// </summary>
+        internal void SelectRangeTo(Item item)
+        {
+            if (_selectionMode != TreeSelectionMode.Multiple || !item.IsSelectable) return;
+
+            var visible = Flatten(includeCollapsed: false);
+            var to      = visible.IndexOf(item);
+
+            if (to < 0) return;
+
+            var from = _anchor is object ? visible.IndexOf(_anchor) : -1;
+
+            if (from < 0)
+            {
+                //Nothing to range from yet: this click becomes the anchor, the way the first shift-click on a
+                //list of search results does.
+                _anchor = item;
+                ToggleSelection(item);
+                return;
+            }
+
+            if (from > to)
+            {
+                var swap = from;
+                from     = to;
+                to       = swap;
+            }
+
+            BeginSelectionUpdate();
+
+            for (var i = 0; i < visible.Count; i++)
+            {
+                visible[i].SetSelected(i >= from && i <= to, cascade: _cascade);
+            }
+
+            EndSelectionUpdate();
+        }
+
+        private List<Item> Flatten(bool includeCollapsed)
+        {
+            var items = new List<Item>();
+
+            foreach (var child in _children)
+            {
+                child.Flatten(items, includeCollapsed);
+            }
+
+            return items;
+        }
+
         [Transpose.Name("tss.Tree.Item")]
         public class Item : ComponentBase<Item, HTMLLIElement>, IContainer<Item, Item>
         {
-            internal event ComponentEventHandler<Item> InternalSelectedItem;
+            internal event Action<Item, bool>          InternalSelectionChanged;
             private event  ComponentEventHandler<Item> SelectedItem;
             private event  ComponentEventHandler<Item> ExpandedItem;
             private event  ComponentEventHandler<Item> CollapsedItem;
+            private event  Action<Item, bool>          SelectionChangedItem;
 
             private readonly HTMLDivElement   _headerDiv;
             private readonly HTMLElement      _chevronSpan;
@@ -226,23 +474,14 @@ namespace Tesserae
             private readonly List<Item> _childItems = new List<Item>();
             private          bool       _isExpanded;
             private          bool       _isSelected;
-            private          bool       _selectionEnabled;
+            private          bool       _isPartiallySelected;
+            private          bool       _isSelectable = true;
+            private          Tree       _tree;
 
             internal Item SelectedChild { get; private set; }
 
-            internal bool SelectionEnabled
-            {
-                get => _selectionEnabled;
-                set
-                {
-                    _selectionEnabled = value;
-
-                    foreach (var child in _childItems)
-                    {
-                        child.SelectionEnabled = value;
-                    }
-                }
-            }
+            /// <summary>Gets the item this one hangs from, or null when it is a root of the tree.</summary>
+            public Item Parent { get; private set; }
 
             /// <summary>
             /// Initializes a new instance of this class.
@@ -389,38 +628,52 @@ namespace Tesserae
             }
 
             /// <summary>
-            /// Gets or sets a value indicating whether the component is selected.
+            /// Gets or sets a value indicating whether the component is selected. On a tree that cascades
+            /// (<see cref="Tree.CascadeSelection(bool)"/>) setting it carries to everything below the item.
             /// </summary>
             public bool IsSelected
             {
                 get => _isSelected;
-                set
-                {
-                    if (value != _isSelected)
-                    {
-                        _isSelected = value;
-                        InnerElement.setAttribute("aria-selected", _isSelected ? "true" : "false");
+                set => SetSelected(value, cascade: _tree is object && _tree.IsCascading);
+            }
 
-                        if (_isSelected)
-                        {
-                            _headerDiv.classList.add("tss-selected");
-                            _checkboxSpan.classList.replace(UIcons.Square.ToCssClass(), UIcons.Checkbox.ToCssClass());
-                            InternalSelectedItem?.Invoke(this);
-                            SelectedItem?.Invoke(this);
-                        }
-                        else
-                        {
-                            _headerDiv.classList.remove("tss-selected");
-                            _checkboxSpan.classList.replace(UIcons.Checkbox.ToCssClass(), UIcons.Square.ToCssClass());
-                        }
-                    }
+            /// <summary>
+            /// Returns a value indicating whether only some of the items below this one are selected. Only a
+            /// tree that cascades (<see cref="Tree.CascadeSelection(bool)"/>) ever reports this.
+            /// </summary>
+            public bool IsPartiallySelected => _isPartiallySelected;
+
+            /// <summary>
+            /// Returns a value indicating whether the item can be selected at all. An item that cannot is
+            /// skipped by a range, by a cascade, and by <see cref="Tree.SelectAll"/>, and shows no checkbox.
+            /// </summary>
+            public bool IsSelectable => _isSelectable;
+
+            /// <summary>
+            /// Says whether the item can be selected. Use it for a row that is there to be read rather than
+            /// picked - a file with nothing to import, a folder no action applies to.
+            /// </summary>
+            public Item Selectable(bool selectable = true)
+            {
+                _isSelectable = selectable;
+
+                InnerElement.UpdateClassIfNot(selectable, "tss-tree-item-not-selectable");
+
+                if (!selectable && _isSelected)
+                {
+                    SetSelected(false, cascade: false);
                 }
+
+                return this;
             }
 
             /// <summary>
             /// Returns a value indicating whether the component has the given children.
             /// </summary>
             public bool HasChildren => _childItems.Count > 0 || _childContainer.hasChildNodes();
+
+            /// <summary>Returns the items hanging from this one.</summary>
+            public Item[] Children => _childItems.ToArray();
 
             /// <summary>
             /// Renders the component's root HTML element.
@@ -435,28 +688,31 @@ namespace Tesserae
                 _childItems.Add(component);
                 _childContainer.appendChild(component.Render());
                 UpdateChevronVisibility();
-                component.InternalSelectedItem += OnChildSelected;
+                component.AttachTo(_tree, this);
+                component.InternalSelectionChanged += OnChildSelectionChanged;
 
                 if (component.IsSelected)
                 {
-                    InternalSelectedItem?.Invoke(component);
+                    InternalSelectionChanged?.Invoke(component, true);
 
-                    if (SelectedChild != null) SelectedChild.IsSelected = false;
+                    if (SelectedChild != null && !(_tree is object && _tree.SelectionMode == TreeSelectionMode.Multiple)) SelectedChild.IsSelected = false;
                     SelectedChild = component;
                 }
 
                 if (component.SelectedChild != null)
                 {
-                    InternalSelectedItem?.Invoke(component.SelectedChild);
+                    InternalSelectionChanged?.Invoke(component.SelectedChild, true);
 
-                    if (SelectedChild != null) SelectedChild.IsSelected = false;
+                    if (SelectedChild != null && !(_tree is object && _tree.SelectionMode == TreeSelectionMode.Multiple)) SelectedChild.IsSelected = false;
                     SelectedChild = component.SelectedChild;
                 }
+
+                RefreshSelectionFromChildren();
             }
 
-            private void OnChildSelected(Item sender)
+            private void OnChildSelectionChanged(Item sender, bool isSelected)
             {
-                InternalSelectedItem?.Invoke(sender);
+                InternalSelectionChanged?.Invoke(sender, isSelected);
             }
 
             /// <summary>
@@ -465,6 +721,7 @@ namespace Tesserae
             public void Clear()
             {
                 _childItems.Clear();
+                SelectedChild = null;
                 ClearChildren(_childContainer);
                 UpdateChevronVisibility();
             }
@@ -480,13 +737,167 @@ namespace Tesserae
                 {
                     _childItems[index] = newComponent;
                     _childContainer.replaceChild(newComponent.Render(), oldComponent.Render());
-                    newComponent.InternalSelectedItem += OnChildSelected;
+                    newComponent.AttachTo(_tree, this);
+                    newComponent.InternalSelectionChanged += OnChildSelectionChanged;
 
                     if (newComponent.IsSelected)
                     {
-                        InternalSelectedItem?.Invoke(newComponent);
+                        InternalSelectionChanged?.Invoke(newComponent, true);
                     }
                 }
+            }
+
+            internal void AttachTo(Tree tree, Item parent)
+            {
+                _tree  = tree;
+                Parent = parent;
+
+                foreach (var child in _childItems)
+                {
+                    child.AttachTo(tree, this);
+                }
+            }
+
+            internal void Flatten(List<Item> into, bool includeCollapsed)
+            {
+                into.Add(this);
+
+                if (!includeCollapsed && !_isExpanded) return;
+
+                foreach (var child in _childItems)
+                {
+                    child.Flatten(into, includeCollapsed);
+                }
+            }
+
+            /// <summary>
+            /// Sets the item's selection, optionally carrying it to everything below, and updates the
+            /// ancestors' partial state on the way back up.
+            /// </summary>
+            internal void SetSelected(bool value, bool cascade)
+            {
+                if (value && !_isSelectable) return;
+
+                _tree?.BeginSelectionUpdate();
+
+                ApplySelected(value);
+
+                if (cascade)
+                {
+                    foreach (var child in _childItems)
+                    {
+                        child.SetSelected(value, cascade: true);
+                    }
+
+                    Parent?.RefreshSelectionFromChildren();
+                }
+
+                _tree?.EndSelectionUpdate();
+            }
+
+            private void ApplySelected(bool value)
+            {
+                if (value == _isSelected && !_isPartiallySelected) return;
+
+                var wasSelected = _isSelected;
+
+                _isSelected          = value;
+                _isPartiallySelected = false;
+
+                InnerElement.setAttribute("aria-selected", _isSelected ? "true" : "false");
+                _headerDiv.UpdateClassIf(_isSelected, "tss-selected");
+                _headerDiv.classList.remove("tss-partially-selected");
+                UpdateCheckbox();
+
+                if (_isSelected == wasSelected) return;
+
+                if (_isSelected) SelectedItem?.Invoke(this);
+
+                SelectionChangedItem?.Invoke(this, _isSelected);
+                InternalSelectionChanged?.Invoke(this, _isSelected);
+            }
+
+            /// <summary>
+            /// Re-reads this item's state from its children - all selected, none, or some - and carries the
+            /// answer further up.
+            /// </summary>
+            internal void RefreshSelectionFromChildren()
+            {
+                if (_tree is null || !_tree.IsCascading) return;
+
+                RecomputeFromChildren();
+
+                Parent?.RefreshSelectionFromChildren();
+            }
+
+            /// <summary>
+            /// Re-reads the whole subtree's state, deepest item first, so a tree built bottom-up shows the
+            /// right folder states the moment it is added.
+            /// </summary>
+            internal void RefreshCascadeSubtree()
+            {
+                foreach (var child in _childItems)
+                {
+                    child.RefreshCascadeSubtree();
+                }
+
+                RecomputeFromChildren();
+            }
+
+            /// <summary>
+            /// A folder with nothing selectable inside it keeps whatever state it had.
+            /// </summary>
+            private void RecomputeFromChildren()
+            {
+                if (!_isSelectable) return;
+
+                var selectable = _childItems.Where(c => c.IsSelectable).ToArray();
+
+                if (selectable.Length == 0) return;
+
+                var selected  = selectable.Count(c => c.IsSelected);
+                var partial   = selectable.Any(c => c.IsPartiallySelected);
+
+                if (selected == selectable.Length && !partial)
+                {
+                    ApplySelected(true);
+                }
+                else if (selected > 0 || partial)
+                {
+                    ApplyPartiallySelected();
+                }
+                else
+                {
+                    ApplySelected(false);
+                }
+            }
+
+            private void ApplyPartiallySelected()
+            {
+                var wasSelected = _isSelected;
+
+                _isSelected          = false;
+                _isPartiallySelected = true;
+
+                InnerElement.setAttribute("aria-selected", "false");
+                _headerDiv.classList.remove("tss-selected");
+                _headerDiv.classList.add("tss-partially-selected");
+                UpdateCheckbox();
+
+                if (wasSelected)
+                {
+                    SelectionChangedItem?.Invoke(this, false);
+                    InternalSelectionChanged?.Invoke(this, false);
+                }
+            }
+
+            private void UpdateCheckbox()
+            {
+                var icon = _isSelected
+                    ? UIcons.Checkbox
+                    : (_isPartiallySelected ? UIcons.SquareMinus : UIcons.Square);
+
+                _checkboxSpan.className = "tss-tree-checkbox " + icon.ToCssClass();
             }
 
             internal void UnselectRecursively(Item sender)
@@ -500,7 +911,7 @@ namespace Tesserae
                 }
                 else if (!_childItems.Any(l => l.IsOrHasChild(sender)))
                 {
-                    IsSelected = false;
+                    SetSelected(false, cascade: false);
 
                     foreach (var child in _childItems)
                     {
@@ -589,6 +1000,15 @@ namespace Tesserae
             }
 
             /// <summary>
+            /// Registers a callback invoked whenever the item is selected or unselected, with the new state.
+            /// </summary>
+            public Item OnSelectionChanged(Action<Item, bool> onSelectionChanged)
+            {
+                SelectionChangedItem += onSelectionChanged;
+                return this;
+            }
+
+            /// <summary>
             /// Registers a callback invoked when the expanded event fires.
             /// </summary>
             public Item OnExpanded(ComponentEventHandler<Item> onExpanded)
@@ -610,7 +1030,25 @@ namespace Tesserae
             {
                 StopEvent(e);
 
-                if (SelectionEnabled && e.shiftKey)
+                var mode = _tree is object ? _tree.SelectionMode : TreeSelectionMode.None;
+
+                if (mode == TreeSelectionMode.Multiple && _isSelectable)
+                {
+                    //The gestures of a search-results list: ctrl (or cmd) picks one more, shift picks
+                    //everything up to here, and a plain click is left to the row's own handler.
+                    if (e.ctrlKey || e.metaKey)
+                    {
+                        _tree.ToggleSelection(this);
+                        return;
+                    }
+
+                    if (e.shiftKey)
+                    {
+                        _tree.SelectRangeTo(this);
+                        return;
+                    }
+                }
+                else if (mode == TreeSelectionMode.Single && e.shiftKey)
                 {
                     IsSelected = !IsSelected;
                 }
@@ -628,7 +1066,21 @@ namespace Tesserae
             {
                 StopEvent(e);
 
-                if (SelectionEnabled)
+                var mode = _tree is object ? _tree.SelectionMode : TreeSelectionMode.None;
+
+                if (mode == TreeSelectionMode.None || !_isSelectable) return;
+
+                if (mode == TreeSelectionMode.Multiple && e.shiftKey)
+                {
+                    _tree.SelectRangeTo(this);
+                    return;
+                }
+
+                if (_tree is object)
+                {
+                    _tree.ToggleSelection(this);
+                }
+                else
                 {
                     IsSelected = !IsSelected;
                 }
