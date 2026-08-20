@@ -178,9 +178,12 @@ When adding a new component:
 The gallery groups samples by *what you are trying to do*, not by how the component
 is implemented. The categories live in one place,
 [`Tesserae.Tests/src/Samples/SampleGroup.cs`](Tesserae.Tests/src/Samples/SampleGroup.cs):
-a constant per category plus `InDisplayOrder`, which is what the sidebar sorts by
-(`App.cs` orders groups through `SampleGroup.DisplayIndex`, not alphabetically). A
-sample picks its category on its attribute, and `Order` places it inside that
+a constant per category plus `InDisplayOrder`, an array of `Category` records carrying
+the name, a one-line blurb, an icon and a tint. That array is the only ordering there
+is — the sidebar sorts groups through `SampleGroup.DisplayIndex` rather than
+alphabetically, and [`HomePage.cs`](Tesserae.Tests/src/HomePage.cs) walks the same array
+to draw the landing page, so a new category appears in both without being written down
+twice. A sample picks its category on its attribute, and `Order` places it inside that
 category — the list runs from the most fundamental member outwards, in steps of 10:
 
 ```csharp
@@ -194,6 +197,13 @@ within the gallery, since the sidebar is read by glyph as much as by label. The 
 categories are used by the `tesserae` skill's reference index and by the
 `documentation` repo under `tesserae/`; a component that moves category has to move
 in all three.
+
+The landing page — what the gallery shows before a sample is picked — is built by
+`HomePage.Create` from the discovered samples: an intro card with the repository and
+documentation links, then one section per category holding a `ContextCard` per sample
+that routes to it. It needs the sample list, which is why `App.cs` discovers the samples
+*before* it builds the content area: `Defer` renders once at mount, and mount happens
+further down.
 
 ## Layout system
 

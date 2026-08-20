@@ -91,8 +91,24 @@ namespace Tesserae.Tests
             searchBox.OnSearch((term) => sidebar.Search(term));
             sidebar.AddHeader(searchBox);
 
+            //Important: Reflection will only properly work here if reflection metadata is emitted inline with the javascript, instead of in a separate .meta.js file
+            //           i.e. in the tps.json file, we need:      "reflection": { "disabled": false, "target":  "inline" },
+
+            var samples = typeof(ISample).Assembly.GetTypes().Where(t => typeof(ISample).IsAssignableFrom(t) && !t.IsInterface)
+               .Select(sampleType =>
+               {
+                   var sg = sampleType.GetCustomAttributes(typeof(SampleDetailsAttribute), true).FirstOrDefault() as SampleDetailsAttribute;
+                   var group = sg is object ? sg.Group : "Others";
+                   int order = sg is object ? sg.Order : 0;
+                   UIcons icon = sg is object ? sg.Icon : UIcons.Circle;
+                   return new Sample(sampleType.Name, Sample.FormatSampleName(sampleType), group, order, icon, async () => await Activator.CreateInstanceAsync(sampleType) as IComponent);
+               })
+               .ToDictionary(s => s.Name, s => s);
+
+            // The home page needs the sample list, so the samples are discovered before the content
+            // area is built — Defer renders once at mount, which happens further down.
             var contentArea = Defer(currentPage, async page => page is null
-                ? (IComponent)CenteredCardWithBackground(Message("Welcome to Tesserae", "Select a component to see more details").Icon(UIcons.Search))
+                ? HomePage.Create(samples.Values)
                 : VStack().S().ScrollY().Children((await page.ContentGenerator()).WS().MinHeight(100.percent())));
 
             // On mobile the sidebar is a fixed top navbar, so the layout is vertical (sidebar then content).
@@ -109,20 +125,6 @@ namespace Tesserae.Tests
             }
 
             MountToBody(pageContent);
-
-            //Important: Reflection will only properly work here if reflection metadata is emitted inline with the javascript, instead of in a separate .meta.js file
-            //           i.e. in the tps.json file, we need:      "reflection": { "disabled": false, "target":  "inline" },
-
-            var samples = typeof(ISample).Assembly.GetTypes().Where(t => typeof(ISample).IsAssignableFrom(t) && !t.IsInterface)
-               .Select(sampleType =>
-               {
-                   var sg = sampleType.GetCustomAttributes(typeof(SampleDetailsAttribute), true).FirstOrDefault() as SampleDetailsAttribute;
-                   var group = sg is object ? sg.Group : "Others";
-                   int order = sg is object ? sg.Order : 0;
-                   UIcons icon = sg is object ? sg.Icon : UIcons.Circle;
-                   return new Sample(sampleType.Name, Sample.FormatSampleName(sampleType), group, order, icon, async () => await Activator.CreateInstanceAsync(sampleType) as IComponent);
-               })
-               .ToDictionary(s => s.Name, s => s);
 
             sidebar.AddHeader(new SidebarButton("SOURCE_CODE", Emoji.House, "Source Code", new SidebarCommand(UIcons.ArrowUpRightFromSquare).Tooltip("Open repository on GitHub")
                    .OnClick(() => window.open("https://github.com/curiosity-ai/tesserae", "_blank")))
