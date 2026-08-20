@@ -1,0 +1,65 @@
+﻿using System;
+using static Transpose.Core.dom;
+using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
+
+namespace Tesserae.Tests.Samples
+{
+    [SampleDetails(Group = SampleGroup.Text, Order = 10, Icon = UIcons.Text)]
+    public class TextBlockSample : IComponent, ISample
+    {
+        private readonly IComponent _content;
+
+        public TextBlockSample()
+        {
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(TextBlockSample), UIcons.Text, "A component to display text")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("TextBlock is the fundamental component for displaying text in Tesserae. It provides a consistent way to apply typography styles, sizes, and weights across your application."),
+                    TextBlock("It supports various built-in sizes, from tiny to mega, and different weights and colors."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use the predefined text sizes to maintain visual hierarchy. Use semi-bold or bold weights for headers and important information. Leverage the built-in color options (primary, success, danger, etc.) to convey meaning consistently. For long blocks of text, ensure the width is constrained for better readability. Use 'NoWrap' and text-overflow properties when dealing with limited space, such as in list items."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    SampleSubTitle("Text Sizes"),
+                    VStack().Children(
+                        TextBlock("Mega Text").Mega(),
+                        TextBlock("XXLarge Text").XXLarge(),
+                        TextBlock("XLarge Text").XLarge(),
+                        TextBlock("Large Text").Large(),
+                        TextBlock("MediumPlus Text").MediumPlus(),
+                        TextBlock("Medium Text (Default)").Medium(),
+                        TextBlock("SmallPlus Text").SmallPlus(),
+                        TextBlock("Small Text").Small(),
+                        TextBlock("XSmall Text").XSmall(),
+                        TextBlock("Tiny Text").Tiny()
+                    ),
+                    SampleSubTitle("Weights and Colors"),
+                    VStack().Children(
+                        TextBlock("Bold Primary Text").Bold().Primary(),
+                        TextBlock("Semi-Bold Success Text").SemiBold().Success(),
+                        TextBlock("Regular Danger Text").Regular().Danger()
+                    ),
+                    SampleSubTitle("Wrapping and Overflow"),
+                    VStack().Children(
+                        TextBlock("Default wrapping:").SemiBold(),
+                        TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.").Width(300.px()),
+                        TextBlock("No wrapping (ellipsis):").SemiBold().MT(16),
+                        TextBlock("This is a very long text that will be truncated with an ellipsis because it has NoWrap set and a constrained width.").NoWrap().Width(300.px())
+                    ),
+                    SampleSubTitle("Glow Effects"),
+                    VStack().Children(
+                        TextBlock("Default Text").Large().Glow(),
+                        TextBlock("Danger Text").Large().Danger().Glow(),
+                        TextBlock("Foreground Color").Large().Foreground(Theme.Colors.Purple600).Glow(),
+                        TextBlock("Custom Glow").Large().Glow(Theme.Colors.Lime300)
+                    )
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(LabelSample), typeof(MarkdownBlockSample), typeof(ListItemTextSample), typeof(EmojiSample), typeof(ThemeColorsSample));
+        }
+
+        public HTMLElement Render() => _content.Render();
+    }
+}

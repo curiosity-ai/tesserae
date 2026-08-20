@@ -1,0 +1,120 @@
+﻿using System;
+using static Transpose.Core.dom;
+using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Tesserae.Tests.Samples
+{
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 60, Icon = UIcons.TablePivot)]
+    public class PivotSample : IComponent, ISample
+    {
+        private readonly IComponent content;
+
+        public PivotSample()
+        {
+            content = SectionStack().Secondary()
+               .SampleTitle(typeof(PivotSample), UIcons.Apps, "A navigation pivot")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Pivots are used for navigating between different views or categories of content within the same context. They provide a compact way to switch between related data sets, such as different tabs in a settings page or different views of a list."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use Pivots to organize content into logical categories. Keep labels short and descriptive. Ensure that the most frequently used views are placed first. Utilize the 'Justified' or 'Centered' styles when the pivot should span the full width of its container. Use the 'Cached' option to preserve the state of a tab's content when switching away."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    SampleSubTitle("Normal Style"),
+                    GetPivot(),
+                    SampleSubTitle("Justified Style"),
+                    GetPivot().Justified(),
+                    SampleSubTitle("Centered Style"),
+                    GetPivot().Centered(),
+                    SampleSubTitle("Cached vs. Not Cached Tabs"),
+                    Pivot().Pivot("tab1", PivotTitle("Cached"),     () => TextBlock(DateTimeOffset.UtcNow.ToString()).Regular(), cached: true)
+                           .Pivot("tab2", PivotTitle("Not Cached"), () => TextBlock(DateTimeOffset.UtcNow.ToString()).Regular(), cached: false),
+                    SampleSubTitle("Cached vs. Not Cached Tabs"),
+                    SampleSubTitle("Scroll with limited height"),
+                    Pivot().MaxHeight(500.px())
+                       .Pivot("tab1", PivotTitle("5 Items"),   () => ItemsList(GetSomeItems(5)).PB(16),   cached: true)
+                       .Pivot("tab2", PivotTitle("10 Items"),  () => ItemsList(GetSomeItems(20)).PB(16),  cached: true)
+                       .Pivot("tab3", PivotTitle("50 Items"),  () => ItemsList(GetSomeItems(50)).PB(16),  cached: true)
+                       .Pivot("tab4", PivotTitle("100 Items"), () => ItemsList(GetSomeItems(100)).PB(16), cached: true),
+                    SampleSubTitle("Tab Overflow"),
+                    SplitView().Resizable().WS().H(500).LeftIsSmaller(300.px()).Left(
+                    Pivot().S()
+                       .Pivot("tab1", PivotTitle("Tab 1"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
+                       .Pivot("tab2", PivotTitle("Tab 2"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
+                       .Pivot("tab3", PivotTitle("Tab 3"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
+                       .Pivot("tab4", PivotTitle("Tab 4"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
+                       .Pivot("tab5", PivotTitle("Tab 5"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
+                       .Pivot("tab6", PivotTitle("Tab 6"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
+                       .Pivot("tab7", PivotTitle("Tab 7"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
+                       .Pivot("tab8", PivotTitle("Tab 8"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true))
+                    .Right(TextBlock("👈 resize this area to scroll the tab strip — use the chevrons, the mouse wheel, or arrow / Home / End keys, and click the ⋯ button for an All Tabs menu").WS().BreakSpaces()),
+                    SampleSubTitle("Many Tabs with Long Titles"),
+                    GetManyTabsPivot(),
+                    SampleSubTitle("Drag to Reorder"),
+                    GetReorderablePivot()
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(SegmentedPivotSample), typeof(CardPivotSample), typeof(PivotSelectorSample), typeof(TabbedModalSample), typeof(AccordionSample), typeof(UnsavedChangesGuardSample));
+        }
+
+        private Pivot GetManyTabsPivot()
+        {
+            var titles = new[]
+            {
+                "Project Overview", "Recent Activity", "Pull Requests", "Code Review",
+                "Build Pipelines", "Test Results", "Deployments", "Issue Tracker",
+                "Documentation", "Team Members", "Performance Metrics", "Security Audits",
+                "Release Notes", "Settings & Preferences", "Integrations", "Audit Log"
+            };
+            var pivot = Pivot().H(220);
+            for (int i = 0; i < titles.Length; i++)
+            {
+                var idx = i;
+                pivot = pivot.Pivot($"many-{idx}", PivotTitle(titles[idx]),
+                                    () => TextBlock($"Content for: {titles[idx]}").P(16), cached: true);
+            }
+            return pivot;
+        }
+
+        private IComponent GetReorderablePivot()
+        {
+            var order = TextBlock("Drag a tab title to reorder the strip").Small();
+
+            var pivot = Pivot().H(180).Reorderable()
+               .OnReorder((s, e) => order.Text = $"Moved '{e.TabId}' from {e.OldIndex} to {e.NewIndex} — now: {string.Join(", ", e.TabIds)}");
+
+            foreach (var name in new[] { "Alpha", "Beta", "Gamma", "Delta", "Epsilon" })
+            {
+                var tab = name;
+                pivot = pivot.Pivot($"reorder-{tab}", PivotTitle(tab), () => TextBlock($"Content for: {tab}").P(16), cached: true, closeable: true);
+            }
+
+            return VStack().WS().Children(pivot, HStack().WS().Children(
+                Button("Move Alpha to front").OnClick(() => pivot.MoveTab("reorder-Alpha", 0)),
+                order.AlignCenter()));
+        }
+
+        private Pivot GetPivot()
+        {
+            return Pivot().Pivot("first-tab",  PivotTitle("First Tab"),  () => TextBlock("First Tab"))
+                          .Pivot("second-tab", PivotTitle("Second Tab"), () => TextBlock("Second Tab"))
+                          .Pivot("third-tab",  PivotTitle("Third Tab"),  () => TextBlock("Third Tab"));
+        }
+
+        public HTMLElement Render()
+        {
+            return content.Render();
+        }
+
+        private IComponent[] GetSomeItems(int count)
+        {
+            return Enumerable
+               .Range(1, count)
+               .Select(number => Card(TextBlock($"Lorem Ipsum {number}").NonSelectable()).MinWidth(200.px()))
+               .ToArray();
+        }
+    }
+}

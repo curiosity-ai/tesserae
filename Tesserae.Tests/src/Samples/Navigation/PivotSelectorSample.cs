@@ -1,0 +1,52 @@
+﻿using System;
+using static Transpose.Core.dom;
+using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Tesserae.Tests.Samples
+{
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 90, Icon = UIcons.DropdownBar)]
+    public class PivotSelectorSample : IComponent, ISample
+    {
+        private readonly IComponent content;
+
+        public PivotSelectorSample()
+        {
+            content = SectionStack().Secondary()
+               .SampleTitle(typeof(PivotSelectorSample), UIcons.Cursor, "A control to select a pivot")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("PivotSelector is a variation of the Pivot component that uses a Dropdown for navigation. It is particularly effective for mobile-first designs or interfaces with a large number of tabs that would otherwise require excessive horizontal scrolling."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use PivotSelector when horizontal space is constrained or when the number of tabs is dynamic and potentially large. Provide clear icons and text for each tab to aid navigation. Utilize the 'SetCommands' feature to surface global actions relevant to all tabs, such as 'Add New' or 'Refresh'."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    SampleSubTitle("Basic PivotSelector"),
+                    PivotSelector()
+                        .Pivot("tab1", "Tab 1", () => Card(TextBlock("Content for Tab 1").P(32)))
+                        .Pivot("tab2", "Tab 2", () => Card(TextBlock("Content for Tab 2").P(32)))
+                        .Pivot("tab3", "Tab 3", () => Card(TextBlock("Content for Tab 3").P(32))),
+                    SampleSubTitle("PivotSelector with custom buttons").PT(16),
+                    PivotSelector()
+                        .SetCommands(
+                            Button().SetIcon(UIcons.Add).NoBorder().NoBackground().OnClick(() => alert("Add clicked")),
+                            Button().SetIcon(UIcons.Settings).NoBorder().NoBackground().OnClick(() => alert("Settings clicked"))
+                        )
+                        .Pivot("tab1", () => Button("Tab 1").NoBackground().NoBorder().SetIcon(UIcons.Rocket), () => Card(TextBlock("Content for Tab 1").P(32)))
+                        .Pivot("tab2", () => Button("Tab 2").NoBackground().NoBorder().SetIcon(UIcons.Car),    () => Card(TextBlock("Content for Tab 2").P(32))),
+                    SampleSubTitle("PivotSelector with large number of tabs").PT(16),
+                    PivotSelector()
+                        .Pivot(Enumerable.Range(1, 20).Select(i => ($"tab{i}", $"Tab {i}", (Func<IComponent>)(() => Card(TextBlock($"Content for Tab {i}").P(32))))).ToArray())
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(PivotSample), typeof(SegmentedPivotSample), typeof(CardPivotSample));
+        }
+
+        public HTMLElement Render()
+        {
+            return content.Render();
+        }
+    }
+}
