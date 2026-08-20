@@ -1,6 +1,14 @@
-﻿/* Stack */
+﻿/* Grid */
+
+/* A flex item only gets its content-based automatic minimum size while its overflow is visible, so
+   the moment the grid became the stack item itself, `overflow: auto` here let a column stack squeeze
+   every grid in it down to a sliver with its own scrollbar whenever the content did not fit. The
+   wrapper div used to carry that floor; min-content restores it. An explicit .Height() — or
+   .MinHeight(0) on a grid that is meant to be a scroll viewport — writes min-height inline and still
+   wins. */
 .tss-grid {
     display: grid;
-    overflow:auto;
-    padding:4px;
+    overflow: auto;
+    padding: 4px;
+    min-height: min-content;
 }

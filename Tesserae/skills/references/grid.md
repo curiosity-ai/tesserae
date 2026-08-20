@@ -31,6 +31,17 @@ Bring factories into scope with `using static Tesserae.UI;`.
 Place children (call **before** `.Add`, via `IComponent` extensions):
 `.GridColumn(start, end)` / `.GridColumnStretch()` / `.GridRow(start, end)` / `.GridRowStretch()`.
 
+## Height inside a Stack
+
+A grid keeps its content height when it is a child of a vertical `Stack`, even when the
+stack's children together overflow it — the stack scrolls (or clips), the sections inside
+it do not shrink. That is what `min-height: min-content` on `.tss-grid` guarantees, and it
+is what a page of grouped sections needs.
+
+A grid that *is* a scroll viewport wants the opposite: give it a definite size with
+`.Height(...)` (or `.MinHeight(0.px())` alongside `.MaxHeight(...)`) plus `.Scroll()` /
+`.ScrollY()`, and it will shrink to the space it is given and scroll its own content.
+
 ## Example
 
 ```csharp

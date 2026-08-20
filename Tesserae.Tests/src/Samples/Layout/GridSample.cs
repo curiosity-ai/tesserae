@@ -21,6 +21,18 @@ namespace Tesserae.Tests.Samples
             gridAutoSize.Gap(8.px());
             Enumerable.Range(1, 10).ForEach(v => gridAutoSize.Add(Card(TextBlock($"Responsive Item {v}").TextCenter())));
 
+            Grid section(int group)
+            {
+                var s = Grid(new UnitSize("repeat(auto-fit, minmax(min(160px, 100%), 1fr))")).Gap(8.px()).WS();
+                Enumerable.Range(1, 12).ForEach(v => s.Add(Button().SetText($"Filter {group}.{v}").WS()));
+                return s;
+            }
+
+            var scrollingSections = VStack().WS().H(220).ScrollY().Children(
+                TextBlock("Group A").SemiBold().PB(8), section(1),
+                TextBlock("Group B").SemiBold().PT(16).PB(8), section(2),
+                TextBlock("Group C").SemiBold().PT(16).PB(8), section(3));
+
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(GridSample), UIcons.Table, "A component to display a grid")
                .FlatSection(VStack().Children(
@@ -37,7 +49,10 @@ namespace Tesserae.Tests.Samples
                     grid,
                     SampleSubTitle("Responsive Auto-fit Grid"),
                     TextBlock("This grid automatically adjusts the number of columns based on the available width (min 200px per item)."),
-                    gridAutoSize
+                    gridAutoSize,
+                    SampleSubTitle("Sections in a Scrolling Stack"),
+                    TextBlock("Each grid keeps its whole content height inside a stack that is too short for all of them: the stack scrolls, the sections don't shrink."),
+                    scrollingSections
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(StackSample), typeof(SplitViewSample), typeof(MasonrySample), typeof(FloatSample), typeof(SectionStackSample));
         }
