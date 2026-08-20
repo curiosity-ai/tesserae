@@ -19,6 +19,9 @@ namespace Tesserae.Tests.Samples
         private const string NAME       = "Technical Support";
         private const string LONG_NAME  = "Technical Support Workspace EMEA";
 
+        /// <summary>What a product's own stylesheet does to move the commands in from the edge of the row.</summary>
+        private const string INSET_SKIN = "tss-sample-commands-inset";
+
         private readonly IComponent _content;
 
         public SidebarCommandsSample()
@@ -30,15 +33,17 @@ namespace Tesserae.Tests.Samples
                .SampleTitle(typeof(SidebarCommandsSample), UIcons.SidebarFlip, "Commands on a sidebar row, and the label beside them")
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                        TextBlock("A SidebarCommand is drawn over its row rather than in it, and only while the pointer is on that row - so the label runs the full width of the rail and a command covers its tail for as long as it is shown. .CommandsAlwaysVisible() makes the commands part of the rail's chrome instead: they are drawn at all times, the row reserves exactly the room its own commands take, and the label truncates before them."),
-                        TextBlock("The row writes how wide its strip of commands is and the stylesheet reads it back, so the room is right for one command and for three. A skin that moves the strip further in from the edge sets --tss-sidebar-commands-inset on the row, and the label's reservation follows it."))).SetTitle("Overview"),
+                        TextBlock("A SidebarCommand is drawn over its row rather than in it, and only while the pointer is on that row - so a row costs its label nothing at rest, and gives up exactly the room its own commands take while they are on screen. .CommandsAlwaysVisible() makes the commands part of the rail's chrome instead: they are drawn at all times, so the room is given up at all times and the label truncates before them."),
+                        TextBlock("The row writes how wide its strip of commands is and the stylesheet reads it back, so the room is right for one command and for three, and it is kept for as long as the strip is drawn - while the pointer is on the row, while the row is selected, or always. A skin that moves the strip further in from the edge sets --tss-sidebar-commands-inset on the row, and the label's reservation follows it."))).SetTitle("Overview"),
 
                     Card(VStack().WS().Children(
-                        TextBlock("The same long name in three rails: with the commands on hover, with the same commands always drawn, and with a skin that insets them 12px from the edge. Hover the first one to see what the other two are avoiding.").Secondary(),
+                        TextBlock("The same long name in four rails: commands on hover and commands always drawn, each with the default inset and with a skin that moves the strip 12px in from the edge. Hover the top two - a row keeps room for its commands for exactly as long as they are drawn, so the label steps aside as they appear instead of being covered, and it steps aside by however far the strip is inset.").Secondary(),
                         HStack().WS().PT(8).Children(
-                            Rail("On hover",              Brand("hover", LONG_NAME, 2)),
-                            Rail("Always visible",        Brand("always", LONG_NAME, 2).CommandsAlwaysVisible()),
-                            Rail("Always visible, inset", Brand("inset", LONG_NAME, 2).CommandsAlwaysVisible().Class("tss-sample-commands-inset"))))).SetTitle("A label beside its commands"),
+                            Rail("On hover",                  Brand("hover", LONG_NAME, 2)),
+                            Rail("On hover, inset 12px",      Brand("hover-inset", LONG_NAME, 2).Class(INSET_SKIN))),
+                        HStack().WS().PT(12).Children(
+                            Rail("Always visible",             Brand("always", LONG_NAME, 2).CommandsAlwaysVisible()),
+                            Rail("Always visible, inset 12px", Brand("always-inset", LONG_NAME, 2).CommandsAlwaysVisible().Class(INSET_SKIN))))).SetTitle("A label beside its commands"),
 
                     Card(VStack().WS().Children(
                         TextBlock("The rail a workspace app puts together: the brand carries the chat search and the way out, and the history sits under it. Change the name and the number of commands to watch the room the row keeps for them.").Secondary(),

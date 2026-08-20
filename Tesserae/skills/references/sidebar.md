@@ -157,11 +157,12 @@ new SidebarButton("workspace", new ImageIcon(logoUrl), "Technical Support",
     new SidebarCommand(UIcons.AngleLeft).OnClick(() => sidebar.ShiftBack()))
 ```
 
-They are drawn over the row, not in it, and appear on hover — so a long label
-runs the full width of the rail and only its tail is covered while the pointer
-is on that row. `.CommandsAlwaysVisible()` keeps them drawn at all times; the
-row then reserves room for exactly as many commands as it has, and the label
-truncates with an ellipsis before them instead of running underneath.
+They are drawn over the row rather than in it, and appear while the pointer is
+on that row (or while it is selected). The label is never covered by them: a row
+keeps room for exactly as many commands as it has for as long as they are drawn,
+so a long name uses the full width of the rail at rest and truncates with an
+ellipsis as they appear. `.CommandsAlwaysVisible()` keeps them drawn at all
+times, which keeps the room reserved at all times.
 
 A skin that moves the commands further in from the edge sets
 `--tss-sidebar-commands-inset` **on the row** (not on the command strip) so the
