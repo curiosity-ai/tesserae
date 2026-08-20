@@ -140,7 +140,7 @@ namespace Tesserae.Tests.Samples
                                    .Left(sidebar.S())
                                    .Right(CenteredCardWithBackground(Message("Your application content goes here")))
                )).SetTitle("Usage")))
-               .SeeAlso(typeof(SidebarSeparatorSample), typeof(SidenavSample), typeof(NavbarSample), typeof(MenuSample), typeof(BreadcrumbSample));
+               .SeeAlso(typeof(SidebarCommandsSample), typeof(SidebarSeparatorSample), typeof(SidenavSample), typeof(NavbarSample), typeof(MenuSample), typeof(BreadcrumbSample));
         }
 
         private static IEnumerable<ISidebarItem> CreateDeepNav(string path, int currentDepth = 0, int maxDepth = 3)
