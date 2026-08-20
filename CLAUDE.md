@@ -253,6 +253,15 @@ A component can still take charge of its own styling by implementing
 write onto that container. This is how nested containers (e.g. a `Grid` inside a
 `Stack`) route sizing to the right element.
 
+The other half of that story is the flex **automatic minimum size**, which a flex
+item only gets while its own `overflow` is `visible`. `.tss-grid` sets
+`overflow: auto`, so once the grid was the stack item itself a column stack whose
+content did not fit squeezed every grid in it to a sliver with its own scrollbar —
+the wrapper div used to carry that floor. `.tss-grid` now declares
+`min-height: min-content` to restore it, and the two grids that really are scroll
+viewports (`ItemsList`, `InfiniteScrollingList`) opt out with `.MinHeight(0.px())`.
+A component whose stylesheet sets a non-visible `overflow` needs the same thought.
+
 **Debugging tip:** if `.WS()` "doesn't work", inspect the rendered DOM — the
 sizing styles are on the element you called the helper on, unless the component
 is inside a Masonry/SectionStack, where they are on its wrapper.
