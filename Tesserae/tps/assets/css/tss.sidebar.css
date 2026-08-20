@@ -256,17 +256,25 @@
     min-width: 24px !important;
 }
 
-/* Commands sit over the row rather than in it, so a row that shows them permanently has to keep its
-   label out from under them. The wrapper carries how wide its own strip of commands is
-   (--tss-sidebar-commands-width, written from the command count when the row is built) and reads the
-   same inset the strip is positioned by, so the room is exact for two commands and for five and a skin
-   that moves the strip in from the edge only has to say so once. The label runs right up to the strip
-   rather than stopping short of it: each command is a 22px box around a 16px glyph, so the gap is
-   already drawn, and every pixel spent here is a word the name loses. A hover-only command reserves
-   nothing - it covers the tail of the label while the pointer is on that row, and indenting every label
-   in the rail for something not drawn would cost more. */
-.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-open.tss-sidebar-commands-always-open > .tss-btn,
-.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-open.tss-sidebar-commands-always-open > a > .tss-btn {
+/* Commands sit over the row rather than in it, so a row keeps its label out from under them for exactly
+   as long as they are drawn - the three cases below are the ones the strip's own display rule lists:
+   pointer on the row, always-open, and selected. A hover-only command therefore costs nothing at rest,
+   the label runs the full width of the rail, and it steps aside as the commands appear rather than
+   being covered by them.
+
+   The row carries how wide its own strip is (--tss-sidebar-commands-width, written from the command
+   count when the row is built) and reads the same inset the strip is positioned by, so the room is
+   exact for two commands and for five and a skin that moves the strip in from the edge only has to say
+   so once. tss-sidebar-has-commands is what keeps a row without any out of this: it has no width to
+   read, and hovering it must not move its label. The label runs right up to the strip rather than
+   stopping short of it - each command is a 22px box around a 16px glyph, so the gap is already drawn,
+   and every pixel spent here is a word the name loses. */
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:hover > .tss-btn,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:hover > a > .tss-btn,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-commands-always-open > .tss-btn,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-commands-always-open > a > .tss-btn,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-selected > .tss-btn,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-selected > a > .tss-btn {
     padding-right: calc(var(--tss-sidebar-commands-width, 0px) + var(--tss-sidebar-commands-inset, 4px));
 }
 
