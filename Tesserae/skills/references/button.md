@@ -53,6 +53,8 @@ Behaviour:
 - `.OnClick((sender, evt) => ...)` or `.OnClick(Action)`.
 - `.OnClickSpinWhile(Func<Task> action, string text = null, ...)` — show a spinner while the async action runs.
 - `.Disabled(bool = true)`.
+- `.AI(bool withSparklesIcon = true)` — an action that asks a model for something: a filled purple-to-blue gradient, plus the Sparkles glyph unless the button already has an icon. The AI equivalent of `Primary()` — one per surface.
+- `.AISubtle(bool withSparklesIcon = true)` — the quiet form of the same hue, for the second and third AI action beside it. See `ai-variants.md`.
 - `.WithHotKey(string keys)` — bind a keyboard shortcut.
 - `.Focus()` — move focus to the button.
 
@@ -72,4 +74,5 @@ var actions = HStack().Children(
 ## Related
 
 - ActionButton — `action-button.md`
+- AI variants — the `.AI()` / `.AISubtle()` variant — `ai-variants.md`
 - Full docs & API: `/tesserae/components/button`

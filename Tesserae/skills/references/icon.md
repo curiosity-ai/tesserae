@@ -24,6 +24,7 @@ Bring the factories into scope with `using static Tesserae.UI;`.
 - `.Weight` — `TextWeight` of the glyph.
 - `.SetTitle(string)` / `.Title` — native hover tooltip.
 - `.Tooltip(...)` — richer tooltip (extension; see Button/utilities).
+- `.AI(bool = true)` — fills the glyph with the purple-to-blue AI gradient instead of a flat colour. `UI.AIIcon()` is the shorthand for a gradient `UIcons.Sparkles`. A `Foreground()` set afterwards has nothing to colour. See `ai-variants.md`.
 
 ## Example
 
@@ -43,4 +44,5 @@ HStack().AlignItemsCenter().Children(saveIcon, TextBlock("Save"), rocket);
 
 - UIcons — `/tesserae/utilities/uicons`
 - IconToggle — `icon-toggle.md`
+- AI variants — the `.AI()` variant — `ai-variants.md`
 - Full docs & API: `/tesserae/components/icon`

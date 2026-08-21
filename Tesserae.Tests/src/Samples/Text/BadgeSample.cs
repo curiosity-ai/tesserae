@@ -36,9 +36,16 @@ namespace Tesserae.Tests.Samples
                         Tag("Categorization").Outline().Pill(),
                         Tag("Metadata").SetIcon(Icon.Transform(UIcons.Tags, UIconsWeight.Regular)).Outline(),
                         Chip("Interactive Chip").Filled().OnRemove(c => Toast().Success("Removed chip")),
-                        Chip("Status Chip").Success().Pill())
+                        Chip("Status Chip").Success().Pill()),
+                    SampleSubTitle("AI Tone"),
+                    TextBlock("BadgeTone.AI - reached through AI() - marks a value, a row or a section as something a model produced. A badge is small enough that a tint would not read, so this tone fills with the purple-to-blue gradient; asking for Outline() gives you the tint and the accent instead. AIBadge() is the shorthand for the common one: a Sparkles-led gradient pill saying \"AI\".").MB(8),
+                    HStack().Children(
+                        AIBadge(),
+                        Badge("Generated").AI(),
+                        Tag("Suggested").AI().Outline().Pill(),
+                        Chip("AI draft").AI().OnRemove(c => Toast().Success("Dismissed the suggestion")))
                 )).SetTitle("Usage")))
-               .SeeAlso(typeof(ButtonSample), typeof(MetricSample), typeof(DeltaComponentSample), typeof(ContextCardSample));
+               .SeeAlso(typeof(ButtonSample), typeof(MetricSample), typeof(DeltaComponentSample), typeof(ContextCardSample), typeof(AIVariantsSample));
         }
 
         public HTMLElement Render() => _content.Render();

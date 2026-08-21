@@ -149,6 +149,22 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Fills the glyph with the AI gradient instead of a flat colour - what marks an icon as standing
+        /// for a model's work. Any glyph takes it; <see cref="UIcons.Sparkles"/> is the one to use when the
+        /// icon is there to say "AI" rather than to say what the thing is.
+        /// <para>
+        /// The gradient is painted as a background clipped to the glyph, so setting
+        /// <see cref="Foreground"/> afterwards has no visible effect - the fill is the gradient, not the
+        /// colour.
+        /// </para>
+        /// </summary>
+        public Icon AI(bool value = true)
+        {
+            InnerElement.UpdateClassIf(value, "tss-ai");
+            return this;
+        }
+
+        /// <summary>
         /// Sets the title of the component.
         /// </summary>
         public Icon SetTitle(string title)

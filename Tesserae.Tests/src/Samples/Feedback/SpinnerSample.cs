@@ -47,7 +47,15 @@ namespace Tesserae.Tests.Samples
                         Label("75% Progress").SetContent(Spinner().Progress(75).Large()).AlignCenter(),
                         Label("100% Progress").SetContent(Spinner().Progress(100).Large()).AlignCenter()
                     ))
-               .SeeAlso(typeof(SkeletonSample), typeof(ProgressRingSample), typeof(ProgressIndicatorSample), typeof(DeferSample));
+               .FlatSection(
+                    Stack().Width(400.px()).Children(
+                        Card(VStack().WS().Children(
+                        TextBlock("AI() takes the AI accent - waiting on a model rather than on a server. A spinner is an arc drawn from one colour, so this is the accent rather than the gradient the filled variants use; the label beside it takes the same colour."),
+                        Label("Thinking").SetContent(Spinner("Reading 12 documents").AI()).AlignCenter(),
+                        Label("Larger").SetContent(Spinner("Drafting an answer").AI().Medium()).AlignCenter(),
+                        Label("With fixed progress").SetContent(Spinner("3 of 4 checks").AI().Progress(75).Large()).AlignCenter()
+                    )).SetTitle("Waiting on a model", UIcons.Sparkles, Theme.Colors.Purple600)))
+               .SeeAlso(typeof(SkeletonSample), typeof(ProgressRingSample), typeof(ProgressIndicatorSample), typeof(DeferSample), typeof(AIVariantsSample));
         }
 
         public HTMLElement Render()

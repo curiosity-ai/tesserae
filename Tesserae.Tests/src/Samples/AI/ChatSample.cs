@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.AI, Order = 10, Icon = UIcons.CommentAlt)]
+    [SampleDetails(Group = SampleGroup.AI, Order = 20, Icon = UIcons.CommentAlt)]
     public class ChatSample : IComponent, ISample
     {
         private readonly IComponent _content;

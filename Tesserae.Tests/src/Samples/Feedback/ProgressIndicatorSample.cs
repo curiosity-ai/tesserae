@@ -32,7 +32,15 @@ namespace Tesserae.Tests.Samples
                         Label("Full").SetContent(ProgressIndicator().Progress(100).Width(400.px())).AlignCenter(),
                         Label("Indeterminate").SetContent(ProgressIndicator().Indeterminated().Width(400.px())).AlignCenter()
                     )).SetTitle("Usage")))
-               .SeeAlso(typeof(ProgressRingSample), typeof(SpinnerSample), typeof(SkeletonSample), typeof(ProgressModalSample), typeof(DeferWithProgressSample));
+               .FlatSection(
+                    Stack().Children(
+                        Card(VStack().WS().Children(
+                        TextBlock("AI() paints the bar with the purple-to-blue gradient - a model working through something, determinate or not. The indeterminate sweep keeps its speed; only the colour of the band changes."),
+                        Label("35%").SetContent(ProgressIndicator().Progress(35).AI().Width(400.px())).AlignCenter(),
+                        Label("3 of 4 checks").SetContent(ProgressIndicator().Progress(3, 4).AI().Width(400.px())).AlignCenter(),
+                        Label("Indeterminate").SetContent(ProgressIndicator().Indeterminated().AI().Width(400.px())).AlignCenter()
+                    )).SetTitle("A model working", UIcons.Sparkles, Theme.Colors.Purple600)))
+               .SeeAlso(typeof(ProgressRingSample), typeof(SpinnerSample), typeof(SkeletonSample), typeof(ProgressModalSample), typeof(DeferWithProgressSample), typeof(AIVariantsSample));
         }
 
         public HTMLElement Render()

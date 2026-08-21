@@ -270,6 +270,21 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Marks the card as AI output: a purple-to-blue tint over whatever background it had, an accent
+        /// border, and a soft shadow in the same hue. The tint is deliberately light - a card is a large
+        /// surface, and the point is to say where the content came from, not to colour the page.
+        /// <para>
+        /// The class goes on the card's outer container, because which element paints the background
+        /// depends on whether the card has a header or a footer - see tss.ai.css.
+        /// </para>
+        /// </summary>
+        public Card AI(bool value = true)
+        {
+            _cardContainer.UpdateClassIf(value, "tss-ai");
+            return this;
+        }
+
+        /// <summary>
         /// Renders the component's root HTML element.
         /// </summary>
         public override HTMLElement Render()

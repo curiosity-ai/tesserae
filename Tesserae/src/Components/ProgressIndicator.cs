@@ -77,6 +77,15 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Paints the bar with the AI gradient - a model working through something, determinate or not.
+        /// </summary>
+        public ProgressIndicator AI(bool value = true)
+        {
+            InnerElement.UpdateClassIf(value, "tss-ai");
+            return this;
+        }
+
+        /// <summary>
         /// Renders the component's root HTML element.
         /// </summary>
         public HTMLElement Render()

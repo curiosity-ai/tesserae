@@ -61,7 +61,20 @@ namespace Tesserae.Tests.Samples
                     Card(TextBlock("A color of its own says something the words don't.")).SetTitle("Rejected items", UIcons.CircleXmark, Theme.Colors.Red600).MT(8),
                     Card(TextBlock("Any UIcons glyph works, in any weight.")).SetTitle("In my scope", UIcons.Inbox, Theme.Colors.Purple600, UIconsWeight.Solid).MT(8)
                 )).SetTitle("Icons in the title", UIcons.AddressCard, Theme.Colors.Blue600)))
-                .SeeAlso(typeof(SectionStackSample), typeof(ResourceCardSample), typeof(AccordionSample), typeof(MasonrySample), typeof(CardPivotSample));
+                .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("AI() marks a card as a model's output: a faint purple-to-blue tint over whatever background it had, an accent border, and a soft shadow in the same hue. The tint is deliberately light - a card is a large surface, and the point is to say where the content came from, not to colour the page."),
+                    TextBlock("It works on a plain card and on one with a header and a footer; the strips take one step more tint than the content, the same way the default card's do.").MT(8),
+                    TextBlock("Plain").SemiBold().PT(16),
+                    Card(TextBlock("Summarised from 12 documents.")).AI(),
+                    TextBlock("With a header and a footer").SemiBold().PT(16),
+                    Card(TextBlock("Brake sensor calibration failed on line 3 in eleven of the last fourteen runs.")).AI()
+                        .SetTitle(HStack().WS().AlignItemsCenter().Gap(8.px()).Children(AIIcon(), TextBlock("What went wrong on line 3").SemiBold().AI(), AIBadge().ML(4)))
+                        .SetFooter(HStack().WS().AlignItemsCenter().Gap(8.px()).Children(Button("Ask a follow-up").AI().NoMargin(), Button("Show sources").AISubtle(withSparklesIcon: false).SetIcon(UIcons.Books).NoMargin())),
+                    TextBlock("With hover").SemiBold().PT(16),
+                    Card(TextBlock("A pressable AI card lifts to the stronger tint.")).AI().HoverColor()
+                )).SetTitle("AI output", UIcons.Sparkles, Theme.Colors.Purple600)))
+                .SeeAlso(typeof(SectionStackSample), typeof(ResourceCardSample), typeof(AccordionSample), typeof(MasonrySample), typeof(CardPivotSample), typeof(AIVariantsSample));
         }
 
         public HTMLElement Render()

@@ -63,6 +63,20 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Sets the spinner to the AI accent - waiting on a model rather than on a server. A spinner is an
+        /// arc drawn from one colour, so this is the accent rather than the gradient; the label beside it
+        /// takes the same colour.
+        /// </summary>
+        public Spinner AI()
+        {
+            InnerElement.classList.add("tss-ai");
+            InnerElement.classList.remove("tss-spinner-success", "tss-spinner-danger");
+            InnerElement.style.removeProperty("--tss-spinner-color");
+            _container.classList.add("tss-ai-label");
+            return this;
+        }
+
+        /// <summary>
         /// Configures the custom color on the component.
         /// </summary>
         public Spinner CustomColor(string color)

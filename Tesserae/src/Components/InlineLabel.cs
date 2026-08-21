@@ -219,6 +219,26 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Marks the label as something a model supplied - a suggested tag, a confidence, "summarised by
+        /// AI". It takes the AI tint, border and accent, and unless it already has a mark it gets the
+        /// Sparkles glyph; pass false to leave it as text alone.
+        /// <para>
+        /// In an <see cref="OmniResult{T}"/> footer the pill's chrome comes off as it does for every label,
+        /// so an AI label there is a fact in the accent colour rather than a chip among plain type.
+        /// </para>
+        /// </summary>
+        public InlineLabel AI(bool withSparklesIcon = true)
+        {
+            InnerElement.classList.add("tss-ai");
+
+            //A mark of its own wins: a label that already shows an avatar or a source logo says where it
+            //came from more precisely than Sparkles would.
+            if (withSparklesIcon && _mark.style.display == "none") SetIcon(UIcons.Sparkles);
+
+            return this;
+        }
+
+        /// <summary>
         /// Takes the mark away, leaving the text alone.
         /// </summary>
         public InlineLabel NoMark()

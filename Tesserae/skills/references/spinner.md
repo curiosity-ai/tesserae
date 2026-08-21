@@ -21,6 +21,7 @@ determinate progress arc.
   (also `.Position`).
 - `.SetText(text)` / `.Text` — the label.
 - `.Primary()` / `.Success()` / `.Danger()` / `.CustomColor(color)` — colour.
+- `.AI()` — the AI accent on the arc and on its label: waiting on a model rather than on a server. See `ai-variants.md`.
 - `.Progress(float percent)` or `.Progress(int position, int total)` — switch
   to a determinate arc.
 - `.Indeterminate()` — back to continuous spinning.
@@ -39,5 +40,6 @@ var saving = Spinner("Saving...").Below().Success().Progress(40);
 ## Related
 
 - Skeleton (placeholder shapes) — `skeleton.md`
+- AI variants — the `.AI()` variant — `ai-variants.md`
 - ProgressIndicator — `/tesserae/components/progress-indicator`
 - Full docs & API: `/tesserae/components/spinner`

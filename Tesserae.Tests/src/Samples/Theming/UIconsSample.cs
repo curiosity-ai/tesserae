@@ -28,7 +28,26 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                     SampleSubTitle($"Strongly-typed {nameof(UIcons)} enum"),
                     SearchableList(GetAllIcons().ToArray(), 25.percent(), 25.percent(), 25.percent(), 25.percent()).Height(55.vh()).MinHeight(320.px()))).SetTitle("Usage")))
-               .SeeAlso(typeof(EmojiSample), typeof(ButtonSample), typeof(BadgeSample), typeof(TextBlockSample));
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("AI() fills a glyph with the purple-to-blue gradient instead of a flat colour - what marks an icon as standing for a model's work. Any glyph takes it; Sparkles is the one to reach for when the icon is there to say \"AI\" rather than to say what the thing is, which is what the AIIcon() shorthand gives you."),
+                    TextBlock("The gradient is painted as a background clipped to the glyph, so a Foreground() set afterwards has nothing to colour - the fill is the gradient.").MT(8),
+                    SampleSubTitle("The AI mark, at every size"),
+                    HStack().WS().Wrap().AlignItemsCenter().Gap(16.px()).Children(
+                        AIIcon(size: TextSize.Small),
+                        AIIcon(size: TextSize.Medium),
+                        AIIcon(size: TextSize.Large),
+                        AIIcon(size: TextSize.XLarge),
+                        AIIcon(size: TextSize.Mega)),
+                    SampleSubTitle("Any glyph, any weight"),
+                    HStack().WS().Wrap().AlignItemsCenter().Gap(16.px()).Children(
+                        Icon(UIcons.Comment, size: TextSize.Large).AI(),
+                        Icon(UIcons.ChartPieAlt, size: TextSize.Large).AI(),
+                        Icon(UIcons.Bulb, size: TextSize.Large).AI(),
+                        Icon(UIcons.Sparkles, UIconsWeight.Solid, TextSize.Large).AI(),
+                        Icon(UIcons.Sparkles, UIconsWeight.Thin, TextSize.Large).AI())
+                )).SetTitle("The AI variant", UIcons.Sparkles, Theme.Colors.Purple600)))
+               .SeeAlso(typeof(EmojiSample), typeof(ButtonSample), typeof(BadgeSample), typeof(TextBlockSample), typeof(AIVariantsSample));
         }
 
         public HTMLElement Render()
