@@ -158,18 +158,27 @@ new SidebarButton("workspace", new ImageIcon(logoUrl), "Technical Support",
 ```
 
 They are drawn over the row rather than in it, and appear while the pointer is
-on that row (or while it is selected). The label is never covered by them: a row
-keeps room for exactly as many commands as it has for as long as they are drawn,
-so a long name uses the full width of the rail at rest and truncates with an
-ellipsis as they appear. `.CommandsAlwaysVisible()` keeps them drawn at all
-times, which keeps the room reserved at all times.
+on that row (or while it is selected).
 
-A skin that moves the commands further in from the edge sets
-`--tss-sidebar-commands-inset` **on the row** (not on the command strip) so the
-label's reservation moves with them:
+Where the commands are permanent the label is laid out beside them: a row with
+`.CommandsAlwaysVisible()`, or a selected row, keeps room for exactly as many
+commands as it has, so a long name truncates with an ellipsis before the strip
+rather than running under it.
+
+On **hover** the label keeps the full width of the rail and nothing re-flows as
+the pointer travels the list. The strip brings its own backdrop instead — a blur
+of the row behind it, faded in from the left — so the tail of a long name
+dissolves under the commands and the icons stay readable over it.
+
+Three custom properties tune that, all set **on the row** (not on the command
+strip, since the label's own reservation reads the inset too):
 
 ```css
-.my-brand-row { --tss-sidebar-commands-inset: 12px; }
+.my-brand-row {
+    --tss-sidebar-commands-inset: 12px;      /* move the strip in from the edge */
+    --tss-sidebar-commands-veil-fade: 28px;  /* how far left the blur fades in  */
+    --tss-sidebar-commands-veil-blur: 0px;   /* 0 turns the veil off entirely   */
+}
 ```
 
 ## Rounded (pill) style

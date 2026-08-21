@@ -8,8 +8,9 @@ namespace Tesserae.Tests.Samples
     /// <summary>
     /// The workspace rail an app builds on top of the sidebar: a logo, the workspace's name, and the
     /// rail's own controls as commands beside it. It is here because that row is where the two rules
-    /// about commands meet - they are drawn over the row, and a row that draws them at all times has to
-    /// keep its label out from under them - and a long workspace name is what proves both.
+    /// about commands meet - a row that draws them at all times lays its label out beside them, and a
+    /// row that draws them on hover blurs what they cover instead - and a long workspace name is what
+    /// proves both.
     /// </summary>
     [SampleDetails(Group = SampleGroup.Navigation, Order = 35, Icon = UIcons.SidebarFlip)]
     public class SidebarCommandsSample : IComponent, ISample
@@ -22,6 +23,9 @@ namespace Tesserae.Tests.Samples
         /// <summary>What a product's own stylesheet does to move the commands in from the edge of the row.</summary>
         private const string INSET_SKIN = "tss-sample-commands-inset";
 
+        /// <summary>And what it does to turn the blur behind the commands off.</summary>
+        private const string NO_VEIL_SKIN = "tss-sample-commands-no-veil";
+
         private readonly IComponent _content;
 
         public SidebarCommandsSample()
@@ -33,17 +37,24 @@ namespace Tesserae.Tests.Samples
                .SampleTitle(typeof(SidebarCommandsSample), UIcons.SidebarFlip, "Commands on a sidebar row, and the label beside them")
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                        TextBlock("A SidebarCommand is drawn over its row rather than in it, and only while the pointer is on that row - so a row costs its label nothing at rest, and gives up exactly the room its own commands take while they are on screen. .CommandsAlwaysVisible() makes the commands part of the rail's chrome instead: they are drawn at all times, so the room is given up at all times and the label truncates before them."),
-                        TextBlock("The row writes how wide its strip of commands is and the stylesheet reads it back, so the room is right for one command and for three, and it is kept for as long as the strip is drawn - while the pointer is on the row, while the row is selected, or always. A skin that moves the strip further in from the edge sets --tss-sidebar-commands-inset on the row, and the label's reservation follows it."))).SetTitle("Overview"),
+                        TextBlock("A SidebarCommand is drawn over its row rather than in it, and only while the pointer is on that row - so a row costs its label nothing at rest. .CommandsAlwaysVisible() makes the commands part of the rail's chrome instead: they are drawn at all times."),
+                        TextBlock("Which of the two it is decides what happens to a name too long to fit beside them. A permanent strip is laid out around: the row gives up exactly the room its own commands take - it writes how wide its strip is and the stylesheet reads it back, so the room is right for one command and for three - and the label truncates before them. A strip that comes and goes under the pointer is not, because taking that room away as it appears would re-flow and cut short the name of every row the pointer crosses; the label keeps the full width of the rail and the strip brings its own backdrop instead, a blur of the row faded in from its left, so the tail of the name dissolves under the commands rather than fighting them."),
+                        TextBlock("A skin sets --tss-sidebar-commands-inset on the row to move the strip in from the edge, and the label's reservation follows it; --tss-sidebar-commands-veil-fade and --tss-sidebar-commands-veil-blur tune the backdrop, and a blur of 0 turns it off."))).SetTitle("Overview"),
 
                     Card(VStack().WS().Children(
-                        TextBlock("The same long name in four rails: commands on hover and commands always drawn, each with the default inset and with a skin that moves the strip 12px in from the edge. Hover the top two - a row keeps room for its commands for exactly as long as they are drawn, so the label steps aside as they appear instead of being covered, and it steps aside by however far the strip is inset.").Secondary(),
+                        TextBlock("The same long name in four rails: commands on hover and commands always drawn, each with the default inset and with a skin that moves the strip 12px in from the edge. The bottom two show the room a permanent strip is given - the name stops before it, and by however far the strip is inset. Hover the top two: nothing moves, and the name carries on into the blur behind the commands.").Secondary(),
                         HStack().WS().PT(8).Children(
                             Rail("On hover",                  Brand("hover", LONG_NAME, 2)),
                             Rail("On hover, inset 12px",      Brand("hover-inset", LONG_NAME, 2).Class(INSET_SKIN))),
                         HStack().WS().PT(12).Children(
                             Rail("Always visible",             Brand("always", LONG_NAME, 2).CommandsAlwaysVisible()),
                             Rail("Always visible, inset 12px", Brand("always-inset", LONG_NAME, 2).CommandsAlwaysVisible().Class(INSET_SKIN))))).SetTitle("A label beside its commands"),
+
+                    Card(VStack().WS().Children(
+                        TextBlock("What the blur is for: hover both rails. On the left the name fades out under the commands; on the right the same row with --tss-sidebar-commands-veil-blur: 0px, where the icons are drawn straight over the letters.").Secondary(),
+                        HStack().WS().PT(8).Children(
+                            Rail("Blurred (the default)", Brand("veil", LONG_NAME, 2)),
+                            Rail("Veil turned off",       Brand("veil-off", LONG_NAME, 2).Class(NO_VEIL_SKIN))))).SetTitle("The blur behind the commands"),
 
                     Card(VStack().WS().Children(
                         TextBlock("The rail a workspace app puts together: the brand carries the chat search and the way out, and the history sits under it. Change the name and the number of commands to watch the room the row keeps for them.").Secondary(),
