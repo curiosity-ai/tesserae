@@ -16,6 +16,8 @@ namespace Tesserae.Tests.Samples
 
         public enum Device { Desktop, Tablet, Phone }
 
+        public enum AnswerStyle { Fast, Balanced, Thorough }
+
         private readonly IComponent _content;
 
         public IconToggleSample()
@@ -81,7 +83,8 @@ namespace Tesserae.Tests.Samples
                         TextBlock("A Compact() toggle lines up with the other buttons of a toolbar row.").Secondary(),
                         ToolbarExample()
                     )).SetTitle("Usage")))
-               .SeeAlso(typeof(ToggleSample), typeof(ChoiceGroupSample), typeof(SegmentedPivotSample), typeof(ButtonSample), typeof(OmniBoxSample), typeof(BindingSample));
+               .FlatSection(Stack().Children(AIExample()))
+               .SeeAlso(typeof(ToggleSample), typeof(ChoiceGroupSample), typeof(SegmentedPivotSample), typeof(ButtonSample), typeof(OmniBoxSample), typeof(BindingSample), typeof(AIVariantsSample));
         }
 
         private static IComponent BasicExample()
@@ -237,6 +240,33 @@ namespace Tesserae.Tests.Samples
                 Button("Grid").Small().OnClick(() => view.Value  = ViewMode.Grid),
                 Button("Table").Small().OnClick(() => view.Value = ViewMode.Table),
                 DeferSync(view, v => TextBlock($"view = {v}").SemiBold().ML(8)));
+        }
+
+        private static IComponent AIExample()
+        {
+            return Card(VStack().WS().Children(
+                TextBlock("AI() marks the control as an AI one - picking how a model should work, or which of its answers to look at. The track takes the purple-to-blue tint, the unselected items the accent, and the selected pill is filled with the gradient: the selected segment is the one filled action on the control, which is what an AI Button says too."),
+                SampleSubTitle("Which model, and how it answers"),
+                LabelledRow("Answer style", IconToggle(
+                    IconToggleItem(UIcons.Bolt,     "Fast - a short answer",       AnswerStyle.Fast),
+                    IconToggleItem(UIcons.Scale,    "Balanced",                    AnswerStyle.Balanced),
+                    IconToggleItem(UIcons.Brain,    "Thorough - reads every source", AnswerStyle.Thorough)).AI()),
+                LabelledRow("With labels", IconToggle(
+                    IconToggleItem(UIcons.Comment, "Ask the assistant", ComposerMode.Chat).SetText("Ask"),
+                    IconToggleItem(UIcons.Search,  "Search everything", ComposerMode.Search).SetText("Search")).AI()),
+                LabelledRow("Compact, in a toolbar", IconToggle(
+                    IconToggleItem(UIcons.Bolt,  "Fast",     AnswerStyle.Fast),
+                    IconToggleItem(UIcons.Scale, "Balanced", AnswerStyle.Balanced),
+                    IconToggleItem(UIcons.Brain, "Thorough", AnswerStyle.Thorough)).AI().Compact()),
+                LabelledRow("Large", IconToggle(
+                    IconToggleItem(UIcons.Bolt,  "Fast",     AnswerStyle.Fast),
+                    IconToggleItem(UIcons.Scale, "Balanced", AnswerStyle.Balanced),
+                    IconToggleItem(UIcons.Brain, "Thorough", AnswerStyle.Thorough)).AI().Large()),
+                LabelledRow("Full width", IconToggle(
+                    IconToggleItem(UIcons.Bolt,  "Fast",     AnswerStyle.Fast).SetText("Fast"),
+                    IconToggleItem(UIcons.Scale, "Balanced", AnswerStyle.Balanced).SetText("Balanced"),
+                    IconToggleItem(UIcons.Brain, "Thorough", AnswerStyle.Thorough).SetText("Thorough")).AI().FullWidth())
+            )).SetTitle("The AI variant", UIcons.Sparkles, Theme.Colors.Purple600).WS();
         }
 
         private static IComponent ToolbarExample()

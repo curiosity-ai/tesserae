@@ -38,7 +38,7 @@ namespace Tesserae.Tests.Samples
         {
             return Card(VStack().WS().Children(
                 TextBlock("A model's output and the buttons that ask for it are not a new kind of component - they are the components you already have, saying where the content came from. So every one of them says it the same way: AI() puts a quiet purple-to-blue gradient on the thing, and where a glyph is wanted it is Sparkles."),
-                TextBlock("The variant exists on Card, TextBlock, Icon, Button, InlineLabel and Skeleton, and on three more that turned out to need it for the same reason - Badge (and Tag and Chip) through BadgeTone.AI, Spinner, and ProgressIndicator. Every one of them is the component's own stylesheet with the colour swapped: same geometry, same states, same size.").MT(8),
+                TextBlock("The variant exists on Card, TextBlock, Icon, Button, InlineLabel and Skeleton, and on five more that turned out to need it for the same reason - Badge (and Tag and Chip) through BadgeTone.AI, Spinner, ProgressIndicator, IconToggle and SegmentedPivot. Every one of them is the component's own stylesheet with the colour swapped: same geometry, same states, same size.").MT(8),
                 TextBlock("The gradient is the same two colours everywhere, at the strength the surface can carry: filled between the mid weights on a button or a badge, a tenth of that as a tint on a card, and painted into the letters or the glyph where the thing is type. Nothing here animates at rest - the only movement is the Skeleton's shimmer and the ProgressIndicator's sweep, which were already moving.").MT(8))
             ).SetTitle("Overview");
         }
@@ -127,14 +127,41 @@ namespace Tesserae.Tests.Samples
                     Skeleton().W(180).H(12),
                     Skeleton().W(180).H(12).AI()),
                 Row("Spinner",
-                    Spinner("Loading"),
-                    Spinner("Thinking").AI()),
+                    HStack().AlignItemsCenter().Gap(12.px()).Children(
+                        Spinner("Loading"),
+                        Spinner().Progress(70).Medium()),
+                    HStack().AlignItemsCenter().Gap(12.px()).Children(
+                        Spinner("Thinking").AI(),
+                        Spinner().AI().Progress(70).Medium())),
                 Row("ProgressIndicator",
                     ProgressIndicator().Progress(45).W(180),
                     ProgressIndicator().Progress(45).AI().W(180)),
+                Row("IconToggle",
+                    IconToggle(
+                        IconToggleItem(UIcons.Bolt,  "Fast",     "fast"),
+                        IconToggleItem(UIcons.Scale, "Balanced", "balanced"),
+                        IconToggleItem(UIcons.Brain, "Thorough", "thorough")).Compact(),
+                    IconToggle(
+                        IconToggleItem(UIcons.Bolt,  "Fast",     "fast"),
+                        IconToggleItem(UIcons.Scale, "Balanced", "balanced"),
+                        IconToggleItem(UIcons.Brain, "Thorough", "thorough")).AI().Compact()),
                 Row("Card",
                     Card(TextBlock("A plain card.")).W(200),
-                    Card(TextBlock("The same card, marked as the model's.")).AI().W(240)));
+                    Card(TextBlock("The same card, marked as the model's.")).AI().W(240)),
+                TextBlock("SegmentedPivot is the same control one level up - tabs rather than a value - so it gets a row of its own rather than a cell:").Small().Secondary().MT(8).MB(8),
+                HStack().WS().Wrap().Gap(24.px()).Children(
+                    VStack().Width(45.percent()).MinWidth(280.px()).Children(
+                        TextBlock("Default").XSmall().Secondary().MB(4),
+                        SegmentedPivot()
+                            .SegmentedPivot("d1", SegmentTitle("Answer"),    () => TextBlock("The answer."))
+                            .SegmentedPivot("d2", SegmentTitle("Sources"),   () => TextBlock("The sources."))
+                            .SegmentedPivot("d3", SegmentTitle("Reasoning"), () => TextBlock("The reasoning."))),
+                    VStack().Width(45.percent()).MinWidth(280.px()).Children(
+                        TextBlock("AI variant").XSmall().Secondary().MB(4),
+                        SegmentedPivot().AI()
+                            .SegmentedPivot("a1", SegmentTitle("Answer"),    () => TextBlock("The answer.").AISurface())
+                            .SegmentedPivot("a2", SegmentTitle("Sources"),   () => InlineLabel("12 documents").AI())
+                            .SegmentedPivot("a3", SegmentTitle("Reasoning"), () => TextBlock("The reasoning.").AISurface()))));
         }
 
         private IComponent Waiting()
@@ -190,7 +217,7 @@ namespace Tesserae.Tests.Samples
                 .AI();
 
             return FeatureCard("All of it on one surface", UIcons.Sparkles,
-                "A single answer card using nine of the variants at once - a tinted card with a tinted header and footer, a gradient title led by the Sparkles glyph, a badge, generated prose on its own panel, the facts behind it as labels, a progress bar, and three buttons in descending loudness. Nothing on it moves.",
+                "A single answer card using nine of the eleven variants at once - a tinted card with a tinted header and footer, a gradient title led by the Sparkles glyph, a badge, generated prose on its own panel, the facts behind it as labels, a progress bar, and three buttons in descending loudness. Nothing on it moves.",
                 card.MaxWidth(620.px()).MT(8));
         }
 

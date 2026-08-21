@@ -6,7 +6,7 @@ description: The AI variant shared by Card, TextBlock, Icon, Button, InlineLabel
 # AI variants
 
 A model's output, and the buttons that ask for it, are not new components — they are the
-components you already have, saying where the content came from. So nine of them carry the
+components you already have, saying where the content came from. So eleven of them carry the
 same variant: **`.AI()`**, a quiet purple-to-blue gradient, with **`UIcons.Sparkles`** where a
 glyph is wanted.
 
@@ -26,8 +26,10 @@ states, same size. Dropping one into a laid-out page moves nothing.
 | `InlineLabel` | `.AI()` | Tinted pill in the accent colour, Sparkles as its mark unless it already has one. |
 | `Skeleton` | `.AI()` | Tinted placeholder with a purple shimmer — generating, rather than fetching. |
 | `Badge` / `Tag` / `Chip` | `.AI()` (`BadgeTone.AI`) | Filled gradient; `.Outline()` gives tint plus accent instead. `UI.AIBadge()` is a Sparkles-led gradient pill. |
-| `Spinner` | `.AI()` | The accent colour on the arc and on its label. |
+| `Spinner` | `.AI()` | The gradient on the ring (a masked conic gradient rather than a border), and on its label. The determinate form runs it across the filled sweep. |
 | `ProgressIndicator` | `.AI()` | Bar painted with the gradient, determinate or indeterminate. |
+| `IconToggle<T>` | `.AI()` | Tinted track, accent-coloured items, the selected pill filled with the gradient. |
+| `SegmentedPivot` | `.AI()` | The same, one level up: tinted segmented track, accent tabs, gradient fill on the selected tab. |
 
 `Button.AI(withSparklesIcon: false)` and `InlineLabel.AI(withSparklesIcon: false)` leave the
 label/mark alone when the component already says what it is some other way.
@@ -85,6 +87,7 @@ Every variant reads from the same CSS variables, declared for the light theme an
 - `--tss-ai-accent` — the single colour a glyph, a border or an arc takes.
 - `--tss-ai-gradient`, `--tss-ai-gradient-hover` — the filled form.
 - `--tss-ai-gradient-text` — the readable form, for words and glyphs.
+- `--tss-ai-arc` — the conic form, for the `Spinner` ring.
 - `--tss-ai-surface`, `--tss-ai-surface-strong` — translucent tints, layered over whatever
   background the component already had.
 - `--tss-ai-border-color`, `--tss-ai-shadow`, `--tss-ai-shadow-hover`, `--tss-ai-on-fill`.
@@ -97,5 +100,6 @@ when you want a gradient as a feature rather than as a marker.
 - Card — `card.md` · TextBlock — `text-block.md` · Icon — `icon.md` · Button — `button.md`
 - InlineLabel — `inline-label.md` · Skeleton — `skeleton.md` · Badge — `badge.md`
 - Spinner — `spinner.md` · ProgressIndicator — `progress-indicator.md`
+- IconToggle — `icon-toggle.md` · SegmentedPivot — `segmented-pivot.md`
 - Gradients — `gradients.md` · Chat — `chat.md` · Tool call — `tool-call.md` · Plan — `plan.md`
 - Full docs & API: `/tesserae/ai/ai-variants`

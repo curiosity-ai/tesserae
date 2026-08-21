@@ -38,6 +38,8 @@ isn't disabled is selected on render.
 - `.FullWidth()` — stretch the track to its container, every item taking an equal share.
 - `.Rounded(BorderRadius radius = BorderRadius.Medium)` — reshape the track; the items
   follow along, so `BorderRadius.Full` gives a pill.
+- `.AI(bool = true)` — marks the control as an AI one: the track takes the purple-to-blue tint, the
+  unselected items the accent, and the selected pill is filled with the gradient. See `ai-variants.md`.
 - `.Disabled(bool value = true)` — disable the whole control. Items disabled on their own
   stay disabled when it is re-enabled.
 
@@ -75,4 +77,5 @@ IconToggle(
 - SegmentedPivot (same look, but it owns the content panes) — `segmented-pivot.md`
 - OmniBox (uses one as its Search/Chat mode selector) — `omni-box.md`
 - Icon — `icon.md`
+- AI variants — the `.AI()` variant — `ai-variants.md`
 - Full docs & API: `/tesserae/components/icon-toggle`

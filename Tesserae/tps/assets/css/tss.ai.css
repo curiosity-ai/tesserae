@@ -44,6 +44,11 @@
     --tss-ai-shadow: 0 1px 2px 0 rgba(var(--tss-colors-purple-800-root), 0.10), 0 6px 16px -8px rgba(var(--tss-colors-purple-700-root), 0.35);
     --tss-ai-shadow-hover: 0 1px 3px 0 rgba(var(--tss-colors-purple-800-root), 0.18), 0 10px 22px -8px rgba(var(--tss-colors-purple-700-root), 0.45);
 
+    /* The spinner's arc. A spinner is a ring, so its gradient has to be conic rather than linear: this
+       runs purple to blue over three quarters of the circle and then fades out, which gives the ring a
+       crisp leading edge and a tail - the shape a spinner already had, in the gradient's colours. */
+    --tss-ai-arc: conic-gradient(from 0deg, var(--tss-colors-purple-500) 0deg, var(--tss-colors-blue-500) 250deg, rgba(var(--tss-colors-blue-500-root), 0) 330deg, rgba(var(--tss-colors-purple-500-root), 0) 360deg);
+
     /* What sits on top of a filled AI surface. Both ends of the gradient are mid-weight colours, so this
        is white in either theme rather than following the theme's foreground. */
     --tss-ai-on-fill: #ffffff;
@@ -61,6 +66,9 @@
 
     --tss-ai-surface: linear-gradient(135deg, rgba(var(--tss-colors-purple-400-root), 0.16), rgba(var(--tss-colors-blue-400-root), 0.12));
     --tss-ai-surface-strong: linear-gradient(135deg, rgba(var(--tss-colors-purple-400-root), 0.26), rgba(var(--tss-colors-blue-400-root), 0.18));
+
+    /* A 4px ring on a dark page needs the light end of the scale, where a filled surface does not. */
+    --tss-ai-arc: conic-gradient(from 0deg, var(--tss-colors-purple-400) 0deg, var(--tss-colors-blue-400) 250deg, rgba(var(--tss-colors-blue-400-root), 0) 330deg, rgba(var(--tss-colors-purple-400-root), 0) 360deg);
 
     --tss-ai-border-color: rgba(var(--tss-colors-purple-400-root), 0.42);
     --tss-ai-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.35), 0 6px 16px -8px rgba(var(--tss-colors-purple-500-root), 0.40);
@@ -315,14 +323,37 @@ i.tss-icon.tss-ai {
 
 /* Spinner ------------------------------------------------------------------------------------------ */
 
-/* A spinner is drawn from a single colour (a border arc, or a conic sweep for the progress form), so the
-   AI variant takes the accent rather than the gradient. */
+/* The default spinner is a rotating border arc, and a border takes one flat colour per side - so the AI
+   one stops being a border at all: a conic gradient masked down to a ring of the same thickness, still
+   rotated by the same animation at the same speed. --tss-spinner-size is the ring thickness in both
+   forms, so every size variant keeps working untouched.
+
+   The accent stays declared as --tss-spinner-color for anything else that reads it (and as the colour a
+   browser without conic-gradient falls back to drawing the border in). */
 .tss-spinner.tss-ai {
     --tss-spinner-color: var(--tss-ai-accent);
 }
 
+.tss-spinner.tss-ai:not(.tss-spinner-progress) {
+    border: none;
+    background: var(--tss-ai-arc);
+    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - var(--tss-spinner-size)), #000 0);
+    mask: radial-gradient(farthest-side, #0000 calc(100% - var(--tss-spinner-size)), #000 0);
+}
+
+/* The determinate form is already a conic sweep with a hard edge at the progress mark; the AI one runs
+   the gradient across the filled part instead of painting it in one colour. */
+.tss-spinner.tss-ai.tss-spinner-progress {
+    background: conic-gradient(from 0deg, var(--tss-ai-from), var(--tss-ai-to) calc(var(--tss-spinner-progress, 0) * 1%), var(--tss-progress-background-color) 0);
+}
+
+/* The label is type, so it takes the gradient the same way a TextBlock does. */
 .tss-spinner-container.tss-ai-label .tss-spinner-label {
     color: var(--tss-ai-accent);
+    background: var(--tss-ai-gradient-text);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 /* ProgressIndicator ------------------------------------------------------------------------------- */
@@ -333,4 +364,113 @@ i.tss-icon.tss-ai {
 
 .tss-progressindicator.tss-ai > .tss-progressindicator-bar-indeterminate {
     background: linear-gradient(to right, var(--tss-progress-background-color) 0%, var(--tss-ai-from) 35%, var(--tss-ai-to) 65%, var(--tss-progress-background-color) 100%);
+}
+
+/* IconToggle ---------------------------------------------------------------------------------------- */
+
+/* A segmented control where one item is selected: the AI variant tints the track and fills the selected
+   pill with the gradient, which is the same move as the AI button - the selected segment *is* the one
+   filled action on the control. The unselected items take the accent, so the control reads as one thing
+   rather than as a gradient pill sitting in a grey track. */
+.tss-icon-toggle.tss-ai {
+    background: var(--tss-ai-surface-strong), var(--tss-secondary-background-color);
+    box-shadow: inset 0 1px 2px rgba(var(--tss-colors-purple-800-root), 0.12);
+}
+
+.tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item {
+    color: var(--tss-ai-accent);
+}
+
+.tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    background-color: rgba(var(--tss-colors-purple-500-root), 0.14);
+    color: var(--tss-ai-accent);
+}
+
+.tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):active {
+    background-color: rgba(var(--tss-colors-purple-500-root), 0.22);
+}
+
+/* The theme-specific selected rules in tss.icontoggle.css carry four classes each, so these carry a
+   fifth (the .tss-ai) to win in both themes rather than relying on file order alone. */
+.tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+.tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+.tss-dark-mode .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+.tss-dark-mode .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    background: var(--tss-ai-gradient);
+    color: var(--tss-ai-on-fill);
+    box-shadow: var(--tss-ai-shadow);
+}
+
+.tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected > i {
+    color: var(--tss-ai-on-fill);
+}
+
+/* The dark theme dims unselected items against a track that is nearly the same colour as the default
+   background; the AI track is tinted, so its unselected items keep the accent instead. */
+.tss-dark-mode .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):not(:hover) {
+    color: var(--tss-ai-accent);
+}
+
+.tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item:focus-visible {
+    outline-color: var(--tss-ai-accent);
+}
+
+/* SegmentedPivot ------------------------------------------------------------------------------------ */
+
+/* The same control, one level up: tabs rather than a value. The pill background lives on the titlebar
+   wrapper when the overflow chrome is there and on the titlebar itself when it isn't (SidebarPivot),
+   so both take the tint. */
+.tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-wrapper,
+.tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar {
+    background: var(--tss-ai-surface-strong), var(--tss-secondary-background-color);
+    box-shadow: inset 0 1px 3px rgba(var(--tss-colors-purple-800-root), 0.14);
+}
+
+/* Inside the overflow wrapper the inner titlebar is a plain transparent row - it would otherwise draw
+   the tint a second time, over the wrapper's. */
+.tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar {
+    background: transparent;
+    box-shadow: none;
+}
+
+/* A tab's title is a TextBlock, which carries tss-fontcolor-default and so sets a colour of its own -
+   colouring the tab alone would leave every label the theme's grey. */
+.tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab,
+.tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab * {
+    color: var(--tss-ai-accent);
+}
+
+.tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab:hover,
+.tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab:hover * {
+    color: var(--tss-ai-accent);
+}
+
+.tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab:hover {
+    background-color: rgba(var(--tss-colors-purple-500-root), 0.14);
+}
+
+.tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab:active {
+    background-color: rgba(var(--tss-colors-purple-500-root), 0.22);
+}
+
+.tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    background: var(--tss-ai-gradient);
+    color: var(--tss-ai-on-fill);
+    box-shadow: var(--tss-ai-shadow);
+}
+
+    /* The tab's own rule paints every descendant, so the label inside the selected one has to be raised
+       the same way or it keeps the unselected colour on top of the gradient. */
+    .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected * {
+        color: var(--tss-ai-on-fill);
+    }
+
+/* The chevrons and the overflow button sit inside the pill, so they belong to it. */
+.tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-more,
+.tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-scroll-left,
+.tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-scroll-right,
+.tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-more > i,
+.tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-scroll-left > i,
+.tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-scroll-right > i {
+    color: var(--tss-ai-accent);
 }

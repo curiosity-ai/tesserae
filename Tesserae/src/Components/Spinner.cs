@@ -63,9 +63,10 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the spinner to the AI accent - waiting on a model rather than on a server. A spinner is an
-        /// arc drawn from one colour, so this is the accent rather than the gradient; the label beside it
-        /// takes the same colour.
+        /// Sets the spinner to the AI gradient - waiting on a model rather than on a server. The ring runs
+        /// purple to blue and fades into its tail, and the label beside it is painted with the same
+        /// gradient; the determinate form (<see cref="Progress(float)"/>) runs the gradient across the
+        /// filled part of the sweep. It rotates at the speed it always did.
         /// </summary>
         public Spinner AI()
         {
