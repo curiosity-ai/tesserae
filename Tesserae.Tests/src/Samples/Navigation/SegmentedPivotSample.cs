@@ -36,7 +36,16 @@ namespace Tesserae.Tests.Samples
                             .SegmentedPivot("s7", SegmentTitle("Settings"),   () => CenteredWithBackground(Message("Settings Content"))))
                     .Right(TextBlock("👈 resize this area to squeeze the segmented control — use the chevrons or the mouse wheel to scroll the tab strip, and click the ⋯ button for an All Tabs menu").WS().BreakSpaces())
                )).SetTitle("Usage")))
-               .SeeAlso(typeof(PivotSample), typeof(CardPivotSample), typeof(PivotSelectorSample), typeof(ChoiceGroupSample), typeof(ToggleSample));
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("AI() marks the pivot as an AI one - tabs over what a model produced, or over the ways of asking it. The segmented track takes the purple-to-blue tint, the tabs the accent, and the selected tab is filled with the gradient, the same way an AI IconToggle fills its selected pill. The chevrons and the overflow menu belong to the pill, so they take the accent too."),
+                    SampleSubTitle("An answer, its sources and its reasoning"),
+                    SegmentedPivot().AI()
+                        .SegmentedPivot("ai1", SegmentTitle("Answer"),    () => CenteredWithBackground(TextBlock("Brake sensor calibration failed on line 3 in eleven of the last fourteen runs.").AISurface()))
+                        .SegmentedPivot("ai2", SegmentTitle("Sources"),   () => CenteredWithBackground(HStack().Wrap().Gap(6.px()).Children(InlineLabel("12 documents").AI(), InlineLabel("BRK-SEN-447").SetIcon(UIcons.Folder))))
+                        .SegmentedPivot("ai3", SegmentTitle("Reasoning"), () => CenteredWithBackground(TextBlock("Every failure follows a mount torque below 12 Nm.").AISurface()))
+               )).SetTitle("The AI variant", UIcons.Sparkles, Theme.Colors.Purple600)))
+               .SeeAlso(typeof(PivotSample), typeof(CardPivotSample), typeof(PivotSelectorSample), typeof(ChoiceGroupSample), typeof(ToggleSample), typeof(AIVariantsSample));
         }
 
         public HTMLElement Render()

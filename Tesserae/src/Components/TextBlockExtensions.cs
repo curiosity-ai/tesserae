@@ -109,6 +109,29 @@
             return textBlock;
         }
 
+        /// <summary>
+        /// Paints the text with the AI gradient - what marks a line as a model's words rather than the
+        /// app's. It is for the short pieces: a title, a heading over generated output, a one-line summary.
+        /// A paragraph wants <see cref="AISurface{T}"/> instead, which keeps the text readable and marks
+        /// the block around it.
+        /// </summary>
+        public static T AI<T>(this T textBlock) where T : TextBlock
+        {
+            textBlock.Render().classList.add("tss-ai");
+            return textBlock;
+        }
+
+        /// <summary>
+        /// Draws the text as generated prose: the theme's own text colour on a faint purple-to-blue panel
+        /// with an accent edge down the left. The block is marked as the model's output without making any
+        /// of the words harder to read, which is what a gradient over a paragraph would do.
+        /// </summary>
+        public static T AISurface<T>(this T textBlock) where T : TextBlock
+        {
+            textBlock.Render().classList.add("tss-ai-surface");
+            return textBlock;
+        }
+
         /// <summary>Adds a glow effect to the text.</summary>
         public static T Glow<T>(this T textBlock, string color = null) where T : TextBlock
         {

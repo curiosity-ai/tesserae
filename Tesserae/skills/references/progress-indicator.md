@@ -18,6 +18,7 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.Progress(int position, int total)` — set fill from a fraction.
 - `.Indeterminated()` — switch to the animated indeterminate state.
 - `.Foreground` — bar colour (CSS).
+- `.AI(bool = true)` — paints the bar with the purple-to-blue AI gradient, determinate or indeterminate. See `ai-variants.md`.
 - Width is set with the standard sizing helpers, e.g. `.Width(400.px())` / `.WS()`.
 
 ## Example
@@ -35,4 +36,5 @@ Stack().Children(
 ## Related
 
 - ProgressRing — `.progress-ring.md`
+- AI variants — the `.AI()` variant — `ai-variants.md`
 - Full docs & API: `/tesserae/components/progress-indicator`

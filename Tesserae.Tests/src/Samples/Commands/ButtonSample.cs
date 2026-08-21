@@ -57,6 +57,15 @@ namespace Tesserae.Tests.Samples
                         Button().SetText("Magenta").Background(Theme.Colors.Magenta500).OnClick(() => alert("Clicked!")),
                         Button().SetText("Yellow").Background(Theme.Colors.Yellow500).OnClick(() => alert("Clicked!"))
                     ),
+                    SampleSubTitle("AI Actions"),
+                    TextBlock("AI() styles a button as an action that asks a model for something: a filled purple-to-blue gradient, and the Sparkles glyph unless the button already carries an icon. It is the AI equivalent of Primary(), so keep one per surface - the second and third AI action beside it want AISubtle(), which is the same hue as a tint with the accent's own text.").MB(8),
+                    HStack().Children(
+                        Button("Summarise").AI().OnClick(() => Toast().Information("The filled form: one per surface")),
+                        Button("Rewrite").AISubtle().OnClick(() => Toast().Information("The quiet form")),
+                        Button("Explain").AISubtle(withSparklesIcon: false).SetIcon(UIcons.CommentQuestion).OnClick(() => Toast().Information("A glyph of its own keeps its place")),
+                        Button().AI().Tooltip("Icon only"),
+                        Button("Generating").AI().Disabled()
+                    ),
                     SampleSubTitle("Rounded Buttons"),
                     HStack().Children(
                         Button().SetText("Small").Rounded(BorderRadius.Small).Primary(),
@@ -64,7 +73,7 @@ namespace Tesserae.Tests.Samples
                         Button().SetText("Full").Rounded(BorderRadius.Full).Primary()
                     )
                 )).SetTitle("Usage")))
-               .SeeAlso(typeof(ActionButtonSample), typeof(SaveButtonSample), typeof(CommandBarSample), typeof(ToggleSample), typeof(DropdownSample));
+               .SeeAlso(typeof(ActionButtonSample), typeof(SaveButtonSample), typeof(CommandBarSample), typeof(ToggleSample), typeof(DropdownSample), typeof(AIVariantsSample));
         }
 
         public HTMLElement Render() => _content.Render();

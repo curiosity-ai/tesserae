@@ -14,7 +14,8 @@ namespace Tesserae
         Success,
         Warning,
         Danger,
-        Info
+        Info,
+        AI
     }
 
     public abstract class TokenBase<T> : ComponentBase<T, HTMLElement> where T : TokenBase<T>
@@ -202,6 +203,12 @@ namespace Tesserae
         /// Configures the component to neutral.
         /// </summary>
         public T Neutral() => Tone(BadgeTone.Neutral);
+        /// <summary>
+        /// Styles the component using the AI tone - the filled purple-to-blue gradient, or the tint and
+        /// accent when combined with <see cref="Outline"/>. A badge is small enough that the tint alone
+        /// would not read, which is why this one fills.
+        /// </summary>
+        public T AI() => Tone(BadgeTone.AI);
 
         /// <summary>
         /// Registers a callback invoked when the remove event fires.

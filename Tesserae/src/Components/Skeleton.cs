@@ -80,6 +80,17 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Tints the placeholder with the AI gradient, and recolours the shimmer to match: this is content
+        /// being generated rather than content being fetched. Same shape, same animation, same speed - only
+        /// the colour says what is being waited for.
+        /// </summary>
+        public Skeleton AI(bool value = true)
+        {
+            InnerElement.UpdateClassIf(value, "tss-ai");
+            return this;
+        }
+
+        /// <summary>
         /// Gets or sets the CSS background of the component.
         /// </summary>
         public Skeleton Background(string color)

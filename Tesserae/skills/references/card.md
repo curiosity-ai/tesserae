@@ -26,6 +26,7 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.Border(string color, UnitSize size = null)` — border (default 1px).
 - `.HoverColor(bool = true)` — hover overlay.
 - `.OnClick((sender, evt) => ...)` or `.OnClick(Action)` — makes the card clickable (sets pointer cursor).
+- `.AI(bool = true)` — marks the card as a model's output: a faint purple-to-blue tint over the card's own background, an accent border and a soft shadow in the same hue. Header and footer take one step more tint. See `ai-variants.md`.
 
 ## Example
 
@@ -42,4 +43,5 @@ var card = Card(TextBlock("Card body content."))
 
 - BackgroundArea — `background-area.md`
 - UIcons — the glyph set `SetTitle`'s icon comes from — `uicons.md`
+- AI variants — the `.AI()` variant this shares with eight other components — `ai-variants.md`
 - Full docs & API: `/tesserae/components/card`

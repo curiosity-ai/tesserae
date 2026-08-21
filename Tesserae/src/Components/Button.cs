@@ -529,6 +529,38 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Styles the component as an AI action - a filled purple-to-blue gradient. It is the AI
+        /// equivalent of <see cref="Primary"/>, so like a primary button there should be one of them on a
+        /// surface at a time; the second and third AI action beside it want <see cref="AISubtle"/>.
+        /// <para>
+        /// Unless the button already carries an icon it takes the Sparkles glyph, which is what the rest
+        /// of the toolkit uses to mean "a model is involved". Pass false to leave the label on its own.
+        /// </para>
+        /// </summary>
+        public Button AI(bool withSparklesIcon = true)
+        {
+            InnerElement.classList.add("tss-ai");
+            InnerElement.classList.remove("tss-ai-subtle", "tss-btn-primary", "tss-btn-success", "tss-btn-danger");
+            InnerElement.classList.add("tss-btn-default");
+
+            if (withSparklesIcon && _iconSpan is null) SetIcon(UIcons.Sparkles);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Styles the component as a quiet AI action: the same hue as <see cref="AI"/> as a tinted surface
+        /// with the accent's own text, so a row of AI actions reads as a row of buttons rather than a row
+        /// of gradients.
+        /// </summary>
+        public Button AISubtle(bool withSparklesIcon = true)
+        {
+            AI(withSparklesIcon);
+            InnerElement.classList.add("tss-ai-subtle");
+            return this;
+        }
+
+        /// <summary>
         /// Returns the component configured with the given filter effects.
         /// </summary>
         public Button WithFilterEffects()

@@ -63,6 +63,21 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Sets the spinner to the AI gradient - waiting on a model rather than on a server. The ring runs
+        /// purple to blue and fades into its tail, and the label beside it is painted with the same
+        /// gradient; the determinate form (<see cref="Progress(float)"/>) runs the gradient across the
+        /// filled part of the sweep. It rotates at the speed it always did.
+        /// </summary>
+        public Spinner AI()
+        {
+            InnerElement.classList.add("tss-ai");
+            InnerElement.classList.remove("tss-spinner-success", "tss-spinner-danger");
+            InnerElement.style.removeProperty("--tss-spinner-color");
+            _container.classList.add("tss-ai-label");
+            return this;
+        }
+
+        /// <summary>
         /// Configures the custom color on the component.
         /// </summary>
         public Spinner CustomColor(string color)

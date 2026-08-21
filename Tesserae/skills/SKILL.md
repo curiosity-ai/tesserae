@@ -200,7 +200,7 @@ dialog · float · layer · modal · modal-stack · panel · popover · tabbed-m
 · teaching · tutorial-modal
 
 **AI & Chat** — conversation, tool calls and their context
-chat · context-card · context-cards · plan · resource-card ·
+ai-variants · chat · context-card · context-cards · plan · resource-card ·
 tool-agent-selector · tool-call
 
 **Media & Graphics** — images, avatars and embedded content

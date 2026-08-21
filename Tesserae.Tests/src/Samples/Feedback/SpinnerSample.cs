@@ -47,7 +47,15 @@ namespace Tesserae.Tests.Samples
                         Label("75% Progress").SetContent(Spinner().Progress(75).Large()).AlignCenter(),
                         Label("100% Progress").SetContent(Spinner().Progress(100).Large()).AlignCenter()
                     ))
-               .SeeAlso(typeof(SkeletonSample), typeof(ProgressRingSample), typeof(ProgressIndicatorSample), typeof(DeferSample));
+               .FlatSection(
+                    Stack().Width(400.px()).Children(
+                        Card(VStack().WS().Children(
+                        TextBlock("AI() puts the purple-to-blue gradient on the ring - waiting on a model rather than on a server. A border takes one flat colour per side, so the AI spinner stops being a border: it is a conic gradient masked down to a ring of the same thickness, rotated by the same animation at the same speed. The determinate form runs the gradient across the filled part of the sweep, and the label is painted with it too."),
+                        Label("Thinking").SetContent(Spinner("Reading 12 documents").AI()).AlignCenter(),
+                        Label("Larger").SetContent(Spinner("Drafting an answer").AI().Medium()).AlignCenter(),
+                        Label("With fixed progress").SetContent(Spinner("3 of 4 checks").AI().Progress(75).Large()).AlignCenter()
+                    )).SetTitle("Waiting on a model", UIcons.Sparkles, Theme.Colors.Purple600)))
+               .SeeAlso(typeof(SkeletonSample), typeof(ProgressRingSample), typeof(ProgressIndicatorSample), typeof(DeferSample), typeof(AIVariantsSample));
         }
 
         public HTMLElement Render()

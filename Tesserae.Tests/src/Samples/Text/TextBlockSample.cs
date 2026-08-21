@@ -55,9 +55,16 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Danger Text").Large().Danger().Glow(),
                         TextBlock("Foreground Color").Large().Foreground(Theme.Colors.Purple600).Glow(),
                         TextBlock("Custom Glow").Large().Glow(Theme.Colors.Lime300)
+                    ),
+                    SampleSubTitle("AI Output"),
+                    TextBlock("AI() paints the words with the purple-to-blue gradient - for the short pieces: a title, a heading over generated output, a one-line summary. AISurface() is for the paragraph underneath: the theme's own text colour on a faint tinted panel with an accent edge, because two hundred words of gradient is two hundred words you can't read.").MB(8),
+                    VStack().Children(
+                        TextBlock("What went wrong on line 3").MediumPlus().SemiBold().AI(),
+                        TextBlock("Summarised from 12 documents").XSmall().AI().MT(4),
+                        TextBlock("Brake sensor calibration failed on line 3 in eleven of the last fourteen runs. Every failure follows a mount torque below 12 Nm, which the procedure calls for explicitly.").AISurface().MT(12).MaxWidth(520.px())
                     )
                 )).SetTitle("Usage")))
-               .SeeAlso(typeof(LabelSample), typeof(MarkdownBlockSample), typeof(ListItemTextSample), typeof(EmojiSample), typeof(ThemeColorsSample));
+               .SeeAlso(typeof(LabelSample), typeof(MarkdownBlockSample), typeof(ListItemTextSample), typeof(EmojiSample), typeof(ThemeColorsSample), typeof(AIVariantsSample));
         }
 
         public HTMLElement Render() => _content.Render();

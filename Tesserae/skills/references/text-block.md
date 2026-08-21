@@ -21,6 +21,8 @@ Sizes and weights come from `ITextFormating` fluent helpers:
 - `.NoWrap()` — disable wrapping (sets `CanWrap = false`).
 - `.Primary()` / `.Secondary()` / `.Success()` / `.Danger()` / `.Invalid()` — colour variant.
 - `.Title(string)` — tooltip (hover) text.
+- `.AI()` — paints the words with the purple-to-blue AI gradient. For **short** strings: a title, a heading over generated output, a one-line summary.
+- `.AISurface()` — generated prose: the theme's own text colour on a faint tinted panel with an accent edge, for a paragraph a gradient would make unreadable. See `ai-variants.md`.
 
 Useful properties:
 
@@ -45,4 +47,5 @@ var note = TextBlock("The quick brown fox.", selectable: true)
 ## Related
 
 - Label — `.label.md`
+- AI variants — the `.AI()` / `.AISurface()` variant — `ai-variants.md`
 - Full docs & API: `/tesserae/components/text-block`

@@ -161,6 +161,19 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Marks the control as an AI one - picking which way a model should work, or which of its answers
+        /// to look at. The track takes the purple-to-blue tint, the unselected items the accent, and the
+        /// selected pill is filled with the gradient: the selected segment is the one filled action on the
+        /// control, which is the same thing <see cref="Button"/>'s AI variant says.
+        /// </summary>
+        public IconToggle<T> AI(bool value = true)
+        {
+            _stack.Render().UpdateClassIf(value, "tss-ai");
+
+            return this;
+        }
+
+        /// <summary>
         /// Configures whether the whole control is disabled.
         /// </summary>
         public IconToggle<T> Disabled(bool value = true)

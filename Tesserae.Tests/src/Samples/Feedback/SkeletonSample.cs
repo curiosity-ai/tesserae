@@ -36,7 +36,22 @@ namespace Tesserae.Tests.Samples
                         Skeleton().W(60.percent()).H(16).MT(8)
                     )
                 )).SetTitle("Usage")))
-               .SeeAlso(typeof(SpinnerSample), typeof(ProgressIndicatorSample), typeof(ProgressRingSample), typeof(DeferSample));
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("AI() tints the placeholder and recolours the shimmer: this is content being generated rather than content being fetched. Same shape, same animation, same speed - only the colour says what is being waited for, so the two kinds of wait are told apart without a second component."),
+                    SampleSubTitle("Waiting on a model"),
+                    HStack().AlignItemsCenter().Gap(8.px()).MB(12).Children(Spinner("Reading 12 documents").AI()),
+                    VStack().Children(
+                        Skeleton().W(320).H(12).AI(),
+                        Skeleton().W(280).H(12).MT(8).AI(),
+                        Skeleton().W(210).H(12).MT(8).AI(),
+                        ProgressIndicator().Progress(35).AI().W(320).MT(16)),
+                    SampleSubTitle("Beside a fetch, for comparison"),
+                    VStack().Children(
+                        Skeleton().W(320).H(12),
+                        Skeleton().W(280).H(12).MT(8))
+                )).SetTitle("Generating, not loading", UIcons.Sparkles, Theme.Colors.Purple600)))
+               .SeeAlso(typeof(SpinnerSample), typeof(ProgressIndicatorSample), typeof(ProgressRingSample), typeof(DeferSample), typeof(AIVariantsSample));
         }
 
         public HTMLElement Render() => _content.Render();

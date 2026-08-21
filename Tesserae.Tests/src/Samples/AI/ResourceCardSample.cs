@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.AI, Order = 50, Icon = UIcons.IdBadge)]
+    [SampleDetails(Group = SampleGroup.AI, Order = 60, Icon = UIcons.IdBadge)]
     public class ResourceCardSample : IComponent, ISample
     {
         private readonly IComponent _content;

@@ -784,6 +784,19 @@ namespace Tesserae
         public static Icon Icon(Emoji   icon, TextSize     size   = TextSize.Medium) => new Icon(icon, size);
 
         /// <summary>
+        /// The AI mark: a glyph filled with the purple-to-blue gradient, Sparkles unless another one is
+        /// asked for. Shorthand for <c>Icon(...).AI()</c>, which is the thing you want often enough that
+        /// spelling it out every time is noise.
+        /// </summary>
+        public static Icon AIIcon(UIcons icon = UIcons.Sparkles, UIconsWeight weight = UIconsWeight.Regular, TextSize size = TextSize.Small) => new Icon(icon, weight, size).AI();
+
+        /// <summary>
+        /// The AI badge: a small gradient pill led by the Sparkles glyph, for labelling a value, a row or a
+        /// section as something a model produced.
+        /// </summary>
+        public static Badge AIBadge(string text = "AI") => new Badge(text).AI().Pill().SetIcon(Tesserae.Icon.Transform(UIcons.Sparkles, UIconsWeight.Regular));
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.HorizontalSeparator"/> component.
         /// </summary>
         public static HorizontalSeparator HorizontalSeparator(string text) => new HorizontalSeparator(text);
