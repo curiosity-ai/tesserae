@@ -5,8 +5,7 @@
     color: var(--tss-default-foreground-color);
     -webkit-user-select: none;
     user-select: none;
-    padding-left: 25px;
-    display: block;
+    display: flex;
     height: 21px;
 }
 
@@ -18,16 +17,28 @@
         width: 0;
     }
 
+    /* The mark is a flow item with the text beside it, not an overlay sitting in a padding well the
+       container reserves: a caller's .PL(n) writes an inline padding-left that wins over any padding
+       declared here, which used to drop the text on top of the mark. A margin between the two is
+       untouched by it, so the whole control just moves over. */
     .tss-checkbox-container .tss-checkbox-mark {
-        position: absolute;
-        top: 0;
-        left: 0;
+        position: relative;
+        flex: 0 0 auto;
         height: 20px;
         width: 20px;
         border-radius: var(--tss-border-radius-sm);
         background-color: var(--tss-default-background-color);
         border: 1px solid var(--tss-default-foreground-color);
         transition: all 0.15s ease-in-out;
+    }
+
+    .tss-checkbox-container .tss-checkbox-text {
+        min-width: 0;
+        margin-left: 5px;
+    }
+
+    .tss-checkbox-container .tss-checkbox-text:empty {
+        display: none;
     }
 
     .tss-checkbox-container:hover input ~ .tss-checkbox-mark:after {
@@ -77,47 +88,38 @@
 
     .tss-checkbox-container.tss-fontsize-mega {
         height: calc(9px + var(--tss-font-size-mega));
-        padding-left: calc(13px + var(--tss-font-size-mega));
     }
 
     .tss-checkbox-container.tss-fontsize-xxlarge {
         height: calc(9px + var(--tss-font-size-xxlarge));
-        padding-left: calc(13px + var(--tss-font-size-xxlarge));
     }
 
     .tss-checkbox-container.tss-fontsize-xlarge {
         height: calc(9px + var(--tss-font-size-xlarge));
-        padding-left: calc(13px + var(--tss-font-size-xlarge));
     }
 
     .tss-checkbox-container.tss-fontsize-large {
         height: calc(9px + var(--tss-font-size-large));
-        padding-left: calc(13px + var(--tss-font-size-large));
     }
 
     .tss-checkbox-container.tss-fontsize-mediumplus {
         height: calc(9px + var(--tss-font-size-mediumplus));
-        padding-left: calc(13px + var(--tss-font-size-mediumplus));
     }
 
     .tss-checkbox-container.tss-fontsize-medium {
         height: calc(9px + var(--tss-font-size-medium));
-        padding-left: calc(13px + var(--tss-font-size-medium));
     }
 
     .tss-checkbox-container.tss-fontsize-smallplus {
         height: calc(9px + var(--tss-font-size-smallplus));
-        padding-left: calc(13px + var(--tss-font-size-smallplus));
     }
 
     .tss-checkbox-container.tss-fontsize-xsmall {
         height: calc(9px + var(--tss-font-size-xsmall));
-        padding-left: calc(13px + var(--tss-font-size-xsmall));
     }
 
     .tss-checkbox-container.tss-fontsize-tiny {
         height: calc(9px + var(--tss-font-size-tiny));
-        padding-left: calc(13px + var(--tss-font-size-tiny));
     }
 
 

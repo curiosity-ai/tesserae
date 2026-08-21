@@ -186,6 +186,7 @@ namespace Tesserae
             private event ComponentEventHandler<Choice> SelectedItem;
 
             private readonly HTMLSpanElement  _radioSpan;
+            private readonly HTMLSpanElement  _textSpan;
             private readonly HTMLLabelElement _label;
             /// <summary>
             /// Initializes a new instance of this class.
@@ -194,7 +195,8 @@ namespace Tesserae
             {
                 InnerElement = RadioButton(Att("tss-option"));
                 _radioSpan   = Span(Att("tss-option-mark"));
-                _label       = Label(Att("tss-option-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text), InnerElement, _radioSpan);
+                _textSpan    = Span(Att("tss-option-text", text: text));
+                _label       = Label(Att("tss-option-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular"), InnerElement, _radioSpan, _textSpan);
                 AttachClick();
                 AttachChange();
                 AttachFocus();
@@ -248,8 +250,8 @@ namespace Tesserae
             /// </summary>
             public string Text
             {
-                get { return _label.innerText; }
-                set { _label.innerText = value; }
+                get { return _textSpan.innerText; }
+                set { _textSpan.innerText = value; }
             }
 
             /// <summary>

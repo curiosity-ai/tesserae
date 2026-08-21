@@ -1,4 +1,4 @@
-/* OmniResult — a search-result row: icon tile, title + badge, excerpt, footer, pages rail, commands. */
+﻿/* OmniResult — a search-result row: icon tile, title + badge, excerpt, footer, pages rail, commands. */
 
 /* A row is something you click, not something you read a sentence out of: dragging across a list of
    results should never leave half an excerpt highlighted. The modal is where a result is read, so its
@@ -66,7 +66,6 @@
 
 .tss-omniresult-select .tss-checkbox-container {
     margin: 0;
-    padding-left: 20px;
     width: 20px;
     height: 20px;
 }
