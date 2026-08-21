@@ -18,9 +18,14 @@ A vertically-stacked tree of `Tree.Item` nodes. Nodes expand/collapse to reveal 
 `Tree`:
 
 - `.Items(params Tree.Item[])` — add top-level nodes.
-- `.SelectionEnabled(bool = true)` — turn on item selection.
+- `.Selectable(TreeSelectionMode = Multiple)` — turn on item selection: `None`, `Single` (one at a time), or `Multiple`.
+- `.SelectionEnabled(bool = true)` — shorthand for `Single` / `None`.
+- `.NotSelectable()` — take selection away again, unselecting whatever was selected.
+- `.CascadeSelection(bool = true)` — selecting a folder selects everything inside it, unselecting it unselects them, and a folder only part of which is picked is drawn half-selected (`IsPartiallySelected`).
 - `.Compact(bool = true)` — compact density (22px rows, 13px text, 8px indent), matching a code editor's file explorer.
-- `.OnSelected((s, item) => ...)` — fires when selection changes; `SelectedItem` holds the current.
+- `.OnSelected((s, item) => ...)` — fires when the selected item changes; `SelectedItem` holds the last one picked.
+- `.OnSelectionChanged((s, items) => ...)` — fires with everything selected; one call per gesture, even when a range or a cascade moved many rows.
+- `.ClearSelection()` / `.SelectAll()` — move the whole selection from code; `SelectedItems` reads it back, in tree order.
 - `.Clear()` / `.Replace(newItem, oldItem)` — manage nodes.
 
 `Tree.Item`:
@@ -28,9 +33,23 @@ A vertically-stacked tree of `Tree.Item` nodes. Nodes expand/collapse to reveal 
 - `.Items(params Tree.Item[])` — add children.
 - `.ItemsAsync(async () => Tree.Item[])` — lazy-load children on first expand (shows a spinner).
 - `.Expanded(bool = true)` / `.Selected(bool = true)` — initial state.
-- `.OnSelected(...)` / `.OnExpanded(...)` / `.OnCollapsed(...)` — node events.
+- `.Selectable(bool = true)` — say whether the row can be picked at all; one that cannot shows no checkbox and is skipped by ranges, cascades and `SelectAll`.
+- `.OnSelected(...)` / `.OnSelectionChanged((item, isSelected) => ...)` / `.OnExpanded(...)` / `.OnCollapsed(...)` — node events.
 - `.CommandsAlwaysVisible(bool)` — keep row commands visible (not hover-only).
-- `Text`, `Icon`, `IsExpanded`, `IsSelected`, `HasChildren` — read/write state.
+- `Text`, `Icon`, `IsExpanded`, `IsSelected`, `IsPartiallySelected`, `IsSelectable`, `HasChildren`, `Children`, `Parent` — read/write state.
+
+## Selection gestures
+
+`TreeSelectionMode.Multiple` gives a tree the gestures of a list of search results, with the checkbox
+of every row on show:
+
+- **Checkbox click** — picks that one row.
+- **Ctrl (or cmd) click on a row** — the same, without opening or expanding it.
+- **Shift-click on a row** — picks everything between the last row picked and this one, unselecting
+  what falls outside. The range runs over the rows on screen, so a collapsed folder counts as one row
+  (and, on a cascading tree, brings its contents with it).
+- **A plain click** is left alone: it expands the row and runs its `OnClick`, so a tree can both drive
+  a details pane and carry a selection.
 
 ## Example
 
@@ -48,6 +67,22 @@ var tree = new Tree().Compact().SelectionEnabled().Items(
         return new[] { new Tree.Item("child.cs", UIcons.File) };
     })
 ).OnSelected((s, item) => Console.WriteLine(item.Text));
+```
+
+Picking several files out of a folder tree, folders included:
+
+```csharp
+var files = new Tree().Compact().Selectable(TreeSelectionMode.Multiple).CascadeSelection().Items(
+    new Tree.Item("config", UIcons.Folder).Expanded().Items(
+        new Tree.Item("search.cs", UIcons.File),
+        new Tree.Item("upload.cs", UIcons.File),
+        new Tree.Item("workspace.json", UIcons.File).Selectable(false)   // nothing to do with this one
+    )
+).OnSelectionChanged((t, selected) =>
+{
+    var picked = selected.Where(i => !i.HasChildren).ToArray();
+    Console.WriteLine(picked.Length + " files selected");
+});
 ```
 
 ## Related
