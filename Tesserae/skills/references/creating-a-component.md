@@ -107,6 +107,14 @@ own clicks (a raw `element.onclick`) should make the same check first with
   the wrap-and-transfer protocol — see `Stack.CopyStylesDefinedWithExtension`.
   A component can opt out of wrapping by implementing `ISpecialCaseStyling` and
   exposing a `StylingContainer`.
+- **Don't spend `padding` on the element `Render()` returns.** `.P()` / `.PL()` and
+  friends write an inline padding onto exactly that element, and an inline value beats
+  any stylesheet, so a caller asking for room around your component silently deletes
+  whatever inner offset the padding was holding. Put the component's own spacing on a
+  child instead — a `margin` between the parts, or padding on an inner element — and the
+  two compose: the caller's padding moves the whole control, your margin keeps its
+  pieces apart. `CheckBox`, `ChoiceGroup.Choice` and `Toggle` lay their mark and their
+  text out side by side in a flex row for this reason.
 - To accept children, implement `IContainer<T, TChild>` and wrap each child with
   the stack-item protocol; most custom components instead *compose* existing
   components (return a `Stack().Children(...)`).
