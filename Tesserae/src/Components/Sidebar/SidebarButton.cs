@@ -157,8 +157,10 @@ namespace Tesserae
         /// <summary>
         /// Marks the row as one that has commands, and says how wide its strip of them is - each is a
         /// 22px button with a 4px gap between them. Only the row knows how many it has, so it writes
-        /// both here and the stylesheet reads them back to keep the label out from under the strip for
-        /// as long as the strip is drawn (see <c>tss-sidebar-has-commands</c> in tss.sidebar.css).
+        /// both here and the stylesheet reads them back to lay the label out beside the strip wherever
+        /// the strip is permanent - always-visible, or selected. On hover the label keeps the full width
+        /// of the rail and the strip blurs what it covers instead (see <c>tss-sidebar-has-commands</c>
+        /// and the veil on <c>tss-sidebar-commands</c> in tss.sidebar.css).
         /// </summary>
         private static void ReserveRoomForCommands(HTMLElement wrapper, int commandCount)
         {
