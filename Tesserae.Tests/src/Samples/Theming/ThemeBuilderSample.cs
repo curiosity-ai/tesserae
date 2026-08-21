@@ -16,15 +16,16 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("UI.Theme.Build() exposes every color CSS variable the toolkit understands, in one fluent API. Each setter takes a light value and a dark value, and Apply() injects a single <style> element that overrides the defaults from tss.common.css."),
-                    TextBlock("Use this when you need to fully re-brand the toolkit. For lightweight tweaks (just the primary color, or just the background) the existing UI.Theme.SetPrimary / SetBackground helpers are sharper tools."),
+                    TextBlock("Use this when you need to fully re-brand the toolkit. For lightweight tweaks (just the primary color, just the background, or just the highlight) the existing UI.Theme.SetPrimary / SetBackground / SetHighlight helpers are sharper tools."),
                     TextBlock("Call UI.Theme.ResetBuild() to drop the injected theme and return to the defaults."))).SetTitle("Overview")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Try a few presets"),
                     HStack().Children(
                         Button("Ocean").OnClick(() => Theme.Build()
-                            .Primary(Color.FromString("#0078d4"), Color.FromString("#2899f5"))
-                            .Link   (Color.FromString("#0078d4"), Color.FromString("#55b3fb"))
+                            .Primary  (Color.FromString("#0078d4"), Color.FromString("#2899f5"))
+                            .Link     (Color.FromString("#0078d4"), Color.FromString("#55b3fb"))
+                            .Highlight(Color.FromString("#0078d4"), Color.FromString("#55b3fb"))
                             .DefaultBackground       (Color.FromString("#eaf3fb"), Color.FromString("#0b1320"))
                             .DefaultBackgroundHover  (Color.FromString("#d6e6f4"), Color.FromString("#101d33"))
                             .DefaultBackgroundActive (Color.FromString("#c4dbef"), Color.FromString("#162644"))
@@ -32,8 +33,9 @@ namespace Tesserae.Tests.Samples
                             .DefaultBorder           (Color.FromString("#bcd6ea"), Color.FromString("#1f3252"))
                             .Apply()).MR(8),
                         Button("Forest").OnClick(() => Theme.Build()
-                            .Primary(Color.FromString("#16a34a"), Color.FromString("#22c55e"))
-                            .Link   (Color.FromString("#15803d"), Color.FromString("#22c55e"))
+                            .Primary  (Color.FromString("#16a34a"), Color.FromString("#22c55e"))
+                            .Link     (Color.FromString("#15803d"), Color.FromString("#22c55e"))
+                            .Highlight(Color.FromString("#15803d"), Color.FromString("#22c55e"))
                             .DefaultBackground       (Color.FromString("#eaf7ee"), Color.FromString("#08160d"))
                             .DefaultBackgroundHover  (Color.FromString("#d4ebda"), Color.FromString("#0f2418"))
                             .DefaultBackgroundActive (Color.FromString("#bbdec5"), Color.FromString("#173324"))
@@ -41,8 +43,9 @@ namespace Tesserae.Tests.Samples
                             .DefaultBorder           (Color.FromString("#bdddc7"), Color.FromString("#1d3a25"))
                             .Apply()).MR(8),
                         Button("Sunset").OnClick(() => Theme.Build()
-                            .Primary(Color.FromString("#ea580c"), Color.FromString("#fb923c"))
-                            .Link   (Color.FromString("#c2410c"), Color.FromString("#fb923c"))
+                            .Primary  (Color.FromString("#ea580c"), Color.FromString("#fb923c"))
+                            .Link     (Color.FromString("#c2410c"), Color.FromString("#fb923c"))
+                            .Highlight(Color.FromString("#c2410c"), Color.FromString("#fb923c"))
                             .DefaultBackground       (Color.FromString("#fff2e3"), Color.FromString("#1c1209"))
                             .DefaultBackgroundHover  (Color.FromString("#fbe4cb"), Color.FromString("#2a1c10"))
                             .DefaultBackgroundActive (Color.FromString("#f6d2ad"), Color.FromString("#3a2716"))
@@ -50,8 +53,9 @@ namespace Tesserae.Tests.Samples
                             .DefaultBorder           (Color.FromString("#f1cba0"), Color.FromString("#3b271a"))
                             .Apply()).MR(8),
                         Button("Grape").OnClick(() => Theme.Build()
-                            .Primary(Color.FromString("#7c3aed"), Color.FromString("#a78bfa"))
-                            .Link   (Color.FromString("#6d28d9"), Color.FromString("#c4b5fd"))
+                            .Primary  (Color.FromString("#7c3aed"), Color.FromString("#a78bfa"))
+                            .Link     (Color.FromString("#6d28d9"), Color.FromString("#c4b5fd"))
+                            .Highlight(Color.FromString("#6d28d9"), Color.FromString("#c4b5fd"))
                             .DefaultBackground       (Color.FromString("#f3edff"), Color.FromString("#14091f"))
                             .DefaultBackgroundHover  (Color.FromString("#e6daff"), Color.FromString("#1e1230"))
                             .DefaultBackgroundActive (Color.FromString("#d6c4ff"), Color.FromString("#2c1d44"))
@@ -71,7 +75,8 @@ namespace Tesserae.Tests.Samples
                             Button("Default")
                         ).MT(8),
                         Label("A textbox").SetContent(TextBox()).MT(8),
-                        Label("A link").SetContent(Button("Visit curiosity.ai", href: "https://curiosity.ai").Class("tss-btn-link")).MT(8))
+                        Label("A link").SetContent(Button("Visit curiosity.ai", href: "https://curiosity.ai").Class("tss-btn-link")).MT(8),
+                        Label("Highlighted text").SetContent(TextBlock("what matched").SemiBold().Foreground(Theme.Default.Highlight)).MT(8))
                     )
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(ThemeColorsSample), typeof(ColorsSample), typeof(ColorPaletteSample), typeof(GradientsSample), typeof(ColorPickerSample));

@@ -15,11 +15,16 @@ description: The static `Theme` class for switching light/dark mode and overridi
   colors derived from it: `--tss-link-color` (links, `Badge().Info()`) and `--tss-highlight-color`
   (marked search terms, see `omni-result.md`).
 - `Theme.SetBackground(Color light, Color dark)` — set background for both modes.
+- `Theme.SetHighlight(Color light, Color dark)` — set the highlight color (`--tss-highlight-color`)
+  for both modes, so marked text stops following the primary color. What is set here wins over
+  `SetPrimary` whatever order the two are called in.
+- `Theme.ResetHighlight()` — drop an explicit highlight color and go back to following the primary.
 
 ## Properties
 
 - `Theme.IsLight` / `Theme.IsDark` — current mode (bool).
 - `Theme.Default`, `Theme.Primary`, `Theme.Secondary`, `Theme.Danger`, `Theme.Success` — color accessors exposing `.Background`, `.Foreground`, `.Border`, etc.
+- `Theme.Default.Highlight` — the highlight color as a CSS variable reference, for drawing your own marked text with it.
 - `Theme.Fonts.SansSerif` / `Theme.Fonts.Monospace` — the two font stacks the toolkit draws with, as CSS variable references. See `styling.md`.
 - `Theme.OnThemeChanged` — event raised on mode change.
 
@@ -39,6 +44,9 @@ Stack().Children(
 // Runtime recolor
 Theme.SetPrimary(Color.FromString("blue"), Color.FromString("lightblue"));
 Theme.SetBackground(Color.FromString("white"), Color.FromString("#333"));
+
+// The highlight follows the primary color unless you say otherwise
+Theme.SetHighlight(Color.FromString("#b45309"), Color.FromString("#fbbf24"));
 ```
 
 ## Related

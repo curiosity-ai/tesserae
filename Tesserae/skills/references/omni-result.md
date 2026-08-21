@@ -45,7 +45,7 @@ stands for. Also `new OmniResult<T>(result, title)`. Bring factories into scope 
   than cutting it off. Null un-caps it.
 - `.HighlightWords(params string[])` — mark those words in the **title and the excerpt**,
   case-insensitively. The marks and the badge share one pair of colors, from the `--tss-highlight-color`
-  token (the same value as `--tss-link-color`, so `Theme.SetPrimary` moves both), and the excerpt
+  token (which follows the primary color unless `Theme.SetHighlight` gives it one of its own), and the excerpt
   itself is a quiet grey.
 - `.Highlight(es5.RegExp)` / `.Highlight(string pattern, bool ignoreCase = true)` — mark every match,
   e.g. the pattern a search backend hands back. The expression is the JavaScript one
