@@ -47,9 +47,13 @@ stands for. Also `new OmniResult<T>(result, title)`. Bring factories into scope 
   case-insensitively. The marks and the badge share one pair of colors, from the `--tss-highlight-color`
   token (the same value as `--tss-link-color`, so `Theme.SetPrimary` moves both), and the excerpt
   itself is a quiet grey.
-- `.Highlight(Regex)` / `.Highlight(string pattern, bool ignoreCase = true)` — mark every match, e.g.
-  the pattern a search backend hands back. Matching runs against the text and each match is wrapped in
-  its own element, so text containing angle brackets renders them instead of obeying them.
+- `.Highlight(es5.RegExp)` / `.Highlight(string pattern, bool ignoreCase = true)` — mark every match,
+  e.g. the pattern a search backend hands back. The expression is the JavaScript one
+  (`Transpose.Core.es5.RegExp`), which is what a host highlighting a preview document alongside the row
+  already has, so one object serves both. It is taken for its pattern alone — the row scans with a
+  global copy of it — so sharing it across rows is safe, and it needs no `g` flag of its own. Matching
+  runs against the text and each match is wrapped in its own element, so text containing angle brackets
+  renders them instead of obeying them.
 
 **Icon tile**
 
