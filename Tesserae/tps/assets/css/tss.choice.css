@@ -7,15 +7,17 @@
         margin-right: 12px;
     }
 
+/* No font-size / font-weight here: the container already carries the tss-fontsize-* and
+   tss-fontweight-* class the ITextFormating helpers swap, and a same-specificity rule declared
+   later in the bundle silently beat them - so .Mega() grew the radio and left the label at 13px. */
 .tss-option-container {
     position: relative;
     cursor: pointer;
     color: var(--tss-default-foreground-color);
-    font-size: var(--tss-font-size-small);
-    font-weight: var(--tss-font-weight-regular);
     -webkit-user-select: none;
     user-select: none;
     display: flex;
+    align-items: center;
     text-align: left;
 }
 
@@ -30,12 +32,10 @@
     /* The mark is a flow item with the text beside it, not an overlay sitting in a padding well the
        container reserves: a caller's .PL(n) writes an inline padding-left that wins over any padding
        declared here, which used to drop the text on top of the mark. A margin between the two is
-       untouched by it, so the whole control just moves over. `top` still only nudges the mark
-       optically, since a relatively positioned box keeps the space it was laid out in. */
+       untouched by it, so the whole control just moves over. */
     .tss-option-container .tss-option-mark {
         position: relative;
         flex: 0 0 auto;
-        top: 2px;
         margin-left: 1px;
         height: 18px;
         width: 18px;
