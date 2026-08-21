@@ -11,6 +11,14 @@ namespace Tesserae.Tests.Samples
     [SampleDetails(Group = SampleGroup.Navigation, Order = 10, Icon = UIcons.Sidebar)]
     public class SidebarSample : IComponent, ISample
     {
+        private const string LOGO       = "/assets/img/curiosity-logo.svg";
+        private const string SHORT_NAME = "Curiosity";
+        private const string NAME       = "Technical Support";
+        private const string LONG_NAME  = "Technical Support Workspace EMEA";
+
+        /// <summary>What a product's own stylesheet does to move the commands in from the edge of the row.</summary>
+        private const string INSET_SKIN = "tss-sample-commands-inset";
+
         private readonly IComponent _content;
 
         public SidebarSample()
@@ -124,11 +132,14 @@ namespace Tesserae.Tests.Samples
 
             sidebar.AddFooter(new SidebarButton("CURIOSITY_REF",
                 "https://curiosity.ai",
-                new ImageIcon("/assets/img/curiosity-logo.svg"),
+                new ImageIcon(LOGO),
                 "By Curiosity",
                 new SidebarBadge("+3").Foreground(Theme.Primary.Foreground).Background(Theme.Primary.Background),
                 new SidebarCommand("https://github.com/curiosity-ai/tesserae", UIcons.ArrowUpRightFromSquare)).Tooltip("Made with ❤ by Curiosity"));
 
+
+            var workspaceName = new SettableObservable<string>(NAME);
+            var commandCount  = new SettableObservable<int>(2);
 
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(SidebarSample), UIcons.Apps, "A sidebar navigation component")
@@ -139,8 +150,75 @@ namespace Tesserae.Tests.Samples
                         SplitView().WS().H(800).LeftIsSmaller(400.px()).Resizable()
                                    .Left(sidebar.S())
                                    .Right(CenteredCardWithBackground(Message("Your application content goes here")))
-               )).SetTitle("Usage")))
-               .SeeAlso(typeof(SidebarCommandsSample), typeof(SidebarSeparatorSample), typeof(SidenavSample), typeof(NavbarSample), typeof(MenuSample), typeof(BreadcrumbSample));
+               )).SetTitle("Usage"),
+
+                    Card(VStack().WS().Children(
+                        TextBlock("A SidebarCommand is drawn over its row rather than in it, and only while the pointer is on that row — so a row costs its label nothing at rest, and gives up exactly the room its own commands take while they are on screen. .CommandsAlwaysVisible() makes the commands part of the rail's chrome instead: they are drawn at all times, so the room is given up at all times and the label truncates before them."),
+                        TextBlock("The row writes how wide its strip of commands is and the stylesheet reads it back, so the room is right for one command and for three, and it is kept for as long as the strip is drawn — while the pointer is on the row, while the row is selected, or always. A skin that moves the strip further in from the edge sets --tss-sidebar-commands-inset on the row, and the label's reservation follows it."),
+                        TextBlock("The same long name in four rails: commands on hover and commands always drawn, each with the default inset and with a skin that moves the strip 12px in from the edge. Hover the top two — a row keeps room for its commands for exactly as long as they are drawn, so the label steps aside as they appear instead of being covered, and it steps aside by however far the strip is inset.").Secondary().PT(8),
+                        HStack().WS().PT(8).Children(
+                            Rail("On hover",                  Brand("hover", LONG_NAME, 2)),
+                            Rail("On hover, inset 12px",      Brand("hover-inset", LONG_NAME, 2).Class(INSET_SKIN))),
+                        HStack().WS().PT(12).Children(
+                            Rail("Always visible",             Brand("always", LONG_NAME, 2).CommandsAlwaysVisible()),
+                            Rail("Always visible, inset 12px", Brand("always-inset", LONG_NAME, 2).CommandsAlwaysVisible().Class(INSET_SKIN))))).SetTitle("Commands on a row, and the label beside them"),
+
+                    Card(VStack().WS().Children(
+                        TextBlock("The rail a workspace app puts together: a logo, the workspace's name, and the rail's own controls as commands beside it. The brand carries the chat search and the way out, and the history sits under it. Change the name and the number of commands to watch the room the row keeps for them.").Secondary(),
+                        HStack().WS().PT(8).Children(
+                            ChoiceGroup("Workspace name").Choices(
+                                Choice(SHORT_NAME).OnSelected(_ => workspaceName.Value = SHORT_NAME),
+                                Choice(NAME).Selected().OnSelected(_ => workspaceName.Value = NAME),
+                                Choice(LONG_NAME).OnSelected(_ => workspaceName.Value = LONG_NAME)),
+                            ChoiceGroup("Commands").PL(32).Choices(
+                                Choice("One").OnSelected(_ => commandCount.Value            = 1),
+                                Choice("Two").Selected().OnSelected(_ => commandCount.Value = 2),
+                                Choice("Three").OnSelected(_ => commandCount.Value          = 3))),
+                        DeferSync(workspaceName, commandCount, (n, c) => WorkspaceRail(n, c)).PT(8))).SetTitle("The workspace rail")))
+               .SeeAlso(typeof(SidebarShiftSample), typeof(SidebarSeparatorSample), typeof(SidenavSample), typeof(NavbarSample), typeof(MenuSample), typeof(BreadcrumbSample));
+        }
+
+        /// <summary>One rail with nothing in it but the brand row, so the row is the only thing to read.</summary>
+        private static IComponent Rail(string title, SidebarButton brand) => VStack().PR(16).Children(
+            TextBlock(title).XSmall().Secondary().PB(4),
+            Sidebar().AddHeader(brand).H(96.px()));
+
+        private static SidebarButton Brand(string id, string workspaceName, int commandCount) =>
+            new SidebarButton($"brand-{id}", new ImageIcon(LOGO), workspaceName, CommandsFor(commandCount));
+
+        /// <summary>
+        /// A fresh set every time: a command renders in one place, so two rails cannot share one.
+        /// </summary>
+        private static SidebarCommand[] CommandsFor(int count)
+        {
+            var search = new SidebarCommand(UIcons.Search).Tooltip("Search your chats").OnClick(() => Toast().Information("Search your chats"));
+            var leave  = new SidebarCommand(UIcons.AngleLeft).Tooltip("Leave the assistant").OnClick(() => Toast().Information("Leave the assistant"));
+            var more   = new SidebarCommand(UIcons.MenuDots).Tooltip("More").OnClick(() => Toast().Information("More"));
+
+            if (count <= 1) return new[] { search };
+            if (count == 2) return new[] { search, leave };
+            return new[] { search, leave, more };
+        }
+
+        private static IComponent WorkspaceRail(string workspaceName, int commandCount)
+        {
+            var rail = Sidebar();
+
+            rail.AddHeader(Brand("workspace", workspaceName, commandCount).CommandsAlwaysVisible());
+
+            rail.AddHeader(new SidebarButton("new-chat", UIcons.Edit, "New chat")
+               .Primary()
+               .Rounded()
+               .OnClick(() => Toast().Success("New chat")));
+
+            rail.AddContent(new SidebarSeparator("today", "Today"));
+            rail.AddContent(new SidebarButton("chat-1", UIcons.Comment, "Phone will not power on"));
+            rail.AddContent(new SidebarButton("chat-2", UIcons.Comment, "Battery drains overnight"));
+
+            rail.AddContent(new SidebarSeparator("yesterday", "Yesterday"));
+            rail.AddContent(new SidebarButton("chat-3", UIcons.Comment, "Screen flickers after update"));
+
+            return rail.H(320.px());
         }
 
         private static IEnumerable<ISidebarItem> CreateDeepNav(string path, int currentDepth = 0, int maxDepth = 3)
