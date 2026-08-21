@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Transpose;
 using static Transpose.Core.dom;
 using Transpose.Core;
 using static Tesserae.UI;
@@ -597,12 +598,17 @@ namespace Tesserae
             return Highlight(new es5.RegExp(string.Join("|", escaped), "gi"));
         }
 
-        // Backslashes every character JavaScript gives a meaning to inside a pattern, so a word the user typed
-        // matches itself. RegExp.escape does the same natively, but only on browsers from 2025 onwards.
+        // A word the user typed has to match itself, so everything JavaScript gives a meaning to inside a
+        // pattern is escaped. RegExp.escape is the platform's own answer and the one to use where it exists;
+        // it only arrived in 2025, so browsers older than that get the equivalent by hand.
+        private static readonly bool HasNativeRegExpEscape = Script.Write<bool>("typeof RegExp.escape === 'function'");
+
         private const string REGEXP_SPECIAL_CHARACTERS = @"\^$.|?*+()[]{}/";
 
         private static string EscapeForRegExp(string word)
         {
+            if (HasNativeRegExpEscape) return es5.RegExp.escape(word);
+
             var escaped = new StringBuilder(word.Length + 8);
 
             foreach (var c in word)
