@@ -810,6 +810,6 @@
     color: var(--tss-secondary-foreground-color);
 }
 
-.tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-search-container {
+.tss-omnibox-container:not(.tss-omnibox-chat-and-search).tss-omnibox-mode-search {
     align-items:center;
 }
