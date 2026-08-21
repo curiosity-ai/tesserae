@@ -809,3 +809,7 @@
 .tippy-content .tss-textblock.tss-omnibox-help-header {
     color: var(--tss-secondary-foreground-color);
 }
+
+.tss-omnibox-container.tss-omnibox-mode-search {
+    align-items:center;
+}
