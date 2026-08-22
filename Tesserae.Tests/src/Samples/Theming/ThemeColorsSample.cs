@@ -82,13 +82,18 @@ namespace Tesserae.Tests.Samples
             var backgroundLight = new SettableObservable<Color>();
             var primaryDark     = new SettableObservable<Color>();
             var backgroundDark  = new SettableObservable<Color>();
+            var highlightLight  = new SettableObservable<Color>();
+            var highlightDark   = new SettableObservable<Color>();
 
-            var combined = new CombinedObservable<Color, Color, Color, Color>(primaryLight, primaryDark, backgroundLight, backgroundDark);
+            var combined          = new CombinedObservable<Color, Color, Color, Color>(primaryLight, primaryDark, backgroundLight, backgroundDark);
+            var combinedHighlight = new CombinedObservable<Color, Color>(highlightLight, highlightDark);
 
             var cpPrimaryLight    = ColorPicker().OnInput((cp, ev) => primaryLight.Value = cp.Color);
             var cpPrimaryDark     = ColorPicker().OnInput((cp, ev) => primaryDark.Value = cp.Color);
             var cpBackgroundLight = ColorPicker().OnInput((cp, ev) => backgroundLight.Value = cp.Color);
             var cpBackgroundDark  = ColorPicker().OnInput((cp, ev) => backgroundDark.Value = cp.Color);
+            var cpHighlightLight  = ColorPicker().OnInput((cp, ev) => highlightLight.Value = cp.Color);
+            var cpHighlightDark   = ColorPicker().OnInput((cp, ev) => highlightDark.Value = cp.Color);
 
             Theme.Light();
 
@@ -97,6 +102,7 @@ namespace Tesserae.Tests.Samples
 
                 primaryLight.Value    = Color.FromString(Color.EvalVar(Theme.Primary.Background));
                 backgroundLight.Value = Color.FromString(Color.EvalVar(Theme.Default.Background));
+                highlightLight.Value  = Color.FromString(Color.EvalVar(Theme.Default.Highlight));
 
                 Theme.Dark();
 
@@ -104,6 +110,7 @@ namespace Tesserae.Tests.Samples
                 {
                     primaryDark.Value    = Color.FromString(Color.EvalVar(Theme.Primary.Background));
                     backgroundDark.Value = Color.FromString(Color.EvalVar(Theme.Default.Background));
+                    highlightDark.Value  = Color.FromString(Color.EvalVar(Theme.Default.Highlight));
                     Theme.IsLight        = currentTheme;
 
 
@@ -111,12 +118,16 @@ namespace Tesserae.Tests.Samples
                     cpPrimaryDark.Color     = primaryDark.Value;
                     cpBackgroundLight.Color = backgroundLight.Value;
                     cpBackgroundDark.Color  = backgroundDark.Value;
+                    cpHighlightLight.Color  = highlightLight.Value;
+                    cpHighlightDark.Color   = highlightDark.Value;
 
                     combined.ObserveFutureChanges(v =>
                     {
                         Theme.SetPrimary(v.first, v.second);
                         Theme.SetBackground(v.third, v.forth);
                     });
+
+                    combinedHighlight.ObserveFutureChanges(v => Theme.SetHighlight(v.first, v.second));
 
                 }, 1);
             }, 1);
@@ -155,7 +166,11 @@ namespace Tesserae.Tests.Samples
                         Label("Primary Light").Inline().SetContent(cpPrimaryLight),
                         Label("Primary Dark").Inline().SetContent(cpPrimaryDark),
                         Label("Background Light").Inline().SetContent(cpBackgroundLight),
-                        Label("Background Dark").Inline().SetContent(cpBackgroundDark)
+                        Label("Background Dark").Inline().SetContent(cpBackgroundDark),
+                        Label("Highlight Light").Inline().SetContent(cpHighlightLight),
+                        Label("Highlight Dark").Inline().SetContent(cpHighlightDark),
+                        TextBlock("The highlight color follows the primary one until Theme.SetHighlight is called - the two pickers above call it, and Theme.ResetHighlight puts the following back. This is what marked search terms are drawn in:").MT(8),
+                        TextBlock("highlighted").SemiBold().Foreground(Theme.Default.Highlight)
                     )).SetTitle("Usage")))
                .SeeAlso(typeof(ColorsSample), typeof(ThemeBuilderSample), typeof(ColorPaletteSample), typeof(GradientsSample));
         }

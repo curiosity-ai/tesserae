@@ -35,6 +35,14 @@ Theme.SetBackground(Color.FromString("#FFFFFF"), Color.FromString("#1B1A19"));
 
 `SetPrimary` and `SetBackground` generate CSS variables for both light and dark themes at runtime.
 
+The highlight color — what marked text is drawn in — follows the primary color. To give it one of its
+own, call `SetHighlight`; it wins over `SetPrimary` whatever order the two are called in, and
+`ResetHighlight()` puts the following back:
+
+```csharp
+Theme.SetHighlight(Color.FromString("#B45309"), Color.FromString("#FBBF24"));
+```
+
 ## Working with Color
 
 The `Color` helper supports parsing from hex/rgba strings and constructing from ARGB components:

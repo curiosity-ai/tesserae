@@ -13,6 +13,7 @@ namespace Tesserae
         {
             private static HTMLStyleElement _primaryStyleElement;
             private static HTMLStyleElement _backgroundStyleElement;
+            private static HTMLStyleElement _highlightStyleElement;
 
             /// <summary>
             /// Raised when on theme changed occurs.
@@ -347,6 +348,67 @@ namespace Tesserae
 
                 var head = document.getElementsByTagName("head")[0];
                 head.appendChild(_primaryStyleElement);
+
+                //This also writes the highlight color, so move an explicit one back to the end of the head to keep it winning
+                if (_highlightStyleElement is object)
+                {
+                    head.appendChild(_highlightStyleElement);
+                }
+            }
+
+            /// <summary>
+            /// Sets the highlight color for both light and dark modes - the color marked text is drawn in
+            /// (the terms an OmniResult marks in an excerpt, and the badge naming what matched).
+            /// </summary>
+            /// <remarks>
+            /// The highlight color otherwise follows the primary color, which is what
+            /// <see cref="SetPrimary"/> writes it as. Call this when the two should differ - a brand color
+            /// that reads badly as a mark on top of the page background, say. The color set here wins over
+            /// the primary-derived one whatever order the two are called in, until <see cref="ResetHighlight"/>
+            /// puts it back.
+            /// </remarks>
+            /// <param name="highlightLight">The color used in light mode.</param>
+            /// <param name="highlightDark">The color used in dark mode (when the body carries tss-dark-mode).</param>
+            public static void SetHighlight(Color highlightLight, Color highlightDark)
+            {
+                if (_highlightStyleElement is object)
+                {
+                    _highlightStyleElement.remove();
+                    _highlightStyleElement = null;
+                }
+
+                var sb = new StringBuilder();
+                sb.AppendLine(":root {");
+                sb.Append("  --tss-highlight-color-root: ").Append(highlightLight.ToRGBvar()).AppendLine(";");
+
+                //We need to redefine the variable again here otherwise the value won't change as it's derived twice from variables
+                sb.AppendLine("  --tss-highlight-color: rgb(var(--tss-highlight-color-root ));");
+                sb.AppendLine("}");
+
+                sb.AppendLine(".tss-dark-mode {");
+                sb.Append("  --tss-highlight-color-root: ").Append(highlightDark.ToRGBvar()).AppendLine(";");
+                sb.AppendLine("  --tss-highlight-color: rgb(var(--tss-highlight-color-root ));");
+                sb.AppendLine("}");
+
+                _highlightStyleElement      = (HTMLStyleElement)document.createElement("style");
+                _highlightStyleElement.type = "text/css";
+                _highlightStyleElement.appendChild(document.createTextNode(sb.ToString()));
+
+                var head = document.getElementsByTagName("head")[0];
+                head.appendChild(_highlightStyleElement);
+            }
+
+            /// <summary>
+            /// Drops an explicit highlight color installed by <see cref="SetHighlight"/>, so the highlight
+            /// goes back to following the primary color (or the tss.common.css default when no primary was set).
+            /// </summary>
+            public static void ResetHighlight()
+            {
+                if (_highlightStyleElement is object)
+                {
+                    _highlightStyleElement.remove();
+                    _highlightStyleElement = null;
+                }
             }
 
             //Variables from tesserae.common.css
@@ -413,6 +475,12 @@ namespace Tesserae
                 /// CSS variable reference for the default surface card shadow style.
                 /// </summary>
                 public const string CardShadow     = "var(--tss-card-shadow, 0 0.3px 0.9px 0 rgba(0,0,0,0.108))";
+                /// <summary>
+                /// CSS variable reference for the color marked text is drawn in (the terms an OmniResult
+                /// marks in an excerpt, and the badge naming what matched). Set it with
+                /// <see cref="SetHighlight"/>.
+                /// </summary>
+                public const string Highlight      = "var(--tss-highlight-color)";
             }
 
             public static class Sidebar
