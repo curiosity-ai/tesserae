@@ -36,7 +36,8 @@ namespace Tesserae
         OnHoverOverIcon,
         /// <summary>A checkbox in its own column before the icon, always visible.</summary>
         AlwaysBeforeIcon,
-        /// <summary>A checkbox in place of the icon tile, which is not drawn at all.</summary>
+        /// <summary>A checkbox in place of the icon tile, which is not drawn at all. Whatever
+        /// <see cref="OmniResult{T}.SetIconBadge"/> pinned to the tile moves onto the checkbox.</summary>
         ReplacingIcon
     }
 
@@ -104,6 +105,7 @@ namespace Tesserae
         private readonly Dictionary<string, HTMLElement> _iconBadges = new Dictionary<string, HTMLElement>();
 
         private CheckBox          _checkBox;
+        private HTMLElement       _checkBoxHolder;
         private ContributionBar   _contribution;
         private HTMLButtonElement _menuButton;
         private PagesStack        _pages;
@@ -516,6 +518,12 @@ namespace Tesserae
         /// <summary>
         /// Pins a badge to a corner of the icon tile - where a result came from, that it is pinned - drawn
         /// over the tile's corner and outside its clipping. Pass null to clear that corner.
+        /// <para>
+        /// A badge marks the result, not the tile, so it follows whatever stands in the tile's place: with
+        /// <see cref="OmniResultSelectionMode.OnHoverOverIcon"/> it tucks into the checkbox's corners while
+        /// the checkbox is showing, and with <see cref="OmniResultSelectionMode.ReplacingIcon"/> it is drawn
+        /// on the checkbox, there being no tile to sit on.
+        /// </para>
         /// </summary>
         public OmniResult<T> SetIconBadge(IComponent badge, OmniResultBadgeCorner corner = OmniResultBadgeCorner.BottomRight)
         {
@@ -523,7 +531,7 @@ namespace Tesserae
 
             if (_iconBadges.TryGetValue(cornerClass, out var stale))
             {
-                _iconHolder.removeChild(stale);
+                stale.parentElement?.removeChild(stale);
                 _iconBadges.Remove(cornerClass);
             }
 
@@ -531,10 +539,35 @@ namespace Tesserae
 
             var holder = Div(Att("tss-omniresult-icon-badge " + cornerClass), badge.Render());
 
-            _iconHolder.appendChild(holder);
+            IconBadgeHost.appendChild(holder);
             _iconBadges[cornerClass] = holder;
 
             return this;
+        }
+
+        /// <summary>
+        /// What the corner badges hang off: the tile, or the checkbox when the checkbox is drawn in its place.
+        /// </summary>
+        private HTMLElement IconBadgeHost
+        {
+            get
+            {
+                var onCheckBox = _selectionEnabled
+                              && _selectionMode == OmniResultSelectionMode.ReplacingIcon
+                              && _checkBoxHolder is object;
+
+                return onCheckBox ? _checkBoxHolder : _iconHolder;
+            }
+        }
+
+        private void PlaceIconBadges()
+        {
+            var host = IconBadgeHost;
+
+            foreach (var badge in _iconBadges.Values)
+            {
+                if (badge.parentElement != host) host.appendChild(badge);
+            }
         }
 
         private static string CornerClass(OmniResultBadgeCorner corner)
@@ -1572,6 +1605,16 @@ namespace Tesserae
 
             copy.classList.add("tss-omniresult-modal-icon");
 
+            //The modal draws the tile even where the row replaced it with the checkbox, so the badges that
+            //moved onto the checkbox are copied back onto it.
+            if (IconBadgeHost != _iconHolder)
+            {
+                foreach (var badge in _iconBadges.Values)
+                {
+                    copy.appendChild(badge.cloneNode(true).As<HTMLElement>());
+                }
+            }
+
             return copy;
         }
 
@@ -1806,7 +1849,11 @@ namespace Tesserae
 
             _checkBox.OnChange((cb, _) => IsSelected = cb.IsChecked);
 
-            _selectContainer.appendChild(_checkBox.Render());
+            //The checkbox sits in a box of its own so a corner badge drawn on it has the checkbox to hang
+            //off rather than the column, which is as tall as the row's first line.
+            _checkBoxHolder = Div(Att("tss-omniresult-select-box"), _checkBox.Render());
+
+            _selectContainer.appendChild(_checkBoxHolder);
         }
 
         private void ApplySelectionMode()
@@ -1826,6 +1873,10 @@ namespace Tesserae
                 "tss-omniresult-select-hover-over",
                 "tss-omniresult-select-always-before",
                 "tss-omniresult-select-replacing");
+
+            //The badges hang off whatever is drawn where the tile goes, which the mode - and whether the row
+            //is selectable at all - decides.
+            PlaceIconBadges();
 
             if (!_selectionEnabled) return;
 

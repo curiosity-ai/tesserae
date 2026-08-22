@@ -64,6 +64,17 @@
     height: 34px;
 }
 
+/* The checkbox's own 20px box: what a corner badge drawn on the checkbox hangs off, so it tucks into the
+   checkbox's corner rather than the column's, which is as tall as the row's first line. */
+.tss-omniresult-select-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+}
+
 .tss-omniresult-select .tss-checkbox-container {
     margin: 0;
     width: 20px;
@@ -123,7 +134,43 @@
     opacity: 0;
 }
 
-/* Replacing the icon: no tile at all. */
+/* A corner badge stays on while the tile fades - it says something about the result, not about the tile -
+   so it moves onto the checkbox that took the tile's place. The checkbox is 20px centred in the 34px tile,
+   which is 7px in from each edge, and a badge sits 4px out from the corner it is pinned to: 7 - 4 = 3. */
+.tss-omniresult-select-hover-over:hover .tss-omniresult-icon-badge-tl,
+.tss-omniresult-select-hover-over.tss-omniresult-active .tss-omniresult-icon-badge-tl,
+.tss-omniresult-select-hover-over:focus-within .tss-omniresult-icon-badge-tl,
+.tss-omniresult-select-hover-over.tss-omniresult-selected .tss-omniresult-icon-badge-tl {
+    left: 3px;
+    top: 3px;
+}
+
+.tss-omniresult-select-hover-over:hover .tss-omniresult-icon-badge-tr,
+.tss-omniresult-select-hover-over.tss-omniresult-active .tss-omniresult-icon-badge-tr,
+.tss-omniresult-select-hover-over:focus-within .tss-omniresult-icon-badge-tr,
+.tss-omniresult-select-hover-over.tss-omniresult-selected .tss-omniresult-icon-badge-tr {
+    right: 3px;
+    top: 3px;
+}
+
+.tss-omniresult-select-hover-over:hover .tss-omniresult-icon-badge-bl,
+.tss-omniresult-select-hover-over.tss-omniresult-active .tss-omniresult-icon-badge-bl,
+.tss-omniresult-select-hover-over:focus-within .tss-omniresult-icon-badge-bl,
+.tss-omniresult-select-hover-over.tss-omniresult-selected .tss-omniresult-icon-badge-bl {
+    left: 3px;
+    bottom: 3px;
+}
+
+.tss-omniresult-select-hover-over:hover .tss-omniresult-icon-badge-br,
+.tss-omniresult-select-hover-over.tss-omniresult-active .tss-omniresult-icon-badge-br,
+.tss-omniresult-select-hover-over:focus-within .tss-omniresult-icon-badge-br,
+.tss-omniresult-select-hover-over.tss-omniresult-selected .tss-omniresult-icon-badge-br {
+    right: 3px;
+    bottom: 3px;
+}
+
+/* Replacing the icon: no tile at all, so the badges are drawn on the checkbox itself (the row moves them
+   there - see OmniResult.PlaceIconBadges) and hang off its corners the way they hang off the tile's. */
 .tss-omniresult-select-replacing .tss-omniresult-icon-holder {
     display: none;
 }
@@ -138,14 +185,17 @@
     line-height: 0;
 }
 
+/* A badge marks the result rather than the tile, so it is drawn above the checkbox (z-index 2) that
+   covers the tile, and moves with it - see the corner offsets under "Selection" above. */
 .tss-omniresult-icon-badge {
     position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1;
+    z-index: 3;
     line-height: 0;
     pointer-events: none;
+    transition: top 120ms ease-in-out, right 120ms ease-in-out, bottom 120ms ease-in-out, left 120ms ease-in-out;
 }
 
 .tss-omniresult-icon-badge img,
