@@ -184,6 +184,7 @@ namespace Tesserae
 
             button.setAttribute("aria-label", label);
             button.setAttribute("title",      label);
+            Raw(button).Tooltip(label);
         }
     }
 }
