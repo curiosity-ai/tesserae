@@ -27,5 +27,6 @@ React to mode switches with `Theme.OnThemeChanged += () => …` if you cache the
 
 ## Related
 
+- AI variants — the quiet purple-to-blue set the `.AI()` component variants use — `ai-variants.md`
 - Colors / Theme — `colors.md`
 - Full docs & API: `/tesserae/utilities/gradients`

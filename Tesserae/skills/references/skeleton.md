@@ -21,6 +21,7 @@ sizing helpers (`.W()`, `.H()`, `.WS()`). Bring factories into scope with
 - `SkeletonType` — `Line`, `Circle`, `Rect` (constructor arg, or `.Type(t)`).
 - `.Animated(bool = true)` — toggle the shimmer animation (on by default).
 - `.Background(color)` — override the placeholder colour.
+- `.AI(bool = true)` — tints the placeholder and recolours the shimmer: content being *generated* rather than fetched. Same shape, animation and speed. See `ai-variants.md`.
 - Sizing helpers (`.W()`, `.H()`, `.WS()`, `.ML()`, `.MT()`, ...) set the box.
 
 ## Example
@@ -45,4 +46,5 @@ var loadingArticle = VStack().Children(
 ## Related
 
 - Spinner (indeterminate loading) — `spinner.md`
+- AI variants — the `.AI()` variant — `ai-variants.md`
 - Full docs & API: `/tesserae/components/skeleton`

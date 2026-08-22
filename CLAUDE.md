@@ -157,6 +157,19 @@ dotnet serve --port 5000
 
 ## Conventions
 
+### Loading a script, module or stylesheet at run time
+
+Use **`Transpose.Require.RequireAsync`** — the loader in the Transpose runtime. `Tesserae.Require`
+still exists so applications that call it keep compiling, but it is now four forwarding lines: the
+loading itself is shared with every other library on Transpose rather than reimplemented here.
+
+What the shared one does that the old `Require` did not: it picks the element from the URL (`.css`
+→ a stylesheet link, `.mjs` → a module, anything else → a classic script), resolves the URL against
+the document base first — so every spelling of one file is one entry, and a file `index.html`
+already carries is waited on rather than fetched twice — forgets a failed load instead of
+remembering it as done, and falls back between the `.js` and `.min.js` spellings of the same file,
+which is what lets a library published once work in a site built either way.
+
 ### Type safety
 
 Favor strong, static typing. Avoid `dynamic` unless absolutely necessary
@@ -171,7 +184,29 @@ When adding a new component:
 1. Add the implementation under `Tesserae/src/Components`.
 2. Add a factory method in `UI.Components.cs`.
 3. Add fluent helpers or extension methods in `Tesserae/src/Extensions` if needed.
-4. Add a sample in `Tesserae.Tests` demonstrating usage.
+4. Add a sample in `Tesserae.Tests` demonstrating usage — see below for where it goes.
+
+### Where a sample goes in the gallery
+
+The gallery groups samples by *what you are trying to do*, not by how the component
+is implemented. The categories live in one place,
+[`Tesserae.Tests/src/Samples/SampleGroup.cs`](Tesserae.Tests/src/Samples/SampleGroup.cs):
+a constant per category plus `InDisplayOrder`, which is what the sidebar sorts by
+(`App.cs` orders groups through `SampleGroup.DisplayIndex`, not alphabetically). A
+sample picks its category on its attribute, and `Order` places it inside that
+category — the list runs from the most fundamental member outwards, in steps of 10:
+
+```csharp
+[SampleDetails(Group = SampleGroup.Inputs, Order = 10, Icon = UIcons.InputText)]
+```
+
+Two conventions keep it navigable: the file lives in
+`Tesserae.Tests/src/Samples/<Constant>/` (the folder is named after the *constant* —
+`Inputs`, `DateTime`, `Overlays` — not the display string), and the icon is unique
+within the gallery, since the sidebar is read by glyph as much as by label. The same
+categories are used by the `tesserae` skill's reference index and by the
+`documentation` repo under `tesserae/`; a component that moves category has to move
+in all three.
 
 ## Layout system
 
@@ -230,6 +265,15 @@ A component can still take charge of its own styling by implementing
 `ISpecialCaseStyling` and exposing a `StylingContainer` — the sizing helpers then
 write onto that container. This is how nested containers (e.g. a `Grid` inside a
 `Stack`) route sizing to the right element.
+
+The other half of that story is the flex **automatic minimum size**, which a flex
+item only gets while its own `overflow` is `visible`. `.tss-grid` sets
+`overflow: auto`, so once the grid was the stack item itself a column stack whose
+content did not fit squeezed every grid in it to a sliver with its own scrollbar —
+the wrapper div used to carry that floor. `.tss-grid` now declares
+`min-height: min-content` to restore it, and the two grids that really are scroll
+viewports (`ItemsList`, `InfiniteScrollingList`) opt out with `.MinHeight(0.px())`.
+A component whose stylesheet sets a non-visible `overflow` needs the same thought.
 
 **Debugging tip:** if `.WS()` "doesn't work", inspect the rendered DOM — the
 sizing styles are on the element you called the helper on, unless the component

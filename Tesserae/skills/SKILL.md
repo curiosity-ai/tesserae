@@ -149,42 +149,72 @@ references. Open the reference for whatever you are working with. The full set:
 - `references/javascript-interop.md` — call JS/browser APIs from C# via Transpose.
 - `references/wrap-a-javascript-library.md` — wrap a third-party JS library.
 
-**Components** (plain widgets)
-accordion · action-button · annotated-text-editor · avatar · background-area ·
-badge · banner · button · card · carousel · charts · chat · check-box · choice-group ·
-color-picker · command-bar · context-card · context-cards · contribution-bar ·
-cron-editor · date-picker · details-grid ·
-date-range-picker · date-time-picker · delta-component · dropdown ·
-editable-area · editable-label · expander · grid-picker · horizontal-separator ·
-icon · icon-tile · icon-toggle · image · inline-label · inline-pagination · label · live-progress · markdown-block ·
-menu · message ·
-metric · month-picker · navbar · number-picker · omni-box · omni-result · option ·
-pages-stack · pagination ·
-picker · pixel-avatar · plan · popover · progress-indicator · progress-ring ·
-property-grid · rating · resource-card · sandbox · save-button · saving-toast ·
-search-box · section-title · sidebar · sidebar-separator · sidenav · skeleton ·
-slider · sparkline · spinner · stepper · steps-slider · tags-input · task-board ·
-teaching · text-area · text-block · text-box · text-breadcrumbs ·
-time-histogram-picker · time-picker · toggle · toggle-button · tool-call · tree ·
-uptime · visibility-sensor · week-picker
+**Layout** — containers you build a page out of
+accordion · background-area · card · expander · grid · horizontal-separator ·
+horizontal-split-view · masonry · section-stack · split-view · stack
 
-**Collections** (list-like / layout containers)
-breadcrumb · details-list · grid · infinite-scrolling-list · items-list ·
-masonry · observable-stack · observables · overflow-set ·
-searchable-grouped-list · searchable-list · sortable-stack · stack · timeline ·
+**Text & Content** — text, labels and rich content blocks
+badge · icon-tile · inline-label · keyboard-shortcut · label · markdown-block
+· section-title · text-block
+
+**Buttons & Commands** — things the user clicks to do something
+action-button · button · command-bar · command-palette · context-menu ·
+icon-toggle · menu · overflow-set · toggle-button
+
+**Inputs** — form controls that capture a value
+annotated-text-editor · check-box · choice-group · color-picker · dropdown ·
+editable-area · editable-label · file-selector-and-drop-area · grid-picker ·
+number-picker · option · picker · rating · slider · steps-slider · tags-input
+· text-area · text-box · toggle
+
+**Date & Time** — calendar, clock and schedule pickers
+cron-editor · date-picker · date-range-picker · date-time-picker ·
+month-picker · time-histogram-picker · time-picker · week-picker
+
+**Forms & Validation** — binding a form to data, validating and saving it
+property-grid · save-button · saving-toast · unsaved-changes-guard · validator
+
+**Navigation** — moving between pages, sections and tabs
+breadcrumb · card-pivot · inline-pagination · navbar · pagination · pivot ·
+pivot-selector · segmented-pivot · sidebar · sidebar-separator · sidenav ·
+stepper · text-breadcrumbs
+
+**Lists & Data** — rendering a collection of items
+details-grid · details-list · infinite-scrolling-list · items-list ·
+observable-stack · sortable-stack · task-board · timeline · tree ·
 virtualized-list
 
-**Surfaces** (overlays, tabs, panels)
-card-pivot · context-menu · dialog · float · horizontal-split-view · layer ·
-modal · modal-stack · panel · pivot · pivot-selector · progress-modal · section-stack ·
-segmented-pivot · split-view · tabbed-modal · tool-agent-selector · tutorial-modal
+**Search** — search inputs and their result surfaces
+omni-box · omni-result · search-box · searchable-grouped-list ·
+searchable-list
 
-**Utilities** (non-visual helpers, theming, gestures)
-color-palette · command-palette · defer · defer-with-progress · emoji ·
-file-selector-and-drop-area · gestures · gradients · keyboard-shortcut ·
-node-view · notification-center · tippy · toast · uicons · unsaved-changes-guard · validator
+**Charts & Visualization** — numbers and relationships, drawn
+charts · contribution-bar · metric · node-view · sparkline · uptime
+
+**Feedback & Status** — progress, notifications and empty states
+banner · live-progress · message · notification-center · progress-indicator ·
+progress-modal · progress-ring · skeleton · spinner · tippy · toast
+
+**Overlays & Dialogs** — surfaces that float above the page
+dialog · float · layer · modal · modal-stack · panel · popover · tabbed-modal
+· teaching · tutorial-modal
+
+**AI & Chat** — conversation, tool calls and their context
+ai-variants · chat · context-card · context-cards · plan · resource-card ·
+tool-agent-selector · tool-call
+
+**Media & Graphics** — images, avatars and embedded content
+avatar · carousel · image · pages-stack · pixel-avatar · sandbox
+
+**Theming & Icons** — colours, gradients, icons and emoji
+color-palette · emoji · gradients · icon · uicons
+
+**Utilities & Behaviors** — helpers that render little or nothing on their own
+defer · defer-with-progress · delta-component · gestures · visibility-sensor
 
 To find the reference for a component, lowercase-kebab its name and open
 `references/<that>.md` (e.g. `DetailsList` → `references/details-list.md`). If you
-are unsure which component fits, scan the lists above by category, then open the
-candidate's reference.
+are unsure which component fits, find the category above that matches what you are
+trying to do, then open the candidate's reference. The categories are the same ones
+the sample gallery and the online documentation use, so a component sits in the same
+place in all three.

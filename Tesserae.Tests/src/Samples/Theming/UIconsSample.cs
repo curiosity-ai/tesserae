@@ -1,0 +1,109 @@
+﻿using System;
+using static Transpose.Core.dom;
+using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
+using System.Collections.Generic;
+using System.Linq;
+using Tesserae.Tests;
+
+namespace Tesserae.Tests.Samples
+{
+    [SampleDetails(Group = SampleGroup.Theming, Order = 60, Icon = UIcons.IconStar)]
+    public class UIconsSample : IComponent, ISample
+    {
+        private readonly IComponent _content;
+
+        public UIconsSample()
+        {
+            //TODO: Add dropwdown to select icon weight
+            _content = SectionStack().Secondary().S()
+               .SampleTitle(typeof(UIconsSample), UIcons.Picture, "A utility to display icons")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("UIcons provide a massive collection of high-quality icons integrated directly into Tesserae. They are accessible through a strongly-typed enum, offering full IntelliSense support and ensuring that your application's iconography is consistent and easily maintainable."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use icons to provide visual context and improve the scanability of your UI. Choose icons that are widely recognized and relevant to the action or content they represent. Maintain consistency in icon style and weight throughout your application. Use the SearchableList below to explore the thousands of available icons."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    SampleSubTitle($"Strongly-typed {nameof(UIcons)} enum"),
+                    SearchableList(GetAllIcons().ToArray(), 25.percent(), 25.percent(), 25.percent(), 25.percent()).Height(55.vh()).MinHeight(320.px()))).SetTitle("Usage")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("AI() fills a glyph with the purple-to-blue gradient instead of a flat colour - what marks an icon as standing for a model's work. Any glyph takes it; Sparkles is the one to reach for when the icon is there to say \"AI\" rather than to say what the thing is, which is what the AIIcon() shorthand gives you."),
+                    TextBlock("The gradient is painted as a background clipped to the glyph, so a Foreground() set afterwards has nothing to colour - the fill is the gradient.").MT(8),
+                    SampleSubTitle("The AI mark, at every size"),
+                    HStack().WS().Wrap().AlignItemsCenter().Gap(16.px()).Children(
+                        AIIcon(size: TextSize.Small),
+                        AIIcon(size: TextSize.Medium),
+                        AIIcon(size: TextSize.Large),
+                        AIIcon(size: TextSize.XLarge),
+                        AIIcon(size: TextSize.Mega)),
+                    SampleSubTitle("Any glyph, any weight"),
+                    HStack().WS().Wrap().AlignItemsCenter().Gap(16.px()).Children(
+                        Icon(UIcons.Comment, size: TextSize.Large).AI(),
+                        Icon(UIcons.ChartPieAlt, size: TextSize.Large).AI(),
+                        Icon(UIcons.Bulb, size: TextSize.Large).AI(),
+                        Icon(UIcons.Sparkles, UIconsWeight.Solid, TextSize.Large).AI(),
+                        Icon(UIcons.Sparkles, UIconsWeight.Thin, TextSize.Large).AI())
+                )).SetTitle("The AI variant", UIcons.Sparkles, Theme.Colors.Purple600)))
+               .SeeAlso(typeof(EmojiSample), typeof(ButtonSample), typeof(BadgeSample), typeof(TextBlockSample), typeof(AIVariantsSample));
+        }
+
+        public HTMLElement Render()
+        {
+            return _content.Render();
+        }
+
+        private IEnumerable<IconItem> GetAllIcons()
+        {
+            var      names  = Enum.GetNames<UIcons>();
+            UIcons[] values = Enum.GetValues<UIcons>();
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                yield return new IconItem(values[i], names[i]);
+            }
+        }
+
+        private class IconItem : ISearchableItem
+        {
+            private readonly string     _value;
+            private readonly IComponent component;
+            public IconItem(UIcons icon, string name)
+            {
+                name   = ToValidName(name.Substring(6));
+                _value = name + " " + icon.ToString();
+
+                component = HStack().WS().AlignItemsCenter().PB(4).Children(
+                    Icon(icon, size: TextSize.Large).MinWidth(36.px()),
+                    TextBlock($"{name}").Ellipsis().Title(icon.ToString()).W(1).Grow());
+
+            }
+
+            public bool IsMatch(string searchTerm) => _value.Contains(searchTerm);
+
+            public IComponent Render() => component;
+        }
+
+
+        //Copy of the logic in the generator code, as we don't have the enum names anymore on  Enum.GetNames(typeof(LineAwesome))
+        private static string ToValidName(string icon)
+        {
+            var words = icon.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries)
+               .Select(i => i.Substring(0, 1).ToUpper() + i.Substring(1))
+               .ToArray();
+
+            var name = string.Join("", words);
+
+            if (char.IsDigit(name[0]))
+            {
+                return "_" + name;
+            }
+            else
+            {
+                return name;
+            }
+        }
+    }
+}

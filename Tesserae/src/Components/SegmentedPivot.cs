@@ -83,6 +83,19 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Marks the control as an AI one - tabs over what a model produced, or over the ways of asking it.
+        /// The segmented track takes the purple-to-blue tint, the tabs the accent, and the selected tab is
+        /// filled with the gradient, the same way <see cref="IconToggle{T}"/>'s AI variant fills its
+        /// selected pill.
+        /// </summary>
+        public SegmentedPivot AI(bool value = true)
+        {
+            StylingContainer.UpdateClassIf(value, "tss-ai");
+
+            return this;
+        }
+
+        /// <summary>
         /// Registers a callback invoked when the before navigate event fires.
         /// </summary>
         public SegmentedPivot OnBeforeNavigate(PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate)

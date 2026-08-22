@@ -51,7 +51,8 @@ namespace Tesserae
             }
             else
             {
-                _grid = Grid(columns).NoDefaultMargin().WS().MaxHeight(100.percent()).Scroll();
+                //MinHeight(0) opts out of the min-content floor .tss-grid carries: this grid is the list's scroll viewport, so it has to shrink to whatever height it is given.
+                _grid = Grid(columns).NoDefaultMargin().WS().MinHeight(0.px()).MaxHeight(100.percent()).Scroll();
             }
 
             _emptyListMessageGenerator = null;

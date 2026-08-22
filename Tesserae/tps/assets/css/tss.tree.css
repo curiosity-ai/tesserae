@@ -82,6 +82,29 @@
     display: inline-block;
 }
 
+/* Multiple selection - every row carries its checkbox next to its icon, so what is picked reads at a glance */
+.tss-tree-selection-multiple .tss-tree-checkbox {
+    display: inline-block;
+}
+
+.tss-tree-selection-multiple .tss-tree-item-content.tss-selected .tss-tree-icon,
+.tss-tree-selection-multiple.tss-tree-shift-pressed .tss-tree-icon {
+    display: inline-block;
+}
+
+.tss-tree-selection-multiple .tss-tree-item-content.tss-selected .tss-tree-checkbox,
+.tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected .tss-tree-checkbox {
+    color: var(--tss-primary-background-color);
+}
+
+.tss-tree-selection-multiple .tss-tree-item.tss-tree-item-not-selectable > .tss-tree-item-content .tss-tree-checkbox {
+    visibility: hidden;
+}
+
+.tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected {
+    color: var(--tss-primary-background-color);
+}
+
 .tss-tree-icon {
     margin-right: 8px;
     font-size: 16px;

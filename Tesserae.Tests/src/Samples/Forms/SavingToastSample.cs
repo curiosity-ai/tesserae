@@ -1,0 +1,61 @@
+﻿using System;
+using System.Threading.Tasks;
+using static Transpose.Core.dom;
+using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
+
+namespace Tesserae.Tests.Samples
+{
+    [SampleDetails(Group = SampleGroup.Forms, Order = 50, Icon = UIcons.CloudUpload)]
+    public class SavingToastSample : IComponent, ISample
+    {
+        private readonly IComponent _content;
+
+        public SavingToastSample()
+        {
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(SavingToastSample), UIcons.Disk, "A toast notification for save operations")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("The SavingToast component helps viewing the state of a saving operation (Saving, Saved, Error) with appropriate icons and colors.")
+               )).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    HStack().Children(
+                        Button("Trigger Saving").OnClick(() => SavingToast().Saving("Saving data...")),
+                        Button("Trigger Saved" ).OnClick(() => SavingToast().Saved("Data saved successfully!")),
+                        Button("Trigger Error" ).OnClick(() => SavingToast().Error("Could not save data.")),
+                        Button("Trigger Error with Close" ).OnClick(() => SavingToast().Error("Could not save data.", untilDismissed: true)),
+                        Button("Many Toasts").OnClickSpinWhile(() => ShowMany())
+                    ).Gap(8.px()),
+
+                    SampleSubTitle("Live Demo"),
+                    Button("Simulate Save Process").OnClickSpinWhile(async () => {
+                        var savingToast = SavingToast();
+                        savingToast.Saving("Starting save...");
+                        await Task.Delay(2000);
+                        savingToast.Saved("All done!");
+                    })
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(SaveButtonSample), typeof(ToastSample), typeof(NotificationCenterSample), typeof(ProgressIndicatorSample));
+        }
+
+        private async Task ShowMany()
+        {
+            var toast1 = SavingToast();
+            var toast2 = SavingToast();
+            var toast3 = SavingToast();
+            toast1.Saving("Starting save...");
+            toast2.Saving("Starting save...");
+            toast3.Saving("Starting save...");
+            await Task.Delay(2000);
+            toast1.Saved("All done!");
+            await Task.Delay(2000);
+            toast2.Saved("All done!");
+            await Task.Delay(2000);
+            toast3.Saved("All done!");
+        }
+
+        public HTMLElement Render() => _content.Render();
+    }
+}

@@ -45,11 +45,15 @@ stands for. Also `new OmniResult<T>(result, title)`. Bring factories into scope 
   than cutting it off. Null un-caps it.
 - `.HighlightWords(params string[])` — mark those words in the **title and the excerpt**,
   case-insensitively. The marks and the badge share one pair of colors, from the `--tss-highlight-color`
-  token (the same value as `--tss-link-color`, so `Theme.SetPrimary` moves both), and the excerpt
+  token (which follows the primary color unless `Theme.SetHighlight` gives it one of its own), and the excerpt
   itself is a quiet grey.
-- `.Highlight(Regex)` / `.Highlight(string pattern, bool ignoreCase = true)` — mark every match, e.g.
-  the pattern a search backend hands back. Matching runs against the text and each match is wrapped in
-  its own element, so text containing angle brackets renders them instead of obeying them.
+- `.Highlight(es5.RegExp)` / `.Highlight(string pattern, bool ignoreCase = true)` — mark every match,
+  e.g. the pattern a search backend hands back. The expression is the JavaScript one
+  (`Transpose.Core.es5.RegExp`), which is what a host highlighting a preview document alongside the row
+  already has, so one object serves both. It is taken for its pattern alone — the row scans with a
+  global copy of it — so sharing it across rows is safe, and it needs no `g` flag of its own. Matching
+  runs against the text and each match is wrapped in its own element, so text containing angle brackets
+  renders them instead of obeying them.
 
 **Icon tile**
 
@@ -200,10 +204,11 @@ full-screen, so a modal never offers something the host didn't wire up:
 - Call it more than once for several: the first stays the button, the rest hang off an arrow beside it
   that opens them as a menu. `.NoOpenInSource()` clears them; `OpenActions` / `CanOpenInSource` read
   them; `.Open(bool inNewTab = false)` runs the primary one from code.
-- `.ModalNavigation(Action<OmniResult<T>> onPrevious, Action<OmniResult<T>> onNext, int position = 0, int count = 0)`
+- `.ModalNavigation(Action<OmniResult<T>> onPrevious, Action<OmniResult<T>> onNext, int position = 0, int count = 0, Func<int, int, string> format = null)`
   — an `InlinePagination` (`inline-pagination.md`): the ‹ › chevrons with "2 of 7" between them when a
   position and count are given (both 1-based). A null handler greys its chevron out, which is how the
-  first and last result say so.
+  first and last result say so. The `format` writes that label another way — "2 / 7", or "2 of many"
+  for a count too large to be worth spelling out.
 - `.ModalCommands(Action<OmniResult<T>>)` — the `[...]` button; read `CommandsEvent` in the handler to
   place a command surface of the host's own where the user clicked. Null leaves the button out.
 - `.ModalFullScreen(Action<OmniResult<T>>)` — what `[⤢]` does; without one it grows the modal to fill

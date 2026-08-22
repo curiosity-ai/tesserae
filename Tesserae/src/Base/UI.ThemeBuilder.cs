@@ -83,7 +83,12 @@ namespace Tesserae
 
                 // ---------- Primary (the brand color used for primary buttons, focus rings, links) ----------
 
-                /// <summary>Sets the primary brand color (primary button background, focus ring, link color).</summary>
+                /// <summary>
+                /// Sets the primary brand color (primary button background, focus ring), along with the two
+                /// colors derived from it: the link color and the highlight color. Chain
+                /// <see cref="Link"/> or <see cref="Highlight"/> <em>after</em> this call to give either
+                /// one a color of its own.
+                /// </summary>
                 public ThemeBuilder Primary(Color light, Color dark)
                 {
                     Set("primary-background-color",        light, dark);
@@ -92,6 +97,7 @@ namespace Tesserae
                     Set("primary-border-color",            light, dark);
                     Set("primary-shadow-color",            light, dark);
                     Set("link-color",                      light, dark);
+                    Set("highlight-color",                 light, dark);
                     return this;
                 }
 
@@ -221,6 +227,14 @@ namespace Tesserae
 
                 /// <summary>Sets the color used for hyperlinks.</summary>
                 public ThemeBuilder Link(Color light, Color dark) => Set("link-color", light, dark);
+
+                // ---------- Highlight ----------
+
+                /// <summary>
+                /// Sets the color marked text is drawn in - the terms an OmniResult marks in an excerpt,
+                /// and the badge naming what matched. Defaults to following the primary color.
+                /// </summary>
+                public ThemeBuilder Highlight(Color light, Color dark) => Set("highlight-color", light, dark);
 
                 // ---------- Tooltip ----------
 

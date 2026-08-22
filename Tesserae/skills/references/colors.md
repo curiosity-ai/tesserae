@@ -37,10 +37,12 @@ var badge = Badge("New")
 
 - `Theme.SetPrimary(Color light, Color dark)` — regenerate primary CSS vars for both modes.
 - `Theme.SetBackground(Color light, Color dark)` — same for background.
+- `Theme.SetHighlight(Color light, Color dark)` — same for the highlight color, which otherwise follows the primary.
 
 ```csharp
 Theme.SetPrimary(Color.FromString("#0063B1"), Color.FromString("#2899F5"));
 Theme.SetBackground(Color.FromString("#FFFFFF"), Color.FromString("#1B1A19"));
+Theme.SetHighlight(Color.FromString("#B45309"), Color.FromString("#FBBF24"));
 ```
 
 ## Working with Color

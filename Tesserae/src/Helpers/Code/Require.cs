@@ -1,118 +1,45 @@
-﻿using System;
-using System.Threading.Tasks;
-using static Transpose.Core.dom;
+﻿using System.Threading.Tasks;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Loads a script, an ES module or a stylesheet at run time.
+    ///
+    /// <para>
+    /// The loading itself lives in the Transpose runtime now — <c>Transpose.Require</c> — so every
+    /// library and application on Transpose shares one implementation instead of each growing its
+    /// own. These members forward to it and stay for the applications that already call them; new
+    /// code can call <see cref="global::Transpose.Require.RequireAsync(string[])"/> directly, which
+    /// also picks the element from the URL rather than being told.
+    /// </para>
+    ///
+    /// <para>
+    /// What the shared loader adds over what this class used to do: URLs are resolved against the
+    /// document base before anything else, so every spelling of one file is one entry and a file
+    /// <c>index.html</c> already carries is waited on rather than fetched twice; a failed load is
+    /// forgotten rather than remembered as done; and a <c>.min.js</c> that is not there falls back to
+    /// the <c>.js</c> beside it (and the other way round), which is what lets a library published
+    /// once work in a site built either way.
+    /// </para>
+    /// </summary>
     [Transpose.Name("tss.Require")]
     public static class Require
     {
-        private static readonly SingleSemaphoreSlim singleCall = new SingleSemaphoreSlim();
+        /// <summary>Adds a stylesheet to the page, if it is not on it already. Fire and forget: a
+        /// stylesheet that cannot be fetched is reported to the console, as it always was.</summary>
         public static void LoadStyle(params string[] styles)
-        {
-            for (int i = 0; i < styles.Length; i++)
-            {
-                var url           = styles[i];
-                var existingStyle = document.querySelector($"link[href^='{url}']").As<HTMLElement>();
+            => LoadStyleAsync(styles).FireAndForget();
 
-                if (existingStyle == null)
-                {
-                    var l = document.createElement("link").As<HTMLLinkElement>();
-                    l.rel  = "stylesheet";
-                    l.href = url;
-                    document.head.appendChild(l);
-                }
-            }
-        }
+        /// <summary>Adds a stylesheet to the page and completes once the browser has applied it.</summary>
+        public static Task LoadStyleAsync(params string[] styles)
+            => global::Transpose.Require.RequireAsync(global::Transpose.RequireKind.Style, styles);
 
-        public static async Task LoadScriptAsync(params string[] libraries)
-        {
-            await singleCall.WaitAsync();
+        /// <summary>Loads classic scripts, in the order given.</summary>
+        public static Task LoadScriptAsync(params string[] libraries)
+            => global::Transpose.Require.RequireAsync(global::Transpose.RequireKind.Script, libraries);
 
-            try
-            {
-                var tcs = new TaskCompletionSource<bool>();
-                LoadScriptAsync(() => tcs.TrySetResult(true), (err) => tcs.TrySetException(new Exception(err)), false, libraries);
-                await tcs.Task;
-            }
-            finally
-            {
-                singleCall.Release();
-            }
-        }
-
-        public static async Task LoadModuleAsync(params string[] libraries)
-        {
-            await singleCall.WaitAsync();
-
-            try
-            {
-                var tcs = new TaskCompletionSource<bool>();
-                LoadScriptAsync(() => tcs.TrySetResult(true), (err) => tcs.TrySetException(new Exception(err)), true, libraries);
-                await tcs.Task;
-            }
-            finally
-            {
-                singleCall.Release();
-            }
-        }
-
-        private static void LoadScriptAsync(Action onComplete, Action<string> onFail, bool isModule, params string[] libraries)
-        {
-            var loadedCount = 0;
-
-            for (int i = 0; i < libraries.Length; i++)
-            {
-                var url         = libraries[i];
-                var existingLib = document.querySelector($"script[src^='{url}']").As<HTMLElement>();
-
-                if (existingLib != null)
-                {
-                    // Is already loaded?
-                    loadedCount++;
-                }
-                else
-                {
-                    var script = new HTMLScriptElement
-                    {
-                        type  = isModule ? "module" : "text/javascript",
-                        src   = url,
-                        async = true,
-                        onerror = e =>
-                        {
-                            onFail?.Invoke(url);
-                            loadedCount++;
-
-                            if (loadedCount == libraries.Length)
-                            {
-                                onComplete?.Invoke();
-                            }
-                        },
-                        onload = OnScriptLoaded
-                    };
-
-                    try
-                    {
-                        document.head.appendChild(script);
-                    }
-                    catch
-                    {
-                        onFail?.Invoke(url);
-                        loadedCount++;
-                    }
-                }
-            }
-
-            if (loadedCount == libraries.Length)
-            {
-                onComplete?.Invoke();
-            }
-
-            void OnScriptLoaded(Event e)
-            {
-                loadedCount++;
-                if (loadedCount == libraries.Length) onComplete?.Invoke();
-            }
-        }
+        /// <summary>Loads ES modules, in the order given.</summary>
+        public static Task LoadModuleAsync(params string[] libraries)
+            => global::Transpose.Require.RequireAsync(global::Transpose.RequireKind.Module, libraries);
     }
 }

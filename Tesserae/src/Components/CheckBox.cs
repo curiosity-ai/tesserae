@@ -10,6 +10,7 @@ namespace Tesserae
     public class CheckBox : ComponentBase<CheckBox, HTMLInputElement>, IBindableComponent<bool>, IRoundedStyle, ITextFormating
     {
         private readonly HTMLSpanElement          _checkSpan;
+        private readonly HTMLSpanElement          _textSpan;
         private readonly HTMLLabelElement         _label;
         private readonly SettableObservable<bool> _observable;
 
@@ -20,7 +21,8 @@ namespace Tesserae
         {
             InnerElement = CheckBox(Att("tss-checkbox"));
             _checkSpan   = Span(Att("tss-checkbox-mark"));
-            _label = UI.Label(Att("tss-checkbox-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text), InnerElement, _checkSpan);
+            _textSpan    = Span(Att("tss-checkbox-text", text: text));
+            _label       = UI.Label(Att("tss-checkbox-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular"), InnerElement, _checkSpan, _textSpan);
 
             AttachClick();
             AttachChange();
@@ -40,8 +42,8 @@ namespace Tesserae
         /// </summary>
         public string Text
         {
-            get => _label.innerText;
-            set => _label.innerText = value;
+            get => _textSpan.innerText;
+            set => _textSpan.innerText = value;
         }
 
         /// <summary>

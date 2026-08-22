@@ -11,6 +11,7 @@ namespace Tesserae
     {
         private readonly HTMLElement              _checkElement;
         private readonly HTMLElement              _onOffSpan;
+        private readonly HTMLElement              _textSpan;
         private readonly HTMLElement              _container;
         private readonly IComponent               _offText;
         private readonly IComponent               _onText;
@@ -28,8 +29,11 @@ namespace Tesserae
             InnerElement  = CheckBox(Att("tss-checkbox"));
             InnerElement.setAttribute("role", "switch");
             _checkElement = Div(Att("tss-toggle-mark"));
-            _onOffSpan = Div(Att("tss-toggle-text"), _offText.Render());
-            _container = Div(Att("tss-toggle-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular"), InnerElement, _checkElement, _onOffSpan);
+            _onOffSpan    = Div(Att("tss-toggle-text"), _offText.Render());
+            _textSpan     = Div(Att("tss-toggle-text"));
+            _container    = Div(Att("tss-toggle-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular"), InnerElement, _checkElement, _onOffSpan, _textSpan);
+
+            _textSpan.style.display = "none";
 
             _observable = new SettableObservable<bool>();
 
@@ -53,13 +57,14 @@ namespace Tesserae
         /// </summary>
         public string Text
         {
-            get => _container.innerText;
+            get => _textSpan.innerText;
             set
             {
-                _container.innerText = value;
+                _textSpan.innerText = value;
+                var hasOwnText      = !string.IsNullOrEmpty(value);
 
-                if (string.IsNullOrEmpty(value)) _onOffSpan.style.display = "";
-                else _onOffSpan.style.display                             = "none";
+                _onOffSpan.style.display = hasOwnText ? "none" : "";
+                _textSpan.style.display  = hasOwnText ? ""     : "none";
             }
         }
 

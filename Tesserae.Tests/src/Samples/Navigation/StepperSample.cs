@@ -1,0 +1,51 @@
+﻿using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
+using static Transpose.Core.dom;
+
+namespace Tesserae.Tests.Samples
+{
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 130, Icon = UIcons.ArrowProgress)]
+    public class StepperSample : IComponent, ISample
+    {
+        private readonly IComponent _content;
+
+        public StepperSample()
+        {
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(StepperSample), UIcons.ShoePrints, "A component to display a step-by-step process")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Steppers (also known as Wizards) guide users through a multi-step process by breaking it down into smaller, logical chunks."),
+                    TextBlock("They manage the visibility of content for each step and provide built-in navigation controls (Previous/Next) while tracking the current progress."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use Steppers for complex tasks that have a clear sequential order. Keep each step focused on a single topic to avoid overwhelming the user. Provide clear labels for each step so the user knows what to expect. Use the 'Review' step to allow users to verify their input before the final submission. Ensure that the 'Previous' action allows users to return and modify their entries without losing data."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    SampleSubTitle("Registration Wizard"),
+                    Stepper(
+                        Step("Personal Info", Stack().Children(
+                            TextBlock("Tell us about yourself:").MB(16),
+                            Label("Full Name").SetContent(TextBox().SetPlaceholder("John Doe")),
+                            Label("Email Address").SetContent(TextBox().SetPlaceholder("john@example.com"))
+                        )),
+                        Step("Preferences", Stack().Children(
+                            TextBlock("Customize your experience:").MB(16),
+                            Toggle(onText: TextBlock("Yes"), offText: TextBlock("No")).Checked(),
+                            Toggle(onText: TextBlock("Dark"), offText: TextBlock("Light")),
+                            Label("Favorite Color").SetContent(ColorPicker())
+                        )),
+                        Step("Terms & Review", Stack().Children(
+                            TextBlock("Please review and accept our terms:").MB(16),
+                            Card(TextBlock("Detailed terms and conditions text goes here...").Small()),
+                            Label("Acceptance").Required().SetContent(CheckBox("I agree to the terms of service")),
+                            Button("Complete Registration").Primary().MT(16)
+                        ))
+                    ).OnStepChange(s => Toast().Information($"Step {s.CurrentStepIndex + 1}: {s.CurrentStep.Title}"))
+                )).SetTitle("Usage")))
+               .SeeAlso(typeof(StepsSliderSample), typeof(PlanSample), typeof(TeachingSample), typeof(TutorialModalSample), typeof(TimelineSample));
+        }
+
+        public HTMLElement Render() => _content.Render();
+    }
+}

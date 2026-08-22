@@ -7,17 +7,26 @@
     font-weight: var(--tss-font-weight-semibold);
     -webkit-user-select: none;
     user-select: none;
-    padding-left: 45px;
-    display: inline-block;
+    display: inline-flex;
     height:20px;
 }
 
+    /* The gap to the switch is a margin here, not padding on the container: a caller's .PL(n) writes
+       an inline padding-left that wins over any padding declared here, which used to drop the text on
+       top of the switch. It also replaces the per-size padding-left compensation the text used to
+       carry, since the text now simply follows however wide the switch grew. */
     .tss-toggle-container .tss-toggle-text {
         font-weight: var(--tss-font-weight-regular);
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
+        min-width: 0;
         min-height: 21px;
+        margin-left: 3px;
+    }
+
+    .tss-toggle-container .tss-toggle-text:empty {
+        display: none;
     }
 
     .tss-toggle-container .tss-checkbox {
@@ -29,9 +38,8 @@
     }
 
     .tss-toggle-container .tss-toggle-mark {
-        position: absolute;
-        top: 0;
-        left: 0;
+        position: relative;
+        flex: 0 0 auto;
         display: inline-block;
         height: 20px;
         width: 40px;
@@ -92,11 +100,8 @@
             border-color: var(--tss-disabled-foreground-color);
         }
 
-
-
     .tss-toggle-container.tss-fontsize-tiny {
         height: calc(10px + var(--tss-font-size-tiny));
-        padding-left:36px;
     }
 
         .tss-toggle-container.tss-fontsize-tiny .tss-toggle-mark {
@@ -111,10 +116,6 @@
                 height: calc(var(--tss-font-size-tiny));
                 width: calc(var(--tss-font-size-tiny));
             }
-
-        .tss-toggle-container.tss-fontsize-tiny .tss-toggle-text {
-            padding-left: 0px;
-        }
 
     .tss-toggle-container.tss-fontsize-smallplus {
         height: calc(10px + var(--tss-font-size-smallplus));
@@ -133,10 +134,6 @@
                 width: calc(var(--tss-font-size-smallplus));
             }
 
-        .tss-toggle-container.tss-fontsize-smallplus .tss-toggle-text {
-            padding-left: 8px;
-        }
-
     .tss-toggle-container.tss-fontsize-medium {
         height: calc(10px + var(--tss-font-size-medium));
     }
@@ -153,11 +150,6 @@
                 height: calc(var(--tss-font-size-medium));
                 width: calc(var(--tss-font-size-medium));
             }
-
-        .tss-toggle-container.tss-fontsize-medium .tss-toggle-text {
-            padding-left: 14px;
-        }
-
 
     .tss-toggle-container.tss-fontsize-large {
         height: calc(10px + var(--tss-font-size-large));
@@ -176,10 +168,6 @@
                 width: calc(var(--tss-font-size-large));
             }
 
-        .tss-toggle-container.tss-fontsize-large .tss-toggle-text {
-            padding-left: 14px;
-        }
-
     .tss-toggle-container.tss-fontsize-xlarge {
         height: calc(10px + var(--tss-font-size-xlarge));
     }
@@ -196,10 +184,6 @@
                 height: calc(var(--tss-font-size-xlarge));
                 width: calc(var(--tss-font-size-xlarge));
             }
-
-        .tss-toggle-container.tss-fontsize-xlarge .tss-toggle-text {
-            padding-left: 20px;
-        }
 
     .tss-toggle-container.tss-fontsize-xxlarge {
         height: calc(10px + var(--tss-font-size-xxlarge));
@@ -218,11 +202,6 @@
                 width: calc(var(--tss-font-size-xxlarge));
             }
 
-        .tss-toggle-container.tss-fontsize-xxlarge .tss-toggle-text {
-            padding-left: 24px;
-        }
-
-
     .tss-toggle-container.tss-fontsize-mega {
         height: calc(10px + var(--tss-font-size-mega));
     }
@@ -239,9 +218,5 @@
                 height: calc(var(--tss-font-size-mega));
                 width: calc(var(--tss-font-size-mega));
             }
-
-        .tss-toggle-container.tss-fontsize-mega .tss-toggle-text {
-            padding-left: 34px;
-        }
 
 /* IconToggle lives in tss.icontoggle.css */

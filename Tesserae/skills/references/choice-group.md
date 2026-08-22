@@ -29,6 +29,8 @@ Choice:
 - `.Selected()` / `.SelectedIf(bool)` — initial selection.
 - `.Disabled(bool = true)` — disable a single option.
 - `.OnSelected(Action<Choice>)` — per-option callback.
+- Text formatting — `.Tiny()` … `.Mega()`, `.SemiBold()` / `.Bold()`: a `Choice` is an
+  `ITextFormating`, and the radio scales with the label.
 
 ## Example
 

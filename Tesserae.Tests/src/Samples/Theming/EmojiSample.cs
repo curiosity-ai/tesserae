@@ -1,0 +1,88 @@
+﻿using System;
+using static Transpose.Core.dom;
+using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
+using System.Collections.Generic;
+using System.Linq;
+using Tesserae.Tests;
+
+namespace Tesserae.Tests.Samples
+{
+    [SampleDetails(Group = SampleGroup.Theming, Order = 70, Icon = UIcons.Smile)]
+    public class EmojiSample : IComponent, ISample
+    {
+        private readonly IComponent _content;
+
+        public EmojiSample()
+        {
+            _content = SectionStack().Secondary().S()
+               .SampleTitle(typeof(EmojiSample), UIcons.Smile, "A utility to display emojis")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Tesserae includes full support for Emojis via an integrated stylesheet and a strongly-typed enum. This allows you to easily add expressive icons to your application with complete C# IntelliSense support and consistent rendering."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use Emojis to add personality and visual cues to your interface. Ensure that the Emojis used are universally understood and appropriate for the context. Avoid using Emojis as the sole way to convey critical information, as their appearance can vary slightly between platforms. Use the SearchableList below to find the exact Emoji you need."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    SampleSubTitle($"Strongly-typed {nameof(Emoji)} enum"),
+                    SearchableList(GetAllIcons().ToArray(), 25.percent(), 25.percent(), 25.percent(), 25.percent()))).SetTitle("Usage")).S(), grow: true)
+               .SeeAlso(typeof(UIconsSample), typeof(PixelAvatarSample), typeof(TextBlockSample), typeof(AvatarSample));
+        }
+
+        public HTMLElement Render()
+        {
+            return _content.Render();
+        }
+
+        private IEnumerable<IconItem> GetAllIcons()
+        {
+            var     names  = Enum.GetNames<Emoji>();
+            Emoji[] values = Enum.GetValues<Emoji>();
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                yield return new IconItem(values[i], names[i]);
+            }
+        }
+
+        private class IconItem : ISearchableItem
+        {
+            private readonly string     _value;
+            private readonly IComponent component;
+            public IconItem(Emoji icon, string name)
+            {
+                name   = ToValidName(name.Substring(3));
+                _value = name + " " + icon.ToString();
+
+                component = HStack().WS().AlignItemsCenter().PB(4).Children(
+                    Icon(icon, size: TextSize.Large).MinWidth(36.px()),
+                    TextBlock($"{name}").Ellipsis().Title(icon.ToString()).W(1).Grow());
+            }
+
+            public bool IsMatch(string searchTerm) => _value.Contains(searchTerm);
+
+            public IComponent Render() => component;
+        }
+
+        //Copy of the logic in the generator code, as we don't have the enum names anymore on  Enum.GetNames(typeof(Emoji)
+        //Note: there are a few exceptions to this logic that were manually changed
+        private static string ToValidName(string icon)
+        {
+            var words = icon.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries)
+               .Select(i => i.Substring(0, 1).ToUpper() + i.Substring(1))
+               .ToArray();
+
+            var name = string.Join("", words);
+
+            if (char.IsDigit(name[0]))
+            {
+                return "_" + name;
+            }
+            else
+            {
+                return name;
+            }
+        }
+    }
+}

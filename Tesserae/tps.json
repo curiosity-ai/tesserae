@@ -124,7 +124,8 @@
                 "tps/assets/css/tss.detailsgrid.css",
                 "tps/assets/css/tss.modalstack.css",
                 "tps/assets/css/diff2html.min.css",
-                "tps/assets/css/tss.codediff.css"
+                "tps/assets/css/tss.codediff.css",
+                "tps/assets/css/tss.ai.css"
             ],
             "output": "assets/css"
         },

@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Utilities", Order = 0, Icon = UIcons.Spinner)]
+    [SampleDetails(Group = SampleGroup.Utilities, Order = 20, Icon = UIcons.Hourglass)]
     public class DeferSample : IComponent, ISample
     {
         private readonly IComponent content;

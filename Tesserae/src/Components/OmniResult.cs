@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System.Text;
 using System.Threading.Tasks;
+using Transpose;
 using static Transpose.Core.dom;
 using Transpose.Core;
 using static Tesserae.UI;
@@ -111,7 +112,7 @@ namespace Tesserae
         private string                       _title;
         private IComponent                   _titleComponent;
         private string                       _text;
-        private Regex                        _highlighter;
+        private es5.RegExp                   _highlighter;
         private OmniResultSelectionMode      _selectionMode = OmniResultSelectionMode.OnHoverBeforeIcon;
         private bool                         _selectionEnabled;
         private bool                         _textSelectable;
@@ -130,16 +131,17 @@ namespace Tesserae
         private bool                                  _modalKeepsIcon;
         private bool                                  _modalKeepsFooter;
 
-        private HTMLElement           _footerStandIn;
-        private Modal                 _modal;
-        private Action<OmniResult<T>> _modalCommands;
-        private Action<OmniResult<T>> _modalFullScreen;
-        private bool                  _modalHasFullScreen = true;
-        private Action<OmniResult<T>> _modalPrevious;
-        private Action<OmniResult<T>> _modalNext;
-        private int                   _modalPosition;
-        private int                   _modalCount;
-        private bool                  _modalShortcuts = true;
+        private HTMLElement            _footerStandIn;
+        private Modal                  _modal;
+        private Action<OmniResult<T>>  _modalCommands;
+        private Action<OmniResult<T>>  _modalFullScreen;
+        private bool                   _modalHasFullScreen = true;
+        private Action<OmniResult<T>>  _modalPrevious;
+        private Action<OmniResult<T>>  _modalNext;
+        private int                    _modalPosition;
+        private int                    _modalCount;
+        private Func<int, int, string> _modalCountFormat;
+        private bool                   _modalShortcuts = true;
 
         private event Action<OmniResult<T>, bool> SelectionChanged;
         private event Action<OmniResult<T>>       RangeSelectionRequested;
@@ -268,7 +270,7 @@ namespace Tesserae
 
         /// <summary>
         /// Gets or sets the excerpt shown under the title, or null when the result has none. Plain text: the
-        /// only markup it gets is the highlighting of <see cref="Highlight(Regex)"/>.
+        /// only markup it gets is the highlighting of <see cref="Highlight(es5.RegExp)"/>.
         /// </summary>
         public string Text
         {
@@ -335,7 +337,7 @@ namespace Tesserae
 
         /// <summary>
         /// Sets the title of the result. The title is ellipsized to one line, carries the full text as its
-        /// native tooltip, and has the terms of <see cref="Highlight(Regex)"/> marked in it.
+        /// native tooltip, and has the terms of <see cref="Highlight(es5.RegExp)"/> marked in it.
         /// </summary>
         public OmniResult<T> SetTitle(string title)
         {
@@ -353,7 +355,7 @@ namespace Tesserae
         /// text passed alongside it stays the row's <see cref="Title"/>, so the tooltip, the modal header and
         /// anything else reading the title still have something to say. Pass null to go back to plain text.
         /// <para>
-        /// A component title is drawn as it was given: <see cref="Highlight(Regex)"/> does not reach inside it.
+        /// A component title is drawn as it was given: <see cref="Highlight(es5.RegExp)"/> does not reach inside it.
         /// </para>
         /// </summary>
         public OmniResult<T> SetTitle(IComponent title, string text = null)
@@ -456,7 +458,7 @@ namespace Tesserae
         /// <summary>
         /// Sets the excerpt shown under the title. It is plain text, not a component: whatever the search
         /// returned as the matching passage, ellipsized to the two lines the row gives it, with the terms of
-        /// <see cref="Highlight(Regex)"/> marked in it. A null or empty value drops the line entirely.
+        /// <see cref="Highlight(es5.RegExp)"/> marked in it. A null or empty value drops the line entirely.
         /// </summary>
         public OmniResult<T> SetText(string text)
         {
@@ -550,10 +552,15 @@ namespace Tesserae
         /// Marks every match of the given expression in the title and the excerpt - the same pattern a search
         /// backend hands back for highlighting. Matching is done against the text itself and the matches are
         /// wrapped in their own elements, so neither is ever treated as markup.
+        /// <para>
+        /// The expression is taken for its pattern alone - the row scans with a global copy of it - so the same
+        /// object can be handed to every row of a result list, and to whatever else the host highlights, without
+        /// the scans stepping on each other through the shared <c>lastIndex</c>.
+        /// </para>
         /// </summary>
-        public OmniResult<T> Highlight(Regex highlighter)
+        public OmniResult<T> Highlight(es5.RegExp highlighter)
         {
-            _highlighter = highlighter;
+            _highlighter = GlobalCopyOf(highlighter);
 
             RenderTitle();
             RenderText();
@@ -568,27 +575,62 @@ namespace Tesserae
         {
             return Highlight(string.IsNullOrEmpty(pattern)
                 ? null
-                : new Regex(pattern, ignoreCase ? RegexOptions.IgnoreCase : RegexOptions.None));
+                : new es5.RegExp(pattern, ignoreCase ? "gi" : "g"));
         }
 
         /// <summary>
         /// Marks every occurrence of the given words in the excerpt, case-insensitively - the convenience
-        /// form of <see cref="Highlight(Regex)"/> for a host that has the query terms rather than a pattern.
+        /// form of <see cref="Highlight(es5.RegExp)"/> for a host that has the query terms rather than a pattern.
         /// </summary>
         public OmniResult<T> HighlightWords(params string[] words)
         {
-            if (words is null || words.Length == 0) return Highlight((Regex)null);
+            if (words is null || words.Length == 0) return Highlight((es5.RegExp)null);
 
             var escaped = new List<string>();
 
             foreach (var word in words)
             {
-                if (!string.IsNullOrWhiteSpace(word)) escaped.Add(Regex.Escape(word));
+                if (!string.IsNullOrWhiteSpace(word)) escaped.Add(EscapeForRegExp(word));
             }
 
-            if (escaped.Count == 0) return Highlight((Regex)null);
+            if (escaped.Count == 0) return Highlight((es5.RegExp)null);
 
-            return Highlight(new Regex(string.Join("|", escaped), RegexOptions.IgnoreCase));
+            return Highlight(new es5.RegExp(string.Join("|", escaped), "gi"));
+        }
+
+        // A word the user typed has to match itself, so everything JavaScript gives a meaning to inside a
+        // pattern is escaped. RegExp.escape is the platform's own answer and the one to use where it exists;
+        // it only arrived in 2025, so browsers older than that get the equivalent by hand.
+        private static readonly bool HasNativeRegExpEscape = Script.Write<bool>("typeof RegExp.escape === 'function'");
+
+        private const string REGEXP_SPECIAL_CHARACTERS = @"\^$.|?*+()[]{}/";
+
+        private static string EscapeForRegExp(string word)
+        {
+            if (HasNativeRegExpEscape) return es5.RegExp.escape(word);
+
+            var escaped = new StringBuilder(word.Length + 8);
+
+            foreach (var c in word)
+            {
+                if (REGEXP_SPECIAL_CHARACTERS.IndexOf(c) >= 0) escaped.Append('\\');
+
+                escaped.Append(c);
+            }
+
+            return escaped.ToString();
+        }
+
+        // A scan walks the text with exec, which reads and writes lastIndex and only advances the search while
+        // the expression is global - so the row keeps a global copy of its own rather than the caller's object,
+        // which a host is free to hand to several rows or to keep for highlighting of its own.
+        private static es5.RegExp GlobalCopyOf(es5.RegExp highlighter)
+        {
+            if (highlighter is null) return null;
+
+            var flags = highlighter.flags;
+
+            return new es5.RegExp(highlighter.source, flags.Contains("g") ? flags : flags + "g");
         }
 
         /// <summary>
@@ -1076,14 +1118,22 @@ namespace Tesserae
         /// Puts the previous/next arrows in the modal's header, so a result opened out of a list can be
         /// stepped through without going back to it. A null handler greys its arrow out - that is how the
         /// first and the last result say so. Passing a position and a count (both 1-based, the count being
-        /// how many results there are) draws "3 of 27" between the arrows.
+        /// how many results there are) draws "3 of 27" between the arrows, and a <paramref name="format"/>
+        /// writes that label another way - "3 / 27", or "3 of many" for a count too large to be worth
+        /// spelling out.
         /// </summary>
-        public OmniResult<T> ModalNavigation(Action<OmniResult<T>> onPrevious, Action<OmniResult<T>> onNext, int position = 0, int count = 0)
+        public OmniResult<T> ModalNavigation(
+            Action<OmniResult<T>>  onPrevious,
+            Action<OmniResult<T>>  onNext,
+            int                    position = 0,
+            int                    count    = 0,
+            Func<int, int, string> format   = null)
         {
-            _modalPrevious = onPrevious;
-            _modalNext     = onNext;
-            _modalPosition = position;
-            _modalCount    = count;
+            _modalPrevious    = onPrevious;
+            _modalNext        = onNext;
+            _modalPosition    = position;
+            _modalCount       = count;
+            _modalCountFormat = format;
 
             return this;
         }
@@ -1369,6 +1419,7 @@ namespace Tesserae
 
             return InlinePagination(_modalPosition, _modalCount)
                .Class("tss-omniresult-modal-nav")
+               .SetFormat(_modalCountFormat)
                .SetTooltips("Previous result", "Next result")
                .OnPrevious(_modalPrevious is null ? null : (Action<InlinePagination>)(_ => _modalPrevious(this)))
                .OnNext(_modalNext is null ? null : (Action<InlinePagination>)(_ => _modalNext(this)));
@@ -1861,22 +1912,36 @@ namespace Tesserae
             }
 
             var position = 0;
-            var matches  = _highlighter.Matches(text);
 
-            for (int i = 0; i < matches.Count; i++)
+            _highlighter.lastIndex = 0;
+
+            while (true)
             {
-                var match = matches[i];
+                var match = _highlighter.exec(text);
 
-                if (match.Length == 0) continue;
+                if (match is null) break;
 
-                if (match.Index > position)
+                var index = (int)match.index;
+                var value = match[0];
+
+                //A pattern that can match nothing would sit on the same index forever, so step past it.
+                if (string.IsNullOrEmpty(value))
                 {
-                    target.appendChild(document.createTextNode(text.Substring(position, match.Index - position)));
+                    _highlighter.lastIndex = index + 1;
+
+                    if (index >= text.Length) break;
+
+                    continue;
                 }
 
-                target.appendChild(Span(Att("tss-omniresult-highlight", text: match.Value)));
+                if (index > position)
+                {
+                    target.appendChild(document.createTextNode(text.Substring(position, index - position)));
+                }
 
-                position = match.Index + match.Length;
+                target.appendChild(Span(Att("tss-omniresult-highlight", text: value)));
+
+                position = index + value.Length;
             }
 
             if (position < text.Length)
