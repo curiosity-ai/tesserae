@@ -214,6 +214,48 @@
 /* The tile itself is an IconTile (see tss.icontile.css): the row only adds this class so the rules above -
    and the peek overrides below - have something of its own to hang off. */
 
+/* Icon in the header ---------------------------------------------------------------------------- */
+
+/* AlwaysBeforeHeaderIcon / HiddenBeforeHeaderIcon: the tile leads the header line instead of standing in a
+   column of its own beside the whole row. The excerpt, the footer and the contribution bar then start at
+   the row's own left edge rather than indented past a tile, which is what a dense list of results - or one
+   whose rows are mostly title - reads better as. The tile is drawn at the title's line box (22px) so it
+   sits on the line rather than setting the line's height itself. */
+.tss-omniresult-icon-in-header .tss-omniresult-icon-holder {
+    align-self: center;
+}
+
+.tss-omniresult-icon-in-header .tss-omniresult-icon {
+    --tss-icontile-size: 22px;
+    --tss-icontile-radius: 6px;
+}
+
+/* The checkbox column is level with the header line, not with a 34px tile that is no longer there. */
+.tss-omniresult-icon-in-header .tss-omniresult-select {
+    height: 22px;
+}
+
+/* A corner badge is scaled with the tile it is pinned to, and tucked closer in: 4px out from a 34px tile
+   is a hint, 4px out from a 22px one is half the badge hanging in the air. */
+.tss-omniresult-icon-in-header .tss-omniresult-icon-badge {
+    font-size: 9px;
+}
+
+.tss-omniresult-icon-in-header .tss-omniresult-icon-badge img,
+.tss-omniresult-icon-in-header .tss-omniresult-icon-badge svg {
+    width: 11px;
+    height: 11px;
+    border-radius: 2px;
+}
+
+.tss-omniresult-icon-in-header .tss-omniresult-icon-badge-tl { left: -3px;  top: -3px; }
+.tss-omniresult-icon-in-header .tss-omniresult-icon-badge-tr { right: -3px; top: -3px; }
+.tss-omniresult-icon-in-header .tss-omniresult-icon-badge-bl { left: -3px;  bottom: -3px; }
+.tss-omniresult-icon-in-header .tss-omniresult-icon-badge-br { right: -3px; bottom: -3px; }
+
+/* The copy the modal takes of the tile keeps the modal's own size whatever the row did with it - the
+   sizing above hangs off the row, and the copy is not inside one. */
+
 /* Title, badge, excerpt --------------------------------------------------------------------------- */
 
 .tss-omniresult-main {

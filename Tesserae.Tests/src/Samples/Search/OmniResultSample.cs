@@ -74,6 +74,7 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(VStack().WS().Children(NoPages()))
                 .FlatSection(VStack().WS().Children(TitleOnly()))
                 .FlatSection(VStack().WS().Children(Tiles()))
+                .FlatSection(VStack().WS().Children(TilesInHeader()))
                 .FlatSection(VStack().WS().Children(Identifiers()))
                 .FlatSection(VStack().WS().Children(Content()))
                 .FlatSection(VStack().WS().Children(Modals()))
@@ -160,6 +161,39 @@ namespace Tesserae.Tests.Samples
                     OmniResult(Hits[6], "brake-calibration-log.txt").SetIcon("TXT", "#94a3b8").SetSource("#0061d5", "Box").SetFooterEntries("A grey color stays grey in both themes"),
                     OmniResult(Hits[0], "curiosity-logo.svg").SetIcon(Image("./assets/img/curiosity-logo.svg")).SetSource("#0061d5", "Box").SetFooterEntries("SetIcon(IComponent) — a thumbnail covers the tile"),
                     OmniResult(Hits[0], "brake-sensor-reports").SetIcon(UIcons.Folder).SetSource("#0061d5", "Box").SetFooterEntries("No color: the tile falls back to the theme's own")));
+        }
+
+        // ---------- The tile in the header ----------
+
+        private IComponent TilesInHeader()
+        {
+            var quiet = VStack().WS().Children(
+                HeaderIconRow(Hits[1], "BRK-SEN-447 calibration procedure.pdf").SetId("JR-2214"),
+                HeaderIconRow(Hits[2], "Sensor drift analysis.xlsx"),
+                HeaderIconRow(Hits[4], "field-failures / 2024"));
+
+            var selectable = VStack().WS().Children(
+                Row(Hits[3], withText: true, withPages: false).Selectable(OmniResultSelectionMode.AlwaysBeforeHeaderIcon),
+                Row(Hits[5], withText: true, withPages: false).Selectable(OmniResultSelectionMode.AlwaysBeforeHeaderIcon)
+                    .SetIconBadge(Icon(UIcons.Star, UIconsWeight.Solid, color: "#f0c000"), OmniResultBadgeCorner.TopRight),
+                Row(Hits[6], withText: true, withPages: false).Selectable(OmniResultSelectionMode.AlwaysBeforeHeaderIcon));
+
+            return FeatureCard("The tile in the header", "Leading the title instead of the row",
+                "Two modes draw the tile small, at the start of the header line, before the identifier and the title - so the excerpt, the footer and the contribution bar start at the row's own left edge rather than indented past a 34px tile. HiddenBeforeHeaderIcon draws no checkbox at all, which is what a list that is never selected from wants: set it with SelectionMode(mode), which lays the row out without making it selectable. AlwaysBeforeHeaderIcon keeps a checkbox in its own column at the start of the row, always visible.",
+                TextBlock("OmniResultSelectionMode.HiddenBeforeHeaderIcon - no checkbox anywhere").Small().SemiBold().MB(4),
+                quiet,
+                TextBlock("OmniResultSelectionMode.AlwaysBeforeHeaderIcon - the checkbox is always visible").Small().SemiBold().MT(12).MB(4),
+                selectable,
+                TextBlock("A tile that spells the file type out rather than drawing a glyph shrinks with it, so \"XLSX\" is scaled rather than cropped. The starred row shows a corner badge pinned to the smaller tile.").Small().MT(8));
+        }
+
+        // A row laid out with its tile in the header and no checkbox at all - SelectionMode() sets the
+        // layout without making the row selectable.
+        private OmniResult<Hit> HeaderIconRow(Hit hit, string title)
+        {
+            return Row(hit, withText: true, withPages: false)
+                .SetTitle(title)
+                .SelectionMode(OmniResultSelectionMode.HiddenBeforeHeaderIcon);
         }
 
         // ---------- Identifiers ----------
@@ -399,7 +433,9 @@ namespace Tesserae.Tests.Samples
                 OmniResultSelectionMode.OnHoverBeforeIcon,
                 OmniResultSelectionMode.OnHoverOverIcon,
                 OmniResultSelectionMode.AlwaysBeforeIcon,
-                OmniResultSelectionMode.ReplacingIcon
+                OmniResultSelectionMode.ReplacingIcon,
+                OmniResultSelectionMode.AlwaysBeforeHeaderIcon,
+                OmniResultSelectionMode.HiddenBeforeHeaderIcon
             };
 
             var sections = VStack().WS();
@@ -429,8 +465,8 @@ namespace Tesserae.Tests.Samples
                 sections.Add(list);
             }
 
-            return FeatureCard("Selection", "Four places for the checkbox",
-                "Selectable(mode) makes a row selectable. The checkbox sits before the tile or over it, revealed on hover or always visible, or takes the tile's place entirely — and a selected row always shows its checkbox, whatever the mode. A corner badge marks the result rather than the tile, so it follows the checkbox where the checkbox stands in for the tile: the starred row in each group keeps its star over the checkbox. Ctrl-clicking a row toggles it too, and shift-clicking one asks for the range from the last row selected: a single card knows nothing about its siblings, so OnRangeSelectionRequested hands that to the host list, which selects them itself (that is what the rows below do, across all four groups).",
+            return FeatureCard("Selection", "Six places for the checkbox, and two for the tile",
+                "Selectable(mode) makes a row selectable. The checkbox sits before the tile or over it, revealed on hover or always visible, or takes the tile's place entirely — and a selected row always shows its checkbox, whatever the mode. A corner badge marks the result rather than the tile, so it follows the checkbox where the checkbox stands in for the tile: the starred row in each group keeps its star over the checkbox. The last two modes move the tile itself: it leads the header line, drawn small before the title, so the excerpt and the footer start at the row's own left edge instead of indented past a 34px tile — with the checkbox always visible beside it, or with no checkbox at all. Ctrl-clicking a row toggles it too, and shift-clicking one asks for the range from the last row selected: a single card knows nothing about its siblings, so OnRangeSelectionRequested hands that to the host list, which selects them itself (that is what the rows below do, across all six groups).",
                 sections,
                 _selectionState.MT(8),
                 HStack().Gap(8.px()).MT(8).Children(

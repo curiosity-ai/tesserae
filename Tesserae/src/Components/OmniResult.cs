@@ -25,8 +25,9 @@ namespace Tesserae
     }
 
     /// <summary>
-    /// Where the selection checkbox of an <see cref="OmniResult{T}"/> lives, and when it shows. A selected
-    /// result always shows its checkbox, whatever the mode.
+    /// Where the selection checkbox of an <see cref="OmniResult{T}"/> lives and when it shows, and with it
+    /// where the row draws its icon tile. A selected result always shows its checkbox, whatever the mode -
+    /// except under <see cref="OmniResultSelectionMode.HiddenBeforeHeaderIcon"/>, which draws none at all.
     /// </summary>
     public enum OmniResultSelectionMode
     {
@@ -38,7 +39,16 @@ namespace Tesserae
         AlwaysBeforeIcon,
         /// <summary>A checkbox in place of the icon tile, which is not drawn at all. Whatever
         /// <see cref="OmniResult{T}.SetIconBadge"/> pinned to the tile moves onto the checkbox.</summary>
-        ReplacingIcon
+        ReplacingIcon,
+        /// <summary>The tile leads the header instead of standing in a column of its own beside the whole
+        /// row - drawn small, before the identifier and the title, on the title's line - with a checkbox in
+        /// its own column at the start of the row, always visible.</summary>
+        AlwaysBeforeHeaderIcon,
+        /// <summary>The tile leads the header, as with <see cref="AlwaysBeforeHeaderIcon"/>, and no checkbox
+        /// is drawn at all - not even on a selected row. The layout of a list that is not selected from:
+        /// set it with <see cref="OmniResult{T}.SelectionMode(OmniResultSelectionMode)"/>, which lays the row
+        /// out without making it selectable.</summary>
+        HiddenBeforeHeaderIcon
     }
 
     /// <summary>
@@ -75,7 +85,10 @@ namespace Tesserae
     /// </para>
     /// <para>
     /// Rows are selectable (<see cref="Selectable(OmniResultSelectionMode)"/>) with a checkbox that can sit
-    /// beside or over the icon; commands are reached by right-click and, optionally, a [...] button
+    /// beside or over the icon - and the same mode decides whether the tile stands in a column of its own
+    /// beside the row or leads the header line, before the title
+    /// (<see cref="SelectionMode(OmniResultSelectionMode)"/> lays a row out that way without making it
+    /// selectable); commands are reached by right-click and, optionally, a [...] button
     /// (<see cref="OnContextMenu(Action{OmniResult{T}}, OmniResultCommandsMode)"/>), with room for a few
     /// inline commands before it (<see cref="InlineCommands(OmniResultCommandsVisibility, IComponent[])"/>).
     /// </para>
@@ -802,6 +815,12 @@ namespace Tesserae
         /// Makes the result selectable, with its checkbox shown as the given mode says. The checkbox toggles
         /// the selection on click; ctrl-clicking the row does the same, and shift-clicking it asks for a
         /// range (see <see cref="OnRangeSelectionRequested(Action{OmniResult{T}})"/>).
+        /// <para>
+        /// The mode also decides where the tile is drawn: the two <c>...BeforeHeaderIcon</c> modes move it
+        /// onto the header line, before the identifier and the title. Use
+        /// <see cref="SelectionMode(OmniResultSelectionMode)"/> to lay a row out that way without making it
+        /// selectable at all.
+        /// </para>
         /// </summary>
         public OmniResult<T> Selectable(OmniResultSelectionMode mode = OmniResultSelectionMode.OnHoverBeforeIcon)
         {
@@ -815,7 +834,30 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Takes the checkbox away again, unselecting the result if it was selected.
+        /// Sets where the checkbox goes and where the tile is drawn <em>without</em> making the row
+        /// selectable - what a list that is never selected from wants when it still wants one of the
+        /// layouts a mode carries, chiefly
+        /// <see cref="OmniResultSelectionMode.HiddenBeforeHeaderIcon"/>: the tile leading the header, and
+        /// no checkbox anywhere.
+        /// <para>
+        /// On a row that <see cref="Selectable(OmniResultSelectionMode)"/> already made selectable this
+        /// changes the mode and nothing else.
+        /// </para>
+        /// </summary>
+        public OmniResult<T> SelectionMode(OmniResultSelectionMode mode)
+        {
+            _selectionMode = mode;
+
+            if (_selectionEnabled) EnsureCheckBox();
+
+            ApplySelectionMode();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Takes the checkbox away again, unselecting the result if it was selected. The layout the mode
+        /// asked for stays - a row laid out with the tile in its header keeps it.
         /// </summary>
         public OmniResult<T> NotSelectable()
         {
@@ -1874,6 +1916,13 @@ namespace Tesserae
                 "tss-omniresult-select-always-before",
                 "tss-omniresult-select-replacing");
 
+            //Where the tile is drawn is the mode's too, and unlike the checkbox it is drawn whether the row
+            //is selectable or not - which is what lets a list that is never selected from ask for the
+            //header layout through SelectionMode() alone.
+            InnerElement.UpdateClassIf(IsIconInHeader, "tss-omniresult-icon-in-header");
+
+            PlaceIconHolder();
+
             //The badges hang off whatever is drawn where the tile goes, which the mode - and whether the row
             //is selectable at all - decides.
             PlaceIconBadges();
@@ -1882,10 +1931,39 @@ namespace Tesserae
 
             switch (_selectionMode)
             {
-                case OmniResultSelectionMode.OnHoverBeforeIcon:  InnerElement.classList.add("tss-omniresult-select-hover-before"); break;
-                case OmniResultSelectionMode.OnHoverOverIcon:    InnerElement.classList.add("tss-omniresult-select-hover-over"); break;
-                case OmniResultSelectionMode.AlwaysBeforeIcon:   InnerElement.classList.add("tss-omniresult-select-always-before"); break;
-                case OmniResultSelectionMode.ReplacingIcon:      InnerElement.classList.add("tss-omniresult-select-replacing"); break;
+                case OmniResultSelectionMode.OnHoverBeforeIcon:      InnerElement.classList.add("tss-omniresult-select-hover-before"); break;
+                case OmniResultSelectionMode.OnHoverOverIcon:        InnerElement.classList.add("tss-omniresult-select-hover-over"); break;
+                case OmniResultSelectionMode.AlwaysBeforeIcon:       InnerElement.classList.add("tss-omniresult-select-always-before"); break;
+                case OmniResultSelectionMode.ReplacingIcon:          InnerElement.classList.add("tss-omniresult-select-replacing"); break;
+                case OmniResultSelectionMode.AlwaysBeforeHeaderIcon: InnerElement.classList.add("tss-omniresult-select-always-before"); break;
+                //HiddenBeforeHeaderIcon draws no checkbox, so it adds no class of its own - the column stays
+                //display:none, which is what it is without a mode at all.
+            }
+        }
+
+        /// <summary>
+        /// Whether the mode draws the tile at the start of the header rather than in a column of its own
+        /// beside the whole row. Unlike the checkbox, this holds whether the row is selectable or not.
+        /// </summary>
+        private bool IsIconInHeader => _selectionMode == OmniResultSelectionMode.AlwaysBeforeHeaderIcon
+                                    || _selectionMode == OmniResultSelectionMode.HiddenBeforeHeaderIcon;
+
+        //The tile is one element wherever it is drawn - moved rather than rebuilt - so whatever SetIcon,
+        //SetIconBadge and the modal's copy already put in it survives a change of mode.
+        private void PlaceIconHolder()
+        {
+            if (IsIconInHeader)
+            {
+                //First on the header line, before the identifier, the title and the badge.
+                if (_iconHolder.parentElement != _headerContainer || _headerContainer.firstChild != _iconHolder)
+                {
+                    _headerContainer.insertBefore(_iconHolder, _headerContainer.firstChild);
+                }
+            }
+            else if (_iconHolder.parentElement != InnerElement)
+            {
+                //Back to its own column, between the checkbox column and the text column.
+                InnerElement.insertBefore(_iconHolder, _mainContainer);
             }
         }
 
