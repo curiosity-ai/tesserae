@@ -16,7 +16,15 @@ without a closure per row:
 ```
 
 Everything past the title is optional. Drop the excerpt, the preview, the footer, or all three, and
-the row tightens up — the same component covers a two-line picker row and a full result card.
+the row tightens up — the same component covers a two-line picker row and a full result card. The tile
+can also lead the header instead of standing in a column of its own, which pulls the excerpt and the
+footer back to the row's left edge:
+
+```
+[✓]  [PDF] JR-2214 › BRK-SEN-447 calibration.pdf   3 matches in text                  [pages]  [...]
+     Torque the mount to 12 Nm before starting brake sensor work. Full calibration steps …
+     ▪ Box · sample-files / pdfs · 2.4 MB · Pius Neuhaus · Apr 12, 2024
+```
 
 ## Create
 
@@ -80,6 +88,30 @@ stands for. Also `new OmniResult<T>(result, title)`. Bring factories into scope 
 Pass a literal color (`"#ef4444"`) rather than a CSS variable when you want the tint to track the
 theme: a `var(--…)` is resolved once, at the time it is set.
 
+**The tile in the header**
+
+Two of the selection modes move the tile out of its column beside the row and draw it small (22px) at
+the **start of the header line**, before the identifier and the title:
+
+- `AlwaysBeforeHeaderIcon` — with a checkbox in its own column at the start of the row, always visible.
+- `HiddenBeforeHeaderIcon` — with no checkbox at all, not even on a selected row. Set it through
+  `.SelectionMode(...)` on a row that isn't selectable; `.Selectable(...)` also accepts it, for a list
+  that owns the selection itself and wants the row background alone to say so.
+
+The excerpt, the footer and the contribution bar then start at the row's own left edge instead of being
+indented past a 34px tile, which is what a dense list — or one whose rows are mostly title — reads
+better as. Everything else is unchanged: a text tile ("XLSX") scales with the tile rather than being
+cropped, and the corner badges are scaled and tucked in with it. The copy the modal takes of the tile
+keeps the modal's own size.
+
+```csharp
+var row = OmniResult(hit, hit.Name)
+    .SetIcon("XLSX", "#16a34a")
+    .SetText(hit.Excerpt)
+    .SetFooterEntries(hit.Path, hit.Size)
+    .SelectionMode(OmniResultSelectionMode.HiddenBeforeHeaderIcon);   // laid out, not selectable
+```
+
 **Footer**
 
 The source leads the line and the metadata follows it, and all of it is `InlineLabel`s
@@ -109,9 +141,15 @@ The source leads the line and the metadata follows it, and all of it is `InlineL
 
 - `.Selectable(OmniResultSelectionMode mode = OnHoverBeforeIcon)` / `.NotSelectable()`.
   Modes: `OnHoverBeforeIcon`, `OnHoverOverIcon` (on the tile, which fades out under it),
-  `AlwaysBeforeIcon`, `ReplacingIcon` (no tile at all). A selected row always shows its checkbox,
-  whatever the mode, and the column is reserved either way so revealing it never shifts the row. In the
-  two modes where the checkbox stands in for the tile, the corner badges move onto it.
+  `AlwaysBeforeIcon`, `ReplacingIcon` (no tile at all), `AlwaysBeforeHeaderIcon` and
+  `HiddenBeforeHeaderIcon` (the two that move the tile into the header — see *The tile in the header*
+  below). A selected row always shows its checkbox, whatever the mode — except under
+  `HiddenBeforeHeaderIcon`, which draws none — and the column is reserved either way so revealing it
+  never shifts the row. In the two modes where the checkbox stands in for the tile, the corner badges
+  move onto it.
+- `.SelectionMode(OmniResultSelectionMode)` — sets the mode **without** making the row selectable,
+  which is how a list that is never selected from asks for `HiddenBeforeHeaderIcon`'s layout. On a row
+  `Selectable` already made selectable it just changes the mode.
 - `IsSelected` / `.Selected(bool = true)` / `IsSelectionEnabled`.
 - `.OnSelectionChanged(Action<OmniResult<T>, bool>)` — every change, from the user or from code.
 - `.OnRangeSelectionRequested(Action<OmniResult<T>>)` — shift-click. A row knows nothing about its
