@@ -417,6 +417,10 @@ namespace Tesserae.Tests.Samples
                         .OnSelectionChanged((r, isSelected) => ReportSelection())
                         .OnRangeSelectionRequested(r => SelectRangeTo(r));
 
+                    //The first row of each group is badged, so what a corner badge does when the checkbox
+                    //takes the tile's place is visible in every mode.
+                    if (i == 0) row.SetIconBadge(Icon(UIcons.Star, UIconsWeight.Solid, color: "#f0c000"), OmniResultBadgeCorner.TopRight);
+
                     _selectable.Add(row);
                     list.Add(row);
                 }
@@ -426,7 +430,7 @@ namespace Tesserae.Tests.Samples
             }
 
             return FeatureCard("Selection", "Four places for the checkbox",
-                "Selectable(mode) makes a row selectable. The checkbox sits before the tile or over it, revealed on hover or always visible, or takes the tile's place entirely — and a selected row always shows its checkbox, whatever the mode. Ctrl-clicking a row toggles it too, and shift-clicking one asks for the range from the last row selected: a single card knows nothing about its siblings, so OnRangeSelectionRequested hands that to the host list, which selects them itself (that is what the rows below do, across all four groups).",
+                "Selectable(mode) makes a row selectable. The checkbox sits before the tile or over it, revealed on hover or always visible, or takes the tile's place entirely — and a selected row always shows its checkbox, whatever the mode. A corner badge marks the result rather than the tile, so it follows the checkbox where the checkbox stands in for the tile: the starred row in each group keeps its star over the checkbox. Ctrl-clicking a row toggles it too, and shift-clicking one asks for the range from the last row selected: a single card knows nothing about its siblings, so OnRangeSelectionRequested hands that to the host list, which selects them itself (that is what the rows below do, across all four groups).",
                 sections,
                 _selectionState.MT(8),
                 HStack().Gap(8.px()).MT(8).Children(

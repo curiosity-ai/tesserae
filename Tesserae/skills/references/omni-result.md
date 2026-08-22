@@ -73,6 +73,10 @@ stands for. Also `new OmniResult<T>(result, title)`. Bring factories into scope 
   corner of the tile, drawn outside its clipping: where the result came from, that it is pinned.
   Corners: `TopLeft`, `TopRight`, `BottomLeft`, `BottomRight`. Null clears that corner.
 
+  A badge marks the result, not the tile, so it follows whatever stands in the tile's place: under
+  `OnHoverOverIcon` it tucks into the checkbox's corners while the checkbox is showing, and under
+  `ReplacingIcon` — where there is no tile — it is drawn on the checkbox itself.
+
 Pass a literal color (`"#ef4444"`) rather than a CSS variable when you want the tint to track the
 theme: a `var(--…)` is resolved once, at the time it is set.
 
@@ -106,7 +110,8 @@ The source leads the line and the metadata follows it, and all of it is `InlineL
 - `.Selectable(OmniResultSelectionMode mode = OnHoverBeforeIcon)` / `.NotSelectable()`.
   Modes: `OnHoverBeforeIcon`, `OnHoverOverIcon` (on the tile, which fades out under it),
   `AlwaysBeforeIcon`, `ReplacingIcon` (no tile at all). A selected row always shows its checkbox,
-  whatever the mode, and the column is reserved either way so revealing it never shifts the row.
+  whatever the mode, and the column is reserved either way so revealing it never shifts the row. In the
+  two modes where the checkbox stands in for the tile, the corner badges move onto it.
 - `IsSelected` / `.Selected(bool = true)` / `IsSelectionEnabled`.
 - `.OnSelectionChanged(Action<OmniResult<T>, bool>)` — every change, from the user or from code.
 - `.OnRangeSelectionRequested(Action<OmniResult<T>>)` — shift-click. A row knows nothing about its
