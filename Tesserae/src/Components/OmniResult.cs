@@ -41,7 +41,8 @@ namespace Tesserae
         /// <see cref="OmniResult{T}.SetIconBadge"/> pinned to the tile moves onto the checkbox.</summary>
         ReplacingIcon,
         /// <summary>The tile leads the header instead of standing in a column of its own beside the whole
-        /// row - drawn small, before the identifier and the title, on the title's line - with a checkbox in
+        /// row - drawn small, before the identifier and the title, on the title's line, and growing sideways
+        /// with its text where it spells a file type out rather than drawing a glyph - with a checkbox in
         /// its own column at the start of the row, always visible.</summary>
         AlwaysBeforeHeaderIcon,
         /// <summary>The tile leads the header, as with <see cref="AlwaysBeforeHeaderIcon"/>, and no checkbox
@@ -417,6 +418,13 @@ namespace Tesserae
         /// no glyph says it as plainly - in the given color, over a paler wash of that same color. It is drawn
         /// at the size the tile is sized for unless <paramref name="size"/> asks for another one - text longer
         /// than the three or four letters a type name usually is wants <see cref="TextSize.Tiny"/>.
+        /// <para>
+        /// In the two modes that draw the tile on the header line
+        /// (<see cref="OmniResultSelectionMode.AlwaysBeforeHeaderIcon"/> and
+        /// <see cref="OmniResultSelectionMode.HiddenBeforeHeaderIcon"/>) the tile is a label rather than a
+        /// square: it grows sideways with its text, so a long type name is drawn in full at the ordinary
+        /// size and needs no <paramref name="size"/> of its own.
+        /// </para>
         /// </summary>
         public OmniResult<T> SetIcon(string text, string color = null, TextSize? size = null)
         {

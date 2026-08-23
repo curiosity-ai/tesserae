@@ -100,13 +100,18 @@ the **start of the header line**, before the identifier and the title:
 
 The excerpt, the footer and the contribution bar then start at the row's own left edge instead of being
 indented past a 34px tile, which is what a dense list — or one whose rows are mostly title — reads
-better as. Everything else is unchanged: a text tile ("XLSX") scales with the tile rather than being
-cropped, and the corner badges are scaled and tucked in with it. The copy the modal takes of the tile
-keeps the modal's own size.
+better as. The corner badges are scaled and tucked in with the smaller tile, and the copy the modal
+takes of it keeps the modal's own size.
+
+A tile that spells the file type out is a **label** on this line rather than a square: it keeps the
+title's height and grows sideways with its text, so `SetIcon("SPREADSHEETML", …)` is drawn in full and
+nothing has to reach for a smaller `TextSize` to make a long type name fit. The square tile is the
+floor, so "PDF" or "XLSX" still comes out about as square as the glyph tiles beside it. In every other
+mode — where the tile stands in a column of its own — it is a square as before.
 
 ```csharp
 var row = OmniResult(hit, hit.Name)
-    .SetIcon("XLSX", "#16a34a")
+    .SetIcon("PARQUET", "#8b5cf6")                                   // grows with its text here
     .SetText(hit.Excerpt)
     .SetFooterEntries(hit.Path, hit.Size)
     .SelectionMode(OmniResultSelectionMode.HiddenBeforeHeaderIcon);   // laid out, not selectable

@@ -230,6 +230,23 @@
     --tss-icontile-radius: 6px;
 }
 
+/* A tile that spells the file type out is a label here, not a square: on the header line it sits beside
+   words, so it grows sideways with its text instead of squeezing "PARQUET" into the width of "PDF" - and
+   nothing has to reach for a smaller TextSize to make a long type name fit. The height stays the title's
+   line box, and the square tile is the floor, so a three- or four-letter type - the common case - still
+   comes out about as square as the glyph tiles it is listed among. */
+.tss-omniresult-icon-in-header .tss-omniresult-icon:has(> .tss-icontile-text) {
+    width: auto;
+    min-width: var(--tss-icontile-size);
+    padding: 0 4px;
+}
+
+/* Its text is the one thing in the tile that must not be clipped, and it no longer has to be: the tile
+   grew to hold it. */
+.tss-omniresult-icon-in-header .tss-omniresult-icon > .tss-icontile-text {
+    white-space: nowrap;
+}
+
 /* The checkbox column is level with the header line, not with a 34px tile that is no longer there. */
 .tss-omniresult-icon-in-header .tss-omniresult-select {
     height: 22px;
