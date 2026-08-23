@@ -25,7 +25,23 @@ CommandPalette:
 - `.CurrentQuery` — what is typed in the search box right now, trimmed.
 - `.LightDismiss()` / `.NoLightDismiss()` / `.CanLightDismiss` — whether clicking beside the palette closes
   it, the way it does on a `Modal`. On by default. Escape closes it too, wherever the focus ended up.
+- `.ShowCloseButton()` / `.HideCloseButton()` / `.WillShowCloseButton` — a close button at the end of the
+  search row, beside the search box's own trigger button. **Off by default**, below.
 - `.SearchBox` / `.ConfigureSearchBox(Action&lt;OmniBox&gt;)` — the box itself, below.
+
+## The close button
+
+Off by default, because a palette normally has two ways out already: Escape, and a click beside it. Turn it
+on for the surfaces where neither is obvious — a touch screen, a palette opened from a button rather than a
+shortcut, or one shown with `NoLightDismiss` so there is nothing beside it to click.
+
+```csharp
+var palette = new CommandPalette(host, actions) { WillShowCloseButton = true };
+// or, in a chain: new CommandPalette(host, actions).ShowCloseButton()
+```
+
+It draws beside the search box's trigger button, matching it in size, and it *closes*: clicking it dismisses
+the palette even when the palette is a level down inside a nested action, where Escape would go back first.
 
 ## The search box is an OmniBox
 
@@ -135,5 +151,6 @@ palette = new CommandPalette(ui, new[] { nav, home, help });
 
 - OmniResult — what a row of your own usually is — `omni-result.md`
 - Keyboard shortcut chips — `keyboard-shortcut.md`
+- ShortcutGuide — the modal listing every shortcut — `shortcut-guide.md`
 - Toast — `toast.md`
 - Full docs & API: `/tesserae/utilities/command-palette`

@@ -1558,6 +1558,11 @@ namespace Tesserae
         public static KeyboardShortcut KeyboardShortcut(params string[] keys) => new KeyboardShortcut(keys);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.ShortcutGuide"/> component.
+        /// </summary>
+        public static ShortcutGuide ShortcutGuide(string title = "Keyboard shortcuts") => new ShortcutGuide(title);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.NotificationCenter"/> component.
         /// </summary>
         public static NotificationCenter NotificationCenter() => new NotificationCenter();

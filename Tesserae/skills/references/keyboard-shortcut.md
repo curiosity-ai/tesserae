@@ -70,6 +70,7 @@ var row = HStack().AlignItems(ItemAlign.Center).Gap(4.px()).Children(
 
 ## Related
 
+- ShortcutGuide (the modal listing every shortcut) — `shortcut-guide.md`
 - CommandPalette (actual Ctrl/Cmd-K launcher) — `command-palette.md`
 - Sidebar (`.AsSearchBox(...)`, `SidebarButton.SetKeyboardShortcut(...)`) — `sidebar.md`
 - Full docs & API: `/tesserae/utilities/keyboard-shortcut`

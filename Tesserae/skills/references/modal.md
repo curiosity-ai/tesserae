@@ -46,6 +46,7 @@ modal.Show();
 - ModalStack — `modal-stack.md` (a deck of modals, when one opens another)
 - Dialog — `dialog.md` (prebuilt confirmation buttons)
 - Panel — `panel.md` (side drawer)
+- ShortcutGuide — `shortcut-guide.md` (a modal listing the app's keyboard shortcuts)
 - Float — `float.md`
 - PixelAvatar — `pixel-avatar.md` (a cat perched on the modal's top edge)
 - Full docs & API: `/tesserae/surfaces/modal`

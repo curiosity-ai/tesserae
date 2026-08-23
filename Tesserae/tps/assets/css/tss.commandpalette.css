@@ -72,6 +72,36 @@
     font-size: 12px;
 }
 
+/* The close button, off unless the palette is asked for one - see WillShowCloseButton. It sits after the
+   search box, so it lines up with that box's own trigger button rather than floating over the row. */
+.tss-commandpalette-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* The box and the glyph of the search box's own trigger button, which it stands beside: a pair of
+       buttons the same size reads as one cluster, one 28px and one 36px reads as an afterthought. */
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+    cursor: pointer;
+    padding: 0;
+}
+
+    .tss-commandpalette-close:hover {
+        background: var(--tss-default-background-hover-color);
+        color: var(--tss-default-foreground-color);
+    }
+
+.tss-commandpalette-close-icon {
+    /* cross-small at 16px paints the same weight as the magnifier at 12px: the plain cross glyph fills far
+       more of its em box, so matching the font sizes would not have matched what is drawn. */
+    font-size: 16px;
+}
+
 .tss-commandpalette-path {
     color: var(--tss-secondary-foreground-color);
     user-select: none;
