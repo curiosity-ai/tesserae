@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Navigation, Order = 90, Icon = UIcons.DropdownBar)]
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 90, Icon = UIcons.DropdownBar, Description = "Pivot pages switched from a dropdown")]
     public class PivotSelectorSample : IComponent, ISample
     {
         private readonly IComponent content;

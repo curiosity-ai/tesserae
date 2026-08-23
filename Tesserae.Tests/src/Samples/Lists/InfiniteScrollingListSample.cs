@@ -8,7 +8,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Lists, Order = 50, Icon = UIcons.Infinity)]
+    [SampleDetails(Group = SampleGroup.Lists, Order = 50, Icon = UIcons.Infinity, Description = "A list that loads more as you scroll")]
     public class InfiniteScrollingListSample : IComponent, ISample
     {
         private readonly IComponent _content;

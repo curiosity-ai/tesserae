@@ -7,7 +7,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Theming, Order = 20, Icon = UIcons.Brightness)]
+    [SampleDetails(Group = SampleGroup.Theming, Order = 20, Icon = UIcons.Brightness, Description = "The colour roles a theme is built from")]
     public class ThemeColorsSample : IComponent, ISample
     {
         private IComponent _content;

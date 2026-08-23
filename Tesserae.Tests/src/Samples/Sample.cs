@@ -10,15 +10,20 @@ namespace Tesserae.Tests
         public string           Group            { get; }
         public int              Order            { get; }
         public UIcons           Icon             { get; }
+
+        /// <summary>What the component is for, in one short line, from <see cref="SampleDetailsAttribute.Description"/>.</summary>
+        public string           Description      { get; }
+
         public Func<System.Threading.Tasks.Task<IComponent>> ContentGenerator { get; }
 
-        public Sample(string type, string name, string group, int order, UIcons icon, Func<System.Threading.Tasks.Task<IComponent>> contentGenerator)
+        public Sample(string type, string name, string group, int order, UIcons icon, string description, Func<System.Threading.Tasks.Task<IComponent>> contentGenerator)
         {
             Type             = type;
             Name             = name;
             Group            = group;
             Order            = order;
             Icon             = icon;
+            Description      = description;
             ContentGenerator = contentGenerator;
         }
 

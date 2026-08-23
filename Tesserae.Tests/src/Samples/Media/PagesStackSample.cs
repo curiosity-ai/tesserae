@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Media, Order = 40, Icon = UIcons.Copy)]
+    [SampleDetails(Group = SampleGroup.Media, Order = 40, Icon = UIcons.Copy, Description = "A fanning stack of page thumbnails")]
     public class PagesStackSample : IComponent, ISample
     {
         private static readonly string[] Thumbnails =

@@ -7,7 +7,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.AI, Order = 50, Icon = UIcons.ClipboardListCheck)]
+    [SampleDetails(Group = SampleGroup.AI, Order = 50, Icon = UIcons.ClipboardListCheck, Description = "A model's plan, step by step, as it runs")]
     public class PlanSample : IComponent, ISample
     {
         private readonly IComponent _content;

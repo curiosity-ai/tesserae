@@ -9,7 +9,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Lists, Order = 20, Icon = UIcons.TableRows)]
+    [SampleDetails(Group = SampleGroup.Lists, Order = 20, Icon = UIcons.TableRows, Description = "A sortable, groupable table of records")]
     public class DetailsListSample : IComponent, ISample
     {
         private readonly IComponent _content;

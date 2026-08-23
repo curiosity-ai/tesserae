@@ -7,7 +7,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Search, Order = 30, Icon = UIcons.Filter)]
+    [SampleDetails(Group = SampleGroup.Search, Order = 30, Icon = UIcons.Filter, Description = "A grouped list filtered as you type")]
     public class SearchableGroupedListSample : IComponent, ISample
     {
         private readonly IComponent _content;

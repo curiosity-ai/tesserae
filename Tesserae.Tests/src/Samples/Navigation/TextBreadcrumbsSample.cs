@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Navigation, Order = 110, Icon = UIcons.AngleDoubleRight)]
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 110, Icon = UIcons.AngleDoubleRight, Description = "Breadcrumbs as plain inline text")]
     public class TextBreadcrumbsSample : IComponent, ISample
     {
         private readonly IComponent _content;

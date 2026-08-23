@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Inputs, Order = 140, Icon = UIcons.Star)]
+    [SampleDetails(Group = SampleGroup.Inputs, Order = 140, Icon = UIcons.Star, Description = "Star ratings, read-only or editable")]
     public class RatingSample : IComponent, ISample
     {
         private readonly IComponent _content;

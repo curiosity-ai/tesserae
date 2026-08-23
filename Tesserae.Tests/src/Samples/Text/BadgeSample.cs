@@ -4,7 +4,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Text, Order = 50, Icon = UIcons.Sticker)]
+    [SampleDetails(Group = SampleGroup.Text, Order = 50, Icon = UIcons.Sticker, Description = "Small pills for status, tags and counts")]
     public class BadgeSample : IComponent, ISample
     {
         private readonly IComponent _content;

@@ -7,7 +7,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Inputs, Order = 80, Icon = UIcons.CaretSquareDown)]
+    [SampleDetails(Group = SampleGroup.Inputs, Order = 80, Icon = UIcons.CaretSquareDown, Description = "Single and multi-select dropdowns")]
     public sealed class DropdownSample : IComponent, ISample
     {
         private readonly IComponent _content;

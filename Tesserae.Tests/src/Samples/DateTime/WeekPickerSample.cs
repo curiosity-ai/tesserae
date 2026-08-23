@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.DateTime, Order = 60, Icon = UIcons.CalendarWeek)]
+    [SampleDetails(Group = SampleGroup.DateTime, Order = 60, Icon = UIcons.CalendarWeek, Description = "Pick an ISO week number")]
     public class WeekPickerSample : IComponent, ISample
     {
         private readonly IComponent _content;

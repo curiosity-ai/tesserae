@@ -7,7 +7,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Inputs, Order = 90, Icon = UIcons.BarsFilter)]
+    [SampleDetails(Group = SampleGroup.Inputs, Order = 90, Icon = UIcons.BarsFilter, Description = "Type to search and pick many items")]
     public class PickerSample : IComponent, ISample
     {
         private readonly IComponent _content;

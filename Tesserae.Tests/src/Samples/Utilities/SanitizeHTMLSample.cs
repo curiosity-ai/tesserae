@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Utilities, Order = 60, Icon = UIcons.ShieldCheck)]
+    [SampleDetails(Group = SampleGroup.Utilities, Order = 60, Icon = UIcons.ShieldCheck, Description = "Sanitize untrusted HTML with DOMPurify")]
     public class SanitizeHTMLSample : IComponent, ISample
     {
         private readonly IComponent _content;

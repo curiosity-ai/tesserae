@@ -7,7 +7,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Utilities, Order = 10, Icon = UIcons.Link)]
+    [SampleDetails(Group = SampleGroup.Utilities, Order = 10, Icon = UIcons.Link, Description = "Two-way binding against an observable")]
     public class BindingSample : IComponent, ISample
     {
         private readonly IComponent _content;

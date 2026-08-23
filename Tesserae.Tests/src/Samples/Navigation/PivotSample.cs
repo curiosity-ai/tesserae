@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Navigation, Order = 60, Icon = UIcons.TablePivot)]
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 60, Icon = UIcons.TablePivot, Description = "Tabs with lazily rendered pages")]
     public class PivotSample : IComponent, ISample
     {
         private readonly IComponent content;

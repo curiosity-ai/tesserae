@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Inputs, Order = 50, Icon = UIcons.Checkbox)]
+    [SampleDetails(Group = SampleGroup.Inputs, Order = 50, Icon = UIcons.Checkbox, Description = "Checkboxes, including the indeterminate state")]
     public class CheckBoxSample : IComponent, ISample
     {
         private readonly IComponent _content;

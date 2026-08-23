@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Overlays, Order = 50, Icon = UIcons.CommentAltDots)]
+    [SampleDetails(Group = SampleGroup.Overlays, Order = 50, Icon = UIcons.CommentAltDots, Description = "An overlay anchored to a component")]
     public class PopoverSample : IComponent, ISample
     {
         private readonly IComponent _content;

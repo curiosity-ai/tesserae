@@ -8,7 +8,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Theming, Order = 60, Icon = UIcons.IconStar)]
+    [SampleDetails(Group = SampleGroup.Theming, Order = 60, Icon = UIcons.IconStar, Description = "The bundled icon set, in all nine weights")]
     public class UIconsSample : IComponent, ISample
     {
         private readonly IComponent _content;

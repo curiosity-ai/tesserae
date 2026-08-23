@@ -4,7 +4,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Media, Order = 30, Icon = UIcons.Images)]
+    [SampleDetails(Group = SampleGroup.Media, Order = 30, Icon = UIcons.Images, Description = "A slideshow cycling through its slides")]
     public class CarouselSample : IComponent, ISample
     {
         private readonly IComponent _content;

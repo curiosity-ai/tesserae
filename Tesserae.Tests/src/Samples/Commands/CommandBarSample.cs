@@ -4,7 +4,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Commands, Order = 40, Icon = UIcons.ToolBox)]
+    [SampleDetails(Group = SampleGroup.Commands, Order = 40, Icon = UIcons.ToolBox, Description = "A toolbar housing commands and overflow")]
     public class CommandBarSample : IComponent, ISample
     {
         private readonly IComponent _content;

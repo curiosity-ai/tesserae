@@ -7,7 +7,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Media, Order = 50, Icon = UIcons.Shield)]
+    [SampleDetails(Group = SampleGroup.Media, Order = 50, Icon = UIcons.Shield, Description = "A locked-down iframe for untrusted HTML")]
     public class SandboxSample : IComponent, ISample
     {
         private readonly IComponent _content;

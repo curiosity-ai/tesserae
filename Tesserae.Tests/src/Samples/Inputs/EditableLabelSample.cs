@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Inputs, Order = 30, Icon = UIcons.Edit)]
+    [SampleDetails(Group = SampleGroup.Inputs, Order = 30, Icon = UIcons.Edit, Description = "Text that turns into an input when clicked")]
     public class EditableLabelSample : IComponent, ISample
     {
         private readonly IComponent _content;

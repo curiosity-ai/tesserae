@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Layout, Order = 80, Icon = UIcons.GridDividers)]
+    [SampleDetails(Group = SampleGroup.Layout, Order = 80, Icon = UIcons.GridDividers, Description = "Pinterest-style variable-height columns")]
     public class MasonrySample : IComponent, ISample
     {
         private readonly IComponent _content;

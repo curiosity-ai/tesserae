@@ -4,7 +4,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Charts, Order = 40, Icon = UIcons.ChartSimpleHorizontal)]
+    [SampleDetails(Group = SampleGroup.Charts, Order = 40, Icon = UIcons.ChartSimpleHorizontal, Description = "A stacked bar of how weighted parts add up")]
     public class ContributionBarSample : IComponent, ISample
     {
         private readonly IComponent _content;

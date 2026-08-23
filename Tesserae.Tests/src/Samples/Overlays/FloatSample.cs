@@ -6,7 +6,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Overlays, Order = 60, Icon = UIcons.GameBoardAlt)]
+    [SampleDetails(Group = SampleGroup.Overlays, Order = 60, Icon = UIcons.GameBoardAlt, Description = "Content pinned to a corner of its parent")]
     public class FloatSample : IComponent, ISample
     {
         private readonly IComponent _content;

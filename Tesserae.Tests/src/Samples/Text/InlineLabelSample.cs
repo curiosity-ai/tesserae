@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Text, Order = 30, Icon = UIcons.Bookmark)]
+    [SampleDetails(Group = SampleGroup.Text, Order = 30, Icon = UIcons.Bookmark, Description = "One small fact, drawn inline or as a chip")]
     public class InlineLabelSample : IComponent, ISample
     {
         private readonly IComponent _content;

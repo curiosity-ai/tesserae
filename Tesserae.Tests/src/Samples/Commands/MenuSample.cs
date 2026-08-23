@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Commands, Order = 60, Icon = UIcons.MenuBurger)]
+    [SampleDetails(Group = SampleGroup.Commands, Order = 60, Icon = UIcons.MenuBurger, Description = "A dropdown menu with nested submenus")]
     public class MenuSample : IComponent, ISample
     {
         private readonly IComponent _content;

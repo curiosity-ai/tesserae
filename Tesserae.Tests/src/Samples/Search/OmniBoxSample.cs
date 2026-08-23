@@ -8,7 +8,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Search, Order = 40, Icon = UIcons.SearchBar)]
+    [SampleDetails(Group = SampleGroup.Search, Order = 40, Icon = UIcons.SearchBar, Description = "One input for both search and chat")]
     public class OmniBoxSample : IComponent, ISample
     {
         private readonly IComponent _content;

@@ -6,7 +6,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Feedback, Order = 30, Icon = UIcons.BreadSlice)]
+    [SampleDetails(Group = SampleGroup.Feedback, Order = 30, Icon = UIcons.BreadSlice, Description = "Transient notifications in a screen corner")]
     public class ToastSample : IComponent, ISample
     {
         private readonly IComponent _content;

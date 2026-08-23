@@ -4,7 +4,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Navigation, Order = 120, Icon = UIcons.Duplicate)]
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 120, Icon = UIcons.Duplicate, Description = "Page through a set of results")]
     public class PaginationSample : IComponent, ISample
     {
         private readonly IComponent _content;

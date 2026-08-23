@@ -9,7 +9,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Feedback, Order = 90, Icon = UIcons.WindowMaximize)]
+    [SampleDetails(Group = SampleGroup.Feedback, Order = 90, Icon = UIcons.WindowMaximize, Description = "A modal that blocks while work runs")]
     public class ProgressModalSample : IComponent, ISample
     {
         private readonly IComponent _content;

@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Navigation, Order = 30, Icon = UIcons.AngleRight)]
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 30, Icon = UIcons.AngleRight, Description = "Sliding a sidebar into a nested one")]
     public class SidebarShiftSample : IComponent, ISample
     {
         private readonly IComponent _content;

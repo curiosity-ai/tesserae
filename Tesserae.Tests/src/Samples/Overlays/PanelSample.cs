@@ -7,7 +7,7 @@ using Panel = Tesserae.Panel;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Overlays, Order = 40, Icon = UIcons.Drawer)]
+    [SampleDetails(Group = SampleGroup.Overlays, Order = 40, Icon = UIcons.Drawer, Description = "A panel sliding in from an edge")]
     public class PanelSample : IComponent, ISample
     {
         private readonly IComponent _content;

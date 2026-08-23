@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Inputs, Order = 100, Icon = UIcons.Tags)]
+    [SampleDetails(Group = SampleGroup.Inputs, Order = 100, Icon = UIcons.Tags, Description = "A multi-value chip and tag input")]
     public class TagsInputSample : IComponent, ISample
     {
         private readonly IComponent _content;

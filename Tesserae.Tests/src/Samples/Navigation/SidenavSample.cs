@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Navigation, Order = 50, Icon = UIcons.Apps)]
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 50, Icon = UIcons.Apps, Description = "A narrow icon-only navigation rail")]
     public class SidenavSample : IComponent, ISample
     {
         private readonly IComponent _content;

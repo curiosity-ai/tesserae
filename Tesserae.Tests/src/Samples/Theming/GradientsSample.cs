@@ -8,7 +8,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Theming, Order = 50, Icon = UIcons.Rainbow)]
+    [SampleDetails(Group = SampleGroup.Theming, Order = 50, Icon = UIcons.Rainbow, Description = "Ready-made background gradients")]
     public class GradientsSample : IComponent, ISample
     {
         private readonly IComponent _content;

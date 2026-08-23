@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Navigation, Order = 100, Icon = UIcons.Route)]
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 100, Icon = UIcons.Route, Description = "Where you are, with links back up")]
     public class BreadcrumbSample : IComponent, ISample
     {
         private readonly IComponent _content;

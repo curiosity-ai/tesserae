@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.DateTime, Order = 70, Icon = UIcons.ChartHistogram)]
+    [SampleDetails(Group = SampleGroup.DateTime, Order = 70, Icon = UIcons.ChartHistogram, Description = "Brush a time range over a histogram")]
     public class TimeHistogramPickerSample : IComponent, ISample
     {
         private readonly IComponent _content;

@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Commands, Order = 50, Icon = UIcons.MenuDots)]
+    [SampleDetails(Group = SampleGroup.Commands, Order = 50, Icon = UIcons.MenuDots, Description = "A row that folds what doesn't fit into a menu")]
     public class OverflowSetSample : IComponent, ISample
     {
         private readonly IComponent _content;

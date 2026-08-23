@@ -8,7 +8,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Lists, Order = 80, Icon = UIcons.TimePast)]
+    [SampleDetails(Group = SampleGroup.Lists, Order = 80, Icon = UIcons.TimePast, Description = "Events down a vertical timeline")]
     public class TimelineSample : IComponent, ISample
     {
         private readonly IComponent _content;
