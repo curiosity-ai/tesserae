@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Text, Order = 70, Icon = UIcons.CodeCompare)]
+    [SampleDetails(Group = SampleGroup.Text, Order = 70, Icon = UIcons.CodeCompare, Description = "Unified diffs, rendered with diff2html")]
     public class CodeDiffSample : IComponent, ISample
     {
         private readonly IComponent _content;

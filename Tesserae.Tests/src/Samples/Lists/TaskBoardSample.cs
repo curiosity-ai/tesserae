@@ -5,7 +5,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Lists, Order = 90, Icon = UIcons.Dashboard)]
+    [SampleDetails(Group = SampleGroup.Lists, Order = 90, Icon = UIcons.Dashboard, Description = "Kanban columns with draggable cards")]
     public class TaskBoardSample : IComponent, ISample
     {
         private readonly IComponent _content;

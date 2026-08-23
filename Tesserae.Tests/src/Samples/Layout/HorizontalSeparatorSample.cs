@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Layout, Order = 90, Icon = UIcons.HorizontalRule)]
+    [SampleDetails(Group = SampleGroup.Layout, Order = 90, Icon = UIcons.HorizontalRule, Description = "A rule, with optional text in the middle")]
     public class HorizontalSeparatorSample : IComponent, ISample
     {
         private readonly IComponent _content;

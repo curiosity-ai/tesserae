@@ -7,7 +7,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Feedback, Order = 60, Icon = UIcons.Spinner)]
+    [SampleDetails(Group = SampleGroup.Feedback, Order = 60, Icon = UIcons.Spinner, Description = "A loading spinner with an optional label")]
     public class SpinnerSample : IComponent, ISample
     {
         private readonly IComponent _content;

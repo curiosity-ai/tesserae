@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Text, Order = 20, Icon = UIcons.Label)]
+    [SampleDetails(Group = SampleGroup.Text, Order = 20, Icon = UIcons.Label, Description = "A label for a field, with a required mark")]
     public class LabelSample : IComponent, ISample
     {
         private readonly IComponent _content;

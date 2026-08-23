@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Charts, Order = 30, Icon = UIcons.ChartSimple)]
+    [SampleDetails(Group = SampleGroup.Charts, Order = 30, Icon = UIcons.ChartSimple, Description = "One number, with its trend and its delta")]
     public class MetricSample : IComponent, ISample
     {
         private readonly IComponent content;

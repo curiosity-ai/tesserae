@@ -6,7 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Overlays, Order = 20, Icon = UIcons.WindowRestore)]
+    [SampleDetails(Group = SampleGroup.Overlays, Order = 20, Icon = UIcons.WindowRestore, Description = "A modal window over the whole page")]
     public class ModalSample : IComponent, ISample
     {
         private readonly IComponent _content;

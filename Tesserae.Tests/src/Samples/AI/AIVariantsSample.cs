@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.AI, Order = 10, Icon = UIcons.Sparkles)]
+    [SampleDetails(Group = SampleGroup.AI, Order = 10, Icon = UIcons.Sparkles, Description = "The purple-to-blue tint for anything a model made")]
     public class AIVariantsSample : IComponent, ISample
     {
         private readonly IComponent _content;

@@ -7,7 +7,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Lists, Order = 10, Icon = UIcons.List)]
+    [SampleDetails(Group = SampleGroup.Lists, Order = 10, Icon = UIcons.List, Description = "A simple list or grid of any components")]
     public class ItemsListSample : IComponent, ISample
     {
         private readonly IComponent _content;

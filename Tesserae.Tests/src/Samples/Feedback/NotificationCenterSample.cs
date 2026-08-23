@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Feedback, Order = 40, Icon = UIcons.Bell)]
+    [SampleDetails(Group = SampleGroup.Feedback, Order = 40, Icon = UIcons.Bell, Description = "A bell opening a panel of notifications")]
     public class NotificationCenterSample : IComponent, ISample
     {
         private readonly IComponent _content;

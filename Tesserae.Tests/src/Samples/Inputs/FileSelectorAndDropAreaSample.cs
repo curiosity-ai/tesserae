@@ -5,7 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Inputs, Order = 170, Icon = UIcons.Upload)]
+    [SampleDetails(Group = SampleGroup.Inputs, Order = 170, Icon = UIcons.Upload, Description = "File picking and drag-and-drop uploads")]
     public class FileSelectorAndDropAreaSample : IComponent, ISample
     {
         private readonly IComponent _content;

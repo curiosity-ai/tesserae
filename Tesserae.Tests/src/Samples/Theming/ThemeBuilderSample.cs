@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Theming, Order = 30, Icon = UIcons.PaintBrush)]
+    [SampleDetails(Group = SampleGroup.Theming, Order = 30, Icon = UIcons.PaintBrush, Description = "Build a custom theme with one fluent call")]
     public class ThemeBuilderSample : IComponent, ISample
     {
         private readonly IComponent _content;

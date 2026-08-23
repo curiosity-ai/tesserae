@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Forms, Order = 20, Icon = UIcons.CommentQuestion)]
+    [SampleDetails(Group = SampleGroup.Forms, Order = 20, Icon = UIcons.CommentQuestion, Description = "Inline questions and answer options for chats")]
     public class QuestionnaireSample : IComponent, ISample
     {
         private readonly IComponent _content;

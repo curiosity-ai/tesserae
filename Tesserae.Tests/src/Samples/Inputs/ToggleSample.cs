@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Inputs, Order = 60, Icon = UIcons.ToggleOn)]
+    [SampleDetails(Group = SampleGroup.Inputs, Order = 60, Icon = UIcons.ToggleOn, Description = "An on/off switch")]
     public class ToggleSample : IComponent, ISample
     {
         private readonly IComponent _content;

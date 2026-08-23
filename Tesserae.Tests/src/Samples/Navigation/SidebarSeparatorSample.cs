@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Navigation, Order = 20, Icon = UIcons.GripLines)]
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 20, Icon = UIcons.GripLines, Description = "Group headers inside a sidebar")]
     public class SidebarSeparatorSample : IComponent, ISample
     {
         private readonly IComponent _content;

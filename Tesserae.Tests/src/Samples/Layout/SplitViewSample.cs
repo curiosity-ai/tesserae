@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Layout, Order = 30, Icon = UIcons.TableColumns)]
+    [SampleDetails(Group = SampleGroup.Layout, Order = 30, Icon = UIcons.TableColumns, Description = "Two resizable panes, left and right")]
     public class SplitViewSample : IComponent, ISample
     {
         private readonly IComponent _content;

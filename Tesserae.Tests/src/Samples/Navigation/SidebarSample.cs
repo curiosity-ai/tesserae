@@ -8,7 +8,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Navigation, Order = 10, Icon = UIcons.Sidebar)]
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 10, Icon = UIcons.Sidebar, Description = "The app shell's collapsible side navigation")]
     public class SidebarSample : IComponent, ISample
     {
         private readonly IComponent _content;

@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Forms, Order = 50, Icon = UIcons.CloudUpload)]
+    [SampleDetails(Group = SampleGroup.Forms, Order = 50, Icon = UIcons.CloudUpload, Description = "A toast that tracks a save in progress")]
     public class SavingToastSample : IComponent, ISample
     {
         private readonly IComponent _content;

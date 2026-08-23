@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Forms, Order = 10, Icon = UIcons.ListCheck)]
+    [SampleDetails(Group = SampleGroup.Forms, Order = 10, Icon = UIcons.ListCheck, Description = "A two-way-bound editor built from an object")]
     public class PropertyGridSample : IComponent, ISample
     {
         public enum AccountTier { Free, Pro, Enterprise }

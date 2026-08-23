@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Commands, Order = 30, Icon = UIcons.LayoutFluid)]
+    [SampleDetails(Group = SampleGroup.Commands, Order = 30, Icon = UIcons.LayoutFluid, Description = "Icon buttons where exactly one is selected")]
     public class IconToggleSample : IComponent, ISample
     {
         public enum ViewMode { List, Grid, Table }

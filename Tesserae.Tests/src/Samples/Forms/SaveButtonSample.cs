@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Forms, Order = 40, Icon = UIcons.Disk)]
+    [SampleDetails(Group = SampleGroup.Forms, Order = 40, Icon = UIcons.Disk, Description = "A button that shows saving and saved state")]
     public class SaveButtonSample : IComponent, ISample
     {
         private readonly IComponent _content;

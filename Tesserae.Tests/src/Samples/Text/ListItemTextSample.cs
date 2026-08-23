@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Text, Order = 40, Icon = UIcons.AlignLeft)]
+    [SampleDetails(Group = SampleGroup.Text, Order = 40, Icon = UIcons.AlignLeft, Description = "A title and subtitle for a list row")]
     public class ListItemTextSample : IComponent, ISample
     {
         private readonly IComponent _content;

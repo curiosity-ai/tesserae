@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Commands, Order = 10, Icon = UIcons.Cursor)]
+    [SampleDetails(Group = SampleGroup.Commands, Order = 10, Icon = UIcons.Cursor, Description = "The control that triggers an action")]
     public class ButtonSample : IComponent, ISample
     {
         private readonly IComponent _content;

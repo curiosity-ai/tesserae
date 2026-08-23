@@ -7,7 +7,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Lists, Order = 70, Icon = UIcons.FolderTree)]
+    [SampleDetails(Group = SampleGroup.Lists, Order = 70, Icon = UIcons.FolderTree, Description = "An expandable hierarchical list")]
     public class TreeSample : IComponent, ISample
     {
         private readonly IComponent _content;

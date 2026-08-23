@@ -8,7 +8,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Inputs, Order = 40, Icon = UIcons.Highlighter)]
+    [SampleDetails(Group = SampleGroup.Inputs, Order = 40, Icon = UIcons.Highlighter, Description = "Text editing with inline annotations")]
     public class AnnotatedTextEditorSample : IComponent, ISample
     {
         private readonly IComponent _content;

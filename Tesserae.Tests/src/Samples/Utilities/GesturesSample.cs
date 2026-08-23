@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Utilities, Order = 50, Icon = UIcons.CursorFinger)]
+    [SampleDetails(Group = SampleGroup.Utilities, Order = 50, Icon = UIcons.CursorFinger, Description = "Tap, swipe, pinch and long-press recognizers")]
     public class GesturesSample : IComponent, ISample
     {
         private readonly IComponent _content;

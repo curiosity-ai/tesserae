@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.DateTime, Order = 50, Icon = UIcons.CalendarDay)]
+    [SampleDetails(Group = SampleGroup.DateTime, Order = 50, Icon = UIcons.CalendarDay, Description = "Pick a year and a month")]
     public class MonthPickerSample : IComponent, ISample
     {
         private readonly IComponent _content;

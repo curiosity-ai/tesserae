@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Theming, Order = 40, Icon = UIcons.PaintBucket)]
+    [SampleDetails(Group = SampleGroup.Theming, Order = 40, Icon = UIcons.PaintBucket, Description = "A grid of named colour swatches")]
     public class ColorPaletteSample : IComponent, ISample
     {
         private readonly IComponent _content;

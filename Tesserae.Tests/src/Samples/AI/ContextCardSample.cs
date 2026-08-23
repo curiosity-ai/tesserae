@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.AI, Order = 30, Icon = UIcons.Clip)]
+    [SampleDetails(Group = SampleGroup.AI, Order = 30, Icon = UIcons.Clip, Description = "Cards for the files and data attached to a chat")]
     public class ContextCardSample : IComponent, ISample
     {
         private readonly IComponent _content;

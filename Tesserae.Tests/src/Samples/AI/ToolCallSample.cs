@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.AI, Order = 40, Icon = UIcons.Tools)]
+    [SampleDetails(Group = SampleGroup.AI, Order = 40, Icon = UIcons.Tools, Description = "Inline tool-call indicators and a summary popup")]
     public class ToolCallSample : IComponent, ISample
     {
         // Handed over compact on purpose: ToolCallInspect re-indents JSON as it is set.

@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Inputs, Order = 20, Icon = UIcons.AlignJustify)]
+    [SampleDetails(Group = SampleGroup.Inputs, Order = 20, Icon = UIcons.AlignJustify, Description = "Multi-line text input")]
     public class TextAreaSample : IComponent, ISample
     {
         private readonly IComponent _content;

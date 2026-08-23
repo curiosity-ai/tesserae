@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Navigation, Order = 80, Icon = UIcons.CreditCard)]
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 80, Icon = UIcons.CreditCard, Description = "Tabs drawn as selectable cards")]
     public class CardPivotSample : IComponent, ISample
     {
         private readonly IComponent content;

@@ -7,7 +7,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Overlays, Order = 10, Icon = UIcons.WindowMinimize)]
+    [SampleDetails(Group = SampleGroup.Overlays, Order = 10, Icon = UIcons.WindowMinimize, Description = "Confirm, prompt and message dialogs")]
     public class DialogSample : IComponent, ISample
     {
         private readonly IComponent _content;

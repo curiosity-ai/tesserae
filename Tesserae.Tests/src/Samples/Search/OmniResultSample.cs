@@ -8,7 +8,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Search, Order = 50, Icon = UIcons.Document)]
+    [SampleDetails(Group = SampleGroup.Search, Order = 50, Icon = UIcons.Document, Description = "Search-result rows with highlighted excerpts")]
     public class OmniResultSample : IComponent, ISample
     {
         // What the sample searched for, and so what the excerpts highlight.
@@ -178,8 +178,8 @@ namespace Tesserae.Tests.Samples
                     .SetIconBadge(Icon(UIcons.Star, UIconsWeight.Solid, color: "#f0c000"), OmniResultBadgeCorner.TopRight),
                 Row(Hits[6], withText: true, withPages: false).Selectable(OmniResultSelectionMode.AlwaysBeforeHeaderIcon));
 
-            /r/A tile that spells its type out is a label on this line rather than a square, so the type name
-            //is not limited to the three or four letters that fit a square: it grows with the text.
+            // A tile that spells its type out is a label on this line rather than a square, so the type name
+            // is not limited to the three or four letters that fit a square: it grows with the text.
             var spelledOut = VStack().WS().Children(
                 HeaderIconRow(Hits[1], "Q3 line review.pptx").SetIcon("PPTX", "#f97316"),
                 HeaderIconRow(Hits[2], "sensor-events-2024-03.parquet").SetIcon("PARQUET", "#8b5cf6"),

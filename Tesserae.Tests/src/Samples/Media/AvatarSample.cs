@@ -4,7 +4,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Media, Order = 10, Icon = UIcons.User)]
+    [SampleDetails(Group = SampleGroup.Media, Order = 10, Icon = UIcons.User, Description = "A user, as initials, an image or presence")]
     public class AvatarSample : IComponent, ISample
     {
         private readonly IComponent _content;

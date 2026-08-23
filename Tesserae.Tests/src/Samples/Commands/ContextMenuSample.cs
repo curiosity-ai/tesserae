@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Commands, Order = 70, Icon = UIcons.AppsAdd)]
+    [SampleDetails(Group = SampleGroup.Commands, Order = 70, Icon = UIcons.AppsAdd, Description = "A menu opened at the pointer on right-click")]
     public class ContextMenuSample : IComponent, ISample
     {
         private readonly IComponent _content;

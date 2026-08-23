@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Overlays, Order = 80, Icon = UIcons.ShoePrints)]
+    [SampleDetails(Group = SampleGroup.Overlays, Order = 80, Icon = UIcons.ShoePrints, Description = "A walkthrough highlighting the UI in turn")]
     public class TeachingSample : IComponent, ISample
     {
         private readonly IComponent _content;

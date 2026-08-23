@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Inputs, Order = 130, Icon = UIcons.SlidersHSquare)]
+    [SampleDetails(Group = SampleGroup.Inputs, Order = 130, Icon = UIcons.SlidersHSquare, Description = "A slider that snaps to named steps")]
     public class StepsSliderSample : IComponent, ISample
     {
         private readonly IComponent _content;

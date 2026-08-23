@@ -6,7 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.DateTime, Order = 80, Icon = UIcons.AlarmClock)]
+    [SampleDetails(Group = SampleGroup.DateTime, Order = 80, Icon = UIcons.AlarmClock, Description = "Build a cron expression without the syntax")]
     public sealed class CronEditorSample : IComponent, ISample
     {
         private readonly IComponent _content;
