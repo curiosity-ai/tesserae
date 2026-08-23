@@ -135,5 +135,6 @@ palette = new CommandPalette(ui, new[] { nav, home, help });
 
 - OmniResult — what a row of your own usually is — `omni-result.md`
 - Keyboard shortcut chips — `keyboard-shortcut.md`
+- ShortcutGuide — the modal listing every shortcut — `shortcut-guide.md`
 - Toast — `toast.md`
 - Full docs & API: `/tesserae/utilities/command-palette`

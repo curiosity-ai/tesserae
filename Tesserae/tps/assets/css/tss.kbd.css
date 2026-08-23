@@ -36,3 +36,48 @@
     padding: 0 1px;
     user-select: none;
 }
+
+/* ShortcutGuide - the modal that lists an app's shortcuts, one row per shortcut, drawn with the
+   key chips above. */
+.tss-shortcut-guide {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* No side padding: the rows line up with the modal's title, which is what the eye follows down. */
+    padding: 4px 0 16px 0;
+}
+
+.tss-shortcut-guide-section:not(:first-child) {
+    margin-top: 20px;
+}
+
+.tss-shortcut-guide-section-title {
+    font-family: var(--tss-sansserif-font-family);
+    font-size: var(--tss-font-size-smallplus);
+    font-weight: var(--tss-font-weight-semibold);
+    line-height: 1.4;
+    color: var(--tss-default-foreground-color);
+    padding-bottom: 4px;
+}
+
+.tss-shortcut-guide-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 34px;
+    padding: 4px 0;
+    /* A rule under every row but the last one of its section, so the sections read as blocks. */
+    border-bottom: 1px solid var(--tss-default-separator-color);
+}
+
+    .tss-shortcut-guide-row:last-child {
+        border-bottom: none;
+    }
+
+.tss-shortcut-guide-description {
+    font-family: var(--tss-sansserif-font-family);
+    font-size: var(--tss-font-size-small);
+    color: var(--tss-default-foreground-color);
+    overflow-wrap: anywhere;
+}
