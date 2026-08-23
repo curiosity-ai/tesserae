@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Inputs, Order = 70, Icon = UIcons.RadioButton)]
+    [SampleDetails(Group = SampleGroup.Inputs, Order = 70, Icon = UIcons.RadioButton, Description = "Radio buttons for one choice out of several")]
     public class ChoiceGroupSample : IComponent, ISample
     {
         private readonly IComponent _content;

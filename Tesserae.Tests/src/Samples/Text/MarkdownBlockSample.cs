@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Text, Order = 60, Icon = UIcons.Paragraph)]
+    [SampleDetails(Group = SampleGroup.Text, Order = 60, Icon = UIcons.Paragraph, Description = "Markdown rendered as sanitized HTML")]
     public class MarkdownBlockSample : IComponent, ISample
     {
         private readonly IComponent _content;

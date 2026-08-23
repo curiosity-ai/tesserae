@@ -8,7 +8,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Search, Order = 50, Icon = UIcons.Document)]
+    [SampleDetails(Group = SampleGroup.Search, Order = 50, Icon = UIcons.Document, Description = "Search-result rows with highlighted excerpts")]
     public class OmniResultSample : IComponent, ISample
     {
         // What the sample searched for, and so what the excerpts highlight.

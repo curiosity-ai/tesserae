@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Layout, Order = 60, Icon = UIcons.AddressCard)]
+    [SampleDetails(Group = SampleGroup.Layout, Order = 60, Icon = UIcons.AddressCard, Description = "A bordered surface with a title and a footer")]
     public class CardSample : IComponent, ISample
     {
         private IComponent _content;

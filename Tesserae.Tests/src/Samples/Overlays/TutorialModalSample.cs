@@ -6,7 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Overlays, Order = 90, Icon = UIcons.GraduationCap)]
+    [SampleDetails(Group = SampleGroup.Overlays, Order = 90, Icon = UIcons.GraduationCap, Description = "A guided, multi-step tutorial modal")]
     public class TutorialModalSample : IComponent, ISample
     {
         private readonly IComponent _content;

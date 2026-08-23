@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Feedback, Order = 20, Icon = UIcons.Megaphone)]
+    [SampleDetails(Group = SampleGroup.Feedback, Order = 20, Icon = UIcons.Megaphone, Description = "A notice strip with an action and a dismiss")]
     public class BannerSample : IComponent, ISample
     {
         private readonly IComponent _content;

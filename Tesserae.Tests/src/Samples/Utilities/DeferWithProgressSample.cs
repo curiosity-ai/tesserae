@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Utilities, Order = 30, Icon = UIcons.HourglassEnd)]
+    [SampleDetails(Group = SampleGroup.Utilities, Order = 30, Icon = UIcons.HourglassEnd, Description = "Defer, with progress while it loads")]
     public class DeferWithProgressSample : IComponent, ISample
     {
         private readonly IComponent content;

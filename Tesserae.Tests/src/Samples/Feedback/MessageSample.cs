@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Feedback, Order = 10, Icon = UIcons.Comment)]
+    [SampleDetails(Group = SampleGroup.Feedback, Order = 10, Icon = UIcons.Comment, Description = "Inline info, success, warning and error notes")]
     public class MessageSample : IComponent, ISample
     {
         private readonly IComponent _content;

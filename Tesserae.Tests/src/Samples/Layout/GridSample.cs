@@ -6,7 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Layout, Order = 20, Icon = UIcons.Grid)]
+    [SampleDetails(Group = SampleGroup.Layout, Order = 20, Icon = UIcons.Grid, Description = "CSS Grid with explicit rows and columns")]
     public class GridSample : IComponent, ISample
     {
         private readonly IComponent _content;

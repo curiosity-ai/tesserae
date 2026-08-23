@@ -6,7 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Inputs, Order = 160, Icon = UIcons.TableLayout)]
+    [SampleDetails(Group = SampleGroup.Inputs, Order = 160, Icon = UIcons.TableLayout, Description = "Drag to select states across a grid")]
     public class GridPickerSample : IComponent, ISample
     {
         private readonly IComponent _content;

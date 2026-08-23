@@ -7,7 +7,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Lists, Order = 40, Icon = UIcons.Scroll)]
+    [SampleDetails(Group = SampleGroup.Lists, Order = 40, Icon = UIcons.Scroll, Description = "Thousands of rows, only the visible ones drawn")]
     public class VirtualizedListSample : IComponent, ISample
     {
         private readonly IComponent _content;

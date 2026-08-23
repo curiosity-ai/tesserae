@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Text, Order = 10, Icon = UIcons.Text)]
+    [SampleDetails(Group = SampleGroup.Text, Order = 10, Icon = UIcons.Text, Description = "Text in every size, weight and tone")]
     public class TextBlockSample : IComponent, ISample
     {
         private readonly IComponent _content;

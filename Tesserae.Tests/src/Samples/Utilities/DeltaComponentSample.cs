@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Utilities, Order = 40, Icon = UIcons.Refresh)]
+    [SampleDetails(Group = SampleGroup.Utilities, Order = 40, Icon = UIcons.Refresh, Description = "Patch the DOM instead of re-rendering it")]
     public class DeltaComponentSample : IComponent, ISample
     {
         private readonly IComponent _content;

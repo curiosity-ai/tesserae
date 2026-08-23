@@ -14,7 +14,6 @@ namespace Tesserae.Tests
 {
     internal static class App
     {
-        private const string _sidebarOrderKey     = "tss-sample-sidebar-order";
         private const string _sidebarOpenStateKey = "tss-sample-sidebar-open-close";
 
         private static void Main()
@@ -53,7 +52,11 @@ namespace Tesserae.Tests
                 }
             });
 
-            var sidebar = Sidebar(sortable: true);
+            // Not sortable: the sidebar's order is the one SampleGroup.InDisplayOrder and each
+            // sample's Order declare, and it is the same order the landing page reads top to bottom.
+            // Dragging an entry out of it made the two disagree, and made a shared link to a sample
+            // land somewhere else in the list than the person who sent it saw.
+            var sidebar = Sidebar();
 
             // On mobile we use navbar mode: horizontal bar + full-screen sliding drawer.
             // This is evaluated once at startup; the CSS (tss-mobile class) handles visual switches
@@ -63,36 +66,31 @@ namespace Tesserae.Tests
                 sidebar.AsNavbar();
             }
 
-            var sortingTimeout = 0d;
-
-            sidebar.OnSortingChanged(itemOrder =>
-            {
-                window.clearTimeout(sortingTimeout);
-
-                sortingTimeout = window.setTimeout(_ =>
-                {
-                    var itemOrderObject = new { };
-
-                    foreach (var item in itemOrder)
-                    {
-                        itemOrderObject[item.Key] = item.Value;
-                    }
-                    var sorting = new { itemOrder = itemOrderObject };
-
-                    localStorage.setItem(_sidebarOrderKey, es5.JSON.stringify(sorting));
-                    console.log("saved sorting", sorting);
-                }, 1000);
-            });
-
-
             sidebar.AddHeader(new SidebarText("header", "Tesserae", "TSS", textSize: TextSize.XLarge, textWeight: TextWeight.Bold));
 
             var searchBox = new SidebarSearchBox("search", "Search...");
             searchBox.OnSearch((term) => sidebar.Search(term));
             sidebar.AddHeader(searchBox);
 
+            //Important: Reflection will only properly work here if reflection metadata is emitted inline with the javascript, instead of in a separate .meta.js file
+            //           i.e. in the tps.json file, we need:      "reflection": { "disabled": false, "target":  "inline" },
+
+            // Built before the content area, because the landing page it shows when no sample is
+            // selected is the same list, drawn as cards.
+            var samples = typeof(ISample).Assembly.GetTypes().Where(t => typeof(ISample).IsAssignableFrom(t) && !t.IsInterface)
+               .Select(sampleType =>
+               {
+                   var sg = sampleType.GetCustomAttributes(typeof(SampleDetailsAttribute), true).FirstOrDefault() as SampleDetailsAttribute;
+                   var group = sg is object ? sg.Group : "Others";
+                   int order = sg is object ? sg.Order : 0;
+                   UIcons icon = sg is object ? sg.Icon : UIcons.Circle;
+                   string description = sg is object ? sg.Description : null;
+                   return new Sample(sampleType.Name, Sample.FormatSampleName(sampleType), group, order, icon, description, async () => await Activator.CreateInstanceAsync(sampleType) as IComponent);
+               })
+               .ToDictionary(s => s.Name, s => s);
+
             var contentArea = Defer(currentPage, async page => page is null
-                ? (IComponent)CenteredCardWithBackground(Message("Welcome to Tesserae", "Select a component to see more details").Icon(UIcons.Search))
+                ? (IComponent)VStack().S().ScrollY().Children(new LandingPage(samples.Values).WS())
                 : VStack().S().ScrollY().Children((await page.ContentGenerator()).WS().MinHeight(100.percent())));
 
             // On mobile the sidebar is a fixed top navbar, so the layout is vertical (sidebar then content).
@@ -109,20 +107,6 @@ namespace Tesserae.Tests
             }
 
             MountToBody(pageContent);
-
-            //Important: Reflection will only properly work here if reflection metadata is emitted inline with the javascript, instead of in a separate .meta.js file
-            //           i.e. in the tps.json file, we need:      "reflection": { "disabled": false, "target":  "inline" },
-
-            var samples = typeof(ISample).Assembly.GetTypes().Where(t => typeof(ISample).IsAssignableFrom(t) && !t.IsInterface)
-               .Select(sampleType =>
-               {
-                   var sg = sampleType.GetCustomAttributes(typeof(SampleDetailsAttribute), true).FirstOrDefault() as SampleDetailsAttribute;
-                   var group = sg is object ? sg.Group : "Others";
-                   int order = sg is object ? sg.Order : 0;
-                   UIcons icon = sg is object ? sg.Icon : UIcons.Circle;
-                   return new Sample(sampleType.Name, Sample.FormatSampleName(sampleType), group, order, icon, async () => await Activator.CreateInstanceAsync(sampleType) as IComponent);
-               })
-               .ToDictionary(s => s.Name, s => s);
 
             sidebar.AddHeader(new SidebarButton("SOURCE_CODE", Emoji.House, "Source Code", new SidebarCommand(UIcons.ArrowUpRightFromSquare).Tooltip("Open repository on GitHub")
                    .OnClick(() => window.open("https://github.com/curiosity-ai/tesserae", "_blank")))
@@ -211,26 +195,6 @@ namespace Tesserae.Tests
                 }
             }
 
-
-            var sidebarOrderJson = localStorage.getItem(_sidebarOrderKey);
-
-            if (sidebarOrderJson is object)
-            {
-                var sidebarOrderObj = es5.JSON.parse(sidebarOrderJson);
-                console.log("loaded sorting", sidebarOrderObj);
-
-
-                var itemOrderObj = sidebarOrderObj["itemOrder"].As<object>();
-                if (itemOrderObj is null) return;
-                var itemOrder = new Dictionary<string, string[]>();
-
-                foreach (var identifier in GetOwnPropertyNames(itemOrderObj))
-                {
-                    itemOrder[identifier] = itemOrderObj[identifier].As<string[]>();
-
-                }
-                sidebar.LoadSorting(itemOrder);
-            }
 
             // One handler covers every way out of a sample: the browser's back/forward buttons,
             // Router.Navigate, and the sidebar's Router.Push. (Closing or reloading the browser tab

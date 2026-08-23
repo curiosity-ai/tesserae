@@ -4,7 +4,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Media, Order = 20, Icon = UIcons.Cat)]
+    [SampleDetails(Group = SampleGroup.Media, Order = 20, Icon = UIcons.Cat, Description = "An animated avatar built one pixel at a time")]
     public class PixelAvatarSample : IComponent, ISample
     {
         private readonly IComponent _content;

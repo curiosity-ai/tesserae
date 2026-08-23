@@ -7,7 +7,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Layout, Order = 50, Icon = UIcons.BorderAll)]
+    [SampleDetails(Group = SampleGroup.Layout, Order = 50, Icon = UIcons.BorderAll, Description = "A page of titled, animated sections")]
     public class SectionStackSample : IComponent, ISample
     {
         private readonly IComponent _content;

@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Navigation, Order = 40, Icon = UIcons.BarsStaggered)]
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 40, Icon = UIcons.BarsStaggered, Description = "A top navigation bar with menus")]
     public class NavbarSample : IComponent, ISample
     {
         private readonly IComponent _content;

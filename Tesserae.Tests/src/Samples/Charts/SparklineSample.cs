@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Charts, Order = 20, Icon = UIcons.ChartLineUp)]
+    [SampleDetails(Group = SampleGroup.Charts, Order = 20, Icon = UIcons.ChartLineUp, Description = "A compact inline trend chart")]
     public class SparklineSample : IComponent, ISample
     {
         private readonly IComponent _content;

@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Text, Order = 80, Icon = UIcons.Keyboard)]
+    [SampleDetails(Group = SampleGroup.Text, Order = 80, Icon = UIcons.Keyboard, Description = "Keyboard shortcuts as styled key chips")]
     public class KeyboardShortcutSample : IComponent, ISample
     {
         private readonly IComponent _content;

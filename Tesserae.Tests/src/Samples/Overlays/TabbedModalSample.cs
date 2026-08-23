@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Overlays, Order = 30, Icon = UIcons.Browser)]
+    [SampleDetails(Group = SampleGroup.Overlays, Order = 30, Icon = UIcons.Browser, Description = "A modal with tabs down its side")]
     public class TabbedModalSample : IComponent, ISample
     {
         private readonly IComponent content;

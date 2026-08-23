@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Navigation, Order = 70, Icon = UIcons.Columns3)]
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 70, Icon = UIcons.Columns3, Description = "Pivot pages as a segmented pill control")]
     public class SegmentedPivotSample : IComponent, ISample
     {
         private readonly IComponent content;

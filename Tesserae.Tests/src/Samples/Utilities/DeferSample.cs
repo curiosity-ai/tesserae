@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Utilities, Order = 20, Icon = UIcons.Hourglass)]
+    [SampleDetails(Group = SampleGroup.Utilities, Order = 20, Icon = UIcons.Hourglass, Description = "Render a component once its data arrives")]
     public class DeferSample : IComponent, ISample
     {
         private readonly IComponent content;

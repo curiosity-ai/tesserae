@@ -4,7 +4,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Layout, Order = 70, Icon = UIcons.Accordion)]
+    [SampleDetails(Group = SampleGroup.Layout, Order = 70, Icon = UIcons.Accordion, Description = "Sections that expand and collapse")]
     public class AccordionSample : IComponent, ISample
     {
         private readonly IComponent _content;

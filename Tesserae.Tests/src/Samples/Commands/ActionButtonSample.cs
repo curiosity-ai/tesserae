@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Commands, Order = 20, Icon = UIcons.CursorFingerClick)]
+    [SampleDetails(Group = SampleGroup.Commands, Order = 20, Icon = UIcons.CursorFingerClick, Description = "A borderless button for inline actions")]
     public class ActionButtonSample : IComponent, ISample
     {
         private readonly IComponent _content;

@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Feedback, Order = 80, Icon = UIcons.ChartPieAlt)]
+    [SampleDetails(Group = SampleGroup.Feedback, Order = 80, Icon = UIcons.ChartPieAlt, Description = "A circular progress indicator")]
     public class ProgressRingSample : IComponent, ISample
     {
         private readonly IComponent _content;

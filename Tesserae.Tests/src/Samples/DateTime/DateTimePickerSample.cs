@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.DateTime, Order = 30, Icon = UIcons.CalendarClock)]
+    [SampleDetails(Group = SampleGroup.DateTime, Order = 30, Icon = UIcons.CalendarClock, Description = "A date and a time of day in one control")]
     public class DateTimePickerSample : IComponent, ISample
     {
         private readonly IComponent _content;

@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Forms, Order = 60, Icon = UIcons.Exclamation)]
+    [SampleDetails(Group = SampleGroup.Forms, Order = 60, Icon = UIcons.Exclamation, Description = "Warn before losing an editor's unsaved changes")]
     public class UnsavedChangesGuardSample : IComponent, ISample
     {
         private readonly IComponent _content;

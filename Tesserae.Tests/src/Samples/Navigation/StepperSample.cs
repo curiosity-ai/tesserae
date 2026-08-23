@@ -4,7 +4,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Navigation, Order = 130, Icon = UIcons.ArrowProgress)]
+    [SampleDetails(Group = SampleGroup.Navigation, Order = 130, Icon = UIcons.ArrowProgress, Description = "A numbered, step-by-step wizard")]
     public class StepperSample : IComponent, ISample
     {
         private readonly IComponent _content;

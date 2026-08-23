@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Charts, Order = 70, Icon = UIcons.Network)]
+    [SampleDetails(Group = SampleGroup.Charts, Order = 70, Icon = UIcons.Network, Description = "An interactive node-graph editor")]
     public class NodeViewSample : IComponent, ISample
     {
         private readonly IComponent content;

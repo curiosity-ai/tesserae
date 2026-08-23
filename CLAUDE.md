@@ -197,8 +197,14 @@ sample picks its category on its attribute, and `Order` places it inside that
 category — the list runs from the most fundamental member outwards, in steps of 10:
 
 ```csharp
-[SampleDetails(Group = SampleGroup.Inputs, Order = 10, Icon = UIcons.InputText)]
+[SampleDetails(Group = SampleGroup.Inputs, Order = 10, Icon = UIcons.InputText, Description = "Single-line text input, with icons and prefixes")]
 ```
+
+`Description` is what the landing page prints under the component's name, so it is
+required on every sample: one line saying what the *component* is for, not what the
+sample page shows. It is drawn on a single ellipsized line about 310px wide, which
+is room for roughly fifty characters — anything longer is only reachable through the
+card's tooltip.
 
 Two conventions keep it navigable: the file lives in
 `Tesserae.Tests/src/Samples/<Constant>/` (the folder is named after the *constant* —
@@ -207,6 +213,12 @@ within the gallery, since the sidebar is read by glyph as much as by label. The 
 categories are used by the `tesserae` skill's reference index and by the
 `documentation` repo under `tesserae/`; a component that moves category has to move
 in all three.
+
+The gallery's home page, [`Tesserae.Tests/src/LandingPage.cs`](Tesserae.Tests/src/LandingPage.cs),
+draws that same list as a grid of `ContextCard`s under a header per category, in
+`SampleGroup.InDisplayOrder` — so it needs nothing done to it when a sample is added,
+beyond the attribute above. A category added to `SampleGroup` should get a colour in
+the landing page's `GroupColors`, which is indexed by `SampleGroup.DisplayIndex`.
 
 ## Layout system
 

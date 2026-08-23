@@ -8,7 +8,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Theming, Order = 70, Icon = UIcons.Smile)]
+    [SampleDetails(Group = SampleGroup.Theming, Order = 70, Icon = UIcons.Smile, Description = "The bundled emoji set")]
     public class EmojiSample : IComponent, ISample
     {
         private readonly IComponent _content;

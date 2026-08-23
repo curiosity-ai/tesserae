@@ -6,7 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Overlays, Order = 70, Icon = UIcons.Layers)]
+    [SampleDetails(Group = SampleGroup.Overlays, Order = 70, Icon = UIcons.Layers, Description = "Render above everything, outside the tree")]
     public class LayerSample : IComponent, ISample
     {
         private readonly IComponent _content;

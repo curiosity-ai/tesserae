@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Charts, Order = 60, Icon = UIcons.Workflow)]
+    [SampleDetails(Group = SampleGroup.Charts, Order = 60, Icon = UIcons.Workflow, Description = "Draggable nodes with auto-computed arrows")]
     public class DiagramSample : IComponent, ISample
     {
         private readonly IComponent _content;

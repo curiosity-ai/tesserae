@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Inputs, Order = 110, Icon = UIcons.InputNumeric)]
+    [SampleDetails(Group = SampleGroup.Inputs, Order = 110, Icon = UIcons.InputNumeric, Description = "A number input with steppers and bounds")]
     public class NumberPickerSample : IComponent, ISample
     {
         private readonly IComponent _content;

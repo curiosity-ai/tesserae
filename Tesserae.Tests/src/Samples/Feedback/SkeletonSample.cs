@@ -4,7 +4,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Feedback, Order = 100, Icon = UIcons.RectanglesMixed)]
+    [SampleDetails(Group = SampleGroup.Feedback, Order = 100, Icon = UIcons.RectanglesMixed, Description = "Placeholder shapes while content loads")]
     public class SkeletonSample : IComponent, ISample
     {
         private readonly IComponent _content;

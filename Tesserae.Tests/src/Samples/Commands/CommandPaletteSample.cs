@@ -8,7 +8,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Commands, Order = 80, Icon = UIcons.Command)]
+    [SampleDetails(Group = SampleGroup.Commands, Order = 80, Icon = UIcons.Command, Description = "A Ctrl+K palette for searching commands")]
     public class CommandPaletteSample : IComponent, ISample
     {
         private readonly IComponent _content;

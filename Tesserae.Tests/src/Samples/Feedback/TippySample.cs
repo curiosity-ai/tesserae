@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Feedback, Order = 50, Icon = UIcons.CommentInfo)]
+    [SampleDetails(Group = SampleGroup.Feedback, Order = 50, Icon = UIcons.CommentInfo, Description = "Tooltips and popovers on any component")]
     public class TippySample : IComponent, ISample
     {
         private readonly IComponent content;

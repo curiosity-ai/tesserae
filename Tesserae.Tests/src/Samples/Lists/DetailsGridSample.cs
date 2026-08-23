@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Lists, Order = 30, Icon = UIcons.Table)]
+    [SampleDetails(Group = SampleGroup.Lists, Order = 30, Icon = UIcons.Table, Description = "A bordered table of label and value rows")]
     public class DetailsGridSample : IComponent, ISample
     {
         private readonly IComponent _content;

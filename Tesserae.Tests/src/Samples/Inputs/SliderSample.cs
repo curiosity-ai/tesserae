@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Inputs, Order = 120, Icon = UIcons.SettingsSliders)]
+    [SampleDetails(Group = SampleGroup.Inputs, Order = 120, Icon = UIcons.SettingsSliders, Description = "Drag a value along a continuous range")]
     public class SliderSample : IComponent, ISample
     {
         private readonly IComponent _content;

@@ -7,7 +7,7 @@ using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Search, Order = 20, Icon = UIcons.SearchAlt)]
+    [SampleDetails(Group = SampleGroup.Search, Order = 20, Icon = UIcons.SearchAlt, Description = "A list filtered as you type")]
     public class SearchableListSample : IComponent, ISample
     {
         private readonly IComponent _content;

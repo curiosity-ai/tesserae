@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Layout, Order = 40, Icon = UIcons.SplitScreen)]
+    [SampleDetails(Group = SampleGroup.Layout, Order = 40, Icon = UIcons.SplitScreen, Description = "Two resizable panes, top and bottom")]
     public class HorizontalSplitViewSample : IComponent, ISample
     {
         private readonly IComponent _content;

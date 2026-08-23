@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Charts, Order = 10, Icon = UIcons.ChartMixed)]
+    [SampleDetails(Group = SampleGroup.Charts, Order = 10, Icon = UIcons.ChartMixed, Description = "Lightweight, dependency-free SVG charts")]
     public class ChartsSample : IComponent, ISample
     {
         private readonly IComponent _content;

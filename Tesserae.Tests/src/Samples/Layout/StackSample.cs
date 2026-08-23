@@ -7,7 +7,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Layout, Order = 10, Icon = UIcons.ObjectsColumn)]
+    [SampleDetails(Group = SampleGroup.Layout, Order = 10, Icon = UIcons.ObjectsColumn, Description = "The flexbox workhorse: rows and columns")]
     public class StackSample : IComponent, ISample
     {
         private readonly IComponent _content;

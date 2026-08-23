@@ -9,7 +9,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Lists, Order = 60, Icon = UIcons.RotateRight)]
+    [SampleDetails(Group = SampleGroup.Lists, Order = 60, Icon = UIcons.RotateRight, Description = "A stack that follows keyed observable data")]
     public class KeyedObservableStackSample : IComponent, ISample
     {
         private readonly IComponent _content;

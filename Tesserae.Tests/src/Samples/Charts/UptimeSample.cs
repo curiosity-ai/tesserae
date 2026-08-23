@@ -5,7 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = SampleGroup.Charts, Order = 50, Icon = UIcons.HeartRate)]
+    [SampleDetails(Group = SampleGroup.Charts, Order = 50, Icon = UIcons.HeartRate, Description = "Status history as bars or a month calendar")]
     public class UptimeSample : IComponent, ISample
     {
         private readonly IComponent _content;
