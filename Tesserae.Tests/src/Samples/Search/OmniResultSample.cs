@@ -178,7 +178,7 @@ namespace Tesserae.Tests.Samples
                     .SetIconBadge(Icon(UIcons.Star, UIconsWeight.Solid, color: "#f0c000"), OmniResultBadgeCorner.TopRight),
                 Row(Hits[6], withText: true, withPages: false).Selectable(OmniResultSelectionMode.AlwaysBeforeHeaderIcon));
 
-            //A tile that spells its type out is a label on this line rather than a square, so the type name
+            /r/A tile that spells its type out is a label on this line rather than a square, so the type name
             //is not limited to the three or four letters that fit a square: it grows with the text.
             var spelledOut = VStack().WS().Children(
                 HeaderIconRow(Hits[1], "Q3 line review.pptx").SetIcon("PPTX", "#f97316"),
