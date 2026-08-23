@@ -178,13 +178,26 @@ namespace Tesserae.Tests.Samples
                     .SetIconBadge(Icon(UIcons.Star, UIconsWeight.Solid, color: "#f0c000"), OmniResultBadgeCorner.TopRight),
                 Row(Hits[6], withText: true, withPages: false).Selectable(OmniResultSelectionMode.AlwaysBeforeHeaderIcon));
 
+            //A tile that spells its type out is a label on this line rather than a square, so the type name
+            //is not limited to the three or four letters that fit a square: it grows with the text.
+            var spelledOut = VStack().WS().Children(
+                HeaderIconRow(Hits[1], "Q3 line review.pptx").SetIcon("PPTX", "#f97316"),
+                HeaderIconRow(Hits[2], "sensor-events-2024-03.parquet").SetIcon("PARQUET", "#8b5cf6"),
+                HeaderIconRow(Hits[3], "Calibration runbook.markdown").SetIcon("MARKDOWN", "#0ea5e9"),
+                Row(Hits[6], withText: true, withPages: false).SetTitle("line-4-sensor-events.jsonlines").SetIcon("JSONLINES", "#0d9488")
+                    .Selectable(OmniResultSelectionMode.AlwaysBeforeHeaderIcon),
+                Row(Hits[5], withText: true, withPages: false).SetTitle("Bismuth supplier notice.spreadsheetml").SetIcon("SPREADSHEETML", "#16a34a")
+                    .Selectable(OmniResultSelectionMode.AlwaysBeforeHeaderIcon));
+
             return FeatureCard("The tile in the header", "Leading the title instead of the row",
                 "Two modes draw the tile small, at the start of the header line, before the identifier and the title - so the excerpt, the footer and the contribution bar start at the row's own left edge rather than indented past a 34px tile. HiddenBeforeHeaderIcon draws no checkbox at all, which is what a list that is never selected from wants: set it with SelectionMode(mode), which lays the row out without making it selectable. AlwaysBeforeHeaderIcon keeps a checkbox in its own column at the start of the row, always visible.",
                 TextBlock("OmniResultSelectionMode.HiddenBeforeHeaderIcon - no checkbox anywhere").Small().SemiBold().MB(4),
                 quiet,
                 TextBlock("OmniResultSelectionMode.AlwaysBeforeHeaderIcon - the checkbox is always visible").Small().SemiBold().MT(12).MB(4),
                 selectable,
-                TextBlock("A tile that spells the file type out rather than drawing a glyph shrinks with it, so \"XLSX\" is scaled rather than cropped. The starred row shows a corner badge pinned to the smaller tile.").Small().MT(8));
+                TextBlock("A tile that spells the file type out rather than drawing a glyph").Small().SemiBold().MT(12).MB(4),
+                spelledOut,
+                TextBlock("On the header line the tile sits beside words rather than in a column of its own, so a text tile is a label there instead of a square: it keeps the title's height and grows sideways with its text, so nothing has to reach for a smaller TextSize to make a long type name fit. The square tile is the floor, so a three- or four-letter type still comes out about as square as the glyph tiles beside it. The starred row above shows a corner badge pinned to the smaller tile.").Small().MT(8));
         }
 
         // A row laid out with its tile in the header and no checkbox at all - SelectionMode() sets the
