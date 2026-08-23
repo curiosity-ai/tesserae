@@ -214,28 +214,32 @@
 /* The tile itself is an IconTile (see tss.icontile.css): the row only adds this class so the rules above -
    and the peek overrides below - have something of its own to hang off. */
 
-/* Icon in the header ---------------------------------------------------------------------------- */
+/* The tile drawn inline ------------------------------------------------------------------------- */
 
-/* AlwaysBeforeHeaderIcon / HiddenBeforeHeaderIcon: the tile leads the header line instead of standing in a
-   column of its own beside the whole row. The excerpt, the footer and the contribution bar then start at
-   the row's own left edge rather than indented past a tile, which is what a dense list of results - or one
-   whose rows are mostly title - reads better as. The tile is drawn at the title's line box (22px) so it
-   sits on the line rather than setting the line's height itself. */
-.tss-omniresult-icon-in-header .tss-omniresult-icon-holder {
+/* AlwaysBeforeHeaderIcon / HiddenBeforeHeaderIcon draw the tile on the header line instead of standing it
+   in a column of its own beside the whole row, and ModalKeepsIconInTitle does the same on the modal's
+   title line. The excerpt, the footer and the contribution bar then start at the row's own left edge
+   rather than indented past a 34px tile, which is what a dense list - or one whose rows are mostly title -
+   reads better as. The tile is drawn at the title's line box (22px) so it sits on the line rather than
+   setting the line's height itself.
+
+   All of this hangs off the holder rather than off the row, so the copy the modal takes of the tile is
+   drawn the same way there - see OmniResult.CopyOfIcon. */
+.tss-omniresult-icon-inline {
     align-self: center;
 }
 
-.tss-omniresult-icon-in-header .tss-omniresult-icon {
+.tss-omniresult-icon-inline .tss-omniresult-icon {
     --tss-icontile-size: 22px;
     --tss-icontile-radius: 6px;
 }
 
-/* A tile that spells the file type out is a label here, not a square: on the header line it sits beside
-   words, so it grows sideways with its text instead of squeezing "PARQUET" into the width of "PDF" - and
-   nothing has to reach for a smaller TextSize to make a long type name fit. The height stays the title's
-   line box, and the square tile is the floor, so a three- or four-letter type - the common case - still
-   comes out about as square as the glyph tiles it is listed among. */
-.tss-omniresult-icon-in-header .tss-omniresult-icon:has(> .tss-icontile-text) {
+/* A tile that spells the file type out is a label here, not a square: on this line it sits beside words,
+   so it grows sideways with its text instead of squeezing "PARQUET" into the width of "PDF" - and nothing
+   has to reach for a smaller TextSize to make a long type name fit. The height stays the title's line box,
+   and the square tile is the floor, so a three- or four-letter type - the common case - still comes out
+   about as square as the glyph tiles it is listed among. */
+.tss-omniresult-icon-inline .tss-omniresult-icon:has(> .tss-icontile-text) {
     width: auto;
     min-width: var(--tss-icontile-size);
     padding: 0 4px;
@@ -243,35 +247,33 @@
 
 /* Its text is the one thing in the tile that must not be clipped, and it no longer has to be: the tile
    grew to hold it. */
-.tss-omniresult-icon-in-header .tss-omniresult-icon > .tss-icontile-text {
+.tss-omniresult-icon-inline .tss-omniresult-icon > .tss-icontile-text {
     white-space: nowrap;
-}
-
-/* The checkbox column is level with the header line, not with a 34px tile that is no longer there. */
-.tss-omniresult-icon-in-header .tss-omniresult-select {
-    height: 22px;
 }
 
 /* A corner badge is scaled with the tile it is pinned to, and tucked closer in: 4px out from a 34px tile
    is a hint, 4px out from a 22px one is half the badge hanging in the air. */
-.tss-omniresult-icon-in-header .tss-omniresult-icon-badge {
+.tss-omniresult-icon-inline .tss-omniresult-icon-badge {
     font-size: 9px;
 }
 
-.tss-omniresult-icon-in-header .tss-omniresult-icon-badge img,
-.tss-omniresult-icon-in-header .tss-omniresult-icon-badge svg {
+.tss-omniresult-icon-inline .tss-omniresult-icon-badge img,
+.tss-omniresult-icon-inline .tss-omniresult-icon-badge svg {
     width: 11px;
     height: 11px;
     border-radius: 2px;
 }
 
-.tss-omniresult-icon-in-header .tss-omniresult-icon-badge-tl { left: -3px;  top: -3px; }
-.tss-omniresult-icon-in-header .tss-omniresult-icon-badge-tr { right: -3px; top: -3px; }
-.tss-omniresult-icon-in-header .tss-omniresult-icon-badge-bl { left: -3px;  bottom: -3px; }
-.tss-omniresult-icon-in-header .tss-omniresult-icon-badge-br { right: -3px; bottom: -3px; }
+.tss-omniresult-icon-inline .tss-omniresult-icon-badge-tl { left: -3px;  top: -3px; }
+.tss-omniresult-icon-inline .tss-omniresult-icon-badge-tr { right: -3px; top: -3px; }
+.tss-omniresult-icon-inline .tss-omniresult-icon-badge-bl { left: -3px;  bottom: -3px; }
+.tss-omniresult-icon-inline .tss-omniresult-icon-badge-br { right: -3px; bottom: -3px; }
 
-/* The copy the modal takes of the tile keeps the modal's own size whatever the row did with it - the
-   sizing above hangs off the row, and the copy is not inside one. */
+/* The one thing that is the row's rather than the tile's: with no 34px tile in the row, the checkbox
+   column is level with the header line instead. */
+.tss-omniresult-icon-in-header .tss-omniresult-select {
+    height: 22px;
+}
 
 /* Title, badge, excerpt --------------------------------------------------------------------------- */
 
@@ -784,11 +786,12 @@
     gap: 8px;
 }
 
+/* Through the tile's own variables rather than its width and height, so a tile that grows with its text
+   (ModalKeepsIconInTitle) shrinks here as well without having its type name cropped to a square. */
 .tss-modalstack-peek .tss-omniresult-modal-icon .tss-omniresult-icon {
-    width: 24px;
-    height: 24px;
-    border-radius: 6px;
-    font-size: 11px;
+    --tss-icontile-size: 24px;
+    --tss-icontile-radius: 6px;
+    --tss-icontile-glyph-size: 11px;
 }
 
 /* A tile that spells its file type out has to shrink with the tile, or "DOCX" is cropped rather than

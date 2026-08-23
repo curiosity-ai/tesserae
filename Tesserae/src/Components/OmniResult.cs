@@ -145,6 +145,7 @@ namespace Tesserae
         private UnitSize                              _modalWidth     = UnitSize.Auto();
         private UnitSize                              _modalHeight    = UnitSize.Auto();
         private bool                                  _modalKeepsIcon;
+        private bool                                  _modalIconInTitle;
         private bool                                  _modalKeepsFooter;
 
         private HTMLElement            _footerStandIn;
@@ -1291,14 +1292,42 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Keeps the icon tile in the modal's header, before the identifier and the title - so an opened
+        /// Keeps the icon tile in the modal's header, beside the identifier and the title - so an opened
         /// result still shows what kind of thing it is, and the row and the modal read as one thing rather
         /// than two. Whatever the tile carries comes with it: the glyph or the thumbnail, the color it is
         /// tinted with, and any corner badges. Off by default.
+        /// <para>
+        /// The tile stands beside the whole header block, level with the title and the source line under it,
+        /// at the size the row draws it. <see cref="ModalKeepsIconInTitle(bool)"/> is the other placement.
+        /// </para>
         /// </summary>
         public OmniResult<T> ModalKeepsIcon(bool value = true)
         {
             _modalKeepsIcon = value;
+
+            //Each of the two says where the tile goes as well as that it is kept, so whichever was asked
+            //for last is the one that holds.
+            if (value) _modalIconInTitle = false;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Keeps the icon tile in the modal's header the way
+        /// <see cref="OmniResultSelectionMode.AlwaysBeforeHeaderIcon"/> and
+        /// <see cref="OmniResultSelectionMode.HiddenBeforeHeaderIcon"/> draw it in the row: small, on the
+        /// title's own line, before the identifier and the title, and growing sideways with its text where
+        /// it spells a file type out. Off by default.
+        /// <para>
+        /// This is what a row laid out with its tile in the header wants, so that opening it reads as the
+        /// same row enlarged: the source line under the title then starts where the tile does rather than
+        /// being indented past it. Whatever the tile carries comes with it, corner badges included.
+        /// </para>
+        /// </summary>
+        public OmniResult<T> ModalKeepsIconInTitle(bool value = true)
+        {
+            _modalKeepsIcon   = value;
+            _modalIconInTitle = value;
 
             return this;
         }
@@ -1581,12 +1610,19 @@ namespace Tesserae
 
         /// <summary>
         /// The header <see cref="ToModal"/> uses by default: the identifier and the title, drawn the way the
-        /// row draws them, plus whatever <see cref="ModalKeepsIcon"/> and <see cref="ModalKeepsFooter"/>
-        /// asked to keep. Useful to a caller building its own header around it.
+        /// row draws them, plus whatever <see cref="ModalKeepsIcon"/>,
+        /// <see cref="ModalKeepsIconInTitle"/> and <see cref="ModalKeepsFooter"/> asked to keep. Useful to a
+        /// caller building its own header around it.
         /// </summary>
         public IComponent ModalTitle()
         {
             var titleRow = Div(Att("tss-omniresult-modal-title"));
+
+            //The tile leads the title's line under ModalKeepsIconInTitle, and stands beside the whole header
+            //block under ModalKeepsIcon - so the copy is made once here and appended to whichever it is.
+            var icon = _modalKeepsIcon ? CopyOfIcon() : null;
+
+            if (icon is object && _modalIconInTitle) titleRow.appendChild(icon);
 
             if (!string.IsNullOrEmpty(_id))
             {
@@ -1607,7 +1643,7 @@ namespace Tesserae
 
             var header = Div(Att("tss-omniresult-modal-header"));
 
-            if (_modalKeepsIcon) header.appendChild(CopyOfIcon());
+            if (icon is object && !_modalIconInTitle) header.appendChild(icon);
 
             header.appendChild(main);
 
@@ -1654,6 +1690,11 @@ namespace Tesserae
             var copy = _iconHolder.cloneNode(true).As<HTMLElement>();
 
             copy.classList.add("tss-omniresult-modal-icon");
+
+            //The clone carries whatever the row's own placement put on the holder, and the modal's placement
+            //is its own choice: a row laid out with a 34px tile can still open with a small one on the title
+            //line, and one laid out with a small tile can still open with the tile beside the header.
+            copy.UpdateClassIf(_modalIconInTitle, "tss-omniresult-icon-inline");
 
             //The modal draws the tile even where the row replaced it with the checkbox, so the badges that
             //moved onto the checkbox are copied back onto it.
@@ -1928,6 +1969,10 @@ namespace Tesserae
             //is selectable or not - which is what lets a list that is never selected from ask for the
             //header layout through SelectionMode() alone.
             InnerElement.UpdateClassIf(IsIconInHeader, "tss-omniresult-icon-in-header");
+
+            //How the tile itself is drawn hangs off the holder rather than off the row, so the copy the
+            //modal takes of it is drawn the same way wherever it ends up - see CopyOfIcon.
+            _iconHolder.UpdateClassIf(IsIconInHeader, "tss-omniresult-icon-inline");
 
             PlaceIconHolder();
 
