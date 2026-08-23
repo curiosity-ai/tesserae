@@ -22,6 +22,7 @@ namespace Tesserae
         private readonly OmniBox _searchBox;
         private readonly HTMLDivElement _breadcrumbs;
         private readonly HTMLButtonElement _backButton;
+        private readonly HTMLButtonElement _closeButton;
         private readonly HTMLSpanElement _pathText;
         private readonly HTMLDivElement _results;
         private readonly HTMLDivElement _emptyState;
@@ -136,6 +137,36 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Whether a close button is drawn at the end of the search row, beside the search box's own trigger
+        /// button. Off by default - Escape closes the palette and a click beside it does too - so it is for
+        /// the surfaces where neither is obvious: a touch screen, a palette opened from a button rather than
+        /// a shortcut, or one shown with <see cref="NoLightDismiss"/> so there is nothing beside it to click.
+        /// <para>
+        /// Closing this way is closing, not going back: it dismisses the palette even from a level down
+        /// inside a nested action, where Escape goes back first.
+        /// </para>
+        /// </summary>
+        public bool WillShowCloseButton
+        {
+            get => _closeButton.style.display != "none";
+            set => _closeButton.style.display = value ? "" : "none";
+        }
+
+        /// <summary>Shows the close button at the end of the search row.</summary>
+        public CommandPalette ShowCloseButton()
+        {
+            WillShowCloseButton = true;
+            return this;
+        }
+
+        /// <summary>Hides the close button at the end of the search row (the default).</summary>
+        public CommandPalette HideCloseButton()
+        {
+            WillShowCloseButton = false;
+            return this;
+        }
+
+        /// <summary>
         /// The box the palette is typed into. It is a full <see cref="OmniBox"/>, so a host can give the
         /// palette the same snaps, value filters, history and suggestions its own search box has instead of
         /// the palette being a lesser search than the page it stands in for.
@@ -191,7 +222,21 @@ namespace Tesserae
             _pathText = Span(Att("tss-commandpalette-path tss-fontweight-semibold"));
             _breadcrumbs = Div(Att("tss-commandpalette-breadcrumbs"), _backButton, _pathText);
 
-            _searchContainer = Div(Att("tss-commandpalette-search-container"), _breadcrumbs, _searchBox.Render());
+            //Beside the search box's own trigger button, and off unless asked for: the palette is a keyboard
+            //surface where Escape is the way out, and a pointer has the backdrop. It earns its place where a
+            //pointer is all there is - a touch screen, or a palette embedded with no backdrop to click.
+            _closeButton = UI.Button(Att("tss-commandpalette-close", type: "button", title: "Close", ariaLabel: "Close"),
+                                     I(Att($"tss-commandpalette-close-icon {UIcons.CrossSmall.ToCssClass()}")));
+
+            _closeButton.addEventListener("click", e =>
+            {
+                StopEvent(e);
+                Hide();
+            });
+
+            _searchContainer = Div(Att("tss-commandpalette-search-container"), _breadcrumbs, _searchBox.Render(), _closeButton);
+            WillShowCloseButton = false;
+
             _results = Div(Att("tss-commandpalette-results", role: "listbox"));
             _emptyState = Div(Att("tss-commandpalette-empty", text: "No results"));
 

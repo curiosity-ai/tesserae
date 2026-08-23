@@ -28,6 +28,9 @@ namespace Tesserae.Tests.Samples
             {
                 Placeholder          = "Search files",
                 EnableGlobalShortcut = false,
+                //This one is opened by a button rather than a shortcut, so it is given the way out a pointer
+                //can see - see ShowCloseButton.
+                WillShowCloseButton  = true,
             };
 
             //The search takes as long as a server would, so the box's magnifier turns into a spinner while it
@@ -54,12 +57,15 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                     TextBlock("Use the button below or press Cmd/Ctrl + K to open the palette.").Small().Secondary().PB(8),
                     openButton,
-                    TextBlock("Try navigating with arrow keys, Enter, Esc, and Backspace for nested items.").Small().Secondary().PT(12)
+                    TextBlock("Try navigating with arrow keys, Enter, Esc, and Backspace for nested items.").Small().Secondary().PT(12),
+                    Label("Show a close button beside the search box").Inline().AutoWidth().PT(8).SetContent(
+                        Toggle().OnChange((s, e) => palette.WillShowCloseButton = s.IsChecked).Checked(palette.WillShowCloseButton))
                )).SetTitle("Usage")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("SetResults puts rows of your own above the actions, and OnSearch refreshes them as the query changes — so a palette can answer a question rather than only list commands. The rows here are OmniResults, the same component a search page draws, and the last one is the way out to the full result list.").Small().Secondary().PB(8),
                     openSearchButton,
+                    TextBlock("This palette has no keyboard shortcut, so it carries a close button beside its search box — ShowCloseButton, or WillShowCloseButton on either palette above.").Small().Secondary().PT(8),
                     TextBlock("Type to filter, walk the rows with the arrow keys, and press Enter on one.").Small().Secondary().PT(12),
                     TextBlock("This search waits 700ms, like a server would: while it does, the search box's magnifier turns into a spinner and the rows of the previous query come down, since they are not an answer to this one. The palette does that on its own while an OnSearch call is in flight — a palette that fills its rows some other way says it with SetSearching(true).").Small().Secondary().PT(8)
                )).SetTitle("Searching, with results of your own")))
