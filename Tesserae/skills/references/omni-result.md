@@ -109,6 +109,9 @@ nothing has to reach for a smaller `TextSize` to make a long type name fit. The 
 floor, so "PDF" or "XLSX" still comes out about as square as the glyph tiles beside it. In every other
 mode — where the tile stands in a column of its own — it is a square as before.
 
+A row laid out this way usually wants `.ModalKeepsIconInTitle()` rather than `.ModalKeepsIcon()`, so
+that opening it reads as the same row enlarged — see *Opening as a modal* below.
+
 ```csharp
 var row = OmniResult(hit, hit.Name)
     .SetIcon("PARQUET", "#8b5cf6")                                   // grows with its text here
@@ -207,9 +210,15 @@ and the detail are one object rather than two that have to be kept in step.
   Null makes the row modal-less again.
 - `HasModalContent` — whether it has any, so "this result has no preview" is one check.
 - `.ModalSize(UnitSize width, UnitSize height)` — the size it opens at. `Auto` by default.
-- `.ModalKeepsIcon(bool = true)` — keeps the icon tile in the modal's header, before the identifier
+- `.ModalKeepsIcon(bool = true)` — keeps the icon tile in the modal's header, beside the identifier
   and the title, so an opened result still shows what kind of thing it is. Everything the tile
   carries comes with it: the glyph or thumbnail, its tint, and any corner badges. Off by default.
+- `.ModalKeepsIconInTitle(bool = true)` — the other placement: the tile is drawn small, **on the
+  title's own line**, before the identifier and the title, exactly as the two header-icon modes draw
+  it in the row (a text tile grows with its text there too). The source line under the title then
+  starts where the tile does rather than being indented past it, so a row laid out with its tile in
+  the header opens as the same row enlarged. Off by default; whichever of the two was called last is
+  the placement that holds, and the row's own layout doesn't decide the modal's.
 - `.ModalKeepsFooter(bool = true)` — keeps the footer (the source and the metadata beside it) as a
   second line under the title, so where a result came from is still said once it is open. Off by
   default.
@@ -240,6 +249,14 @@ full-screen, so a modal never offers something the host didn't wire up:
         ▪ Box · sample-files / pdfs · 2.4 MB · Pius Neuhaus · Apr 12, 2024
         …
         Esc Close   ← → Navigate results   Ctrl+↵ Open in source   Shift+↵ Open in a new tab
+```
+
+With `ModalKeepsIconInTitle` instead, the tile is on the title's line and the source line under it is
+not indented:
+
+```
+[PDF] JR-2214 › BRK-SEN-447 calibration.pdf     [Open in Box ▾]  ‹ 2 of 7 ›  [...]  [⤢]  [✕]
+▪ Box · sample-files / pdfs · 2.4 MB · Pius Neuhaus · Apr 12, 2024
 ```
 
 - `.OpenInSource(string name, Action<bool> onOpen, UIcons? icon = null)` — the named button that opens
@@ -334,7 +351,7 @@ foreach (var hit in results)
         .InlineCommands(Button(UIcons.Download).Tooltip("Download").OnClick(() => Download(hit)))
         .SetModalContent(async r => await BuildFullViewAsync(r.Result))                  // opens as a modal
         .ModalSize(80.vw(), 80.vh())
-        .ModalKeepsIcon()                                                                // tile in the header
+        .ModalKeepsIcon()                                                                // tile beside the header
         .ModalKeepsFooter();                                                             // source line under the title
 
     list.Add(row);

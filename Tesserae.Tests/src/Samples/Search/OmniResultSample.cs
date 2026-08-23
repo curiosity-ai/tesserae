@@ -29,6 +29,10 @@ namespace Tesserae.Tests.Samples
         // "Modals" section: the rows are kept so stepping and stacking can reach them by index.
         private readonly List<OmniResult<Hit>> _modalRows = new List<OmniResult<Hit>>();
 
+        // The two rows that open with the tile on the modal's title line - outside the chain above, so
+        // stepping through it is unaffected by them.
+        private readonly List<OmniResult<Hit>> _inTitleModalRows = new List<OmniResult<Hit>>();
+
         private static readonly Hit[] Hits =
         {
             new Hit("brake-sensor-reports", null, UIcons.Folder, "#6366f1", "Name match",
@@ -178,8 +182,8 @@ namespace Tesserae.Tests.Samples
                     .SetIconBadge(Icon(UIcons.Star, UIconsWeight.Solid, color: "#f0c000"), OmniResultBadgeCorner.TopRight),
                 Row(Hits[6], withText: true, withPages: false).Selectable(OmniResultSelectionMode.AlwaysBeforeHeaderIcon));
 
-            // A tile that spells its type out is a label on this line rather than a square, so the type name
-            // is not limited to the three or four letters that fit a square: it grows with the text.
+            //A tile that spells its type out is a label on this line rather than a square, so the type name
+            //is not limited to the three or four letters that fit a square: it grows with the text.
             var spelledOut = VStack().WS().Children(
                 HeaderIconRow(Hits[1], "Q3 line review.pptx").SetIcon("PPTX", "#f97316"),
                 HeaderIconRow(Hits[2], "sensor-events-2024-03.parquet").SetIcon("PARQUET", "#8b5cf6"),
@@ -263,10 +267,55 @@ namespace Tesserae.Tests.Samples
                 rows.Add(row);
             }
 
+            _inTitleModalRows.Add(InTitleModalRow(Hits[1], "BRK-SEN-447 calibration procedure.pdf", null, null));
+            _inTitleModalRows.Add(InTitleModalRow(Hits[2], "sensor-events-2024-03.parquet", "PARQUET", "#8b5cf6"));
+
+            var inTitleRows = VStack().WS();
+
+            foreach (var row in _inTitleModalRows)
+            {
+                inTitleRows.Add(row);
+            }
+
             return FeatureCard("Opening as a modal", "The row carries its own full view",
                 "SetModalContent gives the row the full view of the thing it stands for, and ToModal builds a Modal showing it: the row's identifier, chevron and title for its header - plus the tile and the source line when ModalKeepsIcon and ModalKeepsFooter ask for them - a standard set of commands at the end of that header, and the keyboard shortcuts it answers along its bottom edge. The Func overload builds the content on open, so a list of a thousand rows pays for none of them until one is asked for.",
                 rows,
-                TextBlock("The header's commands are whatever the row was configured for: OpenInSource adds the named button (and hangs the rest off the arrow beside it), ModalNavigation adds the arrows and \"2 of 3\" between them, ModalCommands adds [...], and the full-screen and close buttons are always there. Open one and try Esc, the arrow keys, Ctrl+Enter and Shift+Enter. \"Open a related result\" inside pushes a second sheet onto the stack - go three deep and the ones behind peek out above it; click one to go back to it, or the backdrop to dismiss the chain.").Small().MT(8));
+                TextBlock("The header's commands are whatever the row was configured for: OpenInSource adds the named button (and hangs the rest off the arrow beside it), ModalNavigation adds the arrows and \"2 of 3\" between them, ModalCommands adds [...], and the full-screen and close buttons are always there. Open one and try Esc, the arrow keys, Ctrl+Enter and Shift+Enter. \"Open a related result\" inside pushes a second sheet onto the stack - go three deep and the ones behind peek out above it; click one to go back to it, or the backdrop to dismiss the chain.").Small().MT(8),
+                SampleSubTitle("The tile on the modal's title line").MT(16),
+                TextBlock("ModalKeepsIconInTitle is ModalKeepsIcon's other placement: the tile is drawn small, on the title's own line, before the identifier and the title - the way the two header-icon modes draw it in the row - so the source line under the title starts where the tile does rather than being indented past it, and a row laid out that way opens as the same row enlarged. A tile that spells its type out grows with its text there too. Open these two and compare their headers with the three above.").MB(8),
+                inTitleRows);
+        }
+
+        // The same modal as above, minus the navigation chain, on a row laid out with its tile in the
+        // header - and opening with the tile on the modal's title line to match.
+        private OmniResult<Hit> InTitleModalRow(Hit hit, string title, string iconText, string iconColor)
+        {
+            var row = Row(hit, withText: true, withPages: false)
+                .SetTitle(title)
+                .SetId("JR-2214")
+                .SelectionMode(OmniResultSelectionMode.HiddenBeforeHeaderIcon)
+                .SetModalContent(r => Task.FromResult<IComponent>(InTitleModalBody(r)))
+                .ModalSize(60.vw(), 60.vh())
+                .ModalKeepsIconInTitle()
+                .ModalKeepsFooter()
+                .OpenInSource("Open in Box", inNewTab => Toast().Information(inNewTab ? $"Opening \"{title}\" in a new tab" : $"Opening \"{title}\" in Box"), UIcons.ArrowUpRightFromSquare);
+
+            if (iconText is object) row.SetIcon(iconText, iconColor);
+
+            return row.OnClick((r, _) => ModalStack.Push($"in-title-{title}", r.Title, r.ToModal()));
+        }
+
+        private IComponent InTitleModalBody(OmniResult<Hit> result)
+        {
+            var metadata = result.Result.Metadata;
+
+            return VStack().WS().P(16).Children(
+                DetailsGrid()
+                    .Row("Location", metadata.Length > 0 ? metadata[0] : null)
+                    .Row("Size",     metadata.Length > 1 ? metadata[1] : null)
+                    .Row("Owner",    metadata.Length > 2 ? metadata[2] : null)
+                    .Row("Modified", metadata.Length > 3 ? metadata[3] : null),
+                TextBlock(result.Result.Text).MT(16));
         }
 
         private OmniResult<Hit> ModalRow(Hit hit, int index)
