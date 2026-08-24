@@ -166,7 +166,7 @@ namespace Tesserae.Tests.Samples
                         Label("Work shared between the two instances (multi, pre-selected)").SetContent(Dropdown().Multi().Items(
                             SharedWorkItem("Shared fetch", selected: true)
                         )),
-                        TextBlock("A short form is a separate factory, for when the box wants a shorter version of the option rather than the same one. Here both halves are deferred, on different delays."),
+                        TextBlock("Where the box wants a shorter version of the option rather than the same one, the short form is the factory - the row is needed now, the box's only if the option is ever selected. Here both halves are deferred, on different delays."),
                         Label("Deferred row and deferred short form (multi)").SetContent(Dropdown().Multi().Items(
                             DeferredPairItem(500,  1200, "Frankfurt",  "eu-central-1",   selected: true),
                             DeferredPairItem(800,  1600, "Oregon",     "us-west-2",      selected: true),
@@ -273,9 +273,8 @@ namespace Tesserae.Tests.Samples
             DropdownItem(() => TwoLineBlock(title, subtitle)).SetKey(subtitle);
 
         // --- The same content, arriving through a Defer ----------------------------------------
-        // No short form, so the box shows a copy of the row - which is exactly the case that has to
-        // catch up once the Defer resolves, and which is broken from the start when the option is
-        // selected before its content exists.
+        // One recipe, so the box builds its own second Defer from it and loads independently of the row -
+        // including when the option starts out selected and its content does not exist yet.
         private static int _deferredKey;
 
         private static Dropdown.Item DeferredItem(int delayMs, Func<IComponent> content, bool selected = false) =>
@@ -287,11 +286,11 @@ namespace Tesserae.Tests.Samples
                .SetKey($"deferred-{_deferredKey++}")
                .SelectedIf(selected);
 
-        // Both halves deferred, on different delays: the row is copied into the box, but the short form
-        // is a live component, so its own Defer resolves in the box itself.
+        // Both halves deferred, on different delays, and only the box's is a recipe: the row's Defer is
+        // needed now, the box's only if the option is ever selected - and each resolves where it lives.
         private static Dropdown.Item DeferredPairItem(int rowDelayMs, int chipDelayMs, string title, string subtitle, bool selected = false) =>
             DropdownItem(
-                    () => Defer(async () =>
+                    Defer(async () =>
                     {
                         await Task.Delay(rowDelayMs);
                         return TwoLineBlock(title, subtitle);

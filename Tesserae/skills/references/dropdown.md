@@ -16,8 +16,10 @@ item loading, custom selection rendering, and validation. Items are
 `UI.DropdownItem(IComponent content, IComponent selectedContent)` — an option drawing components you
 have already built: one for the row, one for the box. They must be different instances; pass the same
 one twice, or `null` for the box, and it falls back to copying the row and says so on the console.
-`UI.DropdownItem(Func<IComponent> content, Func<IComponent> selectedContent = null)` — the same from
-recipes, so one recipe can serve both, and the box's is built only if the option is selected.
+`UI.DropdownItem(Func<IComponent> content)` — one recipe, used for the row and again for the box, so
+the two are separate live components and the box's is built only if the option is selected.
+`UI.DropdownItem(IComponent content, Func<IComponent> selectedContent)` — a component for the row and
+a recipe for the box, for a long list whose options each want a shorter form in the box.
 See **Rich item content**.
 `UI.DropdownItem(IComponent content)` — **obsolete**. Draws that one component in the row and a
 `cloneNode` copy of it in the box. The copy has no event listeners, no mount registration and no
@@ -116,13 +118,13 @@ DropdownItem(
    .SetKey("ana@example.com");
 ```
 
-**Pass a recipe** to have one description serve both, and to build the box's only if the option is
-ever selected — the better choice for expensive content, for long lists, and whenever the row and
-the box should look the same:
+**Pass a recipe** to have one description serve both — the better choice for expensive content, for
+long lists, and whenever the row and the box should look the same. Only the box's component can be
+deferred: the row's is what the item renders, so it is always built now.
 
 ```csharp
-DropdownItem(() => BadgeRow(status));                             // one recipe, used for both
-DropdownItem(() => FullRow(id), () => ShortChip(id));             // a recipe for each
+DropdownItem(() => BadgeRow(status));               // one recipe, used for both
+DropdownItem(FullRow(id), () => ShortChip(id));     // row now, box's short form only if selected
 ```
 
 Give the box its own, shorter form whenever the row is taller or wider than one line — a two-line
@@ -136,7 +138,7 @@ Two consequences of the box having its own instance, both worth knowing:
 - **Its state is its own.** Put something interactive in an option and the list's and the box's will
   not share state — give the box a read-only short form if that matters.
 - **A single recipe runs twice**, so whatever it does happens twice. Share expensive work rather than
-  repeating it:
+  repeating it (the second run only happens if the option is selected):
 
 ```csharp
 var load = LoadOnceAsync(id);   // started once, outside the factory

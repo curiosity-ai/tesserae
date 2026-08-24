@@ -1303,9 +1303,17 @@ namespace Tesserae
         public static Dropdown.Item DropdownItem(IComponent content, IComponent selectedContent) => new Dropdown.Item(content, selectedContent);
 
         /// <summary>
-        /// Creates a <see cref="Tesserae.Dropdown.Item"/> component.
+        /// Creates a <see cref="Tesserae.Dropdown.Item"/> component from a component for the row and a recipe
+        /// for the box, so the box's is built only if the option is selected.
         /// </summary>
-        public static Dropdown.Item DropdownItem(Func<IComponent> content, Func<IComponent> selectedContent = null) => new Dropdown.Item(content, selectedContent);
+        public static Dropdown.Item DropdownItem(IComponent content, Func<IComponent> selectedContent) => new Dropdown.Item(content, selectedContent);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Dropdown.Item"/> component from one recipe, used for the row in the
+        /// list and again for the closed box - so the two are separate, live components, and the box's is built
+        /// only if the option is selected.
+        /// </summary>
+        public static Dropdown.Item DropdownItem(Func<IComponent> content) => new Dropdown.Item(content);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.ContextMenu"/> component.

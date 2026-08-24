@@ -1262,7 +1262,7 @@ namespace Tesserae
             /// Initializes a new instance of this class.
             /// </summary>
             public Item(string text, string selectedText = null, UIcons? icon = null)
-                : this(() => GetContent(text, icon), () => GetContent(string.IsNullOrEmpty(selectedText) ? text : selectedText, icon))
+                : this(GetContent(text, icon), () => GetContent(string.IsNullOrEmpty(selectedText) ? text : selectedText, icon))
             {
             }
 
@@ -1296,7 +1296,7 @@ namespace Tesserae
             /// </para>
             /// </summary>
             [Obsolete("The box gets a copy of the row, which has no listeners and never loads a Defer. Pass a Func<IComponent> instead, so the box builds its own live component from the same recipe.")]
-            public Item(IComponent content) : this(content, null)
+            public Item(IComponent content) : this(content, (IComponent)null)
             {
             }
 
@@ -1314,17 +1314,7 @@ namespace Tesserae
             /// </summary>
             public Item(IComponent content, IComponent selectedContent)
             {
-                // Nothing to draw and nothing to fall back to. Reporting it beats throwing: a throw out of a
-                // component's constructor takes down the whole page it was being built into, so the option
-                // renders empty and the console says which call did it.
-                if (content is null)
-                {
-                    console.error("Dropdown.Item: content is null, the option will render empty.");
-                    content = TextBlock("");
-                }
-
-                InnerElement = Button(Att("tss-dropdown-item", role: "option"));
-                InnerElement.appendChild(content.Render());
+                InnerElement = BuildRow(content);
 
                 // A null short form has always meant "copy the row into the box", and the same instance twice
                 // cannot draw twice - appending it to the box moves it out of the row, leaving the row empty -
@@ -1375,39 +1365,76 @@ namespace Tesserae
             }
 
             /// <summary>
-            /// Initializes a new instance of this class from factories rather than components, which is what
-            /// lets a single recipe serve both places the option is drawn - the row in the list and the closed
-            /// box - since a component can only be in one of them at a time. <paramref name="content"/> is
-            /// called now, to build the row; <paramref name="selectedContent"/> is called the first time the
-            /// box needs it, so an option nobody selects never builds one. Pass only
-            /// <paramref name="content"/> and the box builds its own from that same recipe, which is right for
-            /// anything that fits on the box's single clipped row; pass a <paramref name="selectedContent"/>
-            /// to give the box a shorter form of the same option. Where both components are cheap and already
-            /// at hand, <see cref="Item(IComponent, IComponent)"/> takes them directly.
+            /// Initializes a new instance of this class from one recipe, which serves both places the option
+            /// is drawn - the row in the list and the closed box - since a component can only be in one of
+            /// them at a time. It is called now to build the row, and again the first time the box needs one,
+            /// so an option nobody selects only ever builds the row. This is the overload to reach for
+            /// whenever the row and the box should look the same; where the box wants a shorter form, give it
+            /// its own through <see cref="Item(IComponent, Func{IComponent})"/> or
+            /// <see cref="Item(IComponent, IComponent)"/>.
             /// <para>
             /// The two are independent instances, which is what makes the one in the box live: it mounts, so
             /// a <see cref="UI.Defer(Func{Task{IComponent}})"/> in it loads, and it keeps its own state. An
             /// option holding something interactive will therefore not share that state between the list and
             /// the box - if that matters, give the box its own read-only short form.
             /// </para>
+            /// <para>
+            /// The recipe running twice means whatever it does happens twice. Share expensive work by starting
+            /// it outside the recipe - one Task, awaited by both - rather than repeating it inside.
+            /// </para>
             /// </summary>
-            public Item(Func<IComponent> content, Func<IComponent> selectedContent = null)
+            public Item(Func<IComponent> content) : this(content is null ? null : content(), content ?? _emptyContent)
             {
-                // Same reasoning as the component overload: an empty option and a console message, rather
-                // than a throw that takes the page down with it.
-                if (content is null)
+            }
+
+            /// <summary>
+            /// Initializes a new instance of this class from a component for the row and a recipe for the box,
+            /// which is what defers the box's until the option is actually selected - so an option nobody
+            /// selects never builds one. The row cannot be deferred the same way: it is built here, because
+            /// this is where the item's element comes from.
+            /// <para>
+            /// Use this over <see cref="Item(IComponent, IComponent)"/> for a long list of options that each
+            /// want a shorter form in the box: the list pays for its rows either way, and this way it does not
+            /// also pay for a box component per option that only one of them will ever use.
+            /// </para>
+            /// </summary>
+            public Item(IComponent content, Func<IComponent> selectedContent)
+            {
+                InnerElement = BuildRow(content);
+
+                if (selectedContent is null)
                 {
-                    console.error("Dropdown.Item: content is null, the option will render empty.");
-                    content = () => TextBlock("");
+                    CopyRowForBox();
                 }
-
-                _selectedContentFactory = selectedContent ?? content;
-
-                InnerElement = Button(Att("tss-dropdown-item", role: "option"));
-                InnerElement.appendChild(content().Render());
+                else
+                {
+                    _selectedContentFactory = selectedContent;
+                }
 
                 InnerElement.addEventListener("click",     OnItemClick);
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
+            }
+
+            // What a null content falls back to, so a broken option renders empty instead of taking the page
+            // down with it - and so the single-recipe overload still has a recipe to hand the box.
+            private static readonly Func<IComponent> _emptyContent = () => TextBlock("");
+
+            // The row's element, which is what Render returns - so it is built in the constructor whichever
+            // overload is used, and only the box's component can be deferred.
+            private static HTMLElement BuildRow(IComponent content)
+            {
+                // Nothing to draw and nothing to fall back to. Reporting it beats throwing: a throw out of a
+                // component's constructor takes down the whole page it was being built into, so the option
+                // renders empty and the console says which call did it.
+                if (content is null)
+                {
+                    console.error("Dropdown.Item: content is null, the option will render empty.");
+                    content = TextBlock("");
+                }
+
+                var row = Button(Att("tss-dropdown-item", role: "option"));
+                row.appendChild(content.Render());
+                return row;
             }
 
             private event  BeforeSelectEventHandler<Item> BeforeSelectedItem;
