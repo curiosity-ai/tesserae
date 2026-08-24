@@ -110,6 +110,26 @@ DropdownItem(
    .SetKey("ana@example.com");
 ```
 
+### Content that loads asynchronously
+
+The copy the box shows is taken when the item becomes selected and is kept in step with the row
+afterwards, so a `Defer` (or an image, or anything bound to an observable) that resolves later shows
+up in the box too.
+
+One case is worth knowing about: a `Defer` only loads its content once it is **mounted**, and an
+option's row is not in the document until the dropdown is first opened. An option that is deferred,
+has no short form, and is selected up front therefore shows its loading placeholder in the box until
+the list is opened once. Giving it an explicit short form avoids that entirely — a short form is a
+live component mounted in the box, so its own `Defer` resolves there straight away:
+
+```csharp
+DropdownItem(
+    Defer(async () => await LoadTheWholeRow(id),  loadMessage: Skeleton().Animated().W(120).H(16)),
+    Defer(async () => await LoadJustTheLabel(id), loadMessage: Skeleton().Animated().W(60).H(12)))
+   .SetKey(id)
+   .Selected();
+```
+
 To take over the box entirely instead — a count, a pile of avatars — use
 `.WithCustomSelectionRender(items => ...)`. That replaces the clones altogether, separators
 included, so you own the whole presentation.
