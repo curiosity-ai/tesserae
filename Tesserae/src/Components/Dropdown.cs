@@ -405,26 +405,17 @@ namespace Tesserae
             var items        = GetItems();
             var visibleItems = items.Where(i => i.item.style.display != "none").Select(i => (item: i.item, height: i.item.getBoundingClientRect().As<DOMRect>().height)).ToArray();
 
-            // Everything in the popup that is not a row: its own border and padding, and - when there
-            // is one - the search box plus the gap under it. Measured rather than assumed, and
-            // measured with the constraints lifted, because a min/max height left over from the last
-            // call would otherwise be counted as part of the chrome.
-            _popupDiv.style.minHeight = "0px";
-            _popupDiv.style.maxHeight = "none";
+            double searchBoxHeight = 0;
 
-            var chrome = _popupDiv.getBoundingClientRect().As<DOMRect>().height
-                       - _childContainer.getBoundingClientRect().As<DOMRect>().height;
+            if (_searchBox is object)
+            {
+                var sbr = _searchBox.Render().getBoundingClientRect().As<DOMRect>();
+                var pdr = _popupDiv.getBoundingClientRect().As<DOMRect>();
+                searchBoxHeight = sbr.height + (sbr.top - pdr.top) + 8;
+            }
 
-            // The popup is exactly as tall as the rows it shows, and never shorter than the first five
-            // of them, so that filtering down to one row does not collapse it to a sliver. Both bounds
-            // have to carry the chrome: leaving it out of the maximum is what used to put a scrollbar
-            // on a list that fits, and the minimum used to add 16px per row for a gap between rows
-            // that does not exist, which is where the empty space below the last row came from.
-            var rows        = visibleItems.Sum(h => h.height);
-            var atLeastRows = visibleItems.Take(5).Sum(h => h.height);
-
-            var maxHeight = visibleItems.Length > 0 ? rows + chrome + "px" : "80vh";
-            var minHeight = (visibleItems.Length > 0 ? atLeastRows + chrome : 0) + "px";
+            var maxHeight = visibleItems.Length > 0 ? visibleItems.Sum(h => h.height) + "px" : "80vh";
+            var minHeight = ((visibleItems.Length > 0 ? visibleItems.Take(5).Select((h,i) => h.height + (i == 0 ? 0 : 16)).Sum() + 9: 0 ) + searchBoxHeight) + "px" ;
 
             _popupDiv.style.minHeight = minHeight;
             _popupDiv.style.maxHeight = maxHeight;
@@ -457,11 +448,6 @@ namespace Tesserae
                     {
                         _popupDiv.style.height = window.innerHeight - rect.bottom - 1 + "px";
                     }
-
-                    // There is not enough room on either side for the whole list, so the height set
-                    // just above is the real constraint - the five-row floor has to yield to it or the
-                    // popup runs off the screen instead of scrolling.
-                    _popupDiv.style.minHeight = "0px";
                 }
                 else
                 {
@@ -913,13 +899,17 @@ namespace Tesserae
                 {
                     for (var i = 0; i < SelectedItems.Length; i++)
                     {
-                        var onBox = SelectedItems[i].RenderSelected();
+                        var sel   = SelectedItems[i];
+                        var clone = sel.RenderSelected();
+                        clone.classList.remove("tss-dropdown-item");
+                        clone.classList.remove("tss-selected");
+                        clone.classList.add("tss-dropdown-item-on-box");
 
                         if (_fitContent)
                         {
-                            onBox.classList.add("tss-dropdown-fit-content");
+                            clone.classList.add("tss-dropdown-fit-content");
                         }
-                        InnerElement.appendChild(onBox);
+                        InnerElement.appendChild(clone);
                     }
                 }
             }
@@ -1240,23 +1230,11 @@ namespace Tesserae
         public sealed class Item : IComponent
         {
             private readonly HTMLElement InnerElement;
-
-            // The recipe for what the box draws, not an instance of it. An element exists at exactly one
-            // place in the DOM, so the list and the box each need their own live component, and only the
-            // caller can produce a second one - which is why this is a factory. Copying the row instead,
-            // which is what this used to do, hands the box a dead picture: cloneNode carries attributes
-            // but not event listeners, not DomObserver's mount registration and not component identity,
-            // so a Defer in the copy never loaded and nothing in it ever reacted to anything.
-            private readonly Func<IComponent> _selectedContentFactory;
-
-            // Built the first time the box asks for it, so an option nobody selected costs nothing - which
-            // is what keeps a deferred option lazy until it is either listed or selected.
-            private HTMLElement _selectedElement;
+            private readonly HTMLElement SelectedElement;
             /// <summary>
             /// Initializes a new instance of this class.
             /// </summary>
-            public Item(string text, string selectedText = null, UIcons? icon = null)
-                : this(() => GetContent(text, icon), () => GetContent(string.IsNullOrEmpty(selectedText) ? text : selectedText, icon))
+            public Item(string text, string selectedText = null, UIcons? icon = null) : this(GetContent(text, icon), GetContent(string.IsNullOrEmpty(selectedText) ? text : selectedText, icon))
             {
             }
 
@@ -1279,71 +1257,22 @@ namespace Tesserae
             private dynamic _data;
 
             /// <summary>
-            /// Initializes a new instance of this class from two components the caller has already built: one
-            /// for the row in the list, one for the closed box. Both are needed, and they must be different
-            /// instances, because an element exists at exactly one place in the DOM - there is no way to draw
-            /// one component in both places. To supply a single recipe and let the box build its own second
-            /// instance from it, use the <see cref="Item(Func{IComponent}, Func{IComponent})"/> overload,
-            /// which also defers building the box's one until the option is actually selected.
+            /// Initializes a new instance of this class.
             /// </summary>
             public Item(IComponent content, IComponent selectedContent)
             {
-                if (content is null) throw new ArgumentNullException(nameof(content));
-
-                // A null short form used to mean "copy the row into the box", and a copy is a picture: no
-                // listeners, no mount registration, no identity, so a Defer in it never loaded and nothing in
-                // it ever reacted. Pass a factory instead and the box gets a real second component.
-                if (selectedContent is null)
-                {
-                    throw new ArgumentNullException(nameof(selectedContent),
-                        "A Dropdown.Item needs its own component for the box. Pass one, or use the Func<IComponent> overload to have it built from the same recipe as the row.");
-                }
-
-                // The same instance in both places does not draw twice - appending it to the box moves it out
-                // of the row, leaving the row empty.
-                if (selectedContent == content)
-                {
-                    throw new ArgumentException(
-                        "The row and the box need separate components; the same instance cannot be in both. Use the Func<IComponent> overload to build one for each from the same recipe.",
-                        nameof(selectedContent));
-                }
-
-                // Safe to hand these straight back as factories: each is invoked exactly once - the row's in
-                // this constructor, the box's on the first RenderSelected, which caches what it builds.
-                _selectedContentFactory = () => selectedContent;
-
                 InnerElement = Button(Att("tss-dropdown-item", role: "option"));
                 InnerElement.appendChild(content.Render());
 
-                InnerElement.addEventListener("click",     OnItemClick);
-                InnerElement.addEventListener("mouseover", OnItemMouseOver);
-            }
-
-            /// <summary>
-            /// Initializes a new instance of this class from factories rather than components, which is what
-            /// lets a single recipe serve both places the option is drawn - the row in the list and the closed
-            /// box - since a component can only be in one of them at a time. <paramref name="content"/> is
-            /// called now, to build the row; <paramref name="selectedContent"/> is called the first time the
-            /// box needs it, so an option nobody selects never builds one. Pass only
-            /// <paramref name="content"/> and the box builds its own from that same recipe, which is right for
-            /// anything that fits on the box's single clipped row; pass a <paramref name="selectedContent"/>
-            /// to give the box a shorter form of the same option. Where both components are cheap and already
-            /// at hand, <see cref="Item(IComponent, IComponent)"/> takes them directly.
-            /// <para>
-            /// The two are independent instances, which is what makes the one in the box live: it mounts, so
-            /// a <see cref="UI.Defer(Func{Task{IComponent}})"/> in it loads, and it keeps its own state. An
-            /// option holding something interactive will therefore not share that state between the list and
-            /// the box - if that matters, give the box its own read-only short form.
-            /// </para>
-            /// </summary>
-            public Item(Func<IComponent> content, Func<IComponent> selectedContent = null)
-            {
-                if (content is null) throw new ArgumentNullException(nameof(content));
-
-                _selectedContentFactory = selectedContent ?? content;
-
-                InnerElement = Button(Att("tss-dropdown-item", role: "option"));
-                InnerElement.appendChild(content().Render());
+                if (selectedContent is null || selectedContent == content)
+                {
+                    SelectedElement = (HTMLElement)InnerElement.cloneNode(true);
+                }
+                else
+                {
+                    SelectedElement = Button(Att("tss-dropdown-item"));
+                    SelectedElement.appendChild(selectedContent.Render());
+                }
 
                 InnerElement.addEventListener("click",     OnItemClick);
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
@@ -1466,23 +1395,9 @@ namespace Tesserae
             }
 
             /// <summary>
-            /// The element the dropdown's box shows for this item while it is selected: its own component,
-            /// built from the factory the item was given, so it is mounted and live in the box rather than a
-            /// copy of the row. Built once and reused.
+            /// Renders the selected.
             /// </summary>
-            public HTMLElement RenderSelected()
-            {
-                if (_selectedElement is null)
-                {
-                    // Not a row: it carries no role or aria-selected, and nothing in the box is in the tab
-                    // order - the box is a picture of the selection, and the list is what you interact with.
-                    _selectedElement          = Button(Att("tss-dropdown-item-on-box"));
-                    _selectedElement.tabIndex = -1;
-                    _selectedElement.appendChild(_selectedContentFactory().Render());
-                }
-
-                return _selectedElement;
-            }
+            public HTMLElement RenderSelected() => SelectedElement;
 
             /// <summary>
             /// Configures the component to header.

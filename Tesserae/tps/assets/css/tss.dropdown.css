@@ -210,19 +210,12 @@
     padding-left: 32px !important;
 }
 
-    /* The checkbox and its tick are absolutely positioned, so they need centring against the row
-       rather than a fixed offset from its top: an option whose content is two lines tall (or a badge,
-       or an avatar) is taller than the 32px a fixed 8px offset was measured against, and the checkbox
-       stayed up by the first line instead of sitting beside the content. The tick keeps the 2.5px
-       optical rise above the box's centre that its old top: 10px against top: 8px gave it - the ink
-       of a rotated checkmark sits low in its own box. */
     .tss-dropdown-multi > .tss-dropdown-item:before {
         content: " ";
         display: block;
         position: absolute;
         left: 8px;
-        top: 50%;
-        transform: translateY(-50%);
+        top: 8px;
         width: 20px;
         height: 20px;
         border-radius: 2px;
@@ -244,12 +237,12 @@
         position: absolute;
         display: none;
         left: 15px;
-        top: 50%;
+        top: 10px;
         width: 6px;
         height: 11px;
         border: solid var(--tss-default-border-color);
         border-width: 0 1px 1px 0;
-        transform: translateY(calc(-50% - 2.5px)) rotate(45deg);
+        transform: rotate(45deg);
     }
 
     .tss-dropdown-multi > .tss-dropdown-item:hover:after {
@@ -297,33 +290,14 @@
     width: auto;
 }
 
-/* An option's content is usually a Button, and the box shows a clone of it. .tss-btn brings a
-   min-width of 80px and a min-height of 36px, neither of which makes sense for a chip in a
-   comma-separated list inside a 32px row: the width reserves 80px per chip, so the comma after one
-   ends up stranded half a word away from it, and the height overflows the row and gets clipped.
-   .tss-dropdown-item-on-box resets both on the clone's root, but the Button is one level further
-   in - so reset it there too, and let the content size itself. */
-.tss-dropdown-item-on-box .tss-btn {
-    min-width: unset;
-    min-height: unset;
-    padding: 0;
-    margin: 0;
+.tss-dropdown > .tss-dropdown-item-on-box:not(:first-child) {
+    margin-left: 2px;
 }
 
-/* The ", " between the selected items shown in the box. The separator is generated on the item that
-   *follows* it, so it has to hug the item before it - any margin on this side of the item lands
-   between the previous word and its comma - and put its breathing room after itself instead.
-   .tss-dropdown-item-on-box is an inline-flex container, so this pseudo-element is a flex item and
-   not inline text: left alone it stretches and draws the comma at the top of that stretched box,
-   which is what "height: 0" used to paper over and why the comma floated above the text. Everything
-   in the box is centred on the row (.tss-dropdown is a centred inline-flex), so centring the
-   separator too is what lines it up - with text, with an avatar, with a chart, with anything. */
 .tss-dropdown > .tss-dropdown-item-on-box:not(:first-child)::before {
-    content: ',';
-    align-self: center;
-    padding-right: 4px;
-    /* Never let the separator be what makes the row taller. */
-    line-height: 1;
+    content:',';
+    padding-right:6px;
+    height:0px;
 }
 
 .tss-dropdown-fit-content {
@@ -346,31 +320,14 @@
     padding-top: 8px;
 }
 
-/* A row pays for its breathing room in padding, not in line-height. Using a 32px line-height for it
-   only ever worked for text: line-height sets the strut of a *text* line, so anything else an option
-   renders eats into that space instead of being given its own - a 28px avatar in a 32px line box came
-   out with 1px above and below it, while a plain label got 5 and a badge got 6. The air was whatever
-   the line box happened to have left over, so it changed with the content. Padding gives every row
-   the same margin around whatever it draws, and min-height stays as the floor that keeps a short row
-   from looking cropped. 4px is what leaves the ordinary single-line row at the 34px it has always
-   been, so this costs nothing anywhere it was already right. */
 .tss-dropdown-popup .tss-dropdown-item {
     margin: 0 8px;
     width: calc(100% - 16px);
     box-sizing: border-box;
     border-radius: 6px;
     min-height: 32px;
-    line-height: 20px;
-    padding: 4px 8px;
+    line-height: 32px;
 }
-
-    /* The 32px line-height above is what centres a single line of text in the row, but line-height is
-       inherited: an option whose content is a stack of two text blocks got 32px per line and the row
-       came out twice as tall as its content, with the two lines pushed apart and the centred checkbox
-       stranded in the gap between them. The content keeps its own line-height; the row keeps its. */
-    .tss-dropdown-popup .tss-dropdown-item > * {
-        line-height: normal;
-    }
 
     .tss-dropdown-popup .tss-dropdown-item .tss-btn {
         min-height: 24px !important;
