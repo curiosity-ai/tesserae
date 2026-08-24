@@ -45,6 +45,6 @@ var faRocket = Icon(UIconHelper.AsUIcon("fa-solid fa-rocket"));
 
 ## Related
 
-- Button — `.button.md`
-- Project Setup — `.project-setup.md`
+- Button — `button.md`
+- Project Setup — `project-setup.md`
 - Full docs & API: `/tesserae/get-started/iconography`

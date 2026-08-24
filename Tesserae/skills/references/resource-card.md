@@ -20,7 +20,7 @@ Each setter takes a `string` (wrapped in a styled `TextBlock`) or an `IComponent
 - `.SetTitle(string | IComponent)` / `.SetSubtitle(string | IComponent)`.
 - `.SetTags(params IComponent[])` — small inline tags, e.g. `Badge("...")`.
 - `.SetDescription(string | IComponent)` / `.SetDate(string | IComponent)`.
-- `.SetFooter(IComponent)` — left-aligned footer content (e.g. a link).
+- `.SetFooter(IComponent)` — left-aligned footer content (e.g. a link: `Button(text, href).Class("tss-btn-link")`).
 - `.SetFooterCommands(params IComponent[])` — right-aligned footer actions (e.g. buttons).
 - `.BackgroundColor(string)` / `.Border(color, size = null)` — card chrome.
 
@@ -36,13 +36,13 @@ var card = ResourceCard()
     .SetTags(Badge("Text-to-Image"))
     .SetDescription("ByteDance's image creation model.")
     .SetDate("Apr 8, 2026")
-    .SetFooter(Link("https://example.com/terms", "Terms"))
+    .SetFooter(Button("Terms", href: "https://example.com/terms").Class("tss-btn-link"))
     .SetFooterCommands(Button("Copy ID").SetIcon(UIcons.Copy).NoBorder().NoBackground());
 ```
 
 ## Related
 
-- Card — `.card.md`
-- ContextCard (the compact chat-attachment variant) — `.context-card.md`
+- Card — `card.md`
+- ContextCard (the compact chat-attachment variant) — `context-card.md`
 - OmniResult (the search-result row, with highlighting and a page preview) — `omni-result.md`
 - Full docs & API: `/tesserae/components/resource-card`

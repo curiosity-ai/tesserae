@@ -66,7 +66,7 @@ var tree = new Tree().Compact().SelectionEnabled().Items(
         await Task.Delay(500);
         return new[] { new Tree.Item("child.cs", UIcons.File) };
     })
-).OnSelected((s, item) => Console.WriteLine(item.Text));
+).OnSelected((s, item) => console.log(item.Text));
 ```
 
 Picking several files out of a folder tree, folders included:
@@ -81,7 +81,7 @@ var files = new Tree().Compact().Selectable(TreeSelectionMode.Multiple).CascadeS
 ).OnSelectionChanged((t, selected) =>
 {
     var picked = selected.Where(i => !i.HasChildren).ToArray();
-    Console.WriteLine(picked.Length + " files selected");
+    console.log(picked.Length + " files selected");
 });
 ```
 

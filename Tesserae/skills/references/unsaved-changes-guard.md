@@ -105,7 +105,7 @@ Two exits don't go through the router, and are handled differently:
   the `id` the indicator needs.
 - `MarkDirty(string tabIndicatorId)` / `MarkClean(string tabIndicatorId)` —
   toggle the tab's unsaved-changes dot. Call from the editor's own change-tracking
-  (a `TextArea.OnChanged`, a `Validator`, a `SettingsHolder.HasChanged`
+  (a `TextArea.OnChange`, a `Validator`, a `SettingsHolder.HasChanged`
   check, …). On a `closeable` tab the dot stands in for the close cross and gives
   way to it while the tab is pointed at, so the tab never changes width; on a tab
   without a close button it sits beside the label. See `pivot.md`.
@@ -162,10 +162,10 @@ hostView.WhenMounted(() => UnsavedChangesGuard.TrackOpenTabs());
 hostView.WhenRemoved(() => UnsavedChangesGuard.ForgetOpenTabs());
 
 pivot.Pivot("endpoint-abc123",
-    TabSaveIndicator.Title(tabIndicatorId, "Endpoint", UIcons.Code),
+    TabSaveIndicator.Title(tabIndicatorId, "Endpoint", UIcons.CodeSimple),
     () => EndpointEditor(), cached: true, closeable: true);
 
-codeEditor.OnChanged(() => TabSaveIndicator.MarkDirty(tabIndicatorId));
+codeEditor.OnChange((_, __) => TabSaveIndicator.MarkDirty(tabIndicatorId));
 TabSaveIndicator.OnSave(tabIndicatorId, SaveEndpointAsync);
 
 // when the tab closes:

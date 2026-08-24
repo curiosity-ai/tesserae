@@ -118,7 +118,7 @@ doc.OnContextMenu(() => new[]
 var shot = ContextCard("screenshot.png", UIcons.FileImage).SetSubLabel("Image").SetImage(url);
 var page = ContextCard("tesserae.dev/components", UIcons.Globe).SetSubLabel("Web page").Compact();
 
-var composer = VStack().WS().Children(attached, OmniBox());
+var composer = VStack().WS().Children(attached, OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)));
 ```
 
 An `OmniBox` in chat mode hosts the row itself, inside the box below the input — that is the usual

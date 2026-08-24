@@ -77,6 +77,6 @@ Place assets under an `assets/` folder in the output directory (e.g. `tps/assets
 
 ## Related
 
-- Core Concepts — `.core-concepts.md`
-- Routing — `.routing.md`
+- Core Concepts — `core-concepts.md`
+- Routing — `routing.md`
 - Full docs: `/tesserae/get-started/project-setup`

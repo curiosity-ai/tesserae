@@ -31,7 +31,7 @@ Pair with `UI.Label(...).SetContent(toggle)` to give it a leading caption.
 using static Tesserae.UI;
 
 var notifications = Toggle("On", "Off").Checked();
-notifications.AsObservable().Observe(on => Console.WriteLine($"Notifications: {on}"));
+notifications.AsObservable().Observe(on => console.log($"Notifications: {on}"));
 
 var component = Stack().Children(
     Label("Notifications").Inline().SetContent(notifications),
@@ -41,7 +41,7 @@ var component = Stack().Children(
 
 ## Related
 
-- ToggleButton — `.toggle-button.md`
-- CheckBox — `.check-box.md`
+- ToggleButton — `toggle-button.md`
+- CheckBox — `check-box.md`
 - IconToggle (a segmented control of icons, one selected) — `icon-toggle.md`
 - Full docs & API: `/tesserae/components/toggle`

@@ -93,20 +93,31 @@ own clicks (a raw `element.onclick`) should make the same check first with
 `UI.IsModifiedLinkClick(element, mouseEvent)`, and return without calling
 `StopEvent` when it is true — the open is the anchor's own default action.
 
-## Wiring it into the toolkit (the repo convention)
+## Wiring it up
 
-1. Add the class under `Tesserae/src/Components/`.
-2. Add a factory in `Tesserae/src/Base/UI.Components.cs`:
-   `public static MyBadge MyBadge(string text) => new MyBadge(text);`
-3. Add fluent helpers/extensions in `Tesserae/src/Extensions/` if needed.
-4. Add a sample in `Tesserae.Tests/`.
+In your own app a component is just a class — `new MyBadge("…")` is enough. If you want it
+to read like the built-ins, add a static factory of your own beside it:
+
+```csharp
+public static class MyUI
+{
+    public static MyBadge MyBadge(string text) => new MyBadge(text);
+}
+```
+
+and bring it into scope with `using static MyApp.MyUI;` next to `using static Tesserae.UI;`.
+(Contributing the component to the toolkit itself instead? The class goes under
+`Tesserae/src/Components/`, the factory in `Tesserae/src/Base/UI.Components.cs`, fluent
+helpers in `Tesserae/src/Extensions/`, and a sample in `Tesserae.Tests/`.)
 
 ## Sizing, containers, mounting
 
-- Sizing helpers (`.W()`, `.WS()`, `.Grow()`, …) work on any `IComponent` via
-  the wrap-and-transfer protocol — see `Stack.CopyStylesDefinedWithExtension`.
-  A component can opt out of wrapping by implementing `ISpecialCaseStyling` and
-  exposing a `StylingContainer`.
+- Sizing helpers (`.W()`, `.WS()`, `.Grow()`, …) work on any `IComponent`: they write the
+  CSS onto the element `Render()` returns, which is the flex/grid item a `Stack` or `Grid`
+  measures. (`Masonry` and `SectionStack` build a wrapper for their items and move the
+  properties onto it.) A component that sizes a container of its own implements
+  `ISpecialCaseStyling` and exposes a `StylingContainer`, and the helpers write there
+  instead.
 - **Don't spend `padding` on the element `Render()` returns.** `.P()` / `.PL()` and
   friends write an inline padding onto exactly that element, and an inline value beats
   any stylesheet, so a caller asking for room around your component silently deletes
@@ -125,5 +136,5 @@ own clicks (a raw `element.onclick`) should make the same check first with
 
 - `javascript-interop` — call JS from C# when you need browser APIs in `Render()`.
 - `wrap-a-javascript-library` — back a component with an existing JS library.
-- Layout/sizing internals — see the toolkit `CLAUDE.md` "Layout system" section.
+- Layout/sizing — `icomponent.md`, `stack.md`, `grid.md`.
 - Docs: `/tesserae/extending/creating-a-component`

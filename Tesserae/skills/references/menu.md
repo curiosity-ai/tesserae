@@ -49,7 +49,8 @@ var menu = Menu().Items(
         MenuItem("CSV").OnClick(() => ExportCsv())))
 );
 
-var trigger = Button("File").OnClick(b => menu.ShowFor(b));
+Button trigger = null;
+trigger = Button("File").OnClick(() => menu.ShowFor(trigger));
 ```
 
 ## Related

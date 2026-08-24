@@ -42,6 +42,6 @@ saveButton = new SaveButton()
 
 ## Related
 
-- Button — `.button.md`
-- SavingToast — `.saving-toast.md`
+- Button — `button.md`
+- SavingToast — `saving-toast.md`
 - Full docs & API: `/tesserae/components/save-button`

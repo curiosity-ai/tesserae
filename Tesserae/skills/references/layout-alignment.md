@@ -60,6 +60,6 @@ grid.Add(Card(TextBlock("B").TextCenter()).WS().GridColumn(1, 3)); // span both 
 
 ## Related
 
-- Styling (UnitSize, shorthands) — `.styling.md`
-- Core Concepts — `.core-concepts.md`
+- Styling (UnitSize, shorthands) — `styling.md`
+- Core Concepts — `core-concepts.md`
 - Full docs & API: `/tesserae/get-started/layout-alignment`

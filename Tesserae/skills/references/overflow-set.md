@@ -32,11 +32,11 @@ var message = TextBlock();
 
 var bar = OverflowSet()
     .Items(
-        Button("Folder 1").Link().OnClick((s, e) => message.Text("Folder 1")),
-        Button("Folder 2").Link().OnClick((s, e) => message.Text("Folder 2")).Disabled(),
-        Button("Folder 3").Link().OnClick((s, e) => message.Text("Folder 3")),
-        Button("Folder 4").Link().OnClick((s, e) => message.Text("Folder 4")),
-        Button("Folder 5").Link().OnClick((s, e) => message.Text("Folder 5")))
+        Button("Folder 1").Class("tss-btn-link").OnClick((s, e) => message.Text("Folder 1")),
+        Button("Folder 2").Class("tss-btn-link").OnClick((s, e) => message.Text("Folder 2")).Disabled(),
+        Button("Folder 3").Class("tss-btn-link").OnClick((s, e) => message.Text("Folder 3")),
+        Button("Folder 4").Class("tss-btn-link").OnClick((s, e) => message.Text("Folder 4")),
+        Button("Folder 5").Class("tss-btn-link").OnClick((s, e) => message.Text("Folder 5")))
     .Small();
 ```
 

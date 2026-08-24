@@ -112,8 +112,8 @@ var config = new OmniBox.Config(OmniBox.Mode.SearchAndChat)
 };
 
 var omni = new OmniBox(config)
-    .OnSearch((s, q) => Console.WriteLine($"Search: {q.Tokens.Count} tokens"))
-    .OnChat((s, m) => Console.WriteLine("Chat sent"));
+    .OnSearch((s, q) => console.log($"Search: {q.Tokens.Count} tokens"))
+    .OnChat((s, m) => console.log("Chat sent"));
 ```
 
 A pill-shaped search box with a result count and an "Ask AI" action:

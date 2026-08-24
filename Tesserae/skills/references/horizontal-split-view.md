@@ -11,9 +11,10 @@ left/right split, use `SplitView`.)
 
 ## Create
 
-`HorizontalSplitView(UnitSize splitterSize = null)` — returns a
-`HorizontalSplitView` (splitter defaults to 8px). Bring factories into scope
-with `using static Tesserae.UI;`.
+`HorizontalSplitView()` — returns a `HorizontalSplitView` (splitter defaults to
+8px). For another splitter size construct it directly:
+`new HorizontalSplitView(4.px())`. Bring factories into scope with
+`using static Tesserae.UI;`.
 
 ## Key configuration
 

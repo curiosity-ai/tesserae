@@ -39,5 +39,5 @@ var search = SearchBox("Search")
 
 ## Related
 
-- TextBox — `.text-box.md`
+- TextBox — `text-box.md`
 - Full docs & API: `/tesserae/components/search-box`

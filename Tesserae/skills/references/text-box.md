@@ -43,5 +43,5 @@ var stack = Stack().Children(
 
 ## Related
 
-- Label — `.label.md`
+- Label — `label.md`
 - Full docs & API: `/tesserae/components/text-box`

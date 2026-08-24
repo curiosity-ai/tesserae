@@ -18,11 +18,19 @@ newly-inserted item. Bring factories into scope with `using static Tesserae.UI;`
 
 ## Key configuration
 
-- Mutate the backing `ObservableList<T>` (`.Add`, `.RemoveAt`, `.ReplaceAll`, …) to reconcile.
-- `.Horizontal()` / `.Vertical()` / `.HorizontalReverse()` / `.VerticalReverse()` — orientation.
-- `.AlignItems(ItemAlign)` / `.AlignItemsCenter()` / `.JustifyContent(ItemJustify)` — flex alignment.
-- `.Wrap()` / `.NoWrap()`, `.NoDefaultMargin()`, `.OverflowHidden()` — layout tweaks.
-- `.WS()` / `.Clear()` — stretch width / remove all rows.
+`ObservableStack<T>` itself is a plain `IComponent`: what it renders is the host `Stack`, and
+that is where the layout is configured. Everything else is driven by the list.
+
+- Mutate the backing `ObservableList<T>` (`.Add`, `.RemoveAt`, `.ReplaceAll`, `.Clear`, …) to
+  reconcile the rows.
+- Pass a configured host to the constructor for orientation and alignment —
+  `new ObservableStack<T>(items, render, HStack().Wrap().AlignItemsCenter())` — or keep a
+  reference to it and configure it later. `Stack`'s own methods (`.Horizontal()` /
+  `.Vertical()`, `.AlignItems(ItemAlign)`, `.JustifyContent(ItemJustify)`, `.Wrap()` /
+  `.NoWrap()`, `.NoDefaultMargin()`, `.OverflowHidden()`, `.Clear()`) live there, not on the
+  `ObservableStack`.
+- The generic `IComponent` helpers (`.WS()`, `.Grow()`, `.MaxHeight(...)`, …) do apply to the
+  `ObservableStack` itself, as they do to any component.
 
 ## Example
 

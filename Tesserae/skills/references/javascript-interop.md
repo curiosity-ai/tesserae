@@ -85,9 +85,11 @@ used, through the Transpose runtime's loader:
 ```csharp
 using Transpose;
 
-await Require.RequireAsync("assets/js/chart.min.js");                  // classic script
-await Require.RequireAsync("assets/css/chart.css", "assets/js/chart.js"); // in order: css, then js
-await Require.RequireAsync(RequireKind.Module, "./viewer.js");         // a module that keeps a .js name
+// Qualify it: `Tesserae.Require` (the forwarding shim below) is also in scope in a
+// Tesserae app, so the bare name `Require` is ambiguous.
+await Transpose.Require.RequireAsync("assets/js/chart.min.js");                  // classic script
+await Transpose.Require.RequireAsync("assets/css/chart.css", "assets/js/chart.js"); // in order: css, then js
+await Transpose.Require.RequireAsync(RequireKind.Module, "./viewer.js");         // a module that keeps a .js name
 ```
 
 It picks the element from the URL (`.css` → a stylesheet link, `.mjs` → a module, anything else →
@@ -108,7 +110,8 @@ to exactly this.
 - A Debug build and a Release build link different variants of a bundle (`x.js` vs `x.min.js`);
   any external script you call must be bundled so the global exists at runtime — see
   `wrap-a-javascript-library` — and fetched through `Require.RequireAsync`, which resolves the
-  variant difference for you.
+  variant difference for you (spelled `Transpose.Require.RequireAsync`, to keep it apart from
+  `Tesserae.Require`).
 
 ## Related
 

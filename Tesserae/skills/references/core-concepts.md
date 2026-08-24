@@ -79,7 +79,7 @@ List, Observable Stack) over rebuilding subtrees.
 
 ## Related
 
-- Styling — `.styling.md`
-- Layout & Alignment — `.layout-alignment.md`
-- Routing — `.routing.md`
+- Styling — `styling.md`
+- Layout & Alignment — `layout-alignment.md`
+- Routing — `routing.md`
 - Full docs & API: `/tesserae/core-concepts`

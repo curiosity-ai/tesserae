@@ -49,16 +49,17 @@ still works: `Hide()` pops it, and its show/hide handlers run as they would have
 ```csharp
 using static Tesserae.UI;
 
-void OpenPreview(Document document, bool steppingThroughResults)
+void OpenPreview(SearchHit doc, bool steppingThroughResults)   // `document`/`Document` are the DOM's
 {
-    var modal = BuildPreviewModal(document);   // any Modal; OmniResult<T>.ToModal() is the usual one
+    var modal = BuildPreviewModal(doc);   // any Modal; OmniResult<T>.ToModal() is the usual one
 
-    if (steppingThroughResults) ModalStack.Replace(document.Id, document.Title, modal);
-    else                        ModalStack.Push(document.Id, document.Title, modal);
+    if (steppingThroughResults) ModalStack.Replace(doc.Id, doc.Title, modal);
+    else                        ModalStack.Push(doc.Id, doc.Title, modal);
 }
 
 // Keep the URL naming the whole chain, so a refresh reopens it.
-ModalStack.Changed += () => Route.Set("open", string.Join(",", ModalStack.Entries.Select(e => e.Key)));
+ModalStack.Changed += () => Router.ReplaceQueryParameters(
+    p => p.With("open", string.Join(",", ModalStack.Entries.Select(e => e.Key))));
 ```
 
 ## Related
@@ -66,4 +67,5 @@ ModalStack.Changed += () => Route.Set("open", string.Join(",", ModalStack.Entrie
 - Modal — the surface a sheet is — `modal.md`
 - OmniResult — `ToModal()` builds the sheet a search result opens into — `omni-result.md`
 - Layer — the overlay infrastructure underneath — `layer.md`
+- Routing — keeping the URL in step with the chain — `routing.md`
 - Full docs & API: `/tesserae/components/modal-stack`

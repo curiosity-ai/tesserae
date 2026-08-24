@@ -55,7 +55,7 @@ var sources = ContextCards(
     ContextCard("Incident 482 postmortem", UIcons.FileInvoice).SetSubLabel("docs/postmortem-482.md").MonospaceSubLabel().SetBadge("Wiki").IconTint("#3b82f6"),
     ContextCard("events.request_log", UIcons.Database).SetSubLabel("warehouse · 2.1M rows").MonospaceSubLabel().SetBadge("Snowflake").IconTint("#10b981"))
    .SetSummary("3 sources for this answer")
-   .OnToggle(g => Console.WriteLine(g.IsExpanded));
+   .OnToggle(g => console.log(g.IsExpanded));
 
 // Compact: a dense row that ends in "+N more".
 var attached = ContextCards().Compact().MaxVisible(3);

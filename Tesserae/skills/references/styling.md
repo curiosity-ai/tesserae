@@ -81,6 +81,6 @@ var button = Button("Download").Style(s => s.borderRadius = "12px");
 
 ## Related
 
-- Custom Styles (CSS classes) — `.custom-styles.md`
-- Layout & Alignment — `.layout-alignment.md`
+- Custom Styles (CSS classes) — `custom-styles.md`
+- Layout & Alignment — `layout-alignment.md`
 - Full docs & API: `/tesserae/get-started/styling`

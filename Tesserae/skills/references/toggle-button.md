@@ -27,11 +27,11 @@ using static Tesserae.UI;
 var bold = Button("Bold").SetIcon(UIcons.Bold)
     .ToToggle()
     .Checked()
-    .OnChange((s, e) => Console.WriteLine($"Bold: {s.IsChecked}"));
+    .OnChange((s, e) => console.log($"Bold: {s.IsChecked}"));
 ```
 
 ## Related
 
-- Button — `.button.md`
-- Toggle — `.toggle.md`
+- Button — `button.md`
+- Toggle — `toggle.md`
 - Full docs & API: `/tesserae/components/toggle-button`

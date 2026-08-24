@@ -17,7 +17,7 @@ A visual node-based editor. Define node types with typed input/output interfaces
 - `.DefineDynamicNode(typeName, buildBase, (inputs, outputs, ib) => …)` — outputs/inputs recomputed from current values.
 - `.Register<T>()` — register a node type implementing `INodeView` (`IDynamicNodeView` for dynamic).
 - `.OnChange(Action<NodeView>)` — fires (debounced) on graph edits.
-- `.GetState()` / `.GetJsonState(bool formatted = false)` / `.SetState(json or NodeViewGraphState)` — persistence.
+- `.GetState()` / `.GetJsonState(bool formated = false)` / `.SetState(json or NodeViewGraphState)` — persistence.
 - `NodeView.State()` — a `StateBuilder` to construct graphs programmatically.
 
 Interface builders (`NodeView.Interfaces`): `TextInterface`, `TextInputInterface`, `IntegerInterface`, `NumberInterface`, `CheckboxInterface`, `SelectInterface`, `SliderInterface`, `ButtonInterface`.
