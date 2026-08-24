@@ -4,8 +4,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Transpose.BCL" Version="26.8.4275" />
-    <PackageReference Include="Transpose.Core" Version="26.7.3304" />
+    <PackageReference Include="Transpose.BCL" Version="26.8.4292" />
+    <PackageReference Include="Transpose.Core" Version="26.8.4176" />
   </ItemGroup>
 
   <ItemGroup>
