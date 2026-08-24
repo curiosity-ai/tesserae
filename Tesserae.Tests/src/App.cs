@@ -58,14 +58,6 @@ namespace Tesserae.Tests
             // land somewhere else in the list than the person who sent it saw.
             var sidebar = Sidebar();
 
-            // On mobile we use navbar mode: horizontal bar + full-screen sliding drawer.
-            // This is evaluated once at startup; the CSS (tss-mobile class) handles visual switches
-            // for subsequent resize events.
-            if (Theme.IsMobileMode)
-            {
-                sidebar.AsNavbar();
-            }
-
             sidebar.AddHeader(new SidebarText("header", "Tesserae", "TSS", textSize: TextSize.XLarge, textWeight: TextWeight.Bold));
 
             var searchBox = new SidebarSearchBox("search", "Search...");
@@ -93,18 +85,16 @@ namespace Tesserae.Tests
                 ? (IComponent)VStack().S().ScrollY().Children(new LandingPage(samples.Values).WS())
                 : VStack().S().ScrollY().Children((await page.ContentGenerator()).WS().MinHeight(100.percent())));
 
-            // On mobile the sidebar is a fixed top navbar, so the layout is vertical (sidebar then content).
-            // On desktop the layout is horizontal (sidebar left, content right).
-            Stack pageContent;
-
-            if (Theme.IsMobileMode)
-            {
-                pageContent = VStack().Class("tss-page-layout").S().Children(sidebar.WS(), contentArea.WS().H(1).Grow());
-            }
-            else
-            {
-                pageContent = HStack().Class("tss-page-layout").S().Children(sidebar.HS(), contentArea.HS().W(1).Grow());
-            }
+            // The shell is built once and re-pointed by ApplyLayoutMode below, which runs at startup
+            // and again on every mobile-mode change: on mobile the sidebar is a fixed top navbar and
+            // the layout is a column (navbar above content); on desktop it is a row (sidebar left,
+            // content right). Deciding it only at startup left the C# layout and the stylesheet
+            // disagreeing after a resize - the row's content still carried the width:1px+grow that
+            // claims leftover space along a row, which in a column is simply a one-pixel-wide page.
+            //
+            // The sidebar itself is never given an inline width: .tss-sidebar's own 250px is what
+            // sizes it on desktop, and .tss-navbar overrides both axes on mobile.
+            var pageContent = HStack().Class("tss-page-layout").S().Children(sidebar.HS(), contentArea);
 
             MountToBody(pageContent);
 
@@ -115,13 +105,42 @@ namespace Tesserae.Tests
 
             var openClose = new SidebarCommand(UIcons.AngleLeft).Tooltip("Close Sidebar");
 
-            // In mobile/navbar mode the drawer always starts closed (hamburger opens it).
-            // In desktop mode, restore the user's last open/closed preference from localStorage.
-            if (!Theme.IsMobileMode)
+            // Points the shell at the layout the current mode calls for. Called once below and then
+            // on every OnMobileModeChanged, so narrowing or widening the window switches the whole
+            // shell rather than leaving a row layout for the mobile stylesheet to reshape.
+            void ApplyLayoutMode(bool isMobile)
             {
-                var sidebarOpenState = bool.TryParse(localStorage.getItem(_sidebarOpenStateKey), out var v) ? v : true;
-                sidebar.Closed(!sidebarOpenState);
+                sidebar.AsNavbar(isMobile);
+
+                if (isMobile)
+                {
+                    // Column: the navbar is fixed at the top and the content fills what is left. The
+                    // 1px height is the flex basis the grow expands from, so it has to be on the axis
+                    // the column measures - and the width has to be restated, since the row layout
+                    // left width:1px behind on what is now the cross axis.
+                    pageContent.Vertical();
+                    contentArea.WS().H(1).Grow();
+
+                    // AsNavbar already closed the drawer; keep the affordance's icon saying so.
+                    openClose.SetIcon(UIcons.AngleRight).Tooltip("Open Sidebar");
+                }
+                else
+                {
+                    pageContent.Horizontal();
+                    contentArea.HS().W(1).Grow();
+
+                    // Back on desktop, the sidebar is a rail again, so restore the user's own
+                    // open/closed preference rather than leaving it collapsed by the drawer.
+                    var sidebarOpenState = bool.TryParse(localStorage.getItem(_sidebarOpenStateKey), out var v) ? v : true;
+                    sidebar.Closed(!sidebarOpenState);
+
+                    openClose.SetIcon(sidebarOpenState ? UIcons.AngleLeft : UIcons.AngleRight)
+                       .Tooltip(sidebarOpenState ? "Close Sidebar" : "Open Sidebar");
+                }
             }
+
+            ApplyLayoutMode(Theme.IsMobileMode);
+            Theme.OnMobileModeChanged += () => ApplyLayoutMode(Theme.IsMobileMode);
 
             openClose.OnClick(() =>
             {

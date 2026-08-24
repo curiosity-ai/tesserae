@@ -22,9 +22,21 @@ body.tss-mobile .tss-navbar {
     padding: 0 12px !important;
 }
 
-/* Push the page content area down below the fixed navbar */
+/* Push the page content area down below the fixed navbar, and make it own the full
+   width of the column.
+
+   The width matters as much as the offset: an app that built its shell as a row
+   (sidebar | content) gives the content `width: 1px` plus `flex-grow`, which is how a
+   flex item claims the leftover main axis. Flipping the direction to column above turns
+   width into the *cross* axis, so that 1px stops being a growable basis and becomes the
+   content's actual width — a page one pixel wide, which reads as a blank white screen.
+   Restating the sizing for the new axis keeps a layout built for either mode readable. */
 body.tss-mobile .tss-page-layout > .tss-stack-item:last-child {
     margin-top: 52px;
+    width: 100% !important;
+    height: auto !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
 }
 
 /* Full-screen drawer: always in DOM for animation, positioned fixed */

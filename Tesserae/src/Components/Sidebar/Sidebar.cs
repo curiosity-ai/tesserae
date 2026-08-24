@@ -150,27 +150,69 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Configures the sidebar to render as a navbar.
+        /// Gets whether the sidebar is currently rendering as a navbar.
         /// </summary>
+        public bool IsNavbar => _isNavbar;
+
+        /// <summary>
+        /// Configures the sidebar to render as a navbar - a horizontal bar with a hamburger that opens
+        /// the items in a sliding drawer - or back to an ordinary vertical sidebar.
+        /// </summary>
+        /// <remarks>
+        /// Both directions are supported so an app can follow <see cref="UI.Theme.OnMobileModeChanged"/>
+        /// and switch on a window resize, rather than deciding once at startup and rendering a layout
+        /// the stylesheet then reshapes underneath it.
+        /// </remarks>
+        /// <param name="isNavbar">Whether to render as a navbar.</param>
         /// <returns>The current instance.</returns>
-        public Sidebar AsNavbar()
+        public Sidebar AsNavbar(bool isNavbar = true)
         {
-            _isNavbar = true;
-            _sidebar.Horizontal();
-            _sidebar.Class("tss-navbar");
-            _closed.Value = true;
+            if (_isNavbar == isNavbar) return this;
 
-            // Apply the closed class synchronously so CSS states are correct before first paint.
-            _sidebar.Class("tss-navbar-closed");
+            _isNavbar = isNavbar;
 
-            // Create a backdrop element appended to the body. On mobile it dims the background
-            // when the drawer is open and closes the sidebar on click.
-            if (_mobileBackdrop is null)
+            if (isNavbar)
             {
-                _mobileBackdrop           = (HTMLDivElement)document.createElement("div");
-                _mobileBackdrop.className = "tss-mobile-backdrop";
-                _mobileBackdrop.addEventListener("click", (Event e) => { _closed.Value = true; });
-                document.body.appendChild(_mobileBackdrop);
+                _sidebar.Horizontal();
+                _sidebar.Class("tss-navbar");
+
+                // The drawer always starts closed: on a phone it covers the page, so opening it
+                // unasked would hide whatever the user came for.
+                _closed.Value = true;
+
+                // Apply the closed class synchronously so CSS states are correct before first paint,
+                // and drop the one the vertical sidebar uses so only one of the two is ever on.
+                _sidebar.RemoveClass("tss-sidebar-closed");
+                _sidebar.Class("tss-navbar-closed");
+
+                // Create a backdrop element appended to the body. On mobile it dims the background
+                // when the drawer is open and closes the sidebar on click.
+                if (_mobileBackdrop is null)
+                {
+                    _mobileBackdrop           = (HTMLDivElement)document.createElement("div");
+                    _mobileBackdrop.className = "tss-mobile-backdrop";
+                    _mobileBackdrop.addEventListener("click", (Event e) => { _closed.Value = true; });
+                    document.body.appendChild(_mobileBackdrop);
+                }
+            }
+            else
+            {
+                _sidebar.Vertical();
+                _sidebar.RemoveClass("tss-navbar");
+                _sidebar.RemoveClass("tss-navbar-closed");
+
+                if (_closed.Value)
+                {
+                    _sidebar.Class("tss-sidebar-closed");
+                }
+
+                // The backdrop only ever belongs to a drawer, and it is a full-viewport click target,
+                // so it goes away with the drawer rather than lingering over the page.
+                if (_mobileBackdrop is object)
+                {
+                    _mobileBackdrop.remove();
+                    _mobileBackdrop = null;
+                }
             }
 
             Refresh();

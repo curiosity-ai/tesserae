@@ -25,7 +25,9 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.Closed(bool = true)` / `.Toggle()` / `.IsClosed` — collapse to icon rail.
 - `.ShiftTo(childSidebar)` / `.ShiftBack()` / `.IsShifted` — slide into a nested
   sidebar (see below).
-- `.AsNavbar()` — render horizontally as a top bar with a hamburger drawer.
+- `.AsNavbar(bool = true)` / `.IsNavbar` — render horizontally as a top bar with a
+  hamburger drawer, or (passing `false`) back as a vertical sidebar. Both directions
+  work, so an app can switch on a window resize — see *Responsive* below.
 - `.Secondary()` — use the secondary background colour.
 - `.Sortable(bool)` — enable/disable drag reordering.
 - `.Search(term)` — filter searchable middle items.
@@ -207,6 +209,40 @@ Only one depth level is supported: a child sidebar can't shift again. The child
 is rendered inside the hosting sidebar and follows its open/closed state, so
 `.Toggle()` on the main sidebar collapses both. Shifting is ignored in
 `.AsNavbar()` mode.
+
+## Responsive: sidebar on desktop, navbar on mobile
+
+`Theme.EnableMobileDetection()` adds and removes the `tss-mobile` class as the
+viewport crosses a breakpoint, and the mobile stylesheet turns a `.tss-page-layout`
+shell into a column with the navbar pinned to the top. Follow
+`Theme.OnMobileModeChanged` and switch the whole shell, rather than picking a layout
+once at startup — the stylesheet reshapes what is on the page either way, so a row
+built for desktop is still a row in C# when the CSS starts drawing it as a column:
+
+```csharp
+Theme.EnableMobileDetection(breakpoint: 768);
+
+var sidebar = Sidebar();
+var content = VStack().S().ScrollY().Children(/* ... */);
+
+// The sidebar gets no inline width: .tss-sidebar sizes it on desktop and the
+// navbar rules override both axes on mobile.
+var shell = HStack().Class("tss-page-layout").S().Children(sidebar.HS(), content);
+
+void ApplyLayoutMode(bool isMobile)
+{
+    sidebar.AsNavbar(isMobile);
+
+    // The 1px is the flex basis the grow expands from, so it has to sit on the axis
+    // the container measures — and the other axis has to be restated, or the value
+    // left over from the previous mode becomes a real size on the cross axis.
+    if (isMobile) { shell.Vertical();   content.WS().H(1).Grow(); }
+    else          { shell.Horizontal(); content.HS().W(1).Grow(); }
+}
+
+ApplyLayoutMode(Theme.IsMobileMode);
+Theme.OnMobileModeChanged += () => ApplyLayoutMode(Theme.IsMobileMode);
+```
 
 ```csharp
 var sidebar = Sidebar();
