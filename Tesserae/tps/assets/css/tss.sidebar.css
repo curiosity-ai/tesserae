@@ -113,6 +113,28 @@
     background: rgba(var(--tss-primary-background-color-root), 0.18);
 }
 
+/* A row with commands stays hovered for as long as its commands are on screen. The strip is a sibling of
+   the label's button rather than part of it - it has to be, so that clicking a command is not clicking
+   the row - so the button's own :hover ends the moment the pointer reaches a command, and the row fell
+   back to its resting colour under the very icons the pointer was aiming at. That took the scrim further
+   down with it, which is the button's own background colour: the label reappeared from under the
+   commands as you reached for them. Both come back here, in the two states where the strip is drawn and
+   the pointer is not on the label: anywhere else on the row, and a command's menu left open with the
+   pointer gone.
+
+   These are the plain hover colours, so this is scoped to rows drawn as default buttons; the selected
+   row is excluded because the rule above already covers it - it lists the same wrapper-hover shape for
+   the same reason - and a Primary or Danger row keeps its own variant's hover. Rows without commands are
+   not in this: nothing can come between the pointer and their button. */
+.tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+.tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+.tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+.tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    color: var(--tss-default-foreground-hover-color);
+    background-color: var(--tss-default-background-hover-color);
+    border-color: var(--tss-default-background-hover-color);
+}
+
 /* The wash sits on a dark surface here, so the same alpha would barely register - it takes about twice
    as much of the primary to read as a tint rather than as noise. The text is lifted towards white for
    the same reason: a fill colour chosen to sit behind white text is, by definition, too dark to be text
@@ -306,8 +328,9 @@
    background-color: inherit is what makes that true in every theme and every state without naming a
    colour: the pseudo-element takes the button's own computed background, so it is the hover grey while
    the row is hovered and the dark equivalent in dark mode. The corollary is that a row with no
-   background of its own has nothing to fade into - which is why this is the hover rule and not one that
-   also covers a command menu left open with the pointer elsewhere.
+   background of its own has nothing to fade into, which is why this is drawn in exactly the states the
+   rule further up keeps a row hovered for - the pointer anywhere on the row, and a command's menu left
+   open - and not in the two where the row reserves room for its commands instead.
 
    It sits inside the button rather than over the row so that the button's overflow: hidden clips it to
    the row's rounded corners, and so that right: 0 is the row's own right edge whatever the row's width -
@@ -324,7 +347,9 @@
    scrim landing on empty space: their background can be a wash rather than a solid, and painting it
    twice would show. */
 .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > .tss-sidebar-btn::after,
-.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > a > .tss-sidebar-btn::after {
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > a > .tss-sidebar-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-sidebar-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-sidebar-btn::after {
     content: "";
     position: absolute;
     top: 0;
