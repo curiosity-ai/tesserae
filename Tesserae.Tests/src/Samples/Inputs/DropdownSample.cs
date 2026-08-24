@@ -67,7 +67,7 @@ namespace Tesserae.Tests.Samples
                             DropdownItem("High")
                         ))
                     ),
-                    SampleSubTitle("Mixed Renderings"),
+                    SampleSubTitle("Mixed"),
                     VStack().Children(
                         TextBlock("An item's content is any IComponent, and the box draws its own second one - so whatever an option renders in the list, the box has to render inline, comma-separated, clipped to one 32px row. These are deliberately unreasonable options: they are here to keep the box honest about avatars, badges, charts, emoji, two-line blocks and text that is far too long."),
                         Label("People (avatar + two lines, multi)").SetContent(PeopleDropdown()),
