@@ -14,11 +14,15 @@ item loading, custom selection rendering, and validation. Items are
 `UI.Dropdown()` (or `UI.Dropdown(string noItemsText)`) — the dropdown.
 `UI.DropdownItem(string text, string selectedText = "", UIcons? icon = null)` — a plain option.
 `UI.DropdownItem(IComponent content, IComponent selectedContent)` — an option drawing components you
-have already built: one for the row, one for the box. Both are required and must be different
-instances.
+have already built: one for the row, one for the box. They must be different instances; pass the same
+one twice, or `null` for the box, and it falls back to copying the row and says so on the console.
 `UI.DropdownItem(Func<IComponent> content, Func<IComponent> selectedContent = null)` — the same from
 recipes, so one recipe can serve both, and the box's is built only if the option is selected.
 See **Rich item content**.
+`UI.DropdownItem(IComponent content)` — **obsolete**. Draws that one component in the row and a
+`cloneNode` copy of it in the box. The copy has no event listeners, no mount registration and no
+component identity, so a `Defer` inside it never loads and nothing in it ever reacts. It still works,
+so existing code keeps running; the compiler warns, and the fix is the `Func<IComponent>` overload.
 `UI.DropdownItem()` for a divider/header placeholder.
 Bring factories into scope with `using static Tesserae.UI;`.
 
@@ -98,8 +102,8 @@ An option is drawn **twice**: as a row in the open list, and — when it is sele
 box, laid out inline and comma-separated on a single ~32px row. A component exists at exactly one
 place in the DOM, so each place needs its own. There are two ways to say that.
 
-**Pass both components** when you have them and they are cheap. Both are required, and they must be
-different instances — the same one in both places does not draw twice, it moves out of the row:
+**Pass both components** when you have them and they are cheap. They must be different instances —
+the same one in both places does not draw twice, it moves out of the row:
 
 ```csharp
 DropdownItem(

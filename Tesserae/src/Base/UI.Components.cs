@@ -1289,6 +1289,15 @@ namespace Tesserae
         public static Dropdown.Item DropdownItem(string text, string selectedText = string.Empty, UIcons? icon = null) => new Dropdown.Item(text, selectedText, icon);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.Dropdown.Item"/> component from a single component, which is drawn in
+        /// the list and copied into the closed box. Obsolete - the copy has no event listeners and never loads
+        /// a <see cref="Defer(Func{Task{IComponent}})"/>; pass a <see cref="Func{IComponent}"/> instead and the
+        /// list and the box each get their own live component from the same recipe.
+        /// </summary>
+        [Obsolete("The box gets a copy of the row, which has no listeners and never loads a Defer. Pass a Func<IComponent> instead, so the box builds its own live component from the same recipe.")]
+        public static Dropdown.Item DropdownItem(IComponent content) => new Dropdown.Item(content);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Dropdown.Item"/> component.
         /// </summary>
         public static Dropdown.Item DropdownItem(IComponent content, IComponent selectedContent) => new Dropdown.Item(content, selectedContent);

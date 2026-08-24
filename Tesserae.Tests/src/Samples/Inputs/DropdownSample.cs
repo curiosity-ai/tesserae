@@ -69,7 +69,7 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Mixed Renderings"),
                     VStack().Children(
-                        TextBlock("An item's content is any IComponent, and the box shows a clone of it - so whatever an option renders in the list, the box has to render inline, comma-separated, clipped to one 32px row. These are deliberately unreasonable options: they are here to keep the box honest about avatars, badges, charts, emoji, two-line blocks and text that is far too long."),
+                        TextBlock("An item's content is any IComponent, and the box draws its own second one - so whatever an option renders in the list, the box has to render inline, comma-separated, clipped to one 32px row. These are deliberately unreasonable options: they are here to keep the box honest about avatars, badges, charts, emoji, two-line blocks and text that is far too long."),
                         Label("People (avatar + two lines, multi)").SetContent(PeopleDropdown()),
                         Label("Status badges (multi)").SetContent(Dropdown().Multi().Items(
                             BadgeItem("Critical", BadgeTone.Danger,  UIcons.Exclamation).Selected(),

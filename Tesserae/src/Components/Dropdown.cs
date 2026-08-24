@@ -1247,10 +1247,16 @@ namespace Tesserae
             // which is what this used to do, hands the box a dead picture: cloneNode carries attributes
             // but not event listeners, not DomObserver's mount registration and not component identity,
             // so a Defer in the copy never loaded and nothing in it ever reacted to anything.
+            //
+            // Null on the paths that still take that copy, kept working for code written before this was a
+            // factory: the obsolete single-component constructor, and a box component given as null or as
+            // the row's own instance - see CopyRowForBox.
             private readonly Func<IComponent> _selectedContentFactory;
 
             // Built the first time the box asks for it, so an option nobody selected costs nothing - which
-            // is what keeps a deferred option lazy until it is either listed or selected.
+            // is what keeps a deferred option lazy until it is either listed or selected. The copy-the-row
+            // paths fill it in the constructor instead, since the copy has to be taken before anything else
+            // touches the row.
             private HTMLElement _selectedElement;
             /// <summary>
             /// Initializes a new instance of this class.
@@ -1279,44 +1285,93 @@ namespace Tesserae
             private dynamic _data;
 
             /// <summary>
+            /// Initializes a new instance of this class from a single component, which is drawn in the list
+            /// and <em>copied</em> into the closed box.
+            /// <para>
+            /// Obsolete because that copy is a dead picture: <c>cloneNode</c> carries attributes but not event
+            /// listeners, not DomObserver's mount registration and not component identity, so a
+            /// <see cref="UI.Defer(Func{Task{IComponent}})"/> inside it never loads and nothing in it ever
+            /// reacts. Use <see cref="Item(Func{IComponent}, Func{IComponent})"/> instead: one recipe, from
+            /// which the list and the box each get their own live component.
+            /// </para>
+            /// </summary>
+            [Obsolete("The box gets a copy of the row, which has no listeners and never loads a Defer. Pass a Func<IComponent> instead, so the box builds its own live component from the same recipe.")]
+            public Item(IComponent content) : this(content, null)
+            {
+            }
+
+            /// <summary>
             /// Initializes a new instance of this class from two components the caller has already built: one
-            /// for the row in the list, one for the closed box. Both are needed, and they must be different
-            /// instances, because an element exists at exactly one place in the DOM - there is no way to draw
-            /// one component in both places. To supply a single recipe and let the box build its own second
-            /// instance from it, use the <see cref="Item(Func{IComponent}, Func{IComponent})"/> overload,
-            /// which also defers building the box's one until the option is actually selected.
+            /// for the row in the list, one for the closed box. They must be different instances, because an
+            /// element exists at exactly one place in the DOM - there is no way to draw one component in both
+            /// places. To supply a single recipe and let the box build its own second instance from it, use
+            /// the <see cref="Item(Func{IComponent}, Func{IComponent})"/> overload, which also defers building
+            /// the box's one until the option is actually selected.
+            /// <para>
+            /// Passing <c>null</c> for <paramref name="selectedContent"/>, or the same instance twice, falls
+            /// back to the obsolete behaviour of copying the row into the box and says so on the console.
+            /// </para>
             /// </summary>
             public Item(IComponent content, IComponent selectedContent)
             {
-                if (content is null) throw new ArgumentNullException(nameof(content));
-
-                // A null short form used to mean "copy the row into the box", and a copy is a picture: no
-                // listeners, no mount registration, no identity, so a Defer in it never loaded and nothing in
-                // it ever reacted. Pass a factory instead and the box gets a real second component.
-                if (selectedContent is null)
+                // Nothing to draw and nothing to fall back to. Reporting it beats throwing: a throw out of a
+                // component's constructor takes down the whole page it was being built into, so the option
+                // renders empty and the console says which call did it.
+                if (content is null)
                 {
-                    throw new ArgumentNullException(nameof(selectedContent),
-                        "A Dropdown.Item needs its own component for the box. Pass one, or use the Func<IComponent> overload to have it built from the same recipe as the row.");
+                    console.error("Dropdown.Item: content is null, the option will render empty.");
+                    content = TextBlock("");
                 }
-
-                // The same instance in both places does not draw twice - appending it to the box moves it out
-                // of the row, leaving the row empty.
-                if (selectedContent == content)
-                {
-                    throw new ArgumentException(
-                        "The row and the box need separate components; the same instance cannot be in both. Use the Func<IComponent> overload to build one for each from the same recipe.",
-                        nameof(selectedContent));
-                }
-
-                // Safe to hand these straight back as factories: each is invoked exactly once - the row's in
-                // this constructor, the box's on the first RenderSelected, which caches what it builds.
-                _selectedContentFactory = () => selectedContent;
 
                 InnerElement = Button(Att("tss-dropdown-item", role: "option"));
                 InnerElement.appendChild(content.Render());
 
+                // A null short form has always meant "copy the row into the box", and the same instance twice
+                // cannot draw twice - appending it to the box moves it out of the row, leaving the row empty -
+                // so that means the copy too. Both keep working, both are the obsolete behaviour: a copy is a
+                // picture, with no listeners, no mount registration and no identity.
+                if (selectedContent is null || selectedContent == content)
+                {
+                    CopyRowForBox();
+                }
+                else
+                {
+                    // Safe to hand this straight back as a factory: it is invoked exactly once, on the first
+                    // RenderSelected, which caches what it builds.
+                    _selectedContentFactory = () => selectedContent;
+                }
+
                 InnerElement.addEventListener("click",     OnItemClick);
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
+            }
+
+            // Said once per session, not once per option: a list built the old way would otherwise print a
+            // line per item. [Obsolete] is where this is meant to be caught, at build time; this is for the
+            // build that does not surface the warning.
+            private static bool _reportedRowCopy;
+
+            // The pre-factory behaviour, kept so code written against it keeps working: the box shows a copy
+            // of the row. Taken here rather than on the first RenderSelected so it is a copy of the option as
+            // it was built, before selection state or a filter's <mark> highlighting reached the row - which
+            // is what the old constructor, cloning before anything was selected, copied.
+            private void CopyRowForBox()
+            {
+                if (!_reportedRowCopy)
+                {
+                    _reportedRowCopy = true;
+                    console.error("Dropdown.Item: the box has no component of its own, so it gets a copy of the row - which has no event listeners and never loads a Defer. Pass a separate component for the box, or a Func<IComponent> to have one built from the same recipe as the row.");
+                }
+
+                _selectedElement = (HTMLElement)InnerElement.cloneNode(true);
+
+                // Not a row: the box carries no role or aria-selected, is out of the tab order, and is styled
+                // as the box's own single clipped line.
+                _selectedElement.classList.remove("tss-dropdown-item");
+                _selectedElement.classList.remove("tss-selected");
+                _selectedElement.classList.add("tss-dropdown-item-on-box");
+                _selectedElement.removeAttribute("role");
+                _selectedElement.removeAttribute("aria-selected");
+                _selectedElement.tabIndex = -1;
             }
 
             /// <summary>
@@ -1338,7 +1393,13 @@ namespace Tesserae
             /// </summary>
             public Item(Func<IComponent> content, Func<IComponent> selectedContent = null)
             {
-                if (content is null) throw new ArgumentNullException(nameof(content));
+                // Same reasoning as the component overload: an empty option and a console message, rather
+                // than a throw that takes the page down with it.
+                if (content is null)
+                {
+                    console.error("Dropdown.Item: content is null, the option will render empty.");
+                    content = () => TextBlock("");
+                }
 
                 _selectedContentFactory = selectedContent ?? content;
 
@@ -1468,7 +1529,8 @@ namespace Tesserae
             /// <summary>
             /// The element the dropdown's box shows for this item while it is selected: its own component,
             /// built from the factory the item was given, so it is mounted and live in the box rather than a
-            /// copy of the row. Built once and reused.
+            /// copy of the row. Built once and reused. Where there was no second recipe to build from - the
+            /// obsolete single-component path - this is instead the copy of the row taken in the constructor.
             /// </summary>
             public HTMLElement RenderSelected()
             {
