@@ -51,6 +51,7 @@ Theme.SetHighlight(Color.FromString("#b45309"), Color.FromString("#fbbf24"));
 
 ## Related
 
+- ThemeBuilder — the whole palette in one fluent call — `theme-builder.md`
 - Colors (palette constants + Color helper) — `colors.md`
 - Gradients — `gradients.md`
 - Full docs & API: `/tesserae/utilities/theme-colors`

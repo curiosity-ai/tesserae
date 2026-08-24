@@ -57,6 +57,7 @@ Theme.SetHighlight(Color.FromString("#B45309"), Color.FromString("#FBBF24"));
 ## Related
 
 - Theme switching detail — `theme-colors.md`
+- ThemeBuilder — set every colour variable at once — `theme-builder.md`
 - Gradients — `gradients.md`
 - ColorPalette picker — `color-palette.md`
 - Full docs & API: `/tesserae/utilities/colors`, `/tesserae/get-started/colors`

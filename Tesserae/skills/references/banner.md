@@ -74,11 +74,11 @@ Toast().TopFull().Banner().Show(
 
 ## Shown as a toast
 
-`Toast().Show(banner)` hooks the banner's dismiss button to the toast's own hiding,
-chained *after* whatever `OnDismiss` handler you already set — so the `[x]` closes
-the toast and your handler still runs. Whether there is a button at all follows the
-toast's settings: an edge-to-edge banner follows its `showHideButton`, an ordinary
-toast shows one unless `NoDismiss()` said it cannot be dismissed at all.
+`Toast().Show(banner)` chains the banner's `[x]` to the toast's own hiding, *after*
+whatever `OnDismiss` handler you set — so it closes the toast and your handler still
+runs. Whether there is a button at all follows the toast: an edge-to-edge banner
+follows its `showHideButton`, an ordinary one shows a button unless `NoDismiss()`
+said it cannot be dismissed at all (`toast.md`).
 
 ## Related
 

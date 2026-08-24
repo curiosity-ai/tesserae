@@ -165,8 +165,8 @@ accordion · background-area · card · expander · grid · horizontal-separator
 horizontal-split-view · masonry · section-stack · split-view · stack
 
 **Text & Content** — text, labels and rich content blocks
-badge · icon-tile · inline-label · keyboard-shortcut · label · markdown-block
-· section-title · text-block
+badge · code-diff · icon-tile · inline-label · keyboard-shortcut · label ·
+list-item-text · markdown-block · section-title · text-block
 
 **Buttons & Commands** — things the user clicks to do something
 action-button · button · command-bar · command-palette · context-menu ·
@@ -183,7 +183,8 @@ cron-editor · date-picker · date-range-picker · date-time-picker ·
 month-picker · time-histogram-picker · time-picker · week-picker
 
 **Forms & Validation** — binding a form to data, validating and saving it
-property-grid · save-button · saving-toast · unsaved-changes-guard · validator
+property-grid · questionnaire · save-button · saving-toast ·
+unsaved-changes-guard · validator
 
 **Navigation** — moving between pages, sections and tabs
 breadcrumb · card-pivot · inline-pagination · navbar · pagination · pivot ·
@@ -192,15 +193,15 @@ stepper · text-breadcrumbs
 
 **Lists & Data** — rendering a collection of items
 details-grid · details-list · infinite-scrolling-list · items-list ·
-observable-stack · sortable-stack · task-board · timeline · tree ·
-virtualized-list
+keyed-observable-stack · observable-stack · sortable-stack · task-board ·
+timeline · tree · virtualized-list
 
 **Search** — search inputs and their result surfaces
 omni-box · omni-result · search-box · searchable-grouped-list ·
 searchable-list
 
 **Charts & Visualization** — numbers and relationships, drawn
-charts · contribution-bar · metric · node-view · sparkline · uptime
+charts · contribution-bar · diagram · metric · node-view · sparkline · uptime
 
 **Feedback & Status** — progress, notifications and empty states
 banner · live-progress · message · notification-center · progress-indicator ·
@@ -218,7 +219,7 @@ tool-agent-selector · tool-call
 avatar · carousel · image · pages-stack · pixel-avatar · sandbox
 
 **Theming & Icons** — colours, gradients, icons and emoji
-color-palette · emoji · gradients · icon · uicons
+color-palette · emoji · gradients · icon · theme-builder · uicons
 
 **Utilities & Behaviors** — helpers that render little or nothing on their own
 defer · defer-with-progress · delta-component · gestures · visibility-sensor

@@ -139,4 +139,5 @@ var live = AreaChart()
 ## Related
 
 - Sparkline — `/tesserae/components/sparkline`
+- Diagram — relationships rather than numbers — `diagram.md`
 - Full docs & API: `/tesserae/components/charts`

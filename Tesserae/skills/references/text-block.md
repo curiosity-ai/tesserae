@@ -47,5 +47,6 @@ var note = TextBlock("The quick brown fox.", selectable: true)
 ## Related
 
 - Label — `label.md`
+- ListItemText — a title with a subtitle under it — `list-item-text.md`
 - AI variants — the `.AI()` / `.AISurface()` variant — `ai-variants.md`
 - Full docs & API: `/tesserae/components/text-block`

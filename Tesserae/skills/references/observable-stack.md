@@ -54,5 +54,6 @@ return stack.Render();
 
 - Stack — `stack.md`
 - Observables — `observables.md`
+- KeyedObservableStack — the keyed sibling, for rows that reorder — `keyed-observable-stack.md`
 - SortableStack — `sortable-stack.md`
 - Full docs & API: `/tesserae/collections/observable-stack`

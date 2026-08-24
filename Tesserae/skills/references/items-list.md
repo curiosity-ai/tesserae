@@ -42,4 +42,5 @@ var list = ItemsList(items, 100.percent())   // single column → stack
 
 - VirtualizedList — `virtualized-list.md` (large datasets)
 - SearchableList — `searchable-list.md`
+- ListItemText — the title + subtitle block a row is usually made of — `list-item-text.md`
 - Full docs & API: `/tesserae/collections/items-list`
