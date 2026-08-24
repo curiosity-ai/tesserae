@@ -143,6 +143,28 @@ namespace Tesserae.Tests.Samples
                         )),
                         Label("Empty State").SetContent(Dropdown("No items available").Items(new Dropdown.Item[0]))
                     ),
+                    SampleSubTitle("Deferred Mixed Content"),
+                    VStack().Children(
+                        TextBlock("The same rich options as above, only now each one's content arrives through a Defer. This is the ordering that used to break the box: it shows a copy of the row, and a copy taken while the Defer was still on its loading placeholder stayed a placeholder for good - most visibly when an option is selected up front, before its content exists. Some of these are selected up front on purpose."),
+                        Label("Deferred rich options (multi, two pre-selected)").SetContent(Dropdown().Multi().Items(
+                            DeferredItem(300,  () => BadgeRow("Critical", BadgeTone.Danger, UIcons.Exclamation),  selected: true),
+                            DeferredItem(700,  () => SwatchRow("Seafoam", "#00b7c3", 16),                         selected: true),
+                            DeferredItem(1100, () => PersonBlock("Ana Pereira", "ana@example.com")),
+                            DeferredItem(1500, () => MetricRow("Revenue", new double[] { 3, 5, 4, 8, 6, 11, 9, 14 }, "#107c10", 90, 24, labelWidth: 70))
+                        )),
+                        Label("Deferred rich options (single)").SetContent(Dropdown().Items(
+                            DeferredItem(400,  () => PersonBlock("Bo Lindqvist", "bo@example.com")),
+                            DeferredItem(900,  () => BadgeRow("Healthy", BadgeTone.Success, UIcons.CheckCircle)),
+                            DeferredItem(1300, () => SwatchRow("Orchid", "#8764b8", 16))
+                        )),
+                        TextBlock("One thing the box cannot do anything about: a Defer only loads its content once it is mounted, and a row is not in the document until the dropdown is first opened. So an option that is deferred, has no short form and is selected up front shows its placeholder in the box until you open the list once - there is nothing else to copy yet. It catches up as each Defer resolves."),
+                        TextBlock("An explicit short form is the way out, and is a live component rather than a copy, so a Defer inside one is mounted in the box and resolves there without the list ever being opened. Here both halves are deferred, on different delays."),
+                        Label("Deferred row and deferred short form (multi)").SetContent(Dropdown().Multi().Items(
+                            DeferredPairItem(500,  1200, "Frankfurt",  "eu-central-1",   selected: true),
+                            DeferredPairItem(800,  1600, "Oregon",     "us-west-2",      selected: true),
+                            DeferredPairItem(1100, 2000, "Singapore",  "ap-southeast-1")
+                        ))
+                    ),
                     SampleSubTitle("Lazy Search (SearchAsync)"),
                     VStack().Children(
                         TextBlock("With thousands of options there is no loading them all up front. Seed the dropdown with the first page, and let SearchAsync fetch the rest as the User types - the items it returns are added to the ones already there, so the seed and the current selection survive every lookup. This example holds 5,000 people and seeds only the first 20."),
@@ -170,44 +192,25 @@ namespace Tesserae.Tests.Samples
         }
 
         // --- Wild renderings ------------------------------------------------------------------
-        // Each of these builds an option whose content is a composed IComponent rather than a string.
-        // The second argument to DropdownItem is what the *box* shows once the option is selected,
-        // which is the escape hatch for content too tall or too wide to sit on one clipped row.
+        // The content each option draws, defined once as an IComponent, so the plain options above and
+        // the deferred ones below are demonstrably showing the same thing through different paths.
 
-        private static Dropdown PeopleDropdown() => Dropdown().Multi().Items(
-            PersonRow("Ana Pereira",  "ana@example.com").Selected(),
-            PersonRow("Bo Lindqvist", "bo@example.com").Selected(),
-            PersonRow("Chen Wei",     "chen@example.com"),
-            PersonRow("Dara O'Neill", "dara@example.com"));
+        private static IComponent PersonBlock(string name, string email) =>
+            HStack().AlignItemsCenter().Gap(8.px()).Children(
+                Avatar(initials: Initials(name)).Size(AvatarSize.Small).Presence(AvatarPresence.Online),
+                VStack().Children(
+                    TextBlock(name).Small(),
+                    TextBlock(email).Tiny().Secondary()));
 
-        // A two-line row with an avatar in the list, collapsing to avatar + first name in the box.
-        private static Dropdown.Item PersonRow(string name, string email)
-        {
-            var initials = string.Join("", name.Split(' ').Select(part => part.Substring(0, 1)));
+        private static IComponent PersonChip(string name) =>
+            HStack().AlignItemsCenter().Gap(4.px()).Children(
+                Avatar(initials: Initials(name)).Size(AvatarSize.XSmall),
+                TextBlock(name.Split(' ')[0]).Small());
 
-            return DropdownItem(
-                    HStack().AlignItemsCenter().Gap(8.px()).Children(
-                        Avatar(initials: initials).Size(AvatarSize.Small).Presence(AvatarPresence.Online),
-                        VStack().Children(
-                            TextBlock(name).Small(),
-                            TextBlock(email).Tiny().Secondary())),
-                    HStack().AlignItemsCenter().Gap(4.px()).Children(
-                        Avatar(initials: initials).Size(AvatarSize.XSmall),
-                        TextBlock(name.Split(' ')[0]).Small()))
-               .SetKey(email)
-               .SetData(initials);
-        }
-
-        // A badge is already a self-contained pill, so the box shows the same thing the list does.
-        private static Dropdown.Item BadgeItem(string text, BadgeTone tone, UIcons icon) =>
-            DropdownItem(Badge(text).Tone(tone).Pill().SetIcon(Tesserae.Icon.Transform(icon, UIconsWeight.Regular)),
-                         Badge(text).Tone(tone).Pill())
-               .SetKey(text);
+        private static IComponent BadgeRow(string text, BadgeTone tone, UIcons icon) =>
+            Badge(text).Tone(tone).Pill().SetIcon(Tesserae.Icon.Transform(icon, UIconsWeight.Regular));
 
         // A colour chip drawn with a bare div, to prove the box does not care what the content is.
-        private static Dropdown.Item SwatchItem(string name, string color) =>
-            DropdownItem(SwatchRow(name, color, 16), SwatchRow(name, color, 10)).SetKey(name);
-
         private static IComponent SwatchRow(string name, string color, int size) =>
             HStack().AlignItemsCenter().Gap(8.px()).Children(
                 Raw(Div(Att(styles: s =>
@@ -220,23 +223,78 @@ namespace Tesserae.Tests.Samples
                 }))),
                 TextBlock(name).Small());
 
+        private static IComponent MetricRow(string name, double[] series, string color, double width, double height, int labelWidth = 0) =>
+            HStack().AlignItemsCenter().Gap(8.px()).Children(
+                labelWidth > 0 ? TextBlock(name).Small().W(labelWidth) : TextBlock(name).Small(),
+                Sparkline(series, width: width, height: height, color: color));
+
+        private static IComponent TwoLineBlock(string title, string subtitle) =>
+            VStack().Children(
+                TextBlock(title).Small(),
+                TextBlock(subtitle).Tiny().Secondary());
+
+        private static string Initials(string name) => string.Join("", name.Split(' ').Select(part => part.Substring(0, 1)));
+
+        // --- Options built from that content --------------------------------------------------
+        // The second argument to DropdownItem is what the *box* shows once the option is selected,
+        // which is the escape hatch for content too tall or too wide to sit on one clipped row.
+
+        private static Dropdown PeopleDropdown() => Dropdown().Multi().Items(
+            PersonRow("Ana Pereira",  "ana@example.com").Selected(),
+            PersonRow("Bo Lindqvist", "bo@example.com").Selected(),
+            PersonRow("Chen Wei",     "chen@example.com"),
+            PersonRow("Dara O'Neill", "dara@example.com"));
+
+        // A two-line row with an avatar in the list, collapsing to avatar + first name in the box.
+        private static Dropdown.Item PersonRow(string name, string email) =>
+            DropdownItem(PersonBlock(name, email), PersonChip(name)).SetKey(email).SetData(Initials(name));
+
+        // A badge is already a self-contained pill, so the box shows the same thing the list does.
+        private static Dropdown.Item BadgeItem(string text, BadgeTone tone, UIcons icon) =>
+            DropdownItem(BadgeRow(text, tone, icon), Badge(text).Tone(tone).Pill()).SetKey(text);
+
+        private static Dropdown.Item SwatchItem(string name, string color) =>
+            DropdownItem(SwatchRow(name, color, 16), SwatchRow(name, color, 10)).SetKey(name);
+
         // A chart inside an option - the tallest, widest thing here, and the box gets a smaller one.
         private static Dropdown.Item MetricItem(string name, double[] series, string color) =>
-            DropdownItem(
-                HStack().AlignItemsCenter().Gap(8.px()).Children(
-                    TextBlock(name).Small().W(70),
-                    Sparkline(series, width: 90, height: 24, color: color)),
-                HStack().AlignItemsCenter().Gap(4.px()).Children(
-                    TextBlock(name).Small(),
-                    Sparkline(series, width: 36, height: 12, color: color)))
-               .SetKey(name);
+            DropdownItem(MetricRow(name, series, color, 90, 24, labelWidth: 70), MetricRow(name, series, color, 36, 12)).SetKey(name);
 
         // Deliberately gives no short form, so the box has to clip the two-line block itself.
         private static Dropdown.Item TwoLineItem(string title, string subtitle) =>
-            DropdownItem(VStack().Children(
-                    TextBlock(title).Small(),
-                    TextBlock(subtitle).Tiny().Secondary()))
-               .SetKey(subtitle);
+            DropdownItem(TwoLineBlock(title, subtitle)).SetKey(subtitle);
+
+        // --- The same content, arriving through a Defer ----------------------------------------
+        // No short form, so the box shows a copy of the row - which is exactly the case that has to
+        // catch up once the Defer resolves, and which is broken from the start when the option is
+        // selected before its content exists.
+        private static int _deferredKey;
+
+        private static Dropdown.Item DeferredItem(int delayMs, Func<IComponent> content, bool selected = false) =>
+            DropdownItem(Defer(async () =>
+                {
+                    await Task.Delay(delayMs);
+                    return content();
+                }, loadMessage: Skeleton().Animated().W(120).H(16)))
+               .SetKey($"deferred-{_deferredKey++}")
+               .SelectedIf(selected);
+
+        // Both halves deferred, on different delays: the row is copied into the box, but the short form
+        // is a live component, so its own Defer resolves in the box itself.
+        private static Dropdown.Item DeferredPairItem(int rowDelayMs, int chipDelayMs, string title, string subtitle, bool selected = false) =>
+            DropdownItem(
+                    Defer(async () =>
+                    {
+                        await Task.Delay(rowDelayMs);
+                        return TwoLineBlock(title, subtitle);
+                    }, loadMessage: Skeleton().Animated().W(120).H(16)),
+                    Defer(async () =>
+                    {
+                        await Task.Delay(chipDelayMs);
+                        return TextBlock(title).Small();
+                    }, loadMessage: Skeleton().Animated().W(60).H(12)))
+               .SetKey(subtitle)
+               .SelectedIf(selected);
 
         private static Dropdown StartLoadingAsyncDataImmediately(Dropdown dropdown)
         {
@@ -250,7 +308,7 @@ namespace Tesserae.Tests.Samples
             {
                 await Task.Delay(delayMs);
                 return Label($"Loaded {text}");
-            }, loadMessage: Skeleton().Animated().W(500).H(32)));
+            }, loadMessage: Skeleton().Animated().W(120).H(16)));
         }
 
         // Stands in for the server: 5,000 options that would be senseless to render up front.

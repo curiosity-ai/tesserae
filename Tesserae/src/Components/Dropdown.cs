@@ -29,6 +29,7 @@ namespace Tesserae
 
         private HTMLDivElement           _spinner;
         private bool                     _isChanged;
+        private bool                     _boxRefreshQueued;
         private bool                     _isClearingOtherSelections;
         private bool                     _callSelectOnChangingItemSelections;
         private bool                     _fitContent = false;
@@ -477,6 +478,9 @@ namespace Tesserae
         {
             ClearSearch();
             ResetSearchItems();
+            // The search is off and the highlights are gone, so the box can safely copy the rows again -
+            // this is what picks up content that arrived while the list was being filtered.
+            RenderSelected();
             InnerElement.setAttribute("aria-expanded", "false");
             // The click/dblclick/contextmenu/wheel listeners are attached once to
             // _contentHtml when it's first created (see Show) and intentionally live
@@ -665,6 +669,8 @@ namespace Tesserae
                 _childContainer.appendChild(component.Render());
                 component.SelectedItem -= OnItemSelected; //Ensure OnItemSelected is only hooked once
                 component.SelectedItem += OnItemSelected;
+                component.SelectedRenderInvalidated -= OnSelectedRenderInvalidated;
+                component.SelectedRenderInvalidated += OnSelectedRenderInvalidated;
             });
 
             EnsureAsyncLoadingStateDisabled(); // If we got here because an async request completed OR while one was in flight but a synchronous call to this method came in after it started but before finishing then ensure to remove its loading state
@@ -718,6 +724,8 @@ namespace Tesserae
                 _childContainer.appendChild(child.Render());
                 child.SelectedItem -= OnItemSelected; //Ensure OnItemSelected is only hooked once
                 child.SelectedItem += OnItemSelected;
+                child.SelectedRenderInvalidated -= OnSelectedRenderInvalidated;
+                child.SelectedRenderInvalidated += OnSelectedRenderInvalidated;
 
                 existing.Add(child);
                 added++;
@@ -899,9 +907,38 @@ namespace Tesserae
             return this;
         }
 
+        // A row whose content arrived after the box copied it. Redraw the box so the copy catches up. Not
+        // while a search is running: the filter highlights matches by wrapping them in <mark>, and copying
+        // that into the box would put the highlight there too - Hide redraws once the highlight is undone.
+        private void OnSelectedRenderInvalidated(Item sender)
+        {
+            if (!string.IsNullOrEmpty(_search)) return;
+            if (_boxRefreshQueued) return;
+
+            // Content can land in bursts, and an option is free to hold something that redraws itself
+            // continuously - one copy per frame is enough either way.
+            _boxRefreshQueued = true;
+
+            window.requestAnimationFrame(_ =>
+            {
+                _boxRefreshQueued = false;
+                RenderSelected();
+            });
+        }
+
         private void RenderSelected()
         {
             ClearChildren(InnerElement);
+
+            // Only the items on show in the box need watching, and only until they are replaced by the next
+            // render. Everything else stops, so the observers never outnumber the current selection.
+            if (_lastRenderedItems is object)
+            {
+                foreach (var item in _lastRenderedItems)
+                {
+                    item.WatchForBox(item.IsSelected);
+                }
+            }
 
             if (SelectedItems.Any())
             {
@@ -1244,7 +1281,12 @@ namespace Tesserae
         public sealed class Item : IComponent
         {
             private readonly HTMLElement InnerElement;
+
+            // Only set when the caller gave an explicit short form for the box. Without one the box
+            // shows a copy of the row, made when it is asked for rather than held here - see RenderSelected.
             private readonly HTMLElement SelectedElement;
+
+            private MutationObserver _boxContentObserver;
             /// <summary>
             /// Initializes a new instance of this class.
             /// </summary>
@@ -1278,11 +1320,7 @@ namespace Tesserae
                 InnerElement = Button(Att("tss-dropdown-item", role: "option"));
                 InnerElement.appendChild(content.Render());
 
-                if (selectedContent is null || selectedContent == content)
-                {
-                    SelectedElement = (HTMLElement)InnerElement.cloneNode(true);
-                }
-                else
+                if (selectedContent is object && selectedContent != content)
                 {
                     SelectedElement = Button(Att("tss-dropdown-item"));
                     SelectedElement.appendChild(selectedContent.Render());
@@ -1409,9 +1447,39 @@ namespace Tesserae
             }
 
             /// <summary>
-            /// Renders the selected.
+            /// The element the dropdown's box shows for this item while it is selected. With an explicit
+            /// short form that is the component the caller gave, which is live and needs no copying. Without
+            /// one it is a copy of the row, taken now rather than when the item was constructed: content that
+            /// arrives asynchronously - a <see cref="UI.Defer(Func{Task{IComponent}})"/>, an image, anything
+            /// bound to an observable - would otherwise be frozen in the box at whatever the row looked like
+            /// before it loaded, which for a Defer means its loading placeholder, forever.
             /// </summary>
-            public HTMLElement RenderSelected() => SelectedElement;
+            public HTMLElement RenderSelected() => SelectedElement ?? (HTMLElement)InnerElement.cloneNode(true);
+
+            /// <summary>
+            /// Raised when the row's own content changed, so a copy of it taken earlier is now out of date.
+            /// </summary>
+            internal event ComponentEventHandler<Item> SelectedRenderInvalidated;
+
+            /// <summary>
+            /// Starts or stops watching the row for content that arrives after the box already copied it. Only
+            /// the items currently in the box are watched, and only those without an explicit short form -
+            /// an explicit one is a live component and is never a copy.
+            /// </summary>
+            internal void WatchForBox(bool watch)
+            {
+                if (!watch || SelectedElement is object)
+                {
+                    _boxContentObserver?.disconnect();
+                    _boxContentObserver = null;
+                    return;
+                }
+
+                if (_boxContentObserver is object) return;
+
+                _boxContentObserver = new MutationObserver((_, __) => SelectedRenderInvalidated?.Invoke(this));
+                _boxContentObserver.observe(InnerElement, new MutationObserverInit { childList = true, characterData = true, subtree = true });
+            }
 
             /// <summary>
             /// Configures the component to header.
