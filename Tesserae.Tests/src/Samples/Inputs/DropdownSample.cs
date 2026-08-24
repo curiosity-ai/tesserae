@@ -67,7 +67,7 @@ namespace Tesserae.Tests.Samples
                             DropdownItem("High")
                         ))
                     ),
-                    SampleSubTitle("Wild Renderings"),
+                    SampleSubTitle("Mixed Renderings"),
                     VStack().Children(
                         TextBlock("An item's content is any IComponent, and the box shows a clone of it - so whatever an option renders in the list, the box has to render inline, comma-separated, clipped to one 32px row. These are deliberately unreasonable options: they are here to keep the box honest about avatars, badges, charts, emoji, two-line blocks and text that is far too long."),
                         Label("People (avatar + two lines, multi)").SetContent(PeopleDropdown()),
@@ -199,7 +199,7 @@ namespace Tesserae.Tests.Samples
                .SeeAlso(typeof(PickerSample), typeof(ChoiceGroupSample), typeof(TagsInputSample), typeof(SearchableListSample), typeof(MenuSample));
         }
 
-        // --- Wild renderings ------------------------------------------------------------------
+        // --- Mixed renderings ------------------------------------------------------------------
         // The content each option draws, defined once as an IComponent, so the plain options above and
         // the deferred ones below are demonstrably showing the same thing through different paths.
 
