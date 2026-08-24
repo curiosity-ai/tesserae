@@ -9,8 +9,8 @@ namespace Tesserae.Tests.Samples
     /// The workspace rail an app builds on top of the sidebar: a logo, the workspace's name, and the
     /// rail's own controls as commands beside it. It is here because that row is where the two rules
     /// about commands meet - a row that draws them at all times lays its label out beside them, and a
-    /// row that draws them on hover blurs what they cover instead - and a long workspace name is what
-    /// proves both.
+    /// row that draws them on hover fades the label out under them instead - and a long workspace name
+    /// is what proves both.
     /// </summary>
     [SampleDetails(Group = SampleGroup.Navigation, Order = 35, Icon = UIcons.SidebarFlip)]
     public class SidebarCommandsSample : IComponent, ISample
@@ -23,8 +23,8 @@ namespace Tesserae.Tests.Samples
         /// <summary>What a product's own stylesheet does to move the commands in from the edge of the row.</summary>
         private const string INSET_SKIN = "tss-sample-commands-inset";
 
-        /// <summary>And what it does to turn the blur behind the commands off.</summary>
-        private const string NO_VEIL_SKIN = "tss-sample-commands-no-veil";
+        /// <summary>And what it does to give the label a longer fade under them.</summary>
+        private const string LONG_FADE_SKIN = "tss-sample-commands-long-fade";
 
         private readonly IComponent _content;
 
@@ -38,11 +38,11 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                         TextBlock("A SidebarCommand is drawn over its row rather than in it, and only while the pointer is on that row - so a row costs its label nothing at rest. .CommandsAlwaysVisible() makes the commands part of the rail's chrome instead: they are drawn at all times."),
-                        TextBlock("Which of the two it is decides what happens to a name too long to fit beside them. A permanent strip is laid out around: the row gives up exactly the room its own commands take - it writes how wide its strip is and the stylesheet reads it back, so the room is right for one command and for three - and the label truncates before them. A strip that comes and goes under the pointer is not, because taking that room away as it appears would re-flow and cut short the name of every row the pointer crosses; the label keeps the full width of the rail and the strip brings its own backdrop instead, a blur of the row faded in from its left, so the tail of the name dissolves under the commands rather than fighting them."),
-                        TextBlock("A skin sets --tss-sidebar-commands-inset on the row to move the strip in from the edge, and the label's reservation follows it; --tss-sidebar-commands-veil-fade and --tss-sidebar-commands-veil-blur tune the backdrop, and a blur of 0 turns it off."))).SetTitle("Overview"),
+                        TextBlock("Which of the two it is decides what happens to a name too long to fit beside them. A permanent strip is laid out around: the row gives up exactly the room its own commands take - it writes how wide its strip is and the stylesheet reads it back, so the room is right for one command and for three - and the label truncates before them. A strip that comes and goes under the pointer is not, because taking that room away as it appears would re-flow and cut short the name of every row the pointer crosses. The label keeps the full width of the rail and fades out into the row where the commands begin instead, in the row's own colour, so the name reads as far as it is worth reading and the icons sit on clean background."),
+                        TextBlock("A skin sets --tss-sidebar-commands-inset on the row to move the strip in from the edge, and both the reservation and the fade follow it; --tss-sidebar-label-fade is how long the fade itself is."))).SetTitle("Overview"),
 
                     Card(VStack().WS().Children(
-                        TextBlock("The same long name in four rails: commands on hover and commands always drawn, each with the default inset and with a skin that moves the strip 12px in from the edge. The bottom two show the room a permanent strip is given - the name stops before it, and by however far the strip is inset. Hover the top two: nothing moves, and the name carries on into the blur behind the commands.").Secondary(),
+                        TextBlock("The same long name in four rails: commands on hover and commands always drawn, each with the default inset and with a skin that moves the strip 12px in from the edge. The bottom two show the room a permanent strip is given - the name stops before it, and by however far the strip is inset. Hover the top two: nothing moves, and the name fades out where the commands appear.").Secondary(),
                         HStack().WS().PT(8).Children(
                             Rail("On hover",                  Brand("hover", LONG_NAME, 2)),
                             Rail("On hover, inset 12px",      Brand("hover-inset", LONG_NAME, 2).Class(INSET_SKIN))),
@@ -51,10 +51,10 @@ namespace Tesserae.Tests.Samples
                             Rail("Always visible, inset 12px", Brand("always-inset", LONG_NAME, 2).CommandsAlwaysVisible().Class(INSET_SKIN))))).SetTitle("A label beside its commands"),
 
                     Card(VStack().WS().Children(
-                        TextBlock("What the blur is for: hover both rails. On the left the name fades out under the commands; on the right the same row with --tss-sidebar-commands-veil-blur: 0px, where the icons are drawn straight over the letters.").Secondary(),
+                        TextBlock("How long the fade is, is the row's to choose: hover both rails. The default spends 28px on it, about the width of one command; the one beside it spends 64px, which reads as softer and costs a word.").Secondary(),
                         HStack().WS().PT(8).Children(
-                            Rail("Blurred (the default)", Brand("veil", LONG_NAME, 2)),
-                            Rail("Veil turned off",       Brand("veil-off", LONG_NAME, 2).Class(NO_VEIL_SKIN))))).SetTitle("The blur behind the commands"),
+                            Rail("The default fade, 28px", Brand("fade", LONG_NAME, 2)),
+                            Rail("A longer fade, 64px",    Brand("fade-long", LONG_NAME, 2).Class(LONG_FADE_SKIN))))).SetTitle("Where the label gives way"),
 
                     Card(VStack().WS().Children(
                         TextBlock("The rail a workspace app puts together: the brand carries the chat search and the way out, and the history sits under it. Change the name and the number of commands to watch the room the row keeps for them.").Secondary(),

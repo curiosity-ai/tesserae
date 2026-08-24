@@ -149,6 +149,10 @@
 
 .tss-sidebar-btn-open > .tss-btn,
 .tss-sidebar-btn-open > a > .tss-btn {
+    /* Positioned so that the scrim that fades the label out under the commands (further down) is placed
+       against the row's own right edge, and so that the z-index this button is given a few rules above
+       finally means something. */
+    position: relative;
     text-align: left !important;
     padding: 0px;
     margin: 0px;
@@ -263,8 +267,8 @@
 
    Hover is not in this list on purpose. There the strip comes and goes under the pointer, and taking the
    room away from the label as it appears would re-lay out and ellipsis the name of every row the pointer
-   crosses. The label keeps the full width of the rail and runs under the strip, which brings its own
-   backdrop with it - see the veil on tss-sidebar-commands below.
+   crosses. The label keeps the full width of the rail and fades out where the strip begins instead - see
+   the scrim below.
 
    The row carries how wide its own strip is (--tss-sidebar-commands-width, written from the command
    count when the row is built) and reads the same inset the strip is positioned by, so the room is
@@ -285,38 +289,52 @@
     right: var(--tss-sidebar-commands-inset, 4px);
     display: none;
     z-index: 2;
-    top: var(--tss-sidebar-commands-inset-y, 3px);
+    top: 3px;
     flex-wrap: nowrap;
 }
 
-/* The strip brings its own backdrop: a blur of whatever the row painted behind it, faded in from the
-   left, so a label that reaches this far dissolves under the commands rather than being cut short by
-   them. This is what pays for hover not reserving room above - the name reads to its last legible
-   letter, and the glyphs on top of it stay readable because what is behind them no longer has edges.
+/* What pays for hover not reserving room above: the label runs the full width of the rail and fades out
+   into the row where the commands begin, so a long name reads to its last legible letter and gives the
+   glyphs a clean field to sit on. It is a fade to the row's own colour rather than a blur of what is
+   behind it: a blur leaves the ink it smears, which reads as a grey stain a shade darker than the row,
+   and it stops at an edge of its own where the icons - opaque, in the row's colour - then cut a hard
+   line out of it. The scrim below has nothing to leave behind and no edge to see: it is exactly the
+   colour it covers, arriving from nothing. The blur also cost more than the row it was drawn on: a
+   backdrop-filter behind a mask took the whole rail off subpixel antialiasing, so every label in the
+   sidebar - not just the one being hovered - was rendered a little softer for it.
 
-   It is a child of the strip rather than of the row so that it is drawn in exactly the cases the strip
-   is - pointer on the row, always-open, selected, or a command's menu left open - with no rule of its
-   own to keep in step, and so that it disappears with the strip in a closed rail. z-index: -1 puts it
-   behind the commands within the strip's own stacking context (the strip is positioned and has a
-   z-index), so it never dulls the glyphs it is drawn for, and the row's isolation: isolate keeps the
-   blur sampling the row instead of the page behind it.
+   background-color: inherit is what makes that true in every theme and every state without naming a
+   colour: the pseudo-element takes the button's own computed background, so it is the hover grey while
+   the row is hovered and the dark equivalent in dark mode. The corollary is that a row with no
+   background of its own has nothing to fade into - which is why this is the hover rule and not one that
+   also covers a command menu left open with the pointer elsewhere.
 
-   Three numbers, all overridable: the fade is both how far left the veil reaches and where the mask
-   finishes, so the blur is at full strength exactly at the strip's left edge; the vertical inset is the
-   strip's own top, which makes the veil the height of a 28px row; and blur: 0px is how a skin turns the
-   whole thing off and lets the label run under the commands untouched. */
-.tss-sidebar-commands::before {
+   It sits inside the button rather than over the row so that the button's overflow: hidden clips it to
+   the row's rounded corners, and so that right: 0 is the row's own right edge whatever the row's width -
+   which is what keeps a short name, whose text ends long before any of this, untouched.
+
+   It is matched on tss-sidebar-btn rather than on tss-btn so that it cannot reach a nav header's chevron,
+   which is a button of its own next to the label and draws itself with an ::after.
+
+   Two numbers: the width reaches from the row's right edge past the strip (--tss-sidebar-commands-width,
+   written from the command count when the row is built, plus the inset the strip is positioned by) and
+   on for --tss-sidebar-label-fade further, and the mask spends exactly that fade going from nothing to
+   opaque - so the scrim is at full strength at the first pixel of the strip and invisible where the name
+   is still worth reading. Rows that keep room for their commands are excluded rather than relying on the
+   scrim landing on empty space: their background can be a wash rather than a solid, and painting it
+   twice would show. */
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > .tss-sidebar-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > a > .tss-sidebar-btn::after {
     content: "";
     position: absolute;
-    z-index: -1;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: calc(var(--tss-sidebar-commands-width, 0px) + var(--tss-sidebar-commands-inset, 4px) + var(--tss-sidebar-label-fade, 28px));
+    background-color: inherit;
     pointer-events: none;
-    top: calc(-1 * var(--tss-sidebar-commands-inset-y, 3px));
-    bottom: calc(-1 * var(--tss-sidebar-commands-inset-y, 3px));
-    left: calc(-1 * var(--tss-sidebar-commands-veil-fade, 28px));
-    right: calc(-1 * var(--tss-sidebar-commands-inset, 4px));
-    backdrop-filter: blur(var(--tss-sidebar-commands-veil-blur, 8px));
-    -webkit-mask-image: linear-gradient(to right, transparent, black var(--tss-sidebar-commands-veil-fade, 28px));
-    mask-image: linear-gradient(to right, transparent, black var(--tss-sidebar-commands-veil-fade, 28px));
+    -webkit-mask-image: linear-gradient(to right, transparent, black var(--tss-sidebar-label-fade, 28px));
+    mask-image: linear-gradient(to right, transparent, black var(--tss-sidebar-label-fade, 28px));
 }
 
 .tss-sidebar-badges {

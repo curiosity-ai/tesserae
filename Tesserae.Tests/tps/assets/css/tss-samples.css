@@ -28,8 +28,8 @@
     --tss-sidebar-commands-inset: 12px;
 }
 
-/* SidebarCommandsSample: and the skin that turns the blur behind the commands off, to show what the
-   label runs into without it. Same reason it goes on the row: the veil reads the property from there. */
-.tss-sample-commands-no-veil {
-    --tss-sidebar-commands-veil-blur: 0px;
+/* SidebarCommandsSample: and the skin that gives the label a longer fade under the commands. Same
+   reason it goes on the row: that is where the fade reads the property from. */
+.tss-sample-commands-long-fade {
+    --tss-sidebar-label-fade: 64px;
 }

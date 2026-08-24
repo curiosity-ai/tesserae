@@ -166,18 +166,18 @@ commands as it has, so a long name truncates with an ellipsis before the strip
 rather than running under it.
 
 On **hover** the label keeps the full width of the rail and nothing re-flows as
-the pointer travels the list. The strip brings its own backdrop instead — a blur
-of the row behind it, faded in from the left — so the tail of a long name
-dissolves under the commands and the icons stay readable over it.
+the pointer travels the list. Instead the label fades out into the row where the
+commands begin — a gradient in the row's own colour, so it works in either theme
+— and the icons sit on clean background. A name short enough to end before the
+commands is untouched.
 
-Three custom properties tune that, all set **on the row** (not on the command
+Two custom properties tune that, both set **on the row** (not on the command
 strip, since the label's own reservation reads the inset too):
 
 ```css
 .my-brand-row {
-    --tss-sidebar-commands-inset: 12px;      /* move the strip in from the edge */
-    --tss-sidebar-commands-veil-fade: 28px;  /* how far left the blur fades in  */
-    --tss-sidebar-commands-veil-blur: 0px;   /* 0 turns the veil off entirely   */
+    --tss-sidebar-commands-inset: 12px;  /* move the strip in from the edge   */
+    --tss-sidebar-label-fade: 28px;      /* how long the label's fade-out is  */
 }
 ```
 
