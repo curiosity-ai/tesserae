@@ -937,6 +937,9 @@ namespace Tesserae
                 foreach (var item in _lastRenderedItems)
                 {
                     item.WatchForBox(item.IsSelected);
+
+                    // Its content is visible in the box, so it has to load whether or not the list was opened.
+                    if (item.IsSelected) item.EnsureContentLoadedForBox();
                 }
             }
 
@@ -1287,6 +1290,11 @@ namespace Tesserae
             private readonly HTMLElement SelectedElement;
 
             private MutationObserver _boxContentObserver;
+
+            // The component the row draws. Held so that a Defer in it can be asked to load when this item
+            // is the one on show in the box - see EnsureContentLoadedForBox.
+            private readonly IComponent _content;
+            private          bool       _boxLoadRequested;
             /// <summary>
             /// Initializes a new instance of this class.
             /// </summary>
@@ -1319,6 +1327,7 @@ namespace Tesserae
             {
                 InnerElement = Button(Att("tss-dropdown-item", role: "option"));
                 InnerElement.appendChild(content.Render());
+                _content = content;
 
                 if (selectedContent is object && selectedContent != content)
                 {
@@ -1454,7 +1463,41 @@ namespace Tesserae
             /// bound to an observable - would otherwise be frozen in the box at whatever the row looked like
             /// before it loaded, which for a Defer means its loading placeholder, forever.
             /// </summary>
-            public HTMLElement RenderSelected() => SelectedElement ?? (HTMLElement)InnerElement.cloneNode(true);
+            public HTMLElement RenderSelected()
+            {
+                if (SelectedElement is object) return SelectedElement;
+
+                var copy = (HTMLElement)InnerElement.cloneNode(true);
+
+                // The row carries state that belongs to the list and must not come along. The filter shows
+                // and hides rows by writing an inline display, and an inline display beats the box's own
+                // rule - a copy taken after any filtering arrived in the box as a block, which is what
+                // stacked the chips and pushed their content out of the row. role and aria-selected
+                // describe an option inside a listbox, and the box is not one; the copy is a picture of the
+                // selection, so it is not focusable either.
+                copy.style.display = "";
+                copy.removeAttribute("role");
+                copy.removeAttribute("aria-selected");
+                copy.tabIndex = -1;
+
+                return copy;
+            }
+
+            /// <summary>
+            /// Asks the row's content to load because it is on show in the box. A <see cref="IDefer"/> waits to
+            /// be mounted before loading, and a row is not in the document until the dropdown is first opened -
+            /// so an option selected before that would sit in the box as a loading placeholder with nothing to
+            /// make it resolve. Called once per item: Refresh re-runs the generator.
+            /// </summary>
+            internal void EnsureContentLoadedForBox()
+            {
+                // An explicit short form is mounted in the box itself, so it loads without any help.
+                if (_boxLoadRequested || SelectedElement is object) return;
+
+                _boxLoadRequested = true;
+
+                (_content as IDefer)?.Refresh();
+            }
 
             /// <summary>
             /// Raised when the row's own content changed, so a copy of it taken earlier is now out of date.

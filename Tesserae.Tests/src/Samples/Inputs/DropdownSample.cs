@@ -157,8 +157,8 @@ namespace Tesserae.Tests.Samples
                             DeferredItem(900,  () => BadgeRow("Healthy", BadgeTone.Success, UIcons.CheckCircle)),
                             DeferredItem(1300, () => SwatchRow("Orchid", "#8764b8", 16))
                         )),
-                        TextBlock("One thing the box cannot do anything about: a Defer only loads its content once it is mounted, and a row is not in the document until the dropdown is first opened. So an option that is deferred, has no short form and is selected up front shows its placeholder in the box until you open the list once - there is nothing else to copy yet. It catches up as each Defer resolves."),
-                        TextBlock("An explicit short form is the way out, and is a live component rather than a copy, so a Defer inside one is mounted in the box and resolves there without the list ever being opened. Here both halves are deferred, on different delays."),
+                        TextBlock("A Defer normally waits to be mounted before it loads, and a row is not in the document until the dropdown is first opened - so a selected option would have sat in the box as a placeholder with nothing to make it resolve. Being selected is what settles it: the content is on show in the box, so the dropdown asks it to load whether or not the list has ever been opened. The two above are filled in without touching them. A Defer nested deeper inside the content, rather than being the content, still waits for the list to be opened."),
+                        TextBlock("An explicit short form is a live component rather than a copy, so a Defer inside one is mounted in the box and resolves there on its own. Here both halves are deferred, on different delays."),
                         Label("Deferred row and deferred short form (multi)").SetContent(Dropdown().Multi().Items(
                             DeferredPairItem(500,  1200, "Frankfurt",  "eu-central-1",   selected: true),
                             DeferredPairItem(800,  1600, "Oregon",     "us-west-2",      selected: true),

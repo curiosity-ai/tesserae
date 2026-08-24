@@ -116,11 +116,15 @@ The copy the box shows is taken when the item becomes selected and is kept in st
 afterwards, so a `Defer` (or an image, or anything bound to an observable) that resolves later shows
 up in the box too.
 
-One case is worth knowing about: a `Defer` only loads its content once it is **mounted**, and an
-option's row is not in the document until the dropdown is first opened. An option that is deferred,
-has no short form, and is selected up front therefore shows its loading placeholder in the box until
-the list is opened once. Giving it an explicit short form avoids that entirely — a short form is a
-live component mounted in the box, so its own `Defer` resolves there straight away:
+A `Defer` normally waits to be **mounted** before it loads, and an option's row is not in the
+document until the dropdown is first opened — so a selected option would otherwise sit in the box as
+a loading placeholder with nothing to make it resolve. Being selected is what settles it: its content
+is on show in the box, so the dropdown asks it to load whether or not the list has ever been opened.
+
+That covers a `Defer` that *is* the item's content. One nested deeper — a `Defer` inside a `Stack`
+inside the item — is not reachable this way and still waits for the list to be opened. Giving the
+item an explicit short form sidesteps the whole question, since a short form is a live component
+mounted in the box and resolves there on its own:
 
 ```csharp
 DropdownItem(
