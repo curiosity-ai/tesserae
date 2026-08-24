@@ -143,6 +143,7 @@ namespace Tesserae
                 {
                     var divCmd = Div(Att("tss-sidebar-commands"));
                     div.appendChild(divCmd);
+                    ReserveRoomForCommands(div, _commands.Length);
 
                     foreach (var c in _commands)
                     {
@@ -151,6 +152,20 @@ namespace Tesserae
                 }
                 return Raw(div);
             }
+        }
+
+        /// <summary>
+        /// Marks the row as one that has commands, and says how wide its strip of them is - each is a
+        /// 22px button with a 4px gap between them. Only the row knows how many it has, so it writes
+        /// both here and the stylesheet reads them back to lay the label out beside the strip wherever
+        /// the strip is permanent - always-visible, or selected. On hover the label keeps the full width
+        /// of the rail and fades out into the row where the commands begin instead (see
+        /// <c>tss-sidebar-has-commands</c> and the scrim on it in tss.sidebar.css).
+        /// </summary>
+        private static void ReserveRoomForCommands(HTMLElement wrapper, int commandCount)
+        {
+            wrapper.classList.add("tss-sidebar-has-commands");
+            wrapper.style.setProperty("--tss-sidebar-commands-width", (commandCount * 26 - 4) + "px");
         }
 
         /// <summary>Shows the button.</summary>
@@ -250,6 +265,7 @@ namespace Tesserae
                 {
                     var divCmd = Div(Att("tss-sidebar-commands"));
                     div.appendChild(divCmd);
+                    ReserveRoomForCommands(div, _commands.Length);
 
                     foreach (var c in _commands)
                     {

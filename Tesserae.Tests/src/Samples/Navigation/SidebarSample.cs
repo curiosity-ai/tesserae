@@ -183,7 +183,7 @@ namespace Tesserae.Tests.Samples
                                    .Left(sidebar.S())
                                    .Right(CenteredCardWithBackground(Message("Your application content goes here")))
                )).SetTitle("Usage")))
-               .SeeAlso(typeof(SidebarSeparatorSample), typeof(SidenavSample), typeof(NavbarSample), typeof(MenuSample), typeof(BreadcrumbSample));
+               .SeeAlso(typeof(SidebarCommandsSample), typeof(SidebarSeparatorSample), typeof(SidenavSample), typeof(NavbarSample), typeof(MenuSample), typeof(BreadcrumbSample));
         }
 
         // Where this sample keeps the order the user dragged the sidebar into. An app would use one key

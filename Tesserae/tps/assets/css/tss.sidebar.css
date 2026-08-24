@@ -113,6 +113,28 @@
     background: rgba(var(--tss-primary-background-color-root), 0.18);
 }
 
+/* A row with commands stays hovered for as long as its commands are on screen. The strip is a sibling of
+   the label's button rather than part of it - it has to be, so that clicking a command is not clicking
+   the row - so the button's own :hover ends the moment the pointer reaches a command, and the row fell
+   back to its resting colour under the very icons the pointer was aiming at. That took the scrim further
+   down with it, which is the button's own background colour: the label reappeared from under the
+   commands as you reached for them. Both come back here, in the two states where the strip is drawn and
+   the pointer is not on the label: anywhere else on the row, and a command's menu left open with the
+   pointer gone.
+
+   These are the plain hover colours, so this is scoped to rows drawn as default buttons; the selected
+   row is excluded because the rule above already covers it - it lists the same wrapper-hover shape for
+   the same reason - and a Primary or Danger row keeps its own variant's hover. Rows without commands are
+   not in this: nothing can come between the pointer and their button. */
+.tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+.tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+.tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+.tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    color: var(--tss-default-foreground-hover-color);
+    background-color: var(--tss-default-background-hover-color);
+    border-color: var(--tss-default-background-hover-color);
+}
+
 /* The wash sits on a dark surface here, so the same alpha would barely register - it takes about twice
    as much of the primary to read as a tint rather than as noise. The text is lifted towards white for
    the same reason: a fill colour chosen to sit behind white text is, by definition, too dark to be text
@@ -149,6 +171,10 @@
 
 .tss-sidebar-btn-open > .tss-btn,
 .tss-sidebar-btn-open > a > .tss-btn {
+    /* Positioned so that the scrim that fades the label out under the commands (further down) is placed
+       against the row's own right edge, and so that the z-index this button is given a few rules above
+       finally means something. */
+    position: relative;
     text-align: left !important;
     padding: 0px;
     margin: 0px;
@@ -176,10 +202,15 @@
     margin-top: 2px;
 }
 
+/* A flex item's automatic minimum size is its own content, so without min-width the row that holds the
+   image and the name refuses to shrink and paints straight through whatever padding the row reserved -
+   which is why a long name ran under the commands rather than stopping before them. */
 .tss-sidebar-btn.tss-btn > .tss-btn-with-image {
     display: inline-flex;
     flex-wrap: nowrap;
     align-items: center;
+    min-width: 0;
+    overflow: hidden;
 }
 
     .tss-sidebar-btn.tss-btn > .tss-btn-with-image > .tss-image {
@@ -190,9 +221,14 @@
         padding:2px;
     }
 
+/* The ellipsis the plain button gets from `.tss-sidebar-btn.tss-btn > span` never reached this one: with
+   an image icon the name is a grandchild, not a direct child. */
 .tss-sidebar-btn.tss-btn .tss-btn-with-image > .tss-image + span:not(:empty) {
     margin-left: 10px;
     min-width: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn.tss-btn,
@@ -246,13 +282,84 @@
     min-width: 24px !important;
 }
 
+/* Commands sit over the row rather than in it, and a row gives up room for them for exactly as long as
+   they are *permanently* drawn - always-open, or selected. Those two are chrome: the strip is part of
+   what the row looks like, so the label is laid out beside it and truncates before it, and nothing moves
+   while the pointer travels the list.
+
+   Hover is not in this list on purpose. There the strip comes and goes under the pointer, and taking the
+   room away from the label as it appears would re-lay out and ellipsis the name of every row the pointer
+   crosses. The label keeps the full width of the rail and fades out where the strip begins instead - see
+   the scrim below.
+
+   The row carries how wide its own strip is (--tss-sidebar-commands-width, written from the command
+   count when the row is built) and reads the same inset the strip is positioned by, so the room is
+   exact for two commands and for five and a skin that moves the strip in from the edge only has to say
+   so once. tss-sidebar-has-commands is what keeps a row without any out of this: it has no width to
+   read. The label runs right up to the strip rather than stopping short of it - each command is a 22px
+   box around a 16px glyph, so the gap is already drawn, and every pixel spent here is a word the name
+   loses. */
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-commands-always-open > .tss-btn,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-commands-always-open > a > .tss-btn,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-selected > .tss-btn,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-selected > a > .tss-btn {
+    padding-right: calc(var(--tss-sidebar-commands-width, 0px) + var(--tss-sidebar-commands-inset, 4px));
+}
+
 .tss-sidebar-commands {
     position: absolute;
-    right: 4px;
+    right: var(--tss-sidebar-commands-inset, 4px);
     display: none;
     z-index: 2;
     top: 3px;
     flex-wrap: nowrap;
+}
+
+/* What pays for hover not reserving room above: the label runs the full width of the rail and fades out
+   into the row where the commands begin, so a long name reads to its last legible letter and gives the
+   glyphs a clean field to sit on. It is a fade to the row's own colour rather than a blur of what is
+   behind it: a blur leaves the ink it smears, which reads as a grey stain a shade darker than the row,
+   and it stops at an edge of its own where the icons - opaque, in the row's colour - then cut a hard
+   line out of it. The scrim below has nothing to leave behind and no edge to see: it is exactly the
+   colour it covers, arriving from nothing. The blur also cost more than the row it was drawn on: a
+   backdrop-filter behind a mask took the whole rail off subpixel antialiasing, so every label in the
+   sidebar - not just the one being hovered - was rendered a little softer for it.
+
+   background-color: inherit is what makes that true in every theme and every state without naming a
+   colour: the pseudo-element takes the button's own computed background, so it is the hover grey while
+   the row is hovered and the dark equivalent in dark mode. The corollary is that a row with no
+   background of its own has nothing to fade into, which is why this is drawn in exactly the states the
+   rule further up keeps a row hovered for - the pointer anywhere on the row, and a command's menu left
+   open - and not in the two where the row reserves room for its commands instead.
+
+   It sits inside the button rather than over the row so that the button's overflow: hidden clips it to
+   the row's rounded corners, and so that right: 0 is the row's own right edge whatever the row's width -
+   which is what keeps a short name, whose text ends long before any of this, untouched.
+
+   It is matched on tss-sidebar-btn rather than on tss-btn so that it cannot reach a nav header's chevron,
+   which is a button of its own next to the label and draws itself with an ::after.
+
+   Two numbers: the width reaches from the row's right edge past the strip (--tss-sidebar-commands-width,
+   written from the command count when the row is built, plus the inset the strip is positioned by) and
+   on for --tss-sidebar-label-fade further, and the mask spends exactly that fade going from nothing to
+   opaque - so the scrim is at full strength at the first pixel of the strip and invisible where the name
+   is still worth reading. Rows that keep room for their commands are excluded rather than relying on the
+   scrim landing on empty space: their background can be a wash rather than a solid, and painting it
+   twice would show. */
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > .tss-sidebar-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > a > .tss-sidebar-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-sidebar-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-sidebar-btn::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: calc(var(--tss-sidebar-commands-width, 0px) + var(--tss-sidebar-commands-inset, 4px) + var(--tss-sidebar-label-fade, 28px));
+    background-color: inherit;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(to right, transparent, black var(--tss-sidebar-label-fade, 28px));
+    mask-image: linear-gradient(to right, transparent, black var(--tss-sidebar-label-fade, 28px));
 }
 
 .tss-sidebar-badges {

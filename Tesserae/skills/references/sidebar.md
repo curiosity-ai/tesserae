@@ -145,6 +145,42 @@ It is an `ISidebarItem`, so it is normally added to a `Sidebar`; `.RenderOpen()`
 gives you the box as an `IComponent` when the list it filters is drawn by a
 component of your own rather than by the sidebar itself.
 
+## Commands on a row
+
+A `SidebarCommand` is a small icon button that lives on the right of a
+`SidebarButton` — rename, pin, close, search. Pass them to the button's
+constructor after the text:
+
+```csharp
+new SidebarButton("workspace", new ImageIcon(logoUrl), "Technical Support",
+    new SidebarCommand(UIcons.Search).OnClick(() => palette.Open()).Tooltip("Search"),
+    new SidebarCommand(UIcons.AngleLeft).OnClick(() => sidebar.ShiftBack()))
+```
+
+They are drawn over the row rather than in it, and appear while the pointer is
+on that row (or while it is selected).
+
+Where the commands are permanent the label is laid out beside them: a row with
+`.CommandsAlwaysVisible()`, or a selected row, keeps room for exactly as many
+commands as it has, so a long name truncates with an ellipsis before the strip
+rather than running under it.
+
+On **hover** the label keeps the full width of the rail and nothing re-flows as
+the pointer travels the list. Instead the label fades out into the row where the
+commands begin — a gradient in the row's own colour, so it works in either theme
+— and the icons sit on clean background. A name short enough to end before the
+commands is untouched.
+
+Two custom properties tune that, both set **on the row** (not on the command
+strip, since the label's own reservation reads the inset too):
+
+```css
+.my-brand-row {
+    --tss-sidebar-commands-inset: 12px;  /* move the strip in from the edge   */
+    --tss-sidebar-label-fade: 28px;      /* how long the label's fade-out is  */
+}
+```
+
 ## Rounded (pill) style
 
 `SidebarButton.Rounded(BorderRadius = Full)` and
