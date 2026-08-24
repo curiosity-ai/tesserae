@@ -67,6 +67,71 @@ namespace Tesserae.Tests.Samples
                             DropdownItem("High")
                         ))
                     ),
+                    SampleSubTitle("Wild Renderings"),
+                    VStack().Children(
+                        TextBlock("An item's content is any IComponent, and the box shows a clone of it - so whatever an option renders in the list, the box has to render inline, comma-separated, clipped to one 32px row. These are deliberately unreasonable options: they are here to keep the box honest about avatars, badges, charts, emoji, two-line blocks and text that is far too long."),
+                        Label("People (avatar + two lines, multi)").SetContent(PeopleDropdown()),
+                        Label("Status badges (multi)").SetContent(Dropdown().Multi().Items(
+                            BadgeItem("Critical", BadgeTone.Danger,  UIcons.Exclamation).Selected(),
+                            BadgeItem("Degraded", BadgeTone.Warning, UIcons.TriangleWarning).Selected(),
+                            BadgeItem("Healthy",  BadgeTone.Success, UIcons.CheckCircle),
+                            BadgeItem("Unknown",  BadgeTone.Neutral, UIcons.Interrogation)
+                        )),
+                        Label("Colour swatches (multi)").SetContent(Dropdown().Multi().Items(
+                            SwatchItem("Crimson", "#d13438").Selected(),
+                            SwatchItem("Marigold", "#eaa300").Selected(),
+                            SwatchItem("Seafoam", "#00b7c3").Selected(),
+                            SwatchItem("Orchid", "#8764b8")
+                        )),
+                        Label("Charts inside options (multi)").SetContent(Dropdown().Multi().Items(
+                            MetricItem("Revenue",  new double[] { 3, 5, 4, 8, 6, 11, 9, 14 }, "#107c10").Selected(),
+                            MetricItem("Sessions", new double[] { 14, 9, 11, 6, 8, 4, 5, 3 }, "#d13438").Selected(),
+                            MetricItem("Latency",  new double[] { 6, 6, 7, 6, 8, 7, 6, 7 }, "#8764b8")
+                        )),
+                        TextBlock("Content taller than the row is the one case the box cannot rescue: a comma next to a two-line block has nowhere good to sit. Give tall content a short form through the second DropdownItem argument, the way the People dropdown above does - this one deliberately does not, to show the difference."),
+                        Label("Two-line blocks, no short form (multi)").SetContent(Dropdown().Multi().Items(
+                            TwoLineItem("Frankfurt", "eu-central-1").Selected(),
+                            TwoLineItem("Oregon", "us-west-2").Selected(),
+                            TwoLineItem("Singapore", "ap-southeast-1")
+                        )),
+                        Label("Emoji and interactive content (multi)").SetContent(Dropdown().Multi().Items(
+                            DropdownItem(HStack().AlignItemsCenter().Gap(8.px()).Children(Icon(Emoji.Pizza), TextBlock("Pizza")), HStack().AlignItemsCenter().Gap(4.px()).Children(Icon(Emoji.Pizza, TextSize.Small), TextBlock("Pizza").Small())).Selected(),
+                            DropdownItem(HStack().AlignItemsCenter().Gap(8.px()).Children(Icon(Emoji.Cheese), TextBlock("Cheese")), HStack().AlignItemsCenter().Gap(4.px()).Children(Icon(Emoji.Cheese, TextSize.Small), TextBlock("Cheese").Small())).Selected(),
+                            DropdownItem(HStack().AlignItemsCenter().Gap(8.px()).Children(TextBlock("Rated"), Rating(5).SetValue(4).ReadOnly()), TextBlock("Rated 4/5").Small()),
+                            DropdownItem(HStack().AlignItemsCenter().Gap(8.px()).Children(TextBlock("Shortcut"), KeyboardShortcut("Ctrl", "K")), TextBlock("Ctrl+K").Small())
+                        )),
+                        Label("Text that is far too long (multi)").SetContent(Dropdown().Multi().Items(
+                            DropdownItem("A perfectly reasonable option").Selected(),
+                            DropdownItem("An option whose label someone pasted an entire sentence into, which the box has one clipped row to deal with").Selected(),
+                            DropdownItem("Another one, just as long, so that the clipping has to happen part way through a comma-separated list").Selected()
+                        )),
+                        Label("Everything at once (multi)").SetContent(Dropdown().Multi().Items(
+                            BadgeItem("Critical", BadgeTone.Danger, UIcons.Exclamation).Selected(),
+                            SwatchItem("Seafoam", "#00b7c3").Selected(),
+                            PersonRow("Ana Pereira", "ana@example.com").Selected(),
+                            MetricItem("Revenue", new double[] { 3, 5, 4, 8, 6, 11, 9, 14 }, "#107c10").Selected(),
+                            DropdownItem(HStack().AlignItemsCenter().Gap(8.px()).Children(Icon(Emoji.Pizza), TextBlock("Pizza")), HStack().AlignItemsCenter().Gap(4.px()).Children(Icon(Emoji.Pizza, TextSize.Small), TextBlock("Pizza").Small())).Selected()
+                        )),
+                        TextBlock("WithCustomSelectionRender takes over the box completely: the selected items are handed to you and whatever you return is what the box shows - no clones, and no commas to get right."),
+                        Label("Custom selection render (count)").SetContent(
+                            Dropdown().Multi()
+                               .WithCustomSelectionRender(items => Badge($"{items.Length} region{(items.Length == 1 ? "" : "s")} selected").Primary().Pill())
+                               .Items(
+                                    TwoLineItem("Frankfurt", "eu-central-1").Selected(),
+                                    TwoLineItem("Oregon", "us-west-2").Selected(),
+                                    TwoLineItem("Singapore", "ap-southeast-1")
+                                )),
+                        Label("Custom selection render (avatar pile)").SetContent(
+                            Dropdown().Multi()
+                               .WithCustomSelectionRender(items => HStack().AlignItemsCenter().Gap(4.px()).Children(
+                                    items.Take(4).Select(i => (IComponent)Avatar(initials: i.GetDataAs<string>()).Size(AvatarSize.XSmall)).ToArray()))
+                               .Items(
+                                    PersonRow("Ana Pereira", "ana@example.com").Selected(),
+                                    PersonRow("Bo Lindqvist", "bo@example.com").Selected(),
+                                    PersonRow("Chen Wei", "chen@example.com").Selected(),
+                                    PersonRow("Dara O'Neill", "dara@example.com")
+                                ))
+                    ),
                     SampleSubTitle("Async Loading"),
                     VStack().Children(
                         Label("Load on open (5s delay)").SetContent(Dropdown().Items(GetItemsAsync)),
@@ -103,6 +168,75 @@ namespace Tesserae.Tests.Samples
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(PickerSample), typeof(ChoiceGroupSample), typeof(TagsInputSample), typeof(SearchableListSample), typeof(MenuSample));
         }
+
+        // --- Wild renderings ------------------------------------------------------------------
+        // Each of these builds an option whose content is a composed IComponent rather than a string.
+        // The second argument to DropdownItem is what the *box* shows once the option is selected,
+        // which is the escape hatch for content too tall or too wide to sit on one clipped row.
+
+        private static Dropdown PeopleDropdown() => Dropdown().Multi().Items(
+            PersonRow("Ana Pereira",  "ana@example.com").Selected(),
+            PersonRow("Bo Lindqvist", "bo@example.com").Selected(),
+            PersonRow("Chen Wei",     "chen@example.com"),
+            PersonRow("Dara O'Neill", "dara@example.com"));
+
+        // A two-line row with an avatar in the list, collapsing to avatar + first name in the box.
+        private static Dropdown.Item PersonRow(string name, string email)
+        {
+            var initials = string.Join("", name.Split(' ').Select(part => part.Substring(0, 1)));
+
+            return DropdownItem(
+                    HStack().AlignItemsCenter().Gap(8.px()).Children(
+                        Avatar(initials: initials).Size(AvatarSize.Small).Presence(AvatarPresence.Online),
+                        VStack().Children(
+                            TextBlock(name).Small(),
+                            TextBlock(email).Tiny().Secondary())),
+                    HStack().AlignItemsCenter().Gap(4.px()).Children(
+                        Avatar(initials: initials).Size(AvatarSize.XSmall),
+                        TextBlock(name.Split(' ')[0]).Small()))
+               .SetKey(email)
+               .SetData(initials);
+        }
+
+        // A badge is already a self-contained pill, so the box shows the same thing the list does.
+        private static Dropdown.Item BadgeItem(string text, BadgeTone tone, UIcons icon) =>
+            DropdownItem(Badge(text).Tone(tone).Pill().SetIcon(Tesserae.Icon.Transform(icon, UIconsWeight.Regular)),
+                         Badge(text).Tone(tone).Pill())
+               .SetKey(text);
+
+        // A colour chip drawn with a bare div, to prove the box does not care what the content is.
+        private static Dropdown.Item SwatchItem(string name, string color) =>
+            DropdownItem(SwatchRow(name, color, 16), SwatchRow(name, color, 10)).SetKey(name);
+
+        private static IComponent SwatchRow(string name, string color, int size) =>
+            HStack().AlignItemsCenter().Gap(8.px()).Children(
+                Raw(Div(Att(styles: s =>
+                {
+                    s.width        = $"{size}px";
+                    s.height       = $"{size}px";
+                    s.borderRadius = "4px";
+                    s.background   = color;
+                    s.flexShrink   = "0";
+                }))),
+                TextBlock(name).Small());
+
+        // A chart inside an option - the tallest, widest thing here, and the box gets a smaller one.
+        private static Dropdown.Item MetricItem(string name, double[] series, string color) =>
+            DropdownItem(
+                HStack().AlignItemsCenter().Gap(8.px()).Children(
+                    TextBlock(name).Small().W(70),
+                    Sparkline(series, width: 90, height: 24, color: color)),
+                HStack().AlignItemsCenter().Gap(4.px()).Children(
+                    TextBlock(name).Small(),
+                    Sparkline(series, width: 36, height: 12, color: color)))
+               .SetKey(name);
+
+        // Deliberately gives no short form, so the box has to clip the two-line block itself.
+        private static Dropdown.Item TwoLineItem(string title, string subtitle) =>
+            DropdownItem(VStack().Children(
+                    TextBlock(title).Small(),
+                    TextBlock(subtitle).Tiny().Secondary()))
+               .SetKey(subtitle);
 
         private static Dropdown StartLoadingAsyncDataImmediately(Dropdown dropdown)
         {

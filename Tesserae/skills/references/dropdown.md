@@ -86,6 +86,34 @@ var dd = Dropdown()
 The callback is also called with an empty string when the User clears the box, so
 returning the first page for an empty term restores the seed list.
 
+## Rich item content
+
+An item's content is any `IComponent` — an avatar and two lines of text, a badge, a colour swatch, a
+sparkline — and the box shows a **clone** of it, laid out inline and comma-separated on a single
+~32px row. So whatever an option renders in the list, the box has to render on one clipped line.
+
+The second argument to `UI.DropdownItem` is the escape hatch: it is what the box shows once the
+option is selected, and it is worth giving whenever the list content is taller or wider than one
+row. Content taller than the row is the one case the box cannot rescue — a separator next to a
+two-line block has nowhere good to sit.
+
+```csharp
+DropdownItem(
+    // In the list: avatar, name, email.
+    HStack().AlignItemsCenter().Gap(8.px()).Children(
+        Avatar(initials: "AP").Size(AvatarSize.Small),
+        VStack().Children(TextBlock("Ana Pereira").Small(), TextBlock("ana@example.com").Tiny().Secondary())),
+    // In the box: avatar and first name, one line.
+    HStack().AlignItemsCenter().Gap(4.px()).Children(
+        Avatar(initials: "AP").Size(AvatarSize.XSmall),
+        TextBlock("Ana").Small()))
+   .SetKey("ana@example.com");
+```
+
+To take over the box entirely instead — a count, a pile of avatars — use
+`.WithCustomSelectionRender(items => ...)`. That replaces the clones altogether, separators
+included, so you own the whole presentation.
+
 ## Related
 
 - ChoiceGroup, Toggle — alternative single-choice inputs
