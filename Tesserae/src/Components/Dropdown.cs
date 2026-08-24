@@ -1309,7 +1309,7 @@ namespace Tesserae
             /// the box's one until the option is actually selected.
             /// <para>
             /// Passing <c>null</c> for <paramref name="selectedContent"/>, or the same instance twice, falls
-            /// back to the obsolete behaviour of copying the row into the box and says so on the console.
+            /// back to the obsolete behaviour of copying the row into the box.
             /// </para>
             /// </summary>
             public Item(IComponent content, IComponent selectedContent)
@@ -1335,23 +1335,14 @@ namespace Tesserae
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
 
-            // Said once per session, not once per option: a list built the old way would otherwise print a
-            // line per item. [Obsolete] is where this is meant to be caught, at build time; this is for the
-            // build that does not surface the warning.
-            private static bool _reportedRowCopy;
-
             // The pre-factory behaviour, kept so code written against it keeps working: the box shows a copy
-            // of the row. Taken here rather than on the first RenderSelected so it is a copy of the option as
-            // it was built, before selection state or a filter's <mark> highlighting reached the row - which
-            // is what the old constructor, cloning before anything was selected, copied.
+            // of the row - which has no event listeners and never loads a Defer, so [Obsolete] on the
+            // overloads that land here is where this is meant to be caught, at build time. Taken here rather
+            // than on the first RenderSelected so it is a copy of the option as it was built, before
+            // selection state or a filter's <mark> highlighting reached the row - which is what the old
+            // constructor, cloning before anything was selected, copied.
             private void CopyRowForBox()
             {
-                if (!_reportedRowCopy)
-                {
-                    _reportedRowCopy = true;
-                    console.error("Dropdown.Item: the box has no component of its own, so it gets a copy of the row - which has no event listeners and never loads a Defer. Pass a separate component for the box, or a Func<IComponent> to have one built from the same recipe as the row.");
-                }
-
                 _selectedElement = (HTMLElement)InnerElement.cloneNode(true);
 
                 // Not a row: the box carries no role or aria-selected, is out of the tab order, and is styled
@@ -1423,12 +1414,10 @@ namespace Tesserae
             // overload is used, and only the box's component can be deferred.
             private static HTMLElement BuildRow(IComponent content)
             {
-                // Nothing to draw and nothing to fall back to. Reporting it beats throwing: a throw out of a
-                // component's constructor takes down the whole page it was being built into, so the option
-                // renders empty and the console says which call did it.
+                // Nothing to draw and nothing to fall back to. Rendering empty beats throwing: a throw out
+                // of a component's constructor takes down the whole page it was being built into.
                 if (content is null)
                 {
-                    console.error("Dropdown.Item: content is null, the option will render empty.");
                     content = TextBlock("");
                 }
 
