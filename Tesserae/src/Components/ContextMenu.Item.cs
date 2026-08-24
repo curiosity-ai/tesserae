@@ -24,6 +24,7 @@ namespace Tesserae
         public class Item : ComponentBase<Item, HTMLElement>
         {
             private readonly HTMLElement              _innerComponent;
+            private readonly bool                     _isSeparator;
             internal         ContextMenu              _subMenu;
             private event ComponentEventHandler<Item> PossiblyOpenSubMenu;
             internal bool                             CurrentlyMouseovered = false;
@@ -55,9 +56,22 @@ namespace Tesserae
                     itf.SetTextAlign(TextAlign.Left);
                 }
 
+                // A HorizontalSeparator is a labelled divider, not a command: it has nothing to click. Left as an
+                // ordinary row it would still claim a command row's 36px, light up under the pointer, take the
+                // focus on mouseenter and stop the arrow keys on their way past. tabIndex -1 is what the keyboard
+                // walk in OnPopupKeyDown skips on, and the class is what the stylesheet sizes the row by.
+                _isSeparator    = component is HorizontalSeparator;
                 _innerComponent = component.Render();
                 InnerElement    = Div(Att("tss-contextmenu-item"), _innerComponent);
                 InnerElement.appendChild(_innerComponent);
+
+                if (_isSeparator)
+                {
+                    InnerElement.classList.add("tss-contextmenu-item-separator");
+                    InnerElement.tabIndex = -1;
+                    return;
+                }
+
                 AttachClick();
                 InnerElement.addEventListener("mouseenter", OnItemMouseEnter);
                 InnerElement.addEventListener("mouseleave", OnItemMouseLeave);
@@ -79,8 +93,8 @@ namespace Tesserae
                     InnerElement.classList.remove(Type.ToString());
                     InnerElement.classList.add(value.ToString());
 
-                    if (value == ItemType.Item) InnerElement.tabIndex = 0;
-                    else InnerElement.tabIndex                        = -1;
+                    if (value == ItemType.Item && !_isSeparator) InnerElement.tabIndex = 0;
+                    else InnerElement.tabIndex                                         = -1;
                 }
             }
 
@@ -95,7 +109,7 @@ namespace Tesserae
                     if (value)
                     {
                         InnerElement.classList.remove("tss-disabled");
-                        if (Type == ItemType.Item) InnerElement.tabIndex = 0;
+                        if (Type == ItemType.Item && !_isSeparator) InnerElement.tabIndex = 0;
                     }
                     else
                     {
@@ -170,6 +184,8 @@ namespace Tesserae
             /// </summary>
             public override Item OnClick(ComponentEventHandler<Item, MouseEvent> e, bool clearPrevious = true)
             {
+                if (_isSeparator) return this;
+
                 if (Type == ItemType.Item)
                 {
                     if (HasSubMenu)

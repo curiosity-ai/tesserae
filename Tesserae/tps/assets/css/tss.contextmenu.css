@@ -150,6 +150,22 @@
     border: 0;
 }
 
+/* ContextMenuItem(HorizontalSeparator(...)) - a labelled divider between groups of commands, which
+   is not itself a command. It keeps the row's horizontal padding so the rule lines up with the
+   labels above and below it, and drops everything that says "you can click this": the 36px command
+   height, the hover fill and the pointer. ContextMenuItem().Divider() is still the unlabelled one.
+   The class is set by ContextMenu.Item, which also takes the row out of the keyboard walk. */
+.tss-contextmenu-item.tss-contextmenu-item-separator {
+    min-height: 0;
+    cursor: default;
+}
+
+    .tss-contextmenu-item.tss-contextmenu-item-separator:hover,
+    .tss-contextmenu-item.tss-contextmenu-item-separator:focus {
+        background-color: var(--tss-default-background-color);
+        border-color: transparent;
+    }
+
 .tss-contextmenu-item.tss-disabled {
     color: var(--tss-disabled-foreground-color);
 }

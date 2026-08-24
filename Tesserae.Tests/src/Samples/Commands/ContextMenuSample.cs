@@ -28,6 +28,10 @@ namespace Tesserae.Tests.Samples
                             ContextMenuItem(HStack().Children(Icon(UIcons.Plus), TextBlock("New Item").ML(8))).OnClick((_, __) => Toast().Success("New Item created")),
                             ContextMenuItem(HStack().Children(Icon(UIcons.FolderOpen), TextBlock("Open").ML(8))).OnClick((_, __) => Toast().Information("Opening...")),
                             ContextMenuItem().Divider(),
+                            // A HorizontalSeparator in an item is the labelled divider Divider() cannot draw. The
+                            // menu takes it as a separator rather than a command: no command-row height, no hover,
+                            // and the arrow keys walk past it.
+                            ContextMenuItem(HorizontalSeparator("Danger zone").WS()),
                             ContextMenuItem(HStack().Children(Icon(UIcons.Trash, color: Theme.Danger.Background), TextBlock("Delete").ML(8).Danger())).OnClick((_, __) => Toast().Error("Deleted"))
                         ).ShowFor(btn1)
                     ).MB(16),
