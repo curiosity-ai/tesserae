@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Transpose.Core.dom;
@@ -116,7 +116,7 @@ namespace Tesserae
 
         private void UpdateDropdownItems()
         {
-            _dropdown.Items(_orderedTabs.Select(t => DropdownItem(t.CreateTitle(), t.CreateTitle()).SetData(t.Id).SelectedIf(t.Id == _currentSelectedID)).ToArray());
+            _dropdown.Items(_orderedTabs.Select(t => DropdownItem(t.CreateTitle).SetData(t.Id).SelectedIf(t.Id == _currentSelectedID)).ToArray());
         }
 
         /// <summary>

@@ -29,7 +29,6 @@ namespace Tesserae
 
         private HTMLDivElement           _spinner;
         private bool                     _isChanged;
-        private bool                     _boxRefreshQueued;
         private bool                     _isClearingOtherSelections;
         private bool                     _callSelectOnChangingItemSelections;
         private bool                     _fitContent = false;
@@ -478,9 +477,6 @@ namespace Tesserae
         {
             ClearSearch();
             ResetSearchItems();
-            // The search is off and the highlights are gone, so the box can safely copy the rows again -
-            // this is what picks up content that arrived while the list was being filtered.
-            RenderSelected();
             InnerElement.setAttribute("aria-expanded", "false");
             // The click/dblclick/contextmenu/wheel listeners are attached once to
             // _contentHtml when it's first created (see Show) and intentionally live
@@ -669,8 +665,6 @@ namespace Tesserae
                 _childContainer.appendChild(component.Render());
                 component.SelectedItem -= OnItemSelected; //Ensure OnItemSelected is only hooked once
                 component.SelectedItem += OnItemSelected;
-                component.SelectedRenderInvalidated -= OnSelectedRenderInvalidated;
-                component.SelectedRenderInvalidated += OnSelectedRenderInvalidated;
             });
 
             EnsureAsyncLoadingStateDisabled(); // If we got here because an async request completed OR while one was in flight but a synchronous call to this method came in after it started but before finishing then ensure to remove its loading state
@@ -724,8 +718,6 @@ namespace Tesserae
                 _childContainer.appendChild(child.Render());
                 child.SelectedItem -= OnItemSelected; //Ensure OnItemSelected is only hooked once
                 child.SelectedItem += OnItemSelected;
-                child.SelectedRenderInvalidated -= OnSelectedRenderInvalidated;
-                child.SelectedRenderInvalidated += OnSelectedRenderInvalidated;
 
                 existing.Add(child);
                 added++;
@@ -907,41 +899,9 @@ namespace Tesserae
             return this;
         }
 
-        // A row whose content arrived after the box copied it. Redraw the box so the copy catches up. Not
-        // while a search is running: the filter highlights matches by wrapping them in <mark>, and copying
-        // that into the box would put the highlight there too - Hide redraws once the highlight is undone.
-        private void OnSelectedRenderInvalidated(Item sender)
-        {
-            if (!string.IsNullOrEmpty(_search)) return;
-            if (_boxRefreshQueued) return;
-
-            // Content can land in bursts, and an option is free to hold something that redraws itself
-            // continuously - one copy per frame is enough either way.
-            _boxRefreshQueued = true;
-
-            window.requestAnimationFrame(_ =>
-            {
-                _boxRefreshQueued = false;
-                RenderSelected();
-            });
-        }
-
         private void RenderSelected()
         {
             ClearChildren(InnerElement);
-
-            // Only the items on show in the box need watching, and only until they are replaced by the next
-            // render. Everything else stops, so the observers never outnumber the current selection.
-            if (_lastRenderedItems is object)
-            {
-                foreach (var item in _lastRenderedItems)
-                {
-                    item.WatchForBox(item.IsSelected);
-
-                    // Its content is visible in the box, so it has to load whether or not the list was opened.
-                    if (item.IsSelected) item.EnsureContentLoadedForBox();
-                }
-            }
 
             if (SelectedItems.Any())
             {
@@ -953,17 +913,13 @@ namespace Tesserae
                 {
                     for (var i = 0; i < SelectedItems.Length; i++)
                     {
-                        var sel   = SelectedItems[i];
-                        var clone = sel.RenderSelected();
-                        clone.classList.remove("tss-dropdown-item");
-                        clone.classList.remove("tss-selected");
-                        clone.classList.add("tss-dropdown-item-on-box");
+                        var onBox = SelectedItems[i].RenderSelected();
 
                         if (_fitContent)
                         {
-                            clone.classList.add("tss-dropdown-fit-content");
+                            onBox.classList.add("tss-dropdown-fit-content");
                         }
-                        InnerElement.appendChild(clone);
+                        InnerElement.appendChild(onBox);
                     }
                 }
             }
@@ -1285,20 +1241,22 @@ namespace Tesserae
         {
             private readonly HTMLElement InnerElement;
 
-            // Only set when the caller gave an explicit short form for the box. Without one the box
-            // shows a copy of the row, made when it is asked for rather than held here - see RenderSelected.
-            private readonly HTMLElement SelectedElement;
+            // The recipe for what the box draws, not an instance of it. An element exists at exactly one
+            // place in the DOM, so the list and the box each need their own live component, and only the
+            // caller can produce a second one - which is why this is a factory. Copying the row instead,
+            // which is what this used to do, hands the box a dead picture: cloneNode carries attributes
+            // but not event listeners, not DomObserver's mount registration and not component identity,
+            // so a Defer in the copy never loaded and nothing in it ever reacted to anything.
+            private readonly Func<IComponent> _selectedContentFactory;
 
-            private MutationObserver _boxContentObserver;
-
-            // The component the row draws. Held so that a Defer in it can be asked to load when this item
-            // is the one on show in the box - see EnsureContentLoadedForBox.
-            private readonly IComponent _content;
-            private          bool       _boxLoadRequested;
+            // Built the first time the box asks for it, so an option nobody selected costs nothing - which
+            // is what keeps a deferred option lazy until it is either listed or selected.
+            private HTMLElement _selectedElement;
             /// <summary>
             /// Initializes a new instance of this class.
             /// </summary>
-            public Item(string text, string selectedText = null, UIcons? icon = null) : this(GetContent(text, icon), GetContent(string.IsNullOrEmpty(selectedText) ? text : selectedText, icon))
+            public Item(string text, string selectedText = null, UIcons? icon = null)
+                : this(() => GetContent(text, icon), () => GetContent(string.IsNullOrEmpty(selectedText) ? text : selectedText, icon))
             {
             }
 
@@ -1321,19 +1279,28 @@ namespace Tesserae
             private dynamic _data;
 
             /// <summary>
-            /// Initializes a new instance of this class.
+            /// Initializes a new instance of this class. Both arguments are factories rather than components
+            /// because the option is drawn twice - once as a row in the list, once in the closed box - and a
+            /// component can only be in one of those places at a time. <paramref name="content"/> is called
+            /// now, to build the row; <paramref name="selectedContent"/> is called the first time the box
+            /// needs it. Pass only <paramref name="content"/> and the box builds a second one from the same
+            /// recipe, which is right for anything that fits on the box's single clipped row; pass a
+            /// <paramref name="selectedContent"/> to give the box a shorter form of the same option.
+            /// <para>
+            /// The two are independent instances, which is what makes the one in the box live: it mounts, so
+            /// a <see cref="UI.Defer(Func{Task{IComponent}})"/> in it loads, and it keeps its own state. An
+            /// option holding something interactive will therefore not share that state between the list and
+            /// the box - if that matters, give the box its own read-only short form.
+            /// </para>
             /// </summary>
-            public Item(IComponent content, IComponent selectedContent)
+            public Item(Func<IComponent> content, Func<IComponent> selectedContent = null)
             {
-                InnerElement = Button(Att("tss-dropdown-item", role: "option"));
-                InnerElement.appendChild(content.Render());
-                _content = content;
+                if (content is null) throw new ArgumentNullException(nameof(content));
 
-                if (selectedContent is object && selectedContent != content)
-                {
-                    SelectedElement = Button(Att("tss-dropdown-item"));
-                    SelectedElement.appendChild(selectedContent.Render());
-                }
+                _selectedContentFactory = selectedContent ?? content;
+
+                InnerElement = Button(Att("tss-dropdown-item", role: "option"));
+                InnerElement.appendChild(content().Render());
 
                 InnerElement.addEventListener("click",     OnItemClick);
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
@@ -1456,72 +1423,22 @@ namespace Tesserae
             }
 
             /// <summary>
-            /// The element the dropdown's box shows for this item while it is selected. With an explicit
-            /// short form that is the component the caller gave, which is live and needs no copying. Without
-            /// one it is a copy of the row, taken now rather than when the item was constructed: content that
-            /// arrives asynchronously - a <see cref="UI.Defer(Func{Task{IComponent}})"/>, an image, anything
-            /// bound to an observable - would otherwise be frozen in the box at whatever the row looked like
-            /// before it loaded, which for a Defer means its loading placeholder, forever.
+            /// The element the dropdown's box shows for this item while it is selected: its own component,
+            /// built from the factory the item was given, so it is mounted and live in the box rather than a
+            /// copy of the row. Built once and reused.
             /// </summary>
             public HTMLElement RenderSelected()
             {
-                if (SelectedElement is object) return SelectedElement;
-
-                var copy = (HTMLElement)InnerElement.cloneNode(true);
-
-                // The row carries state that belongs to the list and must not come along. The filter shows
-                // and hides rows by writing an inline display, and an inline display beats the box's own
-                // rule - a copy taken after any filtering arrived in the box as a block, which is what
-                // stacked the chips and pushed their content out of the row. role and aria-selected
-                // describe an option inside a listbox, and the box is not one; the copy is a picture of the
-                // selection, so it is not focusable either.
-                copy.style.display = "";
-                copy.removeAttribute("role");
-                copy.removeAttribute("aria-selected");
-                copy.tabIndex = -1;
-
-                return copy;
-            }
-
-            /// <summary>
-            /// Asks the row's content to load because it is on show in the box. A <see cref="IDefer"/> waits to
-            /// be mounted before loading, and a row is not in the document until the dropdown is first opened -
-            /// so an option selected before that would sit in the box as a loading placeholder with nothing to
-            /// make it resolve. Called once per item: Refresh re-runs the generator.
-            /// </summary>
-            internal void EnsureContentLoadedForBox()
-            {
-                // An explicit short form is mounted in the box itself, so it loads without any help.
-                if (_boxLoadRequested || SelectedElement is object) return;
-
-                _boxLoadRequested = true;
-
-                (_content as IDefer)?.Refresh();
-            }
-
-            /// <summary>
-            /// Raised when the row's own content changed, so a copy of it taken earlier is now out of date.
-            /// </summary>
-            internal event ComponentEventHandler<Item> SelectedRenderInvalidated;
-
-            /// <summary>
-            /// Starts or stops watching the row for content that arrives after the box already copied it. Only
-            /// the items currently in the box are watched, and only those without an explicit short form -
-            /// an explicit one is a live component and is never a copy.
-            /// </summary>
-            internal void WatchForBox(bool watch)
-            {
-                if (!watch || SelectedElement is object)
+                if (_selectedElement is null)
                 {
-                    _boxContentObserver?.disconnect();
-                    _boxContentObserver = null;
-                    return;
+                    // Not a row: it carries no role or aria-selected, and nothing in the box is in the tab
+                    // order - the box is a picture of the selection, and the list is what you interact with.
+                    _selectedElement          = Button(Att("tss-dropdown-item-on-box"));
+                    _selectedElement.tabIndex = -1;
+                    _selectedElement.appendChild(_selectedContentFactory().Render());
                 }
 
-                if (_boxContentObserver is object) return;
-
-                _boxContentObserver = new MutationObserver((_, __) => SelectedRenderInvalidated?.Invoke(this));
-                _boxContentObserver.observe(InnerElement, new MutationObserverInit { childList = true, characterData = true, subtree = true });
+                return _selectedElement;
             }
 
             /// <summary>
