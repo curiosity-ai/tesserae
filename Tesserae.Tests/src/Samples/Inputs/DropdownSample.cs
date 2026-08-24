@@ -80,7 +80,7 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Lazy Search (SearchAsync)"),
                     VStack().Children(
-                        TextBlock("With thousands of options there is no loading them all up front. Seed the dropdown with the first page, and let SearchAsync fetch the rest as the User types - the items it returns are added to the ones already there, so the seed and the current selection survive every lookup. This example holds 5,000 people and seeds only the first 20.").Medium(),
+                        TextBlock("With thousands of options there is no loading them all up front. Seed the dropdown with the first page, and let SearchAsync fetch the rest as the User types - the items it returns are added to the ones already there, so the seed and the current selection survive every lookup. This example holds 5,000 people and seeds only the first 20."),
                         Label("Search 5,000 people").SetContent(
                             Dropdown()
                                .Items(FirstPageOfPeople())
