@@ -290,14 +290,33 @@
     width: auto;
 }
 
-.tss-dropdown > .tss-dropdown-item-on-box:not(:first-child) {
-    margin-left: 2px;
+/* An option's content is usually a Button, and the box shows a clone of it. .tss-btn brings a
+   min-width of 80px and a min-height of 36px, neither of which makes sense for a chip in a
+   comma-separated list inside a 32px row: the width reserves 80px per chip, so the comma after one
+   ends up stranded half a word away from it, and the height overflows the row and gets clipped.
+   .tss-dropdown-item-on-box resets both on the clone's root, but the Button is one level further
+   in - so reset it there too, and let the content size itself. */
+.tss-dropdown-item-on-box .tss-btn {
+    min-width: unset;
+    min-height: unset;
+    padding: 0;
+    margin: 0;
 }
 
+/* The ", " between the selected items shown in the box. The separator is generated on the item that
+   *follows* it, so it has to hug the item before it - any margin on this side of the item lands
+   between the previous word and its comma - and put its breathing room after itself instead.
+   .tss-dropdown-item-on-box is an inline-flex container, so this pseudo-element is a flex item and
+   not inline text: left alone it stretches and draws the comma at the top of that stretched box,
+   which is what "height: 0" used to paper over and why the comma floated above the text. Everything
+   in the box is centred on the row (.tss-dropdown is a centred inline-flex), so centring the
+   separator too is what lines it up - with text, with an avatar, with a chart, with anything. */
 .tss-dropdown > .tss-dropdown-item-on-box:not(:first-child)::before {
-    content:',';
-    padding-right:6px;
-    height:0px;
+    content: ',';
+    align-self: center;
+    padding-right: 4px;
+    /* Never let the separator be what makes the row taller. */
+    line-height: 1;
 }
 
 .tss-dropdown-fit-content {
