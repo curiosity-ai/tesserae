@@ -23,8 +23,8 @@ namespace Tesserae.Tests.Samples
             // single-select dropdown is as soon as an option is picked. The counters show how often it fired.
             var singleChanges = 0;
             var multiChanges  = 0;
-            var singleReport  = TextBlock("Nothing picked yet").Medium();
-            var multiReport   = TextBlock("Nothing picked yet").Medium();
+            var singleReport  = TextBlock("Nothing picked yet");
+            var multiReport   = TextBlock("Nothing picked yet");
 
             var singleSelectWithOnChange = Dropdown().Items(
                                                    DropdownItem("Option 1"),
@@ -96,11 +96,13 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Reacting to a Selection"),
                     VStack().Children(
-                        TextBlock("OnChange reports the selection the User settled on once the popup closes, however many options were toggled in it - which for a single-select dropdown is as soon as an option is picked, since picking one closes the popup. Attach fires on every selection change instead, which is what validation uses.").Medium(),
-                        Label("Single-select").SetContent(singleSelectWithOnChange),
+                        TextBlock("OnChange reports the selection the User settled on once the popup closes, however many options were toggled in it - which for a single-select dropdown is as soon as an option is picked, since picking one closes the popup. Attach fires on every selection change instead, which is what validation uses."),
                         singleReport,
-                        Label("Multi-select").SetContent(multiSelectWithOnChange),
-                        multiReport
+
+                        Label("Single-select").SetContent(singleSelectWithOnChange),
+                        multiReport,                        
+                        Label("Multi-select").SetContent(multiSelectWithOnChange)
+
                     ),
                     SampleSubTitle("Async Loading"),
                     VStack().Children(
@@ -115,7 +117,7 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Lazy Search (SearchAsync)"),
                     VStack().Children(
-                        TextBlock("With thousands of options there is no loading them all up front. Seed the dropdown with the first page, and let SearchAsync fetch the rest as the User types - the items it returns are added to the ones already there, so the seed and the current selection survive every lookup. This example holds 5,000 people and seeds only the first 20.").Medium(),
+                        TextBlock("With thousands of options there is no loading them all up front. Seed the dropdown with the first page, and let SearchAsync fetch the rest as the User types - the items it returns are added to the ones already there, so the seed and the current selection survive every lookup. This example holds 5,000 people and seeds only the first 20."),
                         Label("Search 5,000 people").SetContent(
                             Dropdown()
                                .Items(FirstPageOfPeople())

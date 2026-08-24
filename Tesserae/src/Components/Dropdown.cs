@@ -13,11 +13,6 @@ namespace Tesserae
     /// A select-style form input for picking one or many values from a list, with filtering, async loading and rich
     /// item rendering.
     /// </summary>
-    /// <remarks>
-    /// <c>OnChange</c> reports the selection the User settled on, once, when the popup closes - however many options were
-    /// toggled in it. For a single-select dropdown that is as soon as an option is picked, since picking one closes the popup.
-    /// <see cref="Attach"/> fires on every selection change instead, which is what validation wants.
-    /// </remarks>
     [Transpose.Name("tss.Dropdown")]
     public sealed class Dropdown : Layer<Dropdown>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>, ITabIndex, IRoundedStyle
     {
