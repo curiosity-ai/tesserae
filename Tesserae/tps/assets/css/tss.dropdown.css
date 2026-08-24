@@ -210,12 +210,19 @@
     padding-left: 32px !important;
 }
 
+    /* The checkbox and its tick are absolutely positioned, so they need centring against the row
+       rather than a fixed offset from its top: an option whose content is two lines tall (or a badge,
+       or an avatar) is taller than the 32px a fixed 8px offset was measured against, and the checkbox
+       stayed up by the first line instead of sitting beside the content. The tick keeps the 2.5px
+       optical rise above the box's centre that its old top: 10px against top: 8px gave it - the ink
+       of a rotated checkmark sits low in its own box. */
     .tss-dropdown-multi > .tss-dropdown-item:before {
         content: " ";
         display: block;
         position: absolute;
         left: 8px;
-        top: 8px;
+        top: 50%;
+        transform: translateY(-50%);
         width: 20px;
         height: 20px;
         border-radius: 2px;
@@ -237,12 +244,12 @@
         position: absolute;
         display: none;
         left: 15px;
-        top: 10px;
+        top: 50%;
         width: 6px;
         height: 11px;
         border: solid var(--tss-default-border-color);
         border-width: 0 1px 1px 0;
-        transform: rotate(45deg);
+        transform: translateY(calc(-50% - 2.5px)) rotate(45deg);
     }
 
     .tss-dropdown-multi > .tss-dropdown-item:hover:after {
@@ -347,6 +354,14 @@
     min-height: 32px;
     line-height: 32px;
 }
+
+    /* The 32px line-height above is what centres a single line of text in the row, but line-height is
+       inherited: an option whose content is a stack of two text blocks got 32px per line and the row
+       came out twice as tall as its content, with the two lines pushed apart and the centred checkbox
+       stranded in the gap between them. The content keeps its own line-height; the row keeps its. */
+    .tss-dropdown-popup .tss-dropdown-item > * {
+        line-height: normal;
+    }
 
     .tss-dropdown-popup .tss-dropdown-item .tss-btn {
         min-height: 24px !important;

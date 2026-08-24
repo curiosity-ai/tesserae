@@ -405,17 +405,26 @@ namespace Tesserae
             var items        = GetItems();
             var visibleItems = items.Where(i => i.item.style.display != "none").Select(i => (item: i.item, height: i.item.getBoundingClientRect().As<DOMRect>().height)).ToArray();
 
-            double searchBoxHeight = 0;
+            // Everything in the popup that is not a row: its own border and padding, and - when there
+            // is one - the search box plus the gap under it. Measured rather than assumed, and
+            // measured with the constraints lifted, because a min/max height left over from the last
+            // call would otherwise be counted as part of the chrome.
+            _popupDiv.style.minHeight = "0px";
+            _popupDiv.style.maxHeight = "none";
 
-            if (_searchBox is object)
-            {
-                var sbr = _searchBox.Render().getBoundingClientRect().As<DOMRect>();
-                var pdr = _popupDiv.getBoundingClientRect().As<DOMRect>();
-                searchBoxHeight = sbr.height + (sbr.top - pdr.top) + 8;
-            }
+            var chrome = _popupDiv.getBoundingClientRect().As<DOMRect>().height
+                       - _childContainer.getBoundingClientRect().As<DOMRect>().height;
 
-            var maxHeight = visibleItems.Length > 0 ? visibleItems.Sum(h => h.height) + "px" : "80vh";
-            var minHeight = ((visibleItems.Length > 0 ? visibleItems.Take(5).Select((h,i) => h.height + (i == 0 ? 0 : 16)).Sum() + 9: 0 ) + searchBoxHeight) + "px" ;
+            // The popup is exactly as tall as the rows it shows, and never shorter than the first five
+            // of them, so that filtering down to one row does not collapse it to a sliver. Both bounds
+            // have to carry the chrome: leaving it out of the maximum is what used to put a scrollbar
+            // on a list that fits, and the minimum used to add 16px per row for a gap between rows
+            // that does not exist, which is where the empty space below the last row came from.
+            var rows        = visibleItems.Sum(h => h.height);
+            var atLeastRows = visibleItems.Take(5).Sum(h => h.height);
+
+            var maxHeight = visibleItems.Length > 0 ? rows + chrome + "px" : "80vh";
+            var minHeight = (visibleItems.Length > 0 ? atLeastRows + chrome : 0) + "px";
 
             _popupDiv.style.minHeight = minHeight;
             _popupDiv.style.maxHeight = maxHeight;
@@ -448,6 +457,11 @@ namespace Tesserae
                     {
                         _popupDiv.style.height = window.innerHeight - rect.bottom - 1 + "px";
                     }
+
+                    // There is not enough room on either side for the whole list, so the height set
+                    // just above is the real constraint - the five-row floor has to yield to it or the
+                    // popup runs off the screen instead of scrolling.
+                    _popupDiv.style.minHeight = "0px";
                 }
                 else
                 {
