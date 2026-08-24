@@ -28,7 +28,8 @@ Dropdown:
 - `.SearchAsync(Func<string, Task<Item[]>> searcher, string placeholder = "Search", int debounceMilliseconds = 250)` — lazy loading for lists too large to load up front; see below.
 - `.Required()` / `.Disabled()` / `.NoBorder()` / `.NoBackground()` / `.FitContent()`.
 - `.Placeholder(string|IComponent)` — empty-state text.
-- `.Attach(handler)` — fires on selection change (use for validation: set `.IsInvalid` and `.Error`).
+- `.Attach(handler)` — fires on every selection change, including each toggle inside a multi-select popup (use for validation: set `.IsInvalid` and `.Error`).
+- `.OnChange(handler)` — fires once, when the popup closes, with the selection the User settled on (for a single-select dropdown that is as soon as an option is picked, since picking one closes the popup).
 - `.SelectedItems` / `.SelectedText` — current selection. `.AsObservable()` for the selected list.
 
 Dropdown.Item:
@@ -54,6 +55,8 @@ dd.Attach(d =>
     d.IsInvalid = !ok;
     if (!ok) d.Error = "Please select 'Option 1'";
 });
+
+dd.OnChange((d, _) => console.log($"picked {d.SelectedText}"));
 ```
 
 ## Lazy search (thousands of options)

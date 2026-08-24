@@ -13,6 +13,11 @@ namespace Tesserae
     /// A select-style form input for picking one or many values from a list, with filtering, async loading and rich
     /// item rendering.
     /// </summary>
+    /// <remarks>
+    /// <c>OnChange</c> reports the selection the User settled on, once, when the popup closes - however many options were
+    /// toggled in it. For a single-select dropdown that is as soon as an option is picked, since picking one closes the popup.
+    /// <see cref="Attach"/> fires on every selection change instead, which is what validation wants.
+    /// </remarks>
     [Transpose.Name("tss.Dropdown")]
     public sealed class Dropdown : Layer<Dropdown>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>, ITabIndex, IRoundedStyle
     {
@@ -29,6 +34,7 @@ namespace Tesserae
 
         private HTMLDivElement           _spinner;
         private bool                     _isChanged;
+        private bool                     _isClearingOtherSelections;
         private bool                     _callSelectOnChangingItemSelections;
         private bool                     _fitContent = false;
         private Func<Task<Item[]>>       _itemsSource;
@@ -819,20 +825,37 @@ namespace Tesserae
                 if (sender.IsSelected)
                 {
                     // For single select drop downs, when one item is selected then we need to ensure here that any other are UN-selected ("there can be only one")
-                    foreach (var item in _lastRenderedItems)
+                    _isClearingOtherSelections = true;
+
+                    try
                     {
-                        if (item != sender)
+                        foreach (var item in _lastRenderedItems)
                         {
-                            item.IsSelected = false;
+                            if (item != sender)
+                            {
+                                item.IsSelected = false;
+                            }
                         }
                     }
+                    finally
+                    {
+                        _isClearingOtherSelections = false;
+                    }
+
+                    // Same as the multi-select branch below: the selection moved, and Hide is what reports it (which for a single-select dropdown is right here, since picking an option closes the popup)
+                    _isChanged = true;
+
+                    Hide();
                 }
                 else
                 {
-                    // If this is an item getting unselected in a Single-only dropdown then it was probably from the "selectedChild.IsSelected = false" call just above and we can ignore it since we're already processing the OnItemSelected logic
-                    return;
+                    // If this is an item getting unselected by the "item.IsSelected = false" loop just above then we can ignore it since we're already processing the OnItemSelected logic for the item that IS being selected
+                    if (_isClearingOtherSelections) return;
+
+                    // Otherwise the caller deselected the item itself (the UI can't - clicking an option in a single-select dropdown always selects it), which still has to
+                    // refresh the selected-items bar below and is a change like any other. Not a Hide, though - closing the popup on the User is not this caller's intent.
+                    _isChanged = true;
                 }
-                Hide();
             }
             else
             {
