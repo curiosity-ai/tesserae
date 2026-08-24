@@ -346,13 +346,22 @@
     padding-top: 8px;
 }
 
+/* A row pays for its breathing room in padding, not in line-height. Using a 32px line-height for it
+   only ever worked for text: line-height sets the strut of a *text* line, so anything else an option
+   renders eats into that space instead of being given its own - a 28px avatar in a 32px line box came
+   out with 1px above and below it, while a plain label got 5 and a badge got 6. The air was whatever
+   the line box happened to have left over, so it changed with the content. Padding gives every row
+   the same margin around whatever it draws, and min-height stays as the floor that keeps a short row
+   from looking cropped. 4px is what leaves the ordinary single-line row at the 34px it has always
+   been, so this costs nothing anywhere it was already right. */
 .tss-dropdown-popup .tss-dropdown-item {
     margin: 0 8px;
     width: calc(100% - 16px);
     box-sizing: border-box;
     border-radius: 6px;
     min-height: 32px;
-    line-height: 32px;
+    line-height: 20px;
+    padding: 4px 8px;
 }
 
     /* The 32px line-height above is what centres a single line of text in the row, but line-height is
