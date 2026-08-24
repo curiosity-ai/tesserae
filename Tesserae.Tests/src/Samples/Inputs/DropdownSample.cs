@@ -19,33 +19,6 @@ namespace Tesserae.Tests.Samples
                         );
             validatedDropdown.Attach(dd => dd.IsInvalid = dd.SelectedItems.Length != 1 || dd.SelectedItems[0].Text != "Option 1");
 
-            // OnChange reports the selection the User settled on when the popup closes, in either mode - which for a
-            // single-select dropdown is as soon as an option is picked. The counters show how often it fired.
-            var singleChanges = 0;
-            var multiChanges  = 0;
-            var singleReport  = TextBlock("Nothing picked yet");
-            var multiReport   = TextBlock("Nothing picked yet");
-
-            var singleSelectWithOnChange = Dropdown().Items(
-                                                   DropdownItem("Option 1"),
-                                                   DropdownItem("Option 2"),
-                                                   DropdownItem("Option 3"))
-                                              .OnChange((dd, _) =>
-                                               {
-                                                   singleChanges++;
-                                                   singleReport.Text = $"{dd.SelectedText} (OnChange fired {singleChanges} time(s))";
-                                               });
-
-            var multiSelectWithOnChange = Dropdown().Multi().Items(
-                                                  DropdownItem("Option 1"),
-                                                  DropdownItem("Option 2"),
-                                                  DropdownItem("Option 3"))
-                                             .OnChange((dd, _) =>
-                                              {
-                                                  multiChanges++;
-                                                  multiReport.Text = $"{dd.SelectedText} (OnChange fired {multiChanges} time(s))";
-                                              });
-
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(DropdownSample), UIcons.CaretDown, "A control to select an option from a dropdown")
                .FlatSection(Stack().Children(
@@ -93,16 +66,6 @@ namespace Tesserae.Tests.Samples
                             DropdownItem("Medium").Selected(),
                             DropdownItem("High")
                         ))
-                    ),
-                    SampleSubTitle("Reacting to a Selection"),
-                    VStack().Children(
-                        TextBlock("OnChange reports the selection the User settled on once the popup closes, however many options were toggled in it - which for a single-select dropdown is as soon as an option is picked, since picking one closes the popup. Attach fires on every selection change instead, which is what validation uses."),
-                        singleReport,
-
-                        Label("Single-select").SetContent(singleSelectWithOnChange),
-                        multiReport,                        
-                        Label("Multi-select").SetContent(multiSelectWithOnChange)
-
                     ),
                     SampleSubTitle("Async Loading"),
                     VStack().Children(
