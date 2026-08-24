@@ -1291,6 +1291,11 @@ namespace Tesserae
         /// <summary>
         /// Creates a <see cref="Tesserae.Dropdown.Item"/> component.
         /// </summary>
+        public static Dropdown.Item DropdownItem(IComponent content, IComponent selectedContent) => new Dropdown.Item(content, selectedContent);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Dropdown.Item"/> component.
+        /// </summary>
         public static Dropdown.Item DropdownItem(Func<IComponent> content, Func<IComponent> selectedContent = null) => new Dropdown.Item(content, selectedContent);
 
         /// <summary>

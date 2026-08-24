@@ -1279,13 +1279,56 @@ namespace Tesserae
             private dynamic _data;
 
             /// <summary>
-            /// Initializes a new instance of this class. Both arguments are factories rather than components
-            /// because the option is drawn twice - once as a row in the list, once in the closed box - and a
-            /// component can only be in one of those places at a time. <paramref name="content"/> is called
-            /// now, to build the row; <paramref name="selectedContent"/> is called the first time the box
-            /// needs it. Pass only <paramref name="content"/> and the box builds a second one from the same
-            /// recipe, which is right for anything that fits on the box's single clipped row; pass a
-            /// <paramref name="selectedContent"/> to give the box a shorter form of the same option.
+            /// Initializes a new instance of this class from two components the caller has already built: one
+            /// for the row in the list, one for the closed box. Both are needed, and they must be different
+            /// instances, because an element exists at exactly one place in the DOM - there is no way to draw
+            /// one component in both places. To supply a single recipe and let the box build its own second
+            /// instance from it, use the <see cref="Item(Func{IComponent}, Func{IComponent})"/> overload,
+            /// which also defers building the box's one until the option is actually selected.
+            /// </summary>
+            public Item(IComponent content, IComponent selectedContent)
+            {
+                if (content is null) throw new ArgumentNullException(nameof(content));
+
+                // A null short form used to mean "copy the row into the box", and a copy is a picture: no
+                // listeners, no mount registration, no identity, so a Defer in it never loaded and nothing in
+                // it ever reacted. Pass a factory instead and the box gets a real second component.
+                if (selectedContent is null)
+                {
+                    throw new ArgumentNullException(nameof(selectedContent),
+                        "A Dropdown.Item needs its own component for the box. Pass one, or use the Func<IComponent> overload to have it built from the same recipe as the row.");
+                }
+
+                // The same instance in both places does not draw twice - appending it to the box moves it out
+                // of the row, leaving the row empty.
+                if (selectedContent == content)
+                {
+                    throw new ArgumentException(
+                        "The row and the box need separate components; the same instance cannot be in both. Use the Func<IComponent> overload to build one for each from the same recipe.",
+                        nameof(selectedContent));
+                }
+
+                // Safe to hand these straight back as factories: each is invoked exactly once - the row's in
+                // this constructor, the box's on the first RenderSelected, which caches what it builds.
+                _selectedContentFactory = () => selectedContent;
+
+                InnerElement = Button(Att("tss-dropdown-item", role: "option"));
+                InnerElement.appendChild(content.Render());
+
+                InnerElement.addEventListener("click",     OnItemClick);
+                InnerElement.addEventListener("mouseover", OnItemMouseOver);
+            }
+
+            /// <summary>
+            /// Initializes a new instance of this class from factories rather than components, which is what
+            /// lets a single recipe serve both places the option is drawn - the row in the list and the closed
+            /// box - since a component can only be in one of them at a time. <paramref name="content"/> is
+            /// called now, to build the row; <paramref name="selectedContent"/> is called the first time the
+            /// box needs it, so an option nobody selects never builds one. Pass only
+            /// <paramref name="content"/> and the box builds its own from that same recipe, which is right for
+            /// anything that fits on the box's single clipped row; pass a <paramref name="selectedContent"/>
+            /// to give the box a shorter form of the same option. Where both components are cheap and already
+            /// at hand, <see cref="Item(IComponent, IComponent)"/> takes them directly.
             /// <para>
             /// The two are independent instances, which is what makes the one in the box live: it mounts, so
             /// a <see cref="UI.Defer(Func{Task{IComponent}})"/> in it loads, and it keeps its own state. An

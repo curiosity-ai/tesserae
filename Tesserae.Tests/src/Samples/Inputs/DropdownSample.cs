@@ -95,10 +95,10 @@ namespace Tesserae.Tests.Samples
                             TwoLineItem("Singapore", "ap-southeast-1")
                         )),
                         Label("Emoji and interactive content (multi)").SetContent(Dropdown().Multi().Items(
-                            DropdownItem(() => HStack().AlignItemsCenter().Gap(8.px()).Children(Icon(Emoji.Pizza), TextBlock("Pizza")), () => HStack().AlignItemsCenter().Gap(4.px()).Children(Icon(Emoji.Pizza, TextSize.Small), TextBlock("Pizza").Small())).Selected(),
-                            DropdownItem(() => HStack().AlignItemsCenter().Gap(8.px()).Children(Icon(Emoji.Cheese), TextBlock("Cheese")), () => HStack().AlignItemsCenter().Gap(4.px()).Children(Icon(Emoji.Cheese, TextSize.Small), TextBlock("Cheese").Small())).Selected(),
-                            DropdownItem(() => HStack().AlignItemsCenter().Gap(8.px()).Children(TextBlock("Rated"), Rating(5).SetValue(4).ReadOnly()), () => TextBlock("Rated 4/5").Small()),
-                            DropdownItem(() => HStack().AlignItemsCenter().Gap(8.px()).Children(TextBlock("Shortcut"), KeyboardShortcut("Ctrl", "K")), () => TextBlock("Ctrl+K").Small())
+                            DropdownItem(HStack().AlignItemsCenter().Gap(8.px()).Children(Icon(Emoji.Pizza), TextBlock("Pizza")), HStack().AlignItemsCenter().Gap(4.px()).Children(Icon(Emoji.Pizza, TextSize.Small), TextBlock("Pizza").Small())).Selected(),
+                            DropdownItem(HStack().AlignItemsCenter().Gap(8.px()).Children(Icon(Emoji.Cheese), TextBlock("Cheese")), HStack().AlignItemsCenter().Gap(4.px()).Children(Icon(Emoji.Cheese, TextSize.Small), TextBlock("Cheese").Small())).Selected(),
+                            DropdownItem(HStack().AlignItemsCenter().Gap(8.px()).Children(TextBlock("Rated"), Rating(5).SetValue(4).ReadOnly()), TextBlock("Rated 4/5").Small()),
+                            DropdownItem(HStack().AlignItemsCenter().Gap(8.px()).Children(TextBlock("Shortcut"), KeyboardShortcut("Ctrl", "K")), TextBlock("Ctrl+K").Small())
                         )),
                         Label("Text that is far too long (multi)").SetContent(Dropdown().Multi().Items(
                             DropdownItem("A perfectly reasonable option").Selected(),
@@ -110,7 +110,7 @@ namespace Tesserae.Tests.Samples
                             SwatchItem("Seafoam", "#00b7c3").Selected(),
                             PersonRow("Ana Pereira", "ana@example.com").Selected(),
                             MetricItem("Revenue", new double[] { 3, 5, 4, 8, 6, 11, 9, 14 }, "#107c10").Selected(),
-                            DropdownItem(() => HStack().AlignItemsCenter().Gap(8.px()).Children(Icon(Emoji.Pizza), TextBlock("Pizza")), () => HStack().AlignItemsCenter().Gap(4.px()).Children(Icon(Emoji.Pizza, TextSize.Small), TextBlock("Pizza").Small())).Selected()
+                            DropdownItem(HStack().AlignItemsCenter().Gap(8.px()).Children(Icon(Emoji.Pizza), TextBlock("Pizza")), HStack().AlignItemsCenter().Gap(4.px()).Children(Icon(Emoji.Pizza, TextSize.Small), TextBlock("Pizza").Small())).Selected()
                         )),
                         TextBlock("WithCustomSelectionRender takes over the box completely: the selected items are handed to you and whatever you return is what the box shows - no clones, and no commas to get right."),
                         Label("Custom selection render (count)").SetContent(
@@ -255,18 +255,18 @@ namespace Tesserae.Tests.Samples
 
         // A two-line row with an avatar in the list, collapsing to avatar + first name in the box.
         private static Dropdown.Item PersonRow(string name, string email) =>
-            DropdownItem(() => PersonBlock(name, email), () => PersonChip(name)).SetKey(email).SetData(Initials(name));
+            DropdownItem(PersonBlock(name, email), PersonChip(name)).SetKey(email).SetData(Initials(name));
 
         // A badge is already a self-contained pill, so the box shows the same thing the list does.
         private static Dropdown.Item BadgeItem(string text, BadgeTone tone, UIcons icon) =>
-            DropdownItem(() => BadgeRow(text, tone, icon), () => Badge(text).Tone(tone).Pill()).SetKey(text);
+            DropdownItem(BadgeRow(text, tone, icon), Badge(text).Tone(tone).Pill()).SetKey(text);
 
         private static Dropdown.Item SwatchItem(string name, string color) =>
-            DropdownItem(() => SwatchRow(name, color, 16), () => SwatchRow(name, color, 10)).SetKey(name);
+            DropdownItem(SwatchRow(name, color, 16), SwatchRow(name, color, 10)).SetKey(name);
 
         // A chart inside an option - the tallest, widest thing here, and the box gets a smaller one.
         private static Dropdown.Item MetricItem(string name, double[] series, string color) =>
-            DropdownItem(() => MetricRow(name, series, color, 90, 24, labelWidth: 70), () => MetricRow(name, series, color, 36, 12)).SetKey(name);
+            DropdownItem(MetricRow(name, series, color, 90, 24, labelWidth: 70), MetricRow(name, series, color, 36, 12)).SetKey(name);
 
         // Deliberately gives no short form, so the box has to clip the two-line block itself.
         private static Dropdown.Item TwoLineItem(string title, string subtitle) =>
