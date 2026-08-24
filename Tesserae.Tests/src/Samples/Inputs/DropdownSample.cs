@@ -95,10 +95,10 @@ namespace Tesserae.Tests.Samples
                             TwoLineItem("Singapore", "ap-southeast-1")
                         )),
                         Label("Emoji and interactive content (multi)").SetContent(Dropdown().Multi().Items(
-                            DropdownItem(HStack().AlignItemsCenter().Gap(8.px()).Children(Icon(Emoji.Pizza), TextBlock("Pizza")), HStack().AlignItemsCenter().Gap(4.px()).Children(Icon(Emoji.Pizza, TextSize.Small), TextBlock("Pizza").Small())).Selected(),
-                            DropdownItem(HStack().AlignItemsCenter().Gap(8.px()).Children(Icon(Emoji.Cheese), TextBlock("Cheese")), HStack().AlignItemsCenter().Gap(4.px()).Children(Icon(Emoji.Cheese, TextSize.Small), TextBlock("Cheese").Small())).Selected(),
-                            DropdownItem(HStack().AlignItemsCenter().Gap(8.px()).Children(TextBlock("Rated"), Rating(5).SetValue(4).ReadOnly()), TextBlock("Rated 4/5").Small()),
-                            DropdownItem(HStack().AlignItemsCenter().Gap(8.px()).Children(TextBlock("Shortcut"), KeyboardShortcut("Ctrl", "K")), TextBlock("Ctrl+K").Small())
+                            DropdownItem(() => HStack().AlignItemsCenter().Gap(8.px()).Children(Icon(Emoji.Pizza), TextBlock("Pizza")), () => HStack().AlignItemsCenter().Gap(4.px()).Children(Icon(Emoji.Pizza, TextSize.Small), TextBlock("Pizza").Small())).Selected(),
+                            DropdownItem(() => HStack().AlignItemsCenter().Gap(8.px()).Children(Icon(Emoji.Cheese), TextBlock("Cheese")), () => HStack().AlignItemsCenter().Gap(4.px()).Children(Icon(Emoji.Cheese, TextSize.Small), TextBlock("Cheese").Small())).Selected(),
+                            DropdownItem(() => HStack().AlignItemsCenter().Gap(8.px()).Children(TextBlock("Rated"), Rating(5).SetValue(4).ReadOnly()), () => TextBlock("Rated 4/5").Small()),
+                            DropdownItem(() => HStack().AlignItemsCenter().Gap(8.px()).Children(TextBlock("Shortcut"), KeyboardShortcut("Ctrl", "K")), () => TextBlock("Ctrl+K").Small())
                         )),
                         Label("Text that is far too long (multi)").SetContent(Dropdown().Multi().Items(
                             DropdownItem("A perfectly reasonable option").Selected(),
@@ -110,7 +110,7 @@ namespace Tesserae.Tests.Samples
                             SwatchItem("Seafoam", "#00b7c3").Selected(),
                             PersonRow("Ana Pereira", "ana@example.com").Selected(),
                             MetricItem("Revenue", new double[] { 3, 5, 4, 8, 6, 11, 9, 14 }, "#107c10").Selected(),
-                            DropdownItem(HStack().AlignItemsCenter().Gap(8.px()).Children(Icon(Emoji.Pizza), TextBlock("Pizza")), HStack().AlignItemsCenter().Gap(4.px()).Children(Icon(Emoji.Pizza, TextSize.Small), TextBlock("Pizza").Small())).Selected()
+                            DropdownItem(() => HStack().AlignItemsCenter().Gap(8.px()).Children(Icon(Emoji.Pizza), TextBlock("Pizza")), () => HStack().AlignItemsCenter().Gap(4.px()).Children(Icon(Emoji.Pizza, TextSize.Small), TextBlock("Pizza").Small())).Selected()
                         )),
                         TextBlock("WithCustomSelectionRender takes over the box completely: the selected items are handed to you and whatever you return is what the box shows - no clones, and no commas to get right."),
                         Label("Custom selection render (count)").SetContent(
@@ -145,7 +145,7 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Deferred Mixed Content"),
                     VStack().Children(
-                        TextBlock("The same rich options as above, only now each one's content arrives through a Defer. This is the ordering that used to break the box: it shows a copy of the row, and a copy taken while the Defer was still on its loading placeholder stayed a placeholder for good - most visibly when an option is selected up front, before its content exists. Some of these are selected up front on purpose."),
+                        TextBlock("The same rich options as above, only now each one's content arrives through a Defer. An option is drawn twice - as a row in the list and, when selected, in the closed box - and because each is built from the factory the item was given, each is a live component: it mounts, so its Defer loads, wherever it is. Two of these are selected up front and fill themselves in without the list ever being opened."),
                         Label("Deferred rich options (multi, two pre-selected)").SetContent(Dropdown().Multi().Items(
                             DeferredItem(300,  () => BadgeRow("Critical", BadgeTone.Danger, UIcons.Exclamation),  selected: true),
                             DeferredItem(700,  () => SwatchRow("Seafoam", "#00b7c3", 16),                         selected: true),
@@ -157,8 +157,16 @@ namespace Tesserae.Tests.Samples
                             DeferredItem(900,  () => BadgeRow("Healthy", BadgeTone.Success, UIcons.CheckCircle)),
                             DeferredItem(1300, () => SwatchRow("Orchid", "#8764b8", 16))
                         )),
-                        TextBlock("A Defer normally waits to be mounted before it loads, and a row is not in the document until the dropdown is first opened - so a selected option would have sat in the box as a placeholder with nothing to make it resolve. Being selected is what settles it: the content is on show in the box, so the dropdown asks it to load whether or not the list has ever been opened. The two above are filled in without touching them. A Defer nested deeper inside the content, rather than being the content, still waits for the list to be opened."),
-                        TextBlock("An explicit short form is a live component rather than a copy, so a Defer inside one is mounted in the box and resolves there on its own. Here both halves are deferred, on different delays."),
+                        TextBlock("It does not matter how deep the Defer is either: the box builds the whole subtree, so a Defer buried inside the content mounts and loads there just as a top-level one does. The option below wraps a deferred fragment in a stack, and is selected up front."),
+                        Label("Deferred nested inside the content (multi, pre-selected)").SetContent(Dropdown().Multi().Items(
+                            NestedDeferredItem(600,  "Frankfurt",  "eu-central-1",  selected: true),
+                            NestedDeferredItem(1000, "Oregon",     "us-west-2")
+                        )),
+                        TextBlock("The price of two live components is that the factory runs twice, so whatever it does happens twice - two Defers, and two of whatever they call. Where that work is expensive, do it once outside the factory and let both instances await the same Task. The option below fetches once and is rendered twice from the result; the label shows how many times the 'fetch' actually ran."),
+                        Label("Work shared between the two instances (multi, pre-selected)").SetContent(Dropdown().Multi().Items(
+                            SharedWorkItem("Shared fetch", selected: true)
+                        )),
+                        TextBlock("A short form is a separate factory, for when the box wants a shorter version of the option rather than the same one. Here both halves are deferred, on different delays."),
                         Label("Deferred row and deferred short form (multi)").SetContent(Dropdown().Multi().Items(
                             DeferredPairItem(500,  1200, "Frankfurt",  "eu-central-1",   selected: true),
                             DeferredPairItem(800,  1600, "Oregon",     "us-west-2",      selected: true),
@@ -247,22 +255,22 @@ namespace Tesserae.Tests.Samples
 
         // A two-line row with an avatar in the list, collapsing to avatar + first name in the box.
         private static Dropdown.Item PersonRow(string name, string email) =>
-            DropdownItem(PersonBlock(name, email), PersonChip(name)).SetKey(email).SetData(Initials(name));
+            DropdownItem(() => PersonBlock(name, email), () => PersonChip(name)).SetKey(email).SetData(Initials(name));
 
         // A badge is already a self-contained pill, so the box shows the same thing the list does.
         private static Dropdown.Item BadgeItem(string text, BadgeTone tone, UIcons icon) =>
-            DropdownItem(BadgeRow(text, tone, icon), Badge(text).Tone(tone).Pill()).SetKey(text);
+            DropdownItem(() => BadgeRow(text, tone, icon), () => Badge(text).Tone(tone).Pill()).SetKey(text);
 
         private static Dropdown.Item SwatchItem(string name, string color) =>
-            DropdownItem(SwatchRow(name, color, 16), SwatchRow(name, color, 10)).SetKey(name);
+            DropdownItem(() => SwatchRow(name, color, 16), () => SwatchRow(name, color, 10)).SetKey(name);
 
         // A chart inside an option - the tallest, widest thing here, and the box gets a smaller one.
         private static Dropdown.Item MetricItem(string name, double[] series, string color) =>
-            DropdownItem(MetricRow(name, series, color, 90, 24, labelWidth: 70), MetricRow(name, series, color, 36, 12)).SetKey(name);
+            DropdownItem(() => MetricRow(name, series, color, 90, 24, labelWidth: 70), () => MetricRow(name, series, color, 36, 12)).SetKey(name);
 
         // Deliberately gives no short form, so the box has to clip the two-line block itself.
         private static Dropdown.Item TwoLineItem(string title, string subtitle) =>
-            DropdownItem(TwoLineBlock(title, subtitle)).SetKey(subtitle);
+            DropdownItem(() => TwoLineBlock(title, subtitle)).SetKey(subtitle);
 
         // --- The same content, arriving through a Defer ----------------------------------------
         // No short form, so the box shows a copy of the row - which is exactly the case that has to
@@ -271,7 +279,7 @@ namespace Tesserae.Tests.Samples
         private static int _deferredKey;
 
         private static Dropdown.Item DeferredItem(int delayMs, Func<IComponent> content, bool selected = false) =>
-            DropdownItem(Defer(async () =>
+            DropdownItem(() => Defer(async () =>
                 {
                     await Task.Delay(delayMs);
                     return content();
@@ -283,18 +291,55 @@ namespace Tesserae.Tests.Samples
         // is a live component, so its own Defer resolves in the box itself.
         private static Dropdown.Item DeferredPairItem(int rowDelayMs, int chipDelayMs, string title, string subtitle, bool selected = false) =>
             DropdownItem(
-                    Defer(async () =>
+                    () => Defer(async () =>
                     {
                         await Task.Delay(rowDelayMs);
                         return TwoLineBlock(title, subtitle);
                     }, loadMessage: Skeleton().Animated().W(120).H(16)),
-                    Defer(async () =>
+                    () => Defer(async () =>
                     {
                         await Task.Delay(chipDelayMs);
                         return TextBlock(title).Small();
                     }, loadMessage: Skeleton().Animated().W(60).H(12)))
                .SetKey(subtitle)
                .SelectedIf(selected);
+
+        // A Defer that is not the item's content but sits inside it, to show that the box mounts the whole
+        // subtree it builds rather than just its root.
+        private static Dropdown.Item NestedDeferredItem(int delayMs, string title, string subtitle, bool selected = false) =>
+            DropdownItem(() => HStack().AlignItemsCenter().Gap(8.px()).Children(
+                    Icon(UIcons.Globe),
+                    Defer(async () =>
+                    {
+                        await Task.Delay(delayMs);
+                        return TwoLineBlock(title, subtitle);
+                    }, loadMessage: Skeleton().Animated().W(100).H(16))))
+               .SetKey(subtitle)
+               .SelectedIf(selected);
+
+        // The factory runs once for the row and once for the box, so anything expensive in it runs twice
+        // unless the work itself is shared. One Task, awaited by both, is all that takes.
+        private static int _sharedFetchCount;
+
+        private static Dropdown.Item SharedWorkItem(string name, bool selected = false)
+        {
+            var fetchOnce = FetchOnceAsync(name);   // started once, here, not inside the factory
+
+            return DropdownItem(() => Defer(async () =>
+                {
+                    var value = await fetchOnce;
+                    return TextBlock(value).Small();
+                }, loadMessage: Skeleton().Animated().W(120).H(16)))
+               .SetKey(name)
+               .SelectedIf(selected);
+        }
+
+        private static async Task<string> FetchOnceAsync(string name)
+        {
+            await Task.Delay(600);
+            _sharedFetchCount++;
+            return $"{name} (fetched {_sharedFetchCount}x)";
+        }
 
         private static Dropdown StartLoadingAsyncDataImmediately(Dropdown dropdown)
         {
@@ -304,7 +349,7 @@ namespace Tesserae.Tests.Samples
 
         private Dropdown.Item DeferredDropdownItem(string text, int delayMs)
         {
-            return DropdownItem(Defer(async () =>
+            return DropdownItem(() => Defer(async () =>
             {
                 await Task.Delay(delayMs);
                 return Label($"Loaded {text}");

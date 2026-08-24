@@ -12,7 +12,9 @@ item loading, custom selection rendering, and validation. Items are
 ## Create
 
 `UI.Dropdown()` (or `UI.Dropdown(string noItemsText)`) — the dropdown.
-`UI.DropdownItem(string text, string selectedText = "", UIcons? icon = null)` — an option;
+`UI.DropdownItem(string text, string selectedText = "", UIcons? icon = null)` — a plain option.
+`UI.DropdownItem(Func<IComponent> content, Func<IComponent> selectedContent = null)` — an option that
+draws components; see **Rich item content** for why these are factories and not components.
 `UI.DropdownItem()` for a divider/header placeholder.
 Bring factories into scope with `using static Tesserae.UI;`.
 
@@ -88,55 +90,49 @@ returning the first page for an empty term restores the seed list.
 
 ## Rich item content
 
-An item's content is any `IComponent` — an avatar and two lines of text, a badge, a colour swatch, a
-sparkline — and the box shows a **clone** of it, laid out inline and comma-separated on a single
-~32px row. So whatever an option renders in the list, the box has to render on one clipped line.
-
-The second argument to `UI.DropdownItem` is the escape hatch: it is what the box shows once the
-option is selected, and it is worth giving whenever the list content is taller or wider than one
-row. Content taller than the row is the one case the box cannot rescue — a separator next to a
-two-line block has nowhere good to sit.
+An option is drawn **twice**: as a row in the open list, and — when it is selected — in the closed
+box, laid out inline and comma-separated on a single ~32px row. A component can only be in one of
+those places at a time, so `DropdownItem` takes **factories** rather than components and calls one
+for each:
 
 ```csharp
 DropdownItem(
-    // In the list: avatar, name, email.
-    HStack().AlignItemsCenter().Gap(8.px()).Children(
+    // The row: called immediately.
+    () => HStack().AlignItemsCenter().Gap(8.px()).Children(
         Avatar(initials: "AP").Size(AvatarSize.Small),
         VStack().Children(TextBlock("Ana Pereira").Small(), TextBlock("ana@example.com").Tiny().Secondary())),
-    // In the box: avatar and first name, one line.
-    HStack().AlignItemsCenter().Gap(4.px()).Children(
+    // The box: called the first time the option is selected. Optional - without it the box builds a
+    // second one from the first factory, which is right whenever the content fits on one clipped row.
+    () => HStack().AlignItemsCenter().Gap(4.px()).Children(
         Avatar(initials: "AP").Size(AvatarSize.XSmall),
         TextBlock("Ana").Small()))
    .SetKey("ana@example.com");
 ```
 
-### Content that loads asynchronously
+Give the second factory whenever the row is taller or wider than one line — a two-line block, a
+chart. Content taller than the row is the one thing the box cannot lay out well.
 
-The copy the box shows is taken when the item becomes selected and is kept in step with the row
-afterwards, so a `Defer` (or an image, or anything bound to an observable) that resolves later shows
-up in the box too.
+Two consequences of the box having its own instance, both worth knowing:
 
-A `Defer` normally waits to be **mounted** before it loads, and an option's row is not in the
-document until the dropdown is first opened — so a selected option would otherwise sit in the box as
-a loading placeholder with nothing to make it resolve. Being selected is what settles it: its content
-is on show in the box, so the dropdown asks it to load whether or not the list has ever been opened.
-
-That covers a `Defer` that *is* the item's content. One nested deeper — a `Defer` inside a `Stack`
-inside the item — is not reachable this way and still waits for the list to be opened. Giving the
-item an explicit short form sidesteps the whole question, since a short form is a live component
-mounted in the box and resolves there on its own:
+- **It is live.** It mounts, so a `Defer` in it loads — at any depth, not just at the top — it
+  animates, and it reacts. (This is why it is a factory: a *copy* of the row would be inert.)
+- **Its state is its own**, and the factory runs twice. Put something interactive in an option and the
+  list's copy and the box's copy will not share state — give the box a read-only short form if that
+  matters. More importantly, whatever the factory *does* it does twice, so share expensive work
+  rather than repeating it:
 
 ```csharp
-DropdownItem(
-    Defer(async () => await LoadTheWholeRow(id),  loadMessage: Skeleton().Animated().W(120).H(16)),
-    Defer(async () => await LoadJustTheLabel(id), loadMessage: Skeleton().Animated().W(60).H(12)))
+var load = LoadOnceAsync(id);   // started once, outside the factory
+
+DropdownItem(() => Defer(async () => Render(await load),
+                         loadMessage: Skeleton().Animated().W(120).H(16)))
    .SetKey(id)
-   .Selected();
+   .Selected();                 // fills itself in without the list ever being opened
 ```
 
 To take over the box entirely instead — a count, a pile of avatars — use
-`.WithCustomSelectionRender(items => ...)`. That replaces the clones altogether, separators
-included, so you own the whole presentation.
+`.WithCustomSelectionRender(items => ...)`. That replaces the per-item elements altogether,
+separators included, so you own the whole presentation.
 
 ## Related
 
