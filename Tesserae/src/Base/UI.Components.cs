@@ -1289,9 +1289,31 @@ namespace Tesserae
         public static Dropdown.Item DropdownItem(string text, string selectedText = string.Empty, UIcons? icon = null) => new Dropdown.Item(text, selectedText, icon);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.Dropdown.Item"/> component from a single component, which is drawn in
+        /// the list and copied into the closed box. Obsolete - the copy has no event listeners and never loads
+        /// a <see cref="Defer(Func{Task{IComponent}})"/>; pass a <see cref="Func{IComponent}"/> instead and the
+        /// list and the box each get their own live component from the same recipe.
+        /// </summary>
+        [Obsolete("The box gets a copy of the row, which has no listeners and never loads a Defer. Pass a Func<IComponent> instead, so the box builds its own live component from the same recipe.")]
+        public static Dropdown.Item DropdownItem(IComponent content) => new Dropdown.Item(content);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Dropdown.Item"/> component.
         /// </summary>
-        public static Dropdown.Item DropdownItem(IComponent content, IComponent selectedContent = null) => new Dropdown.Item(content, selectedContent);
+        public static Dropdown.Item DropdownItem(IComponent content, IComponent selectedContent) => new Dropdown.Item(content, selectedContent);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Dropdown.Item"/> component from a component for the row and a recipe
+        /// for the box, so the box's is built only if the option is selected.
+        /// </summary>
+        public static Dropdown.Item DropdownItem(IComponent content, Func<IComponent> selectedContent) => new Dropdown.Item(content, selectedContent);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Dropdown.Item"/> component from one recipe, used for the row in the
+        /// list and again for the closed box - so the two are separate, live components, and the box's is built
+        /// only if the option is selected.
+        /// </summary>
+        public static Dropdown.Item DropdownItem(Func<IComponent> content) => new Dropdown.Item(content);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.ContextMenu"/> component.

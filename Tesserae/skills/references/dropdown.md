@@ -12,7 +12,19 @@ item loading, custom selection rendering, and validation. Items are
 ## Create
 
 `UI.Dropdown()` (or `UI.Dropdown(string noItemsText)`) — the dropdown.
-`UI.DropdownItem(string text, string selectedText = "", UIcons? icon = null)` — an option;
+`UI.DropdownItem(string text, string selectedText = "", UIcons? icon = null)` — a plain option.
+`UI.DropdownItem(IComponent content, IComponent selectedContent)` — an option drawing components you
+have already built: one for the row, one for the box. They must be different instances; pass the same
+one twice, or `null` for the box, and it falls back to copying the row and says so on the console.
+`UI.DropdownItem(Func<IComponent> content)` — one recipe, used for the row and again for the box, so
+the two are separate live components and the box's is built only if the option is selected.
+`UI.DropdownItem(IComponent content, Func<IComponent> selectedContent)` — a component for the row and
+a recipe for the box, for a long list whose options each want a shorter form in the box.
+See **Rich item content**.
+`UI.DropdownItem(IComponent content)` — **obsolete**. Draws that one component in the row and a
+`cloneNode` copy of it in the box. The copy has no event listeners, no mount registration and no
+component identity, so a `Defer` inside it never loads and nothing in it ever reacts. It still works,
+so existing code keeps running; the compiler warns, and the fix is the `Func<IComponent>` overload.
 `UI.DropdownItem()` for a divider/header placeholder.
 Bring factories into scope with `using static Tesserae.UI;`.
 
@@ -85,6 +97,61 @@ var dd = Dropdown()
 
 The callback is also called with an empty string when the User clears the box, so
 returning the first page for an empty term restores the seed list.
+
+## Rich item content
+
+An option is drawn **twice**: as a row in the open list, and — when it is selected — in the closed
+box, laid out inline and comma-separated on a single ~32px row. A component exists at exactly one
+place in the DOM, so each place needs its own. There are two ways to say that.
+
+**Pass both components** when you have them and they are cheap. They must be different instances —
+the same one in both places does not draw twice, it moves out of the row:
+
+```csharp
+DropdownItem(
+    HStack().AlignItemsCenter().Gap(8.px()).Children(          // the row
+        Avatar(initials: "AP").Size(AvatarSize.Small),
+        VStack().Children(TextBlock("Ana Pereira").Small(), TextBlock("ana@example.com").Tiny().Secondary())),
+    HStack().AlignItemsCenter().Gap(4.px()).Children(          // the box
+        Avatar(initials: "AP").Size(AvatarSize.XSmall),
+        TextBlock("Ana").Small()))
+   .SetKey("ana@example.com");
+```
+
+**Pass a recipe** to have one description serve both — the better choice for expensive content, for
+long lists, and whenever the row and the box should look the same. Only the box's component can be
+deferred: the row's is what the item renders, so it is always built now.
+
+```csharp
+DropdownItem(() => BadgeRow(status));               // one recipe, used for both
+DropdownItem(FullRow(id), () => ShortChip(id));     // row now, box's short form only if selected
+```
+
+Give the box its own, shorter form whenever the row is taller or wider than one line — a two-line
+block, a chart. Content taller than the row is the one thing the box cannot lay out well.
+
+Two consequences of the box having its own instance, both worth knowing:
+
+
+- **It is live.** It mounts, so a `Defer` in it loads — at any depth, not just at the top — it
+  animates, and it reacts. (This is why it is a factory: a *copy* of the row would be inert.)
+- **Its state is its own.** Put something interactive in an option and the list's and the box's will
+  not share state — give the box a read-only short form if that matters.
+- **A single recipe runs twice**, so whatever it does happens twice. Share expensive work rather than
+  repeating it (the second run only happens if the option is selected):
+
+```csharp
+var load = LoadOnceAsync(id);   // started once, outside the factory
+
+DropdownItem(() => Defer(async () => Render(await load),
+                         loadMessage: Skeleton().Animated().W(120).H(16)))
+   .SetKey(id)
+   .Selected();                 // fills itself in without the list ever being opened
+```
+
+To take over the box entirely instead — a count, a pile of avatars — use
+`.WithCustomSelectionRender(items => ...)`. That replaces the per-item elements altogether,
+separators included, so you own the whole presentation.
 
 ## Related
 
