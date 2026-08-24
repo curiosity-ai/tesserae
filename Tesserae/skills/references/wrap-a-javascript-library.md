@@ -56,7 +56,7 @@ public class Masonry : IContainer<Masonry, IComponent>, ISpecialCaseStyling
 
     public Masonry(int columns, int gutter = 10)
     {
-        _host     = Div(_("tss-masonry"));
+        _host     = Div(Att("tss-masonry"));
         _instance = Script.Write<object>(
             "new Masonry({0}, { itemSelector: '.tss-masonry-item', gutter: {1}, percentPosition: true })",
             _host, gutter);

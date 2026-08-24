@@ -30,7 +30,7 @@ Best for display-only widgets. Model after `Sparkline.cs` / `Raw.cs`.
 
 ```csharp
 using static Transpose.Core.dom;
-using static Tesserae.UI;   // brings in Div/Span/I and the _( ) attributes helper
+using static Tesserae.UI;   // brings in Div/Span/I and the Att( ) attributes helper
 
 namespace Tesserae
 {
@@ -41,7 +41,7 @@ namespace Tesserae
 
         public MyBadge(string text)
         {
-            _inner = Div(_("tss-mybadge"), Span(_(text: text)));
+            _inner = Div(Att("tss-mybadge"), Span(Att(text: text)));
         }
 
         public HTMLElement Render() => _inner;
@@ -49,8 +49,8 @@ namespace Tesserae
 }
 ```
 
-`_( )` builds an `Attributes` object: `_("css-class")`, `_(text: "...")`,
-`_(id: "x", styles: s => s.color = "red")`. DOM builders live in
+`Att( )` builds an `Attributes` object: `Att("css-class")`, `Att(text: "...")`,
+`Att(id: "x", styles: s => s.color = "red")`. DOM builders live in
 `UI.HtmlUtil` — `Div`, `Span`, `I`, `DIV()` (children-only), `Raw(html)`, etc.
 
 ### 2. Derive from `ComponentBase<T, THTML>` (fluent + events)
@@ -64,7 +64,7 @@ public class MyToggle : ComponentBase<MyToggle, HTMLDivElement>
 {
     public MyToggle()
     {
-        InnerElement = Div(_("tss-mytoggle"));   // set the base's backing element
+        InnerElement = Div(Att("tss-mytoggle"));   // set the base's backing element
         AttachClick();                            // wire base event plumbing
     }
 
