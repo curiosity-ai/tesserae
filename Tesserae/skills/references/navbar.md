@@ -15,6 +15,8 @@ in a drawer).
 - `Nav()` — an empty nav tree; add links with `.Links(...)`.
 - `new NavLink(string text)` / `new NavLink(IComponent content)` — a node.
 - `Sidebar().AsNavbar()` — top-bar navigation populated with `SidebarButton`/`SidebarSeparator` items.
+  `.AsNavbar(false)` puts it back to a vertical sidebar, and `.IsNavbar` reports which it is,
+  so one sidebar can follow `Theme.OnMobileModeChanged` instead of being fixed at startup.
 
 Bring the factories into scope with `using static Tesserae.UI;`.
 
@@ -34,6 +36,7 @@ NavLink:
 - `.Icon` (icon class), `.Text` / `.SetText(...)`.
 
 Sidebar-as-navbar: `.AddHeader(item)`, `.AddContent(item)`, `.AddFooter(item)`.
+See *Responsive* in the Sidebar reference for switching between the two forms on a resize.
 
 ## Example
 
