@@ -19,7 +19,7 @@ Sizes and weights come from `ITextFormating` fluent helpers:
 - `.Tiny()` / `.Small()` / `.Medium()` / `.Large()` / `.XLarge()` — text size.
 - `.Regular()` / `.SemiBold()` / `.Bold()` — text weight.
 - `.NoWrap()` — disable wrapping (sets `CanWrap = false`).
-- `.Primary()` / `.Secondary()` / `.Success()` / `.Danger()` / `.Invalid()` — colour variant.
+- `.Primary()` / `.Secondary()` / `.Success()` / `.Danger()` — colour variant.
 - `.Title(string)` — tooltip (hover) text.
 - `.AI()` — paints the words with the purple-to-blue AI gradient. For **short** strings: a title, a heading over generated output, a one-line summary.
 - `.AISurface()` — generated prose: the theme's own text colour on a faint tinted panel with an accent edge, for a paragraph a gradient would make unreadable. See `ai-variants.md`.
@@ -46,6 +46,7 @@ var note = TextBlock("The quick brown fox.", selectable: true)
 
 ## Related
 
-- Label — `.label.md`
+- Label — `label.md`
+- ListItemText — a title with a subtitle under it — `list-item-text.md`
 - AI variants — the `.AI()` / `.AISurface()` variant — `ai-variants.md`
 - Full docs & API: `/tesserae/components/text-block`

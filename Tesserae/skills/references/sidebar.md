@@ -82,18 +82,18 @@ the open button carries the chip; the closed rail has room for the glyph and
 nothing else. A collapsed button holds no shortcut either, because there is
 nothing on screen for the key to press.
 
-`.AsSearchBox(keys)` shows the same chip *without* binding the key, because the
-palette or page it opens is what owns that key — and answers it from inside a text
-field too, where a button's shortcut steps aside. Pass no keys and call
-`.SetKeyboardShortcut(...)` when the button itself should answer.
+`.AsSearchBox(keys)` shows the same chip *without* binding the key: the palette or
+page it opens owns that key, and answers it from inside a text field too, where a
+button's shortcut steps aside. Pass no keys and call `.SetKeyboardShortcut(...)`
+when the button itself should answer.
 
 `.ShortcutOnlyOnHover()` — on both `SidebarButton` and `SidebarSearchBox` — keeps
-the chip out of sight until the pointer is on the row, or something inside it has
-focus, so a row reached by tabbing shows its key too. For a rail where most rows
-carry a key: all the chips at once read as a column of noise beside the labels,
-while one chip on the row being pointed at is still how the key gets discovered.
-The binding is untouched, and the room the chip takes stays reserved, so no label
-re-flows as it fades in. Pass `false` for the default, a chip that is always there.
+the chip out of sight until the pointer is on the row or something inside it has
+focus, so a row reached by tabbing shows its key too. It is for a rail where most
+rows carry one: all the chips at once read as a column of noise, while the chip on
+the row being pointed at still gets the key discovered. The binding is untouched
+and the chip's room stays reserved, so no label re-flows as it fades in. Pass
+`false` for the default, a chip that is always there.
 
 ```csharp
 sidebar.AddContent(new SidebarButton("home", UIcons.Home, "Home")

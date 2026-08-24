@@ -35,7 +35,7 @@ sortable.Add("beta",  Card(TextBlock("Beta")).WS().MB(4.px()));
 sortable.Add("gamma", Card(TextBlock("Gamma")).WS().MB(4.px()));
 
 sortable.OnSortingChanged(order =>
-    Console.WriteLine(string.Join(", ", order))); // e.g. "beta, alpha, gamma"
+    console.log(string.Join(", ", order))); // e.g. "beta, alpha, gamma"
 
 return sortable.Render();
 ```

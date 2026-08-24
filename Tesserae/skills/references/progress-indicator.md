@@ -35,6 +35,6 @@ Stack().Children(
 
 ## Related
 
-- ProgressRing — `.progress-ring.md`
+- ProgressRing — `progress-ring.md`
 - AI variants — the `.AI()` variant — `ai-variants.md`
 - Full docs & API: `/tesserae/components/progress-indicator`

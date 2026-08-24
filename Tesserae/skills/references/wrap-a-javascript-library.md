@@ -13,10 +13,11 @@ global from C# through `Script.Write`.**
 
 ## 1. Bundle the library
 
-Put the minified library under `Tesserae/tps/assets/js/` and add it to the
-resource bundles in `Tesserae/tps.json`. It must appear in **both** the
-`tss-dep.js` and `tss-dep.min.js` bundles (keep the two file lists in sync —
-Transpose swaps between them for Debug vs Release builds):
+Put the minified library under your project's `tps/assets/js/` and add it to a resource
+bundle in its `tps.json`. Ship **both** spellings of the bundle — `…​.js` and `…​.min.js` —
+and keep the two file lists in sync, because Transpose swaps between them for Debug vs
+Release builds. This is exactly how the toolkit bundles its own dependencies in
+`Tesserae/tps.json`:
 
 ```jsonc
 {

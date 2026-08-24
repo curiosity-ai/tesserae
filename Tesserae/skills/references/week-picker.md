@@ -34,6 +34,6 @@ var component = Label("Pick a week:").SetContent(picker);
 
 ## Related
 
-- Date Picker — `.date-picker.md`
-- Time Picker — `.time-picker.md`
+- Date Picker — `date-picker.md`
+- Time Picker — `time-picker.md`
 - Full docs & API: `/tesserae/components/week-picker`

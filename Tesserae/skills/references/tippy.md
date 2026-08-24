@@ -11,10 +11,11 @@ Tooltips for components, via the `.Tooltip()` extension on `IComponent`. Content
 
 `.Tooltip(...)` (extension on `IComponent`), two overloads:
 
-- `.Tooltip(string text, TooltipAnimation animation = Fade, TooltipPlacement placement = Top, int delay = 0, int duration = 200, bool interactive = false)`
-- `.Tooltip(IComponent tooltipContent, …same options…)` — for component-based tooltips.
+- `.Tooltip(string tooltipHtml, TooltipAnimation animation = None, TooltipPlacement placement = Top, int delayShow = 250, int delayHide = 0, bool followCursor = false, int maxWidth = 350, bool arrow = false, string theme = null, IComponent parent = null)`
+- `.Tooltip(IComponent tooltip, bool interactive = false, …the same options…)` — for component-based tooltips.
 
-Set `interactive: true` to let users select/click inside the tooltip.
+Set `interactive: true` (component overload only) to let users select/click inside the tooltip.
+`.RemoveTooltip()` takes one away again.
 
 `Tippy.ShowFor(IComponent component, IComponent tooltipContent, out Action hide, …)` — show a tooltip programmatically; `hide` is an out-action to dismiss it.
 

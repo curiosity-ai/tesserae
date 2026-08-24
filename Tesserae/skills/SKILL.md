@@ -42,6 +42,14 @@ private static void Main()
 - **Compose**: containers take children via `.Children(...)` or `.Add(...)`.
 - **Mount**: `MountToBody` / `MountCenteredToBody` attach the root to the DOM.
 
+> **Reaching a nested type.** `using static Tesserae.UI;` imports a factory *method* for
+> almost every component, and a method hides a same-named type. So inside your own
+> namespace `Float.Position.TopLeft`, `Dialog.Response.Yes`, `OmniBox.Config`,
+> `SaveButton.State`, `Teaching.StepType` and friends do not compile
+> (`CS0119: … is a method, which is not valid in the given context`) — qualify them:
+> `Tesserae.Float.Position.TopLeft`. The same applies to statics such as
+> `Tesserae.KeyboardShortcut.Matches(...)` and `Tesserae.Icon.Transform(...)`.
+
 ## Layout: Stack and Grid
 
 `Stack` and `Grid` are the two workhorse containers. Most layouts are nested
@@ -71,7 +79,7 @@ Key `Stack` methods: `Horizontal()` / `Vertical()` (and `…Reverse()`),
 ```csharp
 Grid()
     .Columns(200.px(), 1.fr())    // two columns: fixed sidebar + flexible body
-    .Rows(auto, 1.fr())
+    .Rows(new[] { UnitSize.Auto(), 1.fr() })
     .Gap(12.px())
     .AlignItemsCenter();
 ```
@@ -99,7 +107,8 @@ not per-component members). Call them before adding the component to a container
 | Self-alignment | `.AlignStart()`, `.AlignCenter()`, `.AlignEnd()`, `.AlignStretch()`, `.JustifyStart/Center/End()` |
 
 Sizes are `UnitSize` values from numeric helpers: `100.px()`, `50.percent()`,
-`1.em()`, `1.fr()`.
+`1.fr()`, `100.vw()`, `100.vh()` — plus `UnitSize.Auto()`, `UnitSize.FitContent()`
+and raw `new UnitSize("calc(100% - 32px)")` for anything else.
 
 > **Container-level vs. item-level alignment.** `AlignItemsCenter()` is a method on
 > `Stack`/`Grid` that centers *all* children. `.AlignCenter()` is an extension on a
@@ -145,6 +154,8 @@ references. Open the reference for whatever you are working with. The full set:
   `references/theme-colors.md`, `references/iconography.md`,
   `references/accessibility.md`, `references/project-setup.md`,
   `references/routing.md`.
+- `references/observables.md` — the reactive state containers `Defer` and the
+  collection components read from.
 - `references/creating-a-component.md` — build your own `IComponent`.
 - `references/javascript-interop.md` — call JS/browser APIs from C# via Transpose.
 - `references/wrap-a-javascript-library.md` — wrap a third-party JS library.
@@ -154,8 +165,8 @@ accordion · background-area · card · expander · grid · horizontal-separator
 horizontal-split-view · masonry · section-stack · split-view · stack
 
 **Text & Content** — text, labels and rich content blocks
-badge · icon-tile · inline-label · keyboard-shortcut · label · markdown-block
-· section-title · text-block
+badge · code-diff · icon-tile · inline-label · keyboard-shortcut · label ·
+list-item-text · markdown-block · section-title · text-block
 
 **Buttons & Commands** — things the user clicks to do something
 action-button · button · command-bar · command-palette · context-menu ·
@@ -172,7 +183,8 @@ cron-editor · date-picker · date-range-picker · date-time-picker ·
 month-picker · time-histogram-picker · time-picker · week-picker
 
 **Forms & Validation** — binding a form to data, validating and saving it
-property-grid · save-button · saving-toast · unsaved-changes-guard · validator
+property-grid · questionnaire · save-button · saving-toast ·
+unsaved-changes-guard · validator
 
 **Navigation** — moving between pages, sections and tabs
 breadcrumb · card-pivot · inline-pagination · navbar · pagination · pivot ·
@@ -181,15 +193,15 @@ stepper · text-breadcrumbs
 
 **Lists & Data** — rendering a collection of items
 details-grid · details-list · infinite-scrolling-list · items-list ·
-observable-stack · sortable-stack · task-board · timeline · tree ·
-virtualized-list
+keyed-observable-stack · observable-stack · sortable-stack · task-board ·
+timeline · tree · virtualized-list
 
 **Search** — search inputs and their result surfaces
 omni-box · omni-result · search-box · searchable-grouped-list ·
 searchable-list
 
 **Charts & Visualization** — numbers and relationships, drawn
-charts · contribution-bar · metric · node-view · sparkline · uptime
+charts · contribution-bar · diagram · metric · node-view · sparkline · uptime
 
 **Feedback & Status** — progress, notifications and empty states
 banner · live-progress · message · notification-center · progress-indicator ·
@@ -207,7 +219,7 @@ tool-agent-selector · tool-call
 avatar · carousel · image · pages-stack · pixel-avatar · sandbox
 
 **Theming & Icons** — colours, gradients, icons and emoji
-color-palette · emoji · gradients · icon · uicons
+color-palette · emoji · gradients · icon · theme-builder · uicons
 
 **Utilities & Behaviors** — helpers that render little or nothing on their own
 defer · defer-with-progress · delta-component · gestures · visibility-sensor

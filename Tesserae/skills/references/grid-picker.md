@@ -38,7 +38,7 @@ Action<Button, int, int> format = (btn, state, prev) =>
     btn.SetText(state == 0 ? "Off" : "On");
 
 var picker = GridPicker(columns, rows, states: 2, initialStates: initial, formatState: format)
-    .OnChange((s, _) => Console.WriteLine("changed"));
+    .OnChange((s, _) => console.log("changed"));
 ```
 
 ## Related

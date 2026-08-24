@@ -68,6 +68,7 @@ md.Text = "Updated **content**.";
 
 ## Related
 
+- CodeDiff — a unified diff rather than prose — `code-diff.md`
 - TextBlock — `/tesserae/components/text-block`
 - AnnotatedTextEditor — `/tesserae/components/annotated-text-editor`
 - Full docs & API: `/tesserae/components/markdown-block`

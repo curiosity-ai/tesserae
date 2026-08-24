@@ -64,5 +64,5 @@ var toast = Message("Success!")
 
 ## Related
 
-- Button — `.button.md`
+- Button — `button.md`
 - Full docs & API: `/tesserae/get-started/accessibility`

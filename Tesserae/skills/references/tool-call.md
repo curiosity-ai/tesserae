@@ -26,7 +26,7 @@ Both carry an 8px bottom margin, so when you stack a pill above the answer text 
 - `.OnToggle(tc => ...)` — fires on expand/collapse.
 - `.SetContent(...)` / `.SetText(...)` / `.SetIcon(...)` — update fields.
 - `.SetProgress(string)` / `.SetProgress(IObservable<string>)` / `.ClearProgress()` — a live progress
-  line on the header row while the call runs (see `.live-progress.md`). Updates rewrite the text of
+  line on the header row while the call runs (see `live-progress.md`). Updates rewrite the text of
   the line already on screen, so a stream of updates never re-renders the call, and expanding it
   still opens the content full width underneath.
 - `Progress` — the `LiveProgress` itself, for finer control.
@@ -125,7 +125,7 @@ var failed = ToolCall(UIcons.Globe, "Fetch https://api.example.com/v1/status",
 
 ## Related
 
-- LiveProgress — `.live-progress.md`
-- Chat — `.chat.md`
-- Expander — `.expander.md`
+- LiveProgress — `live-progress.md`
+- Chat — `chat.md`
+- Expander — `expander.md`
 - Full docs & API: `/tesserae/components/tool-call`

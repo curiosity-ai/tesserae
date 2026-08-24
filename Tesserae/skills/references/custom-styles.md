@@ -53,5 +53,5 @@ Matching stylesheet:
 
 ## Related
 
-- Styling — `.styling.md`
+- Styling — `styling.md`
 - Full docs & API: `/tesserae/get-started/custom-styles`

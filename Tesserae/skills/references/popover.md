@@ -38,10 +38,11 @@ var popover = Popover()
     .Placement(TooltipPlacement.BottomStart)
     .Arrow();
 
-var anchor = Button("Show popover").OnClick(b => popover.ShowFor(b));
+Button anchor = null;
+anchor = Button("Show popover").OnClick(() => popover.ShowFor(anchor));
 ```
 
 ## Related
 
-- Menu — `.menu.md`
+- Menu — `menu.md`
 - Full docs & API: `/tesserae/components/popover`

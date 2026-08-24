@@ -29,7 +29,7 @@ var range = DateRangePicker(DateTime.Today, DateTime.Today.AddDays(7));
 range.OnChange(r =>
 {
     if (r.From is DateTime f && r.To is DateTime t)
-        Console.WriteLine($"{f:d} to {t:d}");
+        console.log($"{f:d} to {t:d}");
 });
 ```
 

@@ -102,8 +102,8 @@ still opens full width underneath.
 
 ## Related
 
-- ToolCall / ToolsUsed — `.tool-call.md`
-- Chat — `.chat.md`
-- ProgressIndicator (determinate bar) — `.progress-indicator.md`
-- Observables — `.observables.md`
+- ToolCall / ToolsUsed — `tool-call.md`
+- Chat — `chat.md`
+- ProgressIndicator (determinate bar) — `progress-indicator.md`
+- Observables — `observables.md`
 - Full docs & API: `/tesserae/components/live-progress`

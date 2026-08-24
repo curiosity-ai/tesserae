@@ -15,9 +15,9 @@ without a closure per row:
             ▪ Box · sample-files / pdfs · 2.4 MB · Pius Neuhaus · Apr 12, 2024
 ```
 
-Everything past the title is optional. Drop the excerpt, the preview, the footer, or all three, and
+Everything past the title is optional: drop the excerpt, the preview, the footer, or all three, and
 the row tightens up — the same component covers a two-line picker row and a full result card. The tile
-can also lead the header instead of standing in a column of its own, which pulls the excerpt and the
+can also lead the header rather than standing in a column of its own, which pulls the excerpt and the
 footer back to the row's left edge:
 
 ```
@@ -151,7 +151,7 @@ The source leads the line and the metadata follows it, and all of it is `InlineL
   Modes: `OnHoverBeforeIcon`, `OnHoverOverIcon` (on the tile, which fades out under it),
   `AlwaysBeforeIcon`, `ReplacingIcon` (no tile at all), `AlwaysBeforeHeaderIcon` and
   `HiddenBeforeHeaderIcon` (the two that move the tile into the header — see *The tile in the header*
-  below). A selected row always shows its checkbox, whatever the mode — except under
+  above). A selected row always shows its checkbox, whatever the mode — except under
   `HiddenBeforeHeaderIcon`, which draws none — and the column is reserved either way so revealing it
   never shifts the row. In the two modes where the checkbox stands in for the tile, the corner badges
   move onto it.
@@ -222,11 +222,8 @@ and the detail are one object rather than two that have to be kept in step.
 - `.ModalKeepsFooter(bool = true)` — keeps the footer (the source and the metadata beside it) as a
   second line under the title, so where a result came from is still said once it is open. Off by
   default.
-- `.SetModalHeader(Func<OmniResult<T>, IComponent>)` — replaces the default header (the same
-  identifier, chevron and title the row shows, plus whatever the two options above kept) with one
-  built from the result — for a header that also carries commands or status beside the title. Null
-  goes back to the default.
-- `.ModalTitle()` — that default header on its own, to build around.
+- `.SetModalHeader(...)` / `.ModalTitle()` — replace or reuse the default header; see *The modal's
+  chrome* below.
 
 The tile is **copied** into the header, so opening a result never takes it out of the row behind it.
 The footer is the row's **own** line, moved into the header with a copy left in the row's place and

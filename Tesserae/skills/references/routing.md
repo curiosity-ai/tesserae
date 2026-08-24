@@ -105,6 +105,6 @@ private static void Show(IComponent page) { Content.Clear(); Content.Add(page); 
 
 ## Related
 
-- Core Concepts (observables, Defer) — `.core-concepts.md`
+- Core Concepts (observables, Defer) — `core-concepts.md`
 - UnsavedChangesGuard (blocks navigation while an editor is dirty, via `OnBeforeNavigate`) — `unsaved-changes-guard.md`
 - Full docs & API: `/tesserae/get-started/routing`

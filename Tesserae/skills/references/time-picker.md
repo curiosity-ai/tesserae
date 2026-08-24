@@ -36,6 +36,6 @@ var component = Stack().Children(
 
 ## Related
 
-- Date Picker — `.date-picker.md`
-- Date Time Picker — `.date-time-picker.md`
+- Date Picker — `date-picker.md`
+- Date Time Picker — `date-time-picker.md`
 - Full docs & API: `/tesserae/components/time-picker`

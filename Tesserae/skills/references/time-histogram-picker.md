@@ -35,10 +35,10 @@ var values = new[] { DateTime.Now.AddMinutes(-15), DateTime.Now.AddMinutes(30), 
 var picker = TimeHistogramPicker(values, 12)
     .WithCustomTimeRender(d => d.ToString("MMM d, HH:mm"))
     .OnRangeChanged((from, to, count) =>
-        Console.WriteLine($"{from:g} - {to:g} ({count} values)"));
+        console.log($"{from:g} - {to:g} ({count} values)"));
 ```
 
 ## Related
 
-- Date Picker — `.date-picker.md`
+- Date Picker — `date-picker.md`
 - Full docs & API: `/tesserae/components/time-histogram-picker`

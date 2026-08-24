@@ -99,6 +99,7 @@ queuedStack.Add(queued);                              // a VStack below the Chat
 - Pixel-art cats as chat avatars — `pixel-avatar.md`
 
 - Avatar — `avatar.md`
+- Questionnaire — an inline question a turn can ask — `questionnaire.md`
 - ContextCard (the attachment row above the composer) — `context-card.md`
 - ContextCards — a group of those behind one summary pill, or a compact row of pills for the sources a
   reply cites (usable with `WithReferences`) — `context-cards.md`

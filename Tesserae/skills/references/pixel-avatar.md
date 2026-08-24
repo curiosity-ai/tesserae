@@ -30,23 +30,21 @@ internal static class SpriteKey { internal const byte Value = 42; }
 var cat = PixelAvatar(SpriteKey.Value, PixelAvatarDesign.Orange);
 ```
 
-This is obfuscation, not security. A key the browser has to see is readable by anyone who looks;
+This is obfuscation, not security: a key the browser has to see is readable by anyone who looks, and
 it only keeps the artwork out of casual sight in the shipped JavaScript. Every entry point that
-builds an avatar for you takes the same key: `UI.PixelAvatarBadge`, the `ChatMessage` design
-overload, and `WithPixelAvatar(key, design, anchor)`. The ones handed an avatar you already
-built do not.
+*builds* an avatar takes the same key — `UI.PixelAvatarBadge`, the `ChatMessage` design overload,
+`WithPixelAvatar(key, design, anchor)` — while the ones handed an avatar you already built do not, and
+`PixelAvatarSprites.Get` throws until some avatar has supplied it.
 
-`PixelAvatarSprites.Get` throws until some avatar has supplied the key.
-
-The animation timer only runs while the avatar is mounted, so an avatar inside a hidden
-tab or a removed subtree costs nothing.
+The animation timer only runs while the avatar is mounted, so one inside a hidden tab or a removed
+subtree costs nothing.
 
 ## Key configuration
 
 - `.PixelSize(int)` — CSS pixels per sprite pixel; default `PixelAvatar.DefaultPixelSize` (4), giving a 40x32 avatar. `RenderedWidth` / `RenderedHeight` report the result.
 - `.Facing(PixelAvatarFacing)` — `Right` (the artwork's own direction) or `Left` to mirror it, instantly. `FacingValue` reads it back.
 - `.Turn(PixelAvatarFacing, int durationMs = PixelAvatar.DefaultTurnDurationMs)` / `.TurnAround(...)` — change direction by pivoting the sprite about its vertical axis under a perspective scaled to the avatar's own width, so it reads as the cat physically turning rather than its pixels swapping sides. Turning to the direction it already faces does nothing.
-- `.Speed(double)` — playback multiplier; values above 1 play faster.
+- `.Speed(double)` — playback multiplier; values above 1 play faster. It scales the resting holds below along with the frames.
 - `.Play(PixelAvatarAnimation)` — restart on a new animation. `.Pause()` / `.Resume()` / `.IsPaused`, and `.GoToFrame(int)` to hold a specific frame.
 - `.SetDesign(PixelAvatarDesign)` — swap the coat. See **Custom palettes** below for the ways to supply your own colors.
 - `.Outline(bool = true)` — a hairline halo in the theme's contrasting color, **on by default**. Several palettes contain pure white (`White`, `SpottedGrey`, `SpottedOrange`) and several near-black (`Black`, `Tuxedo`, `Siamese`), so without it those designs disappear against one theme or the other. `.OutlineColor(string)` overrides the color, which defaults to translucent black in light mode and translucent white in dark mode.
@@ -100,7 +98,6 @@ jittered by ±20% on use, so nothing the cat does lands on a stopwatch:
 - `.RestDelay(minMs, maxMs)` — overrides how long each resting pose holds its first frame. Zero for both restores the built-in 5–10s.
 - `.SleepAfter(ms)` — resting time before it sleeps, jittered on use. `PixelAvatar.DefaultSleepAfterMs` is 60000; pass zero to keep it awake indefinitely.
 - `.Wake()` — restarts the sleep countdown, and plays the wake-up performance if the cat was actually out.
-- `.Speed(x)` — scales every frame duration and rest hold together.
 
 ## Clicking the cat
 

@@ -30,8 +30,8 @@ using static Tesserae.UI;
 Call them before adding the component to a container. In a `Stack` or `Grid` they
 write straight onto the component's own element, which is the item the container
 measures; `Masonry` and `SectionStack` build a real wrapper for their item and the
-markers are transferred onto it. See `tesserae-overview` and the repo `CLAUDE.md`
-"Layout system".
+markers are transferred onto it. See `stack.md`, `grid.md` and
+`layout-alignment.md`.
 
 ## Sizing — `IComponentExtensions.cs`
 
@@ -48,8 +48,9 @@ markers are transferred onto it. See `tesserae-overview` and the repo `CLAUDE.md
 | `.Grow(int = 1)` | `flex-grow` (inside a `Stack`) |
 | `.Shrink()` / `.NoShrink()` | `flex-shrink` `1` / `0` |
 
-`UnitSize` comes from helpers like `100.px()`, `50.percent()`, `1.em()`,
-`2.fr()` (see `styling`).
+`UnitSize` comes from helpers like `100.px()`, `50.percent()`, `2.fr()`,
+`100.vw()`, `100.vh()` — plus `UnitSize.Auto()` / `UnitSize.FitContent()` and raw
+`new UnitSize("1em")` (see `styling`).
 
 ## Spacing — `IComponentExtensions.cs`
 
@@ -161,4 +162,4 @@ var row = HStack().Children(
 - `creating-a-component` — implementing `IComponent` yourself.
 - `styling`, `layout-alignment`, `accessibility`, `gestures`, `observables`,
   `tippy`, `validator` — deeper dives on each extension group.
-- `tesserae-overview` — the wrap-and-transfer protocol and layout cheat-sheet.
+- `SKILL.md` — the sizing/spacing cheat-sheet and how a child becomes a stack item.

@@ -35,7 +35,7 @@ var expander = Expander(
         TextBlock("Hidden until expanded."),
         CheckBox("Enable telemetry")
     ).Padding(8.px())
-).OnExpand(e => Console.WriteLine("opened"));
+).OnExpand(e => console.log("opened"));
 ```
 
 ## Related

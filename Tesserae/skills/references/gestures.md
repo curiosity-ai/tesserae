@@ -26,8 +26,8 @@ Each takes either `Action<GestureState>` or a parameterless `Action`:
 
 ```csharp
 someComponent
-    .OnTapped(s => Console.WriteLine($"tap at {s.X},{s.Y}"))
-    .OnDoubleTapped(() => Console.WriteLine("double-tap"))
+    .OnTapped(s => console.log($"tap at {s.X},{s.Y}"))
+    .OnDoubleTapped(() => console.log("double-tap"))
     .OnLongPress(s => ShowMenu(s.X, s.Y));
 
 draggable.OnPan(s =>
