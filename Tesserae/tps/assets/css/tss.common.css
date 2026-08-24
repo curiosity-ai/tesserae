@@ -35,7 +35,11 @@
     --tss-disabled-foreground-color-root: 161, 159, 157;
     --tss-default-border-color-root: 224, 230, 235;
     --tss-dark-border-color-root: 138, 136, 134;
-    --tss-default-separator-color-root: 243, 242, 241;
+    /* A separator is a border drawn on its own, so it is the border colour. It used to be the warm
+       #F3F2F1 the disabled surfaces use, which is a fifth of the border's contrast against white and
+       from a different grey family than the rest of the light neutrals - a 1px rule in it was very
+       close to invisible on a card. Dark mode already had the two equal. */
+    --tss-default-separator-color-root: 224, 230, 235;
     --tss-invalid-border-color-root: 164, 38, 44;
     --tss-default-background-hover-color-root: 225, 224, 224;
     --tss-default-foreground-hover-color-root: 32, 31, 30;

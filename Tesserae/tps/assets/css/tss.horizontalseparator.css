@@ -1,46 +1,73 @@
-﻿/* HorizontalSeparator */
-.tss-horizontalseparator {
-    position: relative;
-    display: inline-block;
-    padding-top: 0px;
-    padding-right: 12px;
-    padding-bottom: 0px;
-    padding-left: 12px;
-    color: var(--tss-default-foreground-color);
-    background: var(--tss-default-background-color);
-}
-    .tss-horizontalseparator.tss-primary {
-        color: var(--tss-primary-background-color);
-    }
+﻿/* HorizontalSeparator
+
+   The rule is two flex lines either side of the label, not one full-width line behind it.
+
+   The old shape was an absolutely positioned ::before at top: 50% spanning the whole container,
+   with the label painting --tss-default-background-color over the middle of it to punch a hole.
+   Both halves of that were fragile:
+
+   - top: 50% measures the *padding box*, so any padding the caller added moved the rule off the
+     label. That did not show while Stack wrapped every child in an item div, because .PT()/.PB()
+     landed on the wrapper; now that a child is the stack item itself, HorizontalSeparator("").PT(16)
+     drew the rule at the top of the padding instead of through the text.
+   - the mask only hid the line while the backdrop happened to be the default background, which it
+     is not inside a context menu row, a hovered row, or a card with its own colour.
+
+   Two lines that stop at the label have neither problem: padding is space around the whole
+   separator wherever it comes from, and the rule meets the label whatever is painted behind it.
+   The component's own breathing room is margin rather than padding, so a caller's .Padding()
+   adds to it instead of replacing it. */
 
 .tss-horizontalseparator-container {
     font-size: 14px;
     font-weight: 400;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
     position: relative;
-    text-align: center;
-    padding-top: 4px;
-    padding-right: 0px;
-    padding-bottom: 4px;
-    padding-left: 0px;
+    margin-top: 4px;
+    margin-bottom: 4px;
     -webkit-font-smoothing: antialiased;
 }
 
-    .tss-horizontalseparator-container::before {
-        background-color: var(--tss-default-separator-color);
-        height: 1px;
+    .tss-horizontalseparator-container::before,
+    .tss-horizontalseparator-container::after {
         content: "";
-        display: block;
-        position: absolute;
-        top: 50%;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
+        flex: 1 1 0;
+        min-width: 0;
+        height: 1px;
+        background-color: var(--tss-default-separator-color);
     }
 
-    .tss-horizontalseparator-container.tss-left {
+    /* Left keeps the line only on the right of the label, and Right only on the left. */
+    .tss-horizontalseparator-container.tss-left::before,
+    .tss-horizontalseparator-container.tss-right::after {
+        display: none;
+    }
+
+    .tss-horizontalseparator-container.tss-left > .tss-horizontalseparator {
+        padding-left: 0;
         text-align: start;
     }
 
-    .tss-horizontalseparator-container.tss-right {
+    .tss-horizontalseparator-container.tss-right > .tss-horizontalseparator {
+        padding-right: 0;
         text-align: end;
+    }
+
+.tss-horizontalseparator {
+    flex: 0 1 auto;
+    min-width: 0;
+    padding: 0 12px;
+    text-align: center;
+    color: var(--tss-default-foreground-color);
+}
+
+    /* HorizontalSeparator("") is a rule and nothing else, so it leaves no gap for a label. */
+    .tss-horizontalseparator:empty {
+        padding: 0;
+    }
+
+    .tss-horizontalseparator.tss-primary {
+        color: var(--tss-primary-background-color);
     }
