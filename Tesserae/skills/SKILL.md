@@ -197,8 +197,8 @@ keyed-observable-stack · observable-stack · sortable-stack · task-board ·
 timeline · tree · virtualized-list
 
 **Search** — search inputs and their result surfaces
-omni-box · omni-result · search-box · searchable-grouped-list ·
-searchable-list
+mark-highlighter · omni-box · omni-result · search-box ·
+searchable-grouped-list · searchable-list
 
 **Charts & Visualization** — numbers and relationships, drawn
 charts · contribution-bar · diagram · metric · node-view · sparkline · uptime
