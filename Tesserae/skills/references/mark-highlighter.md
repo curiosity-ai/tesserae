@@ -5,7 +5,7 @@ description: Mark every occurrence of a keyword inside a DOM subtree (same-origi
 
 # MarkHighlighter
 
-`MarkHighlighter` is a static helper (not an `IComponent`) that marks keyword matches inside rendered content — the DOM equivalent of a browser's find-in-page. It walks every text node under a root element (descending into same-origin iframes), wraps each match in a `<mark data-marked="true">` element, and can unwrap them all again, restoring the original text nodes. Adapted from mark.js.
+`MarkHighlighter` is a static helper (not an `IComponent`) that marks keyword matches inside rendered content — the DOM equivalent of a browser's find-in-page. It walks every text node under a root element (descending into same-origin iframes). Where the browser supports the **CSS Custom Highlight API** (`MarkHighlighter.IsHighlightApiSupported`), matches in the page itself are painted through `CSS.highlights` as live ranges — no DOM mutation at all, so components that hold references to their own text nodes are untouched; the registry names `tss-marked` / `tss-marked-focused` are styled by `tss.markhighlighter.css`. Text inside iframes (whose documents don't carry the page stylesheet), browsers without the API, and callers that opt out (`MarkOptions.UseHighlightApi = false`, or a custom `Element`/`MarkData`/`ClassName`) get the classic treatment instead: each match wrapped in a `<mark data-marked="true">` element, unwrapped again on unmark. Adapted from mark.js.
 
 Matching is case-insensitive by default, folds diacritics (searching `cafe` finds `café`), and merges whitespace runs (a keyword typed with one space matches text with many). Text inside `script`, `style`, `title`, `head` and already-marked elements is skipped.
 
@@ -13,10 +13,11 @@ Passes on the same root are **serialized**: starting a new mark or unmark cancel
 
 ## Methods (static on `MarkHighlighter`)
 
-- `Task MarkAsync(HTMLElement ctx, string keyword, Action<Node> eachCb, CancellationToken cancellationToken)` — marks every occurrence of `keyword` under `ctx`; `eachCb` receives each created mark element in document order (collect them for navigation).
-- `Task MarkAsync(HTMLElement ctx, string keyword, MarkOptions options, Action<Node> eachCb, CancellationToken cancellationToken)` — same, with per-call options (below).
-- `Task UnmarkAsync(HTMLElement ctx, MarkOptions options = null, CancellationToken cancellationToken = default)` — removes every mark under `ctx` and re-normalizes the split text nodes. Call before re-marking with a new keyword.
-- `void FocusResult(HTMLElement ctx, HTMLElement elementToFocus, bool scrollIntoViewIfNeeded)` — moves the focused-match highlight (class `tss-highlight-focused` plus an inline theme danger background, so it also shows inside iframes) to one mark, clearing it from the others, scrolling it into view with the standard `scrollIntoView` (nearest).
+- `Task MarkAsync(HTMLElement ctx, string keyword, MarkOptions options, Action<MarkedMatch> eachCb, CancellationToken cancellationToken)` — marks every occurrence of `keyword` under `ctx`; `eachCb` receives one `MarkedMatch` per match in document order (collect them for navigation). A `MarkedMatch` carries either `Range` (highlight registry) or `Elements` (wrapper elements, one per crossed text node), plus `Text`.
+- `Task MarkAsync(HTMLElement ctx, string keyword, Action<Node> eachCb, CancellationToken cancellationToken)` — the element-only legacy shape: forces element wrapping and reports each wrapper element individually.
+- `Task UnmarkAsync(HTMLElement ctx, MarkOptions options = null, CancellationToken cancellationToken = default)` — removes every mark under `ctx`: registry ranges are deregistered, wrapper elements unwrapped and their parents re-normalized. Call before re-marking with a new keyword.
+- `void FocusResult(HTMLElement ctx, MarkedMatch match, bool scrollIntoViewIfNeeded)` — moves the focused-match highlight to one match, clearing it from the others. A registry match joins the `tss-marked-focused` highlight (priority above the base one) and is scrolled into view by nudging its scrollable ancestors; a wrapped match gets the class `tss-highlight-focused` plus an inline theme danger background (so it also shows inside iframes) and the standard `scrollIntoView` (nearest). An `HTMLElement` overload remains for element-only callers.
+- `bool IsHighlightApiSupported` — feature check for the CSS Custom Highlight API.
 
 ## MarkOptions (all optional; unset falls back to the static defaults)
 
@@ -30,7 +31,8 @@ Passes on the same root are **serialized**: starting a new mark or unmark cancel
 | `Wildcards` | `*` = any run of non-space characters, `?` = one optional non-space character |
 | `IgnoreJoiners` | match across soft hyphens (`­`) and zero-width joiners |
 | `MinLength` | skip keywords shorter than this |
-| `AcrossElements` | match phrases split by inline tags (`<b>web</b> applications`); a spanning match becomes one mark element per crossed text node, and `eachCb` fires per wrapper |
+| `AcrossElements` | match phrases split by inline tags (`<b>web</b> applications`); through the registry a spanning match is one range, wrapped it becomes one mark element per crossed text node (all in that match's `Elements`) |
+| `UseHighlightApi` (`bool?`) | null (default): CSS Custom Highlight API when supported and no custom `Element`/`MarkData`/`ClassName` is set; `true`: whenever supported; `false`: always wrap in elements. Iframe text is always wrapped |
 
 Because per-call options exist, the static fields (`MarkHighlighter.Element`, `.MarkData`, `.ClassName`, `RegExpCreator.CaseSensitive`) are only defaults — prefer passing `MarkOptions` so independent surfaces never fight over global state.
 
@@ -42,7 +44,7 @@ Because per-call options exist, the static fields (`MarkHighlighter.Element`, `.
 ## Example
 
 ```csharp
-private readonly List<Node> _matches = new List<Node>();
+private readonly List<MarkedMatch> _matches = new List<MarkedMatch>();
 private CancellationTokenSource _searchCTS;
 
 private async Task DoSearchAsync(HTMLElement root, string term)
@@ -61,7 +63,7 @@ private async Task DoSearchAsync(HTMLElement root, string term)
 
     if (_matches.Count > 0)
     {
-        MarkHighlighter.FocusResult(root, _matches[0].As<HTMLElement>(), scrollIntoViewIfNeeded: true);
+        MarkHighlighter.FocusResult(root, _matches[0], scrollIntoViewIfNeeded: true);
     }
 }
 ```

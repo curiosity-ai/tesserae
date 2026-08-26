@@ -68,6 +68,7 @@
                 "tps/assets/css/tss.inlinelabel.css",
                 "tps/assets/css/tss.nav.css",
                 "tps/assets/css/tss.searchbox.css",
+                "tps/assets/css/tss.markhighlighter.css",
                 "tps/assets/css/tss.omnibox.css",
                 "tps/assets/css/tss.toolagentselector.css",
                 "tps/assets/css/tss.annotatedtexteditor.css",

@@ -1,0 +1,15 @@
+/* MarkHighlighter's CSS Custom Highlight API backend paints matches through these
+   registry names instead of wrapping them in mark elements. The base name mirrors
+   the browser's default mark styling via the Mark/MarkText system colors; the
+   focused name mirrors the inline danger background the element backend applies.
+   A browser without ::highlight() support drops these rules, and MarkHighlighter
+   falls back to mark elements there, so nothing is lost. */
+
+::highlight(tss-marked) {
+    background-color: Mark;
+    color: MarkText;
+}
+
+::highlight(tss-marked-focused) {
+    background-color: var(--tss-danger-background-color);
+}

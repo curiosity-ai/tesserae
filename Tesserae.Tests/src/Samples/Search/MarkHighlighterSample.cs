@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
     {
         private readonly IComponent _content;
 
-        private readonly List<Node> _matches = new List<Node>();
+        private readonly List<MarkedMatch> _matches = new List<MarkedMatch>();
         private          int         _currentMatch;
         private          string      _currentTerm = "";
         private          TextBlock   _matchSummary;
@@ -23,6 +23,7 @@ namespace Tesserae.Tests.Samples
         private CheckBox _separateWords;
         private CheckBox _acrossElements;
         private CheckBox _wildcards;
+        private CheckBox _useElements;
 
         private CancellationTokenSource _searchCTS;
 
@@ -52,6 +53,11 @@ namespace Tesserae.Tests.Samples
             _separateWords  = CheckBox("Separate words").Id("mark-highlighter-separate-words").OnChange((s, e) => DoSearchAsync().FireAndForget());
             _acrossElements = CheckBox("Across elements").Id("mark-highlighter-across-elements").OnChange((s, e) => DoSearchAsync().FireAndForget());
             _wildcards      = CheckBox("Wildcards (* ?)").Id("mark-highlighter-wildcards").OnChange((s, e) => DoSearchAsync().FireAndForget());
+            _useElements    = CheckBox("Use mark elements").Id("mark-highlighter-use-elements").OnChange((s, e) => DoSearchAsync().FireAndForget());
+
+            var backendNote = TextBlock(MarkHighlighter.IsHighlightApiSupported
+                ? "This browser supports the CSS Custom Highlight API - matches are painted through CSS.highlights with no DOM mutation, unless 'Use mark elements' forces the classic wrappers."
+                : "This browser has no CSS Custom Highlight API - matches are wrapped in mark elements.").XSmall();
 
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(MarkHighlighterSample), UIcons.HighlighterLine, "A helper to mark keyword matches in the DOM")
@@ -64,7 +70,8 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Find in document"),
                     TextBlock("Type in the box below to mark matches in the text; use the arrows to move the focused match. The soft-hyphen paragraph is matched with IgnoreJoiners, which this demo always enables; try 'web applications' with and without 'Across elements', or 'tool*' with wildcards."),
                     HStack().AlignItemsCenter().PT(8).Children(searchBox.W(250), previous.PL(8), _matchSummary, next),
-                    HStack().AlignItemsCenter().PT(8).Children(_wholeWord, _separateWords.PL(12), _acrossElements.PL(12), _wildcards.PL(12)),
+                    HStack().AlignItemsCenter().PT(8).Children(_wholeWord, _separateWords.PL(12), _acrossElements.PL(12), _wildcards.PL(12), _useElements.PL(12)),
+                    backendNote.PT(8),
                     Raw(_searchRoot).PT(16)
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(SearchBoxSample), typeof(OmniResultSample), typeof(SearchableListSample));
@@ -83,7 +90,8 @@ namespace Tesserae.Tests.Samples
             SeparateWordSearch = _separateWords.IsChecked,
             AcrossElements     = _acrossElements.IsChecked,
             Wildcards          = _wildcards.IsChecked,
-            IgnoreJoiners      = true
+            IgnoreJoiners      = true,
+            UseHighlightApi    = _useElements.IsChecked ? false : (bool?)null
         };
 
         private async Task DoSearchAsync()
@@ -102,7 +110,7 @@ namespace Tesserae.Tests.Samples
 
             if (_matches.Count > 0)
             {
-                MarkHighlighter.FocusResult(_searchRoot, _matches[0].As<HTMLElement>(), scrollIntoViewIfNeeded: false);
+                MarkHighlighter.FocusResult(_searchRoot, _matches[0], scrollIntoViewIfNeeded: false);
             }
             RefreshMatchSummary();
         }
@@ -112,7 +120,7 @@ namespace Tesserae.Tests.Samples
             if (_matches.Count == 0) return;
 
             _currentMatch = Math.Max(0, Math.Min(index, _matches.Count - 1));
-            MarkHighlighter.FocusResult(_searchRoot, _matches[_currentMatch].As<HTMLElement>(), scrollIntoViewIfNeeded: true);
+            MarkHighlighter.FocusResult(_searchRoot, _matches[_currentMatch], scrollIntoViewIfNeeded: true);
             RefreshMatchSummary();
         }
 

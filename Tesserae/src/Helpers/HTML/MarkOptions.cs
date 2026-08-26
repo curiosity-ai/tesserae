@@ -40,10 +40,20 @@ namespace Tesserae
 
         /// <summary>
         /// Match across element boundaries, so a phrase split by inline tags
-        /// (bold<b>web</b> applications) is still found. A match spanning several elements is
-        /// wrapped as one mark element per crossed text node, and the each-callback fires once per
-        /// wrapper.
+        /// (bold<b>web</b> applications) is still found.
         /// </summary>
         public bool AcrossElements { get; set; }
+
+        /// <summary>
+        /// Whether matches are painted through the CSS Custom Highlight API (CSS.highlights +
+        /// the ::highlight() rules in tss.markhighlighter.css) instead of wrapping them in mark
+        /// elements - no DOM mutation at all, so components that hold references to their own
+        /// text nodes are untouched. Null (default): use it when the browser supports it and no
+        /// custom Element/MarkData/ClassName is asked for. True: use it whenever supported.
+        /// False: always wrap in elements. Text inside iframes is always wrapped in elements -
+        /// a highlight registration is per document and an iframe's document doesn't carry the
+        /// ::highlight() rules.
+        /// </summary>
+        public bool? UseHighlightApi { get; set; }
     }
 }

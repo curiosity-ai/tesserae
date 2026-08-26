@@ -179,9 +179,9 @@ namespace Tesserae
         /// <summary>
         /// Escapes a string for usage within a regular expression
         /// </summary>
-        private static string EscapeStr(string str)
+        private static string EscapeStr(String str)
         {
-            return Script.Write<string>("{0}.replace(/[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\\\^\\$\\|]/g, '\\\\$&')", str);
+            return str.replace(new es5.RegExp("[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\\\^\\$\\|]", "g"), "\\$&");
         }
 
         /// <summary>
@@ -197,10 +197,10 @@ namespace Tesserae
         /// Turns unescaped '*' and '?' into placeholders that survive escaping; a backslash-escaped
         /// wildcard stays a literal character
         /// </summary>
-        private static string SetupWildcardsRegExp(string str)
+        private static string SetupWildcardsRegExp(String str)
         {
-            str = Script.Write<string>("{0}.replace(/(?:\\\\)*\\?/g, (val) => val.charAt(0) === '\\\\' ? '?' : '\\u0001')", str);
-            return Script.Write<string>("{0}.replace(/(?:\\\\)*\\*/g, (val) => val.charAt(0) === '\\\\' ? '*' : '\\u0002')", str);
+            str = str.replace(new es5.RegExp("(?:\\\\)*\\?", "g"), (val, args) => val.StartsWith("\\") ? "?" : "\u0001");
+            return str.replace(new es5.RegExp("(?:\\\\)*\\*", "g"), (val, args) => val.StartsWith("\\") ? "*" : "\u0002");
         }
 
         private static string CreateWildcardsRegExp(String str)
@@ -215,9 +215,21 @@ namespace Tesserae
         /// <see cref="CreateMergedBlanksRegExp"/> from merging it), which
         /// <see cref="CreateJoinersRegExp"/> later widens to an optional joiner character
         /// </summary>
-        private static string SetupIgnoreJoinersRegExp(string str)
+        private static string SetupIgnoreJoinersRegExp(String str)
         {
-            return Script.Write<string>("{0}.replace(/[^\\s(|)\\\\]/g, (val, indx, original) => (/[\\s(|)\\\\]/.test(original.charAt(indx + 1)) || original.charAt(indx + 1) === '') ? val : val + '\\u0000')", str);
+            var skipBefore = new es5.RegExp("[\\s(|)\\\\]");
+
+            // The replacer receives (match, offset, source) positionally from the JS engine, so it
+            // is declared with positional parameters and cast to the binding's delegate shape
+            Func<string, double, string, string> insertPlaceholder = (val, index, original) =>
+            {
+                var next = original.As<String>().charAt(index + 1);
+
+                if (next == "" || skipBefore.test(next)) return val;
+                return val + JOINER_PLACEHOLDER;
+            };
+
+            return str.replace(new es5.RegExp("[^\\s(|)\\\\]", "g"), insertPlaceholder.As<String.replaceFn>());
         }
 
         private static string CreateJoinersRegExp(string str)
