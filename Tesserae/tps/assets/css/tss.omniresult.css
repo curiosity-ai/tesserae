@@ -246,9 +246,11 @@
 }
 
 /* Its text is the one thing in the tile that must not be clipped, and it no longer has to be: the tile
-   grew to hold it. */
+   grew to hold it. Which is also why the measured fit is put back to the standard size here - there is
+   nothing to shrink into once the tile widens with the word. */
 .tss-omniresult-icon-inline .tss-omniresult-icon > .tss-icontile-text {
     white-space: nowrap;
+    --tss-icontile-text-fit: 1;
 }
 
 /* A corner badge is scaled with the tile it is pinned to, and tucked closer in: 4px out from a 34px tile
@@ -795,7 +797,8 @@
 }
 
 /* A tile that spells its file type out has to shrink with the tile, or "DOCX" is cropped rather than
-   scaled. */
+   scaled. The measured fit scales whatever size is pinned here, so a long type name still lands inside the
+   tile without this row having to know about it. */
 .tss-modalstack-peek .tss-omniresult-modal-icon .tss-icontile-text {
     font-size: 6.5px;
     letter-spacing: 0;

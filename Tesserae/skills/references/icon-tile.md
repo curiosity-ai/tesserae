@@ -32,7 +32,7 @@ Also `new IconTile()` for an empty one. Bring factories into scope with
 ## Key configuration
 
 - `.SetIcon(UIcons, color, weight)` — a glyph. A null colour leaves the tile neutral.
-- `.SetIcon(string text, color, TextSize?)` — a few letters in place of a glyph, drawn uppercase and bold. Text longer than three or four letters wants `TextSize.Tiny`.
+- `.SetIcon(string text, color, TextSize?)` — a few letters in place of a glyph, drawn uppercase and bold. The word is measured and drawn smaller when it is wider than the tile, so "PPTX" or "PARQUET" fits instead of being clipped, and three letters keep the full size at any tile size. Passing a `TextSize` pins the size and opts out of that fitting.
 - `.SetIcon(IComponent, color)` — an `Image` thumbnail, an `Avatar`, an emoji. An image fills the tile (`object-fit: cover`).
 - `.Size(UnitSize)` — how big the tile is (34px square by default). The glyph follows it.
 - `.GlyphSize(UnitSize)` — pin the glyph size instead of letting it follow the tile.
@@ -44,7 +44,7 @@ Also `new IconTile()` for an empty one. Bring factories into scope with
 ```csharp
 using static Tesserae.UI;
 
-// A file type, spelled out
+// A file type, spelled out - four letters are shrunk just enough to fit the square
 var pptx = IconTile("PPTX", "#f97316");
 
 // A glyph, bigger and rounder, for a KPI card

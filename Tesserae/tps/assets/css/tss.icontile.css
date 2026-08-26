@@ -32,17 +32,37 @@
     color: var(--tss-default-foreground-color);
 }
 
+/* The glyph, nudged down onto the tile's centre. A line box is centred on its own height, which puts the
+   ink where the font's metrics say the baseline goes - and the UIcons fonts declare an asymmetric
+   ascent/descent (see the uicons-fonts skill on their em square), so an icon centred that way sits 0.139em
+   high. Measured off the rendered pixels at a 34px tile: the ink centre sat 1.1-2.1px above the tile's
+   (a glyph is rasterized snapped to the device pixel grid, so the same icon lands either side of half a
+   pixel depending on where its row falls), and lands within half a pixel of it after this. It is a
+   transform rather than position/margin because those are rounded to a whole pixel, which turns a 1.6px
+   nudge into 3px - re-measure this if the fonts are regenerated. */
 .tss-icontile-glyph {
     line-height: 1;
+    transform: translateY(0.11em);
 }
 
-/* A file type spelled out ("PPTX", "XLSX") in place of a glyph. */
+/* A file type spelled out ("PPTX", "XLSX") in place of a glyph. Capitals fill the top of a line box and
+   leave the descender space below them empty, so centring the box leaves the letters sitting about a pixel
+   high; text-box trims the box to the letters themselves - cap height to baseline - and the tile then
+   centres what one can actually see. A browser without it draws the tile as it always did.
+
+   A word too wide for the tile would be clipped by the overflow above, so IconTile measures the text and
+   publishes --tss-icontile-text-fit: the scale that brings it inside (see IconTileTextFit). Scaling rather
+   than shrinking the font size means it composes with whatever size the cascade chose - a row that pins a
+   smaller one of its own is scaled down from there rather than keeping a word it has no room for - and a
+   word that fits is left at 1. */
 .tss-icontile-text {
     font-weight: 700;
     letter-spacing: .02em;
     text-transform: uppercase;
     line-height: 1;
     text-align: center;
+    text-box: trim-both cap alphabetic;
+    transform: scale(var(--tss-icontile-text-fit, 1));
 }
 
 /* The size the tile is sized for, declared through :where() so it costs no specificity - a tss-fontsize-*
@@ -50,6 +70,7 @@
 :where(.tss-icontile-text) {
     font-size: calc(var(--tss-icontile-size) * 0.35);
 }
+
 
 .tss-icontile img {
     width: 100%;

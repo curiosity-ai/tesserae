@@ -70,9 +70,10 @@ stands for. Also `new OmniResult<T>(result, title)`. Bring factories into scope 
   theme. Both variants are written to the element, so flipping the theme at runtime needs no redraw,
   and the computed pair is cached per color (a list drawing one color per file type only pays once).
 - `.SetIcon(string text, string color = null, TextSize? size = null)` — a short type name ("PPTX",
-  "CSV") in place of a glyph. It is drawn at the size the tile is sized for; pass a `TextSize`
-  (`Tiny`, `XSmall`, `Small`, …) to override that — `Tiny` for text longer than the three or four
-  letters a type name usually is.
+  "CSV") in place of a glyph. It is drawn at the size the tile is sized for, measured and shrunk just
+  enough when the word is wider than the tile, so a four- or five-letter type fits instead of being
+  clipped and a three-letter one keeps the full size. Pass a `TextSize` (`Tiny`, `XSmall`, `Small`, …)
+  to pin the size yourself instead.
 - `.SetIcon(IComponent, string color = null)` — an `Image` thumbnail, an `Avatar`, an emoji.
 
   The tile itself is an `IconTile` (`icon-tile.md`), the same square a `Banner` and a `Metric` lead

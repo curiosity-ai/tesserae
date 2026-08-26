@@ -156,12 +156,13 @@ namespace Tesserae.Tests.Samples
         private IComponent Tiles()
         {
             return FeatureCard("Icon tiles", "A glyph, or the file type spelled out",
-                "SetIcon(icon, color) puts a UIcons glyph on the tile in that color, over a wash of the same color computed from it — a pale tint under a light theme, a deep one under a dark theme, cached so a list drawing the same handful of file-type colors only computes each once. SetIcon(text, color) spells the type out instead, for a format no glyph says plainly, at any of the standard TextSize sizes. Any component works too, for a thumbnail or an avatar.",
+                "SetIcon(icon, color) puts a UIcons glyph on the tile in that color, over a wash of the same color computed from it — a pale tint under a light theme, a deep one under a dark theme, cached so a list drawing the same handful of file-type colors only computes each once. SetIcon(text, color) spells the type out instead, for a format no glyph says plainly: the word is measured and, when it is wider than the square, drawn a little smaller so it fits rather than being clipped — three letters always keep the full size. Pass a TextSize to pin the size yourself, and any component works too, for a thumbnail or an avatar.",
                 VStack().WS().Children(
                     OmniResult(Hits[1], "BRK-SEN-447 calibration procedure.pdf").SetIcon(UIcons.FilePdf, "#ef4444").SetSource("#0061d5", "Box").SetFooterEntries("SetIcon(UIcons.FilePdf, \"#ef4444\")"),
                     OmniResult(Hits[1], "Q3 line review.pptx").SetIcon("PPTX", "#f97316").SetSource("#0061d5", "Box").SetFooterEntries("SetIcon(\"PPTX\", \"#f97316\")"),
                     OmniResult(Hits[2], "Sensor drift analysis.xlsx").SetIcon("XLSX", "#16a34a").SetSource("#0061d5", "Box").SetFooterEntries("SetIcon(\"XLSX\", \"#16a34a\")"),
-                    OmniResult(Hits[2], "Line 4 sensor events.jsonl").SetIcon("JSONL", "#0ea5e9", TextSize.Tiny).SetSource("#0061d5", "Box").SetFooterEntries("SetIcon(\"JSONL\", \"#0ea5e9\", TextSize.Tiny) — a longer type at a smaller size"),
+                    OmniResult(Hits[2], "Line 4 sensor events.jsonl").SetIcon("JSONL", "#0ea5e9").SetSource("#0061d5", "Box").SetFooterEntries("SetIcon(\"JSONL\", \"#0ea5e9\") — five letters, measured and shrunk into the square"),
+                    OmniResult(Hits[2], "sensor-events-2024-03.parquet").SetIcon("PARQUET", "#8b5cf6").SetSource("#0061d5", "Box").SetFooterEntries("SetIcon(\"PARQUET\", \"#8b5cf6\") — seven letters, and still inside the square"),
                     OmniResult(Hits[6], "brake-calibration-log.txt").SetIcon("TXT", "#94a3b8").SetSource("#0061d5", "Box").SetFooterEntries("A grey color stays grey in both themes"),
                     OmniResult(Hits[0], "curiosity-logo.svg").SetIcon(Image("./assets/img/curiosity-logo.svg")).SetSource("#0061d5", "Box").SetFooterEntries("SetIcon(IComponent) — a thumbnail covers the tile"),
                     OmniResult(Hits[0], "brake-sensor-reports").SetIcon(UIcons.Folder).SetSource("#0061d5", "Box").SetFooterEntries("No color: the tile falls back to the theme's own")));
@@ -182,8 +183,8 @@ namespace Tesserae.Tests.Samples
                     .SetIconBadge(Icon(UIcons.Star, UIconsWeight.Solid, color: "#f0c000"), OmniResultBadgeCorner.TopRight),
                 Row(Hits[6], withText: true, withPages: false).Selectable(OmniResultSelectionMode.AlwaysBeforeHeaderIcon));
 
-            //A tile that spells its type out is a label on this line rather than a square, so the type name
-            //is not limited to the three or four letters that fit a square: it grows with the text.
+            //A tile that spells its type out is a label on this line rather than a square, so a long type name
+            //is drawn at full size and the tile grows with it, instead of being shrunk into a square.
             var spelledOut = VStack().WS().Children(
                 HeaderIconRow(Hits[1], "Q3 line review.pptx").SetIcon("PPTX", "#f97316"),
                 HeaderIconRow(Hits[2], "sensor-events-2024-03.parquet").SetIcon("PARQUET", "#8b5cf6"),
