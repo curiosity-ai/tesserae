@@ -24,7 +24,12 @@ namespace Tesserae
         public const ushort FILTER_REJECT = 2;
         public const ushort FILTER_SKIP   = 3;
 
-        private const int IFRAMES_TIMEOUT_MS = 5000;
+        /// <summary>How long to wait for an iframe to load before skipping it.</summary>
+        public static int IframesTimeoutMs { get; set; } = 5000;
+
+        // How many nodes to visit before handing control back to the event loop, so a pass over a
+        // very large document doesn't freeze the page and cancellation can engage mid-pass
+        private const int NODES_PER_YIELD = 1024;
 
         public static void QuerySelectorAllIframesRecursive(HTMLElement ctx, string selector, Action<HTMLElement> acceptNode)
         {
@@ -74,10 +79,14 @@ namespace Tesserae
                     iframeWaitTasks.Add(HandleIframeElement(iframeElement, whatToShow, nodeFilter, eachCb, iframeWaitTasks, cancellationToken));
                 }
 
+                var processed = 0;
+
                 foreach (var node in IterateThroughNodesInner<T>(ctx, whatToShow, nodeFilter))
                 {
                     if (cancellationToken.IsCancellationRequested) break;
                     eachCb(node);
+
+                    if (++processed % NODES_PER_YIELD == 0) await Task.Delay(1);
                 }
             }
 
@@ -118,17 +127,13 @@ namespace Tesserae
             return href == bl && src != bl && src != null;
         }
 
-        private static Task<Document> WaitIframeLoadAsync(HTMLIFrameElement ifr, CancellationToken cancellationToken)
+        private static async Task<Document> WaitIframeLoadAsync(HTMLIFrameElement ifr, CancellationToken cancellationToken)
         {
             var tcs = new TaskCompletionSource<Document>();
 
-            cancellationToken.Register(() => tcs.TrySetCanceled());
-
-            var timeoutCTS = new CancellationTokenSource();
-            timeoutCTS.CancelAfter(IFRAMES_TIMEOUT_MS);
-            timeoutCTS.Token.Register(() => tcs.TrySetCanceled());
-
-            ifr.addEventListener("load", () =>
+            // A load of about:blank keeps the listener armed for the real load, so the listener is
+            // removed in the finally below rather than on its first invocation
+            Action<Event> onLoad = (_) =>
             {
                 try
                 {
@@ -147,8 +152,26 @@ namespace Tesserae
                 {
                     tcs.TrySetException(e);
                 }
-            });
-            return tcs.Task;
+            };
+
+            var cancelRegistration = cancellationToken.Register(() => tcs.TrySetCanceled());
+            var timeoutCTS         = new CancellationTokenSource();
+            timeoutCTS.CancelAfter(IframesTimeoutMs);
+            var timeoutRegistration = timeoutCTS.Token.Register(() => tcs.TrySetCanceled());
+
+            ifr.addEventListener("load", onLoad);
+
+            try
+            {
+                return await tcs.Task;
+            }
+            finally
+            {
+                ifr.removeEventListener("load", onLoad);
+                cancelRegistration.Dispose();
+                timeoutRegistration.Dispose();
+                timeoutCTS.Dispose();
+            }
         }
 
         private static async Task<Document> WaitIframeReadyAsync(HTMLIFrameElement ifr, CancellationToken cancellationToken)
@@ -223,10 +246,14 @@ namespace Tesserae
                     iframeWaitTasks.Add(HandleIframeElement(innerIframe, whatToShow, nodeFilter, each, iframeWaitTasks, cancellationToken));
                 }
 
+                var processed = 0;
+
                 foreach (var node in IterateThroughNodesInner<T>(innerDocument.As<HTMLHtmlElement>(), whatToShow, nodeFilter))
                 {
                     if (cancellationToken.IsCancellationRequested) break;
                     each(node);
+
+                    if (++processed % NODES_PER_YIELD == 0) await Task.Delay(1);
                 }
             });
             task.FireAndForget();
