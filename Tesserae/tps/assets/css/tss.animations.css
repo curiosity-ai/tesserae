@@ -35,7 +35,13 @@
     filter: saturate(0) !important;
 }
 
-.tss-collapse {
+/* The class is doubled on purpose: Collapse() must win against an application's display
+   utilities (e.g. a Bootstrap-style .app-d-flex { display: flex !important }), which are
+   single-class rules in stylesheets that load after this one - at equal (0,1,0) specificity
+   the later sheet wins and Collapse() silently stops hiding. (0,2,0) outranks any of them
+   regardless of load order, while staying below purposeful overrides like the mobile
+   navbar-drawer rule, which keeps a collapsed drawer display:flex to slide it off-screen. */
+.tss-collapse.tss-collapse {
     display:none !important;
 }
 
