@@ -10,9 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Transpose.BCL" Version="26.8.4500" />
-    <PackageReference Include="Transpose.Core" Version="26.8.4176" />
-    <PackageReference Include="Transpose.Newtonsoft.Json" Version="26.8.4126" />
+    <PackageReference Include="Transpose.BCL" Version="26.8.4619" />
+    <PackageReference Include="Transpose.Core" Version="26.8.4597" />
+    <PackageReference Include="Transpose.Newtonsoft.Json" Version="26.8.4599" />
   </ItemGroup>
 
   <PropertyGroup>
