@@ -64,6 +64,12 @@
             background: transparent;
             border-left: 1px solid var(--tss-default-border-color);
             flex-shrink: 0;
+        }
+
+        /* Only the built-in trigger sits at the end of the row, so only it follows the box's rounded
+           corner. Hosts reuse tss-omnibox-search-btn for the look above on buttons of their own, and
+           those sit mid-row, where they keep the row's square corners. */
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-trigger-btn {
             border-top-right-radius: var(--tss-omnibox-radius);
             border-bottom-right-radius: var(--tss-omnibox-radius);
             border-top-left-radius: 0;
@@ -73,31 +79,31 @@
 /* A search that was asked for and not answered yet: the magnifier gives its place to a spinner. The spinner
    lies over the icon rather than beside it, so the button keeps its size and nothing in the row moves; and
    both only cross over after a moment, so a cached or local answer never makes the button blink. */
-.tss-omnibox-search-btn {
+.tss-omnibox-search-trigger-btn {
     position: relative;
 }
 
 /* The Spinner brings its own display:flex, so every rule here has to outweigh it - hence the child selector
    rather than the class on its own. */
-    .tss-omnibox-search-btn > .tss-omnibox-search-spinner {
+    .tss-omnibox-search-trigger-btn > .tss-omnibox-search-spinner {
         display: none;
         position: absolute;
         inset: 0;
         margin-left: 8px;
     }
 
-.tss-omnibox-search-btn > .tss-omnibox-search-spinner .tss-spinner {
+.tss-omnibox-search-trigger-btn > .tss-omnibox-search-spinner .tss-spinner {
     --tss-spinner-size: 2px;
     width: 14px;
     height: 14px;
 }
 
-.tss-omnibox-searching .tss-omnibox-search-btn > .tss-omnibox-search-spinner {
+.tss-omnibox-searching .tss-omnibox-search-trigger-btn > .tss-omnibox-search-spinner {
     display: flex;
     animation: tss-omnibox-searching-in 120ms linear 140ms both;
 }
 
-.tss-omnibox-container.tss-omnibox-searching .tss-omnibox-search-btn > i {
+.tss-omnibox-container.tss-omnibox-searching .tss-omnibox-search-trigger-btn > i {
     animation: tss-omnibox-searching-out 120ms linear 140ms both;
 }
 

@@ -747,7 +747,10 @@ namespace Tesserae
                 _searchHelpBtn.Collapse(); // Hidden by default unless WithHelp is called
 
                 _searchClearBtn = Button().SetIcon(UIcons.CrossCircle).Class("tss-omnibox-search-clear-btn");
-                _searchTriggerBtn = Button().SetIcon(config.IconSearch).Class("tss-omnibox-search-btn");
+                //tss-omnibox-search-btn is the shared "icon button in the search row" look, which hosts also
+                //put on buttons of their own; tss-omnibox-search-trigger-btn is only this button, the one at
+                //the end of the row that follows the box's rounded corner.
+                _searchTriggerBtn = Button().SetIcon(config.IconSearch).Class("tss-omnibox-search-btn").Class("tss-omnibox-search-trigger-btn");
 
                 //A search that has been asked for and not answered yet takes the magnifier's place - see
                 //SetSearching. It lives inside the button, over the icon, so the row keeps its shape whether
