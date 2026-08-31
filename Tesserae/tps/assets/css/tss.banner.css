@@ -98,9 +98,13 @@
     color: var(--tss-banner-title-color);
 }
 
+/* A path, a url or an id has nothing the line breaker will break at, so it would keep growing the text
+   past the content box and run under the dismiss button - `anywhere` lets it break mid-run, which also
+   shrinks what the flex item asks for so the box stops overflowing in the first place. */
 .tss-banner-title-text {
     overflow: hidden;
     text-overflow: ellipsis;
+    overflow-wrap: anywhere;
 }
 
 .tss-banner-badge {
@@ -126,6 +130,14 @@
     font-size: var(--tss-font-size-small);
     line-height: 18px;
     color: var(--tss-banner-text-color);
+    overflow-wrap: anywhere;
+}
+
+/* Whatever the host put in either slot has to be allowed to shrink below what it would rather be, or the
+   flex item's automatic minimum size holds the strip open and the text spills over the dismiss button. */
+.tss-banner-title > *,
+.tss-banner-text > * {
+    min-width: 0;
 }
 
 /* Whatever the host drops into the title or the message sits on the line rather than carrying the margins

@@ -31,6 +31,9 @@ namespace Tesserae.Tests.Samples
                             Button().SetText("Success").OnClick(() => Toast().Success("Success!")),
                             Button().SetText("Warning").OnClick(() => Toast().Warning("Warning!")),
                             Button().SetText("Error").OnClick(() => Toast().Error("Error!"))),
+                        SampleSubTitle("A message with nothing to break at"),
+                        HStack().Children(
+                            Button().SetText("Long path").OnClick(() => Toast().Success("Endpoint updated", "POST to /api/endpoints/run/generation/supersmartassistant/generate-all-the-things/version1"))),
                         SampleSubTitle("Toasts top left"),
                         HStack().Children(
                             Button().SetText("Info").OnClick(() => Toast().TopLeft().Information("Info!")),
