@@ -39,7 +39,11 @@ namespace Tesserae
 
         private List<string> _itemOrder = new List<string>();
 
+        private readonly Dictionary<string, IDisposable> _childSelectionHooks = new Dictionary<string, IDisposable>();
+        private          bool                            _revealSelection     = true;
+
         private event Action<HTMLElement> _onRendered;
+        private event Action              _onDescendantSelected;
 
         /// <summary>Gets or sets whether the navigation is collapsed.</summary>
         public bool IsCollapsed { get { return _collapsed.Value; } set { _collapsed.Value = value; } }
@@ -60,6 +64,9 @@ namespace Tesserae
 
         /// <summary>Gets an observable for the collapsed status.</summary>
         public IObservable<bool> CollapsedStatus => _collapsed;
+
+        /// <summary>Gets an observable for the selected status.</summary>
+        public IObservable<bool> SelectedStatus => _selected;
 
         private IComponent _lastClosed;
         private IComponent _lastOpen;
@@ -238,6 +245,73 @@ namespace Tesserae
         {
             _collapsed.Toggle();
             return this;
+        }
+
+        /// <summary>
+        /// Keeps the navigation collapsed when one of its items becomes selected. By default a collapsed
+        /// navigation expands itself when a child (or a nested descendant) becomes selected, so the current
+        /// selection is never hidden from the user.
+        /// </summary>
+        /// <param name="keepCollapsed">Whether to suppress the automatic expansion on selection.</param>
+        /// <returns>The current instance of the type.</returns>
+        public SidebarNav KeepCollapsedOnSelection(bool keepCollapsed = true)
+        {
+            _revealSelection = !keepCollapsed;
+            return this;
+        }
+
+        private void HookSelectionReveal(ISidebarItem item)
+        {
+            IDisposable hook = null;
+
+            if (item is SidebarButton button)
+            {
+                hook = button.SelectedStatus.Subscribe(isSelected => { if (isSelected) RevealSelectedChild(item); });
+            }
+            else if (item is SidebarNav nav)
+            {
+                var    selectedHook         = nav.SelectedStatus.Subscribe(isSelected => { if (isSelected) RevealSelectedChild(item); });
+                Action descendantSelected   = () => RevealSelectedChild(item);
+                nav._onDescendantSelected  += descendantSelected;
+
+                hook = new Subscription(() =>
+                {
+                    selectedHook.Dispose();
+                    nav._onDescendantSelected -= descendantSelected;
+                });
+            }
+
+            if (hook is object)
+            {
+                _childSelectionHooks[item.Identifier] = hook;
+            }
+        }
+
+        private void UnhookSelectionReveal(string itemIdentifier)
+        {
+            if (_childSelectionHooks.TryGetValue(itemIdentifier, out var hook))
+            {
+                hook.Dispose();
+                _childSelectionHooks.Remove(itemIdentifier);
+            }
+        }
+
+        // A selected item must be visible: expand this nav (and, through the bubbled event, its ancestors)
+        // when a descendant becomes selected. Only selection *changes* are observed, so the user can still
+        // collapse the nav manually while the same item stays selected.
+        private void RevealSelectedChild(ISidebarItem item)
+        {
+            if (!_revealSelection) return;
+
+            if (IsCollapsed)
+            {
+                Collapsed(false);
+
+                //The expansion class lands through a debounced observable, so scroll once it is visible
+                window.setTimeout(_ => item.CurrentRendered?.ScrollIntoView(), 100);
+            }
+
+            _onDescendantSelected?.Invoke();
         }
 
         /// <summary>
@@ -559,6 +633,13 @@ namespace Tesserae
         /// </summary>
         public void Clear()
         {
+            foreach (var hook in _childSelectionHooks.Values)
+            {
+                hook.Dispose();
+            }
+
+            _childSelectionHooks.Clear();
+
             _items.Value = new ISidebarItem[] { };
         }
 
@@ -577,6 +658,8 @@ namespace Tesserae
                 return; //nothing to do...
             }
 
+            HookSelectionReveal(item);
+
             items.Push(item);
             _items.Value = items.ToArray();
             _itemOrder.Add(item.Identifier);
@@ -589,6 +672,8 @@ namespace Tesserae
         public void Remove(ISidebarItem item)
         {
             var identifierWithGroupIdentifier = Identifier + "_|_" + item.Identifier;
+
+            UnhookSelectionReveal(identifierWithGroupIdentifier);
 
             var newItems = _items.Value.As<ISidebarItem[]>();
             newItems     = newItems.Where(i => i.Identifier != identifierWithGroupIdentifier).ToArray();
@@ -615,6 +700,8 @@ namespace Tesserae
                 {
                     continue; //already there...
                 }
+
+                HookSelectionReveal(item);
 
                 newItems.Push(item);
             }

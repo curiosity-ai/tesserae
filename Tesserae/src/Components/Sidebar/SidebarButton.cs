@@ -45,6 +45,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>Gets an observable for the selected status.</summary>
+        public IObservable<bool> SelectedStatus => _selected;
+
         /// <summary>Gets the component that is currently rendered.</summary>
         public IComponent CurrentRendered => _closedButton.IsMounted() ? _closed : _open;
 

@@ -108,6 +108,16 @@ reads while the pointer is somewhere else in the list. It follows
 `Theme.SetPrimary(...)`, so an app's own brand color is what marks its current
 page.
 
+## A selection is never hidden
+
+A collapsed `SidebarNav` **expands itself when a child (or a nested descendant)
+becomes selected**, and scrolls the item into view — so the row that marks the
+current page can't sit invisible inside a closed group. Only selection *changes*
+trigger it: the user can still collapse the group by hand while the same item
+stays selected. Observe selection yourself through `SidebarButton.SelectedStatus`
+/ `SidebarNav.SelectedStatus` (`IObservable<bool>`), and opt a group out of the
+automatic expansion with `.KeepCollapsedOnSelection()`.
+
 ## A component of your own in the sidebar
 
 `new SidebarComponent(id, component, closedComponent = null)` stands where a
