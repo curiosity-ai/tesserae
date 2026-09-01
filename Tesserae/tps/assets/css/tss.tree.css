@@ -145,12 +145,17 @@
     display: flex;
 }
 
+/* No vertical margin: a command carries the standard 4px component margin, and with the commands only
+   shown on hover/selection that margin made the row 8px taller the moment they appeared, shifting
+   every row below it. The horizontal margin stays - it is what separates two commands. */
 .tss-tree-commands > .tss-tree-command,
 .tss-tree-commands > a > .tss-tree-command {
     min-height: unset;
     min-width: 20px;
     height: 20px;
     padding: 0 4px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .tss-tree-children {
