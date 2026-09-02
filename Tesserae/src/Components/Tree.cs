@@ -38,6 +38,7 @@ namespace Tesserae
         private          Item                     _anchor;
         private          int                      _updateDepth;
         private          bool                     _updatePending;
+        private          Func<Item, bool>         _filter;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -282,6 +283,8 @@ namespace Tesserae
                 if (_selectionMode != TreeSelectionMode.Multiple && SelectedItem != null) SelectedItem.IsSelected = false;
                 SelectedItem = component.SelectedChild;
             }
+
+            if (_filter is object) component.ApplyFilter(_filter);
         }
 
         /// <summary>
@@ -293,6 +296,70 @@ namespace Tesserae
             _anchor      = null;
             SelectedItem = null;
             ClearChildren(InnerElement);
+        }
+
+        /// <summary>
+        /// Shows only the items <paramref name="predicate"/> accepts, plus whatever leads to them: an item that
+        /// matches keeps its subtree as it was, an ancestor of a match stays visible and is opened so the match can be
+        /// seen, and everything else is hidden. The filter is a view over the tree, not a change to it - items added
+        /// while it is active are filtered as they arrive, and <see cref="ClearFilter"/> puts every item back,
+        /// including the expansion state the user had before the filter opened folders on their behalf. Opening a
+        /// folder for the filter raises no <c>OnExpanded</c>, so code persisting what the user expanded is not
+        /// misled by it.
+        /// </summary>
+        public Tree Filter(Func<Item, bool> predicate)
+        {
+            if (predicate is null) return ClearFilter();
+
+            _filter = predicate;
+
+            foreach (var child in _children)
+            {
+                child.ApplyFilter(predicate);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Shows only the items whose text contains <paramref name="text"/>, ignoring case, and the folders leading
+        /// to them. An empty text clears the filter.
+        /// </summary>
+        public Tree Filter(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return ClearFilter();
+
+            var term = text.Trim().ToLowerInvariant();
+
+            return Filter(item => (item.Text ?? "").ToLowerInvariant().Contains(term));
+        }
+
+        /// <summary>
+        /// Removes the filter set by <see cref="Filter(Func{Item, bool})"/>: every item is shown again, and the
+        /// folders the filter opened return to how the user had left them.
+        /// </summary>
+        public Tree ClearFilter()
+        {
+            if (_filter is null) return this;
+
+            _filter = null;
+
+            foreach (var child in _children)
+            {
+                child.ClearFilter();
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Whether a filter set by <see cref="Filter(Func{Item, bool})"/> is in force.
+        /// </summary>
+        public bool IsFiltered => _filter is object;
+
+        internal void ReapplyFilter(Item root)
+        {
+            if (_filter is object) root.ApplyFilter(_filter);
         }
 
         /// <summary>
@@ -476,6 +543,9 @@ namespace Tesserae
             private          bool       _isSelected;
             private          bool       _isPartiallySelected;
             private          bool       _isSelectable = true;
+            private          bool       _filteredOut;
+            private          bool?      _expandedBeforeFilter;
+            private          string     _iconColor = "";
             private          Tree       _tree;
 
             internal Item SelectedChild { get; private set; }
@@ -555,6 +625,20 @@ namespace Tesserae
             }
 
             /// <summary>
+            /// Colours the item's icon - a danger tint on a file that fails to compile, say - leaving the text
+            /// alone. Pass null or an empty string to go back to the theme's colour. An item created without
+            /// an icon has nothing to colour until <see cref="Icon"/> gives it one; the colour is kept for then.
+            /// </summary>
+            public Item IconColor(string color)
+            {
+                _iconColor = color ?? "";
+
+                if (_iconSpan is object) _iconSpan.style.color = _iconColor;
+
+                return this;
+            }
+
+            /// <summary>
             /// Gets or sets the text shown in the component.
             /// </summary>
             public string Text
@@ -586,6 +670,7 @@ namespace Tesserae
                         if (_iconSpan == null)
                         {
                             _iconSpan = I(Att("tss-tree-icon " + value.Value.ToCssClass()));
+                            _iconSpan.style.color = _iconColor;
                             _headerDiv.insertBefore(_iconSpan, _textSpan);
                         }
                         else
@@ -602,28 +687,97 @@ namespace Tesserae
             public bool IsExpanded
             {
                 get => _isExpanded;
-                set
-                {
-                    if (value != _isExpanded)
-                    {
-                        _isExpanded = value;
-                        InnerElement.setAttribute("aria-expanded", _isExpanded ? "true" : "false");
+                set => SetExpanded(value, raiseEvents: true);
+            }
 
-                        if (_isExpanded)
-                        {
-                            InnerElement.classList.add("tss-expanded");
-                            _chevronSpan.classList.remove(UIcons.AngleRight.ToCssClass());
-                            _chevronSpan.classList.add(UIcons.AngleDown.ToCssClass());
-                            ExpandedItem?.Invoke(this);
-                        }
-                        else
-                        {
-                            InnerElement.classList.remove("tss-expanded");
-                            _chevronSpan.classList.remove(UIcons.AngleDown.ToCssClass());
-                            _chevronSpan.classList.add(UIcons.AngleRight.ToCssClass());
-                            CollapsedItem?.Invoke(this);
-                        }
-                    }
+            private void SetExpanded(bool value, bool raiseEvents)
+            {
+                if (value == _isExpanded) return;
+
+                _isExpanded = value;
+                InnerElement.setAttribute("aria-expanded", _isExpanded ? "true" : "false");
+
+                if (_isExpanded)
+                {
+                    InnerElement.classList.add("tss-expanded");
+                    _chevronSpan.classList.remove(UIcons.AngleRight.ToCssClass());
+                    _chevronSpan.classList.add(UIcons.AngleDown.ToCssClass());
+
+                    if (raiseEvents) ExpandedItem?.Invoke(this);
+                }
+                else
+                {
+                    InnerElement.classList.remove("tss-expanded");
+                    _chevronSpan.classList.remove(UIcons.AngleDown.ToCssClass());
+                    _chevronSpan.classList.add(UIcons.AngleRight.ToCssClass());
+
+                    if (raiseEvents) CollapsedItem?.Invoke(this);
+                }
+            }
+
+            /// <summary>
+            /// Whether the item is hidden by the tree's <see cref="Tree.Filter(Func{Item, bool})"/>: neither it nor
+            /// anything below it matched.
+            /// </summary>
+            public bool IsFilteredOut => _filteredOut;
+
+            // Hides what neither matches nor leads to a match, and opens the folders on the way to one. Returns whether
+            // the item stays visible, which is what its parent needs to decide about itself. The expansion the user had
+            // is kept from the first pass of a filter, so clearing it can put the folders back - a later pass does not
+            // overwrite it, or a search that narrows over several keystrokes would remember its own openings.
+            internal bool ApplyFilter(Func<Item, bool> predicate)
+            {
+                var matches      = predicate(this);
+                var childVisible = false;
+
+                foreach (var child in _childItems)
+                {
+                    if (child.ApplyFilter(predicate)) childVisible = true;
+                }
+
+                var visible = matches || childVisible;
+
+                SetFilteredOut(!visible);
+
+                if (childVisible && !matches)
+                {
+                    if (!_expandedBeforeFilter.HasValue) _expandedBeforeFilter = _isExpanded;
+
+                    SetExpanded(true, raiseEvents: false);
+                }
+
+                return visible;
+            }
+
+            internal void ClearFilter()
+            {
+                SetFilteredOut(false);
+
+                if (_expandedBeforeFilter.HasValue)
+                {
+                    SetExpanded(_expandedBeforeFilter.Value, raiseEvents: false);
+                    _expandedBeforeFilter = null;
+                }
+
+                foreach (var child in _childItems)
+                {
+                    child.ClearFilter();
+                }
+            }
+
+            private void SetFilteredOut(bool filteredOut)
+            {
+                if (filteredOut == _filteredOut) return;
+
+                _filteredOut = filteredOut;
+
+                if (filteredOut)
+                {
+                    InnerElement.classList.add("tss-tree-filtered-out");
+                }
+                else
+                {
+                    InnerElement.classList.remove("tss-tree-filtered-out");
                 }
             }
 
@@ -708,6 +862,22 @@ namespace Tesserae
                 }
 
                 RefreshSelectionFromChildren();
+
+                // A child arriving under a filtered tree can turn a hidden folder into a visible one, so the
+                // whole branch is judged again from its root.
+                if (_tree is object && _tree.IsFiltered) _tree.ReapplyFilter(Root());
+            }
+
+            private Item Root()
+            {
+                var item = this;
+
+                while (item.Parent is object)
+                {
+                    item = item.Parent;
+                }
+
+                return item;
             }
 
             private void OnChildSelectionChanged(Item sender, bool isSelected)

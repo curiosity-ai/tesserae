@@ -16,6 +16,11 @@
     flex-direction: column;
 }
 
+/* Hidden by Tree.Filter: neither the item nor anything below it matched. */
+.tss-tree-item.tss-tree-filtered-out {
+    display: none;
+}
+
 .tss-tree-item-content {
     display: flex;
     align-items: center;

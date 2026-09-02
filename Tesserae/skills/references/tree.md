@@ -27,6 +27,7 @@ A vertically-stacked tree of `Tree.Item` nodes. Nodes expand/collapse to reveal 
 - `.OnSelectionChanged((s, items) => ...)` — fires with everything selected; one call per gesture, even when a range or a cascade moved many rows.
 - `.ClearSelection()` / `.SelectAll()` — move the whole selection from code; `SelectedItems` reads it back, in tree order.
 - `.Clear()` / `.Replace(newItem, oldItem)` — manage nodes.
+- `.Filter(item => bool)` / `.Filter("text")` / `.ClearFilter()` — show only the matching rows and the folders leading to them (see below); `IsFiltered` says whether one is in force.
 
 `Tree.Item`:
 
@@ -36,7 +37,8 @@ A vertically-stacked tree of `Tree.Item` nodes. Nodes expand/collapse to reveal 
 - `.Selectable(bool = true)` — say whether the row can be picked at all; one that cannot shows no checkbox and is skipped by ranges, cascades and `SelectAll`.
 - `.OnSelected(...)` / `.OnSelectionChanged((item, isSelected) => ...)` / `.OnExpanded(...)` / `.OnCollapsed(...)` — node events.
 - `.CommandsAlwaysVisible(bool)` — keep row commands visible (not hover-only).
-- `Text`, `Icon`, `IsExpanded`, `IsSelected`, `IsPartiallySelected`, `IsSelectable`, `HasChildren`, `Children`, `Parent` — read/write state.
+- `.IconColor(color)` — tint the row's icon (a danger colour on a file that fails to compile, say), leaving the text alone; null goes back to the theme's colour.
+- `Text`, `Icon`, `IsExpanded`, `IsSelected`, `IsPartiallySelected`, `IsSelectable`, `HasChildren`, `Children`, `Parent`, `IsFilteredOut` — read/write state.
 
 ## Selection gestures
 
@@ -50,6 +52,21 @@ of every row on show:
   (and, on a cascading tree, brings its contents with it).
 - **A plain click** is left alone: it expands the row and runs its `OnClick`, so a tree can both drive
   a details pane and carry a selection.
+
+## Filtering
+
+`.Filter(predicate)` is a view over the tree, not a change to it. A row that matches keeps its
+subtree as it was; a folder on the way to a match stays visible and is opened so the match can be
+seen; everything else is hidden. Items added while a filter is active are filtered as they arrive,
+and `.ClearFilter()` shows everything again and closes the folders the filter opened — the user's own
+expansion is what comes back. Opening a folder for the filter raises no `OnExpanded`, so code that
+persists what the user expanded is not misled. `.Filter("text")` is the common case, a
+case-insensitive match on each row's `Text`; an empty text clears the filter.
+
+```csharp
+var tree   = new Tree().Compact().Items(...);
+var search = SearchBox("Filter...").SearchAsYouType().OnSearch((s, term) => tree.Filter(term));
+```
 
 ## Example
 

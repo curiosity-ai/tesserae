@@ -15,11 +15,11 @@ factories into scope with `using static Tesserae.UI;`.
 
 ## Key configuration
 
-- `.Pivot(id, titleCreator, contentCreator, cached = false, closeable = false, onClosed = null)` — add a tab. `titleCreator`/`contentCreator` are `Func<IComponent>`; `cached: true` keeps content alive between switches.
+- `.Pivot(id, titleCreator, contentCreator, cached = false, closeable = false, onClosed = null, onBeforeClose = null)` — add a tab. `titleCreator`/`contentCreator` are `Func<IComponent>`; `cached: true` keeps content alive between switches (hidden, not torn down, so an editor in it keeps its caret and undo history); `closeable: true` adds the close cross and lets a middle click close the tab; `onBeforeClose` is awaited first and a `false` keeps the tab (the place for an unsaved-changes prompt).
 - `PivotTitle("Text")` / `PivotTitle("Text", UIcons.Folder)` — convenient title `Func<IComponent>`. A custom title component gets no padding of its own, so build one from `Button(text).NoBackground().Regular()` if you need to go beyond these; for a tab that shows an unsaved-changes marker, use `TabSaveIndicator.Title(id, "Text")` (`unsaved-changes-guard.md`).
 - `.Host(Modal modal, id, titleCreator, closeable = true, onClosed = null)` — embed a `Modal` as a tab (basis of TabbedModal).
 - `.Select(id, refresh = false)` — switch to a tab.
-- `.RemoveTab(id)` — remove a tab.
+- `.RemoveTab(id)` — remove a tab. Removing the selected tab selects its neighbour — the tab that took its place on the strip, or the last one when it was the last.
 - `.Centered()` / `.Justified()` — tab-strip alignment.
 - `.HideIfSingle()` — hide the strip when only one tab exists.
 - `.EnableCtrlTabSwitching()` — Ctrl+Alt+Left/Right cycles tabs.
@@ -58,7 +58,8 @@ editor goes dirty, and the two can't crowd each other. Pointing at the tab alway
 cross back, so there is always something to close with.
 
 The cross is reachable by keyboard: it takes focus after its tab title, and Enter or Space
-closes the tab through the same `onBeforeClose` guard a click goes through. On a touch
+closes the tab through the same `onBeforeClose` guard a click goes through — as does a middle
+click anywhere on the tab, the gesture every browser's tab strip teaches. On a touch
 screen — where nothing hovers, so the cross could never be brought back — the marker sits
 beside the label instead. A tab that is *not* closeable has no cross to stand in for, so its
 marker sits beside the label too.

@@ -88,6 +88,9 @@ namespace Tesserae.Tests.Samples
                     TextBlock("Click a checkbox to pick one row, ctrl (or cmd) click a row to do the same, and shift-click one to pick everything up to it. Selecting a folder selects everything inside it; a folder only part of which is picked is drawn half-selected. The read-only file cannot be picked at all.").Small().Secondary(),
                     MultipleSelectionTree(out var selectionLabel),
                     selectionLabel,
+                    SampleSubTitle("Filtering"),
+                    TextBlock("Type to keep only the matching rows and the folders leading to them. Folders the filter opens close again when it is cleared, back to how they were left.").Small().Secondary(),
+                    FilteredTree(),
                     SampleSubTitle("Tree with Commands and Context Menu"),
                     new Tree().Items(
                         new Tree.Item("src", UIcons.Folder,
@@ -118,6 +121,32 @@ namespace Tesserae.Tests.Samples
                     )
                )).SetTitle("Usage")))
                .SeeAlso(typeof(DetailsListSample), typeof(AccordionSample), typeof(PlanSample), typeof(NodeViewSample), typeof(SearchableGroupedListSample));
+        }
+
+        private static IComponent FilteredTree()
+        {
+            var tree = new Tree().Compact().Items(
+                new Tree.Item("endpoints", UIcons.Folder).Expanded().Items(
+                    new Tree.Item("search", UIcons.Folder).Items(
+                        new Tree.Item("people.cs",    UIcons.File),
+                        new Tree.Item("documents.cs", UIcons.File)
+                    ),
+                    new Tree.Item("upload.cs",  UIcons.File),
+                    new Tree.Item("webhook.cs", UIcons.File)
+                ),
+                new Tree.Item("tasks", UIcons.Folder).Items(
+                    new Tree.Item("nightly-import.cs", UIcons.File),
+                    new Tree.Item("cleanup.cs",        UIcons.File)
+                ),
+                new Tree.Item("indexes", UIcons.Folder).Items(
+                    new Tree.Item("people.json",    UIcons.File),
+                    new Tree.Item("documents.json", UIcons.File)
+                )
+            );
+
+            var search = SearchBox("Filter the tree...").SearchAsYouType().OnSearch((s, term) => tree.Filter(term));
+
+            return VStack().WS().Children(search.WS(), tree);
         }
 
         private static IComponent MultipleSelectionTree(out TextBlock selectionLabel)

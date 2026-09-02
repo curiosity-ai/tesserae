@@ -328,6 +328,21 @@ namespace Tesserae
                 };
                 title.appendChild(closeIcon);
                 title.classList.add("tss-pivot-tab-closeable");
+
+                // A middle click closes the tab, the gesture every browser's tab strip teaches. The press is
+                // swallowed too, or platforms that bind the middle button to autoscroll start scrolling the page.
+                title.addEventListener("mousedown", e =>
+                {
+                    if (e.As<MouseEvent>().button == 1) e.preventDefault();
+                });
+
+                title.addEventListener("auxclick", e =>
+                {
+                    if (e.As<MouseEvent>().button != 1) return;
+
+                    StopEvent(e);
+                    RequestCloseTab(tab);
+                });
             }
             title.setAttribute("role",          "tab");
             title.setAttribute("aria-selected", "false");
@@ -521,6 +536,8 @@ namespace Tesserae
 
             if (tab is object)
             {
+                var index = _orderedTabs.IndexOf(tab);
+
                 _orderedTabs.Remove(tab);
 
                 if (_renderedTitles.TryGetValue(tab, out var renderedTitle))
@@ -533,7 +550,9 @@ namespace Tesserae
                 {
                     if (_isRendered && _orderedTabs.Count > 0)
                     {
-                        Select(_orderedTabs.First().Id);
+                        // Closing the selected tab lands on its neighbour - the one that took its place on the
+                        // strip, or the last tab when it was the last - rather than jumping back to the first.
+                        Select(_orderedTabs[Math.Min(index, _orderedTabs.Count - 1)].Id);
                     }
                 }
 

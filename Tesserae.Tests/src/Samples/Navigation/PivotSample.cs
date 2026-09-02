@@ -81,7 +81,7 @@ namespace Tesserae.Tests.Samples
 
         private IComponent GetReorderablePivot()
         {
-            var order = TextBlock("Drag a tab title to reorder the strip").Small();
+            var order = TextBlock("Drag a tab title to reorder the strip; middle-click one to close it").Small();
 
             var pivot = Pivot().H(180).Reorderable()
                .OnReorder((s, e) => order.Text = $"Moved '{e.TabId}' from {e.OldIndex} to {e.NewIndex} — now: {string.Join(", ", e.TabIds)}");
