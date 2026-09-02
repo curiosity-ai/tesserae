@@ -118,9 +118,60 @@ namespace Tesserae.Tests.Samples
                                 })
                             )
                         )
-                    )
+                    ),
+                    SampleSubTitle("Compact Tree with Commands"),
+                    TextBlock("Commands shrink with the rows in a compact tree. Hover a row to reveal its actions; the root keeps them on show with CommandsAlwaysVisible, and the menu on TreeCommand.cs also answers a right-click on its row.").Small().Secondary(),
+                    CompactCommandTree(out var lastCommandLabel),
+                    lastCommandLabel
                )).SetTitle("Usage")))
                .SeeAlso(typeof(DetailsListSample), typeof(AccordionSample), typeof(PlanSample), typeof(NodeViewSample), typeof(SearchableGroupedListSample));
+        }
+
+        private static IComponent CompactCommandTree(out TextBlock lastActionLabel)
+        {
+            var label = TextBlock("No command run yet").Small().Secondary();
+
+            void Ran(string action)
+            {
+                label.Text = action;
+            }
+
+            var tree = new Tree().Compact().Items(
+                new Tree.Item("tesserae", UIcons.Folder,
+                    new TreeCommand(UIcons.AddFolder).Tooltip("New folder").OnClick(() => Ran("New folder in tesserae")),
+                    new TreeCommand(UIcons.AddDocument).Tooltip("New file").OnClick(() => Ran("New file in tesserae")),
+                    new TreeCommand(UIcons.Refresh).Tooltip("Refresh").OnClick(() => Ran("Refreshed tesserae"))
+                ).Expanded().CommandsAlwaysVisible().Items(
+                    new Tree.Item("src", UIcons.Folder,
+                        new TreeCommand(UIcons.AddDocument).Tooltip("New file").OnClick(() => Ran("New file in src"))
+                    ).Expanded().Items(
+                        new Tree.Item("Tree.cs", UIcons.File,
+                            new TreeCommand(UIcons.Pencil).Tooltip("Rename").OnClick(() => Ran("Rename Tree.cs")),
+                            new TreeCommand(UIcons.Trash).Tooltip("Delete").Danger().OnClick(() => Ran("Delete Tree.cs"))
+                        ),
+                        new Tree.Item("TreeCommand.cs", UIcons.File,
+                            new TreeCommand(UIcons.MenuDots).Tooltip("More actions").HookToParentContextMenu().OnClickMenu(() => new[]
+                            {
+                                new TreeCommand(UIcons.Pencil).SetText("Rename").OnClick(() => Ran("Rename TreeCommand.cs")),
+                                new TreeCommand(UIcons.Copy).SetText("Duplicate").OnClick(() => Ran("Duplicate TreeCommand.cs")),
+                                new TreeCommand(UIcons.Trash).SetText("Delete").Danger().OnClick(() => Ran("Delete TreeCommand.cs"))
+                            })
+                        )
+                    ),
+                    new Tree.Item("tps", UIcons.Folder).Items(
+                        new Tree.Item("tss.tree.css", UIcons.File,
+                            new TreeCommand(UIcons.Pencil).Tooltip("Rename").OnClick(() => Ran("Rename tss.tree.css"))
+                        )
+                    ),
+                    new Tree.Item("Tesserae.csproj", UIcons.File,
+                        new TreeCommand(UIcons.Copy).Tooltip("Duplicate").OnClick(() => Ran("Duplicate Tesserae.csproj"))
+                    )
+                )
+            );
+
+            lastActionLabel = label;
+
+            return tree;
         }
 
         private static IComponent FilteredTree()
