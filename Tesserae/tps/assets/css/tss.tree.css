@@ -1,4 +1,4 @@
-/* Tree component */
+﻿/* Tree component */
 .tss-tree {
     list-style: none;
     margin: 0;
@@ -218,6 +218,10 @@
     flex-direction: column;
 }
 
+/* width: 100% is what makes every row the same width. A <button> is a form control, so `width: auto`
+   on it is shrink-to-fit and Chromium does not stretch it to the flex line's cross size - which left
+   every item but the widest stopping short of the menu's right edge, showing the panel beside it and
+   painting a danger item's red over only part of its row. */
 .tss-tree-menu > .tss-tree-command,
 .tss-tree-menu > a > .tss-tree-command {
     border: 1px solid transparent;
@@ -227,6 +231,7 @@
     margin: 0px;
     padding: 0px 12px;
     min-width: 52px !important;
+    width: 100%;
     justify-content: flex-start;
 }
 
