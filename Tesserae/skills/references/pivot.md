@@ -81,6 +81,19 @@ foreach (var id in LoadTabOrder().Select((id, i) => (id, i)))
 }
 ```
 
+Selecting and dragging do not compete for the same press, which is what makes a
+reorderable strip still feel like a set of buttons:
+
+- **The press selects**, not the release — as in VS Code and in every browser's own tab
+  strip. So a click that turns into a drag has already switched to the tab it picked up,
+  and a click that merely wobbled cannot be swallowed by the drag.
+- **A drag only starts once the pointer has travelled 5px.** Below that the gesture stays
+  a click, and the strip does not move under the cursor.
+- **On a touch screen the drag waits for the press to be held** (about a quarter of a
+  second) instead of for it to travel, since the swipe that would drag a tab is also the
+  one that scrolls the strip: a swipe scrolls, a long press picks the tab up, a tap
+  selects.
+
 ## Related
 
 - PivotSelector — `pivot-selector.md` (dropdown-driven variant)
