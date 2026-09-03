@@ -53,6 +53,17 @@ namespace Tesserae
         // apart from the underline element that shares the titlebar.
         private const string TabClass = "tss-pivot-tab";
 
+        // How far a press has to travel before it counts as a drag rather than as a click
+        // that wobbled. A mouse moves a pixel or two between press and release, and a
+        // trackpad more than that, so without a threshold an ordinary click on a
+        // reorderable tab becomes a one-pixel drag - see Reorderable().
+        private const int DragThresholdPx = 5;
+
+        // On touch the drag gesture is the same one that scrolls the tab strip, so there a
+        // drag waits for the press to be *held* instead of for it to travel: a swipe scrolls,
+        // a long press picks the tab up.
+        private const int TouchDragDelayMs = 250;
+
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
@@ -133,6 +144,15 @@ namespace Tesserae
                 {
                     animation = 150,
                     direction = "horizontal",
+                    // Clicking a tab must never be lost to the drag machinery. Two halves to
+                    // that: the press selects the tab immediately (see AttachEvents), and a
+                    // drag only begins once the pointer has actually travelled, rather than
+                    // on the first mousemove after the press - which is Sortable's default
+                    // in fallback mode, and what made a click on a jittery press do nothing.
+                    fallbackTolerance   = DragThresholdPx,
+                    delay               = TouchDragDelayMs,
+                    delayOnTouchOnly    = true, // a mouse press still picks the tab up at once
+                    touchStartThreshold = DragThresholdPx, // a finger that moves scrolls the strip instead
                     // The underline shares the titlebar with the tabs, and the close
                     // icon has to stay a click target rather than a drag handle.
                     draggable       = "." + TabClass,
@@ -221,6 +241,12 @@ namespace Tesserae
 
             UpdateScrollState();
             _reordered?.Invoke(this, new PivotReorderEvent(tab.Id, oldIndex, newIndex, TabIds));
+        }
+
+        // True when the event landed on a closeable tab's X rather than on the tab itself.
+        private static bool IsCloseButton(EventTarget target)
+        {
+            return target?.As<HTMLElement>().closest(".tss-pivot-tab-close") is object;
         }
 
         private void ReorderDomToMatchTabs()
@@ -570,6 +596,31 @@ namespace Tesserae
 
         private void AttachEvents(string id, HTMLElement title)
         {
+            // The press selects, not the release. A tab strip that can also be dragged has no
+            // other option: the drag takes the pointer over as soon as it has travelled its
+            // threshold, and the click that would have followed either never fires or fires on
+            // whatever the tab was moved past - which is the "clicking a tab does nothing"
+            // that a slightly dragged click produced. Every browser's tab strip and VS Code's
+            // switch on the press for the same reason, and nothing is lost by it: selecting is
+            // what the press was going to do anyway, and a drag that follows still reorders.
+            //
+            // mousedown rather than pointerdown deliberately. A touch that ends up scrolling
+            // the strip never produces one - the browser only synthesizes the mouse events for
+            // a tap that stayed put - so a swipe does not select the tab it started on.
+            title.addEventListener("mousedown", e =>
+            {
+                var me = e.As<MouseEvent>();
+
+                if (me.button != 0) return;                     // the middle button closes, the right one opens a menu
+                if (me.ctrlKey || me.metaKey || me.altKey) return; // a modified press is not a plain activation
+                if (IsCloseButton(me.target)) return;           // pressing the X closes the tab, it does not raise it
+
+                Select(id);
+            });
+
+            // Still on click for the keyboard: Enter and Space on a focused tab arrive as a
+            // synthesized click and nothing else. Select is a no-op when the tab is already
+            // the current one, so the click that follows a mouse press costs nothing.
             title.onclick = (e) =>
             {
                 StopEvent(e);
