@@ -17,6 +17,7 @@ namespace Tesserae
         private readonly HTMLElement     _iconContainer;
         private readonly HTMLElement     _shortcutContainer;
         private readonly HTMLElement     _paddingContainer;
+        private readonly HTMLElement     _clearButton;
 
         private string[]                       _shortcutKeys;
         private Action<Event>                  _globalShortcutHandler;
@@ -38,13 +39,33 @@ namespace Tesserae
             _iconContainer     = Div(Att("tss-searchbox-icon"), _icon);
             _shortcutContainer = Div(Att("tss-searchbox-shortcut"));
             _paddingContainer  = Div(Att("tss-searchbox-padding"));
-            _container         = Div(Att("tss-searchbox-container"), _iconContainer, InnerElement, _shortcutContainer, _paddingContainer);
+
+            //The browser's own cancel button on a type="search" input is hidden by the stylesheet: it is drawn in
+            //the browser's colours and weight rather than the toolkit's, Chromium alone shows it, and it comes and
+            //goes with focus. This one is drawn the same way CommandPalette draws its close button, and is
+            //shown whenever there is something to clear.
+            _clearButton = UI.Button(Att("tss-searchbox-clear", type: "button", title: "Clear", ariaLabel: "Clear"),
+                                     I(Att($"tss-searchbox-clear-icon {UIcons.CrossSmall.ToCssClass()}")));
+
+            _container = Div(Att("tss-searchbox-container"), _iconContainer, InnerElement, _clearButton, _shortcutContainer, _paddingContainer);
 
             AttachChange();
             AttachInput();
             AttachFocus();
             AttachBlur();
             AttachKeys();
+
+            SubscribeInputUpdated((_, __) => UpdateHasText());
+
+            //Pressing the button with the pointer must not take the caret out of the box - the user is about
+            //to type the next query.
+            _clearButton.addEventListener("mousedown", e => e.preventDefault());
+
+            _clearButton.addEventListener("click", e =>
+            {
+                StopEvent(e);
+                Clear();
+            });
 
             OnKeyPress((s, e) =>
             {
@@ -54,10 +75,34 @@ namespace Tesserae
                 }
             });
 
+            //Escape empties a search input in Chromium and raises this event rather than an input event, so the
+            //clear button has to be told here too.
             InnerElement.addEventListener("search", (_) =>
             {
+                UpdateHasText();
                 TriggerSearch();
             });
+        }
+
+        /// <summary>
+        /// Empties the box, puts the caret in it and raises <see cref="OnSearch"/> with the empty query - what
+        /// pressing the clear button does.
+        /// </summary>
+        public SearchBox Clear()
+        {
+            if (!IsEnabled) return this;
+
+            InnerElement.value = string.Empty;
+            RaiseOnInput(null);
+            InnerElement.focus();
+            TriggerSearch();
+
+            return this;
+        }
+
+        private void UpdateHasText()
+        {
+            _container.classList.toggle("tss-searchbox-has-text", !string.IsNullOrEmpty(InnerElement.value));
         }
 
         private void TriggerSearch()
