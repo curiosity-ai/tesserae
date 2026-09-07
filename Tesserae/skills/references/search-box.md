@@ -23,6 +23,8 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.OnShortcut(Action)` — what that shortcut does *instead* of focusing the box, for a box that
   stands for a search happening somewhere else (a `CommandPalette`, a search page). Pressing the key
   works the same whether or not the box already holds the caret, which focusing does not.
+- `.Clear()` — empties the box, focuses it and fires `OnSearch` with an empty query. This is what the
+  trailing clear button does; the button itself appears whenever the box has text and needs no setup.
 - `.Focus()`, `.Disabled(bool = true)`, `.Height(UnitSize)` / `.H(int)`.
 
 ## Example

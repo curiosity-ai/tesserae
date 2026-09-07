@@ -32,6 +32,17 @@
         opacity: 0.7;
     }
 
+    /* The browser's own cancel button: WebKit's glyph in WebKit's colours, and Chromium only. The
+       toolkit draws .tss-searchbox-clear in its place. */
+    .tss-searchbox::-webkit-search-cancel-button,
+    .tss-searchbox::-webkit-search-decoration,
+    .tss-searchbox::-webkit-search-results-button,
+    .tss-searchbox::-webkit-search-results-decoration {
+        -webkit-appearance: none;
+        appearance: none;
+        display: none;
+    }
+
 .tss-searchbox-container {
     display: inline-flex;
     position: relative;
@@ -114,6 +125,50 @@
     transition: width 0.167s ease 0s;
     width: 0px;
     height: 16px;
+}
+
+/* The clear button, drawn the way CommandPalette draws its close button: a flat square that only
+   colours in on hover, holding a cross-small glyph. It fills the row's height, capped at 28px so that
+   it sits inside the 36px box with its 1px border and 5px padding, and disappears while there is
+   nothing to clear so the input keeps the full width. */
+.tss-searchbox-clear {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    width: 28px;
+    height: 28px;
+    max-height: 100%;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+}
+
+    .tss-searchbox-clear:hover {
+        background: var(--tss-default-background-hover-color);
+        color: var(--tss-default-foreground-color);
+    }
+
+    .tss-searchbox-clear:focus-visible {
+        outline: 2px solid var(--tss-primary-border-color);
+        outline-offset: -2px;
+    }
+
+.tss-searchbox-container.tss-searchbox-has-text:not(.tss-disabled) > .tss-searchbox-clear {
+    display: inline-flex;
+}
+
+.tss-searchbox-clear-icon {
+    /* cross-small at 16px paints the same weight as the magnifier at 16px in .tss-searchbox-icon: the
+       plain cross glyph fills far more of its em box, so it is the small variant that matches. */
+    font-size: 16px;
+    line-height: 1;
 }
 
 .tss-searchbox-shortcut {
