@@ -67,6 +67,23 @@ namespace Tesserae
                 Clear();
             });
 
+            //The input is only as tall as its text and sits centred in a box twice its height, with the box's
+            //own padding either side of it - so most of what looks like the search box is the container, and
+            //a press there would land on nothing. The container hands the press to the input, on mousedown
+            //rather than click so the caret appears on the press as it does in a native input, and the default
+            //is cancelled so the container does not take focus away from an input already holding it.
+            _container.addEventListener("mousedown", e =>
+            {
+                if (!IsEnabled) return;
+
+                var target = e.target.As<HTMLElement>();
+
+                if (target == InnerElement || _clearButton.contains(target)) return;
+
+                e.preventDefault();
+                InnerElement.focus();
+            });
+
             OnKeyPress((s, e) =>
             {
                 if (e.key == "Enter")
