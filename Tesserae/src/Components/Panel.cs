@@ -179,16 +179,17 @@ namespace Tesserae
             get => _contentHtml.classList.contains("tss-panel-modeless");
             set
             {
-                if (value)
-                {
-                    _contentHtml.classList.add("tss-panel-modeless");
-                }
-                else
-                {
-                    _contentHtml.classList.remove("tss-panel-modeless");
-                }
+                _contentHtml.UpdateClassIf(value, "tss-panel-modeless");
+
+                // Modeless while open means the page behind may scroll again, and back the other way.
+                UpdatePageScrollLock();
             }
         }
+
+        /// <summary>
+        /// A blocking panel stops the page behind it scrolling; a modeless one does not.
+        /// </summary>
+        protected override bool LocksPageScroll => !IsNonBlocking;
 
         /// <summary>
         /// Gets or sets a value indicating whether the close button is shown.
@@ -218,8 +219,6 @@ namespace Tesserae
         /// </summary>
         public override Panel Show()
         {
-            if (!IsNonBlocking) document.body.style.overflowY = "hidden";
-
             if (Side == PanelSide.Near)
             {
                 _panel.classList.add("tss-panel-near-animate");
@@ -253,11 +252,7 @@ namespace Tesserae
             HidePanel?.Invoke(this);
             _observable.Value = false;
 
-            base.Hide(() =>
-            {
-                if (!IsNonBlocking) document.body.style.overflowY = "";
-                onHidden?.Invoke();
-            });
+            base.Hide(onHidden);
         }
 
         /// <summary>

@@ -101,6 +101,36 @@ namespace Tesserae
         public bool AnimateOnShow { get; set; } = true;
 
         /// <summary>
+        /// Whether the page behind this layer must not scroll while it is shown. <c>false</c> by default,
+        /// because most layers are not blocking: a dropdown, a context menu, a toast or a picker's
+        /// suggestions must leave the page scrollable. A blocking overlay - <see cref="Modal"/>,
+        /// <see cref="Panel"/> - overrides it, conditionally where it can be made non-blocking while open.
+        ///
+        /// The lock itself is <see cref="Layers"/>' to own: it remembers what the application had on the
+        /// body and puts that back once the last locking layer has gone, so an app shell that declares "the
+        /// body never scrolls" keeps it instead of having it cleared.
+        /// </summary>
+        protected virtual bool LocksPageScroll => false;
+
+        /// <summary>
+        /// Re-applies <see cref="LocksPageScroll"/> for a layer that is already shown - for a property that
+        /// changes whether it blocks while it is open. A no-op while hidden.
+        /// </summary>
+        protected void UpdatePageScrollLock()
+        {
+            if (!_isVisible || _renderedContent is null) return;
+
+            if (LocksPageScroll)
+            {
+                Layers.LockPageScroll(_renderedContent);
+            }
+            else
+            {
+                Layers.ReleasePageScroll(_renderedContent);
+            }
+        }
+
+        /// <summary>
         /// Renders the component.
         /// </summary>
         /// <returns>The rendered HTML element.</returns>
@@ -145,6 +175,8 @@ namespace Tesserae
 
                 _isVisible = true;
 
+                if (LocksPageScroll) Layers.LockPageScroll(_renderedContent);
+
                 if (!_contentHtml.classList.contains("tss-toast"))
                 {
                     Tippy.HideAll();
@@ -161,6 +193,10 @@ namespace Tesserae
         {
             if (_renderedContent is object)
             {
+                // Before the removal, which is deferred by the fade below: releasing here keeps the answer
+                // to "is anything still locking?" independent of the animation.
+                Layers.ReleasePageScroll(_renderedContent);
+
                 if (_host == null)
                 {
                     _renderedContent.classList.remove("tss-show");

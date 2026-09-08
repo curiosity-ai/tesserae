@@ -365,18 +365,17 @@ namespace Tesserae
             get => _contentHtml.classList.contains("tss-modal-modeless");
             set
             {
-                if (value)
-                {
-                    _contentHtml.classList.add("tss-modal-modeless");
-                    if (IsVisible) document.body.style.overflowY = "";
-                }
-                else
-                {
-                    _contentHtml.classList.remove("tss-modal-modeless");
-                    if (IsVisible) document.body.style.overflowY = "hidden";
-                }
+                _contentHtml.UpdateClassIf(value, "tss-modal-modeless");
+
+                // Modeless while open means the page behind may scroll again, and back the other way.
+                UpdatePageScrollLock();
             }
         }
+
+        /// <summary>
+        /// A blocking modal stops the page behind it scrolling; a modeless one does not.
+        /// </summary>
+        protected override bool LocksPageScroll => !IsNonBlocking;
 
         /// <summary>
         /// Shows the embedded.
@@ -553,7 +552,6 @@ namespace Tesserae
         {
             _modal.style.transform = "translate(0px,0px)";
             if (AnimateOnShow) _modal.classList.add("tss-modal-animate");
-            if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
             _modal.focus(); // 2020-05-01 DWR: We need to put focus into the modal container in order to pick up keypresses
             _observable.Value = true;
@@ -603,11 +601,7 @@ namespace Tesserae
             RaiseOnHide();
             _observable.Value = false;
 
-            base.Hide(() =>
-            {
-                if (!IsNonBlocking) document.body.style.overflowY = "";
-                onHidden?.Invoke();
-            });
+            base.Hide(onHidden);
         }
 
         /// <summary>

@@ -45,6 +45,24 @@ layer.Content(
 layer.IsVisible = true;
 ```
 
+## Blocking the page behind a layer
+
+A layer that blocks the page overrides `LocksPageScroll` (`protected virtual bool`, `false` by
+default) and the base class stops the page behind it scrolling for as long as it is shown:
+
+```csharp
+protected override bool LocksPageScroll => !IsNonBlocking;   // what Modal and Panel do
+```
+
+`false` is the default because most layers are not blocking — a dropdown, a context menu, a toast
+or a picker's suggestion list must leave the page scrollable. Call `UpdatePageScrollLock()` if a
+property of yours changes the answer while the layer is already open.
+
+**Never write `document.body.style.overflow` from a component.** `Layers` owns the lock: it
+remembers whatever the application had on the body and restores exactly that once the last locking
+layer has gone, so several overlays can be open at once, in any closing order, and an app shell
+that declares "the body never scrolls" keeps that declaration.
+
 ## Related
 
 - Modal — `modal.md`

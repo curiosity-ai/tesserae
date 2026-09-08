@@ -342,7 +342,9 @@ namespace Tesserae
             _root.style.zIndex = Layers.PushLayer(_root);
 
             document.body.appendChild(_root);
-            document.body.style.overflowY = "hidden";
+
+            // Not a Layer, so it opts in by calling the mechanism Layer<T>.LocksPageScroll routes to.
+            Layers.LockPageScroll(_root);
 
             window.requestAnimationFrame(_ => _root?.classList.add("tss-show"));
 
@@ -400,9 +402,9 @@ namespace Tesserae
 
             document.removeEventListener("keydown", _onKeyDown);
 
-            if (_root.parentElement is object) _root.parentElement.removeChild(_root);
+            Layers.ReleasePageScroll(_root);
 
-            document.body.style.overflowY = "";
+            if (_root.parentElement is object) _root.parentElement.removeChild(_root);
 
             _root   = null;
             _scrim  = null;

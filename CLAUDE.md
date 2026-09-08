@@ -170,6 +170,28 @@ already carries is waited on rather than fetched twice — forgets a failed load
 remembering it as done, and falls back between the `.js` and `.min.js` spellings of the same file,
 which is what lets a library published once work in a site built either way.
 
+### Blocking the page behind an overlay
+
+`Layers` is the only thing in the toolkit that may write `document.body.style.overflow*`. A layer
+opts in by overriding `Layer<T>.LocksPageScroll` (`Modal` and `Panel` do, conditionally on
+`IsNonBlocking`), and anything that is not a layer — `ModalStack` — calls
+`Layers.LockPageScroll` / `ReleasePageScroll` itself.
+
+Two things that has to get right, and both were bugs before it existed:
+
+- **Restore what was there, not the empty string.** Every app shell declares `body { overflow:
+  hidden }` for itself (`Tesserae.Tests`, `Tesserae.Bench` and Tesserae.Monaco's gallery all do,
+  because `tss.body.css` sets `overflow-y: scroll` for document-shaped pages). A component that
+  "restored" by assigning `""` wiped that, and the stylesheet's permanent scrollbar reappeared
+  beside the app's own — two scrollbars from the first modal close onwards, on every page, for the
+  rest of the session.
+- **Only the release that ends the last lock may restore**, and only from an element that was
+  actually holding one. Overlapping overlays are ordinary (a `Dialog` over a `Modal`, a `Modal`
+  over the `ModalStack`), and whichever closes first must not unlock the page under the one still
+  open. Which elements hold the page is read off the DOM by marker class, the way
+  `Layers.CurrentZIndex` reads z-indices, so there is no counter to get out of step: an element
+  removed without releasing simply stops being found.
+
 ### Type safety
 
 Favor strong, static typing. Avoid `dynamic` unless absolutely necessary

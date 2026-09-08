@@ -24,6 +24,18 @@ namespace Tesserae
         private const string LayerSelector           = ".tss-layer,[data-tippy-root]";
         private const string LayerOrAlwaysOnTopScope = ".tss-layer,[data-tippy-root],.tss-always-on-top";
 
+        // A blocking overlay stops the page behind it scrolling. Which overlays are doing that is read off
+        // the DOM, exactly as CurrentZIndex reads the z-indices: the marker class is the record, so nothing
+        // has to be counted and nothing can get out of step. An element yanked out of the document without
+        // a release simply stops being found, and the next release restores correctly.
+        private const string PageScrollLockClass    = "tss-locks-page-scroll";
+        private const string PageScrollLockSelector = ".tss-locks-page-scroll";
+
+        // What the application had on the body before the first overlay locked it - restored when the last
+        // one releases. Only written on the 0 -> 1 transition, so a shell that says "the body never scrolls"
+        // gets that back rather than having it cleared.
+        private static string _bodyOverflowBeforeLock;
+
         /// <summary>
         /// Configures the push layer on the component.
         /// </summary>
@@ -61,6 +73,45 @@ namespace Tesserae
         /// Configures the above current on the component.
         /// </summary>
         public static string AboveCurrent() => (MaxZIndex(LayerOrAlwaysOnTopScope) + 5).ToString();
+
+        /// <summary>
+        /// Stops the page behind <paramref name="element"/> scrolling while it is shown, remembering what the
+        /// application had set so it can be put back. Safe to call again for an element already locking.
+        /// <see cref="Layer{T}.LocksPageScroll"/> is how a layer opts in; anything that is not a layer -
+        /// <see cref="ModalStack"/> - calls this directly.
+        /// </summary>
+        internal static void LockPageScroll(HTMLElement element)
+        {
+            if (element is null) return;
+
+            if (!AnyPageScrollLock()) _bodyOverflowBeforeLock = document.body.style.overflowY;
+
+            element.classList.add(PageScrollLockClass);
+            document.body.style.overflowY = "hidden";
+        }
+
+        /// <summary>
+        /// Releases <paramref name="element"/>'s hold on the page's scrolling, and puts the application's own
+        /// value back once nothing else is holding it. Call it before the element leaves the document, so the
+        /// answer does not depend on a removal that may be animated.
+        /// </summary>
+        internal static void ReleasePageScroll(HTMLElement element)
+        {
+            // Only an element that was actually holding the page can end the hold. Without this, a layer
+            // that never locked - or one that gave up its lock earlier, by being made modeless while open -
+            // would restore on the way out and write the saved value a second time, when it has already
+            // been consumed: that puts an empty string on the body and is the very clobber this replaced.
+            var wasLocking = element is object && element.classList.contains(PageScrollLockClass);
+
+            element?.classList.remove(PageScrollLockClass);
+
+            if (!wasLocking || AnyPageScrollLock()) return;
+
+            document.body.style.overflowY = _bodyOverflowBeforeLock ?? "";
+            _bodyOverflowBeforeLock       = null;
+        }
+
+        private static bool AnyPageScrollLock() => document.querySelectorAll(PageScrollLockSelector).length > 0;
 
         private static int MaxZIndex(string selector)
         {
