@@ -46,6 +46,7 @@ namespace Build.UpdateInterfaceIcons
             public int  FirstFlagAt         { get; set; } = -1;
             public int  PointCount          { get; set; }
             public int  ContourCount        { get; set; }
+            public int[] ContourPointCounts { get; set; }
             public int  FirstTripletAt      { get; set; } = -1;
             public int  FirstTripletSize    { get; set; }
             public int  FirstX              { get; set; }
@@ -136,9 +137,16 @@ namespace Build.UpdateInterfaceIcons
                     continue;
                 }
 
-                var nPoints = 0;
-                for (int c = 0; c < nContours; c++) nPoints += ReadNext255UShort(_nPointsStream, ref nPointsAt);
+                var nPoints    = 0;
+                var perContour = new int[nContours];
 
+                for (int c = 0; c < nContours; c++)
+                {
+                    perContour[c] = ReadNext255UShort(_nPointsStream, ref nPointsAt);
+                    nPoints      += perContour[c];
+                }
+
+                span.ContourPointCounts = perContour;
                 span.FirstFlagAt    = flagAt;
                 span.PointCount     = nPoints;
                 span.ContourCount   = nContours;
@@ -433,6 +441,173 @@ namespace Build.UpdateInterfaceIcons
             }
 
             return new Box(xMin, yMin, xMax, yMax);
+        }
+
+        /// <summary>
+        /// The box the glyph's <em>drawn</em> outline occupies, which is not the box its points occupy.
+        /// <para>
+        /// A quadratic's control point sits off the curve it bends, usually outside it, so point bounds
+        /// overstate the ink - by 27 units on <c>physics</c>, whose atom draws well inside a box its control
+        /// points leave. The format defines the declared <c>glyf</c> box over the points, so that is what
+        /// <see cref="BoundingBoxBeforeMoving"/> reports and what a box has to cover; what may be clipped by
+        /// a container, and so what a shift has to keep inside the layout box, is this instead. Each segment
+        /// is solved for its extrema, so the answer is the outline's, not a rasterization's.
+        /// </para>
+        /// <para>Returned rounded outwards, so the box is never smaller than the ink it reports.</para>
+        /// </summary>
+        public Box InkBounds(int id)
+        {
+            var span = _glyphs[id];
+
+            if (span.IsEmpty || span.IsComposite || span.PointCount == 0) return new Box(0, 0, 0, 0);
+
+            var xs = new int[span.PointCount];
+            var ys = new int[span.PointCount];
+            var on = new bool[span.PointCount];
+
+            int x = 0, y = 0, at = span.FirstTripletAt;
+
+            for (int p = 0; p < span.PointCount; p++)
+            {
+                var raw  = _flagStream[span.FirstFlagAt + p];
+                var flag = (byte)(raw & 0x7f);
+                var (dx, dy) = DecodeTriplet(flag, _glyphStream, at);
+                at   += TripletSize(flag);
+                x    += dx;
+                y    += dy;
+                xs[p] = x;
+                ys[p] = y;
+                on[p] = (raw & 0x80) == 0;              // bit 7 set means off curve
+            }
+
+            double xMin = double.MaxValue, yMin = double.MaxValue, xMax = double.MinValue, yMax = double.MinValue;
+
+            void Reach(double px, double py)
+            {
+                if (px < xMin) xMin = px;
+                if (px > xMax) xMax = px;
+                if (py < yMin) yMin = py;
+                if (py > yMax) yMax = py;
+            }
+
+            var first = 0;
+
+            foreach (var count in span.ContourPointCounts)
+            {
+                TraceContour(xs, ys, on, first, count, Reach);
+                first += count;
+            }
+
+            if (xMin > xMax) return new Box(0, 0, 0, 0);
+
+            return new Box((int)Math.Floor(xMin), (int)Math.Floor(yMin),
+                           (int)Math.Ceiling(xMax), (int)Math.Ceiling(yMax));
+        }
+
+        /// <summary>
+        /// Walks one contour, handing every point the outline actually reaches to <paramref name="reach"/>.
+        /// <para>
+        /// A contour alternates on-curve anchors with off-curve control points, and the format leaves the
+        /// anchor between two consecutive controls implied at their midpoint - including the anchor a contour
+        /// drawn entirely from control points has to start on. Both are expanded here before the walk, which
+        /// is what keeps the segment loop to the two cases it looks like it has.
+        /// </para>
+        /// </summary>
+        private static void TraceContour(int[] xs, int[] ys, bool[] on, int start, int count, Action<double, double> reach)
+        {
+            if (count == 0) return;
+
+            var px  = new List<double>(count + 2);
+            var py  = new List<double>(count + 2);
+            var pon = new List<bool>(count + 2);
+
+            var firstOn = -1;
+            for (int i = 0; i < count; i++)
+            {
+                if (on[start + i]) { firstOn = i; break; }
+            }
+
+            if (firstOn >= 0)
+            {
+                // Rotated to begin on an anchor, and closed by repeating it.
+                for (int i = 0; i <= count; i++)
+                {
+                    var j = start + (firstOn + i) % count;
+                    px.Add(xs[j]);
+                    py.Add(ys[j]);
+                    pon.Add(i == count || on[j]);
+                }
+            }
+            else
+            {
+                var mx = (xs[start + count - 1] + xs[start]) / 2.0;
+                var my = (ys[start + count - 1] + ys[start]) / 2.0;
+                px.Add(mx); py.Add(my); pon.Add(true);
+                for (int i = 0; i < count; i++) { px.Add(xs[start + i]); py.Add(ys[start + i]); pon.Add(false); }
+                px.Add(mx); py.Add(my); pon.Add(true);
+            }
+
+            double cx = px[0], cy = py[0];
+            reach(cx, cy);
+
+            for (int i = 1; i < px.Count; )
+            {
+                if (pon[i])
+                {
+                    cx = px[i]; cy = py[i];
+                    reach(cx, cy);
+                    i++;
+                    continue;
+                }
+
+                double kx = px[i], ky = py[i], nx, ny;
+
+                if (!pon[i + 1])
+                {
+                    nx = (kx + px[i + 1]) / 2.0;        // the implied anchor between two controls
+                    ny = (ky + py[i + 1]) / 2.0;
+                    i += 1;
+                }
+                else
+                {
+                    nx = px[i + 1];
+                    ny = py[i + 1];
+                    i += 2;
+                }
+
+                Quadratic(cx, cy, kx, ky, nx, ny, reach);
+                cx = nx;
+                cy = ny;
+            }
+        }
+
+        /// <summary>
+        /// Reports the far end of one quadratic segment and, per axis, its turning point where that lies
+        /// inside the segment - which is the only place a curve can reach past both of its anchors.
+        /// </summary>
+        private static void Quadratic(double x0, double y0, double x1, double y1, double x2, double y2, Action<double, double> reach)
+        {
+            reach(x2, y2);
+
+            void Turn(double a, double b, double c, bool horizontal)
+            {
+                var denominator = a - 2 * b + c;
+
+                if (Math.Abs(denominator) < 1e-12) return;
+
+                var t = (a - b) / denominator;
+
+                if (t <= 0 || t >= 1) return;
+
+                var u = 1 - t;
+                var value = u * u * a + 2 * u * t * b + t * t * c;
+
+                if (horizontal) reach(value, y0);
+                else            reach(x0, value);
+            }
+
+            Turn(x0, x1, x2, horizontal: true);
+            Turn(y0, y1, y2, horizontal: false);
         }
 
         private byte[] _glyphStreamRewritten;

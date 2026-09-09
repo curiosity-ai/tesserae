@@ -46,6 +46,10 @@ namespace Build.UpdateInterfaceIcons
             server.AddPage(MeasurementPage.Path, MeasurementPage.BuildHtml(fonts));
             Console.WriteLine($"Serving {assets} at {server.BaseUrl}");
 
+            // Read before anything is measured: capping an offset needs the exact drawn extent of every
+            // glyph, and these are the fonts as downloaded, before any of this run's edits.
+            var outlines = ReadOutlines(fontsDir, fonts);
+
             var warnings    = new List<string>();
             var adjustments = new List<FontAdjustments>();
 
@@ -69,7 +73,7 @@ namespace Build.UpdateInterfaceIcons
             foreach (var font in fonts)
             {
                 var measurement = await MeasureFont(page, font, options.Settings, options.ChunkSize);
-                adjustments.Add(OpticalCentering.Compute(font, measurement, options.Settings, warnings));
+                adjustments.Add(OpticalCentering.Compute(font, measurement, outlines[font.FontFamily], options.Settings, warnings));
             }
 
             var ok = CoherenceReport.Print(adjustments, options.Settings);
@@ -89,7 +93,7 @@ namespace Build.UpdateInterfaceIcons
                 Console.WriteLine($"Wrote measurements {options.DumpPath}");
             }
 
-            BakeIntoFontOutlines(fontsDir, adjustments);
+            BakeIntoFontOutlines(fontsDir, adjustments, outlines, options.Settings);
 
             // Nothing downstream means anything if the browser will not take the files, so ask it first.
             if (!await VerifyFontsDecodeInTheBrowser(page, server.BaseUrl, fonts))
@@ -101,7 +105,7 @@ namespace Build.UpdateInterfaceIcons
 
             // Re-measure the fonts that were just edited: the correction only counts if the glyphs now
             // sit at the centre of their box, measured the same way as before, from the shipped files.
-            ok &= await VerifyFontsAreNowCentred(page, fonts, adjustments, options);
+            ok &= await VerifyFontsAreNowCentred(page, fonts, adjustments, outlines, options);
 
             Console.WriteLine();
             Console.WriteLine(ok ? "All checks passed." : "Some checks FAILED, see above.");
@@ -122,7 +126,11 @@ namespace Build.UpdateInterfaceIcons
         /// All three only ever grow, and none of them changes what the rasterizer draws.
         /// </para>
         /// </summary>
-        private static void BakeIntoFontOutlines(string fontsDir, List<FontAdjustments> fonts)
+        private static void BakeIntoFontOutlines(
+            string                                            fontsDir,
+            List<FontAdjustments>                             fonts,
+            Dictionary<string, Dictionary<int, GlyphOutline>> outlines,
+            CenteringSettings                                 settings)
         {
 
             Console.WriteLine();
@@ -136,8 +144,9 @@ namespace Build.UpdateInterfaceIcons
                 var byCode   = CmapLookup.Read(file["cmap"].Data);
                 var glyf     = TransformedGlyf.Parse(file["glyf"].Data);
 
-                var shifts  = new Dictionary<int, (int Dx, int Dy)>();
-                var worst   = 0.0;
+                var shifts     = new Dictionary<int, (int Dx, int Dy)>();
+                var byOutline  = outlines[font.Font.FontFamily];
+                var worst      = 0.0;
 
                 foreach (var glyph in font.Glyphs.Where(g => g.IsAdjusted))
                 {
@@ -154,6 +163,21 @@ namespace Build.UpdateInterfaceIcons
                     {
                         throw new InvalidOperationException(
                             $"{font.Font.FontFamily}: glyph {id} is claimed by two icon classes, refusing to move it twice");
+                    }
+
+                    // The cap is computed in em and lands here as whole units, so this is where it either
+                    // held or did not. A shift that takes ink further out of the layout box than the vendor
+                    // drew it is the bug this whole cap exists to prevent, so it stops the run.
+                    if (byOutline.TryGetValue(glyph.Glyph.CodePoint, out var outline))
+                    {
+                        var escaped = InkThatEscapedItsBox(outline, dx, dy, settings.Overhang);
+
+                        if (escaped != null)
+                        {
+                            throw new InvalidOperationException(
+                                $"{font.Font.FontFamily}: shifting {glyph.Glyph.CssClass} by {dx},{dy} units would take its " +
+                                $"ink {escaped} its layout box, which the offset cap should have prevented");
+                        }
                     }
 
                     shifts[id] = (dx, dy);
@@ -189,6 +213,73 @@ namespace Build.UpdateInterfaceIcons
                                   $"font box {(fontBoxGrew ? "grown" : "already covered")}, " +
                                   $"{new FileInfo(fontPath).Length / 1024} KB");
             }
+        }
+
+        /// <summary>
+        /// Reads the drawn extent and advance of every glyph an icon class points at, per font, so the
+        /// centering can cap an offset against the box the glyph is laid out in. Exact, from the outlines,
+        /// because the alternative - the rasterized ink the measurement reports - is only good to a raster
+        /// pixel, which at the size the glyphs are measured is several font units of slack to get wrong.
+        /// </summary>
+        private static Dictionary<string, Dictionary<int, GlyphOutline>> ReadOutlines(string fontsDir, List<IconFont> fonts)
+        {
+            var all = new Dictionary<string, Dictionary<int, GlyphOutline>>(StringComparer.Ordinal);
+
+            Console.WriteLine();
+            Console.WriteLine("Reading the drawn extent of every glyph");
+
+            foreach (var font in fonts)
+            {
+                var file   = Woff2File.Read(Path.Combine(fontsDir, $"{font.FontFamily}.woff2"));
+                var upem   = BinaryPrimitives.ReadUInt16BigEndian(file["head"].Data.AsSpan(18));
+                var byCode = CmapLookup.Read(file["cmap"].Data);
+                var glyf   = TransformedGlyf.Parse(file["glyf"].Data);
+                var hmtx   = file["hmtx"].Data;
+                var metrics = BinaryPrimitives.ReadUInt16BigEndian(file["hhea"].Data.AsSpan(34));
+                var byGlyph = new Dictionary<int, GlyphOutline>();
+
+                foreach (var glyph in font.Glyphs)
+                {
+                    if (!byCode.TryGetValue(glyph.CodePoint, out var id) || !glyf.CanMove(id)) continue;
+
+                    byGlyph[glyph.CodePoint] = new GlyphOutline
+                    {
+                        UnitsPerEm = upem,
+                        Advance    = BinaryPrimitives.ReadUInt16BigEndian(hmtx.AsSpan(Math.Min(id, metrics - 1) * 4)),
+                        Ink        = glyf.InkBounds(id),
+                    };
+                }
+
+                all[font.FontFamily] = byGlyph;
+                Console.WriteLine($"  {font.FontFamily,-26} {byGlyph.Count,5} outlines");
+            }
+
+            return all;
+        }
+
+        /// <summary>
+        /// Which edge, if any, a shift would take a glyph's ink past - counting only ink that was inside to
+        /// begin with, since a glyph the vendor drew outside its box is left as drawn and only held from
+        /// going further. Null when the shift is safe.
+        /// </summary>
+        private static string InkThatEscapedItsBox(GlyphOutline outline, int dx, int dy, double overhang)
+        {
+            var ink   = outline.Ink;
+            var moved = ink.Offset(dx, dy);
+            var upem  = outline.UnitsPerEm;
+            var spare = (int)Math.Ceiling(overhang * upem);
+
+            var top    = Math.Max(upem, ink.YMax) + spare;
+            var bottom = Math.Min(0, ink.YMin) - spare;
+            var right  = Math.Max(outline.Advance, ink.XMax) + spare;
+            var left   = Math.Min(0, ink.XMin) - spare;
+
+            if (moved.YMax > top)    return $"{moved.YMax - top} units above";
+            if (moved.YMin < bottom) return $"{bottom - moved.YMin} units below";
+            if (moved.XMax > right)  return $"{moved.XMax - right} units right of";
+            if (moved.XMin < left)   return $"{left - moved.XMin} units left of";
+
+            return null;
         }
 
         /// <summary>
@@ -321,7 +412,11 @@ namespace Build.UpdateInterfaceIcons
         /// </para>
         /// </summary>
         private static async Task<bool> VerifyFontsAreNowCentred(
-            IPage page, List<IconFont> fonts, List<FontAdjustments> before, CenteringOptions options)
+            IPage                                                          page,
+            List<IconFont>                                                 fonts,
+            List<FontAdjustments>                                          before,
+            Dictionary<string, Dictionary<int, GlyphOutline>>              outlines,
+            CenteringOptions                                               options)
         {
             Console.WriteLine();
             Console.WriteLine("Re-measuring the patched fonts");
@@ -345,7 +440,7 @@ namespace Build.UpdateInterfaceIcons
             foreach (var font in fonts)
             {
                 var after   = await MeasureFont(page, font, options.Settings, options.ChunkSize);
-                var reduced = OpticalCentering.Compute(font, after, options.Settings, new List<string>());
+                var reduced = OpticalCentering.Compute(font, after, outlines[font.FontFamily], options.Settings, new List<string>());
 
                 foreach (var glyph in reduced.Glyphs)
                 {
@@ -494,6 +589,7 @@ namespace Build.UpdateInterfaceIcons
                     case "--step":            options.Settings.Step = Number(Value(option)); break;
                     case "--dead-zone":       options.Settings.DeadZone = Number(Value(option)); break;
                     case "--cap":             options.Settings.MaxAdjustment = Number(Value(option)); break;
+                    case "--overhang":        options.Settings.Overhang = Number(Value(option)); break;
                     case "--frame-tolerance": options.Settings.FrameTolerance = Number(Value(option)); break;
                     case "--frame-spread":    options.Settings.MaxSharedFrameSpread = Number(Value(option)); break;
                     case "--trim":            options.Settings.Trim = Number(Value(option)); break;
@@ -528,6 +624,7 @@ namespace Build.UpdateInterfaceIcons
                   --step <em>            rounding step for the offsets (default {d.Step})
                   --dead-zone <em>       offsets below this are dropped (default {d.DeadZone})
                   --cap <em>             offsets above this are left as drawn (default {d.MaxAdjustment})
+                  --overhang <em>        how far a correction may push ink out of the layout box (default {d.Overhang})
                   --frame-tolerance <em> how close two ink boxes must be to count as the same frame (default {d.FrameTolerance})
                   --frame-spread <em>    how closely same-frame icons must agree to be pinned (default {d.MaxSharedFrameSpread})
                   --trim <f>             ink mass trimmed off each side to find the frame (default {d.Trim})
