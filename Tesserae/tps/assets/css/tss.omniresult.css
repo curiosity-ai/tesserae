@@ -298,7 +298,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 16px;
+    font-size: var(--tss-font-size-smallplus);
     font-weight: 600;
     line-height: 22px;
     color: var(--tss-default-foreground-color);
@@ -327,7 +327,6 @@
 }
 
 .tss-omniresult-id-value {
-    max-width: 140px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -339,7 +338,7 @@
 }
 
 .tss-omniresult-id-chevron {
-    font-size: 11px;
+    font-size: var(--tss-font-size-xsmall);
     line-height: 1;
     color: var(--tss-secondary-foreground-color);
 }
@@ -634,7 +633,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 16px;
+    font-size: var(--tss-font-size-smallplus);
     font-weight: 600;
     color: var(--tss-default-foreground-color);
 }
@@ -729,7 +728,7 @@
     border: none;
     background: transparent;
     color: inherit;
-    font-size: 13px;
+    font-size: var(--tss-font-size-small);
     font-weight: 600;
     cursor: pointer;
 }
@@ -754,7 +753,7 @@
     width: 14px;
     height: 14px;
     line-height: 0;
-    font-size: 13px;
+    font-size: var(--tss-font-size-small);
 }
 
 .tss-omniresult-modal-open-icon img,
@@ -806,7 +805,7 @@
 
 .tss-modalstack-peek .tss-omniresult-modal-title-text,
 .tss-modalstack-peek .tss-omniresult-id-value {
-    font-size: 13px;
+    font-size: var(--tss-font-size-small);
     line-height: 18px;
 }
 
@@ -824,7 +823,7 @@
     flex-wrap: wrap;
     gap: 4px 18px;
     padding: 6px 0;
-    font-size: 11px;
+    font-size: var(--tss-font-size-xsmall);
     line-height: 18px;
     color: var(--tss-secondary-foreground-color);
 }
