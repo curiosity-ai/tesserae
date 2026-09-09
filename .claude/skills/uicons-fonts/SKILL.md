@@ -58,15 +58,23 @@ wanted −0.52/−0.64/−0.80/−0.96&nbsp;px, the stylesheet gave 0/0/−1/−
 
 `TransformedGlyf` edits the fonts in the woff2 glyph encoding rather than round-tripping them
 through plain `glyf`. In that encoding coordinates are deltas from the previous point, so moving a
-glyph means rewriting its *first* point and nothing else — every other glyph, the declared bounding
-boxes, the side bearings, the instructions and every other table stay as the vendor shipped them,
-byte for byte. `Woff2File` only re-compresses the Brotli block around the one table that changed.
+glyph means rewriting its *first* point and nothing else — every glyph that does not move, every
+instruction, every advance width and every other table stay as the vendor shipped them, byte for byte,
+and no declared bounding box is ever *recomputed* from the moved points.
+
+What a shift does drag along with it is what the font **declares** about where the ink is, because
+otherwise the font ends up asserting a box its own outline has left: a glyph's bounding box is widened
+until it covers the moved outline, the `hmtx` side bearing follows the one edge of that box which
+places the glyph, and the font wide box in `head` is widened to hold the result. All three only ever
+grow, and none of them changes what the rasterizer draws — see the bounding box rules below.
 
 This used to be a python script driving fontTools, and it is kept verbatim in
 `PythonReferenceImplementation.cs` — as a comment, since the build no longer needs python — together
 with the script that compares two sets of fonts glyph by glyph. Reach for it to second-guess a change
-to the font surgery: outlines, declared boxes and `hmtx` must come out identical, while `head` and
-`cmap` will not, because fontTools rewrites those and the C# writer copies them from the vendor.
+to the font surgery: outlines must come out identical, while `head` and `cmap` will not, because
+fontTools rewrites those and the C# writer copies them from the vendor. Declared boxes and `hmtx` are
+compared per glyph rather than for equality now — they may grow, on the edges named below, but never
+shrink, and `lsb - xMin` may not change.
 
 ## Two traps in these fonts
 
@@ -75,22 +83,36 @@ Both were found the hard way, and both are enforced in the code:
 - **The declared metrics disagree with the outlines.** A glyph whose ink starts at x=75 is declared
   with `xMin=0` and `hmtx` lsb 0, and the rasterizer places the glyph from the *declared* box —
   `rendered_x = outline_xMin - declared_xMin + lsb`. Any tool that recomputes those boxes (fontTools
-  does by default on save) moves every glyph by tens of units.
+  does by default on save) moves every glyph by tens of units. Note what that formula does *not*
+  contain: `xMax`, `yMin` and `yMax` place nothing, and `lsb - xMin` is what has to hold, not `xMin`
+  itself. In all nine fonts `lsb == xMin` for every one of the ~40,700 glyphs, so the two move
+  together freely, which is what lets a box be widened for nothing.
 - **The em square is 300 units**, so an offset lands on a whole unit: 1/300&nbsp;em, shifting the
   intended value by at most 0.0017&nbsp;em. Fine, but it is why offsets are not infinitely precise.
 
 `measureText().actualBoundingBox*` reads from the declared boxes, so it is useless for checking this
 font. Measure pixels instead.
 
-## Three container rules that will silently produce a broken font
+## Four container rules that will silently produce a broken font
 
 The woff2 container has consistency rules that a font library reads straight past and a browser does
-not, and a font Chromium rejects renders as nothing at all. All three cost a diagnosis:
+not, and a font Chromium rejects renders as nothing at all. All four cost a diagnosis:
 
 - **A glyph with no bounding box of its own has one computed from its points.** Move the points and
   the computed box moves with them, the two cancel, and the glyph renders exactly where it did
   before — the edit does nothing. So a glyph being moved that has no explicit box is given one
-  first, computed from where its points were *before* the move (`PinDownBoundingBoxes`).
+  first, computed from where its points were *before* the move.
+- **A box that stays put no longer bounds the outline that moved.** Pin the box and shift the points
+  and the box is a false claim: an icon drawn to the edge of its box and shifted by the 0.04&nbsp;em
+  cap — 12 units on a 300 unit em — declares a box 12 units short of its ink. Chromium draws the ink
+  anyway (it rasterizes the points, not the box; measured against a font with deliberately generous
+  boxes, the rendered ink is identical), but the declaration is wrong for every reader that trusts it
+  — canvas `actualBoundingBox*` among them — and a rasterizer that allocated from the box would crop
+  the icon. So `MakeBoxesCoverTheirOutlines` widens each box until it covers its outline, and where
+  that means lowering `xMin` it lowers the `hmtx` lsb by the same amount, holding
+  `outline_xMin - declared_xMin + lsb` and so the rendered position exactly where it was. It covers
+  every glyph rather than only the ones moving now, so a font an earlier run left short is repaired
+  rather than carried forward, and a second run over the same tree changes nothing.
 - **The un-transformed length of `glyf` has to be recomputed.** The directory declares how big the
   table is once the decoder rebuilds it, and a moved glyph's first delta can change how many bytes
   it needs. `ReconstructedLength()` models that rebuild — a fixed header, contour ends,
@@ -137,6 +159,9 @@ than leaving them. Around 2,200 glyphs fall in this bucket and the run lists the
 - Icons that must overlap may not drift apart, measured on their ink boxes.
 - A set of icons pinned to one offset must actually all have it.
 - The rebuilt size of every `glyf` table must match what the font declares, before anything is moved.
+- Every declared bounding box must cover its own outline once the shift is in, and must fit the
+  format's 16 bits. Both are asserted where the box is written, so a wrong union stops the run rather
+  than shipping a font that lies about its extent.
 - The browser must decode all nine patched fonts. Checked on its own, before re-measuring, because a
   font it rejects would otherwise show up as every glyph being wildly off centre.
 - After patching, every adjusted glyph must measure as centred.

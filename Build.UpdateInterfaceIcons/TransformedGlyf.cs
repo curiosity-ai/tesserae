@@ -11,11 +11,17 @@ namespace Build.UpdateInterfaceIcons
     /// <para>
     /// Coordinates in this format are stored as deltas from the previous point, the first point being
     /// relative to the origin, so a glyph moves if its <em>first</em> point's delta changes and nothing
-    /// else does. That is what this does, which is why every other property of the font survives intact:
-    /// the declared bounding boxes, the side bearings, the flags, the instructions and every other glyph
-    /// are never rewritten. Those declared boxes are the reason to work this way rather than round-tripping
-    /// through the plain glyf format - in these fonts they disagree with the outlines, the rasterizer
-    /// places each glyph from them, and any tool that recomputes them moves every glyph by tens of units.
+    /// else does. That is what this does, which is why almost every property of the font survives intact:
+    /// the flags, the instructions and every glyph that is not moved are never rewritten, and no declared
+    /// bounding box is ever recomputed from the moved points. That last point is the reason to work this way
+    /// rather than round-tripping through the plain glyf format - in these fonts the declared boxes disagree
+    /// with the outlines, the rasterizer places each glyph from them, and any tool that recomputes them
+    /// moves every glyph by tens of units.
+    /// </para>
+    /// <para>
+    /// A box is nonetheless <em>widened</em> where its outline has left it, so it still bounds the ink it
+    /// claims to bound - see <see cref="MakeBoxesCoverTheirOutlines"/>, which also explains why the side
+    /// bearing has to follow the one edge of it that places the glyph.
     /// </para>
     /// </summary>
     internal sealed class TransformedGlyf
@@ -225,51 +231,122 @@ namespace Build.UpdateInterfaceIcons
 
             _glyphStreamRewritten = rewritten.ToArray();
             _flagStreamRewritten  = flags;
-            PinDownBoundingBoxes(shifts.Keys);
+            MakeBoxesCoverTheirOutlines(shifts);
             return plainDelta;
         }
 
         /// <summary>
-        /// The subtle half of moving a glyph. This format lets a glyph leave its bounding box out, in which
-        /// case the decoder computes one from the points - so moving the points would move the box with them,
-        /// and the two cancel out: the glyph renders exactly where it did before. Any glyph being moved that
-        /// has no box of its own therefore gets one written now, computed from where its points were
-        /// <em>before</em> the move, which is what makes the move visible. Glyphs that already carry a box
-        /// keep it untouched, and in these fonts those boxes disagree with the outlines on purpose.
+        /// The subtle half of moving a glyph: its declared bounding box, which is never recomputed from the
+        /// moved points, and must not be.
+        /// <para>
+        /// Two separate things hang off that box. The format lets a glyph leave it out, in which case the
+        /// decoder computes one from the points - so moving the points would move the computed box with them,
+        /// the two cancel out, and the glyph renders exactly where it did before. And the rasterizer places a
+        /// glyph from the box and the side bearing together, as <c>outline xMin - declared xMin + lsb</c>, so
+        /// lowering a declared <c>xMin</c> on its own slides the glyph right by as much and undoes the very
+        /// correction being baked in. Both are why a glyph being moved that has no box of its own is given one
+        /// computed from where its points were <em>before</em> the move.
+        /// </para>
+        /// <para>
+        /// What that leaves, on its own, is a box that no longer contains its own outline: an icon drawn to the
+        /// edge of its box and then shifted by the 0.04em cap - 12 units on a 300 unit em - declares a box 12
+        /// units short of its ink. Chromium draws the ink regardless, because it rasterizes the points and not
+        /// the box, but the declaration is false: every reader that trusts it is told the wrong extent (canvas
+        /// <c>measureText().actualBoundingBox*</c> is one), and a rasterizer that allocated from the box would
+        /// crop the icon. So every box here is widened until it covers its outline - only ever widened, never
+        /// shrunk - and where that means lowering <c>xMin</c>, the <c>lsb</c> is lowered with it, which holds
+        /// <c>outline xMin - declared xMin + lsb</c>, and so the rendered position, exactly where it was.
+        /// </para>
+        /// <para>
+        /// Every glyph is covered, not only the ones moving now, so a font that a previous run left with a box
+        /// short of its ink is repaired rather than carried forward, and running this twice changes nothing the
+        /// second time. Composites are the exception: their extent comes from glyphs they reference rather than
+        /// from points of their own, they are never moved, and so they are passed through untouched.
+        /// </para>
         /// </summary>
-        private void PinDownBoundingBoxes(IEnumerable<int> movedGlyphs)
+        private void MakeBoxesCoverTheirOutlines(IReadOnlyDictionary<int, (int Dx, int Dy)> shifts)
         {
-            var moved  = new HashSet<int>(movedGlyphs);
-            var bitmap = (byte[])_bboxBitmap.Clone();
-            var entries = new MemoryStream(_bboxStream.Length + moved.Count * 8);
+            var bitmap  = (byte[])_bboxBitmap.Clone();
+            var entries = new MemoryStream(_bboxStream.Length + shifts.Count * 8);
+            var lowered = new Dictionary<int, int>();
             var readAt  = 0;
             var added   = 0;
+            var grown   = 0;
             var encoded = new byte[8];
+            Box? bounds = null;
 
             for (int id = 0; id < NumGlyphs; id++)
             {
                 var hasBox = (_bboxBitmap[id >> 3] & (0x80 >> (id & 7))) != 0;
+                var span   = _glyphs[id];
+                var boxAt  = readAt;
 
-                if (hasBox)
+                if (hasBox) readAt += 8;
+
+                if (span.IsEmpty || span.IsComposite)
                 {
-                    entries.Write(_bboxStream, readAt, 8);
-                    readAt += 8;
+                    if (hasBox) entries.Write(_bboxStream, boxAt, 8);
                     continue;
                 }
 
-                var span = _glyphs[id];
+                shifts.TryGetValue(id, out var shift);
+                var points  = BoundingBoxBeforeMoving(span);
+                var outline = points.Offset(shift.Dx, shift.Dy);
 
-                if (!moved.Contains(id) || span.IsEmpty || span.IsComposite) continue;
+                Box declared;
 
-                var box = BoundingBoxBeforeMoving(span);
+                if (hasBox)
+                {
+                    declared = new Box(
+                        BinaryPrimitives.ReadInt16BigEndian(_bboxStream.AsSpan(boxAt)),
+                        BinaryPrimitives.ReadInt16BigEndian(_bboxStream.AsSpan(boxAt + 2)),
+                        BinaryPrimitives.ReadInt16BigEndian(_bboxStream.AsSpan(boxAt + 4)),
+                        BinaryPrimitives.ReadInt16BigEndian(_bboxStream.AsSpan(boxAt + 6)));
+                }
+                else if (shift.Dx == 0 && shift.Dy == 0)
+                {
+                    // The box the decoder computes for this glyph is its outline, so it already covers it.
+                    bounds = bounds is null ? outline : bounds.Value.Union(outline);
+                    continue;
+                }
+                else
+                {
+                    declared = points;
+                    added++;
+                }
+
+                var box = declared.Union(outline);
+
+                if (!box.FitsInt16)
+                {
+                    throw new InvalidOperationException($"glyph {id}: the bounding box {box} does not fit the format's 16 bits");
+                }
+
+                if (!box.Contains(outline))
+                {
+                    throw new InvalidOperationException(
+                        $"glyph {id}: the box {box} does not cover the outline {outline}, so the union is wrong");
+                }
+
                 BinaryPrimitives.WriteInt16BigEndian(encoded.AsSpan(0), (short)box.XMin);
                 BinaryPrimitives.WriteInt16BigEndian(encoded.AsSpan(2), (short)box.YMin);
                 BinaryPrimitives.WriteInt16BigEndian(encoded.AsSpan(4), (short)box.XMax);
                 BinaryPrimitives.WriteInt16BigEndian(encoded.AsSpan(6), (short)box.YMax);
                 entries.Write(encoded);
 
-                bitmap[id >> 3] |= (byte)(0x80 >> (id & 7));
-                added++;
+                if (hasBox)
+                {
+                    if (!box.Equals(declared)) grown++;
+                }
+                else
+                {
+                    bitmap[id >> 3] |= (byte)(0x80 >> (id & 7));
+                }
+
+                // Only xMin places the glyph, so it is the only edge whose growth the lsb has to follow.
+                if (box.XMin < declared.XMin) lowered[id] = declared.XMin - box.XMin;
+
+                bounds = bounds is null ? box : bounds.Value.Union(box);
             }
 
             if (readAt != _bboxStream.Length)
@@ -278,15 +355,68 @@ namespace Build.UpdateInterfaceIcons
                     $"transformed glyf: read {readAt} of {_bboxStream.Length} bounding box bytes, so the bitmap and the stream disagree");
             }
 
-            _bboxBitmap = bitmap;
-            _bboxStream = entries.ToArray();
-            BoxesAdded  = added;
+            _bboxBitmap         = bitmap;
+            _bboxStream         = entries.ToArray();
+            BoxesAdded          = added;
+            BoxesGrown          = grown;
+            SideBearingsToLower = lowered;
+            DeclaredGlyphBounds = bounds;
         }
 
         /// <summary>How many glyphs needed a bounding box written out because they had none.</summary>
         public int BoxesAdded { get; private set; }
 
-        private (int XMin, int YMin, int XMax, int YMax) BoundingBoxBeforeMoving(GlyphSpan span)
+        /// <summary>How many glyphs already had a box that had to be widened to cover their outline.</summary>
+        public int BoxesGrown { get; private set; }
+
+        /// <summary>
+        /// Glyphs whose declared <c>xMin</c> was lowered to cover their outline, and by how much. The
+        /// <c>hmtx</c> left side bearing has to drop by the same amount, or the glyph slides right by it.
+        /// </summary>
+        public IReadOnlyDictionary<int, int> SideBearingsToLower { get; private set; } = new Dictionary<int, int>();
+
+        /// <summary>Every glyph's box, unioned, so the font wide box in <c>head</c> can be grown to hold them.</summary>
+        public Box? DeclaredGlyphBounds { get; private set; }
+
+        /// <summary>A glyph bounding box in font units, in the order the format stores its four values.</summary>
+        public readonly struct Box : IEquatable<Box>
+        {
+            public Box(int xMin, int yMin, int xMax, int yMax)
+            {
+                XMin = xMin;
+                YMin = yMin;
+                XMax = xMax;
+                YMax = yMax;
+            }
+
+            public int XMin { get; }
+            public int YMin { get; }
+            public int XMax { get; }
+            public int YMax { get; }
+
+            public Box Offset(int dx, int dy) => new Box(XMin + dx, YMin + dy, XMax + dx, YMax + dy);
+
+            public Box Union(Box other) => new Box(
+                Math.Min(XMin, other.XMin), Math.Min(YMin, other.YMin),
+                Math.Max(XMax, other.XMax), Math.Max(YMax, other.YMax));
+
+            public bool Contains(Box other) => other.XMin >= XMin && other.YMin >= YMin
+                                            && other.XMax <= XMax && other.YMax <= YMax;
+
+            public bool FitsInt16 => XMin >= short.MinValue && YMin >= short.MinValue
+                                  && XMax <= short.MaxValue && YMax <= short.MaxValue;
+
+            public bool Equals(Box other) => XMin == other.XMin && YMin == other.YMin
+                                          && XMax == other.XMax && YMax == other.YMax;
+
+            public override bool Equals(object obj) => obj is Box other && Equals(other);
+
+            public override int GetHashCode() => (XMin, YMin, XMax, YMax).GetHashCode();
+
+            public override string ToString() => $"({XMin},{YMin},{XMax},{YMax})";
+        }
+
+        private Box BoundingBoxBeforeMoving(GlyphSpan span)
         {
             int x = 0, y = 0, at = span.FirstTripletAt;
             int xMin = int.MaxValue, yMin = int.MaxValue, xMax = int.MinValue, yMax = int.MinValue;
@@ -302,7 +432,7 @@ namespace Build.UpdateInterfaceIcons
                 yMin = Math.Min(yMin, y); yMax = Math.Max(yMax, y);
             }
 
-            return (xMin, yMin, xMax, yMax);
+            return new Box(xMin, yMin, xMax, yMax);
         }
 
         private byte[] _glyphStreamRewritten;
