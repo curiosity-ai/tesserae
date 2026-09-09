@@ -23,6 +23,7 @@ namespace Build.UpdateInterfaceIcons
             ok &= PrintResiduals(fonts, settings);
             ok &= PrintAlignmentGroups(fonts, settings);
             ok &= PrintPinnedGroups(fonts, settings);
+            PrintOffsetCaps(fonts);
             PrintLargestAdjustments(fonts);
 
             return ok;
@@ -371,6 +372,38 @@ namespace Build.UpdateInterfaceIcons
             foreach (var (divergence, pair) in diverged.OrderByDescending(d => d.Divergence).Take(8))
             {
                 Console.WriteLine($"    {divergence.ToString("0.0000", CultureInfo.InvariantCulture)}em  {pair}");
+            }
+        }
+
+        /// <summary>
+        /// What the layout box cost. An offset is capped so the correction cannot push a glyph's ink out of
+        /// the box the browser lays it out in, and that bites exactly where an icon is drawn to the edge of
+        /// the em square - where the raw frame is already centred and the correction was chasing the trimmed
+        /// frame and the optical pull. So the icons that give up the most here are the ones that had the
+        /// least to gain, which is worth being able to see rather than assume.
+        /// </summary>
+        private static void PrintOffsetCaps(List<FontAdjustments> fonts)
+        {
+            var glyphs = fonts.SelectMany(f => f.Glyphs).Where(g => g.Measurement.IsUsable).ToList();
+            var capped = glyphs.Where(g => g.CappedToStayInside).ToList();
+
+            Console.WriteLine();
+            Console.WriteLine("Offsets capped so the ink stays inside the box the glyph is laid out in");
+            Console.WriteLine($"  {fonts.Sum(f => f.OffsetsCapped)} offsets cut back, " +
+                              $"{fonts.Sum(f => f.OffsetsCappedToNothing)} of them to nothing " +
+                              $"({100.0 * fonts.Sum(f => f.OffsetsCapped) / Math.Max(1, glyphs.Count):0.0}% of measurable glyphs)");
+
+            if (capped.Count == 0) return;
+
+            Console.WriteLine($"  correction given up: mean {capped.Average(g => Math.Max(Math.Abs(g.GivenUpX), Math.Abs(g.GivenUpY))):0.0000}em, " +
+                              $"worst {capped.Max(g => Math.Max(Math.Abs(g.GivenUpX), Math.Abs(g.GivenUpY))):0.0000}em");
+
+            foreach (var glyph in capped.Where(g => g.Glyph.CssClass.StartsWith("fi-rr-", StringComparison.Ordinal))
+                                        .OrderByDescending(g => Math.Max(Math.Abs(g.GivenUpX), Math.Abs(g.GivenUpY)))
+                                        .Take(10))
+            {
+                Console.WriteLine($"    {glyph.Glyph.CssClass,-40} wanted {glyph.TargetX,7:0.000} / {glyph.TargetY,7:0.000}, " +
+                                  $"kept {glyph.X,7:0.000} / {glyph.Y,7:0.000}");
             }
         }
 

@@ -145,6 +145,38 @@ the mirrored pairs, and `slash`, which is composited over other icons and so is 
 **If you add an icon to a group, or add a group, re-run the tool** — the groups are inputs to the
 measurement, not annotations on it.
 
+## The offset cap: a correction may not walk an icon out of its box
+
+The box the browser lays a glyph out in is `[0, advance]` across and the ascent and descent around the
+baseline down — in these fonts an ascent of one em and a descent of zero, so exactly the em square. Ink
+outside it is what a container of `height:1em;overflow:hidden` crops, and the centering used to walk
+icons straight out of it: most UIcons glyphs are drawn edge to edge, so they have **no room above them
+at all**, and any upward nudge cost ink. Measured on a full run before the cap existed, 7,275 of 40,619
+glyphs ended up with ink outside the em square where the vendor put 557 there.
+
+So `KeepInkInsideItsLayoutBox` caps every offset to the room its ink actually has. Three things make
+that work:
+
+- **Zero is always inside the cap.** The room on each side is whatever slack the ink has, or zero, never
+  negative — a glyph the vendor drew outside its box keeps what it has and is only stopped from going
+  further out. So the cap can always be satisfied, and it degrades to "no shift" rather than to a
+  contradiction. It also lets a glyph move *inwards*: ten icons now sit less far out than the vendor
+  drew them.
+- **It caps per shared offset, not per glyph.** Whatever the pinning, state-variant and alignment-group
+  rules put on one value is capped by the least room any of its members has, or capping is itself what
+  pulls a checkbox off its square. The relation is rebuilt as a union-find over the same three rules,
+  with the same exclusions the pinned-group check makes.
+- **It measures the drawn outline, not the points.** `TransformedGlyf.InkBounds` solves each quadratic
+  for its extrema. Point coordinates — and so the declared `glyf` box — include control points sitting
+  outside the curve they bend: measured that way `physics` looks like a 27-unit overhang when the atom
+  it draws stops inside the em square. Checked against fontTools' `BoundsPen`.
+
+The cap is a real trade and the report prints its price: corrected glyphs went from 10,604 to 1,777, with
+8,827 offsets cut back to nothing. It bites hardest where the correction was worth least — an icon filling
+the em square is already centred on its raw frame, and the shift was chasing the trimmed frame and the
+optical pull — but it is a trade. `--overhang <em>` (default 0) buys centering back for a stated amount of
+crop; the bake-time check allows exactly the same tolerance, so the knob cannot fail the run it enables.
+
 ## What the pass deliberately does not fix
 
 Icons further than the cap (0.04&nbsp;em) off centre are left exactly as drawn, because at that
@@ -162,6 +194,9 @@ than leaving them. Around 2,200 glyphs fall in this bucket and the run lists the
 - Every declared bounding box must cover its own outline once the shift is in, and must fit the
   format's 16 bits. Both are asserted where the box is written, so a wrong union stops the run rather
   than shipping a font that lies about its extent.
+- No shift may take a glyph's drawn ink further out of the box it is laid out in than the vendor drew
+  it. Checked at bake time, in whole font units, on the value that actually ships — so a cap computed
+  wrongly in em stops the run instead of cropping icons.
 - The browser must decode all nine patched fonts. Checked on its own, before re-measuring, because a
   font it rejects would otherwise show up as every glyph being wildly off centre.
 - After patching, every adjusted glyph must measure as centred.

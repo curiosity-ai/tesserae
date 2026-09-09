@@ -36,6 +36,15 @@ namespace Build.UpdateInterfaceIcons
         /// <summary>Offsets are rounded to a multiple of this, which is what makes the icons group up.</summary>
         public double Step { get; set; } = 0.005;
 
+        /// <summary>
+        /// How far a correction is allowed to push a glyph's ink out of the box it is laid out in. Zero means
+        /// never: an icon drawn to the edge of the em square then keeps whatever centering fits in the room it
+        /// has, and most of them have none, so most vertical corrections go. Raising it trades the guarantee
+        /// back for centering - at 0.005em an icon may lose a third of a pixel off a 20px render - and the
+        /// report says exactly how many offsets the current value costs.
+        /// </summary>
+        public double Overhang { get; set; } = 0.0;
+
         /// <summary>Offsets smaller than this are dropped: invisible in practice, and pure noise in the output.</summary>
         public double DeadZone { get; set; } = 0.020;
 
@@ -55,6 +64,22 @@ namespace Build.UpdateInterfaceIcons
         /// Half a rounding step, so pinning can never cost more than the rounding already does.
         /// </summary>
         public double MaxSharedFrameSpread { get; set; } = 0.0025;
+    }
+
+    /// <summary>
+    /// One glyph's drawn extent and advance, in font units, read from the outline rather than from a
+    /// rasterization. What the centering is measured against is the rendered glyph; what a correction has
+    /// to keep inside the layout box is the outline, exactly, which is why this comes from the font.
+    /// </summary>
+    internal sealed class GlyphOutline
+    {
+        public int UnitsPerEm { get; set; }
+
+        /// <summary>Advance width, i.e. the right edge of the box the glyph is laid out in.</summary>
+        public int Advance { get; set; }
+
+        /// <summary>The ink, in font units, x from the pen and y up from the baseline.</summary>
+        public TransformedGlyf.Box Ink { get; set; }
     }
 
     /// <summary>The offset computed for one glyph, in em, along with the numbers it came from.</summary>
@@ -109,6 +134,14 @@ namespace Build.UpdateInterfaceIcons
         /// <summary>Set when the offset was dropped so the frame family this icon belongs to stays registered.</summary>
         public bool LeftAloneForItsFamily { get; set; }
 
+        /// <summary>Set when the offset was cut back to keep the glyph's ink inside the box it is laid out in.</summary>
+        public bool CappedToStayInside { get; set; }
+
+        /// <summary>How much correction that cap gave up, in em, on each axis.</summary>
+        public double GivenUpX { get; set; }
+
+        public double GivenUpY { get; set; }
+
         public bool IsAdjusted => X != 0 || Y != 0;
 
         public bool IsRejected => RejectedX || RejectedY;
@@ -137,6 +170,12 @@ namespace Build.UpdateInterfaceIcons
 
         /// <summary>How many offsets were dropped to keep a frame family registered.</summary>
         public int FrameFamiliesSuppressed { get; set; }
+
+        /// <summary>How many offsets were cut back to keep the glyph's ink inside its layout box.</summary>
+        public int OffsetsCapped { get; set; }
+
+        /// <summary>How many of those were cut back to nothing, losing the correction on that axis entirely.</summary>
+        public int OffsetsCappedToNothing { get; set; }
     }
 
     /// <summary>
@@ -157,7 +196,12 @@ namespace Build.UpdateInterfaceIcons
     /// </summary>
     internal static class OpticalCentering
     {
-        public static FontAdjustments Compute(IconFont font, FontMeasurement measurement, CenteringSettings settings, List<string> warnings)
+        public static FontAdjustments Compute(
+            IconFont                             font,
+            FontMeasurement                      measurement,
+            IReadOnlyDictionary<int, GlyphOutline> outlines,
+            CenteringSettings                    settings,
+            List<string>                         warnings)
         {
             var byName = measurement.Glyphs.ToDictionary(g => g.IconName, StringComparer.Ordinal);
             var result = new FontAdjustments { Font = font, Measurement = measurement };
@@ -239,6 +283,10 @@ namespace Build.UpdateInterfaceIcons
             }
 
             result.FrameFamiliesSuppressed = LeaveDisagreeingFrameFamiliesAlone(usable, em, settings);
+
+            // Last, because it caps whatever the rules above settled on: every earlier step can only make an
+            // offset larger or share it around, and this is the one that has to hold for the value that ships.
+            KeepInkInsideItsLayoutBox(font, result, usable, outlines, measurement, settings, warnings);
 
             return result;
         }
@@ -510,6 +558,198 @@ namespace Build.UpdateInterfaceIcons
             void Assign(List<GlyphAdjustment> members, double x, double y)
             {
                 foreach (var member in members) final[member] = (x, y);
+            }
+        }
+
+        /// <summary>
+        /// Caps every offset so a correction can never push a glyph's ink out of the box the browser lays it
+        /// out in - <c>[0, advance]</c> across, and the ascent and descent around the baseline down, which in
+        /// these fonts is exactly the em square. Ink outside that box is what a container of
+        /// <c>height:1em;overflow:hidden</c> crops, and the centering used to walk icons straight out of it:
+        /// an icon drawn to the edge of the em square has no room above it, so any upward nudge cost ink.
+        /// <para>
+        /// A glyph already drawn outside its box keeps what it has - that is the vendor's drawing, not a
+        /// mistake to correct - and is only stopped from going further out. So the room on each side is
+        /// whatever slack the ink has, or zero, never negative, which means <em>no shift</em> is always
+        /// inside the cap and the cap can always be satisfied.
+        /// </para>
+        /// <para>
+        /// Capping is per glyph but has to apply per <em>shared offset</em>, or it is the thing that pulls a
+        /// checkbox off its square: whatever the rules above put on one offset is capped by the least room any
+        /// of its members has. And the cap lands on the same rounding grid as everything else, snapped towards
+        /// zero, so an offset that survives is still one a lookalike can share.
+        /// </para>
+        /// </summary>
+        private static void KeepInkInsideItsLayoutBox(
+            IconFont                               font,
+            FontAdjustments                        result,
+            List<GlyphAdjustment>                  glyphs,
+            IReadOnlyDictionary<int, GlyphOutline> outlines,
+            FontMeasurement                        measurement,
+            CenteringSettings                      settings,
+            List<string>                           warnings)
+        {
+            if (outlines is null || outlines.Count == 0)
+            {
+                warnings.Add($"{font.FontFamily}: no outlines to cap the offsets against, so nothing was capped");
+                return;
+            }
+
+            var index = new Dictionary<GlyphAdjustment, int>(glyphs.Count);
+            for (int i = 0; i < glyphs.Count; i++) index[glyphs[i]] = i;
+
+            var acrossSet = new SharedOffsets(glyphs.Count);
+            var downSet   = new SharedOffsets(glyphs.Count);
+            var byName    = glyphs.ToDictionary(g => g.Glyph.IconName, StringComparer.Ordinal);
+
+            // The three rules that put glyphs on one offset, mirrored - including which of them a glyph is
+            // no longer bound by once a later rule replaced its offset, the same exclusions the pinned group
+            // check makes.
+            foreach (var cluster in glyphs
+               .Where(g => g.IsPinned && !g.PinnedToPartner && !g.LeftAloneForItsFamily)
+               .GroupBy(g => g.PinnedGroup))
+            {
+                Join(cluster.ToList(), across: true, down: true);
+            }
+
+            foreach (var glyph in glyphs)
+            {
+                var baseName = StateVariants.BaseIconOf(glyph.Glyph.IconName);
+
+                if (baseName != null && byName.TryGetValue(baseName, out var baseGlyph))
+                {
+                    Join(new List<GlyphAdjustment> { baseGlyph, glyph }, across: true, down: true);
+                }
+            }
+
+            foreach (var group in AlignmentGroups.All)
+            {
+                Join(group.Icons.Where(byName.ContainsKey).Select(n => byName[n]).ToList(),
+                     across: group.Kind != AlignmentKind.SharedVertical,
+                     down:   group.Kind != AlignmentKind.SharedHorizontal);
+            }
+
+            void Join(List<GlyphAdjustment> members, bool across, bool down)
+            {
+                for (int i = 1; i < members.Count; i++)
+                {
+                    if (across) acrossSet.Join(index[members[0]], index[members[i]]);
+                    if (down)   downSet.Join(index[members[0]], index[members[i]]);
+                }
+            }
+
+            // The layout box, in font units. Read from what inline layout actually uses rather than assumed
+            // to be the em square, which is only what these fonts happen to declare.
+            var ascent  = measurement.Ascent / measurement.Em;
+            var descent = measurement.Descent / measurement.Em;
+
+            var acrossLow = Fill(glyphs.Count, double.NegativeInfinity);
+            var acrossHigh = Fill(glyphs.Count, double.PositiveInfinity);
+            var downLow   = Fill(glyphs.Count, double.NegativeInfinity);
+            var downHigh  = Fill(glyphs.Count, double.PositiveInfinity);
+            var unknown   = 0;
+
+            for (int i = 0; i < glyphs.Count; i++)
+            {
+                if (!outlines.TryGetValue(glyphs[i].Glyph.CodePoint, out var outline))
+                {
+                    unknown++;
+                    continue;
+                }
+
+                var upem = (double)outline.UnitsPerEm;
+                var ink  = outline.Ink;
+
+                // css x grows right and y grows down; font units grow right and up.
+                var spare = settings.Overhang * upem;
+
+                var room = (
+                    Left:  -Math.Max(0, ink.XMin + spare) / upem,
+                    Right:  Math.Max(0, outline.Advance - ink.XMax + spare) / upem,
+                    Up:    -Math.Max(0, ascent * upem - ink.YMax + spare) / upem,
+                    Down:   Math.Max(0, ink.YMin + descent * upem + spare) / upem);
+
+                var across = acrossSet.Root(i);
+                var down   = downSet.Root(i);
+
+                acrossLow[across]  = Math.Max(acrossLow[across], room.Left);
+                acrossHigh[across] = Math.Min(acrossHigh[across], room.Right);
+                downLow[down]      = Math.Max(downLow[down], room.Up);
+                downHigh[down]     = Math.Min(downHigh[down], room.Down);
+            }
+
+            if (unknown > 0)
+            {
+                warnings.Add($"{font.FontFamily}: {unknown} glyphs have no outline in the font, so their offsets were left uncapped");
+            }
+
+            for (int i = 0; i < glyphs.Count; i++)
+            {
+                var glyph  = glyphs[i];
+                var across = acrossSet.Root(i);
+                var down   = downSet.Root(i);
+                var x      = Snap(Bound(glyph.X, acrossLow[across], acrossHigh[across]), settings);
+                var y      = Snap(Bound(glyph.Y, downLow[down], downHigh[down]), settings);
+
+                if (x == glyph.X && y == glyph.Y) continue;
+
+                glyph.GivenUpX           = glyph.X - x;
+                glyph.GivenUpY           = glyph.Y - y;
+                glyph.CappedToStayInside = true;
+                glyph.X                  = x;
+                glyph.Y                  = y;
+                result.OffsetsCapped++;
+
+                if (x == 0 && y == 0) result.OffsetsCappedToNothing++;
+            }
+        }
+
+        private static double[] Fill(int length, double value)
+        {
+            var values = new double[length];
+            Array.Fill(values, value);
+            return values;
+        }
+
+        /// <summary>Clamps without throwing on an inverted range, which the room can never produce but a bug could.</summary>
+        private static double Bound(double value, double low, double high) => Math.Min(Math.Max(value, low), high);
+
+        /// <summary>
+        /// Rounds towards zero onto the offset grid, so a capped offset is still a value another icon can be
+        /// pinned to, and is still small enough to survive the conversion to whole font units at bake time.
+        /// </summary>
+        private static double Snap(double value, CenteringSettings settings)
+        {
+            var steps = Math.Truncate(Math.Abs(value) / settings.Step + 1e-9);
+            return Math.Sign(value) * steps * settings.Step;
+        }
+
+        /// <summary>
+        /// Which glyphs have to be capped as one. A union-find rather than a group id, because the three
+        /// rules that share an offset overlap: a state variant of a pinned icon ties its cluster to the
+        /// cluster of the icon it is a state of.
+        /// </summary>
+        private sealed class SharedOffsets
+        {
+            private readonly int[] _parent;
+
+            public SharedOffsets(int count)
+            {
+                _parent = new int[count];
+                for (int i = 0; i < count; i++) _parent[i] = i;
+            }
+
+            public int Root(int i)
+            {
+                while (_parent[i] != i) i = _parent[i] = _parent[_parent[i]];
+                return i;
+            }
+
+            public void Join(int a, int b)
+            {
+                a = Root(a);
+                b = Root(b);
+                if (a != b) _parent[b] = a;
             }
         }
 
