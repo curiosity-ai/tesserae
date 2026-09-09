@@ -112,8 +112,15 @@ namespace Build.UpdateInterfaceIcons
         /// <summary>
         /// Shifts the glyph outlines in the woff2 files by the measured offsets. Done in the woff2 glyph
         /// encoding directly, where coordinates are deltas, so moving a glyph is a matter of rewriting its
-        /// first point: nothing else in the font is re-encoded, which is what keeps the declared bounding
-        /// boxes, the side bearings and every untouched glyph exactly as the vendor shipped them.
+        /// first point: no outline is re-encoded and every glyph that does not move is left exactly as the
+        /// vendor shipped it.
+        /// <para>
+        /// What a shift does have to drag along with it is everything the font <em>declares</em> about where
+        /// the ink is, or the font ends up asserting a box its own outline has left: the glyph's bounding box
+        /// is widened to cover the moved outline, the <c>hmtx</c> side bearing follows the one edge of that
+        /// box which places the glyph, and the font wide box in <c>head</c> is widened to hold the result.
+        /// All three only ever grow, and none of them changes what the rasterizer draws.
+        /// </para>
         /// </summary>
         private static void BakeIntoFontOutlines(string fontsDir, List<FontAdjustments> fonts)
         {
@@ -169,12 +176,99 @@ namespace Build.UpdateInterfaceIcons
                 file["glyf"].Data           = glyf.Serialize();
                 file["glyf"].OriginalLength = (uint)(declared + delta);
                 file.AdjustTotalSfntSize(delta);
+
+                LowerSideBearings(file, glyf.SideBearingsToLower);
+                var fontBoxGrew = GrowFontBoundingBox(file, glyf.DeclaredGlyphBounds);
+
                 file.Write(fontPath);
 
                 Console.WriteLine($"  {font.Font.FontFamily + ".woff2",-34} {shifts.Count,5} glyphs moved, " +
                                   $"worst rounding {worst / upem:0.#####}em, " +
-                                  $"{glyf.BoxesAdded} boxes pinned down, {new FileInfo(fontPath).Length / 1024} KB");
+                                  $"{glyf.BoxesAdded} boxes pinned down, {glyf.BoxesGrown} widened, " +
+                                  $"{glyf.SideBearingsToLower.Count} side bearings followed, " +
+                                  $"font box {(fontBoxGrew ? "grown" : "already covered")}, " +
+                                  $"{new FileInfo(fontPath).Length / 1024} KB");
             }
+        }
+
+        /// <summary>
+        /// Lowers the <c>hmtx</c> left side bearing of every glyph whose declared <c>xMin</c> was lowered to
+        /// cover its outline, by the same amount. A glyph is placed at
+        /// <c>outline xMin - declared xMin + lsb</c>, so moving those two together is what makes widening the
+        /// box on that edge cost nothing; lowering <c>xMin</c> alone would slide the glyph right by as much
+        /// and undo the correction that was just baked in.
+        /// <para>
+        /// Both values are fixed width, so this is an in place edit of the table's bytes: no length changes,
+        /// and nothing else in <c>hmtx</c> is touched. The woff2 <c>hmtx</c> transform can leave the side
+        /// bearings out of the file altogether, to be rebuilt from the very <c>xMin</c> values being changed
+        /// here; these fonts ship it untransformed, and the run stops rather than guess if that changes.
+        /// </para>
+        /// </summary>
+        private static void LowerSideBearings(Woff2File file, IReadOnlyDictionary<int, int> lowered)
+        {
+            if (lowered.Count == 0) return;
+
+            if (file["hmtx"].IsTransformed)
+            {
+                throw new InvalidOperationException(
+                    "hmtx is stored transformed, so its side bearings are derived from the bounding boxes rather " +
+                    "than written down, and lowering an xMin no longer needs a matching edit here - which this " +
+                    "does not model, so it refuses to guess");
+            }
+
+            var hmtx             = file["hmtx"].Data;
+            var numberOfHMetrics = BinaryPrimitives.ReadUInt16BigEndian(file["hhea"].Data.AsSpan(34));
+
+            foreach (var (id, drop) in lowered)
+            {
+                // A longHorMetric is advanceWidth then lsb; past numberOfHMetrics only the lsb is stored.
+                var at = id < numberOfHMetrics
+                    ? id * 4 + 2
+                    : numberOfHMetrics * 4 + (id - numberOfHMetrics) * 2;
+
+                if (at + 2 > hmtx.Length)
+                {
+                    throw new InvalidOperationException(
+                        $"hmtx is {hmtx.Length} bytes, too short to hold the side bearing of glyph {id}");
+                }
+
+                var lsb = BinaryPrimitives.ReadInt16BigEndian(hmtx.AsSpan(at));
+                BinaryPrimitives.WriteInt16BigEndian(hmtx.AsSpan(at), (short)(lsb - drop));
+            }
+        }
+
+        /// <summary>
+        /// Widens the font wide bounding box in <c>head</c> to hold every glyph's own box. It is the same
+        /// claim as a glyph's box, made once for the whole font, and it is read as an allocation hint rather
+        /// than as layout - unlike the ascent and descent in <c>hhea</c> and <c>OS/2</c>, which decide the
+        /// line box the icons are being centred in and are therefore left exactly alone.
+        /// </summary>
+        private static bool GrowFontBoundingBox(Woff2File file, TransformedGlyf.Box? bounds)
+        {
+            if (bounds is null) return false;
+
+            var head = file["head"].Data;
+
+            if (head.Length < 44) throw new InvalidOperationException($"head is only {head.Length} bytes, too short for its bounding box");
+
+            var glyphs  = bounds.Value;
+            var current = new TransformedGlyf.Box(
+                BinaryPrimitives.ReadInt16BigEndian(head.AsSpan(36)),
+                BinaryPrimitives.ReadInt16BigEndian(head.AsSpan(38)),
+                BinaryPrimitives.ReadInt16BigEndian(head.AsSpan(40)),
+                BinaryPrimitives.ReadInt16BigEndian(head.AsSpan(42)));
+
+            var grown = current.Union(glyphs);
+
+            if (grown.Equals(current)) return false;
+
+            if (!grown.FitsInt16) throw new InvalidOperationException($"the font wide box {grown} does not fit the format's 16 bits");
+
+            BinaryPrimitives.WriteInt16BigEndian(head.AsSpan(36), (short)grown.XMin);
+            BinaryPrimitives.WriteInt16BigEndian(head.AsSpan(38), (short)grown.YMin);
+            BinaryPrimitives.WriteInt16BigEndian(head.AsSpan(40), (short)grown.XMax);
+            BinaryPrimitives.WriteInt16BigEndian(head.AsSpan(42), (short)grown.YMax);
+            return true;
         }
 
         /// <summary>
