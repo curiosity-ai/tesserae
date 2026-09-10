@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "\"{0}\" सुरक्षित गर्न सकिएन, त्यसैले तपाईं यही पृष्ठमा हुनुहुन्छ।"
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "\"{0}\" मा सुरक्षित नगरिएका परिवर्तनहरू छन् जुन यो पृष्ठ छोड्दा हराउनेछन्। के तपाईं यसलाई पहिले सुरक्षित गर्न चाहनुहुन्छ?"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "एउटा सम्पादक सुरक्षित गर्न सकिएन, त्यसैले तपाईं यही पृष्ठमा हुनुहुन्छ।"
+  ],
+  [
+    "Collapse",
+    "खुम्च्याउनुहोस्"
+  ],
+  [
+    "Expand",
+    "विस्तार गर्नुहोस्"
+  ],
+  [
+    "Failed to save",
+    "सुरक्षित गर्न असफल"
+  ],
+  [
+    "Leave without saving",
+    "सुरक्षित नगरी छोड्नुहोस्"
+  ],
+  [
+    "Loading...",
+    "लोड हुँदैछ..."
+  ],
+  [
+    "Not saved",
+    "सुरक्षित गरिएको छैन"
+  ],
+  [
+    "Save and leave",
+    "सुरक्षित गरेर छोड्नुहोस्"
+  ],
+  [
+    "Stay here",
+    "यहीं रहनुहोस्"
+  ],
+  [
+    "Unsaved changes",
+    "सुरक्षित नगरिएका परिवर्तनहरू"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "तपाईंसँग सुरक्षित नगरिएका परिवर्तनहरू छन् जुन यो पृष्ठ छोड्दा हराउनेछन्। के तपाईं तिनीहरूलाई पहिले सुरक्षित गर्न चाहनुहुन्छ?"
+  ],
+  [
+    "must be a dark color",
+    "गाढा रङ हुनुपर्छ"
+  ],
+  [
+    "must be a light color",
+    "हल्का रङ हुनुपर्छ"
+  ],
+  [
+    "must be a positive whole number",
+    "धनात्मक पूर्ण सङ्ख्या हुनुपर्छ"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "शून्य बाहेक धनात्मक पूर्ण सङ्ख्या हुनुपर्छ"
+  ],
+  [
+    "must be between {0} and {1}",
+    "{0} र {1} बीचमा हुनुपर्छ"
+  ],
+  [
+    "must not be blank",
+    "खाली हुनुहुँदैन"
+  ],
+  [
+    "must not be in the future",
+    "भविष्यमा हुनुहुँदैन"
+  ],
+  [
+    "must not be in the past",
+    "विगतमा हुनुहुँदैन"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "{0} मा सुरक्षित नगरिएका परिवर्तनहरू छन् जुन यो पृष्ठ छोड्दा हराउनेछन्। के तपाईं तिनीहरूलाई पहिले सुरक्षित गर्न चाहनुहुन्छ?"
+  ]
+]

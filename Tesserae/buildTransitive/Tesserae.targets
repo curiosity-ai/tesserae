@@ -13,7 +13,37 @@
     <_SkillsPackageId>tesserae</_SkillsPackageId>
     <!-- Targets sits in buildTransitive/; the skills/ payload is one level up in the restored package -->
     <_SkillsSourceDir>$([MSBuild]::NormalizeDirectory('$(MSBuildThisFileDirectory)..', 'skills'))</_SkillsSourceDir>
+
+    <_TesseraeL10nPackagedDir>$([MSBuild]::NormalizeDirectory('$(MSBuildThisFileDirectory)..', 'l10n'))</_TesseraeL10nPackagedDir>
+    <_TesseraeL10nRepoDir>$([MSBuild]::NormalizeDirectory('$(MSBuildThisFileDirectory)..', '.tnt-content'))</_TesseraeL10nRepoDir>
   </PropertyGroup>
+
+  <!--
+    The toolkit's own translations, declared as items so a host can merge them into its own
+    translation table at build time. Everything Tesserae draws in words - the unsaved-changes
+    dialog, the validation messages, the sidebar's expand/collapse tooltips, "Loading..." - goes
+    through TNT, and for years that only meant the strings *could* be translated: `tnt extract`
+    scans a repository's own sources, and ours arrive as a package. So a host shipping twenty
+    languages still showed an English "Leave without saving".
+
+    They are translated here now, with TNTC, and travel as `@(TranslationTable)` - one item per
+    language file, carrying the package it came from. A host globbing our folder layout is a host
+    that breaks when the layout moves; the item is the contract. Consuming it is one target in the
+    host (mosaik's Build/Curiosity.Tnt.targets is the worked example), or `tntc extract
+    --include-packages`, which reads the same `l10n/` folder out of the restored package.
+
+    Evaluated at import time: both candidate folders are static content - the nupkg's `l10n/`, or
+    this repository's committed `.tnt-content/` - so nothing appears later in the build. A glob that
+    matches nothing contributes nothing, which is what a package built before any language was
+    translated does.
+  -->
+  <ItemGroup>
+    <TranslationTable Include="$(_TesseraeL10nPackagedDir)*.tnt"
+                      PackageId="Tesserae" />
+    <TranslationTable Include="$(_TesseraeL10nRepoDir)*.tnt"
+                      PackageId="Tesserae"
+                      Condition="!Exists('$(_TesseraeL10nPackagedDir)')" />
+  </ItemGroup>
 
   <!-- Walk up the tree to find the nearest ancestor containing a .claude folder.
        Done in code rather than via $(SolutionDir), which is only defined when

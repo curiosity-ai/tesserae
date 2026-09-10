@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "\"{0}\" を保存できなかったため、このページに留まっています。"
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "\"{0}\" に保存されていない変更があります。このページを離れると失われます。先に保存しますか？"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "エディターを保存できなかったため、このページに留まっています。"
+  ],
+  [
+    "Collapse",
+    "折りたたむ"
+  ],
+  [
+    "Expand",
+    "展開する"
+  ],
+  [
+    "Failed to save",
+    "保存に失敗しました"
+  ],
+  [
+    "Leave without saving",
+    "保存せずに移動"
+  ],
+  [
+    "Loading...",
+    "読み込み中..."
+  ],
+  [
+    "Not saved",
+    "保存されていません"
+  ],
+  [
+    "Save and leave",
+    "保存して移動"
+  ],
+  [
+    "Stay here",
+    "このページに留まる"
+  ],
+  [
+    "Unsaved changes",
+    "保存されていない変更"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "保存されていない変更があります。このページを離れると失われます。先に保存しますか？"
+  ],
+  [
+    "must be a dark color",
+    "暗い色を指定してください"
+  ],
+  [
+    "must be a light color",
+    "明るい色を指定してください"
+  ],
+  [
+    "must be a positive whole number",
+    "正の整数を入力してください"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "ゼロを除く正の整数を入力してください"
+  ],
+  [
+    "must be between {0} and {1}",
+    "{0} から {1} の間で指定してください"
+  ],
+  [
+    "must not be blank",
+    "空にはできません"
+  ],
+  [
+    "must not be in the future",
+    "未来の日時は指定できません"
+  ],
+  [
+    "must not be in the past",
+    "過去の日時は指定できません"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "{0} に保存されていない変更があります。このページを離れると失われます。先に保存しますか？"
+  ]
+]

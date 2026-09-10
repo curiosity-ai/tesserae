@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "Није могуће сачувати \"{0}\", па остајете на овој страници."
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "\"{0}\" има несачуване измене које ће бити изгубљене ако напустите ову страницу. Желите ли прво да га сачувате?"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "Није могуће сачувати уређивач, па остајете на овој страници."
+  ],
+  [
+    "Collapse",
+    "Скупи"
+  ],
+  [
+    "Expand",
+    "Прошири"
+  ],
+  [
+    "Failed to save",
+    "Чување није успело"
+  ],
+  [
+    "Leave without saving",
+    "Изађи без чувања"
+  ],
+  [
+    "Loading...",
+    "Учитавање..."
+  ],
+  [
+    "Not saved",
+    "Није сачувано"
+  ],
+  [
+    "Save and leave",
+    "Сачувај и изађи"
+  ],
+  [
+    "Stay here",
+    "Остани овде"
+  ],
+  [
+    "Unsaved changes",
+    "Несачуване измене"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "Имате несачуване измене које ће бити изгубљене ако напустите ову страницу. Желите ли прво да их сачувате?"
+  ],
+  [
+    "must be a dark color",
+    "мора бити тамна боја"
+  ],
+  [
+    "must be a light color",
+    "мора бити светла боја"
+  ],
+  [
+    "must be a positive whole number",
+    "мора бити позитиван цео број"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "мора бити позитиван цео број, осим нуле"
+  ],
+  [
+    "must be between {0} and {1}",
+    "мора бити између {0} и {1}"
+  ],
+  [
+    "must not be blank",
+    "не сме бити празно"
+  ],
+  [
+    "must not be in the future",
+    "не сме бити у будућности"
+  ],
+  [
+    "must not be in the past",
+    "не сме бити у прошлости"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "{0} имају несачуване измене које ће бити изгубљене ако напустите ову страницу. Желите ли прво да их сачувате?"
+  ]
+]

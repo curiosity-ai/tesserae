@@ -1,0 +1,207 @@
+﻿[
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "\"{0}\" could not be saved, so you are still on this page.",
+    "TranslatedString": "Δεν ήταν δυνατή η αποθήκευση του \"{0}\", επομένως παραμένετε σε αυτήν τη σελίδα.",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:235"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "TranslatedString": "Το \"{0}\" έχει μη αποθηκευμένες αλλαγές που θα χαθούν αν φύγετε από αυτήν τη σελίδα. Θέλετε να το αποθηκεύσετε πρώτα;",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:291"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "An editor could not be saved, so you are still on this page.",
+    "TranslatedString": "Δεν ήταν δυνατή η αποθήκευση ενός επεξεργαστή, επομένως παραμένετε σε αυτήν τη σελίδα.",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:234"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Collapse",
+    "TranslatedString": "Σύμπτυξη",
+    "SourceLocations": [
+      "src/Components/Sidebar/SidebarNav.cs:521",
+      "src/Components/Sidebar/SidebarNav.cs:613"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Expand",
+    "TranslatedString": "Ανάπτυξη",
+    "SourceLocations": [
+      "src/Components/Sidebar/SidebarNav.cs:516",
+      "src/Components/Sidebar/SidebarNav.cs:608"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Failed to save",
+    "TranslatedString": "Η αποθήκευση απέτυχε",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:227"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Leave without saving",
+    "TranslatedString": "Έξοδος χωρίς αποθήκευση",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:193"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Loading...",
+    "TranslatedString": "Φόρτωση...",
+    "SourceLocations": [
+      "src/Components/DeferedComponentWithProgress.cs:52",
+      "src/Components/DeferedComponent.cs:163"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Not saved",
+    "TranslatedString": "Μη αποθηκευμένο",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:233"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Save and leave",
+    "TranslatedString": "Αποθήκευση και έξοδος",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:189"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Stay here",
+    "TranslatedString": "Παραμονή εδώ",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:194"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Unsaved changes",
+    "TranslatedString": "Μη αποθηκευμένες αλλαγές",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:183"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "TranslatedString": "Έχετε μη αποθηκευμένες αλλαγές που θα χαθούν αν φύγετε από αυτήν τη σελίδα. Θέλετε να τις αποθηκεύσετε πρώτα;",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:290"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be a dark color",
+    "TranslatedString": "πρέπει να είναι σκούρο χρώμα",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:30"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be a light color",
+    "TranslatedString": "πρέπει να είναι ανοιχτό χρώμα",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:27"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be a positive whole number",
+    "TranslatedString": "πρέπει να είναι θετικός ακέραιος αριθμός",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:21"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be a positive whole number, except zero",
+    "TranslatedString": "πρέπει να είναι θετικός ακέραιος αριθμός, εκτός από το μηδέν",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:24"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be between {0} and {1}",
+    "TranslatedString": "πρέπει να είναι μεταξύ {0} και {1}",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:41",
+      "src/Helpers/Validation.cs:53"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must not be blank",
+    "TranslatedString": "δεν πρέπει να είναι κενό",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:15",
+      "src/Helpers/Validation.cs:18"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must not be in the future",
+    "TranslatedString": "δεν πρέπει να είναι στο μέλλον",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:36",
+      "src/Helpers/Validation.cs:48"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must not be in the past",
+    "TranslatedString": "δεν πρέπει να είναι στο παρελθόν",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:33",
+      "src/Helpers/Validation.cs:45"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "TranslatedString": "Τα {0} έχουν μη αποθηκευμένες αλλαγές που θα χαθούν αν φύγετε από αυτήν τη σελίδα. Θέλετε να τις αποθηκεύσετε πρώτα;",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:293"
+    ]
+  }
+]

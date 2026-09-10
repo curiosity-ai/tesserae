@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "Não foi possível salvar \"{0}\", por isso você continua nesta página."
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "\"{0}\" tem alterações não salvas que serão perdidas se você sair desta página. Deseja salvá-lo primeiro?"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "Não foi possível salvar um editor, por isso você continua nesta página."
+  ],
+  [
+    "Collapse",
+    "Recolher"
+  ],
+  [
+    "Expand",
+    "Expandir"
+  ],
+  [
+    "Failed to save",
+    "Falha ao salvar"
+  ],
+  [
+    "Leave without saving",
+    "Sair sem salvar"
+  ],
+  [
+    "Loading...",
+    "Carregando..."
+  ],
+  [
+    "Not saved",
+    "Não salvo"
+  ],
+  [
+    "Save and leave",
+    "Salvar e sair"
+  ],
+  [
+    "Stay here",
+    "Permanecer aqui"
+  ],
+  [
+    "Unsaved changes",
+    "Alterações não salvas"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "Você tem alterações não salvas que serão perdidas se sair desta página. Deseja salvá-las primeiro?"
+  ],
+  [
+    "must be a dark color",
+    "deve ser uma cor escura"
+  ],
+  [
+    "must be a light color",
+    "deve ser uma cor clara"
+  ],
+  [
+    "must be a positive whole number",
+    "deve ser um número inteiro positivo"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "deve ser um número inteiro positivo, exceto zero"
+  ],
+  [
+    "must be between {0} and {1}",
+    "deve estar entre {0} e {1}"
+  ],
+  [
+    "must not be blank",
+    "não pode estar em branco"
+  ],
+  [
+    "must not be in the future",
+    "não pode estar no futuro"
+  ],
+  [
+    "must not be in the past",
+    "não pode estar no passado"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "{0} têm alterações não salvas que serão perdidas se você sair desta página. Deseja salvá-las primeiro?"
+  ]
+]

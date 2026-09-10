@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "Nie udało się zapisać \"{0}\", więc pozostajesz na tej stronie."
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "\"{0}\" ma niezapisane zmiany, które zostaną utracone po opuszczeniu tej strony. Czy chcesz go najpierw zapisać?"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "Nie udało się zapisać edytora, więc pozostajesz na tej stronie."
+  ],
+  [
+    "Collapse",
+    "Zwiń"
+  ],
+  [
+    "Expand",
+    "Rozwiń"
+  ],
+  [
+    "Failed to save",
+    "Nie udało się zapisać"
+  ],
+  [
+    "Leave without saving",
+    "Wyjdź bez zapisywania"
+  ],
+  [
+    "Loading...",
+    "Ładowanie..."
+  ],
+  [
+    "Not saved",
+    "Nie zapisano"
+  ],
+  [
+    "Save and leave",
+    "Zapisz i wyjdź"
+  ],
+  [
+    "Stay here",
+    "Zostań tutaj"
+  ],
+  [
+    "Unsaved changes",
+    "Niezapisane zmiany"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "Masz niezapisane zmiany, które zostaną utracone po opuszczeniu tej strony. Czy chcesz je najpierw zapisać?"
+  ],
+  [
+    "must be a dark color",
+    "musi być ciemnym kolorem"
+  ],
+  [
+    "must be a light color",
+    "musi być jasnym kolorem"
+  ],
+  [
+    "must be a positive whole number",
+    "musi być dodatnią liczbą całkowitą"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "musi być dodatnią liczbą całkowitą, z wyjątkiem zera"
+  ],
+  [
+    "must be between {0} and {1}",
+    "musi być między {0} a {1}"
+  ],
+  [
+    "must not be blank",
+    "nie może być puste"
+  ],
+  [
+    "must not be in the future",
+    "nie może być w przyszłości"
+  ],
+  [
+    "must not be in the past",
+    "nie może być w przeszłości"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "{0} mają niezapisane zmiany, które zostaną utracone po opuszczeniu tej strony. Czy chcesz je najpierw zapisać?"
+  ]
+]

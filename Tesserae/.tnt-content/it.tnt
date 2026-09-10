@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "Impossibile salvare \"{0}\", quindi rimani su questa pagina."
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "\"{0}\" contiene modifiche non salvate che andranno perse se lasci questa pagina. Vuoi salvarlo prima?"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "Impossibile salvare un editor, quindi rimani su questa pagina."
+  ],
+  [
+    "Collapse",
+    "Comprimi"
+  ],
+  [
+    "Expand",
+    "Espandi"
+  ],
+  [
+    "Failed to save",
+    "Salvataggio non riuscito"
+  ],
+  [
+    "Leave without saving",
+    "Esci senza salvare"
+  ],
+  [
+    "Loading...",
+    "Caricamento..."
+  ],
+  [
+    "Not saved",
+    "Non salvato"
+  ],
+  [
+    "Save and leave",
+    "Salva ed esci"
+  ],
+  [
+    "Stay here",
+    "Rimani qui"
+  ],
+  [
+    "Unsaved changes",
+    "Modifiche non salvate"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "Hai modifiche non salvate che andranno perse se lasci questa pagina. Vuoi salvarle prima?"
+  ],
+  [
+    "must be a dark color",
+    "deve essere un colore scuro"
+  ],
+  [
+    "must be a light color",
+    "deve essere un colore chiaro"
+  ],
+  [
+    "must be a positive whole number",
+    "deve essere un numero intero positivo"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "deve essere un numero intero positivo, tranne zero"
+  ],
+  [
+    "must be between {0} and {1}",
+    "deve essere compreso tra {0} e {1}"
+  ],
+  [
+    "must not be blank",
+    "non può essere vuoto"
+  ],
+  [
+    "must not be in the future",
+    "non può essere nel futuro"
+  ],
+  [
+    "must not be in the past",
+    "non può essere nel passato"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "{0} contengono modifiche non salvate che andranno perse se lasci questa pagina. Vuoi salvarle prima?"
+  ]
+]

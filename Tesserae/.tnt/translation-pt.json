@@ -1,0 +1,207 @@
+﻿[
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "\"{0}\" could not be saved, so you are still on this page.",
+    "TranslatedString": "Não foi possível salvar \"{0}\", por isso você continua nesta página.",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:235"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "TranslatedString": "\"{0}\" tem alterações não salvas que serão perdidas se você sair desta página. Deseja salvá-lo primeiro?",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:291"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "An editor could not be saved, so you are still on this page.",
+    "TranslatedString": "Não foi possível salvar um editor, por isso você continua nesta página.",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:234"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Collapse",
+    "TranslatedString": "Recolher",
+    "SourceLocations": [
+      "src/Components/Sidebar/SidebarNav.cs:521",
+      "src/Components/Sidebar/SidebarNav.cs:613"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Expand",
+    "TranslatedString": "Expandir",
+    "SourceLocations": [
+      "src/Components/Sidebar/SidebarNav.cs:516",
+      "src/Components/Sidebar/SidebarNav.cs:608"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Failed to save",
+    "TranslatedString": "Falha ao salvar",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:227"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Leave without saving",
+    "TranslatedString": "Sair sem salvar",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:193"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Loading...",
+    "TranslatedString": "Carregando...",
+    "SourceLocations": [
+      "src/Components/DeferedComponentWithProgress.cs:52",
+      "src/Components/DeferedComponent.cs:163"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Not saved",
+    "TranslatedString": "Não salvo",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:233"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Save and leave",
+    "TranslatedString": "Salvar e sair",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:189"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Stay here",
+    "TranslatedString": "Permanecer aqui",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:194"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Unsaved changes",
+    "TranslatedString": "Alterações não salvas",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:183"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "TranslatedString": "Você tem alterações não salvas que serão perdidas se sair desta página. Deseja salvá-las primeiro?",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:290"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be a dark color",
+    "TranslatedString": "deve ser uma cor escura",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:30"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be a light color",
+    "TranslatedString": "deve ser uma cor clara",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:27"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be a positive whole number",
+    "TranslatedString": "deve ser um número inteiro positivo",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:21"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be a positive whole number, except zero",
+    "TranslatedString": "deve ser um número inteiro positivo, exceto zero",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:24"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be between {0} and {1}",
+    "TranslatedString": "deve estar entre {0} e {1}",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:41",
+      "src/Helpers/Validation.cs:53"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must not be blank",
+    "TranslatedString": "não pode estar em branco",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:15",
+      "src/Helpers/Validation.cs:18"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must not be in the future",
+    "TranslatedString": "não pode estar no futuro",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:36",
+      "src/Helpers/Validation.cs:48"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must not be in the past",
+    "TranslatedString": "não pode estar no passado",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:33",
+      "src/Helpers/Validation.cs:45"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "TranslatedString": "{0} têm alterações não salvas que serão perdidas se você sair desta página. Deseja salvá-las primeiro?",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:293"
+    ]
+  }
+]

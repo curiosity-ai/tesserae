@@ -1,0 +1,207 @@
+﻿[
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "\"{0}\" could not be saved, so you are still on this page.",
+    "TranslatedString": "Није могуће сачувати \"{0}\", па остајете на овој страници.",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:235"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "TranslatedString": "\"{0}\" има несачуване измене које ће бити изгубљене ако напустите ову страницу. Желите ли прво да га сачувате?",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:291"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "An editor could not be saved, so you are still on this page.",
+    "TranslatedString": "Није могуће сачувати уређивач, па остајете на овој страници.",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:234"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Collapse",
+    "TranslatedString": "Скупи",
+    "SourceLocations": [
+      "src/Components/Sidebar/SidebarNav.cs:521",
+      "src/Components/Sidebar/SidebarNav.cs:613"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Expand",
+    "TranslatedString": "Прошири",
+    "SourceLocations": [
+      "src/Components/Sidebar/SidebarNav.cs:516",
+      "src/Components/Sidebar/SidebarNav.cs:608"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Failed to save",
+    "TranslatedString": "Чување није успело",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:227"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Leave without saving",
+    "TranslatedString": "Изађи без чувања",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:193"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Loading...",
+    "TranslatedString": "Учитавање...",
+    "SourceLocations": [
+      "src/Components/DeferedComponentWithProgress.cs:52",
+      "src/Components/DeferedComponent.cs:163"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Not saved",
+    "TranslatedString": "Није сачувано",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:233"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Save and leave",
+    "TranslatedString": "Сачувај и изађи",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:189"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Stay here",
+    "TranslatedString": "Остани овде",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:194"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Unsaved changes",
+    "TranslatedString": "Несачуване измене",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:183"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "TranslatedString": "Имате несачуване измене које ће бити изгубљене ако напустите ову страницу. Желите ли прво да их сачувате?",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:290"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be a dark color",
+    "TranslatedString": "мора бити тамна боја",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:30"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be a light color",
+    "TranslatedString": "мора бити светла боја",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:27"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be a positive whole number",
+    "TranslatedString": "мора бити позитиван цео број",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:21"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be a positive whole number, except zero",
+    "TranslatedString": "мора бити позитиван цео број, осим нуле",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:24"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be between {0} and {1}",
+    "TranslatedString": "мора бити између {0} и {1}",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:41",
+      "src/Helpers/Validation.cs:53"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must not be blank",
+    "TranslatedString": "не сме бити празно",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:15",
+      "src/Helpers/Validation.cs:18"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must not be in the future",
+    "TranslatedString": "не сме бити у будућности",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:36",
+      "src/Helpers/Validation.cs:48"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must not be in the past",
+    "TranslatedString": "не сме бити у прошлости",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:33",
+      "src/Helpers/Validation.cs:45"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "TranslatedString": "{0} имају несачуване измене које ће бити изгубљене ако напустите ову страницу. Желите ли прво да их сачувате?",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:293"
+    ]
+  }
+]

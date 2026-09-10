@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "\"{0}\" को सहेजा नहीं जा सका, इसलिए आप अभी भी इसी पृष्ठ पर हैं।"
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "\"{0}\" में सहेजे न गए परिवर्तन हैं जो इस पृष्ठ से जाने पर खो जाएंगे। क्या आप इसे पहले सहेजना चाहते हैं?"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "एक संपादक को सहेजा नहीं जा सका, इसलिए आप अभी भी इसी पृष्ठ पर हैं।"
+  ],
+  [
+    "Collapse",
+    "संक्षिप्त करें"
+  ],
+  [
+    "Expand",
+    "विस्तृत करें"
+  ],
+  [
+    "Failed to save",
+    "सहेजने में विफल"
+  ],
+  [
+    "Leave without saving",
+    "सहेजे बिना जाएँ"
+  ],
+  [
+    "Loading...",
+    "लोड हो रहा है..."
+  ],
+  [
+    "Not saved",
+    "सहेजा नहीं गया"
+  ],
+  [
+    "Save and leave",
+    "सहेजें और जाएँ"
+  ],
+  [
+    "Stay here",
+    "यहीं रहें"
+  ],
+  [
+    "Unsaved changes",
+    "सहेजे न गए परिवर्तन"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "आपके पास सहेजे न गए परिवर्तन हैं जो इस पृष्ठ से जाने पर खो जाएंगे। क्या आप उन्हें पहले सहेजना चाहते हैं?"
+  ],
+  [
+    "must be a dark color",
+    "गहरा रंग होना चाहिए"
+  ],
+  [
+    "must be a light color",
+    "हल्का रंग होना चाहिए"
+  ],
+  [
+    "must be a positive whole number",
+    "धनात्मक पूर्ण संख्या होनी चाहिए"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "शून्य को छोड़कर धनात्मक पूर्ण संख्या होनी चाहिए"
+  ],
+  [
+    "must be between {0} and {1}",
+    "{0} और {1} के बीच होना चाहिए"
+  ],
+  [
+    "must not be blank",
+    "खाली नहीं होना चाहिए"
+  ],
+  [
+    "must not be in the future",
+    "भविष्य में नहीं होना चाहिए"
+  ],
+  [
+    "must not be in the past",
+    "अतीत में नहीं होना चाहिए"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "{0} में सहेजे न गए परिवर्तन हैं जो इस पृष्ठ से जाने पर खो जाएंगे। क्या आप उन्हें पहले सहेजना चाहते हैं?"
+  ]
+]

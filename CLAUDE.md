@@ -9,6 +9,8 @@ Tesserae is a C# UI toolkit for building web applications, compiled to JavaScrip
 - Fluent extensions: `Tesserae/src/Extensions`
 - Samples and demos: `Tesserae.Tests/`
 - Project and build config: `Tesserae/Tesserae.csproj`, `Tesserae/tps.json`
+- Translations: `Tesserae/.tnt/` (TNTC's store) and `Tesserae/.tnt-content/` (the tables the
+  package ships) - see "The toolkit translates itself, with TNTC"
 
 ## Skills
 
@@ -241,6 +243,61 @@ draws that same list as a grid of `ContextCard`s under a header per category, in
 `SampleGroup.InDisplayOrder` — so it needs nothing done to it when a sample is added,
 beyond the attribute above. A category added to `SampleGroup` should get a colour in
 the landing page's `GroupColors`, which is indexed by `SampleGroup.DisplayIndex`.
+
+## The toolkit translates itself, with TNTC
+
+Everything Tesserae puts on screen in words goes through **TNT** - the unsaved-changes dialog and
+its three buttons, the validation messages, the sidebar's expand/collapse tooltips, `Loading...` -
+at 29 call sites across `Tesserae/src/`. For years that only meant the strings *could* be
+translated: `tnt extract` scans a repository's own sources, and ours arrive in a host as a NuGet
+package, so an application shipping twenty languages still showed an English
+"Leave without saving".
+
+The toolkit now translates them itself, with [TNTC](https://www.nuget.org/packages/TNTC), and ships
+the result. `Tesserae/.tnt/` holds a `translation-<code>.json` per language, `.tnt-content/` holds
+the flat pairs an application loads, and both are committed.
+
+**The loop is the `tntc-translate` skill in `.claude/skills/`** (installed by `tntc install-skill .`
+and kept up to date by the tool - commit the diff when it says so). In short, from the repository
+root:
+
+```bash
+dotnet tool install --global TNTC
+export DOTNET_ROLL_FORWARD=LatestMajor          # only .NET 10 is installed here; TNTC targets 9
+
+tntc extract Tesserae                           # after adding or rewording a string
+tntc missing Tesserae --limit 50 --output batch.json
+#   fill every empty value in batch.json - you are the translator, the tool never calls a model
+tntc apply   Tesserae batch.json --model <the model id you are running as>
+tntc verify  Tesserae                           # exits 3 on any error; run it last
+```
+
+Four things about the arrangement worth knowing before touching either half:
+
+- **A string with a value in it is `t($"…")`, never `$"…".t()`.** TNT's two entry points differ:
+  `t(FormattableString)` looks up the *format* (`"must be between {0} and {1}"`) and substitutes
+  afterwards, while the `.t()` extension takes a `string` - and C# prefers the `string` conversion
+  for an interpolated literal, so `$"must be between {from} and {to}".t()` would ask the table for a
+  key holding two rendered dates. `Validation.BetweenRange` is the one interpolated string here and
+  uses `t($"…")`; `using static TNT.T;` is what puts the bare `t(` in scope. The other pattern in
+  use, `string.Format("…{0}…".t(), value)`, is fine for the same reason in reverse: the literal is
+  the key, and only the result is formatted.
+- **The tables travel as `@(TranslationTable)`, not as a folder layout.** The csproj packs
+  `.tnt-content/*.tnt` under `l10n/`, and `buildTransitive/Tesserae.targets` declares one item per
+  language carrying `PackageId="Tesserae"`. A host globbing our folders is a host that breaks when
+  the layout moves; the item is the contract. mosaik consumes it in `Build/Curiosity.Tnt.targets`,
+  and `tntc extract --include-packages` reads the same `l10n/` folder out of the restored package.
+- **The host merges; the toolkit must not.** `TNT.T`'s whole surface is `t(...)` and
+  `SetTranslation(dictionary)` - one table for the application, replaced wholesale, with no getter -
+  so a toolkit that installed its own would throw away its host's. Tesserae never calls
+  `SetTranslation`.
+- **A missing table is a fallback, never an error.** An older package, or a language nobody
+  translated: the host's table simply has no entry and TNT falls back to the English key. That is
+  also why `.tnt-content` leaves an untranslated string out entirely rather than writing an empty
+  one.
+
+When you add or reword a string, run the loop in the same change - a string with no translation
+renders in English in every language.
 
 ## Layout system
 

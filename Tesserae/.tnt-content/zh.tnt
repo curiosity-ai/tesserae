@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "无法保存 \"{0}\"，因此您仍停留在此页面。"
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "\"{0}\" 有未保存的更改，离开此页面将会丢失。要先保存吗？"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "无法保存某个编辑器，因此您仍停留在此页面。"
+  ],
+  [
+    "Collapse",
+    "折叠"
+  ],
+  [
+    "Expand",
+    "展开"
+  ],
+  [
+    "Failed to save",
+    "保存失败"
+  ],
+  [
+    "Leave without saving",
+    "不保存并离开"
+  ],
+  [
+    "Loading...",
+    "加载中..."
+  ],
+  [
+    "Not saved",
+    "未保存"
+  ],
+  [
+    "Save and leave",
+    "保存并离开"
+  ],
+  [
+    "Stay here",
+    "留在此页"
+  ],
+  [
+    "Unsaved changes",
+    "未保存的更改"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "您有未保存的更改，离开此页面将会丢失。要先保存吗？"
+  ],
+  [
+    "must be a dark color",
+    "必须是深色"
+  ],
+  [
+    "must be a light color",
+    "必须是浅色"
+  ],
+  [
+    "must be a positive whole number",
+    "必须是正整数"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "必须是正整数，且不能为零"
+  ],
+  [
+    "must be between {0} and {1}",
+    "必须介于 {0} 和 {1} 之间"
+  ],
+  [
+    "must not be blank",
+    "不能为空"
+  ],
+  [
+    "must not be in the future",
+    "不能是将来的时间"
+  ],
+  [
+    "must not be in the past",
+    "不能是过去的时间"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "{0} 有未保存的更改，离开此页面将会丢失。要先保存吗？"
+  ]
+]

@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "לא ניתן היה לשמור את \"{0}\", ולכן אתם נשארים בדף זה."
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "ל-\"{0}\" יש שינויים שלא נשמרו שיאבדו אם תעזבו דף זה. לשמור אותו קודם?"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "לא ניתן היה לשמור עורך, ולכן אתם נשארים בדף זה."
+  ],
+  [
+    "Collapse",
+    "כווץ"
+  ],
+  [
+    "Expand",
+    "הרחב"
+  ],
+  [
+    "Failed to save",
+    "השמירה נכשלה"
+  ],
+  [
+    "Leave without saving",
+    "עזיבה ללא שמירה"
+  ],
+  [
+    "Loading...",
+    "טוען..."
+  ],
+  [
+    "Not saved",
+    "לא נשמר"
+  ],
+  [
+    "Save and leave",
+    "שמירה ועזיבה"
+  ],
+  [
+    "Stay here",
+    "להישאר כאן"
+  ],
+  [
+    "Unsaved changes",
+    "שינויים שלא נשמרו"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "יש לכם שינויים שלא נשמרו שיאבדו אם תעזבו דף זה. לשמור אותם קודם?"
+  ],
+  [
+    "must be a dark color",
+    "חייב להיות צבע כהה"
+  ],
+  [
+    "must be a light color",
+    "חייב להיות צבע בהיר"
+  ],
+  [
+    "must be a positive whole number",
+    "חייב להיות מספר שלם חיובי"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "חייב להיות מספר שלם חיובי, למעט אפס"
+  ],
+  [
+    "must be between {0} and {1}",
+    "חייב להיות בין {0} ל-{1}"
+  ],
+  [
+    "must not be blank",
+    "לא יכול להיות ריק"
+  ],
+  [
+    "must not be in the future",
+    "לא יכול להיות בעתיד"
+  ],
+  [
+    "must not be in the past",
+    "לא יכול להיות בעבר"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "ל-{0} יש שינויים שלא נשמרו שיאבדו אם תעזבו דף זה. לשמור אותם קודם?"
+  ]
+]

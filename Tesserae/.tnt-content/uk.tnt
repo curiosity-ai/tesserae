@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "Не вдалося зберегти \"{0}\", тому ви залишаєтеся на цій сторінці."
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "У \"{0}\" є незбережені зміни, які буде втрачено, якщо ви залишите цю сторінку. Зберегти спочатку?"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "Не вдалося зберегти редактор, тому ви залишаєтеся на цій сторінці."
+  ],
+  [
+    "Collapse",
+    "Згорнути"
+  ],
+  [
+    "Expand",
+    "Розгорнути"
+  ],
+  [
+    "Failed to save",
+    "Не вдалося зберегти"
+  ],
+  [
+    "Leave without saving",
+    "Вийти без збереження"
+  ],
+  [
+    "Loading...",
+    "Завантаження..."
+  ],
+  [
+    "Not saved",
+    "Не збережено"
+  ],
+  [
+    "Save and leave",
+    "Зберегти та вийти"
+  ],
+  [
+    "Stay here",
+    "Залишитися тут"
+  ],
+  [
+    "Unsaved changes",
+    "Незбережені зміни"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "У вас є незбережені зміни, які буде втрачено, якщо ви залишите цю сторінку. Зберегти їх спочатку?"
+  ],
+  [
+    "must be a dark color",
+    "має бути темний колір"
+  ],
+  [
+    "must be a light color",
+    "має бути світлий колір"
+  ],
+  [
+    "must be a positive whole number",
+    "має бути додатне ціле число"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "має бути додатне ціле число, крім нуля"
+  ],
+  [
+    "must be between {0} and {1}",
+    "має бути між {0} і {1}"
+  ],
+  [
+    "must not be blank",
+    "не може бути порожнім"
+  ],
+  [
+    "must not be in the future",
+    "не може бути в майбутньому"
+  ],
+  [
+    "must not be in the past",
+    "не може бути в минулому"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "У {0} є незбережені зміни, які буде втрачено, якщо ви залишите цю сторінку. Зберегти їх спочатку?"
+  ]
+]

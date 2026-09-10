@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "\"{0}\" kon niet worden opgeslagen, daarom blijft u op deze pagina."
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "\"{0}\" heeft niet-opgeslagen wijzigingen die verloren gaan als u deze pagina verlaat. Wilt u het eerst opslaan?"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "Een editor kon niet worden opgeslagen, daarom blijft u op deze pagina."
+  ],
+  [
+    "Collapse",
+    "Samenvouwen"
+  ],
+  [
+    "Expand",
+    "Uitvouwen"
+  ],
+  [
+    "Failed to save",
+    "Opslaan mislukt"
+  ],
+  [
+    "Leave without saving",
+    "Verlaten zonder opslaan"
+  ],
+  [
+    "Loading...",
+    "Laden..."
+  ],
+  [
+    "Not saved",
+    "Niet opgeslagen"
+  ],
+  [
+    "Save and leave",
+    "Opslaan en verlaten"
+  ],
+  [
+    "Stay here",
+    "Hier blijven"
+  ],
+  [
+    "Unsaved changes",
+    "Niet-opgeslagen wijzigingen"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "U hebt niet-opgeslagen wijzigingen die verloren gaan als u deze pagina verlaat. Wilt u ze eerst opslaan?"
+  ],
+  [
+    "must be a dark color",
+    "moet een donkere kleur zijn"
+  ],
+  [
+    "must be a light color",
+    "moet een lichte kleur zijn"
+  ],
+  [
+    "must be a positive whole number",
+    "moet een positief geheel getal zijn"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "moet een positief geheel getal zijn, behalve nul"
+  ],
+  [
+    "must be between {0} and {1}",
+    "moet tussen {0} en {1} liggen"
+  ],
+  [
+    "must not be blank",
+    "mag niet leeg zijn"
+  ],
+  [
+    "must not be in the future",
+    "mag niet in de toekomst liggen"
+  ],
+  [
+    "must not be in the past",
+    "mag niet in het verleden liggen"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "{0} hebben niet-opgeslagen wijzigingen die verloren gaan als u deze pagina verlaat. Wilt u ze eerst opslaan?"
+  ]
+]

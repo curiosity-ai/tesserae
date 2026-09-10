@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "\"{0}\" n'a pas pu être enregistré, vous restez donc sur cette page."
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "\"{0}\" comporte des modifications non enregistrées qui seront perdues si vous quittez cette page. Voulez-vous l'enregistrer d'abord ?"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "Un éditeur n'a pas pu être enregistré, vous restez donc sur cette page."
+  ],
+  [
+    "Collapse",
+    "Réduire"
+  ],
+  [
+    "Expand",
+    "Développer"
+  ],
+  [
+    "Failed to save",
+    "Échec de l'enregistrement"
+  ],
+  [
+    "Leave without saving",
+    "Quitter sans enregistrer"
+  ],
+  [
+    "Loading...",
+    "Chargement..."
+  ],
+  [
+    "Not saved",
+    "Non enregistré"
+  ],
+  [
+    "Save and leave",
+    "Enregistrer et quitter"
+  ],
+  [
+    "Stay here",
+    "Rester ici"
+  ],
+  [
+    "Unsaved changes",
+    "Modifications non enregistrées"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "Vous avez des modifications non enregistrées qui seront perdues si vous quittez cette page. Voulez-vous les enregistrer d'abord ?"
+  ],
+  [
+    "must be a dark color",
+    "doit être une couleur sombre"
+  ],
+  [
+    "must be a light color",
+    "doit être une couleur claire"
+  ],
+  [
+    "must be a positive whole number",
+    "doit être un nombre entier positif"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "doit être un nombre entier positif, sauf zéro"
+  ],
+  [
+    "must be between {0} and {1}",
+    "doit être compris entre {0} et {1}"
+  ],
+  [
+    "must not be blank",
+    "ne doit pas être vide"
+  ],
+  [
+    "must not be in the future",
+    "ne doit pas être dans le futur"
+  ],
+  [
+    "must not be in the past",
+    "ne doit pas être dans le passé"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "{0} comportent des modifications non enregistrées qui seront perdues si vous quittez cette page. Voulez-vous les enregistrer d'abord ?"
+  ]
+]

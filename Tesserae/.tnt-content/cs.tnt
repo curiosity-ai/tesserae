@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "\"{0}\" se nepodařilo uložit, proto zůstáváte na této stránce."
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "\"{0}\" má neuložené změny, které budou ztraceny, pokud tuto stránku opustíte. Chcete jej nejprve uložit?"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "Editor se nepodařilo uložit, proto zůstáváte na této stránce."
+  ],
+  [
+    "Collapse",
+    "Sbalit"
+  ],
+  [
+    "Expand",
+    "Rozbalit"
+  ],
+  [
+    "Failed to save",
+    "Uložení se nezdařilo"
+  ],
+  [
+    "Leave without saving",
+    "Odejít bez uložení"
+  ],
+  [
+    "Loading...",
+    "Načítání..."
+  ],
+  [
+    "Not saved",
+    "Neuloženo"
+  ],
+  [
+    "Save and leave",
+    "Uložit a odejít"
+  ],
+  [
+    "Stay here",
+    "Zůstat zde"
+  ],
+  [
+    "Unsaved changes",
+    "Neuložené změny"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "Máte neuložené změny, které budou ztraceny, pokud tuto stránku opustíte. Chcete je nejprve uložit?"
+  ],
+  [
+    "must be a dark color",
+    "musí být tmavá barva"
+  ],
+  [
+    "must be a light color",
+    "musí být světlá barva"
+  ],
+  [
+    "must be a positive whole number",
+    "musí být kladné celé číslo"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "musí být kladné celé číslo, kromě nuly"
+  ],
+  [
+    "must be between {0} and {1}",
+    "musí být mezi {0} a {1}"
+  ],
+  [
+    "must not be blank",
+    "nesmí být prázdné"
+  ],
+  [
+    "must not be in the future",
+    "nesmí být v budoucnosti"
+  ],
+  [
+    "must not be in the past",
+    "nesmí být v minulosti"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "{0} mají neuložené změny, které budou ztraceny, pokud tuto stránku opustíte. Chcete je nejprve uložit?"
+  ]
+]

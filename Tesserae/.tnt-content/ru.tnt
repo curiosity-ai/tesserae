@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "Не удалось сохранить \"{0}\", поэтому вы остаётесь на этой странице."
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "В \"{0}\" есть несохранённые изменения, которые будут потеряны, если вы покинете эту страницу. Сохранить сначала?"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "Не удалось сохранить редактор, поэтому вы остаётесь на этой странице."
+  ],
+  [
+    "Collapse",
+    "Свернуть"
+  ],
+  [
+    "Expand",
+    "Развернуть"
+  ],
+  [
+    "Failed to save",
+    "Не удалось сохранить"
+  ],
+  [
+    "Leave without saving",
+    "Уйти без сохранения"
+  ],
+  [
+    "Loading...",
+    "Загрузка..."
+  ],
+  [
+    "Not saved",
+    "Не сохранено"
+  ],
+  [
+    "Save and leave",
+    "Сохранить и уйти"
+  ],
+  [
+    "Stay here",
+    "Остаться здесь"
+  ],
+  [
+    "Unsaved changes",
+    "Несохранённые изменения"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "У вас есть несохранённые изменения, которые будут потеряны, если вы покинете эту страницу. Сохранить их сначала?"
+  ],
+  [
+    "must be a dark color",
+    "должен быть тёмный цвет"
+  ],
+  [
+    "must be a light color",
+    "должен быть светлый цвет"
+  ],
+  [
+    "must be a positive whole number",
+    "должно быть положительное целое число"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "должно быть положительное целое число, кроме нуля"
+  ],
+  [
+    "must be between {0} and {1}",
+    "должно быть между {0} и {1}"
+  ],
+  [
+    "must not be blank",
+    "не должно быть пустым"
+  ],
+  [
+    "must not be in the future",
+    "не должно быть в будущем"
+  ],
+  [
+    "must not be in the past",
+    "не должно быть в прошлом"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "В {0} есть несохранённые изменения, которые будут потеряны, если вы покинете эту страницу. Сохранить их сначала?"
+  ]
+]

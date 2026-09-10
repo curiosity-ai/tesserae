@@ -1,0 +1,207 @@
+﻿[
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "\"{0}\" could not be saved, so you are still on this page.",
+    "TranslatedString": "\"{0}\"을(를) 저장하지 못해 이 페이지에 그대로 있습니다.",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:235"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "TranslatedString": "\"{0}\"에 저장되지 않은 변경 내용이 있으며 이 페이지를 벗어나면 사라집니다. 먼저 저장하시겠습니까?",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:291"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "An editor could not be saved, so you are still on this page.",
+    "TranslatedString": "편집기를 저장하지 못해 이 페이지에 그대로 있습니다.",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:234"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Collapse",
+    "TranslatedString": "접기",
+    "SourceLocations": [
+      "src/Components/Sidebar/SidebarNav.cs:521",
+      "src/Components/Sidebar/SidebarNav.cs:613"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Expand",
+    "TranslatedString": "펼치기",
+    "SourceLocations": [
+      "src/Components/Sidebar/SidebarNav.cs:516",
+      "src/Components/Sidebar/SidebarNav.cs:608"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Failed to save",
+    "TranslatedString": "저장 실패",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:227"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Leave without saving",
+    "TranslatedString": "저장하지 않고 나가기",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:193"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Loading...",
+    "TranslatedString": "불러오는 중...",
+    "SourceLocations": [
+      "src/Components/DeferedComponentWithProgress.cs:52",
+      "src/Components/DeferedComponent.cs:163"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Not saved",
+    "TranslatedString": "저장되지 않음",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:233"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Save and leave",
+    "TranslatedString": "저장하고 나가기",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:189"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Stay here",
+    "TranslatedString": "여기 머무르기",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:194"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "Unsaved changes",
+    "TranslatedString": "저장되지 않은 변경 내용",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:183"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "TranslatedString": "저장되지 않은 변경 내용이 있으며 이 페이지를 벗어나면 사라집니다. 먼저 저장하시겠습니까?",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:290"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be a dark color",
+    "TranslatedString": "어두운 색이어야 합니다",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:30"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be a light color",
+    "TranslatedString": "밝은 색이어야 합니다",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:27"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be a positive whole number",
+    "TranslatedString": "양의 정수여야 합니다",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:21"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be a positive whole number, except zero",
+    "TranslatedString": "0을 제외한 양의 정수여야 합니다",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:24"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must be between {0} and {1}",
+    "TranslatedString": "{0}과(와) {1} 사이여야 합니다",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:41",
+      "src/Helpers/Validation.cs:53"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must not be blank",
+    "TranslatedString": "비워 둘 수 없습니다",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:15",
+      "src/Helpers/Validation.cs:18"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must not be in the future",
+    "TranslatedString": "미래일 수 없습니다",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:36",
+      "src/Helpers/Validation.cs:48"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "must not be in the past",
+    "TranslatedString": "과거일 수 없습니다",
+    "SourceLocations": [
+      "src/Helpers/Validation.cs:33",
+      "src/Helpers/Validation.cs:45"
+    ]
+  },
+  {
+    "State": "ClaudeSkillGenerated",
+    "GeneratedBy": "claude-opus-5",
+    "OriginalString": "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "TranslatedString": "{0}에 저장되지 않은 변경 내용이 있으며 이 페이지를 벗어나면 사라집니다. 먼저 저장하시겠습니까?",
+    "SourceLocations": [
+      "src/Helpers/UnsavedChanges/UnsavedChangesGuard.cs:293"
+    ]
+  }
+]

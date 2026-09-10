@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "\"{0}\" kunde inte sparas, så du är kvar på den här sidan."
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "\"{0}\" har osparade ändringar som går förlorade om du lämnar den här sidan. Vill du spara den först?"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "En redigerare kunde inte sparas, så du är kvar på den här sidan."
+  ],
+  [
+    "Collapse",
+    "Komprimera"
+  ],
+  [
+    "Expand",
+    "Expandera"
+  ],
+  [
+    "Failed to save",
+    "Kunde inte spara"
+  ],
+  [
+    "Leave without saving",
+    "Lämna utan att spara"
+  ],
+  [
+    "Loading...",
+    "Läser in..."
+  ],
+  [
+    "Not saved",
+    "Inte sparat"
+  ],
+  [
+    "Save and leave",
+    "Spara och lämna"
+  ],
+  [
+    "Stay here",
+    "Stanna kvar"
+  ],
+  [
+    "Unsaved changes",
+    "Osparade ändringar"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "Du har osparade ändringar som går förlorade om du lämnar den här sidan. Vill du spara dem först?"
+  ],
+  [
+    "must be a dark color",
+    "måste vara en mörk färg"
+  ],
+  [
+    "must be a light color",
+    "måste vara en ljus färg"
+  ],
+  [
+    "must be a positive whole number",
+    "måste vara ett positivt heltal"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "måste vara ett positivt heltal, utom noll"
+  ],
+  [
+    "must be between {0} and {1}",
+    "måste vara mellan {0} och {1}"
+  ],
+  [
+    "must not be blank",
+    "får inte vara tomt"
+  ],
+  [
+    "must not be in the future",
+    "får inte vara i framtiden"
+  ],
+  [
+    "must not be in the past",
+    "får inte vara i det förflutna"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "{0} har osparade ändringar som går förlorade om du lämnar den här sidan. Vill du spara dem först?"
+  ]
+]

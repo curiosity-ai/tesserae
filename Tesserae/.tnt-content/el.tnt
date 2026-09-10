@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "Δεν ήταν δυνατή η αποθήκευση του \"{0}\", επομένως παραμένετε σε αυτήν τη σελίδα."
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "Το \"{0}\" έχει μη αποθηκευμένες αλλαγές που θα χαθούν αν φύγετε από αυτήν τη σελίδα. Θέλετε να το αποθηκεύσετε πρώτα;"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "Δεν ήταν δυνατή η αποθήκευση ενός επεξεργαστή, επομένως παραμένετε σε αυτήν τη σελίδα."
+  ],
+  [
+    "Collapse",
+    "Σύμπτυξη"
+  ],
+  [
+    "Expand",
+    "Ανάπτυξη"
+  ],
+  [
+    "Failed to save",
+    "Η αποθήκευση απέτυχε"
+  ],
+  [
+    "Leave without saving",
+    "Έξοδος χωρίς αποθήκευση"
+  ],
+  [
+    "Loading...",
+    "Φόρτωση..."
+  ],
+  [
+    "Not saved",
+    "Μη αποθηκευμένο"
+  ],
+  [
+    "Save and leave",
+    "Αποθήκευση και έξοδος"
+  ],
+  [
+    "Stay here",
+    "Παραμονή εδώ"
+  ],
+  [
+    "Unsaved changes",
+    "Μη αποθηκευμένες αλλαγές"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "Έχετε μη αποθηκευμένες αλλαγές που θα χαθούν αν φύγετε από αυτήν τη σελίδα. Θέλετε να τις αποθηκεύσετε πρώτα;"
+  ],
+  [
+    "must be a dark color",
+    "πρέπει να είναι σκούρο χρώμα"
+  ],
+  [
+    "must be a light color",
+    "πρέπει να είναι ανοιχτό χρώμα"
+  ],
+  [
+    "must be a positive whole number",
+    "πρέπει να είναι θετικός ακέραιος αριθμός"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "πρέπει να είναι θετικός ακέραιος αριθμός, εκτός από το μηδέν"
+  ],
+  [
+    "must be between {0} and {1}",
+    "πρέπει να είναι μεταξύ {0} και {1}"
+  ],
+  [
+    "must not be blank",
+    "δεν πρέπει να είναι κενό"
+  ],
+  [
+    "must not be in the future",
+    "δεν πρέπει να είναι στο μέλλον"
+  ],
+  [
+    "must not be in the past",
+    "δεν πρέπει να είναι στο παρελθόν"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "Τα {0} έχουν μη αποθηκευμένες αλλαγές που θα χαθούν αν φύγετε από αυτήν τη σελίδα. Θέλετε να τις αποθηκεύσετε πρώτα;"
+  ]
+]

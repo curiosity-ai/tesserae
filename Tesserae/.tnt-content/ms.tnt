@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "\"{0}\" tidak dapat disimpan, jadi anda masih berada di halaman ini."
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "\"{0}\" mempunyai perubahan yang belum disimpan dan akan hilang jika anda meninggalkan halaman ini. Adakah anda mahu menyimpannya dahulu?"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "Sebuah editor tidak dapat disimpan, jadi anda masih berada di halaman ini."
+  ],
+  [
+    "Collapse",
+    "Kuncupkan"
+  ],
+  [
+    "Expand",
+    "Kembangkan"
+  ],
+  [
+    "Failed to save",
+    "Gagal menyimpan"
+  ],
+  [
+    "Leave without saving",
+    "Keluar tanpa menyimpan"
+  ],
+  [
+    "Loading...",
+    "Memuatkan..."
+  ],
+  [
+    "Not saved",
+    "Belum disimpan"
+  ],
+  [
+    "Save and leave",
+    "Simpan dan keluar"
+  ],
+  [
+    "Stay here",
+    "Kekal di sini"
+  ],
+  [
+    "Unsaved changes",
+    "Perubahan belum disimpan"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "Anda mempunyai perubahan yang belum disimpan dan akan hilang jika anda meninggalkan halaman ini. Adakah anda mahu menyimpannya dahulu?"
+  ],
+  [
+    "must be a dark color",
+    "mestilah warna gelap"
+  ],
+  [
+    "must be a light color",
+    "mestilah warna cerah"
+  ],
+  [
+    "must be a positive whole number",
+    "mestilah nombor bulat positif"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "mestilah nombor bulat positif, kecuali sifar"
+  ],
+  [
+    "must be between {0} and {1}",
+    "mestilah antara {0} dan {1}"
+  ],
+  [
+    "must not be blank",
+    "tidak boleh kosong"
+  ],
+  [
+    "must not be in the future",
+    "tidak boleh pada masa hadapan"
+  ],
+  [
+    "must not be in the past",
+    "tidak boleh pada masa lalu"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "{0} mempunyai perubahan yang belum disimpan dan akan hilang jika anda meninggalkan halaman ini. Adakah anda mahu menyimpannya dahulu?"
+  ]
+]

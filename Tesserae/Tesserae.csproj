@@ -50,6 +50,13 @@
 
     <None Remove="buildTransitive\Tesserae.targets" />
     <None Include="buildTransitive\Tesserae.targets" Pack="true" PackagePath="buildTransitive\Tesserae.targets" />
+
+    <!-- The toolkit's own translations (.tnt-content/lang.tnt, written by TNTC), packed so a host
+         can fold them into its own table at build time. Tesserae.targets declares them as
+         @(TranslationTable), and `tntc extract` with the include-packages flag reads the same
+         folder. A language with nothing translated is not written by TNTC at all, so this glob
+         ships exactly the languages that have some. -->
+    <None Include=".tnt-content/*.tnt" Pack="true" PackagePath="l10n/" />
   </ItemGroup>
 
   <!-- Stamp the package version into the skills payload as the single source of truth.

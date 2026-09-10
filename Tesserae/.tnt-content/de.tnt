@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "\"{0}\" konnte nicht gespeichert werden, Sie bleiben daher auf dieser Seite."
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "\"{0}\" hat ungespeicherte Änderungen, die verloren gehen, wenn Sie diese Seite verlassen. Möchten Sie zuerst speichern?"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "Ein Editor konnte nicht gespeichert werden, Sie bleiben daher auf dieser Seite."
+  ],
+  [
+    "Collapse",
+    "Einklappen"
+  ],
+  [
+    "Expand",
+    "Ausklappen"
+  ],
+  [
+    "Failed to save",
+    "Speichern fehlgeschlagen"
+  ],
+  [
+    "Leave without saving",
+    "Verlassen ohne zu speichern"
+  ],
+  [
+    "Loading...",
+    "Wird geladen..."
+  ],
+  [
+    "Not saved",
+    "Nicht gespeichert"
+  ],
+  [
+    "Save and leave",
+    "Speichern und verlassen"
+  ],
+  [
+    "Stay here",
+    "Hier bleiben"
+  ],
+  [
+    "Unsaved changes",
+    "Ungespeicherte Änderungen"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "Sie haben ungespeicherte Änderungen, die verloren gehen, wenn Sie diese Seite verlassen. Möchten Sie zuerst speichern?"
+  ],
+  [
+    "must be a dark color",
+    "muss eine dunkle Farbe sein"
+  ],
+  [
+    "must be a light color",
+    "muss eine helle Farbe sein"
+  ],
+  [
+    "must be a positive whole number",
+    "muss eine positive ganze Zahl sein"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "muss eine positive ganze Zahl außer null sein"
+  ],
+  [
+    "must be between {0} and {1}",
+    "muss zwischen {0} und {1} liegen"
+  ],
+  [
+    "must not be blank",
+    "darf nicht leer sein"
+  ],
+  [
+    "must not be in the future",
+    "darf nicht in der Zukunft liegen"
+  ],
+  [
+    "must not be in the past",
+    "darf nicht in der Vergangenheit liegen"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "{0} haben ungespeicherte Änderungen, die verloren gehen, wenn Sie diese Seite verlassen. Möchten Sie zuerst speichern?"
+  ]
+]

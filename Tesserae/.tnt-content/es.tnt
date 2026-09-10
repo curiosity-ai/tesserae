@@ -1,0 +1,90 @@
+﻿[
+  [
+    "\"{0}\" could not be saved, so you are still on this page.",
+    "No se pudo guardar \"{0}\", por lo que sigue en esta página."
+  ],
+  [
+    "\"{0}\" has unsaved changes that will be lost if you leave this page. Do you want to save it first?",
+    "\"{0}\" tiene cambios sin guardar que se perderán si abandona esta página. ¿Desea guardarlo primero?"
+  ],
+  [
+    "An editor could not be saved, so you are still on this page.",
+    "No se pudo guardar un editor, por lo que sigue en esta página."
+  ],
+  [
+    "Collapse",
+    "Contraer"
+  ],
+  [
+    "Expand",
+    "Expandir"
+  ],
+  [
+    "Failed to save",
+    "Error al guardar"
+  ],
+  [
+    "Leave without saving",
+    "Salir sin guardar"
+  ],
+  [
+    "Loading...",
+    "Cargando..."
+  ],
+  [
+    "Not saved",
+    "No guardado"
+  ],
+  [
+    "Save and leave",
+    "Guardar y salir"
+  ],
+  [
+    "Stay here",
+    "Permanecer aquí"
+  ],
+  [
+    "Unsaved changes",
+    "Cambios sin guardar"
+  ],
+  [
+    "You have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "Tiene cambios sin guardar que se perderán si abandona esta página. ¿Desea guardarlos primero?"
+  ],
+  [
+    "must be a dark color",
+    "debe ser un color oscuro"
+  ],
+  [
+    "must be a light color",
+    "debe ser un color claro"
+  ],
+  [
+    "must be a positive whole number",
+    "debe ser un número entero positivo"
+  ],
+  [
+    "must be a positive whole number, except zero",
+    "debe ser un número entero positivo, excepto cero"
+  ],
+  [
+    "must be between {0} and {1}",
+    "debe estar entre {0} y {1}"
+  ],
+  [
+    "must not be blank",
+    "no debe estar en blanco"
+  ],
+  [
+    "must not be in the future",
+    "no debe estar en el futuro"
+  ],
+  [
+    "must not be in the past",
+    "no debe estar en el pasado"
+  ],
+  [
+    "{0} have unsaved changes that will be lost if you leave this page. Do you want to save them first?",
+    "{0} tienen cambios sin guardar que se perderán si abandona esta página. ¿Desea guardarlos primero?"
+  ]
+]
