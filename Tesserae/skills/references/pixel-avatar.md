@@ -138,7 +138,9 @@ cat.PropColors(Color.FromString("#2F3A34"), Color.FromString("#7CF29B"), Color.F
 
 `Work` is not one of the poses `AutoIdle` drifts between and not in the `PixelAvatarCompanion`
 repertoire: a cat that produces a laptop out of nowhere while roaming a search box is a
-distraction, so it plays only when you ask for it.
+distraction, so it plays only when you ask for it. On a companion, ask through
+`.Working(bool)` rather than `Play(Work)` — see **As an OmniBox companion** — or the roaming will
+pull the cat off the laptop a few seconds later.
 
 ## Clicking the cat
 
@@ -273,6 +275,20 @@ perched.Companion
 
 Every one of those is jittered or drawn from its range on use. `.WakeUp()`, `.Fidget()` and
 `.FollowCursor()` drive it by hand, and `.IsAsleep` reads the state.
+
+**`.Working(bool = true)`** sits the cat at its laptop for as long as the *application* is busy —
+a reply being generated, a job in flight — rather than for a fixed number of frames, which is what
+makes it read as work. While it is on, the companion stands down the way it does while the cat is
+asleep: no spontaneous animations, no walk to the caret, and typing no longer settles it, so
+nothing pulls the cat off the laptop half way through. A click still gets a look up and the cat
+goes back to work when the reaction ends, and a companion unmounted and remounted mid-task comes
+back still working. `.Working(false)` hands it to `AutoIdle` and picks the roaming back up;
+`.IsWorking` reads the state.
+
+```csharp
+// Wherever the application learns it has started and finished:
+perched.Companion.Working(isGenerating);
+```
 
 The caret position comes from `OmniBox.CaretClientX()`, which measures whichever of the two
 inputs is focused and is public, so a different companion can use it too.
