@@ -14,6 +14,10 @@ namespace Tesserae
     /// <see cref="PixelAvatarAnimation.AutoIdle"/>; the companion only supplies the activity in
     /// between and wakes the cat up when you come back to the box.
     ///
+    /// <see cref="Working"/> is the one thing that stops all of it: an application with something
+    /// of its own running - a reply being generated, a job in flight - sits the cat at its laptop
+    /// for as long as that lasts, and the companion stands down until it is turned back off.
+    ///
     /// Created automatically by <see cref="PixelAvatar.AttachTo"/> when the anchor is one of the
     /// <c>Top*</c> ones and the target is an <see cref="OmniBox"/> or a <see cref="Modal"/>, and
     /// reachable through <see cref="PixelAvatarAttachment.Companion"/> to tune the timings. Every
@@ -80,6 +84,7 @@ namespace Tesserae
         private bool   _walking;
         private bool   _returnToIdle;
         private bool   _running;
+        private bool   _working;
 
         /// <param name="omniBox">
         /// The box the cat reacts to, or null when there is none - a companion without one only
@@ -113,6 +118,45 @@ namespace Tesserae
 
         /// <summary>Gets whether the cat is currently asleep.</summary>
         public bool IsAsleep => _avatar.IsAsleep;
+
+        /// <summary>Gets whether the cat is at its laptop - see <see cref="Working"/>.</summary>
+        public bool IsWorking => _working;
+
+        /// <summary>
+        /// Sits the cat down at its laptop, or takes it back off. Use it to show that the
+        /// application itself is busy: the pose holds for as long as whatever it is waiting on
+        /// rather than for a fixed number of frames, which is what makes it read as work rather
+        /// than as one more thing the cat does on its own.
+        ///
+        /// While it is working the companion stands down the way it does while the cat is asleep -
+        /// no spontaneous animations, no walk to the caret, and typing no longer settles it - so
+        /// nothing pulls the cat off the laptop half way through. A click still gets a look up,
+        /// and the cat goes back to work when the reaction ends. Turning it off hands the cat back
+        /// to <see cref="PixelAvatarAnimation.AutoIdle"/> and picks the roaming up again.
+        /// </summary>
+        public PixelAvatarCompanion Working(bool working = true)
+        {
+            if (_working == working) return this;
+
+            _working = working;
+
+            if (!working)
+            {
+                _avatar.Play(PixelAvatarAnimation.AutoIdle);
+                ScheduleAction(true);
+                return this;
+            }
+
+            // Everything the cat was in the middle of, dropped where it stands: a walk mid-flight
+            // would otherwise go on sliding the laptop along the top edge.
+            StopWalking();
+            ClearActionTimer();
+            ClearCursorWalk();
+            _returnToIdle = false;
+
+            _avatar.Play(PixelAvatarAnimation.Work);
+            return this;
+        }
 
         /// <summary>
         /// Sets the range a spontaneous animation is scheduled within. Both bounds are clamped to
@@ -178,7 +222,8 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Plays a spontaneous animation right now, as if the timer had fired.
+        /// Plays a spontaneous animation right now, as if the timer had fired. Does nothing while
+        /// the cat is asleep or <see cref="Working"/>.
         /// </summary>
         public PixelAvatarCompanion Fidget()
         {
@@ -187,7 +232,8 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Walks the cat over to the text caret right now, as if the countdown had elapsed.
+        /// Walks the cat over to the text caret right now, as if the countdown had elapsed. Does
+        /// nothing while the cat is asleep or <see cref="Working"/>.
         /// </summary>
         public PixelAvatarCompanion FollowCursor()
         {
@@ -199,6 +245,10 @@ namespace Tesserae
         // user actually typed) bring the cat back to idle and line up the walk to the caret.
         private void Poke(bool typed)
         {
+            // At the laptop the box is not what the cat is watching, and it cannot fall asleep
+            // there either - Work is not a resting pose - so there is no countdown to push back.
+            if (_working) return;
+
             var wasAsleep = _avatar.IsAsleep;
 
             if (wasAsleep)
@@ -248,6 +298,15 @@ namespace Tesserae
 
         private void OnAnimationStarted(PixelAvatarAnimation animation)
         {
+            // At the laptop there is nothing to schedule. A click reaction chains back into Idle
+            // when it ends, though, so a cat that was poked mid-task is put back to work rather
+            // than left standing in front of a laptop it is no longer using.
+            if (_working)
+            {
+                if (IsSettled(animation)) _avatar.Play(PixelAvatarAnimation.Work);
+                return;
+            }
+
             // Falling asleep is the avatar's own decision, taken when it has been resting long
             // enough. All the companion has to do is stop poking it until the user comes back.
             if (_avatar.IsAsleep)
@@ -290,7 +349,7 @@ namespace Tesserae
 
         private void PerformRandomAction()
         {
-            if (!_running || _avatar.IsAsleep) return;
+            if (!_running || _working || _avatar.IsAsleep) return;
 
             var animation = Repertoire[PixelAvatarRandom.Next(Repertoire.Length)];
 
@@ -313,7 +372,7 @@ namespace Tesserae
         {
             _cursorTimer = 0;
 
-            if (!_running || _avatar.IsAsleep) return;
+            if (!_running || _working || _avatar.IsAsleep) return;
 
             if (_omniBox == null)
             {
@@ -419,7 +478,7 @@ namespace Tesserae
 
             ClearActionTimer();
 
-            if (!_running || _avatar.IsAsleep) return;
+            if (!_running || _working || _avatar.IsAsleep) return;
 
             // The caret walk is queued ahead of anything spontaneous, so the cat is not halfway
             // through a jump when it is due to go and look at what you are typing.
@@ -436,7 +495,7 @@ namespace Tesserae
             ClearCursorWalk();
             ClearActionTimer();
 
-            if (!_running || _cursorMs == 0 || _omniBox == null) return;
+            if (!_running || _working || _cursorMs == 0 || _omniBox == null) return;
 
             _cursorTimer = window.setTimeout(_ => WalkToCursor(), PixelAvatarRandom.Jittered(_cursorMs));
         }
@@ -457,6 +516,15 @@ namespace Tesserae
         {
             _running = true;
             MoveToAnchor();
+
+            // A companion inside a tab that was swapped out and brought back picks up where it was,
+            // so a cat that was working when it went away is still working when it comes back.
+            if (_working)
+            {
+                _avatar.Play(PixelAvatarAnimation.Work);
+                return;
+            }
+
             _avatar.Play(PixelAvatarAnimation.AutoIdle);
             ScheduleAction(true);
         }

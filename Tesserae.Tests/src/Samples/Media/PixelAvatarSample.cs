@@ -389,14 +389,26 @@ namespace Tesserae.Tests.Samples
 
             companion.Avatar.OnAnimationStarted((_, animation) => status.Text = $"{animation}");
 
+            // Working() is what an application reaches for when it has something of its own running:
+            // the cat holds the pose until it is turned back off, and the roaming stands down so
+            // nothing pulls it off the laptop half way through.
+            var work = Button("Put to work").Compact();
+
+            work.OnClick(() =>
+            {
+                companion.Working(!companion.IsWorking);
+                work.SetText(companion.IsWorking ? "Back to roaming" : "Put to work");
+            });
+
             return VStack().WS().Children(
                 perched,
-                HStack().WS().AlignItemsCenter().PT(12).Children(
+                HStack().WS().Wrap().AlignItemsCenter().PT(12).Children(
                     Button("Fidget now").Compact().OnClick(() => companion.Fidget()),
                     Button("Follow the caret").Compact().ML(8).OnClick(() => companion.FollowCursor()),
                     Button("Wake up").Compact().ML(8).OnClick(() => companion.WakeUp()),
                     Button("Sleep in 2s").Compact().ML(8).OnClick(() => companion.SleepAfter(2000)),
                     Button("Sleep after 60s").Compact().ML(8).OnClick(() => companion.SleepAfter(60000)),
+                    work.ML(8),
                     status.PL(16)));
         }
 
