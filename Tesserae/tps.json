@@ -28,6 +28,7 @@
                 "tps/assets/css/tss.label.css",
                 "tps/assets/css/tss.textblock.css",
                 "tps/assets/css/tss.listitemtext.css",
+                "tps/assets/css/tss.statefulitemrow.css",
                 "tps/assets/css/tss.textbox.css",
                 "tps/assets/css/tss.textarea.css",
                 "tps/assets/css/tss.card.css",

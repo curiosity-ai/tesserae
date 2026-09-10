@@ -193,8 +193,8 @@ stepper · text-breadcrumbs
 
 **Lists & Data** — rendering a collection of items
 details-grid · details-list · infinite-scrolling-list · items-list ·
-keyed-observable-stack · observable-stack · sortable-stack · task-board ·
-timeline · tree · virtualized-list
+keyed-observable-stack · observable-stack · sortable-stack · stateful-item-row ·
+task-board · timeline · tree · virtualized-list
 
 **Search** — search inputs and their result surfaces
 mark-highlighter · omni-box · omni-result · search-box ·

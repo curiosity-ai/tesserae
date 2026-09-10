@@ -741,6 +741,12 @@ namespace Tesserae
         public static ListItemText ListItemText(string title, string subtitle = null) => new ListItemText(title, subtitle);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.StatefulItemRow"/> component: a full-width list row with a leading visual,
+        /// a title and subtitle, and trailing content pinned to the far end.
+        /// </summary>
+        public static StatefulItemRow StatefulItemRow(IComponent leading = null) => new StatefulItemRow(leading);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.MarkdownBlock"/> component that renders Markdown source as sanitized HTML.
         /// </summary>
         public static MarkdownBlock MarkdownBlock(string text = "", MarkdownSanitization sanitization = MarkdownSanitization.Default) => new MarkdownBlock(text, sanitization);

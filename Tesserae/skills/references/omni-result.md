@@ -393,6 +393,7 @@ selected — the browser starts a drag where the selection would have begun, wha
 Dragging and reading are one choice, so turn the list's dragging off for rows you make text-selectable.
 
 ## Related
+- StatefulItemRow — a plain list row, when the hit's highlighting, source footer and modal are not wanted — `stateful-item-row.md`
 
 - IconTile — the tile the row leads with, on its own — `icon-tile.md`
 - ModalStack — the deck a result's modal is usually pushed onto — `modal-stack.md`

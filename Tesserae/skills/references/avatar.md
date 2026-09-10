@@ -46,6 +46,7 @@ var person = Persona("Jordan Diaz", "Product Designer", "Available",
 
 ## Related
 
+- StatefulItemRow — a list row that takes an `Avatar` as its leading visual — `stateful-item-row.md`
 - Full docs & API: `/tesserae/components/avatar`
 - Used by Chat messages — `chat.md`
 - For a decorative animated pixel-art character (not a user) — `pixel-avatar.md`

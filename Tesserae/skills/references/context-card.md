@@ -136,6 +136,7 @@ Several cards belonging together go in a `ContextCards` group — one summary pi
 list of rows, or a compact row of pills with a "+N more". See `context-cards.md`.
 
 ## Related
+- StatefulItemRow — a full-width list row with a trailing slot you choose and a state tone — `stateful-item-row.md`
 
 - ContextCards — the group — `context-cards.md`
 - ContextMenu — the menu `OnContextMenu` opens, and its items — `context-menu.md`

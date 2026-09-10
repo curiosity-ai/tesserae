@@ -1,0 +1,130 @@
+/* StatefulItemRow — one row of a list: a leading visual, two lines of text, and what the row is acted on with. */
+
+.tss-statefulitemrow {
+    /* The wash, its rule and the text colors all come off this one, so a tone is a single line below. */
+    --tss-statefulitemrow-accent: transparent;
+    --tss-statefulitemrow-surface: transparent;
+
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+    padding: 9px 20px;
+    background: var(--tss-statefulitemrow-surface);
+    color: var(--tss-default-foreground-color);
+}
+
+/* The tones. Each is a wash of the accent over the page's own background, so a row keeps reading as a row
+   rather than as a card dropped into the list, and follows a theme switch without a second declaration. */
+.tss-statefulitemrow-primary { --tss-statefulitemrow-accent: var(--tss-primary-background-color); }
+.tss-statefulitemrow-success { --tss-statefulitemrow-accent: var(--tss-success-background-color); }
+.tss-statefulitemrow-warning { --tss-statefulitemrow-accent: var(--tss-warning-background-color); }
+.tss-statefulitemrow-danger  { --tss-statefulitemrow-accent: var(--tss-danger-background-color); }
+
+.tss-statefulitemrow-primary,
+.tss-statefulitemrow-success,
+.tss-statefulitemrow-warning,
+.tss-statefulitemrow-danger {
+    --tss-statefulitemrow-surface: color-mix(in srgb, var(--tss-statefulitemrow-accent) 10%, var(--tss-default-background-color));
+}
+
+/* Muted is not a color, it is a row that is still worth showing and cannot be acted on. */
+.tss-statefulitemrow-muted {
+    opacity: 0.45;
+}
+
+.tss-statefulitemrow-compact {
+    padding: 6px 16px;
+    gap: 10px;
+}
+
+.tss-statefulitemrow-interactive {
+    cursor: pointer;
+}
+
+.tss-statefulitemrow-interactive:hover {
+    background: color-mix(in srgb, var(--tss-primary-background-color) 8%, var(--tss-statefulitemrow-surface));
+}
+
+/* Leading ---------------------------------------------------------------------------------------- */
+
+.tss-statefulitemrow-leading {
+    display: flex;
+    align-items: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+/* Text ------------------------------------------------------------------------------------------- */
+
+/* min-width:0 is what lets the two lines ellipsize instead of holding the row open and pushing the
+   trailing controls past its right edge. */
+.tss-statefulitemrow-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.tss-statefulitemrow-title,
+.tss-statefulitemrow-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tss-statefulitemrow-title {
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-semibold);
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-statefulitemrow-subtitle {
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-statefulitemrow-title-text,
+.tss-statefulitemrow-subtitle-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Whatever the host put in either line has to be allowed to shrink below what it would rather be, or the
+   flex item's automatic minimum size holds the row open and the text runs under the trailing controls. */
+.tss-statefulitemrow-title > *,
+.tss-statefulitemrow-subtitle > * {
+    min-width: 0;
+}
+
+/* Whatever the host drops into a line sits on it rather than carrying the margins it would have in a stack. */
+.tss-statefulitemrow-title > .tss-textblock,
+.tss-statefulitemrow-subtitle > .tss-textblock {
+    margin: 0;
+}
+
+/* The subtitle is what still identifies a row on its way out, so only the title is struck. */
+.tss-statefulitemrow-struck .tss-statefulitemrow-title {
+    text-decoration: line-through;
+    color: var(--tss-secondary-foreground-color);
+}
+
+/* Trailing --------------------------------------------------------------------------------------- */
+
+.tss-statefulitemrow-trailing {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-left: auto;
+}

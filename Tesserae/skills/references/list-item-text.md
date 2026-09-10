@@ -54,6 +54,7 @@ var rows = VStack().WS().Children(
 
 ## Related
 
+- StatefulItemRow — the whole row around these two lines: a leading visual, trailing controls and a tone — `stateful-item-row.md`
 - OmniResult — the full search-result row, with an icon tile, excerpt and commands — `omni-result.md`
 - ContextCard — the compact card for one attached piece of context — `context-card.md`
 - ItemsList / DetailsList — what usually holds a column of these — `items-list.md`, `details-list.md`
