@@ -7,9 +7,14 @@ namespace Tesserae
     // names, so that adding a design stays a single edit.
 
     /// <summary>
-    /// The animations a <see cref="PixelAvatar"/> can play. The four <c>*Idle</c> animations loop
+    /// The animations a <see cref="PixelAvatar"/> can play. The five <c>*Idle</c> animations loop
     /// forever; the others play once and then hand over to a follow-up animation (for example
     /// <see cref="Sit"/> settles into <see cref="SitIdle"/>).
+    ///
+    /// <see cref="Work"/> and <see cref="WorkIdle"/> are the only ones that draw something other
+    /// than the cat: the laptop is painted from the three prop indices above the coat palette, so
+    /// it stays the same grey whichever design the cat wears - see
+    /// <see cref="PixelAvatarSprites.PropSize"/> and <see cref="PixelAvatar.PropColors"/>.
     ///
     /// <see cref="AutoIdle"/> is the odd one out: it has no artwork of its own and is a resting
     /// behaviour rather than a single animation.
@@ -37,7 +42,9 @@ namespace Tesserae
         [Name("Crouch")]     Crouch,
         [Name("CrouchIdle")] CrouchIdle,
         [Name("Sleep")]      Sleep,
-        [Name("SleepIdle")]  SleepIdle
+        [Name("SleepIdle")]  SleepIdle,
+        [Name("Work")]       Work,
+        [Name("WorkIdle")]   WorkIdle
     }
 
     /// <summary>

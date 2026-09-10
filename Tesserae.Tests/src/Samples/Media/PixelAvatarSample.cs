@@ -16,7 +16,8 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                         TextBlock("PixelAvatar renders a small animated sprite as a grid of absolutely positioned square divs. The artwork is stored once, as a byte grid of palette indices, and each of the fifteen designs is nothing more than a palette of colors for those indices - so recoloring an avatar costs eleven CSS variable writes and no repaint of the sprite."),
-                        TextBlock("Thirteen animations are available. The four *Idle animations loop forever, while the rest play once and hand over to a follow-up animation: Sit settles into SitIdle, Stretch finishes by sitting down, JumpUp is followed by JumpDown, and so on. Idle, SitIdle and CrouchIdle hold their first frame for a random 5-10 seconds rather than cycling continuously, so a resting cat looks still rather than fidgety - and AutoIdle drifts between those three poses on its own."),
+                        TextBlock("Fifteen animations are available. The five *Idle animations loop forever, while the rest play once and hand over to a follow-up animation: Sit settles into SitIdle, Stretch finishes by sitting down, JumpUp is followed by JumpDown, and so on. Idle, SitIdle and CrouchIdle hold their first frame for a random 5-10 seconds rather than cycling continuously, so a resting cat looks still rather than fidgety - and AutoIdle drifts between those three poses on its own."),
+                        TextBlock("Work and WorkIdle are the only pair that draws something other than the cat. The laptop comes from three prop indices above the eleven palette ones, painted from the avatar's own CSS variables rather than from the coat - a palette describes a cat, and every design would otherwise have to invent a laptop color for itself."),
                         TextBlock("Avatars can be attached to any other component, which perches them on one of its edges without affecting its layout."),
                         TextBlock("The extracted palettes are the source artwork's own colors, which means some of them are pure white and others near-black. A hairline halo in the theme's contrasting color is drawn by default so every design stays legible in both light and dark mode; Outline(false) turns it off.")))
                        .SetTitle("Overview")))
@@ -35,6 +36,9 @@ namespace Tesserae.Tests.Samples
                         SampleSubTitle("Every animation"),
                         TextBlock("Pick an animation to play it on a larger avatar. Non-looping animations chain into their follow-up, so the label updates on its own once they finish. The three resting poses hold their first frame for 5-10 seconds rather than cycling, and AutoIdle drifts between them."),
                         AnimationPicker(),
+                        SampleSubTitle("Working at the laptop"),
+                        TextBlock("Work sits the cat down and opens a laptop in front of it, then hands over to WorkIdle: paws on the keyboard, resting for a second or three and then tapping out a short burst, with the screen changing and the tail twitching as it goes. The laptop is not part of the coat - it is drawn from the three prop indices above the palette, so the same grey machine turns up under every design, and PropColors repaints it for one avatar without touching the cat."),
+                        WorkGallery(),
                         SampleSubTitle("Anchors"),
                         TextBlock("An avatar can be anchored to any edge of the component it is attached to. By default the wrapper reserves room for it, so it can never be clipped by a scrolling ancestor."),
                         AnchorGallery(),
@@ -155,6 +159,54 @@ namespace Tesserae.Tests.Samples
                     avatar,
                     current.PT(12)),
                 buttons.Grow());
+        }
+
+        private static IComponent WorkGallery()
+        {
+            var avatar  = PixelAvatar(42, PixelAvatarDesign.Orange, PixelAvatarAnimation.Work).PixelSize(12);
+            var current = TextBlock("Work").SemiBold();
+
+            avatar.OnAnimationStarted((_, animation) => current.Text = $"{animation}");
+
+            var coats = HStack().WS().Wrap().Children();
+
+            foreach (var design in new[] { PixelAvatarDesign.Black, PixelAvatarDesign.Grey, PixelAvatarDesign.Siamese, PixelAvatarDesign.Cobalt, PixelAvatarDesign.Bubblegum })
+            {
+                coats.Add(VStack().AlignItemsCenter().PR(24).Children(
+                    PixelAvatar(42, design, PixelAvatarAnimation.WorkIdle).PixelSize(7),
+                    TextBlock($"{design}").Tiny().Secondary().PT(8)));
+            }
+
+            return VStack().WS().Children(
+                HStack().WS().AlignItemsCenter().Children(
+                    VStack().Width(180.px()).AlignItemsCenter().Children(
+                        avatar,
+                        current.PT(12)),
+                    Button("Open the laptop again")
+                       .SetIcon(UIcons.Laptop)
+                       .OnClick(() => avatar.Play(PixelAvatarAnimation.Work))),
+                TextBlock("The same machine on five coats - the prop indices are outside the palette, so switching design leaves it alone.").Tiny().Secondary().PT(24),
+                coats.PT(12),
+                TextBlock("PropColors(body, lit, shadow) repaints it on one avatar.").Tiny().Secondary().PT(24),
+                HStack().WS().Wrap().PT(12).Children(
+                    PropCard("Default", null, null, null),
+                    PropCard("Walnut", "#C4A07A", "#FFE9C7", "#5A4632"),
+                    PropCard("Terminal", "#2F3A34", "#7CF29B", "#16201A"),
+                    PropCard("Rose", "#C77C99", "#FFE1EC", "#5E2B3D")));
+        }
+
+        private static IComponent PropCard(string label, string body, string lit, string shadow)
+        {
+            var cat = PixelAvatar(42, PixelAvatarDesign.Tuxedo, PixelAvatarAnimation.WorkIdle).PixelSize(8);
+
+            if (body != null)
+            {
+                cat.PropColors(Color.FromString(body), Color.FromString(lit), Color.FromString(shadow));
+            }
+
+            return VStack().AlignItemsCenter().PR(24).Children(
+                cat,
+                TextBlock(label).Tiny().Secondary().PT(8));
         }
 
         private static IComponent AnchorGallery()

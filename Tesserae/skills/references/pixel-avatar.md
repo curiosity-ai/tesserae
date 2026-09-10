@@ -1,6 +1,6 @@
 ﻿---
 name: pixel-avatar
-description: An animated pixel-art cat avatar drawn as one absolutely-positioned div per pixel, with fifteen coat designs and thirteen animations, attachable to any other component. Use when adding a small animated mascot or decorative character to a Tesserae (C#/Transpose) app.
+description: An animated pixel-art cat avatar drawn as one absolutely-positioned div per pixel, with fifteen coat designs and fifteen animations - including one where it works at a laptop - attachable to any other component. Use when adding a small animated mascot or decorative character to a Tesserae (C#/Transpose) app.
 ---
 
 # PixelAvatar
@@ -50,6 +50,7 @@ subtree costs nothing.
 - `.Outline(bool = true)` — a hairline halo in the theme's contrasting color, **on by default**. Several palettes contain pure white (`White`, `SpottedGrey`, `SpottedOrange`) and several near-black (`Black`, `Tuxedo`, `Siamese`), so without it those designs disappear against one theme or the other. `.OutlineColor(string)` overrides the color, which defaults to translucent black in light mode and translucent white in dark mode.
 - `.OnAnimationStarted((avatar, animation) => ...)` / `.OnAnimationFinished((avatar, animation) => ...)` — the second fires when a non-looping animation reaches its last frame, just before its follow-up takes over; calling `Play` from the handler suppresses that hand-over.
 - `.ReactToClicks(bool = true)` — the built-in click reaction; see **Clicking the cat** below.
+- `.PropColors(Color body, Color lit = null, Color shadow = null)` — recolor the laptop; see **Working at a laptop** below.
 
 `PixelAvatarDesign`: `Black`, `Orange`, `White`, `Beige`, `Siamese`, `SpottedGrey`,
 `SpottedOrange`, `Tuxedo` (extracted from the source sprite sheets), plus `Grey`, `Sparkle`
@@ -61,14 +62,14 @@ same palette indices. `PixelAvatarPalettes.All` enumerates them and
 `PixelAvatarPalettes.Get(design)` returns the palette.
 
 `PixelAvatarAnimation`: `Move`, `Idle`, `Interact`, `JumpUp`, `JumpDown`, `Startle`,
-`Stretch`, `Sit`, `SitIdle`, `Crouch`, `CrouchIdle`, `Sleep`, `SleepIdle`, plus `AutoIdle`.
-`PixelAvatarSprites.All` enumerates the thirteen that have artwork and
+`Stretch`, `Sit`, `SitIdle`, `Crouch`, `CrouchIdle`, `Sleep`, `SleepIdle`, `Work`, `WorkIdle`,
+plus `AutoIdle`. `PixelAvatarSprites.All` enumerates the fifteen that have artwork and
 `PixelAvatarSprites.Get(animation)` returns the frames, frame duration, and whether it loops.
 
-`Move`, `Idle`, `SitIdle`, `CrouchIdle` and `SleepIdle` loop forever. The rest play once
-and hand over: `Sit` settles into `SitIdle`, `Crouch` into `CrouchIdle`, `Sleep` into
-`SleepIdle`, `Stretch` into `Sit`, `JumpUp` into `JumpDown`, and `Interact`, `JumpDown`
-and `Startle` return to `Idle`.
+`Move`, `Idle`, `SitIdle`, `CrouchIdle`, `SleepIdle` and `WorkIdle` loop forever. The rest play
+once and hand over: `Sit` settles into `SitIdle`, `Crouch` into `CrouchIdle`, `Sleep` into
+`SleepIdle`, `Work` into `WorkIdle`, `Stretch` into `Sit`, `JumpUp` into `JumpDown`, and
+`Interact`, `JumpDown` and `Startle` return to `Idle`.
 
 ### Resting
 
@@ -98,6 +99,46 @@ jittered by ±20% on use, so nothing the cat does lands on a stopwatch:
 - `.RestDelay(minMs, maxMs)` — overrides how long each resting pose holds its first frame. Zero for both restores the built-in 5–10s.
 - `.SleepAfter(ms)` — resting time before it sleeps, jittered on use. `PixelAvatar.DefaultSleepAfterMs` is 60000; pass zero to keep it awake indefinitely.
 - `.Wake()` — restarts the sleep countdown, and plays the wake-up performance if the cat was actually out.
+
+## Working at a laptop
+
+`Work` sits the cat down in front of a closed laptop and opens the lid over four frames, then
+hands over to `WorkIdle`: paws on the keyboard, holding still for a random 1.2 to 3.2 seconds and
+then tapping out a short burst, with the screen changing and the tail twitching as it goes. It is
+the same resting mechanism as the other `*Idle` poses — a cat typing without pause reads as a
+machine.
+
+```csharp
+var cat = PixelAvatar(SpriteKey.Value, PixelAvatarDesign.Orange, PixelAvatarAnimation.Work).PixelSize(8);
+```
+
+These two are the only animations that draw something other than the cat, and the laptop is
+deliberately **not** part of the coat. A `PixelAvatarPalette` describes a cat, so putting the
+laptop in it would mean every one of the fifteen designs — and every custom palette — inventing a
+laptop color for itself, and a ginger cat would get a ginger laptop. The artwork carries
+`PixelAvatarSprites.PropSize` (3) **prop indices** above the palette's own
+`1..PixelAvatarSprites.PaletteSize`, up to `PixelAvatarSprites.HighestIndex`:
+
+| Index | Constant | What it draws |
+|---|---|---|
+| 12 | `PixelAvatarSprites.PropBodyIndex` | the shell and the keyboard |
+| 13 | `PixelAvatarSprites.PropLitIndex` | the screen |
+| 14 | `PixelAvatarSprites.PropShadowIndex` | the lid while it is still closed |
+
+They are painted from three CSS variables of their own — `--tss-pxav-prop`,
+`--tss-pxav-prop-lit` and `--tss-pxav-prop-shadow` — which the stylesheet defaults to a slate
+machine that suits both themes, so switching design leaves the laptop alone. `SetPalette` and
+`SetColor` do not touch them; `.PropColors(body, lit, shadow)` repaints them on one avatar, and
+passing null for a shade leaves that one as it is.
+
+```csharp
+// A green-on-black terminal instead of the default slate.
+cat.PropColors(Color.FromString("#2F3A34"), Color.FromString("#7CF29B"), Color.FromString("#16201A"));
+```
+
+`Work` is not one of the poses `AutoIdle` drifts between and not in the `PixelAvatarCompanion`
+repertoire: a cat that produces a laptop out of nowhere while roaming a search box is a
+distraction, so it plays only when you ask for it.
 
 ## Clicking the cat
 
@@ -132,7 +173,8 @@ cat.OnClick((_, __) => OpenProfile()).ReactToClicks();
 ## Custom palettes
 
 A palette is eleven colors, one per palette index, plus the **background** an avatar-shaped
-host such as `PixelAvatarBadge` sits the coat on. The indices are ordered by shading level, so
+host such as `PixelAvatarBadge` sits the coat on. It covers the cat only — the prop indices above
+it are the laptop's, and belong to `PropColors`; see **Working at a laptop**. The indices are ordered by shading level, so
 each shade is a contiguous run — `1..PixelAvatarSprites.LastHighlightIndex` (3) is the
 highlight, up to `LastBaseIndex` (9) the base, and the rest the shadow.
 `PixelAvatarSprites.ShadeOf(byte)` returns a `PixelAvatarShade` (`Highlight`, `Base`,
@@ -162,7 +204,7 @@ On `PixelAvatarPalette`:
 On `PixelSprite`:
 
 - `.InkLeft` / `.InkTop` / `.InkWidth` / `.InkHeight` — the bounds of a frame's non-transparent pixels. Frames share one 10x8 box so they stay aligned while animating, which means an individual pose sits wherever it sits inside it; anything centering or measuring a single frame wants these, not the box.
-- `.HasEars` / `.EarY` / `.EarLeftX` / `.EarRightX` — where the ear tips are in this frame, which is what the accent follows as the animation plays. Every frame draws exactly one pixel of `PixelAvatarSprites.RightEarIndex` and it is always the right tip, with the left one `EarSpacing` cells to its left; the generator asserts that across all 43 frames, so this is a lookup rather than a silhouette guess (the topmost row will not do — in several poses the raised tail reaches it too).
+- `.HasEars` / `.EarY` / `.EarLeftX` / `.EarRightX` — where the ear tips are in this frame, which is what the accent follows as the animation plays. Every frame draws exactly one pixel of `PixelAvatarSprites.RightEarIndex` and it is always the right tip, with the left one `EarSpacing` cells to its left; the generator asserts that across all 53 frames, so this is a lookup rather than a silhouette guess (the topmost row will not do — in several poses the raised tail reaches it too).
 
 ```csharp
 // Three colors and a background are enough for a whole coat.
