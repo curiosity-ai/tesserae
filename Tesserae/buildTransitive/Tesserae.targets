@@ -29,8 +29,8 @@
     They are translated here now, with TNTC, and travel as `@(TranslationTable)` - one item per
     language file, carrying the package it came from. A host globbing our folder layout is a host
     that breaks when the layout moves; the item is the contract. Consuming it is one target in the
-    host (mosaik's Build/Curiosity.Tnt.targets is the worked example), or `tntc extract
-    --include-packages`, which reads the same `l10n/` folder out of the restored package.
+    host (mosaik's Build/Curiosity.Tnt.targets is the worked example), or `tntc extract` with its
+    include-packages flag, which reads the same `l10n/` folder out of the restored package.
 
     Evaluated at import time: both candidate folders are static content - the nupkg's `l10n/`, or
     this repository's committed `.tnt-content/` - so nothing appears later in the build. A glob that
