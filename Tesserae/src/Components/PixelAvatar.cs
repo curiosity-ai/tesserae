@@ -40,6 +40,13 @@ namespace Tesserae
         // not distort at rest.
         private const int PerspectiveFactor = 4;
 
+        // The prop indices above the coat palette. A prop - the laptop the cat works on - is not
+        // part of a coat: a palette describes a cat, and every one of the fifteen designs would
+        // otherwise have to invent a laptop color for itself. They are painted from three
+        // variables of their own, defaulted by the stylesheet and overridable with PropColors.
+        // Declared first because static initializers run in order and BuildColorVariables reads it.
+        private static readonly string[] PropVariables = { "--tss-pxav-prop", "--tss-pxav-prop-lit", "--tss-pxav-prop-shadow" };
+
         // Pixels reference their color through a CSS custom property rather than carrying the
         // literal color, so switching design only rewrites eleven variables on the root instead of
         // repainting the whole grid - and consumers can override a single index from CSS.
@@ -318,7 +325,8 @@ namespace Tesserae
 
             _palette = palette;
 
-            for (byte index = 1; index < ColorVariables.Length; index++)
+            // Only the coat: the prop variables above it are not a palette's to write.
+            for (byte index = 1; index <= PixelAvatarSprites.PaletteSize; index++)
             {
                 InnerElement.style.setProperty(VariableName(index), _palette.CssAt(index));
             }
@@ -347,6 +355,30 @@ namespace Tesserae
             _palette = _palette.WithColor(index, color);
             InnerElement.style.setProperty(VariableName(index), color.ToHex());
             return this;
+        }
+
+        /// <summary>
+        /// Recolors the props the cat handles - the laptop in
+        /// <see cref="PixelAvatarAnimation.Work"/> - on this avatar. Props are deliberately outside
+        /// the coat palette, so they keep one set of colors across all fifteen designs; the
+        /// stylesheet gives them a slate default and this overrides it. Pass null for a shade to
+        /// leave that one alone.
+        /// </summary>
+        /// <param name="body">The prop's body - the laptop's shell and keyboard.</param>
+        /// <param name="lit">Its lit face - the screen.</param>
+        /// <param name="shadow">Its shaded face - the lid while the laptop is still closed.</param>
+        public PixelAvatar PropColors(Color body, Color lit = null, Color shadow = null)
+        {
+            SetPropColor(PixelAvatarSprites.PropBodyIndex, body);
+            SetPropColor(PixelAvatarSprites.PropLitIndex, lit);
+            SetPropColor(PixelAvatarSprites.PropShadowIndex, shadow);
+            return this;
+        }
+
+        private void SetPropColor(byte index, Color color)
+        {
+            if (color == null) return;
+            InnerElement.style.setProperty(VariableName(index), color.ToHex());
         }
 
         /// <summary>
@@ -875,11 +907,15 @@ namespace Tesserae
             AriaLabel = $"{_palette.Name} pixel avatar, {_animation.Animation}";
         }
 
-        private static string VariableName(byte index) => $"--tss-pxav-{index}";
+        private static string VariableName(byte index)
+        {
+            if (index > PixelAvatarSprites.PaletteSize) return PropVariables[index - PixelAvatarSprites.PaletteSize - 1];
+            return $"--tss-pxav-{index}";
+        }
 
         private static string[] BuildColorVariables()
         {
-            var variables = new string[PixelAvatarSprites.PaletteSize + 1];
+            var variables = new string[PixelAvatarSprites.HighestIndex + 1];
             variables[0] = string.Empty;
 
             for (byte index = 1; index < variables.Length; index++)

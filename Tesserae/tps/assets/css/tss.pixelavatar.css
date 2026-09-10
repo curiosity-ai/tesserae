@@ -4,6 +4,13 @@
        theme or the other. A hairline halo in the opposite direction keeps every design legible
        on every background without touching the artwork's colors. */
     --tss-pxav-outline: rgba(0, 0, 0, 0.5);
+    /* The props the cat handles - the laptop in Work / WorkIdle - are drawn from the three sprite
+       indices above the coat palette, so they are the same object whichever design the cat wears
+       and whichever theme the page is in. A palette describes a cat; a laptop is not part of one.
+       PixelAvatar.PropColors overrides these per avatar. */
+    --tss-pxav-prop: #7C8899;
+    --tss-pxav-prop-lit: #C9E6F2;
+    --tss-pxav-prop-shadow: #3D4653;
     --tss-pxav-turn: 320ms;
     /* Written by the component from the rendered width, so the amount of foreshortening during a
        turn looks the same whether the avatar is 20px or 120px wide. */

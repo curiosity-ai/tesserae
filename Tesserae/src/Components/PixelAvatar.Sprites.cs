@@ -21,6 +21,22 @@ namespace Tesserae
         internal const int FrameHeight = 8;
         /// <summary>Number of colors in a palette (palette index 0 is always transparent).</summary>
         public const int PaletteSize = 11;
+        /// <summary>
+        /// How many indices above <see cref="PaletteSize"/> the artwork keeps for props - the
+        /// things the cat handles rather than the cat itself, such as the laptop in
+        /// <see cref="PixelAvatarAnimation.Work"/>. A prop is not part of a coat, so it is not in
+        /// a <see cref="PixelAvatarPalette"/>: those indices are painted from the avatar's own CSS
+        /// variables instead, which is what keeps one laptop grey across all fifteen designs.
+        /// </summary>
+        public const int PropSize = 3;
+        /// <summary>The highest index a sprite cell can carry, props included.</summary>
+        public const int HighestIndex = PaletteSize + PropSize;
+        /// <summary>The index of a prop's body - the laptop's shell and keyboard.</summary>
+        public const byte PropBodyIndex = PaletteSize + 1;
+        /// <summary>The index of a prop's lit face - the laptop's screen.</summary>
+        public const byte PropLitIndex = PaletteSize + 2;
+        /// <summary>The index of a prop's shaded face - the lid while the laptop is closed.</summary>
+        public const byte PropShadowIndex = PaletteSize + 3;
         /// <summary>Highest palette index belonging to the highlight shade.</summary>
         internal const int LastHighlightIndex = 3;
         /// <summary>Highest palette index belonging to the base shade; the rest are shadow.</summary>
@@ -35,29 +51,39 @@ namespace Tesserae
         public const int EarSpacing = 2;
 
         /// <summary>
-        /// How many pixels across the whole sprite sheet use each palette index, indexed by
-        /// palette index (entry 0 is the transparent index and is always 0). Lets callers work
-        /// out which color covers most of the artwork - see
-        /// <see cref="PixelAvatarPalette.DominantColor"/>.
+        /// How many pixels across the whole sprite sheet use each index, indexed by palette index
+        /// (entry 0 is the transparent index and is always 0). Lets callers work out which color
+        /// covers most of the artwork - see <see cref="PixelAvatarPalette.DominantColor"/>, which
+        /// reads only the coat's own 1..<see cref="PaletteSize"/>; the prop entries above those
+        /// are here for completeness.
         /// </summary>
-        internal static readonly int[] PixelCounts = new[] { 0, 128, 89, 43, 133, 133, 66, 43, 43, 2, 73, 38 };
+        internal static readonly int[] PixelCounts = new[] { 0, 157, 109, 53, 154, 190, 94, 53, 53, 2, 84, 58, 57, 13, 6 };
 
-        private const string Alphabet = ".123456789ab";
+        // Twelve coat indices (0 = transparent, 1..11 = the palette) followed by the three prop
+        // indices. Fifteen symbols caps a run-length at four rather than five - see PackedText -
+        // which is what the props cost the packed sheet.
+        private const string Alphabet = ".123456789abcde";
 
         private const string PackedFrames =
-            "aaaaaaarqpynms6akvtva69aqigvgaaaaaOrqpams6mnmovtvOks9a6qvgaigaaaaaaaqnyrqpOkqs6O6ovtvyigqsjhaOvgaaaa" +
-            "aaaayrmrqpaks6a6vtvaigvgaaaaaaayrqpynms6akvtva69aqigvgaaaaaaaaOnmrqpaks6a6vtvaigvgaaaaaaaaayrqpynms6" +
-            "akvtvaigvgaaaaaaaOrqpynms6akvtva698yigqvaaaaaaaOrqpynms6akvtva69aigqvqgaaaaaaaaaqrqpynks6a6vtvaigvga" +
-            "aaaaOrqpams6mnmovtvOks9a6qvgaigaaaaaaaqnyrqpOkqs6O6ovtvyigqsjhaOvgaaaaaaaamnmrqpaks6a6vtvaigvgaaaaaa" +
-            "aaayrqpynks6a6vtvaigvgaqrqrqparqs6asovtva69aiOvaaaaaaaaamrqpOrms6Ormvtvak9aq64aqimvaaaaaaaaaaayrqpyn" +
-            "ms6akvtvaigvgaaaaaaamrqpynms6akvtva69aqigqvgaaaaaayraOrmrqpaks6a6vtvaqigqvgaaaayraOraakrqpau46aquvtv" +
-            "aqigqvgaaaayraOraakrqpau46aquvtvaqigqvgaaaaaayraOrmrqpaks6a6vtvaqigqvgaaaaaaamrqpynms6akvtva69aqigqv" +
-            "gaaaaaaayrqpams6ynqovtvaou9aqigvgaaaaamrqpams6amvtvaqo9arqo4aqrig7aaaaamrqpams6amvtvaqo9arqo4aqrig7a" +
-            "aaaamrqpams6amvtvaqo9arqo4aqrig7aaaaamrqpams6amvtvaqo9arqo4aqrig7aaaaamrqpams6amvtvaqo9arqo4aqrig7aa" +
-            "aaamrqpams6amvtvaqo9ano4amig7aaaaamrqpams6amvtvOrqo9aqro4amig7aaaaaaaaOnmrqpaks6a6vtvaigvgaaaaaaaaay" +
-            "rqpynms6akvtvaigvgaaaaaaaaayrqpynms6akvtvaigvgaaaaaaaaayrqpynms6akvtvaigvgaaaaaaaaayrqpynms6akvtvaig" +
-            "vgaaaaaaaaayrqpynms6akvtvaigvgaaaaaaaaayrqpyrys6Orkvtvaigvgaaaaaaaaayrqpams6ynkvtvaigvgaaaaaaaaOryrq" +
-            "pOrks6a6vtvaigvgaaaaaaaaaaOryrqpOrks6aigvtvaaaaaaaaaaamrqpaks6ynigvtvaaaaaaaaaaamrqpaks6ynigvtvm";
+            "HHHHHHHH0rqp06ls5Hq7vtvHq5wHligvgHHHHHHHqrqpH0s5l6lovtvH7swHq5qvgHqigHHHHHHHHH60rqpH7qs5H5ovtv0igqsj" +
+            "hHHqvgHHHHHHHHHH0rlrqpHq7s5Hq5vtvHqigvgHHHHHHHHHlrqp06ls5Hq7vtvHq5wHligvgHHHHHHHHHHH6lrqpHq7s5Hq5vtv" +
+            "HqigvgHHHHHHHHHHHHrqp06ls5Hq7vtvHqigvgHHHHHHHHH0rqp06ls5Hq7vtvHq5wz0igqvHHHHHHHHH0rqp06ls5Hq7vtvHq5w" +
+            "HqigqvqgHHHHHHHHHHHlrqp067s5Hq5vtvHqigvgHHHHHHHqrqpH0s5l6lovtvH7swHq5qvgHqigHHHHHHHHH60rqpH7qs5H5ovt" +
+            "v0igqsjhHHqvgHHHHHHHHHHl6lrqpHq7s5Hq5vtvHqigvgHHHHHHHHHHHHrqp067s5Hq5vtvHqigvgHlrqrqpHqrqs5HqsovtvHq" +
+            "5wHqiHvHHHHHHHHHHH0rqpHrls5HrlvtvHq7wHl5/HlilvHHHHHHHHHHHHHHlrqp06ls5Hq7vtvHqigvgHHHHHHHHHqrqp06ls5H" +
+            "q7vtvHq5wHligqvgHHHHHHHHqrHHqrlrqpHq7s5Hq5vtvHligqvgHHHHH0rHHqrHHl7rqpHqu/5HluvtvHligqvgHHHHH0rHHqrH" +
+            "Hl7rqpHqu/5HluvtvHligqvgHHHHHHHHqrHHqrlrqpHq7s5Hq5vtvHligqvgHHHHHHHHHqrqp06ls5Hq7vtvHq5wHligqvgHHHHH" +
+            "HHHHlrqpH0s506qovtvHqouwHligvgHHHHHH0rqpH0s5H0vtvHlowHqrqo/Hlrig+HHHHHH0rqpH0s5H0vtvHlowHqrqo/Hlrig+" +
+            "HHHHHH0rqpH0s5H0vtvHlowHqrqo/Hlrig+HHHHHH0rqpH0s5H0vtvHlowHqrqo/Hlrig+HHHHHH0rqpH0s5H0vtvHlowHqrqo/H" +
+            "lrig+HHHHHH0rqpH0s5H0vtvHlowHq6o/H0ig+HHHHHH0rqpH0s5H0vtvHrqowHlro/H0ig+HHHHHHHHHHH6lrqpHq7s5Hq5vtvH" +
+            "qigvgHHHHHHHHHHHHrqp06ls5Hq7vtvHqigvgHHHHHHHHHHHHrqp06ls5Hq7vtvHqigvgHHHHHHHHHHHHrqp06ls5Hq7vtvHqigv" +
+            "gHHHHHHHHHHHHrqp06ls5Hq7vtvHqigvgHHHHHHHHHHHHrqp06ls5Hq7vtvHqigvgHHHHHHHHHHHHrqp0r0s5Hr7vtvHqigvgHHH" +
+            "HHHHHHHHHrqpH0s5067vtvHqigvgHHHHHHHHHHHr0rqpHr7s5Hq5vtvHqigvgHHHHHHHHHHHHHlr0rqpHr7s5HqigvtvHHHHHHHH" +
+            "HHHHHHqrqpHq7s506igvtvHHHHHHHHHHHHHHqrqpHq7s506igvtvHHHHHHHHHrqpH0s506qovtvHqouwHligvgRHHHHH0rqpH0s5" +
+            "H0vtvHlowHqrqo/+lmqrig+THHHHH0rqpH0s5H0vtvHlowHmrqo/+qnmqrig+THHHHH0rqpH0s5H0vtv0mlow0nmrqo/+qnmqrig" +
+            "+THHHHH0rqpH0s5H0vtv0mlow0nmrqo/+qnmqrig+THHHHH0rqpH0s5H0vtv0mlow0nmrqo/vlnmqrigJAHHHHH0rqpH0s5H0vtv" +
+            "0mlow0kmrqo/+qnmqrig+THHHHH0rqpH0s5H0vtv0mlow0kmrqo/vlnmqrigJAHHHHH0rqpH0s5H0vtv0mlow0nm6o/+qnmlig+T" +
+            "HHHHH0rqpH0s5H0vtv0mlow0nmqro/vlnmligJA";
 
         private static Dictionary<PixelAvatarAnimation, PixelSpriteAnimation> _animations;
 
@@ -117,6 +143,8 @@ namespace Tesserae
             PixelAvatarAnimation.CrouchIdle,
             PixelAvatarAnimation.Sleep,
             PixelAvatarAnimation.SleepIdle,
+            PixelAvatarAnimation.Work,
+            PixelAvatarAnimation.WorkIdle,
         };
 
         private static Dictionary<PixelAvatarAnimation, PixelSpriteAnimation> Build(string frames)
@@ -137,6 +165,8 @@ namespace Tesserae
             offset = Add(animations, frames, offset, PixelAvatarAnimation.CrouchIdle, 6, 300, true,  PixelAvatarAnimation.CrouchIdle, 5000, 10000);
             offset = Add(animations, frames, offset, PixelAvatarAnimation.Sleep,      3, 200, false, PixelAvatarAnimation.SleepIdle,  0,    0);
             offset = Add(animations, frames, offset, PixelAvatarAnimation.SleepIdle,  1, 450, true,  PixelAvatarAnimation.SleepIdle,  0,    0);
+            offset = Add(animations, frames, offset, PixelAvatarAnimation.Work,       4, 150, false, PixelAvatarAnimation.WorkIdle,   0,    0);
+            offset = Add(animations, frames, offset, PixelAvatarAnimation.WorkIdle,   6, 130, true,  PixelAvatarAnimation.WorkIdle,   1200, 3200);
 
             return animations;
         }
