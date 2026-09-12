@@ -118,10 +118,12 @@ namespace Tesserae
                 if (value)
                 {
                     _container.classList.add("tss-invalid");
+                    InnerElement.setAttribute("aria-invalid", "true");
                 }
                 else
                 {
                     _container.classList.remove("tss-invalid");
+                    InnerElement.removeAttribute("aria-invalid");
                 }
             }
         }
