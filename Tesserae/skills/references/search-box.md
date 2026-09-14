@@ -25,11 +25,16 @@ Bring factories into scope with `using static Tesserae.UI;`.
   works the same whether or not the box already holds the caret, which focusing does not.
 - `.Clear()` — empties the box, focuses it and fires `OnSearch` with an empty query. This is what the
   trailing clear button does; the button itself appears whenever the box has text and needs no setup.
-- `.Busy(bool = true)` / `.IsBusy` — shows a spinner beside the clear button while the box is waiting
-  on the search it asked for. Set it when the query goes out and clear it when it answers, **including
-  when it fails** — a spinner that never stops is worse than none. The box stays editable while busy,
-  so a slow search can be retyped or cleared; say what went wrong where the results would have been,
-  not in the box.
+- `.Busy(bool = true)` / `.IsBusy` — while the box is waiting on the search it asked for, a spinner
+  stands where the clear button does. Set it when the query goes out and clear it when it answers,
+  **including when it fails** — a spinner that never stops is worse than none. The box stays editable
+  while busy, so a slow search can be retyped.
+- `.Failed(int millisecondsVisible = 5000)` / `.ClearFailure()` / `.IsFailed` — says the search did not
+  answer: the box is outlined in the danger colour with a warning glyph in the spinner's place, and takes
+  itself down after the given time (pass `0` to leave it up). Typing, clearing the box or the next
+  `.Busy()` also takes it down — it describes one search, not the box. Still say *what* went wrong where
+  the results would have been; the box only says that something did.
+  This is not `.IsInvalid`, which is for a query the user has to fix and stays until they do.
 - `.Focus()`, `.Disabled(bool = true)`, `.Height(UnitSize)` / `.H(int)`.
 
 ## Example
@@ -64,6 +69,7 @@ async Task RunSearchAsync(SearchBox box, string query)
     }
     catch (Exception)
     {
+        box.Failed();
         results.Children(TextBlock("Could not search right now.").Secondary(),
                          Button("Try again").Link().OnClick(() => RunSearchAsync(box, query).FireAndForget()));
     }

@@ -14,9 +14,8 @@ namespace Tesserae.Tests.Samples
         {
             var searchAsYouType = TextBlock("Start typing in the 'Search as you type' box below...");
 
-            //A search that takes a moment says so in the box itself: .Busy() while the query is out, cleared
-            //when it answers - and cleared just the same when it fails, with the failure said where the
-            //results would have been.
+            //A search that takes a moment says so in the box itself: .Busy() while the query is out, and
+            //.Failed() when it did not answer - which takes itself down again after five seconds.
             var slowSearchStatus = TextBlock("Type to start a search that takes two seconds. A query of 'fail' comes back with an error.");
             var slowSearch       = SearchBox("Type something slow...").SearchAsYouType();
             var slowSearchToken  = 0d;
@@ -38,7 +37,15 @@ namespace Tesserae.Tests.Samples
                 slowSearchToken = window.setTimeout(_ =>
                 {
                     s.Busy(false);
-                    slowSearchStatus.Text = e == "fail" ? $"Could not search for '{e}'. Check your connection and try again." : $"Found results for: {e}";
+
+                    if (e == "fail")
+                    {
+                        s.Failed();
+                        slowSearchStatus.Text = $"Could not search for '{e}'. Check your connection and try again.";
+                        return;
+                    }
+
+                    slowSearchStatus.Text = $"Found results for: {e}";
                 }, 2000);
             });
 

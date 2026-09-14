@@ -17,7 +17,7 @@ namespace Tesserae
         private readonly HTMLElement     _iconContainer;
         private readonly HTMLElement     _shortcutContainer;
         private readonly HTMLElement     _clearButton;
-        private readonly HTMLElement     _busy;
+        private readonly HTMLElement     _status;
 
         private string[]                       _shortcutKeys;
         private Action<Event>                  _globalShortcutHandler;
@@ -27,6 +27,7 @@ namespace Tesserae
         public delegate void               SearchEventHandler(SearchBox sender, string value);
 
         private double _timeoutTriggerSearch = 0;
+        private double _timeoutFailure       = 0;
         private string _lastSearchedValue    = string.Empty;
 
         /// <summary>
@@ -46,11 +47,14 @@ namespace Tesserae
             _clearButton = UI.Button(Att("tss-searchbox-clear", type: "button", title: "Clear", ariaLabel: "Clear"),
                                      I(Att($"tss-searchbox-clear-icon {UIcons.CrossSmall.ToCssClass()}")));
 
-            //A search the box is still waiting on says so where the user is already looking - beside the clear
-            //button rather than in its place, so a slow query can still be abandoned while it runs.
-            _busy = Div(Att("tss-searchbox-busy"), Div(Att("tss-spinner")));
+            //One slot for what became of the last search: the spinner while it is out, the warning glyph when
+            //it did not answer. It stands where the clear button does, which is where the user is already
+            //looking, and the clear button gives way to the spinner rather than the two sharing the row.
+            _status = Div(Att("tss-searchbox-status"),
+                          Div(Att("tss-spinner")),
+                          I(Att($"tss-searchbox-failed-icon {UIcons.TriangleWarning.ToCssClass()}")));
 
-            _container = Div(Att("tss-searchbox-container"), _iconContainer, InnerElement, _busy, _clearButton, _shortcutContainer);
+            _container = Div(Att("tss-searchbox-container"), _iconContainer, InnerElement, _status, _clearButton, _shortcutContainer);
 
             AttachChange();
             AttachInput();
@@ -58,7 +62,13 @@ namespace Tesserae
             AttachBlur();
             AttachKeys();
 
-            SubscribeInputUpdated((_, __) => UpdateHasText());
+            SubscribeInputUpdated((_, __) =>
+            {
+                UpdateHasText();
+
+                //Whatever went wrong went wrong for the query that is no longer in the box.
+                ClearFailure();
+            });
 
             //Pressing the button with the pointer must not take the caret out of the box - the user is about
             //to type the next query.
@@ -226,8 +236,9 @@ namespace Tesserae
 
         /// <summary>
         /// Gets or sets a value indicating whether the component is waiting on the search it asked for. While
-        /// set, a spinner is shown beside the clear button and the box reports itself as busy to assistive
-        /// technology; the box stays editable, so a slow search can be retyped or cleared while it runs.
+        /// set, a spinner stands where the clear button does and the box reports itself as busy to assistive
+        /// technology; the box stays editable, so a slow search can be retyped while it runs. Setting it
+        /// clears any failure being shown - the query that failed is not the one running now.
         /// </summary>
         public bool IsBusy
         {
@@ -236,6 +247,7 @@ namespace Tesserae
             {
                 if (value)
                 {
+                    ClearFailure();
                     _container.classList.add("tss-searchbox-is-busy");
                     InnerElement.setAttribute("aria-busy", "true");
                 }
@@ -246,6 +258,11 @@ namespace Tesserae
                 }
             }
         }
+
+        /// <summary>
+        /// Returns a value indicating whether the box is showing that its last search did not answer.
+        /// </summary>
+        public bool IsFailed => _container.classList.contains("tss-searchbox-failed");
 
         /// <summary>
         /// Gets or sets the size of the component.
@@ -339,6 +356,41 @@ namespace Tesserae
         public SearchBox Busy(bool value = true)
         {
             IsBusy = value;
+            return this;
+        }
+
+        /// <summary>
+        /// Says the last search did not answer: the box is outlined in the danger colour and carries a warning
+        /// glyph where the spinner was, for <paramref name="millisecondsVisible"/> (pass 0 to leave it up until
+        /// something clears it). Typing, clearing the box or asking for the next search takes it down again -
+        /// it describes one search, not the box.
+        /// <para>
+        /// It says that the search itself failed, which is not the same as a query the user should fix; a box
+        /// whose *contents* are wrong is <see cref="IsInvalid"/>, and that one stays until it is put right.
+        /// </para>
+        /// </summary>
+        public SearchBox Failed(int millisecondsVisible = 5000)
+        {
+            window.clearTimeout(_timeoutFailure);
+
+            _container.classList.add("tss-searchbox-failed");
+
+            if (millisecondsVisible > 0)
+            {
+                _timeoutFailure = window.setTimeout((_) => _container.classList.remove("tss-searchbox-failed"), millisecondsVisible);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Takes down the failure set by <see cref="Failed"/> now, rather than when it would have expired.
+        /// </summary>
+        public SearchBox ClearFailure()
+        {
+            window.clearTimeout(_timeoutFailure);
+            _container.classList.remove("tss-searchbox-failed");
+
             return this;
         }
 

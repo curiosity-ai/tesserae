@@ -165,29 +165,62 @@
     line-height: 1;
 }
 
-/* The busy spinner, shown while the box is waiting on its search. It sits before the clear button rather
-   than replacing it, because a slow search is exactly when the user may want to retype or abandon it, and
-   it is drawn at the magnifier's 16px so the row's weight does not change when it appears. */
-.tss-searchbox-busy {
+/* The status slot: the spinner while a search is out, the warning glyph when one did not answer. It is
+   28px like the clear button and stands in the same place, so what the row holds changes but its shape
+   does not. */
+.tss-searchbox-status {
     display: none;
     align-items: center;
     justify-content: center;
     align-self: center;
+    width: 28px;
+    height: 28px;
+    max-height: 100%;
     flex-shrink: 0;
-    width: 20px;
 }
 
-.tss-searchbox-container.tss-searchbox-is-busy:not(.tss-disabled) > .tss-searchbox-busy {
+.tss-searchbox-container.tss-searchbox-is-busy:not(.tss-disabled) > .tss-searchbox-status,
+.tss-searchbox-container.tss-searchbox-failed:not(.tss-disabled) > .tss-searchbox-status {
     display: inline-flex;
 }
 
     /* Sized through the parent, the way .tss-spinner-size-* is: .tss-spinner sets --tss-spinner-size on
        itself, so a single class on the same element only ties with it and loses on source order. */
-    .tss-searchbox-busy > .tss-spinner {
+    .tss-searchbox-status > .tss-spinner {
+        display: none;
         width: 16px;
         height: 16px;
         --tss-spinner-size: 2px;
     }
+
+    .tss-searchbox-container.tss-searchbox-is-busy > .tss-searchbox-status > .tss-spinner {
+        display: block;
+    }
+
+.tss-searchbox-failed-icon {
+    display: none;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--tss-danger-background-color);
+}
+
+.tss-searchbox-container.tss-searchbox-failed:not(.tss-searchbox-is-busy) > .tss-searchbox-status > .tss-searchbox-failed-icon {
+    display: inline-flex;
+}
+
+/* While the search is out the spinner takes the clear button's place rather than crowding in beside it.
+   A failed box keeps its clear button: that is the state the user has to get out of. */
+.tss-searchbox-container.tss-searchbox-has-text.tss-searchbox-is-busy:not(.tss-disabled) > .tss-searchbox-clear {
+    display: none;
+}
+
+/* A search that did not answer, said on the box for as long as SearchBox.Failed() keeps it there. The
+   focus and hover rules above are one class less specific, so neither paints over it. */
+.tss-searchbox-container.tss-searchbox-failed,
+.tss-searchbox-container.tss-searchbox-failed:hover,
+.tss-searchbox-container.tss-searchbox-failed:focus-within {
+    border-color: var(--tss-danger-background-color);
+}
 
 .tss-searchbox-shortcut {
     display: none;
