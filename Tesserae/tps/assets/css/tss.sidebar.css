@@ -362,13 +362,32 @@
     mask-image: linear-gradient(to right, transparent, black var(--tss-sidebar-label-fade, 28px));
 }
 
+/* A badge is drawn over the row's right edge the way the commands are, but it is chrome the row shows at
+   rest rather than something the pointer brings in - so the label is laid out beside it and truncates
+   before it, always. Without that, a long name ran underneath the glyph and the two read as one smudge:
+   a shared-space icon sitting on the last letters of the space's name.
+
+   The width cannot be computed here the way the commands' can: a badge is an icon, or "+3", or "+1,204".
+   It is measured off the badge instead and written to --tss-sidebar-badge-width when the row is built
+   (ReserveRoomForBadge in SidebarButton.cs), re-measured whenever its text changes. Rows keep their own
+   value, so a count and an icon in the same sidebar each reserve exactly what they need.
+
+   A row that draws its commands permanently - always-open, or selected - hides its badge and reserves
+   room for the strip instead; that rule is more specific than this one, which is what settles the two. */
 .tss-sidebar-badges {
     position: absolute;
-    right: 4px;
+    right: var(--tss-sidebar-badge-inset, 4px);
     display: flex;
+    align-items: center;
     z-index: 2;
-    top: 10px;
+    top: 0;
+    bottom: 0;
     flex-wrap: nowrap;
+}
+
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge > .tss-btn,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge > a > .tss-btn {
+    padding-right: calc(var(--tss-sidebar-badge-width, 0px) + var(--tss-sidebar-badge-inset, 4px) + var(--tss-sidebar-badge-gap, 6px));
 }
 
 .tss-sidebar-btn-open:hover > .tss-sidebar-commands,
@@ -378,11 +397,15 @@
     display: flex;
 }
 
-.tss-sidebar-btn-open:hover > .tss-sidebar-badges,
-.tss-sidebar-btn-open.tss-sidebar-commands-always-open > .tss-sidebar-badges,
-.tss-sidebar-command-menu-is-open.tss-sidebar-badges,
-.tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-badges {
-    display: none;
+/* The commands take the badge's place while they are drawn, so the badge steps aside for them - with
+   visibility rather than display, so that the room the row reserved for it above stays reserved and the
+   name does not re-lay out and re-ellipsis as the pointer crosses the list. A row with no commands has
+   nothing to step aside for and keeps its badge under the pointer. */
+.tss-sidebar-btn-open.tss-sidebar-has-commands:hover > .tss-sidebar-badges,
+.tss-sidebar-btn-open.tss-sidebar-has-commands.tss-sidebar-commands-always-open > .tss-sidebar-badges,
+.tss-sidebar-btn-open.tss-sidebar-has-commands:has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-sidebar-badges,
+.tss-sidebar-btn-open.tss-sidebar-has-commands.tss-sidebar-selected > .tss-sidebar-badges {
+    visibility: hidden;
 }
 
 
