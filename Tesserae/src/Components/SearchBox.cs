@@ -17,6 +17,7 @@ namespace Tesserae
         private readonly HTMLElement     _iconContainer;
         private readonly HTMLElement     _shortcutContainer;
         private readonly HTMLElement     _clearButton;
+        private readonly HTMLElement     _busy;
 
         private string[]                       _shortcutKeys;
         private Action<Event>                  _globalShortcutHandler;
@@ -45,7 +46,11 @@ namespace Tesserae
             _clearButton = UI.Button(Att("tss-searchbox-clear", type: "button", title: "Clear", ariaLabel: "Clear"),
                                      I(Att($"tss-searchbox-clear-icon {UIcons.CrossSmall.ToCssClass()}")));
 
-            _container = Div(Att("tss-searchbox-container"), _iconContainer, InnerElement, _clearButton, _shortcutContainer);
+            //A search the box is still waiting on says so where the user is already looking - beside the clear
+            //button rather than in its place, so a slow query can still be abandoned while it runs.
+            _busy = Div(Att("tss-searchbox-busy"), Div(Att("tss-spinner")));
+
+            _container = Div(Att("tss-searchbox-container"), _iconContainer, InnerElement, _busy, _clearButton, _shortcutContainer);
 
             AttachChange();
             AttachInput();
@@ -220,6 +225,29 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the component is waiting on the search it asked for. While
+        /// set, a spinner is shown beside the clear button and the box reports itself as busy to assistive
+        /// technology; the box stays editable, so a slow search can be retyped or cleared while it runs.
+        /// </summary>
+        public bool IsBusy
+        {
+            get => _container.classList.contains("tss-searchbox-is-busy");
+            set
+            {
+                if (value)
+                {
+                    _container.classList.add("tss-searchbox-is-busy");
+                    InnerElement.setAttribute("aria-busy", "true");
+                }
+                else
+                {
+                    _container.classList.remove("tss-searchbox-is-busy");
+                    InnerElement.removeAttribute("aria-busy");
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the size of the component.
         /// </summary>
         public TextSize Size
@@ -302,6 +330,15 @@ namespace Tesserae
         public SearchBox Disabled(bool value = true)
         {
             IsEnabled = !value;
+            return this;
+        }
+
+        /// <summary>
+        /// Shows (or hides) the spinner that says the box is waiting on its search - see <see cref="IsBusy"/>.
+        /// </summary>
+        public SearchBox Busy(bool value = true)
+        {
+            IsBusy = value;
             return this;
         }
 

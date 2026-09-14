@@ -165,6 +165,30 @@
     line-height: 1;
 }
 
+/* The busy spinner, shown while the box is waiting on its search. It sits before the clear button rather
+   than replacing it, because a slow search is exactly when the user may want to retype or abandon it, and
+   it is drawn at the magnifier's 16px so the row's weight does not change when it appears. */
+.tss-searchbox-busy {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    flex-shrink: 0;
+    width: 20px;
+}
+
+.tss-searchbox-container.tss-searchbox-is-busy:not(.tss-disabled) > .tss-searchbox-busy {
+    display: inline-flex;
+}
+
+    /* Sized through the parent, the way .tss-spinner-size-* is: .tss-spinner sets --tss-spinner-size on
+       itself, so a single class on the same element only ties with it and loses on source order. */
+    .tss-searchbox-busy > .tss-spinner {
+        width: 16px;
+        height: 16px;
+        --tss-spinner-size: 2px;
+    }
+
 .tss-searchbox-shortcut {
     display: none;
     align-items: center;

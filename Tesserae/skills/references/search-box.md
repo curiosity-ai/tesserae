@@ -25,6 +25,11 @@ Bring factories into scope with `using static Tesserae.UI;`.
   works the same whether or not the box already holds the caret, which focusing does not.
 - `.Clear()` — empties the box, focuses it and fires `OnSearch` with an empty query. This is what the
   trailing clear button does; the button itself appears whenever the box has text and needs no setup.
+- `.Busy(bool = true)` / `.IsBusy` — shows a spinner beside the clear button while the box is waiting
+  on the search it asked for. Set it when the query goes out and clear it when it answers, **including
+  when it fails** — a spinner that never stops is worse than none. The box stays editable while busy,
+  so a slow search can be retyped or cleared; say what went wrong where the results would have been,
+  not in the box.
 - `.Focus()`, `.Disabled(bool = true)`, `.Height(UnitSize)` / `.H(int)`.
 
 ## Example
@@ -37,6 +42,36 @@ var search = SearchBox("Search")
     .SearchAsYouType()
     .SetKeyboardShortcut("Ctrl", "K")
     .OnSearch((sender, value) => console.log($"Searched: {value}"));
+```
+
+Waiting on a server, with the failure handled:
+
+```csharp
+var results = VStack();
+
+var search = SearchBox("Search people")
+    .SearchAsYouType()
+    .OnSearch((sender, value) => RunSearchAsync(sender, value).FireAndForget());
+
+async Task RunSearchAsync(SearchBox box, string query)
+{
+    box.Busy();
+
+    try
+    {
+        var found = await API.SearchAsync(query);
+        results.Children(found.Select(Row).ToArray());
+    }
+    catch (Exception)
+    {
+        results.Children(TextBlock("Could not search right now.").Secondary(),
+                         Button("Try again").Link().OnClick(() => RunSearchAsync(box, query).FireAndForget()));
+    }
+    finally
+    {
+        box.Busy(false);
+    }
+}
 ```
 
 ## Related

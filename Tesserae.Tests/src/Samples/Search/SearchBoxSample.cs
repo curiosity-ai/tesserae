@@ -14,6 +14,34 @@ namespace Tesserae.Tests.Samples
         {
             var searchAsYouType = TextBlock("Start typing in the 'Search as you type' box below...");
 
+            //A search that takes a moment says so in the box itself: .Busy() while the query is out, cleared
+            //when it answers - and cleared just the same when it fails, with the failure said where the
+            //results would have been.
+            var slowSearchStatus = TextBlock("Type to start a search that takes two seconds. A query of 'fail' comes back with an error.");
+            var slowSearch       = SearchBox("Type something slow...").SearchAsYouType();
+            var slowSearchToken  = 0d;
+
+            slowSearch.OnSearch((s, e) =>
+            {
+                window.clearTimeout(slowSearchToken);
+
+                if (string.IsNullOrEmpty(e))
+                {
+                    s.Busy(false);
+                    slowSearchStatus.Text = "Waiting for input...";
+                    return;
+                }
+
+                s.Busy();
+                slowSearchStatus.Text = $"Searching for: {e}";
+
+                slowSearchToken = window.setTimeout(_ =>
+                {
+                    s.Busy(false);
+                    slowSearchStatus.Text = e == "fail" ? $"Could not search for '{e}'. Check your connection and try again." : $"Found results for: {e}";
+                }, 2000);
+            });
+
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(SearchBoxSample), UIcons.Search, "A control to search")
                .FlatSection(Stack().Children(
@@ -38,7 +66,9 @@ namespace Tesserae.Tests.Samples
                                 .SearchAsYouType()
                                 .OnSearch((s, e) => searchAsYouType.Text = string.IsNullOrEmpty(e) ? "Waiting for input..." : $"Current search: {e}")
                         ),
-                        searchAsYouType
+                        searchAsYouType,
+                        Label("Waiting on a slow search").SetContent(slowSearch),
+                        slowSearchStatus
                     ),
                     SampleSubTitle("Customization"),
                     VStack().Children(
