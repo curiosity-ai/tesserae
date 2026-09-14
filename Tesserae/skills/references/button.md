@@ -40,7 +40,9 @@ Button("Make private").Link().Danger().OnClick(StageMakePrivate)
 ```
 
 Hovering it still answers: a neutral link takes the default hover wash, a toned one a tint of its own
-tone — never the fill it would have as a button. The label underlines on hover only when the button
+tone — never the fill it would have as a button. The label moves *away* from that surface as it is
+hovered and pressed, darkening in a light theme and lightening under `.tss-dark-mode`, so the action
+gains contrast either way rather than losing it. The label underlines on hover only when the button
 really goes somewhere (it was built with an `href`) or when `.LinkOnHover()` is set as well, which is
 how a handler-only link asks for the underline.
 

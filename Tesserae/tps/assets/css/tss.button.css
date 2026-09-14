@@ -420,6 +420,9 @@ a {
             background: color-mix(in srgb, var(--tss-danger-background-color) 20%, transparent);
         }
 
+        /* The label is painted in its tone, and darkens as it is hovered and pressed the way the
+           filled form of the same button does - see the dark-mode rules below, where that has to
+           move the other way. */
         .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled),
         .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled) .tss-fontcolor-default {
             color: var(--tss-primary-background-color);
@@ -464,6 +467,40 @@ a {
             .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):active .tss-fontcolor-default {
                 color: var(--tss-danger-background-active-color);
             }
+
+        /* Dark mode has to move the other way. The hover / active tokens are the fill a filled
+           button takes, and in dark mode that fill is darker than the base - so painting the label
+           with them dimmed it exactly where it should have stood out (6:1 down to 3:1 on the danger
+           link). Lighten instead, and hovering means more contrast in either theme. */
+        .tss-dark-mode .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):hover,
+        .tss-dark-mode .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):hover .tss-fontcolor-default {
+            color: color-mix(in srgb, var(--tss-primary-background-color) 82%, white);
+        }
+
+        .tss-dark-mode .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):active,
+        .tss-dark-mode .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):active .tss-fontcolor-default {
+            color: color-mix(in srgb, var(--tss-primary-background-color) 68%, white);
+        }
+
+        .tss-dark-mode .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled):hover,
+        .tss-dark-mode .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled):hover .tss-fontcolor-default {
+            color: color-mix(in srgb, var(--tss-success-background-color) 82%, white);
+        }
+
+        .tss-dark-mode .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled):active,
+        .tss-dark-mode .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled):active .tss-fontcolor-default {
+            color: color-mix(in srgb, var(--tss-success-background-color) 68%, white);
+        }
+
+        .tss-dark-mode .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):hover,
+        .tss-dark-mode .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):hover .tss-fontcolor-default {
+            color: color-mix(in srgb, var(--tss-danger-background-color) 82%, white);
+        }
+
+        .tss-dark-mode .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):active,
+        .tss-dark-mode .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):active .tss-fontcolor-default {
+            color: color-mix(in srgb, var(--tss-danger-background-color) 68%, white);
+        }
 
 .tss-btn.tss-btn-nominsize {
     min-height: unset;
