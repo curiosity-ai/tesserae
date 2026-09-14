@@ -16,7 +16,6 @@ namespace Tesserae
         private readonly HTMLSpanElement _icon;
         private readonly HTMLElement     _iconContainer;
         private readonly HTMLElement     _shortcutContainer;
-        private readonly HTMLElement     _paddingContainer;
         private readonly HTMLElement     _clearButton;
 
         private string[]                       _shortcutKeys;
@@ -38,7 +37,6 @@ namespace Tesserae
             _icon              = Span(Att(UIcons.Search.ToCssClass()));
             _iconContainer     = Div(Att("tss-searchbox-icon"), _icon);
             _shortcutContainer = Div(Att("tss-searchbox-shortcut"));
-            _paddingContainer  = Div(Att("tss-searchbox-padding"));
 
             //The browser's own cancel button on a type="search" input is hidden by the stylesheet: it is drawn in
             //the browser's colours and weight rather than the toolkit's, Chromium alone shows it, and it comes and
@@ -47,7 +45,7 @@ namespace Tesserae
             _clearButton = UI.Button(Att("tss-searchbox-clear", type: "button", title: "Clear", ariaLabel: "Clear"),
                                      I(Att($"tss-searchbox-clear-icon {UIcons.CrossSmall.ToCssClass()}")));
 
-            _container = Div(Att("tss-searchbox-container"), _iconContainer, InnerElement, _clearButton, _shortcutContainer, _paddingContainer);
+            _container = Div(Att("tss-searchbox-container"), _iconContainer, InnerElement, _clearButton, _shortcutContainer);
 
             AttachChange();
             AttachInput();

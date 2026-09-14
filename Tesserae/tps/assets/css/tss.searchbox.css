@@ -121,12 +121,6 @@
     display: none;
 }
 
-.tss-searchbox-padding {
-    transition: width 0.167s ease 0s;
-    width: 0px;
-    height: 16px;
-}
-
 /* The clear button, drawn the way CommandPalette draws its close button: a flat square that only
    colours in on hover, holding a cross-small glyph. It fills the row's height, capped at 28px so that
    it sits inside the 36px box with its 1px border and 5px padding, and disappears while there is
@@ -186,20 +180,12 @@
     width: 0px;
 }
 
-.tss-searchbox-container:focus-within > .tss-searchbox-padding {
-    width: 32px;
-}
-
 .tss-searchbox-container.tss-noicon > .tss-searchbox-icon {
     display: none;
     width: 0px;
 }
 
 .tss-searchbox-container.tss-noicon:focus-within > .tss-searchbox-icon {
-    width: 0px;
-}
-
-.tss-searchbox-container.tss-noicon:focus-within > .tss-searchbox-padding {
     width: 0px;
 }
 
