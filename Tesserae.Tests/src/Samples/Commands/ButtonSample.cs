@@ -50,6 +50,14 @@ namespace Tesserae.Tests.Samples
                         Button().SetText("No Padding").NoPadding().Primary(),
                         Button().SetText("No Border").NoBorder()
                     ),
+                    SampleSubTitle("Buttons That Read As Links"),
+                    TextBlock("Link() drops the border and the background so the button reads as text rather than as a box. A tone still applies, as the label's colour rather than as a filled surface - which is how a destructive action that should not be the thing the eye lands on is written. Only a button built with an href underlines on hover: one that merely runs a handler is a button, and an underline would promise an address it doesn't have.").MB(8),
+                    HStack().Children(
+                        Button("Open the repository", href: "https://github.com/curiosity-ai/tesserae").Link(),
+                        Button("Forget this device").Link().OnClick(() => Toast().Information("A neutral link")),
+                        Button("Make private").Link().Danger().OnClick(() => Toast().Warning("A danger link - destructive, but quieter than a filled red button")),
+                        Button("Make private").Link().Danger().Disabled()
+                    ),
                     SampleSubTitle("Themed Backgrounds"),
                     HStack().Children(
                         Button().SetText("Blue").Background(Theme.Colors.Blue500).OnClick(() => alert("Clicked!")),

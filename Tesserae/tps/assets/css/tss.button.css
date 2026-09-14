@@ -372,19 +372,68 @@ a {
             color: var(--tss-default-foreground-color);
         }
 
-        .tss-btn.tss-btn-link.tss-danger,
-        .tss-btn.tss-btn-link.tss-danger .tss-fontcolor-default {
+        /* A tone on a link-shaped button colours the label - it does not fill a surface, which is what
+           the same Primary() / Success() / Danger() does to an ordinary button. A disabled one is left
+           to the .tss-disabled rule above, the way every other tone is. */
+        .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled),
+        .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):hover,
+        .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):active,
+        .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled),
+        .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled):hover,
+        .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled):active,
+        .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled),
+        .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):hover,
+        .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):active {
+            border: none;
+            background: none;
+            background-color: transparent;
+            box-shadow: none;
+            filter: none;
+        }
+
+        .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled),
+        .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled) .tss-fontcolor-default {
+            color: var(--tss-primary-background-color);
+        }
+
+            .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):hover,
+            .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):hover .tss-fontcolor-default {
+                color: var(--tss-primary-background-hover-color);
+            }
+
+            .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):active,
+            .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):active .tss-fontcolor-default {
+                color: var(--tss-primary-background-active-color);
+            }
+
+        .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled),
+        .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled) .tss-fontcolor-default {
+            color: var(--tss-success-background-color);
+        }
+
+            .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled):hover,
+            .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled):hover .tss-fontcolor-default {
+                color: var(--tss-success-background-hover-color);
+            }
+
+            .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled):active,
+            .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled):active .tss-fontcolor-default {
+                color: var(--tss-success-background-active-color);
+            }
+
+        .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled),
+        .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled) .tss-fontcolor-default {
             color: var(--tss-danger-background-color);
         }
 
-            .tss-btn.tss-btn-link.tss-danger:hover,
-            .tss-btn.tss-btn-link.tss-danger:hover .tss-fontcolor-default {
-                color: var(--tss-danger-background-color);
+            .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):hover,
+            .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):hover .tss-fontcolor-default {
+                color: var(--tss-danger-background-hover-color);
             }
 
-            .tss-btn.tss-btn-link.tss-danger.tss-disabled,
-            .tss-btn.tss-btn-link.tss-danger.tss-disabled .tss-fontcolor-default {
-                color: var(--tss-disabled-foreground-color);
+            .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):active,
+            .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):active .tss-fontcolor-default {
+                color: var(--tss-danger-background-active-color);
             }
 
 .tss-btn.tss-btn-nominsize {

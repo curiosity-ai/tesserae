@@ -605,6 +605,21 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Renders the component as a hyperlink: no border and no background, so it reads as text rather
+        /// than as a box, and - on a button built with an href, which is the only one that really goes
+        /// somewhere - an underline on hover.
+        /// <para>
+        /// A tone still applies, as the label's colour rather than as a filled surface, so a destructive
+        /// action that should read as text rather than as a box is <c>Link().Danger()</c>.
+        /// </para>
+        /// </summary>
+        public Button Link()
+        {
+            IsLink = true;
+            return this;
+        }
+
+        /// <summary>
         /// Renders the component as a hyperlink only on hover.
         /// </summary>
         public Button LinkOnHover()

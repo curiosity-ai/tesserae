@@ -18,8 +18,8 @@ Bring factories into scope with `using static Tesserae.UI;`.
 Pass an `href` and the button renders as an **anchor** rather than a `button` element, so it is
 middle-clickable, opens in a new tab on ctrl/cmd-click and shows where it goes in the status bar —
 while looking exactly like any other button. There is no separate `Link` component: a link that
-looks like a link is `Button(text, href).Class("tss-btn-link")`, and a small fact that happens to
-link somewhere is an `InlineLabel` with `.SetHref(...)`.
+looks like a link is `Button(text, href).Link()`, and a small fact that happens to link somewhere is
+an `InlineLabel` with `.SetHref(...)`.
 
 ```csharp
 Button("Open documentation", href: DocsUrl).Primary().SetIcon(UIcons.ArrowUpRightFromSquare)
@@ -27,6 +27,20 @@ Button("Open documentation", href: DocsUrl).Primary().SetIcon(UIcons.ArrowUpRigh
 
 Only a button with an href underlines its label on hover (and only in the link-toned variant) — one
 that merely runs a handler is a button, and underlining it would promise an address it doesn't have.
+
+## A button that reads as text
+
+`.Link()` drops the border and the background so the button reads as text rather than as a box, for
+an action that should not be the thing the eye lands on. A **tone composes with it**: it colours the
+label rather than filling a surface, so a destructive action written as text is `.Link().Danger()` —
+the form to reach for when a red button would shout louder than the action deserves.
+
+```csharp
+Button("Make private").Link().Danger().OnClick(StageMakePrivate)
+```
+
+`.LinkOnHover()` is the quieter cousin: an ordinary button that only takes the link colour and the
+underline while the pointer is on it.
 
 A button can have both an href and an `.OnClick(...)` — the usual shape of a link the app would
 rather route itself. A plain click runs the handler (which stops the event, so the browser does not
@@ -39,8 +53,8 @@ is the check itself, for a custom component that dispatches its own clicks.
 ## Key configuration
 
 Tone: `.Primary()`, `.Success()`, `.Danger()` (default is neutral).
-Style: `.Compact()`, `.NoBorder()`, `.NoBackground()`, `.Class("tss-btn-link")` (reads as text
-rather than as a box), `.Color(background, textColor, borderColor, iconColor)`.
+Style: `.Compact()`, `.NoBorder()`, `.NoBackground()`, `.Link()` (reads as text rather than as a
+box, and composes with a tone), `.LinkOnHover()`, `.Color(background, textColor, borderColor, iconColor)`.
 
 Content:
 
@@ -68,7 +82,8 @@ using static Tesserae.UI;
 var actions = HStack().Children(
     Button("Confirm").SetIcon(UIcons.Check).Success().OnClick(() => alert("ok")),
     Button("Delete").SetIcon(UIcons.Trash).Danger().OnClick(() => alert("deleted")),
-    Button("Save").Primary().OnClickSpinWhile(async () => await SaveAsync(), "saving..."));
+    Button("Save").Primary().OnClickSpinWhile(async () => await SaveAsync(), "saving..."),
+    Button("Make private").Link().Danger().OnClick(() => MakePrivate()));
 ```
 
 ## Related
