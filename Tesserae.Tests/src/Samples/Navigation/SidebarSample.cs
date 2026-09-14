@@ -77,6 +77,17 @@ namespace Tesserae.Tests.Samples
             sidebar.AddContent(new SidebarButton("help", UIcons.Question, "Help"));
             sidebar.AddContent(new SidebarButton("link", "https://bing.com", UIcons.Link, "External Link"));
 
+            // Names longer than the rail, beside a badge: at rest the name stops before the badge instead of
+            // running underneath the glyph, and under the pointer the row gives that room back - a few more
+            // letters, fading out into the badge, or into the commands the badge steps aside for.
+            sidebar.AddContent(new SidebarButton("shared_search", UIcons.Search, "Super Long Test Search Space",
+                new SidebarBadge(badge: null, badgeIcon: UIcons.Users).SemiTransparent().Tooltip("Shared space"),
+                new SidebarCommand(UIcons.MenuDots).Tooltip("More").OnClick(() => Toast().Information("More"))));
+
+            sidebar.AddContent(new SidebarButton("busy_inbox", UIcons.Inbox, "Another Rather Long Row Name",
+                new SidebarBadge("+1,204").Tooltip("1,204 new things since you last looked"),
+                new SidebarCommand(UIcons.MenuDots).Tooltip("More").OnClick(() => Toast().Information("More"))));
+
             // --- Moved from App.cs ---
 
             var lightDark = new SidebarCommand(UIcons.Sun).Tooltip("Light Mode");

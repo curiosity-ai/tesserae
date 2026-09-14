@@ -25,6 +25,7 @@ namespace Tesserae
         private readonly SettableObservable<bool> _selected;
         private readonly string                   _text;
         private          HTMLElement              _shortcutChip;
+        private          ResizeObserver           _badgeObserver;
         private          string[]                 _shortcutKeys;
         private          Action<Event>            _globalShortcutHandler;
 
@@ -137,9 +138,10 @@ namespace Tesserae
 
                 if (_badge is object)
                 {
-                    var divCmd = Div(Att("tss-sidebar-badges"));
-                    div.appendChild(divCmd);
-                    divCmd.appendChild(_badge.Render());
+                    var divBadge = Div(Att("tss-sidebar-badges"));
+                    div.appendChild(divBadge);
+                    divBadge.appendChild(_badge.Render());
+                    TrackBadgeWidth(div, divBadge);
                 }
 
                 if (_commands is object && _commands.Length > 0)
@@ -169,6 +171,31 @@ namespace Tesserae
         {
             wrapper.classList.add("tss-sidebar-has-commands");
             wrapper.style.setProperty("--tss-sidebar-commands-width", (commandCount * 26 - 4) + "px");
+        }
+
+        /// <summary>
+        /// Marks the row as one that carries a badge, and keeps how wide the badge is up to date. A badge is
+        /// drawn over the row's right edge the way the commands are, so the name has to give way to it or a
+        /// long one runs underneath the glyph - which is what a shared-space icon sitting on the last letters
+        /// of the space's name was. The stylesheet keeps room for it at rest and fades the name out into it
+        /// under the pointer, and both are sized from how wide the badge is. Unlike the commands there is no
+        /// count to compute that from - a badge is an icon, or "+3", or "+1,204" - so it is measured, and
+        /// re-measured whenever its text changes, and written where the stylesheet reads it back (see
+        /// <c>tss-sidebar-has-badge</c> in tss.sidebar.css). The badge is hidden with visibility rather than
+        /// display where the commands take its place, so the measurement stays true.
+        /// </summary>
+        private void TrackBadgeWidth(HTMLElement wrapper, HTMLElement badges)
+        {
+            wrapper.classList.add("tss-sidebar-has-badge");
+
+            _badgeObserver = new ResizeObserver((entries, obs) =>
+            {
+                if (!badges.isConnected) return; //A detached row - the closed rail renders its own markup - measures as nothing, and would hand the label a width it loses again the moment the row is back.
+
+                wrapper.style.setProperty("--tss-sidebar-badge-width", badges.offsetWidth + "px");
+            });
+
+            _badgeObserver.observe(badges);
         }
 
         /// <summary>Shows the button.</summary>
@@ -259,9 +286,10 @@ namespace Tesserae
 
                 if (_badge is object)
                 {
-                    var divCmd = Div(Att("tss-sidebar-badges"));
-                    div.appendChild(divCmd);
-                    divCmd.appendChild(_badge.Render());
+                    var divBadge = Div(Att("tss-sidebar-badges"));
+                    div.appendChild(divBadge);
+                    divBadge.appendChild(_badge.Render());
+                    TrackBadgeWidth(div, divBadge);
                 }
 
                 if (_commands.Length > 0)
