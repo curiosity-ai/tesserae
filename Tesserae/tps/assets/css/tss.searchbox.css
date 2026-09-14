@@ -214,6 +214,17 @@
     display: none;
 }
 
+/* ...but a pointer on the box swaps them back, so the search can always be called off. The two are the
+   same 28px in the same place, so the row does not move as they trade; and the clear button only comes
+   back when there is something to clear, or hovering a search of the empty query would show nothing. */
+.tss-searchbox-container.tss-searchbox-has-text.tss-searchbox-is-busy:not(.tss-disabled):hover > .tss-searchbox-status {
+    display: none;
+}
+
+.tss-searchbox-container.tss-searchbox-has-text.tss-searchbox-is-busy:not(.tss-disabled):hover > .tss-searchbox-clear {
+    display: inline-flex;
+}
+
 /* A search that did not answer, said on the box for as long as SearchBox.Failed() keeps it there. The
    focus and hover rules above are one class less specific, so neither paints over it. */
 .tss-searchbox-container.tss-searchbox-failed,

@@ -49,7 +49,8 @@ namespace Tesserae
 
             //One slot for what became of the last search: the spinner while it is out, the warning glyph when
             //it did not answer. It stands where the clear button does, which is where the user is already
-            //looking, and the clear button gives way to the spinner rather than the two sharing the row.
+            //looking, and the clear button gives way to the spinner rather than the two sharing the row -
+            //until a pointer arrives, which trades them back so the search can be called off.
             _status = Div(Att("tss-searchbox-status"),
                           Div(Att("tss-spinner")),
                           I(Att($"tss-searchbox-failed-icon {UIcons.TriangleWarning.ToCssClass()}")));
@@ -237,8 +238,9 @@ namespace Tesserae
         /// <summary>
         /// Gets or sets a value indicating whether the component is waiting on the search it asked for. While
         /// set, a spinner stands where the clear button does and the box reports itself as busy to assistive
-        /// technology; the box stays editable, so a slow search can be retyped while it runs. Setting it
-        /// clears any failure being shown - the query that failed is not the one running now.
+        /// technology - though a pointer on the box swaps the clear button back in, so a slow search can
+        /// always be called off. The box stays editable throughout. Setting it clears any failure being
+        /// shown - the query that failed is not the one running now.
         /// </summary>
         public bool IsBusy
         {

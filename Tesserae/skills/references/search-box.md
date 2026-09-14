@@ -28,7 +28,9 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.Busy(bool = true)` / `.IsBusy` — while the box is waiting on the search it asked for, a spinner
   stands where the clear button does. Set it when the query goes out and clear it when it answers,
   **including when it fails** — a spinner that never stops is worse than none. The box stays editable
-  while busy, so a slow search can be retyped.
+  while busy, and hovering it swaps the clear button back in over the spinner, so a slow search can
+  always be called off — `.Clear()` fires `OnSearch` with the empty query, which is the signal to
+  cancel whatever is in flight.
 - `.Failed(int millisecondsVisible = 5000)` / `.ClearFailure()` / `.IsFailed` — says the search did not
   answer: the box is outlined in the danger colour with a warning glyph in the spinner's place, and takes
   itself down after the given time (pass `0` to leave it up). Typing, clearing the box or the next
