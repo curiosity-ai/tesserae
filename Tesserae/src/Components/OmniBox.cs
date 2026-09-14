@@ -656,10 +656,12 @@ namespace Tesserae
 
         public delegate void SearchEventHandler(OmniBox sender, SearchQuery query);
         public delegate void ChatEventHandler(OmniBox sender, ChatMessage query);
+        public delegate void ChatPasteEventHandler(OmniBox sender, ChatPaste paste);
         public delegate void StopEventHandler(OmniBox sender);
         public delegate void ModelChangedEventHandler(OmniBox sender, ModelOption model, ThinkingEffort effort);
         protected event SearchEventHandler Searched;
         protected event ChatEventHandler Chatted;
+        protected event ChatPasteEventHandler ChatPasted;
         /// <summary>
         /// Raised when stopped occurs.
         /// </summary>
@@ -1106,6 +1108,26 @@ namespace Tesserae
                 _chatInput.addEventListener("keypress", (e) => KeyPress?.Invoke(this, e.As<KeyboardEvent>()));
                 _chatInput.addEventListener("focus", (e) => ReceivedFocus?.Invoke(this, e));
                 _chatInput.addEventListener("blur", (e) => LostFocus?.Invoke(this, e));
+
+                _chatInput.addEventListener("paste", (e) =>
+                {
+                    //Nothing subscribed means the browser's own paste, unchanged - reading the
+                    //clipboard to hand nobody the result would only cost the paste a frame.
+                    if (ChatPasted is null) return;
+
+                    var clipboard = e.As<ClipboardEvent>();
+
+                    var paste = new ChatPaste
+                    {
+                        Text  = clipboard?.clipboardData?.getData("text/plain") ?? string.Empty,
+                        Files = FilesOnClipboard(clipboard)
+                    };
+
+                    ChatPasted.Invoke(this, paste);
+
+                    //Only a handler that says it took the paste keeps it out of the input.
+                    if (paste.Handled) StopEvent(e);
+                });
 
                 _chatContainer = Div(Att("tss-omnibox-chat-container"), _chatInput);
 
@@ -2800,6 +2822,28 @@ namespace Tesserae
             Stopped?.Invoke(this);
         }
 
+        //Read off the items rather than clipboardData.files: a pasted screenshot is an item of kind
+        //"file" that some browsers do not also put in the file list.
+        private static File[] FilesOnClipboard(ClipboardEvent ev)
+        {
+            var data = ev?.clipboardData;
+
+            if (data is null) return new File[0];
+
+            var files = new List<File>();
+
+            foreach (var item in data.items)
+            {
+                if (item is null || item.kind != "file") continue;
+
+                var file = item.getAsFile();
+
+                if (file is object) files.Add(file);
+            }
+
+            return files.ToArray();
+        }
+
         /// <summary>
         /// Registers a callback invoked when the search event fires.
         /// </summary>
@@ -2815,6 +2859,21 @@ namespace Tesserae
         public OmniBox OnChat(ChatEventHandler onChat)
         {
             Chatted += onChat;
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a callback invoked when something is pasted into the chat input, so the host can
+        /// take what the input cannot: an image on the clipboard, a copied file.
+        /// </summary>
+        /// <remarks>
+        /// The handler decides. Set <see cref="ChatPaste.Handled"/> to keep the paste out of the
+        /// input; leave it alone and the paste happens as it always would, which is what a handler
+        /// that only wants the files should do when a paste carries text as well.
+        /// </remarks>
+        public OmniBox OnChatPaste(ChatPasteEventHandler onChatPaste)
+        {
+            ChatPasted += onChatPaste;
             return this;
         }
 
@@ -4062,6 +4121,30 @@ namespace Tesserae
             /// Gets or sets the text shown in the component.
             /// </summary>
             public string Text { get; set; }
+        }
+
+        /// <summary>
+        /// What was pasted into the chat input, as <see cref="OnChatPaste"/> hands it over.
+        /// </summary>
+        public class ChatPaste
+        {
+            /// <summary>
+            /// The files on the clipboard - a pasted screenshot, a copied file - or an empty array.
+            /// A screenshot arrives here and nowhere else: it is not text, so the input drops it.
+            /// </summary>
+            public File[] Files { get; set; }
+
+            /// <summary>
+            /// The plain text on the clipboard, or an empty string. A clipboard can carry both: a cell
+            /// copied out of a spreadsheet brings a picture of itself along with its text.
+            /// </summary>
+            public string Text { get; set; }
+
+            /// <summary>
+            /// Set this to <c>true</c> to keep the paste out of the input, when the handler has taken
+            /// it. Left <c>false</c>, the paste is inserted as usual.
+            /// </summary>
+            public bool Handled { get; set; }
         }
     }
 }
