@@ -23,6 +23,7 @@
     line-height: 1;
     text-decoration: none;
     outline: none;
+    flex-wrap: nowrap;
 }
 
 /* Whatever the mark is - a glyph, an image, a square of colour - it takes the same box, so a row of
