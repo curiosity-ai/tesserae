@@ -56,6 +56,7 @@ namespace Tesserae.Tests.Samples
                         Button("Open the repository", href: "https://github.com/curiosity-ai/tesserae").Link(),
                         Button("Forget this device").Link().OnClick(() => Toast().Information("A neutral link")),
                         Button("Make private").Link().Danger().OnClick(() => Toast().Warning("A danger link - destructive, but quieter than a filled red button")),
+                        Button("Make private").Link().Danger().LinkOnHover().OnClick(() => Toast().Warning("The same, underlined on hover")),
                         Button("Make private").Link().Danger().Disabled()
                     ),
                     SampleSubTitle("Themed Backgrounds"),

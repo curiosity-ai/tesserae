@@ -39,8 +39,13 @@ the form to reach for when a red button would shout louder than the action deser
 Button("Make private").Link().Danger().OnClick(StageMakePrivate)
 ```
 
-`.LinkOnHover()` is the quieter cousin: an ordinary button that only takes the link colour and the
-underline while the pointer is on it.
+Hovering it still answers: a neutral link takes the default hover wash, a toned one a tint of its own
+tone — never the fill it would have as a button. The label underlines on hover only when the button
+really goes somewhere (it was built with an `href`) or when `.LinkOnHover()` is set as well, which is
+how a handler-only link asks for the underline.
+
+`.LinkOnHover()` on its own is the quieter cousin: an ordinary button that only takes the link colour
+and the underline while the pointer is on it.
 
 A button can have both an href and an `.OnClick(...)` — the usual shape of a link the app would
 rather route itself. A plain click runs the handler (which stops the event, so the browser does not

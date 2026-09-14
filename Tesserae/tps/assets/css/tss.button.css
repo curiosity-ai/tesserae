@@ -374,7 +374,9 @@ a {
 
         /* A tone on a link-shaped button colours the label - it does not fill a surface, which is what
            the same Primary() / Success() / Danger() does to an ordinary button. A disabled one is left
-           to the .tss-disabled rule above, the way every other tone is. */
+           to the .tss-disabled rule above, the way every other tone is. The hover and active surfaces
+           come back below: stripping the fill in every state left the tone the one link that did not
+           answer the pointer. */
         .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled),
         .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):hover,
         .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):active,
@@ -389,6 +391,33 @@ a {
             background-color: transparent;
             box-shadow: none;
             filter: none;
+        }
+
+        /* A neutral link answers a hover with the default wash (it inherits .tss-btn-default's), so a
+           toned one answers with a tint of its own tone rather than with the fill it would have as a
+           button. */
+        .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):hover {
+            background: color-mix(in srgb, var(--tss-primary-background-color) 12%, transparent);
+        }
+
+        .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):active {
+            background: color-mix(in srgb, var(--tss-primary-background-color) 20%, transparent);
+        }
+
+        .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled):hover {
+            background: color-mix(in srgb, var(--tss-success-background-color) 12%, transparent);
+        }
+
+        .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled):active {
+            background: color-mix(in srgb, var(--tss-success-background-color) 20%, transparent);
+        }
+
+        .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):hover {
+            background: color-mix(in srgb, var(--tss-danger-background-color) 12%, transparent);
+        }
+
+        .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):active {
+            background: color-mix(in srgb, var(--tss-danger-background-color) 20%, transparent);
         }
 
         .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled),
