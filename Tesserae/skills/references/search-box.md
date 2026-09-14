@@ -28,14 +28,18 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.Busy(bool = true)` / `.IsBusy` — while the box is waiting on the search it asked for, a spinner
   stands where the clear button does. Set it when the query goes out and clear it when it answers,
   **including when it fails** — a spinner that never stops is worse than none. The box stays editable
-  while busy, and hovering it swaps the clear button back in over the spinner, so a slow search can
-  always be called off — `.Clear()` fires `OnSearch` with the empty query, which is the signal to
-  cancel whatever is in flight.
+  while busy.
+- `.OnCancel((sender, value) => ...)` — what to do when the user calls off a running search, and by
+  registering it you say one *can* be called off: a pointer on a busy box then swaps the spinner for a
+  cancel button, same place and size. Pressing it raises this **and nothing else** — the box is not
+  emptied and no search is raised, so a handler that wants either does it itself (`sender.Clear()`
+  empties the box and raises `OnSearch` with the empty query). Without a handler there is no cancel
+  button and a busy box keeps its clear button.
 - `.Failed(int millisecondsVisible = 5000)` / `.ClearFailure()` / `.IsFailed` — says the search did not
   answer: the box is outlined in the danger colour with a warning glyph in the spinner's place, and takes
-  itself down after the given time (pass `0` to leave it up). Typing, clearing the box or the next
-  `.Busy()` also takes it down — it describes one search, not the box. Still say *what* went wrong where
-  the results would have been; the box only says that something did.
+  itself down after the given time (pass `0` to leave it up until `.ClearFailure()`). Nothing else takes
+  it down — it describes one search, so call `.ClearFailure()` where you start the next one. Still say
+  *what* went wrong where the results would have been; the box only says that something did.
   This is not `.IsInvalid`, which is for a query the user has to fix and stays until they do.
 - `.Focus()`, `.Disabled(bool = true)`, `.Height(UnitSize)` / `.H(int)`.
 
@@ -56,17 +60,29 @@ Waiting on a server, with the failure handled:
 ```csharp
 var results = VStack();
 
+CancellationTokenSource cts = null;
+
 var search = SearchBox("Search people")
     .SearchAsYouType()
-    .OnSearch((sender, value) => RunSearchAsync(sender, value).FireAndForget());
+    .OnSearch((sender, value) => RunSearchAsync(sender, value).FireAndForget())
+    .OnCancel((sender, value) =>
+    {
+        // Only what this app means by cancelling - the box raised the event and did nothing else.
+        cts?.Cancel();
+        sender.Busy(false);
+    });
 
 async Task RunSearchAsync(SearchBox box, string query)
 {
+    cts?.Cancel();
+    cts = new CancellationTokenSource();
+
+    box.ClearFailure();
     box.Busy();
 
     try
     {
-        var found = await API.SearchAsync(query);
+        var found = await API.SearchAsync(query, cts.Token);
         results.Children(found.Select(Row).ToArray());
     }
     catch (Exception)

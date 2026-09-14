@@ -208,21 +208,51 @@
     display: inline-flex;
 }
 
-/* While the search is out the spinner takes the clear button's place rather than crowding in beside it.
-   A failed box keeps its clear button: that is the state the user has to get out of. */
-.tss-searchbox-container.tss-searchbox-has-text.tss-searchbox-is-busy:not(.tss-disabled) > .tss-searchbox-clear {
+/* The spinner takes the clear button's place only on a box that can cancel - there it trades the button
+   for one that does something about the wait, and the two are the same 28px in the same place so the row
+   does not move. Without an OnCancel handler nothing is offered in return, so the clear button stays. */
+.tss-searchbox-container.tss-searchbox-has-text.tss-searchbox-is-busy.tss-searchbox-can-cancel:not(.tss-disabled) > .tss-searchbox-clear {
     display: none;
 }
 
-/* ...but a pointer on the box swaps them back, so the search can always be called off. The two are the
-   same 28px in the same place, so the row does not move as they trade; and the clear button only comes
-   back when there is something to clear, or hovering a search of the empty query would show nothing. */
-.tss-searchbox-container.tss-searchbox-has-text.tss-searchbox-is-busy:not(.tss-disabled):hover > .tss-searchbox-status {
+/* The cancel button, drawn like the clear button and standing in the spinner's place under a pointer. */
+.tss-searchbox-cancel {
     display: none;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    font: inherit;
 }
 
-.tss-searchbox-container.tss-searchbox-has-text.tss-searchbox-is-busy:not(.tss-disabled):hover > .tss-searchbox-clear {
+    .tss-searchbox-cancel:hover {
+        background: var(--tss-default-background-hover-color);
+        color: var(--tss-default-foreground-color);
+    }
+
+    .tss-searchbox-cancel:focus-visible {
+        outline: 2px solid var(--tss-primary-border-color);
+        outline-offset: -2px;
+    }
+
+.tss-searchbox-cancel-icon {
+    font-size: 16px;
+    line-height: 1;
+}
+
+.tss-searchbox-container.tss-searchbox-is-busy.tss-searchbox-can-cancel:not(.tss-disabled):hover > .tss-searchbox-status > .tss-searchbox-cancel {
     display: inline-flex;
+}
+
+.tss-searchbox-container.tss-searchbox-is-busy.tss-searchbox-can-cancel:not(.tss-disabled):hover > .tss-searchbox-status > .tss-spinner {
+    display: none;
 }
 
 /* A search that did not answer, said on the box for as long as SearchBox.Failed() keeps it there. The

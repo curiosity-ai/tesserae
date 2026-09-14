@@ -18,6 +18,7 @@ namespace Tesserae
         private readonly HTMLElement     _shortcutContainer;
         private readonly HTMLElement     _clearButton;
         private readonly HTMLElement     _status;
+        private readonly HTMLElement     _cancelButton;
 
         private string[]                       _shortcutKeys;
         private Action<Event>                  _globalShortcutHandler;
@@ -25,6 +26,9 @@ namespace Tesserae
 
         protected event SearchEventHandler Searched;
         public delegate void               SearchEventHandler(SearchBox sender, string value);
+
+        protected event SearchCancelledEventHandler SearchCancelled;
+        public delegate void                        SearchCancelledEventHandler(SearchBox sender, string value);
 
         private double _timeoutTriggerSearch = 0;
         private double _timeoutFailure       = 0;
@@ -47,13 +51,17 @@ namespace Tesserae
             _clearButton = UI.Button(Att("tss-searchbox-clear", type: "button", title: "Clear", ariaLabel: "Clear"),
                                      I(Att($"tss-searchbox-clear-icon {UIcons.CrossSmall.ToCssClass()}")));
 
+            //Only ever shown by OnCancel, which is what says a running search can be called off at all.
+            _cancelButton = UI.Button(Att("tss-searchbox-cancel", type: "button", title: "Cancel search", ariaLabel: "Cancel search"),
+                                      I(Att($"tss-searchbox-cancel-icon {UIcons.CrossSmall.ToCssClass()}")));
+
             //One slot for what became of the last search: the spinner while it is out, the warning glyph when
-            //it did not answer. It stands where the clear button does, which is where the user is already
-            //looking, and the clear button gives way to the spinner rather than the two sharing the row -
-            //until a pointer arrives, which trades them back so the search can be called off.
+            //it did not answer, and - on a box that has said it can cancel - the cancel button under a pointer.
+            //It stands where the clear button does, which is where the user is already looking.
             _status = Div(Att("tss-searchbox-status"),
                           Div(Att("tss-spinner")),
-                          I(Att($"tss-searchbox-failed-icon {UIcons.TriangleWarning.ToCssClass()}")));
+                          I(Att($"tss-searchbox-failed-icon {UIcons.TriangleWarning.ToCssClass()}")),
+                          _cancelButton);
 
             _container = Div(Att("tss-searchbox-container"), _iconContainer, InnerElement, _status, _clearButton, _shortcutContainer);
 
@@ -63,13 +71,7 @@ namespace Tesserae
             AttachBlur();
             AttachKeys();
 
-            SubscribeInputUpdated((_, __) =>
-            {
-                UpdateHasText();
-
-                //Whatever went wrong went wrong for the query that is no longer in the box.
-                ClearFailure();
-            });
+            SubscribeInputUpdated((_, __) => UpdateHasText());
 
             //Pressing the button with the pointer must not take the caret out of the box - the user is about
             //to type the next query.
@@ -79,6 +81,16 @@ namespace Tesserae
             {
                 StopEvent(e);
                 Clear();
+            });
+
+            _cancelButton.addEventListener("mousedown", e => e.preventDefault());
+
+            //Raises the event and does nothing else: the box is not emptied and no search is raised, because
+            //what calling off a search means is the caller's to say.
+            _cancelButton.addEventListener("click", e =>
+            {
+                StopEvent(e);
+                SearchCancelled?.Invoke(this, InnerElement.value);
             });
 
             //The input is only as tall as its text and sits centred in a box twice its height, with the box's
@@ -92,7 +104,7 @@ namespace Tesserae
 
                 var target = e.target.As<HTMLElement>();
 
-                if (target == InnerElement || _clearButton.contains(target)) return;
+                if (target == InnerElement || _clearButton.contains(target) || _cancelButton.contains(target)) return;
 
                 e.preventDefault();
                 InnerElement.focus();
@@ -238,9 +250,12 @@ namespace Tesserae
         /// <summary>
         /// Gets or sets a value indicating whether the component is waiting on the search it asked for. While
         /// set, a spinner stands where the clear button does and the box reports itself as busy to assistive
-        /// technology - though a pointer on the box swaps the clear button back in, so a slow search can
-        /// always be called off. The box stays editable throughout. Setting it clears any failure being
-        /// shown - the query that failed is not the one running now.
+        /// technology; the box stays editable throughout. On a box with an <see cref="OnCancel"/> handler, a
+        /// pointer on it swaps the spinner for the cancel button.
+        /// <para>
+        /// It says nothing about <see cref="Failed"/>, which the caller takes down itself - usually with
+        /// <see cref="ClearFailure"/> where it starts the next search.
+        /// </para>
         /// </summary>
         public bool IsBusy
         {
@@ -249,7 +264,6 @@ namespace Tesserae
             {
                 if (value)
                 {
-                    ClearFailure();
                     _container.classList.add("tss-searchbox-is-busy");
                     InnerElement.setAttribute("aria-busy", "true");
                 }
@@ -364,8 +378,8 @@ namespace Tesserae
         /// <summary>
         /// Says the last search did not answer: the box is outlined in the danger colour and carries a warning
         /// glyph where the spinner was, for <paramref name="millisecondsVisible"/> (pass 0 to leave it up until
-        /// something clears it). Typing, clearing the box or asking for the next search takes it down again -
-        /// it describes one search, not the box.
+        /// something clears it, which is <see cref="ClearFailure"/>). Nothing else takes it down: it describes
+        /// one search, so the caller that starts the next one is what says the last one stopped mattering.
         /// <para>
         /// It says that the search itself failed, which is not the same as a query the user should fix; a box
         /// whose *contents* are wrong is <see cref="IsInvalid"/>, and that one stays until it is put right.
@@ -471,6 +485,26 @@ namespace Tesserae
         public SearchBox OnSearch(SearchEventHandler onSearch)
         {
             Searched += onSearch;
+            return this;
+        }
+
+        /// <summary>
+        /// Registers what to do when the user calls off a search that is still running, and by registering it
+        /// says a search <em>can</em> be called off: while <see cref="IsBusy"/> a pointer on the box then swaps
+        /// the spinner for a cancel button, in the same place and at the same size, and pressing it raises this
+        /// and nothing else.
+        /// <para>
+        /// The box is not emptied and no search is raised - a handler that wants either does it itself
+        /// (<c>box.Clear()</c> empties it and raises <see cref="OnSearch"/> with the empty query). Without a
+        /// handler there is no cancel button and a busy box keeps its clear button, since nothing would be
+        /// offered in its place.
+        /// </para>
+        /// </summary>
+        public SearchBox OnCancel(SearchCancelledEventHandler onCancel)
+        {
+            SearchCancelled += onCancel;
+            _container.classList.add("tss-searchbox-can-cancel");
+
             return this;
         }
 

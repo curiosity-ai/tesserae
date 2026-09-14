@@ -15,14 +15,24 @@ namespace Tesserae.Tests.Samples
             var searchAsYouType = TextBlock("Start typing in the 'Search as you type' box below...");
 
             //A search that takes a moment says so in the box itself: .Busy() while the query is out, and
-            //.Failed() when it did not answer - which takes itself down again after five seconds.
+            //.Failed() when it did not answer - which takes itself down again after five seconds. .OnCancel
+            //is what puts the cancel button under the pointer while it is busy; what cancelling does is
+            //decided here, not by the box.
             var slowSearchStatus = TextBlock("Type to start a search that takes two seconds. A query of 'fail' comes back with an error.");
             var slowSearch       = SearchBox("Type something slow...").SearchAsYouType();
             var slowSearchToken  = 0d;
 
+            slowSearch.OnCancel((s, e) =>
+            {
+                window.clearTimeout(slowSearchToken);
+                s.Busy(false);
+                slowSearchStatus.Text = $"Called off the search for: {e}";
+            });
+
             slowSearch.OnSearch((s, e) =>
             {
                 window.clearTimeout(slowSearchToken);
+                s.ClearFailure();
 
                 if (string.IsNullOrEmpty(e))
                 {
@@ -74,7 +84,7 @@ namespace Tesserae.Tests.Samples
                                 .OnSearch((s, e) => searchAsYouType.Text = string.IsNullOrEmpty(e) ? "Waiting for input..." : $"Current search: {e}")
                         ),
                         searchAsYouType,
-                        Label("Waiting on a slow search").SetContent(slowSearch),
+                        Label("Waiting on a slow search (hover it to cancel)").SetContent(slowSearch),
                         slowSearchStatus
                     ),
                     SampleSubTitle("Customization"),
