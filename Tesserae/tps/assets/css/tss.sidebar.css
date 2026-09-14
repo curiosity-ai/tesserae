@@ -363,17 +363,15 @@
 }
 
 /* A badge is drawn over the row's right edge the way the commands are, but it is chrome the row shows at
-   rest rather than something the pointer brings in - so the label is laid out beside it and truncates
-   before it, always. Without that, a long name ran underneath the glyph and the two read as one smudge:
-   a shared-space icon sitting on the last letters of the space's name.
+   rest rather than something the pointer brings in - so the name has to give way to it at rest too, or a
+   long one runs underneath the glyph and the two read as one smudge: a shared-space icon sitting on the
+   last letters of the space's name. It gives way by fading out, not by stopping short - see the scrim
+   below.
 
-   The width cannot be computed here the way the commands' can: a badge is an icon, or "+3", or "+1,204".
-   It is measured off the badge instead and written to --tss-sidebar-badge-width when the row is built
-   (ReserveRoomForBadge in SidebarButton.cs), re-measured whenever its text changes. Rows keep their own
-   value, so a count and an icon in the same sidebar each reserve exactly what they need.
-
-   A row that draws its commands permanently - always-open, or selected - hides its badge and reserves
-   room for the strip instead; that rule is more specific than this one, which is what settles the two. */
+   Where the commands' width is a count this stylesheet can multiply out, a badge's is not: it is an icon,
+   or "+3", or "+1,204". It is measured off the badge instead and written to --tss-sidebar-badge-width
+   when the row is built (TrackBadgeWidth in SidebarButton.cs), re-measured whenever its text changes.
+   Rows keep their own value, so a count and an icon in the same sidebar each get exactly what they need. */
 .tss-sidebar-badges {
     position: absolute;
     right: var(--tss-sidebar-badge-inset, 4px);
@@ -385,8 +383,47 @@
     flex-wrap: nowrap;
 }
 
-.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge > .tss-btn,
-.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge > a > .tss-btn {
+/* The label is not cut short for the badge: it runs the full width of the rail and fades out into the row
+   where the badge begins, the same scrim the commands get under the pointer, so a long name reads to its
+   last legible letter and the glyph sits on a clean field. Two numbers, as there: the scrim reaches from
+   the row's right edge past the badge and on for --tss-sidebar-label-fade further, and the mask spends
+   exactly that fade going from nothing to opaque, so it is at full strength at the badge's first pixel
+   and invisible where the name is still worth reading. The ellipsis the span would otherwise show falls
+   inside the opaque part and is never seen.
+
+   The colour is the row's own, and that takes two rules rather than one. background-color: inherit is
+   right wherever the row paints a background - the hover grey, a Primary or Danger fill, dark mode - but
+   a plain row at rest paints none, and a scrim that inherited transparency would hide nothing. That one
+   case fades into the rail instead, which is the colour such a row actually shows. */
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected) > .tss-sidebar-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected) > a > .tss-sidebar-btn::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: calc(var(--tss-sidebar-badge-width, 0px) + var(--tss-sidebar-badge-inset, 4px) + var(--tss-sidebar-label-fade, 28px));
+    background-color: var(--tss-sidebar-background-color);
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(to right, transparent, black var(--tss-sidebar-label-fade, 28px));
+    mask-image: linear-gradient(to right, transparent, black var(--tss-sidebar-label-fade, 28px));
+}
+
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):hover > .tss-sidebar-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):hover > a > .tss-sidebar-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-sidebar-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-sidebar-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge > .tss-btn:not(.tss-btn-default).tss-sidebar-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge > a > .tss-btn:not(.tss-btn-default).tss-sidebar-btn::after {
+    background-color: inherit;
+}
+
+/* The selected row is the one that cannot be faded into: it is filled with a wash of the primary rather
+   than a solid, so a scrim taking that same wash would paint it twice and show as a darker patch. It
+   keeps room for its badge and ellipsises instead - which is what a selected row already does for its
+   commands, and rows that have both are left to that rule. */
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-has-commands).tss-sidebar-selected > .tss-btn,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-has-commands).tss-sidebar-selected > a > .tss-btn {
     padding-right: calc(var(--tss-sidebar-badge-width, 0px) + var(--tss-sidebar-badge-inset, 4px) + var(--tss-sidebar-badge-gap, 6px));
 }
 
