@@ -477,10 +477,20 @@ namespace Tesserae.Tests.Samples
 
             var box = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
             {
-                PlaceholderChat = "Drop files on me, or click the paperclip",
+                PlaceholderChat = "Drop files on me, paste a screenshot, or click the paperclip",
                 ChatFooter      = new OmniBox.FooterItems { RightSide = new IComponent[] { attachBtn } }
             })
             .WS()
+            .OnChatPaste((s, paste) =>
+            {
+                //Text wins whenever the clipboard has any: a cell copied out of a spreadsheet carries
+                //a picture of itself as well, and the text is what the user meant to paste.
+                if (!string.IsNullOrEmpty(paste.Text) || paste.Files.Length == 0) return;
+
+                paste.Handled = true;
+
+                Toast().Information($"Pasted: {string.Join(", ", paste.Files.Select(f => f.name))}");
+            })
             .OnChat((s, q) => Toast().Information(q.Text)));
 
             var dropArea = FileDropArea(box).OnFilesDropped((s, files) =>
@@ -490,8 +500,8 @@ namespace Tesserae.Tests.Samples
 
             attachBtn.OnClick((s, e) => dropArea.OpenFileSelection());
 
-            return FeatureCard("Files", "Drag & drop, and a file picker",
-                "OmniBox has no file handling of its own — wrap it in a FileDropArea to accept drops over the box, and call OpenFileSelection() from a footer button for the click path. Pair it with the context row further down to show what was attached.",
+            return FeatureCard("Files", "Dropped, picked, or pasted",
+                "Dropping and picking are outside the box: wrap it in a FileDropArea to accept drops over it, and call OpenFileSelection() from a footer button for the click path. Pasting is the one the box does itself, because a screenshot on the clipboard reaches nothing else — it is not text, so the input drops it. OnChatPaste hands over the files and the text; set Handled to keep the paste out of the input. Pair any of the three with the context row further down to show what was attached.",
                 dropArea.WS());
         }
 

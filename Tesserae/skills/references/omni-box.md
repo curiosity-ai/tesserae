@@ -34,6 +34,7 @@ Config (set via object initializer):
 OmniBox:
 - `.OnSearch((sender, SearchQuery) => ...)` — fires on search; `query.Tokens` hold the parsed tokens.
 - `.OnChat((sender, ChatMessage) => ...)`, `.OnStop(...)`, `.OnModelChanged(...)`.
+- `.OnChatPaste((sender, ChatPaste) => ...)` — what was pasted into the chat input, for the things the input itself cannot take. `ChatPaste` carries `Files` (a pasted screenshot arrives here and nowhere else — it is not text, so the input drops it), `Text` (the plain text, empty when there is none) and `Handled`: set it to keep the paste out of the input, leave it and the paste happens as usual. A clipboard can carry both, so a handler that only wants pictures should check `Text` first — a cell copied out of a spreadsheet brings an image of itself along with the text the user meant to paste.
 - `.IsGenerating` (bool) — toggles the footer spinner + elapsed-time indicator and swaps the send button for a stop button. `.GeneratingText` (string) — read/write the indicator label; setting it updates the footer live. `.AllowSendWhileGenerating` (bool) — read/write the config flag above.
 - `.SearchText` / `.ChatText` / `.SetSearchText(string)` — read/write input text.
 - `.MaxChatCharacters` (int) — read/write `Config.MaxCharacters` after construction; `0` lifts the limit.
@@ -124,6 +125,25 @@ var omni = new OmniBox(new OmniBox.Config(OmniBox.Mode.Search) { PlaceholderSear
     .SetSearchRightText("18 results · 0.21s")
     .WithAskAI("Ask AI", UIcons.Beacon, box => AskAI(box.SearchText))
     .OnSearch((s, q) => Search(q.RawQuery));
+```
+
+A composer that takes a pasted screenshot and stages it as a card:
+
+```csharp
+var omni = new OmniBox(new OmniBox.Config(OmniBox.Mode.Chat))
+    .OnChatPaste((s, paste) =>
+    {
+        // Text wins when the clipboard has any: the user meant to paste the text.
+        if (!string.IsNullOrEmpty(paste.Text) || paste.Files.Length == 0) return;
+
+        paste.Handled = true;                      // the input must not also receive it
+
+        foreach (var file in paste.Files)
+        {
+            UploadAsync(file).ContinueWith(t => s.AddContext(ContextCard(file.name, UIcons.Picture)));
+        }
+    })
+    .OnChat((s, m) => { Send(m.Text, s.ContextToAdd); s.ClearContext(); });
 ```
 
 Context attached to the next message, shown inside the box below the input:
