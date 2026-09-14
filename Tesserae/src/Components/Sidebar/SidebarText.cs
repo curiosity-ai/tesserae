@@ -68,7 +68,7 @@ namespace Tesserae
         /// <summary>Adds a group identifier prefix to the text component's identifier.</summary>
         public void AddGroupIdentifier(string groupIdentifier)
         {
-            Identifier = groupIdentifier + Sidebar.GroupIdentifierSeparator + Identifier;
+            Identifier = Sidebar.WithGroupIdentifier(Identifier, groupIdentifier);
         }
 
 

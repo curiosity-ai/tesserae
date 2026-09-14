@@ -651,11 +651,21 @@ namespace Tesserae
         {
             item.AddGroupIdentifier(Identifier);
 
-            var items = _items.Value.As<ISidebarItem[]>();
+            var items    = _items.Value.As<ISidebarItem[]>();
+            var standing = IndexOfIdentifier(items, item.Identifier);
 
-            if (items.Any(m => m.Identifier == item.Identifier))
+            if (standing >= 0)
             {
-                return; //nothing to do...
+                //The identifier says which row this is, so a newly built item takes the standing one's place
+                //rather than being dropped - see Sidebar.AddContent, which answers the same question.
+                if (ReferenceEquals(items[standing], item)) return; //nothing to do...
+
+                UnhookSelectionReveal(item.Identifier);
+                HookSelectionReveal(item);
+
+                items[standing] = item;
+                _items.Value    = items.ToArray();
+                return;
             }
 
             HookSelectionReveal(item);
@@ -665,13 +675,25 @@ namespace Tesserae
             _itemOrder.Add(item.Identifier);
         }
 
+        private static int IndexOfIdentifier(ISidebarItem[] items, string identifier)
+        {
+            for (var i = 0; i < items.Length; i++)
+            {
+                if (items[i].Identifier == identifier) return i;
+            }
+
+            return -1;
+        }
+
         /// <summary>
         /// Removes an item from the navigation.
         /// </summary>
         /// <param name="item">The item to remove.</param>
         public void Remove(ISidebarItem item)
         {
-            var identifierWithGroupIdentifier = Identifier + "_|_" + item.Identifier;
+            //Normalised, so that an item already carrying this nav's group is matched as readily as a freshly
+            //built one that does not carry it yet.
+            var identifierWithGroupIdentifier = Sidebar.WithGroupIdentifier(item.Identifier, Identifier);
 
             UnhookSelectionReveal(identifierWithGroupIdentifier);
 
@@ -696,18 +718,26 @@ namespace Tesserae
             {
                 item.AddGroupIdentifier(Identifier);
 
-                if (newItems.Any(m => m.Identifier == item.Identifier))
+                var standing = IndexOfIdentifier(newItems, item.Identifier);
+
+                if (standing >= 0)
                 {
-                    continue; //already there...
+                    if (ReferenceEquals(newItems[standing], item)) continue; //already there...
+
+                    UnhookSelectionReveal(item.Identifier);
+                    HookSelectionReveal(item);
+
+                    newItems[standing] = item;
+                    continue;
                 }
 
                 HookSelectionReveal(item);
 
                 newItems.Push(item);
+                _itemOrder.Add(item.Identifier);
             }
 
             _items.Value = newItems.ToArray();
-            _itemOrder.AddRange(itemsToAdd.Select(i => i.Identifier));
             return this;
         }
 
@@ -737,7 +767,7 @@ namespace Tesserae
         /// <summary>Adds a group identifier prefix to the navigation component's identifier.</summary>
         public void AddGroupIdentifier(string groupIdentifier)
         {
-            Identifier = groupIdentifier + Sidebar.GroupIdentifierSeparator + Identifier;
+            Identifier = Sidebar.WithGroupIdentifier(Identifier, groupIdentifier);
         }
 
         /// <summary>

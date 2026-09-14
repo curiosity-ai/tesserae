@@ -48,7 +48,7 @@ namespace Tesserae
         /// <summary>Adds a group identifier prefix to the item's identifier.</summary>
         public void AddGroupIdentifier(string groupIdentifier)
         {
-            Identifier = groupIdentifier + Sidebar.GroupIdentifierSeparator + Identifier;
+            Identifier = Sidebar.WithGroupIdentifier(Identifier, groupIdentifier);
         }
 
         /// <summary>Shows the item.</summary>

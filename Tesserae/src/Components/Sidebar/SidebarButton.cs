@@ -61,7 +61,7 @@ namespace Tesserae
         /// <summary>Adds a group identifier prefix to the button's identifier.</summary>
         public void AddGroupIdentifier(string groupIdentifier)
         {
-            Identifier = groupIdentifier + Sidebar.GroupIdentifierSeparator + Identifier;
+            Identifier = Sidebar.WithGroupIdentifier(Identifier, groupIdentifier);
         }
 
         public SidebarButton(string identifier, Emoji        icon,  string       text,   params SidebarCommand[] commands) : this(identifier, null, text, null, Button().SetIcon(icon), Button().SetIcon(icon), commands) { }

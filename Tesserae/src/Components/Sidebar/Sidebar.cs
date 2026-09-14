@@ -517,9 +517,17 @@ namespace Tesserae
         {
             item.AddGroupIdentifier(ROOT_SIDEBAR_FOR_ORDERING);
 
-            if (_middleContent.Value.Any(m => m.Identifier == item.Identifier))
+            var existing = _middleContent.Value.FirstOrDefault(m => m.Identifier == item.Identifier);
+
+            if (existing is object)
             {
-                return this; //nothing to do...
+                //The identifier says which row this is, so a newly built item takes the standing one's place
+                //rather than being dropped. A sidebar is rebuilt out of data that changed and the item is that
+                //data - dropping it leaves the sidebar showing what it was built from the previous time.
+                if (ReferenceEquals(existing, item)) return this; //nothing to do...
+
+                _middleContent.Value = _middleContent.Value.Select(m => ReferenceEquals(m, existing) ? item : m).ToList();
+                return this;
             }
 
             _middleContent.Value = _middleContent.Value?.Concat(new[] { item }).ToList();
@@ -537,10 +545,8 @@ namespace Tesserae
         {
             item.AddGroupIdentifier(ROOT_SIDEBAR_FOR_ORDERING);
 
-            if (_middleContent.Value.Any(m => m.Identifier == item.Identifier))
-            {
-                return this; //nothing to do...
-            }
+            //Already placed: leave it where it stands and let AddContent swap in the newly built item.
+            if (_middleContent.Value.Any(m => m.Identifier == item.Identifier)) return AddContent(item);
 
             var middleContentList = _middleContent.Value.ToList();
             var index             = middleContentList.IndexOf(addAfter);
@@ -576,12 +582,14 @@ namespace Tesserae
         /// <returns>The current instance of the type.</returns>
         public Sidebar RemoveContent(ISidebarItem item)
         {
-            //We don't add this here as the item was already added and has the identifier -> ROOT_SIDEBAR_FOR_ORDERING + "_|_" + 
+            //Match the stamped identifier AddContent gave the item standing there. A caller normally hands in a
+            //freshly built item, whose identifier carries no group yet and so used to match nothing at all.
+            var identifier = WithGroupIdentifier(item.Identifier, ROOT_SIDEBAR_FOR_ORDERING);
 
-            if (_middleContent.Value.All(m => m.Identifier != item.Identifier)) return this; //nothing to do
+            if (_middleContent.Value.All(m => m.Identifier != identifier)) return this; //nothing to do
 
-            _middleContent.Value = _middleContent.Value?.Where(m => m.Identifier != item.Identifier).ToList();
-            _itemOrder.Remove(item.Identifier);
+            _middleContent.Value = _middleContent.Value?.Where(m => m.Identifier != identifier).ToList();
+            _itemOrder.Remove(identifier);
             return this;
         }
 
@@ -771,5 +779,24 @@ namespace Tesserae
         /// The separator used between group identifiers and item identifiers.
         /// </summary>
         public const string GroupIdentifierSeparator = "_|_";
+
+        /// <summary>
+        /// Stamps an item's identifier with the group it is being placed in, unless it already carries it.
+        /// </summary>
+        /// <remarks>
+        /// The stamped identifier is how an item is found again once it is placed, so stamping twice would
+        /// leave it unfindable. That happens whenever an item is placed, taken out and placed back, and
+        /// whenever a caller hands in a freshly built item for a method that has to match the one already
+        /// there - which is why every method that matches an identifier normalises through this first.
+        /// </remarks>
+        /// <param name="identifier">The item's current identifier.</param>
+        /// <param name="groupIdentifier">The group the item is being placed in.</param>
+        /// <returns>The identifier as it reads inside that group.</returns>
+        public static string WithGroupIdentifier(string identifier, string groupIdentifier)
+        {
+            var prefix = groupIdentifier + GroupIdentifierSeparator;
+
+            return identifier is object && identifier.StartsWith(prefix) ? identifier : prefix + identifier;
+        }
     }
 }

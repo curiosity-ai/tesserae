@@ -62,7 +62,7 @@ namespace Tesserae
 
         public void AddGroupIdentifier(string groupIdentifier)
         {
-            Identifier = groupIdentifier + Sidebar.GroupIdentifierSeparator + Identifier;
+            Identifier = Sidebar.WithGroupIdentifier(Identifier, groupIdentifier);
             foreach (var tab in _orderedTabs)
             {
                 foreach(var item in tab.Items)

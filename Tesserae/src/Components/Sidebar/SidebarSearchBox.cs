@@ -161,7 +161,7 @@ namespace Tesserae
 
         public void AddGroupIdentifier(string groupIdentifier)
         {
-             Identifier = groupIdentifier + Sidebar.GroupIdentifierSeparator + Identifier;
+             Identifier = Sidebar.WithGroupIdentifier(Identifier, groupIdentifier);
         }
 
         public void Collapse()

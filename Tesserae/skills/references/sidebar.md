@@ -34,6 +34,37 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.OnSortingChanged(d => ...)`, `.GetCurrentSorting()`, `.LoadSorting(d)` —
   persist item order.
 
+## An item's id is its identity
+
+The `id` every item is constructed with is how the sidebar knows *which row this
+is*, so make it name the thing (`"space-" + space.Uid`) and keep it stable across
+rebuilds — it is also what `.GetCurrentSorting()` / `.LoadSorting(d)` persist a
+reader's drag-reordering against, so an id that changes loses that reader's
+placement for the row.
+
+Two behaviours follow, and both are what let a screen be rebuilt from data that
+changed:
+
+- **Adding an id that is already there replaces the item, in place.** A rebuild
+  hands `.AddContent(...)` / `SidebarNav.Add(...)` freshly built items, and each
+  one takes over its row — keeping its position and its place in the order —
+  rather than being dropped as a duplicate. Handing back the *same* item is still
+  nothing to do, so a rebuild that changed nothing costs no re-render.
+- **Removing matches on the id, not on the object.** `.RemoveContent(item)` /
+  `SidebarNav.Remove(item)` take a freshly built item carrying the right id; you
+  do not need a reference to the one that is actually up there.
+
+```csharp
+//Re-run whenever the data changes: each row is replaced by the one built from what it now says.
+foreach (var space in spaces)
+{
+    var item = new SidebarButton("space-" + space.Uid, space.Icon, space.Name, CommandsFor(space));
+
+    if (space.Pinned) { nav.Remove(item); sidebar.AddContent(item); }
+    else              { sidebar.RemoveContent(item); nav.Add(item); }
+}
+```
+
 Common item types: `SidebarButton(id, UIcons icon, text)` (`.Selected()`,
 `.OnClick(...)`, `.Primary()`, `.Danger()`, `.Rounded()`,
 `.SetKeyboardShortcut("Ctrl", "Shift", "O")`, `.ShortcutOnlyOnHover()`,

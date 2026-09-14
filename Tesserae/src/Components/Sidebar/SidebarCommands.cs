@@ -292,7 +292,7 @@ namespace Tesserae
         /// <summary>Adds a group identifier prefix to the command group's identifier.</summary>
         public void AddGroupIdentifier(string groupIdentifier)
         {
-            Identifier = groupIdentifier + Sidebar.GroupIdentifierSeparator + Identifier;
+            Identifier = Sidebar.WithGroupIdentifier(Identifier, groupIdentifier);
         }
     }
 }
