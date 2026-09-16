@@ -622,6 +622,15 @@ namespace Tesserae
         private Action _hideSearchHistory;
         private Func<string, Task<OmniBoxSuggestionItem[]>> _suggestionsFetcher;
         private int _suggestionsDebounceTimeoutId = 0;
+        /// <summary>
+        /// Which suggestions request the popup is still willing to draw. Debouncing cancels a
+        /// *pending* timer, never a fetch already in flight, so with a fetcher slower than the
+        /// debounce two requests overlap and the one that answers last wins -- which is the older
+        /// one whenever the network reorders them, leaving suggestions for a query the user has
+        /// already typed past. Every trigger and every hide takes the next number, and an answer
+        /// that no longer holds the current one is dropped instead of drawn.
+        /// </summary>
+        private int _suggestionsRequest = 0;
         private Action _hideSuggestions;
         private int _highlightedSuggestionIndex = -1;
         private List<Button> _currentSuggestionButtons = new List<Button>();
@@ -2660,6 +2669,9 @@ namespace Tesserae
         private void HideRegularSuggestions()
         {
             window.clearTimeout(_suggestionsDebounceTimeoutId);
+            // Hiding also invalidates a fetch already in flight: the input has moved on to a snap or
+            // filter context, and its popup is not something a late suggestion may draw over.
+            _suggestionsRequest++;
             if (_hideSuggestions != null)
             {
                 _hideSuggestions();
@@ -3711,10 +3723,16 @@ namespace Tesserae
             if (_suggestionsFetcher == null) return;
 
             window.clearTimeout(_suggestionsDebounceTimeoutId);
+            _suggestionsRequest++;
+            var request = _suggestionsRequest;
             _suggestionsDebounceTimeoutId = (int)window.setTimeout(async _ =>
             {
                 var val = _searchInput.value;
                 var suggestions = await _suggestionsFetcher(val);
+                // Another keystroke (or a hide) happened while this was in flight. Its answer is the
+                // one the user is waiting for, so this one is stale whether it succeeded, came back
+                // empty, or is simply late -- drop it rather than draw over the newer one.
+                if (request != _suggestionsRequest) return;
                 if (suggestions == null || suggestions.Length == 0)
                 {
                     if (_hideSuggestions != null)
