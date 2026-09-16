@@ -14,6 +14,19 @@ dotnet_diagnostic.CA1810.severity = none
 
 # 2020-07-09 DWR: Custom Equals and In/Equality operators aren't such a big deal with H5
 dotnet_diagnostic.CA1815.severity = none
+
+# 2026-09-16: "Avoid using 'async' lambda when delegate type returns 'void'" (ReSharper AsyncVoidLambda).
+# The inspection warns that an unhandled exception in such a lambda can crash the process, which is a
+# .NET desktop/server statement: there is no process to crash here, and Transpose no longer loses the
+# exception either. It emits an async void body -- an `async void` method or local function, and any
+# async lambda converted to a void-returning delegate, which is what `window.setTimeout(async _ => ...)`
+# and every DOM event handler are -- through `TransposeR.fireAndForget`, which reports the failure to
+# console.error, or to the handler an app installs with `Transpose.Script.SetUnhandledExceptionHandler`.
+# What the inspection cannot tell you is still true and is not what it says: an async void body cannot
+# be awaited, so anything that has to sequence or cancel the work wants a named `async Task` method
+# (and `Task.Run(async () => ...)` / `.FireAndForget()`, which bind Task-returning delegates, never
+# tripped this inspection in the first place).
+resharper_async_void_lambda_highlighting = none
 csharp_using_directive_placement = outside_namespace:silent
 csharp_prefer_simple_using_statement = true:suggestion
 csharp_prefer_braces = true:silent
