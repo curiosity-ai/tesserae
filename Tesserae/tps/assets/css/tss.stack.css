@@ -8,6 +8,28 @@
    override whatever height the component sets for itself. It existed only to make the wrapper size
    to its content, which is the default for a div anyway. */
 
+/* The input components declare `width: 100%` for themselves, which used to mean "fill the stack item
+   wrapping me": the 100% resolved against a wrapper div that was itself content-sized on the main axis.
+   With the wrapper gone the component *is* the flex item, so in a row the same declaration resolves against
+   the whole line and becomes a flex-basis of all of it - one search box in a toolbar claimed the lot and
+   every sibling was shrunk, the dropdown beside it down past its own text and under its chevron. `auto` is
+   what those three used to come out as, since a shrink-to-fit wrapper around a 100%-wide child is the
+   child's own intrinsic width.
+
+   Listed one by one rather than applied to every item, because a stylesheet width is not always a leftover:
+   `.tss-sidebar` asks for 250px and means it. Only `width: 100%` carries the old wrapper meaning, and CSS
+   cannot select on a value - so a component that turns out to want this says so here.
+
+   A column needs none of it: stretching a child across the cross axis is what align-items already does,
+   which is why the declaration was redundant rather than harmful there. And an explicit
+   .Width()/.WidthStretch() is an inline style, so it still outranks this - saying so is how a component
+   asks to fill a row. */
+.tss-stack-horizontal > .tss-searchbox-container,
+.tss-stack-horizontal > .tss-textbox,
+.tss-stack-horizontal > .tss-picker-container {
+    width: auto;
+}
+
 .tss-stack.tss-invalid {
     border-color: var(--tss-invalid-border-color);
 }

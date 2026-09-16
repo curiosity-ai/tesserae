@@ -25,6 +25,10 @@ Add children with `.Add(component)` or `.Children(params IComponent[])`.
 - `.Add` / `.Prepend` / `.InsertBefore` / `.InsertAfter` / `.Remove` / `.Replace` / `.Clear` — mutate children.
 - On children (from IComponentExtensions): `.WS()`/`.HS()`/`.S()` stretch, `.Grow(int)` claim space, `.Shrink()`/`.NoShrink()`, `.W(...)`/`.H(...)`.
 
+In a **horizontal** stack an input sizes itself to its content, so say `.WS()` or `.Grow()` on the one
+that should fill the row — `HStack().Children(SearchBox("Filter...").Grow(), Dropdown().W(100))`. A
+vertical stack needs neither: the cross axis stretches already.
+
 ## Example
 
 ```csharp
