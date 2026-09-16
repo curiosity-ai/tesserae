@@ -45,6 +45,13 @@ namespace Tesserae
     /// this-led-to-that never grows without end.
     /// </para>
     /// <para>
+    /// A sheet keeps whatever size it was given while it is in front. Once something is opened on top of
+    /// it, it takes the front sheet's footprint instead - so a deck of sheets that opened at very different
+    /// sizes still reads as one pile, with each sheet behind peeking out by the same strip - and gets its
+    /// own size back when it is in front again. The deck also keeps the room those strips and the trail
+    /// need at the top, and the sheet in front is fitted below it.
+    /// </para>
+    /// <para>
     /// The stack takes the modal's own surface and shows it itself, so <see cref="Modal.Show"/> is not what
     /// opens a stacked modal - <see cref="Push(string, string, Modal)"/> is. Everything else about the modal
     /// still works: <see cref="Modal.Hide"/> pops it, and its show and hide handlers run as they would have.
@@ -62,6 +69,9 @@ namespace Tesserae
         private const double PeekScale   = 0.028;
         private const double PeekFade    = 0.18;
 
+        // What the trail above the deck takes when it is shown, on top of the strips.
+        private const double TrailRoom   = 36;
+
         private static readonly List<ModalStackEntry> _entries = new List<ModalStackEntry>();
 
         private static HTMLElement _root;
@@ -71,6 +81,11 @@ namespace Tesserae
 
         private static bool           _truncated;
         private static Action<Event>  _onKeyDown;
+
+        // The sheets behind are sized to the sheet in front, so its size is watched for as long as it is
+        // the front one - it can still be loading its content when it is pushed, and it can follow the window.
+        private static ResizeObserver _frontObserver;
+        private static HTMLElement    _observedFront;
 
         /// <summary>
         /// Raised whenever the chain changes - a sheet pushed, popped, replaced or dropped - so a host can
@@ -402,6 +417,8 @@ namespace Tesserae
 
             document.removeEventListener("keydown", _onKeyDown);
 
+            WatchFront(null);
+
             Layers.ReleasePageScroll(_root);
 
             if (_root.parentElement is object) _root.parentElement.removeChild(_root);
@@ -460,9 +477,49 @@ namespace Tesserae
                 }
             }
 
+            // The room the strips and the trail take at the top: the grid centres the sheet in front below it,
+            // and caps it to what is left, so the deck always fits whatever size that sheet asked for.
+            var room = count > 1 ? (PeekOffset * (count - 1)) + TrailRoom : 0;
+
+            _sheets.style.setProperty("--tss-modalstack-deck-room", $"{room}px");
+            _sheets.classList.toggle("tss-modalstack-deep", count > 1);
+
+            WatchFront(_entries[count - 1].Sheet);
+
             RenderTrail();
 
             _entries[count - 1].Sheet.focus();
+        }
+
+        private static void WatchFront(HTMLElement front)
+        {
+            if (_observedFront == front) return;
+
+            if (_frontObserver is null)
+            {
+                _frontObserver = new ResizeObserver((entries, obs) => MeasureFront());
+            }
+
+            if (_observedFront is object) _frontObserver.unobserve(_observedFront);
+
+            _observedFront = front;
+
+            if (front is null) return;
+
+            _frontObserver.observe(front);
+
+            MeasureFront();
+        }
+
+        // The sheets behind read the front sheet's footprint off these, so whatever size each of them opened
+        // at, the deck is one pile of that size. Layout sizes, not the bounding box: the front carries no
+        // transform, and the ones behind must not measure their own scaling.
+        private static void MeasureFront()
+        {
+            if (_sheets is null || _observedFront is null) return;
+
+            _sheets.style.setProperty("--tss-modalstack-front-width",  $"{_observedFront.offsetWidth}px");
+            _sheets.style.setProperty("--tss-modalstack-front-height", $"{_observedFront.offsetHeight}px");
         }
 
         // A sheet behind the front one is out of reach for everything but going back to it: the way back is

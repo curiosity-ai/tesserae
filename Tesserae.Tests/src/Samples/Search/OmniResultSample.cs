@@ -281,7 +281,7 @@ namespace Tesserae.Tests.Samples
             return FeatureCard("Opening as a modal", "The row carries its own full view",
                 "SetModalContent gives the row the full view of the thing it stands for, and ToModal builds a Modal showing it: the row's identifier, chevron and title for its header - plus the tile and the source line when ModalKeepsIcon and ModalKeepsFooter ask for them - a standard set of commands at the end of that header, and the keyboard shortcuts it answers along its bottom edge. The Func overload builds the content on open, so a list of a thousand rows pays for none of them until one is asked for.",
                 rows,
-                TextBlock("The header's commands are whatever the row was configured for: OpenInSource adds the named button (and hangs the rest off the arrow beside it), ModalNavigation adds the arrows and \"2 of 3\" between them, ModalCommands adds [...], and the full-screen and close buttons are always there. Open one and try Esc, the arrow keys, Ctrl+Enter and Shift+Enter. \"Open a related result\" inside pushes a second sheet onto the stack - go three deep and the ones behind peek out above it; click one to go back to it, or the backdrop to dismiss the chain.").Small().MT(8),
+                TextBlock("The header's commands are whatever the row was configured for: OpenInSource adds the named button (and hangs the rest off the arrow beside it), ModalNavigation adds the arrows and \"2 of 3\" between them, ModalCommands adds [...], and the full-screen and close buttons are always there. Open one and try Esc, the arrow keys, Ctrl+Enter and Shift+Enter. \"Open a related result\" inside pushes a second sheet onto the stack - go three deep and the ones behind peek out above it; click one to go back to it, or the backdrop to dismiss the chain. The three open at different sizes, and a sheet behind takes the front sheet's footprint whatever size it opened at.").Small().MT(8),
                 SampleSubTitle("The tile on the modal's title line").MT(16),
                 TextBlock("ModalKeepsIconInTitle is ModalKeepsIcon's other placement: the tile is drawn small, on the title's own line, before the identifier and the title - the way the two header-icon modes draw it in the row - so the source line under the title starts where the tile does rather than being indented past it, and a row laid out that way opens as the same row enlarged. A tile that spells its type out grows with its text there too. Open these two and compare their headers with the three above.").MB(8),
                 inTitleRows);
@@ -319,12 +319,17 @@ namespace Tesserae.Tests.Samples
                 TextBlock(result.Result.Text).MT(16));
         }
 
+        // The three open at different sizes on purpose: whatever size a sheet opened at, it takes the front
+        // sheet's footprint once something is opened on top of it, so the deck reads the same.
+        private static readonly UnitSize[] ModalWidths  = { 60.vw(), 90.vw(), 640.px() };
+        private static readonly UnitSize[] ModalHeights = { 60.vh(), 96.vh(), 420.px() };
+
         private OmniResult<Hit> ModalRow(Hit hit, int index)
         {
             var row = Row(hit, withText: true, withPages: false)
                 .SetId("JR-2214")
                 .SetModalContent(r => Task.FromResult<IComponent>(ModalBody(r, index)))
-                .ModalSize(60.vw(), 60.vh())
+                .ModalSize(ModalWidths[index], ModalHeights[index])
                 .ModalKeepsIcon()
                 .ModalKeepsFooter()
                 .OpenInSource("Open in Box", inNewTab => Toast().Information(inNewTab ? $"Opening \"{hit.Title}\" in a new tab" : $"Opening \"{hit.Title}\" in Box"), UIcons.ArrowUpRightFromSquare)

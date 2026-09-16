@@ -28,6 +28,12 @@ still works: `Hide()` pops it, and its show/hide handlers run as they would have
   what is left of its header is squeezed into that strip - so its icon and title sit alone at the top
   of it. Colour drains out of it (`saturate`) and its title fades with how far back it is, while the
   sheet itself stays solid.
+- A sheet keeps the size it was given (`ModalSize`, `Width`, `Height`, …) while it is **in front**. Once
+  something is opened on top of it, it takes the **front sheet's footprint** instead - so sheets that
+  opened at very different sizes still read as one pile, each peeking out by the same strip - and gets
+  its own size back when it is in front again. The deck reserves the room those strips and the trail
+  need at the top and caps the sheet in front to what is left, so a full-height sheet behind a small one
+  never ends up off the window.
 - **Escape** closes the sheet in front — unless a menu, dropdown or dialog is
   open above it, which answers Escape itself.
 - **Clicking the backdrop** dismisses the whole chain.

@@ -29,7 +29,9 @@
     background-color: var(--tss-overlay-dark);
 }
 
-/* Every sheet occupies the same cell, so the deck is one centered pile rather than a row. */
+/* Every sheet occupies the same cell, so the deck is one centered pile rather than a row. The room at the
+   top is what the strips of the sheets behind and the trail take (ModalStack.Arrange sets it): the sheet
+   in front is centred below it, so lifting the ones behind never carries them off the window. */
 .tss-modalstack-sheets {
     position: absolute;
     left: 0;
@@ -37,7 +39,12 @@
     right: 0;
     bottom: 0;
     display: grid;
+    /* One definite track filling the area, not an auto one: an auto track grows to the tallest sheet, and
+       a sheet's percentage max-height would then resolve against itself rather than against the window. */
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
     place-items: center;
+    padding-top: var(--tss-modalstack-deck-room, 0px);
     pointer-events: none;
 }
 
@@ -46,8 +53,29 @@
     grid-column: 1;
     pointer-events: auto;
     transform-origin: top center;
-    transition: transform 180ms ease-in-out, opacity 180ms ease-in-out;
+    transition: transform 180ms ease-in-out, opacity 180ms ease-in-out, width 180ms ease-in-out, height 180ms ease-in-out;
     will-change: transform;
+}
+
+/* With sheets behind it, the sheet in front is fitted to what is left of the window below their room - a
+   size it asked for is what it gets on its own, but a deck has to fit. The full-screen modal keeps its
+   own, more specific, rule. */
+.tss-modalstack-deep > .tss-modalstack-front {
+    max-width: calc(100% - 32px) !important;
+    max-height: calc(100% - 32px) !important;
+}
+
+/* A sheet behind takes the front sheet's footprint, whatever size it opened at, so the deck is one pile
+   with the same strip of each sheet showing - and gets its own size back when it is in front again. The
+   footprint is measured (ModalStack.MeasureFront) rather than styled, because the front sheet's size is
+   whatever its author set, in whatever unit. */
+.tss-modalstack-sheets > .tss-modalstack-peek {
+    width: var(--tss-modalstack-front-width, auto) !important;
+    height: var(--tss-modalstack-front-height, auto) !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
 }
 
 /* The sheets behind the front one show only the strip of themselves that clears it, so they read as a
@@ -135,6 +163,7 @@
     line-height: 18px;
     color: var(--tss-secondary-foreground-color);
     pointer-events: none;
+    z-index: 50;
 }
 
 .tss-modalstack-trail > * {
