@@ -93,8 +93,15 @@
         top: calc(50% - var(--tss-font-size-tiny) / 2);
     }
 
-    .tss-dropdown.tss-dropdown-custom-icon{
-        margin-right:22px;
+    /* The box reserves its right margin for the chevron and takes its width out of the same 100%, so the two
+       have to agree. This one widened the margin to 22px and left the width at the base rule's
+       calc(100% - 16px), which put the box 6px past its own container - measured as a scrollWidth of 104
+       against a clientWidth of 98 - and every dropdown carries this class, since the constructor always sets
+       an arrow icon. Six pixels is invisible until the box is short, and then it is the chevron sitting on
+       top of the last letter. */
+    .tss-dropdown.tss-dropdown-custom-icon {
+        margin-right: 22px;
+        width: calc(100% - 22px);
     }
 
 

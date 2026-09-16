@@ -45,6 +45,11 @@ namespace Tesserae
                         InnerElement.style.flexDirection = "column-reverse";
                         break;
                 }
+
+                // The direction is an inline style, so a stylesheet cannot see it. The class is what lets
+                // tss.stack.css say something about the items of a row in particular - see the width rule
+                // there, which only makes sense on the main axis.
+                InnerElement.UpdateClassIf(value == Orientation.Horizontal || value == Orientation.HorizontalReverse, "tss-stack-horizontal");
             }
         }
 

@@ -295,6 +295,19 @@ explicit `.Width()`/`.Height()`. `SetWidth`/`SetHeight` now clear that intrinsic
 floor (unless `.MinWidth()`/`.MinHeight()` was asked for), so an explicit size
 wins — see the note on `ExplicitMinWidth` in [Stack.cs](Tesserae/src/Components/Stack.cs).
 
+The other thing the wrapper used to absorb is a component's own `width: 100%`. For the
+input components that declaration meant "fill the stack item wrapping me", and the
+wrapper was content-sized on the main axis — so it came out as the input's intrinsic
+width. As the flex item itself, the same declaration resolves against the *row* and
+becomes a flex-basis of the whole line: one `SearchBox` in a toolbar claimed all of it
+and every sibling was shrunk to fit around it. `tss.stack.css` rows those three roots
+(`.tss-searchbox-container`, `.tss-textbox`, `.tss-picker-container`) back to
+`width: auto` under `.tss-stack-horizontal`, the class `StackOrientation` maintains so a
+stylesheet can see the direction at all. They are listed one by one on purpose: a
+stylesheet width is not always a leftover (`.tss-sidebar` asks for 250px and means it),
+only `width: 100%` carries the old meaning, and CSS cannot select on a value. A
+component that turns out to want the same treatment adds itself to that list.
+
 A component can still take charge of its own styling by implementing
 `ISpecialCaseStyling` and exposing a `StylingContainer` — the sizing helpers then
 write onto that container. This is how nested containers (e.g. a `Grid` inside a
