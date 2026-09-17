@@ -177,7 +177,7 @@ namespace Tesserae.Tests.Samples
                .Legend();
 
             return VStack().WS().Children(
-                SampleSubTitle("Wheel to zoom, drag to pan, double-click to reset — both charts stay on the same timeline"),
+                SampleSubTitle("Ctrl + wheel to zoom, drag to pan, double-click to reset — both charts stay on the same timeline"),
                 cpuChart.H(200).WS(),
                 ramChart.H(200).WS().PT(8),
                 SampleSubTitle("A range the data does not cover still draws its axis, and still zooms and pans").PT(16),

@@ -169,7 +169,7 @@ namespace Tesserae
             }
         }
 
-        private static bool IsApple()
+        internal static bool IsApple()
         {
             // Simple detection — errs on the side of non-Apple for consistency
             return navigator.userAgent.IndexOf("Mac") >= 0 || navigator.userAgent.IndexOf("iPhone") >= 0 || navigator.userAgent.IndexOf("iPad") >= 0;

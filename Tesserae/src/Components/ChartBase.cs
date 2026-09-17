@@ -736,6 +736,9 @@ namespace Tesserae
         private double _rangeMax;
         private bool? _zeroBaseline;
         private bool _zoomable;
+        private bool _wheelNeedsCtrl = true;
+        private HTMLElement _wheelHint;
+        private double _wheelHintTimeout;
         private bool _showSpikes;
         private bool _interactionsAttached;
         private Action<ChartRange> _onRangeChanged;
@@ -802,10 +805,19 @@ namespace Tesserae
         /// <summary>
         /// Allows the user to zoom the X axis with the wheel, pan it by dragging, and reset to the full data
         /// range by double-clicking. Only meaningful on a continuous X scale.
+        /// <para>
+        /// The wheel zooms only while Ctrl (Cmd on a Mac) is held; a plain wheel is left to whatever is
+        /// scrolling behind the chart, because a full-width chart that swallowed it traps the page under the
+        /// cursor. A trackpad pinch arrives as a Ctrl wheel, so it zooms too. Pass
+        /// <paramref name="wheelNeedsCtrl"/> as false for a chart that owns its surface - one filling a tile
+        /// or a dashboard cell that scrolls nowhere.
+        /// </para>
         /// </summary>
-        public T Zoomable(bool enable = true)
+        public T Zoomable(bool enable = true, bool wheelNeedsCtrl = true)
         {
-            _zoomable = enable;
+            _zoomable       = enable;
+            _wheelNeedsCtrl = wheelNeedsCtrl;
+
             if (enable) EnsureInteractions();
             return Self;
         }
@@ -1526,6 +1538,15 @@ namespace Tesserae
                 if (!_zoomable || !_continuousX) return;
 
                 var we = e.As<WheelEvent>();
+
+                //A plain wheel is the page's, and is left to it - said out loud, because a chart that ignores
+                //the wheel in silence reads as a broken chart rather than as one waiting for a key.
+                if (_wheelNeedsCtrl && !we.ctrlKey && !we.metaKey)
+                {
+                    ShowWheelZoomHint();
+                    return;
+                }
+
                 we.preventDefault();
 
                 var factor = we.deltaY < 0 ? 0.8 : 1.25;
@@ -1557,6 +1578,38 @@ namespace Tesserae
             }));
 
             _svg.addEventListener("mouseleave", (Action<Event>)(_ => ClearOverlay()));
+        }
+
+        //Built on the first plain wheel and then kept: a chart the user scrolls past again and again would
+        //otherwise churn an element per notch.
+        private void ShowWheelZoomHint()
+        {
+            if (_wheelHint is null)
+            {
+                _wheelHint             = Div(Att("tss-chart-zoom-hint"));
+                _wheelHint.textContent = KeyboardShortcut.IsApple() ? "Hold \u2318 and scroll to zoom" : "Hold Ctrl and scroll to zoom";
+
+                _wheelHint.style.position      = "absolute";
+                _wheelHint.style.left          = "50%";
+                _wheelHint.style.top           = "50%";
+                _wheelHint.style.transform     = "translate(-50%, -50%)";
+                _wheelHint.style.pointerEvents = "none";
+                _wheelHint.style.padding       = "4px 10px";
+                _wheelHint.style.borderRadius  = "4px";
+                _wheelHint.style.fontSize      = "12px";
+                _wheelHint.style.background    = Theme.Default.Background;
+                _wheelHint.style.color         = Theme.Default.Foreground;
+                _wheelHint.style.border        = "1px solid " + Theme.Default.Border;
+                _wheelHint.style.opacity       = "0";
+                _wheelHint.style.transition    = "opacity 0.15s";
+
+                _container.appendChild(_wheelHint);
+            }
+
+            _wheelHint.style.opacity = "1";
+
+            window.clearTimeout(_wheelHintTimeout);
+            _wheelHintTimeout = window.setTimeout(_ => _wheelHint.style.opacity = "0", 1200);
         }
 
         private double PlotXValueAt(double clientX)

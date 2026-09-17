@@ -83,8 +83,13 @@ irregular spacing:
 
 ## Zoom, pan and spikelines
 
-- `.Zoomable()` — wheel zooms the X axis, drag pans it, double-click resets. The value
-  axis rescales to the visible window.
+- `.Zoomable(bool enable = true, bool wheelNeedsCtrl = true)` — wheel zooms the X axis,
+  drag pans it, double-click resets. The value axis rescales to the visible window.
+  The wheel zooms only while **Ctrl (Cmd on a Mac)** is held — a plain wheel scrolls the
+  page as usual, and the chart says "Hold Ctrl and scroll to zoom" for a moment so it does
+  not read as broken. A trackpad pinch arrives as a Ctrl wheel, so it zooms too. Pass
+  `wheelNeedsCtrl: false` for a chart that owns its surface and has nothing scrolling
+  behind it.
 - `.Spikelines()` — a vertical line follows the cursor with a readout of the X position
   and each series' nearest value.
 - `.XRange(min, max)` / `.AutoRangeX()` / `.TryGetXRange(out min, out max)` / `.IsXRangePinned`.
@@ -109,6 +114,21 @@ gesture fetches once rather than once a notch:
 ```csharp
 chart.ZoomLimits(minSpan: 10, maxSpan: 3600)          // 10s to 1h of samples
      .OnRangeChanged(r => ScheduleLoad(r.Min, r.Max)); // then chart.XRange(from, to) once loaded
+```
+
+A chart that follows the clock wants a zoom to move only its left edge, so the right edge stays
+at "now" and the timeline does not slide out from under the cursor while it is live. The chart
+reports the range, not the gesture — but a drag reports the span it started with and a wheel notch
+reports a new one, which is what tells the two apart:
+
+```csharp
+chart.OnRangeChanged(r =>
+{
+    var isZoom = Math.Abs((r.Max - r.Min) - currentSpanSeconds) >= 1;
+
+    if (isZoom && isLive) SetWindow(now - (long)(r.Max - r.Min), now); // grows into the past only
+    else                  SetWindow((long)r.Min, (long)r.Max);
+});
 ```
 
 A pinned range is itself a continuous X scale, so a range the data does not cover still draws
