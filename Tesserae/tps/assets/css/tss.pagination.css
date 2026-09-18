@@ -1,9 +1,9 @@
-/* Pagination — the numbered strip under a paged set: the count on the left, the controls on the right. */
+/* Pagination — the numbered strip under a paged set: the controls, then the count beside them. */
 
 .tss-pagination {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     box-sizing: border-box;
     gap: 16px;
     padding: 8px 0;
@@ -18,14 +18,12 @@
 }
 
 /* No wrap: the strip is the one thing on the page whose height must not change as you page through,
-   and a second row of numbers moves the buttons out from under the cursor. The auto margin is what
-   keeps them at the far end once ShowStatus is off and they are the only child left. */
+   and a second row of numbers moves the buttons out from under the cursor. */
 .tss-pagination-buttons {
     display: flex;
     align-items: center;
     gap: 4px;
     flex-wrap: nowrap;
-    margin-left: auto;
 }
 
 .tss-pagination-button {
