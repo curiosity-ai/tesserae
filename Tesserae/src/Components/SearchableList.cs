@@ -354,7 +354,7 @@ namespace Tesserae
         /// </summary>
         public SearchableList<T> WithPagination(int pageSize)
         {
-            _pagination = new Pagination(0, pageSize, 1).WS();
+            _pagination = new Pagination(0, pageSize, 1).AsListFooter().WS();
             _pagination.OnPageChange(p => _defered.Refresh());
             _stack.Children(_searchBoxContainer, _defered.Scroll(), _pagination);
             return this;
