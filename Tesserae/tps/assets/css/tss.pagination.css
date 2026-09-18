@@ -1,40 +1,63 @@
+/* Pagination — the numbered strip under a paged set: the count on the left, the controls on the right. */
+
 .tss-pagination {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap;
+    box-sizing: border-box;
+    gap: 16px;
+    padding: 8px 0;
 }
 
+/* Under a list, the strip is that list's footer: a rule of its own so the last row is not read as
+   part of it, and side padding matching the rows above. */
+.tss-pagination-footer {
+    padding: 8px 12px;
+    border-top: 1px solid var(--tss-default-border-color);
+    background: var(--tss-default-background-color);
+}
+
+/* No wrap: the strip is the one thing on the page whose height must not change as you page through,
+   and a second row of numbers moves the buttons out from under the cursor. The auto margin is what
+   keeps them at the far end once ShowStatus is off and they are the only child left. */
 .tss-pagination-buttons {
     display: flex;
     align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
+    gap: 4px;
+    flex-wrap: nowrap;
+    margin-left: auto;
 }
 
 .tss-pagination-button {
+    box-sizing: border-box;
     border: 1px solid var(--tss-default-border-color);
     background: var(--tss-default-background-color);
     color: var(--tss-default-foreground-color);
-    border-radius: 4px;
-    padding: 4px 8px;
+    border-radius: var(--tss-border-radius-sm);
+    padding: 0 8px;
     cursor: pointer;
     min-width: 32px;
+    height: 32px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 26px;
+    /* Tabular figures, so the strip doesn't shuffle sideways between page 9 and page 10. */
+    font-variant-numeric: tabular-nums;
 }
 
+    /* The button centres its content with flex, so the child must not carry a height of its own -
+       it would overflow the content box the border leaves. */
     .tss-pagination-button > * {
-        height: 26px;
-        line-height: 26px;
+        line-height: 1;
     }
 
-
-.tss-pagination-button:hover {
+.tss-pagination-button:hover:not(:disabled) {
     background: var(--tss-default-background-hover-color);
+}
+
+.tss-pagination-button:focus-visible {
+    outline: 2px solid var(--tss-primary-background-color);
+    outline-offset: -2px;
 }
 
 .tss-pagination-button.tss-active {
@@ -43,18 +66,29 @@
     border-color: var(--tss-primary-border-color);
 }
 
+/* The chevrons are navigation, not destinations: no border, so the numbered buttons are what the
+   strip reads as. */
+.tss-pagination-nav {
+    border-color: transparent;
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+}
+
 .tss-pagination-button.tss-disabled,
 .tss-pagination-button:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
+    cursor: default;
+    opacity: .35;
 }
 
 .tss-pagination-ellipsis {
-    padding: 0 4px;
+    padding: 0 2px;
     color: var(--tss-secondary-foreground-color);
+    user-select: none;
 }
 
 .tss-pagination-status {
     font-size: var(--tss-font-size-small);
     color: var(--tss-secondary-foreground-color);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
 }
