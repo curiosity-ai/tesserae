@@ -50,7 +50,12 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Replaces the content in the component.
+        /// Reconciles what is on screen with <paramref name="newContent"/>, in place: the nodes that
+        /// match are kept and patched, and only what genuinely differs is swapped. That is the point
+        /// of this component - a streamed reply re-rendered per frame keeps its scroll position, its
+        /// selection and its text nodes instead of flickering - but it also means a node that stays
+        /// keeps the event listeners its component gave it, so nodes are only ever reconciled with
+        /// nodes of the same component (see <see cref="IsSameComponent"/>).
         /// </summary>
         public void ReplaceContent(IComponent newContent)
         {
@@ -70,13 +75,20 @@ namespace Tesserae
             }
             else
             {
-                DiffAndPatch(_root, newRoot);
+                //The root can be swapped rather than patched, and the swap detaches the node this
+                //component was holding - so it has to keep hold of whichever node is now on screen.
+                _root = DiffAndPatch(_root, newRoot).As<HTMLElement>();
             }
         }
 
-        private void DiffAndPatch(Node current, Node next)
+        /// <summary>
+        /// Patches <paramref name="current"/> into <paramref name="next"/>, or swaps it out when the
+        /// two cannot be reconciled. Returns the node that is on screen afterwards, which is
+        /// <paramref name="current"/> for a patch and <paramref name="next"/> for a swap.
+        /// </summary>
+        private Node DiffAndPatch(Node current, Node next)
         {
-            if (current.nodeType != next.nodeType || current.nodeName != next.nodeName)
+            if (current.nodeType != next.nodeType || current.nodeName != next.nodeName || !IsSameComponent(current, next))
             {
                 if (current.parentNode != null)
                 {
@@ -90,8 +102,11 @@ namespace Tesserae
                         next.As<HTMLElement>().classList.add("tss-fade-in");
                     }
                     current.parentNode.replaceChild(next, current);
+
+                    return next;
                 }
-                return;
+
+                return current;
             }
 
             if (current.nodeType == TEXT_NODE)
@@ -129,7 +144,8 @@ namespace Tesserae
                         current.textContent = nextText;
                     }
                 }
-                return;
+
+                return current;
             }
 
             if (current is HTMLElement currentElement && next is HTMLElement nextElement)
@@ -137,6 +153,38 @@ namespace Tesserae
                 SyncAttributes(currentElement, nextElement);
                 DiffChildren(currentElement, nextElement);
             }
+
+            return current;
+        }
+
+        /// <summary>
+        /// Whether two nodes are the same component, and so may be reconciled with each other rather
+        /// than swapped. A node carries the event listeners its component attached to it and no patch
+        /// can move those, so re-purposing a node from one component to another leaves it answering
+        /// to a component nobody can reach any more: the symptom is a control that looks right and
+        /// does what its predecessor did - a tool call that became a "tools used" group mid-stream
+        /// opening the chip it used to be instead of the group it is now.
+        ///
+        /// <para>The component is read off the element's first CSS class, which is the class every
+        /// Tesserae component puts on its own root element before anything else is added to it.
+        /// Nodes that are not elements carry no listeners of their own and are always reconciled.</para>
+        /// </summary>
+        private static bool IsSameComponent(Node current, Node next)
+        {
+            if (!(current is HTMLElement currentElement) || !(next is HTMLElement nextElement)) return true;
+
+            return RootClassOf(currentElement) == RootClassOf(nextElement);
+        }
+
+        private static string RootClassOf(HTMLElement element)
+        {
+            var classes = element.className;
+
+            if (string.IsNullOrEmpty(classes)) return string.Empty;
+
+            var firstSpace = classes.IndexOf(' ');
+
+            return firstSpace < 0 ? classes : classes.Substring(0, firstSpace);
         }
 
         private void SyncAttributes(HTMLElement current, HTMLElement next)
