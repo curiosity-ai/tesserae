@@ -22,7 +22,8 @@ Multiple `columns` → grid layout for items; otherwise a stack.
 
 - `.WithNoResultsMessage(Func<IComponent>)` — placeholder when nothing matches.
 - `.WithGroupOrdering(IComparer<string>)` — control group display order (default alphabetical).
-- `.WithPagination(int pageSize)` — paginate filtered results.
+- `.WithPagination(int pageSize)` — paginate filtered results. Adds a `Pagination` footer below
+  the list, which hides itself while everything fits on one page (`pagination.md`).
 - `.Virtualize(UnitSize itemHeight)` — virtualise rows (fixed height) for large groups.
 - `.BeforeSearchBox(...)` / `.AfterSearchBox(...)` — add controls around the search box.
 - `.SearchBox(Action<SearchBox>)` / `.CaptureSearchBox(out SearchBox)` / `.SetKeyboardShortcut(keys)`.
