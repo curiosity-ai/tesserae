@@ -5,9 +5,9 @@ description: A page-number navigation strip for walking through pages of results
 
 # Pagination
 
-A navigation strip that reads as a footer under the set it pages: the range on the left
-(`1-25 of 118`), Previous, the numbered page buttons (with ellipses) and Next on the right. It
-tracks `currentPage` and raises an event on change — you supply the data slicing.
+A navigation strip that reads as a footer under the set it pages: Previous, the numbered page
+buttons (with ellipses) and Next, then the range beside them (`1-25 of 118`). It tracks
+`currentPage` and raises an event on change — you supply the data slicing.
 
 Two defaults are worth knowing before you configure anything:
 
