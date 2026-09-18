@@ -7,7 +7,7 @@ namespace Tesserae
 {
     /// <summary>
     /// A page-number navigation strip used to walk through pages of results. It reads as a footer under
-    /// the thing it pages: how much there is on the left, the controls on the right.
+    /// the thing it pages: the controls, then how much there is.
     /// <para>
     /// A set that fits on one page renders nothing at all, since a lone "1" button beside two greyed
     /// chevrons says only that there is nothing to navigate. Call <see cref="ShowForSinglePage"/> when
@@ -43,9 +43,9 @@ namespace Tesserae
 
             _observable = new SettableObservable<int>(currentPage);
 
-            //The status comes first so the count sits under the content and the controls sit at the far
-            //end, which is the shape a list footer is read in.
-            InnerElement = Div(Att("tss-pagination", role: "navigation", ariaLabel: "Pagination"), _status, _buttonContainer);
+            //Controls first, count beside them: the two halves of one control read as one thing only
+            //while they are next to each other.
+            InnerElement = Div(Att("tss-pagination", role: "navigation", ariaLabel: "Pagination"), _buttonContainer, _status);
 
             _maxPageButtons = 7;
             _showStatus     = true;
