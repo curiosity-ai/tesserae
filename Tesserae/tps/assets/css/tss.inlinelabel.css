@@ -163,13 +163,6 @@
     color: var(--tss-secondary-foreground-color) !important;
 }
 
-/* The footer's labels have no box of their own, so the hover background is drawn just around them
-   rather than edge to edge - enough to say "this one answers the pointer" on a line of plain facts. */
-.tss-omniresult-footer .tss-inlinelabel-interactive {
-    margin: 0 -4px;
-    padding: 0 4px;
-}
-
 /* The row is already sitting on the hover background by the time the pointer reaches one of its labels,
    so the label needs a step further away from it - a shade the row can't be - or its own hover is
    invisible. The neutral scale flips with the theme, so this reads as darker on light and lighter on
