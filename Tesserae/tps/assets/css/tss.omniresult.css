@@ -334,6 +334,8 @@
     font-weight: 600;
     line-height: 22px;
     font-variant-numeric: tabular-nums;
+    flex-grow: 0;
+    flex-shrink: 0;
     color: var(--tss-secondary-foreground-color);
 }
 
