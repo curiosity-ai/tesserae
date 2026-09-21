@@ -25,7 +25,7 @@ namespace Tesserae.Tests.Samples
             // it is pointed at. It is also the rail's open/close control - see .WithSidebarControl(), which
             // puts "close" as the last command here and turns the logo itself into the open button once the
             // rail is collapsed and there is no room for a command beside it.
-            var brand = new SidebarBrand("brand", "Aurelia Ops", "Fleet Europe", "/assets/img/curiosity-logo.svg")
+            var brand = new SidebarBrand("brand", "Aurelia Ops", "Fleet Europe", "./assets/img/curiosity-logo.svg")
                 .Separated()
                 .Configure(() => Toast().Information("Workspace settings"), "Workspace settings")
                 .WithSidebarControl(onOpen: () => sidebar.IsClosed = false, onClose: () => sidebar.IsClosed = true)
