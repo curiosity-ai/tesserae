@@ -56,8 +56,8 @@ Passing no `subtitle` leaves the row a single line rather than an empty one.
                     Action onClose,
                     string openTooltip  = null,   // "Open Sidebar"
                     string closeTooltip = null,   // "Close Sidebar"
-                    UIcons openIcon     = UIcons.AngleDoubleRight,
-                    UIcons closeIcon    = UIcons.AngleDoubleLeft)
+                    UIcons openIcon     = UIcons.SidebarFlip,
+                    UIcons closeIcon    = UIcons.Sidebar)
 ```
 
 The top row is the one thing on the rail that is there in both states, so it is
@@ -69,6 +69,10 @@ where an application that has an open/close control usually wants it:
 - **While the sidebar is closed** there is no room for a command beside the logo,
   so the logo *is* the control: it stands as the brand at rest and turns into the
   open button under the pointer.
+
+The default glyphs are the rail itself — `UIcons.Sidebar` to close it and
+`UIcons.SidebarFlip`, its mirror, to open it — so the control says which thing it
+acts on rather than which direction something moves.
 
 It reports the two intentions rather than driving a sidebar itself, because the
 rail a brand sits on is not always the one it opens — an application shifts

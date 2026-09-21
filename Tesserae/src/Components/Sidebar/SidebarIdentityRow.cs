@@ -30,6 +30,8 @@ namespace Tesserae
         private readonly Button                   _closedButton;
         private readonly HTMLElement              _openRoot;
         private readonly HTMLElement              _closedRoot;
+        private readonly HTMLElement              _openOuter;
+        private readonly HTMLElement              _closedOuter;
         private readonly HTMLElement              _commandsContainer;
         private readonly IComponent               _open;
         private readonly IComponent               _closed;
@@ -72,8 +74,16 @@ namespace Tesserae
 
             _closedRoot = Div(Att($"tss-sidebar-identity-closed {rowClass}-closed"), _closedButton.Render());
 
-            _open   = Raw(_openRoot);
-            _closed = Raw(_closedRoot);
+            //The row is wrapped, and everything a caller adds around it - the divider and the margins
+            //.Separated() draws, a class of the caller's own - goes on the wrapper rather than on the row.
+            //The command strip is positioned against the row, so padding on the same element would push
+            //the strip off the button's centre and past its right edge: a divider under the brand moved
+            //the gear down by half the padding and out over the rail's gutter.
+            _openOuter   = Div(Att($"tss-sidebar-identity-row {rowClass}-row"),                                 _openRoot);
+            _closedOuter = Div(Att($"tss-sidebar-identity-row tss-sidebar-identity-row-closed {rowClass}-row"), _closedRoot);
+
+            _open   = Raw(_openOuter);
+            _closed = Raw(_closedOuter);
 
             //Chrome rather than something the pointer brings in: a command that only appears on hover is one
             //nobody finds, and the row is tall enough to lay the name out beside the strip.
@@ -207,8 +217,8 @@ namespace Tesserae
         /// <returns>The current instance of the type.</returns>
         public T Separated(bool separated = true)
         {
-            _openRoot.UpdateClassIf(separated,   "tss-sidebar-identity-separated");
-            _closedRoot.UpdateClassIf(separated, "tss-sidebar-identity-separated");
+            _openOuter.UpdateClassIf(separated,   "tss-sidebar-identity-separated");
+            _closedOuter.UpdateClassIf(separated, "tss-sidebar-identity-separated");
             return Self;
         }
 
@@ -229,8 +239,8 @@ namespace Tesserae
         /// <returns>The current instance of the type.</returns>
         public T NotSortable()
         {
-            _openRoot.classList.add("tss-sortable-disable");
-            _closedRoot.classList.add("tss-sortable-disable");
+            _openOuter.classList.add("tss-sortable-disable");
+            _closedOuter.classList.add("tss-sortable-disable");
             return Self;
         }
 

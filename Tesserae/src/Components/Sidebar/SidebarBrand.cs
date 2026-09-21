@@ -138,16 +138,16 @@ namespace Tesserae
         /// <param name="onClose">What closing it does. Called from the last command on the open row.</param>
         /// <param name="openTooltip">The tooltip on the open control. None uses "Open Sidebar".</param>
         /// <param name="closeTooltip">The tooltip on the close command. None uses "Close Sidebar".</param>
-        /// <param name="openIcon">The icon of the open control.</param>
-        /// <param name="closeIcon">The icon of the close command.</param>
+        /// <param name="openIcon">The icon of the open control. The rail's own glyph, mirrored.</param>
+        /// <param name="closeIcon">The icon of the close command. The rail's own glyph.</param>
         /// <returns>The current instance of the type.</returns>
         public SidebarBrand WithSidebarControl(
             Action onOpen,
             Action onClose,
             string openTooltip  = null,
             string closeTooltip = null,
-            UIcons openIcon     = UIcons.AngleDoubleRight,
-            UIcons closeIcon    = UIcons.AngleDoubleLeft)
+            UIcons openIcon     = UIcons.SidebarFlip,
+            UIcons closeIcon    = UIcons.Sidebar)
         {
             SetSecondaryCommand(new SidebarCommand(closeIcon)
                .Tooltip(string.IsNullOrWhiteSpace(closeTooltip) ? "Close Sidebar".t() : closeTooltip)

@@ -232,7 +232,11 @@ new SidebarButton("workspace", new ImageIcon(logoUrl), "Technical Support",
 ```
 
 They are drawn over the row rather than in it, and appear while the pointer is
-on that row (or while it is selected).
+on that row (or while it is selected). On a hovered row a command is a bare
+glyph — the row is already painted with the hover colour, so a command carrying
+the same fill would disappear into it — and the command's *own* hover is a step
+deeper than the row's, toward the text colour, so it darkens in a light theme and
+lightens in a dark one.
 
 Where the commands are permanent the label is laid out beside them: a row with
 `.CommandsAlwaysVisible()`, or a selected row, keeps room for exactly as many

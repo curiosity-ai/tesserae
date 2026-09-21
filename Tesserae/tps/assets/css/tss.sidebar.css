@@ -466,6 +466,46 @@
         margin-right: 4px !important;
     }
 
+/* A command's glyph is centred by the button's own flexbox, so it takes neither the 24px box nor the 2px
+   nudge the rail's rows give an icon that has a label beside it to line up with - inside a 22px square
+   those two put the glyph a pixel low and a pixel wider than the button it sits in, which is visible as
+   soon as two commands with different glyphs sit side by side. */
+    .tss-sidebar-commands > .tss-sidebar-command.tss-btn > i,
+    .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn > i {
+        width: auto;
+        min-width: 0 !important;
+        margin-top: 0;
+        line-height: 1;
+    }
+
+/* A command is a control *on* a row, so its own hover has to read as one step deeper than the row's -
+   otherwise the two are the same grey and the button the pointer is on disappears into the row under it,
+   which is what a gear beside a hovered account row was.
+
+   The step is toward the text colour rather than to a named token, so it darkens in a light theme and
+   lightens in a dark one, and it is mixed into whatever the row is painted with (`inherit` would take the
+   command's own background, so the row's colour is named through the same variables the row uses). The
+   two default tokens are not a pair that can do this: the "active" default is *lighter* than the "hover"
+   default in both themes. */
+    .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+    .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover {
+        background-color: color-mix(in srgb, var(--tss-default-foreground-color) 16%, var(--tss-default-background-hover-color));
+        border-color: transparent;
+    }
+
+    .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):active,
+    .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):active {
+        background-color: color-mix(in srgb, var(--tss-default-foreground-color) 26%, var(--tss-default-background-hover-color));
+        border-color: transparent;
+    }
+
+/* The same for a command whose menu is open, which is a command still "on" even with the pointer gone. */
+    .tss-sidebar-commands.tss-sidebar-command-menu-is-open > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled),
+    .tss-sidebar-commands.tss-sidebar-command-menu-is-open > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled) {
+        background-color: color-mix(in srgb, var(--tss-default-foreground-color) 16%, var(--tss-default-background-hover-color));
+        border-color: transparent;
+    }
+
     .tss-sidebar-commands > .tss-sidebar-command.tss-btn > .tss-image,
     .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn > .tss-image {
         padding: 0px;
@@ -663,9 +703,14 @@
     border-radius:6px;
 }
 
+/* A command on a hovered row takes the row's hover *foreground* and no fill of its own: the row is
+   already painted with the hover grey, so painting each command with the same grey turned the strip into
+   one indistinct blob on it - two commands side by side read as a single rounded rectangle, and the one
+   under the pointer was indistinguishable from the one beside it. At rest a command is a glyph on the
+   row; its own hover is the step deeper, further up in this file. */
 .tss-sidebar-btn-open:hover > .tss-sidebar-commands > .tss-btn.tss-btn-default {
     color: var(--tss-default-foreground-hover-color);
-    background-color: var(--tss-default-background-hover-color);
+    background-color: transparent;
 }
 
 .tss-sidebar-commands-spacer {
@@ -1170,7 +1215,9 @@
 }
 
 /* The strip is centred on the row rather than pinned near its top, which is where an ordinary 28px row
-   puts it. */
+   puts it. It is exact because .tss-sidebar-identity is the row and nothing else: what .Separated() draws
+   - the divider, the margins, the padding that restores the rail's gutter - is on the wrapper around it
+   (.tss-sidebar-identity-row), so there is no padding here for the strip to be centred against instead. */
 .tss-sidebar-identity > .tss-sidebar-commands {
     top: 50%;
     transform: translateY(-50%);
