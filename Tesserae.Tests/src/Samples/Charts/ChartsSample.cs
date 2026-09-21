@@ -65,7 +65,7 @@ namespace Tesserae.Tests.Samples
                .SampleTitle(typeof(ChartsSample), UIcons.ChartHistogram, "Lightweight, dependency-free SVG charts")
                .Section(Stack().Children(
                     Card(VStack().WS().Children(
-                        TextBlock("LineChart, BarChart, AreaChart and PieChart render as responsive, dependency-free SVG that scales to its container, adapts to the light/dark theme, and exposes hover tooltips plus a role=\"img\" accessibility summary. Data can be supplied as plain values, as an observable that re-renders the chart on change, or as (x, y) pairs on a continuous scale that supports zoom, pan and a spikeline readout."))).SetTitle("Overview")))
+                        TextBlock("LineChart, BarChart, AreaChart, PieChart and HeatMap render as responsive, dependency-free SVG that scales to its container, adapts to the light/dark theme, and exposes hover tooltips plus a role=\"img\" accessibility summary. Data can be supplied as plain values, as an observable that re-renders the chart on change, or as (x, y) pairs on a continuous scale that supports zoom, pan and a spikeline readout."))).SetTitle("Overview")))
                .Section(Stack().Children(
                     Card(VStack().WS().Children(
                         SampleSubTitle("Line chart"),
@@ -99,7 +99,96 @@ namespace Tesserae.Tests.Samples
                         gapsChart.H(260).WS())).SetTitle("Gaps")))
                .Section(Stack().Children(
                     Card(BuildTimeSeriesSection()).SetTitle("Time series: continuous X, zoom, spikelines")))
+               .Section(Stack().Children(
+                    Card(BuildHeatMapSection()).SetTitle("HeatMap: custom labels, rotated rows, clickable cells")))
                .SeeAlso(typeof(SparklineSample), typeof(MetricSample), typeof(ContributionBarSample), typeof(DeltaComponentSample), typeof(TimeHistogramPickerSample));
+        }
+
+        // A heat map labelled twice over: plain strings on the first one, components on the second, which is what
+        // the rotated row gutter is really for - a row label that is an icon plus a caption still fits beside the
+        // matrix, because it is laid out normally and then turned as a whole.
+        private static IComponent BuildHeatMapSection()
+        {
+            var monthsOfYear = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+            var segments     = new[] { "Enterprise", "Mid-market", "Startups", "Education" };
+
+            var rnd = new SampleRandom(5_517);
+
+            var signups = new double[segments.Length][];
+
+            for (var s = 0; s < segments.Length; s++)
+            {
+                signups[s] = new double[monthsOfYear.Length];
+
+                //A seasonal shape rather than noise, so the matrix reads the way a real one would - and Education
+                //peaks when the others dip, which is what a heat map is for.
+                var isSchool = s == segments.Length - 1;
+
+                for (var m = 0; m < monthsOfYear.Length; m++)
+                {
+                    var season = isSchool
+                        ? Math.Exp(-Math.Pow(m - 8, 2) / 6.0)
+                        : 0.35 + 0.65 * Math.Exp(-Math.Pow(m - 5, 2) / 14.0);
+
+                    signups[s][m] = Math.Round(season * rnd.Next(60, 100) + rnd.Next(0, 10));
+                }
+            }
+
+            var readout = TextBlock("Nothing picked yet — click a cell, a month or a segment.").Medium();
+
+            var heatMap = HeatMap(signups)
+               .XAxis(monthsOfYear)
+               .YAxis(segments)
+               .Rounded(3)
+               .ShowValues()
+               .FormatValues(v => v.ToString("0"))
+               .Legend()
+               .OnCellClick(cell => readout.Text        = $"Cell: {cell.RowLabel} in {cell.ColumnLabel} — {cell.Value.ToString("0")} signups")
+               .OnXLabelClick((i, label) => readout.Text = $"Month {i + 1}: {label}")
+               .OnYLabelClick((i, label) => readout.Text = $"Segment {i + 1}: {label}");
+
+            //The same matrix with components for labels: a link button per month along the bottom, an icon and a
+            //caption per segment down the side. Each one carries its own click handler, so the chart needs no
+            //OnXLabelClick / OnYLabelClick here.
+            var componentReadout = TextBlock("Nothing picked yet — the labels on this one are components.").Medium();
+
+            var monthLabels = new IComponent[monthsOfYear.Length];
+
+            for (var m = 0; m < monthsOfYear.Length; m++)
+            {
+                var month = monthsOfYear[m];
+                monthLabels[m] = Button().SetText(month).Link().Compact().OnClick(() => componentReadout.Text = $"Month label clicked: {month}");
+            }
+
+            var segmentIcons  = new[] { UIcons.Building, UIcons.Shop, UIcons.Rocket, UIcons.GraduationCap };
+            var segmentLabels = new IComponent[segments.Length];
+
+            for (var s = 0; s < segments.Length; s++)
+            {
+                var segment = segments[s];
+
+                segmentLabels[s] = HStack().Children(
+                    Icon(segmentIcons[s], size: TextSize.Small).Foreground(Theme.Colors.Teal600),
+                    TextBlock(segment).Small().SemiBold().PL(4));
+            }
+
+            var componentHeatMap = HeatMap(signups)
+               .XAxis(monthLabels, monthsOfYear)
+               .YAxis(segmentLabels, segments)
+               .Rounded(3)
+               .CellGap(3)
+               .ScaleColor(Theme.Colors.Teal600)
+               .FormatValues(v => v.ToString("0"))
+               .Legend(ChartLegendPosition.Bottom)
+               .OnCellClick(cell => componentReadout.Text = $"Cell: {cell.RowLabel} in {cell.ColumnLabel} — {cell.Value.ToString("0")} signups");
+
+            return VStack().WS().Children(
+                SampleSubTitle("String labels: the rows are drawn rotated 90°, so a segment name costs one line of text rather than its length"),
+                heatMap.H(320).WS(),
+                readout.PT(8),
+                SampleSubTitle("Component labels: the same matrix, with a link per month and an icon + caption per segment — each rotated as a whole").PT(16),
+                componentHeatMap.H(440).WS(),
+                componentReadout.PT(8));
         }
 
         // Two charts sharing one timeline: zooming or panning either one pushes its range onto the other,

@@ -1561,6 +1561,17 @@ namespace Tesserae
         public static PieChart PieChart(double[] data) => new PieChart().Data(data);
 
         /// <summary>
+        /// Creates a new responsive SVG <see cref="Tesserae.HeatMap"/>. Add a matrix with <c>.Data(...)</c> or a row
+        /// per <c>.Series(...)</c>, and label the axes with <c>.XAxis(...)</c> / <c>.YAxis(...)</c>.
+        /// </summary>
+        public static HeatMap HeatMap() => new HeatMap();
+
+        /// <summary>
+        /// Creates a new responsive SVG <see cref="Tesserae.HeatMap"/> seeded with a matrix of values, one array per row.
+        /// </summary>
+        public static HeatMap HeatMap(double[][] data) => new HeatMap().Data(data);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.StepsSlider{T}"/> component.
         /// </summary>
         public static StepsSlider<T> StepsSlider<T>(params T[] steps) where T : IEquatable<T> => new StepsSlider<T>(steps);

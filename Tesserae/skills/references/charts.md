@@ -1,20 +1,21 @@
 ---
 name: charts
-description: Four dependency-free responsive SVG charts — LineChart, BarChart, AreaChart, PieChart — with a shared fluent series/palette API, tooltips, legend, stacking, a continuous/time X axis, zoom and pan, spikelines, PNG export and observable-driven updates. Use to plot trends, comparisons, part-to-whole data or live time series in a Tesserae (C#/Transpose) app.
+description: Five dependency-free responsive SVG charts — LineChart, BarChart, AreaChart, PieChart, HeatMap — with a shared fluent series/palette API, tooltips, legend, stacking, a continuous/time X axis, zoom and pan, spikelines, PNG export and observable-driven updates. Use to plot trends, comparisons, part-to-whole data, a value matrix, or live time series in a Tesserae (C#/Transpose) app.
 ---
 
 # Charts
 
-Four SVG chart types share a fluent API. Cartesian charts (`LineChart`, `BarChart`,
+Five SVG chart types share a fluent API. Cartesian charts (`LineChart`, `BarChart`,
 `AreaChart`) plot against either X-axis categories or a continuous X scale; `PieChart`
-renders part-to-whole and can be a donut. Each fills its container via a
-`ResizeObserver` — give it a height (e.g. `.H(200.px())`).
+renders part-to-whole and can be a donut; `HeatMap` colours a matrix of values. Each
+fills its container via a `ResizeObserver` — give it a height (e.g. `.H(200.px())`).
 
 ## Create
 
-`UI.LineChart()`, `UI.BarChart()`, `UI.AreaChart()`, `UI.PieChart()` — empty charts.
-Each also has a `(double[] data)` overload that sets a single unnamed series.
-Bring factories into scope with `using static Tesserae.UI;`.
+`UI.LineChart()`, `UI.BarChart()`, `UI.AreaChart()`, `UI.PieChart()`, `UI.HeatMap()` —
+empty charts. Each also has a `(double[] data)` overload that sets a single unnamed
+series (`HeatMap` takes `(double[][] data)`, one array per row). Bring factories into
+scope with `using static Tesserae.UI;`.
 
 ## Key configuration
 
@@ -66,6 +67,73 @@ Markers (and their tooltips) are suppressed above 300 points in a series — use
 `.Spikelines()` for dense data instead.
 
 PieChart: `.Labels(params string[])`, `.Donut(double holeRatio = 0.6)`.
+
+HeatMap: see its own section below.
+
+## HeatMap
+
+A matrix of cells coloured by value: one row per series (the series name is the row
+label), one column per value. `.Data(double[][] rows)` sets the whole matrix at once —
+`rows[y][x]` — and the observable `Series` overloads drive it like any other chart, so a
+live matrix re-renders on change. `double.NaN` leaves a cell empty (drawn as a dashed
+hole, not as the palest colour).
+
+Labels — plain text, or components:
+
+- `.XAxis(params string[])` / `.YAxis(params string[])` — text labels. They are drawn as
+  SVG, so they are part of `.ExportPng()`, and are ellipsized to the space they have.
+- `.XAxis(IComponent[] labels, params string[] names)` /
+  `.YAxis(IComponent[] labels, params string[] names)` — a component per label (a link
+  button, an icon plus a caption, a swatch). `names` is optional text for the tooltips,
+  the click handlers and the accessibility summary, which a component cannot supply.
+  Component labels are HTML positioned over the chart, so they do **not** appear in a
+  PNG export.
+- **The vertical (row) labels are rotated 90°, reading bottom-to-top** — including a
+  component label, which is laid out normally and then turned as a whole. That is what
+  makes a long row label cost the chart one line of text instead of its full length; the
+  label's length is then bounded by the row's height, and is truncated past it, so give a
+  heat map with long row labels the height for them.
+
+Clicks:
+
+- `.OnCellClick(Action<HeatMapCell>)` — `HeatMapCell` carries `Column`, `Row`, `Value`,
+  `ColumnLabel` and `RowLabel`. Setting a handler also gives the cells a pointer cursor.
+- `.OnXLabelClick(Action<int,string>)` / `.OnYLabelClick(Action<int,string>)` — index plus
+  label text. A component label keeps its own handlers, so a label that is a `Button`
+  can answer on its own instead and the chart needs neither of these.
+
+Appearance:
+
+- `.ScaleColor(string color, double minIntensity = 0.06)` — the default scale is one
+  colour faded towards the page background as the value falls, which is what keeps the
+  low end readable in both themes.
+- `.ColorScale(params string[] stops)` — an explicit ramp instead; a cell takes the
+  nearest stop.
+- `.ValueRange(min, max)` / `.AutoValueRange()` — pin the range the colours are scaled
+  against so two heat maps can be read against each other.
+- `.CellGap(double)`, `.Rounded(double radius = 2)`,
+  `.ShowValues(bool show = true, string color = null)` — printed in the cells with the
+  room for them; the colour defaults to the theme foreground on pale cells and white on
+  saturated ones.
+- `.Legend()` draws the colour scale as a gradient bar with its end values
+  (`ChartLegendPosition.Right` by default).
+
+```csharp
+var heat = HeatMap(matrix)                       // double[rows][columns]
+    .XAxis("Jan", "Feb", "Mar", "Apr")
+    .YAxis("Enterprise", "Mid-market", "Startups")
+    .ShowValues()
+    .Legend()
+    .OnCellClick(c => Show($"{c.RowLabel} / {c.ColumnLabel}: {c.Value}"))
+    .OnYLabelClick((i, label) => OpenSegment(label))
+    .WS().H(320.px());
+
+var labelled = HeatMap(matrix)
+    .XAxis(months.Select(m => Button().SetText(m).Link().Compact().OnClick(() => Pick(m)) as IComponent).ToArray(), months)
+    .YAxis(segments.Select(s => HStack().Children(Icon(UIcons.Building), TextBlock(s).Small()) as IComponent).ToArray(), segments)
+    .ScaleColor(Theme.Colors.Teal600)
+    .WS().H(440.px());
+```
 
 ## Continuous / time X axis
 
