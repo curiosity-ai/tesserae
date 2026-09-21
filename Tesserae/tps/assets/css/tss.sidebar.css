@@ -1148,8 +1148,16 @@
    classes an ordinary row carries (tss-sidebar-btn-open, tss-sidebar-has-commands, the
    --tss-sidebar-commands-width the row writes from how many commands it has). */
 
+/* One height for the row, read by both of its renderings: the open row and the picture the collapsed rail
+   shows in its place. A rail whose brand is 48px at the top and 28px once it is collapsed is two different
+   pieces of chrome, and the row's own commands - which the collapsed brand turns into - would move under
+   the pointer. Declared on the wrapper so a skin can change it per row and both states follow. */
+.tss-sidebar-identity-row {
+    --tss-sidebar-identity-height: 48px;
+}
+
 .tss-sidebar-identity > .tss-sidebar-identity-button.tss-btn {
-    height: 48px !important;
+    height: var(--tss-sidebar-identity-height) !important;
 }
 
 .tss-sidebar-identity-content {
@@ -1223,6 +1231,25 @@
     transform: translateY(-50%);
 }
 
+/* A command on one of these rows is a square of the row's own height, not the 22px chip an ordinary row
+   gets: the row is twice as tall, and a small chip floating in the middle of it reads as something that
+   landed there rather than as part of the row. Full height also gives each command a target the size of
+   the row it belongs to. */
+.tss-sidebar-identity > .tss-sidebar-commands > .tss-sidebar-command.tss-btn,
+.tss-sidebar-identity > .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn {
+    width: var(--tss-sidebar-identity-height) !important;
+    height: var(--tss-sidebar-identity-height) !important;
+    border-radius: 6px;
+}
+
+/* How much room the name gives up for the strip. An ordinary row computes it in C# from how many commands
+   it has, because there the size of one is fixed; here it is whatever --tss-sidebar-identity-height says,
+   so the count is what the row writes (SidebarIdentityRow.UpdateCommands) and the width is computed from
+   the two. Scoped to a row that has commands, so the -4px of a count of zero is never reached. */
+.tss-sidebar-identity.tss-sidebar-has-commands {
+    --tss-sidebar-commands-width: calc(var(--tss-sidebar-identity-command-count, 0) * (var(--tss-sidebar-identity-height) + 4px) - 4px);
+}
+
 /* A logo is an image, a glyph or an emoji, and all three take the same square beside the name - the box
    is sized here rather than each of the three. */
 .tss-sidebar-brand-logo {
@@ -1238,8 +1265,8 @@
 }
 
 .tss-sidebar-identity-closed .tss-sidebar-brand-logo {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
 }
 
 .tss-sidebar-brand-logo > .tss-image,
@@ -1257,20 +1284,27 @@
 }
 
 .tss-sidebar-identity-closed .tss-sidebar-brand-logo > .tss-icon {
-    font-size: 18px;
+    font-size: 24px;
     line-height: 1;
 }
 
-/* The collapsed rail is the picture alone. The wrapper is what a control can be laid over (see below) and
-   what the divider is drawn on, so the button inside it keeps the rail's own sizing. */
+/* The collapsed rail is the picture alone, in a box the same height as the open row - see
+   --tss-sidebar-identity-height above. Everything else about it is the rail's own closed-button sizing
+   (the 46px width, the centring), which is why only the height is restated. The wrapper is what a control
+   can be laid over (see below) and what the divider is drawn on. */
 .tss-sidebar-identity-closed {
     position: relative;
 }
 
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-identity-closed > .tss-sidebar-identity-button-closed.tss-btn,
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-identity-closed > .tss-sidebar-identity-closed-control.tss-btn {
+    height: var(--tss-sidebar-identity-height) !important;
+}
+
 /* The rail's open/close control, where the brand is it (SidebarBrand.WithSidebarControl). There is no room
-   for a command beside a 24px logo on a 46px rail, so the logo *is* the control: the brand at rest, the
-   open button under the pointer. Both are laid out by the rail's own closed-button rules, so swapping
-   which one is displayed moves nothing. */
+   for a command beside the logo on a 46px rail, so the logo *is* the control: the brand at rest, the open
+   button under the pointer. Both take the same box - the rail's closed-button sizing plus the row's own
+   height - so swapping which one is displayed moves nothing. */
 .tss-sidebar-identity-closed-control {
     display: none !important;
 }
