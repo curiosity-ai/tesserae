@@ -129,11 +129,14 @@ namespace Tesserae
             {
                 var rendered = component.Render();
 
-                // Same as Stack.GetItem: the rendered element is the grid child and carries the class.
+                // Same as Stack.GetItem: the rendered element is the grid child and carries the class,
+                // and is marked with the component that rendered it.
                 if (forceAdd || (rendered.parentElement is object && rendered.parentElement.classList.contains("tss-stack")))
                 {
                     rendered.classList.add("tss-stack-item");
                 }
+
+                UI.MarkComponent(rendered, component);
 
                 item = rendered;
             }

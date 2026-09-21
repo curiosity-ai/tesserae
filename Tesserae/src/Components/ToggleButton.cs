@@ -55,7 +55,7 @@ namespace Tesserae
         /// <param name="button">The button to use as the base for the toggle button.</param>
         public ToggleButton(Button button)
         {
-            _button = button.ReconcileAs(nameof(ToggleButton));
+            _button = button;
 
             _button.OnClick(() =>
             {

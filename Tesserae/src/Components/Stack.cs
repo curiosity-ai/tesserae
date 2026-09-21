@@ -710,6 +710,12 @@ namespace Tesserae
                     rendered.classList.add("tss-stack-item");
                 }
 
+                // Every child of a container comes through here as an IComponent, which is the only
+                // place the element and the type that rendered it are both in hand. DeltaComponent
+                // needs that to know it may not patch one component's node into another's, and this
+                // is what lets it work for a component in an application we cannot see.
+                UI.MarkComponent(rendered, component);
+
                 item = rendered;
             }
             return item;

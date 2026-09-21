@@ -31,23 +31,21 @@ component looks right and still answers to the one it used to be - a tool call t
 Nodes that are not elements carry no listeners and are always reconciled, which is what keeps the
 text-append path (the streaming effect) intact.
 
-Which component a node belongs to is read off the element, in this order:
+Which component a node belongs to is worked out by the toolkit, not declared by the component.
+Nothing has to be added to a component of your own to make this work:
 
-1. The `tss-c` attribute, if either node carries one. `.ReconcileAs("Name")` writes it, and it is
-   taken at its word: an element that names itself and one that does not are not the same
-   component either.
-2. Otherwise the element's **first CSS class**, which is the class a component that builds its own
-   root element puts on it before anything else is added.
+1. **The component recorded on the element.** Every child of a `Stack` or a `Grid` passes through
+   one place that holds it as an `IComponent`, and the component behind it is noted on the element
+   there. So a component of yours is identified by the fact that it was added to a container, which
+   is also what separates two components that borrow the same kind of root: a `SectionTitle` and a
+   `SearchableList` are both a `Stack`'s element, and so is anything composed that way.
+2. **Otherwise the element's first CSS class.** This catches an element built straight into its
+   parent rather than added through a container, and the markup inside a component.
 
-The first class cannot tell two components apart when **neither of them owns its root** - a
-component that composes a `Stack` and returns the stack's element answers `tss-stack`, the same as
-every other component built that way. The ones in the toolkit that do this name themselves
-(`SectionTitle`, `SearchableList`, `ToggleButton`, `SaveButton`, …); a component of your own that
-does the same, and that may end up in the same slot as another, should too:
-
-```csharp
-_stack = VStack().Class("tss-tool-chip").Children(header).ReconcileAs(nameof(ToolChip));
-```
+Both are checked, so the pair is never weaker than either. The gap, if you want to be sure of it:
+an element spliced into a parent by hand rather than added to a container carries no component, and
+is then told apart only by its first class. Adding the same content with `Stack.Children(...)`
+closes it.
 
 ## Sizing a DeltaComponent
 

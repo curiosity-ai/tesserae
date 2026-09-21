@@ -155,6 +155,31 @@ dotnet serve --port 5000
   edges to its call sites, where a static method body actually runs. See
   [docs/module-output.md](docs/module-output.md).
 
+## Tesserae is a library, and its consumers are invisible
+
+Tesserae ships as a NuGet package to applications whose source this repo never sees. A mechanism
+that only behaves correctly for the components defined in here is not finished, however complete
+the sample gallery looks.
+
+- **A consumer's component must not have to declare anything to get correct behaviour.** No
+  attribute, no interface to implement, no registration call, no naming convention to follow.
+  Anything the toolkit needs to know about a component has to be derived where the toolkit already
+  has the component in hand.
+- **Look for the choke point the component already passes through.** `Stack.GetItem` and
+  `Grid.GetItem` receive every container child as an `IComponent`, so `GetType()` is available
+  there without the component's cooperation. That is how `DeltaComponent` knows which component
+  rendered an element, and why it works for a component written in an application rather than here
+  (`UI.MarkComponent` in [UI.Components.cs](Tesserae/src/Base/UI.Components.cs), read back by
+  `UI.ComponentOf`).
+- **A convention this repo can follow is not a mechanism.** "Every component puts its own class on
+  its root before anything else" is true of the components in here, once someone checks, and can
+  never be true of a consumer's. Do not build behaviour on one. A heuristic like that is fine as a
+  fallback for what the real mechanism did not reach, never as the thing the correctness rests on.
+- **An opt-in API is an escape hatch, not a design.** Adding one is acceptable only for something
+  the toolkit genuinely cannot infer, and only once the inferring path covers the ordinary case. A
+  feature whose correctness depends on consumers remembering to call something is a feature that is
+  wrong in the field.
+
 ## Conventions
 
 ### Loading a script, module or stylesheet at run time

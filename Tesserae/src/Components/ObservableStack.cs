@@ -48,7 +48,7 @@ namespace Tesserae
         {
             _source     = source     ?? throw new ArgumentNullException(nameof(source));
             _renderItem = renderItem ?? throw new ArgumentNullException(nameof(renderItem));
-            _host       = (host ?? VStack()).ReconcileAs(nameof(ObservableStack<T>));
+            _host       = host ?? VStack();
 
             _handler = Reconcile;
             _source.Observe(_handler);

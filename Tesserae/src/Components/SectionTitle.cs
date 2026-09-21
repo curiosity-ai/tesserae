@@ -24,7 +24,7 @@ namespace Tesserae
 
             var topStack = HStack().WS().AlignItemsCenter().Children(iconComponent, titleBlock).Class("tss-sectiontitle-top");
 
-            _stack = VStack().WS().Class("tss-sectiontitle").Children(topStack).ReconcileAs(nameof(SectionTitle));
+            _stack = VStack().WS().Class("tss-sectiontitle").Children(topStack);
 
             if(!string.IsNullOrWhiteSpace(subtitle))
             {

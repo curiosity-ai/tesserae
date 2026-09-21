@@ -107,7 +107,7 @@ namespace Tesserae
         {
             _instance   = instance;
             _observable = new SettableObservable<T>(instance);
-            _stack      = VStack().WS().Class("tss-propertygrid").ReconcileAs(nameof(PropertyGrid));
+            _stack      = VStack().WS().Class("tss-propertygrid");
         }
 
         /// <summary>Returns an observable that fires (with the bound instance) whenever any field is edited.</summary>

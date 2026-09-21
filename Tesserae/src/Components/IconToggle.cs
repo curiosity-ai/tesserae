@@ -26,7 +26,7 @@ namespace Tesserae
                 throw new ArgumentException("An IconToggle needs at least one item.", nameof(items));
             }
 
-            _stack = HStack().NoDefaultMargin().Class("tss-icon-toggle").NoWrap().ReconcileAs(nameof(IconToggle<T>));
+            _stack = HStack().NoDefaultMargin().Class("tss-icon-toggle").NoWrap();
             _items = new Dictionary<Item, Button>();
 
             // A disabled item can't be clicked, so it can't be the one the control starts on either.

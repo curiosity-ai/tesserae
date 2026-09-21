@@ -38,6 +38,12 @@ namespace Tesserae
             {
                 _root = _currentContent.Render();
             }
+
+            //The content handed to this component is usually also a child of some container, which
+            //marks it on the way in. When it is not - it is the root of what this component holds,
+            //and may have been built straight into it - the mark has to come from here, or the first
+            //reconcile would see one marked side and one unmarked side.
+            UI.MarkComponent(_root, _currentContent);
         }
 
         /// <summary>
@@ -60,6 +66,8 @@ namespace Tesserae
         public void ReplaceContent(IComponent newContent)
         {
             var newRoot = newContent.Render();
+
+            UI.MarkComponent(newRoot, newContent);
             if (_shadowRoot != null)
             {
                 // We are diffing against the content inside shadow root.
@@ -187,17 +195,23 @@ namespace Tesserae
             //makes streaming look like typing is never interrupted by this.
             if (!(current is HTMLElement currentElement) || !(next is HTMLElement nextElement)) return true;
 
-            var currentName = currentElement.getAttribute(UI.ReconcileAsAttribute);
-            var nextName    = nextElement.getAttribute(UI.ReconcileAsAttribute);
+            //The component that rendered the element, recorded by the container that took it in. This
+            //is the signal that works for a component Tesserae cannot see the source of, and the only
+            //one that separates two components which borrow the same kind of root: a SectionTitle and
+            //a SearchableList are both a Stack's element, and so is anything an application composes
+            //that way.
+            var currentComponent = UI.ComponentOf(currentElement);
+            var nextComponent    = UI.ComponentOf(nextElement);
 
-            //A component that named itself is taken at its word, in both directions: an element that
-            //carries a name and one that does not are not the same component either.
-            if (currentName != null || nextName != null) return currentName == nextName;
+            //An element that carries a component and one that does not were built differently enough
+            //that patching one into the other is not worth the risk.
+            if (currentComponent != nextComponent) return false;
 
-            //Nothing named, so fall back to the element's first CSS class - the class a component that
-            //builds its own root element puts on it before anything else is added. It cannot tell two
-            //components apart when neither owns its root (both answer "tss-stack"); ReconcileAs is how
-            //such a component says which one it is.
+            //An element built straight into its parent rather than added through a container carries
+            //no component, and neither does anything inside a component's own markup. Its first CSS
+            //class is what is left: the class a component puts on the root element it builds before
+            //anything else is added to it. Checked either way, since a passthrough like Raw records
+            //itself and says nothing about what it wraps.
             return RootClassOf(currentElement) == RootClassOf(nextElement);
         }
 
