@@ -220,11 +220,14 @@ namespace Tesserae
         /// </remarks>
         internal static void Remember(HTMLElement element, IComponent component, Action reapply)
         {
-            if (element is null || !element.HasOwnProperty(ReappliesMarker)) return;
-
-            //Only when the call was made on the component that owns the element. A DeltaComponent's
-            //content renders that same element, and a class put on the content belongs to the
-            //content and should go out with it when it is replaced.
+            //One property read and a comparison, and nothing else on the path where the answer is
+            //no. An element nobody marked reads back undefined, which is not the component, so the
+            //missing-property case needs no test of its own. Every caller passes an element it has
+            //just rendered, so there is no null to check either.
+            //
+            //It also settles which component the call belongs to: a DeltaComponent's content
+            //renders that same element, and a class put on the content is not recorded here,
+            //because it should go out with the content when that is replaced.
             if (element[ReappliesMarker] != component) return;
 
             component.As<IReappliesStyling>().RememberStyling(reapply);
