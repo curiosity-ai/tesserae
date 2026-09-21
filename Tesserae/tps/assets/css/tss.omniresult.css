@@ -304,6 +304,48 @@
     color: var(--tss-default-foreground-color);
 }
 
+/* MarkAsViewed(): the result you just opened, so coming back to a long list says which row you came
+   back from. The title takes the purple a visited link has always been, which is the one thing about a
+   row that is read before anything else. */
+.tss-omniresult-viewed .tss-omniresult-title {
+    color: var(--tss-colors-purple-700);
+}
+
+.tss-dark-mode .tss-omniresult-viewed .tss-omniresult-title {
+    color: var(--tss-colors-purple-400);
+}
+
+/* The pulse that plays when the flag goes on. It is an overlay's opacity and the row's own transform -
+   both composited, so a row flashing in a list of a hundred measures none of them again. The overlay is
+   a pseudo-element rather than the row's background so it does not fight the hover and selected
+   backgrounds the row is already wearing. */
+.tss-omniresult-viewed-flash {
+    animation: tss-omniresult-viewed-lift 620ms ease-out;
+}
+
+.tss-omniresult-viewed-flash::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: color-mix(in srgb, var(--tss-colors-purple-500) 24%, transparent);
+    opacity: 0;
+    animation: tss-omniresult-viewed-pulse 620ms ease-out;
+}
+
+@keyframes tss-omniresult-viewed-pulse {
+    0%   { opacity: 0; }
+    18%  { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes tss-omniresult-viewed-lift {
+    0%   { transform: scale(1); }
+    22%  { transform: scale(1.012); }
+    100% { transform: scale(1); }
+}
+
 /* A title built from a component of the host's own lays itself out, so the one-line ellipsis the plain
    title gets would only fight it. */
 .tss-omniresult-title.tss-omniresult-title-custom {
@@ -846,5 +888,11 @@
     .tss-omniresult-inline-commands,
     .tss-omniresult-menu-button {
         transition: none;
+    }
+
+    /* The purple title still says which row was viewed - only the pulse announcing it goes away. */
+    .tss-omniresult-viewed-flash,
+    .tss-omniresult-viewed-flash::after {
+        animation: none;
     }
 }

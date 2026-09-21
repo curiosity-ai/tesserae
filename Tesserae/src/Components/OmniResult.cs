@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -335,6 +335,17 @@ namespace Tesserae
         {
             get => InnerElement.classList.contains("tss-omniresult-active");
             set => InnerElement.UpdateClassIf(value, "tss-omniresult-active");
+        }
+
+        /// <summary>
+        /// Gets or sets whether the result has been viewed - the row the user just opened. A viewed row
+        /// wears its title in the purple a visited link has always been; setting it to true also plays the
+        /// pulse <see cref="MarkAsViewed(bool)"/> describes.
+        /// </summary>
+        public bool IsViewed
+        {
+            get => InnerElement.classList.contains("tss-omniresult-viewed");
+            set => MarkAsViewed(value);
         }
 
         /// <summary>
@@ -899,6 +910,36 @@ namespace Tesserae
             _textSelectable = value;
 
             InnerElement.UpdateClassIf(value, "tss-omniresult-text-selectable");
+
+            return this;
+        }
+
+        /// <summary>
+        /// Marks the result as viewed - or takes the mark away again with <c>false</c>. The title turns
+        /// purple and stays that way, so a list says which row the user came back from without them having
+        /// to read it again.
+        /// <para>
+        /// Marking one plays a short pulse over the whole row, which is what makes it findable in a long
+        /// list. It animates an overlay's opacity and the row's own transform, so nothing around it is laid
+        /// out again, and asking for it on a row that is already viewed plays it once more - a host that
+        /// marks a row when its preview closes can do so every time. A reader who asked for reduced motion
+        /// gets the purple title and no pulse.
+        /// </para>
+        /// </summary>
+        public OmniResult<T> MarkAsViewed(bool viewed = true)
+        {
+            InnerElement.UpdateClassIf(viewed, "tss-omniresult-viewed");
+
+            InnerElement.classList.remove("tss-omniresult-viewed-flash");
+
+            if (viewed)
+            {
+                // Read a layout property to flush the removal, or re-marking a row that is still playing
+                // the pulse re-adds a class the browser never saw leave and nothing restarts.
+                var _flush = InnerElement.offsetWidth;
+
+                InnerElement.classList.add("tss-omniresult-viewed-flash");
+            }
 
             return this;
         }
