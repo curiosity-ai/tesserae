@@ -150,6 +150,25 @@ namespace Tesserae.Tests.Samples
                 swapDelta.ReplaceContent(BuildSwappable(swapState));
             });
 
+            //The pair above are Tesserae's own. These two are defined in this project, which is a
+            //consumer of the package like any other: two classes that both return a Stack's element,
+            //both with a handler on it, and nothing on either of them saying which component it is.
+            //Clicking after a swap has to run the handler of the component now on screen.
+            var pickedLabel = TextBlock("nothing clicked yet").Class("tss-delta-picked");
+            var consumerState = 0;
+
+            IComponent BuildConsumer(int state) => state == 0
+                ? (IComponent)new ConsumerChip(name => pickedLabel.Text = name + " handled the click")
+                : new ConsumerGroup(name => pickedLabel.Text = name + " handled the click");
+
+            var consumerDelta = DeltaComponent(BuildConsumer(0)).WS().Animated();
+
+            var consumerBtn = Button("Swap consumer component").OnClick(() =>
+            {
+                consumerState = (consumerState + 1) % 2;
+                consumerDelta.ReplaceContent(BuildConsumer(consumerState));
+            });
+
             _content = SectionStack().Secondary()
                 .SampleTitle(typeof(DeltaComponent), UIcons.Refresh, "A component that animates changes")
                 .FlatSection(Stack().Children(
@@ -167,7 +186,13 @@ namespace Tesserae.Tests.Samples
                     TextBlock("Swapping one component for another of the same tag replaces the node instead of patching it, so the new component answers to its own handlers and not to the ones its predecessor left behind. Expand a row, swap, and expand again: the content is the new component's."),
                     HStack().Children(swapBtn),
                     swapDelta
-                )).SetTitle("Swapping components")))
+                )).SetTitle("Swapping components"),
+                    Card(VStack().WS().Children(
+                    TextBlock("The same guarantee for a component the toolkit has never seen. ConsumerChip and ConsumerGroup are declared in this sample project, both return a Stack's element and both put a click handler on it, and neither declares anything about itself. The component is taken from the container that added it, so they are still told apart."),
+                    HStack().Children(consumerBtn),
+                    consumerDelta,
+                    pickedLabel
+                )).SetTitle("A component from outside the toolkit")))
                 .SeeAlso(typeof(MetricSample), typeof(SparklineSample), typeof(ChartsSample), typeof(ContributionBarSample), typeof(BadgeSample));
         }
 
@@ -182,5 +207,33 @@ namespace Tesserae.Tests.Samples
                    .Inline();
 
         public HTMLElement Render() => _content.Render();
+
+        //Two components written the way an application writes them: no base class, a Stack for a
+        //root, and a listener on that root. Their first CSS class is "tss-stack" for both.
+        private sealed class ConsumerChip : IComponent
+        {
+            private readonly Stack _stack;
+
+            public ConsumerChip(Action<string> onPicked)
+            {
+                _stack = VStack().WS().Class("tss-delta-consumer-chip").Children(TextBlock("Chip - click me"));
+                _stack.Render().addEventListener("click", _ => onPicked("ConsumerChip"));
+            }
+
+            public HTMLElement Render() => _stack.Render();
+        }
+
+        private sealed class ConsumerGroup : IComponent
+        {
+            private readonly Stack _stack;
+
+            public ConsumerGroup(Action<string> onPicked)
+            {
+                _stack = VStack().WS().Class("tss-delta-consumer-group").Children(TextBlock("Group - click me"));
+                _stack.Render().addEventListener("click", _ => onPicked("ConsumerGroup"));
+            }
+
+            public HTMLElement Render() => _stack.Render();
+        }
     }
 }

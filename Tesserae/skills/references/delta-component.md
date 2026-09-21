@@ -42,10 +42,28 @@ Nothing has to be added to a component of your own to make this work:
 2. **Otherwise the element's first CSS class.** This catches an element built straight into its
    parent rather than added through a container, and the markup inside a component.
 
-Both are checked, so the pair is never weaker than either. The gap, if you want to be sure of it:
-an element spliced into a parent by hand rather than added to a container carries no component, and
-is then told apart only by its first class. Adding the same content with `Stack.Children(...)`
-closes it.
+Both are checked, so the pair is never weaker than either.
+
+### What this does not cover
+
+**Two instances of the same component keep the first one's handlers.** Identity is the component,
+not the instance, so re-rendering `MyChip(onPicked: a)` as `MyChip(onPicked: b)` reconciles the two
+and the node goes on calling `a`. Nothing about a rendered element says which closure is behind its
+listener, so no reconciler can see this. If a handler closes over something that changes between
+renders, read the current value inside the handler rather than capturing it:
+
+```csharp
+//Wrong: the node keeps the first render's handler, and with it the first render's index.
+_stack.Render().addEventListener("click", _ => Select(index));
+
+//Right: the handler is the same either way, and reads what is current when it runs.
+_stack.Render().addEventListener("click", _ => Select(_currentIndex));
+```
+
+**An element spliced into a parent by hand carries no component.** `Div(Att("list"),
+chip.Render(), group.Render())` never passes a container, so those two are told apart only by their
+first class, which for anything built on a `Stack` is the same. Build the list with
+`VStack().Children(chip, group)` and both are identified.
 
 ## Sizing a DeltaComponent
 
