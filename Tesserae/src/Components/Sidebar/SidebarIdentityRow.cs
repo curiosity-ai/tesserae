@@ -403,10 +403,13 @@ namespace Tesserae
                 count++;
             }
 
-            //The same arithmetic the sidebar's own rows use - a 22px button per command with a 4px gap
-            //between them - written where the stylesheet reads it back to keep the name clear of the strip.
+            //How wide the strip is decides how much room the name gives up for it, and here a command is a
+            //square of the row's own height rather than the 22px chip an ordinary row's is - so the count
+            //is written and the stylesheet computes the width from it and from the height it is drawing
+            //(see --tss-sidebar-commands-width on .tss-sidebar-identity in tss.sidebar.css). Writing the
+            //pixels here instead would hard-code a height a skin is free to change.
             _openRoot.UpdateClassIf(count > 0, "tss-sidebar-has-commands");
-            _openRoot.style.setProperty("--tss-sidebar-commands-width", (count > 0 ? count * 26 - 4 : 0) + "px");
+            _openRoot.style.setProperty("--tss-sidebar-identity-command-count", count.ToString());
         }
 
         private void UpdateSubtitleVisibility()

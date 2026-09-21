@@ -65,6 +65,20 @@ Passing no `subtitle` leaves the row a single line rather than an empty one.
   the second line.
 - `.NotSortable()`, `.Class(...)`, `.OnContextMenu(...)`, `.OnRendered(...)`.
 
+## The row's height, in both states
+
+A brand or profile row is **48px**, and the collapsed rail draws its picture in a box of the same height
+rather than shrinking to the 28px an ordinary row gets — so the rail's chrome is the same piece before and
+after it collapses, and a command that becomes the collapsed picture (see `SidebarBrand.WithSidebarControl`)
+does not move under the pointer. The commands on the row are squares of that height too, at its right end.
+
+One custom property drives all of it, so a skin changes the height once and the collapsed box, the command
+squares and the room the name gives up for them all follow:
+
+```css
+.my-brand-row { --tss-sidebar-identity-height: 56px; }
+```
+
 ## Collapsed
 
 On the collapsed rail the row is the picture alone — no name, no commands — with

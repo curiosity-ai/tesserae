@@ -45,14 +45,15 @@ namespace Tesserae
         /// <summary>
         /// The two avatars a row needs - one for the open row, one for the collapsed rail, since a single
         /// element cannot be in two places. Built before the base constructor runs, which is what the array
-        /// is for.
+        /// is for. They are the same size: the collapsed rail shows the row's picture in a box of the row's
+        /// own height, not a smaller row.
         /// </summary>
         private static Avatar[] InitialAvatars(string pictureUrl, string initials)
         {
             return new[]
             {
                 new Avatar(pictureUrl, initials).Size(AvatarSize.Small),
-                new Avatar(pictureUrl, initials).Size(AvatarSize.XSmall)
+                new Avatar(pictureUrl, initials).Size(AvatarSize.Small)
             };
         }
 
