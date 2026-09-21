@@ -161,7 +161,16 @@ namespace Tesserae.Tests.Samples
                 ? (IComponent)new ConsumerChip(name => pickedLabel.Text = name + " handled the click")
                 : new ConsumerGroup(name => pickedLabel.Text = name + " handled the click");
 
-            var consumerDelta = DeltaComponent(BuildConsumer(0)).WS().Animated();
+            //Everything applied to the DeltaComponent itself rather than to its content: these land
+            //on the element the content rendered, which a swap throws away, so they are recorded and
+            //applied again to whatever replaces it.
+            var consumerDelta = DeltaComponent(BuildConsumer(0))
+               .WS()
+               .Animated()
+               .Id("tss-delta-consumer")
+               .Class("tss-delta-outer-class")
+               .Style(css => css.outline = "1px dashed var(--tss-colors-primary-background)")
+               .Tooltip("Applied to the DeltaComponent, not to its content");
 
             var consumerBtn = Button("Swap consumer component").OnClick(() =>
             {

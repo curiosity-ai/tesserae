@@ -65,13 +65,26 @@ chip.Render(), group.Render())` never passes a container, so those two are told 
 first class, which for anything built on a `Stack` is the same. Build the list with
 `VStack().Children(chip, group)` and both are identified.
 
-## Sizing a DeltaComponent
+## Configuring the DeltaComponent itself
 
 `Render()` hands out whatever the content rendered - this component has no element of its own - so
-a `.WS()`, a `.Grow()` or the stack-item class its parent added all live on the content's root. A
-swap carries them onto the new root, so sizing set on the `DeltaComponent` survives a change of
-component. An `.Id()` or a `.Class()` set on it does not: put those on a wrapper if you need them
-to outlive a swap.
+everything set on the `DeltaComponent` lands on the content's root, which a swap throws away. It is
+put back on the element that replaces it, so all of this survives a change of component:
+
+```csharp
+DeltaComponent(content).WS().Grow().Id("reply").Class("my-bubble")
+    .Style(css => css.outline = "1px solid red")
+    .Tooltip("Streaming");
+```
+
+Sizing and the stack-item class its container added are carried across; `.Id()`, `.Class()`,
+`.Style()` and `.Tooltip()` are recorded as the calls they were and made again against the new
+element, which is the only way a tooltip can survive at all - it is a listener and a tippy
+instance, not an attribute.
+
+Anything else attached from outside is not: a raw `component.Render().addEventListener(...)`, or a
+gesture handler, is bound to the element that went away. Put those on a wrapper of your own, or on
+the content rather than on the `DeltaComponent`.
 
 ## Example
 

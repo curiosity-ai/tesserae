@@ -12,12 +12,19 @@ namespace Tesserae
     /// negative / neutral deltas).
     /// </summary>
     [Transpose.Name("tss.DeltaComponent")]
-    public class DeltaComponent : IComponent
+    public class DeltaComponent : IComponent, IReappliesStyling
     {
         private HTMLElement _root;
         private IComponent _currentContent;
         private bool _isAnimated;
         private ShadowRoot _shadowRoot;
+
+        //Anything applied to this component from outside - a .Class(), an .Id(), a .Style() or a
+        //.Tooltip() - lands on the element the content rendered, because that is the element this
+        //component hands out. Swapping the root would take all of it out with the old node, so the
+        //calls are recorded and made again against the node that replaces it.
+        private List<Action> _reapply;
+        private bool         _replaying;
 
         // Node.TEXT_NODE is 3 in DOM
         private const int TEXT_NODE = 3;
@@ -44,6 +51,8 @@ namespace Tesserae
             //and may have been built straight into it - the mark has to come from here, or the first
             //reconcile would see one marked side and one unmarked side.
             UI.MarkComponent(_root, _currentContent);
+
+            MarkAsReapplying();
         }
 
         /// <summary>
@@ -98,6 +107,17 @@ namespace Tesserae
                     //both can be carried over.
                     Stack.TransferItemStyles(previousRoot, _root);
                     Grid.TransferItemStyles(previousRoot, _root);
+
+                    //A tooltip that was shown at least once left a tippy instance on the old node.
+                    //Nothing will remove the node's popper now that the node itself is gone, so it
+                    //is torn down here rather than left to the WhenRemoved further up the tree.
+                    if (previousRoot.HasOwnProperty("_tippy"))
+                    {
+                        Transpose.Script.Write("{0}._tippy.destroy();", previousRoot);
+                    }
+
+                    MarkAsReapplying();
+                    ReapplyStyling();
                 }
             }
         }
@@ -381,6 +401,50 @@ namespace Tesserae
             while (currentIndex < currentChildren.length)
             {
                 currentParent.removeChild(currentChildren[currentIndex]);
+            }
+        }
+
+        /// <summary>
+        /// Puts this component on the element it currently renders, so that the fluent helpers can
+        /// tell in one property read whether what they are applying needs remembering.
+        /// </summary>
+        /// <remarks>
+        /// The alternative, testing the component's type in each helper, was measured at a fifth of
+        /// the cost of <c>.Class()</c> itself - which a page calls thousands of times, virtually
+        /// never on a DeltaComponent. A missing property on an element is a plain read.
+        /// </remarks>
+        private void MarkAsReapplying()
+        {
+            if (_root is object) _root[UI.ReappliesMarker] = this;
+        }
+
+        void IReappliesStyling.RememberStyling(Action reapply)
+        {
+            //A replayed call must not record itself, or every swap would double the list.
+            if (_replaying || reapply is null) return;
+
+            if (_reapply is null) _reapply = new List<Action>();
+
+            _reapply.Add(reapply);
+        }
+
+        /// <summary>
+        /// Applies everything recorded through <see cref="IReappliesStyling"/> to the element this
+        /// component renders now, in the order it was originally applied.
+        /// </summary>
+        private void ReapplyStyling()
+        {
+            if (_reapply is null) return;
+
+            _replaying = true;
+
+            try
+            {
+                for (int i = 0; i < _reapply.Count; i++) _reapply[i]();
+            }
+            finally
+            {
+                _replaying = false;
             }
         }
 
