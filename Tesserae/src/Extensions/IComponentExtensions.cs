@@ -470,7 +470,7 @@ namespace Tesserae
                 rendered["tooltipMarker"] = null;
             }
 
-            UI.Remember(rendered, component, () => component.RemoveTooltip());
+            if (UI.Remembers(rendered, component)) UI.Remember(component, () => component.RemoveTooltip());
 
             return component;
         }
@@ -491,7 +491,7 @@ namespace Tesserae
 
             //A tooltip is a listener and, once shown, a tippy instance on this element - neither of
             //which can be moved. A component that replaces its element calls this again instead.
-            UI.Remember(rendered, component, () => component.Tooltip(tooltip, interactive, animation, placement, delayShow, delayHide, appendToBody, followCursor, maxWidth, hideOnClick, arrow, theme, parent));
+            if (UI.Remembers(rendered, component)) UI.Remember(component, () => component.Tooltip(tooltip, interactive, animation, placement, delayShow, delayHide, appendToBody, followCursor, maxWidth, hideOnClick, arrow, theme, parent));
 
             void AttachTooltip(MouseEvent e)
             {
@@ -577,7 +577,9 @@ namespace Tesserae
             //The lambda is kept rather than the properties it set: run against the next element it
             //produces the same result, where copying the declaration would have to guess which of
             //the properties on the old element came from here.
-            UI.Remember(component.Render(), component, () => component.Style(style));
+            var styled = component.Render();
+
+            if (UI.Remembers(styled, component)) UI.Remember(component, () => component.Style(style));
 
             return component;
         }

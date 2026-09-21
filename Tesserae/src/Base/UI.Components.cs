@@ -75,7 +75,7 @@ namespace Tesserae
             var el = component.Render();
             el.id = id;
 
-            Remember(el, component, () => component.Id(id));
+            if (Remembers(el, component)) Remember(component, () => component.Id(id));
 
             return component;
         }
@@ -117,7 +117,7 @@ namespace Tesserae
                 }
             }
 
-            Remember(el, component, () => component.Class(className));
+            if (Remembers(el, component)) Remember(component, () => component.Class(className));
 
             return component;
         }
@@ -159,7 +159,7 @@ namespace Tesserae
                 }
             }
 
-            Remember(el, component, () => component.RemoveClass(className));
+            if (Remembers(el, component)) Remember(component, () => component.RemoveClass(className));
 
             return component;
         }
@@ -218,18 +218,25 @@ namespace Tesserae
         /// the read. A missing property is cheap; deciding whether an object implements an interface
         /// is not.
         /// </remarks>
-        internal static void Remember(HTMLElement element, IComponent component, Action reapply)
-        {
-            //One property read and a comparison, and nothing else on the path where the answer is
-            //no. An element nobody marked reads back undefined, which is not the component, so the
-            //missing-property case needs no test of its own. Every caller passes an element it has
-            //just rendered, so there is no null to check either.
-            //
-            //It also settles which component the call belongs to: a DeltaComponent's content
-            //renders that same element, and a class put on the content is not recorded here,
-            //because it should go out with the content when that is replaced.
-            if (element[ReappliesMarker] != component) return;
+        /// <summary>
+        /// Whether what is being applied to <paramref name="element"/> has to be remembered, which
+        /// is only so for a component that may replace the element it renders. Ask before building
+        /// the closure to pass <see cref="Remember"/>.
+        /// </summary>
+        /// <remarks>
+        /// One property read and a comparison, and nothing else on the path where the answer is no.
+        /// An element nobody marked reads back undefined, which is not the component, so the
+        /// missing-property case falls out of the comparison and needs no test of its own. Every
+        /// caller passes an element it has just rendered, so there is no null to check either.
+        ///
+        /// <para>It also settles which component the call belongs to: a DeltaComponent's content
+        /// renders that same element, and a class put on the content is not remembered, because it
+        /// should go out with the content when that is replaced.</para>
+        /// </remarks>
+        internal static bool Remembers(HTMLElement element, IComponent component) => element[ReappliesMarker] == component;
 
+        internal static void Remember(IComponent component, Action reapply)
+        {
             component.As<IReappliesStyling>().RememberStyling(reapply);
         }
 
