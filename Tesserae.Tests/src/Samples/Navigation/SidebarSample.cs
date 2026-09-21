@@ -21,6 +21,18 @@ namespace Tesserae.Tests.Samples
             // app remembers it — see the wiring below the items, and the "Remembering the order" card.
             var sidebar = Sidebar(sortable: true);
 
+            // The row that says what the application is: logo, name, and a second line for the workspace
+            // it is pointed at. It is also the rail's open/close control - see .WithSidebarControl(), which
+            // puts "close" as the last command here and turns the logo itself into the open button once the
+            // rail is collapsed and there is no room for a command beside it.
+            var brand = new SidebarBrand("brand", "Aurelia Ops", "Fleet Europe", "/assets/img/curiosity-logo.svg")
+                .Separated()
+                .Configure(() => Toast().Information("Workspace settings"), "Workspace settings")
+                .WithSidebarControl(onOpen: () => sidebar.IsClosed = false, onClose: () => sidebar.IsClosed = true)
+                .OnClick(() => Toast().Success("Home"));
+
+            sidebar.AddHeader(brand);
+
             // A rounded, primary "pill" button (see .Rounded()), matching the rounded search box below,
             // with the shortcut that presses it shown at its far end (see .SetKeyboardShortcut()).
             var newDocument = new SidebarButton("new-doc", UIcons.Plus, "New document")
@@ -145,6 +157,16 @@ namespace Tesserae.Tests.Samples
                 new SidebarCommand("https://github.com/curiosity-ai/tesserae", UIcons.ArrowUpRightFromSquare)).Tooltip("Made with ❤ by Curiosity"));
 
 
+            // The account, at the bottom of the rail: a picture that falls back to the initials taken from the
+            // name, a second line for whatever identifies the account beside it, and the two commands that
+            // belong to it. .Separated() runs a divider out to the sidebar's own edges above the row.
+            sidebar.AddFooter(new SidebarProfile("PROFILE", "M. Okafor", "Aurelia Airlines")
+                .Separated()
+                .Presence(AvatarPresence.Online)
+                .Settings(() => Toast().Information("Account settings"))
+                .Logout(() => Toast().Information("Signed out"))
+                .OnClick(() => Toast().Success("Account")));
+
             // --- Remembering a dragged order ---
 
             // The order the sample itself declares, captured before anything is restored, so
@@ -186,6 +208,9 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("A fully featured Sidebar with Search, Navigation, Buttons, and Separators. The header shows a rounded (pill) primary button and a rounded search box, each with the shortcut that reaches it at its far end — enable the pill with .Rounded() and the shortcut with .SetKeyboardShortcut(). Home and Profile carry keys too, but add .ShortcutOnlyOnHover(), so their chips wait for the pointer instead of standing in a column beside the labels."))).SetTitle("Overview"),
+                    Card(VStack().WS().Children(
+                        TextBlock("The row at the top and the row at the bottom are SidebarBrand and SidebarProfile: the same shape, twice the height of an ordinary row, each carrying a picture, a name, an optional second line (.SetSubtitle(...) or the constructor's subtitle) and the commands that belong to what it names — drawn at rest rather than under the pointer, because a gear that only appears on hover is one nobody finds. SidebarProfile takes a picture URL and falls back to the initials it reads off the name, so a photo URL that only answers for accounts that uploaded one can be passed unconditionally; .Presence(...) puts the dot on it, and .Settings(...) / .Logout(...) add the two commands. SidebarBrand takes a logo URL, a UIcons glyph, an emoji or an ISidebarIcon, and .Configure(...) adds the gear. Both take .Separated(), which runs a divider out to the sidebar's own edges — above the row in the footer, below it in the header."),
+                        TextBlock("SidebarBrand.WithSidebarControl(onOpen, onClose) makes the brand the rail's own open/close control. While the sidebar is open it is the last command on the row; while it is closed there is no room for a command beside the logo, so the logo is the control — the brand at rest, the open button under the pointer. Collapse the sidebar with the « on the brand and hover the logo to see it. The row reports the two intentions rather than driving a sidebar itself, because the rail a brand sits on is not always the one it opens."))).SetTitle("Brand and profile rows"),
                     Card(VStack().WS().Children(
                         TextBlock("This sidebar is built with Sidebar(sortable: true), so its items can be dragged into a new order. The sidebar only reports that order — through .OnSortingChanged(itemOrder), a map of group identifier to the identifiers it now holds, in order — and remembering it is the app's job. This sample writes the map to localStorage (debounced by a second, because a drag reports on every row it crosses) and calls .LoadSorting(...) on startup to put it back. Call LoadSorting only once every item has been added: it reorders what is there, so an item added afterwards lands at the end whatever was saved. .GetCurrentSorting() reads the order out at any time, which is how the button below can restore the order this page declares."),
                         forget)).SetTitle("Remembering the order"),

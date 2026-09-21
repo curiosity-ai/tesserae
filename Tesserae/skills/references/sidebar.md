@@ -73,7 +73,9 @@ Common item types: `SidebarButton(id, UIcons icon, text)` (`.Selected()`,
 `SidebarText(id, text)`,
 `SidebarSearchBox(id, placeholder)` (`.OnSearch(...)`, `.OnClick(...)`,
 `.SetKeyboardShortcut("Ctrl", "K")`, `.Rounded()`),
-`SidebarComponent(id, component)`.
+`SidebarComponent(id, component)`,
+`SidebarBrand(id, title, subtitle, logoUrl)` and
+`SidebarProfile(id, name, subtitle, pictureUrl)`.
 
 A search that answers somewhere else — in a `CommandPalette`
 (`command-palette.md`), on a search page — is a **button dressed as a field**
@@ -91,6 +93,35 @@ sidebar.AddHeader(new SidebarButton("search", UIcons.Search, "Search everything"
 It also takes `.OnClick(...)` — which makes it read-only and hands presses, and
 its `.SetKeyboardShortcut(...)` key, to the handler — but a button is the simpler
 thing when nothing is ever typed into it.
+
+## The two ends of the rail
+
+The row that says what the application is and the row that says who is signed in
+are components of their own — `SidebarBrand` (`sidebar-brand.md`) and
+`SidebarProfile` (`sidebar-profile.md`). Both are the same shape: twice the height
+of an ordinary row, a picture against two lines of text, and their commands drawn
+at rest rather than under the pointer, because a gear that only appears on hover
+is one nobody finds. Reach for them instead of a `SidebarButton` with a stylesheet
+on top — that is the thing they replace.
+
+```csharp
+sidebar.AddHeader(new SidebarBrand("brand", App.Name, workspace.Name, App.LogoUrl)
+    .Separated()
+    .Configure(() => Router.Navigate("#/manage"))
+    .WithSidebarControl(onOpen:  () => sidebar.IsClosed = false,
+                        onClose: () => sidebar.IsClosed = true));
+
+sidebar.AddFooter(new SidebarProfile("account", user.FullName, user.Email, user.PhotoUrl)
+    .Separated()
+    .Settings(() => Router.Navigate("#/preferences"))
+    .Logout(Auth.Logout));
+```
+
+`.Separated()` runs a divider out to the sidebar's own edges — below the row in the
+header, above it in the footer. `SidebarBrand.WithSidebarControl(...)` makes the
+brand the rail's open/close control: the last command on the row while it is open,
+and the logo itself — swapped for the open button under the pointer — once it is
+closed and there is no room for a command beside it.
 
 ## The shortcut that presses a button
 
@@ -326,6 +357,8 @@ var app = HStack().WS().Children(sidebar.HS(), VStack().Grow().HS());
 
 ## Related
 
+- SidebarBrand — `sidebar-brand.md`
+- SidebarProfile — `sidebar-profile.md`
 - SidebarSeparator — `sidebar-separator.md`
 - Sidenav (icon-only rail) — `sidenav.md`
 - Full docs & API: `/tesserae/components/sidebar`

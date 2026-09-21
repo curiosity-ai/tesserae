@@ -1089,3 +1089,194 @@
 .tss-sidebar-btn-open.tss-sidebar-shortcut-on-hover:focus-within .tss-searchbox-shortcut {
     opacity: 1;
 }
+
+/* Identity rows - SidebarBrand at the top of the rail, SidebarProfile at the bottom.
+
+   Both are the same shape: a picture, a name, an optional second line under it, and the commands that
+   belong to whatever the row names, drawn at rest rather than under the pointer. They are twice the height
+   of an ordinary row because they carry two lines of text, and they are the reason those two components
+   exist: every application that composed this out of a button and a stack ended up with a stylesheet of
+   its own overriding the rail's heights, paddings and icon sizes. The heights are stated once, here.
+
+   Everything else the row does - the selected wash, the strip of commands and the room the name gives up
+   for it, the fade under the pointer - is the sidebar's own machinery, reached by carrying the same
+   classes an ordinary row carries (tss-sidebar-btn-open, tss-sidebar-has-commands, the
+   --tss-sidebar-commands-width the row writes from how many commands it has). */
+
+.tss-sidebar-identity > .tss-sidebar-identity-button.tss-btn {
+    height: 48px !important;
+}
+
+.tss-sidebar-identity-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* The picture keeps its size while the text gives way: a flex item's automatic minimum size is its own
+   content, so without the min-width the lines refuse to shrink and the name runs under the commands. */
+.tss-sidebar-identity-content > .tss-avatar,
+.tss-sidebar-identity-content > .tss-sidebar-brand-logo {
+    flex: 0 0 auto;
+}
+
+.tss-sidebar-identity-lines {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-width: 0;
+    overflow: hidden;
+    text-align: left;
+    line-height: 1.25;
+}
+
+.tss-sidebar-identity-title,
+.tss-sidebar-identity-subtitle {
+    display: block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tss-sidebar-identity-title {
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+/* The application's name is the one thing on the rail that names the product, so it is set like a title
+   rather than like the rows under it. */
+.tss-sidebar-brand .tss-sidebar-identity-title {
+    font-size: var(--tss-font-size-smallplus);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+.tss-sidebar-identity-subtitle {
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    color: var(--tss-secondary-foreground-color);
+}
+
+/* A selected row is filled with a wash of the primary and its text takes that colour; the second line
+   would otherwise stay the neutral grey and read as disabled inside it. */
+.tss-sidebar-identity.tss-sidebar-selected .tss-sidebar-identity-subtitle {
+    color: inherit;
+    opacity: 0.8;
+}
+
+/* The strip is centred on the row rather than pinned near its top, which is where an ordinary 28px row
+   puts it. */
+.tss-sidebar-identity > .tss-sidebar-commands {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* A logo is an image, a glyph or an emoji, and all three take the same square beside the name - the box
+   is sized here rather than each of the three. */
+.tss-sidebar-brand-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.tss-sidebar-identity-content > .tss-sidebar-brand-logo {
+    width: 32px;
+    height: 32px;
+}
+
+.tss-sidebar-identity-closed .tss-sidebar-brand-logo {
+    width: 24px;
+    height: 24px;
+}
+
+.tss-sidebar-brand-logo > .tss-image,
+.tss-sidebar-brand-logo > img {
+    width: 100% !important;
+    height: 100% !important;
+    min-width: unset !important;
+    object-fit: contain;
+    padding: 0 !important;
+}
+
+.tss-sidebar-identity-content > .tss-sidebar-brand-logo > .tss-icon {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.tss-sidebar-identity-closed .tss-sidebar-brand-logo > .tss-icon {
+    font-size: 18px;
+    line-height: 1;
+}
+
+/* The collapsed rail is the picture alone. The wrapper is what a control can be laid over (see below) and
+   what the divider is drawn on, so the button inside it keeps the rail's own sizing. */
+.tss-sidebar-identity-closed {
+    position: relative;
+}
+
+/* The rail's open/close control, where the brand is it (SidebarBrand.WithSidebarControl). There is no room
+   for a command beside a 24px logo on a 46px rail, so the logo *is* the control: the brand at rest, the
+   open button under the pointer. Both are laid out by the rail's own closed-button rules, so swapping
+   which one is displayed moves nothing. */
+.tss-sidebar-identity-closed-control {
+    display: none !important;
+}
+
+.tss-sidebar-identity-has-closed-control:hover > .tss-sidebar-identity-button-closed {
+    display: none !important;
+}
+
+.tss-sidebar-identity-has-closed-control:hover > .tss-sidebar-identity-closed-control {
+    display: inline-flex !important;
+}
+
+/* A divider on the row's outer edge, run out to the sidebar's own edges rather than stopping at its
+   padding - what separates the account from the navigation above it, or the brand from the rows below.
+   Which edge it goes on is read from the section the row is in, so the same call does the right thing at
+   either end of the rail; the negative margins are the sidebar's own padding, which differs between its
+   two states. */
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-footer .tss-sidebar-identity-separated {
+    border-top: 1px solid var(--tss-default-border-color);
+    margin-left: -12px;
+    margin-right: -12px;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-top: 8px;
+    padding-top: 8px;
+}
+
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-header .tss-sidebar-identity-separated {
+    border-bottom: 1px solid var(--tss-default-border-color);
+    margin-left: -12px;
+    margin-right: -12px;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+}
+
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-footer .tss-sidebar-identity-separated {
+    border-top: 1px solid var(--tss-default-border-color);
+    margin-left: -4px;
+    margin-right: -4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin-top: 8px;
+    padding-top: 8px;
+}
+
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-header .tss-sidebar-identity-separated {
+    border-bottom: 1px solid var(--tss-default-border-color);
+    margin-left: -4px;
+    margin-right: -4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+}
