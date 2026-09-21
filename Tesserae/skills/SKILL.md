@@ -188,8 +188,8 @@ unsaved-changes-guard · validator
 
 **Navigation** — moving between pages, sections and tabs
 breadcrumb · card-pivot · inline-pagination · navbar · pagination · pivot ·
-pivot-selector · segmented-pivot · sidebar · sidebar-separator · sidenav ·
-stepper · text-breadcrumbs
+pivot-selector · segmented-pivot · sidebar · sidebar-brand · sidebar-profile ·
+sidebar-separator · sidenav · stepper · text-breadcrumbs
 
 **Lists & Data** — rendering a collection of items
 details-grid · details-list · infinite-scrolling-list · items-list ·
