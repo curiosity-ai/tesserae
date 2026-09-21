@@ -73,7 +73,7 @@ namespace Tesserae
 
             _container = Div(Att("tss-dropdown-container"), InnerElement, _errorSpan, _iconContainer);
 
-            _childContainer = Div(Att());
+            _childContainer = Div(Att("tss-dropdown-items"));
 
             InnerElement.onclick = (e) =>
             {
@@ -371,6 +371,13 @@ namespace Tesserae
                 if (_searchBox != null)
                 {
                     _searchBox.Focus();
+
+                    // The search box keeps the focus, so nothing scrolls the list by itself: open a
+                    // long dropdown on what is already selected rather than on its first row.
+                    if (_selectedChildren.Count > 0)
+                    {
+                        ScrollItemIntoView(_selectedChildren[_selectedChildren.Count - 1].Render());
+                    }
                 }
                 else if (_selectedChildren.Count > 0)
                 {
@@ -412,8 +419,9 @@ namespace Tesserae
             _popupDiv.style.minHeight = "0px";
             _popupDiv.style.maxHeight = "none";
 
-            var chrome = _popupDiv.getBoundingClientRect().As<DOMRect>().height
-                       - _childContainer.getBoundingClientRect().As<DOMRect>().height;
+            var listHeight = _childContainer.getBoundingClientRect().As<DOMRect>().height;
+
+            var chrome = _popupDiv.getBoundingClientRect().As<DOMRect>().height - listHeight;
 
             // The popup is exactly as tall as the rows it shows, and never shorter than the first five
             // of them, so that filtering down to one row does not collapse it to a sliver. Both bounds
@@ -422,6 +430,14 @@ namespace Tesserae
             // that does not exist, which is where the empty space below the last row came from.
             var rows        = visibleItems.Sum(h => h.height);
             var atLeastRows = visibleItems.Take(5).Sum(h => h.height);
+
+            // The list is what scrolls now, so its own padding - the gap under the search box - is
+            // part of what has to fit. Counting only the rows left the list eight pixels short of its
+            // content and put a scrollbar on a list that fits.
+            var listPadding = Math.Max(0, listHeight - rows);
+
+            rows        += listPadding;
+            atLeastRows += listPadding;
 
             var maxHeight = visibleItems.Length > 0 ? rows + chrome + "px" : "80vh";
             var minHeight = (visibleItems.Length > 0 ? atLeastRows + chrome : 0) + "px";
@@ -1182,6 +1198,18 @@ namespace Tesserae
                     RecursiveHighlight(item, regex);
                 }
             }
+
+            // Filtering moves every remaining row, so whatever the list was scrolled to no longer
+            // means anything. Bring the focused row back into view once the rows that are leaving
+            // are hidden - doing it from FocusOnItem above would measure the pre-filter layout.
+            if (_firstItem is object && itemsToReset.Any(i => i.item == _firstItem))
+            {
+                ScrollItemIntoView(_firstItem);
+            }
+            else
+            {
+                _childContainer.scrollTop = 0;
+            }
         }
 
         private void FocusOnItem(HTMLElement item)
@@ -1198,6 +1226,32 @@ namespace Tesserae
             else
             {
                 item.focus();
+            }
+
+            ScrollItemIntoView(item);
+        }
+
+        /// <summary>
+        /// Scrolls the list so that <paramref name="item"/> is visible, moving it as little as
+        /// possible - the equivalent of <c>scrollIntoView({ block: "nearest" })</c>, done by hand so
+        /// that only the option list scrolls and never the page behind the popup. It is what keeps
+        /// the arrow keys usable with a search box: there the focused option is marked with a class
+        /// rather than really focused, so the browser scrolls nothing by itself.
+        /// </summary>
+        private void ScrollItemIntoView(HTMLElement item)
+        {
+            if (item is null || _childContainer is null) return;
+
+            var itemRect     = item.getBoundingClientRect().As<DOMRect>();
+            var scrollerRect = _childContainer.getBoundingClientRect().As<DOMRect>();
+
+            if (itemRect.top < scrollerRect.top)
+            {
+                _childContainer.scrollTop -= scrollerRect.top - itemRect.top;
+            }
+            else if (itemRect.bottom > scrollerRect.bottom)
+            {
+                _childContainer.scrollTop += itemRect.bottom - scrollerRect.bottom;
             }
         }
 
