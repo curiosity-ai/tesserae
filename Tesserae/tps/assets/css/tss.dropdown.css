@@ -127,12 +127,17 @@
     display: block;
 }
 
+/* The popup is a column: the search box, when there is one, is a fixed band at the top and the rows
+   below it are what scrolls. The popup itself used to be the scroll container, which meant the search
+   box scrolled away with the rows the moment the list was longer than the popup. */
 .tss-dropdown-popup {
     position: absolute;
     background: var(--tss-default-background-color) none repeat scroll 0% 0%;
     min-height: 42px;
     visibility: visible;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     -webkit-user-select: none;
     user-select: none;
     border-radius: 10px;
@@ -349,7 +354,19 @@
     border: 1px solid var(--tss-primary-border-color);
 }
 
-.tss-dropdown-searchbox + div {
+.tss-dropdown-popup > .tss-dropdown-searchbox {
+    flex: 0 0 auto;
+}
+
+/* min-height: 0 is what lets this shrink below its content and scroll - a flex item's automatic
+   minimum size would otherwise keep it at its full height and push the popup past its max-height. */
+.tss-dropdown-popup > .tss-dropdown-items {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.tss-dropdown-searchbox + .tss-dropdown-items {
     padding-top: 8px;
 }
 
