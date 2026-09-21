@@ -1234,7 +1234,18 @@
 /* A command on one of these rows is a square of the row's own height, not the 22px chip an ordinary row
    gets: the row is twice as tall, and a small chip floating in the middle of it reads as something that
    landed there rather than as part of the row. Full height also gives each command a target the size of
-   the row it belongs to. */
+   the row it belongs to.
+
+   It reaches the row's right edge, which is what the inset is zeroed for: a chip floating on a row is
+   inset from it, but a tile the height of the row that stops 4px short reads as a misalignment - the
+   sliver of row left beside it is the row's own colour, so the tile looks nudged rather than placed. The
+   4px between two of them stays; that is a gap between controls, not a margin against the edge. The
+   variable is declared on the row rather than on the strip because the label's own reservation reads it
+   too (see the padding-right rule further up). */
+.tss-sidebar-identity {
+    --tss-sidebar-commands-inset: 0px;
+}
+
 .tss-sidebar-identity > .tss-sidebar-commands > .tss-sidebar-command.tss-btn,
 .tss-sidebar-identity > .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn {
     width: var(--tss-sidebar-identity-height) !important;
