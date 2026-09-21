@@ -93,6 +93,10 @@ For text-bearing components (`TextBlock`, `Button`, `Label`, …):
   `.Style(s => s.color = "red")`.
 - `.Background(...)`, `.Foreground(...)`, `.Rounded(...)`.
 - `.Id(string)` — set the element id.
+- `.ReconcileAs(string)` — name the component behind the element, for `DeltaComponent`'s
+  reconciler. Only needed by a component whose root element is another component's (one that
+  composes a `Stack` and returns the stack's element); a component with a root of its own is
+  already identified by its first CSS class. See `delta-component.md`.
 
 ## Tooltips — `IComponentExtensions.cs`
 

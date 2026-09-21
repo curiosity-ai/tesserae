@@ -41,7 +41,7 @@ namespace Tesserae
         /// </summary>
         public SaveButton()
         {
-            _button = Button().MinWidth(100.px());
+            _button = Button().MinWidth(100.px()).ReconcileAs(nameof(SaveButton));
             var element = _button.Render();
             element.addEventListener("mouseenter", (e) =>
             {

@@ -176,6 +176,27 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// The grid half of <see cref="Stack.TransferItemStyles"/>: copies the placement a fluent
+        /// helper asked for onto an element that is replacing <paramref name="from"/>.
+        /// </summary>
+        internal static void TransferItemStyles(HTMLElement from, HTMLElement to)
+        {
+            if (from is null || to is null || from == to) return;
+
+            if (from.hasAttribute("tss-grd-c"))
+            {
+                to.setAttribute("tss-grd-c", "");
+                to.style.gridColumn = from.style.gridColumn;
+            }
+
+            if (from.hasAttribute("tss-grd-r"))
+            {
+                to.setAttribute("tss-grd-r", "");
+                to.style.gridRow = from.style.gridRow;
+            }
+        }
+
+        /// <summary>
         /// Needs to be called before the component is added to the Grid.
         /// </summary>
         public static void SetGridColumn(IComponent component, int start, int end)

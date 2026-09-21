@@ -65,7 +65,7 @@ namespace Tesserae
 
             var mainStack = VStack().S().P(16).Children(headerContainer, bodyContainer, _footerContainer);
 
-            _card = Card(mainStack).NoPadding();
+            _card = Card(mainStack).NoPadding().ReconcileAs(nameof(ResourceCard));
 
             InnerElement = _card.Render();
 

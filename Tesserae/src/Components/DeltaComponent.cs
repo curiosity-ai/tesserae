@@ -55,7 +55,7 @@ namespace Tesserae
         /// of this component - a streamed reply re-rendered per frame keeps its scroll position, its
         /// selection and its text nodes instead of flickering - but it also means a node that stays
         /// keeps the event listeners its component gave it, so nodes are only ever reconciled with
-        /// nodes of the same component (see <see cref="IsSameComponent"/>).
+        /// nodes of the same component (see <see cref="CanReconcile"/>).
         /// </summary>
         public void ReplaceContent(IComponent newContent)
         {
@@ -77,7 +77,20 @@ namespace Tesserae
             {
                 //The root can be swapped rather than patched, and the swap detaches the node this
                 //component was holding - so it has to keep hold of whichever node is now on screen.
+                var previousRoot = _root;
+
                 _root = DiffAndPatch(_root, newRoot).As<HTMLElement>();
+
+                if (_root != previousRoot)
+                {
+                    //Everything a container and the fluent helpers wrote sits on the root, because this
+                    //component has no element of its own - Render() hands out whatever the content
+                    //rendered. A swap would drop the lot: the stack-item class its parent added and the
+                    //width a .WS() on this component asked for. Both are recorded on the old root, so
+                    //both can be carried over.
+                    Stack.TransferItemStyles(previousRoot, _root);
+                    Grid.TransferItemStyles(previousRoot, _root);
+                }
             }
         }
 
@@ -88,7 +101,7 @@ namespace Tesserae
         /// </summary>
         private Node DiffAndPatch(Node current, Node next)
         {
-            if (current.nodeType != next.nodeType || current.nodeName != next.nodeName || !IsSameComponent(current, next))
+            if (!CanReconcile(current, next))
             {
                 if (current.parentNode != null)
                 {
@@ -102,11 +115,12 @@ namespace Tesserae
                         next.As<HTMLElement>().classList.add("tss-fade-in");
                     }
                     current.parentNode.replaceChild(next, current);
-
-                    return next;
                 }
 
-                return current;
+                //Nothing on screen to replace - this component was rendered but never added to a
+                //parent. Adopting the new node is the only way the content is not simply lost: the
+                //caller's next Render() then hands out the node that matches what it asked for.
+                return next;
             }
 
             if (current.nodeType == TEXT_NODE)
@@ -158,21 +172,32 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Whether two nodes are the same component, and so may be reconciled with each other rather
-        /// than swapped. A node carries the event listeners its component attached to it and no patch
-        /// can move those, so re-purposing a node from one component to another leaves it answering
-        /// to a component nobody can reach any more: the symptom is a control that looks right and
-        /// does what its predecessor did - a tool call that became a "tools used" group mid-stream
-        /// opening the chip it used to be instead of the group it is now.
-        ///
-        /// <para>The component is read off the element's first CSS class, which is the class every
-        /// Tesserae component puts on its own root element before anything else is added to it.
-        /// Nodes that are not elements carry no listeners of their own and are always reconciled.</para>
+        /// Whether two nodes may be reconciled with each other rather than swapped: the same kind of
+        /// node, and the same component. A node carries the event listeners its component attached to
+        /// it and no patch can move those, so re-purposing a node from one component to another leaves
+        /// it answering to a component nobody can reach any more: the symptom is a control that looks
+        /// right and does what its predecessor did - a tool call that became a "tools used" group
+        /// mid-stream opening the chip it used to be instead of the group it is now.
         /// </summary>
-        private static bool IsSameComponent(Node current, Node next)
+        private static bool CanReconcile(Node current, Node next)
         {
+            if (current.nodeType != next.nodeType || current.nodeName != next.nodeName) return false;
+
+            //Nodes that are not elements carry no listeners of their own, so the text-append path that
+            //makes streaming look like typing is never interrupted by this.
             if (!(current is HTMLElement currentElement) || !(next is HTMLElement nextElement)) return true;
 
+            var currentName = currentElement.getAttribute(UI.ReconcileAsAttribute);
+            var nextName    = nextElement.getAttribute(UI.ReconcileAsAttribute);
+
+            //A component that named itself is taken at its word, in both directions: an element that
+            //carries a name and one that does not are not the same component either.
+            if (currentName != null || nextName != null) return currentName == nextName;
+
+            //Nothing named, so fall back to the element's first CSS class - the class a component that
+            //builds its own root element puts on it before anything else is added. It cannot tell two
+            //components apart when neither owns its root (both answer "tss-stack"); ReconcileAs is how
+            //such a component says which one it is.
             return RootClassOf(currentElement) == RootClassOf(nextElement);
         }
 
@@ -307,7 +332,7 @@ namespace Tesserae
                     {
                         var currentChild = (Node)currentChildren[currentIndex];
 
-                        if (IsSameNodeType(currentChild, nextChild))
+                        if (CanReconcile(currentChild, nextChild))
                         {
                             DiffAndPatch(currentChild, nextChild);
                             currentIndex++;
@@ -343,13 +368,6 @@ namespace Tesserae
             {
                 currentParent.removeChild(currentChildren[currentIndex]);
             }
-        }
-
-        private bool IsSameNodeType(Node a, Node b)
-        {
-            if (a.nodeType != b.nodeType) return false;
-            if (a.nodeName != b.nodeName) return false;
-            return true;
         }
 
         /// <summary>

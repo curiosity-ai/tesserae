@@ -158,6 +158,36 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Names the component behind this element, so that <see cref="DeltaComponent"/> reconciles it
+        /// only with another element of the same component.
+        /// </summary>
+        /// <remarks>
+        /// The reconciler otherwise reads the component off the element's first CSS class, which is
+        /// ambiguous for a component whose root is not its own: one that composes a <see cref="Stack"/>
+        /// and returns the stack's element answers "tss-stack", the same as every other component built
+        /// that way. Naming such a component here is what keeps the reconciler from patching one into
+        /// the other and leaving the listeners of the one it used to be behind. A component whose root
+        /// element is its own needs nothing: its first class already says which component it is.
+        /// </remarks>
+        public static T ReconcileAs<T>(this T component, string componentName) where T : IComponent
+        {
+            if (string.IsNullOrEmpty(componentName)) return component;
+
+            var el = component is DeferedComponent deferedComponent
+                ? deferedComponent.Container
+                : component.Render();
+
+            el.setAttribute(ReconcileAsAttribute, componentName);
+
+            return component;
+        }
+
+        /// <summary>
+        /// The attribute <see cref="ReconcileAs{T}"/> writes, read by <see cref="DeltaComponent"/>.
+        /// </summary>
+        internal const string ReconcileAsAttribute = "tss-c";
+
+        /// <summary>
         /// Creates a <see cref="Raw"/> component from an HTML element.
         /// </summary>
         /// <param name="element">HTML element to be wrapped</param>

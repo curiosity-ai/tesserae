@@ -45,7 +45,8 @@ namespace Tesserae
 
             _modal = Modal(_title)
                .LightDismiss()
-               .Content(Raw(_sections));
+               .Content(Raw(_sections))
+               .ReconcileAs(nameof(ShortcutGuide));
 
             Width(560.px());
         }

@@ -825,6 +825,63 @@ namespace Tesserae
             PropagateStyleClasses(from, to);
         }
 
+        // The same markers as above, paired with the properties each one tags. Only
+        // TransferItemStyles reads this: CopyStylesDefinedWithExtension runs for every child added to
+        // a Stack or Grid and stays hand-written, with its indexed loops and its umbrella
+        // short-circuit, rather than being driven off a table for the sake of sharing one.
+        private static readonly (string Marker, string[] Properties)[] _extensionStyles = new[]
+        {
+            ("tss-stk-w",   new[] { "width" }),
+            ("tss-stk-h",   new[] { "height" }),
+            ("tss-stk-mw",  new[] { "min-width" }),
+            ("tss-stk-mxw", new[] { "max-width" }),
+            ("tss-stk-mh",  new[] { "min-height" }),
+            ("tss-stk-mxh", new[] { "max-height" }),
+            ("tss-stk-m",   new[] { "margin-left", "margin-top", "margin-right", "margin-bottom" }),
+            ("tss-stk-p",   new[] { "padding-left", "padding-top", "padding-right", "padding-bottom" }),
+            ("tss-stk-fg",  new[] { "flex-grow" }),
+            ("tss-stk-fs",  new[] { "flex-shrink" }),
+            ("tss-stk-as",  new[] { "align-self" }),
+            ("tss-stk-js",  new[] { "justify-self" }),
+        };
+
+        /// <summary>
+        /// Copies onto <paramref name="to"/> what a container and the sizing helpers put on
+        /// <paramref name="from"/>: the stack-item class, and every property a marker says was written
+        /// by a fluent helper rather than by the component itself.
+        /// </summary>
+        /// <remarks>
+        /// For a component that swaps out its own root element - <see cref="DeltaComponent"/> is the
+        /// one that does - the alternative is losing all of it, because the root is the only place it
+        /// was ever recorded. This copies rather than moves, unlike
+        /// <see cref="CopyStylesDefinedWithExtension"/>: the old element is on its way out, and the
+        /// markers have to survive on the new one so that a later container move still finds them.
+        /// </remarks>
+        internal static void TransferItemStyles(HTMLElement from, HTMLElement to)
+        {
+            if (from is null || to is null || from == to) return;
+
+            if (from.classList.contains("tss-stack-item")) to.classList.add("tss-stack-item");
+
+            if (!from.hasAttribute(AnyMarker)) return;
+
+            to.setAttribute(AnyMarker, "");
+
+            for (int i = 0; i < _extensionStyles.Length; i++)
+            {
+                var entry = _extensionStyles[i];
+
+                if (!from.hasAttribute(entry.Marker)) continue;
+
+                to.setAttribute(entry.Marker, "");
+
+                for (int p = 0; p < entry.Properties.Length; p++)
+                {
+                    to.style.setProperty(entry.Properties[p], from.style.getPropertyValue(entry.Properties[p]));
+                }
+            }
+        }
+
         //We need to propagate some styles otherwise they don't work if they were applied before adding to the stack
         private static void PropagateStyleClasses(HTMLElement from, HTMLElement to)
         {

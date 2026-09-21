@@ -101,6 +101,8 @@ namespace Tesserae
                     }
                 }
             );
+
+            _defered.ReconcileAs(nameof(ItemsList));
         }
 
         /// <summary>

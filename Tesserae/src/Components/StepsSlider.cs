@@ -24,7 +24,7 @@ namespace Tesserae
         public StepsSlider(params T[] steps)
         {
             _steps            = steps;
-            _slider           = Slider(0, 0, _steps.Length - 1, 1);
+            _slider           = Slider(0, 0, _steps.Length - 1, 1).ReconcileAs(nameof(StepsSlider));
             _equalityComparer = EqualityComparer<T>.Default;
             _observable       = new SettableObservable<T>(steps.Length > 0 ? steps[0] : default);
 

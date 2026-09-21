@@ -65,7 +65,8 @@ namespace Tesserae
                         _leftStack,
                         _rightStack
                     )
-                );
+                )
+               .ReconcileAs(nameof(TutorialModal));
 
             Height(500.px());
             Width(800.px());
