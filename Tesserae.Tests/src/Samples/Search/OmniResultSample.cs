@@ -82,6 +82,7 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(VStack().WS().Children(Identifiers()))
                 .FlatSection(VStack().WS().Children(Content()))
                 .FlatSection(VStack().WS().Children(Modals()))
+                .FlatSection(VStack().WS().Children(Viewed()))
                 .FlatSection(VStack().WS().Children(Sources()))
                 .FlatSection(VStack().WS().Children(Contributions()))
                 .FlatSection(VStack().WS().Children(Highlighting()))
@@ -381,6 +382,27 @@ namespace Tesserae.Tests.Samples
             {
                 ModalStack.Push($"hit-{index}", row.Title, modal);
             }
+        }
+
+        // ---------- Viewed ----------
+
+        private IComponent Viewed()
+        {
+            var list = VStack().WS();
+
+            foreach (var hit in Hits.Take(5))
+            {
+                var row = Row(hit, withText: false, withPages: false);
+
+                row.OnClick((r, _) => r.MarkAsViewed(!r.IsViewed));
+
+                list.Add(row);
+            }
+
+            return FeatureCard("Viewed", "The row you just came back from",
+                "MarkAsViewed() marks a result as one the user has already opened: the title turns purple and stays that way, which is what a list of links has always done to say the same thing. MarkAsViewed(false) takes it away again. Marking a row also plays one short pulse over the whole card - an overlay's opacity and the card's own transform, so nothing around it is laid out again - which is what makes the row findable in a long list after a preview closes over it. Asking for it again on a row that is already viewed replays the pulse, so a host that marks a row every time its modal closes gets the animation every time.",
+                TextBlock("Click a row to toggle it.").Small().MB(8),
+                list);
         }
 
         // ---------- Sources ----------

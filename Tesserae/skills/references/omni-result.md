@@ -165,6 +165,13 @@ The source leads the line and the metadata follows it, and all of it is `InlineL
   siblings, so the host list decides what "between" means and selects them itself.
 - Ctrl-click toggles the row; Space toggles the focused row; Enter activates it (`OnClick`).
 - `IsActive` — styles the row like a hovered one, for a keyboard-driven list.
+- `.MarkAsViewed(bool viewed = true)` / `IsViewed` — the row the user just opened. Its title turns
+  purple and stays that way, and marking it plays one short pulse over the whole card so it is
+  findable in a long list after a preview closes over it. The pulse animates an overlay's opacity
+  and the card's transform only, so nothing around it is laid out again; marking an already-viewed
+  row replays it. Under `prefers-reduced-motion` the title still turns purple and the pulse is
+  dropped. Typically called when whatever the row opened is closed again, not when it is opened:
+  `result.OnClick((r, _) => ShowPreview(r.Result).WhenRemoved(() => r.MarkAsViewed()))`.
 - `.TextSelectable(bool = true)` — the row's own **text** selects and copies, for a row that is read
   rather than glanced at (see *Selecting text* below). Off by default.
 
