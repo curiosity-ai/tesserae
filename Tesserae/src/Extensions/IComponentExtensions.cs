@@ -470,7 +470,7 @@ namespace Tesserae
                 rendered["tooltipMarker"] = null;
             }
 
-            if (UI.Remembers(rendered, component)) UI.Remember(component, () => component.RemoveTooltip());
+            if (UI.Remembers(rendered, component)) UI.Remember(component, () => component.RemoveTooltip(), replayAfterPatch: false);
 
             return component;
         }
@@ -491,7 +491,7 @@ namespace Tesserae
 
             //A tooltip is a listener and, once shown, a tippy instance on this element - neither of
             //which can be moved. A component that replaces its element calls this again instead.
-            if (UI.Remembers(rendered, component)) UI.Remember(component, () => component.Tooltip(tooltip, interactive, animation, placement, delayShow, delayHide, appendToBody, followCursor, maxWidth, hideOnClick, arrow, theme, parent));
+            if (UI.Remembers(rendered, component)) UI.Remember(component, () => component.Tooltip(tooltip, interactive, animation, placement, delayShow, delayHide, appendToBody, followCursor, maxWidth, hideOnClick, arrow, theme, parent), replayAfterPatch: false);
 
             void AttachTooltip(MouseEvent e)
             {
