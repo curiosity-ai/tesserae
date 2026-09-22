@@ -470,6 +470,8 @@ namespace Tesserae
                 rendered["tooltipMarker"] = null;
             }
 
+            if (UI.Remembers(rendered, component)) UI.Remember(component, () => component.RemoveTooltip());
+
             return component;
         }
 
@@ -486,6 +488,10 @@ namespace Tesserae
             rendered["tooltipMarker"] = marker;
 
             rendered.onmouseenter += AttachTooltip;
+
+            //A tooltip is a listener and, once shown, a tippy instance on this element - neither of
+            //which can be moved. A component that replaces its element calls this again instead.
+            if (UI.Remembers(rendered, component)) UI.Remember(component, () => component.Tooltip(tooltip, interactive, animation, placement, delayShow, delayHide, appendToBody, followCursor, maxWidth, hideOnClick, arrow, theme, parent));
 
             void AttachTooltip(MouseEvent e)
             {
@@ -567,6 +573,14 @@ namespace Tesserae
         public static T Style<T>(this T component, Action<CSSStyleDeclaration> style) where T : IComponent
         {
             style(component.Render().style);
+
+            //The lambda is kept rather than the properties it set: run against the next element it
+            //produces the same result, where copying the declaration would have to guess which of
+            //the properties on the old element came from here.
+            var styled = component.Render();
+
+            if (UI.Remembers(styled, component)) UI.Remember(component, () => component.Style(style));
+
             return component;
         }
 

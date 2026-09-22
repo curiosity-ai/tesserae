@@ -129,11 +129,14 @@ namespace Tesserae
             {
                 var rendered = component.Render();
 
-                // Same as Stack.GetItem: the rendered element is the grid child and carries the class.
+                // Same as Stack.GetItem: the rendered element is the grid child and carries the class,
+                // and is marked with the component that rendered it.
                 if (forceAdd || (rendered.parentElement is object && rendered.parentElement.classList.contains("tss-stack")))
                 {
                     rendered.classList.add("tss-stack-item");
                 }
+
+                UI.MarkComponent(rendered, component);
 
                 item = rendered;
             }
@@ -172,6 +175,27 @@ namespace Tesserae
             {
                 ts.gridRow = fs.gridRow;
                 fs.gridRow = "";
+            }
+        }
+
+        /// <summary>
+        /// The grid half of <see cref="Stack.TransferItemStyles"/>: copies the placement a fluent
+        /// helper asked for onto an element that is replacing <paramref name="from"/>.
+        /// </summary>
+        internal static void TransferItemStyles(HTMLElement from, HTMLElement to)
+        {
+            if (from is null || to is null || from == to) return;
+
+            if (from.hasAttribute("tss-grd-c"))
+            {
+                to.setAttribute("tss-grd-c", "");
+                to.style.gridColumn = from.style.gridColumn;
+            }
+
+            if (from.hasAttribute("tss-grd-r"))
+            {
+                to.setAttribute("tss-grd-r", "");
+                to.style.gridRow = from.style.gridRow;
             }
         }
 
