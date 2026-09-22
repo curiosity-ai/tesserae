@@ -110,6 +110,15 @@ Sizes are `UnitSize` values from numeric helpers: `100.px()`, `50.percent()`,
 `1.fr()`, `100.vw()`, `100.vh()` — plus `UnitSize.Auto()`, `UnitSize.FitContent()`
 and raw `new UnitSize("calc(100% - 32px)")` for anything else.
 
+> **Space between components is margin, not padding.** A child's own element is the
+> flex item (there is no wrapper div), so `.P()` / `.PT()` / `.PB()` land *inside* the
+> component's box: on a `Button` they inflate the control and push its label around,
+> and on a fixed-height control like `SearchBox` (`height: 36px`, `box-sizing:
+> border-box`) the padding is swallowed — measured in Chromium, `.PB(8)` leaves the
+> box 36px tall, shrinks its content box to 27px so the 36px input overflows it, and
+> moves nothing below it. `.MB(8)` on the same box gives the 8px gap. Reach for
+> padding only when you mean the component's own inner padding.
+
 > **Container-level vs. item-level alignment.** `AlignItemsCenter()` is a method on
 > `Stack`/`Grid` that centers *all* children. `.AlignCenter()` is an extension on a
 > single child (align-self). `.Grow()` only matters inside a `Stack`.
