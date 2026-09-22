@@ -60,6 +60,21 @@ Same set for padding: `.Padding(...)` / `.PaddingLeft…` and `.P()` / `.PL()` /
 `.PR()` / `.PT()` / `.PB()`. (Direct CSS forms also live in `StyleExtensions`:
 `.Margin(string)`, `.Padding(string)`.)
 
+The two are not interchangeable. A child's own element is the flex item, so padding
+lands inside the component's own box: it inflates a `Button` rather than spacing it,
+and a control with a fixed height swallows it outright. Measured in Chromium on a
+`SearchBox`, whose container is `height: 36px` under the toolkit's global
+`box-sizing: border-box`:
+
+| | box height | content box | next sibling |
+| --- | --- | --- | --- |
+| no spacing | 36px | 34px | flush |
+| `.PB(8)` | 36px | 27px (the 36px input overflows it) | flush |
+| `.MB(8)` | 36px | 34px | 8px below |
+
+So **space between components is margin**; use padding only when you mean the
+component's own inner padding.
+
 ## Alignment & grid placement — `IComponentExtensions.cs`
 
 - Self cross-axis: `.AlignAuto()`, `.AlignStretch()`, `.AlignBaseline()`,
