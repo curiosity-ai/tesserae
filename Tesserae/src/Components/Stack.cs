@@ -862,6 +862,11 @@ namespace Tesserae
         /// was ever recorded. This copies rather than moves, unlike
         /// <see cref="CopyStylesDefinedWithExtension"/>: the old element is on its way out, and the
         /// markers have to survive on the new one so that a later container move still finds them.
+        ///
+        /// <para>A property the new element already declares is left alone. The markers say a fluent
+        /// helper wrote the value, not <em>whose</em>: a size the outgoing content asked for looks
+        /// exactly like one asked of the component holding it, and the content now on screen is the
+        /// better authority on its own size.</para>
         /// </remarks>
         internal static void TransferItemStyles(HTMLElement from, HTMLElement to)
         {
@@ -879,11 +884,14 @@ namespace Tesserae
 
                 if (!from.hasAttribute(entry.Marker)) continue;
 
-                to.setAttribute(entry.Marker, "");
-
                 for (int p = 0; p < entry.Properties.Length; p++)
                 {
-                    to.style.setProperty(entry.Properties[p], from.style.getPropertyValue(entry.Properties[p]));
+                    var property = entry.Properties[p];
+
+                    if (to.style.getPropertyValue(property).Length > 0) continue;
+
+                    to.style.setProperty(property, from.style.getPropertyValue(property));
+                    to.setAttribute(entry.Marker, "");
                 }
             }
         }

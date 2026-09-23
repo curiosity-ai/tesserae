@@ -71,8 +71,8 @@ first class, which for anything built on a `Stack` is the same. Build the list w
 ## Configuring the DeltaComponent itself
 
 `Render()` hands out whatever the content rendered - this component has no element of its own - so
-everything set on the `DeltaComponent` lands on the content's root, which a swap throws away. It is
-put back on the element that replaces it, so all of this survives a change of component:
+everything set on the `DeltaComponent` lands on the content's root, and every content change takes
+it off again: a swap with the node, a patch by overwriting its attributes with the incoming node's.
 
 ```csharp
 DeltaComponent(content).WS().Grow().Id("reply").Class("my-bubble")
@@ -80,10 +80,25 @@ DeltaComponent(content).WS().Grow().Id("reply").Class("my-bubble")
     .Tooltip("Streaming");
 ```
 
-Sizing and the stack-item class its container added are carried across; `.Id()`, `.Class()`,
-`.Style()` and `.Tooltip()` are recorded as the calls they were and made again against the new
-element, which is the only way a tooltip can survive at all - it is a listener and a tippy
-instance, not an attribute.
+What comes back, and when:
+
+| Set on the `DeltaComponent` | after a patch | after a swap |
+|---|---|---|
+| `.Id()`, `.Class()`, `.Style()` | put back | put back |
+| `.Tooltip()` | still there (the patch keeps the node) | put back |
+| the stack-item class its container added | put back | carried across |
+| sizing: `.W()`, `.WS()`, `.Grow()`, margins, padding, ... | **lost** - the incoming content's own sizing stands | carried across, unless the new content sets that property itself |
+
+`.Id()`, `.Class()`, `.Style()` and `.Tooltip()` are recorded as the calls they were and made again
+against the element that is there now, which is the only way a tooltip can survive a swap at all.
+Sizing is not recorded: it is read back off the old element when it is swapped out, and a size the
+new content declares wins over the old one - `DeltaComponent(a.W(300.px()))` replaced by
+`b.W(100.px())` renders at 100px.
+
+So when the `DeltaComponent` itself needs a size that holds across updates, give each new content
+that size, or put the `DeltaComponent` in a container you size instead. Two cases do not come out
+the way you might expect: a patch drops a size set on the `DeltaComponent`, and a swap from content
+that sized itself to content that did not carries the old content's size over.
 
 Anything else attached from outside is not: a raw `component.Render().addEventListener(...)`, or a
 gesture handler, is bound to the element that went away. Put those on a wrapper of your own, or on

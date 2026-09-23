@@ -3,14 +3,16 @@ using System;
 namespace Tesserae
 {
     /// <summary>
-    /// Implemented by a component that can swap out the element it renders, so that anything applied
+    /// Implemented by a component that can replace the element it renders, so that anything applied
     /// to the component from outside can be put back on whatever element it renders next.
     /// </summary>
     /// <remarks>
     /// A component's element is normally the same one for its whole life, and the fluent helpers can
     /// write straight to it. <see cref="DeltaComponent"/> is the exception: it hands out whatever its
-    /// content rendered, and replaces that node when the content becomes a different component. A
-    /// <c>.Class()</c> written to the old node goes out with it.
+    /// content rendered, and that node is either replaced - when the content becomes a different
+    /// component - or patched into the new content's shape. A <c>.Class()</c> written to it is lost
+    /// either way: the swap takes the node out, and the patch overwrites its attributes with the
+    /// incoming node's.
     ///
     /// <para>What is recorded is the call, not its result - a closure that applies the same thing
     /// again. Replaying in order gives the right end state for free: a class added and later removed
@@ -26,9 +28,17 @@ namespace Tesserae
     {
         /// <summary>
         /// Records something just applied to this component, so it can be applied again to the
-        /// element the component renders after a swap. Ignored while a replay is in progress, so a
-        /// replayed call does not record itself a second time.
+        /// element the component renders next. Ignored while a replay is in progress, so a replayed
+        /// call does not record itself a second time.
         /// </summary>
-        void RememberStyling(Action reapply);
+        /// <param name="reapply">Applies the same thing again to whatever the component renders.</param>
+        /// <param name="replayAfterPatch">
+        /// Whether replaying it after a patch - which happens on every content change, not only on the
+        /// rarer swap - is free of side effects. True for a call that writes an attribute and nothing
+        /// else, which is exactly what a patch overwrites. False for anything that also attaches
+        /// something the patch leaves alone: a tooltip's listener and tippy instance survive a patch,
+        /// and calling for another one per frame would stack them up.
+        /// </param>
+        void RememberStyling(Action reapply, bool replayAfterPatch);
     }
 }
