@@ -16,15 +16,16 @@ namespace Tesserae
     {
         private HTMLElement _root;
         private IComponent _currentContent;
+        private IComponent _rootComponent; // the content that drew _root, which the reconciler compares against
         private bool _isAnimated;
         private ShadowRoot _shadowRoot;
 
         //Anything applied to this component from outside - a .Class(), an .Id(), a .Style() or a
         //.Tooltip() - lands on the element the content rendered, because that is the element this
-        //component hands out. Swapping the root would take all of it out with the old node, so the
-        //calls are recorded and made again against the node that replaces it.
-        private List<Action> _reapply;
-        private bool         _replaying;
+        //component hands out, and every content change takes it off again: a swap with the old node,
+        //a patch through SyncAttributes. So the calls are recorded and made again afterwards.
+        private List<(Action Apply, bool AfterPatch)> _reapply;
+        private bool                                  _replaying;
 
         // Node.TEXT_NODE is 3 in DOM
         private const int TEXT_NODE = 3;
@@ -50,7 +51,9 @@ namespace Tesserae
             //marks it on the way in. When it is not - it is the root of what this component holds,
             //and may have been built straight into it - the mark has to come from here, or the first
             //reconcile would see one marked side and one unmarked side.
-            UI.MarkComponent(_root, _currentContent);
+            _rootComponent = _currentContent;
+
+            UI.MarkComponent(_root, _rootComponent);
 
             MarkAsReapplying();
         }
@@ -92,19 +95,26 @@ namespace Tesserae
             }
             else
             {
+                //A container that took this component in, and every sizing helper applied to it, marks
+                //the root with this component rather than with the content that drew it - so the mark
+                //is put back here, where it is read, instead of guarding every place that writes it.
+                //Otherwise the next content of the same kind would read as a change of component and
+                //the node would be rebuilt for nothing.
+                UI.MarkComponent(_root, _rootComponent);
+
                 //The root can be swapped rather than patched, and the swap detaches the node this
                 //component was holding - so it has to keep hold of whichever node is now on screen.
                 var previousRoot = _root;
+                var wasStackItem = previousRoot.classList.contains("tss-stack-item");
 
-                _root = DiffAndPatch(_root, newRoot).As<HTMLElement>();
+                _root          = DiffAndPatch(_root, newRoot).As<HTMLElement>();
+                _rootComponent = newContent;
 
                 if (_root != previousRoot)
                 {
-                    //Everything a container and the fluent helpers wrote sits on the root, because this
-                    //component has no element of its own - Render() hands out whatever the content
-                    //rendered. A swap would drop the lot: the stack-item class its parent added and the
-                    //width a .WS() on this component asked for. Both are recorded on the old root, so
-                    //both can be carried over.
+                    //What a container and the sizing helpers wrote sits on the root, because this
+                    //component has no element of its own. The stack-item class and any size are carried
+                    //across - a size only where the new content declares none of its own.
                     Stack.TransferItemStyles(previousRoot, _root);
                     Grid.TransferItemStyles(previousRoot, _root);
 
@@ -117,8 +127,19 @@ namespace Tesserae
                     }
 
                     MarkAsReapplying();
-                    ReapplyStyling();
                 }
+                else if (wasStackItem)
+                {
+                    //The node stayed, but SyncAttributes has written the incoming node's attributes
+                    //over it and the class the container added was never on that node.
+                    _root.classList.add("tss-stack-item");
+                }
+
+                //Both paths lose the .Class(), .Id() and .Style() calls made on this component - the
+                //swap with the node, the patch through SyncAttributes - so both replay them. After a
+                //patch a tooltip is not replayed: its listener and tippy instance are still on the node
+                //the patch kept, and asking for another one per frame would stack them up.
+                ReapplyStyling(afterPatch: _root == previousRoot);
             }
         }
 
@@ -418,21 +439,21 @@ namespace Tesserae
             if (_root is object) _root[UI.ReappliesMarker] = this;
         }
 
-        void IReappliesStyling.RememberStyling(Action reapply)
+        void IReappliesStyling.RememberStyling(Action reapply, bool replayAfterPatch)
         {
-            //A replayed call must not record itself, or every swap would double the list.
+            //A replayed call must not record itself, or every replay would double the list.
             if (_replaying || reapply is null) return;
 
-            if (_reapply is null) _reapply = new List<Action>();
+            if (_reapply is null) _reapply = new List<(Action, bool)>();
 
-            _reapply.Add(reapply);
+            _reapply.Add((reapply, replayAfterPatch));
         }
 
         /// <summary>
         /// Applies everything recorded through <see cref="IReappliesStyling"/> to the element this
         /// component renders now, in the order it was originally applied.
         /// </summary>
-        private void ReapplyStyling()
+        private void ReapplyStyling(bool afterPatch)
         {
             if (_reapply is null) return;
 
@@ -440,7 +461,14 @@ namespace Tesserae
 
             try
             {
-                for (int i = 0; i < _reapply.Count; i++) _reapply[i]();
+                for (int i = 0; i < _reapply.Count; i++)
+                {
+                    var recorded = _reapply[i];
+
+                    if (afterPatch && !recorded.AfterPatch) continue;
+
+                    recorded.Apply();
+                }
             }
             finally
             {

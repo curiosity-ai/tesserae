@@ -235,9 +235,9 @@ namespace Tesserae
         /// </remarks>
         internal static bool Remembers(HTMLElement element, IComponent component) => element[ReappliesMarker] == component;
 
-        internal static void Remember(IComponent component, Action reapply)
+        internal static void Remember(IComponent component, Action reapply, bool replayAfterPatch = true)
         {
-            component.As<IReappliesStyling>().RememberStyling(reapply);
+            component.As<IReappliesStyling>().RememberStyling(reapply, replayAfterPatch);
         }
 
         /// <summary>Written by a component onto the element it renders, when it may later replace it.</summary>

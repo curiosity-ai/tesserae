@@ -180,19 +180,20 @@ namespace Tesserae
 
         /// <summary>
         /// The grid half of <see cref="Stack.TransferItemStyles"/>: copies the placement a fluent
-        /// helper asked for onto an element that is replacing <paramref name="from"/>.
+        /// helper asked for onto an element that is replacing <paramref name="from"/>, leaving alone a
+        /// placement the new element already declares.
         /// </summary>
         internal static void TransferItemStyles(HTMLElement from, HTMLElement to)
         {
             if (from is null || to is null || from == to) return;
 
-            if (from.hasAttribute("tss-grd-c"))
+            if (from.hasAttribute("tss-grd-c") && to.style.gridColumn.Length == 0)
             {
                 to.setAttribute("tss-grd-c", "");
                 to.style.gridColumn = from.style.gridColumn;
             }
 
-            if (from.hasAttribute("tss-grd-r"))
+            if (from.hasAttribute("tss-grd-r") && to.style.gridRow.Length == 0)
             {
                 to.setAttribute("tss-grd-r", "");
                 to.style.gridRow = from.style.gridRow;
