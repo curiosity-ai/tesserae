@@ -165,6 +165,20 @@
     line-height: 1;
 }
 
+/* The glyph is centred as a box rather than set on a text baseline. The icon font is ascent-only - its
+   em box is 1em above the baseline and nothing below - while the baseline of the line box these sit in
+   comes from the surrounding text font, which has a descent. The glyph therefore hangs above the centre
+   of a box that is itself perfectly centred: measured in Chromium, the cross and the magnifier both
+   painted 1px high. Making the icon element a flex container takes its glyph off that baseline. */
+.tss-searchbox-clear-icon,
+.tss-searchbox-cancel-icon,
+.tss-searchbox-failed-icon,
+.tss-searchbox-icon > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* The status slot: the spinner while a search is out, the warning glyph when one did not answer. It is
    28px like the clear button and stands in the same place, so what the row holds changes but its shape
    does not. */
