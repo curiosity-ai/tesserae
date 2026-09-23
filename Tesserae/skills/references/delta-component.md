@@ -40,7 +40,10 @@ Nothing has to be added to a component of your own to make this work:
    is also what separates two components that borrow the same kind of root: a `SectionTitle` and a
    `SearchableList` are both a `Stack`'s element, and so is anything composed that way.
 2. **Otherwise the element's first CSS class.** This catches an element built straight into its
-   parent rather than added through a container, and the markup inside a component.
+   parent rather than added through a container, and the markup inside a component. The classes
+   the toolkit adds from outside (`tss-fade-in`, `tss-stack-item`) are skipped, so an element with
+   no class of its own, such as the `<p>`, `<strong>`, `<code>` and `<table>` of rendered Markdown,
+   is still patched in place on every chunk of a streamed reply.
 
 Both are checked, so the pair is never weaker than either.
 

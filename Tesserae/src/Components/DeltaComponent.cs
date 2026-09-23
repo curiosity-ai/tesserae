@@ -80,8 +80,16 @@ namespace Tesserae
             var newRoot = newContent.Render();
 
             UI.MarkComponent(newRoot, newContent);
+
             if (_shadowRoot != null)
             {
+                //The constructor marked the host, not the content inside the shadow root, so the
+                //content on screen has to be marked with what drew it here - or the first reconcile
+                //sees an unmarked side and a marked one and swaps the whole content once.
+                if (_shadowRoot.firstChild is HTMLElement shadowContent) UI.MarkComponent(shadowContent, _rootComponent);
+
+                _rootComponent = newContent;
+
                 // We are diffing against the content inside shadow root.
                 // Assuming there is one child which is the root of the component.
                 if (_shadowRoot.firstChild != null)
@@ -256,15 +264,31 @@ namespace Tesserae
             return RootClassOf(currentElement) == RootClassOf(nextElement);
         }
 
+        /// <summary>
+        /// The first class on <paramref name="element"/> that its component put there, skipping the
+        /// ones the toolkit adds from outside.
+        /// </summary>
+        /// <remarks>
+        /// <c>tss-fade-in</c> is added by this component to every node it inserts, and
+        /// <c>tss-stack-item</c> by the container that took the element in. Both go on the node that
+        /// is on screen and never on the freshly rendered one it is compared with, and on an element
+        /// with no class of its own they <i>are</i> the first class. Counting them made the two sides
+        /// of every classless element disagree: each <c>&lt;strong&gt;</c>, <c>&lt;code&gt;</c>,
+        /// <c>&lt;p&gt;</c> and <c>&lt;table&gt;</c> of a streamed Markdown reply was swapped - and
+        /// faded in again - on every chunk after the one that inserted it.
+        /// </remarks>
         private static string RootClassOf(HTMLElement element)
         {
-            var classes = element.className;
+            var classes = element.classList;
 
-            if (string.IsNullOrEmpty(classes)) return string.Empty;
+            for (uint i = 0; i < classes.length; i++)
+            {
+                var name = classes[i];
 
-            var firstSpace = classes.IndexOf(' ');
+                if (name != "tss-fade-in" && name != "tss-stack-item") return name;
+            }
 
-            return firstSpace < 0 ? classes : classes.Substring(0, firstSpace);
+            return string.Empty;
         }
 
         private void SyncAttributes(HTMLElement current, HTMLElement next)
