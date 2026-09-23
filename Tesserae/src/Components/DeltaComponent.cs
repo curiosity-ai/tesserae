@@ -46,12 +46,6 @@ namespace Tesserae
                 _root = _currentContent.Render();
             }
 
-            //The content handed to this component is usually also a child of some container, which
-            //marks it on the way in. When it is not - it is the root of what this component holds,
-            //and may have been built straight into it - the mark has to come from here, or the first
-            //reconcile would see one marked side and one unmarked side.
-            UI.MarkComponent(_root, _currentContent);
-
             MarkAsReapplying();
         }
 
@@ -77,6 +71,18 @@ namespace Tesserae
             var newRoot = newContent.Render();
 
             UI.MarkComponent(newRoot, newContent);
+
+            //The root on screen has to carry the component that rendered it, like the new one does,
+            //and it cannot be trusted to: the container that took this component in marked the same
+            //element with the DeltaComponent itself, because that is the component it was handed, and
+            //in a shadow root nothing marked the content at all. Either way the first reconcile saw
+            //two different components and swapped the whole content once, flashing all of it.
+            var currentRoot = _shadowRoot != null ? _shadowRoot.firstChild : _root;
+
+            if (currentRoot is HTMLElement currentRootElement) UI.MarkComponent(currentRootElement, _currentContent);
+
+            _currentContent = newContent;
+
             if (_shadowRoot != null)
             {
                 // We are diffing against the content inside shadow root.
@@ -235,15 +241,31 @@ namespace Tesserae
             return RootClassOf(currentElement) == RootClassOf(nextElement);
         }
 
+        /// <summary>
+        /// The first class on <paramref name="element"/> that its component put there, skipping the
+        /// ones the toolkit adds from outside.
+        /// </summary>
+        /// <remarks>
+        /// <c>tss-fade-in</c> is added by this component to every node it inserts, and
+        /// <c>tss-stack-item</c> by the container that took the element in. Both go on the node that
+        /// is on screen and never on the freshly rendered one it is compared with, and on an element
+        /// with no class of its own they <i>are</i> the first class. Counting them made the two sides
+        /// of every classless element disagree: each <c>&lt;strong&gt;</c>, <c>&lt;code&gt;</c>,
+        /// <c>&lt;p&gt;</c> and <c>&lt;table&gt;</c> of a streamed Markdown reply was swapped - and
+        /// faded in again - on every chunk after the one that inserted it.
+        /// </remarks>
         private static string RootClassOf(HTMLElement element)
         {
-            var classes = element.className;
+            var classes = element.classList;
 
-            if (string.IsNullOrEmpty(classes)) return string.Empty;
+            for (uint i = 0; i < classes.length; i++)
+            {
+                var name = classes[i];
 
-            var firstSpace = classes.IndexOf(' ');
+                if (name != "tss-fade-in" && name != "tss-stack-item") return name;
+            }
 
-            return firstSpace < 0 ? classes : classes.Substring(0, firstSpace);
+            return string.Empty;
         }
 
         private void SyncAttributes(HTMLElement current, HTMLElement next)

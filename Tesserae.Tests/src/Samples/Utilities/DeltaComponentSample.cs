@@ -136,6 +136,38 @@ namespace Tesserae.Tests.Samples
             });
 
 
+            //A streamed chat reply: the Markdown is parsed again on every chunk and the whole rendered
+            //tree handed over. Almost everything marked emits - paragraphs, bold, inline code, tables -
+            //is an element with no class at all, which is the shape the reconciler has to keep patching
+            //rather than swap, or every element on screen fades in again on every chunk.
+            var markdownDelta = DeltaComponent(MarkdownBlock()).WS().Animated();
+
+            var streamMarkdown = Button("Stream Markdown").OnClick(() =>
+            {
+                const string reply = "Here is a **bold** claim, some `inline code` and an *emphasis*.\n\n" +
+                                     "| Component | Kind | Notes |\n" +
+                                     "|---|---|---|\n" +
+                                     "| `Stack` | layout | the **workhorse** |\n" +
+                                     "| `Grid` | layout | explicit tracks |\n" +
+                                     "| `DeltaComponent` | utility | patches instead of re-rendering |\n\n" +
+                                     "- a list item with `code`\n" +
+                                     "- another with **bold** text\n\n" +
+                                     "```\nvar x = 1;\n```\n\n" +
+                                     "Done.";
+
+                int index = 0;
+
+                void NextChunk()
+                {
+                    index = Math.Min(reply.Length, index + 3);
+                    markdownDelta.ReplaceContent(MarkdownBlock(reply.Substring(0, index)));
+
+                    if (index < reply.Length) window.setTimeout(_ => NextChunk(), 25);
+                }
+
+                NextChunk();
+            });
+
             //A node keeps the listeners its component gave it, so the reconciler only ever patches a
             //node into a node of the same component. This is the case that proves it: the content
             //alternates between a ToolCall and a ToolsUsed - both a div, so the old nodeName check
@@ -191,6 +223,11 @@ namespace Tesserae.Tests.Samples
                     HStack().Children(shadowTyping, shadowResetBtn),
                     shadowDeltaComponent
                 )).SetTitle("Shadow DOM"),
+                    Card(VStack().WS().Children(
+                    TextBlock("A streamed reply rendered as Markdown and handed over whole on every chunk. Bold, inline code and the table's cells stay the nodes they were, so only the new text fades in."),
+                    HStack().Children(streamMarkdown),
+                    markdownDelta
+                )).SetTitle("Streaming Markdown"),
                     Card(VStack().WS().Children(
                     TextBlock("Swapping one component for another of the same tag replaces the node instead of patching it, so the new component answers to its own handlers and not to the ones its predecessor left behind. Expand a row, swap, and expand again: the content is the new component's."),
                     HStack().Children(swapBtn),
