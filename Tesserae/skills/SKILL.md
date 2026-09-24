@@ -165,6 +165,9 @@ references. Open the reference for whatever you are working with. The full set:
   `references/routing.md`.
 - `references/observables.md` — the reactive state containers `Defer` and the
   collection components read from.
+  Text that changes is bound, not deferred: `TextBlock(obs, v => $"…{v}")` updates
+  the one element in place; `DeferSync(obs, v => TextBlock(...))` rebuilds it and
+  flickers (`references/text-block.md`).
 - `references/creating-a-component.md` — build your own `IComponent`.
 - `references/javascript-interop.md` — call JS/browser APIs from C# via Transpose.
 - `references/wrap-a-javascript-library.md` — wrap a third-party JS library.

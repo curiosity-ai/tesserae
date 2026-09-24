@@ -9,6 +9,11 @@ Not a visual component — a family of state containers that raise change notifi
 Components and `Defer`/`ObservableStack`/`ItemsList` subscribe to them and re-render when
 values change.
 
+For text that follows an observable, pass it to the `TextBlock`:
+`TextBlock(obs, v => $"…{v}")` (or `.BindText(obs, …)`). It updates the one element in place.
+Do not use `DeferSync(obs, v => TextBlock(...))` for this: it rebuilds and remounts the block on
+every change, which flickers. See `text-block.md`.
+
 ## The observable types
 
 - `SettableObservable<T>` — mutable single value. `SettableObservable.For(value)` creates one (type inferred).
@@ -38,8 +43,7 @@ using static Tesserae.UI;
 var status = SettableObservable.For("Idle");
 var items  = new ObservableList<string>("Alpha", "Beta");
 
-var output = TextBlock();
-status.Observe(value => output.Text($"Status: {value}"));   // fires now and on change
+var output = TextBlock(status, s => $"Status: {s}");       // updates in place on change
 
 var addButton = Button("Add item").OnClick(() =>
 {

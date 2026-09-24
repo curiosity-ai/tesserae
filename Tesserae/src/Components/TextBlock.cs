@@ -129,6 +129,77 @@ namespace Tesserae
             set => GetTarget().title = value;
         }
 
+        private Action _unbindText;
+
+        /// <summary>
+        /// Keeps the text in step with <paramref name="source"/>: every change is written into this same
+        /// element, so the block is never rebuilt. This is the way to show text that changes; wrapping a
+        /// <see cref="TextBlock"/> in <c>DeferSync</c> constructs a new block and swaps the element on every
+        /// change, which remounts it and flickers.
+        /// The subscription is held only while the block is mounted: it is taken on mount (writing the current
+        /// value), dropped on removal and taken again if the block is mounted again. Binding again replaces the
+        /// previous binding.
+        /// </summary>
+        public TextBlock BindText(IObservable<string> source) => BindText(source, v => v);
+
+        /// <summary>
+        /// Keeps the text in step with <paramref name="source"/>, formatted by <paramref name="format"/>. See
+        /// <see cref="BindText(IObservable{string})"/>.
+        /// </summary>
+        public TextBlock BindText<T>(IObservable<T> source, Func<T, string> format)
+        {
+            if (source is null) throw new ArgumentNullException(nameof(source));
+            if (format is null) throw new ArgumentNullException(nameof(format));
+
+            _unbindText?.Invoke();
+
+            var bound     = true;
+            var observing = false;
+
+            ObservableEvent.ValueChanged<T> write = value =>
+            {
+                var text = format(value) ?? string.Empty;
+                var el   = GetTarget();
+
+                // Skip identical writes: they would still be a childList mutation for every DomObserver on the page.
+                if (el.textContent != text) el.textContent = text;
+            };
+
+            void Mounted()
+            {
+                if (!bound || observing) return;
+                observing = true;
+                source.Observe(write); // fires now with the current value, catching up on anything missed while unmounted
+                DomObserver.WhenRemoved(InnerElement, Removed);
+            }
+
+            void Removed()
+            {
+                if (!observing) return;
+                observing = false;
+                source.StopObserving(write);
+                if (bound) DomObserver.WhenMounted(InnerElement, Mounted);
+            }
+
+            // Show the current value straight away, so the first paint is already right.
+            write(source.Value);
+
+            if (InnerElement.IsMounted()) Mounted();
+            else DomObserver.WhenMounted(InnerElement, Mounted);
+
+            _unbindText = () =>
+            {
+                bound = false;
+                if (observing)
+                {
+                    observing = false;
+                    source.StopObserving(write);
+                }
+            };
+
+            return this;
+        }
+
         private HTMLElement GetTarget()
         {
             if (InnerElement.classList.contains("tss-label")) return InnerElement.firstElementChild.As<HTMLElement>();

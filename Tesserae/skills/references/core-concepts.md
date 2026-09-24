@@ -48,8 +48,13 @@ when an observable changes.
   first call.
 - `ObservableList<T>` / `ObservableDictionary<,>` / `ObservableHashSet<T>` —
   observable collections.
+- Text that follows an observable: `TextBlock(obs, v => $"…{v}")` (or
+  `.BindText(obs, …)` on an existing block). The one element is updated in place;
+  this is the default for any changing text.
 - `DeferSync(obs, val => component)` (sync) / `Defer(...)` (async) — re-renders
-  the produced content when any of up to ten passed observables changes.
+  the produced content when any of up to ten passed observables changes. It
+  builds a new component and swaps it in each time, so do not use it just to
+  change the words of a `TextBlock` (it remounts and flickers).
 - Two-way binding: input components (`TextBox`, `CheckBox`, `Toggle`) implement
   `IBindableComponent<T>`; `.Bind(observable)` syncs both directions.
 
@@ -58,7 +63,7 @@ using static Tesserae.UI;
 
 var count = new SettableObservable<int>(0);
 var layout = VStack().AlignItemsCenter().Children(
-    DeferSync(count, c => TextBlock($"Count: {c}").Large().SemiBold()),
+    TextBlock(count, c => $"Count: {c}").Large().SemiBold(),
     HStack().Children(
         Button("-").OnClick(() => count.Value--),
         Button("+").Primary().OnClick(() => count.Value++)
@@ -66,8 +71,9 @@ var layout = VStack().AlignItemsCenter().Children(
 document.body.appendChild(layout.Render());
 ```
 
-Core pattern: put mutable data in an observable, render the data-dependent part
-inside a `Defer` over it, and update the observable in event handlers. For large
+Core pattern: put mutable data in an observable, bind text straight to it
+(`TextBlock(obs, …)`), render structure that changes inside a `Defer` over it, and
+update the observable in event handlers. For large
 lists prefer the purpose-built collection components (Items List, Virtualized
 List, Observable Stack) over rebuilding subtrees.
 

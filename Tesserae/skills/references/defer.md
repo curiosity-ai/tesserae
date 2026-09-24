@@ -13,6 +13,10 @@ Renders a loading placeholder, then swaps in content produced by an async functi
 
 Observable overloads: `UI.Defer(observable, async val => …, loadMessage)` (up to 10 observables) re-render on change. (`DeferSync` exists for synchronous generators.)
 
+Each re-render builds a new component and swaps its element in. For text that changes, that
+remounts the block and flickers: use `TextBlock(observable, v => …)` instead, which updates the
+one element in place (see `text-block.md`). Use `Defer` when the structure changes, not the words.
+
 ## Key configuration
 
 `IDefer` members:
