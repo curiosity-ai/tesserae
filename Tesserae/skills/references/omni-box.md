@@ -96,6 +96,16 @@ OmniBox:
   raise, chips included. For a host that answers as the query is typed rather than on Enter (a
   `CommandPalette`, a search-as-you-type page).
 
+## On a phone
+
+While `Theme.IsMobileMode` is on, a `Chat` or `SearchAndChat` box is a single row:
+a **+** button, the input (growing upward as it wraps) and the send / search button.
+Everything else in the footer - the Chat/Search toggle, the model selector and every
+`ChatFooter` / `SearchFooter` item a host adds - opens in a `Drawer` from the **+**,
+one per row, and goes back to the footer when the sheet closes. Icon-only buttons are
+labelled there with their `Tooltip(string)` text (or `aria-label`), and the whole row
+presses them. Nothing to configure; the sheet closes itself when the mode changes.
+
 ## Example
 
 ```csharp

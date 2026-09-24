@@ -312,26 +312,109 @@ body.tss-mobile textarea {
     font-size: max(16px, 1em) !important;
 }
 
-/* ─── OmniBox — a compact composer ───────────────────────────────────────── */
-/* The desktop box reserves 80px for the text before the footer; on a phone that is a sixth of the screen
-   the conversation could have. It starts at one line and grows with what is typed, and the footer's
-   icon buttons keep the 32px they are drawn at rather than taking the 40px floor of a standalone button. */
-body.tss-mobile .tss-omnibox-chat-container,
-body.tss-mobile .tss-omnibox-container.tss-omnibox-chat-and-search .tss-omnibox-search-container {
-    min-height: 0;
-    padding: 8px 8px 4px 8px;
-}
-
-body.tss-mobile .tss-omnibox-footer {
+/* ─── OmniBox — one row on a phone ───────────────────────────────────────── */
+/* [+] [input] [send]. The footer is dissolved into the box's own row (display: contents) and keeps only
+   what OmniBox marks .tss-omnibox-mobile-keep - the send and search buttons, and the "+" that opens the
+   rest of the footer in a sheet (OmniBox.ShowMobileOptions). Everything else is hidden here, not removed:
+   a host's own footer items are in the sheet as soon as it opens. .tss-omnibox-footer-measuring lifts the
+   rule for the moment OmniBox asks which of them the current mode shows. */
+body.tss-mobile .tss-omnibox-container.tss-omnibox-mode-chat,
+body.tss-mobile .tss-omnibox-container.tss-omnibox-chat-and-search {
+    --tss-omnibox-radius: 22px;
+    flex-direction: row;
     flex-wrap: wrap;
-    row-gap: 4px;
-    margin-bottom: 4px;
+    align-items: flex-end;
+    padding: 4px;
+    column-gap: 2px;
 }
 
-    body.tss-mobile .tss-omnibox-footer .tss-btn {
-        min-height: 32px !important;
-        height: 32px;
+body.tss-mobile .tss-omnibox-container > .tss-omnibox-footer {
+    display: contents;
+}
+
+    body.tss-mobile .tss-omnibox-footer:not(.tss-omnibox-footer-measuring) > :not(.tss-omnibox-mobile-keep) {
+        display: none !important;
     }
+
+/* What is attached to the next message, above the row */
+body.tss-mobile .tss-omnibox-container > .tss-omnibox-chat-header,
+body.tss-mobile .tss-omnibox-container > .tss-omnibox-context {
+    order: 1;
+    width: 100%;
+    flex: 0 0 100%;
+}
+
+body.tss-mobile .tss-omnibox-footer > .tss-omnibox-mobile-options {
+    order: 2;
+}
+
+body.tss-mobile .tss-omnibox-container > .tss-omnibox-chat-container,
+body.tss-mobile .tss-omnibox-container > .tss-omnibox-search-container {
+    order: 3;
+    flex: 1 1 0%;
+    width: auto;
+    min-width: 0;
+    min-height: 0;
+    padding: 6px 4px;
+}
+
+body.tss-mobile .tss-omnibox-container.tss-omnibox-chat-and-search > .tss-omnibox-search-container {
+    padding: 0px;
+}
+
+body.tss-mobile .tss-omnibox-footer > .tss-omnibox-mobile-keep:not(.tss-omnibox-mobile-options) {
+    order: 4;
+}
+
+body.tss-mobile .tss-omnibox-footer > .tss-btn {
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+    min-height: 36px !important;
+    padding: 0px;
+    margin: 0px;
+    border-radius: var(--tss-border-radius-full);
+    flex-shrink: 0;
+}
+
+.tss-omnibox-mobile-options {
+    display: none;
+}
+
+body.tss-mobile .tss-omnibox-footer > .tss-omnibox-mobile-options {
+    display: inline-flex;
+    box-shadow: none;
+    background: transparent;
+}
+
+/* The sheet the rest of the footer moves into: one item per row, each at a size a thumb can hit */
+.tss-omnibox-mobile-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 8px;
+}
+
+.tss-omnibox-mobile-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    flex-wrap: wrap;
+}
+
+    .tss-omnibox-mobile-option.tss-omnibox-mobile-option-labelled {
+        cursor: pointer;
+    }
+
+    .tss-omnibox-mobile-option > .tss-btn {
+        margin: 0px;
+    }
+
+.tss-omnibox-mobile-option-label {
+    font-size: var(--tss-font-size-smallplus);
+    color: var(--tss-default-foreground-color);
+}
 
 /* ─── Button.HideTextOnMobile — the icon alone ──────────────────────────── */
 /* Only a button that has an icon to fall back on, and drawn the way a button that never had text is. */
@@ -389,13 +472,16 @@ body.tss-mobile .tss-chat-right .tss-chatmessage-avatar {
     margin-right: 0px;
 }
 
-body.tss-mobile .tss-chatmessage-commands {
-    opacity: 1;
-    margin-left: 4px;
-    margin-right: 0px;
+/* The commands get a line of their own under the message, at its end, rather than a column beside it that
+   every line of the message would pay for */
+body.tss-mobile .tss-chatmessage-container {
+    flex-wrap: wrap;
 }
 
-body.tss-mobile .tss-chat-right .tss-chatmessage-commands {
-    margin-left: 0px;
-    margin-right: 4px;
+body.tss-mobile .tss-chatmessage-commands {
+    opacity: 1;
+    flex: 0 0 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin: 2px 0px 0px 0px;
 }
