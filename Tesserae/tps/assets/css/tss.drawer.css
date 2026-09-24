@@ -160,6 +160,13 @@
     animation: none;
 }
 
+/* An embedded modal (Modal.ShowEmbedded) put in a sheet: the sheet is already its frame */
+.tss-drawer-content .tss-modal.tss-embedded {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
 /* The tool calls list (ToolsUsed) pages between a list and a call inside a fixed-height body; a sheet has
    more of a phone's height to give it than a dialog does */
 .tss-drawer-content > .tss-modal-in-drawer .tss-toolsused-modal-body {

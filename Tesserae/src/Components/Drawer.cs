@@ -40,6 +40,7 @@ namespace Tesserae
         private readonly Action<Event> _onOverlayClick;
 
         private bool   _dragToDismiss = true;
+        private bool   _hiding;
         private double _dragStartY    = -1;
         private double _dragOffset;
         private double _hideTimeout;
@@ -288,6 +289,7 @@ namespace Tesserae
         public override Drawer Show()
         {
             window.clearTimeout(_hideTimeout);
+            _hiding = false;
 
             ResetDrag();
             _contentHtml.classList.remove("tss-drawer-open");
@@ -306,8 +308,10 @@ namespace Tesserae
         /// </summary>
         public override void Hide(Action onHidden = null)
         {
-            if (!IsVisible) return;
+            //Still visible while it slides out, and a second Hide in that time is the same one
+            if (!IsVisible || _hiding) return;
 
+            _hiding = true;
             _contentHtml.classList.remove("tss-drawer-open");
             _drawer.style.transform = "";
 
@@ -316,7 +320,11 @@ namespace Tesserae
 
             // The layer's own fade would take the sheet away before it has slid out of sight
             window.clearTimeout(_hideTimeout);
-            _hideTimeout = window.setTimeout(_ => base.Hide(onHidden), DRAWER_TRANSITION_TIME);
+            _hideTimeout = window.setTimeout(_ =>
+            {
+                _hiding = false;
+                base.Hide(onHidden);
+            }, DRAWER_TRANSITION_TIME);
         }
 
         /// <summary>
@@ -331,13 +339,18 @@ namespace Tesserae
         {
             if (value)
             {
-                if (!IsVisible) Show();
+                if (!IsVisible || _hiding) Show();
             }
             else
             {
                 if (IsVisible) Hide();
             }
         }
+
+        /// <summary>
+        /// Gets whether the sheet is on screen and not on its way out.
+        /// </summary>
+        public bool IsOpen => IsVisible && !_hiding;
 
         // The handle and the header are what a thumb pulls the sheet down by; the content scrolls instead.
         private void HookDragToDismiss(HTMLElement grip)
