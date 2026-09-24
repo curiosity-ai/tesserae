@@ -217,6 +217,7 @@
 .tss-toolsused-text {
     flex: 1;
     font-weight: var(--tss-font-weight-medium, 500);
+    text-wrap: nowrap;
 }
 
 .tss-toolsused-progress {
