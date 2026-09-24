@@ -12,6 +12,8 @@ namespace Tesserae.Tests.Samples
 
         public TextBlockSample()
         {
+            var clicks = new SettableObservable<int>(0);
+
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(TextBlockSample), UIcons.Text, "A component to display text")
                .FlatSection(Stack().Children(
@@ -55,6 +57,12 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Danger Text").Large().Danger().Glow(),
                         TextBlock("Foreground Color").Large().Foreground(Theme.Colors.Purple600).Glow(),
                         TextBlock("Custom Glow").Large().Glow(Theme.Colors.Lime300)
+                    ),
+                    SampleSubTitle("Live Text"),
+                    TextBlock("Pass an observable and the block writes each change into the same element. Do not wrap a TextBlock in DeferSync for this: that builds a new block on every change and swaps it in, which flickers.").MB(8),
+                    HStack().AlignItemsCenter().Children(
+                        Button("Click me").OnClick(() => clicks.Value++),
+                        TextBlock(clicks, c => c == 1 ? "Clicked once" : $"Clicked {c} times").SemiBold().ML(12)
                     ),
                     SampleSubTitle("AI Output"),
                     TextBlock("AI() paints the words with the purple-to-blue gradient - for the short pieces: a title, a heading over generated output, a one-line summary. AISurface() is for the paragraph underneath: the theme's own text colour on a faint tinted panel with an accent edge, because two hundred words of gradient is two hundred words you can't read.").MB(8),

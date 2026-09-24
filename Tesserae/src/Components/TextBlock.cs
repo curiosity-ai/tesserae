@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -108,18 +108,26 @@ namespace Tesserae
             set => GetTarget().style.userSelect = value ? "" : "none";
         }
 
-        /// <summary>Gets or sets the text.</summary>
+        /// <summary>Gets or sets the text. Setting it stops following an observable passed to <c>Text(...)</c>.</summary>
         public string Text
         {
             get => GetTarget().innerText;
-            set => GetTarget().innerText = value;
+            set
+            {
+                StopFollowingText();
+                GetTarget().innerText = value;
+            }
         }
 
-        /// <summary>Gets or sets the HTML content.</summary>
+        /// <summary>Gets or sets the HTML content. Setting it stops following an observable passed to <c>Text(...)</c>.</summary>
         public string HTML
         {
             get => GetTarget().innerHTML;
-            set => GetTarget().innerHTML = value;
+            set
+            {
+                StopFollowingText();
+                GetTarget().innerHTML = value;
+            }
         }
 
         /// <summary>Gets or sets the title.</summary>
@@ -127,6 +135,73 @@ namespace Tesserae
         {
             get => GetTarget().title;
             set => GetTarget().title = value;
+        }
+
+        private Action _unbindText;
+
+        /// <summary>
+        /// Backs the observable overloads of <see cref="TextBlockExtensions"/>.Text: writes every value of
+        /// <paramref name="source"/> into this same element, so the block is never rebuilt. The subscription is
+        /// held only while the block is mounted: taken on mount (writing the current value), dropped on removal
+        /// and taken again if the block is mounted again. Following a new source, or setting <see cref="Text"/>
+        /// or <see cref="HTML"/>, ends the previous one.
+        /// </summary>
+        internal void FollowText<T>(IObservable<T> source, Func<T, string> format)
+        {
+            if (source is null) throw new ArgumentNullException(nameof(source));
+            if (format is null) throw new ArgumentNullException(nameof(format));
+
+            StopFollowingText();
+
+            var bound     = true;
+            var observing = false;
+
+            ObservableEvent.ValueChanged<T> write = value =>
+            {
+                var text = format(value) ?? string.Empty;
+                var el   = GetTarget();
+
+                // Skip identical writes: they would still be a childList mutation for every DomObserver on the page.
+                if (el.textContent != text) el.textContent = text;
+            };
+
+            void Mounted()
+            {
+                if (!bound || observing) return;
+                observing = true;
+                source.Observe(write); // fires now with the current value, catching up on anything missed while unmounted
+                DomObserver.WhenRemoved(InnerElement, Removed);
+            }
+
+            void Removed()
+            {
+                if (!observing) return;
+                observing = false;
+                source.StopObserving(write);
+                if (bound) DomObserver.WhenMounted(InnerElement, Mounted);
+            }
+
+            // Show the current value straight away, so the first paint is already right.
+            write(source.Value);
+
+            if (InnerElement.IsMounted()) Mounted();
+            else DomObserver.WhenMounted(InnerElement, Mounted);
+
+            _unbindText = () =>
+            {
+                bound = false;
+                if (observing)
+                {
+                    observing = false;
+                    source.StopObserving(write);
+                }
+            };
+        }
+
+        private void StopFollowingText()
+        {
+            _unbindText?.Invoke();
+            _unbindText = null;
         }
 
         private HTMLElement GetTarget()

@@ -139,7 +139,9 @@ Focus order: `.TabIndex(int)`, `.SkipTab()`. (See `accessibility`.)
 
 `.Bind(SettableObservable<T> source)` — keep the component in sync with an
 observable (also overloads for `IReadOnlyList<T>` and an explicit
-`SubscriptionScope`). (See `observables`.)
+`SubscriptionScope`). Two-way, on input components (`IBindableComponent<T>`).
+One-way observable inputs are not `Bind`: they overload the setter they drive, e.g.
+`TextBlock.Text(IObservable<T> source[, format])`. (See `observables`, `text-block`.)
 
 ## Validation — `ICanValidateExtensions.cs` / `ValidationExtensions.cs`
 
