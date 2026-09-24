@@ -351,6 +351,11 @@ it in that container is hidden.
   top, at the same full width; the ones behind step 12px to the left each (up to three),
   drained of colour and dimmed by the backdrop in front, so the depth shows the way
   `ModalStack`'s sheets peek behind the front one. The backdrop closes the top panel only.
+- While `.Search(term)` has a term, groups expand in place instead of opening panels, so
+  every hit is in sight at once; clearing the search brings the panels back.
+- The Tesserae sample gallery's own shell (`Tesserae.Tests/src/App.cs`) is a worked
+  example: on a phone it swaps its per-category separators for one `SidebarNav` per
+  category, so a category opens as a panel.
 - A sidebar the app has `Collapse()`d leaves the content on its own.
 
 ```csharp

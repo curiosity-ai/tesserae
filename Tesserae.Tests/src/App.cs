@@ -34,22 +34,15 @@ namespace Tesserae.Tests
             // whenever the viewport is 768px or narrower (or when the device reports a coarse pointer).
             Theme.EnableMobileDetection(breakpoint: 768);
 
-            var allSidebarItems     = new List<ISidebarItem>();
-            var sampleToSidebarItem = new Dictionary<Sample, ISidebarItem>();
-
-            void SelectSidebar(ISidebarItem toSelect)
-            {
-                allSidebarItems.ForEach(i => i.IsSelected = i == toSelect);
-            }
+            var allSidebarItems      = new List<ISidebarItem>();
+            var sampleToSidebarItems = new Dictionary<Sample, List<ISidebarItem>>();
 
             var currentPage = new SettableObservable<Sample>(null);
 
             currentPage.Observe(selected =>
             {
-                if (selected is object && sampleToSidebarItem.TryGetValue(selected, out var item))
-                {
-                    SelectSidebar(item);
-                }
+                var toSelect = selected is object && sampleToSidebarItems.TryGetValue(selected, out var items) ? items : new List<ISidebarItem>();
+                allSidebarItems.ForEach(i => i.IsSelected = toSelect.Contains(i));
             });
 
             // Not sortable: the sidebar's order is the one SampleGroup.InDisplayOrder and each
@@ -60,8 +53,15 @@ namespace Tesserae.Tests
 
             sidebar.AddHeader(new SidebarText("header", "Tesserae", "TSS", textSize: TextSize.XLarge, textWeight: TextWeight.Bold));
 
-            var searchBox = new SidebarSearchBox("search", "Search...");
-            searchBox.OnSearch((term) => sidebar.Search(term));
+            var searchTerm = "";
+            var searchBox  = new SidebarSearchBox("search", "Search...");
+
+            searchBox.OnSearch((term) =>
+            {
+                searchTerm = term;
+                sidebar.Search(term);
+            });
+
             sidebar.AddHeader(searchBox);
 
             //Important: Reflection will only properly work here if reflection metadata is emitted inline with the javascript, instead of in a separate .meta.js file
@@ -85,16 +85,33 @@ namespace Tesserae.Tests
                 ? (IComponent)VStack().S().ScrollY().Children(new LandingPage(samples.Values).WS())
                 : VStack().S().ScrollY().Children((await page.ContentGenerator()).WS().MinHeight(100.percent())));
 
-            // The shell is built once and re-pointed by ApplyLayoutMode below, which runs at startup
-            // and again on every mobile-mode change: on mobile the sidebar is a fixed top navbar and
-            // the layout is a column (navbar above content); on desktop it is a row (sidebar left,
-            // content right). Deciding it only at startup left the C# layout and the stylesheet
-            // disagreeing after a resize - the row's content still carried the width:1px+grow that
-            // claims leftover space along a row, which in a column is simply a one-pixel-wide page.
+            // On a phone the sidebar is a page (Sidebar.AsPage): it and the content take turns filling the
+            // screen, and this bar is how the content gets back to it. It collapses itself on a desktop.
+            var showCode = Button().SetIcon(UIcons.SquareTerminal).Tooltip("Show sample code").OnClick(() =>
+            {
+                if (currentPage.Value is object) SamplesHelper.ShowSampleCode(currentPage.Value.Type);
+            });
+
+            var pageBar = SidebarPageBar(sidebar)
+               .Brand(TextBlock("TSS").Bold().Foreground(Theme.Primary.Background))
+               .Commands(showCode);
+
+            currentPage.Observe(page =>
+            {
+                pageBar.SetTitle(page is object ? page.Name : "Components");
+
+                if (page is object) showCode.Show();
+                else                showCode.Collapse();
+            });
+
+            // The shell is a row on both layouts - sidebar left, content right - and it is the sidebar
+            // that changes: a rail beside the content on a desktop, a page of its own on a phone, where
+            // it hides the content while it is on screen and hides itself once a sample is picked.
             //
             // The sidebar itself is never given an inline width: .tss-sidebar's own 250px is what
-            // sizes it on desktop, and .tss-navbar overrides both axes on mobile.
-            var pageContent = HStack().Class("tss-page-layout").S().Children(sidebar.HS(), contentArea);
+            // sizes it on desktop, and page mode fills the row on a phone.
+            var content     = VStack().Children(pageBar, contentArea.WS().H(1).Grow());
+            var pageContent = HStack().S().Children(sidebar.HS(), content.HS().W(1).Grow());
 
             MountToBody(pageContent);
 
@@ -103,44 +120,8 @@ namespace Tesserae.Tests
                .CommandsAlwaysVisible()
                .OnOpenIconClick(() => Toast().Success("You clicked on the icon")));
 
-            var openClose = new SidebarCommand(UIcons.AngleLeft).Tooltip("Close Sidebar");
-
-            // Points the shell at the layout the current mode calls for. Called once below and then
-            // on every OnMobileModeChanged, so narrowing or widening the window switches the whole
-            // shell rather than leaving a row layout for the mobile stylesheet to reshape.
-            void ApplyLayoutMode(bool isMobile)
-            {
-                sidebar.AsNavbar(isMobile);
-
-                if (isMobile)
-                {
-                    // Column: the navbar is fixed at the top and the content fills what is left. The
-                    // 1px height is the flex basis the grow expands from, so it has to be on the axis
-                    // the column measures - and the width has to be restated, since the row layout
-                    // left width:1px behind on what is now the cross axis.
-                    pageContent.Vertical();
-                    contentArea.WS().H(1).Grow();
-
-                    // AsNavbar already closed the drawer; keep the affordance's icon saying so.
-                    openClose.SetIcon(UIcons.AngleRight).Tooltip("Open Sidebar");
-                }
-                else
-                {
-                    pageContent.Horizontal();
-                    contentArea.HS().W(1).Grow();
-
-                    // Back on desktop, the sidebar is a rail again, so restore the user's own
-                    // open/closed preference rather than leaving it collapsed by the drawer.
-                    var sidebarOpenState = bool.TryParse(localStorage.getItem(_sidebarOpenStateKey), out var v) ? v : true;
-                    sidebar.Closed(!sidebarOpenState);
-
-                    openClose.SetIcon(sidebarOpenState ? UIcons.AngleLeft : UIcons.AngleRight)
-                       .Tooltip(sidebarOpenState ? "Close Sidebar" : "Open Sidebar");
-                }
-            }
-
-            ApplyLayoutMode(Theme.IsMobileMode);
-            Theme.OnMobileModeChanged += () => ApplyLayoutMode(Theme.IsMobileMode);
+            // A page is always open, so the command that closes the rail is hidden with the brand's own
+            var openClose = new SidebarCommand(UIcons.AngleLeft).Tooltip("Close Sidebar").Class("tss-sidebar-close-command");
 
             openClose.OnClick(() =>
             {
@@ -177,7 +158,41 @@ namespace Tesserae.Tests
             var commandSidebarconfig = new SidebarCommands("CONFIG", lightDark, openClose);
             sidebar.AddFooter(commandSidebarconfig);
 
-            var groupIndex = 0;
+            SidebarButton SampleButton(Sample item, string identifier)
+            {
+                var sidebarItem = new SidebarButton(identifier, item.Icon, item.Name, new SidebarCommand(UIcons.SquareTerminal).Tooltip("Show sample code").OnClick(() => SamplesHelper.ShowSampleCode(item.Type)),
+                    new SidebarCommand(UIcons.ArrowUpRightFromSquare).Tooltip("Open in new tab").OnClick(() => window.open($"#/view/{item.Name}", "_blank")));
+
+                sidebarItem.OnClick(() =>
+                {
+                    // Push asks the OnBeforeNavigate handler registered below and returns false
+                    // when it refuses, so a sample holding unsaved changes isn't swapped out from
+                    // under the dialog. The guard re-issues the navigation once the user decides,
+                    // and the route registered below is what shows the new sample then.
+                    if (!Router.Push($"#/view/{item.Name}")) return;
+
+                    currentPage.Value = item;
+                });
+
+                allSidebarItems.Add(sidebarItem);
+
+                if (!sampleToSidebarItems.TryGetValue(item, out var items))
+                {
+                    items = new List<ISidebarItem>();
+                    sampleToSidebarItems[item] = items;
+                }
+
+                items.Add(sidebarItem);
+                return sidebarItem;
+            }
+
+            // Two sets of rows over the same samples, because the two layouts group them differently: a desktop
+            // lists every sample under a separator per category, and a phone - where the sidebar is a page and a
+            // hundred rows is a long way to scroll with a thumb - shows one row per category, which opens its
+            // samples as a panel over the sidebar.
+            var railContent  = new List<ISidebarItem>();
+            var pageContents = new List<ISidebarItem>();
+            var groupIndex   = 0;
 
             // Groups are laid out in SampleGroup.InDisplayOrder, not alphabetically: the sidebar
             // reads top-down from the containers a page is built out of to the helpers that render
@@ -186,34 +201,54 @@ namespace Tesserae.Tests
             {
                 var groupKey = group.Key + groupIndex++;
 
-                var separator = new SidebarSeparator(groupKey, group.Key);
-                sidebar.AddContent(separator);
+                railContent.Add(new SidebarSeparator(groupKey, group.Key));
+
+                var nav = new SidebarNav("page-" + groupKey, SampleGroup.IconFor(group.Key), group.Key, initiallyCollapsed: true);
+                pageContents.Add(nav);
 
                 var itemIndex = 0;
 
                 foreach (var item in group.OrderBy(s => s.Order).ThenBy(s => s.Name.ToLower()))
                 {
-                    var sidebarItem = new SidebarButton(item.Name + itemIndex++, item.Icon, item.Name, new SidebarCommand(UIcons.SquareTerminal).Tooltip("Show sample code").OnClick(() => SamplesHelper.ShowSampleCode(item.Type)),
-                        new SidebarCommand(UIcons.ArrowUpRightFromSquare).Tooltip("Open in new tab").OnClick(() => window.open($"#/view/{item.Name}", "_blank")));
+                    var identifier = item.Name + itemIndex++;
 
-                    sidebarItem.OnClick(() =>
-                    {
-                        // Push asks the OnBeforeNavigate handler registered below and returns false
-                        // when it refuses, so a sample holding unsaved changes isn't swapped out from
-                        // under the dialog. The guard re-issues the navigation once the user decides,
-                        // and the route registered below is what shows the new sample then.
-                        if (!Router.Push($"#/view/{item.Name}")) return;
-
-                        currentPage.Value = item;
-                    });
-
-
-                    sidebar.AddContent(sidebarItem);
-                    allSidebarItems.Add(sidebarItem);
-                    sampleToSidebarItem[item] = sidebarItem;
+                    railContent.Add(SampleButton(item, identifier));
+                    nav.Add(SampleButton(item, identifier));
                 }
             }
 
+            bool? showingPageContents = null;
+
+            // Points the shell at the layout the current mode calls for. Called once below and then
+            // on every OnMobileModeChanged, so narrowing or widening the window switches the whole
+            // shell rather than leaving one layout for the mobile stylesheet to reshape.
+            void ApplyLayoutMode(bool isMobile)
+            {
+                if (showingPageContents != isMobile)
+                {
+                    showingPageContents = isMobile;
+
+                    sidebar.ClearContent();
+                    (isMobile ? pageContents : railContent).ForEach(i => sidebar.AddContent(i));
+                    sidebar.Search(searchTerm);
+                }
+
+                sidebar.AsPage(isMobile);
+
+                if (!isMobile)
+                {
+                    // Back on desktop, the sidebar is a rail again, so restore the user's own
+                    // open/closed preference.
+                    var sidebarOpenState = bool.TryParse(localStorage.getItem(_sidebarOpenStateKey), out var v) ? v : true;
+                    sidebar.Closed(!sidebarOpenState);
+
+                    openClose.SetIcon(sidebarOpenState ? UIcons.AngleLeft : UIcons.AngleRight)
+                       .Tooltip(sidebarOpenState ? "Close Sidebar" : "Open Sidebar");
+                }
+            }
+
+            ApplyLayoutMode(Theme.IsMobileMode);
+            Theme.OnMobileModeChanged += () => ApplyLayoutMode(Theme.IsMobileMode);
 
             // One handler covers every way out of a sample: the browser's back/forward buttons,
             // Router.Navigate, and the sidebar's Router.Push. (Closing or reloading the browser tab
@@ -229,7 +264,11 @@ namespace Tesserae.Tests
 
             foreach (var kv in samples)
             {
-                Router.Register($"#/view/{kv.Key.Replace(" ", "%20")}", _ => currentPage.Value = kv.Value);
+                Router.Register($"#/view/{kv.Key.Replace(" ", "%20")}", _ =>
+                {
+                    currentPage.Value = kv.Value;
+                    sidebar.ShowContent(); //a link to a sample opens on the sample, not on the sidebar a phone would otherwise show first
+                });
             }
 
             Router.Initialize();
