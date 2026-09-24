@@ -56,6 +56,8 @@ the line on screen keeps the last text it was given.
   to one of its calls (opening the run whose calls it lists, say). It stays next to the pill whether
   or not the group is expanded, and does not open or fold it.
 - `.Inline()` — render the tools in place instead of in the modal (see below).
+- On a phone (`Theme.IsMobileMode`) the modal is shown as a `Drawer` sliding up from the
+  bottom (`Modal.DrawerOnMobile`, see `drawer.md`); nothing to configure.
 - `.Show()` / `.Hide()` — open/close (the modal, or the inline list when `.Inline()` is set).
 - `.Expand()` / `.Collapse()` / `.Toggle()` / `.Expanded(bool)` / `.OnToggle(tu => ...)` —
   the inline list's state; without `.Inline()` expanding opens the modal instead.

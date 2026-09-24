@@ -25,6 +25,11 @@ into scope with `using static Tesserae.UI;`.
 - `.Draggable()` / `.Dark()` / `.ShowCloseButton()` / `.HideCloseButton()`.
 - `.Show()`, `.ShowAt(fromTop, fromLeft, fromRight, fromBottom)`, `.ShowAsync()` (Task), `.ShowEmbedded()` (return as an embeddable `IComponent`).
 - `.Hide(Action onHidden = null)`, `.OnShow(...)`, `.OnHide(...)`.
+- `.DrawerOnMobile(bool = true)` — while `Theme.IsMobileMode` is on, show this same modal
+  (header, commands, footer, close button) in a `Drawer` sliding up from the bottom
+  instead of centred on the page. Decided at every `Show()`; `OnShow` / `OnHide` and
+  the bound value fire as usual, `.IsShowingInDrawer` says which one is up (`IsVisible`
+  is only ever the dialog). See `drawer.md`.
 - `.WithPixelAvatar(avatar | key + design, anchor)` — perch an animated pixel cat on one of the modal's own edges and get the modal back to go on configuring. See `pixel-avatar.md`.
 
 ## Example

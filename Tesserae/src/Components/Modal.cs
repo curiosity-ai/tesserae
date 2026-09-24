@@ -38,6 +38,11 @@ namespace Tesserae
         private bool             _isDragged;
         private TranslationPoint _startPoint;
 
+        // DrawerOnMobile: the sheet the modal is moved into while it is shown on a phone
+        private bool   _drawerOnMobile;
+        private Drawer _drawer;
+        private bool   _shownInDrawer;
+
         // Set when a PixelAvatar is perched on this modal, so ShowEmbedded can move it inside.
         internal PixelAvatarAttachment _pixelAvatar;
 
@@ -515,6 +520,12 @@ namespace Tesserae
         /// </summary>
         public void ShowAt(UnitSize fromTop = null, UnitSize fromLeft = null, UnitSize fromRight = null, UnitSize fromBottom = null)
         {
+            if (ShouldShowAsDrawer)
+            {
+                ShowInDrawer();
+                return;
+            }
+
             _modal.style.marginTop    = fromTop is object ? fromTop.ToString() : UnitSize.Auto().ToString();
             _modal.style.marginLeft   = fromLeft is object ? fromLeft.ToString() : UnitSize.Auto().ToString();
             _modal.style.marginRight  = fromRight is object ? fromRight.ToString() : UnitSize.Auto().ToString();
@@ -527,6 +538,12 @@ namespace Tesserae
         /// </summary>
         public override Modal Show()
         {
+            if (ShouldShowAsDrawer)
+            {
+                ShowInDrawer();
+                return this;
+            }
+
             _modal.style.marginTop    = "";
             _modal.style.marginLeft   = "";
             _modal.style.marginRight  = "";
@@ -548,8 +565,81 @@ namespace Tesserae
             return tcs.Task;
         }
 
+        /// <summary>
+        /// Shows the modal in a <see cref="Drawer"/> - a sheet sliding up from the bottom of the screen - instead
+        /// of as a dialog while the page is in mobile mode (<see cref="UI.Theme.IsMobileMode"/>), where a dialog
+        /// in the middle of a phone leaves a margin of dimmed page on every side and nothing to hold it by.
+        /// Checked every time the modal is shown, so a window resized in between gets the right one.
+        /// </summary>
+        /// <remarks>
+        /// It is the same modal, moved: its header, commands, footer and close button come along, and
+        /// <see cref="OnShow"/>, <see cref="OnHide"/> and the bound value fire as they do for the dialog.
+        /// <see cref="IsShowingInDrawer"/> says which of the two is on screen; <see cref="Layer{T}.IsVisible"/>
+        /// is only ever the dialog. The sheet can be pulled down to dismiss it when the modal could be
+        /// dismissed anyway (<see cref="CanLightDismiss"/> or a close button).
+        /// </remarks>
+        /// <param name="drawerOnMobile">Whether to use a drawer on mobile.</param>
+        /// <returns>The current instance.</returns>
+        public Modal DrawerOnMobile(bool drawerOnMobile = true)
+        {
+            _drawerOnMobile = drawerOnMobile;
+            return this;
+        }
+
+        /// <summary>
+        /// Gets whether the modal is on screen inside a drawer - see <see cref="DrawerOnMobile"/>.
+        /// </summary>
+        public bool IsShowingInDrawer => _shownInDrawer;
+
+        private bool ShouldShowAsDrawer => _drawerOnMobile && Theme.IsMobileMode;
+
+        private void ShowInDrawer()
+        {
+            if (_drawer is null)
+            {
+                //The modal brings its own header, close button and padding, so the sheet draws none of them
+                _drawer = new Drawer().NoHeader().NoContentPadding();
+
+                _drawer.OnHide(_ =>
+                {
+                    if (!_shownInDrawer) return;
+
+                    _shownInDrawer    = false;
+                    _observable.Value = false;
+                    RaiseOnHide();
+                });
+            }
+
+            var dismissible = CanLightDismiss || WillShowCloseButton;
+
+            _drawer.CanLightDismiss  = dismissible;
+            _drawer.CanDragToDismiss = dismissible;
+
+            _modal.classList.remove("tss-modal-animate");
+            _modal.classList.add("tss-modal-in-drawer");
+            _drawer.Content = Raw(_modal);
+
+            _shownInDrawer = true;
+            _drawer.Show();
+            _modal.focus();
+
+            _observable.Value = true;
+            RaiseOnShow();
+        }
+
+        // A modal shown in a drawer last time is still inside it
+        private void ReturnFromDrawer()
+        {
+            if (_modal.parentElement == _contentHtml) return;
+
+            _modal.classList.remove("tss-modal-in-drawer");
+            _contentHtml.appendChild(_modal);
+        }
+
         private void DoShow()
         {
+            ReturnFromDrawer();
+
             _modal.style.transform = "translate(0px,0px)";
             if (AnimateOnShow) _modal.classList.add("tss-modal-animate");
             base.Show();
@@ -598,6 +688,15 @@ namespace Tesserae
         /// </summary>
         public override void Hide(Action onHidden = null)
         {
+            if (_shownInDrawer)
+            {
+                _shownInDrawer    = false;
+                _observable.Value = false;
+                RaiseOnHide();
+                _drawer.Hide(onHidden);
+                return;
+            }
+
             RaiseOnHide();
             _observable.Value = false;
 
@@ -614,13 +713,15 @@ namespace Tesserae
         /// </summary>
         public void SetBoundValue(bool value)
         {
+            var isShown = IsVisible || _shownInDrawer;
+
             if (value)
             {
-                if (!IsVisible) Show();
+                if (!isShown) Show();
             }
             else
             {
-                if (IsVisible) Hide();
+                if (isShown) Hide();
             }
         }
 

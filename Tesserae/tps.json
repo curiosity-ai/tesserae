@@ -55,6 +55,7 @@
                 "tps/assets/css/tss.detailslist.css",
                 "tps/assets/css/tss.picker.css",
                 "tps/assets/css/tss.panel.css",
+                "tps/assets/css/tss.drawer.css",
                 "tps/assets/css/tss.pivot.css",
                 "tps/assets/css/tss.cardpivot.css",
                 "tps/assets/css/tss.segmentedpivot.css",

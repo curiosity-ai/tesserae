@@ -332,3 +332,70 @@ body.tss-mobile .tss-omnibox-footer {
         min-height: 32px !important;
         height: 32px;
     }
+
+/* ─── Button.HideTextOnMobile — the icon alone ──────────────────────────── */
+/* Only a button that has an icon to fall back on, and drawn the way a button that never had text is. */
+body.tss-mobile .tss-btn.tss-btn-hide-text-mobile:has(> i) > span {
+    display: none;
+}
+
+body.tss-mobile .tss-btn.tss-btn-hide-text-mobile:has(> i) {
+    min-width: unset !important;
+    aspect-ratio: 1;
+    padding: 0px 10px;
+}
+
+    body.tss-mobile .tss-btn.tss-btn-hide-text-mobile:has(> i) > i {
+        margin: 0px !important;
+    }
+
+/* ─── Keyboard shortcuts — none on a device without a keyboard ──────────── */
+/* Every chip the toolkit draws for a key, wherever it sits, and the room reserved for one on a sidebar row. */
+body.tss-mobile .tss-kbd-shortcut,
+body.tss-mobile .tss-sidebar-btn-shortcut,
+body.tss-mobile .tss-searchbox-shortcut,
+body.tss-mobile .tss-omnibox-shortcut,
+body.tss-mobile .tss-commandpalette-shortcut,
+body.tss-mobile .tss-commandpalette-shortcuts,
+body.tss-mobile .tss-omniresult-modal-shortcuts {
+    display: none !important;
+}
+
+body.tss-mobile .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-has-shortcut,
+body.tss-mobile .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-has-shortcut {
+    padding-right: 0px;
+}
+
+/* ─── Chat — every message the width of the screen ──────────────────────── */
+/* A bubble capped at a share of a phone's width wraps a short answer into a column, so every message takes
+   the whole row, and the commands beside it stay on screen: there is no hover to bring them in. */
+body.tss-mobile .tss-chatarea {
+    padding: 8px;
+}
+
+body.tss-mobile .tss-chatmessage-container .tss-chatmessage-bubble {
+    max-width: none;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+body.tss-mobile .tss-chatmessage-avatar {
+    margin-left: 0px;
+    margin-right: 6px;
+}
+
+body.tss-mobile .tss-chat-right .tss-chatmessage-avatar {
+    margin-left: 6px;
+    margin-right: 0px;
+}
+
+body.tss-mobile .tss-chatmessage-commands {
+    opacity: 1;
+    margin-left: 4px;
+    margin-right: 0px;
+}
+
+body.tss-mobile .tss-chat-right .tss-chatmessage-commands {
+    margin-left: 0px;
+    margin-right: 4px;
+}

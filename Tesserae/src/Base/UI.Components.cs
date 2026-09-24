@@ -1052,6 +1052,14 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.Panel"/> component.
         /// </summary>
         public static Panel Panel(IComponent title)        => new Panel(title);
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Drawer"/>: a sheet that slides up from the bottom of the screen.
+        /// </summary>
+        public static Drawer Drawer(string     title = null) => new Drawer(title);
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Drawer"/>: a sheet that slides up from the bottom of the screen.
+        /// </summary>
+        public static Drawer Drawer(IComponent title)        => new Drawer(title);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.Modal"/> component.

@@ -17,6 +17,13 @@ can call `.ReplaceContent(...)` repeatedly to animate streamed/typed text.
 `UI.ChatMessage(IComponent content, IComponent avatar = null, IComponent commands = null)`.
 Bring factories into scope with `using static Tesserae.UI;`.
 
+## On a phone
+
+While `Theme.IsMobileMode` is on, every message takes the whole row (the
+`.MaxWidth()` cap is lifted), the transcript's padding shrinks, and the commands slot
+stays visible instead of fading in on hover — there is no hover. Put a single "more"
+button in the slot there if the row of commands does not fit.
+
 ## Key configuration
 
 ChatArea:

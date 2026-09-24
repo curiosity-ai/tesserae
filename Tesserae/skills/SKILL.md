@@ -217,7 +217,7 @@ banner · live-progress · message · notification-center · progress-indicator 
 progress-modal · progress-ring · skeleton · spinner · tippy · toast
 
 **Overlays & Dialogs** — surfaces that float above the page
-dialog · float · layer · modal · modal-stack · panel · popover · shortcut-guide
+dialog · drawer · float · layer · modal · modal-stack · panel · popover · shortcut-guide
 · tabbed-modal · teaching · tutorial-modal
 
 **AI & Chat** — conversation, tool calls and their context

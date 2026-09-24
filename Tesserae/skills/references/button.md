@@ -68,6 +68,8 @@ Content:
 - `.SetText(string)` / `.SetTitle(string)` (hover title) / `.Tooltip(string)`.
 - `.SetIcon(UIcons icon, string color = "", ..., bool afterText = false)`.
 - `.Wrap()` / `.NoWrap()` / `.Ellipsis()`.
+- `.HideTextOnMobile(bool = true)` — while `Theme.IsMobileMode` is on, show only the
+  icon (a button with no icon keeps its text). The text stays the `aria-label`.
 
 Behaviour:
 
