@@ -3363,6 +3363,23 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets when the generation in progress started — what the footer's elapsed time counts
+        /// from. Setting <see cref="IsGenerating"/> starts it at the current time; set it afterwards to
+        /// backdate a generation that began before this box knew about it, e.g. a reply that was already
+        /// running when its chat was opened. A time in the future counts as now.
+        /// </summary>
+        public DateTimeOffset GeneratingStartedAt
+        {
+            get => DateTimeOffset.FromUnixTimeMilliseconds((long)_generatingStartMs);
+            set
+            {
+                _generatingStartMs = Math.Min(value.ToUnixTimeMilliseconds(), Transpose.Core.es5.Date.now());
+
+                if (_isGenerating) UpdateGeneratingText();
+            }
+        }
+
         private void StartGeneratingTimer()
         {
             window.clearInterval(_generatingTimer);
