@@ -108,18 +108,26 @@ namespace Tesserae
             set => GetTarget().style.userSelect = value ? "" : "none";
         }
 
-        /// <summary>Gets or sets the text.</summary>
+        /// <summary>Gets or sets the text. Setting it stops following an observable passed to <c>Text(...)</c>.</summary>
         public string Text
         {
             get => GetTarget().innerText;
-            set => GetTarget().innerText = value;
+            set
+            {
+                StopFollowingText();
+                GetTarget().innerText = value;
+            }
         }
 
-        /// <summary>Gets or sets the HTML content.</summary>
+        /// <summary>Gets or sets the HTML content. Setting it stops following an observable passed to <c>Text(...)</c>.</summary>
         public string HTML
         {
             get => GetTarget().innerHTML;
-            set => GetTarget().innerHTML = value;
+            set
+            {
+                StopFollowingText();
+                GetTarget().innerHTML = value;
+            }
         }
 
         /// <summary>Gets or sets the title.</summary>
@@ -132,27 +140,18 @@ namespace Tesserae
         private Action _unbindText;
 
         /// <summary>
-        /// Keeps the text in step with <paramref name="source"/>: every change is written into this same
-        /// element, so the block is never rebuilt. One-way, since a text block has no input to push back; the
-        /// two-way <see cref="BindingExtensions"/>.Bind is for input components over a SettableObservable. This is the way to show text that changes; wrapping a
-        /// <see cref="TextBlock"/> in <c>DeferSync</c> constructs a new block and swaps the element on every
-        /// change, which remounts it and flickers.
-        /// The subscription is held only while the block is mounted: it is taken on mount (writing the current
-        /// value), dropped on removal and taken again if the block is mounted again. Binding again replaces the
-        /// previous binding.
+        /// Backs the observable overloads of <see cref="TextBlockExtensions"/>.Text: writes every value of
+        /// <paramref name="source"/> into this same element, so the block is never rebuilt. The subscription is
+        /// held only while the block is mounted: taken on mount (writing the current value), dropped on removal
+        /// and taken again if the block is mounted again. Following a new source, or setting <see cref="Text"/>
+        /// or <see cref="HTML"/>, ends the previous one.
         /// </summary>
-        public TextBlock Bind(IObservable<string> source) => Bind(source, v => v);
-
-        /// <summary>
-        /// Keeps the text in step with <paramref name="source"/>, formatted by <paramref name="format"/>. See
-        /// <see cref="Bind(IObservable{string})"/>.
-        /// </summary>
-        public TextBlock Bind<T>(IObservable<T> source, Func<T, string> format)
+        internal void FollowText<T>(IObservable<T> source, Func<T, string> format)
         {
             if (source is null) throw new ArgumentNullException(nameof(source));
             if (format is null) throw new ArgumentNullException(nameof(format));
 
-            _unbindText?.Invoke();
+            StopFollowingText();
 
             var bound     = true;
             var observing = false;
@@ -197,8 +196,12 @@ namespace Tesserae
                     source.StopObserving(write);
                 }
             };
+        }
 
-            return this;
+        private void StopFollowingText()
+        {
+            _unbindText?.Invoke();
+            _unbindText = null;
         }
 
         private HTMLElement GetTarget()

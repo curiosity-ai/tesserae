@@ -10,7 +10,7 @@ Components and `Defer`/`ObservableStack`/`ItemsList` subscribe to them and re-re
 values change.
 
 For text that follows an observable, pass it to the `TextBlock`:
-`TextBlock(obs, v => $"…{v}")` (or `.Bind(obs, …)`). It updates the one element in place.
+`TextBlock(obs, v => $"…{v}")` (or `.Text(obs, …)` on an existing block). It updates the one element in place.
 Do not use `DeferSync(obs, v => TextBlock(...))` for this: it rebuilds and remounts the block on
 every change, which flickers. See `text-block.md`.
 

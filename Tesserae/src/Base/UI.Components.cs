@@ -823,15 +823,15 @@ namespace Tesserae
         public static TextBlock TextBlock(string text = string.Empty, bool treatAsHTML = false, bool selectable = false, TextSize textSize = TextSize.Small, TextWeight textWeight = TextWeight.Regular, string afterText = null) => new TextBlock(text, treatAsHTML, selectable, textSize, textWeight, afterText: afterText);
         /// <summary>
         /// Creates a <see cref="Tesserae.TextBlock"/> whose text follows <paramref name="text"/>. Each change is written into
-        /// the same element (see <see cref="Tesserae.TextBlock.Bind(IObservable{string})"/>), so prefer this over
+        /// the same element (see <see cref="TextBlockExtensions.Text{T}(T, IObservable{string})"/>), so prefer this over
         /// <c>DeferSync(obs, v => TextBlock(v))</c>, which rebuilds the block on every change and flickers.
         /// </summary>
-        public static TextBlock TextBlock(IObservable<string> text, bool selectable = false, TextSize textSize = TextSize.Small, TextWeight textWeight = TextWeight.Regular) => new TextBlock(string.Empty, false, selectable, textSize, textWeight).Bind(text);
+        public static TextBlock TextBlock(IObservable<string> text, bool selectable = false, TextSize textSize = TextSize.Small, TextWeight textWeight = TextWeight.Regular) => new TextBlock(string.Empty, false, selectable, textSize, textWeight).Text(text);
         /// <summary>
         /// Creates a <see cref="Tesserae.TextBlock"/> whose text is <paramref name="format"/> applied to each value of
         /// <paramref name="source"/>, written into the same element on every change.
         /// </summary>
-        public static TextBlock TextBlock<T>(IObservable<T> source, Func<T, string> format, bool selectable = false, TextSize textSize = TextSize.Small, TextWeight textWeight = TextWeight.Regular) => new TextBlock(string.Empty, false, selectable, textSize, textWeight).Bind(source, format);
+        public static TextBlock TextBlock<T>(IObservable<T> source, Func<T, string> format, bool selectable = false, TextSize textSize = TextSize.Small, TextWeight textWeight = TextWeight.Regular) => new TextBlock(string.Empty, false, selectable, textSize, textWeight).Text(source, format);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.ListItemText"/> component showing a title with an optional subtitle.

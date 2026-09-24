@@ -1,4 +1,6 @@
-﻿namespace Tesserae
+﻿using System;
+
+namespace Tesserae
 {
     /// <summary>
     /// Extension methods for <see cref="TextBlock"/>.
@@ -16,6 +18,26 @@
         public static T Text<T>(this T textBlock, string text) where T : TextBlock
         {
             textBlock.Text = text;
+            return textBlock;
+        }
+
+        /// <summary>
+        /// Makes the text follow <paramref name="source"/>: every change is written into the same element, so the
+        /// block is never rebuilt. This is the way to show text that changes; wrapping a <see cref="TextBlock"/> in
+        /// <c>DeferSync</c> builds a new block and swaps the element on every change, which remounts it and flickers.
+        /// The subscription lives while the block is mounted and needs no cleanup. A later <c>Text(...)</c> call,
+        /// with a value or another observable, replaces this one.
+        /// </summary>
+        public static T Text<T>(this T textBlock, IObservable<string> source) where T : TextBlock
+            => textBlock.Text(source, v => v);
+
+        /// <summary>
+        /// Makes the text follow <paramref name="source"/>, formatted by <paramref name="format"/>. See
+        /// <see cref="Text{T}(T, IObservable{string})"/>.
+        /// </summary>
+        public static TBlock Text<TBlock, TValue>(this TBlock textBlock, IObservable<TValue> source, Func<TValue, string> format) where TBlock : TextBlock
+        {
+            textBlock.FollowText(source, format);
             return textBlock;
         }
 

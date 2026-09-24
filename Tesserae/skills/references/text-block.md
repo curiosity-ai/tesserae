@@ -25,7 +25,7 @@ var count = new SettableObservable<int>(0);
 
 TextBlock(count, c => $"Count: {c}").Large().SemiBold();   // formatted
 TextBlock(statusObservable);                              // IObservable<string> as-is
-TextBlock().Secondary().Bind(count, c => $"{c} items"); // bind an existing block
+TextBlock().Secondary().Text(count, c => $"{c} items"); // on an existing block
 ```
 
 Do **not** write `DeferSync(count, c => TextBlock($"Count: {c}"))` for this. `Defer`/`DeferSync`
@@ -33,16 +33,18 @@ construct a new component on every change and swap the element in: the block is 
 loses its styling state and flickers. Keep `Defer` for when the *shape* of the content changes,
 not its words.
 
-Details of `.Bind(source)` / `.Bind(source, format)`:
+Details of `.Text(source)` / `.Text(source, format)`:
 
-- One-way: source to text. It is the same verb as the two-way `.Bind(settableObservable)` on
-  input components (`TextBox`, `CheckBox`, ...), but a text block has no input to push back, so it
-  takes any `IObservable<T>`, not only a `SettableObservable<T>`.
+- One-way: source to text. It is an overload of the plain `.Text(string)`, the same shape the rest
+  of the toolkit uses for observable inputs (`NotificationCenter.BadgeCount(IObservable<int>)`,
+  `ToolCall.SetProgress(IObservable<string>)`, `Chart.Series(IObservable<double[]>)`). It is not
+  `.Bind`, which is two-way and only for input components over a `SettableObservable<T>`.
 - Writes the current value immediately, so the first paint is already right.
 - Subscribes only while the block is mounted: dropped on removal, re-taken (with the current value)
   if it is mounted again. No manual cleanup.
-- Calling `Bind` again replaces the previous binding.
-- It sets plain text (`textContent`), not HTML, and replaces what `.Text` held; do not combine it with `afterText`.
+- The last `Text(...)` wins: another observable replaces the previous one, and a plain
+  `.Text("...")` (or setting the `Text` / `HTML` property) stops following it.
+- It sets plain text (`textContent`), not HTML; do not combine it with `afterText`.
 - Any `IObservable<T>` works: `SettableObservable<T>`, a `ReadOnlyObservable<T>` subclass, the
   combined observables, `ObservableList<T>` (as `IObservable<IReadOnlyList<T>>`).
 
@@ -60,7 +62,7 @@ Sizes and weights come from `ITextFormating` fluent helpers:
 
 Useful properties:
 
-- `Text` — get/set the plain text. For text that changes over time, bind an observable instead (see Live text).
+- `Text` — get/set the plain text. For text that changes over time, pass an observable to `.Text(...)` instead (see Live text).
 - `HTML` — get/set inner HTML (when `treatAsHTML`).
 - `IsSelectable` — allow text selection.
 - `EnableEllipsis` / `EnableBreakSpaces` — overflow behaviour.
