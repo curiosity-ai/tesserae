@@ -51,24 +51,36 @@
 .tss-textbox-container {
     position: relative;
 }
-    .tss-textbox-container.tss-invalid {
-        margin-bottom: 4px;
-    }
 
     .tss-textbox-container.tss-invalid .tss-textbox {
         border-color: var(--tss-invalid-border-color);
     }
 
-
-
+/* The message line under the input (the text area shares it). A message set by hand (.Error() + .IsInvalid()) only
+   takes its line while it shows; an input that carries validation (.Validation(...), which marks the root
+   tss-has-validation) reserves the line from the start and only toggles its visibility, so a message appearing or
+   clearing never moves the fields below it. The line is exactly one line of the message's own font, so an empty
+   span and a one-line message are the same height. */
 .tss-textbox-error {
     color: var(--tss-invalid-border-color);
     display: none;
     font-size: var(--tss-font-size-tiny);
+    line-height: 1.4;
 }
 
 .tss-textbox-container.tss-invalid .tss-textbox-error {
     display: block;
+}
+
+.tss-has-validation .tss-textbox-error {
+    display: block;
+    min-height: 1.4em;
+    visibility: hidden;
+}
+
+.tss-has-validation.tss-invalid .tss-textbox-error,
+.tss-has-validation .tss-invalid .tss-textbox-error {
+    visibility: visible;
 }
 
 .tss-textbox.tss-textbox-noborder {

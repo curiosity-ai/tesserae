@@ -24,7 +24,7 @@ A single-line text input with placeholder, read-only, password, and validation s
 
 Validation / errors (inherited from `Input`):
 
-- `.Error("message")` then `.IsInvalid()` — show an error state.
+- `.Error("message")` then `.IsInvalid()` — show an error state. The message line only takes space while it shows; a box with `.Validation(...)` reserves it from the start, so validating never moves the fields below.
 - `.Validation(tb => tb.Text.Length == 0 ? "Empty" : null)` — live validator.
 
 ## Example

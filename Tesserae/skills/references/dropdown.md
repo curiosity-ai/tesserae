@@ -41,6 +41,7 @@ Dropdown:
 - `.Required()` / `.Disabled()` / `.NoBorder()` / `.NoBackground()` / `.FitContent()`.
 - `.Placeholder(string|IComponent)` — empty-state text.
 - `.Attach(handler)` — fires on every selection change, including each toggle inside a multi-select popup (use for validation: set `.IsInvalid` and `.Error`).
+- `.Validation(rule, validator)` — reserves a one-line band under the box for the error message from the start, so validating never moves the fields below; a long message is ellipsized there with the full text as its tooltip.
 - `.OnChange(handler)` — fires once, when the popup closes, with the selection the User settled on (for a single-select dropdown that is as soon as an option is picked, since picking one closes the popup).
 - `.SelectedItems` / `.SelectedText` — current selection. `.AsObservable()` for the selected list.
 
