@@ -22,6 +22,9 @@ namespace Tesserae
         private readonly Stack                                           _sidebar;
         private          bool                                            _isSortable;
         private          bool                                            _isNavbar;
+        private readonly SettableObservable<bool>                        _pageMode;
+        private readonly SettableObservable<bool>                        _pageShowsContent;
+        private          bool                                            _pageClicksHooked;
 
         private Action<Dictionary<string, string[]>> _onSortingChanged;
 
@@ -68,15 +71,17 @@ namespace Tesserae
             _header        = new ObservableList<ISidebarItem>();
             _middleContent = new SettableObservable<IReadOnlyList<ISidebarItem>>(new List<ISidebarItem>());
             _footer        = new ObservableList<ISidebarItem>();
-            _closed        = new SettableObservable<bool>(false);
-            _sidebar       = VStack().Class("tss-sidebar");
+            _closed           = new SettableObservable<bool>(false);
+            _pageMode         = new SettableObservable<bool>(false);
+            _pageShowsContent = new SettableObservable<bool>(false);
+            _sidebar          = VStack().Class("tss-sidebar");
 
             _closed.Observe(isClosed =>
             {
                 // A shifted child sidebar is rendered inside this one, so it has to follow the same open/closed state
                 if (_shiftChild is object)
                 {
-                    _shiftChild.IsClosed = isClosed;
+                    _shiftChild.IsClosed = isClosed && !IsPage;
                 }
 
                 // Show or hide the mobile backdrop (used in navbar/mobile mode)
@@ -97,6 +102,9 @@ namespace Tesserae
 
                 _closedTimeout = window.setTimeout((_) =>
                 {
+                    //A page has no rail to collapse into: the state is kept for when the sidebar stops being one
+                    if (IsPage) return;
+
                     if (isClosed)
                     {
                         _sidebar.Class(_isNavbar ? "tss-navbar-closed" : "tss-sidebar-closed");
@@ -112,6 +120,8 @@ namespace Tesserae
             var combined = new CombinedObservable<IReadOnlyList<ISidebarItem>, IReadOnlyList<ISidebarItem>, IReadOnlyList<ISidebarItem>, bool>(_header, _middleContent, _footer, _closed);
 
             combined.ObserveFutureChanges(content => RenderSidebar(content.first, content.second, content.third, content.forth));
+
+            _pageShowsContent.ObserveFutureChanges(_ => ApplyPageState());
 
             // disable Reordering in a closed sidebar
             _closed.ObserveFutureChanges(closed =>
@@ -169,6 +179,11 @@ namespace Tesserae
         {
             if (_isNavbar == isNavbar) return this;
 
+            if (isNavbar && IsPage)
+            {
+                AsPage(false);
+            }
+
             _isNavbar = isNavbar;
 
             if (isNavbar)
@@ -219,8 +234,148 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Gets whether the sidebar is currently rendering as a page - see <see cref="AsPage"/>.
+        /// </summary>
+        public bool IsPage => _pageMode.Value;
+
+        /// <summary>
+        /// Observes whether the sidebar renders as a page - see <see cref="AsPage"/>.
+        /// </summary>
+        public IObservable<bool> PageMode => _pageMode;
+
+        /// <summary>
+        /// Gets whether a sidebar rendering as a page has stepped aside for the content next to it.
+        /// Always false while the sidebar is not a page.
+        /// </summary>
+        public bool IsShowingContent => IsPage && _pageShowsContent.Value;
+
+        /// <summary>
+        /// Observes whether a sidebar rendering as a page has stepped aside for the content (true) or is the
+        /// page on screen (false).
+        /// </summary>
+        public IObservable<bool> ShowingContent => _pageShowsContent;
+
+        /// <summary>
+        /// Configures the sidebar to render as a page - the phone layout where the sidebar and the content next
+        /// to it take turns filling the screen - or back to an ordinary sidebar.
+        /// </summary>
+        /// <remarks>
+        /// As a page the sidebar is always open and fills its container, and everything after it in that
+        /// container is hidden. Picking one of its buttons steps it aside (<see cref="ShowContent"/>), which
+        /// hides the sidebar and brings the content back; <see cref="ShowSidebar"/> is the way back, and
+        /// <see cref="SidebarPageBar"/> is a bar for the content that carries the button doing it.
+        /// <para>
+        /// The open/closed state is kept rather than cleared, so a sidebar that stops being a page returns to the
+        /// rail the user left. Follow <see cref="UI.Theme.OnMobileModeChanged"/> to switch on a resize.
+        /// </para>
+        /// </remarks>
+        /// <param name="isPage">Whether to render as a page.</param>
+        /// <returns>The current instance.</returns>
+        public Sidebar AsPage(bool isPage = true)
+        {
+            if (IsPage == isPage) return this;
+
+            if (isPage && _isNavbar)
+            {
+                AsNavbar(false);
+            }
+
+            if (_shiftChild is object)
+            {
+                _shiftChild.IsClosed = _closed.Value && !isPage;
+            }
+
+            if (isPage)
+            {
+                _sidebar.Class("tss-sidebar-page");
+                _sidebar.RemoveClass("tss-sidebar-closed");
+                HookPageClicks();
+            }
+            else
+            {
+                _sidebar.RemoveClass("tss-sidebar-page");
+
+                if (_closed.Value)
+                {
+                    _sidebar.Class("tss-sidebar-closed");
+                }
+            }
+
+            _pageMode.Value = isPage;
+
+            ApplyPageState();
+            Refresh();
+            return this;
+        }
+
+        /// <summary>
+        /// Steps a sidebar rendering as a page aside, so the content next to it fills the screen. Does nothing
+        /// visible while the sidebar is not a page, beyond remembering it for when it becomes one.
+        /// </summary>
+        /// <returns>The current instance.</returns>
+        public Sidebar ShowContent()
+        {
+            _pageShowsContent.Value = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Brings a sidebar rendering as a page back in place of the content - the back button of
+        /// <see cref="SidebarPageBar"/>.
+        /// </summary>
+        /// <returns>The current instance.</returns>
+        public Sidebar ShowSidebar()
+        {
+            _pageShowsContent.Value = false;
+            return this;
+        }
+
+        private void ApplyPageState()
+        {
+            _sidebar.Render().UpdateClassIf(IsShowingContent, "tss-sidebar-page-hidden");
+        }
+
+        // Picking something in the sidebar is what steps it aside, and every row the sidebar draws passes
+        // through its own element on the way, so one capture listener here covers the items a consumer builds
+        // as well as the ones in this library - including those of a shifted child sidebar, which is mounted
+        // inside this one. It runs after the click, so whatever the row does happens under the page it chose.
+        private void HookPageClicks()
+        {
+            if (_pageClicksHooked) return;
+
+            _pageClicksHooked = true;
+
+            _sidebar.Render().addEventListener("click", (Action<Event>)(e =>
+            {
+                if (!IsPage) return;
+
+                var me = e.As<MouseEvent>();
+
+                if (me.ctrlKey || me.metaKey || me.shiftKey) return; //opens in a new tab, this page stays where it is
+
+                var target = e.target.As<HTMLElement>();
+
+                if (target is null || !IsPageSelection(target)) return;
+
+                window.setTimeout(_ => ShowContent(), 0);
+            }), true);
+        }
+
+        // A row that goes somewhere, as opposed to the chrome around it: a row's own commands, a group's arrow
+        // or header (which expands the group when it is the one already selected), a search box, and the brand
+        // and profile rows, whose click opens a menu anchored on the sidebar that is about to be hidden.
+        private static bool IsPageSelection(HTMLElement target)
+        {
+            if (target.closest(".tss-sidebar-btn-open") is null) return false;
+
+            return target.closest(".tss-sidebar-commands, .tss-sidebar-nav-arrow, .tss-sidebar-nav-header, .tss-sidebar-btn-searchbox, .tss-sidebar-identity") is null;
+        }
+
         private void RenderSidebar(IReadOnlyList<ISidebarItem> header, IReadOnlyList<ISidebarItem> middle, IReadOnlyList<ISidebarItem> footer, bool closed)
         {
+            closed = closed && !IsPage;
+
             var stackMiddle = VStack();
 
             if (_isSortable)
@@ -393,7 +548,7 @@ namespace Tesserae
                 EnsureShiftScaffolding();
 
                 _shiftChild = child;
-                child.IsClosed = _closed.Value;
+                child.IsClosed = _closed.Value && !IsPage;
 
                 ClearChildren(_shiftChildPanel);
                 _shiftChildPanel.appendChild(child.Render());

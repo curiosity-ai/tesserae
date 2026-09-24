@@ -8,7 +8,8 @@ description: A collapsible side-navigation panel with header, scrollable middle,
 A vertical navigation panel that can be open (icons + labels) or closed (icons
 only). Items go into three sections — header, middle content, footer — and
 implement `ISidebarItem` (`SidebarButton`, `SidebarSeparator`, `SidebarNav`,
-`SidebarPivot`, `SidebarText`, ...). Can also render as a top navbar.
+`SidebarPivot`, `SidebarText`, ...). Can also render as a top navbar, or as a
+page of its own on a phone.
 
 ## Create
 
@@ -28,6 +29,11 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.AsNavbar(bool = true)` / `.IsNavbar` — render horizontally as a top bar with a
   hamburger drawer, or (passing `false`) back as a vertical sidebar. Both directions
   work, so an app can switch on a window resize — see *Responsive* below.
+- `.AsPage(bool = true)` / `.IsPage` / `.PageMode` — the phone layout: the sidebar
+  fills its container and takes turns with the content after it — see *Sidebar as a
+  page* below.
+- `.ShowContent()` / `.ShowSidebar()` / `.IsShowingContent` / `.ShowingContent` —
+  which of the two a page-mode sidebar has on screen.
 - `.Secondary()` — use the secondary background colour.
 - `.Sortable(bool)` — enable/disable drag reordering.
 - `.Search(term)` — filter searchable middle items.
@@ -314,6 +320,44 @@ void ApplyLayoutMode(bool isMobile)
     // left over from the previous mode becomes a real size on the cross axis.
     if (isMobile) { shell.Vertical();   content.WS().H(1).Grow(); }
     else          { shell.Horizontal(); content.HS().W(1).Grow(); }
+}
+
+ApplyLayoutMode(Theme.IsMobileMode);
+Theme.OnMobileModeChanged += () => ApplyLayoutMode(Theme.IsMobileMode);
+```
+
+## Sidebar as a page (phones)
+
+`.AsPage()` is the other mobile layout: no rail and no drawer — the sidebar is a
+page of its own that takes turns with the content. While it is a page it is always
+open (the closed state is kept for when it stops being one, and the brand's
+close-the-rail command is hidden), it fills its container, and everything *after*
+it in that container is hidden.
+
+- Picking a row steps it aside by itself (`.ShowContent()`): a click on a
+  `SidebarButton` row, including one in a shifted child sidebar. Commands, a nav
+  group's header and arrow, search boxes and the brand/profile rows do not — they
+  act on the sidebar rather than leave it. A Ctrl/Cmd/Shift-click opens a new tab
+  and leaves the page where it is.
+- Something the sidebar cannot see — a route change, a list inside a
+  `SidebarComponent` — calls `.ShowContent()` itself.
+- `SidebarPageBar(sidebar)` (see `sidebar-page-bar.md`) goes at the top of the
+  content: a back button that calls `.ShowSidebar()`, a brand and the page title.
+  It collapses itself while its sidebar is not a page, so it can stay mounted.
+- A sidebar the app has `Collapse()`d leaves the content on its own.
+
+```csharp
+Theme.EnableMobileDetection(breakpoint: 768);
+
+var sidebar = Sidebar();
+var pageBar = SidebarPageBar(sidebar).Brand(Image(logoUrl).W(24).H(24));
+var content = VStack().Children(pageBar, page.H(10).Grow()).HS().W(1).Grow();
+var shell   = HStack().S().Children(sidebar.HS(), content);
+
+void ApplyLayoutMode(bool isMobile)
+{
+    sidebar.AsPage(isMobile);
+    if (isMobile) sidebar.ShowContent(); // open on whatever the address says
 }
 
 ApplyLayoutMode(Theme.IsMobileMode);

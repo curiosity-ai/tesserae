@@ -158,14 +158,23 @@ body.tss-mobile .tss-navbar-burger {
     justify-content: center !important;
 }
 
-/* ─── Sidebar hidden in mobile (only navbar is shown) ────────────────────── */
-body.tss-mobile .tss-sidebar:not(.tss-navbar) {
+/* ─── Sidebar hidden in mobile (only a navbar or a page is shown) ────────── */
+/* A sidebar rendering as a page (Sidebar.AsPage) is the other mobile layout, and a child sidebar it has
+   shifted into lives inside it. */
+body.tss-mobile .tss-sidebar:not(.tss-navbar):not(.tss-sidebar-page):not(.tss-sidebar-page .tss-sidebar) {
     display: none !important;
 }
 
-/* ─── Touch targets — 44px minimum per WCAG/Apple HIG ────────────────────── */
+/* ─── Touch targets ──────────────────────────────────────────────────────── */
+/* 40px is the standard height of a button on a phone (Material 3); rows in a list get 44px (Apple HIG).
+   Anything taller reads as oversized next to the platform's own controls, and a small button stays small:
+   it is small because it sits inline with text or in a dense toolbar. */
 body.tss-mobile .tss-btn {
-    min-height: 44px !important;
+    min-height: 40px !important;
+}
+
+body.tss-mobile .tss-btn.tss-small {
+    min-height: 32px !important;
 }
 
 body.tss-mobile .tss-sidebar-btn-open > .tss-btn,
@@ -177,8 +186,8 @@ body.tss-mobile .tss-sidebar-btn-open > a > .tss-btn {
 body.tss-mobile .tss-sidebar-commands-line .tss-btn,
 body.tss-mobile .tss-sidebar-commands-line-extra .tss-btn,
 body.tss-mobile .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn.tss-btn {
-    height: 44px !important;
-    min-height: 44px !important;
+    height: 40px !important;
+    min-height: 40px !important;
 }
 
 /* Sidebar nav arrow shifted for taller rows */
@@ -188,6 +197,13 @@ body.tss-mobile .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn {
 
 body.tss-mobile .tss-sidebar-commands {
     top: 10px !important;
+}
+
+/* ─── Sidebar as a page ──────────────────────────────────────────────────── */
+/* A page is the whole screen, so it does not need the gutter a rail keeps against the content. */
+body.tss-mobile .tss-sidebar.tss-sidebar-page {
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 /* ─── Typography adjustments ─────────────────────────────────────────────── */
@@ -295,3 +311,24 @@ body.tss-mobile input[type="password"],
 body.tss-mobile textarea {
     font-size: max(16px, 1em) !important;
 }
+
+/* ─── OmniBox — a compact composer ───────────────────────────────────────── */
+/* The desktop box reserves 80px for the text before the footer; on a phone that is a sixth of the screen
+   the conversation could have. It starts at one line and grows with what is typed, and the footer's
+   icon buttons keep the 32px they are drawn at rather than taking the 40px floor of a standalone button. */
+body.tss-mobile .tss-omnibox-chat-container,
+body.tss-mobile .tss-omnibox-container.tss-omnibox-chat-and-search .tss-omnibox-search-container {
+    min-height: 0;
+    padding: 8px 8px 4px 8px;
+}
+
+body.tss-mobile .tss-omnibox-footer {
+    flex-wrap: wrap;
+    row-gap: 4px;
+    margin-bottom: 4px;
+}
+
+    body.tss-mobile .tss-omnibox-footer .tss-btn {
+        min-height: 32px !important;
+        height: 32px;
+    }

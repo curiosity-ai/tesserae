@@ -1062,6 +1062,10 @@ namespace Tesserae
                 _chatInput = UI.TextArea(Att("tss-omnibox-chat-input", type: "text", placeholder: config.PlaceholderChat ?? ""));
                 _chatInput.spellcheck = true;
 
+                //One line to start from, grown by ResizeChatInput: the browser's default of two rows is a floor
+                //the auto-sizing cannot go under, which a phone pays for in height on every keystroke-free screen
+                _chatInput.setAttribute("rows", "1");
+
                 _chatInput.addEventListener("keydown", (e) =>
                 {
                     var ke = e.As<KeyboardEvent>();

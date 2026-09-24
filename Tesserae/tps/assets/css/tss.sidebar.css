@@ -871,6 +871,71 @@
     margin-bottom: 16px;
 }
 
+/* Page mode (Sidebar.AsPage) - the phone layout where the sidebar and the content next to it take turns
+   filling the screen. The sidebar fills its container and hides everything after it; once a row is picked
+   it hides itself instead, and SidebarPageBar's back button brings it back.
+
+   The width is taken with !important because an app that lets the rail be resized writes it inline, and a
+   page has no rail to resize. */
+.tss-sidebar.tss-sidebar-page {
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0;
+    flex: 1 1 0% !important;
+    transition: none;
+}
+
+    .tss-sidebar.tss-sidebar-page.tss-sidebar-page-hidden {
+        display: none !important;
+    }
+
+    /* Not while the app has taken the sidebar off the page (Collapse), which leaves the content on its own */
+    .tss-sidebar.tss-sidebar-page:not(.tss-sidebar-page-hidden):not(.tss-collapse) ~ * {
+        display: none !important;
+    }
+
+    /* A page is always open, so the brand's command that closes the rail has nothing to do */
+    .tss-sidebar.tss-sidebar-page .tss-sidebar-close-command {
+        display: none !important;
+    }
+
+/* The bar the content carries while a sidebar is a page: back, brand, title, commands. SidebarPageBar
+   collapses itself while its sidebar is not a page, so it can stay mounted on a desktop layout. */
+.tss-sidebar-page-bar {
+    height: 48px;
+    min-height: 48px;
+    padding: 0px 8px 0px 4px;
+    gap: 4px;
+    background: var(--tss-default-background-color);
+    border-bottom: 1px solid var(--tss-default-border-color);
+    box-sizing: border-box;
+}
+
+    .tss-sidebar-page-bar .tss-btn.tss-sidebar-page-bar-back {
+        min-width: 40px;
+        width: 40px;
+        height: 40px;
+        min-height: 40px !important;
+        padding: 0px;
+        background: transparent;
+        box-shadow: none;
+    }
+
+        .tss-sidebar-page-bar .tss-btn.tss-sidebar-page-bar-back > i {
+            font-size: 18px;
+        }
+
+    .tss-sidebar-page-bar-brand {
+        max-height: 32px;
+        overflow: hidden;
+    }
+
+    .tss-sidebar-page-bar-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: var(--tss-font-size-smallplus);
+    }
+
 /* Sidebar shift (sliding into a child sidebar)
 
    When a child sidebar is mounted, the sidebar sections move into a track that holds the main

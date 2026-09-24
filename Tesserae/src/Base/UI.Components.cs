@@ -1167,6 +1167,12 @@ namespace Tesserae
         public static Sidebar Sidebar(bool sortable = false) => new Sidebar(sortable);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.SidebarPageBar"/>: the bar at the top of the content, with a back button
+        /// to the sidebar, shown only while that sidebar renders as a page (<see cref="Tesserae.Sidebar.AsPage"/>).
+        /// </summary>
+        public static SidebarPageBar SidebarPageBar(Sidebar sidebar) => new SidebarPageBar(sidebar);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Sidenav"/> component (a vertical icon-only navigation rail).
         /// </summary>
         public static Sidenav Sidenav() => new Sidenav();
