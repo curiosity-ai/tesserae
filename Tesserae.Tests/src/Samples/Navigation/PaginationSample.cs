@@ -32,8 +32,16 @@ namespace Tesserae.Tests.Samples
                     Pagination(totalItems: 25, pageSize: 10, currentPage: 1)
                        .OnPageChange(p => Toast().Information($"Selected page {p.CurrentPage}")),
                     SampleSubTitle("Large Result Set"),
+                    TextBlock("With WithFirstLastButtons(), which adds the jump-to-end chevrons the strip leaves out by default.").Small().Secondary(),
                     Pagination(totalItems: 1000, pageSize: 20, currentPage: 5)
-                       .OnPageChange(p => Toast().Information($"Selected page {p.CurrentPage}"))
+                       .WithFirstLastButtons()
+                       .OnPageChange(p => Toast().Information($"Selected page {p.CurrentPage}")),
+                    SampleSubTitle("Fits On One Page"),
+                    TextBlock("Nothing renders between here and the next heading: 8 items at a page size of 25 is one page, and a lone '1' button says only that there is nothing to navigate.").Small().Secondary(),
+                    Pagination(totalItems: 8, pageSize: 25),
+                    SampleSubTitle("One Page, Holding Its Place"),
+                    TextBlock("The same set with AlwaysVisible(), for a footer whose height must not change as the list is filtered.").Small().Secondary(),
+                    Pagination(totalItems: 8, pageSize: 25).AlwaysVisible()
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(DetailsListSample), typeof(VirtualizedListSample), typeof(InfiniteScrollingListSample), typeof(ItemsListSample));
         }
