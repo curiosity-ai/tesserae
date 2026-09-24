@@ -49,14 +49,15 @@ when an observable changes.
 - `ObservableList<T>` / `ObservableDictionary<,>` / `ObservableHashSet<T>` —
   observable collections.
 - Text that follows an observable: `TextBlock(obs, v => $"…{v}")` (or
-  `.BindText(obs, …)` on an existing block). The one element is updated in place;
+  `.Bind(obs, …)` on an existing block). The one element is updated in place;
   this is the default for any changing text.
 - `DeferSync(obs, val => component)` (sync) / `Defer(...)` (async) — re-renders
   the produced content when any of up to ten passed observables changes. It
   builds a new component and swaps it in each time, so do not use it just to
   change the words of a `TextBlock` (it remounts and flickers).
 - Two-way binding: input components (`TextBox`, `CheckBox`, `Toggle`) implement
-  `IBindableComponent<T>`; `.Bind(observable)` syncs both directions.
+  `IBindableComponent<T>`; `.Bind(settableObservable)` syncs both directions.
+  `TextBlock.Bind(observable)` is the one-way form for display text.
 
 ```csharp
 using static Tesserae.UI;

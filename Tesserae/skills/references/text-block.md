@@ -25,7 +25,7 @@ var count = new SettableObservable<int>(0);
 
 TextBlock(count, c => $"Count: {c}").Large().SemiBold();   // formatted
 TextBlock(statusObservable);                              // IObservable<string> as-is
-TextBlock().Secondary().BindText(count, c => $"{c} items"); // bind an existing block
+TextBlock().Secondary().Bind(count, c => $"{c} items"); // bind an existing block
 ```
 
 Do **not** write `DeferSync(count, c => TextBlock($"Count: {c}"))` for this. `Defer`/`DeferSync`
@@ -33,12 +33,15 @@ construct a new component on every change and swap the element in: the block is 
 loses its styling state and flickers. Keep `Defer` for when the *shape* of the content changes,
 not its words.
 
-Details of `.BindText(source)` / `.BindText(source, format)`:
+Details of `.Bind(source)` / `.Bind(source, format)`:
 
+- One-way: source to text. It is the same verb as the two-way `.Bind(settableObservable)` on
+  input components (`TextBox`, `CheckBox`, ...), but a text block has no input to push back, so it
+  takes any `IObservable<T>`, not only a `SettableObservable<T>`.
 - Writes the current value immediately, so the first paint is already right.
 - Subscribes only while the block is mounted: dropped on removal, re-taken (with the current value)
   if it is mounted again. No manual cleanup.
-- Calling `BindText` again replaces the previous binding.
+- Calling `Bind` again replaces the previous binding.
 - It sets plain text (`textContent`), not HTML, and replaces what `.Text` held; do not combine it with `afterText`.
 - Any `IObservable<T>` works: `SettableObservable<T>`, a `ReadOnlyObservable<T>` subclass, the
   combined observables, `ObservableList<T>` (as `IObservable<IReadOnlyList<T>>`).

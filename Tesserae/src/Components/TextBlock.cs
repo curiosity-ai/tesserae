@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -133,20 +133,21 @@ namespace Tesserae
 
         /// <summary>
         /// Keeps the text in step with <paramref name="source"/>: every change is written into this same
-        /// element, so the block is never rebuilt. This is the way to show text that changes; wrapping a
+        /// element, so the block is never rebuilt. One-way, since a text block has no input to push back; the
+        /// two-way <see cref="BindingExtensions"/>.Bind is for input components over a SettableObservable. This is the way to show text that changes; wrapping a
         /// <see cref="TextBlock"/> in <c>DeferSync</c> constructs a new block and swaps the element on every
         /// change, which remounts it and flickers.
         /// The subscription is held only while the block is mounted: it is taken on mount (writing the current
         /// value), dropped on removal and taken again if the block is mounted again. Binding again replaces the
         /// previous binding.
         /// </summary>
-        public TextBlock BindText(IObservable<string> source) => BindText(source, v => v);
+        public TextBlock Bind(IObservable<string> source) => Bind(source, v => v);
 
         /// <summary>
         /// Keeps the text in step with <paramref name="source"/>, formatted by <paramref name="format"/>. See
-        /// <see cref="BindText(IObservable{string})"/>.
+        /// <see cref="Bind(IObservable{string})"/>.
         /// </summary>
-        public TextBlock BindText<T>(IObservable<T> source, Func<T, string> format)
+        public TextBlock Bind<T>(IObservable<T> source, Func<T, string> format)
         {
             if (source is null) throw new ArgumentNullException(nameof(source));
             if (format is null) throw new ArgumentNullException(nameof(format));
