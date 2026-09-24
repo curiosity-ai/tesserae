@@ -3,7 +3,7 @@ namespace Tesserae.Tests
     /// <summary>
     /// The gallery's categories, and the order they appear in the sidebar.
     /// A sample names its category through <see cref="SampleDetailsAttribute.Group"/>; the
-    /// sidebar renders one separator per category, in the order <see cref="InDisplayOrder"/>
+    /// sidebar renders one separator per category (one group, on a phone), in the order <see cref="InDisplayOrder"/>
     /// lists them, so a category is added by adding a constant here and listing it there.
     /// The order runs from what you reach for first (containers, text, buttons, inputs) to the
     /// specialised surfaces, and finally to the helpers that render nothing on their own.
@@ -47,6 +47,34 @@ namespace Tesserae.Tests
             Theming,
             Utilities,
         };
+
+        /// <summary>
+        /// The icon of a category's group on a phone, where the sidebar is a page and each category opens as a
+        /// panel of its own rather than a separator in one long list.
+        /// </summary>
+        public static UIcons IconFor(string group)
+        {
+            switch (group)
+            {
+                case Layout:     return UIcons.Grid;
+                case Text:       return UIcons.Text;
+                case Commands:   return UIcons.CursorFinger;
+                case Inputs:     return UIcons.Keyboard;
+                case DateTime:   return UIcons.CalendarDays;
+                case Forms:      return UIcons.Form;
+                case Navigation: return UIcons.Browser;
+                case Lists:      return UIcons.List;
+                case Search:     return UIcons.Search;
+                case Charts:     return UIcons.ChartPie;
+                case Feedback:   return UIcons.Bell;
+                case Overlays:   return UIcons.WindowRestore;
+                case AI:         return UIcons.Sparkles;
+                case Media:      return UIcons.Picture;
+                case Theming:    return UIcons.Palette;
+                case Utilities:  return UIcons.Settings;
+                default:         return UIcons.Apps;
+            }
+        }
 
         /// <summary>
         /// Where a category sits in the sidebar. A category that isn't listed sorts after every

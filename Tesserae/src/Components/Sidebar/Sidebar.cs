@@ -392,7 +392,7 @@ namespace Tesserae
 
         private bool TryOpenNavOverlay(Event e)
         {
-            if (_pressingNavHeader) return false;
+            if (_pressingNavHeader || _sidebar.Render().classList.contains("tss-sidebar-searching")) return false;
 
             var target = e.target.As<HTMLElement>();
             var header = target?.closest(".tss-sidebar-nav-header");
@@ -517,7 +517,7 @@ namespace Tesserae
         {
             if (target.closest(".tss-sidebar-btn-open") is null) return false;
 
-            if (target.closest(".tss-sidebar-commands, .tss-sidebar-btn-searchbox, .tss-sidebar-identity") is object) return false;
+            if (target.closest(".tss-sidebar-commands, .tss-sidebar-btn-searchbox, .tss-sidebar-searchbox, .tss-sidebar-identity") is object) return false;
 
             // A group's header is a row too once it has nothing to open (a group with children opened a panel)
             var header = target.closest(".tss-sidebar-nav-header");
@@ -1049,6 +1049,9 @@ namespace Tesserae
         /// <param name="searchTerm">The term to search for.</param>
         public void Search(string searchTerm)
         {
+            //A page shows the hits of a search in place: a panel per group would hide the ones in every other group
+            _sidebar.Render().UpdateClassIf(!string.IsNullOrWhiteSpace(searchTerm), "tss-sidebar-searching");
+
             foreach (var item in _middleContent.Value)
             {
                 if (item is ISearchableSidebarItem searchable)

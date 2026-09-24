@@ -911,12 +911,13 @@
 
 /* A group on a page opens its children as a panel over the sidebar rather than expanding in place
    (Sidebar.OpenNavOverlay). Closed, a group shows no children at all, and its arrow points the way the
-   panel comes from. */
-.tss-sidebar-page .tss-sidebar-nav:not(.tss-sidebar-nav-overlay-open) > .tss-sidebar-nav-children {
+   panel comes from. While the sidebar is filtered by a search (tss-sidebar-searching) the groups expand in
+   place instead, so every hit is in sight at once. */
+.tss-sidebar-page:not(.tss-sidebar-searching) .tss-sidebar-nav:not(.tss-sidebar-nav-overlay-open) > .tss-sidebar-nav-children {
     display: none;
 }
 
-.tss-sidebar-page .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > .tss-sidebar-nav-arrow {
+.tss-sidebar-page:not(.tss-sidebar-searching) .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > .tss-sidebar-nav-arrow {
     visibility: visible;
     left: auto;
     right: 10px;
@@ -925,14 +926,14 @@
     pointer-events: none;
 }
 
-.tss-sidebar-page .tss-sidebar-nav > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after,
-.tss-sidebar-page .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
+.tss-sidebar-page:not(.tss-sidebar-searching) .tss-sidebar-nav > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after,
+.tss-sidebar-page:not(.tss-sidebar-searching) .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
     transform: rotate(-45deg);
 }
 
 /* The icon stays where the arrow used to cover it on hover */
-.tss-sidebar-page .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > .tss-btn > i,
-.tss-sidebar-page .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > a > .tss-btn > i {
+.tss-sidebar-page:not(.tss-sidebar-searching) .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > .tss-btn > i,
+.tss-sidebar-page:not(.tss-sidebar-searching) .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > a > .tss-btn > i {
     visibility: visible;
     opacity: 1;
 }
