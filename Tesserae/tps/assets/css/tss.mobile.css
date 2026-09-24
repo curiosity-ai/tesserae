@@ -504,3 +504,37 @@ body.tss-mobile .tss-chatmessage-commands {
     justify-content: flex-end;
     margin: 2px 0px 0px 0px;
 }
+
+/* ─── Message — a horizontal strip wraps ──────────────────────────────────── */
+/* Beside an icon and an action, the text of a horizontal message is left a column a word wide on a phone. The
+   icon keeps its place beside the text, and the action drops to a line of its own under both. */
+body.tss-mobile .tss-message-horizontal {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 14px;
+}
+
+    body.tss-mobile .tss-message-horizontal .tss-message-icon {
+        font-size: 22px;
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        flex-shrink: 0;
+    }
+
+        body.tss-mobile .tss-message-horizontal .tss-message-icon i {
+            line-height: 36px;
+        }
+
+    body.tss-mobile .tss-message-horizontal .tss-message-content {
+        flex: 1 1 0%;
+        min-width: 0;
+    }
+
+    body.tss-mobile .tss-message-horizontal .tss-message-action:not(:empty) {
+        flex: 1 0 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 8px;
+    }
