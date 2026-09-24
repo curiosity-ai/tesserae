@@ -169,7 +169,11 @@ namespace Tesserae
         public string Error
         {
             get => _errorSpan.innerText;
-            set => _errorSpan.innerText = value;
+            set
+            {
+                _errorSpan.innerText = value;
+                _errorSpan.title     = value ?? ""; // The reserved line is one line and ellipsizes, so the full message stays reachable
+            }
         }
 
         /// <summary>

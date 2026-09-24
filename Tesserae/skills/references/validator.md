@@ -20,6 +20,7 @@ Centralizes validation for components implementing `ICanValidate` (e.g. `TextBox
 - `.ResetState()` — clear all validation state.
 - `.RegisterFromCallback(Func<bool> isInvalid, Action onRevalidation)` — rule not tied to a component.
 - `.Debounce(delayInMs)` / `.Debounce(delayInMs, maxDelayInMs)`.
+- A component given `.Validation(...)` reserves the line for its error message from the start (root class `tss-has-validation`), so a message appearing or clearing never moves the fields below it. An error set by hand with `.Error()` + `.IsInvalid()` only takes its line while it shows.
 
 Built-in rule helpers live on `Validation` (e.g. `Validation.NonZeroPositiveInteger(tb)`).
 
