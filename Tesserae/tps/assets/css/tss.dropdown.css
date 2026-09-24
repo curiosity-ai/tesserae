@@ -73,6 +73,11 @@
         background: unset;
     }
 
+    /* The closed box is in the tab order, so the keyboard needs to see where it is. */
+    .tss-dropdown-container:has(> .tss-dropdown:focus-visible) {
+        border-color: var(--tss-primary-border-color);
+    }
+
     .tss-dropdown-container.tss-noborder {
         border: 1px solid transparent;
     }
@@ -275,7 +280,12 @@
 
 .tss-dropdown-item.tss-disabled {
     color: var(--tss-disabled-foreground-color);
+    cursor: default;
 }
+
+    .tss-dropdown-item.tss-disabled:hover {
+        background-color: var(--tss-default-background-color);
+    }
 
 .tss-dropdown-multi > .tss-dropdown-item.tss-disabled:before {
     background-color: var(--tss-disabled-background-color);
