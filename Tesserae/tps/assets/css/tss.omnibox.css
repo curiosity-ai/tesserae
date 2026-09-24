@@ -661,12 +661,17 @@
     font-variant-numeric: tabular-nums;
 }
 
-/* Chat trigger (send) button */
+/* Chat trigger (send) button. Quiet while there is nothing to send - and while it is the stop button of a
+   reply in progress - and the primary colour once there is. The transition is on the button in every
+   state, disabled included, so each of those changes fades rather than snaps. */
+.tss-btn.tss-omnibox-chat-btn {
+    transition: background-color 0.2s ease-out, color 0.2s ease-out, border-color 0.2s ease-out, opacity 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
 .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled) {
     background: var(--tss-secondary-background-color);
     color: var(--tss-secondary-foreground-color);
     border-color: transparent;
-    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
 }
 
 .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled):hover {
@@ -675,23 +680,33 @@
 }
 
 .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger) {
-    background: #000;
-    color: #fff;
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
 }
 
 .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger):hover {
-    background: #222;
-    color: #fff;
+    background: var(--tss-primary-background-hover-color);
+    color: var(--tss-primary-foreground-hover-color);
 }
 
-.tss-dark-mode .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger) {
-    background: #fff;
-    color: #000;
+/* The glyph turning from "send" into "stop" and back (OmniBox.UpdateChatTriggerIcon) */
+.tss-omnibox-chat-btn > i.tss-omnibox-chat-btn-swap {
+    animation: tss-omnibox-chat-btn-swap 0.18s ease-out;
 }
 
-.tss-dark-mode .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger):hover {
-    background: #e6e6e6;
-    color: #000;
+@keyframes tss-omnibox-chat-btn-swap {
+    from { opacity: 0; transform: scale(0.6); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-btn.tss-omnibox-chat-btn {
+        transition: none;
+    }
+
+    .tss-omnibox-chat-btn > i.tss-omnibox-chat-btn-swap {
+        animation: none;
+    }
 }
 
 /* "Ask AI" button (WithAskAI): a primary action at the end of the search input that follows the box's
