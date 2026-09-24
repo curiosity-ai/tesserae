@@ -1,0 +1,183 @@
+/* Drawer - a sheet that slides up from the bottom of the screen (Drawer.cs).
+
+   The container fills the layer and dims the page; the sheet sits at its bottom edge, below the screen
+   until .tss-drawer-open moves it up. Drawer.Hide takes the class away and waits the transition out
+   before the layer is removed, so the sheet slides back down rather than vanishing. The 0.25s is
+   Drawer.DRAWER_TRANSITION_TIME. */
+.tss-drawer-container {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    transition: background-color 0.25s ease-out;
+    visibility: visible;
+}
+
+    .tss-drawer-container.tss-drawer-open {
+        background-color: var(--tss-overlay-dark);
+    }
+
+.tss-drawer-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: transparent;
+}
+
+.tss-drawer-lightDismiss {
+    cursor: pointer;
+}
+
+.tss-drawer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 85vh;
+    max-height: 85dvh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--tss-default-background-color);
+    border-top-left-radius: var(--tss-border-radius-xl);
+    border-top-right-radius: var(--tss-border-radius-xl);
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.18);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    transform: translateY(100%);
+    transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1);
+    visibility: visible;
+    isolation: isolate;
+    outline: none;
+}
+
+    .tss-drawer-open > .tss-drawer {
+        transform: translateY(0);
+    }
+
+    /* While a thumb holds it the sheet follows the thumb, with nothing easing it behind */
+    .tss-drawer.tss-drawer-dragging {
+        transition: none;
+    }
+
+    .tss-drawer.tss-drawer-full-height {
+        height: 85vh;
+        height: 85dvh;
+    }
+
+/* On a wide screen a sheet the width of the window reads as a banner, so it stays a column in the middle */
+@media (min-width: 769px) {
+    .tss-drawer {
+        left: 50%;
+        right: auto;
+        width: min(640px, 100vw);
+        margin-left: calc(min(640px, 100vw) / -2);
+    }
+}
+
+.tss-drawer-handle {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    padding: 8px 0 4px 0;
+    cursor: grab;
+}
+
+.tss-drawer-handle-bar {
+    width: 36px;
+    height: 4px;
+    border-radius: var(--tss-border-radius-full);
+    background-color: var(--tss-default-border-color);
+}
+
+.tss-drawer-header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 8px 0 16px;
+}
+
+.tss-drawer-title {
+    flex-grow: 1;
+    min-width: 0;
+    overflow: hidden;
+    display: inline-flex;
+    flex-wrap: nowrap;
+}
+
+.tss-drawer-close {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: var(--tss-border-radius-md);
+    background-color: transparent;
+    color: var(--tss-secondary-foreground-color);
+    cursor: pointer;
+}
+
+    .tss-drawer-close:hover {
+        background-color: var(--tss-default-background-hover-color);
+        color: var(--tss-default-foreground-color);
+    }
+
+.tss-drawer-content {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 4px 16px 16px 16px;
+}
+
+    .tss-drawer-content.tss-drawer-content-no-padding {
+        padding: 0;
+    }
+
+.tss-drawer-footer {
+    flex-shrink: 0;
+    padding: 8px 16px 16px 16px;
+    border-top: 1px solid var(--tss-default-border-color);
+}
+
+    .tss-drawer-footer.tss-drawer-footer-empty {
+        display: none;
+    }
+
+/* A modal rendered in a drawer (Modal.DrawerOnMobile): the sheet is its frame, so the modal's own goes */
+.tss-drawer-content > .tss-modal.tss-modal-in-drawer {
+    position: static;
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: none !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    overflow: visible;
+    margin: 0 !important;
+    transform: none !important;
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    animation: none;
+}
+
+/* An embedded modal (Modal.ShowEmbedded) put in a sheet: the sheet is already its frame */
+.tss-drawer-content .tss-modal.tss-embedded {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* The tool calls list (ToolsUsed) pages between a list and a call inside a fixed-height body; a sheet has
+   more of a phone's height to give it than a dialog does */
+.tss-drawer-content > .tss-modal-in-drawer .tss-toolsused-modal-body {
+    height: 65vh;
+    height: 65dvh;
+    max-height: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-drawer,
+    .tss-drawer-container {
+        transition: none;
+    }
+}

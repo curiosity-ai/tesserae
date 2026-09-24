@@ -197,8 +197,8 @@ unsaved-changes-guard · validator
 
 **Navigation** — moving between pages, sections and tabs
 breadcrumb · card-pivot · inline-pagination · navbar · pagination · pivot ·
-pivot-selector · segmented-pivot · sidebar · sidebar-brand · sidebar-profile ·
-sidebar-separator · sidenav · stepper · text-breadcrumbs
+pivot-selector · segmented-pivot · sidebar · sidebar-brand · sidebar-page-bar ·
+sidebar-profile · sidebar-separator · sidenav · stepper · text-breadcrumbs
 
 **Lists & Data** — rendering a collection of items
 details-grid · details-list · infinite-scrolling-list · items-list ·
@@ -217,7 +217,7 @@ banner · live-progress · message · notification-center · progress-indicator 
 progress-modal · progress-ring · skeleton · spinner · tippy · toast
 
 **Overlays & Dialogs** — surfaces that float above the page
-dialog · float · layer · modal · modal-stack · panel · popover · shortcut-guide
+dialog · drawer · float · layer · modal · modal-stack · panel · popover · shortcut-guide
 · tabbed-modal · teaching · tutorial-modal
 
 **AI & Chat** — conversation, tool calls and their context

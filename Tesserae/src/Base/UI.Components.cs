@@ -1052,6 +1052,14 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.Panel"/> component.
         /// </summary>
         public static Panel Panel(IComponent title)        => new Panel(title);
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Drawer"/>: a sheet that slides up from the bottom of the screen.
+        /// </summary>
+        public static Drawer Drawer(string     title = null) => new Drawer(title);
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Drawer"/>: a sheet that slides up from the bottom of the screen.
+        /// </summary>
+        public static Drawer Drawer(IComponent title)        => new Drawer(title);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.Modal"/> component.
@@ -1165,6 +1173,12 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.Sidebar"/> component.
         /// </summary>
         public static Sidebar Sidebar(bool sortable = false) => new Sidebar(sortable);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.SidebarPageBar"/>: the bar at the top of the content, with a back button
+        /// to the sidebar, shown only while that sidebar renders as a page (<see cref="Tesserae.Sidebar.AsPage"/>).
+        /// </summary>
+        public static SidebarPageBar SidebarPageBar(Sidebar sidebar) => new SidebarPageBar(sidebar);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.Sidenav"/> component (a vertical icon-only navigation rail).

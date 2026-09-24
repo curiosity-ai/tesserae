@@ -149,9 +149,14 @@ namespace Tesserae
             UIcons openIcon     = UIcons.SidebarFlip,
             UIcons closeIcon    = UIcons.Sidebar)
         {
-            SetSecondaryCommand(new SidebarCommand(closeIcon)
+            var closeCommand = new SidebarCommand(closeIcon)
                .Tooltip(string.IsNullOrWhiteSpace(closeTooltip) ? "Close Sidebar".t() : closeTooltip)
-               .OnClick(onClose));
+               .OnClick(onClose);
+
+            //A sidebar rendering as a page has no rail to close into, so the stylesheet hides the command there
+            closeCommand.Render().classList.add("tss-sidebar-close-command");
+
+            SetSecondaryCommand(closeCommand);
 
             _closedControl?.Render().remove();
 

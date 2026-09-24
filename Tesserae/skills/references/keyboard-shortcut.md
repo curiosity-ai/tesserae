@@ -18,6 +18,9 @@ Renders one or more keys as styled chips joined by `+`. Modifier labels adapt to
   drawn — on a card, inside a search field, or on a filled `.Primary()` button.
 - Recognized special keys: `Ctrl`, `Control`, `Alt`, `Shift`, `Meta`/`Cmd`, `Enter`, `Escape`/`Esc`, `ArrowUp/Down/Left/Right`, `Backspace`, `Delete`, `Tab`. Anything else renders verbatim.
 - It is a regular `IComponent` — place it inline in a `Stack` alongside `TextBlock`.
+- Hidden while `Theme.IsMobileMode` is on, together with every other key chip the toolkit
+  draws (sidebar rows, search boxes, the omnibox, the command palette): a phone has no
+  keyboard to press them on.
 
 ## The command modifier
 

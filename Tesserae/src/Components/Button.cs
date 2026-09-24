@@ -75,7 +75,38 @@ namespace Tesserae
                 _textSpan.innerText         = value;
                 InnerElement.style.minWidth = isEmpty ? "unset" : string.Empty;
                 InnerElement.UpdateClassIf(isEmpty, "tss-btn-only-icon");
+
+                if (InnerElement.classList.contains(HIDE_TEXT_ON_MOBILE_CLASS)) UpdateMobileLabel();
             }
+        }
+
+        private const string HIDE_TEXT_ON_MOBILE_CLASS = "tss-btn-hide-text-mobile";
+
+        /// <summary>
+        /// Shows only the button's icon while the page is in mobile mode (<see cref="UI.Theme.IsMobileMode"/>), for
+        /// a toolbar that has room for every command's label on a desktop and for none of them on a phone. A button
+        /// without an icon keeps its text, since it would otherwise be left with nothing to show.
+        /// </summary>
+        /// <remarks>
+        /// The text stays the button's accessible name (as its <c>aria-label</c>), because a hidden label is also
+        /// hidden from a screen reader.
+        /// </remarks>
+        /// <param name="hide">Whether to hide the text on mobile.</param>
+        /// <returns>The current instance.</returns>
+        public Button HideTextOnMobile(bool hide = true)
+        {
+            InnerElement.UpdateClassIf(hide, HIDE_TEXT_ON_MOBILE_CLASS);
+
+            if (hide) UpdateMobileLabel();
+            else      InnerElement.removeAttribute("aria-label");
+
+            return this;
+        }
+
+        private void UpdateMobileLabel()
+        {
+            if (string.IsNullOrEmpty(Text)) InnerElement.removeAttribute("aria-label");
+            else                            InnerElement.setAttribute("aria-label", Text);
         }
 
         /// <summary>

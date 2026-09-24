@@ -431,11 +431,32 @@ namespace Tesserae
             return component;
         }
 
+        /// <summary>The element property a text tooltip is remembered under - see <see cref="TooltipTextOf"/>.</summary>
+        private const string TOOLTIP_TEXT_PROPERTY = "_tssTooltipText";
+
+        /// <summary>
+        /// The text of the tooltip set on an element with <c>Tooltip(string)</c>, as plain text, or null. The
+        /// tooltip itself is attached on the first hover, so this is how a touch layout - which never hovers -
+        /// finds out what an icon-only control is for.
+        /// </summary>
+        public static string TooltipTextOf(HTMLElement element)
+        {
+            if (element is null || !element.HasOwnProperty(TOOLTIP_TEXT_PROPERTY)) return null;
+
+            var holder = UI.DIV();
+            holder.innerHTML = element[TOOLTIP_TEXT_PROPERTY].As<string>();
+            return holder.textContent;
+        }
+
         /// <summary>Adds a tooltip with HTML content to the component.</summary>
         public static T Tooltip<T>(this T component, string tooltipHtml, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 250, int delayHide = 0, bool followCursor = false, int maxWidth = 350, bool arrow = false, string theme = null, IComponent parent = null) where T : IComponent
         {
             if (string.IsNullOrWhiteSpace(tooltipHtml))
                 return component;
+
+            //The tooltip itself is only built on the first hover, which a phone never has - this is what a
+            //touch layout reads instead to say what an icon-only button does (see OmniBox's options sheet)
+            component.Render()[TOOLTIP_TEXT_PROPERTY] = tooltipHtml;
 
             return component.Tooltip(
                 new Raw(UI.Raw(tooltipHtml)),

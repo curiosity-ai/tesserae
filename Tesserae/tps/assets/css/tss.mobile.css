@@ -158,14 +158,30 @@ body.tss-mobile .tss-navbar-burger {
     justify-content: center !important;
 }
 
-/* ─── Sidebar hidden in mobile (only navbar is shown) ────────────────────── */
-body.tss-mobile .tss-sidebar:not(.tss-navbar) {
+/* ─── Sidebar hidden in mobile (only a navbar or a page is shown) ────────── */
+/* A sidebar rendering as a page (Sidebar.AsPage) is the other mobile layout, and a child sidebar it has
+   shifted into lives inside it. */
+body.tss-mobile .tss-sidebar:not(.tss-navbar):not(.tss-sidebar-page):not(.tss-sidebar-page .tss-sidebar) {
     display: none !important;
 }
 
-/* ─── Touch targets — 44px minimum per WCAG/Apple HIG ────────────────────── */
+/* ─── Touch targets ──────────────────────────────────────────────────────── */
+/* 40px is the standard height of a button on a phone (Material 3); rows in a list get 44px (Apple HIG).
+   Anything taller reads as oversized next to the platform's own controls, and a small button stays small:
+   it is small because it sits inline with text or in a dense toolbar. */
 body.tss-mobile .tss-btn {
-    min-height: 44px !important;
+    min-height: 40px !important;
+}
+
+body.tss-mobile .tss-btn.tss-small {
+    min-height: 32px !important;
+}
+
+/* A button inside a search field is part of the field, not a touch target of its own: taller than the
+   field's 36px it overflows it, and a host's footer items - some of them wrapped in a Defer - land
+   off-centre. So in there it keeps the floor it has on a desktop. */
+body.tss-mobile .tss-omnibox-search-container .tss-btn {
+    min-height: 36px !important;
 }
 
 body.tss-mobile .tss-sidebar-btn-open > .tss-btn,
@@ -177,8 +193,8 @@ body.tss-mobile .tss-sidebar-btn-open > a > .tss-btn {
 body.tss-mobile .tss-sidebar-commands-line .tss-btn,
 body.tss-mobile .tss-sidebar-commands-line-extra .tss-btn,
 body.tss-mobile .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn.tss-btn {
-    height: 44px !important;
-    min-height: 44px !important;
+    height: 40px !important;
+    min-height: 40px !important;
 }
 
 /* Sidebar nav arrow shifted for taller rows */
@@ -188,6 +204,13 @@ body.tss-mobile .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn {
 
 body.tss-mobile .tss-sidebar-commands {
     top: 10px !important;
+}
+
+/* ─── Sidebar as a page ──────────────────────────────────────────────────── */
+/* A page is the whole screen, so it does not need the gutter a rail keeps against the content. */
+body.tss-mobile .tss-sidebar.tss-sidebar-page {
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 /* ─── Typography adjustments ─────────────────────────────────────────────── */
@@ -294,4 +317,183 @@ body.tss-mobile input[type="email"],
 body.tss-mobile input[type="password"],
 body.tss-mobile textarea {
     font-size: max(16px, 1em) !important;
+}
+
+/* ─── OmniBox — one row on a phone ───────────────────────────────────────── */
+/* [+] [input] [send]. The footer is dissolved into the box's own row (display: contents) and keeps only
+   what OmniBox marks .tss-omnibox-mobile-keep - the send and search buttons, and the "+" that opens the
+   rest of the footer in a sheet (OmniBox.ShowMobileOptions). Everything else is hidden here, not removed:
+   a host's own footer items are in the sheet as soon as it opens. .tss-omnibox-footer-measuring lifts the
+   rule for the moment OmniBox asks which of them the current mode shows. */
+body.tss-mobile .tss-omnibox-container.tss-omnibox-mode-chat,
+body.tss-mobile .tss-omnibox-container.tss-omnibox-chat-and-search {
+    --tss-omnibox-radius: 22px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    padding: 4px;
+    column-gap: 2px;
+}
+
+body.tss-mobile .tss-omnibox-container > .tss-omnibox-footer {
+    display: contents;
+}
+
+    body.tss-mobile .tss-omnibox-footer:not(.tss-omnibox-footer-measuring) > :not(.tss-omnibox-mobile-keep) {
+        display: none !important;
+    }
+
+/* What is attached to the next message, above the row */
+body.tss-mobile .tss-omnibox-container > .tss-omnibox-chat-header,
+body.tss-mobile .tss-omnibox-container > .tss-omnibox-context {
+    order: 1;
+    width: 100%;
+    flex: 0 0 100%;
+}
+
+body.tss-mobile .tss-omnibox-footer > .tss-omnibox-mobile-options {
+    order: 2;
+}
+
+/* The input of the row - only in a box with a chat half: a plain search box is already one row, and keeps
+   its desktop layout */
+body.tss-mobile .tss-omnibox-container > .tss-omnibox-chat-container,
+body.tss-mobile .tss-omnibox-container.tss-omnibox-chat-and-search > .tss-omnibox-search-container {
+    order: 3;
+    flex: 1 1 0%;
+    width: auto;
+    min-width: 0;
+    min-height: 0;
+}
+
+body.tss-mobile .tss-omnibox-container > .tss-omnibox-chat-container {
+    padding: 6px 4px;
+}
+
+body.tss-mobile .tss-omnibox-container.tss-omnibox-chat-and-search > .tss-omnibox-search-container {
+    padding: 0px;
+}
+
+body.tss-mobile .tss-omnibox-footer > .tss-omnibox-mobile-keep:not(.tss-omnibox-mobile-options) {
+    order: 4;
+}
+
+body.tss-mobile .tss-omnibox-footer > .tss-btn {
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+    min-height: 36px !important;
+    padding: 0px;
+    margin: 0px;
+    border-radius: var(--tss-border-radius-full);
+    flex-shrink: 0;
+}
+
+.tss-omnibox-mobile-options {
+    display: none;
+}
+
+body.tss-mobile .tss-omnibox-footer > .tss-omnibox-mobile-options {
+    display: inline-flex;
+    box-shadow: none;
+    background: transparent;
+}
+
+/* The sheet the rest of the footer moves into: one item per row, each at a size a thumb can hit */
+.tss-omnibox-mobile-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 8px;
+}
+
+.tss-omnibox-mobile-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    flex-wrap: wrap;
+}
+
+    .tss-omnibox-mobile-option.tss-omnibox-mobile-option-labelled {
+        cursor: pointer;
+    }
+
+    .tss-omnibox-mobile-option > .tss-btn {
+        margin: 0px;
+    }
+
+.tss-omnibox-mobile-option-label {
+    font-size: var(--tss-font-size-smallplus);
+    color: var(--tss-default-foreground-color);
+}
+
+/* ─── Button.HideTextOnMobile — the icon alone ──────────────────────────── */
+/* Only a button that has an icon to fall back on, and drawn the way a button that never had text is. */
+body.tss-mobile .tss-btn.tss-btn-hide-text-mobile:has(> i) > span {
+    display: none;
+}
+
+body.tss-mobile .tss-btn.tss-btn-hide-text-mobile:has(> i) {
+    min-width: unset !important;
+    aspect-ratio: 1;
+    padding: 0px 10px;
+}
+
+    body.tss-mobile .tss-btn.tss-btn-hide-text-mobile:has(> i) > i {
+        margin: 0px !important;
+    }
+
+/* ─── Keyboard shortcuts — none on a device without a keyboard ──────────── */
+/* Every chip the toolkit draws for a key, wherever it sits, and the room reserved for one on a sidebar row. */
+body.tss-mobile .tss-kbd-shortcut,
+body.tss-mobile .tss-sidebar-btn-shortcut,
+body.tss-mobile .tss-searchbox-shortcut,
+body.tss-mobile .tss-omnibox-shortcut,
+body.tss-mobile .tss-commandpalette-shortcut,
+body.tss-mobile .tss-commandpalette-shortcuts,
+body.tss-mobile .tss-omniresult-modal-shortcuts {
+    display: none !important;
+}
+
+body.tss-mobile .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-has-shortcut,
+body.tss-mobile .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-has-shortcut {
+    padding-right: 0px;
+}
+
+/* ─── Chat — every message the width of the screen ──────────────────────── */
+/* A bubble capped at a share of a phone's width wraps a short answer into a column, so every message takes
+   the whole row, and the commands beside it stay on screen: there is no hover to bring them in. */
+body.tss-mobile .tss-chatarea {
+    padding: 8px;
+}
+
+body.tss-mobile .tss-chatmessage-container .tss-chatmessage-bubble {
+    max-width: none;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+body.tss-mobile .tss-chatmessage-avatar {
+    margin-left: 0px;
+    margin-right: 6px;
+}
+
+body.tss-mobile .tss-chat-right .tss-chatmessage-avatar {
+    margin-left: 6px;
+    margin-right: 0px;
+}
+
+/* The commands get a line of their own under the message, at its end, rather than a column beside it that
+   every line of the message would pay for */
+body.tss-mobile .tss-chatmessage-container {
+    flex-wrap: wrap;
+}
+
+body.tss-mobile .tss-chatmessage-commands {
+    opacity: 1;
+    flex: 0 0 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin: 2px 0px 0px 0px;
 }

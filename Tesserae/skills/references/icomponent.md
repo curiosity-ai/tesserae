@@ -117,6 +117,10 @@ For text-bearing components (`TextBlock`, `Button`, `Label`, …):
 .RemoveTooltip()
 ```
 
+`IComponentExtensions.TooltipTextOf(element)` returns the plain text of a `Tooltip(string)`
+set on an element - the tooltip itself is only built on the first hover, which a touch
+layout never has, so this is how one finds out what an icon-only control is for.
+
 (See `tippy` for the underlying Tippy.js wrapper.)
 
 ## Accessibility — `IAccessibilityExtensions.cs`

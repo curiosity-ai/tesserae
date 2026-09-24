@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using TNT;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 
@@ -618,6 +619,15 @@ namespace Tesserae
         private int                        _mentionEnd   = -1;
         private static HTMLDivElement       _mentionCaretMirror;
         private readonly HTMLDivElement _footer;
+
+        // The phone layout: one row of [options] [input] [send], and the rest of the footer in a sheet
+        private const string MOBILE_KEEP_CLASS = "tss-omnibox-mobile-keep";
+        private const string MOBILE_SKIP_CLASS = "tss-omnibox-mobile-skip";
+
+        private          Button                                   _mobileOptionsBtn;
+        private          Drawer                                   _mobileOptionsDrawer;
+        private readonly List<(HTMLElement element, Node placeholder)> _mobileOptionsMoved = new List<(HTMLElement element, Node placeholder)>();
+        private          double                                   _mobileOptionsRestoreTimeout;
         private Func<Task<SearchQuery[]>> _historyFetcher;
         private Action _hideSearchHistory;
         private Func<string, Task<OmniBoxSuggestionItem[]>> _suggestionsFetcher;
@@ -1062,6 +1072,10 @@ namespace Tesserae
                 _chatInput = UI.TextArea(Att("tss-omnibox-chat-input", type: "text", placeholder: config.PlaceholderChat ?? ""));
                 _chatInput.spellcheck = true;
 
+                //One line to start from, grown by ResizeChatInput: the browser's default of two rows is a floor
+                //the auto-sizing cannot go under, which a phone pays for in height on every keystroke-free screen
+                _chatInput.setAttribute("rows", "1");
+
                 _chatInput.addEventListener("keydown", (e) =>
                 {
                     var ke = e.As<KeyboardEvent>();
@@ -1196,7 +1210,10 @@ namespace Tesserae
 
             _footer.appendChild(generatingContainer);
 
-            _footer.appendChild(Div(Att("tss-omnibox-footer-spacer")));
+            _footer.appendChild(Div(Att("tss-omnibox-footer-spacer " + MOBILE_SKIP_CLASS)));
+
+            //On a phone the stop button in the send slot already says a reply is being written
+            generatingContainer.classList.add(MOBILE_SKIP_CLASS);
 
             if (_mode == Mode.Chat || _mode == Mode.SearchAndChat)
             {
@@ -1246,6 +1263,11 @@ namespace Tesserae
                 _footer.appendChild(i.Render());
             }
 
+            if (_mode == Mode.Chat || _mode == Mode.SearchAndChat)
+            {
+                BuildMobileOptions();
+            }
+
             switch (_mode)
             {
                 case Mode.Search:
@@ -1293,6 +1315,112 @@ namespace Tesserae
                 });
             }
 
+        }
+
+        // A phone has room for one row: the options button, the input and the button that sends or searches.
+        // Everything else in the footer - the mode toggle, the chips and pickers a host adds, the model
+        // selector - is only hidden there by the stylesheet, and moves into a sheet while the options are open,
+        // so a host's own footer items reach it without declaring anything.
+        private void BuildMobileOptions()
+        {
+            _chatTriggerBtn.Class(MOBILE_KEEP_CLASS);
+            _chatCounter.Class(MOBILE_KEEP_CLASS);
+            _searchClearBtn?.Class(MOBILE_KEEP_CLASS);
+            _searchTriggerBtn?.Class(MOBILE_KEEP_CLASS);
+
+            _mobileOptionsBtn = Button().SetIcon(UIcons.Plus).Class("tss-omnibox-mobile-options").Class(MOBILE_KEEP_CLASS);
+
+            _mobileOptionsBtn.OnClick((_, e) =>
+            {
+                //The box focuses its input on any click inside it, which on a phone opens the keyboard under the sheet
+                e.stopPropagation();
+                ShowMobileOptions();
+            });
+
+            _footer.insertBefore(_mobileOptionsBtn.Render(), _footer.firstChild);
+
+            //What the sheet holds belongs to the mode it was opened in
+            _activeMode.ObserveFutureChanges(_ => _mobileOptionsDrawer?.Hide());
+        }
+
+        private void ShowMobileOptions()
+        {
+            window.clearTimeout(_mobileOptionsRestoreTimeout);
+            RestoreMobileOptions();
+
+            var list    = Div(Att("tss-omnibox-mobile-options-list"));
+            var options = new List<HTMLElement>();
+
+            //Asked of the desktop layout, which is the one that says whether the current mode shows an item at all
+            _footer.classList.add("tss-omnibox-footer-measuring");
+
+            foreach (var child in Transpose.Script.Write<HTMLElement[]>("Array.from({0}.children)", _footer))
+            {
+                if (child.classList.contains(MOBILE_KEEP_CLASS) || child.classList.contains(MOBILE_SKIP_CLASS)) continue;
+
+                if (window.getComputedStyle(child).display != "none") options.Add(child);
+            }
+
+            _footer.classList.remove("tss-omnibox-footer-measuring");
+
+            foreach (var option in options)
+            {
+                var placeholder = document.createComment("");
+                _footer.insertBefore(placeholder, option);
+                _mobileOptionsMoved.Add((option, placeholder));
+
+                list.appendChild(MobileOptionRow(option));
+            }
+
+            if (_mobileOptionsMoved.Count == 0) return;
+
+            if (_mobileOptionsDrawer is null)
+            {
+                _mobileOptionsDrawer = Drawer("Options".t()).OnHide(_ =>
+                {
+                    //After the slide, so the sheet does not empty on its way down
+                    window.clearTimeout(_mobileOptionsRestoreTimeout);
+                    _mobileOptionsRestoreTimeout = window.setTimeout(__ => RestoreMobileOptions(), Drawer.DRAWER_TRANSITION_TIME);
+                });
+            }
+
+            _mobileOptionsDrawer.Content = Raw(list);
+            _mobileOptionsDrawer.Show();
+        }
+
+        // An icon-only button says what it does in its tooltip, which a phone never shows - so in the sheet the
+        // tooltip is written out beside it, and the whole row presses it.
+        private static HTMLElement MobileOptionRow(HTMLElement element)
+        {
+            var row = Div(Att("tss-omnibox-mobile-option"), element);
+
+            if (!element.classList.contains("tss-btn-only-icon")) return row;
+
+            var label = element.getAttribute("aria-label");
+
+            if (string.IsNullOrEmpty(label)) label = IComponentExtensions.TooltipTextOf(element);
+
+            if (string.IsNullOrWhiteSpace(label)) return row;
+
+            row.classList.add("tss-omnibox-mobile-option-labelled");
+            row.appendChild(Span(Att("tss-omnibox-mobile-option-label", text: label.Trim())));
+            row.addEventListener("click", e =>
+            {
+                if (e.target != element && !element.contains(e.target.As<Node>())) element.click();
+            });
+
+            return row;
+        }
+
+        private void RestoreMobileOptions()
+        {
+            foreach (var (element, placeholder) in _mobileOptionsMoved)
+            {
+                placeholder.parentNode?.insertBefore(element, placeholder);
+                placeholder.parentNode?.removeChild(placeholder);
+            }
+
+            _mobileOptionsMoved.Clear();
         }
 
         private void UpdateMode(Mode mode)

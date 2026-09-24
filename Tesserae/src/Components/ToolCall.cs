@@ -792,6 +792,9 @@ namespace Tesserae
             _modal.NoFooter();
             _modal.CanLightDismiss = true;
             _modal.InnerElement.classList.add("tss-toolsused-modal");
+
+            //A list of calls to page through is a sheet on a phone, not a dialog with a margin of page around it
+            _modal.DrawerOnMobile();
         }
 
         private void RebuildList()

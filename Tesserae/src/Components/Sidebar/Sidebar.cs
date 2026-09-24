@@ -22,6 +22,11 @@ namespace Tesserae
         private readonly Stack                                           _sidebar;
         private          bool                                            _isSortable;
         private          bool                                            _isNavbar;
+        private readonly SettableObservable<bool>                        _pageMode;
+        private readonly SettableObservable<bool>                        _pageShowsContent;
+        private          bool                                            _pageClicksHooked;
+        private readonly List<NavOverlay>                                _navOverlays = new List<NavOverlay>();
+        private          bool                                            _pressingNavHeader;
 
         private Action<Dictionary<string, string[]>> _onSortingChanged;
 
@@ -68,15 +73,17 @@ namespace Tesserae
             _header        = new ObservableList<ISidebarItem>();
             _middleContent = new SettableObservable<IReadOnlyList<ISidebarItem>>(new List<ISidebarItem>());
             _footer        = new ObservableList<ISidebarItem>();
-            _closed        = new SettableObservable<bool>(false);
-            _sidebar       = VStack().Class("tss-sidebar");
+            _closed           = new SettableObservable<bool>(false);
+            _pageMode         = new SettableObservable<bool>(false);
+            _pageShowsContent = new SettableObservable<bool>(false);
+            _sidebar          = VStack().Class("tss-sidebar");
 
             _closed.Observe(isClosed =>
             {
                 // A shifted child sidebar is rendered inside this one, so it has to follow the same open/closed state
                 if (_shiftChild is object)
                 {
-                    _shiftChild.IsClosed = isClosed;
+                    _shiftChild.IsClosed = isClosed && !IsPage;
                 }
 
                 // Show or hide the mobile backdrop (used in navbar/mobile mode)
@@ -97,6 +104,9 @@ namespace Tesserae
 
                 _closedTimeout = window.setTimeout((_) =>
                 {
+                    //A page has no rail to collapse into: the state is kept for when the sidebar stops being one
+                    if (IsPage) return;
+
                     if (isClosed)
                     {
                         _sidebar.Class(_isNavbar ? "tss-navbar-closed" : "tss-sidebar-closed");
@@ -112,6 +122,8 @@ namespace Tesserae
             var combined = new CombinedObservable<IReadOnlyList<ISidebarItem>, IReadOnlyList<ISidebarItem>, IReadOnlyList<ISidebarItem>, bool>(_header, _middleContent, _footer, _closed);
 
             combined.ObserveFutureChanges(content => RenderSidebar(content.first, content.second, content.third, content.forth));
+
+            _pageShowsContent.ObserveFutureChanges(_ => ApplyPageState());
 
             // disable Reordering in a closed sidebar
             _closed.ObserveFutureChanges(closed =>
@@ -169,6 +181,11 @@ namespace Tesserae
         {
             if (_isNavbar == isNavbar) return this;
 
+            if (isNavbar && IsPage)
+            {
+                AsPage(false);
+            }
+
             _isNavbar = isNavbar;
 
             if (isNavbar)
@@ -219,8 +236,301 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Gets whether the sidebar is currently rendering as a page - see <see cref="AsPage"/>.
+        /// </summary>
+        public bool IsPage => _pageMode.Value;
+
+        /// <summary>
+        /// Observes whether the sidebar renders as a page - see <see cref="AsPage"/>.
+        /// </summary>
+        public IObservable<bool> PageMode => _pageMode;
+
+        /// <summary>
+        /// Gets whether a sidebar rendering as a page has stepped aside for the content next to it.
+        /// Always false while the sidebar is not a page.
+        /// </summary>
+        public bool IsShowingContent => IsPage && _pageShowsContent.Value;
+
+        /// <summary>
+        /// Observes whether a sidebar rendering as a page has stepped aside for the content (true) or is the
+        /// page on screen (false).
+        /// </summary>
+        public IObservable<bool> ShowingContent => _pageShowsContent;
+
+        /// <summary>
+        /// Configures the sidebar to render as a page - the phone layout where the sidebar and the content next
+        /// to it take turns filling the screen - or back to an ordinary sidebar.
+        /// </summary>
+        /// <remarks>
+        /// As a page the sidebar is always open and fills its container, and everything after it in that
+        /// container is hidden. Picking one of its buttons steps it aside (<see cref="ShowContent"/>), which
+        /// hides the sidebar and brings the content back; <see cref="ShowSidebar"/> is the way back, and
+        /// <see cref="SidebarPageBar"/> is a bar for the content that carries the button doing it.
+        /// <para>
+        /// The open/closed state is kept rather than cleared, so a sidebar that stops being a page returns to the
+        /// rail the user left. Follow <see cref="UI.Theme.OnMobileModeChanged"/> to switch on a resize.
+        /// </para>
+        /// </remarks>
+        /// <param name="isPage">Whether to render as a page.</param>
+        /// <returns>The current instance.</returns>
+        public Sidebar AsPage(bool isPage = true)
+        {
+            if (IsPage == isPage) return this;
+
+            if (isPage && _isNavbar)
+            {
+                AsNavbar(false);
+            }
+
+            if (_shiftChild is object)
+            {
+                _shiftChild.IsClosed = _closed.Value && !isPage;
+            }
+
+            if (isPage)
+            {
+                _sidebar.Class("tss-sidebar-page");
+                _sidebar.RemoveClass("tss-sidebar-closed");
+                HookPageClicks();
+            }
+            else
+            {
+                CloseNavOverlays();
+                _sidebar.RemoveClass("tss-sidebar-page");
+
+                if (_closed.Value)
+                {
+                    _sidebar.Class("tss-sidebar-closed");
+                }
+            }
+
+            _pageMode.Value = isPage;
+
+            ApplyPageState();
+            Refresh();
+            return this;
+        }
+
+        /// <summary>
+        /// Steps a sidebar rendering as a page aside, so the content next to it fills the screen. Does nothing
+        /// visible while the sidebar is not a page, beyond remembering it for when it becomes one.
+        /// </summary>
+        /// <returns>The current instance.</returns>
+        public Sidebar ShowContent()
+        {
+            CloseNavOverlays();
+            _pageShowsContent.Value = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Brings a sidebar rendering as a page back in place of the content - the back button of
+        /// <see cref="SidebarPageBar"/>.
+        /// </summary>
+        /// <returns>The current instance.</returns>
+        public Sidebar ShowSidebar()
+        {
+            _pageShowsContent.Value = false;
+            return this;
+        }
+
+        private void ApplyPageState()
+        {
+            _sidebar.Render().UpdateClassIf(IsShowingContent, "tss-sidebar-page-hidden");
+        }
+
+        // Picking something in the sidebar is what steps it aside, and every row the sidebar draws passes
+        // through its own element on the way, so one capture listener here covers the items a consumer builds
+        // as well as the ones in this library - including those of a shifted child sidebar, which is mounted
+        // inside this one. It runs after the click, so whatever the row does happens under the page it chose.
+        private void HookPageClicks()
+        {
+            if (_pageClicksHooked) return;
+
+            _pageClicksHooked = true;
+
+            _sidebar.Render().addEventListener("click", (Action<Event>)(e =>
+            {
+                if (!IsPage) return;
+
+                if (TryOpenNavOverlay(e)) return;
+
+                var me = e.As<MouseEvent>();
+
+                if (me.ctrlKey || me.metaKey || me.shiftKey) return; //opens in a new tab, this page stays where it is
+
+                var target = e.target.As<HTMLElement>();
+
+                if (target is null || !IsPageSelection(target)) return;
+
+                window.setTimeout(_ => ShowContent(), 0);
+            }), true);
+        }
+
+        // On a page a group does not expand in place: a row at a time is all a phone shows, and a list that
+        // grows under the thumb moves everything below it. Pressing a group's header (or its arrow) opens its
+        // children as a panel over the sidebar instead - the group's own children element, lifted out to the
+        // sidebar while it is open (a placeholder keeps its place) so that every panel, however deep, has the
+        // sidebar's own geometry rather than its parent panel's. A group inside a panel opens another on top,
+        // and the ones behind step left by NAV_OVERLAY_PEEK each, so the depth reads as a deck the way
+        // ModalStack's sheets do.
+        private sealed class NavOverlay
+        {
+            public HTMLElement Nav;
+            public HTMLElement Panel;
+            public Node        Placeholder;
+            public HTMLElement Backdrop;
+            public HTMLElement Title;
+        }
+
+        /// <summary>How far each panel behind the front one steps left, in pixels - the strip of it that shows.</summary>
+        private const int NAV_OVERLAY_PEEK = 12;
+
+        /// <summary>How many panels behind the front one still peek out; deeper ones sit behind the last of them.</summary>
+        private const int NAV_OVERLAY_MAX_PEEK_DEPTH = 3;
+
+        private bool TryOpenNavOverlay(Event e)
+        {
+            if (_pressingNavHeader) return false;
+
+            var target = e.target.As<HTMLElement>();
+            var header = target?.closest(".tss-sidebar-nav-header");
+
+            if (header is null || header.classList.contains("tss-sidebar-nav-header-empty")) return false;
+            if (target.closest(".tss-sidebar-commands") is object) return false;
+
+            var nav = header.parentElement;
+
+            if (nav is null || !nav.classList.contains("tss-sidebar-nav") || !nav.HasOwnProperty("tssOwner")) return false;
+            if (nav.classList.contains("tss-sidebar-nav-overlay-open")) return false;
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            OpenNavOverlay(nav, nav["tssOwner"].As<SidebarNav>());
+            return true;
+        }
+
+        private void OpenNavOverlay(HTMLElement nav, SidebarNav owner)
+        {
+            var panel = nav.querySelector(":scope > .tss-sidebar-nav-children").As<HTMLElement>();
+
+            if (panel is null) return;
+
+            var backdrop = Div(Att("tss-sidebar-nav-overlay-backdrop"));
+            var back     = Button().SetIcon(UIcons.AngleLeft).Class("tss-sidebar-nav-overlay-back").OnClick(() => CloseNavOverlay());
+            var label    = Span(Att("tss-sidebar-nav-overlay-label", text: owner.Text));
+            var title    = Div(Att("tss-sidebar-nav-overlay-title"), back.Render(), label);
+
+            // The group's own row, when it has one to go to: pressing the title is pressing the header
+            if (owner.HasClickAction)
+            {
+                label.classList.add("tss-sidebar-nav-overlay-label-action");
+                label.addEventListener("click", _ =>
+                {
+                    CloseNavOverlays();
+
+                    _pressingNavHeader = true;
+                    owner.PressHeader();
+                    _pressingNavHeader = false;
+
+                    window.setTimeout(__ => ShowContent(), 0);
+                });
+            }
+
+            backdrop.addEventListener("click", _ => CloseNavOverlay());
+
+            var placeholder = document.createComment("");
+            panel.parentNode.insertBefore(placeholder, panel);
+
+            var root = _sidebar.Render();
+            root.appendChild(backdrop);
+            root.appendChild(panel);
+
+            panel.insertBefore(title, panel.firstChild);
+            panel.classList.add("tss-sidebar-nav-overlay-panel");
+            nav.classList.add("tss-sidebar-nav-overlay-open");
+
+            _navOverlays.Add(new NavOverlay { Nav = nav, Panel = panel, Placeholder = placeholder, Backdrop = backdrop, Title = title });
+
+            LayoutNavOverlays();
+        }
+
+        private void CloseNavOverlay()
+        {
+            if (_navOverlays.Count == 0) return;
+
+            var overlay = _navOverlays[_navOverlays.Count - 1];
+            _navOverlays.RemoveAt(_navOverlays.Count - 1);
+
+            overlay.Nav.classList.remove("tss-sidebar-nav-overlay-open");
+            overlay.Panel.classList.remove("tss-sidebar-nav-overlay-panel");
+            overlay.Panel.style.zIndex    = "";
+            overlay.Panel.style.transform = "";
+            overlay.Title.remove();
+            overlay.Backdrop.remove();
+
+            // Back where the group draws it; a group re-rendered meanwhile has let go of this one, and it goes
+            if (overlay.Placeholder.parentNode is object)
+            {
+                overlay.Placeholder.parentNode.insertBefore(overlay.Panel, overlay.Placeholder);
+                overlay.Placeholder.parentNode.removeChild(overlay.Placeholder);
+            }
+            else
+            {
+                overlay.Panel.remove();
+            }
+
+            LayoutNavOverlays();
+        }
+
+        private void CloseNavOverlays()
+        {
+            while (_navOverlays.Count > 0) CloseNavOverlay();
+        }
+
+        // Each panel over the one it came from, and each backdrop between the two - so a panel behind is dimmed
+        // by the backdrop of the one in front, and shows only the strip its step to the left uncovers.
+        private void LayoutNavOverlays()
+        {
+            var count = _navOverlays.Count;
+
+            for (var i = 0; i < count; i++)
+            {
+                var overlay = _navOverlays[i];
+                var depth   = Math.Min(count - 1 - i, NAV_OVERLAY_MAX_PEEK_DEPTH);
+
+                //Each backdrop dims everything under it, so the ones past the first are lighter or the sidebar goes black
+                overlay.Backdrop.style.zIndex  = (20 + i * 2).ToString();
+                overlay.Backdrop.style.opacity = i == 0 ? "" : "0.5";
+                overlay.Panel.style.zIndex    = (21 + i * 2).ToString();
+                overlay.Panel.style.transform = depth == 0 ? "" : $"translateX(-{depth * NAV_OVERLAY_PEEK}px)";
+
+                overlay.Panel.UpdateClassIf(depth > 0, "tss-sidebar-nav-overlay-behind");
+            }
+        }
+
+        // A row that goes somewhere, as opposed to the chrome around it: a row's own commands, a search box, and
+        // the brand and profile rows, whose click opens a menu anchored on the sidebar that is about to be hidden.
+        private static bool IsPageSelection(HTMLElement target)
+        {
+            if (target.closest(".tss-sidebar-btn-open") is null) return false;
+
+            if (target.closest(".tss-sidebar-commands, .tss-sidebar-btn-searchbox, .tss-sidebar-identity") is object) return false;
+
+            // A group's header is a row too once it has nothing to open (a group with children opened a panel)
+            var header = target.closest(".tss-sidebar-nav-header");
+
+            return header is null || header.classList.contains("tss-sidebar-nav-header-empty");
+        }
+
         private void RenderSidebar(IReadOnlyList<ISidebarItem> header, IReadOnlyList<ISidebarItem> middle, IReadOnlyList<ISidebarItem> footer, bool closed)
         {
+            closed = closed && !IsPage;
+
+            CloseNavOverlays();
+
             var stackMiddle = VStack();
 
             if (_isSortable)
@@ -393,7 +703,7 @@ namespace Tesserae
                 EnsureShiftScaffolding();
 
                 _shiftChild = child;
-                child.IsClosed = _closed.Value;
+                child.IsClosed = _closed.Value && !IsPage;
 
                 ClearChildren(_shiftChildPanel);
                 _shiftChildPanel.appendChild(child.Render());
