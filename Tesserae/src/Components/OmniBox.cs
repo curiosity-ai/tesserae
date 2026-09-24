@@ -2895,11 +2895,24 @@ namespace Tesserae
             UpdateChatTriggerIcon();
         }
 
+        /// <summary>Put on the trigger's icon for the moment it turns from "send" into "stop" or back (tss.omnibox.css).</summary>
+        private const string CHAT_TRIGGER_SWAP_CLASS = "tss-omnibox-chat-btn-swap";
+
+        // The trigger is built showing "send"
+        private bool _chatTriggerShowsStop;
+
         private void UpdateChatTriggerIcon()
         {
             if (_chatTriggerBtn == null) return;
 
-            if (_isGenerating && !CanSendWhileGenerating)
+            //Runs on every keystroke, and only a change of glyph is worth redrawing - or animating
+            var showStop = _isGenerating && !CanSendWhileGenerating;
+
+            if (showStop == _chatTriggerShowsStop) return;
+
+            _chatTriggerShowsStop = showStop;
+
+            if (showStop)
             {
                 _chatTriggerBtn.SetIcon(_iconStop).Danger();
             }
@@ -2908,6 +2921,14 @@ namespace Tesserae
                 _chatTriggerBtn.SetIcon(_iconChat);
                 _chatTriggerBtn.IsDanger = false;
             }
+
+            var icon = _chatTriggerBtn.Render().querySelector("i").As<HTMLElement>();
+
+            if (icon is null) return;
+
+            //Taken off and put back a frame later, so a swap that lands mid-animation plays from the start
+            icon.classList.remove(CHAT_TRIGGER_SWAP_CLASS);
+            window.requestAnimationFrame(_ => icon.classList.add(CHAT_TRIGGER_SWAP_CLASS));
         }
 
         // Below this share of the budget the counter says nothing: a message nowhere near the limit
