@@ -306,12 +306,17 @@
 
 /* MarkAsViewed(): the result you just opened, so coming back to a long list says which row you came
    back from. The title takes the purple a visited link has always been, which is the one thing about a
-   row that is read before anything else. */
-.tss-omniresult-viewed .tss-omniresult-title {
+   row that is read before anything else. The identifier and its chevron are part of that title, so they
+   take it too - otherwise a row with an issue number reads as half visited. */
+.tss-omniresult-viewed .tss-omniresult-title,
+.tss-omniresult-viewed .tss-omniresult-id-value,
+.tss-omniresult-viewed .tss-omniresult-id-chevron {
     color: var(--tss-colors-purple-700);
 }
 
-.tss-dark-mode .tss-omniresult-viewed .tss-omniresult-title {
+.tss-dark-mode .tss-omniresult-viewed .tss-omniresult-title,
+.tss-dark-mode .tss-omniresult-viewed .tss-omniresult-id-value,
+.tss-dark-mode .tss-omniresult-viewed .tss-omniresult-id-chevron {
     color: var(--tss-colors-purple-400);
 }
 
