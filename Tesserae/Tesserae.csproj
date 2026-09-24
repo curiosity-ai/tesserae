@@ -1,4 +1,4 @@
-﻿<Project Sdk="Transpose.Build.Target/26.8.4125">
+﻿<Project Sdk="Transpose.Build.Target/26.9.4870">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>tss</AssemblyName>
@@ -10,9 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Transpose.BCL" Version="26.9.4791" />
-    <PackageReference Include="Transpose.Core" Version="26.9.4756" />
-    <PackageReference Include="Transpose.Newtonsoft.Json" Version="26.8.4635" />
+    <PackageReference Include="Transpose.BCL" Version="26.9.5840" />
+    <PackageReference Include="Transpose.Core" Version="26.9.5838" />
+    <PackageReference Include="Transpose.Newtonsoft.Json" Version="26.9.5839" />
   </ItemGroup>
 
   <PropertyGroup>
