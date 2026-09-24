@@ -44,6 +44,14 @@ Dropdown:
 - `.OnChange(handler)` — fires once, when the popup closes, with the selection the User settled on (for a single-select dropdown that is as soon as an option is picked, since picking one closes the popup).
 - `.SelectedItems` / `.SelectedText` — current selection. `.AsObservable()` for the selected list.
 
+Keyboard and pointer: the closed box is in the tab order and opens on Enter, Space, ArrowDown or
+ArrowUp. In the list, ArrowUp/ArrowDown move the current row, typing filters (any character; with
+`.Searchable()` the search box keeps the focus while the pointer moves the current row), Enter picks
+the current row, which is whatever the pointer is over or the arrows last reached, and Escape closes
+and returns the focus to the box. Headers, dividers and disabled items are never the current row and
+a disabled item does not select. A single-select dropdown given several `.Selected()` items keeps
+the first. `.OnChange` reports a selection once, when the popup closes, and not again on a later close.
+
 Dropdown.Item:
 
 - `.Selected()` / `.SelectedIf(bool)` / `.IsSelected` — selection state.

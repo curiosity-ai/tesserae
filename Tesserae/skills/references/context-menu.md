@@ -22,10 +22,23 @@ submenus, with arrow-key navigation and Esc to dismiss.
 - `.OnClick((s, e) => ...)` or `.OnClick(() => ...)` — item click handler.
 - `.Divider()` / `.Header()` — turn an item into a divider or section header.
 - `.Disabled(bool = true)` — disable an item.
-- `.SubMenu(ContextMenu cm)` — attach a nested menu that opens on hover.
+- `.SubMenu(ContextMenu cm)` — attach a nested menu that opens on hover or ArrowRight; nest as deep as needed.
 - `.ShowFor(IComponent or HTMLElement, distanceX = 1, distanceY = 1)` — show anchored to a target (auto-hides when the target is removed).
 - `.ShowAt(x, y, minWidth)` — show at screen coordinates.
 - `.Hide()` / `.OnHide(Action)` — dismiss / hide callback.
+
+## Behaviour
+
+- **Submenus track the pointer.** Moving from a row towards the submenu it opened keeps it open
+  across the rows in between; resting on another row for about 300ms switches to it. Returning to
+  the row that opened the submenu does not re-open it. A third level stays open while the pointer
+  is anywhere in the branch.
+- A submenu opens beside its parent, top-aligned with its row; to the left of the parent when there
+  is no room on the right.
+- **Keyboard** (deepest open level only): ArrowUp/ArrowDown and Home/End move between rows,
+  ArrowRight opens a submenu and focuses its first row, ArrowLeft or Escape close one level and
+  return to the row that opened it; Escape at the top level closes the menu. Rows built from a
+  component are focusable like text rows.
 
 ## Example
 

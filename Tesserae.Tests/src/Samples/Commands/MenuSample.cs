@@ -40,6 +40,15 @@ namespace Tesserae.Tests.Samples
                             MenuDivider(),
                             MenuItem("Exit").Disabled()
                         ).ShowFor(fileBtn))
+                    ,
+                    SampleSubTitle("Sibling submenus"),
+                    TextBlock("Three rows that each open a submenu. Moving diagonally from a row into its submenu crosses the rows below it without switching; coming to rest on one of them switches after a moment."),
+                    Button("Siblings").Var(out var sibBtn).OnClick((s, _) =>
+                        Menu().Items(
+                            MenuItem("Alpha").SubMenu(Menu().Items(MenuItem("Alpha 1"), MenuItem("Alpha 2"), MenuItem("Alpha 3"), MenuItem("Alpha 4"), MenuItem("Alpha 5"), MenuItem("Alpha 6"))),
+                            MenuItem("Beta").SubMenu(Menu().Items(MenuItem("Beta 1"), MenuItem("Beta 2"), MenuItem("Beta 3"))),
+                            MenuItem("Gamma").SubMenu(Menu().Items(MenuItem("Gamma 1"), MenuItem("Gamma 2"), MenuItem("Gamma 3")))
+                        ).ShowFor(sibBtn))
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(ContextMenuSample), typeof(DropdownSample), typeof(CommandBarSample), typeof(NavbarSample), typeof(SidebarSample));
         }

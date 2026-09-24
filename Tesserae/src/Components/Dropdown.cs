@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -74,6 +73,36 @@ namespace Tesserae
             _container = Div(Att("tss-dropdown-container"), InnerElement, _errorSpan, _iconContainer);
 
             _childContainer = Div(Att("tss-dropdown-items"));
+
+            // The pointer moves the keyboard's row, in one place for every row: with a search box the
+            // row is only marked, so the box keeps the focus and the keystrokes; without one it is
+            // focused. Either way it becomes the row Enter picks - a row's own focus() used to steal
+            // the caret from the search box and leave Enter on whatever the arrows last visited.
+            _childContainer.addEventListener("mouseover", (e) =>
+            {
+                var row = RowOf(e.srcElement as HTMLElement);
+
+                if (row is object && IsSelectableRow(row) && row != _firstItem)
+                {
+                    _firstItem = row;
+                    FocusOnItem(row, scroll: false);
+                }
+            });
+
+            // The closed box is a focusable combobox: Tab reaches it and the keys that open a native select open it.
+            InnerElement.tabIndex = 0;
+            InnerElement.addEventListener("keydown", (e) =>
+            {
+                var ev = (KeyboardEvent)e;
+
+                if (IsVisible || !IsEnabled || ev.ctrlKey || ev.altKey || ev.metaKey) return;
+
+                if (ev.key == "Enter" || ev.key == " " || ev.key == "ArrowDown" || ev.key == "ArrowUp")
+                {
+                    StopEvent(e);
+                    Show();
+                }
+            });
 
             InnerElement.onclick = (e) =>
             {
@@ -355,10 +384,15 @@ namespace Tesserae
             _popupDiv.style.left   = "-1000px";
             _popupDiv.style.top    = "-1000px";
 
+            EnforceSingleSelection();
+
             base.Show();
             InnerElement.setAttribute("aria-expanded", "true");
 
             _isChanged = false;
+
+            // Enter picks this row until the arrows or the pointer move it: the selection, or the first option.
+            _firstItem = _selectedChildren.Count > 0 ? _selectedChildren[_selectedChildren.Count - 1].Render() : GetItems().Select(i => i.item).FirstOrDefault(IsSelectableRow);
 
             if (!_popupDiv.classList.contains("tss-no-focus")) _popupDiv.classList.add("tss-no-focus");
 
@@ -498,10 +532,62 @@ namespace Tesserae
             // _contentHtml when it's first created (see Show) and intentionally live
             // for the dropdown's lifetime, so they're not removed here.
             document.removeEventListener("keydown", _onPopupKeyDownAction);
+            window.clearTimeout(_asyncSearchTimeout);
+
+            var wasVisible = IsVisible;
+            var hadFocus   = wasVisible && _popupDiv is object && document.activeElement is object && (_popupDiv.contains(document.activeElement) || document.activeElement == document.body);
+
             base.Hide(onHidden);
 
+            // Whoever was in the popup goes back to the box, so a keyboard user does not land on the body.
+            if (hadFocus) InnerElement.focus();
+
             if (_isChanged)
+            {
+                // Reported once: a later Hide - the dropdown leaving the DOM, Items() emptying it - is not another change.
+                _isChanged = false;
                 RaiseOnChange(ev: null);
+            }
+        }
+
+        // The row element an event inside the list belongs to, or null outside any row.
+        private HTMLElement RowOf(HTMLElement target)
+        {
+            while (target is object && target != _childContainer)
+            {
+                if (target.parentElement == _childContainer) return target;
+                target = target.parentElement;
+            }
+
+            return null;
+        }
+
+        // An option the keyboard may land on: not a header, not a divider, not disabled.
+        private static bool IsSelectableRow(HTMLElement row) => row is object && row.classList.contains("tss-dropdown-item") && row.tabIndex != -1;
+
+        // A single-select dropdown shows one selection; if the items came in with more than one marked
+        // (Selected() on several), the first wins and the rest are unmarked without firing anything.
+        private void EnforceSingleSelection()
+        {
+            if (Mode != SelectMode.Single || _lastRenderedItems is null) return;
+
+            var seen    = false;
+            var changed = false;
+
+            foreach (var item in _lastRenderedItems)
+            {
+                if (!item.IsSelected) continue;
+
+                if (seen)
+                {
+                    item.SetSelectedSilently(false);
+                    changed = true;
+                }
+
+                seen = true;
+            }
+
+            if (changed) UpdateStateBasedUponCurrentSelections();
         }
 
         /// <summary>
@@ -824,10 +910,11 @@ namespace Tesserae
 
         private void OnWindowClick(Event e)
         {
-            if (e.srcElement != _childContainer && !_childContainer.contains(e.srcElement) && (_searchBox is null || !_searchBox.IsFocused))
-            {
-                Hide();
-            }
+            // Anything inside the popup - a row, the search box, the gap under it - is the dropdown's own;
+            // the wheel over an unfocused search box used to count as outside and close it.
+            if (_popupDiv is object && (e.srcElement == _popupDiv || _popupDiv.contains(e.srcElement))) return;
+
+            Hide();
         }
 
         private void UpdateStateBasedUponCurrentSelections()
@@ -1080,8 +1167,9 @@ namespace Tesserae
                 ResetSearchItems();
                 Hide();
             }
-            else if (e.key.Length == 1 && Regex.IsMatch(e.key, "[a-z0-9 _\\-.,;:!?\"'/$]", RegexOptions.IgnoreCase))
+            else if (e.key.Length == 1)
             {
+                // Any printable character, not only ASCII: the options are in whatever language the application is.
                 _search += e.key;
                 SearchItems();
             }
@@ -1159,9 +1247,10 @@ namespace Tesserae
             var itemsToRemove = items.Where(item => (searchTerms.Any(t => !item.textContent.ToLower().Contains(t))));
             var itemsToReset  = items.Except(itemsToRemove);
             
-            if(!itemsToReset.Any(i => i.item == _firstItem))
+            // Enter picks _firstItem, so it has to be an option: not the header that happens to match first.
+            if (!itemsToReset.Any(i => i.item == _firstItem) || !IsSelectableRow(_firstItem))
             {
-                _firstItem = itemsToReset.FirstOrDefault().item;
+                _firstItem = itemsToReset.Select(i => i.item).FirstOrDefault(IsSelectableRow);
             }
 
             ResetSearchItems(itemsToReset);
@@ -1187,15 +1276,15 @@ namespace Tesserae
                 item.style.display = "none";
             }
 
-            var regex = new Regex("(" + string.Join("|", searchTerms.Select(Regex.Escape)) + ")", RegexOptions.IgnoreCase);
+            var terms = searchTerms.Where(t => t.Length > 0).ToArray();
 
             foreach (var (item, _) in itemsToReset)
             {
                 RecursiveUnhighlight(item);
 
-                if (searchTerms.Length > 0 && searchTerms.Any(s => s.Length > 0))
+                if (terms.Length > 0)
                 {
-                    RecursiveHighlight(item, regex);
+                    RecursiveHighlight(item, terms);
                 }
             }
 
@@ -1212,7 +1301,7 @@ namespace Tesserae
             }
         }
 
-        private void FocusOnItem(HTMLElement item)
+        private void FocusOnItem(HTMLElement item, bool scroll = true)
         {
             if (_searchBox is object)
             {
@@ -1225,10 +1314,12 @@ namespace Tesserae
             }
             else
             {
-                item.focus();
+                // The pointer is already on the row: scrolling it fully into view would move the list under the pointer.
+                if (scroll) item.focus();
+                else Script.Write("{0}.focus({ preventScroll: true })", item);
             }
 
-            ScrollItemIntoView(item);
+            if (scroll) ScrollItemIntoView(item);
         }
 
         /// <summary>
@@ -1255,24 +1346,72 @@ namespace Tesserae
             }
         }
 
-        private static void RecursiveHighlight(HTMLElement baseElement, Regex highlighter)
+        private static void RecursiveHighlight(HTMLElement baseElement, string[] terms)
         {
             if (baseElement.childElementCount > 0)
             {
                 foreach (var e in baseElement.children)
                 {
-                    RecursiveHighlight((HTMLElement)e, highlighter);
+                    RecursiveHighlight((HTMLElement)e, terms);
                 }
             }
             else
             {
-                if (highlighter.IsMatch(baseElement.textContent))
-                {
-                    var txt = baseElement.textContent;
-                    baseElement.textContent = "";
-                    baseElement.innerHTML   = highlighter.Replace(txt, "<mark>$1</mark>");
-                }
+                HighlightLeaf(baseElement, terms);
             }
+        }
+
+        // Wraps every occurrence of a term in a <mark>, built from text nodes: the option's text is
+        // whatever the application put there, and writing it back through innerHTML let it run as markup.
+        private static void HighlightLeaf(HTMLElement leaf, string[] terms)
+        {
+            var text  = leaf.textContent;
+            var lower = text.ToLower();
+
+            if (string.IsNullOrEmpty(text)) return;
+
+            var pieces = new List<(int start, int length)>();
+            var pos    = 0;
+
+            while (pos < text.Length)
+            {
+                var best    = -1;
+                var bestLen = 0;
+
+                foreach (var term in terms)
+                {
+                    var index = lower.IndexOf(term, pos);
+
+                    if (index >= 0 && (best < 0 || index < best || (index == best && term.Length > bestLen)))
+                    {
+                        best    = index;
+                        bestLen = term.Length;
+                    }
+                }
+
+                if (best < 0 || bestLen == 0) break;
+
+                pieces.Add((best, bestLen));
+                pos = best + bestLen;
+            }
+
+            if (pieces.Count == 0) return;
+
+            leaf.textContent = "";
+            pos              = 0;
+
+            foreach (var (start, length) in pieces)
+            {
+                if (start > pos) leaf.appendChild(document.createTextNode(text.Substring(pos, start - pos)));
+
+                var mark = document.createElement("mark");
+                mark.textContent = text.Substring(start, length);
+                leaf.appendChild(mark);
+
+                pos = start + length;
+            }
+
+            if (pos < text.Length) leaf.appendChild(document.createTextNode(text.Substring(pos)));
         }
 
         private static void RecursiveUnhighlight(HTMLElement baseElement)
@@ -1386,7 +1525,6 @@ namespace Tesserae
                 }
 
                 InnerElement.addEventListener("click",     OnItemClick);
-                InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
 
             // The pre-factory behaviour, kept so code written against it keeps working: the box shows a copy
@@ -1457,7 +1595,6 @@ namespace Tesserae
                 }
 
                 InnerElement.addEventListener("click",     OnItemClick);
-                InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
 
             // What a null content falls back to, so a broken option renders empty instead of taking the page
@@ -1558,6 +1695,16 @@ namespace Tesserae
                     // to have a callback that prevents you from clicking the item if.. something). While I removed the was-changed check for single-select configurations, it does not harm for multi as well.
                     SelectedItem?.Invoke(this);
                 }
+            }
+
+            // Changes the mark without telling anyone: for the dropdown putting a list into a consistent state,
+            // not for a selection anyone made.
+            internal void SetSelectedSilently(bool value)
+            {
+                if (value) InnerElement.classList.add("tss-selected");
+                else InnerElement.classList.remove("tss-selected");
+
+                InnerElement.setAttribute("aria-selected", value ? "true" : "false");
             }
 
             /// <summary>
@@ -1703,7 +1850,7 @@ namespace Tesserae
 
             private void OnItemClick(Event e)
             {
-                if (Type == ItemType.Item)
+                if (Type == ItemType.Item && IsEnabled)
                 {
                     if (IsMountedWithinMultiSelectDropdown)
                     {
@@ -1719,14 +1866,6 @@ namespace Tesserae
             }
 
             private bool IsMountedWithinMultiSelectDropdown => InnerElement.parentElement.classList.contains("tss-dropdown-multi");
-
-            private void OnItemMouseOver(Event ev)
-            {
-                if (Type == ItemType.Item)
-                {
-                    InnerElement.focus();
-                }
-            }
         }
     }
 }

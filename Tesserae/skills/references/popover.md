@@ -21,6 +21,7 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.Arrow(bool = true)` — show the pointer arrow.
 - `.MaxWidth(int pixels)` — surface max width (default 350).
 - `.HideOnClickOutside(bool = true)` / `.HideOnEscape(bool = true)` — dismissal behaviour (both on by default).
+- `.Offset(int skidding, int distance)` — shift along the anchor and away from it, in pixels (the default distance is 10).
 - `.OnShown(Action)` / `.OnHidden(Action)` — lifecycle callbacks.
 - `.OnBeforeHide(Func<bool>)` — return `false` to cancel a hide.
 - `.DelayShow(ms)` / `.DelayHide(ms)`, `.Animation(TooltipAnimation)`, `.Theme(string)`.

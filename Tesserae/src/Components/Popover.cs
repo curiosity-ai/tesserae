@@ -53,18 +53,28 @@ namespace Tesserae
         private Action           _hideAction;
         private bool             _isVisible;
         private HTMLDivElement   _renderedContent;
+        private int?             _offsetSkidding;
+        private int?             _offsetDistance;
+
+        private readonly Action<Event> _onKeyDown;
 
         /// <summary>
         /// Creates a new, empty popover. Configure it with <see cref="Content"/> and the other fluent
         /// setters before calling <see cref="ShowFor(IComponent)"/>.
         /// </summary>
-        public Popover() { }
+        public Popover()
+        {
+            _onKeyDown = (e) =>
+            {
+                if (((KeyboardEvent)e).key == "Escape") Hide();
+            };
+        }
 
         /// <summary>
         /// Creates a popover whose content is already set.
         /// </summary>
         /// <param name="content">The component to render inside the popover.</param>
-        public Popover(IComponent content) { _content = content; }
+        public Popover(IComponent content) : this() { _content = content; }
 
         /// <summary>Gets a value indicating whether the popover is currently displayed.</summary>
         public bool IsVisible => _isVisible;
@@ -103,6 +113,13 @@ namespace Tesserae
 
         /// <summary>Controls whether pressing <c>Escape</c> hides the popover. Enabled by default.</summary>
         public Popover HideOnEscape(bool hide = true) { _hideOnEsc = hide; return this; }
+
+        /// <summary>
+        /// Moves the popover along its anchor (<paramref name="skidding"/>) and away from it
+        /// (<paramref name="distance"/>), in pixels. The default distance is Tippy's 10px gap; a submenu,
+        /// for instance, wants none.
+        /// </summary>
+        public Popover Offset(int skidding, int distance) { _offsetSkidding = skidding; _offsetDistance = distance; return this; }
 
         /// <summary>Adds a delay (in milliseconds) before the popover shows when <see cref="ShowFor(IComponent)"/> is called.</summary>
         public Popover DelayShow(int milliseconds) { _delayShow = milliseconds; return this; }
@@ -159,17 +176,14 @@ namespace Tesserae
 
             Action onHiddenInternal = () =>
             {
+                document.removeEventListener("keydown", _onKeyDown);
                 _isVisible       = false;
                 _renderedContent = null;
                 _hideAction      = null;
                 _onHidden?.Invoke();
             };
 
-            Func<bool> shouldHide = () =>
-            {
-                if (!_hideOnEsc && IsEscapeOnlyHide()) return false;
-                return _onBeforeHide?.Invoke() ?? true;
-            };
+            Func<bool> shouldHide = () => _onBeforeHide?.Invoke() ?? true;
 
             Tippy.ShowFor(
                 anchor,
@@ -195,6 +209,18 @@ namespace Tesserae
                 interactiveBorder: 24);
 
             _hideAction = hide;
+
+            if (_offsetSkidding.HasValue || _offsetDistance.HasValue)
+            {
+                // Tippy.ShowFor has no offset option, and adding one there means threading it through
+                // two overloads and four option strings; setProps on the instance it just made is the
+                // same thing, applied a frame later.
+                Transpose.Script.Write("if ({0}._tippy) { {0}._tippy.setProps({ offset: [{1}, {2}] }); }", anchor, _offsetSkidding ?? 0, _offsetDistance ?? 10);
+            }
+
+            // Escape is ours to handle: Tippy has no key handling of its own, so HideOnEscape used to do nothing.
+            if (_hideOnEsc) document.addEventListener("keydown", _onKeyDown);
+
             // Tippy does not surface a separate "shown" callback in this codebase, so we fire it inline.
             onShownInternal();
             return this;
@@ -205,9 +231,5 @@ namespace Tesserae
         {
             _hideAction?.Invoke();
         }
-
-        // Tippy fires onHide both for click-outside/click-on-anchor and Escape; we cannot distinguish them
-        // here at runtime, so HideOnEscape is best-effort — the popover honours OnBeforeHide for all paths.
-        private static bool IsEscapeOnlyHide() => false;
     }
 }
