@@ -368,6 +368,15 @@ namespace Tesserae
             };
         }
 
+        /// <summary>Whether the header does something when pressed, beyond expanding the group.</summary>
+        internal bool HasClickAction { get; private set; }
+
+        /// <summary>The group's name, for a surface that shows the group apart from its header.</summary>
+        internal string Text => _text;
+
+        /// <summary>Presses the header, as a click on it would - what the group's own row does.</summary>
+        internal void PressHeader() => _openHeaderButton.Render().click();
+
         /// <summary>
         /// Adds a click event handler to the navigation header.
         /// </summary>
@@ -375,6 +384,7 @@ namespace Tesserae
         /// <returns>The current instance of the type.</returns>
         public SidebarNav OnClick(Action action)
         {
+            HasClickAction = true;
             var wrapped = WrapAction(action);
             _closedHeader.OnClick(wrapped);
             _openHeaderButton.OnClick(wrapped);
@@ -388,6 +398,7 @@ namespace Tesserae
         /// <returns>The current instance of the type.</returns>
         public SidebarNav OnClick(Action<SidebarNav> action)
         {
+            HasClickAction = true;
             var wrapped = WrapAction(() => action(this));
             _closedHeader.OnClick(wrapped);
             _openHeaderButton.OnClick(wrapped);
@@ -400,6 +411,7 @@ namespace Tesserae
         /// <returns>The current instance of the type.</returns>
         public SidebarNav OnClick(Action<Button, MouseEvent> action)
         {
+            HasClickAction = true;
             var wrapped = WrapAction(action);
             _closedHeader.OnClick((b,     e) => wrapped(b, e));
             _openHeaderButton.OnClick((b, e) => wrapped(b, e));

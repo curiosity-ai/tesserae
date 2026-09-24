@@ -30,6 +30,19 @@ namespace Tesserae.Tests.Samples
             Page("inbox",    UIcons.Inbox,    "Inbox");
             Page("calendar", UIcons.Calendar, "Calendar");
             Page("contacts", UIcons.User,     "Contacts");
+
+            // A group opens its children as a panel over the sidebar instead of expanding in place
+            var projects = new SidebarNav("projects", UIcons.Folder, "Projects", initiallyCollapsed: true);
+            sidebar.AddContent(projects);
+
+            foreach (var project in new[] { "Atlas", "Beacon", "Compass" })
+            {
+                projects.Add(new SidebarButton("project-" + project, UIcons.Document, project).OnClick(() =>
+                {
+                    pageBar.SetTitle(project);
+                    body.Text = "This is the " + project + " project. Picking it closed the panel and the sidebar.";
+                }));
+            }
             sidebar.AddFooter(new SidebarButton("settings", UIcons.Settings, "Settings"));
 
             var content = VStack().S().Children(pageBar, body.Padding(16.px()));
@@ -48,7 +61,7 @@ namespace Tesserae.Tests.Samples
                .SampleTitle(typeof(SidebarPageSample), UIcons.Smartphone, "A sidebar that is a page of its own")
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                    TextBlock("On a phone there is no room for a rail beside the content. Sidebar.AsPage() makes the sidebar fill its container and hide what follows it; picking one of its buttons steps it aside, and the SidebarPageBar at the top of the content brings it back. Follow Theme.OnMobileModeChanged to switch between the two layouts.").Wrap())).SetTitle("Overview"),
+                    TextBlock("On a phone there is no room for a rail beside the content. Sidebar.AsPage() makes the sidebar fill its container and hide what follows it; picking one of its buttons steps it aside, a group opens its children as a panel over the sidebar rather than expanding in place, and the SidebarPageBar at the top of the content brings it back. Follow Theme.OnMobileModeChanged to switch between the two layouts.").Wrap())).SetTitle("Overview"),
                     Card(VStack().WS().Children(
                         mode.PB(16),
                         phone

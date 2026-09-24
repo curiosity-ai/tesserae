@@ -344,6 +344,10 @@ it in that container is hidden.
 - `SidebarPageBar(sidebar)` (see `sidebar-page-bar.md`) goes at the top of the
   content: a back button that calls `.ShowSidebar()`, a brand and the page title.
   It collapses itself while its sidebar is not a page, so it can stay mounted.
+- A group (`SidebarNav`) with children does not expand in place: pressing its header or
+  arrow opens its children as a panel over the sidebar (`calc(100% - 48px)` wide, from
+  the right) above a dark backdrop that closes it. The panel's title presses the group's
+  own header when it has an `OnClick`; a group inside the panel stacks another panel.
 - A sidebar the app has `Collapse()`d leaves the content on its own.
 
 ```csharp

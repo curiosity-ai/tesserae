@@ -25,6 +25,8 @@ namespace Tesserae
         private readonly SettableObservable<bool>                        _pageMode;
         private readonly SettableObservable<bool>                        _pageShowsContent;
         private          bool                                            _pageClicksHooked;
+        private readonly List<(HTMLElement nav, HTMLElement backdrop, HTMLElement title)> _navOverlays = new List<(HTMLElement, HTMLElement, HTMLElement)>();
+        private          bool                                            _pressingNavHeader;
 
         private Action<Dictionary<string, string[]>> _onSortingChanged;
 
@@ -294,6 +296,7 @@ namespace Tesserae
             }
             else
             {
+                CloseNavOverlays();
                 _sidebar.RemoveClass("tss-sidebar-page");
 
                 if (_closed.Value)
@@ -316,6 +319,7 @@ namespace Tesserae
         /// <returns>The current instance.</returns>
         public Sidebar ShowContent()
         {
+            CloseNavOverlays();
             _pageShowsContent.Value = true;
             return this;
         }
@@ -350,6 +354,8 @@ namespace Tesserae
             {
                 if (!IsPage) return;
 
+                if (TryOpenNavOverlay(e)) return;
+
                 var me = e.As<MouseEvent>();
 
                 if (me.ctrlKey || me.metaKey || me.shiftKey) return; //opens in a new tab, this page stays where it is
@@ -362,19 +368,112 @@ namespace Tesserae
             }), true);
         }
 
-        // A row that goes somewhere, as opposed to the chrome around it: a row's own commands, a group's arrow
-        // or header (which expands the group when it is the one already selected), a search box, and the brand
-        // and profile rows, whose click opens a menu anchored on the sidebar that is about to be hidden.
+        // On a page a group does not expand in place: a row at a time is all a phone shows, and a list that
+        // grows under the thumb moves everything below it. Pressing a group's header (or its arrow) opens its
+        // children as a panel over the sidebar instead - the group's own children element, restyled by
+        // .tss-sidebar-nav-overlay-open, so nothing is moved or re-rendered - over a backdrop that closes it.
+        // A group inside that panel opens another one on top.
+        private bool TryOpenNavOverlay(Event e)
+        {
+            if (_pressingNavHeader) return false;
+
+            var target = e.target.As<HTMLElement>();
+            var header = target?.closest(".tss-sidebar-nav-header");
+
+            if (header is null || header.classList.contains("tss-sidebar-nav-header-empty")) return false;
+            if (target.closest(".tss-sidebar-commands") is object) return false;
+
+            var nav = header.parentElement;
+
+            if (nav is null || !nav.classList.contains("tss-sidebar-nav") || !nav.HasOwnProperty("tssOwner")) return false;
+            if (nav.classList.contains("tss-sidebar-nav-overlay-open")) return false;
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            OpenNavOverlay(nav, nav["tssOwner"].As<SidebarNav>());
+            return true;
+        }
+
+        private void OpenNavOverlay(HTMLElement nav, SidebarNav owner)
+        {
+            var children = nav.querySelector(":scope > .tss-sidebar-nav-children").As<HTMLElement>();
+
+            if (children is null) return;
+
+            var depth    = _navOverlays.Count;
+            var backdrop = Div(Att("tss-sidebar-nav-overlay-backdrop"));
+            var back     = Button().SetIcon(UIcons.AngleLeft).Class("tss-sidebar-nav-overlay-back").OnClick(() => CloseNavOverlay());
+            var label    = Span(Att("tss-sidebar-nav-overlay-label", text: owner.Text));
+            var title    = Div(Att("tss-sidebar-nav-overlay-title"), back.Render(), label);
+
+            // The group's own row, when it has one to go to: pressing the title is pressing the header
+            if (owner.HasClickAction)
+            {
+                label.classList.add("tss-sidebar-nav-overlay-label-action");
+                label.addEventListener("click", _ =>
+                {
+                    CloseNavOverlays();
+
+                    _pressingNavHeader = true;
+                    owner.PressHeader();
+                    _pressingNavHeader = false;
+
+                    window.setTimeout(__ => ShowContent(), 0);
+                });
+            }
+
+            backdrop.addEventListener("click", _ => CloseNavOverlay());
+
+            backdrop.style.zIndex = (20 + depth * 10).ToString();
+            children.style.zIndex = (21 + depth * 10).ToString();
+
+            nav.insertBefore(backdrop, children);
+            children.insertBefore(title, children.firstChild);
+            nav.classList.add("tss-sidebar-nav-overlay-open");
+
+            _navOverlays.Add((nav, backdrop, title));
+        }
+
+        private void CloseNavOverlay()
+        {
+            if (_navOverlays.Count == 0) return;
+
+            var (nav, backdrop, title) = _navOverlays[_navOverlays.Count - 1];
+            _navOverlays.RemoveAt(_navOverlays.Count - 1);
+
+            nav.classList.remove("tss-sidebar-nav-overlay-open");
+            backdrop.remove();
+            title.remove();
+
+            var children = nav.querySelector(":scope > .tss-sidebar-nav-children").As<HTMLElement>();
+            if (children is object) children.style.zIndex = "";
+        }
+
+        private void CloseNavOverlays()
+        {
+            while (_navOverlays.Count > 0) CloseNavOverlay();
+        }
+
+        // A row that goes somewhere, as opposed to the chrome around it: a row's own commands, a search box, and
+        // the brand and profile rows, whose click opens a menu anchored on the sidebar that is about to be hidden.
         private static bool IsPageSelection(HTMLElement target)
         {
             if (target.closest(".tss-sidebar-btn-open") is null) return false;
 
-            return target.closest(".tss-sidebar-commands, .tss-sidebar-nav-arrow, .tss-sidebar-nav-header, .tss-sidebar-btn-searchbox, .tss-sidebar-identity") is null;
+            if (target.closest(".tss-sidebar-commands, .tss-sidebar-btn-searchbox, .tss-sidebar-identity") is object) return false;
+
+            // A group's header is a row too once it has nothing to open (a group with children opened a panel)
+            var header = target.closest(".tss-sidebar-nav-header");
+
+            return header is null || header.classList.contains("tss-sidebar-nav-header-empty");
         }
 
         private void RenderSidebar(IReadOnlyList<ISidebarItem> header, IReadOnlyList<ISidebarItem> middle, IReadOnlyList<ISidebarItem> footer, bool closed)
         {
             closed = closed && !IsPage;
+
+            CloseNavOverlays();
 
             var stackMiddle = VStack();
 
