@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Transpose.Core.dom;
@@ -17,23 +17,22 @@ namespace Tesserae
         private          HTMLDivElement _modalOverlay;
         private          HTMLDivElement _popup;
 
-        private const int    DELAY = 200;
+        // How long an open submenu is held while the pointer rests on another row of this menu - the time
+        // it has to reach the submenu it was heading for. The same order as the platform menus.
+        private const int    DELAY = 300;
         private       double _timeoutId;
 
+        // Viewport coordinates of the two most recent pointer positions, for reading where it is heading.
         private Point2D _previousMouseCoords;
         private Point2D _currentMouseCoords;
 
-        // Extreme coordinates that form a box of the context menu + submenu. Used to check if the mouse moved out.
-        private Point2D _extremeCoordsTopLeft;
-        private Point2D _extremeCoordsBottomRight;
-
-        private Point2D _menuElementCoordsTopLeft;
-
-        private Point2D _activeSubMenuTopLeftCoords;
-        private Point2D _activeSubMenuBottomLeftCoords;
-
         private Item        _activeMenuItem;
         private ContextMenu _activeSubMenu;
+
+        // Set on a menu shown as a submenu: the menu and the row it came out of, so closing it from the
+        // keyboard can hand the focus back.
+        private ContextMenu _parentMenu;
+        private Item        _parentItem;
 
         private readonly Action<Event> _onWindowMouseMoveAction;
         private readonly Action<Event> _onPopupKeyDownAction;
@@ -123,21 +122,45 @@ namespace Tesserae
         private void OnWindowMouseMove(Event evnt)
         {
             var e = (MouseEvent)evnt;
-            SaveMouseCoords(e.pageX, e.pageY);
+            SaveMouseCoords(e.clientX, e.clientY);
 
             if (_activeMenuItem != null)
             {
                 HideSubMenuIfCompletelyOutside();
             }
+
+            // A row is waiting for the pointer to show where it is going: the moment it is not heading
+            // for the open submenu, that row wins - a pointer moving down the list should not wait.
+            if (_timeoutId > 0 && HasDirection && !IsHeadingTowardsActiveSubMenu())
+            {
+                var hovered = _items.FirstOrDefault(i => i.CurrentlyMouseovered);
+
+                if (hovered is object && hovered != _activeMenuItem)
+                {
+                    CancelPendingMenuItemActivations();
+                    DeactivateActiveMenuItem();
+                    ActivateMenuItem(hovered);
+                }
+            }
         }
+
+        private bool HasDirection => _previousMouseCoords.x != _currentMouseCoords.x || _previousMouseCoords.y != _currentMouseCoords.y;
+
+        // Whether the pointer is over this menu's popup or over any menu open below it. A third level
+        // sits beside the second, outside any box drawn from this menu to its own submenu - which is
+        // what used to close the whole branch the moment the pointer reached it.
+        private bool ContainsPointer(Point2D p)
+        {
+            if (_popup is object && IsInside(p, _popup.getBoundingClientRect().As<DOMRect>())) return true;
+
+            return _activeSubMenu is object && _activeSubMenu.IsVisible && _activeSubMenu.ContainsPointer(p);
+        }
+
+        private static bool IsInside(Point2D p, DOMRect rect) => p.x >= rect.left && p.x <= rect.right && p.y >= rect.top && p.y <= rect.bottom;
 
         private void HideSubMenuIfCompletelyOutside()
         {
-            if ((_currentMouseCoords.x    < _extremeCoordsTopLeft.x
-                 || _currentMouseCoords.x > _extremeCoordsBottomRight.x
-                 || _currentMouseCoords.y < _extremeCoordsTopLeft.y
-                 || _currentMouseCoords.y > _extremeCoordsBottomRight.y) && !_items.Any(i => i.CurrentlyMouseovered)
-            )
+            if (!ContainsPointer(_currentMouseCoords) && !_items.Any(i => i.CurrentlyMouseovered))
             {
                 CancelPendingMenuItemActivations();
                 DeactivateActiveMenuItem();
@@ -165,19 +188,34 @@ namespace Tesserae
             component.WhenMounted(() => component.WhenRemoved(() => Hide()));
         }
 
-        /// <summary>
-        /// Shows the at.
-        /// </summary>
-        public void ShowAt(int x, int y, int minWidth)
+        private void EnsureRootPopup()
         {
             if (_contentHtml == null)
             {
                 _modalOverlay = Div(Att("tss-contextmenu-overlay"));
                 _modalOverlay.addEventListener("click", e => { StopEvent(e);  Hide(); });
                 _modalOverlay.addEventListener("contextmenu", e => { StopEvent(e);  Hide(); });
-                _popup       = Div(Att("tss-contextmenu-popup"), _childContainer);
+                _popup       = Div(Att("tss-contextmenu-popup", role: "menu"), _childContainer);
                 _contentHtml = Div(Att(),                        _modalOverlay, _popup);
             }
+        }
+
+        private void AfterShown()
+        {
+            window.setTimeout((e) =>
+            {
+                document.addEventListener("keydown", _onPopupKeyDownAction);
+            }, 100);
+
+            PossiblySetupSubMenuHooks();
+        }
+
+        /// <summary>
+        /// Shows the at.
+        /// </summary>
+        public void ShowAt(int x, int y, int minWidth)
+        {
+            EnsureRootPopup();
 
             _popup.style.height = "unset";
             _popup.style.left   = "-1000px";
@@ -238,42 +276,15 @@ namespace Tesserae
                 }
             }
 
-            window.setTimeout((e) =>
-            {
-                document.addEventListener("keydown", _onPopupKeyDownAction);
-            }, 100);
-
-            _extremeCoordsTopLeft.x     = x;
-            _extremeCoordsTopLeft.y     = y;
-            _extremeCoordsBottomRight.x = x + popupRect.width;
-            _extremeCoordsBottomRight.y = y + popupRect.height;
-
-            PossiblySetupSubMenuHooks();
+            AfterShown();
         }
 
         /// <summary>
         /// Shows the for.
         /// </summary>
-        public void ShowFor(HTMLElement element, int distanceX = 1, int distanceY = 1) => ShowFor(element, distanceX, distanceY, false);
-
-        private void ShowFor(HTMLElement element, int distanceX, int distanceY, bool asSubMenu)
+        public void ShowFor(HTMLElement element, int distanceX = 1, int distanceY = 1)
         {
-            if (asSubMenu)
-            {
-                _popup       = Div(Att("tss-contextmenu-popup"), _childContainer);
-                _contentHtml = Div(Att(),                        _popup);
-            }
-            else
-            {
-                if (_contentHtml == null)
-                {
-                    _modalOverlay = Div(Att("tss-contextmenu-overlay"));
-                    _modalOverlay.addEventListener("click", e => { StopEvent(e);  Hide(); });
-                    _modalOverlay.addEventListener("contextmenu", e => { StopEvent(e);  Hide(); });
-                    _popup       = Div(Att("tss-contextmenu-popup"), _childContainer);
-                    _contentHtml = Div(Att(),                        _modalOverlay, _popup);
-                }
-            }
+            EnsureRootPopup();
 
             _popup.style.height = "unset";
             _popup.style.left   = "-1000px";
@@ -339,18 +350,64 @@ namespace Tesserae
                 }
             }
 
-            window.setTimeout((e) =>
+            AfterShown();
+        }
+
+        // Opens this menu beside the row of another menu that it belongs to. Beside means touching the
+        // parent popup's right edge, top-aligned with the row; to the left of the parent when there is no
+        // room on the right, and never on top of it, which is where the old flip put it - it tested the
+        // room against the row's width twice and then measured the popup before its minimum width applied.
+        private void ShowAsSubMenu(ContextMenu parentMenu, Item parentItem)
+        {
+            _parentMenu = parentMenu;
+            _parentItem = parentItem;
+
+            _popup       = Div(Att("tss-contextmenu-popup", role: "menu"), _childContainer);
+            _contentHtml = Div(Att(),                        _popup);
+
+            _popup.style.height = "unset";
+            _popup.style.width  = "unset";
+            _popup.style.left   = "-1000px";
+            _popup.style.top    = "-1000px";
+
+            base.Show();
+
+            if (!_popup.classList.contains("tss-no-focus")) _popup.classList.add("tss-no-focus");
+
+            var itemRect   = parentItem.Render().getBoundingClientRect().As<DOMRect>();
+            var parentRect = parentMenu._popup.getBoundingClientRect().As<DOMRect>();
+
+            _popup.style.minWidth = itemRect.width + "px";
+
+            var popupRect = _popup.getBoundingClientRect().As<DOMRect>();
+            var width     = popupRect.width;
+            var height    = popupRect.height;
+
+            var x = parentRect.right;
+
+            if (x + width > window.innerWidth)
             {
-                document.addEventListener("keydown", _onPopupKeyDownAction);
-            }, 100);
+                x = parentRect.left - width;
 
-            _extremeCoordsTopLeft.x     = x;
-            _extremeCoordsTopLeft.y     = y;
-            _extremeCoordsBottomRight.x = y + popupRect.width;
-            _extremeCoordsBottomRight.y = y + popupRect.height;
+                if (x < 0) x = Math.Max(0, window.innerWidth - width);
+            }
 
+            var y = itemRect.top;
 
-            PossiblySetupSubMenuHooks();
+            if (height > window.innerHeight)
+            {
+                y                   = 0;
+                _popup.style.height = window.innerHeight + "px";
+            }
+            else if (y + height > window.innerHeight)
+            {
+                y = window.innerHeight - height;
+            }
+
+            _popup.style.left = x + "px";
+            _popup.style.top  = y + "px";
+
+            AfterShown();
         }
 
         private void CancelPendingMenuItemActivations()
@@ -359,27 +416,7 @@ namespace Tesserae
             {
                 clearTimeout(_timeoutId);
             }
-        }
-
-        private double CalculateSlope(Point2D a, Point2D b)
-        {
-            return (b.y - a.y) / (b.x - a.x);
-        }
-
-        private Point2D CalculateTopLeftCoords(HTMLElement element)
-        {
-            var    rect = (DOMRect)element.getBoundingClientRect();
-            double topX = rect.left + (window.pageXOffset != 0 ? window.pageXOffset : document.documentElement.scrollLeft);
-            double topY = rect.top  + (window.pageYOffset != 0 ? window.pageYOffset : document.documentElement.scrollTop);
-            return new Point2D(topX, topY);
-        }
-
-        private (Point2D topleft, Point2D bottomLEft, int width, int height) CalculateTopAndBottomLeftCoords(HTMLElement element)
-        {
-            var    rect = (DOMRect)element.getBoundingClientRect();
-            double topX = rect.left + (window.pageXOffset != 0 ? window.pageXOffset : document.documentElement.scrollLeft);
-            double topY = rect.top  + (window.pageYOffset != 0 ? window.pageYOffset : document.documentElement.scrollTop);
-            return (new Point2D(topX, topY), new Point2D(topX, topY + element.offsetHeight), element.offsetWidth, element.offsetHeight);
+            _timeoutId = 0;
         }
 
         private void ActivateMenuItem(Item menuItem)
@@ -388,36 +425,38 @@ namespace Tesserae
 
             if (_activeMenuItem.HasSubMenu)
             {
-                var menuItemElement = menuItem.Render();
-
                 _activeSubMenu = menuItem._subMenu;
-
-                var selfRect = (ClientRect)menuItemElement.getBoundingClientRect();
-
-
-                _activeSubMenu.ShowFor(menuItemElement, (int)selfRect.width, (int)-selfRect.height, asSubMenu: true);
-                menuItemElement.classList.add("tss-selected");
-                int activeSubMenuWidth;
-                int _activeSubMenuHeight;
-
-                (_activeSubMenuTopLeftCoords, _activeSubMenuBottomLeftCoords, activeSubMenuWidth, _activeSubMenuHeight) = CalculateTopAndBottomLeftCoords(_activeSubMenu._popup);
-
-
-                _extremeCoordsTopLeft.x     = _menuElementCoordsTopLeft.x;
-                _extremeCoordsTopLeft.y     = _menuElementCoordsTopLeft.y;
-                _extremeCoordsBottomRight.x = _activeSubMenuTopLeftCoords.x + activeSubMenuWidth;
-                _extremeCoordsBottomRight.y = _activeSubMenuTopLeftCoords.y + _activeSubMenuHeight;
+                _activeSubMenu.ShowAsSubMenu(this, menuItem);
+                menuItem.Render().classList.add("tss-selected");
+                menuItem.Render().setAttribute("aria-expanded", "true");
             }
         }
 
-        private bool ShouldChangeActiveMenuItem()
+        // Whether the last pointer movement points into the open submenu: between the two rays from the
+        // previous position to the near corners of the submenu, and closer to it than before.
+        private bool IsHeadingTowardsActiveSubMenu()
         {
+            if (_activeSubMenu is null || !_activeSubMenu.IsVisible || _activeSubMenu._popup is null) return false;
 
-            var shouldChange = _activeMenuItem                                       == null
-             || CalculateSlope(_previousMouseCoords, _activeSubMenuTopLeftCoords)    < CalculateSlope(_currentMouseCoords, _activeSubMenuTopLeftCoords)
-             || CalculateSlope(_previousMouseCoords, _activeSubMenuBottomLeftCoords) > CalculateSlope(_currentMouseCoords, _activeSubMenuBottomLeftCoords);
-            return shouldChange;
+            var prev = _previousMouseCoords;
+            var cur  = _currentMouseCoords;
+
+            if (prev.x == cur.x && prev.y == cur.y) return false;
+
+            var rect  = _activeSubMenu._popup.getBoundingClientRect().As<DOMRect>();
+            var nearX = cur.x < rect.left ? rect.left : (cur.x > rect.right ? rect.right : cur.x);
+
+            if (nearX == cur.x) return true;
+
+            if (Math.Abs(cur.x - nearX) >= Math.Abs(prev.x - nearX)) return false;
+
+            var toTop    = Cross(nearX - prev.x, rect.top    - prev.y, cur.x - prev.x, cur.y - prev.y);
+            var toBottom = Cross(nearX - prev.x, rect.bottom - prev.y, cur.x - prev.x, cur.y - prev.y);
+
+            return toTop * toBottom <= 0;
         }
+
+        private static double Cross(double ax, double ay, double bx, double by) => ax * by - ay * bx;
 
         private void DeactivateActiveMenuItem()
         {
@@ -425,6 +464,7 @@ namespace Tesserae
             {
                 _activeMenuItem.HideSubmenus();
                 _activeMenuItem = null;
+                _activeSubMenu  = null;
             }
         }
 
@@ -432,7 +472,13 @@ namespace Tesserae
         {
             CancelPendingMenuItemActivations();
 
-            if (!ShouldChangeActiveMenuItem())
+            // Back over the row whose submenu is open: leave it as it is. Tearing it down to show it
+            // again is what made the submenu fade in anew every time the pointer crossed its row.
+            if (menuItem == _activeMenuItem) return true;
+
+            // Heading for the open submenu, or arrived too fast to tell: hold the submenu and let the
+            // next movement (or the delay) decide.
+            if (_activeMenuItem is object && _activeSubMenu is object && _activeSubMenu.IsVisible && (!HasDirection || IsHeadingTowardsActiveSubMenu()))
             {
                 return false;
             }
@@ -450,11 +496,14 @@ namespace Tesserae
             {
                 _timeoutId = window.setTimeout(args =>
                 {
-                    if (_items.Any(i => i.CurrentlyMouseovered))
+                    _timeoutId = 0;
+
+                    var hovered = _items.FirstOrDefault(i => i.CurrentlyMouseovered);
+
+                    if (hovered is object && hovered != _activeMenuItem)
                     {
-                        CancelPendingMenuItemActivations();
                         DeactivateActiveMenuItem();
-                        ActivateMenuItem(_items.First(i => i.CurrentlyMouseovered));
+                        ActivateMenuItem(hovered);
                     }
                 }, DELAY);
             }
@@ -465,7 +514,6 @@ namespace Tesserae
             if (_items.Any(i => i.HasSubMenu))
             {
                 window.addEventListener("mousemove", _onWindowMouseMoveAction);
-                _menuElementCoordsTopLeft = CalculateTopLeftCoords(_popup);
 
                 foreach (var item in _items)
                 {
@@ -479,9 +527,10 @@ namespace Tesserae
         /// </summary>
         public override void Hide(Action onHidden = null)
         {
+            CancelPendingMenuItemActivations();
             window.removeEventListener("mousemove", _onWindowMouseMoveAction);
             document.removeEventListener("keydown", _onPopupKeyDownAction);
-         
+
             base.Hide(() => { _onHide?.Invoke(); onHidden?.Invoke(); });
 
             foreach (var item in _items)
@@ -489,6 +538,9 @@ namespace Tesserae
                 item.HideSubmenus();
                 item.UnHookMouseEnter(OnMenuItemMouseEnter);
             }
+
+            _activeMenuItem = null;
+            _activeSubMenu  = null;
         }
 
         /// <summary>
@@ -500,46 +552,106 @@ namespace Tesserae
             return this;
         }
 
+        private List<HTMLElement> FocusableRows() => _childContainer.children.Select(c => (HTMLElement)c).Where(c => c.tabIndex != -1).ToList();
+
+        private HTMLElement FocusedRow()
+        {
+            var active = document.activeElement;
+
+            return active is object && _childContainer.contains(active) ? FocusableRows().FirstOrDefault(r => r == active || r.contains(active)) : null;
+        }
+
+        private void FocusRelative(int delta)
+        {
+            var rows = FocusableRows();
+
+            if (rows.Count == 0) return;
+
+            var focused = FocusedRow();
+            var index   = focused is null ? -1 : rows.IndexOf(focused);
+
+            if (index < 0)
+            {
+                (delta > 0 ? rows[0] : rows[rows.Count - 1]).focus();
+                return;
+            }
+
+            rows[(index + delta + rows.Count) % rows.Count].focus();
+        }
+
+        private void FocusFirstRow()
+        {
+            var rows = FocusableRows();
+
+            if (rows.Count > 0) rows[0].focus();
+        }
+
+        // Closes this submenu from the keyboard and puts the focus back on the row it came out of.
+        private void CloseSubMenuToParent()
+        {
+            var parentMenu = _parentMenu;
+            var parentItem = _parentItem;
+
+            parentMenu?.CancelPendingMenuItemActivations();
+            parentMenu?.DeactivateActiveMenuItem();
+            parentItem?.Render().focus();
+        }
+
         private void OnPopupKeyDown(Event e)
         {
             var ev = e.As<KeyboardEvent>();
 
-            if (ev.keyCode == 38)
+            if (ev.ctrlKey || ev.altKey || ev.metaKey) return;
+
+            // Every open level listens; only the deepest one acts, so the arrows do not move the focus
+            // in two menus at once.
+            if (_activeSubMenu is object && _activeSubMenu.IsVisible) return;
+
+            switch (ev.key)
             {
-                if (_contentHtml.classList.contains("tss-no-focus")) _contentHtml.classList.remove("tss-no-focus");
-
-                if (document.activeElement != null && _childContainer.contains(document.activeElement))
+                case "ArrowDown": FocusRelative(+1); break;
+                case "ArrowUp":   FocusRelative(-1); break;
+                case "Home":
+                    FocusFirstRow();
+                    break;
+                case "End":
                 {
-                    var el = (_childContainer.children.TakeWhile(x => !x.Equals(document.activeElement)).LastOrDefault(x => (x as HTMLElement).tabIndex != -1) as HTMLElement);
-
-                    if (el != null) el.focus();
-                    else (_childContainer.children.Last(x => (x as HTMLElement).tabIndex != -1) as HTMLElement).focus();
+                    var rows = FocusableRows();
+                    if (rows.Count > 0) rows[rows.Count - 1].focus();
+                    break;
                 }
-                else
+                case "ArrowRight":
                 {
-                    (_childContainer.children.Last(x => (x as HTMLElement).tabIndex != -1) as HTMLElement).focus();
+                    var focused = FocusedRow();
+                    var item    = focused is null ? null : _items.FirstOrDefault(i => i.Render() == focused);
+
+                    if (item is object && item.HasSubMenu)
+                    {
+                        CancelPendingMenuItemActivations();
+                        if (_activeMenuItem != item)
+                        {
+                            DeactivateActiveMenuItem();
+                            ActivateMenuItem(item);
+                        }
+                        _activeSubMenu?.FocusFirstRow();
+                    }
+                    break;
                 }
+                case "ArrowLeft":
+                    if (_parentMenu is object) CloseSubMenuToParent();
+                    break;
+                case "Escape":
+                    if (_parentMenu is object) CloseSubMenuToParent();
+                    else Hide();
+                    break;
+                default:
+                    return;
             }
-            else if (ev.keyCode == 40) // down arrow
-            {
-                if (_contentHtml.classList.contains("tss-no-focus")) _contentHtml.classList.remove("tss-no-focus");
 
-                if (document.activeElement != null && _childContainer.contains(document.activeElement))
-                {
-                    var el = (_childContainer.children.SkipWhile(x => !x.Equals(document.activeElement)).Skip(1).FirstOrDefault(x => (x as HTMLElement).tabIndex != -1) as HTMLElement);
+            if (_contentHtml.classList.contains("tss-no-focus")) _contentHtml.classList.remove("tss-no-focus");
+            if (_popup.classList.contains("tss-no-focus")) _popup.classList.remove("tss-no-focus");
 
-                    if (el != null) el.focus();
-                    else (_childContainer.children.First(x => (x as HTMLElement).tabIndex != -1) as HTMLElement).focus();
-                }
-                else
-                {
-                    (_childContainer.children.First(x => (x as HTMLElement).tabIndex != -1) as HTMLElement).focus();
-                }
-            }
-            else if (ev.keyCode == 27) // Esc
-            {
-                Hide();
-            }
+            ev.preventDefault();
         }
 
         private struct Point2D

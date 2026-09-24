@@ -57,6 +57,21 @@ namespace Tesserae.Tests.Samples
                             ContextMenuItem("Properties").Disabled(),
                             ContextMenuItem(HStack().Children(Icon(UIcons.Settings), TextBlock("Settings").ML(8)))
                         ).ShowFor(btn2)
+                    ).MB(16),
+                    SampleSubTitle("Three levels"),
+                    Button("Deep Menu").Var(out var btn3).OnClick((s, e) =>
+                        ContextMenu().Items(
+                            ContextMenuItem("Plain"),
+                            ContextMenuItem("Level 1").SubMenu(
+                                ContextMenu().Items(
+                                    ContextMenuItem("Level 2").SubMenu(
+                                        ContextMenu().Items(
+                                            ContextMenuItem("Leaf A"),
+                                            ContextMenuItem("Leaf B"),
+                                            ContextMenuItem("Leaf C"))),
+                                    ContextMenuItem("Other 2"))),
+                            ContextMenuItem("Other 1")
+                        ).ShowFor(btn3)
                     )
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(MenuSample), typeof(PopoverSample), typeof(CommandBarSample), typeof(TippySample), typeof(LayerSample));

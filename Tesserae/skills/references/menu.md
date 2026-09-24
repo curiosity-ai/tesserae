@@ -31,8 +31,20 @@ Menu:
 
 Item:
 - `.OnClick(Action)` — activation handler (closes the whole menu stack).
-- `.SubMenu(Menu submenu)` — nested submenu, opened on hover/focus; nest arbitrarily deep.
+- `.SubMenu(Menu submenu)` — nested submenu, opened on hover, ArrowRight or Enter; nest arbitrarily deep.
 - `.Disabled(bool = true)` — non-interactive row.
+
+## Behaviour
+
+- **Submenus follow the pointer's intent.** A pointer heading from a row into the submenu it opened
+  may cross the rows below it without switching; one that comes to rest on another row switches
+  (or closes the submenu, if that row has none) after about 300ms. Coming back over the row that
+  opened the submenu leaves it, and anything open below it, exactly as it was.
+- **Keyboard**: ArrowUp/ArrowDown move between rows of the deepest open level, Home/End jump,
+  ArrowRight or Enter open a submenu and focus its first row, ArrowLeft closes one level and
+  returns to the row that opened it, Escape closes one level (the whole menu when at the top).
+- The submenu is placed start-aligned with its row and touching the menu it comes out of, flipping
+  to the left when there is no room on the right.
 
 ## Example
 
