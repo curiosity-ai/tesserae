@@ -321,14 +321,14 @@ namespace Tesserae
         /// <summary>Gets or sets whether to enable ellipsis for overflowing text.</summary>
         public bool EnableEllipsis
         {
-            get => !GetTarget().classList.contains("tss-text-ellipsis");
+            get => GetTarget().classList.contains("tss-text-ellipsis");
             set => GetTarget().UpdateClassIf(value, "tss-text-ellipsis");
         }
 
         /// <summary>Gets or sets whether to enable break-spaces.</summary>
         public bool EnableBreakSpaces
         {
-            get => !GetTarget().classList.contains("tss-text-breakspaces");
+            get => GetTarget().classList.contains("tss-text-breakspaces");
             set => GetTarget().UpdateClassIf(value, "tss-text-breakspaces");
         }
 
