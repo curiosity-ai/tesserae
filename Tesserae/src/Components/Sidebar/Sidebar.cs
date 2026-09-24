@@ -25,7 +25,7 @@ namespace Tesserae
         private readonly SettableObservable<bool>                        _pageMode;
         private readonly SettableObservable<bool>                        _pageShowsContent;
         private          bool                                            _pageClicksHooked;
-        private readonly List<(HTMLElement nav, HTMLElement backdrop, HTMLElement title)> _navOverlays = new List<(HTMLElement, HTMLElement, HTMLElement)>();
+        private readonly List<NavOverlay>                                _navOverlays = new List<NavOverlay>();
         private          bool                                            _pressingNavHeader;
 
         private Action<Dictionary<string, string[]>> _onSortingChanged;
@@ -370,9 +370,26 @@ namespace Tesserae
 
         // On a page a group does not expand in place: a row at a time is all a phone shows, and a list that
         // grows under the thumb moves everything below it. Pressing a group's header (or its arrow) opens its
-        // children as a panel over the sidebar instead - the group's own children element, restyled by
-        // .tss-sidebar-nav-overlay-open, so nothing is moved or re-rendered - over a backdrop that closes it.
-        // A group inside that panel opens another one on top.
+        // children as a panel over the sidebar instead - the group's own children element, lifted out to the
+        // sidebar while it is open (a placeholder keeps its place) so that every panel, however deep, has the
+        // sidebar's own geometry rather than its parent panel's. A group inside a panel opens another on top,
+        // and the ones behind step left by NAV_OVERLAY_PEEK each, so the depth reads as a deck the way
+        // ModalStack's sheets do.
+        private sealed class NavOverlay
+        {
+            public HTMLElement Nav;
+            public HTMLElement Panel;
+            public Node        Placeholder;
+            public HTMLElement Backdrop;
+            public HTMLElement Title;
+        }
+
+        /// <summary>How far each panel behind the front one steps left, in pixels - the strip of it that shows.</summary>
+        private const int NAV_OVERLAY_PEEK = 12;
+
+        /// <summary>How many panels behind the front one still peek out; deeper ones sit behind the last of them.</summary>
+        private const int NAV_OVERLAY_MAX_PEEK_DEPTH = 3;
+
         private bool TryOpenNavOverlay(Event e)
         {
             if (_pressingNavHeader) return false;
@@ -397,11 +414,10 @@ namespace Tesserae
 
         private void OpenNavOverlay(HTMLElement nav, SidebarNav owner)
         {
-            var children = nav.querySelector(":scope > .tss-sidebar-nav-children").As<HTMLElement>();
+            var panel = nav.querySelector(":scope > .tss-sidebar-nav-children").As<HTMLElement>();
 
-            if (children is null) return;
+            if (panel is null) return;
 
-            var depth    = _navOverlays.Count;
             var backdrop = Div(Att("tss-sidebar-nav-overlay-backdrop"));
             var back     = Button().SetIcon(UIcons.AngleLeft).Class("tss-sidebar-nav-overlay-back").OnClick(() => CloseNavOverlay());
             var label    = Span(Att("tss-sidebar-nav-overlay-label", text: owner.Text));
@@ -425,34 +441,74 @@ namespace Tesserae
 
             backdrop.addEventListener("click", _ => CloseNavOverlay());
 
-            backdrop.style.zIndex = (20 + depth * 10).ToString();
-            children.style.zIndex = (21 + depth * 10).ToString();
+            var placeholder = document.createComment("");
+            panel.parentNode.insertBefore(placeholder, panel);
 
-            nav.insertBefore(backdrop, children);
-            children.insertBefore(title, children.firstChild);
+            var root = _sidebar.Render();
+            root.appendChild(backdrop);
+            root.appendChild(panel);
+
+            panel.insertBefore(title, panel.firstChild);
+            panel.classList.add("tss-sidebar-nav-overlay-panel");
             nav.classList.add("tss-sidebar-nav-overlay-open");
 
-            _navOverlays.Add((nav, backdrop, title));
+            _navOverlays.Add(new NavOverlay { Nav = nav, Panel = panel, Placeholder = placeholder, Backdrop = backdrop, Title = title });
+
+            LayoutNavOverlays();
         }
 
         private void CloseNavOverlay()
         {
             if (_navOverlays.Count == 0) return;
 
-            var (nav, backdrop, title) = _navOverlays[_navOverlays.Count - 1];
+            var overlay = _navOverlays[_navOverlays.Count - 1];
             _navOverlays.RemoveAt(_navOverlays.Count - 1);
 
-            nav.classList.remove("tss-sidebar-nav-overlay-open");
-            backdrop.remove();
-            title.remove();
+            overlay.Nav.classList.remove("tss-sidebar-nav-overlay-open");
+            overlay.Panel.classList.remove("tss-sidebar-nav-overlay-panel");
+            overlay.Panel.style.zIndex    = "";
+            overlay.Panel.style.transform = "";
+            overlay.Title.remove();
+            overlay.Backdrop.remove();
 
-            var children = nav.querySelector(":scope > .tss-sidebar-nav-children").As<HTMLElement>();
-            if (children is object) children.style.zIndex = "";
+            // Back where the group draws it; a group re-rendered meanwhile has let go of this one, and it goes
+            if (overlay.Placeholder.parentNode is object)
+            {
+                overlay.Placeholder.parentNode.insertBefore(overlay.Panel, overlay.Placeholder);
+                overlay.Placeholder.parentNode.removeChild(overlay.Placeholder);
+            }
+            else
+            {
+                overlay.Panel.remove();
+            }
+
+            LayoutNavOverlays();
         }
 
         private void CloseNavOverlays()
         {
             while (_navOverlays.Count > 0) CloseNavOverlay();
+        }
+
+        // Each panel over the one it came from, and each backdrop between the two - so a panel behind is dimmed
+        // by the backdrop of the one in front, and shows only the strip its step to the left uncovers.
+        private void LayoutNavOverlays()
+        {
+            var count = _navOverlays.Count;
+
+            for (var i = 0; i < count; i++)
+            {
+                var overlay = _navOverlays[i];
+                var depth   = Math.Min(count - 1 - i, NAV_OVERLAY_MAX_PEEK_DEPTH);
+
+                //Each backdrop dims everything under it, so the ones past the first are lighter or the sidebar goes black
+                overlay.Backdrop.style.zIndex  = (20 + i * 2).ToString();
+                overlay.Backdrop.style.opacity = i == 0 ? "" : "0.5";
+                overlay.Panel.style.zIndex    = (21 + i * 2).ToString();
+                overlay.Panel.style.transform = depth == 0 ? "" : $"translateX(-{depth * NAV_OVERLAY_PEEK}px)";
+
+                overlay.Panel.UpdateClassIf(depth > 0, "tss-sidebar-nav-overlay-behind");
+            }
         }
 
         // A row that goes somewhere, as opposed to the chrome around it: a row's own commands, a search box, and

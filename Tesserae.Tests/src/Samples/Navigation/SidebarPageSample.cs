@@ -35,14 +35,27 @@ namespace Tesserae.Tests.Samples
             var projects = new SidebarNav("projects", UIcons.Folder, "Projects", initiallyCollapsed: true);
             sidebar.AddContent(projects);
 
-            foreach (var project in new[] { "Atlas", "Beacon", "Compass" })
+            void Project(SidebarNav group, string project)
             {
-                projects.Add(new SidebarButton("project-" + project, UIcons.Document, project).OnClick(() =>
+                group.Add(new SidebarButton("project-" + project, UIcons.Document, project).OnClick(() =>
                 {
                     pageBar.SetTitle(project);
-                    body.Text = "This is the " + project + " project. Picking it closed the panel and the sidebar.";
+                    body.Text = "This is the " + project + " project. Picking it closed every panel and the sidebar.";
                 }));
             }
+
+            foreach (var project in new[] { "Atlas", "Beacon", "Compass" }) Project(projects, project);
+
+            // A group inside a group opens a second panel on top, with the first one peeking out behind it
+            var archive = new SidebarNav("projects-archive", UIcons.Box, "Archive", initiallyCollapsed: true);
+            projects.Add(archive);
+
+            foreach (var project in new[] { "Delta", "Echo" }) Project(archive, project);
+
+            var older = new SidebarNav("projects-archive-older", UIcons.TimePast, "Older", initiallyCollapsed: true);
+            archive.Add(older);
+
+            foreach (var project in new[] { "Foxtrot", "Golf" }) Project(older, project);
             sidebar.AddFooter(new SidebarButton("settings", UIcons.Settings, "Settings"));
 
             var content = VStack().S().Children(pageBar, body.Padding(16.px()));

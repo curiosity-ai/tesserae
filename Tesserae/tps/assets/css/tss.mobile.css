@@ -177,6 +177,13 @@ body.tss-mobile .tss-btn.tss-small {
     min-height: 32px !important;
 }
 
+/* A button inside a search field is part of the field, not a touch target of its own: taller than the
+   field's 36px it overflows it, and a host's footer items - some of them wrapped in a Defer - land
+   off-centre. So in there it keeps the floor it has on a desktop. */
+body.tss-mobile .tss-omnibox-search-container .tss-btn {
+    min-height: 36px !important;
+}
+
 body.tss-mobile .tss-sidebar-btn-open > .tss-btn,
 body.tss-mobile .tss-sidebar-btn-open > a > .tss-btn {
     height: 44px !important;
@@ -348,13 +355,18 @@ body.tss-mobile .tss-omnibox-footer > .tss-omnibox-mobile-options {
     order: 2;
 }
 
+/* The input of the row - only in a box with a chat half: a plain search box is already one row, and keeps
+   its desktop layout */
 body.tss-mobile .tss-omnibox-container > .tss-omnibox-chat-container,
-body.tss-mobile .tss-omnibox-container > .tss-omnibox-search-container {
+body.tss-mobile .tss-omnibox-container.tss-omnibox-chat-and-search > .tss-omnibox-search-container {
     order: 3;
     flex: 1 1 0%;
     width: auto;
     min-width: 0;
     min-height: 0;
+}
+
+body.tss-mobile .tss-omnibox-container > .tss-omnibox-chat-container {
     padding: 6px 4px;
 }
 

@@ -347,7 +347,10 @@ it in that container is hidden.
 - A group (`SidebarNav`) with children does not expand in place: pressing its header or
   arrow opens its children as a panel over the sidebar (`calc(100% - 48px)` wide, from
   the right) above a dark backdrop that closes it. The panel's title presses the group's
-  own header when it has an `OnClick`; a group inside the panel stacks another panel.
+  own header when it has an `OnClick`. A group inside the panel opens another panel on
+  top, at the same full width; the ones behind step 12px to the left each (up to three),
+  drained of colour and dimmed by the backdrop in front, so the depth shows the way
+  `ModalStack`'s sheets peek behind the front one. The backdrop closes the top panel only.
 - A sidebar the app has `Collapse()`d leaves the content on its own.
 
 ```csharp

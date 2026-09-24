@@ -945,7 +945,10 @@
     animation: tss-sidebar-nav-overlay-fade 0.2s ease-out;
 }
 
-.tss-sidebar-page .tss-sidebar-nav.tss-sidebar-nav-overlay-open > .tss-sidebar-nav-children {
+/* An open panel is lifted out of its group into the sidebar itself (Sidebar.OpenNavOverlay), so however
+   deep it is it has the sidebar's geometry: the full height, and all but the 48px strip on the left. The
+   selectors carry .tss-sidebar-nav-children to outweigh that element's own collapsed styles. */
+.tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel {
     position: absolute;
     top: 0;
     right: 0;
@@ -960,11 +963,19 @@
     padding: 8px;
     background: var(--tss-sidebar-background-color);
     box-shadow: -4px 0 24px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), filter 0.2s linear;
     animation: tss-sidebar-nav-overlay-in 0.2s cubic-bezier(0.2, 0, 0, 1);
 }
 
-    .tss-sidebar-page .tss-sidebar-nav.tss-sidebar-nav-overlay-open > .tss-sidebar-nav-children > .tss-stack-item {
+    .tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel > .tss-stack-item {
         margin-left: 0px;
+    }
+
+    /* A panel behind the front one is a card in the deck: only its step to the left shows, and it drains
+       of colour so the front panel is the one that reads as live - the look of ModalStack's peeking sheets */
+    .tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel.tss-sidebar-nav-overlay-behind {
+        filter: saturate(.15);
+        overflow-y: hidden;
     }
 
 .tss-sidebar-nav-overlay-title {
@@ -1012,8 +1023,9 @@
 
 @media (prefers-reduced-motion: reduce) {
     .tss-sidebar-nav-overlay-backdrop,
-    .tss-sidebar-page .tss-sidebar-nav.tss-sidebar-nav-overlay-open > .tss-sidebar-nav-children {
+    .tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel {
         animation: none;
+        transition: none;
     }
 }
 
