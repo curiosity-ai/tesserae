@@ -1,4 +1,10 @@
 ﻿/* Body */
+/* Sizes are in px, so a phone's own text inflation (iOS in landscape, Android font boosting) only breaks the layout */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
 body {
     margin: 0;
     padding: 0;

@@ -30,6 +30,16 @@ namespace Tesserae.Tests
                 document.head.appendChild(viewportMeta);
             }
 
+            // Chrome on Android applies the phone's text size as a page zoom, which shrinks the
+            // viewport under a px-sized layout; this opts out (it scales the root font size instead).
+            if (document.head.querySelector("meta[name='text-scale']") is null)
+            {
+                var textScaleMeta = document.createElement("meta");
+                textScaleMeta["name"]    = "text-scale";
+                textScaleMeta["content"] = "scale";
+                document.head.appendChild(textScaleMeta);
+            }
+
             // Enable automatic mobile detection — adds/removes the tss-mobile class on body
             // whenever the viewport is 768px or narrower (or when the device reports a coarse pointer).
             Theme.EnableMobileDetection(breakpoint: 768);
