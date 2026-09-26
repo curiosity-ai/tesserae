@@ -366,7 +366,7 @@ namespace Tesserae
         /// </summary>
         /// <param name="body">The prop's body - the laptop's shell and keyboard.</param>
         /// <param name="lit">Its lit face - the screen.</param>
-        /// <param name="shadow">Its shaded face - the lid while the laptop is still closed.</param>
+        /// <param name="shadow">Its shaded face - the screen as it dims between keystrokes.</param>
         public PixelAvatar PropColors(Color body, Color lit = null, Color shadow = null)
         {
             SetPropColor(PixelAvatarSprites.PropBodyIndex, body);

@@ -102,7 +102,7 @@ jittered by ±20% on use, so nothing the cat does lands on a stopwatch:
 
 ## Working at a laptop
 
-`Work` sits the cat down in front of a closed laptop and opens the lid over four frames, then
+`Work` sits the cat down beside a closed laptop and opens the lid over four frames, then
 hands over to `WorkIdle`: paws on the keyboard, holding still for a random 1.2 to 3.2 seconds and
 then tapping out a short burst, with the screen changing and the tail twitching as it goes. It is
 the same resting mechanism as the other `*Idle` poses — a cat typing without pause reads as a
@@ -123,7 +123,7 @@ laptop color for itself, and a ginger cat would get a ginger laptop. The artwork
 |---|---|---|
 | 12 | `PixelAvatarSprites.PropBodyIndex` | the shell and the keyboard |
 | 13 | `PixelAvatarSprites.PropLitIndex` | the screen |
-| 14 | `PixelAvatarSprites.PropShadowIndex` | the lid while it is still closed |
+| 14 | `PixelAvatarSprites.PropShadowIndex` | the screen as it dims between keystrokes (the closed lid is the shell's colour) |
 
 They are painted from three CSS variables of their own — `--tss-pxav-prop`,
 `--tss-pxav-prop-lit` and `--tss-pxav-prop-shadow` — which the stylesheet defaults to a slate
