@@ -110,6 +110,7 @@ namespace Tesserae
         private readonly HTMLElement _contentContainer;
         private readonly InlineLabel _source;
         private readonly HTMLElement _footerContainer;
+        private readonly OmniResultFooterFit _footerFit;
         private readonly HTMLElement _contributionContainer;
         private readonly HTMLElement _mainContainer;
         private readonly HTMLElement _railContainer;
@@ -200,6 +201,10 @@ namespace Tesserae
             _source = InlineLabel().Class("tss-omniresult-source");
 
             _footerContainer = Div(Att("tss-omniresult-footer"));
+
+            //One line however many entries it gets: they ellipsize, and what still doesn't fit goes behind a
+            //[...] button that shows it in a popover.
+            _footerFit = OmniResultFooterFit.Attach(_footerContainer);
 
             _contributionContainer = Div(Att("tss-omniresult-contribution"));
 
@@ -782,6 +787,10 @@ namespace Tesserae
         /// </summary>
         public OmniResult<T> SetFooterEntries(params InlineLabel[] entries)
         {
+            //Entries shown in the overflow popover are borrowed from the footer - get them back first, so the
+            //ones being replaced are all here to be removed.
+            _footerFit.ClosePopup();
+
             foreach (var stale in _footerContainer.querySelectorAll(".tss-omniresult-footer-entry"))
             {
                 _footerContainer.removeChild(stale.As<HTMLElement>());
@@ -2090,7 +2099,12 @@ namespace Tesserae
 
         private OmniResult<T> UpdateFooterVisibility()
         {
-            _footerContainer.style.display = _footerContainer.childElementCount == 0 ? "none" : "";
+            //The [...] button the fit keeps at the end of the line is not an entry of its own.
+            var count = _footerContainer.childElementCount;
+
+            if (OmniResultFooterFit.IsMoreButton(_footerContainer.lastElementChild)) count--;
+
+            _footerContainer.style.display = count == 0 ? "none" : "";
 
             return this;
         }
