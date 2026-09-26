@@ -46,7 +46,7 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Overlap() drops the reserved room and lets the avatar hang outside the wrapper, which keeps the target's footprint identical to the bare component - useful when the surrounding layout must not shift."),
                         OverlapGallery(),
                         SampleSubTitle("Pixel size and facing"),
-                        TextBlock("The sprite is 10x8 pixels; PixelSize sets how many CSS pixels each of them takes. Facing mirrors the artwork, which is drawn facing right."),
+                        TextBlock("The cat is 10x8 pixels (his frames are 11 wide, with a spare column behind him for the tail); PixelSize sets how many CSS pixels each of them takes. Facing mirrors the artwork, which is drawn facing right."),
                         SizeGallery(),
                         SampleSubTitle("Clicking the cat"),
                         TextBlock("An avatar with no click of its own to do answers when you click it: once plays Interact, twice in quick succession plays Startle, and either one wakes a sleeping cat. The reaction hands the avatar back to what it was doing, so an auto-idling cat carries on drifting afterwards. Registering an OnClick handler - or wrapping the cat in a button with AsButton - hands the click to your code and turns the reaction off; ReactToClicks() overrides either way."),

@@ -15,8 +15,18 @@ namespace Tesserae
     [Transpose.Name("tss.pavs")]
     public static class PixelAvatarSprites
     {
-        /// <summary>Width, in pixels, of every sprite frame.</summary>
-        internal const int FrameWidth = 10;
+        /// <summary>
+        /// Width, in pixels, of every sprite frame. The cat stands in columns 1..10; column 0 is
+        /// <see cref="SpareColumns"/>, room behind him for the tail when it flicks back.
+        /// </summary>
+        internal const int FrameWidth = 11;
+        /// <summary>
+        /// How many columns on the left of every frame are spare: empty in every pose except where
+        /// the tail flicks back into them (the third frame of <see cref="PixelAvatarAnimation.WorkIdle"/>).
+        /// The avatar's box is the cat's ten columns; the spare ones are laid out behind it, outside
+        /// the box, so they neither move him nor change his size.
+        /// </summary>
+        internal const int SpareColumns = FrameWidth - 10;
         /// <summary>Height, in pixels, of every sprite frame.</summary>
         internal const int FrameHeight = 8;
         /// <summary>Number of colors in a palette (palette index 0 is always transparent).</summary>
@@ -35,7 +45,7 @@ namespace Tesserae
         public const byte PropBodyIndex = PaletteSize + 1;
         /// <summary>The index of a prop's lit face - the laptop's screen.</summary>
         public const byte PropLitIndex = PaletteSize + 2;
-        /// <summary>The index of a prop's shaded face - the lid while the laptop is closed.</summary>
+        /// <summary>The index of a prop's shaded face - the laptop's screen as it dims between keystrokes.</summary>
         public const byte PropShadowIndex = PaletteSize + 3;
         /// <summary>Highest palette index belonging to the highlight shade.</summary>
         internal const int LastHighlightIndex = 3;
@@ -57,7 +67,7 @@ namespace Tesserae
         /// reads only the coat's own 1..<see cref="PaletteSize"/>; the prop entries above those
         /// are here for completeness.
         /// </summary>
-        internal static readonly int[] PixelCounts = new[] { 0, 157, 109, 53, 154, 190, 94, 53, 53, 2, 84, 58, 57, 13, 6 };
+        internal static readonly int[] PixelCounts = new[] { 0, 269, 109, 53, 154, 190, 94, 53, 53, 2, 84, 58, 61, 13, 2 };
 
         // Twelve coat indices (0 = transparent, 1..11 = the palette) followed by the three prop
         // indices. Fifteen symbols caps a run-length at four rather than five - see PackedText -
@@ -65,25 +75,28 @@ namespace Tesserae
         private const string Alphabet = ".123456789abcde";
 
         private const string PackedFrames =
-            "HHHHHHHH0rqp06ls5Hq7vtvHq5wHligvgHHHHHHHqrqpH0s5l6lovtvH7swHq5qvgHqigHHHHHHHHH60rqpH7qs5H5ovtv0igqsj" +
-            "hHHqvgHHHHHHHHHH0rlrqpHq7s5Hq5vtvHqigvgHHHHHHHHHlrqp06ls5Hq7vtvHq5wHligvgHHHHHHHHHHH6lrqpHq7s5Hq5vtv" +
-            "HqigvgHHHHHHHHHHHHrqp06ls5Hq7vtvHqigvgHHHHHHHHH0rqp06ls5Hq7vtvHq5wz0igqvHHHHHHHHH0rqp06ls5Hq7vtvHq5w" +
-            "HqigqvqgHHHHHHHHHHHlrqp067s5Hq5vtvHqigvgHHHHHHHqrqpH0s5l6lovtvH7swHq5qvgHqigHHHHHHHHH60rqpH7qs5H5ovt" +
-            "v0igqsjhHHqvgHHHHHHHHHHl6lrqpHq7s5Hq5vtvHqigvgHHHHHHHHHHHHrqp067s5Hq5vtvHqigvgHlrqrqpHqrqs5HqsovtvHq" +
-            "5wHqiHvHHHHHHHHHHH0rqpHrls5HrlvtvHq7wHl5/HlilvHHHHHHHHHHHHHHlrqp06ls5Hq7vtvHqigvgHHHHHHHHHqrqp06ls5H" +
-            "q7vtvHq5wHligqvgHHHHHHHHqrHHqrlrqpHq7s5Hq5vtvHligqvgHHHHH0rHHqrHHl7rqpHqu/5HluvtvHligqvgHHHHH0rHHqrH" +
-            "Hl7rqpHqu/5HluvtvHligqvgHHHHHHHHqrHHqrlrqpHq7s5Hq5vtvHligqvgHHHHHHHHHqrqp06ls5Hq7vtvHq5wHligqvgHHHHH" +
-            "HHHHlrqpH0s506qovtvHqouwHligvgHHHHHH0rqpH0s5H0vtvHlowHqrqo/Hlrig+HHHHHH0rqpH0s5H0vtvHlowHqrqo/Hlrig+" +
-            "HHHHHH0rqpH0s5H0vtvHlowHqrqo/Hlrig+HHHHHH0rqpH0s5H0vtvHlowHqrqo/Hlrig+HHHHHH0rqpH0s5H0vtvHlowHqrqo/H" +
-            "lrig+HHHHHH0rqpH0s5H0vtvHlowHq6o/H0ig+HHHHHH0rqpH0s5H0vtvHrqowHlro/H0ig+HHHHHHHHHHH6lrqpHq7s5Hq5vtvH" +
-            "qigvgHHHHHHHHHHHHrqp06ls5Hq7vtvHqigvgHHHHHHHHHHHHrqp06ls5Hq7vtvHqigvgHHHHHHHHHHHHrqp06ls5Hq7vtvHqigv" +
-            "gHHHHHHHHHHHHrqp06ls5Hq7vtvHqigvgHHHHHHHHHHHHrqp06ls5Hq7vtvHqigvgHHHHHHHHHHHHrqp0r0s5Hr7vtvHqigvgHHH" +
-            "HHHHHHHHHrqpH0s5067vtvHqigvgHHHHHHHHHHHr0rqpHr7s5Hq5vtvHqigvgHHHHHHHHHHHHHlr0rqpHr7s5HqigvtvHHHHHHHH" +
-            "HHHHHHqrqpHq7s506igvtvHHHHHHHHHHHHHHqrqpHq7s506igvtvHHHHHHHHHrqpH0s506qovtvHqouwHligvgRHHHHH0rqpH0s5" +
-            "H0vtvHlowHqrqo/+lmqrig+THHHHH0rqpH0s5H0vtvHlowHmrqo/+qnmqrig+THHHHH0rqpH0s5H0vtv0mlow0nmrqo/+qnmqrig" +
-            "+THHHHH0rqpH0s5H0vtv0mlow0nmrqo/+qnmqrig+THHHHH0rqpH0s5H0vtv0mlow0nmrqo/vlnmqrigJAHHHHH0rqpH0s5H0vtv" +
-            "0mlow0kmrqo/+qnmqrig+THHHHH0rqpH0s5H0vtv0mlow0kmrqo/vlnmqrigJAHHHHH0rqpH0s5H0vtv0mlow0nm6o/+qnmlig+T" +
-            "HHHHH0rqpH0s5H0vtv0mlow0nmqro/vlnmligJA";
+            "HHHlrHHqrHHlr0rqpHqrls5Hl7vtvHl5wH0igvgHHHHrHHlrHrqp0rHs5HrlovtvHq7swHl5qvgHligHHrHHqrHHlrHH0r0rqpHq" +
+            "7qs5Hq5ovtvHigqsjhHHlvgHHHHHHl6HHrHH0rlrqpHl7s5Hl5vtvHligvgHHHHqrHHqrHHlr0rqpHqrls5Hl7vtvHl5wH0igvgH" +
+            "HHHqrHHqrHHlrHH0rlrqpHl7s5Hl5vtvHligvgHHHHHHHrHHqrHHlr0rqpHqrls5Hl7vtvHligvgHHHHlrHHqrHHlr0rqpHqrls5" +
+            "Hl7vtvHl5wzHigqvHHHHlrHHqrHHlr0rqpHqrls5Hl7vtvHl5wHligqvqgHHHHHHlrHHqrHHlr0rqpHqr7s5Hl5vtvHligvgHHHH" +
+            "qrHHqrHrqp0rHs5HrlovtvHq7swHl5qvgHligHHrHHqrHHlrHH0r0rqpHq7qs5Hq5ovtvHigqsjhHHlvgHHH0rHHqrHHlrHH0rlr" +
+            "qpHl7s5Hl5vtvHligvgHHHHHHHrHHqrHHlr0rqpHqr7s5Hl5vtvHligvgHq6lrqpHr0s5HqrsovtvHl5wHliHvHHHHHHHHHlrHHq" +
+            "r0rqpHr0s5HqrlvtvHl7wH05/H0ilvHHHHHHHHH0rHHqrHHlr0rqpHqrls5Hl7vtvHligvgHHHHrHHqrHHlr0rqpHqrls5Hl7vtv" +
+            "Hl5wH0igqvgHHHHrHHqrHHlrHHlrlrqpHl7s5Hl5vtvH0igqvgHqrHHqrHHlrHHlrHH07rqpHlu/5H0uvtvH0igqvgHqrHHqrHHl" +
+            "rHHlrHH07rqpHlu/5H0uvtvH0igqvgHHHHrHHqrHHlrHHlrlrqpHl7s5Hl5vtvH0igqvgHHHHrHHqrHHlr0rqpHqrls5Hl7vtvHl" +
+            "5wH0igqvgHHHHHHHrHHqr0rqpHr0s5HqrqovtvHlouwH0igvgHHHHHHHlrqpHHs5HlrqvtvHqrqowHlrqo/H0rig+HHHHHHHlrqp" +
+            "HHs5HlrqvtvHqrqowHlrqo/H0rig+HHHHHHHlrqpHHs5HlrqvtvHqrqowHlrqo/H0rig+HHHHHHHlrqpHHs5HlrqvtvHqrqowHlr" +
+            "qo/H0rig+HHHHHHHlrqpHHs5HlrqvtvHqrqowHlrqo/H0rig+HHHHHHHlrqpHlrqs5HqrlvtvHqrqowH0ro/HHig+HHHHHHHlrqp" +
+            "Hlrqs5HqrlvtvHqrqowH0ro/HHig+HHHHqrHHqrHHlrHH0rlrqpHl7s5Hl5vtvHligvgHHHHHHHrHHqrHHlr0rqpHqrls5Hl7vtv" +
+            "HligvgHHHHHHHrHHqrHHlr0rqpHqrls5Hl7vtvHligvgHHHHHH0rHHlrHHlr0rqpHqrls5Hl7vtvHligvgHHHHHHlrHH0rHHlr0r" +
+            "qpHqrls5Hl7vtvHligvgHHHHHH0rHHlrHHlr0rqpHqrls5Hl7vtvHligvgHHHHHHHrHHqrHHlr0rqpHqrls5Hl7vtvHligvgHHHH" +
+            "HHHrHHqrHHlr0rqpHqrls5Hl7vtvHligvgHHHHHHHrHHqrHHlr0rqpHqr7s5Hl5vtvHligvgHHHHHHHHHHHHqrHHlr0rqpHqr7s5" +
+            "HligvtvHHHHHHHHHHHHHHH0rqpHl7s5H6igvtvHHHHHHHHHHHHHHH0rqpHl7s5H6igvtvHHHHHHlrHHqr0rqpHr0s5HqrqovtvHl" +
+            "ouwH0igvgTHHHHHHlrqpHlrqs5HqrlvtvHqrqowHlrqo/+lmlrig+THHHHHHlrqpHlrqs5HqrlvtvHqrqowHmqrqo/+qnmlrig+T" +
+            "HHHHHHlrqpHlrqs5Hqrlvtv0mqrqow0nmqrqo/+qnmlrig+THHHHHHlrqpHlrqs5Hqrlvtv0mqrqow0nmqrqo/+qnmlrig+THHHH" +
+            "HHlrqpHqrls5Hqrlvtv0mqrqow0nmqrqo/vlnmlrigJAHHHHHHlrqpHr0s5Hqrlvtv0mqrqow0kmqrqo/+qnmlrig+THHHHHHlrq" +
+            "pHqrls5Hqrlvtv0mqrqow0kmqrqo/vlnmlrigJAHHHHHHrqrqpHqrls5Hqrlvtv0mqrqow0nmlro/+qnm0ig+THHHHHHrqrqpHqr" +
+            "ls5Hqrlvtv0mqrqow0nmlro/vlnm0igJA";
 
         private static Dictionary<PixelAvatarAnimation, PixelSpriteAnimation> _animations;
 
