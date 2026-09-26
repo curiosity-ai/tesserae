@@ -545,6 +545,12 @@
     box-sizing: border-box;
     max-width: 360px;
     padding: 8px 10px;
+}
+
+/* The surface is scoped under the tippy content because tss.tooltip.css clears the background and radius
+   of whatever div a tooltip holds (.tippy-box > .tippy-content > div), and that selector outranks the
+   popup's own two classes - which left the list see-through over whatever it opened above. */
+.tippy-box > .tippy-content > .tss-omniresult-footer.tss-omniresult-footer-popup {
     border: 1px solid var(--tss-default-border-color);
     border-radius: var(--tss-border-radius-md);
     background: var(--tss-default-background-color);
