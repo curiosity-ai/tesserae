@@ -91,6 +91,7 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(VStack().WS().Children(Pages()))
                 .FlatSection(VStack().WS().Children(InlinePaginationSection()))
                 .FlatSection(VStack().WS().Children(InlineLabels()))
+                .FlatSection(VStack().WS().Children(CrowdedFooters()))
                 .SeeAlso(typeof(OmniBoxSample), typeof(PagesStackSample), typeof(InlineLabelSample), typeof(ContextCardSample), typeof(ResourceCardSample), typeof(CardSample), typeof(DetailsListSample));
         }
 
@@ -623,7 +624,7 @@ namespace Tesserae.Tests.Samples
                         .SetFooterEntries("InlineCommands(AlwaysVisible)"),
                     Row(Hits[4], withText: false, withPages: false)
                         .OnContextMenu(r => Report($"Right-clicked \"{r.Result.Title}\" (plain handler)"))
-                        .SetFooterEntries("The Action<OmniResult<T>> overload — no menu, just a handler")),
+                        .SetFooterEntries("The plain Action overload — no menu, just a handler")),
                 _lastCommand.MT(8));
         }
 
@@ -710,6 +711,64 @@ namespace Tesserae.Tests.Samples
                         InlineLabel("2.4 MB"),
                         InlineLabel("Pius Neuhaus").SetIcon(UIcons.User),
                         InlineLabel("Apr 12, 2024")));
+        }
+
+        // ---------- Crowded footers ----------
+
+        private IComponent CrowdedFooters()
+        {
+            //The rows sit in a box whose width the slider sets, so the footer can be watched giving way: first
+            //every entry ellipsizes, then the ones at the end go behind the [...] button.
+            var box   = VStack().WS().MaxWidth(720.px());
+            var width = TextBlock("720px").Small().Foreground(Theme.Secondary.Foreground);
+
+            var slider = Slider(val: 720, min: 200, max: 720, step: 10).WS().OnInput((s, _) =>
+            {
+                box.MaxWidth(s.Value.px());
+                width.Text = s.Value + "px";
+            });
+
+            box.Children(
+                OmniResult(Hits[1], "A handful of plain entries")
+                    .SetIcon("PDF", "#ef4444")
+                    .SetSource("#0061d5", "Box")
+                    .SetFooterEntries("sample-files / pdfs / procedures / brake sensors", "2.4 MB", "Pius Neuhaus", "Apr 12, 2024", "Revision C", "Confidential"),
+                OmniResult(Hits[2], "Paths: the part before the angle stays, the part after it ellipsizes")
+                    .SetIcon("XLSX", "#16a34a")
+                    .SetSource("#1a73e8", "Drive")
+                    .SetFooterEntries(
+                        InlineLabel("Projects: Brake sensor drift across the Ingolstadt line").SetIcon(UIcons.Folder),
+                        InlineLabel("Owner > Marie Lang, Quality engineering").SetIcon(UIcons.User),
+                        InlineLabel("Status: Waiting for re-calibration").SetColor("#f59e0b"),
+                        InlineLabel("480 KB")),
+                OmniResult(Hits[3], "Pressable entries stay pressable behind the [...] button")
+                    .SetIcon("DOCX", "#3b82f6")
+                    .SetSource("#7b83eb", "Teams", r => Toast().Information("Scoping to Teams"))
+                    .SetFooterEntries(
+                        InlineLabel("sample-files / handover").SetIcon(UIcons.Folder).OnClick(_ => Toast().Information("Opening the folder")),
+                        InlineLabel("Tomas Rieger").SetIcon(UIcons.User).OnClick(_ => Toast().Information("Opening Tomas Rieger")),
+                        InlineLabel("JR-2214").SetColor("#6366f1").OnClick(_ => Toast().Information("Opening ticket JR-2214")),
+                        InlineLabel("Cell 4").SetIcon(UIcons.MapMarker).OnClick(_ => Toast().Information("Opening cell 4")),
+                        InlineLabel("Tesserae on GitHub").SetIcon(UIcons.Globe).SetHref("https://github.com/curiosity-ai/tesserae", openInNewTab: true),
+                        InlineLabel("Mar 28, 2024").SetIcon(UIcons.Clock),
+                        InlineLabel("Suggested tag: brakes").AI()),
+                OmniResult(Hits[4], "Entries that look something up are fitted again once they know what to say")
+                    .SetIcon(UIcons.Folder, "#6366f1")
+                    .SetSource("#0061d5", "Box")
+                    .SetFooterEntries(
+                        InlineLabel("All Files / field-failures"),
+                        InlineLabel(async l => { await Task.Delay(1200); l.SetText("112 files, 3 returned after calibration drift"); }),
+                        InlineLabel(async l => { await Task.Delay(1800); l.SetText("Reviewers: Quality team, Anja Vogt, Pius Neuhaus"); }),
+                        InlineLabel("6 hours ago")),
+                OmniResult(Hits[0], "A footer that fits as it is is left alone")
+                    .SetIcon(UIcons.Folder, "#6366f1")
+                    .SetSource("#0061d5", "Box")
+                    .SetFooterEntries("24 files", "2 days ago"));
+
+            return FeatureCard("Crowded footers", "Many entries on one line",
+                "The footer is always one line. When its entries don't fit, each one gives way by ellipsizing - down to a floor that still says something - and once even that isn't enough, the entries at the end of the line go behind a [...] button. Hover or focus it and a popover shows them at full width: they are the entries themselves, not copies, so their clicks, links and tooltips still work. Drag the slider to narrow the rows. The fit uses one ResizeObserver and one MutationObserver shared by every footer on the page, and measures all the footers a change touches in a single pass.",
+                HStack().WS().AlignItemsCenter().Gap(12.px()).MB(8).Children(slider.Grow(), width),
+                box);
         }
 
         // ---------- Inline pagination ----------

@@ -146,6 +146,18 @@ The source leads the line and the metadata follows it, and all of it is `InlineL
 - `.AddFooterEntry(IComponent)` — one more entry at the end of the line, as a component of your own
   rather than a label: a badge, a chip, a small control. Same box, same separating dot.
 
+The footer is always **one line**. When its entries don't fit, each one ellipsizes, down to a floor
+that still says something (about 64px, or for a path label the whole head plus a little of the tail);
+once even that isn't enough, the entries at the end of the line go behind a `[...]` button. Hovering,
+focusing or pressing it opens a popover listing them at full width — the entries themselves, moved
+there while it is open, so their clicks, links and tooltips keep working. The source, and otherwise
+the first entry, always stays on the line. Nothing has to be called for this: one `ResizeObserver` and
+one `MutationObserver` shared by every footer re-fit it when the row is resized or anything in the
+footer changes (a deferred label resolving, a host component collapsing), measuring every footer a
+change touches in one pass. A component passed to `AddFooterEntry` should be able to shrink (a
+`min-width: 0` root with ellipsized text) to take part in the ellipsizing; the fit assumes it can give
+way down to the floor, so one that can't may run past the end of the line.
+
 **Selection**
 
 - `.Selectable(OmniResultSelectionMode mode = OnHoverBeforeIcon)` / `.NotSelectable()`.

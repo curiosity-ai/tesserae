@@ -157,19 +157,67 @@ namespace Tesserae
 
         /// <summary>
         /// Sets the text the label shows. A null or empty value leaves the label as its mark alone.
+        /// <para>
+        /// Text holding a <c>:</c> or a <c>&gt;</c> is read as a path - "Projects: Brake sensors", "Box &gt;
+        /// sample-files" - and drawn as two parts with an angle glyph between them, in place of the first
+        /// such character. The part before it never shrinks; the part after it is the one that ellipsizes,
+        /// so a label short of room still says where the thing is before it says less of what it is. Pass
+        /// false to <paramref name="splitAtSeparator"/> to draw the text exactly as given - a time, a ratio.
+        /// </para>
         /// </summary>
-        public InlineLabel SetText(string text)
+        public InlineLabel SetText(string text, bool splitAtSeparator = true)
         {
             Text = text;
 
             var isEmpty = string.IsNullOrEmpty(text);
 
-            _text.textContent   = isEmpty ? string.Empty : text;
+            ClearChildren(_text);
+            _text.classList.remove("tss-inlinelabel-text-split");
+
+            if (!isEmpty)
+            {
+                if (splitAtSeparator && TrySplitAtSeparator(text, out var head, out var tail))
+                {
+                    _text.classList.add("tss-inlinelabel-text-split");
+
+                    _text.appendChild(Span(Att("tss-inlinelabel-text-head", text: head)));
+                    _text.appendChild(I(UIcons.AngleSmallRight, UIconsWeight.Regular, "tss-inlinelabel-text-separator"));
+                    _text.appendChild(Span(Att("tss-inlinelabel-text-tail", text: tail)));
+                }
+                else
+                {
+                    _text.textContent = text;
+                }
+            }
+
             _text.style.display = isEmpty ? "none" : "";
 
             UpdateEmptyClass();
 
             return this;
+        }
+
+        /// <summary>
+        /// Splits the text at the first <c>:</c> or <c>&gt;</c>, dropping the separator and the spaces around
+        /// it. Text with nothing on one side of the separator ("Note:", "&gt; quoted") is not a path, and is
+        /// left whole.
+        /// </summary>
+        private static bool TrySplitAtSeparator(string text, out string head, out string tail)
+        {
+            head = null;
+            tail = null;
+
+            var colon = text.IndexOf(':');
+            var angle = text.IndexOf('>');
+
+            var index = colon < 0 ? angle : (angle < 0 ? colon : Math.Min(colon, angle));
+
+            if (index < 0) return false;
+
+            head = text.Substring(0, index).Trim();
+            tail = text.Substring(index + 1).Trim();
+
+            return head.Length > 0 && tail.Length > 0;
         }
 
         /// <summary>

@@ -56,7 +56,13 @@ row.SetFooterEntries(
 
 ## Key configuration
 
-- `.SetText(string)` / `Text` — the text. Null or empty leaves the label as its mark alone.
+- `.SetText(string text, bool splitAtSeparator = true)` / `Text` — the text. Null or empty leaves the
+  label as its mark alone. Text holding a `:` or a `>` is read as a path and drawn as two parts with an
+  angle glyph in place of the first such character ("Projects: Brake sensors" → Projects › Brake
+  sensors). The part before the angle never shrinks; the part after it is the one that ellipsizes. Text
+  with nothing on one side of the separator ("Note:") stays whole. Pass `splitAtSeparator: false` for
+  text where a colon is not a path — a time, a ratio: `InlineLabel().SetText("14:03", splitAtSeparator: false)`.
+  The constructor and `UI.InlineLabel(string)` always split.
 - `.SetIcon(UIcons icon, UIconsWeight weight = Regular, string color = null)` — a glyph before the text,
   in a colour of its own when one is given (a node type's accent, a source's brand) and in the label's
   own colour otherwise. In an `OmniResult` footer the colour is ignored and the glyph takes the footer's

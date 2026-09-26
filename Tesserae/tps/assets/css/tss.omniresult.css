@@ -450,15 +450,115 @@
 
 /* Footer ----------------------------------------------------------------------------------------- */
 
+/* One line, whatever is put on it: the entries give way by ellipsizing, and what still doesn't fit goes
+   behind a [...] button at the end of the line. How far each entry may shrink, and which ones go behind
+   the button, is decided by OmniResultFooterFit - it writes each entry's floor as an inline min-width and
+   marks the rest as overflowed; flexbox shares the room out between the entries left on the line. */
 .tss-omniresult-footer {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 2px 8px;
     min-width: 0;
     font-size: 12px;
     line-height: 18px;
     color: var(--tss-secondary-foreground-color);
+}
+
+.tss-omniresult-footer > * {
+    flex: 0 1 auto;
+}
+
+/* Behind the [...] button. They are still the footer's children - the popover borrows them while it is
+   open - so a host replacing its entries finds them where it put them. */
+.tss-omniresult-footer > .tss-omniresult-footer-overflowed {
+    display: none;
+}
+
+/* For the length of one synchronous measurement: every entry at its natural width, the overflowed ones
+   included, and the button where it would go. Never painted. These come before the :empty and :has rules
+   below on purpose, so an entry with nothing in it stays hidden - and unmeasured - even here. */
+.tss-omniresult-footer.tss-omniresult-footer-measuring > * {
+    flex-shrink: 0;
+    max-width: none;
+}
+
+.tss-omniresult-footer.tss-omniresult-footer-measuring > .tss-omniresult-footer-overflowed {
+    display: flex;
+}
+
+.tss-omniresult-footer.tss-omniresult-footer-measuring > .tss-omniresult-footer-more {
+    display: inline-flex;
+}
+
+/* The [...] button: the last thing on the line, separated by the same dot as an entry. Only the glyph
+   answers the pointer, so the dot stays punctuation rather than part of a button. */
+.tss-omniresult-footer-more {
+    display: none;
+    align-items: center;
+    flex: 0 0 auto;
+    cursor: pointer;
+    outline: none;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-omniresult-footer > .tss-omniresult-footer-more-visible {
+    display: inline-flex;
+}
+
+.tss-omniresult-footer > .tss-omniresult-footer-more::before {
+    content: "·";
+    margin-right: 8px;
+}
+
+.tss-omniresult-footer-more-glyph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: var(--tss-border-radius-sm);
+    font-size: 11px;
+    line-height: 1;
+    transition: background 120ms ease-out;
+}
+
+.tss-omniresult-footer-more:hover .tss-omniresult-footer-more-glyph,
+.tss-omniresult-footer-more:focus-visible .tss-omniresult-footer-more-glyph,
+.tss-omniresult-footer-more[aria-expanded="true"] .tss-omniresult-footer-more-glyph {
+    background: var(--tss-colors-neutral-400);
+    color: var(--tss-default-foreground-hover-color);
+}
+
+.tss-omniresult-footer-more:focus-visible .tss-omniresult-footer-more-glyph {
+    outline: 2px solid var(--tss-primary-background-color);
+    outline-offset: 1px;
+}
+
+/* The popover the button opens: the overflowed entries themselves, one per line and at their full width.
+   It carries the footer's class so every label in it keeps the footer's look - the dot between entries is
+   what a line needs, and a list doesn't. */
+.tss-omniresult-footer.tss-omniresult-footer-popup {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    box-sizing: border-box;
+    max-width: 360px;
+    padding: 8px 10px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+    background: var(--tss-default-background-color);
+    box-shadow: var(--tss-box-shadow, 0 4px 16px 0 rgba(0,0,0,0.12));
+}
+
+.tss-omniresult-footer.tss-omniresult-footer-popup > * {
+    max-width: 100%;
+    min-width: 0;
+}
+
+.tss-omniresult-footer.tss-omniresult-footer-popup > .tss-omniresult-footer-entry::before {
+    content: none;
+    margin: 0;
 }
 
 /* One dot between entries, drawn by CSS so no host has to interleave separators. The gap either side of
@@ -514,11 +614,11 @@
 }
 
 /* The source leads the footer line: it is an InlineLabel like every other entry, so it already draws at
-   the footer's size and answers the pointer the same way. Only the two things that are the source's own
-   are set here - it never shrinks, and its square of colour is smaller than a glyph would be. */
+   the footer's size and answers the pointer the same way, and it gives way like any other entry when the
+   line is short of room - it just never goes behind the [...] button, since the first entry on a line never
+   does. Only its square of colour is its own: smaller than a glyph would be. */
 .tss-omniresult-source {
     flex-grow: 0;
-    flex-shrink: 0;
 }
 
 /* A flat square of colour reads bigger than a glyph filling the same box, so it is drawn smaller. */

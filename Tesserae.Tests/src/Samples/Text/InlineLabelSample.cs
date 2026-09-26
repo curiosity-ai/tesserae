@@ -15,6 +15,7 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack().Secondary()
                 .SampleTitle(typeof(InlineLabelSample), UIcons.Tags, "One small fact - a mark, some text - drawn as a compact button on its own and as plain type in a footer")
                 .FlatSection(VStack().WS().Children(Overview()))
+                .FlatSection(VStack().WS().Children(Paths()))
                 .FlatSection(VStack().WS().Children(Interactive()))
                 .FlatSection(VStack().WS().Children(InAGrid()))
                 .FlatSection(VStack().WS().Children(InAFooter()))
@@ -49,6 +50,26 @@ namespace Tesserae.Tests.Samples
                     InlineLabel("A component as the mark").SetIcon(Avatar(initials: "PN").Size(AvatarSize.XSmall))),
                 TextBlock("The text ellipsizes rather than wrapping, so a long one gives way to whatever it shares the line with:").Small().MT(8).MB(8),
                 InlineLabel("All Files / sample-files / procedures / BRK-SEN-447 calibration procedure.pdf").SetIcon(UIcons.Folder).MaxWidth(280.px()));
+        }
+
+        private IComponent Paths()
+        {
+            return FeatureCard("Paths", "Text with a ':' or a '>' in it",
+                "Text holding a ':' or a '>' is read as a path and drawn in two parts, with an angle glyph in place of the first such character. The part before it never shrinks; the part after it is the one that ellipsizes - so a label short of room still says where something is, and gives up detail about what it is first. Text with nothing on one side of the separator (\"Note:\") is left whole.",
+                HStack().WS().Wrap().Gap(8.px()).AlignItemsCenter().PT(8).PB(8).Children(
+                    InlineLabel("Projects: Brake sensors").SetIcon(UIcons.Folder),
+                    InlineLabel("Box > sample-files").SetImage("./assets/img/box-img.svg"),
+                    InlineLabel("Status: In review").SetColor("#f59e0b"),
+                    InlineLabel("Note:")),
+                TextBlock("The same labels in 200px - only the part after the angle gives way:").Small().MT(8).MB(8),
+                VStack().Gap(8.px()).Children(
+                    InlineLabel("Projects: Brake sensor drift across the Ingolstadt line").SetIcon(UIcons.Folder).MaxWidth(200.px()),
+                    InlineLabel("Box > sample-files / pdfs / procedures").SetImage("./assets/img/box-img.svg").MaxWidth(200.px()),
+                    InlineLabel("Owner: Marie Lang, Quality engineering").SetIcon(UIcons.User).MaxWidth(200.px())),
+                TextBlock("SetText(text, splitAtSeparator: false) draws the text exactly as given - for a time or a ratio, where a colon is not a path:").Small().MT(16).MB(8),
+                HStack().WS().Wrap().Gap(8.px()).AlignItemsCenter().PT(8).PB(8).Children(
+                    InlineLabel().SetIcon(UIcons.Clock).SetText("Apr 12, 2024 14:03", splitAtSeparator: false),
+                    InlineLabel().SetText("Ratio 16:9", splitAtSeparator: false)));
         }
 
         private IComponent Interactive()
