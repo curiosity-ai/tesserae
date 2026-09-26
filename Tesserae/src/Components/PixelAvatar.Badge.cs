@@ -19,7 +19,7 @@ namespace Tesserae
     {
         // The cat is sized so the diagonal of its ink box fits the circle, with a hair to spare -
         // the corners of the pose are drawn, so fitting the width alone would clip an ear against
-        // the rim. Anything the badge measures comes from the pose's ink rather than from the 10x8
+        // the rim. Anything the badge measures comes from the pose's ink rather than from the 11x8
         // frame, which SitIdle only partly fills.
         private const double DiagonalFill = 0.98;
 
@@ -137,7 +137,7 @@ namespace Tesserae
             _avatar.PixelSize(pixelSize);
 
             var element = _avatar.Render();
-            element.style.left = $"{diameter / 2.0 - (sprite.InkLeft + sprite.InkWidth / 2.0) * pixelSize}px";
+            element.style.left = $"{diameter / 2.0 - (sprite.InkLeft - PixelAvatarSprites.SpareColumns + sprite.InkWidth / 2.0) * pixelSize}px";
             element.style.top  = $"{diameter / 2.0 - (sprite.InkTop + sprite.InkHeight / 2.0) * pixelSize}px";
         }
 

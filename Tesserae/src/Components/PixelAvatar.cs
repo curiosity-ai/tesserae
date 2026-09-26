@@ -276,8 +276,11 @@ namespace Tesserae
         /// <summary>Gets the index of the frame currently shown.</summary>
         public int CurrentFrame => _frame;
 
-        /// <summary>Gets the rendered width of the avatar, in CSS pixels.</summary>
-        public int RenderedWidth => _width * _pixelSize;
+        /// <summary>
+        /// Gets the rendered width of the avatar, in CSS pixels: the cat's ten columns. The frame's
+        /// spare column is drawn behind him, outside this box.
+        /// </summary>
+        public int RenderedWidth => (_width - PixelAvatarSprites.SpareColumns) * _pixelSize;
 
         /// <summary>Gets the rendered height of the avatar, in CSS pixels.</summary>
         public int RenderedHeight => _height * _pixelSize;
@@ -383,7 +386,8 @@ namespace Tesserae
 
         /// <summary>
         /// Sets the size, in CSS pixels, of a single sprite pixel. The rendered avatar ends up
-        /// <c>PixelAvatarSprites.FrameWidth * pixelSize</c> wide.
+        /// ten times <c>pixelSize</c> wide (the cat's own columns; the frame's spare column, where
+        /// the tail can flick back, is drawn outside that box).
         /// </summary>
         public PixelAvatar PixelSize(int pixelSize)
         {
@@ -677,16 +681,18 @@ namespace Tesserae
         {
             var size = $"{_pixelSize}px";
 
-            InnerElement.style.width  = $"{_width * _pixelSize}px";
-            InnerElement.style.height = $"{_height * _pixelSize}px";
-            InnerElement.style.setProperty("--tss-pxav-perspective", $"{_width * _pixelSize * PerspectiveFactor}px");
+            InnerElement.style.width  = $"{RenderedWidth}px";
+            InnerElement.style.height = $"{RenderedHeight}px";
+            InnerElement.style.setProperty("--tss-pxav-perspective", $"{RenderedWidth * PerspectiveFactor}px");
 
             for (var y = 0; y < _height; y++)
             {
                 for (var x = 0; x < _width; x++)
                 {
                     var style = _cells[y * _width + x].style;
-                    style.left   = $"{x * _pixelSize}px";
+                    // The spare column sits left of the box, and mirrored it lands right of it:
+                    // behind the cat either way.
+                    style.left   = $"{(x - PixelAvatarSprites.SpareColumns) * _pixelSize}px";
                     style.top    = $"{y * _pixelSize}px";
                     style.width  = size;
                     style.height = size;
@@ -748,7 +754,7 @@ namespace Tesserae
         private void PlaceAccent(HTMLElement element, int x, int y, double size, string color)
         {
             element.style.display         = "block";
-            element.style.left            = $"{x * _pixelSize}px";
+            element.style.left            = $"{(x - PixelAvatarSprites.SpareColumns) * _pixelSize}px";
             element.style.top             = $"{y * _pixelSize}px";
             element.style.width           = $"{size}px";
             element.style.height          = $"{size}px";

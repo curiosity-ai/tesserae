@@ -178,7 +178,7 @@ namespace Tesserae
         /// <summary>Gets the height of the frame's non-transparent pixels, or 0 if there are none.</summary>
         public int InkHeight { get { MeasureInk(); return _inkHeight; } }
 
-        // Frames share one 10x8 box so they stay aligned while animating, which means an individual
+        // Frames share one 11x8 box (the cat's ten columns and a spare one behind him) so they stay aligned while animating, which means an individual
         // pose sits wherever it sits inside it - SitIdle, for one, is a 6x6 cat a whole pixel left
         // of the box's center. Anything that has to center a single frame needs these, not the box.
         private void MeasureInk()

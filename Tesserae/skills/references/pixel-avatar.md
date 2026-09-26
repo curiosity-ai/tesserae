@@ -5,7 +5,7 @@ description: An animated pixel-art cat avatar drawn as one absolutely-positioned
 
 # PixelAvatar
 
-`PixelAvatar` renders a 10x8 pixel-art sprite as a grid of absolutely positioned square
+`PixelAvatar` renders an 11x8 pixel-art sprite (the cat in ten columns, plus a spare column behind him that only the tail's flick in `WorkIdle` reaches; the box is the ten columns, and the spare one draws outside it) as a grid of absolutely positioned square
 divs. The artwork lives in the library as a byte grid of palette indices
 (`PixelAvatarSprites`), so all fifteen designs share the same frames and differ only in
 their `PixelAvatarPalette` — switching design rewrites eleven CSS variables and repaints
@@ -205,7 +205,7 @@ On `PixelAvatarPalette`:
 
 On `PixelSprite`:
 
-- `.InkLeft` / `.InkTop` / `.InkWidth` / `.InkHeight` — the bounds of a frame's non-transparent pixels. Frames share one 10x8 box so they stay aligned while animating, which means an individual pose sits wherever it sits inside it; anything centering or measuring a single frame wants these, not the box.
+- `.InkLeft` / `.InkTop` / `.InkWidth` / `.InkHeight` — the bounds of a frame's non-transparent pixels. Frames share one 11x8 box so they stay aligned while animating, which means an individual pose sits wherever it sits inside it; anything centering or measuring a single frame wants these, not the box.
 - `.HasEars` / `.EarY` / `.EarLeftX` / `.EarRightX` — where the ear tips are in this frame, which is what the accent follows as the animation plays. Every frame draws exactly one pixel of `PixelAvatarSprites.RightEarIndex` and it is always the right tip, with the left one `EarSpacing` cells to its left; the generator asserts that across all 53 frames, so this is a lookup rather than a silhouette guess (the topmost row will not do — in several poses the raised tail reaches it too).
 
 ```csharp
@@ -233,7 +233,7 @@ never animates — a badge is an identity, not an animation — and paints the p
 `UI.PixelAvatarBadge(PixelAvatar avatar, AvatarSize size = Medium)` to wrap one you already
 have.
 
-- `.Size(AvatarSize)` — `XSmall` (24px) through `XLarge` (72px). The cat is scaled and positioned from the *ink* of the pose rather than from the 10x8 frame it sits in — `SitIdle` only fills a 6x6 corner of that frame, so centering the frame would leave it visibly off-center — and sized so the diagonal of that ink fits the circle, since the corners of the pose are drawn and fitting the width alone would clip an ear against the rim.
+- `.Size(AvatarSize)` — `XSmall` (24px) through `XLarge` (72px). The cat is scaled and positioned from the *ink* of the pose rather than from the 11x8 frame it sits in — `SitIdle` only fills a 6x6 corner of that frame, so centering the frame would leave it visibly off-center — and sized so the diagonal of that ink fits the circle, since the corners of the pose are drawn and fitting the width alone would clip an ear against the rim.
 - `.SetDesign(...)` / `.SetPalette(...)` — recolor; the background follows the palette.
 - `.Background(string)` — pin a CSS background instead; pass null to go back to the palette's.
 - `.Avatar` — the wrapped `PixelAvatar`.
