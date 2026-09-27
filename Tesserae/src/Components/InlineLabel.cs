@@ -198,7 +198,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Splits the text at the first <c>:</c> or <c>&gt;</c>, dropping the separator and the spaces around
+        /// Splits the text at the first <c>&gt;</c>, dropping the separator and the spaces around
         /// it. Text with nothing on one side of the separator ("Note:", "&gt; quoted") is not a path, and is
         /// left whole.
         /// </summary>
@@ -207,15 +207,15 @@ namespace Tesserae
             head = null;
             tail = null;
 
-            var colon = text.IndexOf(':');
+            var backAngle = text.IndexOf('<');
             var angle = text.IndexOf('>');
 
-            var index = colon < 0 ? angle : (angle < 0 ? colon : Math.Min(colon, angle));
+            if (angle < 0) return false;
 
-            if (index < 0) return false;
+            if (angle > backAngle && backAngle >=0) return false;
 
-            head = text.Substring(0, index).Trim();
-            tail = text.Substring(index + 1).Trim();
+            head = text.Substring(0, angle).Trim();
+            tail = text.Substring(angle + 1).Trim();
 
             return head.Length > 0 && tail.Length > 0;
         }
