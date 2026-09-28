@@ -76,6 +76,10 @@
     display: block;
     min-height: 1.4em;
     visibility: hidden;
+    /* One line, ellipsized: a message that wrapped would grow the line and move the fields below when it appears. */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .tss-has-validation.tss-invalid .tss-textbox-error,
