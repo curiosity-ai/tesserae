@@ -99,7 +99,11 @@ namespace Tesserae
         public string Error
         {
             get => _errorSpan.innerText;
-            set => _errorSpan.innerText = value;
+            set
+            {
+                _errorSpan.innerText = value;
+                _errorSpan.title     = value ?? ""; // A validated field keeps its message to one line and ellipsizes it, so the full text stays reachable
+            }
         }
 
         /// <summary>Gets or sets the maximum length of the text.</summary>

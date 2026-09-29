@@ -18,7 +18,8 @@ Bring factories into scope with `using static Tesserae.UI;`.
 
 - `.WithNoResultsMessage(Func<IComponent>)` — placeholder when nothing matches.
 - `.WithBackgroundSearch(Func<string, Task<T[]>>)` — merge async (e.g. remote) results with local matches.
-- `.WithPagination(int pageSize)` — paginate filtered results.
+- `.WithPagination(int pageSize)` — paginate filtered results. Adds a `Pagination` footer below
+  the list, which hides itself while everything fits on one page (`pagination.md`).
 - `.Virtualize(UnitSize itemHeight)` — virtualise rows (fixed height) for large lists.
 - `.HideSearchBoxIfLessThan(int)` — hide the box unless the list holds at least N items **total**. The threshold is measured against the full list, not the current query's results, so narrowing the results (or a background search) never hides the box out from under an active query.
 - `.ShowNotMatching()` — keep non-matching rows visible (dimmed) instead of removing them.

@@ -21,7 +21,7 @@ returns a `TextArea`. Bring factories into scope with `using static Tesserae.UI;
 - `.OnInput((s, e) => ...)` / `.OnChange((s, e) => ...)` — change handlers.
 - `.AsObservable()` — `IObservable<string>` of the text.
 - `.Disabled(bool = true)` / `.ReadOnly()` — input state.
-- `.Required()` / `.IsInvalid` / `.Error(msg)` — validation display.
+- `.Required()` / `.IsInvalid` / `.Error(msg)` — validation display. With `.Validation(...)` the message line is reserved from the start, so a message appearing never moves the fields below.
 - `.MaxLength` — character cap.
 - `.NoSpellCheck()` — disable browser spellcheck.
 - `.AutoResize(bool allowShrink = true, int? minHeight = null, int? maxHeight = null)`

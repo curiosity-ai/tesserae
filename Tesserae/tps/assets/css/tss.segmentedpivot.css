@@ -123,7 +123,8 @@
         box-shadow: var(--tss-shadow-sm);
     }
 
-        .tss-segmentedpivot-tab.tss-segmentedpivot-selected * {
+        /* Tokens (Badge, Tag, Chip) keep the colours of their own tone: a count badge in a selected tab must not go black */
+        .tss-segmentedpivot-tab.tss-segmentedpivot-selected *:not(.tss-token):not(.tss-token *) {
             color: var(--tss-default-foreground-color);
         }
 
