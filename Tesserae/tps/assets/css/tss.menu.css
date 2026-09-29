@@ -41,6 +41,12 @@
     outline: none;
 }
 
+/* The row whose submenu is open stays lit while the pointer is over in the submenu, so the path
+   from the menu into the submenu reads as one thing. */
+.tss-menu-item.tss-menu-item-open {
+    background-color: var(--tss-default-background-hover-color);
+}
+
 .tss-menu-item.tss-disabled {
     color: var(--tss-disabled-foreground-color);
     cursor: not-allowed;

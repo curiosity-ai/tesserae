@@ -40,7 +40,7 @@ namespace Tesserae
             public Item(string text = string.Empty)
             {
                 _innerComponent = null;
-                InnerElement    = Button(Att("tss-contextmenu-item", text: text));
+                InnerElement    = Button(Att("tss-contextmenu-item", role: "menuitem", text: text));
                 AttachClick();
                 InnerElement.addEventListener("mouseenter", OnItemMouseEnter);
                 InnerElement.addEventListener("mouseleave", OnItemMouseLeave);
@@ -62,7 +62,7 @@ namespace Tesserae
                 // walk in OnPopupKeyDown skips on, and the class is what the stylesheet sizes the row by.
                 _isSeparator    = component is HorizontalSeparator;
                 _innerComponent = component.Render();
-                InnerElement    = Div(Att("tss-contextmenu-item"), _innerComponent);
+                InnerElement    = Div(Att("tss-contextmenu-item", role: "menuitem"), _innerComponent);
                 InnerElement.appendChild(_innerComponent);
 
                 if (_isSeparator)
@@ -71,6 +71,10 @@ namespace Tesserae
                     InnerElement.tabIndex = -1;
                     return;
                 }
+
+                // A div is not focusable on its own, and the arrow keys walk the rows by tab index - without
+                // this a menu made of component rows had nothing to focus and the walk threw.
+                InnerElement.tabIndex = 0;
 
                 AttachClick();
                 InnerElement.addEventListener("mouseenter", OnItemMouseEnter);
@@ -175,6 +179,8 @@ namespace Tesserae
             public Item SubMenu(ContextMenu cm)
             {
                 _subMenu = cm;
+                InnerElement.setAttribute("aria-haspopup", "menu");
+                InnerElement.setAttribute("aria-expanded", "false");
                 InnerElement.appendChild(I(Att($"{UIcons.AngleRight.ToCssClass()} tss-contextmenu-submenu-button-icon")));
                 return this;
             }
@@ -234,6 +240,17 @@ namespace Tesserae
             /// </summary>
             public Item OnClick(Action action, bool clearPrevious = true) => OnClick((_, __) => action.Invoke(), clearPrevious);
 
+            // Enter or Space on a row built from a component. The row is a div, so the browser clicks nothing
+            // for it, and the click handlers live on the component inside it. Answers whether it did anything;
+            // a text row is a button and is clicked natively.
+            internal bool ActivateFromKeyboard()
+            {
+                if (_innerComponent is null || _isSeparator) return false;
+
+                _innerComponent.click();
+                return true;
+            }
+
             /// <summary>
             /// Hides the submenus.
             /// </summary>
@@ -243,6 +260,7 @@ namespace Tesserae
                 {
                     _subMenu.Hide();
                     InnerElement.classList.remove("tss-selected");
+                    InnerElement.setAttribute("aria-expanded", "false");
                 }
             }
 

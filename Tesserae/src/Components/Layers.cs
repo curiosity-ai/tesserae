@@ -70,6 +70,35 @@ namespace Tesserae
         internal static int CurrentZIndex() => MaxZIndex(LayerSelector);
 
         /// <summary>
+        /// Whether something is showing above <paramref name="element"/>: another layer, or a popover of
+        /// Tippy's, whose own z-index puts it in front. Escape asks it, so that a menu, a dropdown or a dialog
+        /// opened over a sheet or a popover answers the key first and dismissing it does not also close what
+        /// it was opened from.
+        /// </summary>
+        internal static bool IsCovered(HTMLElement element)
+        {
+            if (element is null) return false;
+
+            if (!int.TryParse(element.style.zIndex, out var mine)) return false;
+
+            foreach (HTMLElement other in document.querySelectorAll(LayerSelector))
+            {
+                if (other == element) continue;
+
+                if (!int.TryParse(other.style.zIndex, out var zIndex) || zIndex <= mine) continue;
+
+                // A .tss-layer hides itself and lets its content opt back in, so its own visibility says
+                // nothing about whether it is open - being in the document at all is what says that. A
+                // Tippy popover, on the other hand, stays parked in the document between showings.
+                if (!other.classList.contains("tss-layer") && window.getComputedStyle(other).visibility == "hidden") continue;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Configures the above current on the component.
         /// </summary>
         public static string AboveCurrent() => (MaxZIndex(LayerOrAlwaysOnTopScope) + 5).ToString();

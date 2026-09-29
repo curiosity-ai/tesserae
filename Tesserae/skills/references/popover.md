@@ -20,7 +20,8 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.Placement(TooltipPlacement)` — preferred side (e.g. `TooltipPlacement.BottomStart`); auto-flips if no room.
 - `.Arrow(bool = true)` — show the pointer arrow.
 - `.MaxWidth(int pixels)` — surface max width (default 350).
-- `.HideOnClickOutside(bool = true)` / `.HideOnEscape(bool = true)` — dismissal behaviour (both on by default).
+- `.HideOnClickOutside(bool = true)` / `.HideOnEscape(bool = true)` — dismissal behaviour (both on by default). Escape only closes the popover that is on top: a dropdown, menu or dialog opened over it answers the key first.
+- `.Offset(int skidding, int distance)` — shift along the anchor and away from it, in pixels (the default distance is 10).
 - `.OnShown(Action)` / `.OnHidden(Action)` — lifecycle callbacks.
 - `.OnBeforeHide(Func<bool>)` — return `false` to cancel a hide.
 - `.DelayShow(ms)` / `.DelayHide(ms)`, `.Animation(TooltipAnimation)`, `.Theme(string)`.
