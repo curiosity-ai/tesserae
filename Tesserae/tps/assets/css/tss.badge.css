@@ -9,6 +9,9 @@
     color: var(--tss-default-foreground-color);
     border: 1px solid transparent;
     white-space: nowrap;
+    /* A badge, tag or chip is a label: dragging across it should not select its text */
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .tss-badge {
