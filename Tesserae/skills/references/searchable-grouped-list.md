@@ -27,6 +27,7 @@ Multiple `columns` → grid layout for items; otherwise a stack.
 - `.Virtualize(UnitSize itemHeight)` — virtualise rows (fixed height) for large groups.
 - `.BeforeSearchBox(...)` / `.AfterSearchBox(...)` — add controls around the search box.
 - `.SearchBox(Action<SearchBox>)` / `.CaptureSearchBox(out SearchBox)` / `.SetKeyboardShortcut(keys)`.
+- `.WithEndPadding(UnitSize)` — empty scrollable space below the last item, so it can be scrolled clear of something floating over the bottom of the list (an action bar, a toast).
 - `.Height(unitSize)` — fixes height for scrolling.
 
 ## Example
