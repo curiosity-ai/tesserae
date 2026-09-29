@@ -26,6 +26,7 @@ namespace Tesserae.Tests.Samples
                             MenuItem("New", UIcons.Plus).OnClick(() => Toast().Information("New")),
                             MenuItem("Open…", UIcons.FolderOpen).OnClick(() => Toast().Information("Open…")),
                             MenuItem("Save", UIcons.Disk).OnClick(() => Toast().Information("Save")),
+                            MenuItem("Delete", UIcons.Trash).Danger().OnClick(() => Toast().Information("Delete")),
                             MenuDivider(),
                             MenuItem("Export").SubMenu(
                                 Menu().Items(

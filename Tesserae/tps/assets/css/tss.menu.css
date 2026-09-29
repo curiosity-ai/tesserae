@@ -47,6 +47,15 @@
     pointer-events: none;
 }
 
+.tss-menu-item.tss-menu-item-danger:not(.tss-disabled) {
+    color: var(--tss-danger-background-color);
+}
+
+.tss-menu-item.tss-menu-item-danger:not(.tss-disabled):hover,
+.tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus {
+    background-color: color-mix(in srgb, var(--tss-danger-background-color) 12%, transparent);
+}
+
 .tss-menu-item-icon {
     flex: 0 0 auto;
     width: 16px;

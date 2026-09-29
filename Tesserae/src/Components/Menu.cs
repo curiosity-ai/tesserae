@@ -185,6 +185,7 @@ namespace Tesserae
             private          Menu    _subMenu;
             private          Action  _onClick;
             private          bool    _disabled;
+            private          bool    _danger;
             private          ItemType _type = ItemType.Item;
             internal         Menu    _parent;
             private          HTMLElement _rendered;
@@ -203,6 +204,12 @@ namespace Tesserae
 
             /// <summary>Gets or sets whether this item is enabled (clickable and focusable).</summary>
             public Item Disabled(bool disabled = true) { _disabled = disabled; return this; }
+
+            /// <summary>
+            /// Draws the item in the danger colour, for the entry that destroys something (Delete, Remove). The
+            /// label and icon turn red and the hover wash is tinted the same way.
+            /// </summary>
+            public Item Danger(bool danger = true) { _danger = danger; return this; }
 
             /// <summary>Registers the click handler invoked when the user activates this item.</summary>
             public Item OnClick(Action onClick) { _onClick = onClick; return this; }
@@ -229,7 +236,7 @@ namespace Tesserae
                     case ItemType.Header:  return Div(Att("tss-menu-header"), Span(Att(text: _text)));
                 }
 
-                var classes = "tss-menu-item" + (_disabled ? " tss-disabled" : "") + (_subMenu is object ? " tss-menu-has-submenu" : "");
+                var classes = "tss-menu-item" + (_disabled ? " tss-disabled" : "") + (_danger ? " tss-menu-item-danger" : "") + (_subMenu is object ? " tss-menu-has-submenu" : "");
                 var label   = Span(Att("tss-menu-item-label", text: _text));
                 var row     = _icon.HasValue
                     ? Div(Att(classes), I(_icon.Value, cssClass: "tss-menu-item-icon"), label)
