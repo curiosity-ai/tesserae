@@ -185,7 +185,7 @@ namespace Tesserae
             private          Menu    _subMenu;
             private          Action  _onClick;
             private          bool    _disabled;
-            private          bool    _danger;
+            private          string  _tone;
             private          ItemType _type = ItemType.Item;
             internal         Menu    _parent;
             private          HTMLElement _rendered;
@@ -207,9 +207,29 @@ namespace Tesserae
 
             /// <summary>
             /// Draws the item in the danger colour, for the entry that destroys something (Delete, Remove). The
-            /// label and icon turn red and the hover wash is tinted the same way.
+            /// label and icon turn red and the hover wash is tinted the same way. <c>Danger(false)</c> takes it back.
             /// </summary>
-            public Item Danger(bool danger = true) { _danger = danger; return this; }
+            public Item Danger(bool danger = true) => SetTone("danger", danger);
+
+            /// <summary>
+            /// Draws the item in the primary (accent) colour, for the entry the menu exists for (Create, Upgrade).
+            /// <c>Primary(false)</c> takes it back.
+            /// </summary>
+            public Item Primary(bool primary = true) => SetTone("primary", primary);
+
+            /// <summary>
+            /// Draws the item in the success colour, for the entry that confirms or enables something (Approve, Resume).
+            /// <c>Success(false)</c> takes it back.
+            /// </summary>
+            public Item Success(bool success = true) => SetTone("success", success);
+
+            private Item SetTone(string tone, bool on)
+            {
+                if (on)                  _tone = tone;
+                else if (_tone == tone)  _tone = null;
+
+                return this;
+            }
 
             /// <summary>Registers the click handler invoked when the user activates this item.</summary>
             public Item OnClick(Action onClick) { _onClick = onClick; return this; }
@@ -236,7 +256,7 @@ namespace Tesserae
                     case ItemType.Header:  return Div(Att("tss-menu-header"), Span(Att(text: _text)));
                 }
 
-                var classes = "tss-menu-item" + (_disabled ? " tss-disabled" : "") + (_danger ? " tss-menu-item-danger" : "") + (_subMenu is object ? " tss-menu-has-submenu" : "");
+                var classes = "tss-menu-item" + (_disabled ? " tss-disabled" : "") + (_tone is object ? " tss-menu-item-" + _tone : "") + (_subMenu is object ? " tss-menu-has-submenu" : "");
                 var label   = Span(Att("tss-menu-item-label", text: _text));
                 var row     = _icon.HasValue
                     ? Div(Att(classes), I(_icon.Value, cssClass: "tss-menu-item-icon"), label)

@@ -33,7 +33,7 @@ Item:
 - `.OnClick(Action)` — activation handler (closes the whole menu stack).
 - `.SubMenu(Menu submenu)` — nested submenu, opened on hover/focus; nest arbitrarily deep.
 - `.Disabled(bool = true)` — non-interactive row.
-- `.Danger(bool = true)` — draw the row in the danger colour (label, icon and hover wash), for the entry that deletes or removes something.
+- `.Danger(bool = true)` / `.Primary(bool = true)` / `.Success(bool = true)` — draw the row in that tone (label, icon and hover wash): danger for the entry that deletes or removes something, primary for the one the menu exists for, success for one that confirms or enables. One tone at a time; the last call wins, and passing `false` takes it back.
 
 ## Example
 
@@ -45,6 +45,8 @@ var menu = Menu().Items(
     MenuItem("New",  UIcons.AddDocument).OnClick(() => New()),
     MenuItem("Open", UIcons.FolderOpen).OnClick(() => Open()),
     MenuDivider(),
+    MenuItem("Publish", UIcons.Upload).Primary().OnClick(() => Publish()),
+    MenuItem("Approve", UIcons.Check).Success().OnClick(() => Approve()),
     MenuItem("Delete", UIcons.Trash).Danger().OnClick(() => Delete()),
     MenuDivider(),
     MenuItem("Export").SubMenu(Menu().Items(
