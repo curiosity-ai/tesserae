@@ -240,6 +240,16 @@ namespace Tesserae
         public HTMLElement Render() => _stack.Render();
 
         /// <summary>
+        /// Leaves empty, scrollable space below the last item, so the last item can be scrolled clear of something
+        /// laid over the bottom of the list (a floating action bar, a toast). Pass <c>0.px()</c> to take it away.
+        /// </summary>
+        public SearchableGroupedList<T> WithEndPadding(UnitSize size)
+        {
+            _list.PB(size);
+            return this;
+        }
+
+        /// <summary>
         /// Returns the component configured with the given pagination.
         /// </summary>
         public SearchableGroupedList<T> WithPagination(int pageSize)
