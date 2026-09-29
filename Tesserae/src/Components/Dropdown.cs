@@ -391,8 +391,11 @@ namespace Tesserae
 
             _isChanged = false;
 
-            // Enter picks this row until the arrows or the pointer move it: the selection, or the first option.
-            _firstItem = _selectedChildren.Count > 0 ? _selectedChildren[_selectedChildren.Count - 1].Render() : GetItems().Select(i => i.item).FirstOrDefault(IsSelectableRow);
+            // Enter picks the current row, so the current row has to be one the User can see. Without a search
+            // box the selection takes the focus when the popup opens, which is what marks it; with one nothing
+            // is marked until the arrows, the pointer or typing say where the User is, so Enter has no row yet
+            // (it used to pick a row nobody had pointed at - or, in a multi-select, un-pick the last selection).
+            _firstItem = _searchBox is null && _selectedChildren.Count > 0 ? _selectedChildren[_selectedChildren.Count - 1].Render() : null;
 
             if (!_popupDiv.classList.contains("tss-no-focus")) _popupDiv.classList.add("tss-no-focus");
 

@@ -66,8 +66,29 @@ namespace Tesserae
         {
             _onKeyDown = (e) =>
             {
-                if (((KeyboardEvent)e).key == "Escape") Hide();
+                var ke = (KeyboardEvent)e;
+
+                if (ke.key != "Escape" || ke.defaultPrevented) return;
+
+                // A menu, a dropdown or a dialog opened over this popover answers Escape first - closing it
+                // must not also close the popover it was opened from.
+                if (Layers.IsCovered(PopperRoot())) return;
+
+                Hide();
             };
+        }
+
+        // The Tippy root that carries this popover's z-index, found from its own content.
+        private HTMLElement PopperRoot()
+        {
+            var node = _renderedContent as HTMLElement;
+
+            while (node is object && !node.hasAttribute("data-tippy-root"))
+            {
+                node = node.parentElement;
+            }
+
+            return node;
         }
 
         /// <summary>

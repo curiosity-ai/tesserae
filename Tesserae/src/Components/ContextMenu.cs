@@ -204,7 +204,9 @@ namespace Tesserae
         {
             window.setTimeout((e) =>
             {
-                document.addEventListener("keydown", _onPopupKeyDownAction);
+                // Hidden again within the delay (two quick right-clicks, a submenu the pointer passed over):
+                // Hide has already run, and a listener added now would never be removed.
+                if (IsVisible) document.addEventListener("keydown", _onPopupKeyDownAction);
             }, 100);
 
             PossiblySetupSubMenuHooks();
@@ -561,6 +563,28 @@ namespace Tesserae
             return active is object && _childContainer.contains(active) ? FocusableRows().FirstOrDefault(r => r == active || r.contains(active)) : null;
         }
 
+        // The item whose own element holds the focus. A component inside a row that took the focus
+        // itself (a button, reached with Tab) answers Enter natively, so it is not this menu's to handle.
+        private Item FocusedItem()
+        {
+            var active = document.activeElement;
+
+            return active is null ? null : _items.FirstOrDefault(i => i.Render() == active);
+        }
+
+        private void OpenSubMenuFromKeyboard(Item item)
+        {
+            CancelPendingMenuItemActivations();
+
+            if (_activeMenuItem != item)
+            {
+                DeactivateActiveMenuItem();
+                ActivateMenuItem(item);
+            }
+
+            _activeSubMenu?.FocusFirstRow();
+        }
+
         private void FocusRelative(int delta)
         {
             var rows = FocusableRows();
@@ -601,7 +625,7 @@ namespace Tesserae
         {
             var ev = e.As<KeyboardEvent>();
 
-            if (ev.ctrlKey || ev.altKey || ev.metaKey) return;
+            if (!IsVisible || ev.ctrlKey || ev.altKey || ev.metaKey) return;
 
             // Every open level listens; only the deepest one acts, so the arrows do not move the focus
             // in two menus at once.
@@ -622,18 +646,25 @@ namespace Tesserae
                 }
                 case "ArrowRight":
                 {
-                    var focused = FocusedRow();
-                    var item    = focused is null ? null : _items.FirstOrDefault(i => i.Render() == focused);
+                    var item = FocusedItem();
 
-                    if (item is object && item.HasSubMenu)
+                    if (item is object && item.HasSubMenu) OpenSubMenuFromKeyboard(item);
+                    break;
+                }
+                case "Enter":
+                case " ":
+                {
+                    var item = FocusedItem();
+
+                    if (item is null) return;
+
+                    if (item.HasSubMenu)
                     {
-                        CancelPendingMenuItemActivations();
-                        if (_activeMenuItem != item)
-                        {
-                            DeactivateActiveMenuItem();
-                            ActivateMenuItem(item);
-                        }
-                        _activeSubMenu?.FocusFirstRow();
+                        OpenSubMenuFromKeyboard(item);
+                    }
+                    else if (!item.ActivateFromKeyboard())
+                    {
+                        return; // A text row is a button: Enter and Space click it natively.
                     }
                     break;
                 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -388,28 +388,7 @@ namespace Tesserae
 
         // Whether something is showing above the deck: another layer, or a popover of Tippy's, whose own
         // z-index puts it in front of the sheet the user is looking at.
-        private static bool IsCovered()
-        {
-            if (_root is null) return false;
-
-            if (!int.TryParse(_root.style.zIndex, out var mine)) return false;
-
-            foreach (HTMLElement element in document.querySelectorAll(".tss-layer, [data-tippy-root]"))
-            {
-                if (element == _root) continue;
-
-                if (!int.TryParse(element.style.zIndex, out var zIndex) || zIndex <= mine) continue;
-
-                // A .tss-layer hides itself and lets its content opt back in, so its own visibility says
-                // nothing about whether it is open - being in the document at all is what says that. A
-                // Tippy popover, on the other hand, stays parked in the document between showings.
-                if (!element.classList.contains("tss-layer") && window.getComputedStyle(element).visibility == "hidden") continue;
-
-                return true;
-            }
-
-            return false;
-        }
+        private static bool IsCovered() => Layers.IsCovered(_root);
 
         private static void RemoveRoot()
         {

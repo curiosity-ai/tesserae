@@ -36,9 +36,9 @@ submenus, with arrow-key navigation and Esc to dismiss.
 - A submenu opens beside its parent, top-aligned with its row; to the left of the parent when there
   is no room on the right.
 - **Keyboard** (deepest open level only): ArrowUp/ArrowDown and Home/End move between rows,
-  ArrowRight opens a submenu and focuses its first row, ArrowLeft or Escape close one level and
-  return to the row that opened it; Escape at the top level closes the menu. Rows built from a
-  component are focusable like text rows.
+  ArrowRight or Enter open a submenu and focus its first row, ArrowLeft or Escape close one level
+  and return to the row that opened it; Escape at the top level closes the menu. Rows built from a
+  component are focusable like text rows, and Enter or Space on one clicks the component.
 
 ## Example
 

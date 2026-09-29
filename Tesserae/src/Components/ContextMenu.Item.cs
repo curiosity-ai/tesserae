@@ -240,6 +240,17 @@ namespace Tesserae
             /// </summary>
             public Item OnClick(Action action, bool clearPrevious = true) => OnClick((_, __) => action.Invoke(), clearPrevious);
 
+            // Enter or Space on a row built from a component. The row is a div, so the browser clicks nothing
+            // for it, and the click handlers live on the component inside it. Answers whether it did anything;
+            // a text row is a button and is clicked natively.
+            internal bool ActivateFromKeyboard()
+            {
+                if (_innerComponent is null || _isSeparator) return false;
+
+                _innerComponent.click();
+                return true;
+            }
+
             /// <summary>
             /// Hides the submenus.
             /// </summary>
