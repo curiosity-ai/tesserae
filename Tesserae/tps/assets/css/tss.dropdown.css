@@ -121,11 +121,38 @@
         color: var(--tss-invalid-border-color);
         display: none;
         font-size: var(--tss-font-size-tiny);
+        line-height: 1.4;
     }
 
 .tss-dropdown-container.tss-invalid > .tss-dropdown-error {
     display: block;
 }
+
+/* A dropdown that carries validation (.Validation(...) marks it tss-has-validation) keeps its message from moving
+   the fields below it the way a text box does, but the container here is the bordered box itself, so a line held
+   inside it would sit inside the border. The line is reserved as a bottom margin instead, and the message is
+   drawn into that margin from just below the border: one line of the message's own font, visible only while the
+   dropdown is invalid. Margin rather than padding so the popup, the chevron and the border stay anchored to the
+   box alone. */
+.tss-dropdown-container.tss-has-validation {
+    margin-bottom: calc(var(--tss-font-size-tiny) * 1.4);
+}
+
+    .tss-dropdown-container.tss-has-validation > .tss-dropdown-error {
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: calc(100% + 1px);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        visibility: hidden;
+    }
+
+    .tss-dropdown-container.tss-has-validation.tss-invalid > .tss-dropdown-error {
+        visibility: visible;
+    }
 
 /* The popup is a column: the search box, when there is one, is a fixed band at the top and the rows
    below it are what scrolls. The popup itself used to be the scroll container, which meant the search

@@ -34,6 +34,11 @@ namespace Tesserae
             // callback used to be the only one that we had and the first one has been added so that the Validator can implement an method "AreCurrentValuesAllValid" that peeks at the current state to see if the form has been pre-populated
             // at all and would be considered valid but without displaying all the validation messages on inputs that the User hasn't touched yet for things that are NOT valid.
 
+            // A component that can show a message reserves the line for it from the start (tss.textbox.css, tss.dropdown.css), so
+            // the message appearing or clearing does not move the fields below it. The marker is set here, where the toolkit
+            // has the component in hand, rather than by each component: nothing has to be declared to get it.
+            component.Render().classList.add("tss-has-validation");
+
             component.Attach(_ => ApplyValidation());
             validator?.Register(component, WouldBeValid, () => ApplyValidation());
 
