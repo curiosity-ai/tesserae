@@ -47,6 +47,33 @@
     pointer-events: none;
 }
 
+.tss-menu-item.tss-menu-item-danger:not(.tss-disabled) {
+    color: var(--tss-danger-background-color);
+}
+
+.tss-menu-item.tss-menu-item-danger:not(.tss-disabled):hover,
+.tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus {
+    background-color: color-mix(in srgb, var(--tss-danger-background-color) 12%, transparent);
+}
+
+.tss-menu-item.tss-menu-item-primary:not(.tss-disabled) {
+    color: var(--tss-primary-background-color);
+}
+
+.tss-menu-item.tss-menu-item-primary:not(.tss-disabled):hover,
+.tss-menu-item.tss-menu-item-primary:not(.tss-disabled):focus {
+    background-color: color-mix(in srgb, var(--tss-primary-background-color) 12%, transparent);
+}
+
+.tss-menu-item.tss-menu-item-success:not(.tss-disabled) {
+    color: var(--tss-success-background-color);
+}
+
+.tss-menu-item.tss-menu-item-success:not(.tss-disabled):hover,
+.tss-menu-item.tss-menu-item-success:not(.tss-disabled):focus {
+    background-color: color-mix(in srgb, var(--tss-success-background-color) 12%, transparent);
+}
+
 .tss-menu-item-icon {
     flex: 0 0 auto;
     width: 16px;
