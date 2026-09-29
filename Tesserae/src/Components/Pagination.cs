@@ -101,7 +101,8 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Gets or sets the max page buttons.
+        /// Gets or sets how many page numbers the strip shows around an ellipsis; minimum 5, default 7. Once a
+        /// set has more pages than fit, the strip is always this many plus two slots wide.
         /// </summary>
         public int MaxPageButtons
         {
@@ -313,6 +314,9 @@ namespace Tesserae
 
             var focusedKey = GetFocusedKey();
 
+            //Every page slot is sized for the widest number in the set, so "1" and "12" take the same box.
+            InnerElement.style.setProperty("--tss-pagination-digits", totalPages.ToString().Length.ToString());
+
             ClearChildren(_buttonContainer);
 
             if (_showFirstLast)
@@ -326,7 +330,9 @@ namespace Tesserae
             {
                 if (page == 0)
                 {
-                    _buttonContainer.appendChild(Span(Att("tss-pagination-ellipsis", text: "…")));
+                    var ellipsis = Span(Att("tss-pagination-ellipsis", text: "…"));
+                    ellipsis.setAttribute("aria-hidden", "true");
+                    _buttonContainer.appendChild(ellipsis);
                     continue;
                 }
 
@@ -404,7 +410,7 @@ namespace Tesserae
         private HTMLButtonElement CreatePageButton(int page)
         {
             var isActive = page == CurrentPage;
-            var button   = UI.Button(Att("tss-pagination-button", text: page.ToString(), type: "button", ariaLabel: $"Page {page}"));
+            var button   = UI.Button(Att("tss-pagination-button tss-pagination-page", text: page.ToString(), type: "button", ariaLabel: $"Page {page}"));
             button.setAttribute(PAGE_KEY, page.ToString());
             button.UpdateClassIf(isActive, "tss-active");
             if (isActive) button.setAttribute("aria-current", "page");
@@ -430,9 +436,17 @@ namespace Tesserae
             return button;
         }
 
+        /// <summary>
+        /// The slots the strip shows, left to right: a page number, or 0 for an ellipsis. Past the point
+        /// where every page fits, there are always <see cref="MaxPageButtons"/> + 2 of them and an ellipsis
+        /// takes a slot the way a number does, so which pages are shown moves as you page and the width of
+        /// the row never does. An ellipsis always stands for at least two pages.
+        /// </summary>
         private IEnumerable<int> GetPageNumbers(int totalPages)
         {
-            if (totalPages <= _maxPageButtons)
+            var slots = _maxPageButtons + 2;
+
+            if (totalPages <= slots)
             {
                 for (var i = 1; i <= totalPages; i++)
                 {
@@ -441,30 +455,45 @@ namespace Tesserae
                 yield break;
             }
 
-            yield return 1;
+            var window = _maxPageButtons - 2;
+            var half   = (_maxPageButtons - 3) / 2;
 
-            var windowSize = _maxPageButtons - 2;
-            var half       = windowSize / 2;
-            var start      = Math.Max(2, CurrentPage - half);
-            var end        = Math.Min(totalPages - 1, start + windowSize - 1);
-
-            start = Math.Max(2, end - windowSize + 1);
-
-            if (start > 2)
+            if (CurrentPage <= 3 + half)
             {
+                for (var i = 1; i <= _maxPageButtons; i++)
+                {
+                    yield return i;
+                }
+
                 yield return 0;
+                yield return totalPages;
+                yield break;
             }
 
-            for (var i = start; i <= end; i++)
+            if (CurrentPage >= totalPages - window - 1 + half)
+            {
+                yield return 1;
+                yield return 0;
+
+                for (var i = totalPages - _maxPageButtons + 1; i <= totalPages; i++)
+                {
+                    yield return i;
+                }
+
+                yield break;
+            }
+
+            var start = CurrentPage - half;
+
+            yield return 1;
+            yield return 0;
+
+            for (var i = start; i < start + window; i++)
             {
                 yield return i;
             }
 
-            if (end < totalPages - 1)
-            {
-                yield return 0;
-            }
-
+            yield return 0;
             yield return totalPages;
         }
 

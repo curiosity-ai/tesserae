@@ -36,6 +36,10 @@ namespace Tesserae.Tests.Samples
                     Pagination(totalItems: 1000, pageSize: 20, currentPage: 5)
                        .WithFirstLastButtons()
                        .OnPageChange(p => Toast().Information($"Selected page {p.CurrentPage}")),
+                    SampleSubTitle("Thousands Of Pages"),
+                    TextBlock("Every slot is sized for the widest page number the set can show, so the strip keeps its width whether it is on page 1 or page 2,500.").Small().Secondary(),
+                    Pagination(totalItems: 25000, pageSize: 10, currentPage: 1)
+                       .OnPageChange(p => Toast().Information($"Selected page {p.CurrentPage}")),
                     SampleSubTitle("Fits On One Page"),
                     TextBlock("Nothing renders between here and the next heading: 8 items at a page size of 25 is one page, and a lone '1' button says only that there is nothing to navigate.").Small().Secondary(),
                     Pagination(totalItems: 8, pageSize: 25),

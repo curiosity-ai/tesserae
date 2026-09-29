@@ -26,16 +26,23 @@
     flex-wrap: nowrap;
 }
 
+/* Every slot has a fixed width and never shrinks, so paging can only change what a slot says, never
+   how much room it takes. */
 .tss-pagination-button {
     box-sizing: border-box;
     border: 1px solid var(--tss-default-border-color);
     background: var(--tss-default-background-color);
     color: var(--tss-default-foreground-color);
     border-radius: var(--tss-border-radius-sm);
-    padding: 0 8px;
+    padding: 0;
     cursor: pointer;
-    min-width: 32px;
+    flex: none;
+    width: 32px;
     height: 32px;
+    /* A <button> otherwise takes the browser's own 13.33px, and the ch the slot width is measured in would
+       differ from the ellipsis beside it. */
+    font-family: inherit;
+    font-size: inherit;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -79,9 +86,21 @@
 }
 
 .tss-pagination-ellipsis {
-    padding: 0 2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    flex: none;
+    height: 32px;
     color: var(--tss-secondary-foreground-color);
     user-select: none;
+}
+
+/* A page number and an ellipsis share one width, sized for the widest number the set can show:
+   Pagination sets --tss-pagination-digits from TotalPages, and with tabular figures every digit is 1ch. */
+.tss-pagination-page,
+.tss-pagination-ellipsis {
+    width: max(32px, calc(var(--tss-pagination-digits, 1) * 1ch + 16px));
 }
 
 .tss-pagination-status {

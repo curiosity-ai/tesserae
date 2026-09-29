@@ -30,7 +30,8 @@ Bring factories into scope with `using static Tesserae.UI;`.
   whether or not their buttons are rendered.
 - `.SetTotalItems(int)` / `.TotalItems`, `.SetPageSize(int)` / `.PageSize` — reconfigure; page is clamped.
 - `.TotalPages` — computed read-only count.
-- `.MaxPageButtons` — max numbered buttons before ellipses kick in (minimum 5, default 7).
+- `.MaxPageButtons` — how many page numbers the strip shows around an ellipsis (minimum 5, default 7).
+  Once a set has more pages than fit, the strip is always `MaxPageButtons + 2` slots wide.
 - `.ShowStatus` — toggle the range label.
 - `.SetFormat(Func<int, int, int, string>)` — rewrite that label from `(from, to, total)`, for
   another language or for `1 to 25 of 118`.
@@ -38,6 +39,11 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.WithFirstLastButtons()` / `.ShowFirstLastButtons` — add the jump-to-end chevrons.
 - `.AsListFooter()` — the footer treatment: a rule along the top and padding matching the rows
   above. `SearchableList.WithPagination` / `SearchableGroupedList.WithPagination` apply it for you.
+
+**The strip never changes width as you page.** An ellipsis takes a slot the way a page number does,
+so the number of slots is fixed and only which pages fill them moves; and every slot is sized for
+the widest page number the set can show, so `1` and `2500` take the same box. Put something beside
+the strip and it stays put.
 
 Paging with the keyboard keeps its place: the strip rebuilds its buttons on every change, and
 focus moves to the new button doing the same job — or to the current page when stepping onto the
