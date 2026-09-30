@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Curiosity theme - EditableLabel / EditableArea
+   --------------------------------------------------------------------------
+   Text you can edit in place. At rest it is plain text; hover shifts the row
+   to stone and shows the pencil in mute. While editing, the field is framed
+   in ink, square rather than a pill: an in place editor keeps the text where
+   it was, and a pill's inset would push it sideways. The cancel cross is a
+   control, not an alarm, so it is mute and turns ink on hover.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-editablelabel-displaybox {
+    transition: background-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-editablelabel-edit-icon {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-editablelabel-textbox {
+    border-radius: 0;
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-editablelabel-textbox:focus {
+    box-shadow: inset 0 0 0 1px var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-editablelabel-cancel-icon {
+    color: var(--tss-secondary-foreground-color);
+    cursor: pointer;
+    transition: color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-editablelabel-cancel-icon:hover {
+    color: var(--tss-default-foreground-color);
+}

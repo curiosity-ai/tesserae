@@ -1,0 +1,66 @@
+/* ==========================================================================
+   Curiosity theme - Menu
+   --------------------------------------------------------------------------
+   A floating surface (BRAND.md s9): square, paper, framed by one 1px ink
+   rule instead of a shadow, the way the website frames its drop-down
+   panels. A row hovers to stone; the row the keyboard is on, and the row
+   whose submenu is open, is stone with an inset 2px ink bar on its leading
+   edge. Group headers are the mono uppercase eyebrow, in the muted tone
+   rather than blue: blue is spent on what is selected, not on a label.
+   A toned row keeps its label tone and hovers to stone like every other.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-menu {
+    border-radius: 0;
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-menu {
+    border-color: var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity .tss-menu-item {
+    border: none;
+    padding: 7px 14px;
+    transition: background-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-menu-item:focus-visible,
+body.tss-theme-curiosity .tss-menu-item.tss-menu-item-open {
+    background-color: var(--tss-default-background-hover-color);
+    box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
+    outline: none;
+}
+
+body.tss-theme-curiosity .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus,
+body.tss-theme-curiosity .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):focus,
+body.tss-theme-curiosity .tss-menu-item.tss-menu-item-success:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-menu-item.tss-menu-item-success:not(.tss-disabled):focus {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+/* The deep blue label is 7.7:1 on paper and too dark on ink, where the link blue reads. */
+body.tss-theme-curiosity.tss-dark-mode .tss-menu-item.tss-menu-item-primary:not(.tss-disabled) {
+    color: var(--tss-link-color);
+}
+
+body.tss-theme-curiosity .tss-menu-item-submenu-icon {
+    opacity: 1;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-menu-header {
+    padding: 8px 14px 4px 14px;
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-menu-divider {
+    background-color: var(--tss-default-border-color);
+}

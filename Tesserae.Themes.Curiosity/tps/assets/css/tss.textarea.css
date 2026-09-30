@@ -1,0 +1,12 @@
+/* ==========================================================================
+   Curiosity theme - TextArea
+   --------------------------------------------------------------------------
+   Only single line inputs are pills. A text area is a box: radius 0, the
+   same mute edge and ink focus as the text box.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-textbox.tss-textarea {
+    border-radius: 0;
+    padding: 10px 16px;
+    line-height: 1.5;
+}

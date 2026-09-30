@@ -1,0 +1,57 @@
+/* ==========================================================================
+   Curiosity theme - SearchBox
+   --------------------------------------------------------------------------
+   The website's directory search: a pill edged in mute, the magnifier in
+   mute-ink, ink on hover and focus. The underlined variant stays a rule and
+   goes from line to ink.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-searchbox-container {
+    border-color: var(--cur-input-border);
+    border-radius: var(--cur-input-radius);
+    box-shadow: none;
+    padding: 0 6px 0 12px;
+    transition: border-color .15s linear, background-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-searchbox::placeholder {
+    color: var(--tss-secondary-foreground-color) !important;
+    opacity: 1;
+}
+
+body.tss-theme-curiosity .tss-searchbox-container:hover {
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-searchbox-container:focus-within {
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: inset 0 0 0 1px var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-searchbox-container.tss-disabled {
+    border-color: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-searchbox-container.tss-underlined {
+    border-radius: 0;
+    border-color: var(--tss-default-border-color);
+    padding-left: 0;
+}
+
+body.tss-theme-curiosity .tss-searchbox-container.tss-underlined:hover {
+    border-color: var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity .tss-searchbox-container.tss-underlined:focus-within {
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-searchbox-clear {
+    border-radius: 50%;
+}
+
+body.tss-theme-curiosity .tss-searchbox-clear:focus-visible {
+    outline-color: var(--tss-default-foreground-color);
+}

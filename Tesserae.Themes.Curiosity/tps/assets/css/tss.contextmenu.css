@@ -1,0 +1,73 @@
+/* ==========================================================================
+   Curiosity theme - ContextMenu
+   --------------------------------------------------------------------------
+   The same floating surface as Menu: square, paper, a 1px ink frame and no
+   shadow. A row hovers to stone; the row the keyboard is on, and the row
+   whose submenu is open, is stone with an inset 2px ink bar on its leading
+   edge, in place of Tesserae's grey outline. Headers are the mono uppercase
+   eyebrow in the muted tone, not blue; dividers are hairlines.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-contextmenu-popup {
+    border-radius: 0;
+    box-shadow: var(--cur-surface-ring);
+}
+
+body.tss-theme-curiosity .tss-contextmenu-item {
+    border: none;
+    padding: 0 12px;
+    background-color: transparent;
+    transition: background-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-contextmenu-item:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-contextmenu-item:focus,
+body.tss-theme-curiosity .tss-contextmenu-item.tss-selected {
+    border: none;
+    background-color: var(--tss-default-background-hover-color);
+    box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
+}
+
+/* Pointer use: the row under the pointer is lit by :hover, and a row that only took the focus from a
+   click carries no bar. */
+body.tss-theme-curiosity .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:focus:not(.tss-selected) {
+    border: none;
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:focus:not(:hover):not(.tss-selected) {
+    background-color: transparent;
+}
+
+body.tss-theme-curiosity .tss-contextmenu-item.tss-contextmenu-item-separator:hover,
+body.tss-theme-curiosity .tss-contextmenu-item.tss-contextmenu-item-separator:focus {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-contextmenu-header {
+    display: flex;
+    align-items: flex-end;
+    min-height: 30px;
+    padding: 0 12px 5px 12px;
+    background-color: transparent;
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    line-height: 14px;
+    text-transform: uppercase;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-contextmenu-divider {
+    background-color: var(--tss-default-border-color);
+    margin: 4px 0;
+}
+
+body.tss-theme-curiosity .tss-contextmenu-submenu-button-icon {
+    color: var(--tss-secondary-foreground-color);
+}

@@ -1,0 +1,128 @@
+/* ==========================================================================
+   Curiosity theme - Dropdown
+   --------------------------------------------------------------------------
+   The closed box is an input, so it is a pill like the text box. The popup is
+   a floating surface: square, paper, framed by a 1px ink rule instead of a
+   shadow (the website's drop-down panels). A row hovers to stone; the row the
+   keyboard is on carries an inset 2px ink bar on its left edge, the way the
+   website marks the current page in a menu.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-dropdown-container {
+    border-color: var(--cur-input-border);
+    border-radius: var(--cur-input-radius);
+    transition: border-color .15s linear, background-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-dropdown {
+    padding-left: 11px;
+}
+
+body.tss-theme-curiosity .tss-dropdown-container:hover {
+    background-color: var(--tss-default-background-color);
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-dropdown-container.tss-dropdown-nobg:hover {
+    background-color: transparent;
+}
+
+body.tss-theme-curiosity .tss-dropdown-container:has(> .tss-dropdown:focus-visible) {
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: inset 0 0 0 1px var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-dropdown-container.tss-noborder,
+body.tss-theme-curiosity .tss-dropdown-container.tss-noborder:hover {
+    border-color: transparent;
+}
+
+body.tss-theme-curiosity .tss-dropdown-container.tss-disabled {
+    border-color: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-dropdown-container.tss-invalid {
+    border-color: var(--tss-invalid-border-color);
+}
+
+body.tss-theme-curiosity .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border: none;
+}
+
+body.tss-theme-curiosity .tss-dropdown-error {
+    font-family: var(--tss-monospace-font-family);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-dropdown-popup {
+    border-radius: 0;
+    border: 1px solid var(--tss-default-foreground-color);
+    box-shadow: none;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-dropdown-popup {
+    border-color: var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity .tss-dropdown-item {
+    border: none;
+    padding: 0 12px;
+    transition: background-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-dropdown-item:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-dropdown-item:focus,
+body.tss-theme-curiosity .tss-dropdown-item.tss-dropdown-item-focus {
+    border: none;
+    background-color: var(--tss-default-background-hover-color);
+    box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item:focus,
+body.tss-theme-curiosity .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item.tss-dropdown-item-focus {
+    border: none;
+    box-shadow: none;
+}
+
+/* A group header is the mono label voice, not a primary-colored line of text. */
+body.tss-theme-curiosity .tss-dropdown-header {
+    border: none;
+    padding: 0 12px;
+    color: var(--tss-secondary-foreground-color);
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-dropdown-divider {
+    background-color: var(--tss-default-border-color);
+}
+
+/* The multi-select check is the website's check box: a square with an ink square inside when set. */
+body.tss-theme-curiosity .tss-dropdown-multi > .tss-dropdown-item:before {
+    border-radius: 0;
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before {
+    border-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-curiosity .tss-dropdown-popup .tss-dropdown-searchbox {
+    border-radius: 0;
+    border-bottom: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border: 1px solid transparent;
+    border-bottom-color: var(--tss-default-foreground-color);
+}

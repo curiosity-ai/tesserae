@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Curiosity theme - ChoiceGroup
+   --------------------------------------------------------------------------
+   Radio buttons stay round: a square radio would read as a check box. The
+   chosen one takes the call blue edge and dot; hover previews the dot in ash.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-option-container .tss-option-mark {
+    transition: border-color .15s linear, background-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-option-container:hover input:not(:checked) ~ .tss-option-mark {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-option-container:hover input:not(:checked) ~ .tss-option-mark:after {
+    border-color: var(--tss-disabled-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-option-container.tss-disabled .tss-option-mark {
+    border-color: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-option-container input:focus-visible ~ .tss-option-mark {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}

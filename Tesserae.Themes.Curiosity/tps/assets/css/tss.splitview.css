@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Curiosity theme - SplitView
+   --------------------------------------------------------------------------
+   The divider is a 1px hairline. Hovering it to drag turns the rule ink,
+   2px, rather than blue: resizing is a structural gesture, not a selection,
+   so it shifts a tone (BRAND.md s4, blue only for what is on or chosen).
+   The grip stays a small square-ended bar. A panel-styled split marks its
+   raised pane with a hairline frame instead of a drop shadow.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:before,
+body.tss-theme-curiosity .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:before {
+    background: var(--tss-default-foreground-color) !important;
+}
+
+body.tss-theme-curiosity .tss-splitview.tss-splitview-horizontal > .tss-splitter:after,
+body.tss-theme-curiosity .tss-splitview.tss-splitview-vertical > .tss-splitter:after {
+    background: var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:after,
+body.tss-theme-curiosity .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:after {
+    background: var(--tss-default-foreground-color) !important;
+}
+
+body.tss-theme-curiosity .tss-splitview-panel-style.tss-split-left > *:first-child,
+body.tss-theme-curiosity .tss-splitview-panel-style.tss-split-right > *:last-child {
+    box-shadow: var(--cur-surface-ring);
+}

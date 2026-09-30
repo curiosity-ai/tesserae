@@ -1,0 +1,78 @@
+/* ==========================================================================
+   Curiosity theme - Sidebar
+   --------------------------------------------------------------------------
+   The rail is the website's masthead turned on its side: paper, split from
+   the page by a hairline, its rows square cells. A row hovers to stone; the
+   current row is stone with an inset 2px ink bar on its leading edge, the
+   way the website marks the current page, rather than a blue outline. Group
+   separators are mono uppercase eyebrows. Footer rows sit under a hairline.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-sidebar {
+    box-shadow: inset -1px 0 0 var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-sidebar .tss-btn {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-sidebar .tss-btn:not(.tss-disabled):active {
+    transform: none;
+}
+
+body.tss-theme-curiosity .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-curiosity .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    color: var(--tss-default-foreground-color);
+    border-color: transparent;
+    background: var(--tss-default-background-hover-color);
+    box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled),
+body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
+body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
+    border-color: transparent;
+    background: transparent;
+}
+
+body.tss-theme-curiosity .tss-sidebar-separator.tss-sidebar-separator-with-text,
+body.tss-theme-curiosity .tss-sidebar-separator.tss-sidebar-separator-with-text .tss-textblock {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-sidebar-separator.tss-sidebar-separator-with-text {
+    margin-top: 16px;
+    margin-left: 8px;
+}
+
+body.tss-theme-curiosity .tss-sidebar-footer {
+    box-shadow: 0 -1px 0 var(--tss-default-border-color);
+    padding-top: 8px;
+}
+
+body.tss-theme-curiosity .tss-sidebar-footer:empty {
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn,
+body.tss-theme-curiosity .tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-btn {
+    color: var(--tss-default-foreground-color);
+    background-color: var(--tss-default-background-active-color);
+}

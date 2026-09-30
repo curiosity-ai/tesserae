@@ -1,0 +1,49 @@
+{
+    "output": "$(OutDir)/tps/",
+    "outputBy": "Module",
+    "reflection": {
+        "disabled": true,
+        "target": "file"
+    },
+    "resources": [
+        {
+            "name": "tss-theme-curiosity.css",
+            "load": false,
+            "files": [
+                "tps/assets/css/tss.fonts.css",
+                "tps/assets/css/tss.common.css",
+                "tps/assets/css/tss.button.css",
+                "tps/assets/css/tss.textbox.css",
+                "tps/assets/css/tss.textarea.css",
+                "tps/assets/css/tss.card.css",
+                "tps/assets/css/tss.breadcrumb.css",
+                "tps/assets/css/tss.textbreadcrumb.css",
+                "tps/assets/css/tss.checkbox.css",
+                "tps/assets/css/tss.choice.css",
+                "tps/assets/css/tss.dropdown.css",
+                "tps/assets/css/tss.contextmenu.css",
+                "tps/assets/css/tss.editablelabel.css",
+                "tps/assets/css/tss.pivot.css",
+                "tps/assets/css/tss.cardpivot.css",
+                "tps/assets/css/tss.segmentedpivot.css",
+                "tps/assets/css/tss.pagination.css",
+                "tps/assets/css/tss.inlinepagination.css",
+                "tps/assets/css/tss.searchbox.css",
+                "tps/assets/css/tss.sectionstack.css",
+                "tps/assets/css/tss.sidebar.css",
+                "tps/assets/css/tss.splitview.css",
+                "tps/assets/css/tss.toggle.css",
+                "tps/assets/css/tss.stepper.css",
+                "tps/assets/css/tss.menu.css"
+            ],
+            "output": "assets/css"
+        },
+        {
+            "name": "fonts",
+            "files": [
+                "tps/assets/fonts/*"
+            ],
+            "output": "assets/fonts/curiosity/"
+        }
+    ]
+}

@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Curiosity theme - Breadcrumb
+   --------------------------------------------------------------------------
+   The trail above a page reads like the website's eyebrow paths: the levels
+   above in mute-ink, the page you are on in ink at 500, and a thin slash
+   between them in ash rather than a chevron. Only Tesserae's own default
+   chevron becomes a slash (its glyph is dropped and the slash drawn in
+   ::after, so the icon font's rules are not fought); a chevron an app chose
+   with SetChevron keeps its icon. A level hovers to stone, square, since a
+   crumb is a link, not a pill button.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-breadcrumb .tss-btn {
+    border-radius: 0;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-breadcrumb .tss-btn .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-curiosity .tss-breadcrumb .tss-btn:not(.tss-disabled):hover {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-breadcrumb .tss-btn:not(.tss-disabled):active {
+    transform: none;
+}
+
+body.tss-theme-curiosity .tss-breadcrumb > .tss-btn:last-child {
+    color: var(--tss-default-foreground-color);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity .tss-breadcrumb-chevron {
+    color: var(--cur-ash);
+}
+
+body.tss-theme-curiosity .tss-breadcrumb-chevron.fi-rr-angle-right::before {
+    content: none;
+}
+
+body.tss-theme-curiosity .tss-breadcrumb-chevron.fi-rr-angle-right::after {
+    content: "/";
+    font-family: var(--tss-monospace-font-family);
+    font-style: normal;
+}
+
+/* The collapsed levels hide behind "..." which opens them: it is a control, so it darkens on hover. */
+body.tss-theme-curiosity .tss-breadcrumb-opencolapsed:hover {
+    color: var(--tss-default-foreground-color);
+}

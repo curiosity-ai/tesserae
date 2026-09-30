@@ -1,0 +1,37 @@
+/* ==========================================================================
+   Curiosity theme - CheckBox
+   --------------------------------------------------------------------------
+   A square (radius 0 comes from the tokens) with an ink edge. Set, it fills
+   with the call blue and a paper tick; hovering a set box takes it to ink,
+   the same step the primary button takes.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-checkbox-container .tss-checkbox-mark {
+    transition: background-color .15s linear, border-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-checkbox-container:hover input:not(:checked) ~ .tss-checkbox-mark {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+    border-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-checkbox-container .tss-checkbox-mark:after {
+    border-width: 0 1.5px 1.5px 0;
+}
+
+body.tss-theme-curiosity .tss-checkbox-container.tss-disabled .tss-checkbox-mark {
+    border-color: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark {
+    background-color: var(--tss-disabled-foreground-color);
+    border-color: var(--tss-disabled-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-checkbox-container input:focus-visible ~ .tss-checkbox-mark {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}

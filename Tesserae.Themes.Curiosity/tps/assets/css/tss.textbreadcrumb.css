@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Curiosity theme - TextBreadcrumbs
+   --------------------------------------------------------------------------
+   The same trail as Breadcrumb, in plain type: ancestors in mute-ink, the
+   current level in ink at 500, a slash in ash between them. A level hovers
+   to a square stone cell (Tesserae draws it with an 8px border in the hover
+   colour, which keeps its size; only the rounding goes).
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-textbreadcrumb {
+    border-radius: 0;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-textbreadcrumb:hover {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-textbreadcrumb-wrap:last-child > .tss-textbreadcrumb {
+    color: var(--tss-default-foreground-color);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity .tss-textbreadcrumb-sep {
+    color: var(--cur-ash);
+}
+
+body.tss-theme-curiosity .tss-textbreadcrumb-sep i::before {
+    content: none;
+}
+
+body.tss-theme-curiosity .tss-textbreadcrumb-sep i::after {
+    content: "/";
+    font-family: var(--tss-monospace-font-family);
+}

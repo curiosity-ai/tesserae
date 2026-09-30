@@ -1,0 +1,95 @@
+/* ==========================================================================
+   Curiosity theme - TextBox
+   --------------------------------------------------------------------------
+   A single line input is a pill (BRAND.md s9), edged in mute, which clears
+   the 3:1 a control boundary needs; hover and focus take it to ink. The
+   radius is half the control's height rather than 9999px, so a box that grows
+   taller (a tall variant, a wrapped value) turns into a rounded rectangle
+   instead of a lozenge.
+   ========================================================================== */
+
+body.tss-theme-curiosity {
+    --cur-input-radius: 18px;
+    --cur-input-border: var(--cur-mute);
+}
+
+body.tss-theme-curiosity.tss-dark-mode {
+    --cur-input-border: var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity .tss-textbox {
+    border-color: var(--cur-input-border);
+    border-radius: var(--cur-input-radius);
+    box-shadow: none;
+    padding: 0 16px;
+    transition: border-color .15s linear, background-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-textbox::placeholder {
+    color: var(--tss-secondary-foreground-color) !important;
+    opacity: 1;
+}
+
+body.tss-theme-curiosity .tss-textbox:hover {
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: none;
+}
+
+/* Focus: ink edge plus a 1px ink ring inside it, so the edge reads 2px without moving the text. */
+body.tss-theme-curiosity .tss-textbox:focus {
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: inset 0 0 0 1px var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-textbox.tss-disabled,
+body.tss-theme-curiosity .tss-textbox:disabled {
+    border-color: var(--tss-default-border-color);
+    background-color: var(--tss-disabled-background-color);
+}
+
+body.tss-theme-curiosity .tss-textbox[readonly]:not(.tss-disabled) {
+    border-style: dashed;
+}
+
+body.tss-theme-curiosity .tss-textbox.tss-textbox-noborder,
+body.tss-theme-curiosity .tss-textbox.tss-textbox-noborder:hover {
+    border-color: transparent;
+}
+
+body.tss-theme-curiosity .tss-textbox-container.tss-invalid .tss-textbox {
+    border-color: var(--tss-invalid-border-color);
+    box-shadow: inset 0 0 0 1px var(--tss-invalid-border-color);
+}
+
+/* The message under an input speaks in the label voice: mono, small, uppercase. */
+body.tss-theme-curiosity .tss-textbox-error {
+    padding-left: 16px;
+    font-family: var(--tss-monospace-font-family);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-textbox-container.tss-rounded-md .tss-textbox {
+    padding: 0 12px;
+}
+
+/* A table in rendered text is a hairline grid with a mono header, as the brand draws its tables. */
+body.tss-theme-curiosity .tss-textblock table {
+    border: 1px solid var(--tss-default-border-color);
+    box-shadow: none;
+    background-color: transparent;
+}
+
+body.tss-theme-curiosity .tss-textblock table thead {
+    background-color: transparent;
+}
+
+body.tss-theme-curiosity .tss-textblock table th {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--tss-secondary-foreground-color);
+    border-bottom: 1px solid var(--tss-default-foreground-color);
+}

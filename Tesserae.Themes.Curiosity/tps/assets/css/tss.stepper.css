@@ -1,0 +1,89 @@
+/* ==========================================================================
+   Curiosity theme - Stepper
+   --------------------------------------------------------------------------
+   A wizard's steps as square marks, numbered in Geist Mono: a step done is
+   filled ink, the step you are on is filled with the call blue (the one
+   thing on the strip that is "on"), a step still ahead is a hairline square.
+   A step hovers to a square stone cell. The step's body is a hairline cell;
+   Back and Next are the brand's secondary pills, a 1px outline that fills
+   with stone on hover.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-stepper-step {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-stepper-circle {
+    border-radius: 0;
+    border-width: 1px;
+    border-color: var(--tss-dark-border-color);
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-circle {
+    border: 1px solid var(--tss-default-foreground-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-stepper-label {
+    font-weight: var(--tss-font-weight-semibold);
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-stepper-active .tss-stepper-label,
+body.tss-theme-curiosity .tss-stepper-complete .tss-stepper-label,
+body.tss-theme-curiosity .tss-stepper-step:hover .tss-stepper-label {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-stepper-active .tss-stepper-circle {
+    border-color: var(--tss-primary-background-color);
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-stepper-complete .tss-stepper-circle {
+    border-color: var(--tss-default-foreground-color);
+    background: var(--tss-default-foreground-color);
+    color: var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-stepper-content {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-stepper-nav {
+    border: 1px solid var(--tss-default-foreground-color);
+    border-radius: var(--tss-border-radius-full);
+    background: transparent;
+    color: var(--tss-default-foreground-color);
+    font-family: inherit;
+    font-weight: var(--tss-font-weight-semibold);
+    padding: 6px 16px;
+    transition: background-color .15s linear, transform .1s ease;
+}
+
+body.tss-theme-curiosity .tss-stepper-nav:not(:disabled):not(.tss-disabled):hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-stepper-nav:not(:disabled):not(.tss-disabled):active {
+    background: var(--tss-default-background-active-color);
+    transform: scale(.97);
+}
+
+body.tss-theme-curiosity .tss-stepper-nav:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}
+
+body.tss-theme-curiosity .tss-stepper-nav:disabled,
+body.tss-theme-curiosity .tss-stepper-nav.tss-disabled {
+    opacity: 1;
+    border-color: var(--tss-default-border-color);
+    color: var(--tss-disabled-foreground-color);
+}

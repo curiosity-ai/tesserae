@@ -1,0 +1,10 @@
+/* ==========================================================================
+   Curiosity theme - SectionStack
+   --------------------------------------------------------------------------
+   Sections are cells: a hairline frame on paper, no shadow.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-sectionstack-card {
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--tss-default-border-color);
+}
