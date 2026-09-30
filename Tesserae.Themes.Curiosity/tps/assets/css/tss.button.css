@@ -106,3 +106,19 @@ body.tss-theme-curiosity :where(a) {
     color: var(--tss-link-color);
     text-underline-offset: 3px;
 }
+
+/* Split button: one pill in two halves. Tesserae squares both halves (and squares them again on hover),
+   which in a pill family would leave square ends; each half keeps its outer ends round instead. */
+body.tss-theme-curiosity .tss-btn-and-icon {
+    border-radius: var(--tss-border-radius-full);
+}
+
+body.tss-theme-curiosity .tss-btn-and-icon > .tss-btn,
+body.tss-theme-curiosity .tss-btn-and-icon > .tss-btn:hover {
+    border-radius: var(--tss-border-radius-full) 0 0 var(--tss-border-radius-full);
+}
+
+body.tss-theme-curiosity .tss-btn-and-icon > .tss-btn.tss-btn-and-icon-icon,
+body.tss-theme-curiosity .tss-btn-and-icon > .tss-btn.tss-btn-and-icon-icon:hover {
+    border-radius: 0 var(--tss-border-radius-full) var(--tss-border-radius-full) 0;
+}

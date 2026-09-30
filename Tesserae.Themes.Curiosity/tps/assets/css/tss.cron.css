@@ -1,0 +1,57 @@
+/* ==========================================================================
+   Curiosity theme - CronEditor
+   --------------------------------------------------------------------------
+   Closed, the editor is one line in a square hairline frame; hovering it takes
+   the frame to ash, and the dashed "click me" underline goes, since the frame
+   and the chevron already say it. Open, the frame turns ink (the editor is
+   the active surface) and the panel inside draws no second frame.
+
+   The sentence's inline choices ("daily", "12:00 PM") were dark chips in a
+   hard coded neutral; here they are small inputs: pills with the text box's
+   mute edge, ink text on the page color, ink edge on hover. Tesserae sets
+   their text color with !important, so the theme has to as well.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-cron-editor {
+    border-color: var(--tss-default-border-color);
+    transition: border-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-cron-editor:hover {
+    border-color: var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity .tss-cron-editor:has(> .tss-cron-open[style*="flex"]) {
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-cron-desc,
+body.tss-theme-curiosity .tss-cron-desc:hover {
+    border-bottom: none;
+}
+
+body.tss-theme-curiosity .tss-cron-open {
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-cron-inline-dropdown.tss-dropdown-container {
+    background-color: transparent;
+    border: 1px solid var(--cur-input-border);
+    border-radius: 9999px;
+    padding: 2px 10px;
+}
+
+body.tss-theme-curiosity .tss-cron-inline-dropdown.tss-dropdown-container:hover {
+    background-color: transparent;
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-cron-inline-dropdown .tss-dropdown-item-on-box,
+body.tss-theme-curiosity .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-fontcolor-default,
+body.tss-theme-curiosity .tss-cron-inline-dropdown .tss-dropdown-icon {
+    color: var(--tss-default-foreground-color) !important;
+}
+
+body.tss-theme-curiosity .tss-cron-label {
+    color: var(--tss-secondary-foreground-color);
+}

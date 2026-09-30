@@ -72,3 +72,10 @@ body.tss-theme-curiosity .tss-toolagent-item-icon {
 body.tss-theme-curiosity .tss-toolagent-item-title {
     font-weight: var(--tss-font-weight-semibold);
 }
+
+/* The search box is a pill here, so its right edge shows: Tesserae's width: 100% plus the 8px margin ran
+   it past the popup, where the rounded popup used to hide the overrun. Auto width lets the column stretch
+   it to the popup less its margins. */
+body.tss-theme-curiosity .tss-toolagent-popup .tss-searchbox-container {
+    width: auto;
+}

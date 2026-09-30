@@ -195,6 +195,9 @@ body.tss-theme-curiosity.tss-dark-mode {
     --cur-hair: 1px solid var(--tss-default-border-color);
     --cur-frame: 1px solid var(--tss-default-foreground-color);
     --cur-surface-ring: 0 0 0 1px rgb(var(--tss-dark-border-color-root));
+    /* The veil behind a modal fades the page toward the canvas: paper in light, ink in dark. */
+    --tss-overlay-light: rgba(17, 20, 24, 0.6);
+    --tss-overlay-dark: rgba(0, 0, 0, 0.6);
 
     --tss-default-background-color-root: 17, 20, 24;      /* ink */
     --tss-default-foreground-color-root: 244, 244, 242;   /* paper, 16.8:1 */

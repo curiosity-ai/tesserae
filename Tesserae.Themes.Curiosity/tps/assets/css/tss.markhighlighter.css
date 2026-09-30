@@ -23,3 +23,14 @@ body.tss-theme-curiosity ::highlight(tss-marked-focused) {
     background-color: var(--cur-signal);
     color: #F4F4F2;
 }
+
+/* The focused match drawn with mark elements has its fill written inline by MarkHighlighter, from
+   --tss-mark-focus-color (the danger tone when unset): the same Signal as the highlight above. */
+body.tss-theme-curiosity {
+    --tss-mark-focus-color: #2F6BFF;
+}
+
+body.tss-theme-curiosity mark.tss-highlight-focused,
+body.tss-theme-curiosity .tss-highlight-focused {
+    color: var(--cur-paper);
+}

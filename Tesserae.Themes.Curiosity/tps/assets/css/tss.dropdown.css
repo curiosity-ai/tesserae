@@ -44,6 +44,7 @@ body.tss-theme-curiosity .tss-dropdown-container.tss-disabled {
 
 body.tss-theme-curiosity .tss-dropdown-container.tss-invalid {
     border-color: var(--tss-invalid-border-color);
+    box-shadow: inset 0 0 0 1px var(--tss-invalid-border-color);
 }
 
 body.tss-theme-curiosity .tss-dropdown-container.tss-invalid > .tss-dropdown {
@@ -51,6 +52,7 @@ body.tss-theme-curiosity .tss-dropdown-container.tss-invalid > .tss-dropdown {
 }
 
 body.tss-theme-curiosity .tss-dropdown-error {
+    padding-left: 16px;
     font-family: var(--tss-monospace-font-family);
     letter-spacing: .06em;
     text-transform: uppercase;

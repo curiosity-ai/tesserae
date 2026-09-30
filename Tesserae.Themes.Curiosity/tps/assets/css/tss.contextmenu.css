@@ -71,3 +71,19 @@ body.tss-theme-curiosity .tss-contextmenu-divider {
 body.tss-theme-curiosity .tss-contextmenu-submenu-button-icon {
     color: var(--tss-secondary-foreground-color);
 }
+
+/* A text-shaped button put in a row (the OverflowSet's overflow menu does this) is the row's label: it
+   lines up with the other labels rather than floating in the middle, and leaves the hover to the row, so
+   no pill lights up inside the stone. */
+body.tss-theme-curiosity .tss-contextmenu-item > .tss-btn.tss-btn-link,
+body.tss-theme-curiosity .tss-contextmenu-item > .tss-btn.tss-btn-link:hover {
+    flex: 1 1 auto;
+    justify-content: flex-start;
+    padding-left: 0;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-curiosity .tss-contextmenu-item > .tss-btn.tss-btn-link:not(.tss-disabled):active {
+    transform: none;
+}

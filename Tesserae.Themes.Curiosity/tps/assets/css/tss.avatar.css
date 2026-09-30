@@ -32,3 +32,13 @@ body.tss-theme-curiosity .tss-avatar-xl .tss-avatar-presence {
 body.tss-theme-curiosity .tss-presence-offline {
     background: var(--tss-dark-border-color);
 }
+
+/* Initials-only avatars keep their per-person hue, so a list of people still tells them apart, but as one
+   flat, muted fill instead of Tesserae's two-stop gradient. Paper initials on it clear 4.5:1 at any hue. */
+body.tss-theme-curiosity .tss-avatar.tss-avatar-generated {
+    background: hsl(var(--tss-avatar-hue), 32%, 32%);
+}
+
+body.tss-theme-curiosity .tss-avatar.tss-avatar-generated > .tss-avatar-initials {
+    color: var(--cur-paper);
+}
