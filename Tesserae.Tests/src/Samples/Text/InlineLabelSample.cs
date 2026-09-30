@@ -87,7 +87,11 @@ namespace Tesserae.Tests.Samples
                     InlineLabel("2 days ago").SetIcon(UIcons.Clock).Tooltip("Apr 12, 2024 at 14:03"),
                     InlineLabel("BRK-447").SetColor("#6366f1").Tooltip("Brake sensor family 447"),
                     InlineLabel().SetIcon(UIcons.Lock).Tooltip("Confidential - do not share outside the company"),
-                    InlineLabel("Marie Lang").SetIcon(UIcons.User).Tooltip("marie.lang@example.com").OnClick(_ => Toast().Information("Opening the owner"))));
+                    InlineLabel("Marie Lang").SetIcon(UIcons.User).Tooltip("marie.lang@example.com").OnClick(_ => Toast().Information("Opening the owner"))),
+                TextBlock("A tooltip that only repeats the label's own text is skipped while all of that text is on screen, and shows once the label is cut short - checked on every hover, so it follows the window as it is resized:").Small().MT(16).MB(8),
+                HStack().WS().Wrap().Gap(8.px()).AlignItemsCenter().PT(8).PB(8).Children(
+                    InlineLabel("BRK-SEN-447 calibration procedure.pdf").SetIcon(UIcons.File).Tooltip("BRK-SEN-447 calibration procedure.pdf"),
+                    InlineLabel("BRK-SEN-447 calibration procedure.pdf").SetIcon(UIcons.File).Tooltip("BRK-SEN-447 calibration procedure.pdf").MaxWidth(180.px())));
         }
 
         private IComponent InAGrid()

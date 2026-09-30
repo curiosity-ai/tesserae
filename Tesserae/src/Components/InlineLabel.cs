@@ -28,8 +28,15 @@ namespace Tesserae
     /// </para>
     /// </summary>
     [Transpose.Name("tss.InlineLabel")]
-    public class InlineLabel : ComponentBase<InlineLabel, HTMLAnchorElement>
+    public class InlineLabel : ComponentBase<InlineLabel, HTMLAnchorElement>, ISkipsRedundantTooltip
     {
+        /// <summary>
+        /// The element properties the last tooltip check is remembered under: what it was asked about (the
+        /// label's width and text) and whether the text was all on screen then.
+        /// </summary>
+        private const string TOOLTIP_CHECKED_FOR_PROPERTY = "_tssTooltipCheckedFor";
+        private const string TOOLTIP_TEXT_FITS_PROPERTY   = "_tssTooltipTextFits";
+
         private readonly HTMLElement _mark;
         private readonly HTMLElement _text;
 
@@ -218,6 +225,52 @@ namespace Tesserae
             tail = text.Substring(angle + 1).Trim();
 
             return head.Length > 0 && tail.Length > 0;
+        }
+
+        /// <summary>
+        /// A tooltip that only repeats the label's own text adds nothing while all of that text is on
+        /// screen, so it is skipped until a narrower layout cuts the text short. A tooltip saying anything
+        /// else - the date behind "2 days ago", what a code stands for, the words a mark on its own stands
+        /// for - is never redundant, however much room the label has.
+        /// </summary>
+        bool ISkipsRedundantTooltip.IsTooltipRedundant(string tooltipText)
+        {
+            if (string.IsNullOrWhiteSpace(Text)) return false;
+
+            if (CollapseWhitespace(tooltipText) != CollapseWhitespace(Text)) return false;
+
+            //Asked on every hover, so measure only when the label's width or text changed since last time:
+            //a layout that cuts the text short, or stops cutting it, changes the width of the label too.
+            var checkedFor = InnerElement.getBoundingClientRect().As<DOMRect>().width + "|" + Text;
+
+            if (InnerElement[TOOLTIP_CHECKED_FOR_PROPERTY].As<string>() != checkedFor)
+            {
+                InnerElement[TOOLTIP_CHECKED_FOR_PROPERTY] = checkedFor;
+                InnerElement[TOOLTIP_TEXT_FITS_PROPERTY]   = IsTextFullyShown();
+            }
+
+            return InnerElement[TOOLTIP_TEXT_FITS_PROPERTY].As<bool>();
+        }
+
+        /// <summary>
+        /// Whether none of the text is cut off: the text span ellipsizes (and clips a path's head that is
+        /// too long for it), a path's tail ellipsizes on its own, and the label itself can spill past its
+        /// own box when even the head doesn't fit.
+        /// </summary>
+        private bool IsTextFullyShown()
+        {
+            if (IsClipped(InnerElement) || IsClipped(_text)) return false;
+
+            var tail = _text.querySelector(".tss-inlinelabel-text-tail");
+
+            return tail is null || !IsClipped(tail.As<HTMLElement>());
+        }
+
+        private static bool IsClipped(HTMLElement element) => element.scrollWidth > element.clientWidth;
+
+        private static string CollapseWhitespace(string text)
+        {
+            return string.Join(" ", (text ?? string.Empty).Split(new[] { ' ', '\t', '\r', '\n', ' ' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         /// <summary>
