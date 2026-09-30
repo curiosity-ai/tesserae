@@ -1,0 +1,267 @@
+/* ==========================================================================
+   Curiosity theme - OmniBox
+   --------------------------------------------------------------------------
+   Two shapes, the two the website uses. The one line search box is a pill,
+   as a SearchBox is: edged in mute, ink on hover, a second ink line inside
+   on focus, never a blue ring. A box with a chat half is the website's ask
+   bar: a square panel in the same edge, several rows tall, its footer on
+   the paper. An explicit .Rounded(...) from the app still wins.
+
+   Parsed query words are washed in the Signal at low strength with ink text,
+   square, and the operators take the deep blue: blue marks what the parser
+   understood. The chips are square stone cells; the list headers in the help
+   and model popovers are mono eyebrows. The suggestions themselves open in
+   the shared popover surface (a square paper surface framed in ink).
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-omnibox-container {
+    --tss-omnibox-radius: var(--cur-input-radius);
+    border-color: var(--cur-input-border);
+    box-shadow: none;
+    transition: border-color .15s linear, box-shadow .15s linear;
+}
+
+body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-chat-and-search,
+body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-mode-chat {
+    --tss-omnibox-radius: 0px;
+}
+
+body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-rounded-sm,
+body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-rounded-md {
+    --tss-omnibox-radius: 0px;
+}
+
+body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-rounded-full {
+    --tss-omnibox-radius: var(--tss-border-radius-full);
+}
+
+body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-chat-and-search,
+body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-mode-chat {
+    --tss-omnibox-radius: 24px;
+}
+
+/* The pill's curve eats into the first characters, so the text starts clear of it. The input and its
+   token overlay move together, or the parsed words would drift off the caret. */
+body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search):not(.tss-omnibox-mode-chat):not(.tss-omnibox-rounded-sm):not(.tss-omnibox-rounded-md) .tss-omnibox-search-input,
+body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search):not(.tss-omnibox-mode-chat):not(.tss-omnibox-rounded-sm):not(.tss-omnibox-rounded-md) .tss-omnibox-search-tokens {
+    padding-left: 12px;
+}
+
+body.tss-theme-curiosity .tss-omnibox-container:hover {
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover .tss-omnibox-search-container {
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-omnibox-container:focus-within {
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: inset 0 0 0 1px var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-omnibox-container:focus-within .tss-omnibox-search-container {
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-omnibox-container.tss-disabled {
+    border-color: var(--tss-default-border-color);
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-omnibox-search-input::placeholder,
+body.tss-theme-curiosity .tss-omnibox-chat-input::placeholder {
+    color: var(--tss-secondary-foreground-color) !important;
+    opacity: 1;
+}
+
+/* The end buttons of the search row: no grey well, mute-ink glyphs that go ink on stone. */
+body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn,
+body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-help-btn {
+    background: transparent;
+}
+
+body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn) {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):hover {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-omnibox-container .tss-btn:not(.tss-disabled):active {
+    transform: none;
+}
+
+/* Parsed query: square Signal washes on the words, deep blue on the syntax. Only colours change:
+   the overlay has to stay on the input's own metrics, glyph for glyph. */
+body.tss-theme-curiosity .tss-omnibox-search-token-word {
+    color: var(--tss-default-foreground-color);
+    background: rgba(47, 107, 255, 0.14);
+    outline-color: rgba(47, 107, 255, 0.55);
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-omnibox-search-token-operator-and,
+body.tss-theme-curiosity .tss-omnibox-search-token-operator-or,
+body.tss-theme-curiosity .tss-omnibox-search-token-operator-not,
+body.tss-theme-curiosity .tss-omnibox-search-token-paren,
+body.tss-theme-curiosity .tss-omnibox-search-token-quote {
+    color: var(--tss-link-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-omnibox-search-token-word {
+    color: var(--tss-default-foreground-color);
+    background: rgba(47, 107, 255, 0.28);
+    outline-color: rgba(47, 107, 255, 0.7);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-omnibox-search-token-operator-and,
+body.tss-theme-curiosity.tss-dark-mode .tss-omnibox-search-token-operator-or,
+body.tss-theme-curiosity.tss-dark-mode .tss-omnibox-search-token-operator-not,
+body.tss-theme-curiosity.tss-dark-mode .tss-omnibox-search-token-paren,
+body.tss-theme-curiosity.tss-dark-mode .tss-omnibox-search-token-quote {
+    color: var(--tss-link-color);
+}
+
+/* Chips: square stone cells, no grey strip behind them. */
+body.tss-theme-curiosity .tss-omnibox-inline-chips {
+    background: transparent;
+    border-right-color: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-omnibox-inline-chip {
+    border-radius: 0;
+    background-color: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-rounded-full .tss-omnibox-inline-chip {
+    border-radius: var(--tss-border-radius-full);
+}
+
+body.tss-theme-curiosity .tss-omnibox-inline-chip-close {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-omnibox-inline-chip-close:hover {
+    background-color: var(--tss-default-foreground-color);
+    color: var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-omnibox-right-text,
+body.tss-theme-curiosity .tss-omnibox-chat-counter {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+    letter-spacing: .04em;
+    color: var(--tss-secondary-foreground-color);
+}
+
+/* The keyboard-selected suggestion row: stone, the list's hover tone, rather than a blue fill. */
+body.tss-theme-curiosity .tss-omnibox-suggestion-highlight {
+    background: var(--tss-default-background-hover-color) !important;
+    box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-omnibox-help-header,
+body.tss-theme-curiosity .tss-omnibox-model-selector-header,
+body.tss-theme-curiosity .tippy-content .tss-textblock.tss-omnibox-model-selector-header,
+body.tss-theme-curiosity .tippy-content .tss-textblock.tss-omnibox-help-header {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    opacity: 1;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-omnibox-help-trigger {
+    color: var(--tss-default-foreground-color);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity .tss-omnibox-help-example {
+    opacity: 1;
+}
+
+/* Send: quiet stone while there is nothing to send, the call blue once there is (Tesserae's logic). */
+body.tss-theme-curiosity .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled) {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled):hover {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger) {
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger):hover {
+    background: var(--tss-primary-background-hover-color);
+    color: var(--tss-primary-foreground-hover-color);
+}
+
+body.tss-theme-curiosity .tss-btn.tss-omnibox-model-selector-btn {
+    border-radius: var(--tss-border-radius-full);
+    background: transparent;
+    border-color: var(--tss-default-border-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-btn.tss-omnibox-model-selector-btn:hover {
+    background: var(--tss-default-background-hover-color);
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tippy-box .tss-btn.tss-omnibox-model-selector-row {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tippy-box .tss-btn.tss-omnibox-model-selector-row:hover {
+    background: var(--tss-default-background-hover-color) !important;
+}
+
+body.tss-theme-curiosity .tss-omnibox-model-selector-check {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tippy-box .tss-btn.tss-omnibox-search-history-entry,
+body.tss-theme-curiosity .tippy-box .tss-btn.tss-omnibox-snap-suggestion,
+body.tss-theme-curiosity .tippy-box .tss-btn.tss-omnibox-help-entry {
+    border-radius: 0;
+}
+
+/* A pill has no straight edge to hang a divider off, so the end buttons of the search row lose theirs,
+   as Tesserae's own fully rounded box does; they read as ends of the pill by their stone hover. */
+body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search):not(.tss-omnibox-rounded-sm):not(.tss-omnibox-rounded-md) .tss-omnibox-search-container .tss-btn {
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
+
+/* The box's own popovers (suggestions, history, snaps, filter values, help, the model list) are lists,
+   not tooltips: Tippy draws them in the tooltip's inverted colours, so they are set back on the page's
+   paper with ink type and framed by the 1px line a floating surface takes. Recognised by what they
+   hold, since Tesserae opens them without a Tippy theme of their own. */
+body.tss-theme-curiosity .tippy-box:has(> .tippy-content .tss-omnibox-search-history-entry),
+body.tss-theme-curiosity .tippy-box:has(> .tippy-content .tss-omnibox-snap-suggestion),
+body.tss-theme-curiosity .tippy-box:has(> .tippy-content .tss-omnibox-help-panel),
+body.tss-theme-curiosity .tippy-box:has(> .tippy-content .tss-omnibox-model-selector-popover) {
+    background-color: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    box-shadow: var(--cur-surface-ring);
+}
+
+body.tss-theme-curiosity .tippy-box .tss-btn.tss-omnibox-search-history-entry,
+body.tss-theme-curiosity .tippy-box .tss-btn.tss-omnibox-snap-suggestion,
+body.tss-theme-curiosity .tippy-box .tss-btn.tss-omnibox-help-entry {
+    background: transparent;
+}
+
+body.tss-theme-curiosity .tippy-box .tss-btn.tss-omnibox-search-history-entry:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tippy-box .tss-btn.tss-omnibox-snap-suggestion:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tippy-box .tss-btn.tss-omnibox-help-entry:not(.tss-disabled):hover {
+    background: var(--tss-default-background-hover-color);
+}

@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Curiosity theme - Progress Indicator
+   --------------------------------------------------------------------------
+   A progress bar is a data mark: a square-ended bar of flat deep blue on a
+   track in the line tone. No gradient, no rounded caps. The indeterminate
+   form is a flat deep blue block sweeping across the track (the AI variant
+   sweeps in Signal, see tss.ai.css).
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-progressindicator {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-progressindicator > .tss-progressindicator-bar {
+    background: var(--tss-primary-background-color);
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-progressindicator > .tss-progressindicator-bar-indeterminate {
+    background: var(--tss-primary-background-color);
+}
+
+/* Deep blue is 2.2:1 on ink, too faint to read as a bar on the dark canvas: there it takes the Signal. */
+body.tss-theme-curiosity.tss-dark-mode .tss-progressindicator > .tss-progressindicator-bar,
+body.tss-theme-curiosity.tss-dark-mode .tss-progressindicator > .tss-progressindicator-bar-indeterminate {
+    background: var(--tss-highlight-color);
+}

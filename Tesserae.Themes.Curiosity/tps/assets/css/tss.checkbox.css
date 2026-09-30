@@ -22,8 +22,10 @@ body.tss-theme-curiosity .tss-checkbox-container .tss-checkbox-mark:after {
     border-width: 0 1.5px 1.5px 0;
 }
 
+/* Disabled keeps an edge you can find: ash at half strength, rather than the hairline, which
+   vanishes against the disabled fill. */
 body.tss-theme-curiosity .tss-checkbox-container.tss-disabled .tss-checkbox-mark {
-    border-color: var(--tss-default-border-color);
+    border-color: rgba(var(--tss-disabled-foreground-color-root), .5);
 }
 
 body.tss-theme-curiosity .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark {

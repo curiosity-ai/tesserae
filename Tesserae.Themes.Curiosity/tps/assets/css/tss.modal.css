@@ -1,0 +1,67 @@
+/* ==========================================================================
+   Curiosity theme - Modal
+   --------------------------------------------------------------------------
+   A floating surface (BRAND.md s9): square, paper, framed by one 1px ink
+   rule instead of a drop shadow. The page behind is veiled in the theme's
+   overlay tokens, paper or ink, with no blur. The title is a headline:
+   Schibsted 500, tracked in to -0.02em. The header's commands are icon
+   buttons, so they are round like every button, and hover one tone. It
+   arrives with a short fade and rise rather than an overshooting zoom.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-modal {
+    border-radius: 0;
+    box-shadow: var(--cur-surface-ring);
+}
+
+body.tss-theme-curiosity .tss-modal.tss-embedded {
+    box-shadow: 0 0 0 1px var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-modal-animate {
+    animation: .2s cubic-bezier(.2, 0, 0, 1) 0s 1 normal none running tss-cur-modal-in;
+}
+
+@keyframes tss-cur-modal-in {
+    0% {
+        transform: translateY(8px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-curiosity .tss-modal-animate {
+        animation: none;
+    }
+}
+
+body.tss-theme-curiosity .tss-modal-header-content > .tss-textblock {
+    font-weight: var(--tss-font-weight-semibold);
+    letter-spacing: -.02em;
+}
+
+body.tss-theme-curiosity .tss-modal-header-commands > .tss-btn,
+body.tss-theme-curiosity .tss-modal-header-commands > button,
+body.tss-theme-curiosity .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-curiosity .tss-modal-left-header-commands > button {
+    border-radius: var(--tss-border-radius-full);
+    transition: background-color .15s linear, color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-curiosity .tss-modal-header-commands > button:active,
+body.tss-theme-curiosity .tss-modal-left-header-commands > .tss-btn:active,
+body.tss-theme-curiosity .tss-modal-left-header-commands > button:active {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-modal-header-commands > button:focus-visible,
+body.tss-theme-curiosity .tss-modal-left-header-commands > button:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}

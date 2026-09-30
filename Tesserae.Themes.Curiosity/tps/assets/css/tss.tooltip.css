@@ -1,0 +1,15 @@
+/* ==========================================================================
+   Curiosity theme - Tooltip (Tippy)
+   --------------------------------------------------------------------------
+   A tooltip is the one inverted surface: ink with paper type on the light
+   canvas, paper with ink type on the dark one (the tokens swap it). It is
+   square and carries no frame at all: the inversion already separates it from
+   the page, and a ring would draw round the box but not round its arrow, so
+   an arrowed tooltip would show a seam where the two meet. The arrow takes
+   the surface's colour, so it reads as one shape with the box.
+   ========================================================================== */
+
+/* Square already: the radius tokens are 0. Only the ring the shadow token would draw comes off. */
+body.tss-theme-curiosity .tippy-box {
+    box-shadow: none;
+}

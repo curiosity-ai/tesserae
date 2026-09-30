@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Curiosity theme - Timeline
+   --------------------------------------------------------------------------
+   The markers on the ruler are squares, not circles: data marks in the brand
+   are squares. Each event is a cell framed by a single hairline (the card
+   token is a hairline ring too, which on top of the border drew the frame
+   twice). Radius is 0.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-timeline-container::after {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-timeline-container .tss-timeline-content {
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}

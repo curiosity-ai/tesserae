@@ -1,0 +1,11 @@
+/* ==========================================================================
+   Curiosity theme - Dialog
+   --------------------------------------------------------------------------
+   A dialog is a small modal, so it takes the modal's frame: square, one 1px
+   ink rule, no shadow. Only the corner radius Tesserae gives it needs
+   taking back.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-dialog {
+    border-radius: 0;
+}

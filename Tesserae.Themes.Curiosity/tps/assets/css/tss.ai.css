@@ -1,0 +1,173 @@
+/* ==========================================================================
+   Curiosity theme - AI variants
+   --------------------------------------------------------------------------
+   Tesserae says "a model made this" with a purple-to-blue gradient. The brand
+   has no gradients and no purple, so here the AI voice is the Signal: an AI
+   action is a flat Signal (#2F6BFF) pill with white type (4.5:1), the quiet
+   form is a Signal tint with deep blue type, generated text is deep blue, and
+   every border is a 1px hairline. No glow, no drop shadow.
+
+   Every AI rule in Tesserae reads the --tss-ai-* variables, so most of the
+   work is redefining them. A "gradient" becomes a gradient from a colour to
+   itself: the same background-image slot the rules paint into, one flat
+   colour. The rest restates the places Tesserae hard codes purple (hover
+   washes, the skeleton's shimmer) or a shadow.
+
+   Motion that carries meaning stays (the spinner, the sweep, the shimmer),
+   in flat colours.
+   ========================================================================== */
+
+body.tss-theme-curiosity {
+    --tss-ai-from: #2F6BFF;
+    --tss-ai-to: #2F6BFF;
+    --tss-ai-accent: #0029E7;
+
+    --tss-ai-gradient: linear-gradient(#2F6BFF, #2F6BFF);
+    --tss-ai-gradient-hover: linear-gradient(#0029E7, #0029E7);
+    --tss-ai-gradient-text: linear-gradient(#0029E7, #0029E7);
+
+    --tss-ai-surface: linear-gradient(rgba(47, 107, 255, 0.10), rgba(47, 107, 255, 0.10));
+    --tss-ai-surface-strong: linear-gradient(rgba(47, 107, 255, 0.16), rgba(47, 107, 255, 0.16));
+
+    --tss-ai-border-color: rgba(47, 107, 255, 0.35);
+    --tss-ai-shadow: none;
+    --tss-ai-shadow-hover: none;
+
+    /* The spinner's arc: three quarters of the ring in Signal with a hard leading edge, the rest open. */
+    --tss-ai-arc: conic-gradient(from 0deg, #2F6BFF 0deg 270deg, rgba(47, 107, 255, 0) 270deg 360deg);
+
+    /* White rather than paper on the Signal: 4.5:1 against 4.1:1. */
+    --tss-ai-on-fill: #FFFFFF;
+
+    /* A wash for hover and press on the quiet AI controls, in place of Tesserae's purple ones. */
+    --cur-ai-wash: rgba(47, 107, 255, 0.14);
+    --cur-ai-wash-strong: rgba(47, 107, 255, 0.22);
+    --cur-ai-shimmer: rgba(47, 107, 255, 0.28);
+}
+
+body.tss-theme-curiosity.tss-dark-mode {
+    --tss-ai-from: #2F6BFF;
+    --tss-ai-to: #2F6BFF;
+    /* Deep blue is 2.2:1 on ink, so AI type on the dark canvas takes the theme's light link blue. */
+    --tss-ai-accent: #7A9EFF;
+
+    --tss-ai-gradient: linear-gradient(#2F6BFF, #2F6BFF);
+    --tss-ai-gradient-hover: linear-gradient(#0029E7, #0029E7);
+    --tss-ai-gradient-text: linear-gradient(#7A9EFF, #7A9EFF);
+
+    --tss-ai-surface: linear-gradient(rgba(47, 107, 255, 0.16), rgba(47, 107, 255, 0.16));
+    --tss-ai-surface-strong: linear-gradient(rgba(47, 107, 255, 0.26), rgba(47, 107, 255, 0.26));
+
+    --tss-ai-border-color: rgba(122, 158, 255, 0.42);
+    --tss-ai-shadow: none;
+    --tss-ai-shadow-hover: none;
+
+    --tss-ai-arc: conic-gradient(from 0deg, #2F6BFF 0deg 270deg, rgba(47, 107, 255, 0) 270deg 360deg);
+    --tss-ai-on-fill: #FFFFFF;
+
+    --cur-ai-wash: rgba(47, 107, 255, 0.20);
+    --cur-ai-wash-strong: rgba(47, 107, 255, 0.30);
+    --cur-ai-shimmer: rgba(122, 158, 255, 0.22);
+}
+
+/* Generated prose on its own panel: square, the Signal tint, a 2px deep blue leading bar. */
+body.tss-theme-curiosity .tss-textblock.tss-ai-surface {
+    border-left-width: 2px;
+    border-radius: 0;
+}
+
+/* Button: a state is a change of tone, never a brightness filter or an inset shadow. */
+body.tss-theme-curiosity .tss-btn.tss-ai:not(.tss-disabled):active {
+    filter: none;
+    box-shadow: none;
+    background-image: linear-gradient(#0021B8, #0021B8);
+}
+
+body.tss-theme-curiosity .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled) {
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):hover {
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):active {
+    filter: none;
+    background-image: linear-gradient(var(--cur-ai-wash-strong), var(--cur-ai-wash-strong));
+}
+
+/* Card: the tint and a hairline, no purple drop shadow under a laid-out card. */
+body.tss-theme-curiosity .tss-card-container.tss-ai > .tss-card.tss-has-layout {
+    filter: none;
+}
+
+body.tss-theme-curiosity .tss-card-container.tss-ai > .tss-card:not(.tss-has-layout) {
+    border: none;
+    box-shadow: 0 0 0 1px var(--tss-ai-border-color);
+}
+
+body.tss-theme-curiosity .tss-card-container.tss-ai > .tss-card:not(.tss-has-layout).tss-card-hover:hover {
+    box-shadow: 0 0 0 1px var(--tss-ai-accent);
+}
+
+/* Skeleton: the Signal tint over the placeholder tone, and a Signal sweep rather than a purple one. Restated
+   under the theme's scope because tss.skeleton.css retones every placeholder there. */
+body.tss-theme-curiosity .tss-skeleton.tss-ai,
+body.tss-theme-curiosity.tss-dark-mode .tss-skeleton.tss-ai {
+    background: var(--tss-ai-surface-strong), var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-skeleton.tss-ai.tss-skeleton-animated::after,
+body.tss-theme-curiosity.tss-dark-mode .tss-skeleton.tss-ai.tss-skeleton-animated::after,
+body.tss-theme-curiosity .tss-inlinelabel.tss-ai .tss-inlinelabel-skeleton.tss-skeleton-animated::after {
+    background: linear-gradient(90deg, transparent, var(--cur-ai-shimmer), transparent);
+}
+
+/* ProgressIndicator: the indeterminate band is one flat Signal block, as the default one is deep blue. */
+body.tss-theme-curiosity .tss-progressindicator.tss-ai > .tss-progressindicator-bar,
+body.tss-theme-curiosity .tss-progressindicator.tss-ai > .tss-progressindicator-bar-indeterminate {
+    background: #2F6BFF;
+}
+
+/* IconToggle: a flat tinted track, no inset shadow, Signal washes on hover. */
+body.tss-theme-curiosity .tss-icon-toggle.tss-ai {
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    background-color: var(--cur-ai-wash);
+}
+
+body.tss-theme-curiosity .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):active {
+    background-color: var(--cur-ai-wash-strong);
+}
+
+body.tss-theme-curiosity .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-curiosity .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-curiosity.tss-dark-mode .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-curiosity.tss-dark-mode .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    box-shadow: none;
+}
+
+/* Focus is tone, never the accent. */
+body.tss-theme-curiosity .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item:focus-visible {
+    outline-color: var(--tss-default-foreground-color);
+}
+
+/* SegmentedPivot: the same, one level up. */
+body.tss-theme-curiosity .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-curiosity .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar {
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab:hover {
+    background-color: var(--cur-ai-wash);
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab:active {
+    background-color: var(--cur-ai-wash-strong);
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    box-shadow: none;
+}

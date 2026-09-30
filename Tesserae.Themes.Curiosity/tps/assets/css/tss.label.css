@@ -1,0 +1,13 @@
+/* ==========================================================================
+   Curiosity theme - Label
+   --------------------------------------------------------------------------
+   A form label stays in Schibsted Grotesk: it names a field in a sentence
+   the reader completes, which is text, not a mono eyebrow. The one change
+   is a disabled label, which dims to the disabled tone with its field
+   instead of staying full ink beside a greyed control.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-label.tss-disabled > label,
+body.tss-theme-curiosity .tss-label.tss-disabled > label .tss-fontcolor-default {
+    color: var(--tss-disabled-foreground-color);
+}

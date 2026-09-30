@@ -1,0 +1,13 @@
+/* ==========================================================================
+   Curiosity theme - HorizontalSeparator
+   --------------------------------------------------------------------------
+   The rule is already the brand's 1px hairline in the separator tone. The
+   one thing to restate is the primary label: it was painted in the primary
+   background color, which is the deep call blue, and that is 2.2:1 on the
+   ink canvas. As text it takes the link tone instead, the same deep blue on
+   paper and the lighter blue on ink.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-horizontalseparator.tss-primary {
+    color: var(--tss-link-color);
+}

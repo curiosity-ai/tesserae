@@ -51,3 +51,8 @@ body.tss-theme-curiosity .tss-toggle-container input:focus-visible ~ .tss-toggle
     outline: 2px solid var(--tss-default-foreground-color);
     outline-offset: 2px;
 }
+
+/* A caller who asks for a fully rounded switch gets the round knob to go with the pill track. */
+body.tss-theme-curiosity .tss-rounded-full > .tss-toggle-mark:after {
+    border-radius: 50%;
+}

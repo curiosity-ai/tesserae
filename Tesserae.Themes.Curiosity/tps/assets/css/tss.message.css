@@ -1,0 +1,109 @@
+/* ==========================================================================
+   Curiosity theme - Message
+   --------------------------------------------------------------------------
+   An empty state or a notice. The icon sits on a square stone tile rather than
+   a disc; the title is Schibsted 500 in ink, the text mute ink. A toned message
+   (info, success, warning, error) is a paper cell in a hairline frame with a
+   3px bar in the tone: on top when the message is stacked, on the leading edge
+   when it is horizontal. The tone reaches the icon and the bar and nothing
+   else, so no page turns pink, green or yellow. The note is a stone cell.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-message {
+    --cur-message-accent: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-message-icon {
+    border-radius: 0;
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-message-title {
+    font-weight: var(--tss-font-weight-semibold);
+    letter-spacing: -0.015em;
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-message-text {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-message-note,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-note {
+    border-radius: 0;
+    border: 1px solid var(--tss-default-border-color);
+    background-color: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-message-note i,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-note i {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-message-horizontal .tss-message-icon {
+    border-radius: 0;
+}
+
+/* The tones ------------------------------------------------------------------------------------- */
+
+body.tss-theme-curiosity .tss-message-info    { --cur-message-accent: var(--tss-link-color); }
+body.tss-theme-curiosity .tss-message-success { --cur-message-accent: var(--tss-success-background-color); }
+body.tss-theme-curiosity .tss-message-warning { --cur-message-accent: var(--tss-warning-background-color); }
+body.tss-theme-curiosity .tss-message-error   { --cur-message-accent: var(--tss-danger-background-color); }
+
+body.tss-theme-curiosity .tss-message-info,
+body.tss-theme-curiosity .tss-message-success,
+body.tss-theme-curiosity .tss-message-warning,
+body.tss-theme-curiosity .tss-message-error,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-info,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-success,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-warning,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-error {
+    border-radius: 0;
+    border-color: var(--tss-default-border-color);
+    background-color: var(--tss-default-background-color);
+    box-shadow: inset 0 3px 0 var(--cur-message-accent);
+}
+
+body.tss-theme-curiosity .tss-message-horizontal.tss-message-info,
+body.tss-theme-curiosity .tss-message-horizontal.tss-message-success,
+body.tss-theme-curiosity .tss-message-horizontal.tss-message-warning,
+body.tss-theme-curiosity .tss-message-horizontal.tss-message-error {
+    box-shadow: inset 3px 0 0 var(--cur-message-accent);
+}
+
+body.tss-theme-curiosity .tss-message-info .tss-message-icon,
+body.tss-theme-curiosity .tss-message-success .tss-message-icon,
+body.tss-theme-curiosity .tss-message-warning .tss-message-icon,
+body.tss-theme-curiosity .tss-message-error .tss-message-icon,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-info .tss-message-icon,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-success .tss-message-icon,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-warning .tss-message-icon,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-error .tss-message-icon {
+    background: color-mix(in srgb, var(--cur-message-accent) 10%, transparent);
+    color: var(--cur-message-accent);
+}
+
+body.tss-theme-curiosity .tss-message-info .tss-message-title,
+body.tss-theme-curiosity .tss-message-success .tss-message-title,
+body.tss-theme-curiosity .tss-message-warning .tss-message-title,
+body.tss-theme-curiosity .tss-message-error .tss-message-title,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-info .tss-message-title,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-success .tss-message-title,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-warning .tss-message-title,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-error .tss-message-title {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-message-info .tss-message-text,
+body.tss-theme-curiosity .tss-message-success .tss-message-text,
+body.tss-theme-curiosity .tss-message-warning .tss-message-text,
+body.tss-theme-curiosity .tss-message-error .tss-message-text,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-info .tss-message-text,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-success .tss-message-text,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-warning .tss-message-text,
+body.tss-theme-curiosity.tss-dark-mode .tss-message-error .tss-message-text {
+    color: var(--tss-secondary-foreground-color);
+}

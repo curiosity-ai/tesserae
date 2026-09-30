@@ -84,3 +84,11 @@ body.tss-theme-curiosity .tss-card-container.tss-small > .tss-card.tss-has-layou
     padding: 6px 8px;
     margin-top: 0;
 }
+
+/* A card filled with the primary color (BackgroundColor(Theme.Primary.Background)) sits on the deep
+   call blue, where ink text is 2.2:1. The card cannot know its fill any other way than its inline
+   style, so the primary foreground follows the primary background here, as it does on a button. */
+body.tss-theme-curiosity .tss-card[style*="--tss-primary-background-color"],
+body.tss-theme-curiosity .tss-card[style*="--tss-primary-background-color"] .tss-fontcolor-default {
+    color: var(--tss-primary-foreground-color);
+}

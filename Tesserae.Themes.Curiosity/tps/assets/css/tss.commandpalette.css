@@ -1,0 +1,146 @@
+/* ==========================================================================
+   Curiosity theme - CommandPalette
+   --------------------------------------------------------------------------
+   A floating surface on the ink overlay: square, paper, framed by one 1px ink
+   rule, no shadow and no rounded corners. The search box is an input, so it
+   is a pill like every single line input. The results are rows in a list:
+   a row hovers to stone, and the row the keyboard is on is stone with an
+   inset 2px ink bar on its leading edge rather than a blue fill, the way a
+   menu marks its current row. Section labels, shortcuts and counters are
+   the mono uppercase label voice; shortcut keys are square plates.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-commandpalette-overlay {
+    background: var(--tss-overlay-dark);
+}
+
+body.tss-theme-curiosity .tss-commandpalette-animator {
+    background: var(--tss-default-background-color);
+    border: 1px solid var(--tss-default-foreground-color);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-commandpalette-animator {
+    border-color: var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity .tss-commandpalette-search-container {
+    padding: 12px 12px 12px 16px;
+}
+
+/* The search box: an input pill (the text box's edge and radius), ink on hover and while typed into. The
+   palette's own stylesheet takes the omnibox's chrome away; this gives it the theme's instead. */
+body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search {
+    border: 1px solid var(--cur-input-border, var(--tss-dark-border-color));
+    border-radius: var(--tss-border-radius-full);
+    background: var(--tss-default-background-color);
+    overflow: hidden;
+    transition: border-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search:hover,
+body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search:focus-within {
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search .tss-omnibox-search-input-container {
+    margin-left: 9px;
+}
+
+body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search .tss-omnibox-search-container .tss-btn.tss-omnibox-search-btn {
+    border-left: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+body.tss-theme-curiosity .tss-commandpalette-close {
+    border-radius: var(--tss-border-radius-full);
+}
+
+body.tss-theme-curiosity .tss-commandpalette-breadcrumbs,
+body.tss-theme-curiosity .tss-commandpalette-path {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-commandpalette-results {
+    padding: 4px 0;
+    gap: 0;
+}
+
+body.tss-theme-curiosity .tss-commandpalette-section {
+    padding: 12px 16px 6px 16px;
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+    letter-spacing: .08em;
+}
+
+body.tss-theme-curiosity .tss-commandpalette-item {
+    padding: 8px 16px;
+    border-radius: 0;
+    transition: background-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-commandpalette-item.tss-active {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+    box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-commandpalette-item.tss-active .tss-commandpalette-subtitle {
+    color: var(--tss-secondary-foreground-color);
+}
+
+/* The icon is a square tile: a hairline cell, paper inside, so it still reads on a stone row. */
+body.tss-theme-curiosity .tss-commandpalette-icon {
+    border-radius: 0;
+    background: var(--tss-default-background-color);
+    box-shadow: inset 0 0 0 1px var(--tss-default-border-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-commandpalette-title {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity .tss-commandpalette-shortcut,
+body.tss-theme-curiosity .tss-commandpalette-item.tss-active .tss-commandpalette-shortcut {
+    min-width: 20px;
+    padding: 2px 5px;
+    border-radius: 0;
+    border: 1px solid var(--tss-dark-border-color);
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+    line-height: 14px;
+    letter-spacing: .08em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-commandpalette-item.tss-active .tss-commandpalette-submenu {
+    color: var(--tss-default-foreground-color);
+}
+
+/* A host's own row: the same stone and bar, not a wash of the primary colour and a ring. */
+body.tss-theme-curiosity .tss-commandpalette-result {
+    padding: 4px 8px;
+}
+
+body.tss-theme-curiosity .tss-commandpalette-result:hover,
+body.tss-theme-curiosity .tss-commandpalette-result.tss-active {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-commandpalette-result.tss-active {
+    box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-commandpalette-empty {
+    padding: 14px 16px;
+}

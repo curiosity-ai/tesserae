@@ -1,0 +1,115 @@
+/* ==========================================================================
+   Curiosity theme - Uptime
+   --------------------------------------------------------------------------
+   Status bars and calendar days are square cells, the brand's data mark,
+   coloured from the theme's own flat semantic tokens (operational success,
+   minor warning, major danger, maintenance the deep blue) so they follow the
+   theme and the dark canvas instead of fixed hexes; a day with no data or
+   still to come is the hairline tone. A month is a paper cell framed by a
+   hairline, its name the mono uppercase label and its percentage a mono
+   figure. The tooltip is a square ink surface with a hairline frame.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-uptime-bars span,
+body.tss-theme-curiosity .tss-uptime-bars-compact span,
+body.tss-theme-curiosity .tss-uptime-month-day,
+body.tss-theme-curiosity .tss-uptime-month-empty {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-uptime-bars span,
+body.tss-theme-curiosity .tss-uptime-bars span.none,
+body.tss-theme-curiosity .tss-uptime-month-day {
+    background: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-uptime-bars span.future,
+body.tss-theme-curiosity .tss-uptime-month-day.future {
+    background: var(--tss-secondary-background-color);
+    box-shadow: inset 0 0 0 1px var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-uptime-month-empty {
+    background: transparent;
+}
+
+body.tss-theme-curiosity .tss-uptime-bars span.operational,
+body.tss-theme-curiosity .tss-uptime-month-day.operational {
+    background: var(--tss-success-background-color);
+}
+
+body.tss-theme-curiosity .tss-uptime-bars span.minor,
+body.tss-theme-curiosity .tss-uptime-month-day.minor {
+    background: var(--tss-warning-background-color);
+}
+
+body.tss-theme-curiosity .tss-uptime-bars span.major,
+body.tss-theme-curiosity .tss-uptime-month-day.major {
+    background: var(--tss-danger-background-color);
+}
+
+body.tss-theme-curiosity .tss-uptime-bars span.maintenance,
+body.tss-theme-curiosity .tss-uptime-month-day.maintenance {
+    background: var(--tss-primary-background-color);
+}
+
+/* The deep blue is 2.2:1 on ink; on the dark canvas maintenance takes the Signal. */
+body.tss-theme-curiosity.tss-dark-mode .tss-uptime-bars span.maintenance,
+body.tss-theme-curiosity.tss-dark-mode .tss-uptime-month-day.maintenance {
+    background: var(--tss-highlight-color);
+}
+
+/* Focus is tone, never the Signal: the lift stays, and a keyboard user also gets the ink ring. */
+body.tss-theme-curiosity .tss-uptime-bars span:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}
+
+body.tss-theme-curiosity .tss-uptime-month-card {
+    border-radius: 0;
+    border: 1px solid var(--tss-default-border-color);
+    background: var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-uptime-month-header {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-uptime-month-header span {
+    font-size: var(--tss-font-size-xsmall);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-uptime-month-header span:last-child:not(:first-child) {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tippy-box[data-theme~='uptime'] {
+    background: var(--cur-ink);
+    border: 1px solid var(--cur-slate);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tippy-box[data-theme~='uptime'][data-placement^='top'] > .tippy-arrow::before {
+    border-top-color: var(--cur-ink);
+}
+
+body.tss-theme-curiosity .tippy-box[data-theme~='uptime'][data-placement^='bottom'] > .tippy-arrow::before {
+    border-bottom-color: var(--cur-ink);
+}
+
+body.tss-theme-curiosity .tippy-box[data-theme~='uptime'][data-placement^='left'] > .tippy-arrow::before {
+    border-left-color: var(--cur-ink);
+}
+
+body.tss-theme-curiosity .tippy-box[data-theme~='uptime'][data-placement^='right'] > .tippy-arrow::before {
+    border-right-color: var(--cur-ink);
+}

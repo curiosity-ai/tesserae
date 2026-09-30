@@ -1,0 +1,100 @@
+/* ==========================================================================
+   Curiosity theme - Banner
+   --------------------------------------------------------------------------
+   A notice strip is a cell: paper, a 1px hairline frame, square. The tone is
+   spent sparingly: a 3px bar on the leading edge, the icon, and the badge
+   carry it; the strip itself stays paper and its type stays ink and mute ink
+   rather than being washed and lettered in the accent. The icon tile is a
+   square with a faint wash of the tone. The badge is the mono label voice.
+   Inside a toast the banner drops its frame (the toast draws the ink one)
+   but keeps its bar, so the tone still reads from across the screen.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-banner {
+    --tss-banner-title-color: var(--tss-default-foreground-color);
+    --tss-banner-text-color: var(--tss-secondary-foreground-color);
+    --tss-banner-surface: var(--tss-default-background-color);
+    --tss-banner-border-color: var(--tss-default-border-color);
+    --cur-banner-bar: var(--tss-dark-border-color);
+
+    border-radius: 0;
+    box-shadow: inset 3px 0 0 var(--cur-banner-bar);
+}
+
+/* The accent follows the theme's tokens, except primary: the notice is information, so the deep blue
+   (the link blue on the dark canvas) rather than the fill of a primary button. */
+body.tss-theme-curiosity .tss-banner-primary {
+    --tss-banner-accent: var(--tss-link-color);
+}
+
+body.tss-theme-curiosity .tss-banner-primary,
+body.tss-theme-curiosity .tss-banner-success,
+body.tss-theme-curiosity .tss-banner-warning,
+body.tss-theme-curiosity .tss-banner-danger {
+    --tss-banner-title-color: var(--tss-default-foreground-color);
+    --tss-banner-text-color: var(--tss-secondary-foreground-color);
+    --cur-banner-bar: var(--tss-banner-accent);
+}
+
+body.tss-theme-curiosity .tss-banner-flat {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-banner-title {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+/* A banner with no title (a toast built by Information/Success/...) has only its message to say, so the
+   message takes the title's ink rather than staying the quiet second line under a title that is not there. */
+body.tss-theme-curiosity .tss-banner-header:has(> .tss-banner-title:empty) + .tss-banner-text {
+    color: var(--tss-banner-title-color);
+}
+
+/* Icon tile: square, a light wash of the tone, the glyph in the tone. */
+body.tss-theme-curiosity .tss-banner .tss-icontile {
+    --tss-icontile-radius: 0px;
+}
+
+body.tss-theme-curiosity .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-curiosity.tss-dark-mode .tss-icontile.tss-banner-icon-tile {
+    background: color-mix(in srgb, var(--tss-banner-accent) 10%, transparent);
+    color: var(--tss-banner-accent);
+}
+
+body.tss-theme-curiosity .tss-banner-compact .tss-banner-icon > .tss-icontile {
+    --tss-icontile-radius: 0px;
+}
+
+/* Badge: a mono label, square, in the tone. */
+body.tss-theme-curiosity .tss-banner-badge-pill.tss-badge {
+    border-radius: 0;
+    background: color-mix(in srgb, var(--tss-banner-accent) 10%, transparent);
+    font-family: var(--tss-monospace-font-family);
+    font-size: 10px;
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+/* Dismiss: square, answers the pointer with stone like every ghost control. */
+body.tss-theme-curiosity .tss-btn.tss-banner-dismiss-button {
+    border-radius: 0;
+    color: var(--tss-secondary-foreground-color);
+    opacity: 1;
+}
+
+body.tss-theme-curiosity .tss-btn.tss-banner-dismiss-button:hover {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-btn.tss-banner-dismiss-button:active {
+    background: var(--tss-default-background-active-color);
+    transform: none;
+}
+
+/* Inside a toast: no frame of its own, the leading bar stays. */
+body.tss-theme-curiosity .tss-toast-container > .tss-banner {
+    border: none;
+    border-radius: 0;
+}

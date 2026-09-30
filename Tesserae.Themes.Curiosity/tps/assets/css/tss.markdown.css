@@ -1,0 +1,86 @@
+/* ==========================================================================
+   Curiosity theme - MarkdownBlock
+   --------------------------------------------------------------------------
+   Rendered Markdown set as the brand sets a page (BRAND.md s3, s9):
+   - headings are Schibsted Grotesk 500 with headline tracking, not bold;
+   - rules are 1px hairlines, the h1/h2 underline included;
+   - a blockquote is a 2px ink rule down the left, its text in the muted tone;
+   - code is Geist Mono on a stone plate, square, no frame and no bold, inline
+     and in blocks alike; a <kbd> matches the KeyboardShortcut key;
+   - tables are hairline grids, their header row a mono uppercase label row.
+   A definition term is not italic: the brand has no italic for styling.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-markdown h1,
+body.tss-theme-curiosity .tss-markdown h2,
+body.tss-theme-curiosity .tss-markdown h3,
+body.tss-theme-curiosity .tss-markdown h4,
+body.tss-theme-curiosity .tss-markdown h5,
+body.tss-theme-curiosity .tss-markdown h6 {
+    font-weight: var(--tss-font-weight-semibold);
+    letter-spacing: -0.02em;
+}
+
+body.tss-theme-curiosity .tss-markdown h1 {
+    letter-spacing: -0.03em;
+}
+
+body.tss-theme-curiosity .tss-markdown h5,
+body.tss-theme-curiosity .tss-markdown h6 {
+    letter-spacing: -0.01em;
+}
+
+body.tss-theme-curiosity .tss-markdown hr {
+    height: 1px;
+    background-color: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-markdown blockquote {
+    padding: 0 16px;
+    border-left: 2px solid var(--tss-default-foreground-color);
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-markdown code {
+    padding: 0.1em 0.35em;
+    font-size: 0.92em;
+    font-weight: var(--tss-font-weight-regular);
+    color: var(--tss-default-foreground-color);
+    background-color: var(--tss-default-background-hover-color);
+    border: none;
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-markdown pre {
+    background-color: var(--tss-default-background-hover-color);
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-markdown pre code {
+    padding: 0;
+    font-size: 100%;
+    background-color: transparent;
+}
+
+body.tss-theme-curiosity .tss-markdown kbd {
+    font-size: 10px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    background-color: var(--tss-default-background-hover-color);
+    border: 1px solid var(--tss-dark-border-color);
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-markdown table th {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-align: left;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-markdown dl dt {
+    font-style: normal;
+}

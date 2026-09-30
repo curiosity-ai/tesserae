@@ -1,0 +1,12 @@
+/* ==========================================================================
+   Curiosity theme - SectionTitle
+   --------------------------------------------------------------------------
+   A section title is a headline: Schibsted Grotesk 500, tight tracking
+   (BRAND.md s3). The component asks for bold, which the brand keeps for
+   emphasis inside text, so the title steps back to the headline weight.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-sectiontitle-title {
+    font-weight: var(--tss-font-weight-semibold);
+    letter-spacing: -0.02em;
+}

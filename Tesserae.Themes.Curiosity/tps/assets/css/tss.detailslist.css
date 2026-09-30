@@ -1,0 +1,44 @@
+/* ==========================================================================
+   Curiosity theme - DetailsList
+   --------------------------------------------------------------------------
+   A table in the engineering journal register: the column headers are the
+   mono uppercase label voice in the secondary tone, set over a 1px ink rule
+   that stays with the sticky header as the body scrolls under it. Rows are
+   split by hairlines and hover to stone. The sort arrow keeps the ink tone
+   beside its label, so which column orders the list still reads at once.
+   ========================================================================== */
+
+/* The rule is drawn under the header rather than on the first row, so it travels with the sticky
+   header and covers the first row's own hairline instead of doubling it. */
+body.tss-theme-curiosity .tss-detailslist-header {
+    box-shadow: 0 1px 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-detailslist-column-header,
+body.tss-theme-curiosity .tss-detailslist-column-header > .tss-textblock {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-detailslist-column-header {
+    align-items: center;
+}
+
+/* A sortable header darkens to ink under the pointer, the way a link row does. */
+body.tss-theme-curiosity .tss-detailslist-column-header.tss-cursor-pointer:hover,
+body.tss-theme-curiosity .tss-detailslist-column-header.tss-cursor-pointer:hover > .tss-textblock {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-detailslist-column-header-sorting-icon {
+    color: var(--tss-default-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+}
+
+body.tss-theme-curiosity .tss-detailslist-list-item-container {
+    transition: background-color .1s linear;
+}

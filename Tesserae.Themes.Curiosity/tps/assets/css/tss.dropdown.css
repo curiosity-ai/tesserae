@@ -74,6 +74,16 @@ body.tss-theme-curiosity .tss-dropdown-item {
     transition: background-color .15s linear;
 }
 
+/* Rows run the popup's full width with square ends, so the current row's ink bar sits on the
+   frame's inside edge (the website's menu) rather than curling round a rounded, inset row. */
+body.tss-theme-curiosity .tss-dropdown-popup .tss-dropdown-item {
+    margin: 0;
+    width: 100%;
+    border-radius: 0;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
 body.tss-theme-curiosity .tss-dropdown-item:hover {
     background-color: var(--tss-default-background-hover-color);
 }
@@ -103,6 +113,28 @@ body.tss-theme-curiosity .tss-dropdown-header {
     text-transform: uppercase;
 }
 
+body.tss-theme-curiosity .tss-dropdown-popup .tss-dropdown-header {
+    padding: 0 16px;
+}
+
+/* The header's text lives in a button of its own, which sets its own type; the voice goes there. */
+body.tss-theme-curiosity .tss-dropdown-header .tss-btn,
+body.tss-theme-curiosity .tss-dropdown-header .tss-btn:hover {
+    color: var(--tss-secondary-foreground-color);
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    background: transparent;
+}
+
+/* Search matches are marked with a Signal tint, not the browser's yellow. */
+body.tss-theme-curiosity .tss-dropdown-popup mark {
+    background-color: rgba(var(--tss-highlight-color-root), .22);
+    color: inherit;
+}
+
 body.tss-theme-curiosity .tss-dropdown-divider {
     background-color: var(--tss-default-border-color);
 }
@@ -125,4 +157,8 @@ body.tss-theme-curiosity .tss-dropdown-popup .tss-dropdown-searchbox {
 body.tss-theme-curiosity .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
     border: 1px solid transparent;
     border-bottom-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-dropdown-popup mark {
+    background-color: rgba(var(--tss-highlight-color-root), .4);
 }

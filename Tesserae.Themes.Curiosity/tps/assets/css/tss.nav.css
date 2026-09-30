@@ -1,0 +1,38 @@
+/* ==========================================================================
+   Curiosity theme - Nav
+   --------------------------------------------------------------------------
+   The tree of links reads as the Sidebar does: rows hover to stone with no
+   underline, and the selected row is stone with an inset 2px ink bar on its
+   leading edge (trailing edge for a right-hand nav) instead of a 4px blue
+   border. The 4px border stays, transparent, so nothing moves.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-nav-link > .tss-nav-link-header {
+    background: transparent;
+    border-left-color: transparent;
+}
+
+body.tss-theme-curiosity .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header {
+    border-right-color: transparent;
+}
+
+body.tss-theme-curiosity .tss-nav-link > .tss-nav-link-header:hover {
+    background: var(--tss-default-background-hover-color);
+    text-decoration: none;
+}
+
+body.tss-theme-curiosity .tss-nav-link > .tss-nav-link-header.tss-selected {
+    background: var(--tss-default-background-hover-color);
+    border-left-color: transparent;
+    box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header.tss-selected {
+    border-right-color: transparent;
+    box-shadow: inset -2px 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-nav-link-button:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 0;
+}

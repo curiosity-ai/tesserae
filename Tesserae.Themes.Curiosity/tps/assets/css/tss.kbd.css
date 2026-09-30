@@ -1,0 +1,43 @@
+/* ==========================================================================
+   Curiosity theme - KeyboardShortcut and ShortcutGuide
+   --------------------------------------------------------------------------
+   A key is a label: Geist Mono, uppercase, on a square plate framed by one
+   hairline. The plate is stone (one tone off the paper, one tone off the ink
+   in dark mode) and the frame ash, so the key is the same on every surface
+   it lands on. The raised 2px bottom edge of a physical key is dropped:
+   structure is a 1px hairline, and the key keeps its 22px height because
+   the plate is sized by its box, not by its border.
+
+   The guide's section titles become eyebrows, the mono voice the brand uses
+   to name a group.
+   ========================================================================== */
+
+/* Geist Mono, then the system sans rather than the system mono: the packaged Geist Mono subset has the
+   up and down arrows but not left, right, tab or the delete keys, and a system monospace draws those at
+   half the size of the letters beside them. The sans fallback is what drew them before. */
+body.tss-theme-curiosity .tss-kbd-key {
+    font-family: "Geist Mono", ui-sans-serif, system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--tss-default-foreground-color);
+    background: var(--tss-default-background-hover-color);
+    border: 1px solid var(--tss-dark-border-color);
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-kbd-separator {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 10px;
+}
+
+body.tss-theme-curiosity .tss-shortcut-guide-section-title {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--tss-secondary-foreground-color);
+    padding-bottom: 6px;
+}

@@ -60,13 +60,13 @@ body.tss-theme-curiosity .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-ta
     box-shadow: none;
 }
 
-body.tss-theme-curiosity .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
-body.tss-theme-curiosity .tss-segmentedpivot-tab.tss-segmentedpivot-selected:hover {
+body.tss-theme-curiosity .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-curiosity .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected:hover {
     background-color: var(--tss-default-foreground-color);
     color: var(--tss-default-background-color);
 }
 
-body.tss-theme-curiosity .tss-segmentedpivot-tab.tss-segmentedpivot-selected *:not(.tss-token):not(.tss-token *) {
+body.tss-theme-curiosity .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected *:not(.tss-token):not(.tss-token *) {
     color: var(--tss-default-background-color);
 }
 
@@ -78,7 +78,7 @@ body.tss-theme-curiosity .tss-segmentedpivot-tab.tss-segmentedpivot-selected:foc
     outline-offset: -4px;
 }
 
-body.tss-theme-curiosity .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
+body.tss-theme-curiosity .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
     outline-color: var(--tss-default-background-color);
 }
 

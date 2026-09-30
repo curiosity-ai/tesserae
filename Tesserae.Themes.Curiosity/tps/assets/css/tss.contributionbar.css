@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Curiosity theme - ContributionBar
+   --------------------------------------------------------------------------
+   The bar is a square strip, not a pill: segments butt against each other on
+   a track of the hairline tone. Legend marks are squares (data marks in the
+   brand are squares), the values in the legend are mono with tabular figures,
+   and the small toggle beside the bar is a square cell that hovers to stone.
+   Segment colours are the caller's and are left alone.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-contribution-bar {
+    border-radius: 0;
+    background: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-contribution-legend-dot {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-contribution-legend-value {
+    font-family: var(--tss-monospace-font-family);
+    font-weight: var(--tss-font-weight-semibold);
+    letter-spacing: -.02em;
+}
+
+body.tss-theme-curiosity .tss-contribution-toggle {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-contribution-toggle:active {
+    background: var(--tss-default-background-active-color);
+}

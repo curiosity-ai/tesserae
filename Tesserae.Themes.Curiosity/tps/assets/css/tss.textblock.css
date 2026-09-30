@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Curiosity theme - TextBlock
+   --------------------------------------------------------------------------
+   Text is Schibsted Grotesk from the tokens, so a text block needs almost
+   nothing of its own. Display sizes take the brand's headline tracking
+   (-0.03em at the largest, -0.02em below, BRAND.md s3): at 28px and up the
+   grotesk's default spacing reads loose. Body sizes keep 0.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-textblock.tss-fontsize-mega,
+body.tss-theme-curiosity .tss-textblock.tss-fontsize-xxlarge {
+    letter-spacing: -0.03em;
+}
+
+body.tss-theme-curiosity .tss-textblock.tss-fontsize-xlarge,
+body.tss-theme-curiosity .tss-textblock.tss-fontsize-large {
+    letter-spacing: -0.02em;
+}

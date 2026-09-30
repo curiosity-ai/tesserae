@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Curiosity theme - Notification Center
+   --------------------------------------------------------------------------
+   The bell is a square ghost control that fills with stone on hover. The
+   count is a small square in the danger tone with a mono numeral. The tone
+   dots on the items are squares, the brand's data mark. An unread item is a
+   stone cell with a 2px deep blue bar on its leading edge, rather than a wash
+   of blue over the whole card.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-notif-bell {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-notif-bell:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-notif-bell:active {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-notif-bell:focus-visible {
+    outline-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-notif-badge {
+    border-radius: 0;
+    color: var(--tss-danger-foreground-color);
+    font-family: var(--tss-monospace-font-family);
+    font-weight: var(--tss-font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-curiosity .tss-notif-dot {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-notif-dot.tss-notif-info {
+    background: var(--tss-link-color);
+}
+
+/* The class lands on the card's container, whose 1px padding would show the tone as a second frame
+   outside the card's hairline, so the container goes clear and the card itself takes the stone. The
+   !important is Tesserae's, on the container rule this has to beat. */
+body.tss-theme-curiosity .tss-notif-unread {
+    background: transparent !important;
+}
+
+body.tss-theme-curiosity .tss-notif-unread > .tss-card {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-notif-unread > .tss-card {
+    box-shadow: 0 0 0 1px var(--tss-default-border-color), inset 2px 0 0 var(--tss-primary-background-color);
+}
