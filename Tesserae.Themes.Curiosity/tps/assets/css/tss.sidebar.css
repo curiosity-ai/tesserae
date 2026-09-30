@@ -57,8 +57,9 @@ body.tss-theme-curiosity .tss-sidebar-separator.tss-sidebar-separator-with-text 
     color: var(--tss-secondary-foreground-color);
 }
 
+/* Tesserae's own 8px above a group header is kept: a taller header would push the last rows of a
+   fixed-height rail under its footer. */
 body.tss-theme-curiosity .tss-sidebar-separator.tss-sidebar-separator-with-text {
-    margin-top: 16px;
     margin-left: 8px;
 }
 
