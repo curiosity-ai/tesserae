@@ -196,6 +196,9 @@ body.tss-theme-curiosity.tss-dark-mode {
     --cur-hair: 1px solid var(--tss-default-border-color);
     --cur-frame: 1px solid var(--tss-default-foreground-color);
     --cur-surface-ring: 0 0 0 1px rgb(var(--tss-dark-border-color-root));
+    /* PixelGlyph's slate and deep blue cells, which are 1.4:1 and 2.2:1 on ink: a lighter slate and the Signal. */
+    --cur-glyph-slate: #4A5462;
+    --cur-glyph-deep: #2F6BFF;
     /* The veil behind a modal fades the page toward the canvas: paper in light, ink in dark. */
     --tss-overlay-light: rgba(17, 20, 24, 0.6);
     --tss-overlay-dark: rgba(0, 0, 0, 0.6);

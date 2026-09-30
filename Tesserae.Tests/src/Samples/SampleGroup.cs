@@ -27,6 +27,10 @@ namespace Tesserae.Tests
         public const string Theming    = "Theming & Icons";
         public const string Utilities  = "Utilities & Behaviors";
 
+        // The Curiosity theme package's own components. Not in InDisplayOrder: the gallery lists them in a nav of
+        // their own that only shows while the Curiosity theme is active (App.cs), and the landing page leaves them out.
+        public const string Curiosity  = "Curiosity Components";
+
         /// <summary>Every category, in the order the sidebar shows them.</summary>
         public static readonly string[] InDisplayOrder = new[]
         {
@@ -72,6 +76,7 @@ namespace Tesserae.Tests
                 case Media:      return UIcons.Picture;
                 case Theming:    return UIcons.Palette;
                 case Utilities:  return UIcons.Settings;
+                case Curiosity:  return UIcons.Fingerprint;
                 default:         return UIcons.Apps;
             }
         }
