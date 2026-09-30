@@ -662,6 +662,11 @@ namespace Tesserae
             _asyncSearcher              = searcher ?? throw new ArgumentNullException(nameof(searcher));
             _asyncSearchDebounce        = debounceMilliseconds;
 
+            // Options arrive through the search box, so an empty seed list is not "no options available":
+            // keep the box enabled (it is how the User reaches the search) and the message hidden.
+            Disabled(false);
+            _noItemsSpan.style.display = "none";
+
             return Searchable(placeholder);
         }
 
@@ -780,7 +785,9 @@ namespace Tesserae
 
             UpdateStateBasedUponCurrentSelections();
 
-            if (children.Any())
+            // A dropdown with an async searcher is never out of options - the next lookup may find some -
+            // so an empty list must not disable it or claim there is nothing to pick.
+            if (children.Any() || _asyncSearcher is object)
             {
                 Disabled(false);
                 _noItemsSpan.style.display = "none";
@@ -895,6 +902,17 @@ namespace Tesserae
             return this;
         }
 
+
+        /// <summary>
+        /// Sets the message shown on the box when there are no options to pick from
+        /// (by default "There are no options available"). It is never shown on a dropdown
+        /// configured with <see cref="SearchAsync"/>, since a lookup may still find options.
+        /// </summary>
+        public Dropdown NoItemsText(string text)
+        {
+            _noItemsSpan.textContent = text ?? string.Empty;
+            return this;
+        }
 
         /// <summary>
         /// Gets or sets the placeholder text shown when the component is empty.
