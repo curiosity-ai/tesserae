@@ -176,6 +176,7 @@ namespace Tesserae
         {
             var className = tone == BadgeTone.Neutral ? null : $"tss-token-{tone.ToString().ToLower()}";
             SetVariantClass(className);
+            InnerElement.classList.remove("tss-ai-strong");
             return (T)this;
         }
 
@@ -208,7 +209,15 @@ namespace Tesserae
         /// accent when combined with <see cref="Outline"/>. A badge is small enough that the tint alone
         /// would not read, which is why this one fills.
         /// </summary>
-        public T AI() => Tone(BadgeTone.AI);
+        /// <param name="strongEffect">Asks for the louder form of the AI styling. A custom theme that tones the AI
+        /// look down (e.g. Tesserae.Themes.Curiosity) brings more of it back for this element; the default theme
+        /// draws both forms the same today. Sets the <c>tss-ai-strong</c> class.</param>
+        public T AI(bool strongEffect = false)
+        {
+            Tone(BadgeTone.AI);
+            InnerElement.UpdateClassIf(strongEffect, "tss-ai-strong");
+            return (T)this;
+        }
 
         /// <summary>
         /// Registers a callback invoked when the remove event fires.

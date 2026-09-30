@@ -328,9 +328,13 @@ namespace Tesserae
         /// so an AI label there is a fact in the accent colour rather than a chip among plain type.
         /// </para>
         /// </summary>
-        public InlineLabel AI(bool withSparklesIcon = true)
+        /// <param name="strongEffect">Asks for the louder form of the AI styling. A custom theme that tones the AI
+        /// look down (e.g. Tesserae.Themes.Curiosity) brings more of it back for this element; the default theme
+        /// draws both forms the same today. Sets the <c>tss-ai-strong</c> class.</param>
+        public InlineLabel AI(bool withSparklesIcon = true, bool strongEffect = false)
         {
             InnerElement.classList.add("tss-ai");
+            InnerElement.UpdateClassIf(strongEffect, "tss-ai-strong");
 
             //A mark of its own wins: a label that already shows an avatar or a source logo says where it
             //came from more precisely than Sparkles would.

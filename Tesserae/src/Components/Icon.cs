@@ -158,9 +158,13 @@ namespace Tesserae
         /// colour.
         /// </para>
         /// </summary>
-        public Icon AI(bool value = true)
+        /// <param name="strongEffect">Asks for the louder form of the AI styling. A custom theme that tones the AI
+        /// look down (e.g. Tesserae.Themes.Curiosity) brings more of it back for this element; the default theme
+        /// draws both forms the same today. Sets the <c>tss-ai-strong</c> class.</param>
+        public Icon AI(bool value = true, bool strongEffect = false)
         {
             InnerElement.UpdateClassIf(value, "tss-ai");
+            InnerElement.UpdateClassIf(value && strongEffect, "tss-ai-strong");
             return this;
         }
 

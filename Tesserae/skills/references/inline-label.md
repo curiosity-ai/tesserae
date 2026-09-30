@@ -73,7 +73,7 @@ row.SetFooterEntries(
 - `.SetImage(string url)` — an image (a source's logo, a favicon), fitted rather than cropped.
 - `.SetColor(string color)` — a small rounded square of that colour.
 - `.NoMark()` — text alone.
-- `.AI(bool withSparklesIcon = true)` — marks the label as something a model supplied: the AI tint, border and accent, plus Sparkles as its mark unless it already has one. In an `OmniResult` footer it keeps only its colour. See `ai-variants.md`.
+- `.AI(bool withSparklesIcon = true, bool strongEffect = false)` — marks the label as something a model supplied: the AI tint, border and accent, plus Sparkles as its mark unless it already has one. In an `OmniResult` footer it keeps only its colour. See `ai-variants.md`.
 - `.IsEmpty` — whether there is nothing to show (no text and no mark). A label that ends up empty also
   carries the `tss-inlinelabel-empty` class, which is how a container leaves out what stands for it — the
   dot an `OmniResult` footer puts before every entry — without looking inside it. A label that is still

@@ -34,6 +34,24 @@ states, same size. Dropping one into a laid-out page moves nothing.
 `Button.AI(withSparklesIcon: false)` and `InlineLabel.AI(withSparklesIcon: false)` leave the
 label/mark alone when the component already says what it is some other way.
 
+### `strongEffect`
+
+Every `AI(...)` method (and `AISubtle`, `AISurface`, `UI.AIBadge`, `UI.AIIcon`) takes
+`bool strongEffect = false`, which adds the class `tss-ai-strong` beside `tss-ai`. It asks
+for the louder form of the AI look. A custom theme that tones AI down uses it to bring
+more back where it matters: under Tesserae.Themes.Curiosity the everyday AI voice is a
+flat Signal blue, and `strongEffect: true` restores a violet-to-blue gradient on fills,
+text and tints (still no glow). **The default theme draws both forms the same today.**
+
+```csharp
+Button("Summarise").AI(strongEffect: true);
+Badge("Generated").AI(strongEffect: true);
+Card(content).AI(strongEffect: true);
+```
+
+A theme styles the strong form by redefining the `--tss-ai-*` variables under
+`.tss-ai-strong` (see `custom-themes.md`).
+
 ## Example
 
 ```csharp

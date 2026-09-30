@@ -892,13 +892,15 @@ namespace Tesserae
         /// asked for. Shorthand for <c>Icon(...).AI()</c>, which is the thing you want often enough that
         /// spelling it out every time is noise.
         /// </summary>
-        public static Icon AIIcon(UIcons icon = UIcons.Sparkles, UIconsWeight weight = UIconsWeight.Regular, TextSize size = TextSize.Small) => new Icon(icon, weight, size).AI();
+        public static Icon AIIcon(UIcons icon = UIcons.Sparkles, UIconsWeight weight = UIconsWeight.Regular, TextSize size = TextSize.Small, bool strongEffect = false) => new Icon(icon, weight, size).AI(strongEffect: strongEffect);
 
         /// <summary>
         /// The AI badge: a small gradient pill led by the Sparkles glyph, for labelling a value, a row or a
         /// section as something a model produced.
         /// </summary>
-        public static Badge AIBadge(string text = "AI") => new Badge(text).AI().Pill().SetIcon(Tesserae.Icon.Transform(UIcons.Sparkles, UIconsWeight.Regular));
+        /// <param name="text">The badge's label.</param>
+        /// <param name="strongEffect">The louder form of the AI styling; see <see cref="TokenBase{T}.AI(bool)"/>.</param>
+        public static Badge AIBadge(string text = "AI", bool strongEffect = false) => new Badge(text).AI(strongEffect).Pill().SetIcon(Tesserae.Icon.Transform(UIcons.Sparkles, UIconsWeight.Regular));
 
         /// <summary>
         /// Creates a <see cref="Tesserae.HorizontalSeparator"/> component.

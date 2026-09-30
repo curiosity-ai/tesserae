@@ -166,9 +166,13 @@ namespace Tesserae
         /// selected pill is filled with the gradient: the selected segment is the one filled action on the
         /// control, which is the same thing <see cref="Button"/>'s AI variant says.
         /// </summary>
-        public IconToggle<T> AI(bool value = true)
+        /// <param name="strongEffect">Asks for the louder form of the AI styling. A custom theme that tones the AI
+        /// look down (e.g. Tesserae.Themes.Curiosity) brings more of it back for this element; the default theme
+        /// draws both forms the same today. Sets the <c>tss-ai-strong</c> class.</param>
+        public IconToggle<T> AI(bool value = true, bool strongEffect = false)
         {
             _stack.Render().UpdateClassIf(value, "tss-ai");
+            _stack.Render().UpdateClassIf(value && strongEffect, "tss-ai-strong");
 
             return this;
         }

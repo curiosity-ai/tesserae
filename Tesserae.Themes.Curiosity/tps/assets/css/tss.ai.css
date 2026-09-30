@@ -171,3 +171,62 @@ body.tss-theme-curiosity .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab:acti
 body.tss-theme-curiosity .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
     box-shadow: none;
 }
+
+/* --------------------------------------------------------------------------
+   Strong effect: .AI(strongEffect: true) adds tss-ai-strong beside tss-ai.
+   The flat Signal above is the everyday AI voice; the strong form brings back
+   some of Tesserae's purple-to-blue gradient, pulled into the brand's blues:
+   a violet running into the Signal, the same way round for text and tints.
+   Still no glow and no drop shadow. The variables are redefined on the
+   element itself, so every AI rule under it picks them up.
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-curiosity .tss-ai-strong {
+    --tss-ai-from: #6D4AFF;
+    --tss-ai-to: #2F6BFF;
+    --tss-ai-accent: #4A28D8;
+
+    --tss-ai-gradient: linear-gradient(115deg, #6D4AFF, #2F6BFF);
+    --tss-ai-gradient-hover: linear-gradient(115deg, #5634EE, #0029E7);
+    --tss-ai-gradient-text: linear-gradient(100deg, #5634EE, #0029E7);
+
+    --tss-ai-surface: linear-gradient(135deg, rgba(109, 74, 255, 0.12), rgba(47, 107, 255, 0.08));
+    --tss-ai-surface-strong: linear-gradient(135deg, rgba(109, 74, 255, 0.20), rgba(47, 107, 255, 0.14));
+
+    --tss-ai-border-color: rgba(109, 74, 255, 0.40);
+    --tss-ai-arc: conic-gradient(from 0deg, #6D4AFF 0deg, #2F6BFF 250deg, rgba(47, 107, 255, 0) 330deg, rgba(109, 74, 255, 0) 360deg);
+
+    --cur-ai-wash: rgba(109, 74, 255, 0.14);
+    --cur-ai-wash-strong: rgba(109, 74, 255, 0.22);
+    --cur-ai-shimmer: rgba(109, 74, 255, 0.30);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-ai-strong {
+    --tss-ai-from: #7C5CFF;
+    --tss-ai-to: #2F6BFF;
+    --tss-ai-accent: #A591FF;
+
+    --tss-ai-gradient: linear-gradient(115deg, #7C5CFF, #2F6BFF);
+    --tss-ai-gradient-hover: linear-gradient(115deg, #6D4AFF, #0029E7);
+    --tss-ai-gradient-text: linear-gradient(100deg, #A591FF, #7A9EFF);
+
+    --tss-ai-surface: linear-gradient(135deg, rgba(124, 92, 255, 0.18), rgba(47, 107, 255, 0.12));
+    --tss-ai-surface-strong: linear-gradient(135deg, rgba(124, 92, 255, 0.28), rgba(47, 107, 255, 0.20));
+
+    --tss-ai-border-color: rgba(165, 145, 255, 0.45);
+    --tss-ai-arc: conic-gradient(from 0deg, #7C5CFF 0deg, #2F6BFF 250deg, rgba(47, 107, 255, 0) 330deg, rgba(124, 92, 255, 0) 360deg);
+
+    --cur-ai-wash: rgba(124, 92, 255, 0.20);
+    --cur-ai-wash-strong: rgba(124, 92, 255, 0.30);
+    --cur-ai-shimmer: rgba(165, 145, 255, 0.26);
+}
+
+/* The two places above that paint a flat colour instead of reading a variable. */
+body.tss-theme-curiosity .tss-btn.tss-ai.tss-ai-strong:not(.tss-ai-subtle):not(.tss-disabled):active {
+    background-image: linear-gradient(115deg, #4A28D8, #0021B8);
+}
+
+body.tss-theme-curiosity .tss-progressindicator.tss-ai.tss-ai-strong > .tss-progressindicator-bar,
+body.tss-theme-curiosity .tss-progressindicator.tss-ai.tss-ai-strong > .tss-progressindicator-bar-indeterminate {
+    background: var(--tss-ai-gradient);
+}

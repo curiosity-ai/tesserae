@@ -57,8 +57,8 @@ Sizes and weights come from `ITextFormating` fluent helpers:
 - `.NoWrap()` — disable wrapping (sets `CanWrap = false`).
 - `.Primary()` / `.Secondary()` / `.Success()` / `.Danger()` — colour variant.
 - `.Title(string)` — tooltip (hover) text.
-- `.AI()` — paints the words with the purple-to-blue AI gradient. For **short** strings: a title, a heading over generated output, a one-line summary.
-- `.AISurface()` — generated prose: the theme's own text colour on a faint tinted panel with an accent edge, for a paragraph a gradient would make unreadable. See `ai-variants.md`.
+- `.AI(bool strongEffect = false)` — paints the words with the purple-to-blue AI gradient. For **short** strings: a title, a heading over generated output, a one-line summary.
+- `.AISurface(bool strongEffect = false)` — generated prose: the theme's own text colour on a faint tinted panel with an accent edge, for a paragraph a gradient would make unreadable. See `ai-variants.md`.
 
 Useful properties:
 

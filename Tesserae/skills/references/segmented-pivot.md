@@ -27,7 +27,7 @@ mechanics as `Pivot`.
 - `.OnNavigate(...)` / `.OnBeforeNavigate(...)` — callbacks; `e.Cancel()` blocks navigation.
 - `.RefreshPivotSizes()` — re-evaluate the scroll/overflow controls after the container is resized in a way a `ResizeObserver` can't observe.
 - `.SelectedTab` — id of the current segment.
-- `.AI(bool = true)` — marks the pivot as an AI one: the segmented track takes the purple-to-blue tint, the tabs the accent, and the selected tab is filled with the gradient. See `ai-variants.md`.
+- `.AI(bool value = true, bool strongEffect = false)` — marks the pivot as an AI one: the segmented track takes the purple-to-blue tint, the tabs the accent, and the selected tab is filled with the gradient. See `ai-variants.md`.
 
 ## Example
 

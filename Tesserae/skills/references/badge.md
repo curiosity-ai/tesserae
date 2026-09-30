@@ -26,7 +26,7 @@ Shape/style:
 - `.SetIcon(string)` — leading icon (use `Icon.Transform(UIcons.X, UIconsWeight.Regular)`).
 - `.SetText(string)` — change the label.
 - `.Background(string)` / `.Foreground(string)` — override colors.
-- `.AI()` (`BadgeTone.AI`) — the AI tone: a filled purple-to-blue gradient, or the tint plus accent when combined with `.Outline()`. `UI.AIBadge()` is the shorthand for a Sparkles-led gradient pill. See `ai-variants.md`.
+- `.AI()` (`BadgeTone.AI`) — the AI tone: a filled purple-to-blue gradient, or the tint plus accent when combined with `.Outline()`. `.AI(strongEffect: true)` asks for the louder form a custom theme may draw. `UI.AIBadge(text, strongEffect)` is the shorthand for a Sparkles-led gradient pill. See `ai-variants.md`.
 
 Removable (Chip etc.):
 

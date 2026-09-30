@@ -94,6 +94,8 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
    set instead: chart series without an explicit colour (`--tss-chart-series-1` … `-8`), the
    focused MarkHighlighter match (`--tss-mark-focus-color`), and an initials-only Avatar, which
    is drawn by `.tss-avatar.tss-avatar-generated` from `--tss-avatar-hue`.
+   `AI(strongEffect: true)` adds `tss-ai-strong` beside `tss-ai`: redefine the `--tss-ai-*`
+   variables under it for a louder AI form (the default theme has no rule for it).
    Scope every selector under the root class: `body.tss-theme-mine .tss-btn`
    (and `body.tss-theme-mine.tss-dark-mode …` for dark). Redefine a derived variable
    together with its `-root` value (`--tss-x-color-root` **and**

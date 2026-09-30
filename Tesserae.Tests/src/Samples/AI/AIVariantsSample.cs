@@ -84,37 +84,50 @@ namespace Tesserae.Tests.Samples
 
         private IComponent EveryVariant()
         {
-            IComponent Row(string label, IComponent normal, IComponent ai) =>
+            IComponent Row(string label, IComponent normal, IComponent ai, IComponent strong) =>
                 HStack().WS().Wrap().AlignItemsCenter().Gap(16.px()).MB(12).Children(
                     TextBlock(label).SemiBold().W(150),
                     HStack().AlignItemsCenter().Gap(8.px()).W(220).Children(normal),
-                    HStack().AlignItemsCenter().Gap(8.px()).Grow().Children(ai));
+                    HStack().AlignItemsCenter().Gap(8.px()).W(300).Children(ai),
+                    HStack().AlignItemsCenter().Gap(8.px()).Grow().Children(strong));
 
             return FeatureCard("Every variant, next to what it varies from", UIcons.Layers,
-                "The default on the left, AI() on the right. The geometry is identical in each pair: the variant changes colour, never size or spacing, so dropping one into a laid-out page moves nothing.",
+                "The default on the left, AI() in the middle, and AI(strongEffect: true) on the right. The geometry is identical across a row: the variant changes colour, never size or spacing, so dropping one into a laid-out page moves nothing. The strong effect is for a theme that tones the AI look down (the Curiosity theme draws AI in flat blue) to bring more of it back where it matters; the default theme draws both forms the same.",
                 HStack().WS().Gap(16.px()).MB(8).Children(
                     TextBlock("Component").XSmall().Secondary().W(150),
                     TextBlock("Default").XSmall().Secondary().W(220),
-                    TextBlock("AI variant").XSmall().Secondary().Grow()),
+                    TextBlock("AI variant").XSmall().Secondary().W(300),
+                    TextBlock("strongEffect: true").XSmall().Secondary().Grow()),
                 Row("Icon",
                     Icon(UIcons.Sparkles, size: TextSize.Large),
                     HStack().AlignItemsCenter().Gap(10.px()).Children(
                         AIIcon(size: TextSize.Large),
                         Icon(UIcons.Comment, size: TextSize.Large).AI(),
-                        Icon(UIcons.ChartPieAlt, size: TextSize.Large).AI())),
+                        Icon(UIcons.ChartPieAlt, size: TextSize.Large).AI()),
+                    HStack().AlignItemsCenter().Gap(10.px()).Children(
+                        AIIcon(size: TextSize.Large, strongEffect: true),
+                        Icon(UIcons.Comment, size: TextSize.Large).AI(strongEffect: true),
+                        Icon(UIcons.ChartPieAlt, size: TextSize.Large).AI(strongEffect: true))),
                 Row("TextBlock",
                     TextBlock("Quarterly summary").MediumPlus().SemiBold(),
-                    TextBlock("Quarterly summary").MediumPlus().SemiBold().AI()),
+                    TextBlock("Quarterly summary").MediumPlus().SemiBold().AI(),
+                    TextBlock("Quarterly summary").MediumPlus().SemiBold().AI(strongEffect: true)),
                 Row("Button",
                     Button("Summarise").NoMargin(),
                     HStack().AlignItemsCenter().Gap(8.px()).Children(
                         Button("Summarise").AI().NoMargin().OnClick(() => Toast().Information("The filled form: one per surface")),
-                        Button("Rewrite").AISubtle().NoMargin().OnClick(() => Toast().Information("The quiet form, for the second and third")))),
+                        Button("Rewrite").AISubtle().NoMargin().OnClick(() => Toast().Information("The quiet form, for the second and third"))),
+                    HStack().AlignItemsCenter().Gap(8.px()).Children(
+                        Button("Summarise").AI(strongEffect: true).NoMargin().OnClick(() => Toast().Information("The strong filled form")),
+                        Button("Rewrite").AISubtle(strongEffect: true).NoMargin().OnClick(() => Toast().Information("The strong quiet form")))),
                 Row("InlineLabel",
                     InlineLabel("2.4 MB").SetIcon(UIcons.Folder),
                     HStack().AlignItemsCenter().Gap(8.px()).Children(
                         InlineLabel("Summarised by AI").AI(),
-                        InlineLabel("94% confidence").AI(withSparklesIcon: false))),
+                        InlineLabel("94% confidence").AI(withSparklesIcon: false)),
+                    HStack().AlignItemsCenter().Gap(8.px()).Children(
+                        InlineLabel("Summarised by AI").AI(strongEffect: true),
+                        InlineLabel("94% confidence").AI(withSparklesIcon: false, strongEffect: true))),
                 Row("Badge / Tag / Chip",
                     HStack().AlignItemsCenter().Gap(8.px()).Children(
                         Badge("Draft").Primary(),
@@ -122,20 +135,29 @@ namespace Tesserae.Tests.Samples
                     HStack().AlignItemsCenter().Gap(8.px()).Children(
                         AIBadge(),
                         Badge("Generated").AI(),
-                        Tag("Suggested").AI().Outline().Pill())),
+                        Tag("Suggested").AI().Outline().Pill()),
+                    HStack().AlignItemsCenter().Gap(8.px()).Children(
+                        AIBadge(strongEffect: true),
+                        Badge("Generated").AI(strongEffect: true),
+                        Tag("Suggested").AI(strongEffect: true).Outline().Pill())),
                 Row("Skeleton",
                     Skeleton().W(180).H(12),
-                    Skeleton().W(180).H(12).AI()),
+                    Skeleton().W(180).H(12).AI(),
+                    Skeleton().W(180).H(12).AI(strongEffect: true)),
                 Row("Spinner",
                     HStack().AlignItemsCenter().Gap(12.px()).Children(
                         Spinner("Loading"),
                         Spinner().Progress(70).Medium()),
                     HStack().AlignItemsCenter().Gap(12.px()).Children(
                         Spinner("Thinking").AI(),
-                        Spinner().AI().Progress(70).Medium())),
+                        Spinner().AI().Progress(70).Medium()),
+                    HStack().AlignItemsCenter().Gap(12.px()).Children(
+                        Spinner("Thinking").AI(strongEffect: true),
+                        Spinner().AI(strongEffect: true).Progress(70).Medium())),
                 Row("ProgressIndicator",
                     ProgressIndicator().Progress(45).W(180),
-                    ProgressIndicator().Progress(45).AI().W(180)),
+                    ProgressIndicator().Progress(45).AI().W(180),
+                    ProgressIndicator().Progress(45).AI(strongEffect: true).W(180)),
                 Row("IconToggle",
                     IconToggle(
                         IconToggleItem(UIcons.Bolt,  "Fast",     "fast"),
@@ -144,10 +166,15 @@ namespace Tesserae.Tests.Samples
                     IconToggle(
                         IconToggleItem(UIcons.Bolt,  "Fast",     "fast"),
                         IconToggleItem(UIcons.Scale, "Balanced", "balanced"),
-                        IconToggleItem(UIcons.Brain, "Thorough", "thorough")).AI().Compact()),
+                        IconToggleItem(UIcons.Brain, "Thorough", "thorough")).AI().Compact(),
+                    IconToggle(
+                        IconToggleItem(UIcons.Bolt,  "Fast",     "fast"),
+                        IconToggleItem(UIcons.Scale, "Balanced", "balanced"),
+                        IconToggleItem(UIcons.Brain, "Thorough", "thorough")).AI(strongEffect: true).Compact()),
                 Row("Card",
                     Card(TextBlock("A plain card.")).W(200),
-                    Card(TextBlock("The same card, marked as the model's.")).AI().W(240)),
+                    Card(TextBlock("The same card, marked as the model's.")).AI().W(240),
+                    Card(TextBlock("And with the strong effect.")).AI(strongEffect: true).W(240)),
                 TextBlock("SegmentedPivot is the same control one level up - tabs rather than a value - so it gets a row of its own rather than a cell:").Small().Secondary().MT(8).MB(8),
                 HStack().WS().Wrap().Gap(24.px()).Children(
                     VStack().Width(45.percent()).MinWidth(280.px()).Children(
