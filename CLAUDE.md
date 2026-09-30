@@ -161,6 +161,14 @@ What makes it work, and what to keep when touching it:
   the matching file under `Tesserae.Themes.Curiosity/tps/assets/css/`.
 - The fonts (Schibsted Grotesk, Geist Mono, OFL) are bundled in the package rather than loaded from
   Google Fonts. The skill reference is `Tesserae/skills/references/custom-themes.md`.
+- **The package also carries components**: the website's signature elements rebuilt in C#
+  (`Tesserae.Themes.Curiosity/src/Components/`): `PixelIntro`, `FlowField`, `PixelGlyph`, `DashMosaic`. They
+  draw with `BrandColors` directly so they work without the theme active, run their animation loops only while
+  on screen, and stand still under reduced motion. The gallery lists them in a "Curiosity Components" nav that
+  only shows while the Curiosity theme is active (`SampleGroup.Curiosity`, kept out of `InDisplayOrder` and the
+  landing page). The glyph data in `PixelGlyphKind.cs` is the website's own (`site/figures.js`, and the landing
+  page's pixel plays run to frames), in the same frame notation: when the website's glyphs change, copy the new
+  frame strings across rather than redrawing them.
 
 ## Installing Transpose
 

@@ -122,6 +122,12 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
   radius 0 with pill buttons and single-line inputs, a square toggle, Schibsted Grotesk
   for text and Geist Mono (small, uppercase) for labels, headers, numbers and code. Fonts
   are bundled (OFL).
+  The package also ships the website's signature elements as components (namespace
+  `Tesserae.Themes.Curiosity`, usable with or without the theme active): `PixelIntro`
+  (the first-load animation, `PlayOnce()`), `FlowField` (the hero's dash field, its pixel
+  following the pointer), `PixelGlyph` (the animated 4 by 4 glyphs, `PixelGlyphKind` plus
+  custom cells, palettes and a compact frame notation) and `DashMosaic` (the animated dash
+  tiles, four schemes). The package README has the API.
 
 ## Related
 

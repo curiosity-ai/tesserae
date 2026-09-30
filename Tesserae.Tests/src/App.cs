@@ -67,6 +67,7 @@ namespace Tesserae.Tests
             }
 
             var allSidebarItems      = new List<ISidebarItem>();
+            var curiosityNavs        = new List<SidebarNav>(); // the Curiosity Components nav, shown only in that theme
             var sampleToSidebarItems = new Dictionary<Sample, List<ISidebarItem>>();
 
             var currentPage = new SettableObservable<Sample>(null);
@@ -92,6 +93,7 @@ namespace Tesserae.Tests
             {
                 searchTerm = term;
                 sidebar.Search(term);
+                UpdateCuriosityNav(); // a search shows every item it matches, the theme-only nav included
             });
 
             sidebar.AddHeader(searchBox);
@@ -114,7 +116,7 @@ namespace Tesserae.Tests
                .ToDictionary(s => s.Name, s => s);
 
             var contentArea = Defer(currentPage, async page => page is null
-                ? (IComponent)VStack().S().ScrollY().Children(new LandingPage(samples.Values).WS())
+                ? (IComponent)VStack().S().ScrollY().Children(new LandingPage(samples.Values.Where(s => s.Group != SampleGroup.Curiosity)).WS())
                 : VStack().S().ScrollY().Children((await page.ContentGenerator()).WS().MinHeight(100.percent())));
 
             // On a phone the sidebar is a page (Sidebar.AsPage): it and the content take turns filling the
@@ -257,7 +259,7 @@ namespace Tesserae.Tests
             // Groups are laid out in SampleGroup.InDisplayOrder, not alphabetically: the sidebar
             // reads top-down from the containers a page is built out of to the helpers that render
             // nothing on their own, and alphabetical ordering would scatter that.
-            foreach (var group in samples.Values.GroupBy(s => s.Group).OrderBy(g => SampleGroup.DisplayIndex(g.Key)).ThenBy(g => g.Key))
+            foreach (var group in samples.Values.Where(s => s.Group != SampleGroup.Curiosity).GroupBy(s => s.Group).OrderBy(g => SampleGroup.DisplayIndex(g.Key)).ThenBy(g => g.Key))
             {
                 var groupKey = group.Key + groupIndex++;
 
@@ -277,6 +279,44 @@ namespace Tesserae.Tests
                 }
             }
 
+            // The Curiosity theme package's own components get a nav of their own at the end of the list, shown only
+            // while the Curiosity theme is active: they are that theme's, and look out of place in the default one.
+            var curiositySamples = samples.Values.Where(s => s.Group == SampleGroup.Curiosity).OrderBy(s => s.Order).ThenBy(s => s.Name.ToLower()).ToList();
+
+            if (curiositySamples.Count > 0)
+            {
+                var railNav = new SidebarNav("CURIOSITY_COMPONENTS", SampleGroup.IconFor(SampleGroup.Curiosity), SampleGroup.Curiosity, initiallyCollapsed: false).NotSortable();
+                var pageNav = new SidebarNav("page-curiosity-components", SampleGroup.IconFor(SampleGroup.Curiosity), SampleGroup.Curiosity, initiallyCollapsed: true);
+                railNav.OnClick(() => railNav.Toggle());
+
+                var itemIndex = 0;
+
+                foreach (var item in curiositySamples)
+                {
+                    var identifier = item.Name + itemIndex++;
+                    railNav.Add(SampleButton(item, identifier));
+                    pageNav.Add(SampleButton(item, identifier));
+                }
+
+                railContent.Add(railNav);
+                pageContents.Add(pageNav);
+                curiosityNavs.Add(railNav);
+                curiosityNavs.Add(pageNav);
+            }
+
+            void UpdateCuriosityNav()
+            {
+                var visible = Theme.CustomTheme is CuriosityTheme;
+                foreach (var nav in curiosityNavs)
+                {
+                    if (visible) nav.Show();
+                    else         nav.Collapse();
+                }
+            }
+
+            UpdateCuriosityNav();
+            Theme.OnThemeChanged += UpdateCuriosityNav;
+
             bool? showingPageContents = null;
 
             // Points the shell at the layout the current mode calls for. Called once below and then
@@ -291,6 +331,7 @@ namespace Tesserae.Tests
                     sidebar.ClearContent();
                     (isMobile ? pageContents : railContent).ForEach(i => sidebar.AddContent(i));
                     sidebar.Search(searchTerm);
+                    UpdateCuriosityNav();
                 }
 
                 sidebar.AsPage(isMobile);
