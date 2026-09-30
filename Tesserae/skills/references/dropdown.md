@@ -40,6 +40,7 @@ Dropdown:
 - `.SearchAsync(Func<string, Task<Item[]>> searcher, string placeholder = "Search", int debounceMilliseconds = 250)` — lazy loading for lists too large to load up front; see below.
 - `.Required()` / `.Disabled()` / `.NoBorder()` / `.NoBackground()` / `.FitContent()`.
 - `.Placeholder(string|IComponent)` — empty-state text.
+- `.NoItemsText(string)` — the message shown on the box when there are no options (default "There are no options available"; same as `UI.Dropdown(string noItemsText)`). Never shown with `.SearchAsync(...)`.
 - `.Attach(handler)` — fires on every selection change, including each toggle inside a multi-select popup (use for validation: set `.IsInvalid` and `.Error`).
 - `.Validation(rule, validator)` — reserves a one-line band under the box for the error message from the start, so validating never moves the fields below; a long message is ellipsized there with the full text as its tooltip.
 - `.OnChange(handler)` — fires once, when the popup closes, with the selection the User settled on (for a single-select dropdown that is as soon as an option is picked, since picking one closes the popup).
@@ -89,7 +90,9 @@ so the seed items and, above all, the current selection survive every lookup.
 Items whose `Key` is already listed are dropped, so a lookup that returns options
 the dropdown already knows about does not duplicate them. The normal client-side
 filter still runs on top. `SearchAsync` enables the search box itself, so
-`.Searchable(...)` is not needed as well.
+`.Searchable(...)` is not needed as well. A `SearchAsync` dropdown is never
+treated as out of options: an empty seed list leaves it enabled and does not show
+the "no options" message, since the next lookup may find some.
 
 Seed the dropdown with the first page (plus whatever must be selectable without
 searching, such as the current value), and let the callback fill in the rest:
