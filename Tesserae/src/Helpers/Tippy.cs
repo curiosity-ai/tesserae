@@ -312,7 +312,9 @@ namespace Tesserae
 
             while (parent is object)
             {
-                if (parent.HasOwnProperty("_tippy"))
+                // popperInstance only exists while the tippy is mounted: skip a hidden one (e.g. the
+                // reference element of a tooltip that isn't showing) and keep looking for an open one.
+                if (parent.HasOwnProperty("_tippy") && Transpose.Script.Write<bool>("!!{0}._tippy.popperInstance", parent))
                 {
                     Transpose.Script.Write("{0}._tippy.popperInstance.update()", parent);
                     break;
