@@ -103,3 +103,39 @@ body.tss-theme-curiosity .tss-textbox {
 body.tss-theme-curiosity.tss-dark-mode .tss-textbox {
     color-scheme: dark;
 }
+
+/* A color input is a text box too. The text padding would squeeze its swatch to a stripe, so it
+   takes a small even inset and the swatch fills the pill, rounded to match it. */
+body.tss-theme-curiosity .tss-textbox[type="color"] {
+    padding: 3px;
+    cursor: pointer;
+}
+
+body.tss-theme-curiosity .tss-textbox[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+body.tss-theme-curiosity .tss-textbox[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: calc(var(--cur-input-radius) - 3px);
+}
+
+body.tss-theme-curiosity .tss-textbox[type="color"]::-moz-color-swatch {
+    border: none;
+    border-radius: calc(var(--cur-input-radius) - 3px);
+}
+
+body.tss-theme-curiosity .tss-textbox[type="color"].tss-disabled {
+    cursor: default;
+    opacity: .5;
+}
+
+/* The native calendar and clock glyphs sit back until the box is hovered. */
+body.tss-theme-curiosity .tss-textbox::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: .7;
+}
+
+body.tss-theme-curiosity .tss-textbox:hover::-webkit-calendar-picker-indicator {
+    opacity: 1;
+}

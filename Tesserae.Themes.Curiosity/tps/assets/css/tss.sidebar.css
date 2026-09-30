@@ -77,3 +77,32 @@ body.tss-theme-curiosity .tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-
     color: var(--tss-default-foreground-color);
     background-color: var(--tss-default-background-active-color);
 }
+
+/* Navbar mode: the rail laid across the top is split from the page by a hairline under it, not the
+   rail's right-hand rule and not a shadow. A primary action on the bar is the brand's pill. */
+body.tss-theme-curiosity .tss-sidebar.tss-navbar {
+    box-shadow: inset 0 -1px 0 var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-navbar .tss-sidebar-header .tss-btn.tss-btn-primary {
+    border-radius: var(--tss-border-radius-full);
+}
+
+/* Page mode: a group's children open as a panel over the rail, framed by a line instead of a shadow. */
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel {
+    box-shadow: -1px 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel {
+    box-shadow: -1px 0 0 var(--tss-dark-border-color);
+}
+
+/* The drawer the burger opens is a floating surface: square, framed in ink. */
+body.tss-theme-curiosity .tss-navbar-drawer {
+    box-shadow: var(--cur-surface-ring);
+    border-bottom-left-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-navbar-burger:hover {
+    border-radius: var(--tss-border-radius-full);
+}

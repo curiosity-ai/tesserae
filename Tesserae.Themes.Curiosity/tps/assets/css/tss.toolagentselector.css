@@ -1,0 +1,74 @@
+/* ==========================================================================
+   Curiosity theme - Tool / Agent Selector
+   --------------------------------------------------------------------------
+   The trigger is a square ghost control in a hairline frame, ink framed
+   while its popup is open. The count is a small square in deep blue with a
+   mono numeral. The popup is a floating surface: square paper framed by a
+   1px ink line, no shadow. Section titles are the mono eyebrow voice; rows
+   are square and answer the pointer with stone, the keyboard's row with
+   stone and a 2px ink bar. The check box is a square that fills deep blue.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-toolagent-trigger {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-toolagent-trigger:active {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-toolagent-trigger:focus-visible {
+    outline-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-toolagent-trigger.tss-toolagent-trigger-active {
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-toolagent-badge {
+    border-radius: 0;
+    font-family: var(--tss-monospace-font-family);
+    font-weight: var(--tss-font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-curiosity .tss-toolagent-popup {
+    border-radius: 0;
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-toolagent-popup {
+    border-color: var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity .tss-toolagent-section-title {
+    font-family: var(--tss-monospace-font-family);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+}
+
+body.tss-theme-curiosity .tss-toolagent-item {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-toolagent-item.tss-toolagent-item-highlight {
+    box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-toolagent-item:active {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-toolagent-item-checkmark {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-toolagent-item-icon {
+    border-radius: 0;
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-toolagent-item-title {
+    font-weight: var(--tss-font-weight-semibold);
+}

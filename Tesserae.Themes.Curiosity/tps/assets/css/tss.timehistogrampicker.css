@@ -1,0 +1,88 @@
+/* ==========================================================================
+   Curiosity theme - TimeHistogramPicker
+   --------------------------------------------------------------------------
+   A bar chart and a range slider, drawn in the theme's chart and slider
+   language. Bars are square topped; the ones inside the chosen range are the
+   call blue, the ones outside it ash at half strength, so the range reads as
+   the one colored run. The track is a thin line in the hairline tone with the
+   range filled blue, and the two thumbs are the slider's solid ink squares
+   (paper on ink) with a cut in the page tone. The axis and the hover tooltip
+   speak in the mono label voice.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-time-histogram-picker-bar {
+    border-radius: 0;
+    background: var(--tss-dark-border-color);
+    opacity: .5;
+}
+
+body.tss-theme-curiosity .tss-time-histogram-picker-bar.tss-selected {
+    background: var(--tss-primary-background-color);
+    opacity: 1;
+}
+
+body.tss-theme-curiosity .tss-time-histogram-picker-track::before {
+    top: 12px;
+    height: 4px;
+    border-radius: 0;
+    background: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-time-histogram-picker-selection {
+    top: 12px;
+    height: 4px;
+    border-radius: 0;
+    background: var(--tss-primary-background-color);
+}
+
+body.tss-theme-curiosity .tss-time-histogram-picker-thumb {
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    border-radius: 0;
+    background: var(--tss-default-foreground-color);
+    border: 2px solid var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-time-histogram-picker-thumb:focus {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 1px;
+}
+
+body.tss-theme-curiosity .tss-time-histogram-picker-axis {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    letter-spacing: .04em;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-time-histogram-picker-tooltip-range,
+body.tss-theme-curiosity .tss-time-histogram-picker-tooltip-count {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    letter-spacing: .04em;
+}
+
+body.tss-theme-curiosity .tss-time-histogram-picker-empty {
+    border-radius: 0;
+    border-color: var(--tss-dark-border-color);
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-thumb {
+    background: var(--tss-disabled-foreground-color);
+    border-color: var(--tss-default-background-color);
+}
+
+/* On ink the thin selection line takes the Signal, as the slider's fill does; the bars keep the
+   deep blue, which carries on its area. */
+body.tss-theme-curiosity.tss-dark-mode .tss-time-histogram-picker-selection {
+    background: var(--tss-highlight-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-selection {
+    background: var(--tss-disabled-foreground-color);
+}

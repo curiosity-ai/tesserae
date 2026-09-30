@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Curiosity theme - Charts and Sparkline
+   --------------------------------------------------------------------------
+   Tesserae's charts have no stylesheet of their own: a series without an
+   explicit colour reads --tss-chart-series-N (falling back to the toolkit
+   palette), so the theme sets those. Series go by tone and the two blues,
+   as the brand draws its charts: the call blue, ink, ash, the Signal first,
+   then lighter steps of the same. A series an app coloured itself keeps its
+   colour.
+
+   The brand has no gradients and no fills fading under a line, so the area
+   under an area chart or a sparkline is a flat, faint tint of its own
+   colour instead of a fade.
+   ========================================================================== */
+
+body.tss-theme-curiosity {
+    --tss-chart-series-1: #0029E7;
+    --tss-chart-series-2: #111418;
+    --tss-chart-series-3: #8A9099;
+    --tss-chart-series-4: #2F6BFF;
+    --tss-chart-series-5: #7A9BFF;
+    --tss-chart-series-6: #2A2F38;
+    --tss-chart-series-7: #B3C3FF;
+    --tss-chart-series-8: #C5C9CE;
+}
+
+body.tss-theme-curiosity.tss-dark-mode {
+    --tss-chart-series-1: #2F6BFF;
+    --tss-chart-series-2: #F4F4F2;
+    --tss-chart-series-3: #8A9099;
+    --tss-chart-series-4: #7A9BFF;
+    --tss-chart-series-5: #C5C9CE;
+    --tss-chart-series-6: #4A5462;
+    --tss-chart-series-7: #A9BEFF;
+    --tss-chart-series-8: #6B7280;
+}
+
+body.tss-theme-curiosity .tss-chart linearGradient stop,
+body.tss-theme-curiosity .tss-sparkline linearGradient stop {
+    stop-opacity: 0.12;
+}

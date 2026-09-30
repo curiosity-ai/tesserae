@@ -100,7 +100,9 @@ body.tss-theme-curiosity .tss-btn.tss-btn-link:not(.tss-disabled):active {
     transform: none;
 }
 
-body.tss-theme-curiosity a {
+/* :where() keeps this at the specificity of a bare element, so a component that renders as an anchor
+   (an InlineLabel, a card link) keeps its own colour. */
+body.tss-theme-curiosity :where(a) {
     color: var(--tss-link-color);
     text-underline-offset: 3px;
 }

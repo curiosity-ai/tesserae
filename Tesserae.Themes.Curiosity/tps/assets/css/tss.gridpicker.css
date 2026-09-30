@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Curiosity theme - GridPicker
+   --------------------------------------------------------------------------
+   The picker is a grid of cells, so it is drawn as one: square cells (the
+   theme's buttons are pills, which turned every cell into a dot), each edged
+   by an inset hairline so the grid reads even where a state paints a cell the
+   page color. A cell without a state color keeps Tesserae's line tone, which
+   the theme's transparent button would otherwise take away. Hover shifts one
+   tone. Row and column titles are the mono label voice.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-gridpicker .tss-gridpicker-button {
+    border-radius: 0;
+    border: none;
+    background-color: var(--tss-default-border-color);
+    box-shadow: inset 0 0 0 1px var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-gridpicker .tss-gridpicker-button:hover {
+    background-color: var(--tss-default-background-active-color);
+    box-shadow: inset 0 0 0 1px var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity .tss-gridpicker-column-title,
+body.tss-theme-curiosity .tss-gridpicker-row-title {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--tss-secondary-foreground-color);
+}

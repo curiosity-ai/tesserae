@@ -4,20 +4,22 @@
    Stars stay stars: the glyph is the meaning. A given star is filled with the
    call blue, the color the theme uses for what is chosen (the Signal on the
    ink canvas, where the deep blue is too faint); an empty one is ash at half
-   strength, so the scale is visible without competing. An application's own
-   --tss-rating-color still wins. Focus is the tone ring, square.
+   strength, so the scale is visible without competing. Focus is the tone
+   ring, square.
    ========================================================================== */
 
 body.tss-theme-curiosity .tss-rating-star {
     color: rgba(var(--tss-disabled-foreground-color-root), .45);
 }
 
-body.tss-theme-curiosity .tss-rating-star.tss-rating-star-filled {
-    color: var(--tss-rating-color, var(--tss-primary-background-color));
+/* Rating writes its fill inline as var(--tss-rating-color, #F5C518), so the theme sets the variable:
+   an application that sets it on its own container, or passes a color, still wins. */
+body.tss-theme-curiosity {
+    --tss-rating-color: var(--cur-deep);
 }
 
-body.tss-theme-curiosity.tss-dark-mode .tss-rating-star.tss-rating-star-filled {
-    color: var(--tss-rating-color, var(--tss-highlight-color));
+body.tss-theme-curiosity.tss-dark-mode {
+    --tss-rating-color: var(--cur-signal);
 }
 
 body.tss-theme-curiosity .tss-rating-star:focus-visible {
