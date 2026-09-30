@@ -96,8 +96,9 @@ body.tss-theme-curiosity {
     --tss-success-foreground-hover-color-root: 255, 255, 255;
     --tss-success-background-active-color-root: 12, 84, 40;
     --tss-success-foreground-active-color-root: 255, 255, 255;
-    --tss-slider-color-root: 222, 224, 223;
-    --tss-slider-active-color-root: 0, 41, 231;
+    /* Tesserae paints the filled part of a slider with slider-color and the rest with slider-active. */
+    --tss-slider-color-root: 0, 41, 231;
+    --tss-slider-active-color-root: 222, 224, 223;
     --tss-slider-disabled-color-root: 236, 237, 235;
     --tss-primary-shadow-color-root: 17, 20, 24;
 
@@ -242,8 +243,8 @@ body.tss-theme-curiosity.tss-dark-mode {
     --tss-success-foreground-hover-color-root: 255, 255, 255;
     --tss-success-background-active-color-root: 16, 99, 48;
     --tss-success-foreground-active-color-root: 255, 255, 255;
-    --tss-slider-color-root: 42, 47, 56;
-    --tss-slider-active-color-root: 47, 107, 255;
+    --tss-slider-color-root: 47, 107, 255;
+    --tss-slider-active-color-root: 42, 47, 56;
     --tss-slider-disabled-color-root: 27, 31, 37;
     --tss-primary-shadow-color-root: 0, 0, 0;
 
