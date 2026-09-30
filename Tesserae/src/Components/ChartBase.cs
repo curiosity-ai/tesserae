@@ -120,17 +120,24 @@ namespace Tesserae
         protected const int MaxMarkersPerSeries = 300;
 
         /// <summary>The default theme-aware palette (CSS variables that adapt to light/dark mode).</summary>
+        /// <remarks>
+        /// Each entry reads <c>--tss-chart-series-1</c> … <c>--tss-chart-series-8</c> first and falls back to the
+        /// toolkit colour it always was, so a custom theme (see <see cref="ICustomTheme"/>) can recolour every
+        /// chart's default series without touching a series an app coloured itself.
+        /// </remarks>
         protected static readonly string[] DefaultPalette =
         {
-            Theme.Colors.Blue600,
-            Theme.Colors.Green600,
-            Theme.Colors.Orange600,
-            Theme.Colors.Purple600,
-            Theme.Colors.Red600,
-            Theme.Colors.Teal600,
-            Theme.Colors.Yellow600,
-            Theme.Colors.Neutral600
+            SeriesColor(1, Theme.Colors.Blue600),
+            SeriesColor(2, Theme.Colors.Green600),
+            SeriesColor(3, Theme.Colors.Orange600),
+            SeriesColor(4, Theme.Colors.Purple600),
+            SeriesColor(5, Theme.Colors.Red600),
+            SeriesColor(6, Theme.Colors.Teal600),
+            SeriesColor(7, Theme.Colors.Yellow600),
+            SeriesColor(8, Theme.Colors.Neutral600)
         };
+
+        private static string SeriesColor(int index, string fallback) => "var(--tss-chart-series-" + index + ", " + fallback + ")";
 
         /// <summary>The root container element.</summary>
         protected readonly HTMLElement _container;

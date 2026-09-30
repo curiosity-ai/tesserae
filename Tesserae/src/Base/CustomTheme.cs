@@ -58,6 +58,7 @@ namespace Tesserae
         {
             await LoadAsync();
             document.body.classList.add(RootClassName);
+            document.body.classList.add(UI.Theme.CustomThemeMarkerClass);
             OnActivated();
         }
 
@@ -66,6 +67,7 @@ namespace Tesserae
         {
             if (!IsActive) return;
             document.body.classList.remove(RootClassName);
+            document.body.classList.remove(UI.Theme.CustomThemeMarkerClass);
             OnDeactivated();
         }
 

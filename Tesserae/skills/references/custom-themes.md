@@ -35,9 +35,12 @@ var current = UI.Theme.CustomTheme;                        // null when none is 
 - `UI.Theme.CustomTheme` — the theme currently selected.
 - Dark mode is orthogonal: `UI.Theme.Dark()` / `Light()` keep working, and a theme styles
   both (`body.<root>.tss-dark-mode`).
-- A custom theme redefines the `--tss-*` variables on the body, so while one is active it
-  wins over `Theme.Build()…Apply()`, `Theme.SetPrimary(...)` and friends, which write to
-  `:root` (`theme-builder.md`, `theme-colors.md`).
+- Your own colours still win. A custom theme redefines the `--tss-*` variables on the body,
+  and `Theme.Build()…Apply()`, `Theme.SetPrimary(...)`, `SetBackground(...)` and
+  `SetHighlight(...)` restate what they set as `!important` under `body.tss-custom-theme`,
+  the marker class present while any custom theme is active — so an app can run a packaged
+  theme and still recolour its primary (`theme-builder.md`, `theme-colors.md`). Without a
+  custom theme the marker is absent and those setters behave exactly as before.
 
 To avoid painting the default look for a frame on first load, hide the body until the
 theme is in:
@@ -63,6 +66,8 @@ public interface ICustomTheme
     Task   Activate();              // load the CSS on first call, then add the class
     void   Deactivate();            // remove the class; the CSS stays loaded
 }
+// UI.Theme.SetCustomTheme also adds UI.Theme.CustomThemeMarkerClass ("tss-custom-theme")
+// to the body while any theme is active; CustomTheme does the same when used directly.
 ```
 
 `CustomTheme` (abstract) implements all of it: pass a name, the root class and the
@@ -85,7 +90,7 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
 
 3. CSS files named after the Tesserae stylesheet they restyle (`tss.button.css`,
    `tss.dropdown.css`, …) plus a `tss.common.css` that redefines the `--tss-*`
-   variables. Scope every selector under the root class: `body.tss-theme-mine .tss-btn`
+   variables. Chart series without an explicit colour read `--tss-chart-series-1` … `-8`. Scope every selector under the root class: `body.tss-theme-mine .tss-btn`
    (and `body.tss-theme-mine.tss-dark-mode …` for dark). Redefine a derived variable
    together with its `-root` value (`--tss-x-color-root` **and**
    `--tss-x-color: rgb(var(--tss-x-color-root))`): a derived value is resolved where it

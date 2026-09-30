@@ -146,6 +146,13 @@ What makes it work, and what to keep when touching it:
 - **Redefine derived variables with their roots.** `--tss-x-color: rgb(var(--tss-x-color-root))` is
   resolved where it is declared, so a theme that changes only `--tss-x-color-root` on the body leaves
   every `--tss-x-color` at Tesserae's value. The theme's `tss.common.css` restates both, light and dark.
+- **An app's own colours beat the theme.** While any custom theme is active the body also carries
+  `tss-custom-theme` (`UI.Theme.CustomThemeMarkerClass`), and `SetPrimary` / `SetBackground` /
+  `SetHighlight` / `ThemeBuilder` restate their variables under it as `!important`
+  (`WithCustomThemeOverrides`). Without that, a theme's body-level variables silently beat anything those
+  write to `:root`. With no custom theme the class is absent and their output behaves as it always did.
+- **Chart series are themable.** A series without an explicit colour reads `--tss-chart-series-N`
+  (N = 1…8) before the toolkit palette (`ChartBase.DefaultPalette`).
 - **Shadows are hairlines.** The Curiosity theme turns every `--tss-*shadow*` token into a
   `0 0 0 1px` ring, so a component that draws its edge with a shadow token keeps an edge.
 - **A theme follows the components.** A change to a component's markup or classes can orphan its theme
