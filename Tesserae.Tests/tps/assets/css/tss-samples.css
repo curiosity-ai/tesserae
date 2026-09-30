@@ -33,3 +33,19 @@
 .tss-sample-commands-long-fade {
     --tss-sidebar-label-fade: 64px;
 }
+
+/* LandingPage under the Curiosity theme: the brand draws categories by tone, not hue, so the per-group
+   colours drop to the text tone (stone tiles with ink glyphs) and the group names become the theme's mono
+   eyebrows. The colour is read through --tss-landing-group-color (LandingPage.Section). */
+body.tss-theme-curiosity {
+    --tss-landing-group-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-landing-group {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--tss-secondary-foreground-color);
+}

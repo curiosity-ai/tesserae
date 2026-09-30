@@ -89,7 +89,9 @@ namespace Tesserae.Tests
 
         private static IComponent Section(string group, IEnumerable<Sample> samples)
         {
-            var color = GroupColors[SampleGroup.DisplayIndex(group) % GroupColors.Length];
+            // Read through --tss-landing-group-color first, so a stylesheet (tss-samples.css does it for the
+            // Curiosity theme) can take the per-category colours away without fighting inline styles.
+            var color = $"var(--tss-landing-group-color, {GroupColors[SampleGroup.DisplayIndex(group) % GroupColors.Length]})";
             var cards = Grid(CardColumns).WS().Gap(12.px());
 
             foreach (var sample in samples)
@@ -104,7 +106,7 @@ namespace Tesserae.Tests
         // once the page is a few hundred cards long.
         private static IComponent GroupHeader(string group, string color) =>
             HStack().WS().AlignItems(ItemAlign.Center).Gap(12.px()).Children(
-                TextBlock(group).Large().SemiBold(),
+                TextBlock(group).Large().SemiBold().Class("tss-landing-group"),
                 Raw(Div(Att(styles: s =>
                 {
                     s.height     = "1px";
