@@ -1,0 +1,13 @@
+/* ==========================================================================
+   Curiosity theme - Live Progress
+   --------------------------------------------------------------------------
+   The one quiet line a running call writes into. The brand has no italics,
+   so it reads as what it is, a log line: Geist Mono at 11px in mute ink,
+   upright and in its own case (a sentence of progress is not an eyebrow).
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-liveprogress {
+    font-family: var(--tss-monospace-font-family);
+    font-style: normal;
+    color: var(--tss-secondary-foreground-color);
+}

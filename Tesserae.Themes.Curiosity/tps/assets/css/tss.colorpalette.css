@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Curiosity theme - ColorPalette
+   --------------------------------------------------------------------------
+   A swatch is a data mark, and data marks are squares (BRAND.md s4, s12).
+   Its resting edge is a hairline; hover frames it in ink instead of growing
+   it; the selected swatch takes the call blue ring outside a paper gap,
+   since selection is what the blue is for. Focus is the ink ring.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-colorpalette-swatch {
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--tss-default-border-color);
+    transition: box-shadow .12s linear;
+}
+
+body.tss-theme-curiosity .tss-colorpalette-swatch:hover {
+    transform: none;
+    box-shadow: 0 0 0 1px var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-colorpalette-swatch:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 4px;
+}
+
+body.tss-theme-curiosity .tss-colorpalette-swatch.tss-selected {
+    box-shadow: 0 0 0 2px var(--tss-default-background-color), 0 0 0 4px var(--tss-primary-border-color);
+}
+
+body.tss-theme-curiosity .tss-colorpalette-custom {
+    font-weight: var(--tss-font-weight-semibold);
+}

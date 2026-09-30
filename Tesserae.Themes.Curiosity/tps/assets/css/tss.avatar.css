@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Curiosity theme - Avatar and Persona
+   --------------------------------------------------------------------------
+   Avatars stay round: they are people, and the brand keeps the circle for a
+   person's picture (BRAND.md s5, avatars take the circle container). The
+   initials are set in Geist Mono at 500, the way the website sets short
+   codes, and a presence mark is a square with a paper keyline, the data mark
+   the brand uses everywhere else.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-avatar-initials {
+    font-family: var(--tss-monospace-font-family);
+    font-weight: var(--tss-font-weight-semibold);
+    letter-spacing: .02em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-avatar-presence {
+    border-radius: 0;
+    width: 10px;
+    height: 10px;
+}
+
+body.tss-theme-curiosity .tss-avatar-lg .tss-avatar-presence,
+body.tss-theme-curiosity .tss-avatar-xl .tss-avatar-presence {
+    width: 14px;
+    height: 14px;
+    bottom: 2px;
+    right: 2px;
+}
+
+body.tss-theme-curiosity .tss-presence-offline {
+    background: var(--tss-dark-border-color);
+}

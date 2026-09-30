@@ -1,0 +1,96 @@
+/* ==========================================================================
+   Curiosity theme - Context Card
+   --------------------------------------------------------------------------
+   A piece of context is a cell: square, paper, a 1px hairline frame, its
+   icon on a square tile. A clickable card answers the pointer the way every
+   hoverable card in the theme does, by framing itself in ink, and fills with
+   stone while pressed. The second line is mute ink (Geist Mono when it is a
+   path, as Tesserae already asks), the badge a square mono label. The remove
+   button is a small ink square that turns the danger tone on hover.
+
+   The tile's colour is left alone: a host that tints a tile (a file type, a
+   gallery category) is saying something with it.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-contextcard {
+    border-radius: 0;
+    transition: border-color .15s linear, background-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-contextcard-clickable:hover {
+    background: var(--tss-default-background-color);
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-contextcard-clickable:active {
+    background: var(--tss-default-background-hover-color);
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-contextcard-clickable:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}
+
+/* The menu belongs to this card: the ink frame stays while it is open. */
+body.tss-theme-curiosity .tss-contextcard-menu-open {
+    background: var(--tss-default-background-color);
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-contextcard-icon,
+body.tss-theme-curiosity .tss-contextcard-compact .tss-contextcard-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-contextcard-label {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity .tss-contextcard-sublabel {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-contextcard-chevron {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-contextcard-badge {
+    border-radius: 0;
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+    font-family: var(--tss-monospace-font-family);
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-contextcard-badge-custom {
+    font-family: inherit;
+    font-size: inherit;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+body.tss-theme-curiosity .tss-contextcard-compact {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-contextcard-remove,
+body.tss-theme-curiosity.tss-dark-mode .tss-contextcard-remove {
+    border-radius: 0;
+    background: var(--tss-default-foreground-color);
+    color: var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-contextcard-remove:hover,
+body.tss-theme-curiosity.tss-dark-mode .tss-contextcard-remove:hover {
+    background: var(--tss-danger-background-color);
+    color: var(--tss-danger-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-contextcard-remove:active,
+body.tss-theme-curiosity.tss-dark-mode .tss-contextcard-remove:active {
+    background: var(--tss-danger-background-active-color);
+    color: var(--tss-danger-foreground-active-color);
+}

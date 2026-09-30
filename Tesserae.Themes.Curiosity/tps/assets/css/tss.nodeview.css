@@ -1,0 +1,77 @@
+/* ==========================================================================
+   Curiosity theme - NodeView
+   --------------------------------------------------------------------------
+   Baklava draws the node editor from its own variables, so the theme maps
+   them onto the Tesserae tokens once: each value is a var(--tss-...), which
+   resolves against the body and so follows the dark canvas without a second
+   block. The editor is paper on a hairline grid, nodes are square paper
+   cells, titles sit on the half step band, wires take the secondary text
+   tone, ports are ink. The one blue is the deep call blue for what is
+   selected or on (a selected node's frame, a checked box); the shapes, the
+   type and the menus are restyled in tss.baklava.css.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-nodeview {
+    --baklava-control-color-primary: var(--tss-primary-background-color);
+    --baklava-control-color-error: var(--tss-danger-background-color);
+    --baklava-control-color-background: var(--tss-secondary-background-color);
+    --baklava-control-color-foreground: var(--tss-default-foreground-color);
+    --baklava-control-color-hover: var(--tss-default-background-hover-color);
+    --baklava-control-color-active: var(--tss-default-background-active-color);
+    --baklava-control-color-disabled-foreground: var(--tss-disabled-foreground-color);
+    --baklava-control-border-radius: 0px;
+    --baklava-sidebar-color-background: var(--tss-default-background-color);
+    --baklava-sidebar-color-foreground: var(--tss-default-foreground-color);
+    --baklava-node-color-background: var(--tss-default-background-color);
+    --baklava-node-color-foreground: var(--tss-default-foreground-color);
+    --baklava-node-color-hover: var(--tss-default-foreground-color);
+    --baklava-node-color-selected: var(--tss-primary-background-color);
+    --baklava-node-color-resize-handle: var(--tss-dark-border-color);
+    --baklava-node-title-color-background: var(--tss-secondary-background-color);
+    --baklava-node-title-color-foreground: var(--tss-default-foreground-color);
+    --baklava-group-node-title-color-background: var(--tss-default-background-hover-color);
+    --baklava-group-node-title-color-foreground: var(--tss-default-foreground-color);
+    --baklava-node-interface-port-color: var(--tss-default-foreground-color);
+    --baklava-node-interface-port-tooltip-color-foreground: var(--tss-tooltip-foreground-color);
+    --baklava-node-interface-port-tooltip-color-background: var(--tss-tooltip-background-color);
+    --baklava-node-border-radius: 0px;
+    --baklava-color-connection-default: var(--tss-secondary-foreground-color);
+    --baklava-color-connection-allowed: var(--tss-success-background-color);
+    --baklava-color-connection-forbidden: var(--tss-danger-background-color);
+    --baklava-editor-background-pattern-default: var(--tss-default-background-color);
+    --baklava-editor-background-pattern-line: var(--tss-default-border-color);
+    --baklava-editor-background-pattern-black: rgba(var(--tss-default-foreground-color-root), .09);
+    --baklava-context-menu-background: var(--tss-default-background-color);
+    --baklava-context-menu-shadow: var(--cur-surface-ring);
+    --baklava-toolbar-background: rgba(var(--tss-default-background-color-root), .92);
+    --baklava-toolbar-foreground: var(--tss-default-foreground-color);
+    --baklava-node-palette-background: rgba(var(--tss-default-background-color-root), .92);
+    --baklava-node-palette-foreground: var(--tss-default-foreground-color);
+    --baklava-selectionbox-color-border: var(--tss-default-foreground-color);
+    --baklava-selectionbox-color-background: rgba(var(--tss-primary-background-color-root), .12);
+}
+
+/* The deep blue is too faint on ink to mark a selected frame or a checked box there; the Signal
+   carries it on the dark canvas. */
+body.tss-theme-curiosity.tss-dark-mode .tss-nodeview {
+    --baklava-control-color-primary: var(--tss-highlight-color);
+    --baklava-node-color-selected: var(--tss-highlight-color);
+}
+
+/* The palette's group headings are the mono uppercase eyebrow. The Tesserae rule is !important, so
+   this one has to be too. */
+body.tss-theme-curiosity .tss-nodeview .baklava-node-palette section h1 {
+    font-family: var(--tss-monospace-font-family) !important;
+    font-size: var(--tss-font-size-xsmall) !important;
+    font-weight: var(--tss-font-weight-regular) !important;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-node-palette section .baklava-node.--palette {
+    border-radius: 0 !important;
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-toolbar {
+    box-shadow: 0 1px 0 var(--tss-default-border-color);
+}

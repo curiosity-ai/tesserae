@@ -1,0 +1,122 @@
+/* ==========================================================================
+   Curiosity theme - Tool Call
+   --------------------------------------------------------------------------
+   A tool call is a record in a transcript, so it is drawn like one: a square
+   paper cell in a 1px hairline frame, its header in Geist Mono (the command,
+   the path), its icon on a square stone tile. The header fills with stone on
+   hover. The ToolsUsed summary is a pill (it is a button that opens things),
+   its expanded list a column of hairline rows. The inspector's labels are
+   the mono eyebrow voice, its response block a square stone cell.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-toolcall,
+body.tss-theme-curiosity .tss-toolcall > .tss-toolcall-header,
+body.tss-theme-curiosity .tss-toolcall.tss-expanded > .tss-toolcall-header,
+body.tss-theme-curiosity .tss-toolcall > .tss-toolcall-content {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-toolcall-header {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-toolcall-header:active:not(.tss-toolcall-not-expandable) {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-toolcall-icon,
+body.tss-theme-curiosity .tss-toolsused-list-icon,
+body.tss-theme-curiosity .tss-toolsused-modal-detail-icon {
+    border-radius: 0;
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-toolcall-text {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-toolcall-chevron,
+body.tss-theme-curiosity .tss-toolsused-chevron,
+body.tss-theme-curiosity .tss-toolsused-list-chevron {
+    color: var(--tss-secondary-foreground-color);
+}
+
+/* Header actions: square ghost buttons, stone on hover. */
+body.tss-theme-curiosity .tss-toolcall-action {
+    border-radius: 0;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-toolcall-action:hover {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-toolcall-action:active {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-toolcall-action:focus-visible,
+body.tss-theme-curiosity .tss-toolsused-header:focus-visible {
+    outline-color: var(--tss-default-foreground-color);
+}
+
+/* ToolsUsed summary: a pill, the icon a square tile inside it. */
+body.tss-theme-curiosity .tss-toolsused-header {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-toolsused-header:active {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-toolsused-icon {
+    border-radius: 0;
+    background: transparent;
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-toolsused-inline-list {
+    border-radius: 0;
+}
+
+/* Modal: the back button is a square ghost, the list rows answer with stone. */
+body.tss-theme-curiosity .tss-toolsused-back {
+    border-radius: 0;
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-toolsused-list-row:active {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-toolsused-modal-title {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity .tss-toolsused-list-text {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-toolsused-empty,
+body.tss-theme-curiosity .tss-toolcallinspect-empty {
+    color: var(--tss-secondary-foreground-color);
+    font-style: normal;
+}
+
+/* Inspector: mono eyebrows over a square stone response block. */
+body.tss-theme-curiosity .tss-toolcallinspect-label {
+    font-family: var(--tss-monospace-font-family);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+}
+
+body.tss-theme-curiosity .tss-toolcallinspect-name {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity .tss-toolcallinspect-response {
+    border-radius: 0;
+    background: var(--tss-default-background-hover-color);
+}

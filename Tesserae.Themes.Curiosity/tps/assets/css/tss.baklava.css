@@ -1,0 +1,158 @@
+/* ==========================================================================
+   Curiosity theme - baklava.css (the NodeView editor)
+   --------------------------------------------------------------------------
+   What the variables in tss.nodeview.css cannot reach: the editor's own
+   Lato stack becomes the theme's families, nodes and menus lose their drop
+   shadows for hairline frames (ash at rest, ink under the pointer, the blue
+   when selected), ports are squares, the grid's major lines are hairlines
+   too, and a node's title is the mono uppercase label. Baklava marks a hovered
+   or active menu row by filling it with the primary colour, which put ink
+   text on the deep blue; here a row hovers to stone and the active one is
+   stone with the inset ink bar, as every list in the theme does.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-nodeview .baklava-editor {
+    font-family: var(--tss-sansserif-font-family);
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-editor .background {
+    background-image: linear-gradient(var(--baklava-editor-background-pattern-black) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--baklava-editor-background-pattern-black) 1px, transparent 1px),
+                      linear-gradient(var(--baklava-editor-background-pattern-line) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--baklava-editor-background-pattern-line) 1px, transparent 1px);
+}
+
+/* Nodes ----------------------------------------------------------------------------------------- */
+
+body.tss-theme-curiosity .tss-nodeview .baklava-node {
+    border-color: var(--tss-dark-border-color);
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-node:hover {
+    border-color: var(--baklava-node-color-hover);
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-node.--selected {
+    border-color: var(--baklava-node-color-selected);
+    box-shadow: 0 0 0 1px var(--baklava-node-color-selected);
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-node.--dragging {
+    box-shadow: 0 0 0 1px var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-node > .__title {
+    align-items: center;
+    border-bottom: 1px solid var(--tss-default-border-color);
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+/* The node's menu opens inside its title; it is a menu, not a label, so it takes the text voice back. */
+body.tss-theme-curiosity .tss-nodeview .baklava-node > .__title .baklava-context-menu {
+    font-family: var(--tss-sansserif-font-family);
+    font-size: 15px;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-node.--palette > .__title,
+body.tss-theme-curiosity .tss-nodeview .baklava-node.--palette .__title {
+    border-bottom: none;
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-node-interface .__port {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-node-interface .__tooltip {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+}
+
+/* Controls --------------------------------------------------------------------------------------- */
+
+body.tss-theme-curiosity .tss-nodeview .baklava-button:active {
+    background-color: var(--baklava-control-color-active);
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-checkbox .__checkmark-container,
+body.tss-theme-curiosity .tss-nodeview .baklava-input,
+body.tss-theme-curiosity .tss-nodeview .baklava-num-input,
+body.tss-theme-curiosity .tss-nodeview .baklava-select > .__selected {
+    box-shadow: inset 0 0 0 1px var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-checkbox.--checked .__checkmark-container {
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-checkbox.--checked .__checkmark {
+    stroke: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-input:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 0;
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-input.--invalid {
+    box-shadow: inset 0 0 0 1px var(--baklava-control-color-error);
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-num-input > .__content > .__value {
+    font-family: var(--tss-monospace-font-family);
+    font-variant-numeric: tabular-nums;
+}
+
+/* Menus ------------------------------------------------------------------------------------------ */
+
+body.tss-theme-curiosity .tss-nodeview .baklava-select > .__dropdown {
+    filter: none;
+    box-shadow: var(--cur-surface-ring);
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-context-menu > .item:not(.--header):not(.--active):not(.--disabled):hover,
+body.tss-theme-curiosity .tss-nodeview .baklava-select > .__dropdown > .item:not(.--header):not(.--active):hover {
+    background: var(--baklava-control-color-hover);
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-context-menu > .item.--active,
+body.tss-theme-curiosity .tss-nodeview .baklava-select > .__dropdown > .item.--active {
+    background: var(--baklava-control-color-hover);
+    box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-context-menu > .item.--disabled {
+    color: var(--baklava-control-color-disabled-foreground);
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-context-menu > .item.--header,
+body.tss-theme-curiosity .tss-nodeview .baklava-select > .__dropdown > .item.--header {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-context-menu > .divider {
+    background-color: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-sidebar.--open {
+    box-shadow: -1px 0 0 var(--tss-default-foreground-color);
+}
+
+/* The toolbar's hover was the primary colour; here it is a tone, darkening to ink. */
+body.tss-theme-curiosity .tss-nodeview .baklava-toolbar-button {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-nodeview .baklava-toolbar-button:hover:not([disabled]),
+body.tss-theme-curiosity .tss-nodeview .baklava-icon.--clickable:hover {
+    color: var(--tss-default-foreground-color);
+}

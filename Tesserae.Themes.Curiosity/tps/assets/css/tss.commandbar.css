@@ -1,0 +1,48 @@
+/* ==========================================================================
+   Curiosity theme - CommandBar
+   --------------------------------------------------------------------------
+   A toolbar is a cell in the hairline grid: paper, a 1px line frame, square,
+   rather than a grey rounded tray. Its commands are buttons, so they are
+   pills: a ghost that fills with stone on hover and line when pressed, the
+   primary one the deep call blue going to ink. Press scales to 0.97; focus
+   is the tone ring, never the Signal.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-commandbar {
+    border-radius: 0;
+    background: var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-commandbar-item {
+    border-radius: var(--tss-border-radius-full);
+    padding: 6px 12px;
+    font-weight: var(--tss-font-weight-semibold);
+    transition: background-color .15s linear, color .15s linear, transform .1s ease;
+}
+
+body.tss-theme-curiosity .tss-commandbar-item:not(.tss-disabled):not(:disabled):active {
+    background: var(--tss-default-background-active-color);
+    transform: scale(.97);
+}
+
+body.tss-theme-curiosity .tss-commandbar-item-primary:not(.tss-disabled):not(:disabled):active {
+    background: var(--tss-primary-background-active-color);
+    color: var(--tss-primary-foreground-active-color);
+}
+
+body.tss-theme-curiosity .tss-commandbar-item-primary:hover {
+    color: var(--tss-primary-foreground-hover-color);
+}
+
+body.tss-theme-curiosity .tss-commandbar-item:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}
+
+/* Disabled is a tone, the way a disabled button is, rather than half the opacity of everything. */
+body.tss-theme-curiosity .tss-commandbar-item.tss-disabled,
+body.tss-theme-curiosity .tss-commandbar-item:disabled {
+    opacity: 1;
+    color: var(--tss-disabled-foreground-color);
+    background: transparent;
+}

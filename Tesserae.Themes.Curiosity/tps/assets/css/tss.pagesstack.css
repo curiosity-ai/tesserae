@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Curiosity theme - PagesStack
+   --------------------------------------------------------------------------
+   A pile of paper drawn in hairlines: pages are square sheets, and what used
+   to be a soft shadow down each sheet's left edge is its own frame in the
+   darker border tone, so the sheets still read apart where they overlap. The
+   "+N" count is a mono figure on a square paper chip, and keyboard focus is
+   the ink ring rather than a blue glow.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-pagesstack-page {
+    border-radius: 0;
+    border-color: color-mix(in srgb, var(--tss-dark-border-color) 60%, var(--tss-default-border-color));
+    background: var(--tss-default-background-color);
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-pagesstack-page:hover {
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-pagesstack-page-clickable:focus-visible {
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: none;
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 1px;
+}
+
+body.tss-theme-curiosity .tss-pagesstack-more {
+    border-radius: 0;
+    font-family: var(--tss-monospace-font-family);
+    font-weight: var(--tss-font-weight-regular);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -.02em;
+    box-shadow: 0 0 0 1px var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-pagesstack-page {
+    background: var(--tss-default-background-hover-color);
+    border-color: var(--tss-dark-border-color);
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-pagesstack-page:hover {
+    border-color: var(--tss-default-foreground-color);
+}

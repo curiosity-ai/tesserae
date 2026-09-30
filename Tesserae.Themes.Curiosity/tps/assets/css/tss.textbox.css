@@ -93,3 +93,13 @@ body.tss-theme-curiosity .tss-textblock table th {
     color: var(--tss-secondary-foreground-color);
     border-bottom: 1px solid var(--tss-default-foreground-color);
 }
+
+/* Native parts of an input (the number spinner, the date and time pickers' calendar and clock
+   glyphs, their popups) follow the page's scheme, so they are not drawn light on the ink canvas. */
+body.tss-theme-curiosity .tss-textbox {
+    color-scheme: light;
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-textbox {
+    color-scheme: dark;
+}

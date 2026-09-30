@@ -1,0 +1,141 @@
+/* ==========================================================================
+   Curiosity theme - Slider
+   --------------------------------------------------------------------------
+   A thin line track, square ended, in the hairline tone; the part up to the
+   value is filled with the call blue, the one blue this control spends. The
+   thumb is the toggle's knob: a solid ink square (paper on the ink canvas),
+   ringed by a 2px cut in the page tone so it reads where it crosses the fill.
+   Hover darkens the unfilled track to ash; focus draws the tone ring.
+
+   Tesserae paints the fill from --tss-slider-color and the rest from
+   --tss-slider-active-color, so the colors are set here on the parts rather
+   than through those tokens.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-slider-fake-background {
+    top: 6px;
+    height: 4px;
+    border-radius: 0;
+    background-color: var(--tss-default-border-color);
+    transition: background-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-slider-fake-progress {
+    top: 6px;
+    height: 4px;
+    border-radius: 0;
+    background-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-curiosity .tss-slider-container input:hover ~ .tss-slider-fake-background {
+    background-color: var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity .tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    background-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-curiosity .tss-slider-container input.tss-disabled ~ .tss-slider-fake-background,
+body.tss-theme-curiosity .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-background {
+    background-color: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress,
+body.tss-theme-curiosity .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-progress {
+    background-color: var(--tss-disabled-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-slider-container.tss-vertical .tss-slider-fake-background,
+body.tss-theme-curiosity .tss-slider-container.tss-vertical .tss-slider-fake-progress {
+    left: 10px;
+    width: 4px;
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-slider,
+body.tss-theme-curiosity .tss-slider:hover,
+body.tss-theme-curiosity .tss-slider.tss-disabled {
+    border-radius: 0;
+    background-color: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-slider.tss-fake,
+body.tss-theme-curiosity .tss-slider.tss-fake:hover,
+body.tss-theme-curiosity .tss-slider.tss-fake:disabled {
+    background-color: transparent;
+}
+
+body.tss-theme-curiosity .tss-slider::-webkit-slider-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 0;
+    background-color: var(--tss-default-foreground-color);
+    border: 2px solid var(--tss-default-background-color);
+    transition: background-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 0;
+    background-color: var(--tss-default-foreground-color);
+    border: 2px solid var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-slider::-moz-range-progress {
+    height: 4px;
+    border-radius: 0;
+    background-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-curiosity .tss-slider:hover::-webkit-slider-thumb {
+    border-color: var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-slider:hover::-moz-range-thumb {
+    border-color: var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-slider:hover::-moz-range-progress {
+    background-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-curiosity .tss-slider:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 1px;
+}
+
+body.tss-theme-curiosity .tss-slider:focus-visible::-moz-range-thumb {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 1px;
+}
+
+body.tss-theme-curiosity .tss-slider.tss-disabled::-webkit-slider-thumb {
+    background-color: var(--tss-disabled-foreground-color);
+    border-color: var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-slider.tss-disabled::-moz-range-thumb {
+    background-color: var(--tss-disabled-foreground-color);
+    border-color: var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb {
+    width: 16px;
+    height: 16px;
+}
+
+body.tss-theme-curiosity .tss-slider-container.tss-vertical .tss-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+}
+
+/* On ink the deep blue is 2.2:1, too faint for a 4px line, so the fill takes the Signal there. */
+body.tss-theme-curiosity.tss-dark-mode .tss-slider-fake-progress,
+body.tss-theme-curiosity.tss-dark-mode .tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    background-color: var(--tss-highlight-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-slider::-moz-range-progress {
+    background-color: var(--tss-highlight-color);
+}

@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Curiosity theme - Picker
+   --------------------------------------------------------------------------
+   The input is the text box's pill. The suggestions are a floating surface
+   drawn like the dropdown's popup: square, paper, an ink frame (from the box
+   shadow token), a mono uppercase title, full width rows that hover to stone
+   with the ink bar on the leading edge. A chosen item is a square chip with a
+   hairline edge, the brand's tag, rather than bare text beside the box.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-layer-picker-suggestions {
+    border-radius: 0;
+    padding: 4px 0;
+}
+
+body.tss-theme-curiosity .tss-picker-suggestions {
+    padding: 0;
+}
+
+body.tss-theme-curiosity .tss-picker-suggestions > .tss-picker-label {
+    padding: 8px 16px 6px;
+    color: var(--tss-secondary-foreground-color);
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-picker-suggestions > .tss-picker-suggestion {
+    padding: 6px 16px;
+    transition: background-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-picker-suggestions > .tss-picker-suggestion:hover {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+    box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-picker-selection {
+    border: 1px solid var(--tss-default-border-color);
+    padding-left: 8px;
+    min-height: 28px;
+    box-sizing: border-box;
+    transition: background-color .15s linear, border-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-picker-selection:hover {
+    border-color: var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity .tss-picker-selections:not(.tss-picker-selections-inline) > .tss-picker-selection {
+    margin: 0 4px 4px 0;
+}
+
+body.tss-theme-curiosity .tss-picker-remove {
+    margin-left: 6px;
+    padding: 4px 6px;
+    border: none;
+    border-left: 1px solid transparent;
+}
+
+body.tss-theme-curiosity .tss-picker-remove:hover {
+    border: none;
+    border-left: 1px solid var(--tss-default-border-color);
+    background: var(--tss-default-background-active-color);
+}
