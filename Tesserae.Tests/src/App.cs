@@ -7,6 +7,7 @@ using Transpose.Core;
 using Tesserae;
 using Tesserae.Tests.Samples;
 using Tesserae.Tests;
+using Tesserae.Themes.Curiosity;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 
@@ -15,6 +16,9 @@ namespace Tesserae.Tests
     internal static class App
     {
         private const string _sidebarOpenStateKey = "tss-sample-sidebar-open-close";
+        private const string _themeKey            = "tss-sample-theme";
+        private const string _defaultThemeId      = "default";
+        private const string _curiosityThemeId    = "curiosity";
 
         private static void Main()
         {
@@ -43,6 +47,24 @@ namespace Tesserae.Tests
             // Enable automatic mobile detection — adds/removes the tss-mobile class on body
             // whenever the viewport is 768px or narrower (or when the device reports a coarse pointer).
             Theme.EnableMobileDetection(breakpoint: 768);
+
+            // The gallery opens in the Curiosity theme unless the visitor picked the default one before.
+            // The page is kept invisible until the theme's stylesheet has arrived, so the first paint is
+            // already themed instead of flashing the default look for a frame.
+            var initialThemeId = localStorage.getItem(_themeKey) == _defaultThemeId ? _defaultThemeId : _curiosityThemeId;
+
+            if (initialThemeId == _curiosityThemeId)
+            {
+                document.body.style.visibility = "hidden";
+
+                async Task ActivateInitialTheme()
+                {
+                    try     { await Theme.SetCustomTheme(CuriosityTheme.Instance); }
+                    finally { document.body.style.visibility = ""; }
+                }
+
+                ActivateInitialTheme().FireAndForget();
+            }
 
             var allSidebarItems      = new List<ISidebarItem>();
             var sampleToSidebarItems = new Dictionary<Sample, List<ISidebarItem>>();
@@ -164,6 +186,34 @@ namespace Tesserae.Tests
                     lightDark.SetIcon(UIcons.Moon).Tooltip("Dark Mode");
                 }
             });
+
+            // Theme switcher: the custom themes the gallery ships with, as a nav at the foot of the sidebar.
+            var themeNav              = new SidebarNav("THEME", UIcons.Palette, "Theme", initiallyCollapsed: true).NotSortable().KeepCollapsedOnSelection();
+            var defaultThemeButton    = new SidebarButton("THEME_DEFAULT", UIcons.Square, "Default Theme");
+            var curiosityThemeButton  = new SidebarButton("THEME_CURIOSITY", UIcons.SquareSmall, "Curiosity Theme");
+
+            void MarkTheme(string themeId)
+            {
+                defaultThemeButton.IsSelected   = themeId == _defaultThemeId;
+                curiosityThemeButton.IsSelected = themeId == _curiosityThemeId;
+            }
+
+            void SelectTheme(string themeId)
+            {
+                localStorage.setItem(_themeKey, themeId);
+                MarkTheme(themeId);
+                Theme.SetCustomTheme(themeId == _curiosityThemeId ? CuriosityTheme.Instance : null).FireAndForget();
+            }
+
+            defaultThemeButton.OnClick(() => SelectTheme(_defaultThemeId));
+            curiosityThemeButton.OnClick(() => SelectTheme(_curiosityThemeId));
+
+            themeNav.OnClick(() => themeNav.Toggle());
+            themeNav.Add(defaultThemeButton);
+            themeNav.Add(curiosityThemeButton);
+            MarkTheme(initialThemeId);
+
+            sidebar.AddFooter(themeNav);
 
             var commandSidebarconfig = new SidebarCommands("CONFIG", lightDark, openClose);
             sidebar.AddFooter(commandSidebarconfig);

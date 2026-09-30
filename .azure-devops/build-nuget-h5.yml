@@ -43,6 +43,12 @@ steps:
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae/'
 
 - task: CmdLine@2
+  displayName: 'restore theme project'
+  inputs:
+    script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Themes.Curiosity\Tesserae.Themes.Curiosity.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Curiosity/'
+
+- task: CmdLine@2
   displayName: 'restore tests project'
   inputs:
     script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Tests\Tesserae.Tests.csproj'
@@ -108,6 +114,22 @@ steps:
   inputs:
     command: 'push'
     packagesToPush: '**/*/Tesserae.$(buildVersion).nupkg' # The package name comes from the PackageID, not project name
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-curiosity-org'
+
+# The Curiosity theme package references Tesserae by project, so it packs with a dependency on the
+# Tesserae version built above and has to go up after it.
+- task: CmdLine@2
+  displayName: 'Build Tesserae.Themes.Curiosity'
+  inputs:
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Themes.Curiosity\Tesserae.Themes.Curiosity.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Curiosity/'
+
+- task: NuGetCommand@2
+  displayName: 'push Tesserae.Themes.Curiosity to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*/Tesserae.Themes.Curiosity.$(buildVersion).nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity-org'
 

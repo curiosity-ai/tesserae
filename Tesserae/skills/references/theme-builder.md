@@ -81,6 +81,7 @@ Theme.ResetBuild();   // back to the shipped defaults
 ## Related
 
 - Theme colours — light/dark switching and the focused setters — `theme-colors.md`
+- Custom themes — a whole packaged look, switched at run time (`ICustomTheme`); while one is active it wins over these `:root` values — `custom-themes.md`
 - Colors — the palette constants and the `Color` helper — `colors.md`
 - Gradients — `gradients.md`
 - Custom styles — your own CSS classes on top — `custom-styles.md`

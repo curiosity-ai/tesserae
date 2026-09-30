@@ -8,6 +8,7 @@ Tesserae is a C# UI toolkit for building web applications, compiled to JavaScrip
 - Component factories and helpers: `Tesserae/src/Base/UI.Components.cs`
 - Fluent extensions: `Tesserae/src/Extensions`
 - Samples and demos: `Tesserae.Tests/`
+- Custom theme packages: `Tesserae.Themes.Curiosity/` (see "Custom themes" below)
 - Project and build config: `Tesserae/Tesserae.csproj`, `Tesserae/tps.json`
 
 ## Skills
@@ -118,6 +119,41 @@ and survives at any size.
 covers the two traps in these fonts (declared bboxes that disagree with the
 outlines, and the 300-unit em square), the rules that keep composed icons
 registered with each other, and which checks fail the run.
+
+## Custom themes
+
+A custom theme is a separate NuGet package that restyles every component while it is active,
+switched at run time through `UI.Theme.SetCustomTheme(ICustomTheme)` / `ClearCustomTheme()`
+([UI.Theme.CustomTheme.cs](Tesserae/src/Base/UI.Theme.CustomTheme.cs)). The contract is
+[`ICustomTheme`](Tesserae/src/Interfaces/ICustomTheme.cs) and the standard implementation is the
+abstract [`CustomTheme`](Tesserae/src/Base/CustomTheme.cs): a theme owns one **root class name**,
+`Activate()` loads its stylesheet the first time and then adds the class to `document.body`,
+`Deactivate()` removes it. Every rule in the theme is scoped under that class, so its CSS can stay
+loaded while it is off. The first theme is **`Tesserae.Themes.Curiosity`**
+([Tesserae.Themes.Curiosity/](Tesserae.Themes.Curiosity/)), the Curiosity brand (the `website` repo's
+design language); the gallery opens in it and switches from the Theme nav at the foot of its sidebar.
+
+What makes it work, and what to keep when touching it:
+
+- **The stylesheet ships unlinked.** The theme's `tps.json` combines its per-component files into one
+  resource with `"load": false`, which the Transpose compiler copies into a consuming app's output
+  without adding a `<link>` to `index.html`. The URL `CustomTheme` loads is that group's `output` plus
+  its `name` (`assets/css/tss-theme-curiosity.css`).
+- **One file per Tesserae stylesheet, same name** (`tss.button.css`, `tss.dropdown.css`, …), listed in
+  Tesserae's own order, after `tss.fonts.css` and `tss.common.css` (the tokens). A theme file restates
+  only what differs, every selector starting `body.tss-theme-curiosity` (dark:
+  `body.tss-theme-curiosity.tss-dark-mode`).
+- **Redefine derived variables with their roots.** `--tss-x-color: rgb(var(--tss-x-color-root))` is
+  resolved where it is declared, so a theme that changes only `--tss-x-color-root` on the body leaves
+  every `--tss-x-color` at Tesserae's value. The theme's `tss.common.css` restates both, light and dark.
+- **Shadows are hairlines.** The Curiosity theme turns every `--tss-*shadow*` token into a
+  `0 0 0 1px` ring, so a component that draws its edge with a shadow token keeps an edge.
+- **A theme follows the components.** A change to a component's markup or classes can orphan its theme
+  rules, and a new component gets the theme's tokens but none of its shape. When you add or restyle a
+  component, look at it with the Curiosity theme on too (it is the gallery default) and add or update
+  the matching file under `Tesserae.Themes.Curiosity/tps/assets/css/`.
+- The fonts (Schibsted Grotesk, Geist Mono, OFL) are bundled in the package rather than loaded from
+  Google Fonts. The skill reference is `Tesserae/skills/references/custom-themes.md`.
 
 ## Installing Transpose
 

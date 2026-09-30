@@ -160,7 +160,8 @@ references. Open the reference for whatever you are working with. The full set:
   spacing/styling/event extension method.
 - `references/styling.md`, `references/layout-alignment.md`,
   `references/custom-styles.md`, `references/colors.md`,
-  `references/theme-colors.md`, `references/iconography.md`,
+  `references/theme-colors.md`, `references/custom-themes.md` (switchable theme
+  packages via `ICustomTheme`, e.g. Tesserae.Themes.Curiosity), `references/iconography.md`,
   `references/accessibility.md`, `references/project-setup.md`,
   `references/routing.md`.
 - `references/observables.md` — the reactive state containers `Defer` and the
@@ -231,7 +232,7 @@ tool-agent-selector · tool-call
 avatar · carousel · image · pages-stack · pixel-avatar · sandbox
 
 **Theming & Icons** — colours, gradients, icons and emoji
-color-palette · emoji · gradients · icon · theme-builder · uicons
+color-palette · custom-themes · emoji · gradients · icon · theme-builder · uicons
 
 **Utilities & Behaviors** — helpers that render little or nothing on their own
 defer · defer-with-progress · delta-component · gestures · visibility-sensor
