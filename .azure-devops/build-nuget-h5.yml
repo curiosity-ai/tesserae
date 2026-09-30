@@ -23,8 +23,11 @@ steps:
       Write-Host "##vso[task.setvariable variable=buildVersion]$date.$(build.buildId)"
       # Tesserae stays on yyyy.M.build (switching would sort new packages below the old ones on NuGet);
       # packages that started later, like Tesserae.Themes.Curiosity, use yy.M.build from the start.
+      # Never name a variable here after an MSBuild property: every pipeline variable is also exported as an
+      # environment variable, and MSBuild reads those as properties. A variable called packageVersion became
+      # PackageVersion in every project, so Tesserae itself packed as yy.M.build and the theme depended on it.
       $short=$(Get-Date -Format yy.M);
-      Write-Host "##vso[task.setvariable variable=packageVersion]$short.$(build.buildId)"
+      Write-Host "##vso[task.setvariable variable=themePackageVersion]$short.$(build.buildId)"
 
 - task: UseDotNet@2
   displayName: 'Use .NET 10.0 sdk'
@@ -128,14 +131,14 @@ steps:
   inputs:
     # Version is the Tesserae version (it flows into the project reference, so the package depends on the Tesserae
     # pushed above); ThemeVersion is this package's own, which its csproj takes over Version for itself.
-    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Themes.Curiosity\Tesserae.Themes.Curiosity.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion) /p:ThemeVersion=$(packageVersion)'
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Themes.Curiosity\Tesserae.Themes.Curiosity.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion) /p:ThemeVersion=$(themePackageVersion)'
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Curiosity/'
 
 - task: NuGetCommand@2
   displayName: 'push Tesserae.Themes.Curiosity to nuget'
   inputs:
     command: 'push'
-    packagesToPush: '**/*/Tesserae.Themes.Curiosity.$(packageVersion).nupkg'
+    packagesToPush: '**/*/Tesserae.Themes.Curiosity.$(themePackageVersion).nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity-org'
 
