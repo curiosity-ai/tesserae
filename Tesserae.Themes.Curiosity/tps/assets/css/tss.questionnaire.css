@@ -1,0 +1,57 @@
+/* ==========================================================================
+   Curiosity theme - Questionnaire
+   --------------------------------------------------------------------------
+   A question card is a cell: square, a hairline frame, paper. The answers are
+   buttons, so they are the theme's pills: a mute edge and ink text, hover to
+   stone with an ink edge. The chosen answer fills with the call blue, the
+   theme's mark for what is selected, and the others step back. The answered
+   note is a square stone block. Tesserae hard codes a near black for the text
+   here; the theme's foreground replaces it so the card reads on ink too.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-questionnaire {
+    border-radius: 0;
+    padding: 14px 16px;
+}
+
+body.tss-theme-curiosity .tss-questionnaire-question {
+    color: var(--tss-default-foreground-color);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity .tss-questionnaire-option {
+    border-color: var(--cur-input-border);
+    color: var(--tss-default-foreground-color);
+    padding: 6px 14px;
+}
+
+body.tss-theme-curiosity .tss-questionnaire-option:hover:not(:disabled) {
+    background: var(--tss-default-background-hover-color);
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-questionnaire-option:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}
+
+body.tss-theme-curiosity .tss-questionnaire-answered .tss-questionnaire-option {
+    opacity: .5;
+}
+
+body.tss-theme-curiosity .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+    background: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+    font-weight: var(--tss-font-weight-semibold);
+    opacity: 1;
+}
+
+body.tss-theme-curiosity .tss-questionnaire-answered-badge {
+    border-radius: 0;
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+    font-weight: var(--tss-font-weight-regular);
+    box-shadow: inset 2px 0 0 var(--tss-primary-background-color);
+    padding: 6px 12px;
+}

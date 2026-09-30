@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Curiosity theme - DetailsGrid
+   --------------------------------------------------------------------------
+   The metadata block is a cell in a hairline grid: square, framed by a 1px
+   line, rows split by hairlines. Labels are the mono uppercase label voice in
+   the secondary tone (the label column keeps its width, so the tracking is a
+   little tighter than an eyebrow's to fit the same words), values stay in
+   Schibsted. Stacked grids set their header labels the same way.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-detailsgrid-label,
+body.tss-theme-curiosity .tss-detailsgrid-stacked .tss-detailsgrid-label {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-detailsgrid-stacked .tss-detailsgrid-label {
+    letter-spacing: .08em;
+}

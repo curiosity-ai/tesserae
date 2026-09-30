@@ -137,9 +137,13 @@ namespace Tesserae
         /// A paragraph wants <see cref="AISurface{T}"/> instead, which keeps the text readable and marks
         /// the block around it.
         /// </summary>
-        public static T AI<T>(this T textBlock) where T : TextBlock
+        /// <param name="strongEffect">Asks for the louder form of the AI styling. A custom theme that tones the AI
+        /// look down (e.g. Tesserae.Themes.Curiosity) brings more of it back for this element; the default theme
+        /// draws both forms the same today. Sets the <c>tss-ai-strong</c> class.</param>
+        public static T AI<T>(this T textBlock, bool strongEffect = false) where T : TextBlock
         {
             textBlock.Render().classList.add("tss-ai");
+            textBlock.Render().UpdateClassIf(strongEffect, "tss-ai-strong");
             return textBlock;
         }
 
@@ -148,9 +152,13 @@ namespace Tesserae
         /// with an accent edge down the left. The block is marked as the model's output without making any
         /// of the words harder to read, which is what a gradient over a paragraph would do.
         /// </summary>
-        public static T AISurface<T>(this T textBlock) where T : TextBlock
+        /// <param name="strongEffect">Asks for the louder form of the AI styling. A custom theme that tones the AI
+        /// look down (e.g. Tesserae.Themes.Curiosity) brings more of it back for this element; the default theme
+        /// draws both forms the same today. Sets the <c>tss-ai-strong</c> class.</param>
+        public static T AISurface<T>(this T textBlock, bool strongEffect = false) where T : TextBlock
         {
             textBlock.Render().classList.add("tss-ai-surface");
+            textBlock.Render().UpdateClassIf(strongEffect, "tss-ai-strong");
             return textBlock;
         }
 

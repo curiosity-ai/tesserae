@@ -1,0 +1,66 @@
+/* ==========================================================================
+   Curiosity theme - Sidenav
+   --------------------------------------------------------------------------
+   The icon rail is the Sidebar's narrow sibling and is marked the same way:
+   paper, split from what follows by a hairline, its buttons square cells
+   that hover to stone. The current section is stone with an inset 2px ink
+   bar on its leading edge, as the Sidebar's current row is, instead of a
+   tinted blue pill. The brand cell is a square in a hairline frame. The
+   notification dot is a square, the brand's data mark.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-sidenav {
+    border-right-color: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-sidenav-footer {
+    border-top-color: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn {
+    border-radius: 0;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-curiosity .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+    border-color: transparent;
+}
+
+body.tss-theme-curiosity .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:not(.tss-disabled):active {
+    background: var(--tss-default-background-active-color);
+    transform: none;
+}
+
+body.tss-theme-curiosity .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn,
+body.tss-theme-curiosity .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:hover {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+    border-color: transparent;
+    box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: -2px;
+}
+
+body.tss-theme-curiosity .tss-sidenav-btn-dot {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-sidenav-btn-wrap.tss-sidenav-btn-brand > .tss-btn.tss-sidenav-btn {
+    border-radius: 0;
+    border-color: var(--tss-default-border-color);
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-sidenav-btn-wrap.tss-sidenav-btn-brand > .tss-btn.tss-sidenav-btn:hover {
+    border-color: var(--tss-default-foreground-color);
+}

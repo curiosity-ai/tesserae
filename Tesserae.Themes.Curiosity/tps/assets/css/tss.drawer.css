@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Curiosity theme - Drawer
+   --------------------------------------------------------------------------
+   A sheet rising from the foot of the window: square, paper, framed by one
+   1px ink rule instead of a shadow thrown upwards. The grab handle is a
+   short square bar in the control edge tone, not a rounded pill; the close
+   command is a round icon button that hovers one tone; the title is a
+   headline (Schibsted 500, -0.02em). The page behind is the ink overlay,
+   with no blur.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-drawer {
+    border-radius: 0;
+    box-shadow: var(--cur-surface-ring);
+}
+
+body.tss-theme-curiosity .tss-drawer-content > .tss-modal.tss-modal-in-drawer,
+body.tss-theme-curiosity .tss-drawer-content .tss-modal.tss-embedded {
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-drawer-handle-bar {
+    width: 32px;
+    height: 3px;
+    border-radius: 0;
+    background-color: var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity .tss-drawer-title .tss-textblock {
+    font-weight: var(--tss-font-weight-semibold);
+    letter-spacing: -.02em;
+}
+
+body.tss-theme-curiosity .tss-drawer-close {
+    border-radius: var(--tss-border-radius-full);
+    transition: background-color .15s linear, color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-drawer-close:active {
+    background-color: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-drawer-close:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}

@@ -84,9 +84,13 @@ namespace Tesserae
         /// being generated rather than content being fetched. Same shape, same animation, same speed - only
         /// the colour says what is being waited for.
         /// </summary>
-        public Skeleton AI(bool value = true)
+        /// <param name="strongEffect">Asks for the louder form of the AI styling. A custom theme that tones the AI
+        /// look down (e.g. Tesserae.Themes.Curiosity) brings more of it back for this element; the default theme
+        /// draws both forms the same today. Sets the <c>tss-ai-strong</c> class.</param>
+        public Skeleton AI(bool value = true, bool strongEffect = false)
         {
             InnerElement.UpdateClassIf(value, "tss-ai");
+            InnerElement.UpdateClassIf(value && strongEffect, "tss-ai-strong");
             return this;
         }
 

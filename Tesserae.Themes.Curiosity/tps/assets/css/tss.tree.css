@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Curiosity theme - Tree
+   --------------------------------------------------------------------------
+   Rows are square cells, like the sidebar's: a row hovers to stone, and the
+   selected row is stone with an inset 2px ink bar on its leading edge and its
+   text in ink, rather than a blue label. The blue is kept for the checkbox of
+   a row that is picked (or partly picked) in a multiple selection. Chevrons
+   and checkboxes rest in the secondary tone and darken to ink under the
+   pointer. The command menu is a square surface.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-tree-item-content,
+body.tss-theme-curiosity .tss-tree-compact .tss-tree-item-content {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-tree-item-content:active {
+    background-color: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-tree-item-content.tss-selected {
+    background-color: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+    box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-tree-chevron {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-tree-chevron:hover,
+body.tss-theme-curiosity .tss-tree-checkbox:hover {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tippy-box[data-theme~='tss-tree-tippy'] {
+    border-radius: 0;
+}
+
+/* The deep blue is 2.2:1 on ink, too faint for a check mark on the dark canvas; the Signal carries it
+   there, as it does the website's glyphs on ink. */
+body.tss-theme-curiosity.tss-dark-mode .tss-tree-selection-multiple .tss-tree-item-content.tss-selected .tss-tree-checkbox,
+body.tss-theme-curiosity.tss-dark-mode .tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected .tss-tree-checkbox {
+    color: var(--tss-highlight-color);
+}
+
+/* The command menu is one square surface: its rows are cells of it, not pills inside it. */
+body.tss-theme-curiosity .tss-tree-menu > .tss-tree-command,
+body.tss-theme-curiosity .tss-tree-menu > a > .tss-tree-command {
+    border-radius: 0;
+}

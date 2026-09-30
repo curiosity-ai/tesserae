@@ -68,9 +68,14 @@ namespace Tesserae
         /// gradient; the determinate form (<see cref="Progress(float)"/>) runs the gradient across the
         /// filled part of the sweep. It rotates at the speed it always did.
         /// </summary>
-        public Spinner AI()
+        /// <param name="strongEffect">Asks for the louder form of the AI styling. A custom theme that tones the AI
+        /// look down (e.g. Tesserae.Themes.Curiosity) brings more of it back for this element; the default theme
+        /// draws both forms the same today. Sets the <c>tss-ai-strong</c> class.</param>
+        public Spinner AI(bool strongEffect = false)
         {
             InnerElement.classList.add("tss-ai");
+            InnerElement.UpdateClassIf(strongEffect, "tss-ai-strong");
+            _container.UpdateClassIf(strongEffect, "tss-ai-strong");
             InnerElement.classList.remove("tss-spinner-success", "tss-spinner-danger");
             InnerElement.style.removeProperty("--tss-spinner-color");
             _container.classList.add("tss-ai-label");

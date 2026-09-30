@@ -322,7 +322,7 @@ namespace Tesserae
                     var sb = new StringBuilder();
                     EmitBlock(sb, ":root",          _light);
                     EmitBlock(sb, ".tss-dark-mode", _dark);
-                    return sb.ToString();
+                    return WithCustomThemeOverrides(sb.ToString());
                 }
 
                 private static void EmitBlock(StringBuilder sb, string selector, Dictionary<string, string> values)

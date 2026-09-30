@@ -1,0 +1,65 @@
+/* ==========================================================================
+   Curiosity theme - IconToggle
+   --------------------------------------------------------------------------
+   A segmented control, drawn in tones: the track is a flat stone band with
+   no inset shadow, and the selected segment is lifted out of it by a 1px
+   ink frame around paper (on the dark canvas a paper frame around slate)
+   rather than a drop shadow. Unselected segments are the muted tone and
+   hover one step darker; focus is the tone ring. Square, like everything
+   that is not a button: the Rounded() variants still take the track round.
+   An AI toggle is left to tss.ai.css: its selected segment is the filled AI action.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-icon-toggle:not(.tss-ai) {
+    background: var(--tss-default-background-hover-color);
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-icon-toggle > .tss-btn.tss-icon-toggle-item {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-disabled):active {
+    transform: none;
+}
+
+body.tss-theme-curiosity .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    background-color: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):active {
+    background-color: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-curiosity .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    box-shadow: inset 0 0 0 1px var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-curiosity.tss-dark-mode .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    background: var(--tss-default-background-active-color);
+}
+
+/* The dark theme's muted tone is already a step off the text colour, so no extra dimming is needed. */
+body.tss-theme-curiosity.tss-dark-mode .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):not(:hover) {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 1px;
+}
+
+body.tss-theme-curiosity .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-disabled {
+    color: var(--tss-disabled-foreground-color);
+}
+
+/* A disabled control keeps its selection legible but out of the ink: the frame drops to the control edge
+   tone with the label. */
+body.tss-theme-curiosity .tss-icon-toggle.tss-icon-toggle-disabled > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected {
+    box-shadow: inset 0 0 0 1px var(--tss-dark-border-color);
+    color: var(--tss-disabled-foreground-color);
+}

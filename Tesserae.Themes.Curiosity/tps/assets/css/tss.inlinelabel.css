@@ -1,0 +1,39 @@
+/* ==========================================================================
+   Curiosity theme - InlineLabel
+   --------------------------------------------------------------------------
+   A compact fact on a half-step plate in a hairline frame, square like every
+   plate (the radius tokens are 0). Its colour swatch is a square data mark,
+   never rounded (BRAND.md s4). Hover shifts one tone to stone, press to
+   line, focus is the ink ring rather than a blue one.
+
+   The label is an anchor, and the theme colours bare anchors with the link
+   blue, which would turn every fact into a link. The label restates its own
+   text colour, and so does the OmniResult footer variant, which the first
+   restatement would otherwise outrank.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-inlinelabel {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-inlinelabel-mark-color {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-inlinelabel-interactive:active {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-inlinelabel-interactive:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}
+
+body.tss-theme-curiosity .tss-omniresult-footer .tss-inlinelabel {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-omniresult-footer .tss-inlinelabel-interactive:hover,
+body.tss-theme-curiosity .tss-omniresult-footer .tss-inlinelabel-interactive:focus-visible {
+    color: var(--tss-default-foreground-hover-color);
+}

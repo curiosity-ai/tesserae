@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Curiosity theme - Chat
+   --------------------------------------------------------------------------
+   A transcript is a column of square cells on the half-stone ground: the
+   reader's own message is a stone cell, the assistant's a paper cell in a
+   1px hairline frame, so the two voices are told apart by tone rather than
+   by a rounded bubble with a tail. References under a message sit below a
+   hairline. The jump-to-latest button is a pill framed by a hairline, with
+   no shadow. The remove button is a small square that turns the danger tone
+   on hover. Avatars stay round: they are portraits, not data marks.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-chatmessage-bubble {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-chat-left .tss-chatmessage-bubble {
+    padding: 8px 14px;
+    background-color: var(--tss-default-background-color);
+    box-shadow: 0 0 0 1px var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-chat-right .tss-chatmessage-bubble {
+    border-radius: 0;
+    background-color: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-chatmessage-references,
+body.tss-theme-curiosity .tss-chat-right .tss-chatmessage-references {
+    border-top-color: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-chat-right .tss-chatmessage-references {
+    border-top-color: var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity .tss-chatarea-scrollbtn {
+    box-shadow: 0 0 0 1px var(--tss-default-border-color);
+    background-color: var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-chatarea-scrollbtn:hover {
+    box-shadow: 0 0 0 1px var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-chatmessage-remove {
+    border-radius: 0;
+    background: var(--tss-default-foreground-color);
+    color: var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-chatmessage-remove {
+    background: var(--tss-default-foreground-color);
+    color: var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-chatmessage-remove:hover,
+body.tss-theme-curiosity.tss-dark-mode .tss-chatmessage-remove:hover {
+    background: var(--tss-danger-background-color);
+    color: var(--tss-danger-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-chatmessage-remove:active,
+body.tss-theme-curiosity.tss-dark-mode .tss-chatmessage-remove:active {
+    background: var(--tss-danger-background-active-color);
+    color: var(--tss-danger-foreground-active-color);
+}

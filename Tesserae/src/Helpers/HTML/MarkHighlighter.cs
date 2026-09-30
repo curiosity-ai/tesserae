@@ -155,9 +155,15 @@ namespace Tesserae
         private static string ResolveFocusColor()
         {
             // An iframe's document doesn't see the page stylesheet, so the theme color is resolved
-            // here and applied inline; resolved per call so a theme switch is picked up
+            // here and applied inline; resolved per call so a theme switch is picked up. A stylesheet
+            // (e.g. a custom theme) picks the colour with --tss-mark-focus-color; otherwise it is the
+            // danger tone.
+            var style  = getComputedStyle(document.body);
+            var themed = style.getPropertyValue("--tss-mark-focus-color");
+            if (!string.IsNullOrWhiteSpace(themed)) return themed.Trim();
+
             var variableName = Theme.Danger.Background.Substring("var(".Length, Theme.Danger.Background.Length - "var(".Length - ")".Length);
-            return getComputedStyle(document.body).getPropertyValue(variableName);
+            return style.getPropertyValue(variableName);
         }
 
         private static void ApplyElementFocus(HTMLElement element, string highlightColor)

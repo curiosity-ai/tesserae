@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Curiosity theme - TagsInput
+   --------------------------------------------------------------------------
+   The field is an input, so it takes the text box's shape: a pill edged in
+   mute, ink on hover, ink edge plus a 1px inset ring on focus. The radius is
+   the text box's fixed one, so a field that wraps onto more rows becomes a
+   rounded rectangle rather than a lozenge. A tag is the brand's label: a
+   square chip with a hairline edge on stone, its text mono and uppercase, the
+   remove cross a square that shifts one tone on hover.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-tagsinput {
+    border-color: var(--cur-input-border);
+    border-radius: var(--cur-input-radius);
+    padding: 4px 12px;
+    transition: border-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-tagsinput:hover {
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-tagsinput:focus-within {
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: inset 0 0 0 1px var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-tagsinput-entry::placeholder {
+    color: var(--tss-secondary-foreground-color);
+    opacity: 1;
+}
+
+body.tss-theme-curiosity .tss-tagsinput-chip {
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 0;
+    padding: 1px 2px 1px 8px;
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-tagsinput-chip-remove {
+    border-radius: 0;
+    transition: background-color .15s linear, color .15s linear;
+}

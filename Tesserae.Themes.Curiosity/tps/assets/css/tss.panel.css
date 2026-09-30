@@ -1,0 +1,48 @@
+/* ==========================================================================
+   Curiosity theme - Panel
+   --------------------------------------------------------------------------
+   A sheet pinned to one side of the window: paper, cut from the page by a
+   single 1px ink rule on its open edge instead of a drop shadow. The page
+   behind is veiled in the overlay tokens, with no blur. The title is a
+   headline (Schibsted 500, -0.02em); the close command is a round icon
+   button that hovers one tone.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-panel {
+    box-shadow: -1px 0 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-panel.tss-panelSide-near {
+    box-shadow: 1px 0 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-panel {
+    box-shadow: -1px 0 0 0 var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-panel.tss-panelSide-near {
+    box-shadow: 1px 0 0 0 var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity .tss-panel-title .tss-textblock {
+    font-weight: var(--tss-font-weight-semibold);
+    letter-spacing: -.02em;
+}
+
+body.tss-theme-curiosity .tss-panel-command-button {
+    width: 36px;
+    height: 36px;
+    margin: 4px;
+    border-radius: var(--tss-border-radius-full);
+    font-weight: normal;
+    transition: background-color .15s linear, color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-panel-command-button:active {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-panel-command-button:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}

@@ -1,0 +1,135 @@
+/* ==========================================================================
+   Curiosity theme - OmniResult
+   --------------------------------------------------------------------------
+   A hit is a square row between hairlines. It hovers to stone; a selected
+   row is stone with the inset 2px ink bar every selected row in the theme
+   carries, rather than a blue wash. What matched is said in the Signal: the
+   terms in the excerpt get a square Signal wash with the text kept in the
+   text colour (Signal as type is 4.1:1 on paper, under the floor for body
+   text), and the badge naming the match is a mono uppercase label on the
+   same wash, in the deep blue (still the pill OmniResult asks its Badge for). A viewed result drops its title to mute-ink
+   instead of purple. The source mark is a square. The preview modal and
+   the footer popup are square surfaces with a hairline frame, the modal's
+   Open action a pill.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-omniresult {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-omniresult:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-omniresult.tss-omniresult-selected {
+    background: var(--tss-default-background-hover-color);
+    box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-omniresult.tss-omniresult-selected:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-omniresult-body {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-omniresult-highlight {
+    border-radius: 0;
+    background: rgba(47, 107, 255, 0.16);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-omniresult-badge-pill {
+    background: rgba(47, 107, 255, 0.12);
+    color: var(--tss-link-color);
+    font-family: var(--tss-monospace-font-family);
+    font-size: 10px;
+    font-weight: var(--tss-font-weight-semibold);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-omniresult-highlight {
+    background: rgba(47, 107, 255, 0.34);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-omniresult-badge-pill {
+    background: rgba(47, 107, 255, 0.22);
+}
+
+body.tss-theme-curiosity .tss-omniresult-viewed .tss-omniresult-title,
+body.tss-theme-curiosity .tss-omniresult-viewed .tss-omniresult-id-value,
+body.tss-theme-curiosity .tss-omniresult-viewed .tss-omniresult-id-chevron,
+body.tss-theme-curiosity.tss-dark-mode .tss-omniresult-viewed .tss-omniresult-title,
+body.tss-theme-curiosity.tss-dark-mode .tss-omniresult-viewed .tss-omniresult-id-value,
+body.tss-theme-curiosity.tss-dark-mode .tss-omniresult-viewed .tss-omniresult-id-chevron {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-omniresult-viewed-flash::after {
+    background: rgba(47, 107, 255, 0.18);
+}
+
+body.tss-theme-curiosity .tss-omniresult-id-value {
+    font-family: var(--tss-monospace-font-family);
+}
+
+body.tss-theme-curiosity .tss-omniresult-icon-badge img,
+body.tss-theme-curiosity .tss-omniresult-icon-badge svg,
+body.tss-theme-curiosity .tss-omniresult-source .tss-inlinelabel-mark-color {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-omniresult-footer-more-glyph {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-omniresult-footer-more:hover .tss-omniresult-footer-more-glyph,
+body.tss-theme-curiosity .tss-omniresult-footer-more:focus-visible .tss-omniresult-footer-more-glyph,
+body.tss-theme-curiosity .tss-omniresult-footer-more[aria-expanded="true"] .tss-omniresult-footer-more-glyph {
+    background: var(--tss-default-background-active-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-omniresult-footer-more:focus-visible .tss-omniresult-footer-more-glyph,
+body.tss-theme-curiosity .tss-omniresult-menu-button:focus-visible,
+body.tss-theme-curiosity .tss-omniresult-modal-button:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 0;
+}
+
+body.tss-theme-curiosity .tippy-box:has(> .tippy-content > .tss-omniresult-footer-popup) {
+    background: transparent;
+}
+
+body.tss-theme-curiosity .tippy-box > .tippy-content > .tss-omniresult-footer.tss-omniresult-footer-popup {
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tippy-box > .tippy-content > .tss-omniresult-footer.tss-omniresult-footer-popup {
+    border-color: var(--tss-dark-border-color);
+}
+
+/* The preview modal */
+body.tss-theme-curiosity .tss-modal.tss-omniresult-modal {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-omniresult-modal-open {
+    border-radius: var(--tss-border-radius-full);
+    overflow: hidden;
+}
+
+body.tss-theme-curiosity .tss-omniresult-modal-open-primary:hover,
+body.tss-theme-curiosity .tss-omniresult-modal-open-more:hover {
+    background: var(--tss-primary-background-hover-color);
+    color: var(--tss-primary-foreground-hover-color);
+}
+
+body.tss-theme-curiosity .tss-omniresult-modal-shortcuts {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+    letter-spacing: .04em;
+}

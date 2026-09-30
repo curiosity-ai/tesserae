@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Curiosity theme - StatefulItemRow
+   --------------------------------------------------------------------------
+   The row keeps its tone washes (added, changed, on its way out): they are
+   product state, flat, and read through the theme's semantic tokens. What
+   changes is the hover of a clickable row, which shifts one tone toward the
+   text color, as every other row in the theme does, rather than washing blue:
+   the blue is kept for what is selected or on.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-statefulitemrow-interactive {
+    transition: background-color .1s linear;
+}
+
+body.tss-theme-curiosity .tss-statefulitemrow-interactive:hover {
+    background: color-mix(in srgb, var(--tss-default-foreground-color) 6%, var(--tss-statefulitemrow-surface, transparent));
+}
+
+body.tss-theme-curiosity .tss-statefulitemrow-interactive:not(.tss-statefulitemrow-primary):not(.tss-statefulitemrow-success):not(.tss-statefulitemrow-warning):not(.tss-statefulitemrow-danger):hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-statefulitemrow-interactive:active {
+    background: var(--tss-default-background-active-color);
+}

@@ -1,0 +1,81 @@
+/* ==========================================================================
+   Curiosity theme - Pivot
+   --------------------------------------------------------------------------
+   The website's section tabs: a row of square labels on the page's own paper,
+   stood on a 1px hairline. Labels are Schibsted 500 in mute-ink; the selected
+   one is ink, and a 2px ink rule under it (square, not a rounded 4px bar)
+   travels to whichever tab the pointer is over, as Tesserae's line does. A
+   tab hovers to stone, square, never the button's pill. The three pivots
+   (this one, CardPivot, SegmentedPivot) share that ink mark for "selected".
+   The unsaved marker is a square, the brand's data mark.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-pivot-titlebar-wrapper,
+body.tss-theme-curiosity .tss-pivot-titlebar > * {
+    background: transparent;
+}
+
+body.tss-theme-curiosity .tss-pivot-titlebar-wrapper {
+    box-shadow: inset 0 -1px 0 var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-pivot-titlebar {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-pivot-titlebar > .tss-pivot-tab,
+body.tss-theme-curiosity .tss-pivot-titlebar-wrapper > .tss-btn {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-pivot-titlebar > .tss-pivot-tab,
+body.tss-theme-curiosity .tss-pivot-titlebar > .tss-pivot-tab .tss-fontcolor-default {
+    color: var(--tss-secondary-foreground-color);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity .tss-pivot-titlebar > .tss-pivot-tab:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-pivot-titlebar > .tss-pivot-tab:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-curiosity .tss-pivot-titlebar > .tss-pivot-selected-title,
+body.tss-theme-curiosity .tss-pivot-titlebar > .tss-pivot-selected-title .tss-fontcolor-default {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-pivot-titlebar > .tss-pivot-tab:not(.tss-disabled):hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+/* A tab is a place, not a push button: it does not shrink when pressed. */
+body.tss-theme-curiosity .tss-pivot-titlebar > .tss-pivot-tab:not(.tss-disabled):active,
+body.tss-theme-curiosity .tss-pivot-titlebar-wrapper > .tss-btn:not(.tss-disabled):active {
+    transform: none;
+}
+
+body.tss-theme-curiosity .tss-pivot-titlebar > .tss-pivot-tab:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: -2px;
+}
+
+body.tss-theme-curiosity .tss-pivot-line {
+    height: 2px;
+    border-radius: 0;
+    background-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-pivot-tab-close:focus-visible {
+    outline-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-pivot-tab-needs-saving .tss-pivot-tab-close::after,
+body.tss-theme-curiosity .tss-pivot-tab-needs-saving::after,
+body.tss-theme-curiosity .tss-pivot-tab-mark {
+    border-radius: 0;
+    background: var(--tss-default-foreground-color);
+}
+
+/* Mid drag the tab floats, so it takes the frame of a raised surface instead of a shadow. */
+body.tss-theme-curiosity .tss-pivot-tab-drag,
+body.tss-theme-curiosity .tss-pivot-tab-fallback {
+    background: var(--tss-default-background-color);
+    box-shadow: var(--cur-surface-ring);
+}

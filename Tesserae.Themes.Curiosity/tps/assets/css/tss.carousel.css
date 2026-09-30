@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Curiosity theme - Carousel
+   --------------------------------------------------------------------------
+   The viewport is a square cell framed by a hairline. The arrows are square
+   cells too (a hairline frame that turns ink under the pointer, stone behind
+   it), and the indicators are small squares: hollow in the ash tone, the
+   current one filled with the deep blue that marks what is selected.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-carousel-viewport {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-carousel-nav {
+    border-radius: 0;
+    color: var(--tss-default-foreground-color);
+    transition: background-color .1s linear, border-color .1s linear;
+}
+
+body.tss-theme-curiosity .tss-carousel-nav:not(:disabled):not(.tss-disabled):hover {
+    background: var(--tss-default-background-hover-color);
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-carousel-nav:not(:disabled):not(.tss-disabled):active {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-carousel-nav:focus-visible,
+body.tss-theme-curiosity .tss-carousel-indicator:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}
+
+body.tss-theme-curiosity .tss-carousel-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 0;
+    border-color: var(--tss-dark-border-color);
+    background: transparent;
+    box-sizing: border-box;
+}
+
+body.tss-theme-curiosity .tss-carousel-indicator:hover {
+    background: var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity .tss-carousel-indicator.tss-active {
+    background: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-carousel-indicator.tss-active {
+    background: var(--tss-highlight-color);
+    border-color: var(--tss-highlight-color);
+}

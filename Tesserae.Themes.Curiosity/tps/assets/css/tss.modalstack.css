@@ -1,0 +1,48 @@
+/* ==========================================================================
+   Curiosity theme - ModalStack
+   --------------------------------------------------------------------------
+   A deck of modals: each sheet is the theme's modal (square paper, one 1px
+   ink rule), the page behind veiled in the overlay tokens with no blur. A
+   sheet behind answers the pointer with a wash of the foreground, a tone
+   rather than a tint of blue, and takes the tone focus ring. The trail
+   above the deck is the mono uppercase eyebrow, its current step in ink.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-modalstack-scrim {
+    background-color: var(--tss-overlay-light);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-modalstack-scrim {
+    background-color: var(--tss-overlay-dark);
+}
+
+body.tss-theme-curiosity .tss-modalstack-tab:hover {
+    background: color-mix(in srgb, var(--tss-default-foreground-color) 5%, transparent);
+}
+
+body.tss-theme-curiosity .tss-modalstack-tab:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: -2px;
+}
+
+body.tss-theme-curiosity .tss-modalstack-trail {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-modalstack-trail-current {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity .tss-modalstack-trail-step {
+    border-radius: 0;
+    letter-spacing: inherit;
+    text-transform: inherit;
+}
+
+body.tss-theme-curiosity .tss-modalstack-trail-step:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 1px;
+}

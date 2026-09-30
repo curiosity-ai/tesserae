@@ -1,0 +1,119 @@
+/* ==========================================================================
+   Curiosity theme - Context Cards
+   --------------------------------------------------------------------------
+   The summary is a pill (it is a button, the same one ToolsUsed draws), with
+   a square icon tile. Expanded, the cards are rows of one square hairline
+   list, each row answering the pointer with stone. The compact form is a
+   wrapping row of square cells rather than pills, and "+N more" is a dashed
+   square that frames itself in ink on hover. Remove buttons are squares.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-contextcards-header {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-contextcards-header:active {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-contextcards-header:focus-visible,
+body.tss-theme-curiosity .tss-contextcards-more:focus-visible {
+    outline-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-contextcards-icon {
+    border-radius: 0;
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-contextcards-text {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity .tss-contextcards-chevron {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-contextcards-list {
+    border-radius: 0;
+}
+
+/* A row of the list is not a card of its own: it answers with stone, not with an ink frame. */
+body.tss-theme-curiosity .tss-contextcards-list > .tss-contextcard.tss-contextcard-clickable:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-contextcards-list > .tss-contextcard.tss-contextcard-clickable:active,
+body.tss-theme-curiosity .tss-contextcards-list > .tss-contextcard.tss-contextcard-menu-open {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-contextcards-list > .tss-contextcard + .tss-contextcard {
+    border-top: 1px solid var(--tss-default-border-color);
+}
+
+/* One row's remove: a quiet square glyph, the danger tone on hover. */
+body.tss-theme-curiosity .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove,
+body.tss-theme-curiosity.tss-dark-mode .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove {
+    border-radius: 0;
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove:hover,
+body.tss-theme-curiosity.tss-dark-mode .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove:hover {
+    background: var(--tss-danger-background-color);
+    color: var(--tss-danger-foreground-color);
+}
+
+/* Compact: square cells in a wrapping row. */
+body.tss-theme-curiosity .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard {
+    border-radius: 0;
+    background: var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard.tss-contextcard-clickable:hover {
+    background: var(--tss-default-background-color);
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-label {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove,
+body.tss-theme-curiosity.tss-dark-mode .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove {
+    border-radius: 0;
+    background: var(--tss-default-foreground-color);
+    color: var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove:hover,
+body.tss-theme-curiosity.tss-dark-mode .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove:hover {
+    background: var(--tss-danger-background-color);
+    color: var(--tss-danger-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-contextcards-more {
+    border-radius: 0;
+    border-color: var(--tss-dark-border-color);
+    color: var(--tss-secondary-foreground-color);
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-contextcards-more:hover {
+    border-color: var(--tss-default-foreground-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-contextcards-more:active {
+    background: var(--tss-default-background-hover-color);
+}

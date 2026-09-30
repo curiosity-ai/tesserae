@@ -1,0 +1,94 @@
+/* ==========================================================================
+   Curiosity theme - Card
+   --------------------------------------------------------------------------
+   A card is a cell in a hairline grid (BRAND.md s9): paper, a 1px line
+   frame, no shadow, no radius. A hoverable card frames itself in ink on
+   hover instead of lifting. The header is the section's eyebrow: a mono,
+   uppercase label on a band of its own, joined to the body by a hairline.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-card {
+    box-shadow: 0 0 0 1px var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-card-container {
+    padding: 1px;
+}
+
+body.tss-theme-curiosity .tss-card {
+    height: calc(100% - 2px);
+    width: calc(100% - 2px);
+}
+
+body.tss-theme-curiosity .tss-card.tss-card-hover {
+    transition: box-shadow .15s linear, background-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-card.tss-card-hover:hover {
+    background-color: var(--tss-default-background-color);
+    box-shadow: 0 0 0 1px var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-card.tss-card-hover:active {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-card.tss-has-layout {
+    box-shadow: none !important;
+}
+
+body.tss-theme-curiosity .tss-card-header {
+    padding: 10px 16px;
+    margin-bottom: 0;
+    background-color: transparent;
+    border-color: var(--tss-default-border-color);
+    border-bottom: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-card-header + .tss-card-content {
+    border-top: none;
+}
+
+body.tss-theme-curiosity .tss-card-title,
+body.tss-theme-curiosity .tss-card-title .tss-textblock {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-card-content {
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-card-footer {
+    padding: 8px 12px;
+    margin-top: 0;
+    background-color: transparent;
+    border-color: var(--tss-default-border-color);
+    border-top: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-card-content + .tss-card-footer {
+    border-top: none;
+}
+
+body.tss-theme-curiosity .tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-header {
+    padding: 6px 8px;
+    margin-bottom: 0;
+}
+
+body.tss-theme-curiosity .tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-footer {
+    padding: 6px 8px;
+    margin-top: 0;
+}
+
+/* A card filled with the primary color (BackgroundColor(Theme.Primary.Background)) sits on the deep
+   call blue, where ink text is 2.2:1. The card cannot know its fill any other way than its inline
+   style, so the primary foreground follows the primary background here, as it does on a button. */
+body.tss-theme-curiosity .tss-card[style*="--tss-primary-background-color"],
+body.tss-theme-curiosity .tss-card[style*="--tss-primary-background-color"] .tss-fontcolor-default {
+    color: var(--tss-primary-foreground-color);
+}

@@ -1,0 +1,59 @@
+/* ==========================================================================
+   Curiosity theme - TaskBoard
+   --------------------------------------------------------------------------
+   A board is a row of hairline cells: each column is a square panel framed by
+   a 1px line, its title the mono uppercase label voice. A card is a square
+   paper cell with a hairline frame, no shadow; under the pointer it frames
+   itself in ink, and the slot a dragged card will land in is a dashed stone
+   cell. TaskBoard writes the column and card shapes as inline styles, so the
+   radius, the shadow and the ghost's fill can only be restated with
+   !important here (see the theme report: those belong in tss.taskboard.css).
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-taskboard-column {
+    border-radius: 0 !important;
+    box-shadow: 0 0 0 1px var(--tss-default-border-color);
+}
+
+/* The column title: the TextBlock the header stack carries first. */
+body.tss-theme-curiosity .tss-taskboard-column > .tss-stack:first-child > .tss-textblock:first-child {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-taskboard-card {
+    border-radius: 0 !important;
+    box-shadow: 0 0 0 1px var(--tss-default-border-color) !important;
+    transition: box-shadow .15s linear;
+}
+
+body.tss-theme-curiosity .tss-taskboard-card:hover {
+    box-shadow: 0 0 0 1px var(--tss-default-foreground-color) !important;
+}
+
+body.tss-theme-curiosity .tss-taskboard-card:active {
+    cursor: grabbing;
+}
+
+/* Where the dragged card will land: an empty stone cell outlined in dashes, its content kept for
+   size but not drawn. */
+body.tss-theme-curiosity .tss-taskboard-card.tss-taskboard-card-ghost {
+    background: var(--tss-default-background-hover-color) !important;
+    box-shadow: none !important;
+    outline: 1px dashed var(--tss-dark-border-color);
+    outline-offset: -1px;
+}
+
+body.tss-theme-curiosity .tss-taskboard-card.tss-taskboard-card-ghost > * {
+    visibility: hidden;
+}
+
+body.tss-theme-curiosity .tss-taskboard-column.tss-taskboard-column-ghost {
+    background: var(--tss-default-background-hover-color) !important;
+    outline: 1px dashed var(--tss-dark-border-color);
+    outline-offset: -1px;
+}

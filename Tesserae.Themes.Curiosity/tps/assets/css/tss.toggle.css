@@ -1,0 +1,58 @@
+/* ==========================================================================
+   Curiosity theme - Toggle
+   --------------------------------------------------------------------------
+   The switch is drawn in the brand's own shapes: a square track with a
+   square knob, one pixel stepping from one side of the box to the other. Off
+   is paper with an ink edge and an ink knob; on is the call blue with a paper
+   knob, and hovering an on switch takes it to ink.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-toggle-container {
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-curiosity .tss-toggle-container .tss-toggle-mark {
+    border-radius: 0;
+    transition: background-color .15s linear, border-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-toggle-container .tss-toggle-mark:after {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-toggle-container input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-curiosity .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-toggle-container.tss-disabled .tss-toggle-mark {
+    border-color: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-toggle-container.tss-disabled .tss-toggle-mark:after {
+    background-color: var(--tss-disabled-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-disabled-foreground-color);
+    border-color: var(--tss-disabled-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark:after {
+    background-color: var(--tss-disabled-background-color);
+}
+
+body.tss-theme-curiosity .tss-toggle-container input:focus-visible ~ .tss-toggle-mark {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}
+
+/* A caller who asks for a fully rounded switch gets the round knob to go with the pill track. */
+body.tss-theme-curiosity .tss-rounded-full > .tss-toggle-mark:after {
+    border-radius: 50%;
+}

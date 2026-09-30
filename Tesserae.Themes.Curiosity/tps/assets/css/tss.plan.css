@@ -1,0 +1,206 @@
+/* ==========================================================================
+   Curiosity theme - Plan
+   --------------------------------------------------------------------------
+   A plan is a cell: square paper in a 1px hairline frame (the frame alone,
+   not a frame plus a ring). The title is Schibsted 500. The status badge is
+   the mono label voice, square, with a square dot, in the tone of the state
+   on a faint wash of it; the running dot blinks rather than throwing a glow.
+   The timeline rail is a 1px line. The running step is a stone cell with a
+   2px deep blue bar on its leading edge. Progress bars are square-ended
+   flat deep blue on the line tone (the Signal on the dark canvas, where deep
+   blue is too faint). Counts, percentages and times are Geist Mono. The
+   footer is a stone band under a hairline.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-plan {
+    border-radius: 0;
+    box-shadow: none;
+    --plan-accent: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-plan-pending   { --plan-accent: var(--tss-secondary-foreground-color); }
+body.tss-theme-curiosity .tss-plan-running   { --plan-accent: var(--tss-link-color); }
+body.tss-theme-curiosity .tss-plan-completed { --plan-accent: var(--tss-success-background-color); }
+body.tss-theme-curiosity .tss-plan-failed    { --plan-accent: var(--tss-danger-background-color); }
+body.tss-theme-curiosity .tss-plan-canceled  { --plan-accent: var(--tss-warning-background-color); }
+
+body.tss-theme-curiosity .tss-plan-title {
+    font-weight: var(--tss-font-weight-semibold);
+    letter-spacing: -0.015em;
+}
+
+/* Status badge: mono, square, a square dot. */
+body.tss-theme-curiosity .tss-plan-status-badge,
+body.tss-theme-curiosity.tss-dark-mode .tss-plan-status-badge {
+    border-radius: 0;
+    background: color-mix(in srgb, var(--plan-accent) 10%, transparent);
+    color: var(--plan-accent);
+    font-family: var(--tss-monospace-font-family);
+    font-size: 10px;
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+}
+
+body.tss-theme-curiosity .tss-plan-status-badge .tss-plan-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-plan-running .tss-plan-status-badge .tss-plan-badge-dot {
+    animation: tss-cur-plan-blink 1.4s steps(1, end) infinite;
+}
+
+@keyframes tss-cur-plan-blink {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.25; }
+    100% { opacity: 1; }
+}
+
+/* The "Update" command: a square ghost in the link blue, stone on hover. */
+body.tss-theme-curiosity .tss-plan-cmd {
+    border-radius: 0;
+    color: var(--tss-link-color);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity .tss-plan-cmd:hover,
+body.tss-theme-curiosity.tss-dark-mode .tss-plan-cmd:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-plan-cmd:active {
+    background: var(--tss-default-background-active-color);
+}
+
+/* Timeline: a 1px rail, pending in the line tone. */
+body.tss-theme-curiosity .tss-plan-step:not(:last-child) .tss-plan-step-rail::after {
+    width: 1px;
+}
+
+body.tss-theme-curiosity .tss-plan-step.is-pending { --seg-color: var(--tss-default-border-color); }
+body.tss-theme-curiosity .tss-plan-step.is-running { --seg-color: var(--tss-link-color); }
+
+body.tss-theme-curiosity .tss-plan-step-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .is-pending .tss-plan-step-icon,
+body.tss-theme-curiosity .tss-plan-substep.is-pending .tss-plan-substep-icon {
+    color: var(--tss-disabled-foreground-color);
+}
+
+body.tss-theme-curiosity .is-running .tss-plan-step-icon,
+body.tss-theme-curiosity .tss-plan-substep.is-running .tss-plan-substep-icon {
+    color: var(--tss-link-color);
+}
+
+body.tss-theme-curiosity .is-running .tss-plan-step-title {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity .is-canceled .tss-plan-step-title {
+    text-decoration-color: var(--tss-disabled-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-plan-step-toggle {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-plan-step-toggle:hover,
+body.tss-theme-curiosity.tss-dark-mode .tss-plan-step-toggle:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+/* The running step: a stone cell with a deep blue bar on its leading edge. */
+body.tss-theme-curiosity .tss-plan-step.is-running .tss-plan-step-body,
+body.tss-theme-curiosity.tss-dark-mode .tss-plan-step.is-running .tss-plan-step-body {
+    border-radius: 0;
+    background: var(--tss-default-background-hover-color);
+    box-shadow: inset 2px 0 0 var(--tss-link-color);
+}
+
+/* Progress: square ends, flat, on the line tone. */
+body.tss-theme-curiosity .tss-plan-step-progress,
+body.tss-theme-curiosity .tss-plan-progress {
+    border-radius: 0;
+    background: var(--tss-progress-background-color);
+}
+
+body.tss-theme-curiosity .tss-plan-step-progress-bar {
+    background: var(--tss-primary-background-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-plan-step-progress-bar {
+    background: var(--tss-highlight-color);
+}
+
+/* The footer bar is the plan's state: deep blue while running (the Signal on ink), the tone otherwise. */
+body.tss-theme-curiosity .tss-plan-running .tss-plan-progress-bar {
+    background: var(--tss-primary-background-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-plan-running .tss-plan-progress-bar {
+    background: var(--tss-highlight-color);
+}
+
+body.tss-theme-curiosity .tss-plan-substep + .tss-plan-substep {
+    border-top-color: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-plan-substep-title {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+/* Footer: a stone band; the numbers are mono. */
+body.tss-theme-curiosity .tss-plan-footer,
+body.tss-theme-curiosity.tss-dark-mode .tss-plan-footer {
+    border-top-color: var(--tss-default-border-color);
+    background: var(--tss-secondary-background-color);
+}
+
+body.tss-theme-curiosity .tss-plan-summary .tss-plan-footer-msg {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity .tss-plan-count,
+body.tss-theme-curiosity .tss-plan-pct,
+body.tss-theme-curiosity .tss-plan-timestamps {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-plan-count,
+body.tss-theme-curiosity .tss-plan-pct {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+/* Start / stop: a square ghost in a hairline frame, stone on hover, no shadow. */
+body.tss-theme-curiosity .tss-plan .tss-plan-startstop {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-plan .tss-plan-startstop:hover,
+body.tss-theme-curiosity.tss-dark-mode .tss-plan .tss-plan-startstop:hover {
+    background: var(--tss-default-background-hover-color);
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-plan .tss-plan-startstop:active {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-plan .tss-plan-startstop:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-curiosity .tss-plan-running .tss-plan-status-badge .tss-plan-badge-dot {
+        animation: none;
+    }
+}

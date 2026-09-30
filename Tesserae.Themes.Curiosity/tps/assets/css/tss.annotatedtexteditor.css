@@ -1,0 +1,63 @@
+/* ==========================================================================
+   Curiosity theme - AnnotatedTextEditor
+   --------------------------------------------------------------------------
+   A multi line field, so it is a square box with the text area's mute edge,
+   ink on hover and an ink focus (edge plus a 1px inset ring, never the blue).
+   Entities keep the colors the application gives them, but are drawn as
+   square marks. The hover tag is a floating surface: square, no shadow, its
+   text in the mono metadata voice.
+
+   On the dark canvas the entity fills an application passes are usually the
+   light "-100" tints, which put paper text on a pale block. An ink veil is
+   laid over whatever fill the entity has (a background image paints above
+   the inline background color), so the entity keeps its hue as a dark tint
+   and its outline as the strong mark.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-annotated-text-container {
+    border-color: var(--cur-input-border);
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-annotated-text-container:hover {
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-annotated-text-container:focus-within {
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: inset 0 0 0 1px var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-annotated-text-container.tss-disabled {
+    border-color: var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-annotated-text-container.tss-annotated-text-readonly {
+    border-style: dashed;
+}
+
+body.tss-theme-curiosity .tss-annotated-text-input::placeholder {
+    color: var(--tss-secondary-foreground-color) !important;
+    opacity: 1;
+}
+
+body.tss-theme-curiosity .tss-annotated-text-entity {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-annotated-text-entity {
+    background-image: linear-gradient(rgba(var(--tss-default-background-color-root), .78), rgba(var(--tss-default-background-color-root), .78));
+}
+
+body.tss-theme-curiosity .tss-annotated-text-hover-tag {
+    border-radius: 0;
+    box-shadow: none;
+    padding: 6px 10px;
+}
+
+body.tss-theme-curiosity .tss-annotated-text-default-label {
+    font-family: var(--tss-monospace-font-family);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .02em;
+}

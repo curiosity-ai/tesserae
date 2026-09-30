@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Curiosity theme - Progress Ring
+   --------------------------------------------------------------------------
+   The arc is flat deep blue with square ends on a track in the line tone
+   (the Signal on the dark canvas, where deep blue is too faint). The label in
+   the middle is a number, so it is Geist Mono.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-progressring {
+    --tss-progressring-track-color: var(--tss-progress-background-color);
+}
+
+body.tss-theme-curiosity .tss-progressring-fill {
+    stroke: var(--tss-primary-background-color);
+    stroke-linecap: butt;
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-progressring-fill {
+    stroke: var(--tss-highlight-color);
+}
+
+body.tss-theme-curiosity .tss-progressring-label {
+    font-family: var(--tss-monospace-font-family);
+    font-weight: var(--tss-font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+}

@@ -26,6 +26,15 @@
     height: 100%;
 }
 
+.tss-avatar.tss-avatar-generated {
+    /* The same two stops as Avatar.GradientForHue, from the hue Avatar derives from the initials. */
+    background: linear-gradient(135deg, hsl(var(--tss-avatar-hue), 60%, 50%), hsl(calc(var(--tss-avatar-hue) + 40), 80%, 40%));
+}
+
+.tss-avatar.tss-avatar-generated > .tss-avatar-initials {
+    color: white;
+}
+
 .tss-avatar-presence {
     position: absolute;
     bottom: 0;

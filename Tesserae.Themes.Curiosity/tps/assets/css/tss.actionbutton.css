@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Curiosity theme - ActionButton
+   --------------------------------------------------------------------------
+   A button with a second action on its end, so it is a pill split in two:
+   the label half rounded on the left, the action half on the right; a
+   filled one carries a hairline between them in the label's own tone (a
+   ghost has no edge for the hairline to meet, so it goes without). Each half hovers on its
+   own (stone for the ghost, ink for the call blue) and focus is the tone
+   ring. No shadows.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-actionbutton-container {
+    border-radius: var(--tss-border-radius-full);
+}
+
+body.tss-theme-curiosity .tss-actionbutton-container > .tss-actionbutton-displaybutton {
+    border-radius: var(--tss-border-radius-full) 0 0 var(--tss-border-radius-full);
+    padding-left: 18px;
+    padding-right: 14px;
+    font-weight: var(--tss-font-weight-semibold);
+    transition: background-color .15s linear, color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-actionbutton-container > .tss-actionbutton-actionbtn {
+    width: 36px;
+    padding-right: 4px;
+    border-radius: 0 var(--tss-border-radius-full) var(--tss-border-radius-full) 0;
+    color: inherit;
+    transition: background-color .15s linear, color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-actionbutton-container > .tss-actionbutton-actionbtn.tss-btn-primary,
+body.tss-theme-curiosity .tss-actionbutton-container > .tss-actionbutton-actionbtn.tss-btn-danger {
+    box-shadow: inset 1px 0 0 color-mix(in srgb, currentColor 35%, transparent);
+}
+
+body.tss-theme-curiosity .tss-actionbutton-container > .tss-actionbutton-displaybutton:not(.tss-btn-primary):not(.tss-btn-danger):active,
+body.tss-theme-curiosity .tss-actionbutton-container > .tss-actionbutton-actionbtn:not(.tss-btn-primary):not(.tss-btn-danger):active {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-actionbutton-container > .tss-actionbutton-actionbtn:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}

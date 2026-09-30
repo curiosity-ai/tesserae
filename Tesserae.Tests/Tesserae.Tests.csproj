@@ -10,5 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tesserae\Tesserae.csproj" />
+    <ProjectReference Include="..\Tesserae.Themes.Curiosity\Tesserae.Themes.Curiosity.csproj" />
   </ItemGroup>
 </Project>

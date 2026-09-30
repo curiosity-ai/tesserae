@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Curiosity theme - Pagination
+   --------------------------------------------------------------------------
+   Square numbered cells on a hairline, numbers in Geist Mono with tabular
+   figures (the brand sets every number in mono). The current page is filled
+   ink with paper text: a position, not a call to action, so it takes the
+   tone rather than the blue. A cell hovers to stone and its edge to ink; the
+   chevrons stay bare. The count beside the strip is a mono label.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-pagination-button {
+    border-radius: 0;
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-small);
+    transition: background-color .15s linear, border-color .15s linear, color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-pagination-button:hover:not(:disabled):not(.tss-active) {
+    background: var(--tss-default-background-hover-color);
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-pagination-nav:hover:not(:disabled) {
+    border-color: transparent;
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-pagination-button:active:not(:disabled):not(.tss-active) {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-pagination-button:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}
+
+body.tss-theme-curiosity .tss-pagination-button.tss-active {
+    background: var(--tss-default-foreground-color);
+    color: var(--tss-default-background-color);
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-pagination-ellipsis {
+    font-family: var(--tss-monospace-font-family);
+}
+
+body.tss-theme-curiosity .tss-pagination-status {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}

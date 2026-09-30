@@ -1,0 +1,53 @@
+/* ==========================================================================
+   Curiosity theme - FileSelector and FileDropArea
+   --------------------------------------------------------------------------
+   The file selector's box is read only because the file dialog fills it, not
+   because the value is fixed, so it keeps the solid pill edge of a live input
+   rather than the dashed one the theme gives read only text boxes.
+
+   The drop area is a square target with a 1px dashed ash edge: dashed is the
+   one convention that says "put it here". Hover takes the edge to ink;
+   while a file is over it, the edge is solid ink on stone. The overlay that
+   covers wrapped content is square, the page color at 85%, with the same edge.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-fileselector .tss-textbox[readonly]:not(.tss-disabled) {
+    border-style: solid;
+    cursor: pointer;
+}
+
+body.tss-theme-curiosity .tss-filedroparea {
+    border: 1px dashed var(--tss-dark-border-color);
+    border-radius: 0;
+    transition: border-color .15s linear, background-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-filedroparea:hover {
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-filedroparea.tss-dropping {
+    border-style: solid;
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-filedroparea-message {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-filedroparea-icon {
+    color: var(--tss-secondary-foreground-color);
+    -webkit-text-stroke: 0;
+}
+
+body.tss-theme-curiosity .tss-filedroparea.tss-dropping .tss-filedroparea-icon {
+    color: var(--tss-default-foreground-color);
+    -webkit-text-stroke: 0;
+}
+
+body.tss-theme-curiosity .tss-filedroparea-overlay,
+body.tss-theme-curiosity.tss-dark-mode .tss-filedroparea-overlay {
+    background: rgba(var(--tss-default-background-color-root), .85);
+    border: 1px solid var(--tss-default-foreground-color);
+    border-radius: 0;
+}

@@ -1,0 +1,90 @@
+/* ==========================================================================
+   Curiosity theme - Badge, Tag and Chip
+   --------------------------------------------------------------------------
+   A badge is a label, so it speaks in the brand's label voice: Geist Mono,
+   small, uppercase, +0.08em (BRAND.md s3). It is square, like every other
+   plate; only a token that asks for Pill() stays round. A plain badge sits
+   on a stone plate, one tone off the paper, so it still reads as a plate;
+   a tag is the same label in a hairline frame.
+
+   The tones keep their fills (primary is the call blue, the semantic tones
+   stay flat). The outline primary badge wrote its text in the primary
+   background color, the deep blue, which is 2.2:1 on the ink canvas, so its
+   text takes the link tone and its frame the primary border.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-token {
+    border-radius: 0;
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+/* Backgrounds go through :where() so they sit at one class of weight, as Tesserae's do: a tone added
+   by another stylesheet (the AI gradient is .tss-token.tss-token-ai) still wins over the plate. */
+body.tss-theme-curiosity :where(.tss-token) {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-badge {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity :where(.tss-tag) {
+    background: var(--tss-default-background-color);
+    border: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-chip {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-token.tss-token-pill {
+    border-radius: 999px;
+}
+
+body.tss-theme-curiosity :where(.tss-token-outline) {
+    background: transparent;
+    border-color: var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity :where(.tss-token-filled) {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-curiosity :where(.tss-token-primary) {
+    background: var(--tss-primary-background-color);
+}
+
+body.tss-theme-curiosity :where(.tss-token-success) {
+    background: var(--tss-success-background-color);
+}
+
+body.tss-theme-curiosity :where(.tss-token-warning) {
+    background: var(--tss-warning-background-color);
+}
+
+body.tss-theme-curiosity :where(.tss-token-danger) {
+    background: var(--tss-danger-background-color);
+}
+
+body.tss-theme-curiosity :where(.tss-token-info) {
+    background: var(--tss-link-color);
+}
+
+body.tss-theme-curiosity .tss-token-outline.tss-token-primary {
+    color: var(--tss-link-color);
+    border-color: var(--tss-primary-border-color);
+    background: transparent;
+}
+
+body.tss-theme-curiosity .tss-token-remove:hover {
+    opacity: .7;
+}
+
+body.tss-theme-curiosity .tss-token-remove:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}

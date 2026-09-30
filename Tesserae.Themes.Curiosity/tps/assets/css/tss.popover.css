@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Curiosity theme - Popover
+   --------------------------------------------------------------------------
+   A popover is a floating surface drawn by its content (a card, a menu), so
+   Tippy's own box stays transparent, as in Tesserae. The theme only makes
+   the content read as a floating surface: a card put in a popover is framed
+   by the 1px ink rule rather than the page's hairline, and the arrow takes
+   the frame's tone, so it reads as a pointer joined to the frame instead of
+   a paper notch lost on a paper page.
+
+   The tooltip is the theme's one inverted surface, and Tesserae hands every
+   .tss-fontcolor-default inside any Tippy the tooltip's foreground. A
+   popover is not inverted: its surface is the page's paper, so its text
+   takes the page's ink again, or a text block in a popover is paper on
+   paper and reads as empty.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tippy-box[data-theme~='tss-popover'] .tss-fontcolor-default {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tippy-box[data-theme~='tss-popover'] > .tippy-content > .tss-popover > .tss-card-container > .tss-card {
+    box-shadow: var(--cur-surface-ring);
+}
+
+body.tss-theme-curiosity .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    color: var(--tss-dark-border-color);
+}

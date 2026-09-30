@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Curiosity theme - CardPivot
+   --------------------------------------------------------------------------
+   The website's stat cells: a hairline grid, every card a cell joined to the
+   next by a shared 1px line, square. A cell hovers to stone. The selected
+   cell is marked as a selected Pivot tab is, with a 2px ink rule along its
+   foot, drawn inside the 3px slot Tesserae reserves so nothing moves.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-cardpivot-titlebar {
+    border: 1px solid var(--tss-default-border-color);
+    box-shadow: none;
+    background: var(--tss-default-border-color);
+    gap: 1px;
+}
+
+body.tss-theme-curiosity .tss-cardpivot-tab {
+    border-right: none;
+    transition: background-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-cardpivot-tab:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-cardpivot-tab.tss-cardpivot-selected {
+    border-bottom-color: transparent;
+    box-shadow: inset 0 -2px 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-cardpivot-tab:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: -2px;
+}

@@ -568,9 +568,13 @@ namespace Tesserae
         /// of the toolkit uses to mean "a model is involved". Pass false to leave the label on its own.
         /// </para>
         /// </summary>
-        public Button AI(bool withSparklesIcon = true)
+        /// <param name="strongEffect">Asks for the louder form of the AI styling. A custom theme that tones the AI
+        /// look down (e.g. Tesserae.Themes.Curiosity) brings more of it back for this element; the default theme
+        /// draws both forms the same today. Sets the <c>tss-ai-strong</c> class.</param>
+        public Button AI(bool withSparklesIcon = true, bool strongEffect = false)
         {
             InnerElement.classList.add("tss-ai");
+            InnerElement.UpdateClassIf(strongEffect, "tss-ai-strong");
             InnerElement.classList.remove("tss-ai-subtle", "tss-btn-primary", "tss-btn-success", "tss-btn-danger");
             InnerElement.classList.add("tss-btn-default");
 
@@ -584,9 +588,12 @@ namespace Tesserae
         /// with the accent's own text, so a row of AI actions reads as a row of buttons rather than a row
         /// of gradients.
         /// </summary>
-        public Button AISubtle(bool withSparklesIcon = true)
+        /// <param name="strongEffect">Asks for the louder form of the AI styling. A custom theme that tones the AI
+        /// look down (e.g. Tesserae.Themes.Curiosity) brings more of it back for this element; the default theme
+        /// draws both forms the same today. Sets the <c>tss-ai-strong</c> class.</param>
+        public Button AISubtle(bool withSparklesIcon = true, bool strongEffect = false)
         {
-            AI(withSparklesIcon);
+            AI(withSparklesIcon, strongEffect);
             InnerElement.classList.add("tss-ai-subtle");
             return this;
         }

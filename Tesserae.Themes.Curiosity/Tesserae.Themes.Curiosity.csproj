@@ -1,0 +1,40 @@
+<Project Sdk="Transpose.Build.Target/26.9.4870">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>tss.theme.curiosity</AssemblyName>
+    <RootNamespace>Tesserae.Themes.Curiosity</RootNamespace>
+    <LangVersion>7.2</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <DebugType>None</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Transpose.BCL" Version="26.9.5840" />
+    <PackageReference Include="Transpose.Core" Version="26.9.5838" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tesserae\Tesserae.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Copyright>(c) Copyright 2026 Curiosity GmbH - all right reserved</Copyright>
+    <Company>Curiosity GmbH</Company>
+    <Authors>Curiosity GmbH</Authors>
+    <PackageProjectUrl>https://github.com/curiosity-ai/tesserae</PackageProjectUrl>
+    <PackageId>Tesserae.Themes.Curiosity</PackageId>
+    <Description>The Curiosity design language as a Tesserae custom theme: paper and ink, one electric blue, hairlines, square corners, Schibsted Grotesk and Geist Mono.</Description>
+    <PackageTags>transpose, HTML, UI, components, user interface, tesserae, theme</PackageTags>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\logo.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

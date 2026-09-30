@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Curiosity theme - IconTile
+   --------------------------------------------------------------------------
+   The tile that leads a row is a square, the brand's data mark, not a rounded
+   chip: the radius variable is reset here, so a host that sets its own on the
+   tile still wins. The plain tile is the half step between paper and stone
+   with a hairline edge, so it reads on either. A file type spelled out in a
+   tile ("PPTX") is a label, so it is set in the mono voice.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-icontile {
+    --tss-icontile-radius: 0px;
+}
+
+body.tss-theme-curiosity .tss-icontile.tss-icontile-plain {
+    box-shadow: inset 0 0 0 1px var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-icontile-text {
+    font-family: var(--tss-monospace-font-family);
+    font-weight: var(--tss-font-weight-semibold);
+    letter-spacing: .04em;
+}

@@ -1,0 +1,63 @@
+/* ==========================================================================
+   Curiosity theme - Accordion and Expander
+   --------------------------------------------------------------------------
+   An accordion is a column of cells joined by shared hairlines, the way the
+   brand sets a FAQ: no gap, no radius, one 1px rule between two sections.
+   A standalone expander is the same cell on its own.
+
+   The chevron becomes the site's FAQ marker: a small ink square that turns
+   into a rule when the section is open. It is drawn on the chevron's own
+   element (the icon glyph is swapped for a box), so the header keeps its
+   layout and the ChevronRight variant simply carries the square to the end.
+   Hover shifts the header one tone, to stone.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-accordion {
+    gap: 0;
+}
+
+body.tss-theme-curiosity .tss-expander {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-accordion > .tss-expander + .tss-expander {
+    margin-top: -1px;
+}
+
+body.tss-theme-curiosity .tss-expander-chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    transform: none;
+    transition: none;
+}
+
+body.tss-theme-curiosity .tss-expander-chevron::before {
+    content: "";
+    display: block;
+    width: 8px;
+    height: 8px;
+    background: currentColor;
+    transition: height 150ms ease;
+}
+
+body.tss-theme-curiosity .tss-expander.tss-expanded .tss-expander-chevron {
+    transform: none;
+}
+
+body.tss-theme-curiosity .tss-expander.tss-expanded .tss-expander-chevron::before {
+    height: 2px;
+}
+
+body.tss-theme-curiosity .tss-expander-icon {
+    border-radius: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-curiosity .tss-expander-chevron::before {
+        transition: none;
+    }
+}

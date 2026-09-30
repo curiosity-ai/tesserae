@@ -1,0 +1,16 @@
+/* ==========================================================================
+   Curiosity theme - ListItemText
+   --------------------------------------------------------------------------
+   The icon tile is a square plate (radius 0) in stone, one tone off the
+   ground, so a neutral tile still reads on paper and on ink; the half-step
+   secondary background it used was all but invisible on the dark canvas.
+   A tile the host colours keeps its colour.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-listitemtext-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity :where(.tss-listitemtext-icon) {
+    background: var(--tss-default-background-hover-color);
+}

@@ -1,0 +1,124 @@
+/* ==========================================================================
+   Curiosity theme - Button
+   --------------------------------------------------------------------------
+   Pills (BRAND.md s9). Primary is the deep call blue with paper text and
+   goes to ink on hover (the Blend style's buttons); the default button is a
+   ghost that fills with stone, one tone, on hover. Press scales to 0.97. No
+   shadows and no brightness filters: a state is a change of tone.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-btn {
+    border-radius: var(--tss-border-radius-full);
+    box-shadow: none;
+    font-weight: var(--tss-font-weight-semibold);
+    letter-spacing: 0;
+    transition: background-color .15s linear, color .15s linear, border-color .15s linear, transform .1s ease;
+}
+
+body.tss-theme-curiosity .tss-btn:hover {
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-btn:not(.tss-disabled):active {
+    transform: scale(.97);
+}
+
+/* Focus is tone: an ink ring outside the pill, paper on the dark canvas. */
+body.tss-theme-curiosity .tss-btn:focus {
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-btn:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 2px;
+}
+
+body.tss-theme-curiosity .tss-btn.tss-disabled {
+    background-color: transparent;
+    border-color: var(--tss-default-border-color);
+}
+
+/* Default: a ghost pill, stone on hover, line when pressed. */
+body.tss-theme-curiosity .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background-color: var(--tss-default-background-hover-color);
+    border-color: transparent;
+}
+
+body.tss-theme-curiosity .tss-btn.tss-btn-default:not(.tss-disabled):active {
+    background-color: var(--tss-default-background-active-color);
+    border-color: transparent;
+}
+
+/* Primary: the call blue, ink on hover, slate pressed (the reverse on ink). */
+body.tss-theme-curiosity .tss-btn.tss-btn-primary:not(.tss-disabled):hover {
+    filter: none;
+    border-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-curiosity .tss-btn.tss-btn-primary:not(.tss-disabled):active {
+    filter: none;
+    box-shadow: none;
+    border-color: var(--tss-primary-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-btn.tss-btn-danger:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-btn.tss-btn-success:not(.tss-disabled):hover {
+    border-color: transparent;
+}
+
+/* A tone without a fill keeps its label tone and answers the pointer with stone, the way the ghost does,
+   rather than with a wash of the tone (which painted a danger label on a danger fill). */
+body.tss-theme-curiosity .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover {
+    background-color: var(--tss-default-background-hover-color);
+    border-color: transparent;
+}
+
+body.tss-theme-curiosity .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-curiosity .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-curiosity .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):active {
+    background-color: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-curiosity .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-curiosity .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default {
+    color: var(--tss-danger-background-color);
+}
+
+body.tss-theme-curiosity .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-curiosity .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-curiosity .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default {
+    color: var(--tss-success-background-color);
+}
+
+/* A link is a link: no pill to press, so no scale either. */
+body.tss-theme-curiosity .tss-btn.tss-btn-link:not(.tss-disabled):active {
+    transform: none;
+}
+
+/* :where() keeps this at the specificity of a bare element, so a component that renders as an anchor
+   (an InlineLabel, a card link) keeps its own colour. */
+body.tss-theme-curiosity :where(a) {
+    color: var(--tss-link-color);
+    text-underline-offset: 3px;
+}
+
+/* Split button: one pill in two halves. Tesserae squares both halves (and squares them again on hover),
+   which in a pill family would leave square ends; each half keeps its outer ends round instead. */
+body.tss-theme-curiosity .tss-btn-and-icon {
+    border-radius: var(--tss-border-radius-full);
+}
+
+body.tss-theme-curiosity .tss-btn-and-icon > .tss-btn,
+body.tss-theme-curiosity .tss-btn-and-icon > .tss-btn:hover {
+    border-radius: var(--tss-border-radius-full) 0 0 var(--tss-border-radius-full);
+}
+
+body.tss-theme-curiosity .tss-btn-and-icon > .tss-btn.tss-btn-and-icon-icon,
+body.tss-theme-curiosity .tss-btn-and-icon > .tss-btn.tss-btn-and-icon-icon:hover {
+    border-radius: 0 var(--tss-border-radius-full) var(--tss-border-radius-full) 0;
+}

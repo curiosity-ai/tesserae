@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Curiosity theme - InlinePagination
+   --------------------------------------------------------------------------
+   The toolbar's "< 3 of 7 >": a square hairline frame on the page's paper,
+   the count in Geist Mono, the chevrons square cells that hover to stone.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-inlinepagination {
+    border-radius: 0;
+    background: var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-inlinepagination-button {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-inlinepagination-button:active:not(:disabled) {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-inlinepagination-button:focus-visible {
+    outline-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-inlinepagination-label {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+    letter-spacing: .04em;
+    color: var(--tss-default-foreground-color);
+}

@@ -1,0 +1,77 @@
+/* ==========================================================================
+   Curiosity theme - Tooltip (Tippy)
+   --------------------------------------------------------------------------
+   Tippy draws two different things, and the theme tells them apart.
+
+   A tooltip, a line of text that names what is under the pointer, is the one
+   inverted surface: ink with paper type on the light canvas, paper with ink
+   type on the dark one (the tokens swap it). It is square and carries no
+   frame: the inversion already separates it from the page, and a ring would
+   draw round the box but not round its arrow.
+
+   A popover, interactive content opened through Tippy (a sidebar or tree
+   command menu, a button, a list), is a floating surface like a menu: square
+   paper with ink type, framed by the 1px ink line (the dark border on the
+   dark canvas). Tesserae paints every .tippy-box in the tooltip colours, so
+   without this a menu came out as an ink slab with paper rows set in it.
+
+   Which is which is read off what the box holds, because most of these are
+   opened without a Tippy theme: a string (Tesserae wraps it in a span) or a
+   lone TextBlock is a tooltip, and so is the time histogram's bar readout;
+   any other component is a popover. Named themes are sorted by name:
+   tss-sidebar-tippy and tss-tree-tippy are menus; tss-popover draws its own
+   chrome (tss.popover.css); uptime keeps its own dark box. The OmniBox's
+   popovers are handled in tss.omnibox.css, with the same values.
+   ========================================================================== */
+
+/* Square already: the radius tokens are 0. Only the ring the shadow token would draw comes off. */
+body.tss-theme-curiosity .tippy-box {
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tippy-box[data-theme~='tss-sidebar-tippy'],
+body.tss-theme-curiosity .tippy-box[data-theme~='tss-tree-tippy'],
+body.tss-theme-curiosity .tippy-box:not([data-theme]):not(:has(> .tippy-content > div > :is(span, .tss-textblock):only-child)):not(:has(> .tippy-content > .tss-time-histogram-picker-tooltip)) {
+    background-color: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    box-shadow: var(--cur-surface-ring);
+    border-radius: 0;
+}
+
+/* Tesserae hands a component's default text colour the tooltip's foreground, which on a paper popover is
+   paper on paper: in a popover it is the page's ink again. */
+body.tss-theme-curiosity .tippy-box[data-theme~='tss-sidebar-tippy'] .tippy-content .tss-fontcolor-default,
+body.tss-theme-curiosity .tippy-box[data-theme~='tss-tree-tippy'] .tippy-content .tss-fontcolor-default,
+body.tss-theme-curiosity .tippy-box:not([data-theme]):not(:has(> .tippy-content > div > :is(span, .tss-textblock):only-child)):not(:has(> .tippy-content > .tss-time-histogram-picker-tooltip)) .tippy-content .tss-fontcolor-default {
+    color: var(--tss-default-foreground-color);
+}
+
+/* An arrowed popover's arrow is paper, one shape with its box. */
+body.tss-theme-curiosity .tippy-box[data-theme~='tss-sidebar-tippy'] > .tippy-arrow,
+body.tss-theme-curiosity .tippy-box[data-theme~='tss-tree-tippy'] > .tippy-arrow,
+body.tss-theme-curiosity .tippy-box:not([data-theme]):not(:has(> .tippy-content > div > :is(span, .tss-textblock):only-child)):not(:has(> .tippy-content > .tss-time-histogram-picker-tooltip)) > .tippy-arrow {
+    color: var(--tss-default-background-color);
+}
+
+/* The sidebar and tree command menus paint their rows in the tooltip colours too (tss.sidebar.css,
+   tss.tree.css in Tesserae), which on a paper box left ink slabs with paper seams between them. In the
+   theme the rows are the surface's: paper with ink type, stone under the pointer, line when pressed. A
+   toned row (primary, danger, success) keeps its fill. */
+body.tss-theme-curiosity .tippy-box[data-theme~='tss-sidebar-tippy'] .tss-sidebar-menu .tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
+body.tss-theme-curiosity .tippy-box[data-theme~='tss-tree-tippy'] .tss-tree-menu .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success) {
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    border-color: transparent;
+}
+
+body.tss-theme-curiosity .tippy-box[data-theme~='tss-sidebar-tippy'] .tss-sidebar-menu .tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
+body.tss-theme-curiosity .tippy-box[data-theme~='tss-tree-tippy'] .tss-tree-menu .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+    border-color: transparent;
+}
+
+body.tss-theme-curiosity .tippy-box[data-theme~='tss-sidebar-tippy'] .tss-sidebar-menu .tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):active,
+body.tss-theme-curiosity .tippy-box[data-theme~='tss-tree-tippy'] .tss-tree-menu .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):active {
+    background: var(--tss-default-background-active-color);
+}

@@ -1,0 +1,39 @@
+/* ==========================================================================
+   Curiosity theme - Mobile mode
+   --------------------------------------------------------------------------
+   On a phone the navbar is fixed across the top and its drawer slides in
+   from the left. Both drew their edge with a soft shadow; here the bar is
+   split from the page by the hairline under it and the open drawer by a 1px
+   line down its open side, and the backdrop is the theme's own overlay. The
+   drawer's close control is a pill, as every button is. Tesserae writes the
+   bar's and the drawer's shadows with !important (they fight inline sizing
+   in app shells), so these have to as well.
+   ========================================================================== */
+
+body.tss-theme-curiosity.tss-mobile .tss-navbar {
+    box-shadow: inset 0 -1px 0 var(--tss-default-border-color) !important;
+}
+
+body.tss-theme-curiosity.tss-mobile .tss-navbar .tss-navbar-drawer:not(.tss-collapse) {
+    box-shadow: 1px 0 0 var(--tss-default-foreground-color) !important;
+}
+
+body.tss-theme-curiosity.tss-mobile.tss-dark-mode .tss-navbar .tss-navbar-drawer:not(.tss-collapse) {
+    box-shadow: 1px 0 0 var(--tss-dark-border-color) !important;
+}
+
+body.tss-theme-curiosity .tss-mobile-backdrop {
+    background: var(--tss-overlay-dark);
+}
+
+body.tss-theme-curiosity.tss-mobile .tss-navbar-mobile-close {
+    border-radius: var(--tss-border-radius-full) !important;
+}
+
+body.tss-theme-curiosity.tss-mobile .tss-navbar-mobile-header .tss-textblock {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}

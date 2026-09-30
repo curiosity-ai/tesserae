@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Curiosity theme - MarkHighlighter
+   --------------------------------------------------------------------------
+   A match is washed in the Signal, the brand's highlight, at a fifth of its
+   strength, with the text kept in the text colour so it reads on paper and
+   on ink. The focused match takes the Signal at full strength with paper
+   text: it is the one place the eye should land. Both backends are covered,
+   the mark elements and the CSS Custom Highlight registry names.
+   ========================================================================== */
+
+body.tss-theme-curiosity mark[data-marked],
+body.tss-theme-curiosity ::highlight(tss-marked) {
+    background-color: rgba(47, 107, 255, 0.2);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode mark[data-marked],
+body.tss-theme-curiosity.tss-dark-mode ::highlight(tss-marked) {
+    background-color: rgba(47, 107, 255, 0.35);
+}
+
+body.tss-theme-curiosity ::highlight(tss-marked-focused) {
+    background-color: var(--cur-signal);
+    color: #F4F4F2;
+}
+
+/* The focused match drawn with mark elements has its fill written inline by MarkHighlighter, from
+   --tss-mark-focus-color (the danger tone when unset): the same Signal as the highlight above. */
+body.tss-theme-curiosity {
+    --tss-mark-focus-color: #2F6BFF;
+}
+
+body.tss-theme-curiosity mark.tss-highlight-focused,
+body.tss-theme-curiosity .tss-highlight-focused {
+    color: var(--cur-paper);
+}

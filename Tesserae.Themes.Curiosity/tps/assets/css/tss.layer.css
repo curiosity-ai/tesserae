@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Curiosity theme - Layer
+   --------------------------------------------------------------------------
+   A bare layer's content box is a floating surface: square paper framed by
+   the 1px ink rule (the control edge tone on the dark canvas) rather than
+   the page's hairline, so it reads as lifted above the page without a
+   shadow. The transparent variant stays frameless.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-layer-content {
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-layer-content {
+    border-color: var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity .tss-layer-content.tss-layer-content-transparent {
+    border-color: transparent;
+}

@@ -253,7 +253,7 @@ namespace Tesserae
 
                 _backgroundStyleElement      = (HTMLStyleElement)document.createElement("style");
                 _backgroundStyleElement.type = "text/css";
-                _backgroundStyleElement.appendChild(document.createTextNode(sb.ToString()));
+                _backgroundStyleElement.appendChild(document.createTextNode(WithCustomThemeOverrides(sb.ToString())));
 
                 var head = document.getElementsByTagName("head")[0];
                 head.appendChild(_backgroundStyleElement);
@@ -344,7 +344,7 @@ namespace Tesserae
 
                 _primaryStyleElement      = (HTMLStyleElement)document.createElement("style");
                 _primaryStyleElement.type = "text/css";
-                _primaryStyleElement.appendChild(document.createTextNode(sb.ToString()));
+                _primaryStyleElement.appendChild(document.createTextNode(WithCustomThemeOverrides(sb.ToString())));
 
                 var head = document.getElementsByTagName("head")[0];
                 head.appendChild(_primaryStyleElement);
@@ -392,7 +392,7 @@ namespace Tesserae
 
                 _highlightStyleElement      = (HTMLStyleElement)document.createElement("style");
                 _highlightStyleElement.type = "text/css";
-                _highlightStyleElement.appendChild(document.createTextNode(sb.ToString()));
+                _highlightStyleElement.appendChild(document.createTextNode(WithCustomThemeOverrides(sb.ToString())));
 
                 var head = document.getElementsByTagName("head")[0];
                 head.appendChild(_highlightStyleElement);

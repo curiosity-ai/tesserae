@@ -1,0 +1,108 @@
+/* ==========================================================================
+   Curiosity theme - Sidebar
+   --------------------------------------------------------------------------
+   The rail is the website's masthead turned on its side: paper, split from
+   the page by a hairline, its rows square cells. A row hovers to stone; the
+   current row is stone with an inset 2px ink bar on its leading edge, the
+   way the website marks the current page, rather than a blue outline. Group
+   separators are mono uppercase eyebrows. Footer rows sit under a hairline.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-sidebar {
+    box-shadow: inset -1px 0 0 var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-sidebar .tss-btn {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-sidebar .tss-btn:not(.tss-disabled):active {
+    transform: none;
+}
+
+body.tss-theme-curiosity .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-curiosity .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    color: var(--tss-default-foreground-color);
+    border-color: transparent;
+    background: var(--tss-default-background-hover-color);
+    box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled),
+body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
+body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
+    border-color: transparent;
+    background: transparent;
+}
+
+body.tss-theme-curiosity .tss-sidebar-separator.tss-sidebar-separator-with-text,
+body.tss-theme-curiosity .tss-sidebar-separator.tss-sidebar-separator-with-text .tss-textblock {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--tss-secondary-foreground-color);
+}
+
+/* Tesserae's own 8px above a group header is kept: a taller header would push the last rows of a
+   fixed-height rail under its footer. */
+body.tss-theme-curiosity .tss-sidebar-separator.tss-sidebar-separator-with-text {
+    margin-left: 8px;
+}
+
+body.tss-theme-curiosity .tss-sidebar-footer {
+    box-shadow: 0 -1px 0 var(--tss-default-border-color);
+    padding-top: 8px;
+}
+
+body.tss-theme-curiosity .tss-sidebar-footer:empty {
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn,
+body.tss-theme-curiosity .tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-btn {
+    color: var(--tss-default-foreground-color);
+    background-color: var(--tss-default-background-active-color);
+}
+
+/* Navbar mode: the rail laid across the top is split from the page by a hairline under it, not the
+   rail's right-hand rule and not a shadow. A primary action on the bar is the brand's pill. */
+body.tss-theme-curiosity .tss-sidebar.tss-navbar {
+    box-shadow: inset 0 -1px 0 var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-navbar .tss-sidebar-header .tss-btn.tss-btn-primary {
+    border-radius: var(--tss-border-radius-full);
+}
+
+/* Page mode: a group's children open as a panel over the rail, framed by a line instead of a shadow. */
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel {
+    box-shadow: -1px 0 0 var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel {
+    box-shadow: -1px 0 0 var(--tss-dark-border-color);
+}
+
+/* The drawer the burger opens is a floating surface: square, framed in ink. */
+body.tss-theme-curiosity .tss-navbar-drawer {
+    box-shadow: var(--cur-surface-ring);
+    border-bottom-left-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-navbar-burger:hover {
+    border-radius: var(--tss-border-radius-full);
+}

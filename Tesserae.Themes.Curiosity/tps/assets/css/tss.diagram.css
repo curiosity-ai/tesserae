@@ -1,0 +1,38 @@
+/* ==========================================================================
+   Curiosity theme - Diagram
+   --------------------------------------------------------------------------
+   Drawn in the grammar of the website's figures (BRAND.md s10): nodes are
+   square boxes, a default node framed by a 1px ink line on paper, the tones
+   filled flat; an icon-only junction is a square, not a circle. The canvas
+   is a grid of small squares rather than round dots, and the wires take the
+   darker border tone so they read as connectors, not as the grid. Hover and
+   drag add a second ink line instead of a shadow.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-diagram {
+    --tss-diagram-line-color: var(--tss-dark-border-color);
+    background-image: conic-gradient(at 2px 2px, transparent 75%, var(--tss-diagram-dot-color) 0);
+}
+
+body.tss-theme-curiosity .tss-diagram.tss-diagram-no-dots {
+    background-image: none;
+}
+
+body.tss-theme-curiosity .tss-diagram-node,
+body.tss-theme-curiosity .tss-diagram-node.tss-diagram-node-icon-only,
+body.tss-theme-curiosity .tss-diagram-node .tss-diagram-node-image {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-diagram-node-default {
+    border-color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-diagram-node:hover,
+body.tss-theme-curiosity .tss-diagram-node.tss-diagram-node-dragging {
+    box-shadow: 0 0 0 1px var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-diagram-node:active {
+    transform: scale(.97);
+}

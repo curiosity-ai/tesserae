@@ -1,0 +1,109 @@
+/* ==========================================================================
+   Curiosity theme - SegmentedPivot
+   --------------------------------------------------------------------------
+   A square row of cells in a 1px ink frame, the cells split by hairlines,
+   rather than a sunken rounded track. The selected cell is filled ink with
+   paper text (paper on ink in dark mode), the same ink that marks a selected
+   Pivot tab; the others are mute-ink and hover to stone. The frame's 1px and
+   the cells' extra 3px of padding add up to the 4px of track padding they
+   replace, so the control keeps its height.
+
+   The AI variant keeps its own tint and gradient (tss.ai.css): the frame and
+   the cell dividers are not drawn on it.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-curiosity .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar {
+    background: transparent;
+    box-shadow: none;
+    border: 1px solid var(--tss-default-foreground-color);
+    border-radius: 0;
+    padding: 0;
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-curiosity .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot .tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar {
+    border: none;
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot-tab {
+    border-radius: 0;
+    color: var(--tss-secondary-foreground-color);
+    transition: background-color .15s linear, color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-tab,
+body.tss-theme-curiosity .tss-sidebar-segmentedpivot-wrapper-open .tss-segmentedpivot-tab {
+    padding: 9px 14px;
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab + .tss-segmentedpivot-tab {
+    box-shadow: inset 1px 0 0 var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot-tab:hover {
+    background-color: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot-tab:active {
+    background-color: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-curiosity .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected + .tss-segmentedpivot-tab,
+body.tss-theme-curiosity .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab + .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-curiosity .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected:hover {
+    background-color: var(--tss-default-foreground-color);
+    color: var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected *:not(.tss-token):not(.tss-token *) {
+    color: var(--tss-default-background-color);
+}
+
+/* Focus is drawn inside the cell: the strip scrolls, and a ring outside it would be clipped. */
+body.tss-theme-curiosity .tss-segmentedpivot-tab:focus-visible,
+body.tss-theme-curiosity .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
+    box-shadow: none;
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: -4px;
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
+    outline-color: var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot-titlebar-wrapper .tss-btn {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot-titlebar-wrapper .tss-btn:not(.tss-disabled):active {
+    transform: none;
+}
+
+/* On the rail the closed pivot stacks its cells, so the divider runs across instead of down. */
+body.tss-theme-curiosity .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-titlebar {
+    padding: 0;
+}
+
+body.tss-theme-curiosity .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab {
+    margin-bottom: 0;
+    padding: 5px 4px;
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot:not(.tss-ai) .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab + .tss-segmentedpivot-tab {
+    box-shadow: inset 0 1px 0 var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-segmentedpivot-content > .tss-background-area {
+    border-radius: 0;
+}

@@ -1,0 +1,37 @@
+/* ==========================================================================
+   Curiosity theme - Metric
+   --------------------------------------------------------------------------
+   A KPI tile reads like the website's numbers band: the title is the mono
+   uppercase label voice in the secondary tone, the value is Geist Mono at
+   500 with tabular figures and the tighter tracking the brand gives large
+   figures, and the change beside it is mono too. The icon tile in front is a
+   square, not a rounded one.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-metric-icon > .tss-icontile {
+    --tss-icontile-radius: 0px;
+}
+
+body.tss-theme-curiosity .tss-metric-title,
+body.tss-theme-curiosity .tss-metric-title .tss-textblock {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-metric-value,
+body.tss-theme-curiosity .tss-metric-value > .tss-textblock {
+    font-family: var(--tss-monospace-font-family);
+    font-weight: var(--tss-font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -.02em;
+}
+
+body.tss-theme-curiosity .tss-metric-change,
+body.tss-theme-curiosity .tss-metric-change > .tss-textblock {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-variant-numeric: tabular-nums;
+}

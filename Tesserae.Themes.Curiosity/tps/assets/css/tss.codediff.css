@@ -1,0 +1,146 @@
+/* ==========================================================================
+   Curiosity theme - CodeDiff (diff2html)
+   --------------------------------------------------------------------------
+   diff2html draws everything from its own --d2h-* variables, so the diff is
+   themed by restating those on the component: paper, line and stone for the
+   frame, the file header and the gutter; the flat semantic green and red,
+   muted, for what was added and removed (product UI may use them, BRAND.md
+   s4.5). A changed line is simply red or green, not diff2html's third,
+   yellow, tone, and the CHANGED tag is a mono label in the muted tone.
+
+   CodeDiff always renders diff2html's light scheme, so under Tesserae's dark
+   mode the light variables are restated in the ink palette; without that the
+   paper text of the dark page sat on diff2html's white and pale green. A host
+   that asks diff2html for its own dark scheme gets the same ink palette.
+
+   Shape: square frame, square highlights, Geist Mono for the code, the line
+   numbers and the tags; the file name stays in the text face.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-codediff {
+    --d2h-bg-color: #F4F4F2;
+    --d2h-border-color: #DEE0DF;
+    --d2h-dim-color: #8A9099;
+    --d2h-line-border-color: #E6E8E8;
+    --d2h-file-header-bg-color: #ECEDEB;
+    --d2h-file-header-border-color: #DEE0DF;
+    --d2h-empty-placeholder-bg-color: #ECEDEB;
+    --d2h-empty-placeholder-border-color: #DEE0DF;
+    --d2h-selected-color: rgba(47, 107, 255, 0.15);
+    --d2h-ins-bg-color: #E4F1E7;
+    --d2h-ins-border-color: #B5D9C0;
+    --d2h-ins-highlight-bg-color: #BEE2C8;
+    --d2h-ins-label-color: #157A3C;
+    --d2h-del-bg-color: #F8E6E4;
+    --d2h-del-border-color: #EAB8B2;
+    --d2h-del-highlight-bg-color: #F1C6C0;
+    --d2h-del-label-color: #C42B1C;
+    --d2h-change-del-color: #F8E6E4;
+    --d2h-change-ins-color: #E4F1E7;
+    --d2h-info-bg-color: #ECEDEB;
+    --d2h-info-border-color: #DEE0DF;
+    --d2h-change-label-color: #616774;
+    --d2h-moved-label-color: #0029E7;
+
+    --d2h-dark-color: #F4F4F2;
+    --d2h-dark-bg-color: #111418;
+    --d2h-dark-border-color: #2A2F38;
+    --d2h-dark-dim-color: #6E7580;
+    --d2h-dark-line-border-color: #1B1F25;
+    --d2h-dark-file-header-bg-color: #161A1F;
+    --d2h-dark-file-header-border-color: #2A2F38;
+    --d2h-dark-empty-placeholder-bg-color: #161A1F;
+    --d2h-dark-empty-placeholder-border-color: #2A2F38;
+    --d2h-dark-selected-color: rgba(47, 107, 255, 0.2);
+    --d2h-dark-ins-bg-color: rgba(36, 150, 80, 0.14);
+    --d2h-dark-ins-border-color: rgba(36, 150, 80, 0.4);
+    --d2h-dark-ins-highlight-bg-color: rgba(36, 150, 80, 0.38);
+    --d2h-dark-ins-label-color: #4CC37A;
+    --d2h-dark-del-bg-color: rgba(226, 72, 56, 0.12);
+    --d2h-dark-del-border-color: rgba(226, 72, 56, 0.4);
+    --d2h-dark-del-highlight-bg-color: rgba(226, 72, 56, 0.38);
+    --d2h-dark-del-label-color: #FF6B5C;
+    --d2h-dark-change-del-color: rgba(226, 72, 56, 0.12);
+    --d2h-dark-change-ins-color: rgba(36, 150, 80, 0.14);
+    --d2h-dark-info-bg-color: #161A1F;
+    --d2h-dark-info-border-color: #2A2F38;
+    --d2h-dark-change-label-color: #C5C9CE;
+    --d2h-dark-moved-label-color: #7A9EFF;
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-codediff {
+    --d2h-bg-color: #111418;
+    --d2h-border-color: #2A2F38;
+    --d2h-dim-color: #6E7580;
+    --d2h-line-border-color: #1B1F25;
+    --d2h-file-header-bg-color: #161A1F;
+    --d2h-file-header-border-color: #2A2F38;
+    --d2h-empty-placeholder-bg-color: #161A1F;
+    --d2h-empty-placeholder-border-color: #2A2F38;
+    --d2h-selected-color: rgba(47, 107, 255, 0.2);
+    --d2h-ins-bg-color: rgba(36, 150, 80, 0.14);
+    --d2h-ins-border-color: rgba(36, 150, 80, 0.4);
+    --d2h-ins-highlight-bg-color: rgba(36, 150, 80, 0.38);
+    --d2h-ins-label-color: #4CC37A;
+    --d2h-del-bg-color: rgba(226, 72, 56, 0.12);
+    --d2h-del-border-color: rgba(226, 72, 56, 0.4);
+    --d2h-del-highlight-bg-color: rgba(226, 72, 56, 0.38);
+    --d2h-del-label-color: #FF6B5C;
+    --d2h-change-del-color: rgba(226, 72, 56, 0.12);
+    --d2h-change-ins-color: rgba(36, 150, 80, 0.14);
+    --d2h-info-bg-color: #161A1F;
+    --d2h-info-border-color: #2A2F38;
+    --d2h-change-label-color: #C5C9CE;
+    --d2h-moved-label-color: #7A9EFF;
+}
+
+body.tss-theme-curiosity .tss-codediff .d2h-wrapper {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-codediff .d2h-file-wrapper,
+body.tss-theme-curiosity .tss-codediff .d2h-file-collapse,
+body.tss-theme-curiosity .tss-codediff .d2h-lines-added,
+body.tss-theme-curiosity .tss-codediff .d2h-lines-deleted,
+body.tss-theme-curiosity .tss-codediff .d2h-code-line del,
+body.tss-theme-curiosity .tss-codediff .d2h-code-line ins,
+body.tss-theme-curiosity .tss-codediff .d2h-code-side-line del,
+body.tss-theme-curiosity .tss-codediff .d2h-code-side-line ins {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-codediff .d2h-file-header {
+    font-family: var(--tss-sansserif-font-family);
+}
+
+body.tss-theme-curiosity .tss-codediff .d2h-file-name-wrapper {
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-curiosity .tss-codediff .d2h-diff-table,
+body.tss-theme-curiosity .tss-codediff .d2h-file-stats,
+body.tss-theme-curiosity .tss-codediff .d2h-file-list-wrapper {
+    font-family: var(--tss-monospace-font-family);
+}
+
+body.tss-theme-curiosity .tss-codediff .d2h-tag,
+body.tss-theme-curiosity .tss-codediff .d2h-file-collapse {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-codediff .d2h-tag {
+    margin-left: 8px;
+    padding: 1px 5px;
+}
+
+body.tss-theme-curiosity .tss-codediff .d2h-file-collapse {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-codediff .d2h-file-collapse-input {
+    accent-color: var(--tss-primary-background-color);
+}
