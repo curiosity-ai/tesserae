@@ -101,14 +101,21 @@
     background: transparent;
 }
 
+/* A glyph sits on a line box of its own size. Left to inherit the page's 1.4 line-height, a 12px icon made
+   a 16.8px box, taller than the 11px label's line, so a badge with an icon - or with a remove button,
+   whose <button> brings the browser's own font and line-height - came out taller than the same badge
+   without one, and a row of mixed badges did not line up. */
 .tss-token-icon {
     font-size: 12px;
+    line-height: 1;
 }
 
 .tss-token-remove {
     border: none;
     background: transparent;
     padding: 0;
+    font: inherit;
+    line-height: 1;
     margin-left: 4px;
     cursor: pointer;
     color: inherit;
@@ -119,4 +126,5 @@
 
 .tss-token-remove i {
     font-size: 12px;
+    line-height: 1;
 }
