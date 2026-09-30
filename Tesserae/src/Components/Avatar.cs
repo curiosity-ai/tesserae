@@ -227,18 +227,15 @@ namespace Tesserae
             return GradientForHue((int)System.Math.Round(color.GetHue()));
         }
 
-        private static string GetGradientForInitials(string initials)
+        private static int HueForInitials(string initials)
         {
-            if (string.IsNullOrWhiteSpace(initials))
-                return "";
-
             int hash = 0;
             for (int i = 0; i < initials.Length; i++)
             {
                 hash = initials[i] + ((hash << 5) - hash);
             }
 
-            return GradientForHue(System.Math.Abs(hash));
+            return System.Math.Abs(hash) % 360;
         }
 
         private void UpdateImageState()
@@ -248,22 +245,17 @@ namespace Tesserae
             _image.style.display    = hasImage ? "block" : "none";
             _initials.style.display = hasImage ? "none" : "flex";
 
-            if (!hasImage && !string.IsNullOrWhiteSpace(Initials))
-            {
-                if (string.IsNullOrEmpty(InnerElement.style.background) && string.IsNullOrEmpty(InnerElement.style.backgroundColor))
-                {
-                    InnerElement.style.background = GetGradientForInitials(Initials);
-                    _initials.style.color = "white";
-                }
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(InnerElement.style.background) && InnerElement.style.background.Contains("linear-gradient"))
-                {
-                    InnerElement.style.background = "";
-                    _initials.style.color = "";
-                }
-            }
+            // An avatar with only initials is filled from a hue derived from them. The fill itself is drawn by
+            // .tss-avatar-generated in tss.avatar.css (the GradientForHue gradient) from --tss-avatar-hue, rather
+            // than written inline, so a stylesheet or a custom theme can restyle it. A background the app set
+            // itself (Background(...) or an inline style) is left alone.
+            var generated = !hasImage
+                         && !string.IsNullOrWhiteSpace(Initials)
+                         && string.IsNullOrEmpty(InnerElement.style.background)
+                         && string.IsNullOrEmpty(InnerElement.style.backgroundColor);
+
+            if (generated) InnerElement.style.setProperty("--tss-avatar-hue", HueForInitials(Initials).ToString());
+            InnerElement.UpdateClassIf(generated, "tss-avatar-generated");
         }
 
         /// <summary>
