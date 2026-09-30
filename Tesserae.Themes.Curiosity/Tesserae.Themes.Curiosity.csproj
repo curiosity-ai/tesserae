@@ -1,4 +1,4 @@
-<Project Sdk="Transpose.Build.Target/26.9.4870">
+<Project Sdk="Transpose.Build.Target/26.9.4870" TreatAsLocalProperty="Version">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>tss.theme.curiosity</AssemblyName>
@@ -17,6 +17,17 @@
   <ItemGroup>
     <ProjectReference Include="..\Tesserae\Tesserae.csproj" />
   </ItemGroup>
+
+  <!--
+    Versioning. Tesserae is published as yyyy.M.build and has to stay that way (a switch to yy would sort every
+    new package below the old ones on NuGet), but a new package can use the proper yy.M.build from the start.
+    CI passes the Tesserae version as /p:Version, which flows into the Tesserae project reference (so this
+    package depends on the Tesserae built alongside it), and this package's own version as /p:ThemeVersion.
+    TreatAsLocalProperty on <Project> is what lets the global Version be replaced here for this project only.
+  -->
+  <PropertyGroup Condition="'$(ThemeVersion)' != ''">
+    <Version>$(ThemeVersion)</Version>
+  </PropertyGroup>
 
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
