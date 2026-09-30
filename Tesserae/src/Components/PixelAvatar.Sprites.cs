@@ -36,7 +36,7 @@ namespace Tesserae
         /// things the cat handles rather than the cat itself, such as the laptop in
         /// <see cref="PixelAvatarAnimation.Work"/>. A prop is not part of a coat, so it is not in
         /// a <see cref="PixelAvatarPalette"/>: those indices are painted from the avatar's own CSS
-        /// variables instead, which is what keeps one laptop grey across all fifteen designs.
+        /// variables instead, which is what keeps one laptop grey across all sixteen designs.
         /// </summary>
         public const int PropSize = 3;
         /// <summary>The highest index a sprite cell can carry, props included.</summary>

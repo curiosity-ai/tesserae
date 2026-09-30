@@ -1,13 +1,13 @@
 ﻿---
 name: pixel-avatar
-description: An animated pixel-art cat avatar drawn as one absolutely-positioned div per pixel, with fifteen coat designs and fifteen animations - including one where it works at a laptop - attachable to any other component. Use when adding a small animated mascot or decorative character to a Tesserae (C#/Transpose) app.
+description: An animated pixel-art cat avatar drawn as one absolutely-positioned div per pixel, with sixteen coat designs and fifteen animations - including one where it works at a laptop - attachable to any other component. Use when adding a small animated mascot or decorative character to a Tesserae (C#/Transpose) app.
 ---
 
 # PixelAvatar
 
 `PixelAvatar` renders an 11x8 pixel-art sprite (the cat in ten columns, plus a spare column behind him that only the tail's flick in `WorkIdle` reaches; the box is the ten columns, and the spare one draws outside it) as a grid of absolutely positioned square
 divs. The artwork lives in the library as a byte grid of palette indices
-(`PixelAvatarSprites`), so all fifteen designs share the same frames and differ only in
+(`PixelAvatarSprites`), so all sixteen designs share the same frames and differ only in
 their `PixelAvatarPalette` — switching design rewrites eleven CSS variables and repaints
 nothing.
 
@@ -55,7 +55,9 @@ subtree costs nothing.
 `PixelAvatarDesign`: `Black`, `Orange`, `White`, `Beige`, `Siamese`, `SpottedGrey`,
 `SpottedOrange`, `Tuxedo` (extracted from the source sprite sheets), plus `Grey`, `Sparkle`
 (violet with magenta markings), `Lynx` (tawny with dark ear tufts and spots), `Sudo`
-(near-black navy with an electric blue accent on the ear tips), `Cobalt` (royal blue under a
+(near-black navy with an electric blue accent on the ear tips), `SudoDark` (the same cat for a
+dark ground: his tones reversed, lightest where `Sudo` is darkest, same ear tips - pick it with
+`Theme.IsDark ? PixelAvatarDesign.SudoDark : PixelAvatarDesign.Sudo`), `Cobalt` (royal blue under a
 navy head, with a sky-blue chest and silver paws), `Ember` (coral red with amber ears and tail)
 and `Bubblegum` (hot pink with a peach chest and a mint sock), which are authored against the
 same palette indices. `PixelAvatarPalettes.All` enumerates them and
@@ -114,7 +116,7 @@ var cat = PixelAvatar(SpriteKey.Value, PixelAvatarDesign.Orange, PixelAvatarAnim
 
 These two are the only animations that draw something other than the cat, and the laptop is
 deliberately **not** part of the coat. A `PixelAvatarPalette` describes a cat, so putting the
-laptop in it would mean every one of the fifteen designs — and every custom palette — inventing a
+laptop in it would mean every one of the sixteen designs — and every custom palette — inventing a
 laptop color for itself, and a ginger cat would get a ginger laptop. The artwork carries
 `PixelAvatarSprites.PropSize` (3) **prop indices** above the palette's own
 `1..PixelAvatarSprites.PaletteSize`, up to `PixelAvatarSprites.HighestIndex`:
@@ -197,7 +199,7 @@ On `PixelAvatarPalette`:
 - `PixelAvatarPalette.FromColors(string name, Color background, params Color[] colors)` — throws `ArgumentException` unless exactly `PixelAvatarSprites.PaletteSize` colors are given, so a short or long list fails loudly instead of rendering a broken cat. Pass a null background to derive one.
 - `PixelAvatarPalette.FromShades(string name, Color background, Color highlight, Color baseColor, Color shadow)` — the three-color form.
 - `.Colors` / `.ColorAt(byte)` — the colors, as `Color`. `.CssAt(byte)` gives the hex the renderer writes, or an empty string for the transparent index 0.
-- `.Accent` / `.WithAccent(Color)` — an optional highlight painted on the ear tips. It is **not** a palette index: it is drawn as an extra pixel at half the avatar's `PixelSize` over each ear tip, so a design can carry a spot of color the shared artwork has no cell for. `Sudo` is the built-in that uses it. Null means no accent, which is the default.
+- `.Accent` / `.WithAccent(Color)` — an optional highlight painted on the ear tips. It is **not** a palette index: it is drawn as an extra pixel at half the avatar's `PixelSize` over each ear tip, so a design can carry a spot of color the shared artwork has no cell for. `Sudo` and `SudoDark` are the built-ins that use it. Null means no accent, which is the default.
 - `.Background` — the avatar background color. `.BackgroundGradient()` turns it into CSS through `Avatar.GradientForHue`, the very method the regular `Avatar` uses for its initials, so a pixel-art badge and an initials avatar look like they came out of the same set. Only the hue is used; saturation and lightness are fixed by that formula.
 - `.WithColor(byte, Color)` / `.WithBackground(Color)` / `.WithName(string)` — return modified copies. `WithBackground` is how a custom palette picks the background its badge sits on.
 - `.DominantColor()` — the color covering most of the sprite, weighted by `PixelAvatarSprites.PixelCounts`. Used to derive a background when one is not given.

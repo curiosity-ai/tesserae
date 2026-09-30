@@ -15,7 +15,7 @@ namespace Tesserae.Tests.Samples
                .SampleTitle(typeof(PixelAvatarSample), UIcons.Cat, "An animated pixel-art avatar built out of one div per pixel")
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                        TextBlock("PixelAvatar renders a small animated sprite as a grid of absolutely positioned square divs. The artwork is stored once, as a byte grid of palette indices, and each of the fifteen designs is nothing more than a palette of colors for those indices - so recoloring an avatar costs eleven CSS variable writes and no repaint of the sprite."),
+                        TextBlock("PixelAvatar renders a small animated sprite as a grid of absolutely positioned square divs. The artwork is stored once, as a byte grid of palette indices, and each of the sixteen designs is nothing more than a palette of colors for those indices - so recoloring an avatar costs eleven CSS variable writes and no repaint of the sprite."),
                         TextBlock("Fifteen animations are available. The five *Idle animations loop forever, while the rest play once and hand over to a follow-up animation: Sit settles into SitIdle, Stretch finishes by sitting down, JumpUp is followed by JumpDown, and so on. Idle, SitIdle and CrouchIdle hold their first frame for a random 5-10 seconds rather than cycling continuously, so a resting cat looks still rather than fidgety - and AutoIdle drifts between those three poses on its own."),
                         TextBlock("Work and WorkIdle are the only pair that draws something other than the cat. The laptop comes from three prop indices above the eleven palette ones, painted from the avatar's own CSS variables rather than from the coat - a palette describes a cat, and every design would otherwise have to invent a laptop color for itself."),
                         TextBlock("Avatars can be attached to any other component, which perches them on one of its edges without affecting its layout."),
@@ -30,8 +30,8 @@ namespace Tesserae.Tests.Samples
                        .SetTitle("Best Practices")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                        SampleSubTitle("The fifteen designs, attached to buttons"),
-                        TextBlock("Every avatar below is attached to the top edge of a button. Click a button to switch the animation its cat is playing. Eight designs come from the source sprite sheets; Grey, Sparkle, Lynx, Sudo, Cobalt, Ember and Bubblegum are authored against the same palette indices. Sudo also carries an accent - an extra half-size pixel on each ear tip, which is not a palette index but an overlay."),
+                        SampleSubTitle("The sixteen designs, attached to buttons"),
+                        TextBlock("Every avatar below is attached to the top edge of a button. Click a button to switch the animation its cat is playing. Eight designs come from the source sprite sheets; Grey, Sparkle, Lynx, Sudo, SudoDark, Cobalt, Ember and Bubblegum are authored against the same palette indices; SudoDark is Sudo for a dark ground, his tones reversed. Both carry an accent - an extra half-size pixel on each ear tip, which is not a palette index but an overlay."),
                         DesignGallery(),
                         SampleSubTitle("Every animation"),
                         TextBlock("Pick an animation to play it on a larger avatar. Non-looping animations chain into their follow-up, so the label updates on its own once they finish. The three resting poses hold their first frame for 5-10 seconds rather than cycling, and AutoIdle drifts between them."),
@@ -313,7 +313,7 @@ namespace Tesserae.Tests.Samples
         {
             var row = HStack().AlignItemsCenter().Children();
 
-            foreach (var design in new[] { PixelAvatarDesign.Black, PixelAvatarDesign.Orange, PixelAvatarDesign.Tuxedo, PixelAvatarDesign.Sudo })
+            foreach (var design in new[] { PixelAvatarDesign.Black, PixelAvatarDesign.Orange, PixelAvatarDesign.Tuxedo, PixelAvatarDesign.Sudo, PixelAvatarDesign.SudoDark })
             {
                 var avatar = PixelAvatar(42, design, PixelAvatarAnimation.SitIdle).PixelSize(8);
 
