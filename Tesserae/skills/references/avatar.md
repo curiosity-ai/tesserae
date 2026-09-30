@@ -8,7 +8,9 @@ description: A circular user representation showing an image or initials with an
 `Avatar` shows a user's image, or initials with a deterministic gradient background when
 no image is set. It supports five sizes and a presence indicator. `Persona` wraps an
 `Avatar` with name plus two lines of descriptive text — ideal for contact lists and
-profile cards.
+profile cards. The initials fill is drawn by the `tss-avatar-generated` class from a
+`--tss-avatar-hue` the avatar sets, so a stylesheet or custom theme can restyle it
+(`custom-themes.md`); `Background(...)` still overrides it.
 
 ## Create
 

@@ -90,7 +90,11 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
 
 3. CSS files named after the Tesserae stylesheet they restyle (`tss.button.css`,
    `tss.dropdown.css`, …) plus a `tss.common.css` that redefines the `--tss-*`
-   variables. Chart series without an explicit colour read `--tss-chart-series-1` … `-8`. Scope every selector under the root class: `body.tss-theme-mine .tss-btn`
+   variables. A few things a component would otherwise write inline read a variable a theme can
+   set instead: chart series without an explicit colour (`--tss-chart-series-1` … `-8`), the
+   focused MarkHighlighter match (`--tss-mark-focus-color`), and an initials-only Avatar, which
+   is drawn by `.tss-avatar.tss-avatar-generated` from `--tss-avatar-hue`.
+   Scope every selector under the root class: `body.tss-theme-mine .tss-btn`
    (and `body.tss-theme-mine.tss-dark-mode …` for dark). Redefine a derived variable
    together with its `-root` value (`--tss-x-color-root` **and**
    `--tss-x-color: rgb(var(--tss-x-color-root))`): a derived value is resolved where it
