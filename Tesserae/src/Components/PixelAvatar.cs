@@ -41,7 +41,7 @@ namespace Tesserae
         private const int PerspectiveFactor = 4;
 
         // The prop indices above the coat palette. A prop - the laptop the cat works on - is not
-        // part of a coat: a palette describes a cat, and every one of the fifteen designs would
+        // part of a coat: a palette describes a cat, and every one of the sixteen designs would
         // otherwise have to invent a laptop color for itself. They are painted from three
         // variables of their own, defaulted by the stylesheet and overridable with PropColors.
         // Declared first because static initializers run in order and BuildColorVariables reads it.
@@ -363,7 +363,7 @@ namespace Tesserae
         /// <summary>
         /// Recolors the props the cat handles - the laptop in
         /// <see cref="PixelAvatarAnimation.Work"/> - on this avatar. Props are deliberately outside
-        /// the coat palette, so they keep one set of colors across all fifteen designs; the
+        /// the coat palette, so they keep one set of colors across all sixteen designs; the
         /// stylesheet gives them a slate default and this overrides it. Pass null for a shade to
         /// leave that one alone.
         /// </summary>
