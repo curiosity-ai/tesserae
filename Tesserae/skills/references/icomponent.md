@@ -121,6 +121,10 @@ For text-bearing components (`TextBlock`, `Button`, `Label`, …):
 set on an element - the tooltip itself is only built on the first hover, which a touch
 layout never has, so this is how one finds out what an icon-only control is for.
 
+A component can skip a tooltip that would only repeat what it already shows in full. `InlineLabel`
+does this: a tooltip matching its own text shows only while that text is ellipsized, checked on every
+hover.
+
 (See `tippy` for the underlying Tippy.js wrapper.)
 
 ## Accessibility — `IAccessibilityExtensions.cs`

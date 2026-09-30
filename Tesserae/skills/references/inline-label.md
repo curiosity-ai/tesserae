@@ -91,6 +91,11 @@ ellipsizes rather than wrapping, so a long path gives way to whatever it shares 
 label had to cut belongs in `.Tooltip(...)`: the full path, what a code stands for, the date behind
 "2 days ago".
 
+A tooltip that only repeats the label's own text (`InlineLabel(name).Tooltip(name)`) is skipped while
+all of that text is on screen and shows once the label is cut short. It is checked on every hover, so it
+follows the layout as the window is resized. The result is cached on the element and measured again only
+when the label's width or text changes. A tooltip saying anything else always shows.
+
 **Hover.** A pressable or linked label lifts its background on hover, in a footer as well as on its own —
 in a footer with a shade the row itself can't be, since the row is already on its own hover background by
 the time the pointer reaches a label. Only a label with an `href` also underlines — one that merely runs a

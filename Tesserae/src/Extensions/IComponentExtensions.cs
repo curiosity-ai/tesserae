@@ -514,8 +514,15 @@ namespace Tesserae
             //which can be moved. A component that replaces its element calls this again instead.
             if (UI.Remembers(rendered, component)) UI.Remember(component, () => component.Tooltip(tooltip, interactive, animation, placement, delayShow, delayHide, appendToBody, followCursor, maxWidth, hideOnClick, arrow, theme, parent), replayAfterPatch: false);
 
+            //Asked on every hover and every show, not only the first: a label that fits in a wide window
+            //can be cut short in a narrow one, and the other way round.
+            bool IsRedundant() => component is ISkipsRedundantTooltip skips && skips.IsTooltipRedundant(tooltip.Render().textContent);
+
             void AttachTooltip(MouseEvent e)
             {
+                //Nothing to add right now: attach nothing and stay armed, so the next hover asks again.
+                if (rendered["tooltipMarker"] == marker && IsRedundant()) return;
+
                 rendered.onmouseenter -= AttachTooltip;
 
                 if (rendered["tooltipMarker"] != marker) return;
@@ -540,13 +547,16 @@ namespace Tesserae
                 // Tippy.ShowFor uses for imperative popovers.
                 if (!int.TryParse(Layers.AboveCurrent(), out var zIndex)) zIndex = 9999;
 
+                // Once attached, tippy opens on its own hover handlers, so onShow is where every later
+                // hover asks IsRedundant - returning false cancels that show without destroying anything.
+
                 if (animation == TooltipAnimation.None)
                 {
-                    Transpose.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}], appendTo: {6}, followCursor: {7}, maxWidth: {8}, hideOnClick:{9}, arrow: {10}, theme: {11}, zIndex: {12} });", element, renderedTooltip, interactive, placement.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>() : "parent".As<object>(), followCursor, maxWidth, hideOnClick, arrow, theme, zIndex);
+                    Transpose.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}], appendTo: {6}, followCursor: {7}, maxWidth: {8}, hideOnClick:{9}, arrow: {10}, theme: {11}, zIndex: {12}, onShow: function() { if ({13}()) return false; } });", element, renderedTooltip, interactive, placement.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>() : "parent".As<object>(), followCursor, maxWidth, hideOnClick, arrow, theme, zIndex, (Func<bool>)IsRedundant);
                 }
                 else
                 {
-                    Transpose.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}], appendTo: {7}, followCursor: {8}, maxWidth: {9}, hideOnClick: {10}, arrow: {11}, theme: {12}, zIndex: {13} });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>() : "parent".As<object>(), followCursor, maxWidth, hideOnClick, arrow, theme, zIndex);
+                    Transpose.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}], appendTo: {7}, followCursor: {8}, maxWidth: {9}, hideOnClick: {10}, arrow: {11}, theme: {12}, zIndex: {13}, onShow: function() { if ({14}()) return false; } });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>() : "parent".As<object>(), followCursor, maxWidth, hideOnClick, arrow, theme, zIndex, (Func<bool>)IsRedundant);
                 }
 
                 Transpose.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly, as the mouse is hovering the element
