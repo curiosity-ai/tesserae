@@ -397,8 +397,10 @@ namespace Tesserae
                     Transpose.Script.Write("{0}._tippy.disable();", InnerElement);
                 }
 
-                _spinner.style.height = rect.height.px().ToString();
-                _spinner.style.width  = rect.width.px().ToString();
+                // The button's size is a floor, not a fixed box: the spinner label ("Verifying...") is often wider
+                // than the text it replaces, and a pinned width made it spill out of both sides of the button.
+                _spinner.style.height   = rect.height.px().ToString();
+                _spinner.style.minWidth = rect.width.px().ToString();
 
                 InnerElement.parentElement.replaceChild(_spinner, InnerElement);
             }
