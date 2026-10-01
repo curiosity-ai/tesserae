@@ -179,7 +179,7 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>Removes the border from the text box.</summary>
+        /// <summary>Removes the border from the text box, in every state: no hover edge and no focus ring, for an input set inside a box that draws its own.</summary>
         public TextBox NoBorder()
         {
             InnerElement.classList.add("tss-textbox-noborder");

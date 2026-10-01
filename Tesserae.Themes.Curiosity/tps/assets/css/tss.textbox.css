@@ -51,9 +51,12 @@ body.tss-theme-curiosity .tss-textbox[readonly]:not(.tss-disabled) {
     border-style: dashed;
 }
 
+/* No edge in any state: the host draws it, and the focus ring would be a pill inside the host's box. */
 body.tss-theme-curiosity .tss-textbox.tss-textbox-noborder,
-body.tss-theme-curiosity .tss-textbox.tss-textbox-noborder:hover {
+body.tss-theme-curiosity .tss-textbox.tss-textbox-noborder:hover,
+body.tss-theme-curiosity .tss-textbox.tss-textbox-noborder:focus {
     border-color: transparent;
+    box-shadow: none;
 }
 
 body.tss-theme-curiosity .tss-textbox-container.tss-invalid .tss-textbox {
