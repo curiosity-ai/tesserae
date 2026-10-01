@@ -38,16 +38,12 @@ body.tss-theme-curiosity.tss-mobile .tss-navbar-mobile-header .tss-textblock {
     text-transform: uppercase;
 }
 
-/* Scrollbar: Tesserae thins it to 4px on mobile. Keep that width, drop the inset so the thumb
-   is two pixel cells across, and keep the pixel corners. */
+/* Scrollbar: Tesserae thins it to 4px on mobile. The rail keeps that spirit at 6px: a 2px thumb
+   that widens to 4px under the finger. */
 @supports selector(::-webkit-scrollbar) {
     body.tss-theme-curiosity.tss-mobile {
-        --cur-scrollbar-size: 4px;
-    }
-
-    body.tss-theme-curiosity.tss-mobile ::-webkit-scrollbar-thumb,
-    body.tss-theme-curiosity.tss-mobile *:hover::-webkit-scrollbar-thumb,
-    body.tss-theme-curiosity.tss-mobile ::-webkit-scrollbar-thumb:hover {
-        border-width: 0;
+        --cur-scrollbar-size: 6px;
+        --cur-scrollbar-inset: 2px;
+        --cur-scrollbar-inset-hover: 1px;
     }
 }

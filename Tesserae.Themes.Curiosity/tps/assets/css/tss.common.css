@@ -319,61 +319,46 @@ body.tss-theme-curiosity ::selection {
 body.tss-theme-curiosity .tss-fontcolor-primary {
     color: var(--tss-link-color);
 }
-
 /* --------------------------------------------------------------------------
-   Scrollbars: a pixel thumb on a dotted rail
+   Scrollbars: the hairline rail
    --------------------------------------------------------------------------
-   The thumb is drawn on a 2px pixel grid, the same cell the brand's mosaics
-   use: a 2px checker dither while it only says "this scrolls", a solid block
-   with stepped (notched) pixel corners once the pointer is on it, and the
-   Signal while it is being dragged. The track is a dotted 2px rail that only
-   shows while the scroller is hovered.
+   The track is the brand's 1px hairline, run down the middle of the bar. The
+   thumb is a 4px ink bar with square ends that widens to 8px under the pointer
+   and turns Signal while it is dragged. The width change is the transparent
+   border shrinking around a padding-box background, so nothing re-lays out.
 
    Two engines, two mechanisms, and they must not meet:
-   - Chrome, Edge and Safari draw ::-webkit-scrollbar, which takes a full
-     background, so the pixel shapes are gradients on the thumb and track.
+   - Chrome, Edge and Safari draw ::-webkit-scrollbar.
    - Firefox has only scrollbar-color and scrollbar-width. Chromium 121+ also
      understands those, and an element that sets either one stops using its
      ::-webkit-scrollbar styles. So the standard properties are applied only
      where ::-webkit-scrollbar is not a selector, which is Firefox alone.
-   The root scrollbar belongs to html, not body, so it is reached through
-   :has() (every engine that matters here supports it; without it the page
-   scrollbar simply keeps Tesserae's look).
+   The page scrollbar belongs to html, not body, so it is reached through
+   :has(); without :has() it keeps Tesserae's look.
    ========================================================================== */
 
 body.tss-theme-curiosity {
-    --cur-scrollbar-px: 2px;
-    --cur-scrollbar-size: 10px;
-    --cur-scrollbar-rail: rgba(var(--tss-default-foreground-color-root), 0.14);
-    --cur-scrollbar-dither-idle: rgba(var(--tss-default-foreground-color-root), 0.16);
-    --cur-scrollbar-dither: rgba(var(--tss-default-foreground-color-root), 0.42);
-    --cur-scrollbar-solid: rgba(var(--tss-default-foreground-color-root), 0.62);
+    --cur-scrollbar-size: 12px;
+    --cur-scrollbar-inset: 4px;       /* 12px bar, 4px border each side: a 4px thumb */
+    --cur-scrollbar-inset-hover: 2px; /* an 8px thumb under the pointer */
+    --cur-scrollbar-rail: var(--tss-default-border-color);
+    --cur-scrollbar-thumb: rgb(var(--tss-default-foreground-color-root));
     --cur-scrollbar-drag: rgb(var(--tss-highlight-color-root));
 }
 
-body.tss-theme-curiosity.tss-dark-mode {
-    --cur-scrollbar-rail: rgba(var(--tss-default-foreground-color-root), 0.16);
-    --cur-scrollbar-dither-idle: rgba(var(--tss-default-foreground-color-root), 0.18);
-    --cur-scrollbar-dither: rgba(var(--tss-default-foreground-color-root), 0.45);
-    --cur-scrollbar-solid: rgba(var(--tss-default-foreground-color-root), 0.68);
-}
-
-/* The page scrollbar reads the tokens from html, which sits above the body that declares them. */
+/* html sits above the body that declares the tokens, so the page scrollbar gets its own. */
 html:has(> body.tss-theme-curiosity) {
-    --cur-scrollbar-px: 2px;
-    --cur-scrollbar-size: 10px;
-    --cur-scrollbar-rail: rgba(17, 20, 24, 0.14);
-    --cur-scrollbar-dither-idle: rgba(17, 20, 24, 0.16);
-    --cur-scrollbar-dither: rgba(17, 20, 24, 0.42);
-    --cur-scrollbar-solid: rgba(17, 20, 24, 0.62);
-    --cur-scrollbar-drag: rgb(47, 107, 255);
+    --cur-scrollbar-size: 12px;
+    --cur-scrollbar-inset: 4px;
+    --cur-scrollbar-inset-hover: 2px;
+    --cur-scrollbar-rail: #DEE0DF;
+    --cur-scrollbar-thumb: #111418;
+    --cur-scrollbar-drag: #2F6BFF;
 }
 
 html:has(> body.tss-theme-curiosity.tss-dark-mode) {
-    --cur-scrollbar-rail: rgba(244, 244, 242, 0.16);
-    --cur-scrollbar-dither-idle: rgba(244, 244, 242, 0.18);
-    --cur-scrollbar-dither: rgba(244, 244, 242, 0.45);
-    --cur-scrollbar-solid: rgba(244, 244, 242, 0.68);
+    --cur-scrollbar-rail: #2A2F38;
+    --cur-scrollbar-thumb: #F4F4F2;
 }
 
 @supports selector(::-webkit-scrollbar) {
@@ -390,81 +375,41 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
         background: transparent;
     }
 
-    html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-track,
-    body.tss-theme-curiosity ::-webkit-scrollbar-track,
-    body.tss-theme-curiosity *:hover::-webkit-scrollbar-track {
-        border-radius: 0;
-        background: transparent;
-    }
-
-    /* The rail: one 2px column (or row) of 2px dots down the middle of the track. */
-    html:has(> body.tss-theme-curiosity):hover::-webkit-scrollbar-track:vertical,
+    html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-track:vertical,
+    body.tss-theme-curiosity ::-webkit-scrollbar-track:vertical,
     body.tss-theme-curiosity *:hover::-webkit-scrollbar-track:vertical {
-        background:
-            linear-gradient(to bottom, var(--cur-scrollbar-rail) 50%, transparent 50%)
-            center top / var(--cur-scrollbar-px) calc(var(--cur-scrollbar-px) * 2) repeat-y;
+        border-radius: 0;
+        background: linear-gradient(var(--cur-scrollbar-rail), var(--cur-scrollbar-rail)) center / 1px 100% no-repeat;
     }
 
-    html:has(> body.tss-theme-curiosity):hover::-webkit-scrollbar-track:horizontal,
+    html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-track:horizontal,
+    body.tss-theme-curiosity ::-webkit-scrollbar-track:horizontal,
     body.tss-theme-curiosity *:hover::-webkit-scrollbar-track:horizontal {
-        background:
-            linear-gradient(to right, var(--cur-scrollbar-rail) 50%, transparent 50%)
-            left center / calc(var(--cur-scrollbar-px) * 2) var(--cur-scrollbar-px) repeat-x;
+        border-radius: 0;
+        background: linear-gradient(var(--cur-scrollbar-rail), var(--cur-scrollbar-rail)) center / 100% 1px no-repeat;
     }
 
-    /* The thumb sits one pixel cell in from the track edges (a transparent border, background
-       clipped to the padding box), so a 10px bar leaves a 6px thumb: three cells across. */
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-thumb,
-    body.tss-theme-curiosity ::-webkit-scrollbar-thumb {
-        border: var(--cur-scrollbar-px) solid transparent;
-        border-radius: 0;
-        background-clip: padding-box;
-        background-color: transparent;
-        background-image: repeating-conic-gradient(var(--cur-scrollbar-dither-idle) 0 25%, transparent 0 50%);
-        background-size: calc(var(--cur-scrollbar-px) * 2) calc(var(--cur-scrollbar-px) * 2);
-        background-position: 0 0;
-        background-repeat: repeat;
-        background-origin: padding-box;
-    }
-
-    /* Hovering the scroller: the dither darkens. */
-    html:has(> body.tss-theme-curiosity):hover::-webkit-scrollbar-thumb,
+    body.tss-theme-curiosity ::-webkit-scrollbar-thumb,
     body.tss-theme-curiosity *:hover::-webkit-scrollbar-thumb {
-        border: var(--cur-scrollbar-px) solid transparent;
+        border: var(--cur-scrollbar-inset) solid transparent;
         border-radius: 0;
-        background-image: repeating-conic-gradient(var(--cur-scrollbar-dither) 0 25%, transparent 0 50%);
+        background: var(--cur-scrollbar-thumb) padding-box;
     }
 
-    /* On the thumb itself: a solid block with stepped corners. Two bands, one a cell shorter
-       at each end and one a cell narrower at each side, leave the four corner cells empty. */
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-thumb:hover,
     body.tss-theme-curiosity ::-webkit-scrollbar-thumb:hover,
     body.tss-theme-curiosity *:hover::-webkit-scrollbar-thumb:hover {
-        border: var(--cur-scrollbar-px) solid transparent;
-        background-image:
-            linear-gradient(var(--cur-scrollbar-solid), var(--cur-scrollbar-solid)),
-            linear-gradient(var(--cur-scrollbar-solid), var(--cur-scrollbar-solid));
-        background-size:
-            100% calc(100% - var(--cur-scrollbar-px) * 2),
-            calc(100% - var(--cur-scrollbar-px) * 2) 100%;
-        background-position: center;
-        background-repeat: no-repeat;
+        border: var(--cur-scrollbar-inset-hover) solid transparent;
     }
 
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-thumb:active,
     body.tss-theme-curiosity ::-webkit-scrollbar-thumb:active,
     body.tss-theme-curiosity *:hover::-webkit-scrollbar-thumb:active {
-        background-image:
-            linear-gradient(var(--cur-scrollbar-drag), var(--cur-scrollbar-drag)),
-            linear-gradient(var(--cur-scrollbar-drag), var(--cur-scrollbar-drag));
-        background-size:
-            100% calc(100% - var(--cur-scrollbar-px) * 2),
-            calc(100% - var(--cur-scrollbar-px) * 2) 100%;
-        background-position: center;
-        background-repeat: no-repeat;
+        border: var(--cur-scrollbar-inset-hover) solid transparent;
+        background-color: var(--cur-scrollbar-drag);
     }
 
-    /* No step buttons: the pixel grid has no room for arrows. */
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-button,
     body.tss-theme-curiosity ::-webkit-scrollbar-button {
         display: none;
@@ -473,13 +418,12 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
     }
 }
 
-/* Firefox: no shapes or patterns, only colours and a thin bar, so the thumb is a flat ink at the
-   dither's strength and its corner shape is the platform's. Both properties inherit, so setting
-   them on html and body reaches every scroller. */
+/* Firefox: a thin ink thumb on a transparent track; no rail, no hover width. Both properties
+   inherit, so setting them on html and body reaches every scroller. */
 @supports not selector(::-webkit-scrollbar) {
     html:has(> body.tss-theme-curiosity),
     body.tss-theme-curiosity {
         scrollbar-width: thin;
-        scrollbar-color: var(--cur-scrollbar-dither) transparent;
+        scrollbar-color: var(--cur-scrollbar-thumb) transparent;
     }
 }
