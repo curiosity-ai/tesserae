@@ -167,26 +167,7 @@ namespace Tesserae
             InnerElement.blur();
         }
 
-        private void SaveEditing(object e)
-        {
-            if (_isCanceling) return;
-
-            var newValue = InnerElement.value;
-
-            if (newValue != _labelText.textContent)
-            {
-                if (Saved is null || Saved(this, newValue))
-                {
-                    _labelText.textContent = newValue;
-                    _observable.Value      = newValue;
-                    IsEditingMode          = false;
-                }
-                else
-                {
-                    InnerElement.focus();
-                }
-            }
-        }
+        private void SaveEditing(object e) => EditableLabel.SaveEditing(_isCanceling, InnerElement, InnerElement.value, _labelText, _observable, v => Saved is null || Saved(this, v), () => IsEditingMode = false);
 
         /// <summary>
         /// Sets the text of the component.

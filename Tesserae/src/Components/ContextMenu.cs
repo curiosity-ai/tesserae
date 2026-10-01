@@ -434,31 +434,33 @@ namespace Tesserae
             }
         }
 
-        // Whether the last pointer movement points into the open submenu: between the two rays from the
-        // previous position to the near corners of the submenu, and closer to it than before.
         private bool IsHeadingTowardsActiveSubMenu()
         {
             if (_activeSubMenu is null || !_activeSubMenu.IsVisible || _activeSubMenu._popup is null) return false;
 
-            var prev = _previousMouseCoords;
-            var cur  = _currentMouseCoords;
+            return IsHeadingTowards(_previousMouseCoords.x, _previousMouseCoords.y, _currentMouseCoords.x, _currentMouseCoords.y, _activeSubMenu._popup.getBoundingClientRect().As<DOMRect>());
+        }
 
-            if (prev.x == cur.x && prev.y == cur.y) return false;
+        // Shared with Menu. Whether the pointer's move from prev to cur points into rect (an open submenu): it is
+        // between the two rays from prev to the near corners of rect, and closer to it than before.
+        internal static bool IsHeadingTowards(double prevX, double prevY, double curX, double curY, DOMRect rect)
+        {
+            if (prevX == curX && prevY == curY) return false;
 
-            var rect  = _activeSubMenu._popup.getBoundingClientRect().As<DOMRect>();
-            var nearX = cur.x < rect.left ? rect.left : (cur.x > rect.right ? rect.right : cur.x);
+            var nearX = Math.Max(rect.left, Math.Min(rect.right, curX));
 
-            if (nearX == cur.x) return true;
+            if (nearX == curX) return true; // already inside the submenu's horizontal span
 
-            if (Math.Abs(cur.x - nearX) >= Math.Abs(prev.x - nearX)) return false;
+            if (Math.Abs(curX - nearX) >= Math.Abs(prevX - nearX)) return false;
 
-            var toTop    = Cross(nearX - prev.x, rect.top    - prev.y, cur.x - prev.x, cur.y - prev.y);
-            var toBottom = Cross(nearX - prev.x, rect.bottom - prev.y, cur.x - prev.x, cur.y - prev.y);
+            // Cross products of each corner ray with the movement; opposite signs (or a zero) mean between the rays.
+            var dx       = curX - prevX;
+            var dy       = curY - prevY;
+            var toTop    = (nearX - prevX) * dy - (rect.top    - prevY) * dx;
+            var toBottom = (nearX - prevX) * dy - (rect.bottom - prevY) * dx;
 
             return toTop * toBottom <= 0;
         }
-
-        private static double Cross(double ax, double ay, double bx, double by) => ax * by - ay * bx;
 
         private void DeactivateActiveMenuItem()
         {

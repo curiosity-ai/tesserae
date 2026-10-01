@@ -72,9 +72,6 @@ namespace Tesserae.Themes.Curiosity
         private bool   _inside, _seen = true, _looping, _mounted;
         private double _driftStart;
 
-        private ResizeObserver       _resize;
-        private IntersectionObserver _visibility;
-
         /// <summary>Creates a field on ink, drifting, following the pointer, its pixel in the Signal at the centre.</summary>
         public FlowField()
         {
@@ -98,7 +95,11 @@ namespace Tesserae.Themes.Curiosity
             _container.addEventListener("pointermove",  e => OnPointerMove(e));
             _container.addEventListener("pointerleave", e => OnPointerLeave());
 
-            DomObserver.WhenMounted(_container, OnMounted);
+            BrandMotion.WhileMounted(_container,
+                mounted: () => { _mounted = true; _driftStart = BrandMotion.Now(); Draw(); EnsureLoop(); },
+                draw:    Draw,
+                seen:    seen => { _seen = seen; EnsureLoop(); },
+                removed: () => _mounted = false);
         }
 
         /// <summary>The ground: <see cref="FlowFieldSurface.Ink"/> by default.</summary>
@@ -205,35 +206,6 @@ namespace Tesserae.Themes.Curiosity
             _container.style.background = _surface == FlowFieldSurface.Ink ? BrandColors.Ink
                                         : _surface == FlowFieldSurface.Paper ? BrandColors.Paper
                                         : "transparent";
-        }
-
-        private void OnMounted()
-        {
-            _mounted    = true;
-            _driftStart = BrandMotion.Now();
-
-            _resize = new ResizeObserver((entries, obs) => Draw());
-            _resize.observe(_container);
-
-            _visibility = new IntersectionObserver((entries, obs) =>
-            {
-                _seen = entries[entries.Length - 1].isIntersecting;
-                EnsureLoop();
-            });
-            _visibility.observe(_container);
-
-            Draw();
-            EnsureLoop();
-
-            DomObserver.WhenRemoved(_container, () =>
-            {
-                _mounted = false;
-                _resize?.disconnect();
-                _visibility?.disconnect();
-                _resize     = null;
-                _visibility = null;
-                DomObserver.WhenMounted(_container, OnMounted);
-            });
         }
 
         private void OnPointerMove(Event e)

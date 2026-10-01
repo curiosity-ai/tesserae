@@ -88,7 +88,7 @@ namespace Tesserae
                 _chevronToUseAsButton         = null;
             }
 
-            UpdateChildrenSizes();
+            _cachedFullWidth = UpdateChildrenSizes(_childContainer, _cachedSizes, _cacheSizes, "tss-overflowset-collapse", _cachedFullWidth);
 
             bool isChevron(HTMLElement e) => e.classList.contains("tss-overflowset-separator");
 
@@ -209,31 +209,34 @@ namespace Tesserae
             return this;
         }
 
-        private void UpdateChildrenSizes()
+        // Shared with Breadcrumb. Records each child's width in cachedSizes; unless useCache is set it first clears
+        // the cache and the collapse class, and measures the container afresh. Returns the container's full width.
+        internal static double UpdateChildrenSizes(HTMLElement childContainer, Dictionary<HTMLElement, double> cachedSizes, bool useCache, string collapseClass, double cachedFullWidth)
         {
-            if (!_cacheSizes)
+            if (!useCache)
             {
-                _cachedSizes.Clear();
+                cachedSizes.Clear();
 
-                for (uint i = 0; i < _childContainer.childElementCount; i++)
+                for (uint i = 0; i < childContainer.childElementCount; i++)
                 {
-                    var child = (HTMLElement)_childContainer.children[i];
-                    child.classList.remove("tss-overflowset-collapse");
+                    var child = (HTMLElement)childContainer.children[i];
+                    child.classList.remove(collapseClass);
                 }
 
-                var rect = (DOMRect)_childContainer.getBoundingClientRect();
-                _cachedFullWidth = rect.width;
+                var rect = (DOMRect)childContainer.getBoundingClientRect();
+                cachedFullWidth = rect.width;
             }
 
-
-            foreach (HTMLElement child in _childContainer.children)
+            foreach (HTMLElement child in childContainer.children)
             {
-                if (!_cachedSizes.ContainsKey(child))
+                if (!cachedSizes.ContainsKey(child))
                 {
                     var childRect = (DOMRect)child.getBoundingClientRect();
-                    _cachedSizes[child] = childRect.width;
+                    cachedSizes[child] = childRect.width;
                 }
             }
+
+            return cachedFullWidth;
         }
 
         /// <summary>

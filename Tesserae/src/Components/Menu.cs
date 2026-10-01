@@ -325,30 +325,12 @@ namespace Tesserae
             _pendingItem   = null;
         }
 
-        // Whether the last movement points into the open submenu: the pointer is between the two rays
-        // from its previous position to the near corners of the submenu, and got closer to it.
         private bool IsHeadingTowardsOpenChild()
         {
             if (!_hasPointer || _openChild is null || _openChild._container is null) return false;
-            if (_prevX == _lastX && _prevY == _lastY) return false;
 
-            var rect  = _openChild._container.getBoundingClientRect().As<DOMRect>();
-            var nearX = _lastX < rect.left ? rect.left : (_lastX > rect.right ? rect.right : _lastX);
-
-            if (nearX == _lastX) return true; // already inside the submenu's horizontal span
-
-            var closer = Math.Abs(_lastX - nearX) < Math.Abs(_prevX - nearX);
-
-            if (!closer) return false;
-
-            var toTop    = Cross(nearX - _prevX, rect.top    - _prevY, _lastX - _prevX, _lastY - _prevY);
-            var toBottom = Cross(nearX - _prevX, rect.bottom - _prevY, _lastX - _prevX, _lastY - _prevY);
-
-            // Between the two rays means the two cross products have opposite signs (or one is zero).
-            return toTop * toBottom <= 0;
+            return ContextMenu.IsHeadingTowards(_prevX, _prevY, _lastX, _lastY, _openChild._container.getBoundingClientRect().As<DOMRect>());
         }
-
-        private static double Cross(double ax, double ay, double bx, double by) => ax * by - ay * bx;
 
         // ---- Keyboard -----------------------------------------------------------------------------
 

@@ -36,6 +36,36 @@ namespace Tesserae.Themes.Curiosity
         }
 
         /// <summary>
+        /// The mount wiring of a canvas component that animates only while it is on screen. Each time the element is
+        /// mounted it calls <paramref name="mounted"/> (which draws and starts the loop), redraws on every resize and
+        /// reports visibility changes to <paramref name="seen"/>; when it is removed the observers are dropped,
+        /// <paramref name="removed"/> runs and it waits for the next mount.
+        /// </summary>
+        public static void WhileMounted(HTMLElement element, Action mounted, Action draw, Action<bool> seen, Action removed)
+        {
+            void OnMounted()
+            {
+                mounted();
+
+                var resize = new ResizeObserver((entries, obs) => draw());
+                resize.observe(element);
+
+                var visibility = new IntersectionObserver((entries, obs) => seen(entries[entries.Length - 1].isIntersecting));
+                visibility.observe(element);
+
+                DomObserver.WhenRemoved(element, () =>
+                {
+                    removed();
+                    resize.disconnect();
+                    visibility.disconnect();
+                    DomObserver.WhenMounted(element, OnMounted);
+                });
+            }
+
+            DomObserver.WhenMounted(element, OnMounted);
+        }
+
+        /// <summary>
         /// Sizes a canvas's backing store to its box at the device pixel ratio and returns its 2D context with the
         /// ratio applied, so drawing is in CSS pixels. Returns null while the box is too small to draw into.
         /// </summary>

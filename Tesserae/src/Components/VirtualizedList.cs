@@ -54,16 +54,16 @@ namespace Tesserae
             _pagesToVirtualizeUpperBoundary = (int)Floor((double)PagesToVirtualize   / 2);
             _pagesToVirtualizeLowerBoundary = (int)Ceiling((double)PagesToVirtualize / 2);
 
-            _componentHeightInPercentage = GetComponentSize(rowsPerPage);
-            _componentWidthInPercentage  = GetComponentSize(columnsPerRow);
+            _componentHeightInPercentage = (100 / rowsPerPage).percent().ToString();
+            _componentWidthInPercentage  = (100 / columnsPerRow).percent().ToString();
 
-            _innerElement       = CreateInnerElementHtmlDivElement();
-            _basicListContainer = CreateBasicListContainerHtmlDivElement();
-            _topSpacingDiv      = CreateTopSpacingHtmlDivElement();
-            _bottomSpacingDiv   = CreateBottomSpacingHtmlDivElement();
+            _innerElement       = Div(Att());
+            _basicListContainer = Div(Att("tss-basiclist").WithRole("list"));
+            _topSpacingDiv      = Div(Att("tss-basiclist-top-spacing"));
+            _bottomSpacingDiv   = Div(Att("tss-basiclist-bottom-spacing"));
 
             _innerElement.appendChild(_basicListContainer);
-            AppendChildrenToBasicListContainerHtmlDivElement(_topSpacingDiv, _bottomSpacingDiv);
+            _basicListContainer.AppendChildren(_topSpacingDiv, _bottomSpacingDiv);
         }
 
         /// <summary>
@@ -94,10 +94,15 @@ namespace Tesserae
 
             if (_listPageCache.HasComponents && !_initialPagesCreated)
             {
-                CreatePagesDownwards(GetInitialPages());
+                foreach (var page in _listPageCache.RetrievePagesFromCache(Enumerable.Range(1, InitialPagesToCreate)))
+                {
+                    _basicListContainer.insertBefore(page, _bottomSpacingDiv);
+                }
 
-                AttachOnLastComponentMountedEvent();
-                AttachBasicListContainerOnScrollEvent();
+                var lastComponentMounted = (HTMLElement)_basicListContainer.lastElementChild.previousElementSibling.lastChild;
+                DomObserver.WhenMounted(lastComponentMounted, () => OnLastComponentMounted(lastComponentMounted.clientHeight));
+
+                _basicListContainer.addEventListener("scroll", OnBasicListContainerScroll);
 
                 _initialPagesCreated = true;
             }
@@ -115,62 +120,7 @@ namespace Tesserae
         /// <returns>The rendered HTMLElement.</returns>
         public HTMLElement Render() => _innerElement;
 
-        private static string GetComponentSize(int itemsCount) => (100 / itemsCount).percent().ToString();
-
-        private static HTMLDivElement CreateInnerElementHtmlDivElement() => Div(Att());
-
-        private static HTMLDivElement CreateSpacingHtmlDivElement(string className) => Div(Att(className));
-
-        private static void SetHtmlElementHeight(HTMLElement htmlElement, UnitSize height)
-        {
-            htmlElement.SetStyle(cssStyleDeclaration =>
-            {
-                cssStyleDeclaration.height = height.ToString();
-            });
-        }
-
-        private static void CreatePage(HTMLElement page, Action<HTMLElement> renderingAction) => renderingAction(page);
-
-        private HTMLDivElement CreateBasicListContainerHtmlDivElement() => Div(Att("tss-basiclist").WithRole("list"));
-
-        private void AppendChildrenToBasicListContainerHtmlDivElement(params HTMLElement[] htmlElements)
-        {
-            _basicListContainer.AppendChildren(htmlElements);
-        }
-
-        private HTMLDivElement CreateTopSpacingHtmlDivElement()
-        {
-            return CreateSpacingHtmlDivElement("tss-basiclist-top-spacing");
-        }
-
-        private HTMLDivElement CreateBottomSpacingHtmlDivElement()
-        {
-            return CreateSpacingHtmlDivElement("tss-basiclist-bottom-spacing");
-        }
-
-        private void SetBasicListContainerHeight() => SetHtmlElementHeight(_basicListContainer, _pageHeight);
-
-        private void SetTopSpacingDivHeight(UnitSize height) => SetHtmlElementHeight(_topSpacingDiv, height);
-
-        private void SetBottomSpacingDivHeight(UnitSize height)
-        {
-            SetHtmlElementHeight(_bottomSpacingDiv, height);
-        }
-
-        private IEnumerable<HTMLElement> GetInitialPages()
-        {
-            return RetrievePagesFromCache(Enumerable.Range(1, InitialPagesToCreate));
-        }
-
-        private IEnumerable<HTMLElement> RetrievePagesFromCache(IEnumerable<int> rangeOfPageNumbersToRetrieve)
-        {
-            return _listPageCache.RetrievePagesFromCache(rangeOfPageNumbersToRetrieve);
-        }
-
-        private HTMLElement RetrievePageFromCache(int pageNumberToRetrieve)
-        {
-            return _listPageCache.RetrievePageFromCache(pageNumberToRetrieve);
-        }
+        private static void SetHeight(HTMLElement htmlElement, UnitSize height) => htmlElement.style.height = height.ToString();
 
         private HTMLElement CreatePageHtmlElement(int pageNumber)
         {
@@ -196,41 +146,6 @@ namespace Tesserae
                 component.Render());
         }
 
-        private void CreatePagesDownwards(IEnumerable<HTMLElement> pages)
-        {
-            foreach (var page in pages)
-            {
-                CreatePageDownwards(page);
-            }
-        }
-
-        private void CreatePageDownwards(HTMLElement page)
-        {
-            CreatePage(page, pageToCreate =>
-            {
-                _basicListContainer.insertBefore(page, _bottomSpacingDiv);
-            });
-        }
-
-        private NodeListOf<Element> GetRenderedPages()
-        {
-            return _basicListContainer.getElementsByClassName("tss-basiclist-page");
-        }
-
-        private void AttachOnLastComponentMountedEvent()
-        {
-            var lastComponentMounted =
-                (HTMLElement)_basicListContainer.lastElementChild.previousElementSibling.lastChild;
-
-            DomObserver.WhenMounted(lastComponentMounted,
-                () => OnLastComponentMounted(lastComponentMounted.clientHeight));
-        }
-
-        private void AttachBasicListContainerOnScrollEvent()
-        {
-            _basicListContainer.addEventListener("scroll", OnBasicListContainerScroll);
-        }
-
         private void OnLastComponentMounted(int lastComponentMountedClientHeight)
         {
             if (lastComponentMountedClientHeight <= 0)
@@ -241,13 +156,9 @@ namespace Tesserae
             _componentHeight = lastComponentMountedClientHeight.px();
             _pageHeight      = (_componentHeight.Size * _listPageCache.RowsPerPage).px();
 
-            SetBasicListContainerHeight();
-            SetTopSpacingDivHeight(0.px());
-
-            var initialBottomSpacingDivHeight =
-                ((_listPageCache.PagesCount - InitialPagesToCreate) * _pageHeight.Size).px();
-
-            SetBottomSpacingDivHeight(initialBottomSpacingDivHeight);
+            SetHeight(_basicListContainer, _pageHeight);
+            SetHeight(_topSpacingDiv,      0.px());
+            SetHeight(_bottomSpacingDiv,   ((_listPageCache.PagesCount - InitialPagesToCreate) * _pageHeight.Size).px());
         }
 
         private void OnBasicListContainerScroll(object listener)
@@ -267,7 +178,7 @@ namespace Tesserae
 
         private void RebuildRenderedPages(int centerPage)
         {
-            var rendered = GetRenderedPages();
+            var rendered = _basicListContainer.getElementsByClassName("tss-basiclist-page");
             for (var i = (int)rendered.length - 1; i >= 0; i--)
             {
                 _basicListContainer.removeChild(rendered[i]);
@@ -278,7 +189,7 @@ namespace Tesserae
 
             for (var pageNumber = firstPage; pageNumber <= lastPage; pageNumber++)
             {
-                var page = RetrievePageFromCache(pageNumber);
+                var page = _listPageCache.RetrievePageFromCache(pageNumber);
 
                 if (page != null)
                 {
@@ -286,8 +197,8 @@ namespace Tesserae
                 }
             }
 
-            SetTopSpacingDivHeight(((firstPage - 1)                       * _pageHeight.Size).px());
-            SetBottomSpacingDivHeight(((_listPageCache.PagesCount - lastPage) * _pageHeight.Size).px());
+            SetHeight(_topSpacingDiv,    ((firstPage - 1)                       * _pageHeight.Size).px());
+            SetHeight(_bottomSpacingDiv, ((_listPageCache.PagesCount - lastPage) * _pageHeight.Size).px());
         }
     }
 }

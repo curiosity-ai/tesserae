@@ -65,9 +65,6 @@ namespace Tesserae.Themes.Curiosity
         private double   _t0;
         private bool     _mounted, _seen = true, _looping;
 
-        private ResizeObserver       _resize;
-        private IntersectionObserver _visibility;
-
         /// <summary>Creates stripes in a scheme, with the pattern the website pairs with it unless one is given.</summary>
         public DashMosaic(DashMosaicScheme scheme = DashMosaicScheme.Dark, DashMosaicPattern? pattern = null)
         {
@@ -91,7 +88,11 @@ namespace Tesserae.Themes.Curiosity
             _container.style.height   = "200px";
             ApplyBackground();
 
-            DomObserver.WhenMounted(_container, OnMounted);
+            BrandMotion.WhileMounted(_container,
+                mounted: () => { _mounted = true; _t0 = BrandMotion.Now(); Draw(); EnsureLoop(); },
+                draw:    Draw,
+                seen:    seen => { _seen = seen; EnsureLoop(); },
+                removed: () => _mounted = false);
         }
 
         /// <summary>The pattern the website uses with each scheme: a wave on the Signal, scanning rows on ink, the dither patch on deep blue, the line chart on stone.</summary>
@@ -176,35 +177,6 @@ namespace Tesserae.Themes.Curiosity
                 case DashMosaicScheme.Light:     return new[] { BrandColors.Stone,  "#D6D9DA",              BrandColors.Ink,   BrandColors.Deep };
                 default:                               return new[] { BrandColors.Ink,    BrandColors.Slate,  BrandColors.Paper, BrandColors.Signal };
             }
-        }
-
-        private void OnMounted()
-        {
-            _mounted = true;
-            _t0      = BrandMotion.Now();
-
-            _resize = new ResizeObserver((entries, obs) => Draw());
-            _resize.observe(_container);
-
-            _visibility = new IntersectionObserver((entries, obs) =>
-            {
-                _seen = entries[entries.Length - 1].isIntersecting;
-                EnsureLoop();
-            });
-            _visibility.observe(_container);
-
-            Draw();
-            EnsureLoop();
-
-            DomObserver.WhenRemoved(_container, () =>
-            {
-                _mounted = false;
-                _resize?.disconnect();
-                _visibility?.disconnect();
-                _resize     = null;
-                _visibility = null;
-                DomObserver.WhenMounted(_container, OnMounted);
-            });
         }
 
         private void EnsureLoop()
