@@ -23,8 +23,20 @@ namespace Tesserae
         private UIcons _iconSave = UIcons.Disk;
         private UIcons _iconSaveHover = UIcons.Disk;
         private State _state;
+        private int _stateVersion;
         private bool _hovering;
         private bool _pendingPrimary = true;
+
+        // One face per state, all stacked in the same grid cell (see tss.button.css). None of them sizes the
+        // button: that is the hidden sizer, which always shows the Verifying label, so the button keeps one
+        // width across every state and any label wider than "Verifying..." is ellipsized.
+        private readonly Face _sizer         = Face.WithSpinner(success: false);
+        private readonly Face _faceSave      = Face.WithIcon();
+        private readonly Face _faceSaveHover = Face.WithIcon();
+        private readonly Face _faceVerifying = Face.WithSpinner(success: false);
+        private readonly Face _faceSaving    = Face.WithSpinner(success: true);
+        private readonly Face _faceSaved     = Face.WithIcon();
+        private readonly Face _faceError     = Face.WithIcon();
 
         public enum State
         {
@@ -43,6 +55,13 @@ namespace Tesserae
         {
             _button = Button().MinWidth(100.px());
             var element = _button.Render();
+            element.classList.add("tss-savebtn");
+            _sizer.Element.classList.add("tss-savebtn-sizer");
+            _sizer.Element.setAttribute("aria-hidden", "true");
+            element.appendChild(Span(Att("tss-savebtn-faces"),
+                _sizer.Element, _faceSave.Element, _faceSaveHover.Element, _faceVerifying.Element, _faceSaving.Element, _faceSaved.Element, _faceError.Element));
+            _faceSaved.SetIcon(UIcons.Check);
+            _faceError.SetIcon(UIcons.OctagonXmark);
             element.addEventListener("mouseenter", (e) =>
             {
                 if (_state == State.PendingSave && !string.IsNullOrEmpty(_textSaveHover))
@@ -93,6 +112,7 @@ namespace Tesserae
         {
             _button.UndoSpinner();
             _state = state;
+            _stateVersion++;
             // Reset base styles
             _button.IsPrimary = false;
             _button.IsSuccess = false;
@@ -100,37 +120,41 @@ namespace Tesserae
             _button.IsEnabled = state != State.NothingToSave; // Default to enabled
             _button.RemoveTooltip();
 
+            _faceSave.SetIcon(_iconSave).SetText(_textSave);
+            _faceSaveHover.SetIcon(_iconSaveHover).SetText(_textSaveHover);
+            _faceSaveHover.Element.style.display = string.IsNullOrEmpty(_textSaveHover) ? "none" : "";
+            _sizer.SetText(_textVerifying);
+            _faceVerifying.SetText(state == State.Verifying ? message ?? _textVerifying : _textVerifying);
+            _faceSaving.SetText(state == State.Saving ? message ?? _textSaving : _textSaving);
+            _faceSaved.SetText(_textSaved);
+            _faceError.SetText(_textError);
+
+            Face active = null;
+
             switch (state)
             {
                 case State.NothingToSave:
                 case State.PendingSave:
                     _button.IsPrimary = _pendingPrimary;
-                    if (_hovering)
-                    {
-                        _button.SetText(_textSaveHover).SetIcon(_iconSaveHover);
-                    }
-                    else
-                    {
-                        _button.SetIcon(_iconSave).SetText(_textSave);
-                    }
+                    active = _hovering ? _faceSaveHover : _faceSave;
                     break;
                 case State.Verifying:
                     _button.IsPrimary = true;
                     _button.IsEnabled = false;
-                    _button.ToSpinner(message ?? _textVerifying);
+                    active = _faceVerifying;
                     break;
                 case State.Saving:
                     _button.IsSuccess = true;
                     _button.IsEnabled = false;
-                    _button.ToSpinner(message ?? _textSaving);
+                    active = _faceSaving;
                     break;
                 case State.Saved:
                     _button.IsSuccess = true;
-                    _button.SetIcon(UIcons.Check).SetText(_textSaved);
+                    active = _faceSaved;
                     break;
                 case State.Error:
                     _button.IsDanger = true;
-                    _button.SetIcon(UIcons.OctagonXmark).SetText(_textError);
+                    active = _faceError;
                     if (!string.IsNullOrEmpty(message))
                     {
                         _button.Tooltip(message);
@@ -138,7 +162,11 @@ namespace Tesserae
                     break;
             }
 
-            _button.MinWidth(100.px());
+            foreach (var face in new[] { _faceSave, _faceSaveHover, _faceVerifying, _faceSaving, _faceSaved, _faceError })
+            {
+                face.Element.UpdateClassIf(face == active, "tss-savebtn-face-active");
+            }
+
             return this;
         }
 
@@ -185,15 +213,7 @@ namespace Tesserae
         /// <summary>
         /// Registers a callback invoked when the click spin while event fires.
         /// </summary>
-        public SaveButton OnClickSpinWhile(Func<Task> actionAsync)
-        {
-            _button.OnClickSpinWhile(async () =>
-            {
-                if (_state != State.PendingSave) return;
-                await actionAsync();
-            });
-            return this;
-        }
+        public SaveButton OnClickSpinWhile(Func<Task> actionAsync) => OnClickSpinWhile(actionAsync, null, null);
 
         /// <summary>
         /// Configures the verifying while on the component.
@@ -227,26 +247,43 @@ namespace Tesserae
         /// </summary>
         public SaveButton OnClickSpinWhile(Func<Task> action, string text = null, Action<SaveButton, Exception> onError = null)
         {
-            Action<Button, Exception> onErrorInner;
-            if (onError is object)
-            {
-                onErrorInner = (Button b, Exception e) => onError(this, e);
-            }
-            else
-            {
-                onErrorInner = (Button b, Exception e) =>
-                {
-                    this.SetState(State.Error);
-                    Toast().Error(e.Message);
-                    throw e;
-                };
-            }
-            _button.OnClickSpinWhile(async () =>
+            // Spins with the button's own Saving face rather than Button.ToSpinner, which swaps in a clone of the
+            // button drawn differently (a larger spinner, no label) from the Verifying and Saving states.
+            _button.OnClick(() =>
             {
                 if (_state != State.PendingSave) return;
 
-                await action();
-            }, text, onErrorInner);
+                Task.Run(async () =>
+                {
+                    SetState(State.Saving, text);
+                    var version = _stateVersion;
+
+                    try
+                    {
+                        await action();
+                    }
+                    catch (Exception e)
+                    {
+                        if (onError is object)
+                        {
+                            onError(this, e);
+                        }
+                        else
+                        {
+                            SetState(State.Error);
+                            Toast().Error(e.Message);
+                        }
+                        return;
+                    }
+
+                    // The action moved the button on itself (Verifying, Saved, ...): leave it there. Otherwise
+                    // go back to where the click found it, which is what restoring the spun-out button used to do.
+                    if (_stateVersion == version)
+                    {
+                        SetState(State.PendingSave);
+                    }
+                }).FireAndForget();
+            });
             return this;
         }
 
@@ -254,5 +291,36 @@ namespace Tesserae
         /// Renders the component's root HTML element.
         /// </summary>
         public HTMLElement Render() => _button.Render();
+
+        private sealed class Face
+        {
+            private readonly HTMLElement _label;
+            private readonly HTMLElement _icon;
+
+            private Face(HTMLElement leading)
+            {
+                _icon   = leading.tagName == "I" ? leading : null;
+                _label  = Span(Att());
+                Element = Span(Att("tss-savebtn-face"), leading, _label);
+            }
+
+            public HTMLElement Element { get; }
+
+            public static Face WithIcon() => new Face(I(Att()));
+
+            public static Face WithSpinner(bool success) => new Face(Span(Att("tss-spinner-size-small"), Div(Att(success ? "tss-spinner tss-spinner-success" : "tss-spinner"))));
+
+            public Face SetIcon(UIcons icon)
+            {
+                _icon.className = $"{Tesserae.Icon.Transform(icon, UIconsWeight.Regular)} {TextSize.Small}";
+                return this;
+            }
+
+            public Face SetText(string text)
+            {
+                _label.innerText = text ?? "";
+                return this;
+            }
+        }
     }
 }

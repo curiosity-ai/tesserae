@@ -632,3 +632,49 @@ a {
         filter: grayscale(1) opacity(0.5);
         pointer-events: none;
     }
+
+/* SaveButton. Every state's face (icon + label, or spinner + label) is stacked in one grid cell and only
+   the current one is visible. None of the faces contributes to the width (contain: inline-size): the cell is
+   sized by a hidden sizer face carrying the Verifying label, so the button keeps one width from Save to
+   Verifying to Saved, and a label wider than that is ellipsized instead of widening it. The sizer is real
+   markup rather than a width measured in script, so it stays right whatever font or theme is active. */
+.tss-savebtn-faces {
+    display: grid;
+    align-items: center;
+    min-width: 0;
+}
+
+.tss-savebtn-face {
+    grid-area: 1 / 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-width: 0;
+    white-space: nowrap;
+    visibility: hidden;
+    contain: inline-size;
+}
+
+    .tss-savebtn-face.tss-savebtn-sizer {
+        contain: none;
+    }
+
+    .tss-savebtn-face.tss-savebtn-face-active {
+        visibility: visible;
+    }
+
+    .tss-savebtn-face > i,
+    .tss-savebtn-face > .tss-spinner-size-small {
+        flex-shrink: 0;
+    }
+
+    .tss-savebtn-face > span:last-child {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .tss-savebtn-face:not(.tss-savebtn-face-active) .tss-spinner {
+        animation: none;
+    }
