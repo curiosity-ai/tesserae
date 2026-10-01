@@ -1352,6 +1352,15 @@
     --tss-sidebar-identity-height: 48px;
 }
 
+/* The width the open rail needs to draw the brand's name whole, measured by the row and written on the
+   sidebar (SidebarIdentityRow.FitRailToText). A floor under the rail's own width, never a width of its own,
+   and only while it is a rail: the closed rail's 54px would lose to it, and a page or a navbar is as wide
+   as the screen gives it. Keyed on the class the row adds beside the variable, so a sidebar no row is
+   fitting keeps whatever min-width an application's own stylesheet gives it. */
+.tss-sidebar.tss-sidebar-fits-identity:not(.tss-sidebar-closed):not(.tss-sidebar-page):not(.tss-navbar) {
+    min-width: var(--tss-sidebar-identity-min-width);
+}
+
 .tss-sidebar-identity > .tss-sidebar-identity-button.tss-btn {
     height: var(--tss-sidebar-identity-height) !important;
 }

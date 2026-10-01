@@ -15,6 +15,10 @@ namespace Tesserae
     /// <see cref="WithSidebarControl"/>. On the collapsed rail the row is the logo alone, with the name (and
     /// the second line) in its tooltip.
     /// </para>
+    /// <para>
+    /// The open rail is never narrower than the name and the second line need, so neither is ellipsized: the
+    /// row measures its text and raises the sidebar's <c>min-width</c> to fit it.
+    /// </para>
     /// </summary>
     public class SidebarBrand : SidebarIdentityRow<SidebarBrand>
     {
@@ -62,7 +66,11 @@ namespace Tesserae
             : this(identifier, new IComponent[] { logo, logo.Clone() }, title, subtitle) { }
 
         private SidebarBrand(string identifier, IComponent[] logos, string title, string subtitle)
-            : base(identifier, "tss-sidebar-brand", WrapLogo(logos[0]), WrapLogo(logos[1]), title, subtitle) { }
+            : base(identifier, "tss-sidebar-brand", WrapLogo(logos[0]), WrapLogo(logos[1]), title, subtitle)
+        {
+            //The name is what the rail is for, so the open rail grows to fit it rather than ellipsizing it
+            FitRailToText();
+        }
 
         /// <summary>
         /// A box of its own around whatever the logo is, so that an image, a glyph and an emoji all take the

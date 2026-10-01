@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Transpose;
 using Transpose.Core;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -33,6 +34,8 @@ namespace Tesserae
         private readonly HTMLElement              _openOuter;
         private readonly HTMLElement              _closedOuter;
         private readonly HTMLElement              _commandsContainer;
+        private readonly HTMLElement              _content;
+        private readonly HTMLElement              _lines;
         private readonly IComponent               _open;
         private readonly IComponent               _closed;
         private readonly SettableObservable<bool> _selected;
@@ -43,6 +46,20 @@ namespace Tesserae
         private Action<Button>   _tooltipClosed;
         private string           _title;
         private string           _subtitle;
+        private ResizeObserver   _railFitObserver;
+        private HTMLElement      _fittedRail;
+        private bool             _waitingForFonts;
+
+        /// <summary>
+        /// The width the open rail needs for the row's text to be drawn whole, written on the rail by
+        /// <see cref="FitRailToText"/> and turned into a <c>min-width</c> by tss.sidebar.css only while the rail
+        /// is open - a variable rather than the property itself, so the closed rail's 54px and the page and
+        /// navbar layouts are the stylesheet's to keep.
+        /// </summary>
+        private const string RAIL_MIN_WIDTH_VARIABLE = "--tss-sidebar-identity-min-width";
+
+        /// <summary>The class that tells the stylesheet the rail carries <see cref="RAIL_MIN_WIDTH_VARIABLE"/>.</summary>
+        private const string RAIL_FITS_CLASS = "tss-sidebar-fits-identity";
 
         private event Action<HTMLElement> _onRendered;
 
@@ -62,10 +79,10 @@ namespace Tesserae
             _titleSpan    = Span(Att("tss-sidebar-identity-title",    text: _title));
             _subtitleSpan = Span(Att("tss-sidebar-identity-subtitle", text: _subtitle));
 
-            var lines   = Div(Att("tss-sidebar-identity-lines"), _titleSpan, _subtitleSpan);
-            var content = Div(Att("tss-sidebar-identity-content"), openLeading.Render(), lines);
+            _lines   = Div(Att("tss-sidebar-identity-lines"), _titleSpan, _subtitleSpan);
+            _content = Div(Att("tss-sidebar-identity-content"), openLeading.Render(), _lines);
 
-            _openButton   = Button().ReplaceContent(Raw(content)).Class("tss-sidebar-btn").Class("tss-sidebar-identity-button").Id(identifier);
+            _openButton   = Button().ReplaceContent(Raw(_content)).Class("tss-sidebar-btn").Class("tss-sidebar-identity-button").Id(identifier);
             _closedButton = Button().ReplaceContent(closedLeading).Class("tss-sidebar-btn").Class("tss-sidebar-identity-button-closed").Id(identifier);
 
             _openRoot          = Div(Att($"tss-sidebar-btn-open tss-sidebar-identity {rowClass}"), _openButton.Render());
@@ -180,6 +197,7 @@ namespace Tesserae
 
             UpdateSubtitleVisibility();
             RefreshDefaultTooltip();
+            UpdateRailFit();
             return Self;
         }
 
@@ -362,6 +380,100 @@ namespace Tesserae
             _titleSpan.innerText = _title;
 
             RefreshDefaultTooltip();
+            UpdateRailFit();
+        }
+
+        /// <summary>
+        /// Has the open rail the row sits on grow to the width its name and second line need, so neither is
+        /// ellipsized - for the row whose text is what the rail is <em>for</em>, the application's name. The
+        /// rail never shrinks below the width it was given; this only raises its floor.
+        /// <para>
+        /// The row measures itself rather than asking for a number, because what the text has to share the
+        /// row with - the rail's padding, the logo, the gap, the strip of commands - is the stylesheet's and a
+        /// skin's to change. The room the text has now is subtracted from the rail's width, and what the text
+        /// wants is added back: whatever else is on the row cancels out. It is re-measured whenever the row
+        /// changes size (a command added, the rail opened), when the text changes, and once the fonts arrive.
+        /// </para>
+        /// </summary>
+        protected void FitRailToText()
+        {
+            if (_railFitObserver is object) return;
+
+            _railFitObserver = new ResizeObserver((entries, obs) => UpdateRailFit());
+            _railFitObserver.observe(_content);
+        }
+
+        private void UpdateRailFit()
+        {
+            if (_railFitObserver is null) return;
+
+            //A row taken off the rail - closed, rebuilt or removed - stops holding it open
+            if (!_content.isConnected)
+            {
+                ReleaseRail();
+                return;
+            }
+
+            var rail = RailToFit();
+
+            if (!ReferenceEquals(rail, _fittedRail)) ReleaseRail();
+
+            if (rail is null) return;
+
+            //Hidden (a shifted-away panel) or squeezed past the text by the opening animation: there is nothing
+            //to measure, and the width already written stays until there is
+            var contentRect = _content.getBoundingClientRect().As<DOMRect>();
+            var linesRect   = _lines.getBoundingClientRect().As<DOMRect>();
+            var available   = contentRect.right - linesRect.left;
+
+            if (contentRect.width <= 0 || available <= 0) return;
+
+            //Measured before the fonts are in, the text is the fallback's width: measure again once they are
+            if (!_waitingForFonts && Script.Write<bool>("!!(document.fonts && document.fonts.status === 'loading')"))
+            {
+                _waitingForFonts = true;
+
+                Action onFontsLoaded = () =>
+                {
+                    _waitingForFonts = false;
+                    UpdateRailFit();
+                };
+
+                Script.Write("document.fonts.ready.then(function () { {0}(); })", onFontsLoaded);
+            }
+
+            var wanted    = Math.Max(_titleSpan.scrollWidth, _subtitleSpan.scrollWidth);
+            var railWidth = rail.getBoundingClientRect().As<DOMRect>().width;
+
+            //scrollWidth is rounded, so a pixel on top keeps a name that measured x.4 from ellipsizing by its last letter
+            var minWidth = Math.Ceiling(railWidth - available + wanted) + 1;
+
+            rail.style.setProperty(RAIL_MIN_WIDTH_VARIABLE, minWidth + "px");
+            rail.classList.add(RAIL_FITS_CLASS);
+            _fittedRail = rail;
+        }
+
+        private void ReleaseRail()
+        {
+            if (_fittedRail is null) return;
+
+            _fittedRail.style.removeProperty(RAIL_MIN_WIDTH_VARIABLE);
+            _fittedRail.classList.remove(RAIL_FITS_CLASS);
+            _fittedRail = null;
+        }
+
+        /// <summary>
+        /// The sidebar the row is on, unless that is a child sidebar shifted into another (<see cref="Sidebar.ShiftTo"/>):
+        /// a child fills its host's panel and the host owns the width, so a child's row is left to ellipsize
+        /// rather than widen a rail that is not its own.
+        /// </summary>
+        private HTMLElement RailToFit()
+        {
+            var rail = _content.closest(".tss-sidebar").As<HTMLElement>();
+
+            if (rail is null || rail.parentElement?.closest(".tss-sidebar-shift-panel-child") is object) return null;
+
+            return rail;
         }
 
         /// <summary>The row's own command, drawn last - settings on a profile, configuration on a brand.</summary>
