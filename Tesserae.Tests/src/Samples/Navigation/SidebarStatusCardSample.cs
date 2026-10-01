@@ -41,7 +41,7 @@ namespace Tesserae.Tests.Samples
                         TextBlock("A SidebarStatusCard heads a sidebar with what its section is doing right now: the section's glyph and name, a status line with a dot in the status's tone, and an optional progress bar with a caption for a job that is running. Every part can be changed while it is on screen. On the collapsed rail it is the glyph with a short progress bar under it, and the text moves to its tooltip.")
                     )).SetTitle("Overview"),
                     Card(VStack().WS().Children(
-                        TextBlock("When the section has no state to report, head the sidebar with a SidebarBrand instead: the section's glyph, its name and a line saying what is in it, with .Separated() drawing the divider under it. It sits where the status card would, without the dot or the progress bar.").PaddingBottom(8.px()),
+                        TextBlock("When the section has no state to report, head the sidebar with a SidebarBrand instead: the section's glyph, its name and a line saying what is in it, with .Separated() drawing the divider under it. Without an .OnClick(...) the row is a label, not a button: it does not answer the pointer. It sits where the status card would, without the dot or the progress bar.").PaddingBottom(8.px()),
                         HStack().WS().H(500).Children(
                             plainSidebar.HS(),
                             VStack().Grow().HS().Padding(16.px()).Children(

@@ -63,6 +63,13 @@ namespace Tesserae
         /// <summary>The class that tells the stylesheet the rail carries <see cref="RAIL_MIN_WIDTH_VARIABLE"/>.</summary>
         private const string RAIL_FITS_CLASS = "tss-sidebar-fits-identity";
 
+        /// <summary>
+        /// Marks a row that has no click or context-menu handler, which the stylesheet draws without a hover
+        /// or a pointer cursor: a brand that heads a section is a label, and a hover on it promises an action
+        /// that is not there. It is the absence of a handler that decides it, so a row needs nothing declared.
+        /// </summary>
+        private const string INERT_CLASS = "tss-sidebar-identity-inert";
+
         private event Action<HTMLElement> _onRendered;
 
         /// <param name="identifier">The identifier for the item.</param>
@@ -107,6 +114,13 @@ namespace Tesserae
             //Chrome rather than something the pointer brings in: a command that only appears on hover is one
             //nobody finds, and the row is tall enough to lay the name out beside the strip.
             _openRoot.classList.add("tss-sidebar-commands-always-open");
+
+            //Nothing happens when the row is pressed until a handler is attached, so until then it does not
+            //answer the pointer or take a tab stop
+            _openRoot.classList.add(INERT_CLASS);
+            _closedRoot.classList.add(INERT_CLASS);
+            _openButton.Render().tabIndex   = -1;
+            _closedButton.Render().tabIndex = -1;
 
             UpdateSubtitleVisibility();
             RefreshDefaultTooltip();
@@ -309,6 +323,7 @@ namespace Tesserae
         /// <returns>The current instance of the type.</returns>
         public T OnClick(Action action)
         {
+            MakeInteractive();
             _openButton.OnClick(action);
             _closedButton.OnClick(action);
             return Self;
@@ -321,9 +336,18 @@ namespace Tesserae
         /// <returns>The current instance of the type.</returns>
         public T OnClick(Action<Button, MouseEvent> action)
         {
+            MakeInteractive();
             _openButton.OnClick((b,   e) => action(b, e));
             _closedButton.OnClick((b, e) => action(b, e));
             return Self;
+        }
+
+        private void MakeInteractive()
+        {
+            _openRoot.classList.remove(INERT_CLASS);
+            _closedRoot.classList.remove(INERT_CLASS);
+            _openButton.Render().removeAttribute("tabindex");
+            _closedButton.Render().removeAttribute("tabindex");
         }
 
         /// <summary>
@@ -333,6 +357,7 @@ namespace Tesserae
         /// <returns>The current instance of the type.</returns>
         public T OnContextMenu(Action<Button, MouseEvent> action)
         {
+            MakeInteractive();
             _openButton.OnContextMenu((b,   e) => action(b, e));
             _closedButton.OnContextMenu((b, e) => action(b, e));
             return Self;

@@ -1365,6 +1365,27 @@
     height: var(--tss-sidebar-identity-height) !important;
 }
 
+/* A row nobody gave a click handler (SidebarIdentityRow adds .tss-sidebar-identity-inert until one is
+   attached) is a label: it stays at its resting colours under the pointer and in the commands-hover state
+   above, and keeps the default cursor. The selected row keeps its own colours. */
+.tss-sidebar-identity.tss-sidebar-identity-inert:not(.tss-sidebar-selected) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled),
+.tss-sidebar-identity.tss-sidebar-identity-inert:not(.tss-sidebar-selected) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled):hover,
+.tss-sidebar-identity.tss-sidebar-identity-inert:not(.tss-sidebar-selected) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled):active,
+.tss-sidebar-identity.tss-sidebar-identity-inert:not(.tss-sidebar-selected):hover > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled),
+.tss-sidebar-identity.tss-sidebar-identity-inert:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled),
+.tss-sidebar-identity-closed.tss-sidebar-identity-inert:not(.tss-sidebar-selected) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled),
+.tss-sidebar-identity-closed.tss-sidebar-identity-inert:not(.tss-sidebar-selected) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled):hover,
+.tss-sidebar-identity-closed.tss-sidebar-identity-inert:not(.tss-sidebar-selected) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled):active {
+    color: var(--tss-default-foreground-color);
+    background-color: transparent;
+    border-color: transparent;
+    cursor: default;
+}
+
+.tss-sidebar-identity-inert:not(.tss-sidebar-selected) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-default-foreground-color);
+}
+
 .tss-sidebar-identity-content {
     display: flex;
     flex-direction: row;

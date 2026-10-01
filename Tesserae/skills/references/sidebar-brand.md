@@ -41,7 +41,9 @@ Passing no `subtitle` leaves the row a single line rather than an empty one.
   open/close control. See below.
 - `.Commands(params SidebarCommand[])` — commands drawn *before* the gear: a search,
   a back arrow, whatever else the top of the rail carries.
-- `.OnClick(...)` — what the row itself opens, usually Home.
+- `.OnClick(...)` — what the row itself opens, usually Home. Without it (or
+  `.OnContextMenu(...)`) the row is a label: no hover, no pointer cursor, no tab
+  stop. That is what a brand heading a section wants.
 - `.Separated()` — a divider on the row's outer edge, run out to the sidebar's own
   edges rather than stopping at its padding. In the header that is the bottom edge.
 - `.SetTitle(...)` / `.SetSubtitle(...)` — update the row in place.
