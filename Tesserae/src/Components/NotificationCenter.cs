@@ -175,17 +175,14 @@ namespace Tesserae
 
                     if (items == null || items.Length == 0)
                     {
-                        rootStack.Add(VStack().S().AlignItems(ItemAlign.Center).JustifyContent(ItemJustify.Center).Children(
-                            Icon(UIcons.Bell,size: TextSize.XLarge).Foreground(Theme.Secondary.Foreground),
-                            TextBlock("No notifications").Medium().MT(16)
-                        ));
+                        rootStack.Add(CreateEmptyState());
                     }
                     else
                     {
                         var listContainer = VStack().WS().Gap(8.px());
                         RenderItems(items, listContainer);
 
-                        var toolbar = HStack().WS().AlignItems(ItemAlign.Center).Children(
+                        var toolbar = HStack().WS().AlignItems(ItemAlign.Center).Gap(8.px()).Children(
                             TextBlock($"{items.Length} notification{(items.Length == 1 ? "" : "s")}").Small().Foreground(Theme.Secondary.Foreground).Grow(),
                             Button("Mark all read").Link().Small().OnClick(() =>
                             {
@@ -193,11 +190,30 @@ namespace Tesserae
                                 _panel?.Hide();
                             })
                         );
+
+                        // Only offered when someone handles it, otherwise the items would reappear on the next open.
+                        if (_onClearAll != null)
+                        {
+                            toolbar.Add(Button("Clear all").Link().Small().OnClick(() =>
+                            {
+                                _onClearAll?.Invoke();
+                                ClearChildren(rootStack.Render());
+                                rootStack.Add(CreateEmptyState());
+                            }));
+                        }
+
                         rootStack.Add(toolbar);
                         rootStack.Add(listContainer);
                     }
                 }).FireAndForget();
             }
+        }
+
+        private static IComponent CreateEmptyState()
+        {
+            return VStack().S().AlignItems(ItemAlign.Center).JustifyContent(ItemJustify.Center).Children(
+                Icon(UIcons.Bell, size: TextSize.XLarge).Foreground(Theme.Secondary.Foreground),
+                TextBlock("No notifications").Medium().MT(16));
         }
 
         private void RenderItems(NotificationItem[] items, Stack container)

@@ -73,13 +73,14 @@ namespace Tesserae.Tests.Samples
                 {
                     var current = unreadCount.Value;
                     if (current > 0) unreadCount.Value = current - 1;
-                });
+                })
+                .OnClearAll(() => unreadCount.Value = 0);
 
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(NotificationCenterSample), UIcons.Bell, "A bell button that opens a panel of recent notifications")
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                    TextBlock("NotificationCenter provides a bell icon with an unread count badge. Clicking it opens a side panel listing recent notifications grouped by date (Today, Yesterday, Earlier), with read/unread state, tone-coded dots, and a mark-all-read action."),
+                    TextBlock("NotificationCenter provides a bell icon with an unread count badge. Clicking it opens a side panel listing recent notifications grouped by date (Today, Yesterday, Earlier), with read/unread state, tone-coded dots, and mark-all-read and clear-all actions."),
                     TextBlock("Notifications are loaded asynchronously via the LoadItems callback, so the panel always shows the most recent state."))).SetTitle("Overview")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
