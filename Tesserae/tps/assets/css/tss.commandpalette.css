@@ -100,6 +100,9 @@
     /* cross-small at 16px paints the same weight as the magnifier at 12px: the plain cross glyph fills far
        more of its em box, so matching the font sizes would not have matched what is drawn. */
     font-size: 16px;
+    /* At line-height normal the 16px glyph sits in a taller line box and draws about 1px above the 12px
+       icons beside it; a line box of exactly one em puts its centre level with theirs. */
+    line-height: 1;
 }
 
 .tss-commandpalette-path {

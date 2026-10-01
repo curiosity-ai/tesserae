@@ -25,8 +25,10 @@ body.tss-theme-curiosity.tss-dark-mode .tss-commandpalette-animator {
     border-color: var(--tss-dark-border-color);
 }
 
+/* One pixel more above than below: the text and icons draw about a pixel above the middle of their boxes,
+   and with no edge around the search box that offset is what the eye measures against the row. */
 body.tss-theme-curiosity .tss-commandpalette-search-container {
-    padding: 12px 12px 12px 16px;
+    padding: 13px 12px 11px 16px;
 }
 
 /* The search box has no edge of its own: the palette is the frame and the rule under this row separates
