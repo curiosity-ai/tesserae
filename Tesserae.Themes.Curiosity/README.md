@@ -2,7 +2,7 @@
 
 The Curiosity design language as a [Tesserae](https://github.com/curiosity-ai/tesserae) custom theme:
 paper and ink, the deep call blue for primary actions and the electric-blue Signal as highlight,
-1px hairlines instead of shadows, square corners with pill buttons and inputs, Schibsted Grotesk
+1px hairlines instead of shadows, square corners and inputs with pill buttons, Schibsted Grotesk
 for text and Geist Mono for labels, numbers and code. Light and dark (`UI.Theme.Dark()`) are both
 covered.
 

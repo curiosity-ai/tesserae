@@ -1,7 +1,7 @@
 /* ==========================================================================
    Curiosity theme - Picker
    --------------------------------------------------------------------------
-   The input is the text box's pill. The suggestions are a floating surface
+   The input is the text box's square. The suggestions are a floating surface
    drawn like the dropdown's popup: square, paper, an ink frame (from the box
    shadow token), a mono uppercase title, full width rows that hover to stone
    with the ink bar on the leading edge. A chosen item is a square chip with a
