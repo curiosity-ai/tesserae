@@ -5,6 +5,7 @@ namespace Tesserae
     /// <summary>
     /// Defines a component that has a click handler.
     /// </summary>
+    [System.Obsolete("Not used by Tesserae and due for removal. Call OnClick / OnContextMenu on the component itself.")]
     public interface IHasClickHandler
     {
         /// <summary>Sets the click handler for the component.</summary>

@@ -99,7 +99,7 @@ For text-bearing components (`TextBlock`, `Button`, `Label`, …):
 - Align: `.TextLeft()`, `.TextCenter()`, `.TextRight()`.
 - Explicit: `.SetTextSize(TextSize)`, `.SetTextWeight(TextWeight)`,
   `.SetTextAlign(TextAlign)`.
-- Wrapping: `.SetCanWrap(bool)` (`IHaveTextWrappingOptionsExtensions`).
+- Wrapping: `.Wrap()` / `.NoWrap()` on `TextBlock`, `Button` and the stacks. (`.SetCanWrap(bool)` is obsolete.)
 
 ## Styling — `StyleExtensions.cs` / `UI.Components.cs`
 

@@ -920,11 +920,6 @@ namespace Tesserae
             public HTMLElement RenderTitle() => _titleCreator().Render();
         }
 
-        public sealed class PivotNavigateEvent : PivotEvent
-        {
-            internal PivotNavigateEvent(string currentPivot, string targetPivot) : base(currentPivot, targetPivot) { }
-        }
-
         public sealed class PivotReorderEvent
         {
             internal PivotReorderEvent(string tabId, int oldIndex, int newIndex, string[] tabIds)
@@ -954,35 +949,6 @@ namespace Tesserae
             /// Gets the ids of every tab, in the order they now appear on the tab strip.
             /// </summary>
             public string[] TabIds { get; }
-        }
-
-        public class PivotBeforeNavigateEvent : PivotEvent
-        {
-            internal PivotBeforeNavigateEvent(string currentPivot, string targetPivot) : base(currentPivot, targetPivot) => Canceled = false;
-
-            internal bool Canceled { get; private set; }
-
-            /// <summary>
-            /// Cancels the component's current operation.
-            /// </summary>
-            public void Cancel() => Canceled = true;
-        }
-
-        public abstract class PivotEvent
-        {
-            internal PivotEvent(string currentPivot, string targetPivot)
-            {
-                CurrentPivot = currentPivot;
-                TargetPivot  = targetPivot;
-            }
-            /// <summary>
-            /// Gets or sets the current pivot.
-            /// </summary>
-            public string CurrentPivot { get; }
-            /// <summary>
-            /// Gets or sets the target pivot.
-            /// </summary>
-            public string TargetPivot { get; }
         }
     }
 }

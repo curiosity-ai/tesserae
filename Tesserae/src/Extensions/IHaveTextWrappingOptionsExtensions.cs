@@ -13,6 +13,7 @@
         /// <param name="component">The component.</param>
         /// <param name="canWrap">Whether text can wrap.</param>
         /// <returns>The component instance.</returns>
+        [System.Obsolete("Not used by Tesserae and due for removal. Use .Wrap() / .NoWrap() where the component has them, or set CanWrap.")]
         public static T SetCanWrap<T>(this T component, bool canWrap) where T : ICanWrap
         {
             component.CanWrap = canWrap;

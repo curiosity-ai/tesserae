@@ -126,7 +126,8 @@ helpers in `Tesserae/src/Extensions/`, and a sample in `Tesserae.Tests/`.)
   two compose: the caller's padding moves the whole control, your margin keeps its
   pieces apart. `CheckBox`, `ChoiceGroup.Choice` and `Toggle` lay their mark and their
   text out side by side in a flex row for this reason.
-- To accept children, implement `IContainer<T, TChild>` and wrap each child with
+- To accept children, implement `IContainer<T, TChild>` (`Add`, `Clear`, `Replace`; it
+  also gives the component the `.Children(...)` extensions) and wrap each child with
   the stack-item protocol; most custom components instead *compose* existing
   components (return a `Stack().Children(...)`).
 - Mount a top-level component with `MountToBody(component)` or

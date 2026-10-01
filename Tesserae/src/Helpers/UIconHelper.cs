@@ -61,8 +61,6 @@ namespace Tesserae
         public static Emoji  WithTextSize(this  Emoji  icon, TextSize  size)  => icon.WithCss(size.ToString());
         /// <summary>Applies a text size to a UIcons.</summary>
         public static UIcons WithTextSize(this  UIcons icon, TextSize  size)  => icon.WithCss(size.ToString());
-        /// <summary>Applies a text color to a UIcons.</summary>
-        public static UIcons WithTextColor(this UIcons icon, TextColor color) => icon.WithCss(color.ToString());
 
         /// <summary>Attempts to parse a string value into a UIcons icon.</summary>
         public static bool TryGetUIcon(string value, out UIcons icon)
