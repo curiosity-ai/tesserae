@@ -4,7 +4,7 @@
    A single line input is square, like every other box in the theme, edged in
    mute, which clears the 3:1 a control boundary needs; hover and focus take
    it to ink. --tss-cur-input-radius is the one radius every input shares
-   (search box, dropdown, picker, tags, omnibox, cron), so they stay alike.
+   (search box, dropdown, picker, tags, omnibox), so they stay alike.
    ========================================================================== */
 
 body.tss-theme-curiosity {
@@ -107,7 +107,7 @@ body.tss-theme-curiosity.tss-dark-mode .tss-textbox {
 }
 
 /* A color input is a text box too. The text padding would squeeze its swatch to a stripe, so it
-   takes a small even inset and the swatch fills the box, square like it. */
+   takes a small even inset and the swatch fills the box. */
 body.tss-theme-curiosity .tss-textbox[type="color"] {
     padding: 3px;
     cursor: pointer;
@@ -119,12 +119,10 @@ body.tss-theme-curiosity .tss-textbox[type="color"]::-webkit-color-swatch-wrappe
 
 body.tss-theme-curiosity .tss-textbox[type="color"]::-webkit-color-swatch {
     border: none;
-    border-radius: 0;
 }
 
 body.tss-theme-curiosity .tss-textbox[type="color"]::-moz-color-swatch {
     border: none;
-    border-radius: 0;
 }
 
 body.tss-theme-curiosity .tss-textbox[type="color"].tss-disabled {
