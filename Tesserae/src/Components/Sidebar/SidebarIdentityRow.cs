@@ -46,9 +46,11 @@ namespace Tesserae
         private Action<Button>   _tooltipClosed;
         private string           _title;
         private string           _subtitle;
-        private ResizeObserver   _railFitObserver;
+        private bool             _fitsRail;
         private HTMLElement      _fittedRail;
+        private string           _fittedMinWidth;
         private bool             _waitingForFonts;
+        private double           _refitTimeout;
 
         /// <summary>
         /// The width the open rail needs for the row's text to be drawn whole, written on the rail by
@@ -366,6 +368,16 @@ namespace Tesserae
             foreach (var command in RenderedCommands()) command.RefreshTooltip();
 
             _onRendered?.Invoke(_open.Render());
+
+            if (_fitsRail)
+            {
+                DomObserver.WhenMounted(_openOuter, () =>
+                {
+                    UpdateRailFit();
+                    DomObserver.WhenRemoved(_openOuter, OnOpenRowRemoved);
+                });
+            }
+
             return _open;
         }
 
@@ -391,28 +403,23 @@ namespace Tesserae
         /// The row measures itself rather than asking for a number, because what the text has to share the
         /// row with - the rail's padding, the logo, the gap, the strip of commands - is the stylesheet's and a
         /// skin's to change. The room the text has now is subtracted from the rail's width, and what the text
-        /// wants is added back: whatever else is on the row cancels out. It is re-measured whenever the row
-        /// changes size (a command added, the rail opened), when the text changes, and once the fonts arrive.
+        /// wants is added back: whatever else is on the row cancels out, and so does the rail's own width.
+        /// </para>
+        /// <para>
+        /// So the answer only moves with what is on the row, and that is when it is measured: each time the
+        /// open row is mounted, when the text or the commands change, and once the fonts arrive. Never on a
+        /// resize - a rail being dragged wider would otherwise force a layout read and restyle the whole
+        /// sidebar on every frame, to write the number it already had.
         /// </para>
         /// </summary>
         protected void FitRailToText()
         {
-            if (_railFitObserver is object) return;
-
-            _railFitObserver = new ResizeObserver((entries, obs) => UpdateRailFit());
-            _railFitObserver.observe(_content);
+            _fitsRail = true;
         }
 
         private void UpdateRailFit()
         {
-            if (_railFitObserver is null) return;
-
-            //A row taken off the rail - closed, rebuilt or removed - stops holding it open
-            if (!_content.isConnected)
-            {
-                ReleaseRail();
-                return;
-            }
+            if (!_fitsRail || !_content.isConnected) return;
 
             var rail = RailToFit();
 
@@ -420,13 +427,18 @@ namespace Tesserae
 
             if (rail is null) return;
 
-            //Hidden (a shifted-away panel) or squeezed past the text by the opening animation: there is nothing
-            //to measure, and the width already written stays until there is
             var contentRect = _content.getBoundingClientRect().As<DOMRect>();
             var linesRect   = _lines.getBoundingClientRect().As<DOMRect>();
             var available   = contentRect.right - linesRect.left;
 
-            if (contentRect.width <= 0 || available <= 0) return;
+            //Hidden (a shifted-away panel) or squeezed past the text by the opening animation: the subtraction
+            //only holds while the text has some room, so keep what was written and measure once the rail has opened
+            if (contentRect.width <= 0 || available <= 0)
+            {
+                window.clearTimeout(_refitTimeout);
+                _refitTimeout = window.setTimeout(_ => UpdateRailFit(), Sidebar.SIDEBAR_TRANSITION_TIME + 50);
+                return;
+            }
 
             //Measured before the fonts are in, the text is the fallback's width: measure again once they are
             if (!_waitingForFonts && Script.Write<bool>("!!(document.fonts && document.fonts.status === 'loading')"))
@@ -446,11 +458,29 @@ namespace Tesserae
             var railWidth = rail.getBoundingClientRect().As<DOMRect>().width;
 
             //scrollWidth is rounded, so a pixel on top keeps a name that measured x.4 from ellipsizing by its last letter
-            var minWidth = Math.Ceiling(railWidth - available + wanted) + 1;
+            var minWidth = (Math.Ceiling(railWidth - available + wanted) + 1) + "px";
 
-            rail.style.setProperty(RAIL_MIN_WIDTH_VARIABLE, minWidth + "px");
-            rail.classList.add(RAIL_FITS_CLASS);
             _fittedRail = rail;
+
+            //The variable is inherited by everything in the sidebar, so writing it restyles all of it: only when it moves
+            if (minWidth == _fittedMinWidth) return;
+
+            _fittedMinWidth = minWidth;
+            rail.style.setProperty(RAIL_MIN_WIDTH_VARIABLE, minWidth);
+            rail.classList.add(RAIL_FITS_CLASS);
+        }
+
+        /// <summary>
+        /// The open row comes off the rail every time the rail closes, and the collapsed picture goes on in the
+        /// same pass. The floor stays then - the stylesheet ignores it on a closed rail, and the rail opens
+        /// straight to it - and goes only when the row has left the rail altogether.
+        /// </summary>
+        private void OnOpenRowRemoved()
+        {
+            if (_closedOuter.isConnected && ReferenceEquals(_closedOuter.closest(".tss-sidebar"), _fittedRail)) return;
+
+            window.clearTimeout(_refitTimeout);
+            ReleaseRail();
         }
 
         private void ReleaseRail()
@@ -459,7 +489,8 @@ namespace Tesserae
 
             _fittedRail.style.removeProperty(RAIL_MIN_WIDTH_VARIABLE);
             _fittedRail.classList.remove(RAIL_FITS_CLASS);
-            _fittedRail = null;
+            _fittedRail     = null;
+            _fittedMinWidth = null;
         }
 
         /// <summary>
@@ -522,6 +553,8 @@ namespace Tesserae
             //pixels here instead would hard-code a height a skin is free to change.
             _openRoot.UpdateClassIf(count > 0, "tss-sidebar-has-commands");
             _openRoot.style.setProperty("--tss-sidebar-identity-command-count", count.ToString());
+
+            UpdateRailFit();
         }
 
         private void UpdateSubtitleVisibility()
