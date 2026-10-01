@@ -95,11 +95,12 @@ treated as out of options: an empty seed list leaves it enabled and does not sho
 the "no options" message, since the next lookup may find some.
 
 Seed the dropdown with the first page (plus whatever must be selectable without
-searching, such as the current value), and let the callback fill in the rest:
+searching, such as the current value — see [Pre-selecting a value](#pre-selecting-a-value)),
+and let the callback fill in the rest:
 
 ```csharp
 var dd = Dropdown()
-   .Items(currentUserItem, firstPageItems)          // what is selectable without searching
+   .Items(firstPageItems)                           // what is selectable without searching
    .SearchAsync(async term =>
     {
         var found = await API.Users.SearchAsync(term, limit: 100);
@@ -109,6 +110,38 @@ var dd = Dropdown()
 
 The callback is also called with an empty string when the User clears the box, so
 returning the first page for an empty term restores the seed list.
+
+### Pre-selecting a value
+
+There is nothing `SearchAsync`-specific about it: put the current value in the seed
+`Items(...)`, marked `.Selected()`, with the same key the callback gives that option.
+
+```csharp
+var current = DropdownItem(user.Name).SetKey(user.UID).Selected();
+
+var dd = Dropdown()
+   .Items(new[] { current }.Concat(firstPageItems).ToArray())
+   .SearchAsync(async term =>
+    {
+        var found = await API.Users.SearchAsync(term, limit: 100);
+        return found.Select(u => DropdownItem(u.Name).SetKey(u.UID)).ToArray();
+    }, placeholder: "Search users...");
+```
+
+- **Seed it even when it is not on the first page.** The callback only adds options; it
+  never selects one. The box shows the selection straight away, without the list
+  being opened.
+- **Match the keys.** When a later lookup returns that same user, `AddItems` drops the
+  incoming copy because its key is already listed, so the selected seed item stays
+  and there is no duplicate. `Key` defaults to the item's text, so a seed item with no
+  `SetKey` beside results keyed by id is listed twice.
+- **Changing it later from code:** set `IsSelected = true` on the `Item` the dropdown
+  holds (in single-select mode that unselects the others). `AddItems(item)` first if it
+  is not listed yet, but keep in mind it skips an instance whose key is already there,
+  and selecting an instance the dropdown does not hold does nothing. Selecting from
+  code raises `OnInput`, and in single-select mode `OnChange`, like a User pick would.
+  Calling `Items(...)` again with the new item `.Selected()` also works, but replaces
+  the whole list.
 
 ## Rich item content
 
