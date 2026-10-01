@@ -60,6 +60,12 @@ body.tss-theme-curiosity .tss-modal-left-header-commands > button:active {
     color: var(--tss-default-foreground-color);
 }
 
+/* Tesserae gives the modal a transparent 3px outline so it can hold focus for the keyboard without a ring; the
+   blanket :focus-visible rule would colour it, and a large modal ended up framed in a 3px ink border. */
+body.tss-theme-curiosity .tss-modal:focus-visible {
+    outline-color: transparent;
+}
+
 body.tss-theme-curiosity .tss-modal-header-commands > button:focus-visible,
 body.tss-theme-curiosity .tss-modal-left-header-commands > button:focus-visible {
     outline: 2px solid var(--tss-default-foreground-color);

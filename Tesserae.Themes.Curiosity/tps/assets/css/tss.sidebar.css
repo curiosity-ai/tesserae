@@ -12,7 +12,11 @@ body.tss-theme-curiosity .tss-sidebar {
     box-shadow: inset -1px 0 0 var(--tss-default-border-color);
 }
 
-body.tss-theme-curiosity .tss-sidebar .tss-btn {
+/* The identity row's command buttons (a panel's own title line, the profile row) carry a 6px radius written with
+   more specificity than the rule above, so they are restated. */
+body.tss-theme-curiosity .tss-sidebar .tss-btn,
+body.tss-theme-curiosity .tss-sidebar-identity > .tss-sidebar-commands > .tss-sidebar-command.tss-btn,
+body.tss-theme-curiosity .tss-sidebar-identity > .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn {
     border-radius: 0;
 }
 

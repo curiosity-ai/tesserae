@@ -82,11 +82,13 @@ body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search
     background: transparent;
 }
 
-body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn) {
+/* Only the quiet end buttons: an action the host adds to the row (Add, New team) is filled, and keeps its own
+   paper-on-blue text rather than turning mute-ink, which on the call blue is unreadable. */
+body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-danger) {
     color: var(--tss-secondary-foreground-color);
 }
 
-body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):hover {
+body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-danger):hover {
     color: var(--tss-default-foreground-color);
 }
 

@@ -80,7 +80,7 @@ body.tss-theme-curiosity {
     --tss-primary-foreground-hover-color-root: 244, 244, 242;
     --tss-primary-background-active-color-root: 42, 47, 56;
     --tss-primary-foreground-active-color-root: 244, 244, 242;
-    --tss-warning-background-color-root: 176, 106, 0;
+    --tss-warning-background-color-root: 160, 95, 0;      /* amber: 5.1:1 under white text, 4.6:1 as text on paper */
     --tss-warning-foreground-color-root: 255, 255, 255;
     --tss-danger-background-color-root: 196, 43, 28;
     --tss-danger-foreground-color-root: 255, 255, 255;
@@ -232,20 +232,22 @@ body.tss-theme-curiosity.tss-dark-mode {
     --tss-primary-foreground-active-color-root: 244, 244, 242;
     --tss-warning-background-color-root: 214, 140, 30;
     --tss-warning-foreground-color-root: 17, 20, 24;
+    /* The semantic fills are light enough on ink to read as text (4.6:1 and 4.9:1), so the text on them is ink, as on
+       the warning fill: white was 4.0:1 and 3.8:1. Hover goes lighter, the way the primary's does, so the ink holds. */
     --tss-danger-background-color-root: 226, 72, 56;
-    --tss-danger-foreground-color-root: 255, 255, 255;
+    --tss-danger-foreground-color-root: 17, 20, 24;
     --tss-danger-border-color-root: 226, 72, 56;
-    --tss-danger-background-hover-color-root: 196, 43, 28;
-    --tss-danger-foreground-hover-color-root: 255, 255, 255;
-    --tss-danger-background-active-color-root: 160, 33, 20;
-    --tss-danger-foreground-active-color-root: 255, 255, 255;
+    --tss-danger-background-hover-color-root: 240, 92, 76;
+    --tss-danger-foreground-hover-color-root: 17, 20, 24;
+    --tss-danger-background-active-color-root: 226, 72, 56;
+    --tss-danger-foreground-active-color-root: 17, 20, 24;
     --tss-success-background-color-root: 36, 150, 80;
-    --tss-success-foreground-color-root: 255, 255, 255;
+    --tss-success-foreground-color-root: 17, 20, 24;
     --tss-success-border-color-root: 36, 150, 80;
-    --tss-success-background-hover-color-root: 21, 122, 60;
-    --tss-success-foreground-hover-color-root: 255, 255, 255;
-    --tss-success-background-active-color-root: 16, 99, 48;
-    --tss-success-foreground-active-color-root: 255, 255, 255;
+    --tss-success-background-hover-color-root: 52, 172, 100;
+    --tss-success-foreground-hover-color-root: 17, 20, 24;
+    --tss-success-background-active-color-root: 36, 150, 80;
+    --tss-success-foreground-active-color-root: 17, 20, 24;
     --tss-slider-color-root: 47, 107, 255;
     --tss-slider-active-color-root: 42, 47, 56;
     --tss-slider-disabled-color-root: 27, 31, 37;
