@@ -13,11 +13,9 @@ namespace Tesserae
     [Transpose.Name("tss.Pivot")]
     public sealed class Pivot : IComponent, ISpecialCaseStyling, IBindableComponent<string>
     {
-        public delegate void PivotEventHandler<TEventArgs>(Pivot sender, TEventArgs e);
-
-        private event PivotEventHandler<PivotBeforeNavigateEvent> _beforeNavigated;
-        private event PivotEventHandler<PivotNavigateEvent>       _navigated;
-        private event PivotEventHandler<PivotReorderEvent>        _reordered;
+        private event ComponentEventHandler<Pivot, PivotBeforeNavigateEvent> _beforeNavigated;
+        private event ComponentEventHandler<Pivot, PivotNavigateEvent>       _navigated;
+        private event ComponentEventHandler<Pivot, PivotReorderEvent>        _reordered;
 
         private readonly SettableObservable<string>   _observable     = new SettableObservable<string>();
         private readonly List<Tab>                    _orderedTabs    = new List<Tab>();
@@ -179,7 +177,7 @@ namespace Tesserae
         /// Registers a callback invoked after the user drags a tab into a new
         /// position. Requires <see cref="Reorderable"/>.
         /// </summary>
-        public Pivot OnReorder(PivotEventHandler<PivotReorderEvent> onReorder)
+        public Pivot OnReorder(ComponentEventHandler<Pivot, PivotReorderEvent> onReorder)
         {
             _reordered += onReorder;
             return this;
@@ -646,7 +644,7 @@ namespace Tesserae
         /// <summary>
         /// Registers a callback invoked when the before navigate event fires.
         /// </summary>
-        public Pivot OnBeforeNavigate(PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate)
+        public Pivot OnBeforeNavigate(ComponentEventHandler<Pivot, PivotBeforeNavigateEvent> onBeforeNavigate)
         {
             _beforeNavigated += onBeforeNavigate;
             return this;
@@ -655,7 +653,7 @@ namespace Tesserae
         /// <summary>
         /// Registers a callback invoked when the navigate event fires.
         /// </summary>
-        public Pivot OnNavigate(PivotEventHandler<PivotNavigateEvent> onNavigate)
+        public Pivot OnNavigate(ComponentEventHandler<Pivot, PivotNavigateEvent> onNavigate)
         {
             _navigated += onNavigate;
             return this;

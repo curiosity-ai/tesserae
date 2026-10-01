@@ -19,12 +19,6 @@ namespace Tesserae
         public static SettableObservable<T> Of<T>(T value, IEqualityComparer<T> comparer = null) => new SettableObservable<T>(value, comparer);
 
         /// <summary>
-        /// Identical to <see cref="Of{T}"/>.
-        /// </summary>
-        [System.Obsolete("Identical to SettableObservable.Of; use Of instead.")]
-        public static SettableObservable<T> For<T>(T value, IEqualityComparer<T> comparer = null) => Of(value, comparer);
-
-        /// <summary>
         /// Toggles the boolean value of the SettableObservable.
         /// </summary>
         /// <param name="observable">The observable boolean.</param>

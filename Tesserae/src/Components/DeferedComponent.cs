@@ -62,8 +62,6 @@ namespace Tesserae
             return new DeferedComponent(asyncGenerator, loadMessage, defaultLoadingMessage);
         }
 
-        internal static DeferedComponent Create(Func<Task<IComponent>> asyncGenerator) => Create(asyncGenerator, null);
-
         /// <summary>
         /// Refreshes the component's rendered state.
         /// </summary>

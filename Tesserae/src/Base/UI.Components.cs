@@ -474,11 +474,6 @@ namespace Tesserae
         /// <summary>
         /// Creates a new <see cref="IDefer"/>.
         /// </summary>
-        [Obsolete("Identical to Defer(IObservable<TComponent>); use Defer instead.")]
-        public static IDefer DeferSync<TComponent>(IObservable<TComponent>                      observableComponent) where TComponent : IComponent                                                                                                                                                                                                                                                                                                                                                                                                                        => DeferedComponent.Observe(observableComponent, c => c.AsTask());
-        /// <summary>
-        /// Creates a new <see cref="IDefer"/>.
-        /// </summary>
         public static IDefer DeferSync(Func<IComponent>                                         syncGenerator, IComponent           loadMessage = null)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    => DeferedComponent.Create(() => syncGenerator().AsTask(), loadMessage);
         /// <summary>
         /// Creates a new <see cref="IDefer"/>.

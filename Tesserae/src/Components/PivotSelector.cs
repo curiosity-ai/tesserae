@@ -13,10 +13,8 @@ namespace Tesserae
     [Transpose.Name("tss.PivotSelector")]
     public class PivotSelector : IComponent, ISpecialCaseStyling, IBindableComponent<string>
     {
-        public delegate void PivotEventHandler<TEventArgs>(PivotSelector sender, TEventArgs e);
-
-        private event PivotEventHandler<PivotBeforeNavigateEvent> _beforeNavigated;
-        private event PivotEventHandler<PivotNavigateEvent>       _navigated;
+        private event ComponentEventHandler<PivotSelector, PivotBeforeNavigateEvent> _beforeNavigated;
+        private event ComponentEventHandler<PivotSelector, PivotNavigateEvent>       _navigated;
 
         private readonly SettableObservable<string> _observable = new SettableObservable<string>();
 
@@ -71,7 +69,7 @@ namespace Tesserae
         /// <summary>
         /// Registers a callback invoked when the before navigate event fires.
         /// </summary>
-        public PivotSelector OnBeforeNavigate(PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate)
+        public PivotSelector OnBeforeNavigate(ComponentEventHandler<PivotSelector, PivotBeforeNavigateEvent> onBeforeNavigate)
         {
             _beforeNavigated += onBeforeNavigate;
             return this;
@@ -80,7 +78,7 @@ namespace Tesserae
         /// <summary>
         /// Registers a callback invoked when the navigate event fires.
         /// </summary>
-        public PivotSelector OnNavigate(PivotEventHandler<PivotNavigateEvent> onNavigate)
+        public PivotSelector OnNavigate(ComponentEventHandler<PivotSelector, PivotNavigateEvent> onNavigate)
         {
             _navigated += onNavigate;
             return this;
