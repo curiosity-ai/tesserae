@@ -341,27 +341,27 @@ body.tss-theme-curiosity .tss-fontcolor-primary {
    ========================================================================== */
 
 body.tss-theme-curiosity {
-    --cur-scrollbar-size: 12px;
-    --cur-scrollbar-inset: 4px;       /* 12px bar, 4px border each side: a 4px thumb */
-    --cur-scrollbar-inset-hover: 2px; /* an 8px thumb under the pointer */
-    --cur-scrollbar-rail: var(--tss-default-border-color);
-    --cur-scrollbar-thumb: rgb(var(--tss-default-foreground-color-root));
-    --cur-scrollbar-drag: rgb(var(--tss-highlight-color-root));
+    --tss-cur-scrollbar-size: 12px;
+    --tss-cur-scrollbar-inset: 4px;       /* 12px bar, 4px border each side: a 4px thumb */
+    --tss-cur-scrollbar-inset-hover: 2px; /* an 8px thumb under the pointer */
+    --tss-cur-scrollbar-rail: var(--tss-default-border-color);
+    --tss-cur-scrollbar-thumb: rgb(var(--tss-default-foreground-color-root));
+    --tss-cur-scrollbar-drag: rgb(var(--tss-highlight-color-root));
 }
 
 /* html sits above the body that declares the tokens, so Firefox's page scrollbar gets its own. */
 html:has(> body.tss-theme-curiosity) {
-    --cur-scrollbar-size: 12px;
-    --cur-scrollbar-inset: 4px;
-    --cur-scrollbar-inset-hover: 2px;
-    --cur-scrollbar-rail: #DEE0DF;
-    --cur-scrollbar-thumb: #111418;
-    --cur-scrollbar-drag: #2F6BFF;
+    --tss-cur-scrollbar-size: 12px;
+    --tss-cur-scrollbar-inset: 4px;
+    --tss-cur-scrollbar-inset-hover: 2px;
+    --tss-cur-scrollbar-rail: #DEE0DF;
+    --tss-cur-scrollbar-thumb: #111418;
+    --tss-cur-scrollbar-drag: #2F6BFF;
 }
 
 html:has(> body.tss-theme-curiosity.tss-dark-mode) {
-    --cur-scrollbar-rail: #2A2F38;
-    --cur-scrollbar-thumb: #F4F4F2;
+    --tss-cur-scrollbar-rail: #2A2F38;
+    --tss-cur-scrollbar-thumb: #F4F4F2;
 }
 
 @supports selector(::-webkit-scrollbar) {
@@ -369,8 +369,8 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar,
     body.tss-theme-curiosity::-webkit-scrollbar,
     body.tss-theme-curiosity ::-webkit-scrollbar {
-        width: var(--cur-scrollbar-size);
-        height: var(--cur-scrollbar-size);
+        width: var(--tss-cur-scrollbar-size);
+        height: var(--tss-cur-scrollbar-size);
         background: transparent;
     }
 
@@ -385,7 +385,7 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
     body.tss-theme-curiosity ::-webkit-scrollbar-track:vertical,
     body.tss-theme-curiosity *:hover::-webkit-scrollbar-track:vertical {
         border-radius: 0;
-        background: linear-gradient(var(--cur-scrollbar-rail), var(--cur-scrollbar-rail)) center / 1px 100% no-repeat;
+        background: linear-gradient(var(--tss-cur-scrollbar-rail), var(--tss-cur-scrollbar-rail)) center / 1px 100% no-repeat;
     }
 
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-track:horizontal,
@@ -393,31 +393,31 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
     body.tss-theme-curiosity ::-webkit-scrollbar-track:horizontal,
     body.tss-theme-curiosity *:hover::-webkit-scrollbar-track:horizontal {
         border-radius: 0;
-        background: linear-gradient(var(--cur-scrollbar-rail), var(--cur-scrollbar-rail)) center / 100% 1px no-repeat;
+        background: linear-gradient(var(--tss-cur-scrollbar-rail), var(--tss-cur-scrollbar-rail)) center / 100% 1px no-repeat;
     }
 
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-thumb,
     body.tss-theme-curiosity::-webkit-scrollbar-thumb,
     body.tss-theme-curiosity ::-webkit-scrollbar-thumb,
     body.tss-theme-curiosity *:hover::-webkit-scrollbar-thumb {
-        border: var(--cur-scrollbar-inset) solid transparent;
+        border: var(--tss-cur-scrollbar-inset) solid transparent;
         border-radius: 0;
-        background: var(--cur-scrollbar-thumb) padding-box;
+        background: var(--tss-cur-scrollbar-thumb) padding-box;
     }
 
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-thumb:hover,
     body.tss-theme-curiosity::-webkit-scrollbar-thumb:hover,
     body.tss-theme-curiosity ::-webkit-scrollbar-thumb:hover,
     body.tss-theme-curiosity *:hover::-webkit-scrollbar-thumb:hover {
-        border: var(--cur-scrollbar-inset-hover) solid transparent;
+        border: var(--tss-cur-scrollbar-inset-hover) solid transparent;
     }
 
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-thumb:active,
     body.tss-theme-curiosity::-webkit-scrollbar-thumb:active,
     body.tss-theme-curiosity ::-webkit-scrollbar-thumb:active,
     body.tss-theme-curiosity *:hover::-webkit-scrollbar-thumb:active {
-        border: var(--cur-scrollbar-inset-hover) solid transparent;
-        background-color: var(--cur-scrollbar-drag);
+        border: var(--tss-cur-scrollbar-inset-hover) solid transparent;
+        background-color: var(--tss-cur-scrollbar-drag);
     }
 
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-button,
@@ -435,6 +435,6 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
     html:has(> body.tss-theme-curiosity),
     body.tss-theme-curiosity {
         scrollbar-width: thin;
-        scrollbar-color: var(--cur-scrollbar-thumb) transparent;
+        scrollbar-color: var(--tss-cur-scrollbar-thumb) transparent;
     }
 }

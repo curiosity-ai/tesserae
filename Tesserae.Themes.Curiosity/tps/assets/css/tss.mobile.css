@@ -42,8 +42,8 @@ body.tss-theme-curiosity.tss-mobile .tss-navbar-mobile-header .tss-textblock {
    that widens to 4px under the finger. */
 @supports selector(::-webkit-scrollbar) {
     body.tss-theme-curiosity.tss-mobile {
-        --cur-scrollbar-size: 6px;
-        --cur-scrollbar-inset: 2px;
-        --cur-scrollbar-inset-hover: 1px;
+        --tss-cur-scrollbar-size: 6px;
+        --tss-cur-scrollbar-inset: 2px;
+        --tss-cur-scrollbar-inset-hover: 1px;
     }
 }
