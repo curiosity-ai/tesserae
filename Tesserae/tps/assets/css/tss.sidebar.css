@@ -1365,27 +1365,6 @@
     height: var(--tss-sidebar-identity-height) !important;
 }
 
-/* A row nobody gave a click handler (SidebarIdentityRow adds .tss-sidebar-identity-inert until one is
-   attached) is a label: it stays at its resting colours under the pointer and in the commands-hover state
-   above, and keeps the default cursor. The selected row keeps its own colours. */
-.tss-sidebar-identity.tss-sidebar-identity-inert:not(.tss-sidebar-selected) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled),
-.tss-sidebar-identity.tss-sidebar-identity-inert:not(.tss-sidebar-selected) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled):hover,
-.tss-sidebar-identity.tss-sidebar-identity-inert:not(.tss-sidebar-selected) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled):active,
-.tss-sidebar-identity.tss-sidebar-identity-inert:not(.tss-sidebar-selected):hover > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled),
-.tss-sidebar-identity.tss-sidebar-identity-inert:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled),
-.tss-sidebar-identity-closed.tss-sidebar-identity-inert:not(.tss-sidebar-selected) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled),
-.tss-sidebar-identity-closed.tss-sidebar-identity-inert:not(.tss-sidebar-selected) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled):hover,
-.tss-sidebar-identity-closed.tss-sidebar-identity-inert:not(.tss-sidebar-selected) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled):active {
-    color: var(--tss-default-foreground-color);
-    background-color: transparent;
-    border-color: transparent;
-    cursor: default;
-}
-
-.tss-sidebar-identity-inert:not(.tss-sidebar-selected) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled) .tss-fontcolor-default {
-    color: var(--tss-default-foreground-color);
-}
-
 .tss-sidebar-identity-content {
     display: flex;
     flex-direction: row;
@@ -1430,7 +1409,8 @@
 
 /* The application's name is the one thing on the rail that names the product, so it is set like a title
    rather than like the rows under it. */
-.tss-sidebar-brand .tss-sidebar-identity-title {
+.tss-sidebar-brand .tss-sidebar-identity-title,
+.tss-sidebar-section-header .tss-sidebar-identity-title {
     font-size: var(--tss-font-size-smallplus);
     font-weight: var(--tss-font-weight-bold);
 }
@@ -1597,6 +1577,39 @@
     padding-right: 4px;
     margin-bottom: 8px;
     padding-bottom: 8px;
+}
+
+/* SidebarSectionHeader: the brand row's shape without its button. The 48px is the row's own height and the
+   9px is what the brand's button puts before its logo (8px of padding and a 1px border), so the glyph lines
+   up with the icons of the rows below and switching a sidebar between the two moves nothing. It is plain
+   text, so it keeps the default cursor and answers no hover. */
+.tss-sidebar-section-header {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    padding: 0 9px;
+    cursor: default;
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-sidebar-section-header-closed {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(54px - 8px);
+    height: 48px;
+    cursor: default;
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-sidebar-section-header-closed > .tss-sidebar-brand-logo {
+    width: 32px;
+    height: 32px;
+}
+
+.tss-sidebar-section-header-closed > .tss-sidebar-brand-logo > .tss-icon {
+    font-size: 24px;
+    line-height: 1;
 }
 
 /* SidebarStatusCard: what the section heading the sidebar is doing right now. A card rather than a row, so it

@@ -13,10 +13,10 @@ namespace Tesserae.Tests.Samples
 
         public SidenavSample()
         {
-            // The right-side Sidebar shows context for the section selected in the left rail. Its header is the
-            // section's brand row: the section's glyph, its name and what is in it.
+            // The right-side Sidebar shows context for the section selected in the left rail. Its header is a
+            // SidebarSectionHeader: the section's glyph, its name and what is in it.
             var sidebar = Sidebar();
-            sidebar.AddHeader(SectionBrand(UIcons.Database, "Build", "Data, AI and delivery"));
+            sidebar.AddHeader(SectionHeader(UIcons.Database, "Build", "Data, AI and delivery"));
 
             // Initial sidebar content (Build section)
             FillBuildSection(sidebar);
@@ -39,16 +39,16 @@ namespace Tesserae.Tests.Samples
             sidenav.AddContent(govern);
             sidenav.AddContent(configure);
 
-            home.OnClick(()      => SwitchTo(sidenav, sidebar, "home", SectionBrand(UIcons.Home, "Home", "Overview and notifications"), FillHomeSection));
-            operate.OnClick(()   => SwitchTo(sidenav, sidebar, "operate", SectionBrand(UIcons.Pulse, "Operate", "Monitoring, alerts and logs"), FillOperateSection));
-            build.OnClick(()     => SwitchTo(sidenav, sidebar, "build", SectionBrand(UIcons.Database, "Build", "Data, AI and delivery"), FillBuildSection));
-            govern.OnClick(()    => SwitchTo(sidenav, sidebar, "govern", SectionBrand(UIcons.Shield, "Govern", "Policies and audit"), FillGovernSection));
-            configure.OnClick(() => SwitchTo(sidenav, sidebar, "configure", SectionBrand(UIcons.Settings, "Configure", "Workspace and account"), FillConfigureSection));
+            home.OnClick(()      => SwitchTo(sidenav, sidebar, "home", SectionHeader(UIcons.Home, "Home", "Overview and notifications"), FillHomeSection));
+            operate.OnClick(()   => SwitchTo(sidenav, sidebar, "operate", SectionHeader(UIcons.Pulse, "Operate", "Monitoring, alerts and logs"), FillOperateSection));
+            build.OnClick(()     => SwitchTo(sidenav, sidebar, "build", SectionHeader(UIcons.Database, "Build", "Data, AI and delivery"), FillBuildSection));
+            govern.OnClick(()    => SwitchTo(sidenav, sidebar, "govern", SectionHeader(UIcons.Shield, "Govern", "Policies and audit"), FillGovernSection));
+            configure.OnClick(() => SwitchTo(sidenav, sidebar, "configure", SectionHeader(UIcons.Settings, "Configure", "Workspace and account"), FillConfigureSection));
 
             // Avatar at the bottom of the rail
             sidenav.AddFooter(new SidenavButton("user", UIcons.User, "Account").Tooltip("OA — Account"));
 
-            // The same pair, with a status card heading the sidebar in place of the brand row
+            // The same pair, with a status card heading the sidebar in place of the section header
             var statusSidenav = Sidenav();
             statusSidenav.AddHeader(new SidenavButton("brand3", UIcons.Rocket, "App").AsBrand().Tooltip("My App"));
             statusSidenav.AddContent(new SidenavButton("home3",      UIcons.Home,     "Home"));
@@ -109,24 +109,24 @@ namespace Tesserae.Tests.Samples
                             )
                         )
                     )).SetTitle("Standalone")))
-               .SeeAlso(typeof(SidebarSample), typeof(NavbarSample), typeof(MenuSample), typeof(SidebarSeparatorSample), typeof(SidebarStatusCardSample));
+               .SeeAlso(typeof(SidebarSample), typeof(NavbarSample), typeof(MenuSample), typeof(SidebarSeparatorSample), typeof(SidebarSectionHeaderSample), typeof(SidebarStatusCardSample));
         }
 
-        private static SidebarBrand SectionBrand(UIcons icon, string name, string description)
+        private static SidebarSectionHeader SectionHeader(UIcons icon, string name, string description)
         {
-            return new SidebarBrand("section", icon, name, description).Separated();
+            return new SidebarSectionHeader("section", icon, name, description).Separated();
         }
 
-        private static void SwitchTo(Sidenav sidenav, Sidebar sidebar, string identifier, SidebarBrand brand, Action<Sidebar> fill)
+        private static void SwitchTo(Sidenav sidenav, Sidebar sidebar, string identifier, SidebarSectionHeader header, Action<Sidebar> fill)
         {
             sidenav.Select(identifier);
             sidebar.ClearHeader();
-            sidebar.AddHeader(brand);
+            sidebar.AddHeader(header);
             sidebar.ClearContent();
             fill(sidebar);
         }
 
-        // The brand row already names the section, so separators group items within it
+        // The section header already names the section, so separators group items within it
         // rather than repeating the section name. Short sections need no separator at all.
         private static void FillHomeSection(Sidebar sidebar)
         {

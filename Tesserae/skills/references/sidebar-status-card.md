@@ -54,21 +54,18 @@ status.SetStatus("Index healthy · 2.4M nodes").Success().ClearProgress();
 status.SetStatus("Re-index failed").Danger();
 ```
 
-## Brand row or status card?
+## Section header or status card?
 
-Both head a sidebar. A `SidebarBrand` (`sidebar-brand.md`) says *what* the
-section is (glyph, name, a qualifying line) and can carry commands. A
+Both head a sidebar. A `SidebarSectionHeader` (`sidebar-section-header.md`) says
+*what* the section is (glyph, name, what is in it) and is not clickable. A
 `SidebarStatusCard` says *what it is doing*, and is the one to use when that
-changes while the page is open. For a section with no state to report, head the
-sidebar with a brand row in the same place:
-
-```csharp
-sidebar.AddHeader(new SidebarBrand("build-brand", UIcons.Database, "Build", "Data, AI and delivery").Separated());
-```
+changes while the page is open. The application's own row, which opens Home and
+carries commands, is a `SidebarBrand` (`sidebar-brand.md`).
 
 ## Related
 
 - Sidebar — `sidebar.md`
+- SidebarSectionHeader — `sidebar-section-header.md`
 - SidebarBrand — `sidebar-brand.md`
 - Sidenav (icon rail to the left) — `sidenav.md`
 - ProgressIndicator — `progress-indicator.md`

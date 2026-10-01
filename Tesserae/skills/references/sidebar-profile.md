@@ -48,8 +48,7 @@ Passing no `subtitle` leaves the row a single line rather than an empty one.
   optional; leave it off where the only way out is a menu item. `.Logout(SidebarCommand)`
   for a command of your own. Passing `null` to either removes it.
 - `.Commands(params SidebarCommand[])` — commands drawn *before* those two.
-- `.OnClick(...)` — what the row itself opens (without it the row draws no hover
-  and takes no tab stop). The commands are separate buttons,
+- `.OnClick(...)` — what the row itself opens. The commands are separate buttons,
   so pressing one is not pressing the row.
 - `.Separated()` — a divider on the row's outer edge, run out to the sidebar's own
   edges rather than stopping at its padding. Which edge is read from the section
