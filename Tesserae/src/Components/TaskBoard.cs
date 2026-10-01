@@ -15,7 +15,6 @@ namespace Tesserae
         private readonly HTMLElement _container;
         private readonly Stack _stack;
         private readonly List<TaskBoardColumn> _columns = new List<TaskBoardColumn>();
-        private bool _isRowMode = false;
         private readonly Sortable _sortable;
         private bool _isReadOnly = false;
         private Action<SortableEvent> _onColumnDrop;
@@ -126,7 +125,6 @@ namespace Tesserae
         /// </summary>
         public TaskBoard RowMode(bool isRowMode = true)
         {
-            _isRowMode = isRowMode;
             if (isRowMode)
             {
                 _stack.Vertical();

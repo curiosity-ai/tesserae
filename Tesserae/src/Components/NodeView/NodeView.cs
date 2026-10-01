@@ -629,10 +629,8 @@ namespace Tesserae
             }
         }
 
-        private static Node CreateGraphNodeType(GraphTemplate template) => Script.Write<Node>("BaklavaJS.Core.createGraphNodeType({0})", template);
         private static AbstractNodeConstructor DefineDynamicNode(DynamicNodeDefinition nodeDefinition) => Script.Write<AbstractNodeConstructor>("BaklavaJS.Core.defineDynamicNode({0})", nodeDefinition);
         private static AbstractNodeConstructor DefineNode(DynamicNodeDefinition definition) => Script.Write<AbstractNodeConstructor>("BaklavaJS.Core.defineNode({0})", definition);
-        private static string GetGraphNodeTypeString(GraphTemplate template) => Script.Write<string>("BaklavaJS.Core.getGraphNodeTypeString({0})", template);
 
 
         [ObjectLiteral]
@@ -744,19 +742,6 @@ namespace Tesserae
             [Template("{this}.switchGraph({0})")] public void switchGraph(Graph newGraph) { }
             // JS has no overloads, so the second one needs a distinct emitted name - the [Template] is what's written at the call site anyway
             [Name("switchGraphFromTemplate")] [Template("{this}.switchGraph({0})")] public void switchGraph(GraphTemplate newGraph) { }
-
-            //    clipboard: IClipboard;
-            //    commandHandler: ICommandHandler;
-            //    hooks: {
-            //        renderInterface: SequentialHook<
-            //            { el: HTMLElement; intf: NodeInterface<any>
-            //        },
-            //            null,
-            //        >;
-            //        renderNode: SequentialHook<{ el: HTMLElement; node: AbstractNode
-            //    }, null>;
-            //    };
-            //isSubgraph: Readonly<boolean>;
         }
 
         [ObjectLiteral]
@@ -810,18 +795,6 @@ namespace Tesserae
         [ObjectLiteral]
         public class GraphEventEmitter
         {
-            //addConnection: BaklavaEvent<IConnection, Graph>;
-            //addNode: BaklavaEvent<AbstractNode, Graph>;
-            //beforeAddConnection: PreventableBaklavaEvent<
-            //    IAddConnectionEventData,
-            //    Graph,
-            //>;
-            //beforeAddNode: PreventableBaklavaEvent<AbstractNode, Graph>;
-            //beforeRemoveConnection: PreventableBaklavaEvent<IConnection, Graph>;
-            //beforeRemoveNode: PreventableBaklavaEvent<AbstractNode, Graph>;
-            //checkConnection: PreventableBaklavaEvent<IAddConnectionEventData, Graph>;
-            //removeConnection: BaklavaEvent<IConnection, Graph>;
-            //removeNode: BaklavaEvent<AbstractNode, Graph>;
         }
 
         [ObjectLiteral]
@@ -860,10 +833,6 @@ namespace Tesserae
         [ObjectLiteral]
         public class NodeInterfaceEvents
         {
-            //beforeSetValue: PreventableBaklavaEvent<T, NodeInterface<T>>;
-            //setConnectionCount: BaklavaEvent<number, NodeInterface<T>>;
-            //setValue: BaklavaEvent<T, NodeInterface<T>>;
-            //updated: BaklavaEvent<void, NodeInterface<T>>;
         }
 
         [ObjectLiteral]
@@ -900,24 +869,6 @@ namespace Tesserae
         [ObjectLiteral]
         public class NodeEventsEmitter
         {
-            //addInput: BaklavaEvent<NodeInterface<any>, AbstractNode>;
-            //addOutput: BaklavaEvent<NodeInterface<any>, AbstractNode>;
-            //beforeAddInput: PreventableBaklavaEvent<NodeInterface<any>, AbstractNode>;
-            //beforeAddOutput: PreventableBaklavaEvent<NodeInterface<any>, AbstractNode>;
-            //beforeRemoveInput: PreventableBaklavaEvent<
-            //    NodeInterface<any>,
-            //    AbstractNode,
-            //>;
-            //beforeRemoveOutput: PreventableBaklavaEvent<
-            //    NodeInterface<any>,
-            //    AbstractNode,
-            //>;
-            //beforeTitleChanged: PreventableBaklavaEvent<string, AbstractNode>;
-            //loaded: BaklavaEvent<AbstractNode, AbstractNode>;
-            //removeInput: BaklavaEvent<NodeInterface<any>, AbstractNode>;
-            //removeOutput: BaklavaEvent<NodeInterface<any>, AbstractNode>;
-            //titleChanged: BaklavaEvent<string, AbstractNode>;
-            //update: BaklavaEvent<null | INodeUpdateEventData, AbstractNode>;
         }
 
 

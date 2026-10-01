@@ -649,7 +649,6 @@ namespace Tesserae
         private Action _hideSnapSuggestions;
         private int _highlightedSnapSuggestionIndex = -1;
         private List<Button> _currentSnapSuggestionButtons = new List<Button>();
-        private SnapHandler[] _currentSnapMatches;
         private int _snapMentionStart = -1;
         private int _snapMentionEnd = -1;
 
@@ -2739,7 +2738,6 @@ namespace Tesserae
 
         private void ShowSnapSuggestions(SnapHandler[] matches)
         {
-            _currentSnapMatches = matches;
             _currentSnapSuggestionButtons = new List<Button>();
             _highlightedSnapSuggestionIndex = 0;
 

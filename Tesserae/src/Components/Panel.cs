@@ -101,15 +101,6 @@ namespace Tesserae
             get
             {
                 return _panel.classList[1].As<PanelSize>(); //This works because the PanelSize Enum is emited as a string
-                //switch (_panel.classList[1])
-                //{
-                //    case "tss-panelSize-small" : return PanelSize.Small;
-                //    case "tss-panelSize-medium" : return PanelSize.Medium;
-                //    case "tss-panelSize-large" : return PanelSize.Large;
-                //    case "tss-panelSize-largefixed" : return PanelSize.LargeFixed;
-                //    case "tss-panelSize-extralarge" : return PanelSize.ExtraLarge;
-                //    case "tss-panelSize-fullwidth": return PanelSize.FullWidth;
-                //}
             }
             set => _panel.classList.replace(_panel.classList[1], value.ToString());
         }

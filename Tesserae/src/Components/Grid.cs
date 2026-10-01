@@ -123,59 +123,18 @@ namespace Tesserae
 
         internal static HTMLElement GetItem(IComponent component, bool forceAdd = false)
         {
-            HTMLElement item = null;
+            var rendered = component.Render();
 
-            if (item is null)
+            // Same as Stack.GetItem: the rendered element is the grid child and carries the class,
+            // and is marked with the component that rendered it.
+            if (forceAdd || (rendered.parentElement is object && rendered.parentElement.classList.contains("tss-stack")))
             {
-                var rendered = component.Render();
-
-                // Same as Stack.GetItem: the rendered element is the grid child and carries the class,
-                // and is marked with the component that rendered it.
-                if (forceAdd || (rendered.parentElement is object && rendered.parentElement.classList.contains("tss-stack")))
-                {
-                    rendered.classList.add("tss-stack-item");
-                }
-
-                UI.MarkComponent(rendered, component);
-
-                item = rendered;
-            }
-            return item;
-        }
-
-        internal static void CopyStylesDefinedWithExtension(HTMLElement from, HTMLElement to)
-        {
-            //Copy base-styles using same method from Stack
-            Stack.CopyStylesDefinedWithExtension(from, to);
-
-            // Nothing to move when the child is its own grid item — see the note in Stack's copy.
-            if (from == to) return;
-
-            var fs = from.style;
-            var ts = to.style;
-
-            bool has(string att)
-            {
-                bool ha = from.hasAttribute(att);
-
-                if (ha)
-                {
-                    from.removeAttribute(att);
-                }
-                return ha;
+                rendered.classList.add("tss-stack-item");
             }
 
-            if (has("tss-grd-c"))
-            {
-                ts.gridColumn = fs.gridColumn;
-                fs.gridColumn = "";
-            }
+            UI.MarkComponent(rendered, component);
 
-            if (has("tss-grd-r"))
-            {
-                ts.gridRow = fs.gridRow;
-                fs.gridRow = "";
-            }
+            return rendered;
         }
 
         /// <summary>
