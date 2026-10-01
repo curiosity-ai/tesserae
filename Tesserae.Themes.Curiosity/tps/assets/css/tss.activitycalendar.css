@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Curiosity theme - ActivityCalendar
+   --------------------------------------------------------------------------
+   A day is a square cell, the brand's data mark, with no rounding. The
+   month and weekday labels and the summary captions are the mono uppercase
+   label voice; the summary figures are Geist Mono with tabular figures, the
+   way a Metric's value is. The empty day is the hairline tone, and the
+   tooltip is the square inverted surface every tooltip is in this theme.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-activitycalendar {
+    --tss-activitycalendar-radius: 0px;
+}
+
+body.tss-theme-curiosity .tss-activitycalendar-month,
+body.tss-theme-curiosity .tss-activitycalendar-weekday,
+body.tss-theme-curiosity .tss-activitycalendar-summary-caption,
+body.tss-theme-curiosity .tss-activitycalendar-legend {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-activitycalendar-summary-value,
+body.tss-theme-curiosity .tss-activitycalendar-daynumbers .tss-activitycalendar-day,
+body.tss-theme-curiosity .tss-activitycalendar-tooltip-value {
+    font-family: var(--tss-monospace-font-family);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -.02em;
+}
+
+body.tss-theme-curiosity .tss-activitycalendar-tooltip {
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* The selection ring sits on the page's own paper, so it reads on both canvases. */
+body.tss-theme-curiosity .tss-activitycalendar-day.tss-activitycalendar-selected {
+    box-shadow: 0 0 0 2px var(--tss-default-background-color), 0 0 0 3px var(--tss-default-foreground-color);
+}

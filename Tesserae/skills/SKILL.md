@@ -214,7 +214,8 @@ mark-highlighter · omni-box · omni-result · search-box ·
 searchable-grouped-list · searchable-list
 
 **Charts & Visualization** — numbers and relationships, drawn
-charts · contribution-bar · diagram · metric · node-view · sparkline · uptime
+activity-calendar · charts · contribution-bar · diagram · metric · node-view · sparkline ·
+uptime
 
 **Feedback & Status** — progress, notifications and empty states
 banner · live-progress · message · notification-center · progress-indicator ·

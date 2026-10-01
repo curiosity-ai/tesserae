@@ -1,0 +1,284 @@
+/* ActivityCalendar */
+.tss-activitycalendar {
+    --tss-activitycalendar-color: var(--tss-primary-background-color);
+    --tss-activitycalendar-empty-color: var(--tss-default-border-color);
+    --tss-activitycalendar-cell-size: 18px;
+    --tss-activitycalendar-min-cell-size: 8px;
+    --tss-activitycalendar-gap: 3px;
+    --tss-activitycalendar-radius: 3px;
+    --tss-activitycalendar-columns: 53;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-activitycalendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.tss-activitycalendar-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.tss-activitycalendar-title-text {
+    font-size: var(--tss-font-size-medium);
+    font-weight: var(--tss-font-weight-semibold, 600);
+}
+
+.tss-activitycalendar-info {
+    color: var(--tss-secondary-foreground-color);
+    cursor: help;
+}
+
+.tss-activitycalendar-commands {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+}
+
+/* Summary */
+/* The separators sit in the middle of the column gap, and the container clips them: the one in front of the
+   first item of every row, wrapped or not, falls outside it. */
+.tss-activitycalendar-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 48px;
+    overflow: hidden;
+}
+
+.tss-activitycalendar-summary-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+    .tss-activitycalendar-summary-item::before {
+        content: "";
+        position: absolute;
+        left: -24px;
+        top: 0;
+        bottom: 0;
+        border-left: 1px solid var(--tss-default-border-color);
+    }
+
+.tss-activitycalendar-summary-caption {
+    font-size: var(--tss-font-size-small);
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-activitycalendar-summary-value {
+    font-size: var(--tss-font-size-medium);
+    font-weight: var(--tss-font-weight-semibold, 600);
+    font-variant-numeric: tabular-nums;
+}
+
+.tss-activitycalendar-summary-unit {
+    font-weight: normal;
+    color: var(--tss-secondary-foreground-color);
+}
+
+/* Grid */
+.tss-activitycalendar-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    /* Room for the focus ring and the hover lift of the outermost squares. */
+    padding: 3px;
+    margin: -3px;
+}
+
+.tss-activitycalendar-grid {
+    display: grid;
+    grid-template-columns: auto repeat(var(--tss-activitycalendar-columns), minmax(var(--tss-activitycalendar-min-cell-size), var(--tss-activitycalendar-cell-size)));
+    gap: var(--tss-activitycalendar-gap);
+    justify-content: start;
+    align-items: center;
+    outline: none;
+}
+
+.tss-activitycalendar-vertical .tss-activitycalendar-grid {
+    grid-template-columns: auto repeat(7, minmax(var(--tss-activitycalendar-min-cell-size), var(--tss-activitycalendar-cell-size)));
+}
+
+.tss-activitycalendar-no-weekdays:not(.tss-activitycalendar-vertical) .tss-activitycalendar-grid,
+.tss-activitycalendar-no-months.tss-activitycalendar-vertical .tss-activitycalendar-grid {
+    /* The label column is empty: take back the gap it would still cost. */
+    margin-left: calc(-1 * var(--tss-activitycalendar-gap));
+}
+
+.tss-activitycalendar-month,
+.tss-activitycalendar-weekday {
+    font-size: var(--tss-font-size-small);
+    color: var(--tss-secondary-foreground-color);
+    white-space: nowrap;
+    line-height: 1;
+    user-select: none;
+}
+
+.tss-activitycalendar-month {
+    padding-bottom: 4px;
+    overflow: visible;
+}
+
+.tss-activitycalendar-weekday {
+    padding-right: 6px;
+}
+
+.tss-activitycalendar-vertical .tss-activitycalendar-weekday {
+    padding: 0 0 4px 0;
+    text-align: center;
+}
+
+.tss-activitycalendar-vertical .tss-activitycalendar-month {
+    padding: 0 8px 0 0;
+}
+
+.tss-activitycalendar-day {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: var(--tss-activitycalendar-radius);
+    background: var(--tss-activitycalendar-empty-color);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+    .tss-activitycalendar-day[data-level]:not([data-level="0"]) {
+        background: color-mix(in srgb, var(--tss-activitycalendar-color) var(--tss-activitycalendar-mix, 100%), var(--tss-activitycalendar-empty-color));
+    }
+
+.tss-activitycalendar-grid .tss-activitycalendar-day:not(.tss-activitycalendar-future):hover,
+.tss-activitycalendar-day.tss-activitycalendar-active {
+    box-shadow: 0 0 0 1.5px var(--tss-default-foreground-color);
+}
+
+.tss-activitycalendar-clickable .tss-activitycalendar-grid .tss-activitycalendar-day:not(.tss-activitycalendar-future) {
+    cursor: pointer;
+}
+
+.tss-activitycalendar-day.tss-activitycalendar-selected {
+    box-shadow: 0 0 0 2px var(--tss-default-background-color), 0 0 0 3.5px var(--tss-activitycalendar-color);
+}
+
+.tss-activitycalendar-day.tss-activitycalendar-future {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-activitycalendar-empty-color);
+}
+
+.tss-activitycalendar-daynumbers .tss-activitycalendar-day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--tss-font-size-small);
+    font-variant-numeric: tabular-nums;
+    color: var(--tss-default-foreground-color);
+    user-select: none;
+}
+
+    .tss-activitycalendar-daynumbers .tss-activitycalendar-day.tss-activitycalendar-strong {
+        color: #fff;
+    }
+
+    .tss-activitycalendar-daynumbers .tss-activitycalendar-day.tss-activitycalendar-future {
+        color: var(--tss-secondary-foreground-color);
+    }
+
+/* Legend */
+.tss-activitycalendar-legend {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: var(--tss-font-size-small);
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-activitycalendar-swatch {
+    width: 12px;
+    flex: 0 0 12px;
+    cursor: help;
+}
+
+.tss-activitycalendar-legend-label:first-child {
+    margin-right: 5px;
+}
+
+.tss-activitycalendar-legend-label:last-child {
+    margin-left: 5px;
+}
+
+/* Screen-reader announcement of the day the keyboard is on. */
+.tss-activitycalendar-live {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* The one tooltip shared by every calendar on the page. */
+.tss-activitycalendar-tooltip {
+    position: fixed;
+    pointer-events: none;
+    max-width: 320px;
+    padding: 6px 10px;
+    background-color: var(--tss-tooltip-background-color);
+    color: var(--tss-tooltip-foreground-color);
+    font-size: var(--tss-font-size-small);
+    line-height: var(--tss-font-size-medium);
+    border-radius: var(--tss-border-radius-md, 4px);
+    box-shadow: var(--tss-box-shadow);
+    white-space: nowrap;
+    animation: tss-activitycalendar-tooltip-in 0.12s ease-out;
+}
+
+    .tss-activitycalendar-tooltip.tss-activitycalendar-tooltip-moving {
+        animation: none;
+    }
+
+    .tss-activitycalendar-tooltip::after {
+        content: "";
+        position: absolute;
+        left: var(--tss-activitycalendar-arrow, 50%);
+        top: 100%;
+        transform: translateX(-50%);
+        border: 5px solid transparent;
+        border-top-color: var(--tss-tooltip-background-color);
+    }
+
+    .tss-activitycalendar-tooltip.tss-activitycalendar-tooltip-below::after {
+        top: auto;
+        bottom: 100%;
+        border-top-color: transparent;
+        border-bottom-color: var(--tss-tooltip-background-color);
+    }
+
+.tss-activitycalendar-tooltip-value {
+    font-weight: var(--tss-font-weight-semibold, 600);
+}
+
+@keyframes tss-activitycalendar-tooltip-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-activitycalendar-day,
+    .tss-activitycalendar-tooltip {
+        transition: none;
+        animation: none;
+    }
+}
