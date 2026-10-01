@@ -22,7 +22,7 @@ body.tss-theme-curiosity .tss-textbreadcrumb-wrap:last-child > .tss-textbreadcru
 }
 
 body.tss-theme-curiosity .tss-textbreadcrumb-sep {
-    color: var(--cur-ash);
+    color: var(--tss-cur-ash);
 }
 
 body.tss-theme-curiosity .tss-textbreadcrumb-sep i::before {

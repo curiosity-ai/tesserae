@@ -32,7 +32,7 @@ body.tss-theme-curiosity .tss-commandpalette-search-container {
 /* The search box: an input pill (the text box's edge and radius), ink on hover and while typed into. The
    palette's own stylesheet takes the omnibox's chrome away; this gives it the theme's instead. */
 body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search {
-    border: 1px solid var(--cur-input-border, var(--tss-dark-border-color));
+    border: 1px solid var(--tss-cur-input-border, var(--tss-dark-border-color));
     border-radius: var(--tss-border-radius-full);
     background: var(--tss-default-background-color);
     overflow: hidden;

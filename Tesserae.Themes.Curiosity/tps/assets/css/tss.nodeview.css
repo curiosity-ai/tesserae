@@ -42,7 +42,7 @@ body.tss-theme-curiosity .tss-nodeview {
     --baklava-editor-background-pattern-line: var(--tss-default-border-color);
     --baklava-editor-background-pattern-black: rgba(var(--tss-default-foreground-color-root), .09);
     --baklava-context-menu-background: var(--tss-default-background-color);
-    --baklava-context-menu-shadow: var(--cur-surface-ring);
+    --baklava-context-menu-shadow: var(--tss-cur-surface-ring);
     --baklava-toolbar-background: rgba(var(--tss-default-background-color-root), .92);
     --baklava-toolbar-foreground: var(--tss-default-foreground-color);
     --baklava-node-palette-background: rgba(var(--tss-default-background-color-root), .92);

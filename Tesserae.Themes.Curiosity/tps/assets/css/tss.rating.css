@@ -15,11 +15,11 @@ body.tss-theme-curiosity .tss-rating-star {
 /* Rating writes its fill inline as var(--tss-rating-color, #F5C518), so the theme sets the variable:
    an application that sets it on its own container, or passes a color, still wins. */
 body.tss-theme-curiosity {
-    --tss-rating-color: var(--cur-deep);
+    --tss-rating-color: var(--tss-cur-deep);
 }
 
 body.tss-theme-curiosity.tss-dark-mode {
-    --tss-rating-color: var(--cur-signal);
+    --tss-rating-color: var(--tss-cur-signal);
 }
 
 body.tss-theme-curiosity .tss-rating-star:focus-visible {

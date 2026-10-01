@@ -77,18 +77,18 @@ namespace Tesserae.Themes.Curiosity
         /// <summary>
         /// The website's palette: ink, slate, ash, stone, the Signal and the deep blue. Ink and hollow read the
         /// page's text colour first (<c>--tss-default-foreground-color</c>), so they follow a dark theme the way the
-        /// website's glyphs follow <c>currentColor</c>; slate and the deep blue read <c>--cur-glyph-slate</c> and
-        /// <c>--cur-glyph-deep</c>, which the Curiosity theme lightens on the dark canvas, where both are too faint.
+        /// website's glyphs follow <c>currentColor</c>; slate and the deep blue read <c>--tss-cur-glyph-slate</c> and
+        /// <c>--tss-cur-glyph-deep</c>, which the Curiosity theme lightens on the dark canvas, where both are too faint.
         /// </summary>
         public static IReadOnlyDictionary<int, string> DefaultPalette { get; } = new Dictionary<int, string>
         {
             [Empty]  = "transparent",
             [Ink]    = "var(--tss-default-foreground-color, " + BrandColors.Ink + ")",
-            [Slate]  = "var(--cur-glyph-slate, " + BrandColors.Slate + ")",
+            [Slate]  = "var(--tss-cur-glyph-slate, " + BrandColors.Slate + ")",
             [Ash]    = BrandColors.Ash,
             [Signal] = BrandColors.Signal,
             [Hollow] = "var(--tss-default-foreground-color, " + BrandColors.Ink + ")",
-            [Deep]   = "var(--cur-glyph-deep, " + BrandColors.Deep + ")",
+            [Deep]   = "var(--tss-cur-glyph-deep, " + BrandColors.Deep + ")",
             [Stone]  = BrandColors.Stone,
         };
 

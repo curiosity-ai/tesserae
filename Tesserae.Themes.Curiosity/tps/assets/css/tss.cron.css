@@ -36,7 +36,7 @@ body.tss-theme-curiosity .tss-cron-open {
 
 body.tss-theme-curiosity .tss-cron-inline-dropdown.tss-dropdown-container {
     background-color: transparent;
-    border: 1px solid var(--cur-input-border);
+    border: 1px solid var(--tss-cur-input-border);
     border-radius: 9999px;
     padding: 2px 10px;
 }

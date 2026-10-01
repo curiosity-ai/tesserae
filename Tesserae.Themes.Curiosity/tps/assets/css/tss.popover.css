@@ -20,7 +20,7 @@ body.tss-theme-curiosity .tippy-box[data-theme~='tss-popover'] .tss-fontcolor-de
 }
 
 body.tss-theme-curiosity .tippy-box[data-theme~='tss-popover'] > .tippy-content > .tss-popover > .tss-card-container > .tss-card {
-    box-shadow: var(--cur-surface-ring);
+    box-shadow: var(--tss-cur-surface-ring);
 }
 
 body.tss-theme-curiosity .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
