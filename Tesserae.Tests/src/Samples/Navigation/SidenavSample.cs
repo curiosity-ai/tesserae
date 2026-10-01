@@ -95,16 +95,16 @@ namespace Tesserae.Tests.Samples
             fill(sidebar);
         }
 
+        // The sidebar header already names the section, so separators group items within it
+        // rather than repeating the section name. Short sections need no separator at all.
         private static void FillHomeSection(Sidebar sidebar)
         {
-            sidebar.AddContent(new SidebarSeparator("home-sep", "Home"));
             sidebar.AddContent(new SidebarButton("home-overview", UIcons.Apps, "Overview").Selected());
             sidebar.AddContent(new SidebarButton("home-news",     UIcons.Bell, "Notifications"));
         }
 
         private static void FillOperateSection(Sidebar sidebar)
         {
-            sidebar.AddContent(new SidebarSeparator("op-sep", "Operate"));
             sidebar.AddContent(new SidebarButton("op-monitoring", UIcons.Pulse,    "Monitoring").Selected());
             sidebar.AddContent(new SidebarButton("op-alerts",     UIcons.Bell,     "Alerts"));
             sidebar.AddContent(new SidebarButton("op-logs",       UIcons.List,     "Logs"));
@@ -112,12 +112,14 @@ namespace Tesserae.Tests.Samples
 
         private static void FillBuildSection(Sidebar sidebar)
         {
-            sidebar.AddContent(new SidebarSeparator("build-sep", "Build"));
+            sidebar.AddContent(new SidebarSeparator("build-data-sep", "Data"));
             sidebar.AddContent(new SidebarButton("data-sources", UIcons.Database,       "Data Sources").Selected());
             sidebar.AddContent(new SidebarButton("graph-db",     UIcons.DiagramProject, "Graph DB"));
             sidebar.AddContent(new SidebarButton("search-cfg",   UIcons.Search,         "Search config"));
+            sidebar.AddContent(new SidebarSeparator("build-ai-sep", "AI"));
             sidebar.AddContent(new SidebarButton("ai-studio",    UIcons.Star,           "AI Studio"));
             sidebar.AddContent(new SidebarButton("nlp-studio",   UIcons.Edit,           "NLP Studio"));
+            sidebar.AddContent(new SidebarSeparator("build-delivery-sep", "Delivery"));
             sidebar.AddContent(new SidebarButton("endpoints",    UIcons.Link,           "Endpoints"));
             sidebar.AddContent(new SidebarButton("integrations", UIcons.Plug,           "Integrations"));
             sidebar.AddContent(new SidebarButton("interface",    UIcons.Browser,        "Interface"));
@@ -125,16 +127,16 @@ namespace Tesserae.Tests.Samples
 
         private static void FillGovernSection(Sidebar sidebar)
         {
-            sidebar.AddContent(new SidebarSeparator("gov-sep", "Govern"));
             sidebar.AddContent(new SidebarButton("gov-policies", UIcons.Shield, "Policies").Selected());
             sidebar.AddContent(new SidebarButton("gov-audit",    UIcons.Search, "Audit log"));
         }
 
         private static void FillConfigureSection(Sidebar sidebar)
         {
-            sidebar.AddContent(new SidebarSeparator("cfg-sep", "Configure"));
+            sidebar.AddContent(new SidebarSeparator("cfg-workspace-sep", "Workspace"));
             sidebar.AddContent(new SidebarButton("cfg-general",  UIcons.Settings, "General").Selected());
             sidebar.AddContent(new SidebarButton("cfg-users",    UIcons.User,     "Users"));
+            sidebar.AddContent(new SidebarSeparator("cfg-account-sep", "Account"));
             sidebar.AddContent(new SidebarButton("cfg-billing",  UIcons.Star,     "Billing"));
         }
 
