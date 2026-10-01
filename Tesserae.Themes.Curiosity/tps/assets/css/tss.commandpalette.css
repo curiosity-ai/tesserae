@@ -2,8 +2,8 @@
    Curiosity theme - CommandPalette
    --------------------------------------------------------------------------
    A floating surface on the ink overlay: square, paper, framed by one 1px ink
-   rule, no shadow and no rounded corners. The search box is an input, so it
-   is a pill like every single line input. The results are rows in a list:
+   rule, no shadow and no rounded corners. The search box has no edge of its
+   own: the frame and the rule under it are enough. The results are rows in a list:
    a row hovers to stone, and the row the keyboard is on is stone with an
    inset 2px ink bar on its leading edge rather than a blue fill, the way a
    menu marks its current row. Section labels, shortcuts and counters are
@@ -25,31 +25,28 @@ body.tss-theme-curiosity.tss-dark-mode .tss-commandpalette-animator {
     border-color: var(--tss-dark-border-color);
 }
 
+/* One pixel more above than below: the text and icons draw about a pixel above the middle of their boxes,
+   and with no edge around the search box that offset is what the eye measures against the row. */
 body.tss-theme-curiosity .tss-commandpalette-search-container {
-    padding: 12px 12px 12px 16px;
+    padding: 13px 12px 11px 16px;
 }
 
-/* The search box: an input pill (the text box's edge and radius), ink on hover and while typed into. The
-   palette's own stylesheet takes the omnibox's chrome away; this gives it the theme's instead. */
-body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search {
-    border: 1px solid var(--tss-cur-input-border, var(--tss-dark-border-color));
-    border-radius: var(--tss-border-radius-full);
-    background: var(--tss-default-background-color);
-    overflow: hidden;
-    transition: border-color .15s linear;
-}
-
+/* The search box has no edge of its own: the palette is the frame and the rule under this row separates
+   it from the results, so a second outline would be a box inside a box. Being focused for as long as the
+   palette is open, it also takes none of the omnibox's focus ring. */
+body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search,
 body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search:hover,
 body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search:focus-within {
-    border-color: var(--tss-default-foreground-color);
-}
-
-body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search .tss-omnibox-search-input-container {
-    margin-left: 9px;
+    --tss-omnibox-radius: 0px;
+    border-color: transparent;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
 }
 
 body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search .tss-omnibox-search-container .tss-btn.tss-omnibox-search-btn {
-    border-left: none;
+    /* The hairline between the clear button and the magnifier, as Tesserae's own palette draws it. */
+    border-left: 1px solid var(--tss-default-border-color);
     border-radius: 0;
     background: transparent;
 }
