@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using static Transpose.Core.dom;
 
 namespace Tesserae
@@ -25,20 +26,8 @@ namespace Tesserae
         {
             DomObserver.WhenMounted(container, () =>
             {
-                var unsubscribes = new Action[bindings.Length];
-
-                for (var i = 0; i < bindings.Length; i++)
-                {
-                    unsubscribes[i] = bindings[i](refresh);
-                }
-
-                DomObserver.WhenRemoved(container, () =>
-                {
-                    foreach (var unsubscribe in unsubscribes)
-                    {
-                        unsubscribe();
-                    }
-                });
+                var unsubscribes = bindings.Select(subscribe => subscribe(refresh)).ToArray();
+                DomObserver.WhenRemoved(container, () => { foreach (var unsubscribe in unsubscribes) unsubscribe(); });
             });
         }
     }

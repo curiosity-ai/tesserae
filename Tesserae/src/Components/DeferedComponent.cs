@@ -212,74 +212,40 @@ namespace Tesserae
                .FireAndForget();
         }
 
-        internal static DeferedComponent Observe<T1>(IObservable<T1> o1, Func<T1, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
+        private static DeferedComponent Bound(DeferedComponent d, params Func<Action, Action>[] bindings)
         {
-            var d = Create(() => asyncGenerator(o1.Value), loadMessage);
-            DeferedRefreshBinding.Bind(d.Container, d.Refresh, DeferedRefreshBinding.On(o1));
+            DeferedRefreshBinding.Bind(d.Container, d.Refresh, bindings);
             return d;
         }
+
+        internal static DeferedComponent Observe<T1>(IObservable<T1> o1, Func<T1, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
+            => Bound(Create(() => asyncGenerator(o1.Value), loadMessage), DeferedRefreshBinding.On(o1));
 
         internal static DeferedComponent Observe<T1, T2>(IObservable<T1> o1, IObservable<T2> o2, Func<T1, T2, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
-        {
-            var d = Create(() => asyncGenerator(o1.Value, o2.Value), loadMessage);
-            DeferedRefreshBinding.Bind(d.Container, d.Refresh, DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2));
-            return d;
-        }
+            => Bound(Create(() => asyncGenerator(o1.Value, o2.Value), loadMessage), DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2));
 
         internal static DeferedComponent Observe<T1, T2, T3>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, Func<T1, T2, T3, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
-        {
-            var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value), loadMessage);
-            DeferedRefreshBinding.Bind(d.Container, d.Refresh, DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2), DeferedRefreshBinding.On(o3));
-            return d;
-        }
+            => Bound(Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value), loadMessage), DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2), DeferedRefreshBinding.On(o3));
 
         internal static DeferedComponent Observe<T1, T2, T3, T4>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, Func<T1, T2, T3, T4, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
-        {
-            var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value), loadMessage);
-            DeferedRefreshBinding.Bind(d.Container, d.Refresh, DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2), DeferedRefreshBinding.On(o3), DeferedRefreshBinding.On(o4));
-            return d;
-        }
+            => Bound(Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value), loadMessage), DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2), DeferedRefreshBinding.On(o3), DeferedRefreshBinding.On(o4));
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, Func<T1, T2, T3, T4, T5, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
-        {
-            var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value), loadMessage);
-            DeferedRefreshBinding.Bind(d.Container, d.Refresh, DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2), DeferedRefreshBinding.On(o3), DeferedRefreshBinding.On(o4), DeferedRefreshBinding.On(o5));
-            return d;
-        }
+            => Bound(Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value), loadMessage), DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2), DeferedRefreshBinding.On(o3), DeferedRefreshBinding.On(o4), DeferedRefreshBinding.On(o5));
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, Func<T1, T2, T3, T4, T5, T6, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
-        {
-            var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value), loadMessage);
-            DeferedRefreshBinding.Bind(d.Container, d.Refresh, DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2), DeferedRefreshBinding.On(o3), DeferedRefreshBinding.On(o4), DeferedRefreshBinding.On(o5), DeferedRefreshBinding.On(o6));
-            return d;
-        }
+            => Bound(Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value), loadMessage), DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2), DeferedRefreshBinding.On(o3), DeferedRefreshBinding.On(o4), DeferedRefreshBinding.On(o5), DeferedRefreshBinding.On(o6));
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, Func<T1, T2, T3, T4, T5, T6, T7, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
-        {
-            var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value), loadMessage);
-            DeferedRefreshBinding.Bind(d.Container, d.Refresh, DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2), DeferedRefreshBinding.On(o3), DeferedRefreshBinding.On(o4), DeferedRefreshBinding.On(o5), DeferedRefreshBinding.On(o6), DeferedRefreshBinding.On(o7));
-            return d;
-        }
+            => Bound(Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value), loadMessage), DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2), DeferedRefreshBinding.On(o3), DeferedRefreshBinding.On(o4), DeferedRefreshBinding.On(o5), DeferedRefreshBinding.On(o6), DeferedRefreshBinding.On(o7));
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7, T8>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, Func<T1, T2, T3, T4, T5, T6, T7, T8, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
-        {
-            var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value), loadMessage);
-            DeferedRefreshBinding.Bind(d.Container, d.Refresh, DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2), DeferedRefreshBinding.On(o3), DeferedRefreshBinding.On(o4), DeferedRefreshBinding.On(o5), DeferedRefreshBinding.On(o6), DeferedRefreshBinding.On(o7), DeferedRefreshBinding.On(o8));
-            return d;
-        }
+            => Bound(Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value), loadMessage), DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2), DeferedRefreshBinding.On(o3), DeferedRefreshBinding.On(o4), DeferedRefreshBinding.On(o5), DeferedRefreshBinding.On(o6), DeferedRefreshBinding.On(o7), DeferedRefreshBinding.On(o8));
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7, T8, T9>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
-        {
-            var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value, o9.Value), loadMessage);
-            DeferedRefreshBinding.Bind(d.Container, d.Refresh, DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2), DeferedRefreshBinding.On(o3), DeferedRefreshBinding.On(o4), DeferedRefreshBinding.On(o5), DeferedRefreshBinding.On(o6), DeferedRefreshBinding.On(o7), DeferedRefreshBinding.On(o8), DeferedRefreshBinding.On(o9));
-            return d;
-        }
+            => Bound(Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value, o9.Value), loadMessage), DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2), DeferedRefreshBinding.On(o3), DeferedRefreshBinding.On(o4), DeferedRefreshBinding.On(o5), DeferedRefreshBinding.On(o6), DeferedRefreshBinding.On(o7), DeferedRefreshBinding.On(o8), DeferedRefreshBinding.On(o9));
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, IObservable<T10> o10, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
-        {
-            var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value, o9.Value, o10.Value), loadMessage);
-            DeferedRefreshBinding.Bind(d.Container, d.Refresh, DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2), DeferedRefreshBinding.On(o3), DeferedRefreshBinding.On(o4), DeferedRefreshBinding.On(o5), DeferedRefreshBinding.On(o6), DeferedRefreshBinding.On(o7), DeferedRefreshBinding.On(o8), DeferedRefreshBinding.On(o9), DeferedRefreshBinding.On(o10));
-            return d;
-        }
+            => Bound(Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value, o9.Value, o10.Value), loadMessage), DeferedRefreshBinding.On(o1), DeferedRefreshBinding.On(o2), DeferedRefreshBinding.On(o3), DeferedRefreshBinding.On(o4), DeferedRefreshBinding.On(o5), DeferedRefreshBinding.On(o6), DeferedRefreshBinding.On(o7), DeferedRefreshBinding.On(o8), DeferedRefreshBinding.On(o9), DeferedRefreshBinding.On(o10));
     }
 }
