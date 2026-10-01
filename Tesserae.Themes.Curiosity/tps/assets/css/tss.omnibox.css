@@ -30,10 +30,12 @@ body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-rounded-full.tss-omn
     --tss-omnibox-radius: 24px;
 }
 
-/* An app's .Rounded(BorderRadius.Full) pill: its curve eats into the first characters, so the text starts
-   clear of it. The input and its token overlay move together, or the parsed words would drift off the caret. */
-body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search):not(.tss-omnibox-mode-chat) .tss-omnibox-search-input,
-body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search):not(.tss-omnibox-mode-chat) .tss-omnibox-search-tokens {
+/* The one line box's text starts clear of its edge, as a text box's and a search box's do, and clear of the
+   curve when an app asks for a pill. A palette's search box has no edge (tss.commandpalette.css), so its
+   text stays on the palette's own line. The input and its token overlay move together, or the parsed words
+   would drift off the caret. */
+body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search):not(.tss-omnibox-mode-chat):not(.tss-commandpalette-search) .tss-omnibox-search-input,
+body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search):not(.tss-omnibox-mode-chat):not(.tss-commandpalette-search) .tss-omnibox-search-tokens {
     padding-left: 12px;
 }
 
