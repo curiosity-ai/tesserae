@@ -70,8 +70,10 @@ the row measures its name and second line and raises the sidebar's `min-width` t
 whatever the open rail needs to draw both whole — beside the logo and every
 command on the row. It only raises the floor: a rail already wide enough keeps the
 width it was given, and the closed rail, a page (`AsPage`) and a navbar
-(`AsNavbar`) are left alone. Nothing to call; it is re-measured when the title,
-the subtitle or the commands change and once the fonts have loaded.
+(`AsNavbar`) are left alone. Nothing to call; it is measured each time the rail
+opens, when the title, the subtitle or the commands change, and once the fonts
+have loaded — never while the rail is being resized, since its width does not
+change the answer.
 
 The measurement is written to the sidebar as `--tss-sidebar-identity-min-width`
 (beside a `tss-sidebar-fits-identity` class) and turned into `min-width` by the
