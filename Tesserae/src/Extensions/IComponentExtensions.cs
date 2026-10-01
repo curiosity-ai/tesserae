@@ -516,7 +516,7 @@ namespace Tesserae
 
             //Asked on every hover and every show, not only the first: a label that fits in a wide window
             //can be cut short in a narrow one, and the other way round.
-            bool IsRedundant() => component is ISkipsRedundantTooltip skips && skips.IsTooltipRedundant(tooltip.Render().textContent);
+            bool IsRedundant() => component is InlineLabel label && label.IsTooltipRedundant(tooltip.Render().textContent);
 
             void AttachTooltip(MouseEvent e)
             {

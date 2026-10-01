@@ -237,7 +237,7 @@ namespace Tesserae
 
         internal static void Remember(IComponent component, Action reapply, bool replayAfterPatch = true)
         {
-            component.As<IReappliesStyling>().RememberStyling(reapply, replayAfterPatch);
+            component.As<DeltaComponent>().RememberStyling(reapply, replayAfterPatch);
         }
 
         /// <summary>Written by a component onto the element it renders, when it may later replace it.</summary>
