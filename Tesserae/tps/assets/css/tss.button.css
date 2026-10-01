@@ -632,3 +632,30 @@ a {
         filter: grayscale(1) opacity(0.5);
         pointer-events: none;
     }
+
+/* SaveButton. Every state's face (icon + label, or spinner + label) is stacked in one grid cell and only
+   the current one is visible, so the button is always as wide as its widest state and does not change
+   size as it moves from Save to Verifying to Saved. The hidden faces size the box whatever font or theme
+   is active, which a width measured once in script could not. */
+.tss-savebtn-faces {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+
+.tss-savebtn-face {
+    grid-area: 1 / 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    visibility: hidden;
+}
+
+    .tss-savebtn-face.tss-savebtn-face-active {
+        visibility: visible;
+    }
+
+    .tss-savebtn-face:not(.tss-savebtn-face-active) .tss-spinner {
+        animation: none;
+    }
