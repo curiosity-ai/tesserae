@@ -29,13 +29,15 @@ body.tss-theme-curiosity .tss-commandpalette-search-container {
     padding: 12px 12px 12px 16px;
 }
 
-/* The search box: an input pill (the text box's edge and radius), ink on hover and while typed into. The
-   palette's own stylesheet takes the omnibox's chrome away; this gives it the theme's instead. The box is
+/* The search box: a square cell inside the square palette, edged like an input and ink on hover and while
+   typed into. A pill here read as a rounded box inside a square one. The palette's own stylesheet takes
+   the omnibox's chrome away; this gives it the theme's instead. The box is
    focused for as long as the palette is open, so it keeps a single ink line rather than the omnibox's
    doubled focus ring, which here would be a permanent heavy outline. */
 body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search {
+    --tss-omnibox-radius: 0px;
     border: 1px solid var(--cur-input-border, var(--tss-dark-border-color));
-    border-radius: var(--tss-border-radius-full);
+    border-radius: 0;
     background: var(--tss-default-background-color);
     overflow: hidden;
     transition: border-color .15s linear;
@@ -45,10 +47,6 @@ body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-conta
 body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search:focus-within {
     border-color: var(--tss-default-foreground-color);
     box-shadow: none;
-}
-
-body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search .tss-omnibox-search-input-container {
-    margin-left: 9px;
 }
 
 body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search .tss-omnibox-search-container .tss-btn.tss-omnibox-search-btn {
