@@ -178,7 +178,7 @@ namespace Tesserae
         private DayOfWeek                   _firstDay     = DayOfWeek.Sunday;
         private ActivityCalendarScale       _scale        = ActivityCalendarScale.Linear;
         private ActivityCalendarLabels      _labels       = new ActivityCalendarLabels();
-        private int                         _levels       = 4;
+        private int                         _levels       = 4; // what Levels() asked for; LevelCount is what is drawn
         private double[]                    _thresholds;
         private double                      _max          = double.NaN;
         private string[]                    _palette;
@@ -420,26 +420,31 @@ namespace Tesserae
 
         // ------------------------------------------------------------- colouring
 
-        /// <summary>Sets how a value maps to a colour level. Defaults to <see cref="ActivityCalendarScale.Linear"/>.</summary>
+        /// <summary>
+        /// Sets how a value maps to a colour level. Defaults to <see cref="ActivityCalendarScale.Linear"/>. Hand-set
+        /// <see cref="Thresholds"/> take precedence; clear them with <c>Thresholds()</c> to go back to a scale.
+        /// </summary>
         public ActivityCalendar Scale(ActivityCalendarScale scale)
         {
-            _scale      = scale;
-            _thresholds = null;
+            _scale = scale;
             return InvalidateData();
         }
 
-        /// <summary>Sets how many colour levels an active day can take, besides "no activity". Defaults to 4.</summary>
+        /// <summary>
+        /// Sets how many colour levels an active day can take, besides "no activity". Defaults to 4. Hand-set
+        /// <see cref="Thresholds"/> and a <see cref="Palette"/> both bring their own count, which takes precedence.
+        /// </summary>
         public ActivityCalendar Levels(int levels)
         {
-            _levels     = Math.Max(1, Math.Min(10, levels));
-            _thresholds = null;
+            _levels = Math.Max(1, Math.Min(10, levels));
             return InvalidateData();
         }
 
         /// <summary>
         /// Sets the levels by hand: a day takes the last level whose lower bound it reaches, so
-        /// <c>Thresholds(1, 10, 100)</c> makes three levels and ignores <see cref="Scale"/>. Any value above zero
-        /// takes at least the first level.
+        /// <c>Thresholds(1, 10, 100)</c> makes three levels and ignores <see cref="Scale"/> and <see cref="Levels"/>,
+        /// whichever order they are called in. Any value above zero takes at least the first level. Call it with
+        /// no bounds to go back to the scale.
         /// </summary>
         public ActivityCalendar Thresholds(params double[] lowerBounds)
         {
@@ -450,7 +455,6 @@ namespace Tesserae
             else
             {
                 _thresholds = lowerBounds.OrderBy(b => b).ToArray();
-                _levels     = _thresholds.Length;
             }
 
             return InvalidateData();
@@ -479,8 +483,10 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets an explicit colour per level, lowest first, instead of fading one colour. Also sets the level count
-        /// to the number of colours given.
+        /// Sets an explicit colour per level, lowest first, instead of fading one colour. Without
+        /// <see cref="Thresholds"/> the number of colours is the number of levels; with them, the thresholds decide
+        /// and the colours are taken in order, the last one repeated when there are fewer colours than levels.
+        /// Either can be set first.
         /// </summary>
         public ActivityCalendar Palette(params string[] colors)
         {
@@ -490,9 +496,7 @@ namespace Tesserae
             }
             else
             {
-                _palette    = colors;
-                _levels     = colors.Length;
-                _thresholds = null;
+                _palette = colors;
             }
 
             return InvalidateData();
@@ -861,7 +865,7 @@ namespace Tesserae
         private void PaintLevel(HTMLElement el, int level)
         {
             el.setAttribute("data-level", level.ToString());
-            el.classList.toggle("tss-activitycalendar-strong", level > 0 && level * 2 > _levels);
+            el.classList.toggle("tss-activitycalendar-strong", level > 0 && level * 2 > LevelCount);
 
             if (level == 0)
             {
@@ -876,17 +880,22 @@ namespace Tesserae
             {
                 // The top level is the colour itself; the lower ones mix it into the empty tone in even steps from a
                 // quarter, which keeps the first level visible on both the light and the dark canvas.
-                var mix = _levels == 1 ? 100 : 25 + 75 * (level - 1) / (_levels - 1);
+                var levels = LevelCount;
+                var mix    = levels == 1 ? 100 : 25 + 75 * (level - 1) / (levels - 1);
                 el.style.background = "";
                 el.style.setProperty("--tss-activitycalendar-mix", mix + "%");
             }
         }
 
+        // Hand-set thresholds decide how many levels there are, then a palette's length, then Levels(). None of the
+        // three resets another, so the order they are called in does not matter.
+        private int LevelCount => _thresholds?.Length ?? _palette?.Length ?? _levels;
+
         private double[] ComputeBounds()
         {
             if (_thresholds is object) return _thresholds;
 
-            var n         = _levels;
+            var n         = LevelCount;
             var positives = new List<double>();
 
             foreach (var cell in _cells)
@@ -1009,7 +1018,7 @@ namespace Tesserae
 
             _legend.appendChild(Span(Att("tss-activitycalendar-legend-label", text: _labels.Less)));
 
-            for (int level = 0; level <= _levels; level++)
+            for (int level = 0; level <= LevelCount; level++)
             {
                 var swatch = Div(Att(DayClass + " tss-activitycalendar-swatch"));
                 PaintLevel(swatch, level);
