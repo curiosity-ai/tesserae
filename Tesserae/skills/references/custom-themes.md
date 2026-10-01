@@ -119,9 +119,9 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
 - **Tesserae.Themes.Curiosity** — `CuriosityTheme.Instance`, root class
   `tss-theme-curiosity`. Paper and ink, the deep call blue for primary actions and
   selection, the electric-blue Signal as highlight, 1px hairlines instead of shadows,
-  radius 0 with pill buttons and single-line inputs, a square toggle, pixel scrollbars
-  (a 2px-grid dithered thumb with stepped corners in Chrome, Edge and Safari; a thin
-  ink-coloured bar in Firefox, which only supports `scrollbar-color`), Schibsted Grotesk
+  radius 0 with pill buttons and single-line inputs, a square toggle, hairline-rail scrollbars
+  (a 1px rule for the track and a square 4px ink thumb that widens on hover in Chrome,
+  Edge and Safari; a thin ink bar in Firefox, which only supports `scrollbar-color`), Schibsted Grotesk
   for text and Geist Mono (small, uppercase) for labels, headers, numbers and code. Fonts
   are bundled (OFL). A modal gets a 12px inset between its ring and everything inside it;
   `NoContentPadding()` / `NoPadding()` modals (class `tss-modal-no-inset`), `Dialog`, `ModalStack`
