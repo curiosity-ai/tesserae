@@ -21,7 +21,7 @@
         counters, numbers and code.
      3. Structure is a 1px hairline. No shadows: a floating surface gets a
         hairline frame.
-     4. Radius is 0, except pill buttons and single line inputs.
+     4. Radius is 0, except pill buttons. Inputs are square.
    ========================================================================== */
 
 body.tss-theme-curiosity {
@@ -122,7 +122,7 @@ body.tss-theme-curiosity {
     --tss-overlay-light: rgba(244, 244, 242, 0.6);
     --tss-overlay-dark: rgba(17, 20, 24, 0.55);
 
-    /* Radius is 0, except pills (buttons and single line inputs), which use -full. */
+    /* Radius is 0, except pill buttons, which use -full. Inputs are square. */
     --tss-border-radius-sm: 0px;
     --tss-border-radius-md: 0px;
     --tss-border-radius-lg: 0px;

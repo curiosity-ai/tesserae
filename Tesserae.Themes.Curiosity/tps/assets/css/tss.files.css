@@ -2,7 +2,7 @@
    Curiosity theme - FileSelector and FileDropArea
    --------------------------------------------------------------------------
    The file selector's box is read only because the file dialog fills it, not
-   because the value is fixed, so it keeps the solid pill edge of a live input
+   because the value is fixed, so it keeps the solid edge of a live input
    rather than the dashed one the theme gives read only text boxes.
 
    The drop area is a square target with a 1px dashed ash edge: dashed is the

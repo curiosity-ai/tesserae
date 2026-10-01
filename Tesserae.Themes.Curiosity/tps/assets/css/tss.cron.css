@@ -7,7 +7,7 @@
    the active surface) and the panel inside draws no second frame.
 
    The sentence's inline choices ("daily", "12:00 PM") were dark chips in a
-   hard coded neutral; here they are small inputs: pills with the text box's
+   hard coded neutral; here they are small inputs: square, with the text box's
    mute edge, ink text on the page color, ink edge on hover. Tesserae sets
    their text color with !important, so the theme has to as well.
    ========================================================================== */
@@ -37,7 +37,7 @@ body.tss-theme-curiosity .tss-cron-open {
 body.tss-theme-curiosity .tss-cron-inline-dropdown.tss-dropdown-container {
     background-color: transparent;
     border: 1px solid var(--tss-cur-input-border);
-    border-radius: 9999px;
+    border-radius: var(--tss-cur-input-radius);
     padding: 2px 10px;
 }
 
