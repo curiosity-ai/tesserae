@@ -12,7 +12,7 @@ namespace Tesserae
     /// negative / neutral deltas).
     /// </summary>
     [Transpose.Name("tss.DeltaComponent")]
-    public class DeltaComponent : IComponent, IReappliesStyling
+    public class DeltaComponent : IComponent
     {
         private HTMLElement _root;
         private IComponent _currentContent;
@@ -24,6 +24,16 @@ namespace Tesserae
         //.Tooltip() - lands on the element the content rendered, because that is the element this
         //component hands out, and every content change takes it off again: a swap with the old node,
         //a patch through SyncAttributes. So the calls are recorded and made again afterwards.
+        //
+        //What is recorded is the call, not its result - a closure that applies the same thing again.
+        //Replaying in order gives the right end state for free: a class added and later removed
+        //replays as an add and a remove, and two .Id() calls replay as the second one. It is also what
+        //makes .Style() and .Tooltip() work, where copying the result is either lossy or impossible -
+        //a tooltip is a listener and a tippy instance, not an attribute.
+        //
+        //This is deliberately not ISpecialCaseStyling: that one redirects a write to a different
+        //element, and here there is no other element to write to. The write still goes to the element
+        //on screen, and is only remembered in case that element is replaced.
         private List<(Action Apply, bool AfterPatch)> _reapply;
         private bool                                  _replaying;
 
@@ -463,7 +473,20 @@ namespace Tesserae
             if (_root is object) _root[UI.ReappliesMarker] = this;
         }
 
-        void IReappliesStyling.RememberStyling(Action reapply, bool replayAfterPatch)
+        /// <summary>
+        /// Records something just applied to this component, so it can be applied again to the
+        /// element the component renders next. Ignored while a replay is in progress, so a replayed
+        /// call does not record itself a second time.
+        /// </summary>
+        /// <param name="reapply">Applies the same thing again to whatever the component renders.</param>
+        /// <param name="replayAfterPatch">
+        /// Whether replaying it after a patch - which happens on every content change, not only on the
+        /// rarer swap - is free of side effects. True for a call that writes an attribute and nothing
+        /// else, which is exactly what a patch overwrites. False for anything that also attaches
+        /// something the patch leaves alone: a tooltip's listener and tippy instance survive a patch,
+        /// and calling for another one per frame would stack them up.
+        /// </param>
+        internal void RememberStyling(Action reapply, bool replayAfterPatch)
         {
             //A replayed call must not record itself, or every replay would double the list.
             if (_replaying || reapply is null) return;
@@ -474,7 +497,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Applies everything recorded through <see cref="IReappliesStyling"/> to the element this
+        /// Applies everything recorded through <see cref="RememberStyling"/> to the element this
         /// component renders now, in the order it was originally applied.
         /// </summary>
         private void ReapplyStyling(bool afterPatch)
