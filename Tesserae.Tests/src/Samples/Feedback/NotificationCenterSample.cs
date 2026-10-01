@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -15,58 +16,61 @@ namespace Tesserae.Tests.Samples
         {
             var unreadCount = new SettableObservable<int>(3);
 
+            // The sample's notification store: Clear all empties it, so the panel stays empty on the next open.
+            var store = new List<NotificationCenter.NotificationItem>
+            {
+                new NotificationCenter.NotificationItem
+                {
+                    Id        = "1",
+                    Title     = "Deployment completed",
+                    Message   = "Production release v2.4.1 was deployed successfully.",
+                    Timestamp = DateTime.Now.AddMinutes(-5),
+                    Tone      = NotificationCenter.NotificationTone.Success,
+                    IsRead    = false
+                },
+                new NotificationCenter.NotificationItem
+                {
+                    Id        = "2",
+                    Title     = "High memory usage",
+                    Message   = "Server eu-west-1 is at 92% memory. Consider scaling.",
+                    Timestamp = DateTime.Now.AddMinutes(-38),
+                    Tone      = NotificationCenter.NotificationTone.Warning,
+                    IsRead    = false
+                },
+                new NotificationCenter.NotificationItem
+                {
+                    Id        = "3",
+                    Title     = "New team member",
+                    Message   = "Alice joined the Engineering team.",
+                    Timestamp = DateTime.Now.AddHours(-2),
+                    Tone      = NotificationCenter.NotificationTone.Info,
+                    IsRead    = false
+                },
+                new NotificationCenter.NotificationItem
+                {
+                    Id        = "4",
+                    Title     = "Backup failed",
+                    Message   = "Nightly backup for db-prod failed. Check logs.",
+                    Timestamp = DateTime.Now.AddDays(-1).AddHours(-3),
+                    Tone      = NotificationCenter.NotificationTone.Danger,
+                    IsRead    = true
+                },
+                new NotificationCenter.NotificationItem
+                {
+                    Id        = "5",
+                    Title     = "Report ready",
+                    Message   = "Monthly usage report for April is ready to download.",
+                    Timestamp = DateTime.Now.AddDays(-2),
+                    Tone      = NotificationCenter.NotificationTone.Info,
+                    IsRead    = true
+                }
+            };
+
             var center = NotificationCenter()
                 .LoadItems(async () =>
                 {
                     await Task.Delay(500); // simulate network delay
-                    return new[]
-                    {
-                        new NotificationCenter.NotificationItem
-                        {
-                            Id        = "1",
-                            Title     = "Deployment completed",
-                            Message   = "Production release v2.4.1 was deployed successfully.",
-                            Timestamp = DateTime.Now.AddMinutes(-5),
-                            Tone      = NotificationCenter.NotificationTone.Success,
-                            IsRead    = false
-                        },
-                        new NotificationCenter.NotificationItem
-                        {
-                            Id        = "2",
-                            Title     = "High memory usage",
-                            Message   = "Server eu-west-1 is at 92% memory. Consider scaling.",
-                            Timestamp = DateTime.Now.AddMinutes(-38),
-                            Tone      = NotificationCenter.NotificationTone.Warning,
-                            IsRead    = false
-                        },
-                        new NotificationCenter.NotificationItem
-                        {
-                            Id        = "3",
-                            Title     = "New team member",
-                            Message   = "Alice joined the Engineering team.",
-                            Timestamp = DateTime.Now.AddHours(-2),
-                            Tone      = NotificationCenter.NotificationTone.Info,
-                            IsRead    = false
-                        },
-                        new NotificationCenter.NotificationItem
-                        {
-                            Id        = "4",
-                            Title     = "Backup failed",
-                            Message   = "Nightly backup for db-prod failed. Check logs.",
-                            Timestamp = DateTime.Now.AddDays(-1).AddHours(-3),
-                            Tone      = NotificationCenter.NotificationTone.Danger,
-                            IsRead    = true
-                        },
-                        new NotificationCenter.NotificationItem
-                        {
-                            Id        = "5",
-                            Title     = "Report ready",
-                            Message   = "Monthly usage report for April is ready to download.",
-                            Timestamp = DateTime.Now.AddDays(-2),
-                            Tone      = NotificationCenter.NotificationTone.Info,
-                            IsRead    = true
-                        }
-                    };
+                    return store.ToArray();
                 })
                 .BadgeCount(unreadCount)
                 .OnMarkRead(id =>
@@ -74,7 +78,13 @@ namespace Tesserae.Tests.Samples
                     var current = unreadCount.Value;
                     if (current > 0) unreadCount.Value = current - 1;
                 })
-                .OnClearAll(() => unreadCount.Value = 0);
+                .OnClearAll(() =>
+                {
+                    var cleared = store.Count;
+                    store.Clear();
+                    unreadCount.Value = 0;
+                    Toast().Information($"OnClearAll: cleared {cleared} notification{(cleared == 1 ? "" : "s")}");
+                });
 
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(NotificationCenterSample), UIcons.Bell, "A bell button that opens a panel of recent notifications")
@@ -96,7 +106,7 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Badge Control"),
                     HStack().AlignItems(ItemAlign.Center).Gap(8.px()).Children(
                         Button("Add notification").OnClick(() => unreadCount.Value++),
-                        Button("Clear all").OnClick(() => unreadCount.Value = 0),
+                        Button("Reset badge").OnClick(() => unreadCount.Value = 0),
                         DeferSync(unreadCount, v => TextBlock($"Unread: {v}").Small().ML(8))
                     )
                 )).SetTitle("Usage")))
