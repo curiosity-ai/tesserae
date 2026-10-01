@@ -112,7 +112,7 @@ body.tss-theme-curiosity .tss-nodeview .baklava-num-input > .__content > .__valu
 
 body.tss-theme-curiosity .tss-nodeview .baklava-select > .__dropdown {
     filter: none;
-    box-shadow: var(--cur-surface-ring);
+    box-shadow: var(--tss-cur-surface-ring);
 }
 
 body.tss-theme-curiosity .tss-nodeview .baklava-context-menu > .item:not(.--header):not(.--active):not(.--disabled):hover,

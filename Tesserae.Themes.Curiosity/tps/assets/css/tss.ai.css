@@ -40,9 +40,9 @@ body.tss-theme-curiosity {
     --tss-ai-on-fill: #FFFFFF;
 
     /* A wash for hover and press on the quiet AI controls, in place of Tesserae's purple ones. */
-    --cur-ai-wash: rgba(47, 107, 255, 0.14);
-    --cur-ai-wash-strong: rgba(47, 107, 255, 0.22);
-    --cur-ai-shimmer: rgba(47, 107, 255, 0.28);
+    --tss-cur-ai-wash: rgba(47, 107, 255, 0.14);
+    --tss-cur-ai-wash-strong: rgba(47, 107, 255, 0.22);
+    --tss-cur-ai-shimmer: rgba(47, 107, 255, 0.28);
 }
 
 body.tss-theme-curiosity.tss-dark-mode {
@@ -65,9 +65,9 @@ body.tss-theme-curiosity.tss-dark-mode {
     --tss-ai-arc: conic-gradient(from 0deg, #2F6BFF 0deg 270deg, rgba(47, 107, 255, 0) 270deg 360deg);
     --tss-ai-on-fill: #FFFFFF;
 
-    --cur-ai-wash: rgba(47, 107, 255, 0.20);
-    --cur-ai-wash-strong: rgba(47, 107, 255, 0.30);
-    --cur-ai-shimmer: rgba(122, 158, 255, 0.22);
+    --tss-cur-ai-wash: rgba(47, 107, 255, 0.20);
+    --tss-cur-ai-wash-strong: rgba(47, 107, 255, 0.30);
+    --tss-cur-ai-shimmer: rgba(122, 158, 255, 0.22);
 }
 
 /* Generated prose on its own panel: square, the Signal tint, a 2px deep blue leading bar. */
@@ -93,7 +93,7 @@ body.tss-theme-curiosity .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):hover 
 
 body.tss-theme-curiosity .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):active {
     filter: none;
-    background-image: linear-gradient(var(--cur-ai-wash-strong), var(--cur-ai-wash-strong));
+    background-image: linear-gradient(var(--tss-cur-ai-wash-strong), var(--tss-cur-ai-wash-strong));
 }
 
 /* Card: the tint and a hairline, no purple drop shadow under a laid-out card. */
@@ -120,7 +120,7 @@ body.tss-theme-curiosity.tss-dark-mode .tss-skeleton.tss-ai {
 body.tss-theme-curiosity .tss-skeleton.tss-ai.tss-skeleton-animated::after,
 body.tss-theme-curiosity.tss-dark-mode .tss-skeleton.tss-ai.tss-skeleton-animated::after,
 body.tss-theme-curiosity .tss-inlinelabel.tss-ai .tss-inlinelabel-skeleton.tss-skeleton-animated::after {
-    background: linear-gradient(90deg, transparent, var(--cur-ai-shimmer), transparent);
+    background: linear-gradient(90deg, transparent, var(--tss-cur-ai-shimmer), transparent);
 }
 
 /* ProgressIndicator: the indeterminate band is one flat Signal block, as the default one is deep blue. */
@@ -135,11 +135,11 @@ body.tss-theme-curiosity .tss-icon-toggle.tss-ai {
 }
 
 body.tss-theme-curiosity .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
-    background-color: var(--cur-ai-wash);
+    background-color: var(--tss-cur-ai-wash);
 }
 
 body.tss-theme-curiosity .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):active {
-    background-color: var(--cur-ai-wash-strong);
+    background-color: var(--tss-cur-ai-wash-strong);
 }
 
 body.tss-theme-curiosity .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
@@ -161,11 +161,11 @@ body.tss-theme-curiosity .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar
 }
 
 body.tss-theme-curiosity .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab:hover {
-    background-color: var(--cur-ai-wash);
+    background-color: var(--tss-cur-ai-wash);
 }
 
 body.tss-theme-curiosity .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab:active {
-    background-color: var(--cur-ai-wash-strong);
+    background-color: var(--tss-cur-ai-wash-strong);
 }
 
 body.tss-theme-curiosity .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
@@ -196,9 +196,9 @@ body.tss-theme-curiosity .tss-ai-strong {
     --tss-ai-border-color: rgba(109, 74, 255, 0.40);
     --tss-ai-arc: conic-gradient(from 0deg, #6D4AFF 0deg, #2F6BFF 250deg, rgba(47, 107, 255, 0) 330deg, rgba(109, 74, 255, 0) 360deg);
 
-    --cur-ai-wash: rgba(109, 74, 255, 0.14);
-    --cur-ai-wash-strong: rgba(109, 74, 255, 0.22);
-    --cur-ai-shimmer: rgba(109, 74, 255, 0.30);
+    --tss-cur-ai-wash: rgba(109, 74, 255, 0.14);
+    --tss-cur-ai-wash-strong: rgba(109, 74, 255, 0.22);
+    --tss-cur-ai-shimmer: rgba(109, 74, 255, 0.30);
 }
 
 body.tss-theme-curiosity.tss-dark-mode .tss-ai-strong {
@@ -216,9 +216,9 @@ body.tss-theme-curiosity.tss-dark-mode .tss-ai-strong {
     --tss-ai-border-color: rgba(165, 145, 255, 0.45);
     --tss-ai-arc: conic-gradient(from 0deg, #7C5CFF 0deg, #2F6BFF 250deg, rgba(47, 107, 255, 0) 330deg, rgba(124, 92, 255, 0) 360deg);
 
-    --cur-ai-wash: rgba(124, 92, 255, 0.20);
-    --cur-ai-wash-strong: rgba(124, 92, 255, 0.30);
-    --cur-ai-shimmer: rgba(165, 145, 255, 0.26);
+    --tss-cur-ai-wash: rgba(124, 92, 255, 0.20);
+    --tss-cur-ai-wash-strong: rgba(124, 92, 255, 0.30);
+    --tss-cur-ai-shimmer: rgba(165, 145, 255, 0.26);
 }
 
 /* The two places above that paint a flat colour instead of reading a variable. */

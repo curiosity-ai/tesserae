@@ -77,5 +77,5 @@ body.tss-theme-curiosity .tss-pivot-tab-mark {
 body.tss-theme-curiosity .tss-pivot-tab-drag,
 body.tss-theme-curiosity .tss-pivot-tab-fallback {
     background: var(--tss-default-background-color);
-    box-shadow: var(--cur-surface-ring);
+    box-shadow: var(--tss-cur-surface-ring);
 }

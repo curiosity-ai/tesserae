@@ -99,7 +99,7 @@ body.tss-theme-curiosity.tss-dark-mode .tss-sidebar.tss-sidebar-page > .tss-side
 
 /* The drawer the burger opens is a floating surface: square, framed in ink. */
 body.tss-theme-curiosity .tss-navbar-drawer {
-    box-shadow: var(--cur-surface-ring);
+    box-shadow: var(--tss-cur-surface-ring);
     border-bottom-left-radius: 0;
 }
 

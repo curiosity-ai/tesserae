@@ -49,20 +49,20 @@ body.tss-theme-curiosity .tss-notif-unread {
 
 body.tss-theme-curiosity .tss-notif-unread > .tss-card {
     background: var(--tss-default-background-hover-color);
-    box-shadow: 0 0 0 1px var(--tss-default-border-color), inset 2px 0 0 var(--cur-notif-bar);
+    box-shadow: 0 0 0 1px var(--tss-default-border-color), inset 2px 0 0 var(--tss-cur-notif-bar);
 }
 
 /* Hovered, the card frames itself in ink as every hoverable card does, and keeps its unread bar. */
 body.tss-theme-curiosity .tss-notif-unread > .tss-card.tss-card-hover:hover {
     background: var(--tss-default-background-hover-color);
-    box-shadow: 0 0 0 1px var(--tss-default-foreground-color), inset 2px 0 0 var(--cur-notif-bar);
+    box-shadow: 0 0 0 1px var(--tss-default-foreground-color), inset 2px 0 0 var(--tss-cur-notif-bar);
 }
 
 /* Deep blue on light, the Signal on ink where deep blue is too faint to read as a mark. */
 body.tss-theme-curiosity .tss-notif-unread {
-    --cur-notif-bar: var(--tss-primary-background-color);
+    --tss-cur-notif-bar: var(--tss-primary-background-color);
 }
 
 body.tss-theme-curiosity.tss-dark-mode .tss-notif-unread {
-    --cur-notif-bar: var(--tss-highlight-color);
+    --tss-cur-notif-bar: var(--tss-highlight-color);
 }

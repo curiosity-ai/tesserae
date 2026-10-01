@@ -25,5 +25,5 @@ body.tss-theme-curiosity .tss-splitview.tss-splitview-vertical > .tss-splitter:h
 
 body.tss-theme-curiosity .tss-splitview-panel-style.tss-split-left > *:first-child,
 body.tss-theme-curiosity .tss-splitview-panel-style.tss-split-right > *:last-child {
-    box-shadow: var(--cur-surface-ring);
+    box-shadow: var(--tss-cur-surface-ring);
 }

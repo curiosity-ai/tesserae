@@ -40,5 +40,5 @@ body.tss-theme-curiosity .tss-avatar.tss-avatar-generated {
 }
 
 body.tss-theme-curiosity .tss-avatar.tss-avatar-generated > .tss-avatar-initials {
-    color: var(--cur-paper);
+    color: var(--tss-cur-paper);
 }

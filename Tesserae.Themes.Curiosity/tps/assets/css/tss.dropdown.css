@@ -9,8 +9,8 @@
    ========================================================================== */
 
 body.tss-theme-curiosity .tss-dropdown-container {
-    border-color: var(--cur-input-border);
-    border-radius: var(--cur-input-radius);
+    border-color: var(--tss-cur-input-border);
+    border-radius: var(--tss-cur-input-radius);
     transition: border-color .15s linear, background-color .15s linear;
 }
 

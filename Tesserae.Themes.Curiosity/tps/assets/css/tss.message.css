@@ -10,7 +10,7 @@
    ========================================================================== */
 
 body.tss-theme-curiosity .tss-message {
-    --cur-message-accent: var(--tss-secondary-foreground-color);
+    --tss-cur-message-accent: var(--tss-secondary-foreground-color);
 }
 
 body.tss-theme-curiosity .tss-message-icon {
@@ -48,10 +48,10 @@ body.tss-theme-curiosity .tss-message-horizontal .tss-message-icon {
 
 /* The tones ------------------------------------------------------------------------------------- */
 
-body.tss-theme-curiosity .tss-message-info    { --cur-message-accent: var(--tss-link-color); }
-body.tss-theme-curiosity .tss-message-success { --cur-message-accent: var(--tss-success-background-color); }
-body.tss-theme-curiosity .tss-message-warning { --cur-message-accent: var(--tss-warning-background-color); }
-body.tss-theme-curiosity .tss-message-error   { --cur-message-accent: var(--tss-danger-background-color); }
+body.tss-theme-curiosity .tss-message-info    { --tss-cur-message-accent: var(--tss-link-color); }
+body.tss-theme-curiosity .tss-message-success { --tss-cur-message-accent: var(--tss-success-background-color); }
+body.tss-theme-curiosity .tss-message-warning { --tss-cur-message-accent: var(--tss-warning-background-color); }
+body.tss-theme-curiosity .tss-message-error   { --tss-cur-message-accent: var(--tss-danger-background-color); }
 
 body.tss-theme-curiosity .tss-message-info,
 body.tss-theme-curiosity .tss-message-success,
@@ -64,14 +64,14 @@ body.tss-theme-curiosity.tss-dark-mode .tss-message-error {
     border-radius: 0;
     border-color: var(--tss-default-border-color);
     background-color: var(--tss-default-background-color);
-    box-shadow: inset 0 3px 0 var(--cur-message-accent);
+    box-shadow: inset 0 3px 0 var(--tss-cur-message-accent);
 }
 
 body.tss-theme-curiosity .tss-message-horizontal.tss-message-info,
 body.tss-theme-curiosity .tss-message-horizontal.tss-message-success,
 body.tss-theme-curiosity .tss-message-horizontal.tss-message-warning,
 body.tss-theme-curiosity .tss-message-horizontal.tss-message-error {
-    box-shadow: inset 3px 0 0 var(--cur-message-accent);
+    box-shadow: inset 3px 0 0 var(--tss-cur-message-accent);
 }
 
 body.tss-theme-curiosity .tss-message-info .tss-message-icon,
@@ -82,8 +82,8 @@ body.tss-theme-curiosity.tss-dark-mode .tss-message-info .tss-message-icon,
 body.tss-theme-curiosity.tss-dark-mode .tss-message-success .tss-message-icon,
 body.tss-theme-curiosity.tss-dark-mode .tss-message-warning .tss-message-icon,
 body.tss-theme-curiosity.tss-dark-mode .tss-message-error .tss-message-icon {
-    background: color-mix(in srgb, var(--cur-message-accent) 10%, transparent);
-    color: var(--cur-message-accent);
+    background: color-mix(in srgb, var(--tss-cur-message-accent) 10%, transparent);
+    color: var(--tss-cur-message-accent);
 }
 
 body.tss-theme-curiosity .tss-message-info .tss-message-title,

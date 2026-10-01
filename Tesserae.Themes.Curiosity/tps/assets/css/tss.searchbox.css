@@ -7,8 +7,8 @@
    ========================================================================== */
 
 body.tss-theme-curiosity .tss-searchbox-container {
-    border-color: var(--cur-input-border);
-    border-radius: var(--cur-input-radius);
+    border-color: var(--tss-cur-input-border);
+    border-radius: var(--tss-cur-input-radius);
     box-shadow: none;
     padding: 0 6px 0 12px;
     transition: border-color .15s linear, background-color .15s linear;

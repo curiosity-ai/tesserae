@@ -11,7 +11,7 @@
 
 body.tss-theme-curiosity .tss-drawer {
     border-radius: 0;
-    box-shadow: var(--cur-surface-ring);
+    box-shadow: var(--tss-cur-surface-ring);
 }
 
 body.tss-theme-curiosity .tss-drawer-content > .tss-modal.tss-modal-in-drawer,

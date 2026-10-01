@@ -15,8 +15,8 @@
    ========================================================================== */
 
 body.tss-theme-curiosity .tss-omnibox-container {
-    --tss-omnibox-radius: var(--cur-input-radius);
-    border-color: var(--cur-input-border);
+    --tss-omnibox-radius: var(--tss-cur-input-radius);
+    border-color: var(--tss-cur-input-border);
     box-shadow: none;
     transition: border-color .15s linear, box-shadow .15s linear;
 }
@@ -251,7 +251,7 @@ body.tss-theme-curiosity .tippy-box:has(> .tippy-content .tss-omnibox-help-panel
 body.tss-theme-curiosity .tippy-box:has(> .tippy-content .tss-omnibox-model-selector-popover) {
     background-color: var(--tss-default-background-color);
     color: var(--tss-default-foreground-color);
-    box-shadow: var(--cur-surface-ring);
+    box-shadow: var(--tss-cur-surface-ring);
 }
 
 body.tss-theme-curiosity .tippy-box .tss-btn.tss-omnibox-search-history-entry,

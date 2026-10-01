@@ -10,7 +10,7 @@
 
 body.tss-theme-curiosity .tss-contextmenu-popup {
     border-radius: 0;
-    box-shadow: var(--cur-surface-ring);
+    box-shadow: var(--tss-cur-surface-ring);
 }
 
 body.tss-theme-curiosity .tss-contextmenu-item {

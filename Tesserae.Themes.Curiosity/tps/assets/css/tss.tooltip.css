@@ -34,7 +34,7 @@ body.tss-theme-curiosity .tippy-box[data-theme~='tss-tree-tippy'],
 body.tss-theme-curiosity .tippy-box:not([data-theme]):not(:has(> .tippy-content > div > :is(span, .tss-textblock):only-child)):not(:has(> .tippy-content > .tss-time-histogram-picker-tooltip)) {
     background-color: var(--tss-default-background-color);
     color: var(--tss-default-foreground-color);
-    box-shadow: var(--cur-surface-ring);
+    box-shadow: var(--tss-cur-surface-ring);
     border-radius: 0;
 }
 
