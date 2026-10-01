@@ -106,3 +106,17 @@ body.tss-theme-curiosity .tss-navbar-drawer {
 body.tss-theme-curiosity .tss-navbar-burger:hover {
     border-radius: var(--tss-border-radius-full);
 }
+
+/* The status card is a square cell under a hairline like the rows, its status dot a square pixel, and the
+   job's caption set in mono like the eyebrows, since it is a readout rather than prose. */
+body.tss-theme-curiosity .tss-sidebar-status-card {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-sidebar-status-dot {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-sidebar-status-caption {
+    font-family: var(--tss-monospace-font-family);
+}

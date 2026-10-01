@@ -1577,3 +1577,91 @@
     margin-bottom: 8px;
     padding-bottom: 8px;
 }
+
+/* SidebarStatusCard: what the section heading the sidebar is doing right now. A card rather than a row, so it
+   sits inset by the same 12px the rows use and draws its own edge, and its text is two sizes smaller than
+   its name so the status reads as a qualifier rather than a second title. */
+.tss-sidebar-status-card {
+    padding: 12px;
+    margin-bottom: 8px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+    gap: 10px;
+}
+
+.tss-sidebar-status-head {
+    gap: 10px;
+    min-width: 0;
+}
+
+.tss-sidebar-status-icon {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tss-sidebar-status-lines {
+    min-width: 0;
+    overflow: hidden;
+    line-height: 1.25;
+}
+
+.tss-sidebar-status-title {
+    font-size: var(--tss-font-size-smallplus);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+.tss-sidebar-status-line {
+    gap: 6px;
+    min-width: 0;
+}
+
+.tss-sidebar-status-text,
+.tss-sidebar-status-caption {
+    font-size: var(--tss-font-size-xsmall);
+    color: var(--tss-secondary-foreground-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tss-sidebar-status-caption {
+    padding-top: 4px;
+}
+
+.tss-sidebar-status-dot {
+    flex: 0 0 auto;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tss-secondary-foreground-color);
+}
+
+.tss-sidebar-status-success .tss-sidebar-status-dot { background: var(--tss-success-background-color); }
+.tss-sidebar-status-warning .tss-sidebar-status-dot { background: var(--tss-warning-background-color); }
+.tss-sidebar-status-danger  .tss-sidebar-status-dot { background: var(--tss-danger-background-color); }
+
+.tss-sidebar-status-progress > .tss-progressindicator {
+    height: 4px;
+}
+
+/* The collapsed rail: the glyph, and the progress as a short bar under it */
+.tss-sidebar-status-card-closed {
+    padding: 8px 0;
+    margin-bottom: 8px;
+    gap: 6px;
+}
+
+    .tss-sidebar-status-card-closed > .tss-progressindicator {
+        height: 3px;
+        width: 24px !important;
+    }
+
+.tss-sidebar-status-clickable {
+    cursor: pointer;
+}
+
+    .tss-sidebar-status-card.tss-sidebar-status-clickable:hover {
+        background: var(--tss-default-background-hover-color);
+    }
