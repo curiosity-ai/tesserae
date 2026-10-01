@@ -54,7 +54,30 @@ build.OnClick(() => sidenav.Select("build"));
 var app = HStack().WS().H(600).Children(sidenav.HS(), VStack().Grow().HS());
 ```
 
+## Heading the Sidebar next to it
+
+The Sidenav already says which section is open, so the Sidebar beside it should
+not repeat the name as a plain title above a separator with the same name. Head
+it with the section's own row instead, and let separators group items *within*
+the section:
+
+```csharp
+sidebar.AddHeader(new SidebarBrand("section", UIcons.Database, "Build", "Data, AI and delivery").Separated());
+sidebar.AddContent(new SidebarSeparator("data", "Data"));
+sidebar.AddContent(new SidebarButton("data-sources", UIcons.Database, "Data Sources").Selected());
+
+// Switching section: replace the header row and the content
+sidebar.ClearHeader();
+sidebar.AddHeader(new SidebarBrand("section", UIcons.Shield, "Govern", "Policies and audit").Separated());
+sidebar.ClearContent();
+```
+
+For a section whose state changes while it is open, head it with a
+`SidebarStatusCard` (`sidebar-status-card.md`) instead.
+
 ## Related
 
 - Sidebar (full nav panel to the right) — `sidebar.md`
+- SidebarBrand — `sidebar-brand.md`
+- SidebarStatusCard — `sidebar-status-card.md`
 - Full docs & API: `/tesserae/components/sidenav`

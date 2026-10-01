@@ -80,8 +80,9 @@ Common item types: `SidebarButton(id, UIcons icon, text)` (`.Selected()`,
 `SidebarSearchBox(id, placeholder)` (`.OnSearch(...)`, `.OnClick(...)`,
 `.SetKeyboardShortcut("Ctrl", "K")`, `.Rounded()`),
 `SidebarComponent(id, component)`,
-`SidebarBrand(id, title, subtitle, logoUrl)` and
-`SidebarProfile(id, name, subtitle, pictureUrl)`.
+`SidebarBrand(id, title, subtitle, logoUrl)`,
+`SidebarProfile(id, name, subtitle, pictureUrl)` and
+`SidebarStatusCard(id, icon, title, status)` (see `sidebar-status-card.md`).
 
 A search that answers somewhere else — in a `CommandPalette`
 (`command-palette.md`), on a search page — is a **button dressed as a field**
@@ -420,5 +421,6 @@ var app = HStack().WS().Children(sidebar.HS(), VStack().Grow().HS());
 - SidebarBrand — `sidebar-brand.md`
 - SidebarProfile — `sidebar-profile.md`
 - SidebarSeparator — `sidebar-separator.md`
+- SidebarStatusCard (live status at the top) — `sidebar-status-card.md`
 - Sidenav (icon-only rail) — `sidenav.md`
 - Full docs & API: `/tesserae/components/sidebar`
