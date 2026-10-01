@@ -7,7 +7,7 @@ description: A Button variant that drives itself through save states (pending, v
 
 A button that encapsulates the visual states of a save operation. Click handlers only fire while the button is in `PendingSave`.
 
-The button keeps one width in every state: it is as wide as its widest state label (including the Verifying/Saving spinner labels and the hover label), so it does not resize as it moves through a save. A custom `message` wider than the configured labels still widens it while shown.
+The button keeps one width in every state: it is sized by its Verifying label (spinner + `verifying` text, "Verifying..." by default), so it does not resize as it moves through a save. Any label or `message` wider than that is ellipsized; configure a longer `verifying:` text to make the button wider.
 
 ## Create
 

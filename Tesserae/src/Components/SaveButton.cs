@@ -27,8 +27,10 @@ namespace Tesserae
         private bool _hovering;
         private bool _pendingPrimary = true;
 
-        // One face per state, all stacked in the same grid cell (see tss.button.css): the button is as wide
-        // as the widest of them, so it keeps one width across every state.
+        // One face per state, all stacked in the same grid cell (see tss.button.css). None of them sizes the
+        // button: that is the hidden sizer, which always shows the Verifying label, so the button keeps one
+        // width across every state and any label wider than "Verifying..." is ellipsized.
+        private readonly Face _sizer         = Face.WithSpinner(success: false);
         private readonly Face _faceSave      = Face.WithIcon();
         private readonly Face _faceSaveHover = Face.WithIcon();
         private readonly Face _faceVerifying = Face.WithSpinner(success: false);
@@ -54,8 +56,10 @@ namespace Tesserae
             _button = Button().MinWidth(100.px());
             var element = _button.Render();
             element.classList.add("tss-savebtn");
+            _sizer.Element.classList.add("tss-savebtn-sizer");
+            _sizer.Element.setAttribute("aria-hidden", "true");
             element.appendChild(Span(Att("tss-savebtn-faces"),
-                _faceSave.Element, _faceSaveHover.Element, _faceVerifying.Element, _faceSaving.Element, _faceSaved.Element, _faceError.Element));
+                _sizer.Element, _faceSave.Element, _faceSaveHover.Element, _faceVerifying.Element, _faceSaving.Element, _faceSaved.Element, _faceError.Element));
             _faceSaved.SetIcon(UIcons.Check);
             _faceError.SetIcon(UIcons.OctagonXmark);
             element.addEventListener("mouseenter", (e) =>
@@ -119,6 +123,7 @@ namespace Tesserae
             _faceSave.SetIcon(_iconSave).SetText(_textSave);
             _faceSaveHover.SetIcon(_iconSaveHover).SetText(_textSaveHover);
             _faceSaveHover.Element.style.display = string.IsNullOrEmpty(_textSaveHover) ? "none" : "";
+            _sizer.SetText(_textVerifying);
             _faceVerifying.SetText(state == State.Verifying ? message ?? _textVerifying : _textVerifying);
             _faceSaving.SetText(state == State.Saving ? message ?? _textSaving : _textSaving);
             _faceSaved.SetText(_textSaved);
