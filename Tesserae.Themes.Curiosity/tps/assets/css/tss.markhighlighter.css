@@ -20,7 +20,7 @@ body.tss-theme-curiosity.tss-dark-mode ::highlight(tss-marked) {
 }
 
 body.tss-theme-curiosity ::highlight(tss-marked-focused) {
-    background-color: var(--cur-signal);
+    background-color: var(--tss-cur-signal);
     color: #F4F4F2;
 }
 
@@ -32,5 +32,5 @@ body.tss-theme-curiosity {
 
 body.tss-theme-curiosity mark.tss-highlight-focused,
 body.tss-theme-curiosity .tss-highlight-focused {
-    color: var(--cur-paper);
+    color: var(--tss-cur-paper);
 }

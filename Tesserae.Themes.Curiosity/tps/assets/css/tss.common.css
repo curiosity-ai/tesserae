@@ -27,23 +27,23 @@
 body.tss-theme-curiosity {
 
     /* Curiosity tokens, light: paper and ink (BRAND.md s2). Kept as raw hexes here so every other
-       file can say var(--cur-...) and read as the brand rather than as numbers. */
-    --cur-paper: #F4F4F2;
-    --cur-stone: #E6E8E8;
-    --cur-line: #DEE0DF;
-    --cur-ink: #111418;
-    --cur-slate: #2A2F38;
-    --cur-ash: #8A9099;
-    --cur-mute: #6B7280;
-    --cur-mute-ink: #616774;
-    --cur-ink-2: #C5C9CE;
-    --cur-signal: #2F6BFF;
-    --cur-deep: #0029E7;
-    --cur-hair: 1px solid var(--tss-default-border-color);
-    --cur-frame: 1px solid var(--tss-default-foreground-color);
+       file can say var(--tss-cur-...) and read as the brand rather than as numbers. */
+    --tss-cur-paper: #F4F4F2;
+    --tss-cur-stone: #E6E8E8;
+    --tss-cur-line: #DEE0DF;
+    --tss-cur-ink: #111418;
+    --tss-cur-slate: #2A2F38;
+    --tss-cur-ash: #8A9099;
+    --tss-cur-mute: #6B7280;
+    --tss-cur-mute-ink: #616774;
+    --tss-cur-ink-2: #C5C9CE;
+    --tss-cur-signal: #2F6BFF;
+    --tss-cur-deep: #0029E7;
+    --tss-cur-hair: 1px solid var(--tss-default-border-color);
+    --tss-cur-frame: 1px solid var(--tss-default-foreground-color);
     /* The raised surface: paper sits on paper in the brand, so a surface that floats (a menu, a
        callout, a modal) is marked by a hairline frame rather than a shadow. */
-    --cur-surface-ring: 0 0 0 1px rgb(var(--tss-default-foreground-color-root));
+    --tss-cur-surface-ring: 0 0 0 1px rgb(var(--tss-default-foreground-color-root));
 
     /* Families: Schibsted Grotesk argues and reads, Geist Mono names the parts, counts and measures. */
     --tss-sansserif-font-family: "Schibsted Grotesk", ui-sans-serif, system-ui, "Helvetica Neue", Arial, sans-serif;
@@ -105,20 +105,20 @@ body.tss-theme-curiosity {
     /* No shadows in the brand: structure is a 1px hairline. Every shadow token that marks a floating
        surface becomes a hairline ring instead, which draws the frame without moving the layout. */
     --tss-primary-shadow: none;
-    --tss-box-shadow: var(--cur-surface-ring);
-    --tss-box-shadow-darker: var(--cur-surface-ring);
+    --tss-box-shadow: var(--tss-cur-surface-ring);
+    --tss-box-shadow-darker: var(--tss-cur-surface-ring);
     --tss-card-shadow: 0 0 0 1px var(--tss-default-border-color);
-    --tss-toast-shadow: var(--cur-surface-ring);
+    --tss-toast-shadow: var(--tss-cur-surface-ring);
     --tss-shadow-sm: none;
     --tss-shadow-sm-hover: none;
     --tss-shadow: 0 0 0 1px var(--tss-default-border-color);
     --tss-shadow-hover: 0 0 0 1px var(--tss-dark-border-color);
-    --tss-shadow-md: var(--cur-surface-ring);
-    --tss-shadow-md-hover: var(--cur-surface-ring);
-    --tss-shadow-lg: var(--cur-surface-ring);
-    --tss-shadow-lg-hover: var(--cur-surface-ring);
-    --tss-shadow-xl: var(--cur-surface-ring);
-    --tss-shadow-xl-hover: var(--cur-surface-ring);
+    --tss-shadow-md: var(--tss-cur-surface-ring);
+    --tss-shadow-md-hover: var(--tss-cur-surface-ring);
+    --tss-shadow-lg: var(--tss-cur-surface-ring);
+    --tss-shadow-lg-hover: var(--tss-cur-surface-ring);
+    --tss-shadow-xl: var(--tss-cur-surface-ring);
+    --tss-shadow-xl-hover: var(--tss-cur-surface-ring);
     --tss-overlay-light: rgba(244, 244, 242, 0.6);
     --tss-overlay-dark: rgba(17, 20, 24, 0.55);
 
@@ -193,12 +193,12 @@ body.tss-theme-curiosity {
 
 body.tss-theme-curiosity.tss-dark-mode {
 
-    --cur-hair: 1px solid var(--tss-default-border-color);
-    --cur-frame: 1px solid var(--tss-default-foreground-color);
-    --cur-surface-ring: 0 0 0 1px rgb(var(--tss-dark-border-color-root));
+    --tss-cur-hair: 1px solid var(--tss-default-border-color);
+    --tss-cur-frame: 1px solid var(--tss-default-foreground-color);
+    --tss-cur-surface-ring: 0 0 0 1px rgb(var(--tss-dark-border-color-root));
     /* PixelGlyph's slate and deep blue cells, which are 1.4:1 and 2.2:1 on ink: a lighter slate and the Signal. */
-    --cur-glyph-slate: #4A5462;
-    --cur-glyph-deep: #2F6BFF;
+    --tss-cur-glyph-slate: #4A5462;
+    --tss-cur-glyph-deep: #2F6BFF;
     /* The veil behind a modal fades the page toward the canvas: paper in light, ink in dark. */
     --tss-overlay-light: rgba(17, 20, 24, 0.6);
     --tss-overlay-dark: rgba(0, 0, 0, 0.6);

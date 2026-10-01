@@ -9,17 +9,17 @@
    ========================================================================== */
 
 body.tss-theme-curiosity {
-    --cur-input-radius: 18px;
-    --cur-input-border: var(--cur-mute);
+    --tss-cur-input-radius: 18px;
+    --tss-cur-input-border: var(--tss-cur-mute);
 }
 
 body.tss-theme-curiosity.tss-dark-mode {
-    --cur-input-border: var(--tss-dark-border-color);
+    --tss-cur-input-border: var(--tss-dark-border-color);
 }
 
 body.tss-theme-curiosity .tss-textbox {
-    border-color: var(--cur-input-border);
-    border-radius: var(--cur-input-radius);
+    border-color: var(--tss-cur-input-border);
+    border-radius: var(--tss-cur-input-radius);
     box-shadow: none;
     padding: 0 16px;
     transition: border-color .15s linear, background-color .15s linear;
@@ -120,12 +120,12 @@ body.tss-theme-curiosity .tss-textbox[type="color"]::-webkit-color-swatch-wrappe
 
 body.tss-theme-curiosity .tss-textbox[type="color"]::-webkit-color-swatch {
     border: none;
-    border-radius: calc(var(--cur-input-radius) - 3px);
+    border-radius: calc(var(--tss-cur-input-radius) - 3px);
 }
 
 body.tss-theme-curiosity .tss-textbox[type="color"]::-moz-color-swatch {
     border: none;
-    border-radius: calc(var(--cur-input-radius) - 3px);
+    border-radius: calc(var(--tss-cur-input-radius) - 3px);
 }
 
 body.tss-theme-curiosity .tss-textbox[type="color"].tss-disabled {

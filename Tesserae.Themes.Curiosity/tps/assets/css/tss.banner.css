@@ -15,10 +15,10 @@ body.tss-theme-curiosity .tss-banner {
     --tss-banner-text-color: var(--tss-secondary-foreground-color);
     --tss-banner-surface: var(--tss-default-background-color);
     --tss-banner-border-color: var(--tss-default-border-color);
-    --cur-banner-bar: var(--tss-dark-border-color);
+    --tss-cur-banner-bar: var(--tss-dark-border-color);
 
     border-radius: 0;
-    box-shadow: inset 3px 0 0 var(--cur-banner-bar);
+    box-shadow: inset 3px 0 0 var(--tss-cur-banner-bar);
 }
 
 /* The accent follows the theme's tokens, except primary: the notice is information, so the deep blue
@@ -33,7 +33,7 @@ body.tss-theme-curiosity .tss-banner-warning,
 body.tss-theme-curiosity .tss-banner-danger {
     --tss-banner-title-color: var(--tss-default-foreground-color);
     --tss-banner-text-color: var(--tss-secondary-foreground-color);
-    --cur-banner-bar: var(--tss-banner-accent);
+    --tss-cur-banner-bar: var(--tss-banner-accent);
 }
 
 body.tss-theme-curiosity .tss-banner-flat {

@@ -92,24 +92,24 @@ body.tss-theme-curiosity .tss-uptime-month-header span:last-child:not(:first-chi
 }
 
 body.tss-theme-curiosity .tippy-box[data-theme~='uptime'] {
-    background: var(--cur-ink);
-    border: 1px solid var(--cur-slate);
+    background: var(--tss-cur-ink);
+    border: 1px solid var(--tss-cur-slate);
     border-radius: 0;
     box-shadow: none;
 }
 
 body.tss-theme-curiosity .tippy-box[data-theme~='uptime'][data-placement^='top'] > .tippy-arrow::before {
-    border-top-color: var(--cur-ink);
+    border-top-color: var(--tss-cur-ink);
 }
 
 body.tss-theme-curiosity .tippy-box[data-theme~='uptime'][data-placement^='bottom'] > .tippy-arrow::before {
-    border-bottom-color: var(--cur-ink);
+    border-bottom-color: var(--tss-cur-ink);
 }
 
 body.tss-theme-curiosity .tippy-box[data-theme~='uptime'][data-placement^='left'] > .tippy-arrow::before {
-    border-left-color: var(--cur-ink);
+    border-left-color: var(--tss-cur-ink);
 }
 
 body.tss-theme-curiosity .tippy-box[data-theme~='uptime'][data-placement^='right'] > .tippy-arrow::before {
-    border-right-color: var(--cur-ink);
+    border-right-color: var(--tss-cur-ink);
 }

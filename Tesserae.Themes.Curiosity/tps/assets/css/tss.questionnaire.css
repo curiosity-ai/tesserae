@@ -20,7 +20,7 @@ body.tss-theme-curiosity .tss-questionnaire-question {
 }
 
 body.tss-theme-curiosity .tss-questionnaire-option {
-    border-color: var(--cur-input-border);
+    border-color: var(--tss-cur-input-border);
     color: var(--tss-default-foreground-color);
     padding: 6px 14px;
 }
