@@ -1,11 +1,11 @@
 /* ==========================================================================
    Curiosity theme - OmniBox
    --------------------------------------------------------------------------
-   Two shapes, the two the website uses. The one line search box is a pill,
-   as a SearchBox is: edged in mute, ink on hover, a second ink line inside
-   on focus, never a blue ring. A box with a chat half is the website's ask
-   bar: a square panel in the same edge, several rows tall, its footer on
-   the paper. An explicit .Rounded(...) from the app still wins.
+   Square, as a SearchBox is. The one line search box is edged in mute, ink
+   on hover, a second ink line inside on focus, never a blue ring. A box with
+   a chat half is the website's ask bar: a square panel in the same edge,
+   several rows tall, its footer on the paper. An explicit .Rounded(Full)
+   from the app still makes a pill.
 
    Parsed query words are washed in the Signal at low strength with ink text,
    square, and the operators take the deep blue: blue marks what the parser
@@ -15,20 +15,10 @@
    ========================================================================== */
 
 body.tss-theme-curiosity .tss-omnibox-container {
-    --tss-omnibox-radius: var(--tss-cur-input-radius);
+    --tss-omnibox-radius: 0px;
     border-color: var(--tss-cur-input-border);
     box-shadow: none;
     transition: border-color .15s linear, box-shadow .15s linear;
-}
-
-body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-chat-and-search,
-body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-mode-chat {
-    --tss-omnibox-radius: 0px;
-}
-
-body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-rounded-sm,
-body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-rounded-md {
-    --tss-omnibox-radius: 0px;
 }
 
 body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-rounded-full {
@@ -40,7 +30,7 @@ body.tss-theme-curiosity .tss-omnibox-container.tss-omnibox-rounded-full.tss-omn
     --tss-omnibox-radius: 24px;
 }
 
-/* The pill's curve eats into the first characters, so the text starts clear of it. A palette's search box
+/* The one line box's text starts 12px in, as a SearchBox's does (and clear of the curve, on a pill). A palette's search box
    has no edge (tss.commandpalette.css), so its text stays on the palette's own line. The input and its
    token overlay move together, or the parsed words would drift off the caret. */
 body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search):not(.tss-omnibox-mode-chat):not(.tss-omnibox-rounded-sm):not(.tss-omnibox-rounded-md):not(.tss-commandpalette-search) .tss-omnibox-search-input,
@@ -235,9 +225,9 @@ body.tss-theme-curiosity .tippy-box .tss-btn.tss-omnibox-help-entry {
     border-radius: 0;
 }
 
-/* A pill has no straight edge to hang a divider off, so the end buttons of the search row lose theirs,
-   as Tesserae's own fully rounded box does; they read as ends of the pill by their stone hover. A
-   palette's search box is not a pill (tss.commandpalette.css) and keeps its divider. */
+/* The end buttons of the one line box carry no dividers, as a SearchBox's do not, and read as ends of
+   the box by their stone hover (a pill has no straight edge to hang one off anyway). A palette's search
+   box keeps its divider (tss.commandpalette.css). */
 body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search):not(.tss-omnibox-rounded-sm):not(.tss-omnibox-rounded-md):not(.tss-commandpalette-search) .tss-omnibox-search-container .tss-btn {
     border-left-color: transparent;
     border-right-color: transparent;
