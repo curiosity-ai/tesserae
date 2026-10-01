@@ -333,8 +333,11 @@ body.tss-theme-curiosity .tss-fontcolor-primary {
      understands those, and an element that sets either one stops using its
      ::-webkit-scrollbar styles. So the standard properties are applied only
      where ::-webkit-scrollbar is not a selector, which is Firefox alone.
-   The page scrollbar belongs to html, not body, so it is reached through
-   :has(); without :has() it keeps Tesserae's look.
+   The page scrollbar is where the engines differ. Chromium (and WebKit) draw
+   it with the ::-webkit-scrollbar styles of body, not html, so body itself is
+   in every selector list below: a descendant selector alone never reaches it,
+   and Tesserae's bare ::-webkit-scrollbar rules would draw it instead.
+   Firefox reads scrollbar-color from html, which is reached through :has().
    ========================================================================== */
 
 body.tss-theme-curiosity {
@@ -346,7 +349,7 @@ body.tss-theme-curiosity {
     --cur-scrollbar-drag: rgb(var(--tss-highlight-color-root));
 }
 
-/* html sits above the body that declares the tokens, so the page scrollbar gets its own. */
+/* html sits above the body that declares the tokens, so Firefox's page scrollbar gets its own. */
 html:has(> body.tss-theme-curiosity) {
     --cur-scrollbar-size: 12px;
     --cur-scrollbar-inset: 4px;
@@ -364,6 +367,7 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
 @supports selector(::-webkit-scrollbar) {
 
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar,
+    body.tss-theme-curiosity::-webkit-scrollbar,
     body.tss-theme-curiosity ::-webkit-scrollbar {
         width: var(--cur-scrollbar-size);
         height: var(--cur-scrollbar-size);
@@ -371,11 +375,13 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
     }
 
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-corner,
+    body.tss-theme-curiosity::-webkit-scrollbar-corner,
     body.tss-theme-curiosity ::-webkit-scrollbar-corner {
         background: transparent;
     }
 
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-track:vertical,
+    body.tss-theme-curiosity::-webkit-scrollbar-track:vertical,
     body.tss-theme-curiosity ::-webkit-scrollbar-track:vertical,
     body.tss-theme-curiosity *:hover::-webkit-scrollbar-track:vertical {
         border-radius: 0;
@@ -383,6 +389,7 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
     }
 
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-track:horizontal,
+    body.tss-theme-curiosity::-webkit-scrollbar-track:horizontal,
     body.tss-theme-curiosity ::-webkit-scrollbar-track:horizontal,
     body.tss-theme-curiosity *:hover::-webkit-scrollbar-track:horizontal {
         border-radius: 0;
@@ -390,6 +397,7 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
     }
 
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-thumb,
+    body.tss-theme-curiosity::-webkit-scrollbar-thumb,
     body.tss-theme-curiosity ::-webkit-scrollbar-thumb,
     body.tss-theme-curiosity *:hover::-webkit-scrollbar-thumb {
         border: var(--cur-scrollbar-inset) solid transparent;
@@ -398,12 +406,14 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
     }
 
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-curiosity::-webkit-scrollbar-thumb:hover,
     body.tss-theme-curiosity ::-webkit-scrollbar-thumb:hover,
     body.tss-theme-curiosity *:hover::-webkit-scrollbar-thumb:hover {
         border: var(--cur-scrollbar-inset-hover) solid transparent;
     }
 
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-thumb:active,
+    body.tss-theme-curiosity::-webkit-scrollbar-thumb:active,
     body.tss-theme-curiosity ::-webkit-scrollbar-thumb:active,
     body.tss-theme-curiosity *:hover::-webkit-scrollbar-thumb:active {
         border: var(--cur-scrollbar-inset-hover) solid transparent;
@@ -411,6 +421,7 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
     }
 
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-button,
+    body.tss-theme-curiosity::-webkit-scrollbar-button,
     body.tss-theme-curiosity ::-webkit-scrollbar-button {
         display: none;
         width: 0;
