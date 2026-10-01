@@ -2,8 +2,8 @@
    Curiosity theme - CommandPalette
    --------------------------------------------------------------------------
    A floating surface on the ink overlay: square, paper, framed by one 1px ink
-   rule, no shadow and no rounded corners. The search box is an input, so it
-   is a pill like every single line input. The results are rows in a list:
+   rule, no shadow and no rounded corners. The search box has no edge of its
+   own: the frame and the rule under it are enough. The results are rows in a list:
    a row hovers to stone, and the row the keyboard is on is stone with an
    inset 2px ink bar on its leading edge rather than a blue fill, the way a
    menu marks its current row. Section labels, shortcuts and counters are
@@ -29,23 +29,16 @@ body.tss-theme-curiosity .tss-commandpalette-search-container {
     padding: 12px 12px 12px 16px;
 }
 
-/* The search box: a square cell inside the square palette, edged like an input and ink on hover and while
-   typed into. A pill here read as a rounded box inside a square one. The palette's own stylesheet takes
-   the omnibox's chrome away; this gives it the theme's instead. The box is
-   focused for as long as the palette is open, so it keeps a single ink line rather than the omnibox's
-   doubled focus ring, which here would be a permanent heavy outline. */
-body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search {
-    --tss-omnibox-radius: 0px;
-    border: 1px solid var(--cur-input-border, var(--tss-dark-border-color));
-    border-radius: 0;
-    background: var(--tss-default-background-color);
-    overflow: hidden;
-    transition: border-color .15s linear;
-}
-
+/* The search box has no edge of its own: the palette is the frame and the rule under this row separates
+   it from the results, so a second outline would be a box inside a box. Being focused for as long as the
+   palette is open, it also takes none of the omnibox's focus ring. */
+body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search,
 body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search:hover,
 body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search:focus-within {
-    border-color: var(--tss-default-foreground-color);
+    --tss-omnibox-radius: 0px;
+    border-color: transparent;
+    border-radius: 0;
+    background: transparent;
     box-shadow: none;
 }
 
