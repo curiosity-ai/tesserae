@@ -36,14 +36,6 @@ Bring factories into scope with `using static Tesserae.UI;`.
 
 ## Example
 
-A plain card, with no progress bar and nothing updating it:
-
-```csharp
-sidebar.AddHeader(new SidebarStatusCard("govern-status", UIcons.Shield, "Govern", "All policies passing").Success());
-```
-
-A live one, updated as a job reports in:
-
 ```csharp
 using static Tesserae.UI;
 
@@ -67,7 +59,12 @@ status.SetStatus("Re-index failed").Danger();
 Both head a sidebar. A `SidebarBrand` (`sidebar-brand.md`) says *what* the
 section is (glyph, name, a qualifying line) and can carry commands. A
 `SidebarStatusCard` says *what it is doing*, and is the one to use when that
-changes while the page is open.
+changes while the page is open. For a section with no state to report, head the
+sidebar with a brand row in the same place:
+
+```csharp
+sidebar.AddHeader(new SidebarBrand("build-brand", UIcons.Database, "Build", "Data, AI and delivery").Separated());
+```
 
 ## Related
 

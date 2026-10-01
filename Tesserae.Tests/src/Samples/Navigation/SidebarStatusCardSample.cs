@@ -13,12 +13,11 @@ namespace Tesserae.Tests.Samples
 
         public SidebarStatusCardSample()
         {
-            // The plain card: a glyph, a name and a status line, with no progress bar and nothing updating it
+            // The plain header: a SidebarBrand with the section's glyph, name and what is in it, for a section
+            // that has no state to report
             var plainSidebar = Sidebar();
-            plainSidebar.AddHeader(new SidebarStatusCard("govern-status", UIcons.Shield, "Govern", "All policies passing").Success());
-            plainSidebar.AddContent(new SidebarButton("policies", UIcons.Shield,   "Policies").Selected());
-            plainSidebar.AddContent(new SidebarButton("audit",    UIcons.Document, "Audit log"));
-            plainSidebar.AddContent(new SidebarButton("access",   UIcons.Lock,     "Access"));
+            plainSidebar.AddHeader(new SidebarBrand("build-brand", UIcons.Database, "Build", "Data, AI and delivery").Separated());
+            FillSection(plainSidebar, "plain-");
 
             var card = new SidebarStatusCard("build-status", UIcons.Database, "Build", "Index healthy · 2.4M nodes")
                .Success()
@@ -26,13 +25,7 @@ namespace Tesserae.Tests.Samples
 
             var sidebar = Sidebar();
             sidebar.AddHeader(card);
-            sidebar.AddContent(new SidebarSeparator("data", "Data"));
-            sidebar.AddContent(new SidebarButton("data-sources", UIcons.Database,       "Data Sources").Selected());
-            sidebar.AddContent(new SidebarButton("graph-db",     UIcons.DiagramProject, "Graph DB"));
-            sidebar.AddContent(new SidebarButton("search-cfg",   UIcons.Search,         "Search config"));
-            sidebar.AddContent(new SidebarSeparator("ai", "AI"));
-            sidebar.AddContent(new SidebarButton("ai-studio",    UIcons.Star,           "AI Studio"));
-            sidebar.AddContent(new SidebarButton("nlp-studio",   UIcons.Edit,           "NLP Studio"));
+            FillSection(sidebar, "");
 
             var controls = HStack().WS().Wrap().Children(
                 Button("Run re-index").SetIcon(UIcons.Refresh).Primary().OnClick(() => RunReindex(card)),
@@ -48,8 +41,8 @@ namespace Tesserae.Tests.Samples
                         TextBlock("A SidebarStatusCard heads a sidebar with what its section is doing right now: the section's glyph and name, a status line with a dot in the status's tone, and an optional progress bar with a caption for a job that is running. Every part can be changed while it is on screen. On the collapsed rail it is the glyph with a short progress bar under it, and the text moves to its tooltip.")
                     )).SetTitle("Overview"),
                     Card(VStack().WS().Children(
-                        TextBlock("Without a progress bar the card is a glyph, the section's name and a status line with its dot. Leave the status out of the constructor and it is the name alone.").PaddingBottom(8.px()),
-                        HStack().WS().H(300).Children(
+                        TextBlock("When the section has no state to report, head the sidebar with a SidebarBrand instead: the section's glyph, its name and a line saying what is in it, with .Separated() drawing the divider under it. It sits where the status card would, without the dot or the progress bar.").PaddingBottom(8.px()),
+                        HStack().WS().H(500).Children(
                             plainSidebar.HS(),
                             VStack().Grow().HS().Padding(16.px()).Children(
                                 Message("Application content goes here")
@@ -66,6 +59,17 @@ namespace Tesserae.Tests.Samples
                         )
                     )).SetTitle("Live status")))
                .SeeAlso(typeof(SidebarSample), typeof(SidenavSample), typeof(ProgressIndicatorSample));
+        }
+
+        private static void FillSection(Sidebar sidebar, string prefix)
+        {
+            sidebar.AddContent(new SidebarSeparator(prefix + "data", "Data"));
+            sidebar.AddContent(new SidebarButton(prefix + "data-sources", UIcons.Database,       "Data Sources").Selected());
+            sidebar.AddContent(new SidebarButton(prefix + "graph-db",     UIcons.DiagramProject, "Graph DB"));
+            sidebar.AddContent(new SidebarButton(prefix + "search-cfg",   UIcons.Search,         "Search config"));
+            sidebar.AddContent(new SidebarSeparator(prefix + "ai", "AI"));
+            sidebar.AddContent(new SidebarButton(prefix + "ai-studio",    UIcons.Star,           "AI Studio"));
+            sidebar.AddContent(new SidebarButton(prefix + "nlp-studio",   UIcons.Edit,           "NLP Studio"));
         }
 
         private void RunReindex(SidebarStatusCard card)
