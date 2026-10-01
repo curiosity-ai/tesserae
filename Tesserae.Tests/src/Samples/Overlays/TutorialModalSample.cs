@@ -26,7 +26,8 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     Button("Open Tutorial Modal").OnClick((s,       e) => SampleTutorialModal().Show()),
-                    Button("Open Large Tutorial Modal").OnClick((s, e) => SampleTutorialModal().Height(90.vh()).Width(90.vw()).Show()))).SetTitle("Usage"),
+                    Button("Open Large Tutorial Modal").OnClick((s, e) => SampleTutorialModal().Height(90.vh()).Width(90.vw()).Show()),
+                    Button("Open with a Component Illustration").OnClick((s, e) => SampleTutorialModal().SetIllustration(PixelAvatar(42, PixelAvatarDesign.Grey, PixelAvatarAnimation.SitIdle).PixelSize(8)).Show()))).SetTitle("Usage"),
                     Card(VStack().WS().Children(
                     Button("Open Modal Below").OnClick((s, e) => container.Content(SampleTutorialModal().Border("#ffaf66", 5.px()).ShowEmbedded())),
                     container

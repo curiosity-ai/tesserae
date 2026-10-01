@@ -18,6 +18,7 @@ factories into scope with `using static Tesserae.UI;`.
 
 - `.SetTitle(string)` / `.SetHelpText(string, treatAsHTML = false)` — left-column text.
 - `.SetImageSrc(string imageSrc, UnitSize padding)` / `.SetImage(Image, UnitSize padding)` — left-column illustration.
+- `.SetIllustration(IComponent, UnitSize padding = null)` — any component as the illustration (an animated glyph, an avatar), centred in its 196px square.
 - `.SetContent(IComponent)` — right-column body.
 - `.SetFooterCommands(params IComponent[])` — footer buttons.
 - `.Width(UnitSize)` / `.W(...)` and `.Height(UnitSize)` / `.H(...)` — sizing (defaults 800x500px).
