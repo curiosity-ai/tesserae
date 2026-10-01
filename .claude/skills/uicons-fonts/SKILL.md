@@ -68,13 +68,11 @@ until it covers the moved outline, the `hmtx` side bearing follows the one edge 
 places the glyph, and the font wide box in `head` is widened to hold the result. All three only ever
 grow, and none of them changes what the rasterizer draws — see the bounding box rules below.
 
-This used to be a python script driving fontTools, and it is kept verbatim in
-`PythonReferenceImplementation.cs` — as a comment, since the build no longer needs python — together
-with the script that compares two sets of fonts glyph by glyph. Reach for it to second-guess a change
-to the font surgery: outlines must come out identical, while `head` and `cmap` will not, because
-fontTools rewrites those and the C# writer copies them from the vendor. Declared boxes and `hmtx` are
-compared per glyph rather than for equality now — they may grow, on the edges named below, but never
-shrink, and `lsb - xMin` may not change.
+This used to be a python script driving fontTools; the C# writer replaced it and the script is gone
+from the tree (it is in git history if a second opinion on a change to the font surgery is ever
+needed). When comparing two sets of fonts glyph by glyph, outlines must come out identical; declared
+boxes and `hmtx` are compared per glyph rather than for equality — they may grow, on the edges named
+below, but never shrink, and `lsb - xMin` may not change.
 
 ## Two traps in these fonts
 

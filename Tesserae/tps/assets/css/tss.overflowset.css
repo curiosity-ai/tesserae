@@ -15,27 +15,6 @@
     overflow: hidden;
 }
 
-.tss-overflowset-overflow {
-    position: relative;
-    display: flex !important;
-    align-items: center;
-}
-
-/*.tss-overflowset-item {
-    list-style-type: none;
-    margin-top: 0px;
-    margin-right: 0px;
-    margin-bottom: 0px;
-    margin-left: 0px;
-    padding-top: 0px;
-    padding-right: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    display: flex;
-    position: relative;
-    align-items: center;
-}*/
-
 .tss-overflowset-separator {
     display: inline-block !important;
     -webkit-font-smoothing: antialiased;
@@ -73,12 +52,6 @@
 .tss-overflowset.tss-small {
     font-size: 10px;
 }
-
-    .tss-overflowset.tss-small > .tss-overflowset-chevron {
-        font-size: 10px;
-        padding-right: 2px;
-        padding-left: 2px;
-    }
 
     .tss-overflowset.tss-small .tss-btn {
         font-size: 10px;

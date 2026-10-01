@@ -82,7 +82,7 @@ namespace Tesserae
             if (_chevronToUseAsButton is object)
             {
                 //Reset modified chevron if any
-                _chevronToUseAsButton.classList.remove("las", _expandIcon, "tss-overflowset-opencolapsed");
+                _chevronToUseAsButton.classList.remove(_expandIcon, "tss-overflowset-opencolapsed");
 
                 _chevronToUseAsButton.onclick = null;
                 _chevronToUseAsButton         = null;
@@ -185,7 +185,7 @@ namespace Tesserae
 
             if (_chevronToUseAsButton is object)
             {
-                _chevronToUseAsButton.classList.add("las", _expandIcon, "tss-overflowset-opencolapsed");
+                _chevronToUseAsButton.classList.add(_expandIcon, "tss-overflowset-opencolapsed");
                 _chevronToUseAsButton.classList.remove("tss-overflowset-collapse");
 
                 _chevronToUseAsButton.onclick = (e) =>

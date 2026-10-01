@@ -12,9 +12,4 @@
     <PackageReference Include="Microsoft.Playwright" Version="1.62.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <!-- Shells out to fontTools to shift the glyph outlines; kept next to the exe so it is found -->
-    <None Update="centre-uicons-outlines.py" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-
 </Project>
