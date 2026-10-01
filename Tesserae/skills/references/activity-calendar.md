@@ -40,10 +40,13 @@ update — no `Defer`/`DeferSync` needed.
   whole doublings, both counted down from the largest value; `Quantile` puts the same
   number of active days in each level. Use a log scale when a few days dwarf the rest.
 - `.Levels(int)` — active levels besides "no activity" (default 4, max 10).
-- `.Thresholds(params double[] lowerBounds)` — explicit level bounds (overrides `Scale`).
+- `.Thresholds(params double[] lowerBounds)` — explicit level bounds; overrides `Scale` and `Levels`
+  whatever the call order. `.Thresholds()` with no bounds goes back to the scale.
 - `.Max(double)` — pin the top of the scale so side-by-side calendars agree.
 - `.Color(string)` — the colour faded across the levels (default theme primary).
-- `.Palette(params string[])` — one explicit colour per level, lowest first.
+- `.Palette(params string[])` — one explicit colour per level, lowest first. Without thresholds the
+  number of colours is the number of levels; with them the thresholds decide, and the last colour repeats
+  if there are fewer. `Palette` and `Thresholds` can be set in either order.
 
 ## Layout and decoration
 
