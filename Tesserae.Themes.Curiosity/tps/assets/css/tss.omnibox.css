@@ -236,8 +236,9 @@ body.tss-theme-curiosity .tippy-box .tss-btn.tss-omnibox-help-entry {
 }
 
 /* A pill has no straight edge to hang a divider off, so the end buttons of the search row lose theirs,
-   as Tesserae's own fully rounded box does; they read as ends of the pill by their stone hover. */
-body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search):not(.tss-omnibox-rounded-sm):not(.tss-omnibox-rounded-md) .tss-omnibox-search-container .tss-btn {
+   as Tesserae's own fully rounded box does; they read as ends of the pill by their stone hover. A
+   palette's search box is not a pill (tss.commandpalette.css) and keeps its divider. */
+body.tss-theme-curiosity .tss-omnibox-container:not(.tss-omnibox-chat-and-search):not(.tss-omnibox-rounded-sm):not(.tss-omnibox-rounded-md):not(.tss-commandpalette-search) .tss-omnibox-search-container .tss-btn {
     border-left-color: transparent;
     border-right-color: transparent;
 }
