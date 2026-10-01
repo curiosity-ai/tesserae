@@ -230,7 +230,9 @@ namespace Tesserae
 
             InnerElement = Div(Att("tss-activitycalendar"), _header, _summary, _scroll, _legend, _live);
 
-            _grid.addEventListener("mouseover",  e => OnGridHover(e));
+            // mousemove rather than mouseover: a tooltip hidden by a scroll comes back as soon as the pointer moves,
+            // even within the day it was on.
+            _grid.addEventListener("mousemove",  e => OnGridHover(e));
             _grid.addEventListener("mouseleave", _ => { _hovered = null; HideTooltip(); });
             _grid.addEventListener("click",      e => OnGridClick(e));
             _grid.addEventListener("keydown",    e => OnGridKeyDown(e.As<KeyboardEvent>()));
@@ -1097,7 +1099,7 @@ namespace Tesserae
         private void OnGridHover(Event e)
         {
             var cell = CellFromEvent(e);
-            if (cell == _hovered) return;
+            if (cell == _hovered && (cell is null || _tooltipOwner == this)) return;
 
             _hovered = cell;
 
