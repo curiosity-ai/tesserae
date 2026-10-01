@@ -1686,6 +1686,13 @@ namespace Tesserae
         public static HeatMap HeatMap(double[][] data) => new HeatMap().Data(data);
 
         /// <summary>
+        /// Creates an <see cref="Tesserae.ActivityCalendar"/>: a calendar heat map of daily activity, one square per
+        /// day from a month up to a year. Hand it the days with <c>.Data(...)</c> and pick the range with
+        /// <c>.LastDays(365)</c>, <c>.Year(...)</c>, <c>.Month(...)</c> or <c>.Range(...)</c>.
+        /// </summary>
+        public static ActivityCalendar ActivityCalendar() => new ActivityCalendar();
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.StepsSlider{T}"/> component.
         /// </summary>
         public static StepsSlider<T> StepsSlider<T>(params T[] steps) where T : IEquatable<T> => new StepsSlider<T>(steps);

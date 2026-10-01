@@ -86,6 +86,7 @@
                 "tps/assets/css/tss.taskboard.css",
                 "tps/assets/css/tss.diagram.css",
                 "tps/assets/css/tss.uptime.css",
+                "tps/assets/css/tss.activitycalendar.css",
                 "tps/assets/css/tss.chat.css",
                 "tps/assets/css/tss.toolcall.css",
                 "tps/assets/css/tss.liveprogress.css",
