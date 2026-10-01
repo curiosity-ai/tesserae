@@ -1,14 +1,15 @@
 /* ==========================================================================
    Curiosity theme - SearchBox
    --------------------------------------------------------------------------
-   The website's directory search: a pill edged in mute, the magnifier in
-   mute-ink, ink on hover and focus. The underlined variant stays a rule and
-   goes from line to ink.
+   A square box edged in mute, the magnifier in mute-ink, ink on hover and
+   focus. Square like the tables, panels and chat boxes it sits on: a rounded
+   box on a square list read as two shapes. The underlined variant stays a
+   rule and goes from line to ink.
    ========================================================================== */
 
 body.tss-theme-curiosity .tss-searchbox-container {
     border-color: var(--tss-cur-input-border);
-    border-radius: var(--tss-cur-input-radius);
+    border-radius: 0;
     box-shadow: none;
     padding: 0 6px 0 12px;
     transition: border-color .15s linear, background-color .15s linear;

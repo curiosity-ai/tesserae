@@ -119,7 +119,7 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
 - **Tesserae.Themes.Curiosity** — `CuriosityTheme.Instance`, root class
   `tss-theme-curiosity`. Paper and ink, the deep call blue for primary actions and
   selection, the electric-blue Signal as highlight, 1px hairlines instead of shadows,
-  radius 0 with pill buttons and single-line inputs, a square toggle, Schibsted Grotesk
+  radius 0 with pill buttons and single-line inputs (square search boxes), a square toggle, Schibsted Grotesk
   for text and Geist Mono (small, uppercase) for labels, headers, numbers and code. Fonts
   are bundled (OFL).
   The package also ships the website's signature elements as components (namespace
