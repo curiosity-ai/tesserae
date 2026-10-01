@@ -5,7 +5,7 @@ description: A bell button with an unread-count badge that opens a panel of rece
 
 # NotificationCenter
 
-A bell icon with an unread badge; clicking it opens a side `Panel` listing notifications grouped by Today / Yesterday / Earlier, with tone-coded dots, read/unread state, and a "Mark all read" action. Items load asynchronously each time the panel opens.
+A bell icon with an unread badge; clicking it opens a side `Panel` listing notifications grouped by Today / Yesterday / Earlier, with tone-coded dots, read/unread state, a "Mark all read" action, and a "Clear all" action when `.OnClearAll` is registered. Items load asynchronously each time the panel opens.
 
 ## Create
 
@@ -17,7 +17,7 @@ A bell icon with an unread badge; clicking it opens a side `Panel` listing notif
 - `.BadgeCount(IObservable<int>)` — bind the unread badge to an observable.
 - `.SetBadgeCount(int)` — set the badge directly.
 - `.OnMarkRead(Action<string>)` — fires with an item `Id` when marked read.
-- `.OnClearAll(Action)` — fires on clear-all.
+- `.OnClearAll(Action)` — fires when the user clicks "Clear all"; the panel then shows its empty state. The button only appears once a handler is registered, so the handler is where the store gets emptied (otherwise the items return on the next open).
 
 `NotificationCenter.NotificationItem`: `Id`, `Title`, `Message`, `Timestamp` (`DateTime`), `Tone` (`NotificationTone.Info`/`Success`/`Warning`/`Danger`), `IsRead`.
 
@@ -43,7 +43,8 @@ var center = NotificationCenter()
         };
     })
     .BadgeCount(unread)
-    .OnMarkRead(id => { if (unread.Value > 0) unread.Value--; });
+    .OnMarkRead(id => { if (unread.Value > 0) unread.Value--; })
+    .OnClearAll(() => unread.Value = 0);
 ```
 
 ## Related
