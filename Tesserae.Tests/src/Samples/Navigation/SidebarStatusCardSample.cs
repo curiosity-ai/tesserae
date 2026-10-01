@@ -13,6 +13,13 @@ namespace Tesserae.Tests.Samples
 
         public SidebarStatusCardSample()
         {
+            // The plain card: a glyph, a name and a status line, with no progress bar and nothing updating it
+            var plainSidebar = Sidebar();
+            plainSidebar.AddHeader(new SidebarStatusCard("govern-status", UIcons.Shield, "Govern", "All policies passing").Success());
+            plainSidebar.AddContent(new SidebarButton("policies", UIcons.Shield,   "Policies").Selected());
+            plainSidebar.AddContent(new SidebarButton("audit",    UIcons.Document, "Audit log"));
+            plainSidebar.AddContent(new SidebarButton("access",   UIcons.Lock,     "Access"));
+
             var card = new SidebarStatusCard("build-status", UIcons.Database, "Build", "Index healthy · 2.4M nodes")
                .Success()
                .Progress(72, "Re-index 72% · 4 min left");
@@ -41,6 +48,15 @@ namespace Tesserae.Tests.Samples
                         TextBlock("A SidebarStatusCard heads a sidebar with what its section is doing right now: the section's glyph and name, a status line with a dot in the status's tone, and an optional progress bar with a caption for a job that is running. Every part can be changed while it is on screen. On the collapsed rail it is the glyph with a short progress bar under it, and the text moves to its tooltip.")
                     )).SetTitle("Overview"),
                     Card(VStack().WS().Children(
+                        TextBlock("Without a progress bar the card is a glyph, the section's name and a status line with its dot. Leave the status out of the constructor and it is the name alone.").PaddingBottom(8.px()),
+                        HStack().WS().H(300).Children(
+                            plainSidebar.HS(),
+                            VStack().Grow().HS().Padding(16.px()).Children(
+                                Message("Application content goes here")
+                            )
+                        )
+                    )).SetTitle("Plain"),
+                    Card(VStack().WS().Children(
                         controls.PaddingBottom(8.px()),
                         HStack().WS().H(500).Children(
                             sidebar.HS(),
@@ -48,7 +64,7 @@ namespace Tesserae.Tests.Samples
                                 Message("Application content goes here")
                             )
                         )
-                    )).SetTitle("Usage")))
+                    )).SetTitle("Live status")))
                .SeeAlso(typeof(SidebarSample), typeof(SidenavSample), typeof(ProgressIndicatorSample));
         }
 

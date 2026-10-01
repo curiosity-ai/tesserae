@@ -36,6 +36,14 @@ Bring factories into scope with `using static Tesserae.UI;`.
 
 ## Example
 
+A plain card, with no progress bar and nothing updating it:
+
+```csharp
+sidebar.AddHeader(new SidebarStatusCard("govern-status", UIcons.Shield, "Govern", "All policies passing").Success());
+```
+
+A live one, updated as a job reports in:
+
 ```csharp
 using static Tesserae.UI;
 
