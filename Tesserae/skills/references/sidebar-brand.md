@@ -63,6 +63,21 @@ squares and the room the name gives up for them all follow:
 .my-brand-row { --tss-sidebar-identity-height: 56px; }
 ```
 
+## The rail grows to fit the name
+
+The application's name is what the rail is for, so a brand never ellipsizes it:
+the row measures its name and second line and raises the sidebar's `min-width` to
+whatever the open rail needs to draw both whole — beside the logo and every
+command on the row. It only raises the floor: a rail already wide enough keeps the
+width it was given, and the closed rail, a page (`AsPage`) and a navbar
+(`AsNavbar`) are left alone. Nothing to call; it is re-measured when the title,
+the subtitle or the commands change and once the fonts have loaded.
+
+The measurement is written to the sidebar as `--tss-sidebar-identity-min-width`
+(beside a `tss-sidebar-fits-identity` class) and turned into `min-width` by the
+stylesheet; a sidebar without a brand keeps whatever `min-width` your own CSS gives it. A brand on a child sidebar shifted
+into another (`Sidebar.ShiftTo`) does not widen the host, and ellipsizes as before.
+
 ## The brand as the rail's open/close control
 
 ```csharp
