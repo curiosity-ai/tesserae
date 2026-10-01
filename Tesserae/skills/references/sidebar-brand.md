@@ -129,6 +129,7 @@ sidebar.AddHeader(new SidebarBrand("brand", App.Name, workspace.Name, App.LogoUr
 ## Related
 
 - SidebarProfile — `sidebar-profile.md`
+- SidebarSectionHeader (a section's name, not clickable) — `sidebar-section-header.md`
 - SidebarStatusCard — `sidebar-status-card.md`
 - Sidebar — `sidebar.md`
 - Full docs & API: `/tesserae/components/sidebar-brand`

@@ -81,7 +81,8 @@ Common item types: `SidebarButton(id, UIcons icon, text)` (`.Selected()`,
 `.SetKeyboardShortcut("Ctrl", "K")`, `.Rounded()`),
 `SidebarComponent(id, component)`,
 `SidebarBrand(id, title, subtitle, logoUrl)`,
-`SidebarProfile(id, name, subtitle, pictureUrl)` and
+`SidebarProfile(id, name, subtitle, pictureUrl)`,
+`SidebarSectionHeader(id, icon, title, subtitle)` (see `sidebar-section-header.md`) and
 `SidebarStatusCard(id, icon, title, status)` (see `sidebar-status-card.md`).
 
 A search that answers somewhere else — in a `CommandPalette`
@@ -420,6 +421,7 @@ var app = HStack().WS().Children(sidebar.HS(), VStack().Grow().HS());
 
 - SidebarBrand — `sidebar-brand.md`
 - SidebarProfile — `sidebar-profile.md`
+- SidebarSectionHeader (names the section, not clickable) — `sidebar-section-header.md`
 - SidebarSeparator — `sidebar-separator.md`
 - SidebarStatusCard (live status at the top) — `sidebar-status-card.md`
 - Sidenav (icon-only rail) — `sidenav.md`

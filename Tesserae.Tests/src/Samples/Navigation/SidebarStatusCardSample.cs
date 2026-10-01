@@ -38,7 +38,7 @@ namespace Tesserae.Tests.Samples
                .SampleTitle(typeof(SidebarStatusCardSample), UIcons.ProgressComplete, "A live status card at the top of a sidebar")
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                        TextBlock("A SidebarStatusCard heads a sidebar with what its section is doing right now: the section's glyph and name, a status line with a dot in the status's tone, and an optional progress bar with a caption for a job that is running. Every part can be changed while it is on screen. On the collapsed rail it is the glyph with a short progress bar under it, and the text moves to its tooltip.")
+                        TextBlock("A SidebarStatusCard heads a sidebar with what its section is doing right now: the section's glyph and name, a status line with a dot in the status's tone, and an optional progress bar with a caption for a job that is running. Every part can be changed while it is on screen. On the collapsed rail it is the glyph with a short progress bar under it, and the text moves to its tooltip. A section with no state to report is headed by a SidebarSectionHeader instead.")
                     )).SetTitle("Overview"),
                     Card(VStack().WS().Children(
                         controls.PaddingBottom(8.px()),
@@ -49,7 +49,7 @@ namespace Tesserae.Tests.Samples
                             )
                         )
                     )).SetTitle("Usage")))
-               .SeeAlso(typeof(SidebarSample), typeof(SidenavSample), typeof(ProgressIndicatorSample));
+               .SeeAlso(typeof(SidebarSectionHeaderSample), typeof(SidebarSample), typeof(SidenavSample), typeof(ProgressIndicatorSample));
         }
 
         private void RunReindex(SidebarStatusCard card)

@@ -62,22 +62,24 @@ it with the section's own row instead, and let separators group items *within*
 the section:
 
 ```csharp
-sidebar.AddHeader(new SidebarBrand("section", UIcons.Database, "Build", "Data, AI and delivery").Separated());
+sidebar.AddHeader(new SidebarSectionHeader("section", UIcons.Database, "Build", "Data, AI and delivery").Separated());
 sidebar.AddContent(new SidebarSeparator("data", "Data"));
 sidebar.AddContent(new SidebarButton("data-sources", UIcons.Database, "Data Sources").Selected());
 
 // Switching section: replace the header row and the content
 sidebar.ClearHeader();
-sidebar.AddHeader(new SidebarBrand("section", UIcons.Shield, "Govern", "Policies and audit").Separated());
+sidebar.AddHeader(new SidebarSectionHeader("section", UIcons.Shield, "Govern", "Policies and audit").Separated());
 sidebar.ClearContent();
 ```
 
-For a section whose state changes while it is open, head it with a
+`SidebarSectionHeader` (`sidebar-section-header.md`) is a heading, not a
+button, so it does not hover. For a section whose state changes while it is open, head it with a
 `SidebarStatusCard` (`sidebar-status-card.md`) instead.
 
 ## Related
 
 - Sidebar (full nav panel to the right) — `sidebar.md`
+- SidebarSectionHeader — `sidebar-section-header.md`
 - SidebarBrand — `sidebar-brand.md`
 - SidebarStatusCard — `sidebar-status-card.md`
 - Full docs & API: `/tesserae/components/sidenav`
