@@ -87,8 +87,13 @@
     visibility: visible;
 }
 
-.tss-textbox.tss-textbox-noborder {
+/* NoBorder is for an input set inside a box that draws its own edge (a tag picker, a search bar), so it stays
+   edgeless on hover and focus too: a ring of its own would be a second border inside the host's. */
+.tss-textbox.tss-textbox-noborder,
+.tss-textbox.tss-textbox-noborder:hover,
+.tss-textbox.tss-textbox-noborder:focus {
     border: 1px solid transparent;
+    box-shadow: none;
 }
 
 .tss-textbox.tss-textbox-h100 {

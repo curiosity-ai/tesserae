@@ -17,7 +17,7 @@ A single-line text input with placeholder, read-only, password, and validation s
 - `.ReadOnly()` — make the field read-only.
 - `.Password()` — switch to password (masked) mode.
 - `.Disabled()` — disable the input (from `Input`).
-- `.NoBorder()` — remove the border.
+- `.NoBorder()` — remove the border, in every state (no hover edge, no focus ring); for an input set inside a box that draws its own edge.
 - `.NoMinWidth()` — drop the default minimum width.
 - `.UnlockHeight()` — allow the input to fill its container's height.
 - `MaxLength` — property capping the character count.
