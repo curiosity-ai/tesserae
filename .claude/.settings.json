@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git push https://github.com/curiosity-ai/temporary-screenshots.git pr-assets/*)"
+    ]
+  }
+}
