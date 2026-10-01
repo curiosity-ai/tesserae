@@ -505,6 +505,41 @@ mode swaps the colour tokens. The matrix today is:
   tell them apart, and report a defect with the theme it shows up in.
 - A new custom theme package adds a row to this matrix.
 
+### Screenshots in a PR
+
+Screenshots for a PR are hosted in
+[`curiosity-ai/temporary-screenshots`](https://github.com/curiosity-ai/temporary-screenshots),
+one **orphan branch per PR** named `pr-assets/<repo>/<pr-number>` (e.g.
+`pr-assets/tesserae/1234`). Never commit screenshots to the repository the PR is in.
+
+1. Open the PR first: the branch name needs its number.
+2. Attach the screenshots repo to the session with push access (`add_repo`, owner
+   `curiosity-ai`, repo `temporary-screenshots`, `access: "push"`).
+3. Push the images to a fresh orphan branch, files at the branch root:
+
+   ```bash
+   REPO=tesserae PR=1234 BRANCH="pr-assets/$REPO/$PR"
+   DIR=$(mktemp -d) && cd "$DIR"
+   git init -q && git checkout -q --orphan "$BRANCH"
+   cp /path/to/screenshots/*.png .
+   git add . && git commit -qm "Screenshots for curiosity-ai/$REPO#$PR"
+   git remote add origin https://github.com/curiosity-ai/temporary-screenshots.git
+   git push -u origin "$BRANCH"
+   ```
+
+   To add or replace screenshots later, `git fetch origin "$BRANCH"`, check it out,
+   commit on top and push. The branch stays orphan: it never shares history with
+   `main` or with another PR's branch.
+4. Reference them from the PR description with the `?raw=true` blob URL, which
+   renders inline for anyone who can see the repo:
+
+   ```markdown
+   ![button, curiosity dark](https://github.com/curiosity-ai/temporary-screenshots/blob/pr-assets/tesserae/1234/button-curiosity-dark.png?raw=true)
+   ```
+
+Name files after what they show (and the theme and mode, for UI), and put a
+before/after pair side by side in a table rather than one under the other.
+
 ### Samples must render the same on every run
 
 A sample that fakes data uses `SampleRandom`
