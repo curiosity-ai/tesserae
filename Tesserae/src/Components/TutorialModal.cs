@@ -191,6 +191,20 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Sets any component as the illustration - an animated glyph, an avatar, a chart - centred in the
+        /// illustration's square at the foot of the explanation column.
+        /// </summary>
+        /// <param name="illustration">The component to show.</param>
+        /// <param name="padding">The padding around it. None leaves the square unpadded.</param>
+        /// <returns>The current instance of the type.</returns>
+        public TutorialModal SetIllustration(IComponent illustration, UnitSize padding = null)
+        {
+            _illustration.Content(VStack().S().AlignItemsCenter().JustifyContent(ItemJustify.Center).Children(illustration));
+            _illustration.Padding(padding ?? 0.px());
+            return this;
+        }
+
+        /// <summary>
         /// Enables light dismiss (closing the modal when clicking outside of it).
         /// </summary>
         /// <returns>The current instance of the type.</returns>
