@@ -7,10 +7,11 @@
     /* The props the cat handles - the laptop in Work / WorkIdle - are drawn from the three sprite
        indices above the coat palette, so they are the same object whichever design the cat wears
        and whichever theme the page is in. A palette describes a cat; a laptop is not part of one.
-       PixelAvatar.PropColors overrides these per avatar. */
-    --tss-pxav-prop: #7C8899;
-    --tss-pxav-prop-lit: #C9E6F2;
-    --tss-pxav-prop-shadow: #3D4653;
+       PixelAvatar.PropColors overrides these per avatar. The tones are the website's laptop
+       (curiosity-ai/website js/sudo-sheet.js): ash, ink-2 and slate on a light page. */
+    --tss-pxav-prop: #8A9099;
+    --tss-pxav-prop-lit: #C5C9CE;
+    --tss-pxav-prop-shadow: #2A2F38;
     --tss-pxav-turn: 320ms;
     /* Written by the component from the rendered width, so the amount of foreshortening during a
        turn looks the same whether the avatar is 20px or 120px wide. */
@@ -26,6 +27,10 @@
 
 .tss-dark-mode .tss-pixelavatar {
     --tss-pxav-outline: rgba(255, 255, 255, 0.5);
+    /* On a dark page the laptop keeps its tones, one step lighter where slate would vanish into
+       the ground - as the website draws it under a dark section. */
+    --tss-pxav-prop: #6B7280;
+    --tss-pxav-prop-shadow: #8A9099;
 }
 
 .tss-pixelavatar-canvas {

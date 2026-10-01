@@ -128,8 +128,10 @@ laptop color for itself, and a ginger cat would get a ginger laptop. The artwork
 | 14 | `PixelAvatarSprites.PropShadowIndex` | the screen as it dims between keystrokes (the closed lid is the shell's colour) |
 
 They are painted from three CSS variables of their own — `--tss-pxav-prop`,
-`--tss-pxav-prop-lit` and `--tss-pxav-prop-shadow` — which the stylesheet defaults to a slate
-machine that suits both themes, so switching design leaves the laptop alone. `SetPalette` and
+`--tss-pxav-prop-lit` and `--tss-pxav-prop-shadow` — which the stylesheet defaults to the Curiosity
+website's laptop: ash, ink-2 and slate (`#8A9099`, `#C5C9CE`, `#2A2F38`) on a light page, and on a
+dark one (`.tss-dark-mode`) one step lighter where slate would vanish into the ground (`#6B7280`,
+`#C5C9CE`, `#8A9099`). Switching design leaves the laptop alone. `SetPalette` and
 `SetColor` do not touch them; `.PropColors(body, lit, shadow)` repaints them on one avatar, and
 passing null for a shade leaves that one as it is.
 
