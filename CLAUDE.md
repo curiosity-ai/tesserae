@@ -484,6 +484,27 @@ whether it still renders the same. See
 `tesserae-benchmarking` skill. One-off probe scripts go in
 `Tesserae.Bench/playwright/_*.js`, which is gitignored.
 
+### Test and screenshot in every theme
+
+When you verify a component in the browser or take screenshots of it, cover **every theme**,
+not just whichever one the gallery happened to open in. A change that looks right in one theme
+can be broken in another: the Curiosity theme restyles components with its own rules, and dark
+mode swaps the colour tokens. The matrix today is:
+
+| Theme     | Light | Dark |
+|-----------|-------|------|
+| Default   | yes   | yes  |
+| Curiosity | yes   | yes  |
+
+- The gallery opens in Curiosity. Pick the theme before load by setting
+  `localStorage["tss-sample-theme"]` to `"default"` or `"curiosity"` (`_themeKey` in
+  [App.cs](Tesserae.Tests/src/App.cs)), or click the Theme nav at the foot of the sidebar.
+- Dark mode is the sun/moon command in the sidebar (`Theme.Dark()` / `Theme.Light()`); it puts
+  `tss-dark-mode` on `body`.
+- Name screenshots after the theme and mode (e.g. `button-curiosity-dark.png`) so a reviewer can
+  tell them apart, and report a defect with the theme it shows up in.
+- A new custom theme package adds a row to this matrix.
+
 ### Samples must render the same on every run
 
 A sample that fakes data uses `SampleRandom`
