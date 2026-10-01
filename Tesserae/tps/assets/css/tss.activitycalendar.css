@@ -261,6 +261,17 @@
         border-bottom-color: var(--tss-tooltip-background-color);
     }
 
+/* The tooltip is its own surface, so a component handed to Tooltip(...) takes its foreground, not the page's: a
+   TextBlock is .tss-fontcolor-default, which is the page's text colour - dark on the Curiosity theme's ink tooltip
+   in the light theme, and so unreadable. The same rule tss.tooltip.css applies inside a Tippy box. */
+.tss-activitycalendar-tooltip .tss-fontcolor-default {
+    color: var(--tss-tooltip-foreground-color);
+}
+
+.tss-activitycalendar-tooltip .tss-fontcolor-secondary {
+    color: color-mix(in srgb, var(--tss-tooltip-foreground-color) 70%, transparent);
+}
+
 .tss-activitycalendar-tooltip-value {
     font-weight: var(--tss-font-weight-semibold, 600);
 }

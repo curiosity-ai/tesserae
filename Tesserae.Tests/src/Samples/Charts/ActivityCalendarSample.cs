@@ -81,7 +81,7 @@ namespace Tesserae.Tests.Samples
                .Summary()
                .Tooltip(day => VStack().Children(
                     TextBlock(day.Date.ToString("dddd, MMM d")).SemiBold(),
-                    TextBlock(day.HasValue ? $"{day.Value:n0} requests" : "No requests").Small()))
+                    TextBlock(day.HasValue ? $"{day.Value:n0} requests" : "No requests").Small().Secondary()))
                .WS();
 
             var palette = ActivityCalendar()
