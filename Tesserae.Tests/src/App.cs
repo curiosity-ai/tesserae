@@ -93,7 +93,7 @@ namespace Tesserae.Tests
             {
                 searchTerm = term;
                 sidebar.Search(term);
-                UpdateCuriosityNav(); // a search shows every item it matches, the theme-only nav included
+                UpdateCuriosityNav(); // the search has just shown the theme-only nav if it matched, re-hide it outside its theme
             });
 
             sidebar.AddHeader(searchBox);
@@ -306,10 +306,12 @@ namespace Tesserae.Tests
 
             void UpdateCuriosityNav()
             {
+                // In the Curiosity theme the nav is left to the search, which hides it when nothing in it matches:
+                // a bare Show() here put the header back over children the search had hidden, an empty nav.
                 var visible = Theme.CustomTheme is CuriosityTheme;
                 foreach (var nav in curiosityNavs)
                 {
-                    if (visible) nav.Show();
+                    if (visible) nav.Search(searchTerm);
                     else         nav.Collapse();
                 }
             }
