@@ -37,3 +37,17 @@ body.tss-theme-curiosity.tss-mobile .tss-navbar-mobile-header .tss-textblock {
     letter-spacing: .08em;
     text-transform: uppercase;
 }
+
+/* Scrollbar: Tesserae thins it to 4px on mobile. Keep that width, drop the inset so the thumb
+   is two pixel cells across, and keep the pixel corners. */
+@supports selector(::-webkit-scrollbar) {
+    body.tss-theme-curiosity.tss-mobile {
+        --cur-scrollbar-size: 4px;
+    }
+
+    body.tss-theme-curiosity.tss-mobile ::-webkit-scrollbar-thumb,
+    body.tss-theme-curiosity.tss-mobile *:hover::-webkit-scrollbar-thumb,
+    body.tss-theme-curiosity.tss-mobile ::-webkit-scrollbar-thumb:hover {
+        border-width: 0;
+    }
+}
