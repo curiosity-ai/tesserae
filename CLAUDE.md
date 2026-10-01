@@ -522,3 +522,24 @@ That is the "Fit height to content (host-side, no scripts)" demo, which sets
 script in the frame. The browser blocks `Sandbox`'s injected bootstrap script and says
 so; the frame still resizes because the host measures it through `AllowSameOrigin`.
 Don't "fix" it, and don't let a test fail the run on it.
+
+## Pull requests
+
+### Screenshots in a PR
+
+A PR that changes what the user sees carries screenshots, and so does any PR the
+user asks screenshots for. They go in a Claude artifact, not in the repository,
+and the PR description links to it.
+
+- **Publish one artifact per PR** holding every screenshot (a before/after pair per
+  changed screen where there is a "before"), each captioned with the route or
+  component it shows. Put it under the PR's *Testing* section as a link.
+- **Make it accessible to the whole team.** An artifact is private to its owner
+  when published, and a private link in a PR is a dead link for every reviewer.
+  The publish call cannot change that, so before the link goes into the PR ask the
+  user to share the artifact with the Curiosity organization from its *Share*
+  menu on claude.ai, and wait for them to confirm.
+  Never describe the link as shared on the user's behalf.
+- **On a later push that changes the UI again,** republish the same artifact (same
+  file path or `url`) so the link in the PR stays valid and shows the current state.
+- Screenshots are never committed to the repository.
