@@ -129,5 +129,6 @@ var failed = ToolCall(UIcons.Globe, "Fetch https://api.example.com/v1/status",
 
 - LiveProgress — `live-progress.md`
 - Chat — `chat.md`
+- RelatedQuestions — follow-up questions drawn as rows like a call's header — `related-questions.md`
 - Expander — `expander.md`
 - Full docs & API: `/tesserae/components/tool-call`
