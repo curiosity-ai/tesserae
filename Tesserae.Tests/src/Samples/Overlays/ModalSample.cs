@@ -42,6 +42,7 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                     Button("Open Modal").OnClick((s,                   e) => modal.Show()),
                     Button("Open Modal from top right").OnClick((s,    e) => modal.ShowAt(fromRight: 16.px(), fromTop: 16.px())),
+                    Button("Open Modal with content to the border").OnClick((s, e) => Modal("No content padding").NoContentPadding().LightDismiss().Width(400.px()).Height(240.px()).Content(TextBlock("The content runs to the border").Padding(16.px()).Background(Theme.Secondary.Background).S()).Show()),
                     Button("Open Modal with minimum size").OnClick((s, e) => Modal().CenterContent().LightDismiss().Dark().Content(TextBlock("small content").Tiny()).MinHeight(50.vh()).MinWidth(50.vw()).Show()))).SetTitle("Usage"),
                     Card(VStack().WS().Children(
                     Button("Open Modal Below").OnClick((s, e) => container.Content(Modal("Embedded Modal").CenterContent().LightDismiss().Dark().Content(TextBlock("hosted small content").Tiny()).MinHeight(30.vh()).MinWidth(50.vw()).ShowEmbedded())),

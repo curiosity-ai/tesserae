@@ -121,7 +121,9 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
   selection, the electric-blue Signal as highlight, 1px hairlines instead of shadows,
   radius 0 with pill buttons and single-line inputs, a square toggle, Schibsted Grotesk
   for text and Geist Mono (small, uppercase) for labels, headers, numbers and code. Fonts
-  are bundled (OFL).
+  are bundled (OFL). A modal gets a 12px inset between its ring and everything inside it;
+  `NoContentPadding()` / `NoPadding()` modals (class `tss-modal-no-inset`), `Dialog`, `ModalStack`
+  sheets and a modal in a drawer opt out, so a theme of your own can key off the same class.
   The package also ships the website's signature elements as components (namespace
   `Tesserae.Themes.Curiosity`, usable with or without the theme active): `PixelIntro`
   (the first-load animation, `PlayOnce()`), `FlowField` (the hero's dash field, its pixel

@@ -18,6 +18,22 @@ body.tss-theme-curiosity .tss-modal.tss-embedded {
     box-shadow: 0 0 0 1px var(--tss-default-border-color);
 }
 
+/* A 12px inset between the ring and everything inside it. Dropped where the content runs to the edge
+   (NoPadding / NoContentPadding add tss-modal-no-inset), where the surface pads itself (Dialog), and
+   where a layout is measured against the modal's own box (the ModalStack deck, the tool calls list,
+   a modal shown in a drawer). */
+body.tss-theme-curiosity .tss-modal {
+    padding: 12px;
+}
+
+body.tss-theme-curiosity .tss-modal.tss-modal-no-inset,
+body.tss-theme-curiosity .tss-modal.tss-dialog,
+body.tss-theme-curiosity .tss-modal.tss-modalstack-sheet,
+body.tss-theme-curiosity .tss-modal.tss-toolsused-modal,
+body.tss-theme-curiosity .tss-modal.tss-modal-in-drawer {
+    padding: 0;
+}
+
 body.tss-theme-curiosity .tss-modal-animate {
     animation: .2s cubic-bezier(.2, 0, 0, 1) 0s 1 normal none running tss-cur-modal-in;
 }
