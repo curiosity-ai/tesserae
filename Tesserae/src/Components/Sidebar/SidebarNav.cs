@@ -168,13 +168,10 @@ namespace Tesserae
             //rail has no arrow, so this is the only way to open a group there. An OnClick from the application
             //replaces this (ComponentBase.OnClick clears the previous handler), and a page-mode sidebar takes the
             //click before it reaches the button (Sidebar.TryOpenNavOverlay).
-            _closedHeader.OnClick(ToggleWhenNotEmpty);
-            _openHeaderButton.OnClick(ToggleWhenNotEmpty);
-        }
+            Action toggleWhenNotEmpty = () => { if (_items.Value.Count > 0) _collapsed.Toggle(); };
 
-        private void ToggleWhenNotEmpty()
-        {
-            if (_items.Value.Count > 0) _collapsed.Toggle();
+            _closedHeader.OnClick(toggleWhenNotEmpty);
+            _openHeaderButton.OnClick(toggleWhenNotEmpty);
         }
 
         /// <summary>Shows the navigation component.</summary>
@@ -280,19 +277,7 @@ namespace Tesserae
         /// </summary>
         private const string KeepCollapsedClass = "tss-sidebar-nav-keep-collapsed";
 
-        private void UpdateKeepCollapsedClass(IComponent rendered)
-        {
-            if (rendered is null) return;
-
-            if (_revealSelection)
-            {
-                rendered.RemoveClass(KeepCollapsedClass);
-            }
-            else
-            {
-                rendered.Class(KeepCollapsedClass);
-            }
-        }
+        private void UpdateKeepCollapsedClass(IComponent rendered) => rendered?.Render().UpdateClassIf(!_revealSelection, KeepCollapsedClass);
 
         private void HookSelectionReveal(ISidebarItem item)
         {
@@ -613,14 +598,7 @@ namespace Tesserae
 
             //The same class the open header carries, so a stylesheet draws the group's mark on neither header of
             //a group with nothing in it.
-            if (items.Count > 0)
-            {
-                _closedHeader.RemoveClass("tss-sidebar-nav-header-empty");
-            }
-            else
-            {
-                _closedHeader.Class("tss-sidebar-nav-header-empty");
-            }
+            _closedHeader.Render().UpdateClassIf(items.Count == 0, "tss-sidebar-nav-header-empty");
 
             var nav = Div(Att("tss-sidebar-nav", id: Identifier));
             nav["tssOwner"] = this;

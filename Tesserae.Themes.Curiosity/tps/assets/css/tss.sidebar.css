@@ -73,8 +73,7 @@ body.tss-theme-curiosity .tss-sidebar-btn-open:not(.tss-sidebar-btn-rounded):not
 
 body.tss-theme-curiosity .tss-sidebar-btn-open > .tss-sidebar-btn.tss-btn > i,
 body.tss-theme-curiosity .tss-sidebar-btn-open > a > .tss-sidebar-btn.tss-btn > i,
-body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn > i,
-body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn > i {
+body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn > i {
     width: 28px !important;
     min-width: 28px !important;
 }
@@ -129,8 +128,7 @@ body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn.tss-bt
    setting the bar and one setting the band, not a rule per combination. A focused row keeps them: the
    theme's focus is an outline (tss.button.css), not a shadow. */
 body.tss-theme-curiosity .tss-sidebar .tss-sidebar-btn.tss-btn,
-body.tss-theme-curiosity .tss-sidebar .tss-sidebar-nav-header > .tss-sidebar-nav-button.tss-btn,
-body.tss-theme-curiosity .tss-sidebar .tss-sidebar-nav-header > a > .tss-sidebar-nav-button.tss-btn {
+body.tss-theme-curiosity .tss-sidebar .tss-sidebar-nav-header > .tss-sidebar-nav-button.tss-btn {
     box-shadow: var(--tss-cur-nav-mark), var(--tss-cur-nav-depth);
 }
 
@@ -171,13 +169,9 @@ body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:no
 
 /* The icon stays where it is: Tesserae hides it under the pointer to draw its chevron there. */
 body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > .tss-btn > i,
-body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > a > .tss-btn > i,
 body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > .tss-btn > .tss-btn-with-image > .tss-image,
-body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > a > .tss-btn > .tss-btn-with-image > .tss-image,
 body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):focus-within > .tss-btn > i,
-body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):focus-within > a > .tss-btn > i,
-body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):focus-within > .tss-btn > .tss-btn-with-image > .tss-image,
-body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):focus-within > a > .tss-btn > .tss-btn-with-image > .tss-image {
+body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):focus-within > .tss-btn > .tss-btn-with-image > .tss-image {
     visibility: visible;
 }
 
@@ -193,10 +187,10 @@ body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-s
     --tss-sidebar-commands-inset: 30px;
 }
 
-body.tss-theme-curiosity .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn,
-body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > .tss-sidebar-nav-arrow,
-body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > .tss-sidebar-nav-arrow,
-body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):focus-within > .tss-sidebar-nav-arrow {
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn,
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > .tss-sidebar-nav-arrow,
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > .tss-sidebar-nav-arrow,
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):focus-within > .tss-sidebar-nav-arrow {
     visibility: visible;
     left: auto;
     right: 0;
@@ -211,8 +205,8 @@ body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-s
 /* The triangle itself: a solid 7px right triangle, clipped out of a square rather than built from a
    rotated border, so its two states are two corners of the same cell. Closed points to the bottom-right,
    open to the top-right. */
-body.tss-theme-curiosity .tss-sidebar-nav-arrow.tss-btn:after,
-body.tss-theme-curiosity .tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:after {
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-arrow.tss-btn:after,
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:after {
     left: auto;
     right: 12px;
     top: 50%;
@@ -226,13 +220,13 @@ body.tss-theme-curiosity .tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:a
     clip-path: polygon(100% 0, 100% 100%, 0 100%);
 }
 
-body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
     clip-path: polygon(0 0, 100% 0, 100% 100%);
 }
 
 /* Ink under the pointer, on the header or on the triangle. */
-body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:hover > .tss-sidebar-nav-arrow.tss-btn:after,
-body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:focus-within > .tss-sidebar-nav-arrow.tss-btn:after {
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-header.tss-sidebar-btn-open:hover > .tss-sidebar-nav-arrow.tss-btn:after,
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-header.tss-sidebar-btn-open:focus-within > .tss-sidebar-nav-arrow.tss-btn:after {
     background: var(--tss-default-foreground-color);
 }
 
@@ -241,27 +235,38 @@ body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:focus-with
    theme switch, whose selected row is a mode rather than the page the user is on. Only the group that holds
    the page directly - the row is one of its own children, or its own page is current - is bold: 9px. The
    groups higher up keep the resting 7px, in ink, so the path to the page reads without shouting. */
-body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after,
-body.tss-theme-curiosity .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(.tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after,
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(.tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
     background: var(--tss-default-foreground-color);
 }
 
-body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after,
-body.tss-theme-curiosity .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(> .tss-sidebar-nav-children > .tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after,
-body.tss-theme-curiosity .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(> .tss-sidebar-nav-children > * > .tss-sidebar-nav.tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after,
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(> .tss-sidebar-nav-children > .tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after,
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(> .tss-sidebar-nav-children > * > .tss-sidebar-nav.tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
     width: 9px;
     height: 9px;
     margin-top: -4.5px;
     right: 11px;
 }
 
+/* A child row reads in mute-ink until it is current, marked or under the pointer, so the rule names only the
+   resting state: selected rows are excluded, :not(:hover) hands the pointer back to the button's own hover
+   colour, and everything in :where() counts for nothing in specificity, which leaves the marker rules below
+   to out-rank it. Page mode is left out, as Tesserae leaves it out of its own rules: the panel's rows are the
+   page's own, in ink - but not while a search has the groups open in place. */
+body.tss-theme-curiosity :where(:where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-children .tss-sidebar-btn-open:not(.tss-sidebar-selected):not(:hover)) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-curiosity :where(:where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-children .tss-sidebar-btn-open:not(.tss-sidebar-selected):not(:hover)) > a > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-curiosity :where(:where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-children) > .tss-sidebar-btn.tss-btn-default:not(.tss-sidebar-selected):not(:hover):not(.tss-disabled),
+body.tss-theme-curiosity :where(:where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-children .tss-sidebar-nav > .tss-sidebar-nav-header:not(:hover)) > .tss-sidebar-nav-button.tss-btn-default:not(.tss-disabled),
+body.tss-theme-curiosity :where(:where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-children .tss-sidebar-nav > .tss-sidebar-nav-header:not(:hover)).tss-sidebar-btn.tss-btn-default:not(.tss-disabled) {
+    color: var(--tss-secondary-foreground-color);
+}
+
 /* The current marker climbs to the header while the group is closed over the current page, and sits on
    the header of a group whose own page is current while nothing inside it is - the deepest visible
    ancestor, so the rail always shows exactly one. */
 body.tss-theme-curiosity .tss-sidebar-nav:not(.tss-sidebar-nav-open):not(.tss-sidebar-nav-keep-collapsed):has(.tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-button.tss-btn:not(.tss-disabled),
-body.tss-theme-curiosity .tss-sidebar-nav:not(.tss-sidebar-nav-open):not(.tss-sidebar-nav-keep-collapsed):has(.tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-sidebar-nav-button.tss-btn:not(.tss-disabled),
-body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected:not(:has(.tss-sidebar-selected)) > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-button.tss-btn:not(.tss-disabled),
-body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected:not(:has(.tss-sidebar-selected)) > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-sidebar-nav-button.tss-btn:not(.tss-disabled) {
+body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected:not(:has(.tss-sidebar-selected)) > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-button.tss-btn:not(.tss-disabled) {
     --tss-cur-nav-mark: inset 2px 0 0 var(--tss-default-foreground-color);
     color: var(--tss-default-foreground-color);
     border-color: transparent;
@@ -285,33 +290,6 @@ body.tss-theme-curiosity .tss-sidebar-nav > .tss-sidebar-nav-children {
 
 body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-nav > .tss-sidebar-nav-children {
     --tss-cur-nav-depth: inset 8px 0 0 var(--tss-default-border-color);
-}
-
-/* A child row reads in mute-ink; ink once it is current or under the pointer. */
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-btn-open:not(.tss-sidebar-selected) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled),
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-btn-open:not(.tss-sidebar-selected) > a > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled),
-body.tss-theme-curiosity .tss-sidebar-nav-children > .tss-sidebar-btn.tss-btn-default:not(.tss-sidebar-selected):not(.tss-disabled),
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-nav > .tss-sidebar-nav-header > .tss-sidebar-nav-button.tss-btn-default:not(.tss-disabled),
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-nav > .tss-sidebar-nav-header > a > .tss-sidebar-nav-button.tss-btn-default:not(.tss-disabled),
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-nav > .tss-sidebar-nav-header.tss-sidebar-btn.tss-btn-default:not(.tss-disabled) {
-    color: var(--tss-cur-nav-child-color, var(--tss-secondary-foreground-color));
-}
-
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-btn-open:not(.tss-sidebar-selected) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled):hover,
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-btn-open:not(.tss-sidebar-selected) > a > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled):hover,
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled),
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > a > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled),
-body.tss-theme-curiosity .tss-sidebar-nav-children > .tss-sidebar-btn.tss-btn-default:not(.tss-sidebar-selected):not(.tss-disabled):hover,
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-nav > .tss-sidebar-nav-header:hover > .tss-sidebar-nav-button.tss-btn-default:not(.tss-disabled),
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-nav > .tss-sidebar-nav-header:hover > a > .tss-sidebar-nav-button.tss-btn-default:not(.tss-disabled),
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-nav > .tss-sidebar-nav-header.tss-sidebar-btn.tss-btn-default:not(.tss-disabled):hover,
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-nav:not(.tss-sidebar-nav-open):not(.tss-sidebar-nav-keep-collapsed):has(.tss-sidebar-selected) > .tss-sidebar-nav-header > .tss-sidebar-nav-button.tss-btn-default:not(.tss-disabled),
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-nav:not(.tss-sidebar-nav-open):not(.tss-sidebar-nav-keep-collapsed):has(.tss-sidebar-selected) > .tss-sidebar-nav-header > a > .tss-sidebar-nav-button.tss-btn-default:not(.tss-disabled),
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-nav:not(.tss-sidebar-nav-open):not(.tss-sidebar-nav-keep-collapsed):has(.tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn.tss-btn-default:not(.tss-disabled),
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-nav.tss-sidebar-selected:not(:has(.tss-sidebar-selected)) > .tss-sidebar-nav-header > .tss-sidebar-nav-button.tss-btn-default:not(.tss-disabled),
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-nav.tss-sidebar-selected:not(:has(.tss-sidebar-selected)) > .tss-sidebar-nav-header > a > .tss-sidebar-nav-button.tss-btn-default:not(.tss-disabled),
-body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-nav.tss-sidebar-selected:not(:has(.tss-sidebar-selected)) > .tss-sidebar-nav-header.tss-sidebar-btn.tss-btn-default:not(.tss-disabled) {
-    color: var(--tss-default-foreground-color);
 }
 
 /* --------------------------------------------------------------------------
@@ -422,38 +400,17 @@ body.tss-theme-curiosity .tss-navbar .tss-sidebar-header .tss-btn.tss-btn-primar
 
 /* Page mode: a group's children open as a panel over the rail, framed by a line instead of a shadow. The
    group's row points the way the panel comes from, so it keeps Tesserae's own chevron there rather than
-   the triangle, and the panel's rows have no group over them to be deep under. */
+   the triangle - in ash, like the triangles. */
+body.tss-theme-curiosity .tss-sidebar-page:not(.tss-sidebar-searching) .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: var(--tss-cur-ash);
+}
+
 body.tss-theme-curiosity .tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel {
     box-shadow: -1px 0 0 var(--tss-default-foreground-color);
-    --tss-cur-nav-depth: 0 0 0 0 transparent;
-    --tss-cur-nav-child-color: var(--tss-default-foreground-color);
 }
 
 body.tss-theme-curiosity.tss-dark-mode .tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel {
     box-shadow: -1px 0 0 var(--tss-dark-border-color);
-}
-
-body.tss-theme-curiosity .tss-sidebar-page:not(.tss-sidebar-searching) .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > .tss-sidebar-nav-arrow {
-    width: 18px !important;
-    height: 18px !important;
-    top: 50%;
-    right: 10px;
-    margin-top: -9px;
-}
-
-body.tss-theme-curiosity .tss-sidebar-page:not(.tss-sidebar-searching) .tss-sidebar-nav > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after,
-body.tss-theme-curiosity .tss-sidebar-page:not(.tss-sidebar-searching) .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
-    left: 2px;
-    right: auto;
-    top: 4px;
-    width: 8px;
-    height: 8px;
-    margin-top: 0;
-    background: none;
-    clip-path: none;
-    border: solid var(--tss-cur-ash);
-    border-width: 0 1px 1px 0;
-    transform: rotate(-45deg);
 }
 
 /* The drawer the burger opens is a floating surface: square, framed in ink. */

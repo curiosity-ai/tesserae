@@ -106,10 +106,7 @@ namespace Tesserae
             if (closedIcon is object)
             {
                 var icon = (HTMLElement)closedIcon;
-                icon.style.paddingLeft  = "";
-                icon.style.paddingRight = "";
-                icon.style.marginLeft   = "";
-                icon.style.marginRight  = "";
+                icon.style.paddingRight = ""; //SegmentTitle's spacing between the icon and its text
 
                 titleContainerClosed.classList.add("tss-segmentedpivot-tab-icon");
                 titleContainerClosed.appendChild(icon);

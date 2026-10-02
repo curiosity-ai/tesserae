@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Tesserae;
 using static Transpose.Core.dom;
@@ -42,9 +41,7 @@ namespace Tesserae.Tests.Samples
                .Separated()
                .WithSidebarControl(onOpen: () => sidebar.IsClosed = false, onClose: () => sidebar.IsClosed = true));
 
-            var home = Page("home", UIcons.Home, "Home").Selected();
-
-            sidebar.AddContent(home);
+            sidebar.AddContent(Page("home", UIcons.Home, "Home").Selected());
             sidebar.AddContent(Page("search", UIcons.Search, "Search"));
 
             // A group: pressing its header or its arrow opens and closes it. A group inside a group is a second level.
