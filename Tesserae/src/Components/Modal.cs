@@ -426,8 +426,9 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Removes / disables the padding on the component: the inset between the border and everything inside it,
-        /// and the header, content and footer padding. Content runs to the border.
+        /// Removes / disables the padding on the component: the header, content and footer padding, and any inset a
+        /// theme draws between the border and everything inside it (the modal gets the class <c>tss-modal-no-inset</c>,
+        /// which a theme's inset rule skips). Content runs to the border.
         /// </summary>
         public Modal NoPadding()
         {
@@ -437,8 +438,9 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Removes / disables the content padding on the component, and the inset between the border and the content,
-        /// so the content runs to the border. The header and footer keep their own padding.
+        /// Removes / disables the content padding on the component, and any inset a theme draws between the border and
+        /// the content (the modal gets the class <c>tss-modal-no-inset</c>, which a theme's inset rule skips), so the
+        /// content runs to the border. The header and footer keep their own padding.
         /// </summary>
         public Modal NoContentPadding()
         {
