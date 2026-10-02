@@ -101,10 +101,15 @@ body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed {
 }
 
 body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn.tss-btn,
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon,
 body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-commands-line .tss-btn,
 body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-section-header-closed {
     width: 44px;
     border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon:not(.tss-sidebar-searchbox-rounded) {
+    height: 44px;
 }
 
 body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn.tss-btn:not(.tss-sidebar-btn-rounded) {
