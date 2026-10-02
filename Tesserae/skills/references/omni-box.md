@@ -73,6 +73,13 @@ OmniBox:
 - `.SetKeyboardShortcut(params string[] keys)` — e.g. `("Ctrl", "K")`: a document-level shortcut that
   focuses the box, shown as a hint at the end of the search input (hidden while the input has focus,
   shown again on blur).
+- `.SetSuggestedText(string text, Action<string> onAccepted = null)` / `.ClearSuggestedText()` — a
+  suggestion drawn in the empty search input in place of the placeholder, followed by a `Tab` keycap
+  (search modes only). Tab in the empty, focused input puts the text in as if typed (moving the caret to
+  its end and running the usual input/suggestion pipeline) and calls `onAccepted`; Shift+Tab still moves
+  focus. Typing hides the suggestion and emptying the box brings it back, until it is cleared — clearing
+  restores the placeholder and Tab's normal focus behaviour. `.SuggestedText` reads it, and
+  `.AcceptSuggestedText()` accepts it programmatically.
 - `.Disabled(bool value = true)` — keeps the content but stops taking input.
 - `.EnableChatMentions(ChatMention)` — turns typing `@` at a word boundary in the chat input into an
   "@mention" style picker (chat/search-and-chat modes only). `ChatMention` is a set of UI-agnostic
