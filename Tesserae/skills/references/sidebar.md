@@ -249,10 +249,10 @@ lightens in a dark one.
 Where the commands are permanent the label is laid out beside them: a row with
 `.CommandsAlwaysVisible()`, or a selected row, keeps room for exactly as many
 commands as it has, so a long name truncates with an ellipsis before the strip
-rather than running under it. That room is kept whatever padding a theme or an
-application stylesheet gives the row's button (it is the row's own layout, not
-a look); to move the strip, set `--tss-sidebar-commands-inset` on the row
-rather than restating the padding.
+rather than running under it. The room is a box on the row's own line, not the
+button's padding, so a theme or application stylesheet that restates the row's
+padding can only shorten the name, never run it under the commands; to move the
+strip, set `--tss-sidebar-commands-inset` on the row.
 
 On **hover** the label keeps the full width of the rail and nothing re-flows as
 the pointer travels the list. Instead the label fades out into the row where the

@@ -300,18 +300,32 @@
    box around a 16px glyph, so the gap is already drawn, and every pixel spent here is a word the name
    loses.
 
-   The room is the row's padding, and a row's padding is also the first thing a skin restates - a theme
-   that wants its rows inset 10px writes `padding: 0 10px` on the row's button, with its own body class in
-   front of the selector, and that outranks this rule however many classes it carries. The reservation
-   then silently collapses to the skin's 10px and the name runs under the commands again, in that theme
-   only. It is marked !important for the same reason the row's height is: it is layout the row owns, not
-   a look a skin should be able to lose by accident. A skin that wants the strip somewhere else says so
-   through --tss-sidebar-commands-inset, which this reads, rather than through the padding. */
+   The room is a box, not padding. The button is the flex line the icon and the name sit on, and its
+   ::after is free in these two states (the scrim below only ever draws under the pointer), so it becomes
+   the last item on that line, as wide as the strip and unable to shrink; the name, which can, stops
+   before it. It used to be the button's padding-right, and a row's padding is the first thing a skin
+   restates - a theme that wants its rows inset writes `padding: 0 10px` on the row's button with its
+   body class in front, which outranks any rule here - so the room silently collapsed to the skin's
+   padding and the name ran under the commands again, in that theme only. A box in the line cannot be
+   lost that way: a skin's padding-right now sits outside it and can only make the name shorter. The
+   button's own right padding is zeroed here because the strip is the gutter; a skin that keeps some
+   gives up that many pixels of name and nothing else. */
 .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-commands-always-open > .tss-btn,
 .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-commands-always-open > a > .tss-btn,
 .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-selected > .tss-btn,
 .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-selected > a > .tss-btn {
-    padding-right: calc(var(--tss-sidebar-commands-width, 0px) + var(--tss-sidebar-commands-inset, 4px)) !important;
+    padding-right: 0;
+}
+
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-commands-always-open > .tss-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-commands-always-open > a > .tss-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-selected > .tss-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-selected > a > .tss-btn::after {
+    content: "";
+    display: block;
+    flex: 0 0 calc(var(--tss-sidebar-commands-width, 0px) + var(--tss-sidebar-commands-inset, 4px));
+    align-self: stretch;
+    pointer-events: none;
 }
 
 .tss-sidebar-commands {
@@ -411,11 +425,24 @@
 .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):not(.tss-sidebar-commands-always-open):not(:hover) > a > .tss-btn,
 .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-has-commands).tss-sidebar-selected > .tss-btn,
 .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-has-commands).tss-sidebar-selected > a > .tss-btn {
-    padding-right: calc(var(--tss-sidebar-badge-width, 0px) + var(--tss-sidebar-badge-inset, 4px) + var(--tss-sidebar-badge-gap, 6px)) !important; /* a skin's padding must not beat it - see the commands' reservation above */
+    padding-right: 0;
 }
 
-.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):hover > .tss-sidebar-btn::after,
-.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):hover > a > .tss-sidebar-btn::after {
+/* The same box the commands' reservation is (see there for why it is a box and not padding), as wide as
+   the badge plus its inset and the gap the name keeps from it. */
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):not(.tss-sidebar-commands-always-open):not(:hover) > .tss-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):not(.tss-sidebar-commands-always-open):not(:hover) > a > .tss-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-has-commands).tss-sidebar-selected > .tss-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-has-commands).tss-sidebar-selected > a > .tss-btn::after {
+    content: "";
+    display: block;
+    flex: 0 0 calc(var(--tss-sidebar-badge-width, 0px) + var(--tss-sidebar-badge-inset, 4px) + var(--tss-sidebar-badge-gap, 6px));
+    align-self: stretch;
+    pointer-events: none;
+}
+
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):not(.tss-sidebar-commands-always-open):hover > .tss-sidebar-btn::after,
+.tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):not(.tss-sidebar-commands-always-open):hover > a > .tss-sidebar-btn::after {
     content: "";
     position: absolute;
     top: 0;
