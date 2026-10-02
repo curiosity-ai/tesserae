@@ -48,6 +48,14 @@ https://example.com/tracker is plain text, and this image never loads:
 ![a pixel that would call home](https://example.com/pixel.png)
 ";
 
+            const string tableSample =
+@"| Region | Q1    | Q2    | Notes                |
+| :----- | ----: | ----: | -------------------- |
+| North  | 1,204 | 1,388 | Up on ""new"" accounts |
+| South  |   980 |   912 | Flat, one churn      |
+| West   | 1,530 | 1,702 | Best quarter so far  |
+";
+
             var live   = MarkdownBlock(startingMarkdown);
             var editor = TextArea(startingMarkdown).WS().H(220).OnInput((ta, _) => live.Text = ta.Text);
 
@@ -70,6 +78,9 @@ https://example.com/tracker is plain text, and this image never loads:
                             editor.Grow(),
                             VStack().Grow().PL(16).Children(live)
                         ),
+                        SampleSubTitle("Copying tables"),
+                        TextBlock("Every table gets two buttons beside it: Copy Table puts it on the clipboard as HTML, so it pastes as a table into a document, a spreadsheet or an email, and Copy as CSV puts it there as comma-separated text. Turn them off with TableCopyButtons(false)."),
+                        MarkdownBlock(tableSample),
                         SampleSubTitle("Sanitization"),
                         TextBlock("MarkdownBlock will strip dangerous HTML even when it is embedded inside Markdown:"),
                         MarkdownBlock("This `<script>alert('xss')</script>` will not run, and this <img src=x onerror=alert(1)> attribute is stripped too."),

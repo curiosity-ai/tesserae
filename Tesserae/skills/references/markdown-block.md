@@ -23,6 +23,15 @@ display. Setting `Text` re-renders.
 - `.OnAfterRender(Action<HTMLElement>)` — called with the inner element every time
   the source is re-parsed, for post-processing the rendered tree (wrapping code
   blocks, attaching copy buttons, …).
+- `.TableCopyButtons(bool show = true)` — on by default: every rendered table is
+  wrapped in a `div.tss-markdown-table` with two buttons beside it, **Copy Table**
+  (puts it on the clipboard as HTML plus tab-separated text, so it pastes as a table
+  into a document, spreadsheet or email) and **Copy as CSV**. Pass `false` to render
+  bare tables. The buttons are added after sanitization, so they appear under either
+  `MarkdownSanitization` mode.
+
+The rich copy is also available on its own as `Clipboard.CopyHtml(html, plainText)`
+(call it from a click handler — browsers only allow a copy inside a user gesture).
 
 ## Sanitization
 
