@@ -123,7 +123,9 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
   (a 1px rule for the track and a square 4px ink thumb that widens on hover in Chrome,
   Edge and Safari; a thin bar in Firefox, which only supports `scrollbar-color`). Like
   Tesserae's own scrollbar they hide at rest, a ghost thumb and no rail until the pointer is
-  over the scroller. Schibsted Grotesk
+  over the scroller, and the thumb only turns ink while that scroller is moving (Signal
+  blue while dragged); the theme tracks that with one `scroll` listener, so scrollers in
+  your own app need nothing declared. Schibsted Grotesk
   for text and Geist Mono (small, uppercase) for labels, headers, numbers and code. Fonts
   are bundled (OFL). A modal gets a 12px inset between its ring and everything inside it;
   `NoContentPadding()` / `NoPadding()` modals (class `tss-modal-no-inset`), `Dialog`, `ModalStack`
