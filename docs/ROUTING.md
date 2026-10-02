@@ -1,55 +1,57 @@
 # Routing in Tesserae
 
-This guide covers the built-in `Router` helper for SPA-style navigation. The router is intentionally lightweight: it listens for URL changes, matches routes against registered patterns, and calls your handlers with parsed parameters.
+This guide covers the built-in `Router` helper for SPA-style navigation, and `RouteState`, which reads and writes the URL as app state. The router is intentionally lightweight: it listens for URL changes, matches routes against registered patterns, and calls your handlers with parsed parameters.
 
 ## Key concepts
 
 - **Hash-based paths**: Routing reads from `window.location.hash` (e.g. `#/view/details`).
 - **Route registration**: Map a unique identifier and a path to a callback with `Router.Register`.
 - **Initialization**: Call `Router.Initialize()` once, then `Router.Refresh(...)` after registering routes to build the match list.
+- **Matching**: by segment, ignoring case and empty segments. A segment that starts with `:` captures what is in that position.
 
 ## Basic setup
 
 ```csharp
-Router.Register("home" _ => LoadHome());
-Router.Register("view", parameters => LoadDetail(parameters["id"]));
+Router.Register("home", _ => LoadHome());
+Router.Register("view/:id", parameters => LoadDetail(parameters["id"]));
 
 Router.Initialize();
 Router.Refresh(onDone: Router.ForceMatchCurrent);
 ```
 
+- A leading `#` or `/` on the path is normalised, so `"view/:id"` and `"#/view/:id"` are the same route.
+- Only the first registration of an identifier is kept, unless you pass `replace: true`.
 - `ForceMatchCurrent()` re-evaluates the current hash after routes are registered, without forcing a URL change.
 
 The sample app uses this same pattern to bind routes to samples and initialize routing on app start.
 
 ## Navigation APIs
 
-- `Router.Push(path)` pushes a new history entry and updates the URL without forcing a reload.
-- `Router.Replace(path)` updates the URL without adding history entries.
-- `Router.Navigate(path, reload: false)` forces a navigation check and can reload the view if `reload` is `true`.
+- `Router.Navigate(path, reload: false)` goes to `path` as a new history entry and runs the matching route's handler. It does nothing when the browser is already at `path`, unless `reload` is `true`, which re-runs the handler without adding an entry.
+- `Router.Push(path)` pushes a new history entry and updates the URL without re-matching routes.
+- `Router.Replace(path)` updates the URL in place without adding a history entry or re-matching routes.
 
-Example usage:
+`Push` and `Replace` return `false` when an `OnBeforeNavigate` guard refused; the URL is then left alone and the caller must not show the new view either.
 
 ```csharp
-Router.Push("#/view/Details");
+if (!Router.Push("#/view/Details")) return;
+
 // or, to replace without a new history entry:
 Router.Replace("#/view/Details");
 ```
 
+After a `Push`/`Replace`, either call `ForceMatchCurrent()` or update your view directly in the click handler, and stay consistent about which.
+
 ## Route parameters and query strings
 
-Route parameters are parsed from query strings appened to the current hash. You don't need to declare parameters in the route. During matching, values are stored in the `Parameters` dictionary and passed to your handler.
-
-Query strings are parsed into the parameter collection when a `?key=value` portion is present in the hash.
-
-Example:
+A handler receives a `Parameters` collection holding both the route's `:variables` and the keys of the hash's query string (`?key=value`). If a query key has the name of a `:variable`, the query value wins.
 
 ```csharp
 Router.Register("search", "/search", parameters =>
 {
-    var term = parameters["term"];
-    var page = parameters["page"];
-    ShowSearchResults(term, page);
+    var term = parameters.TryGetValue("term", out var t) ? t : "";
+
+    ShowSearchResults(term);
     return true;
 });
 ```
@@ -60,13 +62,18 @@ Navigate with a query string:
 #/search?term=computer&page=2
 ```
 
+- Keys and values are URI-encoded when written and decoded when parsed. A value is split on the first `=` only, `+` stays a plus, and a pair without a value (`?flag`) parses as an empty string. A malformed escape (`?q=%`) is kept as written instead of throwing.
+- `:variable` values are the raw hash segment and are not URI-decoded.
+- The handler gets a copy of the parameters. Changing it does not change the URL.
+- Returning `false` from the handler (the `Func<Parameters, bool>` overload) refuses the route and puts the URL back to the previous one.
+
 ## Reflecting view state in the query string
 
-The router owns the hash's query segment, so views can round-trip their state (open panels, selected tabs, filters) through the URL and get shareable / refresh-safe deep links:
+Views can round-trip their state (open panels, selected tabs, filters) through the URL and get shareable, refresh-safe deep links. Use `RouteState` for this (see below); it is built on these `Router` members:
 
-- `Router.GetQueryParameters()` returns the current `Parameters` (path captures plus query keys).
+- `Router.GetQueryParameters()` returns a copy of the current `Parameters` (path captures plus query keys).
 - `Router.SetQueryParameters(parameters, pushToHistory: false)` rewrites only the query segment of the hash, leaving the route path and everything before the `#` untouched.
-- `Router.ReplaceQueryParameters(update, pushToHistory: false)` is the preferred entry point: it clones the current parameters, applies your update, and no-ops when nothing changed.
+- `Router.ReplaceQueryParameters(update, pushToHistory: false)` clones the current parameters, applies your update, and does nothing when nothing changed.
 
 ```csharp
 // Reflect an opened detail panel in the URL:
@@ -76,21 +83,36 @@ Router.ReplaceQueryParameters(p => p.With("preview", id));
 Router.ReplaceQueryParameters(p => p.Remove("preview"));
 ```
 
-Both methods update the URL **silently**: the registered route handler is not re-invoked, so the view that wrote the state keeps running undisturbed. With the default `pushToHistory: false` the URL is rewritten in place (`replaceState`, no history entry); `pushToHistory: true` adds a history entry instead. On the next full navigation or page load the keys come back through the handler's `Parameters`, which is where the view should restore the state from.
+Both update the URL **silently**: the registered route handler is not re-invoked, `OnNavigated` does not fire and the guard is not asked, so the view that wrote the state keeps running undisturbed. With the default `pushToHistory: false` the URL is rewritten in place (`replaceState`, no history entry); `pushToHistory: true` adds a history entry instead. On the next full navigation or page load the keys come back through the handler's `Parameters`, which is where the view should restore the state from. Before the first route has matched there is no URL to anchor to, and both do nothing.
 
-Keys and values are URI-encoded when written and decoded when parsed. A query pair without a value (`?flag`) parses as an empty string. Note that query keys and `:segment` capture names share one `Parameters` collection, so avoid reusing a route variable name as a query key.
+A route's `:variables` are not written into the query: on `#/node/:uid`, a write gives `#/node/abc?k=v`, not `#/node/abc?uid=abc&k=v`.
 
-`Push` and `Replace` also re-derive the router's current parameters from the path you pass them, so `GetQueryParameters()` stays in sync with the URL even when no route re-match happens.
+`Push` and `Replace` re-derive the router's current parameters from the path you pass them, so `GetQueryParameters()` stays in sync with the URL even when no route re-match happens. They carry no route `:variables`.
+
+## RouteState and RouteLocation
+
+`RouteLocation` is a hash string read the way the router reads it: `Path`, `Query`, `IsOn`, `IsUnder`, `Matches`, `Deepest`, `Mentions`, `Has`, `TryGet`, `Get`. It does not look at the browser or the router, so it can be made from any string, before the first route has matched, or in a test. `RouteState.Current` is the one for the address bar (`Router.CurrentHash`, which is `window.location.hash` after the `OnTransformRoutes` transform), and `RouteState` forwards every read to it.
+
+`RouteState` also owns the writes, all on `ReplaceQueryParameters`: `Set`, `Clear`, `Update`, `Consume` (read a one-shot key and remove it), `SetWithHistory` and `UpdateWithHistory` (add a history entry only once the key has a value), and `ReplacePath`.
+
+```csharp
+var selected = RouteState.IsOn("#/calendar", "uid"); // on the page, unless a ?uid= owns it
+RouteState.SetWithHistory("show", tab);              // Back returns to the previous tab
+if (RouteState.Consume("toast", out var toast)) ShowToast(toast);
+```
+
+See `Tesserae/skills/references/route-state.md` for every member, and the **Route State** sample in the gallery, which runs the cases against them and checks itself.
 
 ## Navigation guards and events
 
-- `Router.OnBeforeNavigate(...)` lets you block navigation (return `false` to cancel).
-- `Router.OnNavigated(...)` lets you respond after navigation completes.
+- `Router.OnBeforeNavigate(...)` lets you block navigation (return `false` to cancel). There is one handler; the last one registered wins. It sees `Navigate`, `ForceMatchCurrent`, hash changes (and so the browser's Back and Forward) and `Push`/`Replace`. Its `isBack` argument is true only for a `popstate` that returns to the path the previous navigation left.
+- `Router.OnNavigated(...)` lets you respond after navigation completes. It fires after the handler's synchronous part, so before an `async` handler has finished.
 - `Router.OnNotMatched(...)` is invoked when no route matches the new URL.
+- `Router.OnTransformRoutes(...)` rewrites the hash before it is matched.
+- `Router.OnWíllNavigate(...)` can veto `Router.Navigate` before anything happens.
 
 ## Recommendations
 
-- Keep route strings normalized. Do not  register routes with a leading `/` or `#/`.
-- Register routes first, then call `Refresh` and `ForceMatchCurrent` to ensure the initial URL is matched without changing it.
-- Register routes early in the application initialization.
-- Prefer `Push`/`Replace` for navigation to preserve SPA behavior and a clean history stack.
+- Register routes early in the application initialization, then call `Refresh` and `ForceMatchCurrent` so the initial URL is matched without being changed.
+- Use `Navigate` to go somewhere and `RouteState` to describe where you are. `Push`/`Replace` set the whole hash, so a key you do not repeat is gone.
+- Keep a key's name to one meaning: query keys and `:variable` names share one collection.
