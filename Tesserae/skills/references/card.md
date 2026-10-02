@@ -25,7 +25,7 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.BackgroundColor(string)` / `.Background` — surface color.
 - `.Border(string color, UnitSize size = null)` — border (default 1px).
 - `.HoverColor(bool = true)` — hover overlay.
-- `.OnClick((sender, evt) => ...)` or `.OnClick(Action)` — makes the card clickable (sets pointer cursor).
+- `.OnClick((sender, evt) => ...)` or `.OnClick(Action)` — makes the card clickable: pointer cursor, a tab stop (`role="button"`, `tabindex="0"`), and Enter or Space activate it while the card itself has focus. A button or checkbox inside the card keeps its own keys. Pair it with `.HoverColor()` so the card shows it is pressable.
 - `.AI(bool value = true, bool strongEffect = false)` — marks the card as a model's output: a faint purple-to-blue tint over the card's own background, an accent border and a soft shadow in the same hue. Header and footer take one step more tint. See `ai-variants.md`.
 
 ## Example

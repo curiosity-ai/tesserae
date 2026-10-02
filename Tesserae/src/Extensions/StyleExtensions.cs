@@ -59,11 +59,13 @@
         }
 
         /// <summary>
-        /// Sets the border radius for the component.
+        /// Applies one of the theme's radius levels to the component. The size of a level belongs to the theme,
+        /// not to this call: Tesserae.Themes.Curiosity sets <see cref="BorderRadius.Small"/> and
+        /// <see cref="BorderRadius.Medium"/> to 0, so there only <see cref="BorderRadius.Full"/> is round.
         /// </summary>
         /// <typeparam name="T">The type of the component.</typeparam>
         /// <param name="element">The component.</param>
-        /// <param name="radius">The border radius value.</param>
+        /// <param name="radius">The theme radius level to apply.</param>
         /// <returns>The component instance.</returns>
         public static T Rounded<T>(this T element, BorderRadius radius = BorderRadius.Medium) where T : IRoundedStyle
         {

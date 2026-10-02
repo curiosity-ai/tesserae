@@ -110,11 +110,31 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Registers a callback invoked when the click event fires.
+        /// Registers a callback invoked when the click event fires. A clickable card also becomes
+        /// keyboard reachable and is activated with Enter or Space while the card itself has focus.
         /// </summary>
         public override Card OnClick(ComponentEventHandler<Card, MouseEvent> onClick, bool clearPrevious = true)
         {
             InnerElement.style.cursor = "pointer";
+
+            if (InnerElement.getAttribute("role") != "button")
+            {
+                InnerElement.setAttribute("role",     "button");
+                InnerElement.setAttribute("tabindex", "0");
+
+                // Only the card's own keystrokes: a button or checkbox inside it keeps Enter and Space for itself.
+                InnerElement.addEventListener("keydown", e =>
+                {
+                    var ev = e.As<KeyboardEvent>();
+
+                    if (ev.target == InnerElement && (ev.key == "Enter" || ev.key == " "))
+                    {
+                        StopEvent(ev);
+                        InnerElement.click();
+                    }
+                });
+            }
+
             return base.OnClick(onClick, clearPrevious);
         }
 
