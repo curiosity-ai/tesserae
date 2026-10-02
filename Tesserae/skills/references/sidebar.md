@@ -178,6 +178,14 @@ reads while the pointer is somewhere else in the list. It follows
 `Theme.SetPrimary(...)`, so an app's own brand color is what marks its current
 page.
 
+## Pressing a group's header opens it
+
+A `SidebarNav` with items opens and closes when its header is pressed, in the open rail
+and in the collapsed one alike (the collapsed rail has no arrow, so this is the only way
+to open a group there). A group that is a page of its own takes `.OnClick(...)`, which
+replaces that default: pressing the header then runs the action, and the arrow opens the
+group. In page mode (`AsPage()`) pressing a header opens the group's panel instead.
+
 ## A selection is never hidden
 
 A collapsed `SidebarNav` **expands itself when a child (or a nested descendant)

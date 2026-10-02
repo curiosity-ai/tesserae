@@ -163,6 +163,18 @@ namespace Tesserae
             {
                 _collapsed.Toggle();
             });
+
+            //A header that is not a destination opens and closes its group, in both rail states - the collapsed
+            //rail has no arrow, so this is the only way to open a group there. An OnClick from the application
+            //replaces this (ComponentBase.OnClick clears the previous handler), and a page-mode sidebar takes the
+            //click before it reaches the button (Sidebar.TryOpenNavOverlay).
+            _closedHeader.OnClick(ToggleWhenNotEmpty);
+            _openHeaderButton.OnClick(ToggleWhenNotEmpty);
+        }
+
+        private void ToggleWhenNotEmpty()
+        {
+            if (_items.Value.Count > 0) _collapsed.Toggle();
         }
 
         /// <summary>Shows the navigation component.</summary>
