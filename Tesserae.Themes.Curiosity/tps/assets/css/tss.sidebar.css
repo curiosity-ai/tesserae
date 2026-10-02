@@ -24,7 +24,7 @@
        rail it sits in the tile's corner, 4px from the edges.
      - Depth. Children keep their parent's left edge instead of indenting,
        and a 4px band on the leading edge says how deep they are: the line
-       colour for level one, a second band in ash for level two. Child rows
+       colour for level one, the same colour twice as wide for level two. Child rows
        read in mute-ink until they are current or under the pointer.
      - One current marker. Stone and the ink bar sit on the deepest visible
        ancestor of the current page: the row itself while every group over
@@ -236,17 +236,23 @@ body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:focus-with
     background: var(--tss-default-foreground-color);
 }
 
-/* Bold while the group holds the current page: a 9px triangle in ink, open or closed. A group marked
-   selected itself counts, and so does one with a selected row anywhere inside it - unless the group keeps
-   its selection hidden (SidebarNav.KeepCollapsedOnSelection, the class below): that is a picker, such as
-   the gallery's theme switch, whose selected row is a mode rather than the page the user is on. */
+/* A group over the current page, at any depth, draws its triangle in ink - unless it keeps its selection
+   hidden (SidebarNav.KeepCollapsedOnSelection, the class below): that is a picker, such as the gallery's
+   theme switch, whose selected row is a mode rather than the page the user is on. Only the group that holds
+   the page directly - the row is one of its own children, or its own page is current - is bold: 9px. The
+   groups higher up keep the resting 7px, in ink, so the path to the page reads without shouting. */
 body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after,
 body.tss-theme-curiosity .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(.tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
+    background: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after,
+body.tss-theme-curiosity .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(> .tss-sidebar-nav-children > .tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after,
+body.tss-theme-curiosity .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(> .tss-sidebar-nav-children > * > .tss-sidebar-nav.tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
     width: 9px;
     height: 9px;
     margin-top: -4.5px;
     right: 11px;
-    background: var(--tss-default-foreground-color);
 }
 
 /* The current marker climbs to the header while the group is closed over the current page, and sits on
@@ -278,7 +284,7 @@ body.tss-theme-curiosity .tss-sidebar-nav > .tss-sidebar-nav-children {
 }
 
 body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-nav > .tss-sidebar-nav-children {
-    --tss-cur-nav-depth: inset 4px 0 0 var(--tss-cur-ash), inset 8px 0 0 var(--tss-default-border-color);
+    --tss-cur-nav-depth: inset 8px 0 0 var(--tss-default-border-color);
 }
 
 /* A child row reads in mute-ink; ink once it is current or under the pointer. */
@@ -342,9 +348,14 @@ body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav.tss-si
 
 body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header:after,
 body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(.tss-sidebar-selected) > .tss-sidebar-nav-header:after {
+    background: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header:after,
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(> .tss-sidebar-nav-children > .tss-sidebar-selected) > .tss-sidebar-nav-header:after,
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(> .tss-sidebar-nav-children > * > .tss-sidebar-nav.tss-sidebar-selected) > .tss-sidebar-nav-header:after {
     width: 9px;
     height: 9px;
-    background: var(--tss-default-foreground-color);
 }
 
 body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav:not(.tss-sidebar-nav-open):not(.tss-sidebar-nav-keep-collapsed):has(.tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn.tss-btn:not(.tss-disabled),
