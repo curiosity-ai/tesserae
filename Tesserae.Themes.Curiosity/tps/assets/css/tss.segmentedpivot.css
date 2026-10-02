@@ -90,14 +90,32 @@ body.tss-theme-curiosity .tss-segmentedpivot-titlebar-wrapper .tss-btn:not(.tss-
     transform: none;
 }
 
-/* On the rail the closed pivot stacks its cells, so the divider runs across instead of down. */
+/* On the collapsed rail the pivot is a column of the rail's 44px tiles in the same ink frame, one per tab,
+   showing the tab's icon (SidebarPivot reads it off the title); the cells are split by hairlines running
+   across instead of down, and the selected cell is ink like its row-form sibling. The frame takes the
+   rail's full tile width, so the wrapper gives up the side margins Tesserae puts around it. */
+body.tss-theme-curiosity .tss-sidebar-segmentedpivot-wrapper-closed {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 2px;
+    margin-bottom: 4px;
+}
+
 body.tss-theme-curiosity .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-titlebar {
     padding: 0;
+    width: 44px;
+    box-sizing: border-box;
 }
 
 body.tss-theme-curiosity .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab {
     margin-bottom: 0;
     padding: 5px 4px;
+}
+
+body.tss-theme-curiosity .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab.tss-segmentedpivot-tab-icon {
+    height: 42px;
+    padding: 0;
+    font-size: var(--tss-font-size-small);
 }
 
 body.tss-theme-curiosity .tss-segmentedpivot:not(.tss-ai) .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab + .tss-segmentedpivot-tab {

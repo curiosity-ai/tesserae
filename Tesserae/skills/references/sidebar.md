@@ -197,6 +197,15 @@ keep-collapsed group alone. A group with no items carries
 `tss-sidebar-nav-header-empty` on its header in both rail states, so no theme draws
 a chevron or triangle on it.
 
+## A pivot on the collapsed rail
+
+`SidebarPivot` draws its tabs as a segmented control while the sidebar is open. On the
+collapsed rail each tab becomes a tile showing the title's icon alone, with the title's
+words as its tooltip: the icon is read off the rendered title (the first `i`, `img`,
+`svg` or image inside it), so `SegmentTitle(text, icon)` gets it for free and a title
+built any other way still does, as long as it starts with an icon. A title with no icon
+is shown whole, clipped to the rail.
+
 ## A component of your own in the sidebar
 
 `new SidebarComponent(id, component, closedComponent = null)` stands where a

@@ -1236,6 +1236,18 @@
     margin-bottom: 0px;
 }
 
+/* A tab whose title had an icon is that icon alone on the rail (SidebarPivot.Add), in a tile the size of the
+   rail's other tiles, with the title's words in its tooltip. */
+.tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab.tss-segmentedpivot-tab-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    height: 28px;
+    padding: 0;
+    flex-grow: 0;
+}
+
 /* A button drawn with a field's outline -------------------------------------------------------------- */
 
 /* See SidebarButton.Outlined. The rail's own action borrows the field's border and surface so that it and
