@@ -298,12 +298,20 @@
    so once. tss-sidebar-has-commands is what keeps a row without any out of this: it has no width to
    read. The label runs right up to the strip rather than stopping short of it - each command is a 22px
    box around a 16px glyph, so the gap is already drawn, and every pixel spent here is a word the name
-   loses. */
+   loses.
+
+   The room is the row's padding, and a row's padding is also the first thing a skin restates - a theme
+   that wants its rows inset 10px writes `padding: 0 10px` on the row's button, with its own body class in
+   front of the selector, and that outranks this rule however many classes it carries. The reservation
+   then silently collapses to the skin's 10px and the name runs under the commands again, in that theme
+   only. It is marked !important for the same reason the row's height is: it is layout the row owns, not
+   a look a skin should be able to lose by accident. A skin that wants the strip somewhere else says so
+   through --tss-sidebar-commands-inset, which this reads, rather than through the padding. */
 .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-commands-always-open > .tss-btn,
 .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-commands-always-open > a > .tss-btn,
 .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-selected > .tss-btn,
 .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands.tss-sidebar-selected > a > .tss-btn {
-    padding-right: calc(var(--tss-sidebar-commands-width, 0px) + var(--tss-sidebar-commands-inset, 4px));
+    padding-right: calc(var(--tss-sidebar-commands-width, 0px) + var(--tss-sidebar-commands-inset, 4px)) !important;
 }
 
 .tss-sidebar-commands {
@@ -403,7 +411,7 @@
 .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):not(.tss-sidebar-commands-always-open):not(:hover) > a > .tss-btn,
 .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-has-commands).tss-sidebar-selected > .tss-btn,
 .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-has-commands).tss-sidebar-selected > a > .tss-btn {
-    padding-right: calc(var(--tss-sidebar-badge-width, 0px) + var(--tss-sidebar-badge-inset, 4px) + var(--tss-sidebar-badge-gap, 6px));
+    padding-right: calc(var(--tss-sidebar-badge-width, 0px) + var(--tss-sidebar-badge-inset, 4px) + var(--tss-sidebar-badge-gap, 6px)) !important; /* a skin's padding must not beat it - see the commands' reservation above */
 }
 
 .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):hover > .tss-sidebar-btn::after,
