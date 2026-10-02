@@ -13,6 +13,11 @@ namespace Tesserae.Tests.Samples
 
         public CardSample()
         {
+            var cardClicks   = 0;
+            var innerClicks  = 0;
+            var cardCounter  = TextBlock("Card clicks: 0");
+            var innerCounter = TextBlock("Inner button clicks: 0");
+
             _content = SectionStack().Secondary()
                 .SampleTitle(typeof(CardSample), UIcons.AddressCard, "A card component with optional headers and footers")
                 .FlatSection(Stack().Children(
@@ -50,6 +55,14 @@ namespace Tesserae.Tests.Samples
                     Card(TextBlock("This is a compact card.")).SetTitle("Header").Compact(),
                     TextBlock("Hover Card").SemiBold().PT(16),
                     Card(TextBlock("This card has hover effect.")).HoverColor(),
+                    TextBlock("Clickable Card").SemiBold().PT(16),
+                    Card(VStack().Children(
+                            TextBlock("Click it, or Tab to it and press Enter or Space. The button inside keeps its own keys."),
+                            cardCounter,
+                            innerCounter,
+                            Button("Inner button").OnClick(() => innerCounter.Text = $"Inner button clicks: {++innerClicks}")))
+                       .HoverColor()
+                       .OnClick(() => cardCounter.Text = $"Card clicks: {++cardClicks}"),
                     TextBlock("Custom Background").SemiBold().PT(16),
                     Card(TextBlock("This card has a custom background.")).BackgroundColor(Theme.Primary.Background)
                 )).SetTitle("Usage")))

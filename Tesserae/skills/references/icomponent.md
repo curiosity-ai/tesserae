@@ -106,7 +106,11 @@ For text-bearing components (`TextBlock`, `Button`, `Label`, …):
 - `.Class(string)` / `.RemoveClass(string)` — add/remove a CSS class.
 - `.Style(Action<CSSStyleDeclaration>)` — set inline CSS directly:
   `.Style(s => s.color = "red")`.
-- `.Background(...)`, `.Foreground(...)`, `.Rounded(...)`.
+- `.Background(...)`, `.Foreground(...)`.
+- `.Rounded(BorderRadius radius = BorderRadius.Medium)` — apply one of the theme's radius levels
+  (`Small`, `Medium`, `Full`). The size of a level belongs to the theme: the Curiosity theme sets
+  `Small` and `Medium` to 0, so there only `Full` is round and `.Rounded()` gives a square corner.
+  Need a size of your own? Use `.Style(s => s.borderRadius = "12px")`.
 - `.Id(string)` — set the element id.
 
 ## Tooltips — `IComponentExtensions.cs`
