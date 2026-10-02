@@ -45,7 +45,25 @@ namespace Tesserae.Tests.Samples
             sidebar.AddContent(Page("search", UIcons.Search, "Search"));
 
             // A group: pressing its header or its arrow opens and closes it. A group inside a group is a second level.
-            var workspaces = new SidebarNav("workspaces", UIcons.Folder, "Workspaces", initiallyCollapsed: false);
+            // Commands go on the group's header, after the text: they appear while the pointer is on the header and
+            // never toggle the group. HookToParentContextMenu puts the same command under a right click.
+            var newWorkspaces = 0;
+
+            SidebarNav workspaces = null;
+
+            workspaces = new SidebarNav("workspaces", UIcons.Folder, "Workspaces", false,
+                new SidebarCommand(UIcons.Plus).Tooltip("New workspace").OnClick(() =>
+                {
+                    var name = "Workspace " + ++newWorkspaces;
+                    workspaces.Add(Page("workspace-" + newWorkspaces, UIcons.Folder, name));
+                    Toast().Success(name + " added");
+                }),
+                new SidebarCommand(UIcons.MenuDots).Tooltip("More").HookToParentContextMenu().OnClickMenu(() => new ISidebarItem[]
+                {
+                    new SidebarButton("rename-workspaces", UIcons.Edit,  "Rename").OnClick(() => Toast().Information("Rename Workspaces")),
+                    new SidebarButton("archive-workspaces", UIcons.Box, "Archive").OnClick(() => Toast().Information("Archive Workspaces"))
+                }));
+
             workspaces.Add(Page("engineering", UIcons.Tools,    "Engineering"));
             workspaces.Add(Page("sales",       UIcons.ChartPie, "Sales"));
 
@@ -56,7 +74,8 @@ namespace Tesserae.Tests.Samples
 
             sidebar.AddContent(workspaces);
 
-            var sources = new SidebarNav("sources", UIcons.Database, "Data sources", initiallyCollapsed: true);
+            var sources = new SidebarNav("sources", UIcons.Database, "Data sources", true,
+                new SidebarCommand(UIcons.Refresh).Tooltip("Sync all sources").OnClick(() => Toast().Information("Syncing all sources")));
             sources.Add(Page("confluence", UIcons.BookOpenCover, "Confluence"));
             sources.Add(Page("crm",        UIcons.Users,         "CRM"));
             sources.Add(Page("drive",      UIcons.Cloud,         "Drive"));
@@ -79,6 +98,7 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                         TextBlock("A SidebarNav is a group of pages. Pressing its header opens and closes it, in the open rail and in the collapsed one alike, and a group may hold another group. Mark the row the user is on with .Selected() and nothing else: a group that is closed over the current page shows the marker on its own header, so the rail always shows exactly one, on the deepest visible ancestor of the page. A group that is a page of its own takes an .OnClick(...) instead, and then opens from its arrow.").Wrap(),
+                        TextBlock("Hover Workspaces or Data sources to see their commands: a group takes SidebarCommands after its text, like a row does, and they sit beside its triangle while the pointer is on the header. Pressing one runs it without opening or closing the group: + adds a workspace to the group, and the dots open a menu, which a right click on the header opens too (.HookToParentContextMenu()). The collapsed rail has no room for them, so the group's tile has none.").Wrap(),
                         TextBlock("Collapse the rail with the « on the brand row to see the groups as tiles: a group's tile carries its open or closed state in its corner, and its children keep the same tile size, marked by a band on their leading edge for each level. The Theme nav at the foot of the gallery's own sidebar switches the look.").Wrap())).SetTitle("Overview"),
                     Card(VStack().WS().Children(shell)).SetTitle("Usage")))
                .SeeAlso(typeof(SidebarSample), typeof(SidebarPageSample), typeof(SidebarSeparatorSample), typeof(SidenavSample));

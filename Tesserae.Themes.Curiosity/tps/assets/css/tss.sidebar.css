@@ -183,6 +183,15 @@ body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-s
     padding-right: 34px;
 }
 
+/* A long name ends in an ellipsis before the triangle rather than running under it: the padding above only
+   moves the label's box, and the span would still paint through it. */
+body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > .tss-sidebar-nav-button.tss-btn > span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) {
     --tss-sidebar-commands-inset: 30px;
 }
