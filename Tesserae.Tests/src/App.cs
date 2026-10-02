@@ -20,6 +20,9 @@ namespace Tesserae.Tests
         private const string _defaultThemeId      = "default";
         private const string _curiosityThemeId    = "curiosity";
 
+        /// <summary>The gallery's before-navigate guard. Named so a sample that installs its own for a while (Route State) can put it back.</summary>
+        internal static bool GalleryNavigationGuard(Router.State toState, Router.State fromState, bool isBack) => UnsavedChangesGuard.CanNavigateAway(toState, fromState);
+
         private static void Main()
         {
             document.body.style.overflow = "hidden";
@@ -357,7 +360,7 @@ namespace Tesserae.Tests
             // Router.Navigate, and the sidebar's Router.Push. (Closing or reloading the browser tab
             // is handled by the guard's own beforeunload listener.) Router keeps a single handler,
             // so a sample needing its own before-navigate logic has to call CanNavigateAway from it.
-            Router.OnBeforeNavigate((toState, fromState, isBack) => UnsavedChangesGuard.CanNavigateAway(toState, fromState));
+            Router.OnBeforeNavigate(GalleryNavigationGuard);
 
             Router.Register("home", "/", _ => currentPage.Value = null);
 

@@ -237,7 +237,8 @@ avatar · carousel · image · pages-stack · pixel-avatar · sandbox
 color-palette · custom-themes · emoji · gradients · icon · theme-builder · uicons
 
 **Utilities & Behaviors** — helpers that render little or nothing on their own
-defer · defer-with-progress · delta-component · gestures · visibility-sensor
+defer · defer-with-progress · delta-component · gestures · route-state ·
+visibility-sensor
 
 To find the reference for a component, lowercase-kebab its name and open
 `references/<that>.md` (e.g. `DetailsList` → `references/details-list.md`). If you

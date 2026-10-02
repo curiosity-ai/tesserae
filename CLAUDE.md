@@ -296,6 +296,19 @@ only while it moves, auto-hiding after a delay) is out; do not bring it back as 
 listener". The `.simplebar-*` rules in `tss.common.css` only style an application that loads
 simplebar itself; Tesserae does not load it, and nothing new should depend on it.
 
+### URL state: `RouteState` and `RouteLocation`
+
+`RouteLocation` (a hash string, read the way the router reads it) and `RouteState` (`Current` plus the query writes) are
+generic and string-based: no application routes, no application key names. They read through `Router.CurrentHash`,
+so they work before the first route has matched, and they write only through `Router.ReplaceQueryParameters`.
+
+- A query write is not a navigation. It does not run a handler, fire `OnNavigated`, ask `OnBeforeNavigate` or touch the
+  router's previous-state record (which `isBack` compares against), and it never writes a route's `:variables` into the query.
+- The router hands handlers and `GetQueryParameters()` a copy of the `Parameters`.
+- The **Route State** sample (`Tesserae.Tests/src/Samples/Utilities/RouteState*.cs`) is the test suite: about 200 cases that
+  check themselves when the page opens (reads) or when you press the button (writes, history, the router). A change to routing
+  behaviour adds or changes a row there. The cases that guard a router fix fail without that fix; revert it once to prove a new one does.
+
 ### Type safety
 
 Favor strong, static typing. Avoid `dynamic` unless absolutely necessary
