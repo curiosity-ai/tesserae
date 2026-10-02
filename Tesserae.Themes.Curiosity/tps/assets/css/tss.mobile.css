@@ -37,3 +37,13 @@ body.tss-theme-curiosity.tss-mobile .tss-navbar-mobile-header .tss-textblock {
     letter-spacing: .08em;
     text-transform: uppercase;
 }
+
+/* Scrollbar: Tesserae thins it to 4px on mobile. The rail keeps that spirit at 6px: a 2px thumb
+   that widens to 4px under the finger. */
+@supports selector(::-webkit-scrollbar) {
+    body.tss-theme-curiosity.tss-mobile {
+        --tss-cur-scrollbar-size: 6px;
+        --tss-cur-scrollbar-inset: 2px;
+        --tss-cur-scrollbar-inset-hover: 1px;
+    }
+}
