@@ -588,6 +588,8 @@ namespace Tesserae
         private readonly HTMLDivElement   _searchTokensContainer;
         private readonly HTMLDivElement   _searchInputContainer;
         private readonly HTMLDivElement   _searchShortcutContainer;
+        private string                    _suggestedText;
+        private Action<string>            _onSuggestedTextAccepted;
         private readonly Button      _searchHistoryBtn;
         private readonly Button      _searchHelpBtn;
         private readonly Button      _searchClearBtn;
@@ -792,26 +794,7 @@ namespace Tesserae
                 }
 
                 // Set up event listeners
-                _searchInput.addEventListener("input", (e) =>
-                {
-                    OnSearchInputChanged();
-                    Input?.Invoke(this, e);
-                    if (TryUpdateFilterSnapSuggestions())
-                    {
-                        HideSnapSuggestions();
-                        HideRegularSuggestions();
-                    }
-                    else if (TryUpdateSnapSuggestions())
-                    {
-                        HideFilterSnapSuggestions();
-                        HideRegularSuggestions();
-                    }
-                    else
-                    {
-                        HideFilterSnapSuggestions();
-                        TriggerSuggestions();
-                    }
-                });
+                _searchInput.addEventListener("input", (e) => OnSearchInputTyped(e));
 
                 _searchInput.addEventListener("keydown", (e) =>
                 {
@@ -870,6 +853,14 @@ namespace Tesserae
                             {
                                 _currentSnapSuggestionButtons[idx].RaiseOnClick(e.As<MouseEvent>());
                             }
+                            return;
+                        }
+                        // Tab with Shift still means "previous field", and only an empty box shows the
+                        // suggestion, so only then does Tab take it instead of moving focus.
+                        if (!ke.shiftKey && !ke.ctrlKey && !ke.altKey && !ke.metaKey && IsShowingSuggestedText)
+                        {
+                            StopEvent(e);
+                            AcceptSuggestedText();
                             return;
                         }
                     }
@@ -1478,6 +1469,68 @@ namespace Tesserae
             }
         }
 
+        private void OnSearchInputTyped(Event e)
+        {
+            OnSearchInputChanged();
+            Input?.Invoke(this, e);
+            if (TryUpdateFilterSnapSuggestions())
+            {
+                HideSnapSuggestions();
+                HideRegularSuggestions();
+            }
+            else if (TryUpdateSnapSuggestions())
+            {
+                HideFilterSnapSuggestions();
+                HideRegularSuggestions();
+            }
+            else
+            {
+                HideFilterSnapSuggestions();
+                TriggerSuggestions();
+            }
+        }
+
+        private bool IsShowingSuggestedText => _searchInput is object && !string.IsNullOrEmpty(_suggestedText) && string.IsNullOrEmpty(_searchInput.value);
+
+        //The suggestion is drawn by the token overlay, in the place the placeholder would be, followed by a
+        //Tab keycap. The input's own placeholder is hidden while it shows (tss-omnibox-has-suggested-text),
+        //so the two never sit on top of each other, and comes back as soon as the suggestion is cleared.
+        private void RenderSuggestedText()
+        {
+            if (_searchInput is null || _container is null) return;
+
+            var showing = IsShowingSuggestedText;
+            _container.classList.toggle("tss-omnibox-has-suggested-text", showing);
+
+            if (!showing) return;
+
+            ClearTokens();
+            _searchTokensContainer.appendChild(Span(Att("tss-omnibox-suggested-text", text: _suggestedText)));
+            //Spelled out rather than KeyboardShortcut's ⇥: the keycap is the whole explanation here, and the
+            //word reads at a glance where the arrow glyph does not.
+            var tab = Span(Att("tss-kbd-key tss-omnibox-suggested-text-tab", text: "Tab"));
+            tab.title = "Press Tab to accept";
+            _searchTokensContainer.appendChild(tab);
+        }
+
+        /// <summary>
+        /// Puts the suggested text (see <see cref="SetSuggestedText"/>) into the search box, as if the user had
+        /// typed it, and leaves the caret at its end. Does nothing when there is no suggestion or the box is not empty.
+        /// </summary>
+        public OmniBox AcceptSuggestedText()
+        {
+            if (!IsShowingSuggestedText) return this;
+
+            var text = _suggestedText;
+            _searchInput.value = text;
+            OnSearchInputTyped(null);
+            var end = (uint)_searchInput.value.Length;
+            _searchInput.setSelectionRange(end, end);
+            SyncScroll();
+            _onSuggestedTextAccepted?.Invoke(text);
+            return this;
+        }
+
         private void SyncScroll()
         {
             _searchTokensContainer.scrollLeft = _searchInput.scrollLeft;
@@ -1618,10 +1671,12 @@ namespace Tesserae
             {
                 _searchClearBtn.Collapse();
                 ClearTokens();
+                RenderSuggestedText();
             }
             else
             {
                 _searchClearBtn.Show();
+                _container.classList.remove("tss-omnibox-has-suggested-text");
                 ParseAndRenderTokens(val);
             }
         }
@@ -4106,6 +4161,48 @@ namespace Tesserae
         public OmniBox SetSearchPlaceholder(string text)
         {
             SearchPlaceholder = text;
+            return this;
+        }
+
+        /// <summary>
+        /// The text currently suggested in the empty search box, or null - see <see cref="SetSuggestedText"/>.
+        /// </summary>
+        public string SuggestedText => _suggestedText;
+
+        /// <summary>
+        /// Shows <paramref name="text"/> in the empty search box in place of the placeholder, followed by a
+        /// Tab keycap: pressing Tab while the box is focused and empty puts the text in the box, as if it had
+        /// been typed. The suggestion steps aside as soon as anything is typed and comes back when the box
+        /// is emptied, until <see cref="ClearSuggestedText"/> is called. <paramref name="onAccepted"/>, if
+        /// given, is called with the text each time the suggestion is accepted.
+        /// </summary>
+        public OmniBox SetSuggestedText(string text, Action<string> onAccepted = null)
+        {
+            if (_mode != Mode.Search && _mode != Mode.SearchAndChat)
+            {
+                throw new InvalidOperationException("SetSuggestedText can only be called when OmniBox is in Search or SearchAndChat mode.");
+            }
+
+            if (string.IsNullOrEmpty(text)) return ClearSuggestedText();
+
+            _suggestedText = text;
+            _onSuggestedTextAccepted = onAccepted;
+            if (string.IsNullOrEmpty(_searchInput.value)) RenderSuggestedText();
+            return this;
+        }
+
+        /// <summary>
+        /// Removes the suggestion set by <see cref="SetSuggestedText"/>; the placeholder shows again and Tab
+        /// moves focus as usual.
+        /// </summary>
+        public OmniBox ClearSuggestedText()
+        {
+            _suggestedText = null;
+            _onSuggestedTextAccepted = null;
+            if (_searchInput is null) return this;
+
+            _container.classList.remove("tss-omnibox-has-suggested-text");
+            if (string.IsNullOrEmpty(_searchInput.value)) ClearTokens();
             return this;
         }
 

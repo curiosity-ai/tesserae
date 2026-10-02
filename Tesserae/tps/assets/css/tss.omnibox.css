@@ -834,3 +834,28 @@
 .tss-omnibox-container:not(.tss-omnibox-chat-and-search).tss-omnibox-mode-search {
     align-items:center;
 }
+
+/* SetSuggestedText - a suggestion drawn by the token overlay where the placeholder would be, with a Tab
+   keycap after it. The input's own placeholder is hidden while it shows so the two never overlap. */
+.tss-omnibox-container.tss-omnibox-has-suggested-text .tss-omnibox-search-input::placeholder {
+    color: transparent !important;
+}
+
+.tss-omnibox-suggested-text {
+    color: var(--tss-default-foreground-color);
+    opacity: 0.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+.tss-omnibox-suggested-text-tab {
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+
+.tss-kbd-key.tss-omnibox-suggested-text-tab {
+    height: 18px;
+    min-width: 18px;
+    font-size: 10px;
+}

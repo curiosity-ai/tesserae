@@ -32,6 +32,7 @@ namespace Tesserae.Tests.Samples
                .FlatSection(VStack().WS().Children(FooterItems()))
                .FlatSection(VStack().WS().Children(CharacterLimit()))
                .FlatSection(VStack().WS().Children(KeyboardShortcut()))
+               .FlatSection(VStack().WS().Children(SuggestedText()))
                .FlatSection(VStack().WS().Children(RoundedAndAskAI()))
                .FlatSection(VStack().WS().Children(FileDrop()))
                .FlatSection(VStack().WS().Children(Models()))
@@ -427,6 +428,34 @@ namespace Tesserae.Tests.Samples
                 "SetKeyboardShortcut(\"Ctrl\", \"K\") registers a document-level shortcut that focuses the input, and shows the keys as a hint at the end of the search input. The hint is there to be discovered, so it steps out of the way while the input has focus and comes back on blur — and it is hidden in chat mode. Focus() does the same thing programmatically.",
                 box,
                 Button("Focus() it").SetIcon(UIcons.Cursor).MT(8).OnClick(() => box.Focus()));
+        }
+
+        // ---------- Suggested text ----------
+
+        private IComponent SuggestedText()
+        {
+            var suggestions = new[] { "brake sensor calibration", "torque wrench settings", "\"coolant pump\" AND failure" };
+            var next = 0;
+
+            var box = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.Search)
+            {
+                PlaceholderSearch = "Search the knowledge base"
+            })
+            .WS()
+            .SetSuggestedText(suggestions[0], text => Toast().Information($"Accepted: {text}"))
+            .OnSearch((s, q) => Toast().Information($"Searched for: {q.RawQuery}")));
+
+            var another = Button("Suggest another").SetIcon(UIcons.ArrowsRepeat).OnClick(() =>
+            {
+                next = (next + 1) % suggestions.Length;
+                box.SetSuggestedText(suggestions[next], text => Toast().Information($"Accepted: {text}"));
+            });
+            var clear = Button("ClearSuggestedText()").OnClick(() => box.ClearSuggestedText());
+
+            return FeatureCard("Suggested text", "A suggestion in place of the placeholder, Tab to accept",
+                "SetSuggestedText(text) shows a suggestion where the placeholder would be, with a Tab keycap after it. Pressing Tab in the empty box puts the suggestion in, as if it had been typed (query formatting included), and calls the optional onAccepted callback. Typing anything hides it; emptying the box brings it back. ClearSuggestedText() restores the plain placeholder and Tab's usual behaviour.",
+                box,
+                HStack().MT(8).Children(another, clear.ML(8)));
         }
 
         // ---------- Rounded shape and the Ask AI button ----------

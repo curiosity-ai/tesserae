@@ -269,3 +269,9 @@ body.tss-theme-curiosity .tippy-box .tss-btn.tss-omnibox-snap-suggestion:not(.ts
 body.tss-theme-curiosity .tippy-box .tss-btn.tss-omnibox-help-entry:not(.tss-disabled):hover {
     background: var(--tss-default-background-hover-color);
 }
+
+/* SetSuggestedText - the suggestion reads in the same ink as this theme's placeholder. */
+body.tss-theme-curiosity .tss-omnibox-suggested-text {
+    color: var(--tss-secondary-foreground-color);
+    opacity: 1;
+}
