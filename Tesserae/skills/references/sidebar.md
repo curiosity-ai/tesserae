@@ -188,6 +188,15 @@ stays selected. Observe selection yourself through `SidebarButton.SelectedStatus
 / `SidebarNav.SelectedStatus` (`IObservable<bool>`), and opt a group out of the
 automatic expansion with `.KeepCollapsedOnSelection()`.
 
+A group that keeps collapsed on selection also carries the class
+`tss-sidebar-nav-keep-collapsed` on its rendered root, in both rail states. That is
+how a stylesheet tells a picker (a theme switch, a mode) from a page group: the
+Curiosity theme marks the group holding the current page, and climbs the current
+marker onto a group's header while it is closed over that page, but leaves a
+keep-collapsed group alone. A group with no items carries
+`tss-sidebar-nav-header-empty` on its header in both rail states, so no theme draws
+a chevron or triangle on it.
+
 ## A component of your own in the sidebar
 
 `new SidebarComponent(id, component, closedComponent = null)` stands where a

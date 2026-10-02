@@ -250,6 +250,9 @@
     height: 28px !important;
     min-height: unset !important;
     margin-bottom: 2px !important;
+    /* The middle section scrolls; a tile that could shrink was squashed to a few pixels on a rail with
+       more tiles than the screen has room for. */
+    flex-shrink: 0;
 }
 
 .tss-sidebar-btn.tss-btn > i,
@@ -618,7 +621,7 @@
     transform: translateY(-2px) translateX(2px) rotate(45deg);
 }
 
-.tss-sidebar.tss-sidebar-closed .tss-sidebar-nav-header:after {
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-nav-header:not(.tss-sidebar-nav-header-empty):after {
     content: "";
     position: absolute;
     left: 19px;
