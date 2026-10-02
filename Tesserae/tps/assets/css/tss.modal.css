@@ -22,7 +22,7 @@
 
 .tss-modal {
     margin: 0;
-    padding: 0;
+    padding: 12px;
     background-color: var(--tss-default-background-color);
     box-shadow: rgba(0, 0, 0, 0.22) 0px 25.6px 57.6px 0px, rgba(0, 0, 0, 0.18) 0px 4.8px 14.4px 0px;
     border-radius: 8px;
@@ -232,4 +232,15 @@ body.tss-modal-dragging .tss-modal-draggable {
     box-shadow: var(--tss-card-shadow);
     max-width: calc(100% - 4px);
     max-height: calc(100% - 4px);
+}
+
+/* The inset between the border and everything inside it is dropped where the content runs to the edge
+   (NoPadding / NoContentPadding), where the surface pads itself (Dialog), and where a layout is measured
+   against the modal's own box (the ModalStack deck, the tool calls list). Listed here rather than in each
+   component's stylesheet so the order the files load in cannot decide it. */
+.tss-modal.tss-modal-no-inset,
+.tss-modal.tss-dialog,
+.tss-modal.tss-modalstack-sheet,
+.tss-modal.tss-toolsused-modal {
+    padding: 0;
 }

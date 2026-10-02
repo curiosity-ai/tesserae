@@ -426,19 +426,23 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Removes / disables the padding on the component.
+        /// Removes / disables the padding on the component: the inset between the border and everything inside it,
+        /// and the header, content and footer padding. Content runs to the border.
         /// </summary>
         public Modal NoPadding()
         {
+            _modal.classList.add("tss-modal-no-inset");
             _modalContent.style.padding = _modalHeader.style.padding = _modalFooter.style.padding = "unset";
             return this;
         }
 
         /// <summary>
-        /// Removes / disables the content padding on the component.
+        /// Removes / disables the content padding on the component, and the inset between the border and the content,
+        /// so the content runs to the border. The header and footer keep their own padding.
         /// </summary>
         public Modal NoContentPadding()
         {
+            _modal.classList.add("tss-modal-no-inset");
             _modalContent.style.padding = "unset";
             return this;
         }

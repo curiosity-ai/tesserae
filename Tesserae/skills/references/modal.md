@@ -22,6 +22,7 @@ into scope with `using static Tesserae.UI;`.
 - `.LightDismiss()` / `.NoLightDismiss()` — click-outside (and Esc) to close.
 - `.Blocking()` / `.NonBlocking()` — block or allow interaction with the page beneath.
 - `.CenterContent()`, `.NoPadding()`, `.NoContentPadding()`, `.NoHeader()`, `.NoFooter()`, `.NoAnimation()` — layout tweaks.
+- Padding: a modal keeps 12px between its border and everything inside it (header, content and footer), on top of the header, content and footer padding. `.NoContentPadding()` and `.NoPadding()` drop that inset as well, so content runs to the border (a side panel, an image, an editor); `.NoPadding()` also drops the header and footer padding. `Dialog`, `ModalStack` sheets and a modal shown with `.DrawerOnMobile()` in a drawer keep their own padding and get no inset. Padding set on the modal itself (`.P(16)`, `.PL(...)`) is inline and wins over the inset.
 - `.Draggable()` / `.Dark()` / `.ShowCloseButton()` / `.HideCloseButton()`.
 - `.Show()`, `.ShowAt(fromTop, fromLeft, fromRight, fromBottom)`, `.ShowAsync()` (Task), `.ShowEmbedded()` (return as an embeddable `IComponent`).
 - `.Hide(Action onHidden = null)`, `.OnShow(...)`, `.OnHide(...)`.
