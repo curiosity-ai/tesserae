@@ -163,6 +163,15 @@ namespace Tesserae
             {
                 _collapsed.Toggle();
             });
+
+            //A header that is not a destination opens and closes its group, in both rail states - the collapsed
+            //rail has no arrow, so this is the only way to open a group there. An OnClick from the application
+            //replaces this (ComponentBase.OnClick clears the previous handler), and a page-mode sidebar takes the
+            //click before it reaches the button (Sidebar.TryOpenNavOverlay).
+            Action toggleWhenNotEmpty = () => { if (_items.Value.Count > 0) _collapsed.Toggle(); };
+
+            _closedHeader.OnClick(toggleWhenNotEmpty);
+            _openHeaderButton.OnClick(toggleWhenNotEmpty);
         }
 
         /// <summary>Shows the navigation component.</summary>
@@ -257,8 +266,18 @@ namespace Tesserae
         public SidebarNav KeepCollapsedOnSelection(bool keepCollapsed = true)
         {
             _revealSelection = !keepCollapsed;
+            UpdateKeepCollapsedClass(_lastOpen);
+            UpdateKeepCollapsedClass(_lastClosed);
             return this;
         }
+
+        /// <summary>
+        /// A group that keeps its selection hidden says the selection is not the page the user is on (a theme picker,
+        /// a mode switch), so a stylesheet that marks the group holding the current page can leave it out.
+        /// </summary>
+        private const string KeepCollapsedClass = "tss-sidebar-nav-keep-collapsed";
+
+        private void UpdateKeepCollapsedClass(IComponent rendered) => rendered?.Render().UpdateClassIf(!_revealSelection, KeepCollapsedClass);
 
         private void HookSelectionReveal(ISidebarItem item)
         {
@@ -506,6 +525,7 @@ namespace Tesserae
 
             var comp = Raw(nav).Class(_extraClass);
             _lastOpen = comp;
+            UpdateKeepCollapsedClass(comp);
             _onRendered?.Invoke(_openHeader);
 
             if (_isHidden)
@@ -576,6 +596,10 @@ namespace Tesserae
         {
             _closedHeader.Tooltip(_text, placement: TooltipPlacement.Top);
 
+            //The same class the open header carries, so a stylesheet draws the group's mark on neither header of
+            //a group with nothing in it.
+            _closedHeader.Render().UpdateClassIf(items.Count == 0, "tss-sidebar-nav-header-empty");
+
             var nav = Div(Att("tss-sidebar-nav", id: Identifier));
             nav["tssOwner"] = this;
             nav.appendChild(_closedHeader.Render());
@@ -598,6 +622,7 @@ namespace Tesserae
 
             var comp = Raw(nav).Class(_extraClass);
             _lastClosed = comp;
+            UpdateKeepCollapsedClass(comp);
             _onRendered?.Invoke(_closedHeader.Render());
 
             if (_isHidden)

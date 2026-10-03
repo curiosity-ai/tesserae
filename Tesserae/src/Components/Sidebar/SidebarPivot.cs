@@ -90,12 +90,36 @@ namespace Tesserae
             titleContainerOpen.appendChild(tab.CreateTitle().Render());
             _renderedTabsOpen.appendChild(titleContainerOpen);
 
-            // Closed tab title
+            // Closed tab title: the rail is too narrow for a title, so the tab becomes a tile showing the title's
+            // icon alone, with the title's words as its tooltip. The icon is whatever the title renders first that
+            // looks like one (UI.SegmentTitle(text, icon) puts an Icon first), read off the rendered title rather
+            // than asked for, so a title built any other way still gets the tile. A title without an icon is shown
+            // whole, clipped to the rail, as it always was.
             var titleContainerClosed = Div(Att("tss-segmentedpivot-tab"));
             titleContainerClosed.tabIndex = 0;
             AttachEvents(titleContainerClosed, tab.Id);
 
-            titleContainerClosed.appendChild(tab.CreateTitle().Render());
+            var closedTitle = tab.CreateTitle().Render();
+            var closedIcon  = closedTitle.querySelector("i, img, svg, .tss-image");
+            var closedText  = closedTitle.textContent?.Trim();
+
+            if (closedIcon is object)
+            {
+                var icon = (HTMLElement)closedIcon;
+                icon.style.paddingRight = ""; //SegmentTitle's spacing between the icon and its text
+
+                titleContainerClosed.classList.add("tss-segmentedpivot-tab-icon");
+                titleContainerClosed.appendChild(icon);
+
+                if (!string.IsNullOrWhiteSpace(closedText))
+                {
+                    Raw(titleContainerClosed).Tooltip(closedText, placement: TooltipPlacement.Right);
+                }
+            }
+            else
+            {
+                titleContainerClosed.appendChild(closedTitle);
+            }
 
             _renderedTabsClosed.appendChild(titleContainerClosed);
 
