@@ -75,3 +75,8 @@ body.tss-theme-curiosity .tss-searchbox-cancel {
 body.tss-theme-curiosity .tss-searchbox-cancel:focus-visible {
     outline-color: var(--tss-default-foreground-color);
 }
+
+/* Deep blue is too faint on the dark canvas to read as a bar, as on the progress indicator: there it takes the Signal. */
+body.tss-theme-curiosity.tss-dark-mode .tss-searchbox-progress-bar {
+    background: var(--tss-highlight-color);
+}

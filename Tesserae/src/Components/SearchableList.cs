@@ -113,7 +113,9 @@ namespace Tesserae
                             {
                                 var markerLocal = new object();
                                 marker = markerLocal;
-                                _backgroundSearcher(_searchBox.Text).ContinueWith(t =>
+                                var backgroundSearch = _backgroundSearcher(_searchBox.Text);
+                                _searchBox.ShowProgressWhile(backgroundSearch);
+                                backgroundSearch.ContinueWith(t =>
                                 {
                                     if (markerLocal != marker) return;
                                     if (t.IsCompleted)
@@ -173,15 +175,9 @@ namespace Tesserae
                             // survive the current query - otherwise typing a query that narrows the results below the
                             // threshold would collapse the search box out from under the user. Keep it shown while a
                             // query is active (even if the list shrinks below the threshold via an ObservableList
-                            // update) so the query isn't stranded, and always show it when a background searcher is set.
-                            if (Items.Count >= _minimumItemsToShowBox || _backgroundSearcher is object || !string.IsNullOrEmpty(_searchBox.Text))
-                            {
-                                _searchBox.Show();
-                            }
-                            else
-                            {
-                                _searchBox.Collapse();
-                            }
+                            // update) so the query isn't stranded, and always show it when a background searcher is set
+                            // or the box is showing progress (the list is usually empty while its items load).
+                            UpdateSearchBoxVisibility();
 
                             window.setTimeout((_) => RecomputeVisibleVirtualItems(), 1);
 
@@ -242,6 +238,70 @@ namespace Tesserae
             _backgroundSearcher = searcher;
             _minimumItemsToShowBox = 0;
             return this;
+        }
+
+        /// <summary>
+        /// Shows a determinate progress bar along the bottom edge of the inline search box - see <see cref="Tesserae.SearchBox.Progress(float)"/>.
+        /// The box is shown while it carries progress, even under <see cref="HideSearchBoxIfLessThan"/>.
+        /// </summary>
+        public SearchableList<T> Progress(float percent)
+        {
+            _searchBox.Progress(percent);
+            UpdateSearchBoxVisibility();
+            return this;
+        }
+
+        /// <summary>
+        /// Shows a determinate progress bar at <paramref name="position"/> of <paramref name="total"/> on the inline search box.
+        /// </summary>
+        public SearchableList<T> Progress(int position, int total)
+        {
+            _searchBox.Progress(position, total);
+            UpdateSearchBoxVisibility();
+            return this;
+        }
+
+        /// <summary>
+        /// Shows an indeterminate progress bar on the inline search box, for items still loading.
+        /// </summary>
+        public SearchableList<T> ProgressIndeterminate()
+        {
+            _searchBox.ProgressIndeterminate();
+            UpdateSearchBoxVisibility();
+            return this;
+        }
+
+        /// <summary>
+        /// Takes down the progress set by <see cref="Progress(float)"/> or <see cref="ProgressIndeterminate"/>.
+        /// </summary>
+        public SearchableList<T> HideProgress()
+        {
+            _searchBox.HideProgress();
+            UpdateSearchBoxVisibility();
+            return this;
+        }
+
+        /// <summary>
+        /// Shows an indeterminate progress bar on the inline search box until <paramref name="task"/> ends - typically
+        /// the task that loads the items into <see cref="Items"/>, which the list renders as they arrive.
+        /// </summary>
+        public SearchableList<T> ShowProgressWhile(Task task)
+        {
+            _searchBox.ShowProgressWhile(task, UpdateSearchBoxVisibility);
+            UpdateSearchBoxVisibility();
+            return this;
+        }
+
+        private void UpdateSearchBoxVisibility()
+        {
+            if (Items.Count >= _minimumItemsToShowBox || _backgroundSearcher is object || !string.IsNullOrEmpty(_searchBox.Text) || _searchBox.IsShowingProgress)
+            {
+                _searchBox.Show();
+            }
+            else
+            {
+                _searchBox.Collapse();
+            }
         }
 
         /// <summary>

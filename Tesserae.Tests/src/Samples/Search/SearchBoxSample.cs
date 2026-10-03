@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -59,6 +60,31 @@ namespace Tesserae.Tests.Samples
                 }, 2000);
             });
 
+            //A box searching over data that is still arriving: the bar along its bottom edge says so, and the box
+            //stays editable while it is up. Determinate when the size of the load is known, a sweep when not.
+            var loadingBox      = SearchBox("Search while loading...");
+            var loadingProgress = 0;
+            var loadingToken    = 0d;
+
+            void StartDeterminateLoad()
+            {
+                window.clearInterval(loadingToken);
+                loadingProgress = 0;
+                loadingBox.Progress(0f);
+
+                loadingToken = window.setInterval(_ =>
+                {
+                    loadingProgress += 10;
+                    loadingBox.Progress(loadingProgress, 100);
+
+                    if (loadingProgress >= 100)
+                    {
+                        window.clearInterval(loadingToken);
+                        window.setTimeout(__ => loadingBox.HideProgress(), 300);
+                    }
+                }, 300);
+            }
+
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(SearchBoxSample), UIcons.Search, "A control to search")
                .FlatSection(Stack().Children(
@@ -86,6 +112,23 @@ namespace Tesserae.Tests.Samples
                         searchAsYouType,
                         Label("Waiting on a slow search (hover it to cancel)").SetContent(slowSearch),
                         slowSearchStatus
+                    ),
+                    SampleSubTitle("Loading Data"),
+                    VStack().Children(
+                        Label("Progress bar").SetContent(loadingBox),
+                        HStack().Children(
+                            Button("Load (determinate)").OnClick(() => StartDeterminateLoad()),
+                            Button("Load (indeterminate, 3s)").OnClick(() =>
+                            {
+                                window.clearInterval(loadingToken);
+                                loadingBox.HideProgress().ShowProgressWhile(Task.Delay(3000));
+                            }),
+                            Button("Hide").OnClick(() =>
+                            {
+                                window.clearInterval(loadingToken);
+                                loadingBox.HideProgress();
+                            })),
+                        Label("Underlined, indeterminate").SetContent(SearchBox("Search while loading...").Underlined().ProgressIndeterminate())
                     ),
                     SampleSubTitle("Customization"),
                     VStack().Children(

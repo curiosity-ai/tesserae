@@ -41,6 +41,13 @@ Bring factories into scope with `using static Tesserae.UI;`.
   it down — it describes one search, so call `.ClearFailure()` where you start the next one. Still say
   *what* went wrong where the results would have been; the box only says that something did.
   This is not `.IsInvalid`, which is for a query the user has to fix and stays until they do.
+- `.Progress(float percent)` / `.Progress(int position, int total)` / `.ProgressIndeterminate()` /
+  `.HideProgress()` / `.IsShowingProgress` — a thin progress bar along the bottom edge of the box (over the
+  rule on an underlined box), for data the box searches over that is still loading. Determinate when the size
+  of the load is known, a sweep when not. The box stays editable. This is not `.Busy()`: the spinner says one
+  search is out, the bar says the data behind the box is still arriving.
+- `.ShowProgressWhile(Task task, Action onEnded = null)` — an indeterminate bar until the task ends, however
+  it ends. Overlapping calls keep it up until the last one ends; a progress set by hand wins while set.
 - `.Focus()`, `.Disabled(bool = true)`, `.Height(UnitSize)` / `.H(int)`.
 
 ## Example

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tesserae;
 using static Tesserae.Tests.Samples.SamplesHelper;
 using static Tesserae.UI;
@@ -14,6 +15,11 @@ namespace Tesserae.Tests.Samples
 
         public SearchableListSample()
         {
+            //Items that arrive in batches: the list renders each batch as it lands and stays searchable
+            //throughout, while the bar along the bottom of its search box says how much is still to come.
+            var loadingItems = new ObservableList<SearchableListItem>();
+            var loadingList  = new SearchableList<SearchableListItem>(loadingItems);
+
             _content = SectionStack().Secondary().WidthStretch()
                    .SampleTitle(typeof(SearchableListSample), UIcons.Search, "A list that can be searched")
                    .FlatSection(Stack().Children(
@@ -39,6 +45,12 @@ namespace Tesserae.Tests.Samples
                            .Virtualize(64.px())
                            .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching items found").Padding(16.px()))).WS().HS().MinHeight(100.px()))
                            .Height(400.px()).MB(32),
+                        SampleSubTitle("Loading Items While Searching"),
+                        TextBlock("Items arrive in batches; search while they load. The bar on the search box shows how many have arrived."),
+                        loadingList
+                           .AfterSearchBox(Button("Reload").SetIcon(UIcons.ArrowsRepeat).OnClick(() => LoadInBatchesAsync(loadingItems, loadingList).FireAndForget()))
+                           .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching items found").Padding(16.px()))).WS().HS().MinHeight(100.px()))
+                           .Height(400.px()).MB(32),
                         SampleSubTitle("Paginated Searchable List"),
                         SearchableList(GetItems(50))
                            .WithPagination(5)
@@ -46,9 +58,35 @@ namespace Tesserae.Tests.Samples
                            .Height(400.px()).MB(32)
                     )).SetTitle("Usage")))
                    .SeeAlso(typeof(SearchableGroupedListSample), typeof(ItemsListSample), typeof(SearchBoxSample), typeof(PickerSample), typeof(DetailsListSample));
+
+            LoadInBatchesAsync(loadingItems, loadingList).FireAndForget();
         }
 
         public HTMLElement Render() => _content.Render();
+
+        private bool _loading;
+
+        private async Task LoadInBatchesAsync(ObservableList<SearchableListItem> items, SearchableList<SearchableListItem> list)
+        {
+            if (_loading) return;
+            _loading = true;
+
+            const int total     = 60;
+            const int batchSize = 6;
+
+            items.Clear();
+            list.Progress(0, total);
+
+            for (var loaded = 0; loaded < total; loaded += batchSize)
+            {
+                await Task.Delay(400);
+                items.AddRange(Enumerable.Range(loaded + 1, batchSize).Select(n => new SearchableListItem($"Item {n}")));
+                list.Progress(loaded + batchSize, total);
+            }
+
+            list.HideProgress();
+            _loading = false;
+        }
 
         private SearchableListItem[] GetItems(int count)
         {

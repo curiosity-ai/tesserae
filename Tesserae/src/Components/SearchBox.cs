@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Transpose.Core;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -19,6 +20,8 @@ namespace Tesserae
         private readonly HTMLElement     _clearButton;
         private readonly HTMLElement     _status;
         private readonly HTMLElement     _cancelButton;
+        private readonly HTMLElement     _progress;
+        private readonly HTMLElement     _progressBar;
 
         private string[]                       _shortcutKeys;
         private Action<Event>                  _globalShortcutHandler;
@@ -33,6 +36,11 @@ namespace Tesserae
         private double _timeoutTriggerSearch = 0;
         private double _timeoutFailure       = 0;
         private string _lastSearchedValue    = string.Empty;
+
+        //What the caller set by hand (null: nothing, NaN: indeterminate, otherwise a percentage), and how many
+        //tasks handed to ShowProgressWhile are still running. The bar shows the first, else sweeps for the second.
+        private double? _progressValue;
+        private int     _progressTasks;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -63,7 +71,12 @@ namespace Tesserae
                           I(Att($"tss-searchbox-failed-icon {UIcons.TriangleWarning.ToCssClass()}")),
                           _cancelButton);
 
-            _container = Div(Att("tss-searchbox-container"), _iconContainer, InnerElement, _status, _clearButton, _shortcutContainer);
+            //A thin bar along the bottom edge, for data the box is waiting on - loading what it searches over,
+            //rather than one search answering, which is the spinner in the status slot.
+            _progressBar = Div(Att("tss-searchbox-progress-bar"));
+            _progress    = Div(Att("tss-searchbox-progress"), _progressBar);
+
+            _container = Div(Att("tss-searchbox-container"), _iconContainer, InnerElement, _status, _clearButton, _shortcutContainer, _progress);
 
             AttachChange();
             AttachInput();
@@ -408,6 +421,101 @@ namespace Tesserae
             _container.classList.remove("tss-searchbox-failed");
 
             return this;
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether the progress bar along the bottom edge of the box is showing.
+        /// </summary>
+        public bool IsShowingProgress => _container.classList.contains("tss-searchbox-has-progress");
+
+        /// <summary>
+        /// Shows a determinate progress bar along the bottom edge of the box, filled to <paramref name="percent"/>
+        /// (clamped to 0-100). The box stays editable: the bar is for data the box searches over still arriving,
+        /// so the user can keep typing while it loads. Take it down with <see cref="HideProgress"/>.
+        /// </summary>
+        public SearchBox Progress(float percent)
+        {
+            _progressValue = Math.Max(0f, Math.Min(100f, percent));
+            UpdateProgress();
+            return this;
+        }
+
+        /// <summary>
+        /// Shows a determinate progress bar at <paramref name="position"/> of <paramref name="total"/> - see <see cref="Progress(float)"/>.
+        /// </summary>
+        public SearchBox Progress(int position, int total) => Progress(total <= 0 ? 0f : 100f * position / total);
+
+        /// <summary>
+        /// Shows an indeterminate progress bar sweeping along the bottom edge of the box, for a load whose size is
+        /// not known. Take it down with <see cref="HideProgress"/>.
+        /// </summary>
+        public SearchBox ProgressIndeterminate()
+        {
+            _progressValue = double.NaN;
+            UpdateProgress();
+            return this;
+        }
+
+        /// <summary>
+        /// Takes down the progress set by <see cref="Progress(float)"/> or <see cref="ProgressIndeterminate"/>. A bar
+        /// kept up by <see cref="ShowProgressWhile"/> stays until its tasks end.
+        /// </summary>
+        public SearchBox HideProgress()
+        {
+            _progressValue = null;
+            UpdateProgress();
+            return this;
+        }
+
+        /// <summary>
+        /// Shows an indeterminate progress bar until <paramref name="task"/> ends, however it ends. Overlapping calls
+        /// keep the bar up until the last of their tasks has ended; a progress set by hand takes precedence while set.
+        /// </summary>
+        public SearchBox ShowProgressWhile(Task task, Action onEnded = null)
+        {
+            if (task is null) return this;
+
+            _progressTasks++;
+            UpdateProgress();
+
+            task.ContinueWith(_ =>
+            {
+                _progressTasks = Math.Max(0, _progressTasks - 1);
+                UpdateProgress();
+                onEnded?.Invoke();
+            });
+
+            return this;
+        }
+
+        private void UpdateProgress()
+        {
+            var visible       = _progressValue.HasValue || _progressTasks > 0;
+            var indeterminate = visible && (!_progressValue.HasValue || double.IsNaN(_progressValue.Value));
+
+            _container.UpdateClassIf(visible, "tss-searchbox-has-progress");
+            _progress.UpdateClassIf(indeterminate, "tss-searchbox-progress-indeterminate");
+
+            if (visible)
+            {
+                _progress.setAttribute("role", "progressbar");
+
+                if (indeterminate)
+                {
+                    _progressBar.style.width = "";
+                    _progress.removeAttribute("aria-valuenow");
+                }
+                else
+                {
+                    _progressBar.style.width = $"{_progressValue.Value}%";
+                    _progress.setAttribute("aria-valuenow", ((int)Math.Round(_progressValue.Value)).ToString());
+                }
+            }
+            else
+            {
+                _progress.removeAttribute("role");
+                _progress.removeAttribute("aria-valuenow");
+            }
         }
 
         /// <summary>
