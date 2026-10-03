@@ -1300,6 +1300,24 @@ namespace Tesserae
         public static ContextCard ContextCard(string label, IComponent iconOrImage) => new ContextCard(label, iconOrImage);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.RelatedQuestions"/>: a card for a chat transcript offering
+        /// follow-up questions about one object, its identity on the left and the questions on the right.
+        /// </summary>
+        public static RelatedQuestions RelatedQuestions(string label, UIcons icon = UIcons.Cube, UIconsWeight weight = UIconsWeight.Regular) => new RelatedQuestions(label, icon, weight);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.RelatedQuestions"/> whose tile shows the given icon or image
+        /// component instead of a <see cref="UIcons"/> glyph.
+        /// </summary>
+        public static RelatedQuestions RelatedQuestions(string label, IComponent iconOrImage) => new RelatedQuestions(label, iconOrImage);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.RelatedQuestionsGroup"/> drawing several
+        /// <see cref="Tesserae.RelatedQuestions"/> cards as one, a row per object.
+        /// </summary>
+        public static RelatedQuestionsGroup RelatedQuestionsGroup(params RelatedQuestions[] cards) => new RelatedQuestionsGroup(cards);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.OmniResult{T}"/> search-result row for the given result: an icon
         /// tile, a title with an optional badge, an optional highlighted excerpt, an optional footer naming
         /// the source, and an optional <see cref="Tesserae.PagesStack"/> preview.
