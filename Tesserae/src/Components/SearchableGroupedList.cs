@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 
@@ -148,6 +149,52 @@ namespace Tesserae
         public SearchableGroupedList<T> SetKeyboardShortcut(params string[] keys)
         {
             _searchBox.SetKeyboardShortcut(keys);
+            return this;
+        }
+
+        /// <summary>
+        /// Shows a determinate progress bar along the bottom edge of the inline search box - see <see cref="Tesserae.SearchBox.Progress(float)"/>.
+        /// </summary>
+        public SearchableGroupedList<T> Progress(float percent)
+        {
+            _searchBox.Progress(percent);
+            return this;
+        }
+
+        /// <summary>
+        /// Shows a determinate progress bar at <paramref name="position"/> of <paramref name="total"/> on the inline search box.
+        /// </summary>
+        public SearchableGroupedList<T> Progress(int position, int total)
+        {
+            _searchBox.Progress(position, total);
+            return this;
+        }
+
+        /// <summary>
+        /// Shows an indeterminate progress bar on the inline search box, for items still loading.
+        /// </summary>
+        public SearchableGroupedList<T> ProgressIndeterminate()
+        {
+            _searchBox.ProgressIndeterminate();
+            return this;
+        }
+
+        /// <summary>
+        /// Takes down the progress set by <see cref="Progress(float)"/> or <see cref="ProgressIndeterminate"/>.
+        /// </summary>
+        public SearchableGroupedList<T> HideProgress()
+        {
+            _searchBox.HideProgress();
+            return this;
+        }
+
+        /// <summary>
+        /// Shows an indeterminate progress bar on the inline search box until <paramref name="task"/> ends - typically
+        /// the task that loads the items into the observable list the component was built over.
+        /// </summary>
+        public SearchableGroupedList<T> ShowProgressWhile(Task task)
+        {
+            _searchBox.ShowProgressWhile(task);
             return this;
         }
 

@@ -24,6 +24,9 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.HideSearchBoxIfLessThan(int)` — hide the box unless the list holds at least N items **total**. The threshold is measured against the full list, not the current query's results, so narrowing the results (or a background search) never hides the box out from under an active query.
 - `.ShowNotMatching()` — keep non-matching rows visible (dimmed) instead of removing them.
 - `.BeforeSearchBox(...)` / `.AfterSearchBox(...)` — add controls around the search box.
+- `.Progress(percent)` / `.Progress(position, total)` / `.ProgressIndeterminate()` / `.HideProgress()` /
+  `.ShowProgressWhile(Task)` — a progress bar on the built-in search box while items load into the list; the
+  list stays searchable and renders each batch as it lands. The box is shown while it carries progress, even under `.HideSearchBoxIfLessThan`. A `.WithBackgroundSearch` query shows the sweep on its own while it runs.
 - `.SearchBox(Action<SearchBox>)` / `.CaptureSearchBox(out SearchBox)` / `.SetKeyboardShortcut(keys)`.
 - `.Items` — the backing `ObservableList<T>`; mutate to update the list. The list re-filters live against any active query, and the query text is preserved across updates.
 - `.Height(unitSize)` — fixes height for scrolling.
@@ -44,6 +47,26 @@ return SearchableList(items)
 //   public bool IsMatch(string t) => Name.IndexOf(t, StringComparison.OrdinalIgnoreCase) >= 0;
 //   public IComponent Render() => Card(TextBlock(Name));
 // }
+```
+
+Loading items in the background, with progress on the search box:
+
+```csharp
+var items = new ObservableList<Contact>();
+var list  = new SearchableList<Contact>(items).Height(400.px());
+
+async Task LoadAsync()
+{
+    list.Progress(0, total);
+    foreach (var batch in await FetchBatchesAsync())
+    {
+        items.AddRange(batch);
+        list.Progress(items.Count, total);
+    }
+    list.HideProgress();
+}
+
+// Or, when the size is not known: list.ShowProgressWhile(LoadAsync());
 ```
 
 ## Related

@@ -26,6 +26,9 @@ Multiple `columns` → grid layout for items; otherwise a stack.
   the list, which hides itself while everything fits on one page (`pagination.md`).
 - `.Virtualize(UnitSize itemHeight)` — virtualise rows (fixed height) for large groups.
 - `.BeforeSearchBox(...)` / `.AfterSearchBox(...)` — add controls around the search box.
+- `.Progress(percent)` / `.Progress(position, total)` / `.ProgressIndeterminate()` / `.HideProgress()` /
+  `.ShowProgressWhile(Task)` — a progress bar on the built-in search box while items load into the list; the
+  list stays searchable and renders each batch as it lands.
 - `.SearchBox(Action<SearchBox>)` / `.CaptureSearchBox(out SearchBox)` / `.SetKeyboardShortcut(keys)`.
 - `.WithEndPadding(UnitSize)` — empty scrollable space below the last item, so it can be scrolled clear of something floating over the bottom of the list (an action bar, a toast).
 - `.Height(unitSize)` — fixes height for scrolling.

@@ -277,6 +277,77 @@
     border-color: var(--tss-danger-background-color);
 }
 
+/* The progress bar: a 2px line along the bottom edge for data the box is still waiting on (SearchBox.Progress,
+   ProgressIndeterminate, ShowProgressWhile). It is absolutely placed so the row keeps its shape, and the box
+   clips it to its rounded corners only while it is up - the rest of the time nothing in the box overflows on
+   purpose, and the clip would be the one change a progress bar made to it. */
+.tss-searchbox-progress {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.tss-searchbox-container.tss-searchbox-has-progress {
+    overflow: hidden;
+}
+
+    .tss-searchbox-container.tss-searchbox-has-progress > .tss-searchbox-progress {
+        display: block;
+    }
+
+/* The underlined box has no corners to clip to, and its bar lies over the rule rather than above it. */
+.tss-searchbox-container.tss-underlined.tss-searchbox-has-progress {
+    overflow: visible;
+}
+
+    .tss-searchbox-container.tss-underlined > .tss-searchbox-progress {
+        bottom: -1px;
+    }
+
+    .tss-searchbox-container.tss-underlined:focus-within > .tss-searchbox-progress {
+        bottom: -2px;
+    }
+
+.tss-searchbox-progress-bar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    background: var(--tss-primary-background-color);
+    transition: width 0.2s ease;
+}
+
+.tss-searchbox-progress.tss-searchbox-progress-indeterminate > .tss-searchbox-progress-bar {
+    width: 30%;
+    transition: none;
+    animation: tss-searchbox-progress-sweep 1.4s ease-in-out infinite;
+}
+
+@keyframes tss-searchbox-progress-sweep {
+    from {
+        left: -30%;
+    }
+
+    to {
+        left: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-searchbox-progress.tss-searchbox-progress-indeterminate > .tss-searchbox-progress-bar {
+        width: 100%;
+        left: 0;
+        opacity: 0.5;
+        animation: none;
+    }
+}
+
 .tss-searchbox-shortcut {
     display: none;
     align-items: center;

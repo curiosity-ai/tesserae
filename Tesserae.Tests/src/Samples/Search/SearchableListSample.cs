@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tesserae;
 using static Tesserae.Tests.Samples.SamplesHelper;
 using static Tesserae.UI;
@@ -14,6 +15,14 @@ namespace Tesserae.Tests.Samples
 
         public SearchableListSample()
         {
+            //Items that arrive in batches: the list renders each batch as it lands and stays searchable
+            //throughout, while the bar along the bottom of its search box says how much is still to come -
+            //determinate when the total is known up front, a sweep while the task runs when it is not.
+            var determinateItems   = new ObservableList<SearchableListItem>();
+            var determinateList    = new SearchableList<SearchableListItem>(determinateItems);
+            var indeterminateItems = new ObservableList<SearchableListItem>();
+            var indeterminateList  = new SearchableList<SearchableListItem>(indeterminateItems);
+
             _content = SectionStack().Secondary().WidthStretch()
                    .SampleTitle(typeof(SearchableListSample), UIcons.Search, "A list that can be searched")
                    .FlatSection(Stack().Children(
@@ -39,6 +48,18 @@ namespace Tesserae.Tests.Samples
                            .Virtualize(64.px())
                            .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching items found").Padding(16.px()))).WS().HS().MinHeight(100.px()))
                            .Height(400.px()).MB(32),
+                        SampleSubTitle("Loading Items While Searching (determinate)"),
+                        TextBlock("Items arrive in batches; search while they load. The bar on the search box shows how many have arrived."),
+                        determinateList
+                           .AfterSearchBox(Button("Reload").Id("searchable-list-reload-determinate").SetIcon(UIcons.ArrowsRepeat).OnClick(() => LoadDeterminateAsync(determinateItems, determinateList).FireAndForget()))
+                           .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching items found").Padding(16.px()))).WS().HS().MinHeight(100.px()))
+                           .Height(400.px()).MB(32),
+                        SampleSubTitle("Loading Items While Searching (indeterminate)"),
+                        TextBlock("The same load without a known total: the bar sweeps for as long as the loading task runs (ShowProgressWhile)."),
+                        indeterminateList
+                           .AfterSearchBox(Button("Reload").Id("searchable-list-reload-indeterminate").SetIcon(UIcons.ArrowsRepeat).OnClick(() => LoadIndeterminate(indeterminateItems, indeterminateList)))
+                           .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching items found").Padding(16.px()))).WS().HS().MinHeight(100.px()))
+                           .Height(400.px()).MB(32),
                         SampleSubTitle("Paginated Searchable List"),
                         SearchableList(GetItems(50))
                            .WithPagination(5)
@@ -46,9 +67,59 @@ namespace Tesserae.Tests.Samples
                            .Height(400.px()).MB(32)
                     )).SetTitle("Usage")))
                    .SeeAlso(typeof(SearchableGroupedListSample), typeof(ItemsListSample), typeof(SearchBoxSample), typeof(PickerSample), typeof(DetailsListSample));
+
+            LoadDeterminateAsync(determinateItems, determinateList).FireAndForget();
+            LoadIndeterminate(indeterminateItems, indeterminateList);
         }
 
         public HTMLElement Render() => _content.Render();
+
+        private const int LOAD_TOTAL      = 60;
+        private const int LOAD_BATCH_SIZE = 6;
+
+        private bool _loadingDeterminate;
+        private bool _loadingIndeterminate;
+
+        private async Task LoadDeterminateAsync(ObservableList<SearchableListItem> items, SearchableList<SearchableListItem> list)
+        {
+            if (_loadingDeterminate) return;
+            _loadingDeterminate = true;
+
+            items.Clear();
+            list.Progress(0, LOAD_TOTAL);
+
+            for (var loaded = 0; loaded < LOAD_TOTAL; loaded += LOAD_BATCH_SIZE)
+            {
+                await Task.Delay(400);
+                items.AddRange(Enumerable.Range(loaded + 1, LOAD_BATCH_SIZE).Select(n => new SearchableListItem($"Item {n}")));
+                list.Progress(loaded + LOAD_BATCH_SIZE, LOAD_TOTAL);
+            }
+
+            list.HideProgress();
+            _loadingDeterminate = false;
+        }
+
+        private void LoadIndeterminate(ObservableList<SearchableListItem> items, SearchableList<SearchableListItem> list)
+        {
+            if (_loadingIndeterminate) return;
+
+            list.ShowProgressWhile(LoadIndeterminateAsync(items));
+        }
+
+        private async Task LoadIndeterminateAsync(ObservableList<SearchableListItem> items)
+        {
+            _loadingIndeterminate = true;
+
+            items.Clear();
+
+            for (var loaded = 0; loaded < LOAD_TOTAL; loaded += LOAD_BATCH_SIZE)
+            {
+                await Task.Delay(400);
+                items.AddRange(Enumerable.Range(loaded + 1, LOAD_BATCH_SIZE).Select(n => new SearchableListItem($"Item {n}")));
+            }
+
+            _loadingIndeterminate = false;
+        }
 
         private SearchableListItem[] GetItems(int count)
         {
