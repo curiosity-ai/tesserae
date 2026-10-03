@@ -87,7 +87,7 @@ namespace Tesserae.Tests.Samples
         }
 
 
-        //Copy of the logic in the generator code, as we don't have the enum names anymore on  Enum.GetNames(typeof(LineAwesome))
+        //Copy of ToValidName in Build.UpdateInterfaceIcons, which generates the UIcons enum names from the css class names
         private static string ToValidName(string icon)
         {
             var words = icon.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries)
