@@ -115,15 +115,20 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Loading Data"),
                     VStack().Children(
-                        Label("Progress bar").SetContent(loadingBox),
+                        Label("Progress bar").SetContent(loadingBox.Id("searchbox-loading")),
                         HStack().Children(
-                            Button("Load (determinate)").OnClick(() => StartDeterminateLoad()),
-                            Button("Load (indeterminate, 3s)").OnClick(() =>
+                            Button("Load (determinate)").Id("searchbox-load-determinate").OnClick(() => StartDeterminateLoad()),
+                            Button("Indeterminate").Id("searchbox-load-indeterminate").OnClick(() =>
+                            {
+                                window.clearInterval(loadingToken);
+                                loadingBox.ProgressIndeterminate();
+                            }),
+                            Button("Indeterminate while a task runs (3s)").Id("searchbox-load-task").OnClick(() =>
                             {
                                 window.clearInterval(loadingToken);
                                 loadingBox.HideProgress().ShowProgressWhile(Task.Delay(3000));
                             }),
-                            Button("Hide").OnClick(() =>
+                            Button("Hide").Id("searchbox-load-hide").OnClick(() =>
                             {
                                 window.clearInterval(loadingToken);
                                 loadingBox.HideProgress();
