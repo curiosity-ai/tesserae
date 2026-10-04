@@ -327,14 +327,18 @@ body.tss-theme-curiosity .tss-fontcolor-primary {
    and turns Signal while it is dragged. The width change is the transparent
    border shrinking around a padding-box background, so nothing re-lays out.
 
-   Like Tesserae's own scrollbar, it hides at rest: a ghost thumb
-   (--tss-scrollbar-thumb-hidden-color) and no rail. The rail comes up while
-   the pointer is anywhere over the scroller (*:hover, which also matches every
-   ancestor of whatever is under the pointer). The thumb only turns ink while
-   the scroller is moving: CSS has no selector for that, so CuriosityTheme's
-   ScrollActivity puts .tss-cur-scrolling on whichever element is scrolling and
-   takes it off shortly after it stops. Hovering alone leaves the thumb a ghost.
-   The hidden state keeps the thumb's geometry, so nothing moves when it fills in.
+   It hides itself, the way an overlay scrollbar does. At rest the rail and the
+   thumb are fully transparent (the 12px gutter stays: a styled scrollbar is
+   always a classic one, and CSS cannot fade it). The bar shows in two cases:
+   - While the scroller moves: the rail and the ink thumb. CSS has no selector
+     for that, so CuriosityTheme's ScrollActivity puts .tss-cur-scrolling on
+     whichever element is scrolling and takes it off shortly after it stops,
+     whether or not the pointer is still over it.
+   - While the pointer is on the thumb: a grey thumb, so there is something to
+     grab. This is the scrollbar part's own :hover, which the engine tracks
+     itself. The scroller's :hover is not used: the engine does not reliably
+     restyle a scrollbar when its scroller gains or loses it.
+   The hidden state keeps the thumb's geometry, so nothing moves when it shows.
 
    Two engines, two mechanisms, and they must not meet:
    - Chrome, Edge and Safari draw ::-webkit-scrollbar.
@@ -354,9 +358,9 @@ body.tss-theme-curiosity {
     --tss-cur-scrollbar-inset: 4px;       /* 12px bar, 4px border each side: a 4px thumb */
     --tss-cur-scrollbar-inset-hover: 2px; /* an 8px thumb under the pointer */
     --tss-cur-scrollbar-rail: var(--tss-default-border-color);
-    --tss-cur-scrollbar-rail-hidden: var(--tss-scrollbar-track-hidden-color);
     --tss-cur-scrollbar-thumb: rgb(var(--tss-default-foreground-color-root));
-    --tss-cur-scrollbar-thumb-hidden: var(--tss-scrollbar-thumb-hidden-color);
+    --tss-cur-scrollbar-thumb-hover: var(--tss-scrollbar-thumb-color);
+    --tss-cur-scrollbar-thumb-ghost: var(--tss-scrollbar-thumb-hidden-color); /* Firefox's thumb at rest */
     --tss-cur-scrollbar-drag: rgb(var(--tss-highlight-color-root));
 }
 
@@ -366,16 +370,17 @@ html:has(> body.tss-theme-curiosity) {
     --tss-cur-scrollbar-inset: 4px;
     --tss-cur-scrollbar-inset-hover: 2px;
     --tss-cur-scrollbar-rail: #DEE0DF;
-    --tss-cur-scrollbar-rail-hidden: transparent;
     --tss-cur-scrollbar-thumb: #111418;
-    --tss-cur-scrollbar-thumb-hidden: rgba(17, 20, 24, 0.06);
+    --tss-cur-scrollbar-thumb-hover: rgba(17, 20, 24, 0.22);
+    --tss-cur-scrollbar-thumb-ghost: rgba(17, 20, 24, 0.06);
     --tss-cur-scrollbar-drag: #2F6BFF;
 }
 
 html:has(> body.tss-theme-curiosity.tss-dark-mode) {
     --tss-cur-scrollbar-rail: #2A2F38;
     --tss-cur-scrollbar-thumb: #F4F4F2;
-    --tss-cur-scrollbar-thumb-hidden: rgba(244, 244, 242, 0.06);
+    --tss-cur-scrollbar-thumb-hover: rgba(244, 244, 242, 0.22);
+    --tss-cur-scrollbar-thumb-ghost: rgba(244, 244, 242, 0.06);
 }
 
 @supports selector(::-webkit-scrollbar) {
@@ -394,19 +399,12 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
         background: transparent;
     }
 
-    /* At rest: no rail, a ghost thumb. */
-    html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-track:vertical,
-    body.tss-theme-curiosity::-webkit-scrollbar-track:vertical,
-    body.tss-theme-curiosity ::-webkit-scrollbar-track:vertical {
+    /* At rest: nothing to see. */
+    html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-track,
+    body.tss-theme-curiosity::-webkit-scrollbar-track,
+    body.tss-theme-curiosity ::-webkit-scrollbar-track {
         border-radius: 0;
-        background: linear-gradient(var(--tss-cur-scrollbar-rail-hidden), var(--tss-cur-scrollbar-rail-hidden)) center / 1px 100% no-repeat;
-    }
-
-    html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-track:horizontal,
-    body.tss-theme-curiosity::-webkit-scrollbar-track:horizontal,
-    body.tss-theme-curiosity ::-webkit-scrollbar-track:horizontal {
-        border-radius: 0;
-        background: linear-gradient(var(--tss-cur-scrollbar-rail-hidden), var(--tss-cur-scrollbar-rail-hidden)) center / 100% 1px no-repeat;
+        background: transparent;
     }
 
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-thumb,
@@ -414,24 +412,19 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
     body.tss-theme-curiosity ::-webkit-scrollbar-thumb {
         border: var(--tss-cur-scrollbar-inset) solid transparent;
         border-radius: 0;
-        background: var(--tss-cur-scrollbar-thumb-hidden) padding-box;
+        background: transparent padding-box;
     }
 
-    /* Pointer over the scroller: the rail. The thumb stays a ghost. */
-    html:has(> body.tss-theme-curiosity):hover::-webkit-scrollbar-track:vertical,
-    body.tss-theme-curiosity:hover::-webkit-scrollbar-track:vertical,
-    body.tss-theme-curiosity *:hover::-webkit-scrollbar-track:vertical {
-        background: linear-gradient(var(--tss-cur-scrollbar-rail), var(--tss-cur-scrollbar-rail)) center / 1px 100% no-repeat;
+    /* Pointer on the thumb: grey and wider. Before the rules below, which are equally specific
+       and win while the scroller moves or the thumb is dragged. */
+    html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-curiosity::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-curiosity ::-webkit-scrollbar-thumb:hover {
+        border: var(--tss-cur-scrollbar-inset-hover) solid transparent;
+        background: var(--tss-cur-scrollbar-thumb-hover) padding-box;
     }
 
-    html:has(> body.tss-theme-curiosity):hover::-webkit-scrollbar-track:horizontal,
-    body.tss-theme-curiosity:hover::-webkit-scrollbar-track:horizontal,
-    body.tss-theme-curiosity *:hover::-webkit-scrollbar-track:horizontal {
-        background: linear-gradient(var(--tss-cur-scrollbar-rail), var(--tss-cur-scrollbar-rail)) center / 100% 1px no-repeat;
-    }
-
-    /* While it scrolls (ScrollActivity): the rail and the ink thumb. Before the :active rules
-       below, which are equally specific and turn the thumb Signal while it is dragged. */
+    /* While it scrolls (ScrollActivity): the rail and the ink thumb. */
     html:has(> body.tss-theme-curiosity).tss-cur-scrolling::-webkit-scrollbar-track:vertical,
     body.tss-theme-curiosity.tss-cur-scrolling::-webkit-scrollbar-track:vertical,
     body.tss-theme-curiosity .tss-cur-scrolling::-webkit-scrollbar-track:vertical {
@@ -450,17 +443,10 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
         background: var(--tss-cur-scrollbar-thumb) padding-box;
     }
 
-    html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-thumb:hover,
-    body.tss-theme-curiosity::-webkit-scrollbar-thumb:hover,
-    body.tss-theme-curiosity ::-webkit-scrollbar-thumb:hover,
-    body.tss-theme-curiosity *:hover::-webkit-scrollbar-thumb:hover {
-        border: var(--tss-cur-scrollbar-inset-hover) solid transparent;
-    }
-
+    /* Dragged: Signal. Last, so it beats the grey and the ink. */
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-thumb:active,
     body.tss-theme-curiosity::-webkit-scrollbar-thumb:active,
-    body.tss-theme-curiosity ::-webkit-scrollbar-thumb:active,
-    body.tss-theme-curiosity *:hover::-webkit-scrollbar-thumb:active {
+    body.tss-theme-curiosity ::-webkit-scrollbar-thumb:active {
         border: var(--tss-cur-scrollbar-inset-hover) solid transparent;
         background-color: var(--tss-cur-scrollbar-drag);
     }
@@ -474,21 +460,23 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
     }
 }
 
-/* Firefox: a thin thumb on a transparent track; no rail, no hover width. A ghost thumb at rest,
-   ink while the scroller moves (ScrollActivity). scrollbar-color inherits, so setting it on html
-   and body reaches every scroller, and the same inheritance would carry the ink of a scroller in
-   motion into every scroller nested in it: its children restate the ghost first, and the rule for
-   the one in motion comes after, so a nested scroller that is itself moving still wins. The page
-   scrollbar is read from html; body keeps its own ghost, which shields everything inside it. */
+/* Firefox: a thin thumb on a transparent track; no rail, no hover width. Firefox has no part to
+   hover, so a fully transparent thumb would leave nothing to find: it rests as a ghost and is ink
+   while the scroller moves (ScrollActivity). Where the OS draws overlay scrollbars Firefox hides
+   them itself. scrollbar-color inherits, so setting it on html and body reaches every scroller,
+   and the same inheritance would carry the ink of a scroller in motion into every scroller nested
+   in it: its children restate the ghost first, and the rule for the one in motion comes after, so a
+   nested scroller that is itself moving still wins. The page scrollbar is read from html; body
+   keeps its own ghost, which shields everything inside it. */
 @supports not selector(::-webkit-scrollbar) {
     html:has(> body.tss-theme-curiosity),
     body.tss-theme-curiosity {
         scrollbar-width: thin;
-        scrollbar-color: var(--tss-cur-scrollbar-thumb-hidden) transparent;
+        scrollbar-color: var(--tss-cur-scrollbar-thumb-ghost) transparent;
     }
 
     body.tss-theme-curiosity .tss-cur-scrolling > * {
-        scrollbar-color: var(--tss-cur-scrollbar-thumb-hidden) transparent;
+        scrollbar-color: var(--tss-cur-scrollbar-thumb-ghost) transparent;
     }
 
     html:has(> body.tss-theme-curiosity).tss-cur-scrolling,
