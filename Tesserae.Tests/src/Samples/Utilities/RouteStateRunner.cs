@@ -744,6 +744,26 @@ namespace Tesserae.Tests.Samples
 
                 return "isBack " + (_isBackByPath.TryGetValue(key, out var isBack) ? B(isBack) : "(guard not asked)") + "; " + Hash();
             });
+
+            await CheckAsync(H, "H21", "#/route-state-nothing/x?q=1, then " + Probe("one"), "Navigate to an address no route matches, then back to the page the router was on", "not matched +1; q=1 | handlers +1; " + Probe("one"), async () =>
+            {
+                Arrive("");
+
+                await NavigateAndWait(Probe("one"));
+
+                var missing = _notMatched;
+
+                Router.Navigate("#/route-state-nothing/x?q=1");
+
+                await WaitFor(() => _notMatched > missing);
+
+                var q    = Router.GetQueryParameters().TryGetValue("q", out var value) ? value : "(none)";
+                var mark = new Mark();
+
+                await NavigateAndWait(Probe("one"));
+
+                return "not matched +" + (_notMatched - missing) + "; q=" + q + " | handlers +" + (_navigated - mark.Navigated) + "; " + Hash();
+            });
         }
 
         // ------------------------------------------------------------------------------------------------

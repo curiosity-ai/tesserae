@@ -558,7 +558,18 @@ namespace Tesserae
                 return;
             }
 
-            // If we got here without any of the routes being matched then it means we couldn't match the new URL
+            // Nothing matched, but the address bar is on this address all the same, so the router's state follows it: a Navigate to
+            // the page the user came from must not read as "already there", and a second event for this address is ignored like any other.
+            var unmatched = new Dictionary<string, string>();
+
+            if (p.Length > 1)
+            {
+                RouteLocation.ParseQueryInto(p[1], unmatched);
+            }
+
+            _lastState    = _currentState;
+            _currentState = new State(new Parameters(unmatched), routeName: null, path: hash, fullPath: window.location.href);
+
             NotMatched?.Invoke(parts);
         }
 
@@ -579,7 +590,7 @@ namespace Tesserae
             public string     Path       { get; }
             public string     FullPath   { get; }
 
-            /// <summary>What the route's <c>:variables</c> captured from the path; null for a state that came from Push or Replace.</summary>
+            /// <summary>What the route's <c>:variables</c> captured from the path; null for a state that came from Push or Replace, or from an address no route matched.</summary>
             internal Dictionary<string, string> RouteVariables { get; set; }
 
             public State WithFullPath(string fullPath) => new State(Parameters, RouteName, Path, fullPath) { RouteVariables = RouteVariables };

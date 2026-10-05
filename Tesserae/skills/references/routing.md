@@ -71,7 +71,10 @@ handler's synchronous part, so before an `async` handler has finished),
 hash before it is matched (to cut a token off the end, say) and
 `Router.OnWíllNavigate(url => ...)` can veto `Navigate` before anything happens.
 A handler that returns `false` (the `Func<Parameters, bool>` overload) refuses
-its route: the URL is put back to the previous one.
+its route: the URL is put back to the previous one. An address no route matches
+still becomes the router's current one (its query in `GetQueryParameters()`, no
+route name), so a `Navigate` back to the page the user came from is not mistaken
+for "already there".
 
 The guard's `isBack` argument is true only for a `popstate` (the browser's Back
 and Forward, or a hash change) that returns to the path the previous navigation
