@@ -124,7 +124,8 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
   Edge and Safari; a thin bar in Firefox, which only supports `scrollbar-color`). Like
   Tesserae's own scrollbar they are quiet at rest (a ghost thumb, no rail) and come up grey with
   the rail while the pointer is over the scroller; the thumb itself goes solid (ink on paper,
-  paper on ink in dark) under the pointer and Signal blue while dragged. It is all CSS, with no
+  paper on ink in dark) under the pointer and Signal blue while dragged (Firefox cannot hover the thumb, so
+  it stops at grey). It is all CSS, with no
   script managing scrollbars, so scrollers in your own app need nothing declared; a theme should
   do the same. Schibsted Grotesk
   for text and Geist Mono (small, uppercase) for labels, headers, numbers and code. Fonts

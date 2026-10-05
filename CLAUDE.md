@@ -155,7 +155,9 @@ What makes it work, and what to keep when touching it:
   (N = 1…8) before the toolkit palette (`ChartBase.DefaultPalette`).
 - **Scrollbars are hairline rails, in CSS only.** A 1px rule for the track and a square thumb that is a
   ghost at rest, grey with the rail while the pointer is over the scroller, solid ink on paper (paper on ink
-  in dark) under the pointer, Signal while dragged. No script touches them: see "Scrollbars are CSS only".
+  in dark) under the pointer, Signal while dragged. Firefox has no thumb part to hover, so it stops at grey:
+  the pointer is over the scroller whenever it scrolls, and solid-on-hover would show on every scroll.
+  No script touches them: see "Scrollbars are CSS only".
 - **Shadows are hairlines.** The Curiosity theme turns every `--tss-*shadow*` token into a
   `0 0 0 1px` ring, so a component that draws its edge with a shadow token keeps an edge.
 - **A theme follows the components.** A change to a component's markup or classes can orphan its theme

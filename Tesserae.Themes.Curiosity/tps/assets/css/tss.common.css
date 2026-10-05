@@ -473,13 +473,15 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
 }
 
 /* Firefox: a thin thumb on a transparent track; no rail, no hover width. A ghost thumb at rest,
-   solid while the pointer is over the scroller: Firefox has no thumb part to hover, so the
-   scroller is the nearest it gets. scrollbar-color inherits, so setting it on html
-   and body reaches every scroller, and the same inheritance would carry the grey of a hovered
-   element into every scroller nested in it: the children of a hovered element restate the ghost
-   first, and the rule for the hovered element itself comes after, so a nested scroller that is
-   hovered too still wins. The page scrollbar is read from html; body keeps its own ghost, which
-   shields everything inside it, so body is not in the hover rule. */
+   grey while the pointer is over the scroller, the same as the other engines, and never solid:
+   Firefox has no thumb part to hover, and the pointer is over the scroller whenever it scrolls
+   (wheel, trackpad), so a solid state keyed to the scroller would show on every scroll instead of
+   on the thumb. scrollbar-color inherits, so setting it on html and body reaches every scroller,
+   and the same inheritance would carry the grey of a hovered element into every scroller nested
+   in it: the children of a hovered element restate the ghost first, and the rule for the hovered
+   element itself comes after, so a nested scroller that is hovered too still wins. The page
+   scrollbar is read from html; body keeps its own ghost, which shields everything inside it, so
+   body is not in the hover rule. */
 @supports not selector(::-webkit-scrollbar) {
     html:has(> body.tss-theme-curiosity),
     body.tss-theme-curiosity {
@@ -493,6 +495,6 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
 
     html:has(> body.tss-theme-curiosity):hover,
     body.tss-theme-curiosity *:hover {
-        scrollbar-color: var(--tss-cur-scrollbar-thumb) transparent;
+        scrollbar-color: var(--tss-cur-scrollbar-thumb-hover) transparent;
     }
 }
