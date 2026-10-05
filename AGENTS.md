@@ -21,6 +21,7 @@
 - The run is gated on the icon set having actually changed, recorded in `Build.UpdateInterfaceIcons/uicons-source.txt`. See `.claude/skills/uicons-fonts/SKILL.md` before touching any of it.
 
 ## Conventions
+- Scrollbars are styled with CSS only (`::-webkit-scrollbar*`, `scrollbar-color`, `scrollbar-width`). Do not manage them with JavaScript: no `scroll` listener toggling a class on a scroller, no scrollbar library, no script-drawn or script-hidden native bar. A state CSS cannot see (such as "is scrolling") is a state the scrollbar does not have. See "Scrollbars are CSS only" in `CLAUDE.md`.
 - When adding a new component, consider adding:
   - The component implementation under `Tesserae/src/Components`.
   - A factory method in `UI.Components.cs` for consistency with existing usage.

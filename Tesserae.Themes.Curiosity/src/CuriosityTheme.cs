@@ -34,10 +34,5 @@ namespace Tesserae.Themes.Curiosity
         public static CuriosityTheme Instance => _instance ?? (_instance = new CuriosityTheme());
 
         private CuriosityTheme() : base("Curiosity", RootClass, StylesheetUrl) { }
-
-        /// <summary>The scrollbar is ink only while its scroller moves, which the stylesheet cannot see on its own.</summary>
-        protected override void OnActivated() => ScrollActivity.Start();
-
-        protected override void OnDeactivated() => ScrollActivity.Stop();
     }
 }

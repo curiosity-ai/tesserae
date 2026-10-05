@@ -331,11 +331,15 @@ body.tss-theme-curiosity .tss-fontcolor-primary {
    thumb (--tss-scrollbar-thumb-hidden-color) and no rail. While the pointer is
    anywhere over the scroller (*:hover, which also matches every ancestor of
    whatever is under the pointer) the rail comes up and the thumb turns grey
-   (--tss-scrollbar-thumb-color). The thumb is only ink while the scroller is
-   moving: CSS has no selector for that, so CuriosityTheme's ScrollActivity puts
-   .tss-cur-scrolling on whichever element is scrolling and takes it off shortly
-   after it stops. Signal is for a drag. Every state keeps the thumb's geometry,
-   so nothing moves when it changes.
+   (--tss-scrollbar-thumb-color). Only on the thumb itself is it solid, ink on
+   paper and paper on ink, and wider; while it is dragged it turns Signal. Every
+   state keeps the thumb's geometry, so nothing moves when it changes.
+
+   This is CSS only, on purpose. No script watches scrolling, toggles a class
+   on a scroller or draws a scrollbar of its own: a script can only reach the
+   scrollers of an application by listening to all of them, and the engines
+   already restyle a scrollbar for every state CSS can see. A state CSS cannot
+   see, such as "is scrolling", is a state this scrollbar does not have.
 
    Two engines, two mechanisms, and they must not meet:
    - Chrome, Edge and Safari draw ::-webkit-scrollbar.
@@ -440,32 +444,12 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
         background: var(--tss-cur-scrollbar-thumb-hover) padding-box;
     }
 
-    /* While it scrolls (ScrollActivity): the rail and the ink thumb. After the hover rules above,
-       which are equally specific, and before the :active rules
-       below, which are equally specific and turn the thumb Signal while it is dragged. */
-    html:has(> body.tss-theme-curiosity).tss-cur-scrolling::-webkit-scrollbar-track:vertical,
-    body.tss-theme-curiosity.tss-cur-scrolling::-webkit-scrollbar-track:vertical,
-    body.tss-theme-curiosity .tss-cur-scrolling::-webkit-scrollbar-track:vertical {
-        background: linear-gradient(var(--tss-cur-scrollbar-rail), var(--tss-cur-scrollbar-rail)) center / 1px 100% no-repeat;
-    }
-
-    html:has(> body.tss-theme-curiosity).tss-cur-scrolling::-webkit-scrollbar-track:horizontal,
-    body.tss-theme-curiosity.tss-cur-scrolling::-webkit-scrollbar-track:horizontal,
-    body.tss-theme-curiosity .tss-cur-scrolling::-webkit-scrollbar-track:horizontal {
-        background: linear-gradient(var(--tss-cur-scrollbar-rail), var(--tss-cur-scrollbar-rail)) center / 100% 1px no-repeat;
-    }
-
-    html:has(> body.tss-theme-curiosity).tss-cur-scrolling::-webkit-scrollbar-thumb,
-    body.tss-theme-curiosity.tss-cur-scrolling::-webkit-scrollbar-thumb,
-    body.tss-theme-curiosity .tss-cur-scrolling::-webkit-scrollbar-thumb {
-        background: var(--tss-cur-scrollbar-thumb) padding-box;
-    }
-
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-thumb:hover,
     body.tss-theme-curiosity::-webkit-scrollbar-thumb:hover,
     body.tss-theme-curiosity ::-webkit-scrollbar-thumb:hover,
     body.tss-theme-curiosity *:hover::-webkit-scrollbar-thumb:hover {
         border: var(--tss-cur-scrollbar-inset-hover) solid transparent;
+        background: var(--tss-cur-scrollbar-thumb) padding-box;
     }
 
     html:has(> body.tss-theme-curiosity)::-webkit-scrollbar-thumb:active,
@@ -486,11 +470,13 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
 }
 
 /* Firefox: a thin thumb on a transparent track; no rail, no hover width. A ghost thumb at rest,
-   ink while the scroller moves (ScrollActivity). scrollbar-color inherits, so setting it on html
-   and body reaches every scroller, and the same inheritance would carry the ink of a scroller in
-   motion into every scroller nested in it: its children restate the ghost first, and the rule for
-   the one in motion comes after, so a nested scroller that is itself moving still wins. The page
-   scrollbar is read from html; body keeps its own ghost, which shields everything inside it. */
+   solid while the pointer is over the scroller: Firefox has no thumb part to hover, so the
+   scroller is the nearest it gets. scrollbar-color inherits, so setting it on html
+   and body reaches every scroller, and the same inheritance would carry the grey of a hovered
+   element into every scroller nested in it: the children of a hovered element restate the ghost
+   first, and the rule for the hovered element itself comes after, so a nested scroller that is
+   hovered too still wins. The page scrollbar is read from html; body keeps its own ghost, which
+   shields everything inside it, so body is not in the hover rule. */
 @supports not selector(::-webkit-scrollbar) {
     html:has(> body.tss-theme-curiosity),
     body.tss-theme-curiosity {
@@ -498,12 +484,12 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
         scrollbar-color: var(--tss-cur-scrollbar-thumb-hidden) transparent;
     }
 
-    body.tss-theme-curiosity .tss-cur-scrolling > * {
+    body.tss-theme-curiosity *:hover > * {
         scrollbar-color: var(--tss-cur-scrollbar-thumb-hidden) transparent;
     }
 
-    html:has(> body.tss-theme-curiosity).tss-cur-scrolling,
-    body.tss-theme-curiosity .tss-cur-scrolling {
+    html:has(> body.tss-theme-curiosity):hover,
+    body.tss-theme-curiosity *:hover {
         scrollbar-color: var(--tss-cur-scrollbar-thumb) transparent;
     }
 }
