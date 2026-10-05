@@ -2,8 +2,8 @@ namespace Tesserae.Themes.Curiosity
 {
     /// <summary>
     /// The Curiosity design language as a Tesserae custom theme: paper and ink, one electric blue (the
-    /// Signal) and the deep call blue for primary actions, 1px hairlines, square corners with pill
-    /// buttons and inputs, Schibsted Grotesk for text and Geist Mono for labels, numbers and code.
+    /// Signal) and the deep call blue for primary actions, 1px hairlines, square corners and inputs with pill
+    /// buttons, Schibsted Grotesk for text and Geist Mono for labels, numbers and code.
     ///
     /// <para>
     /// Activate it through <see cref="UI.Theme.SetCustomTheme(ICustomTheme)"/>:

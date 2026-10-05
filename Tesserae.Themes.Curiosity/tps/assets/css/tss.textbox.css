@@ -1,15 +1,14 @@
 /* ==========================================================================
    Curiosity theme - TextBox
    --------------------------------------------------------------------------
-   A single line input is a pill (BRAND.md s9), edged in mute, which clears
-   the 3:1 a control boundary needs; hover and focus take it to ink. The
-   radius is half the control's height rather than 9999px, so a box that grows
-   taller (a tall variant, a wrapped value) turns into a rounded rectangle
-   instead of a lozenge.
+   A single line input is square, like every other box in the theme, edged in
+   mute, which clears the 3:1 a control boundary needs; hover and focus take
+   it to ink. --tss-cur-input-radius is the one radius every input shares
+   (search box, dropdown, picker, tags, omnibox), so they stay alike.
    ========================================================================== */
 
 body.tss-theme-curiosity {
-    --tss-cur-input-radius: 18px;
+    --tss-cur-input-radius: 0px;
     --tss-cur-input-border: var(--tss-cur-mute);
 }
 
@@ -51,7 +50,7 @@ body.tss-theme-curiosity .tss-textbox[readonly]:not(.tss-disabled) {
     border-style: dashed;
 }
 
-/* No edge in any state: the host draws it, and the focus ring would be a pill inside the host's box. */
+/* No edge in any state: the host draws it, and the focus ring would be a second box inside the host's. */
 body.tss-theme-curiosity .tss-textbox.tss-textbox-noborder,
 body.tss-theme-curiosity .tss-textbox.tss-textbox-noborder:hover,
 body.tss-theme-curiosity .tss-textbox.tss-textbox-noborder:focus {
@@ -108,7 +107,7 @@ body.tss-theme-curiosity.tss-dark-mode .tss-textbox {
 }
 
 /* A color input is a text box too. The text padding would squeeze its swatch to a stripe, so it
-   takes a small even inset and the swatch fills the pill, rounded to match it. */
+   takes a small even inset and the swatch fills the box. */
 body.tss-theme-curiosity .tss-textbox[type="color"] {
     padding: 3px;
     cursor: pointer;
@@ -120,12 +119,10 @@ body.tss-theme-curiosity .tss-textbox[type="color"]::-webkit-color-swatch-wrappe
 
 body.tss-theme-curiosity .tss-textbox[type="color"]::-webkit-color-swatch {
     border: none;
-    border-radius: calc(var(--tss-cur-input-radius) - 3px);
 }
 
 body.tss-theme-curiosity .tss-textbox[type="color"]::-moz-color-swatch {
     border: none;
-    border-radius: calc(var(--tss-cur-input-radius) - 3px);
 }
 
 body.tss-theme-curiosity .tss-textbox[type="color"].tss-disabled {

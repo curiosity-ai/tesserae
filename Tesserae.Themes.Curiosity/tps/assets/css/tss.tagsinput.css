@@ -1,12 +1,10 @@
 /* ==========================================================================
    Curiosity theme - TagsInput
    --------------------------------------------------------------------------
-   The field is an input, so it takes the text box's shape: a pill edged in
-   mute, ink on hover, ink edge plus a 1px inset ring on focus. The radius is
-   the text box's fixed one, so a field that wraps onto more rows becomes a
-   rounded rectangle rather than a lozenge. A tag is the brand's label: a
-   square chip with a hairline edge on stone, its text mono and uppercase, the
-   remove cross a square that shifts one tone on hover.
+   The field is an input, so it takes the text box's shape: square, edged in
+   mute, ink on hover, ink edge plus a 1px inset ring on focus. A tag is the
+   brand's label: a square chip with a hairline edge on stone, its text mono
+   and uppercase, the remove cross a square that shifts one tone on hover.
    ========================================================================== */
 
 body.tss-theme-curiosity .tss-tagsinput {
