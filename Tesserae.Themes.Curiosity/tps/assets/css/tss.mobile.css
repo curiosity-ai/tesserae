@@ -37,3 +37,15 @@ body.tss-theme-curiosity.tss-mobile .tss-navbar-mobile-header .tss-textblock {
     letter-spacing: .08em;
     text-transform: uppercase;
 }
+
+/* Scrollbar: Tesserae thins it to 4px on mobile. The rail keeps that thumb at 4px inside a 6px
+   bar, a 1px border each side. Touch has no hover, so the thumb is only ever the quiet rest tint
+   (and the whole bar while it is pressed or dragged); it is also the only cue to the position,
+   which is why it is not thinner. A whole number of pixels at any density, unlike 3px. */
+@supports selector(::-webkit-scrollbar) {
+    body.tss-theme-curiosity.tss-mobile {
+        --tss-cur-scrollbar-size: 6px;
+        --tss-cur-scrollbar-inset: 1px;
+        --tss-cur-scrollbar-inset-hover: 0px;
+    }
+}

@@ -153,6 +153,11 @@ What makes it work, and what to keep when touching it:
   write to `:root`. With no custom theme the class is absent and their output behaves as it always did.
 - **Chart series are themable.** A series without an explicit colour reads `--tss-chart-series-N`
   (N = 1…8) before the toolkit palette (`ChartBase.DefaultPalette`).
+- **Scrollbars are hairline rails, in CSS only.** A 1px rule for the track and a square thumb that is a
+  ghost at rest, grey with the rail while the pointer is over the scroller, solid ink on paper (paper on ink
+  in dark) under the pointer, Signal while dragged. Firefox has no thumb part to hover, so it stops at grey:
+  the pointer is over the scroller whenever it scrolls, and solid-on-hover would show on every scroll.
+  No script touches them: see "Scrollbars are CSS only".
 - **Shadows are hairlines.** The Curiosity theme turns every `--tss-*shadow*` token into a
   `0 0 0 1px` ring, so a component that draws its edge with a shadow token keeps an edge.
 - **A theme follows the components.** A change to a component's markup or classes can orphan its theme
@@ -267,6 +272,29 @@ Two things that has to get right, and both were bugs before it existed:
   open. Which elements hold the page is read off the DOM by marker class, the way
   `Layers.CurrentZIndex` reads z-indices, so there is no counter to get out of step: an element
   removed without releasing simply stops being found.
+
+### Scrollbars are CSS only
+
+A scrollbar is styled with CSS and nothing else: `::-webkit-scrollbar*` where the engine draws
+those, `scrollbar-color` / `scrollbar-width` where it only has the standard properties (see the
+scrollbar block in `Tesserae.Themes.Curiosity/tps/assets/css/tss.common.css`). **No JavaScript
+manages a scrollbar**:
+
+- No `scroll` listener that adds or removes a class or attribute on a scroller to reflect a state
+  such as "is scrolling", whether the listener is per component or one capture-phase listener on
+  `window`.
+- No scrollbar library (simplebar and the like) and no script-drawn replacement for the native bar.
+- No code that measures, hides or re-creates the native scrollbar, and no per-component scrollbar
+  hook a consumer would have to call.
+
+Why: a script reaches the scrollers of an application only by listening to every one of them, which
+puts work on every scroll event of every consumer, and its state drifts from the engine's own (a
+class that is still on when the engine has already stopped). The engines restyle a scrollbar for the
+states CSS can see: rest, `:hover` on the scroller, `:hover` and `:active` on the thumb. If CSS
+cannot see a state, the scrollbar does not have it. An idea that needs "is scrolling" (an ink thumb
+only while it moves, auto-hiding after a delay) is out; do not bring it back as "just one small
+listener". The `.simplebar-*` rules in `tss.common.css` only style an application that loads
+simplebar itself; Tesserae does not load it, and nothing new should depend on it.
 
 ### Type safety
 
