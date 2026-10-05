@@ -3,7 +3,7 @@
    --------------------------------------------------------------------------
    A record in a transcript, drawn like a tool call: square cells in a 1px
    hairline frame, the identity column a half step from paper, its tile
-   square. The questions are Geist Mono rows (they name what will be asked,
+   square. The actions are Geist Mono rows (they name what will happen,
    the way a tool call names its command), each on a square stone icon tile,
    framed in ink on hover. The heading is the mono eyebrow voice.
 
@@ -15,8 +15,8 @@ body.tss-theme-curiosity .tss-actioncard-group,
 body.tss-theme-curiosity .tss-actioncard-icon,
 body.tss-theme-curiosity .tss-actioncard-stacked .tss-actioncard-icon,
 body.tss-theme-curiosity .tss-actioncard-group .tss-actioncard-icon,
-body.tss-theme-curiosity .tss-actioncard-question,
-body.tss-theme-curiosity .tss-actioncard-question-icon,
+body.tss-theme-curiosity .tss-actioncard-action,
+body.tss-theme-curiosity .tss-actioncard-action-icon,
 body.tss-theme-curiosity .tss-actioncard-skeleton-line,
 body.tss-theme-curiosity .tss-actioncard-more,
 body.tss-theme-curiosity .tss-actioncard-compact .tss-actioncard-identity,
@@ -36,8 +36,7 @@ body.tss-theme-curiosity .tss-actioncard-label {
 
 body.tss-theme-curiosity .tss-actioncard-sublabel,
 body.tss-theme-curiosity .tss-actioncard-detail,
-body.tss-theme-curiosity .tss-actioncard-fact-key,
-body.tss-theme-curiosity .tss-actioncard-question-asked {
+body.tss-theme-curiosity .tss-actioncard-fact-key {
     color: var(--tss-secondary-foreground-color);
 }
 
@@ -47,52 +46,36 @@ body.tss-theme-curiosity .tss-actioncard-title {
     color: var(--tss-secondary-foreground-color);
 }
 
-body.tss-theme-curiosity .tss-actioncard-question {
+body.tss-theme-curiosity .tss-actioncard-action {
     font-family: var(--tss-monospace-font-family);
     font-size: 12px;
     color: var(--tss-default-foreground-color);
     transition: border-color .15s linear, background-color .15s linear;
 }
 
-body.tss-theme-curiosity .tss-actioncard-question:hover {
+body.tss-theme-curiosity .tss-actioncard-action:hover {
     background: var(--tss-default-background-color);
     border-color: var(--tss-default-foreground-color);
 }
 
-body.tss-theme-curiosity .tss-actioncard-question:active {
+body.tss-theme-curiosity .tss-actioncard-action:active {
     background: var(--tss-default-background-hover-color);
 }
 
-body.tss-theme-curiosity .tss-actioncard-question:focus-visible,
+body.tss-theme-curiosity .tss-actioncard-action:focus-visible,
 body.tss-theme-curiosity .tss-actioncard-more:focus-visible {
     outline-color: var(--tss-default-foreground-color);
 }
 
-body.tss-theme-curiosity .tss-actioncard-question-icon {
+body.tss-theme-curiosity .tss-actioncard-action-icon {
     background: var(--tss-default-background-hover-color);
     color: var(--tss-default-foreground-color);
 }
 
-body.tss-theme-curiosity .tss-actioncard-question-go {
+body.tss-theme-curiosity .tss-actioncard-action-go {
     color: var(--tss-link-color);
-}
-
-body.tss-theme-curiosity .tss-actioncard-question-is-asked {
-    color: var(--tss-secondary-foreground-color);
-}
-
-body.tss-theme-curiosity .tss-actioncard-question-asked {
-    font-size: 10px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
 }
 
 body.tss-theme-curiosity .tss-actioncard-more {
     font-family: var(--tss-monospace-font-family);
-}
-
-/* An asked question keeps its check in the success tone, on the same square tile. */
-body.tss-theme-curiosity .tss-actioncard-question-is-asked .tss-actioncard-question-icon {
-    background: rgba(var(--tss-success-background-color-root), 0.16);
-    color: var(--tss-success-background-color);
 }

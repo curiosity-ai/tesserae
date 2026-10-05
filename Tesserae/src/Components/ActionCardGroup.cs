@@ -7,11 +7,11 @@ namespace Tesserae
 {
     /// <summary>
     /// Several <see cref="ActionCard{TData}"/> cards drawn as one: a single bordered card with a row per
-    /// object, each with its identity on the left and its own questions on the right. For an answer that
+    /// object, each with its identity on the left and its own actions on the right. For an answer that
     /// mentions more than one thing - a company, its contract, the dataset behind the numbers.
     /// <para>
-    /// The cards keep working on their own (their questions, states and handlers are theirs); the group
-    /// only draws them together and can take one <see cref="OnAsk(Action{ActionCard{TData}, ActionCard{TData}.Item})"/>
+    /// The cards keep working on their own (their actions, states and handlers are theirs); the group
+    /// only draws them together and can take one <see cref="OnAction(Action{ActionCard{TData}, ActionCard{TData}.Item})"/>
     /// handler for all of them, including cards added later.
     /// </para>
     /// </summary>
@@ -41,7 +41,7 @@ namespace Tesserae
 
         /// <summary>
         /// Adds a card as the last row. Handlers registered on the group with
-        /// <see cref="OnAsk(Action{ActionCard{TData}, ActionCard{TData}.Item})"/> are attached to it.
+        /// <see cref="OnAction(Action{ActionCard{TData}, ActionCard{TData}.Item})"/> are attached to it.
         /// </summary>
         public ActionCardGroup<TData> Add(ActionCard<TData> card)
         {
@@ -50,7 +50,7 @@ namespace Tesserae
             _cards.Add(card);
             InnerElement.appendChild(card.Render());
 
-            foreach (var handler in _handlers) card.OnAsk(handler);
+            foreach (var handler in _handlers) card.OnAction(handler);
 
             return this;
         }
@@ -77,24 +77,24 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Registers a callback invoked when a question on any card in the group is asked - the card it
+        /// Registers a callback invoked when an action on any card in the group is activated - the card it
         /// came from is the first argument.
         /// </summary>
-        public ActionCardGroup<TData> OnAsk(Action<ActionCard<TData>, ActionCard<TData>.Item> onAsk)
+        public ActionCardGroup<TData> OnAction(Action<ActionCard<TData>, ActionCard<TData>.Item> onAction)
         {
-            if (onAsk == null) return this;
+            if (onAction == null) return this;
 
-            _handlers.Add(onAsk);
+            _handlers.Add(onAction);
 
-            foreach (var card in _cards) card.OnAsk(onAsk);
+            foreach (var card in _cards) card.OnAction(onAction);
 
             return this;
         }
 
         /// <summary>
-        /// Registers a callback invoked with the text of a question asked on any card in the group.
+        /// Registers a callback invoked with the text of an action activated on any card in the group.
         /// </summary>
-        public ActionCardGroup<TData> OnAsk(Action<string> onAsk) => OnAsk((_, q) => onAsk?.Invoke(q.Text));
+        public ActionCardGroup<TData> OnAction(Action<string> onAction) => OnAction((_, a) => onAction?.Invoke(a.Text));
 
         /// <inheritdoc />
         public override HTMLElement Render() => InnerElement;

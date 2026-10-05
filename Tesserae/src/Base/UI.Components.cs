@@ -1300,7 +1300,7 @@ namespace Tesserae
         public static ContextCard ContextCard(string label, IComponent iconOrImage) => new ContextCard(label, iconOrImage);
 
         /// <summary>
-        /// Creates a <see cref="Tesserae.ActionCard{TData}"/>: a card offering follow-up actions about one
+        /// Creates a <see cref="Tesserae.ActionCard{TData}"/>: a card offering actions about one
         /// object, its identity on the left and the actions on the right. Each action carries a
         /// <typeparamref name="TData"/> the handler reads back.
         /// </summary>
@@ -1311,17 +1311,6 @@ namespace Tesserae
         /// component instead of a <see cref="UIcons"/> glyph.
         /// </summary>
         public static ActionCard<TData> ActionCard<TData>(string label, IComponent iconOrImage) => new ActionCard<TData>(label, iconOrImage);
-
-        /// <summary>
-        /// Creates an <see cref="Tesserae.ActionCard{TData}"/> whose actions carry no data.
-        /// </summary>
-        public static ActionCard<object> ActionCard(string label, UIcons icon = UIcons.Cube, UIconsWeight weight = UIconsWeight.Regular) => new ActionCard<object>(label, icon, weight);
-
-        /// <summary>
-        /// Creates an <see cref="Tesserae.ActionCard{TData}"/> whose actions carry no data and whose tile
-        /// shows the given icon or image component.
-        /// </summary>
-        public static ActionCard<object> ActionCard(string label, IComponent iconOrImage) => new ActionCard<object>(label, iconOrImage);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.ActionCardGroup{TData}"/> drawing several

@@ -8,28 +8,28 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     /// <summary>
-    /// A card offering follow-up questions about one object - a company, a contract, a dataset - meant to
-    /// be embedded in a chat transcript under the answer that mentioned it.
+    /// A card offering actions about one object - a company, a contract, a dataset: what to do next with it,
+    /// or what to ask about it.
     /// <para>
     /// It is split vertically: on the left the object's identity (an icon tile, a label, a second line,
-    /// an optional detail line and a few key/value facts), on the right the questions, each one a row
-    /// drawn like a <see cref="ToolCall"/> with a small icon saying what kind of question it is. Clicking
-    /// a question calls <see cref="OnAsk(Action{ActionCard{TData}, Item})"/>, which is where the host
-    /// sends it as the next message, and marks it as asked.
+    /// an optional detail line and a few key/value facts), on the right the actions, each one a row
+    /// drawn like a <see cref="ToolCall"/> with a small icon saying what kind of action it is. Activating
+    /// a row calls <see cref="OnAction(Action{ActionCard{TData}, Item})"/>, which is where the host acts
+    /// on it - and the <see cref="Item.Data"/> it carries, typed as <c>TData</c>, is what it acts with.
     /// </para>
     /// <para>
     /// The card fills the width it is given. Below about 520px (a phone, a side panel) it stacks itself -
-    /// the identity becomes a header strip and the questions wrap onto several lines - by a container
+    /// the identity becomes a header strip and the actions wrap onto several lines - by a container
     /// query on its own width, so nothing has to tell it where it is. <see cref="Compact(bool)"/> turns
-    /// it into one wrapping line of an identity chip followed by question pills, and
-    /// <see cref="ActionCardGroup"/> stacks several cards into one.
+    /// it into one wrapping line of an identity chip followed by action pills, and
+    /// <see cref="ActionCardGroup{TData}"/> stacks several cards into one.
     /// </para>
     /// </summary>
     [Transpose.Name("tss.ActionCardT")]
     public sealed class ActionCard<TData> : ComponentBase<ActionCard<TData>, HTMLElement>
     {
         /// <summary>
-        /// One question offered by a <see cref="ActionCard{TData}"/> card.
+        /// One action offered by a <see cref="ActionCard{TData}"/> card.
         /// </summary>
         [Transpose.Name("tss.ActionCardT.Item")]
         public sealed class Item
@@ -37,7 +37,6 @@ namespace Tesserae
             internal HTMLButtonElement Row;
             internal HTMLElement       IconContainer;
             internal HTMLElement       TextContainer;
-            internal HTMLElement       AskedContainer;
 
             internal Item(string text, UIcons icon, UIconsWeight weight)
             {
@@ -47,12 +46,12 @@ namespace Tesserae
             }
 
             /// <summary>
-            /// Gets the text of the question, which is also what the host usually sends.
+            /// Gets the text of the action.
             /// </summary>
             public string Text { get; internal set; }
 
             /// <summary>
-            /// Gets the icon saying what kind of question this is.
+            /// Gets the icon saying what kind of action this is.
             /// </summary>
             public UIcons Icon { get; internal set; }
 
@@ -62,13 +61,8 @@ namespace Tesserae
             public UIconsWeight Weight { get; internal set; }
 
             /// <summary>
-            /// Returns a value indicating whether the question has been asked.
-            /// </summary>
-            public bool IsAsked { get; internal set; }
-
-            /// <summary>
             /// Gets or sets the data behind the action - the prompt to send when it differs from the text
-            /// shown, a query, an id - so an ask handler can act on it without a lookup or a cast.
+            /// shown, a query, an id - so the handler can act on it without a lookup or a cast.
             /// </summary>
             public TData Data { get; set; }
         }
@@ -90,19 +84,17 @@ namespace Tesserae
         private readonly HTMLElement    _errorText;
         private readonly HTMLButtonElement _retry;
         private readonly HTMLButtonElement _more;
-        private readonly List<Item> _questions = new List<Item>();
+        private readonly List<Item> _actions = new List<Item>();
 
         private string _label;
         private string _subLabel;
         private string _moreFormat       = "Show {0} more";
-        private string _askedText        = "Asked";
         private int    _maxVisible       = int.MaxValue;
         private bool   _showAll;
-        private bool   _markAskedOnClick = true;
         private bool   _isLoading;
         private Action _onRetry;
 
-        private event Action<ActionCard<TData>, Item> Asked;
+        private event Action<ActionCard<TData>, Item> ActionInvoked;
 
         /// <summary>
         /// Initializes a new instance of this class for the object with the given label and icon.
@@ -177,9 +169,9 @@ namespace Tesserae
         public string SubLabel => _subLabel;
 
         /// <summary>
-        /// Gets the questions the card offers, in the order they are shown.
+        /// Gets the actions the card offers, in the order they are shown.
         /// </summary>
-        public IReadOnlyList<Item> Actions => _questions;
+        public IReadOnlyList<Item> Actions => _actions;
 
         /// <summary>
         /// Returns a value indicating whether the card is showing its loading placeholders.
@@ -187,7 +179,7 @@ namespace Tesserae
         public bool IsLoading => _isLoading;
 
         /// <summary>
-        /// Gets or sets an arbitrary payload for the card - the record the questions are about.
+        /// Gets or sets an arbitrary payload for the card - the record the actions are about.
         /// </summary>
         public object Tag { get; set; }
 
@@ -237,7 +229,7 @@ namespace Tesserae
 
         /// <summary>
         /// Adds a key/value fact to the identity column ("Renews" / "2027-03-31"), for an object whose
-        /// questions make more sense with a few of its numbers beside them.
+        /// actions make more sense with a few of its numbers beside them.
         /// </summary>
         public ActionCard<TData> AddFact(string key, string value, bool monospace = false)
         {
@@ -279,7 +271,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the small heading above the questions ("Ask about this company"). A null or empty value
+        /// Sets the small heading above the actions ("Ask about this company"). A null or empty value
         /// hides it.
         /// </summary>
         public ActionCard<TData> SetTitle(string title)
@@ -367,61 +359,59 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Adds a question. The icon says what kind of question it is - a search, a trend, the people
+        /// Adds an action. The icon says what kind of action it is - a search, a trend, the people
         /// involved, a document - the way a <see cref="ToolCall"/>'s icon names its tool.
         /// </summary>
-        public ActionCard<TData> AddAction(string text, UIcons icon = UIcons.CommentQuestion, UIconsWeight weight = UIconsWeight.Regular, TData data = default)
+        public ActionCard<TData> AddAction(string text, UIcons icon = UIcons.Bolt, UIconsWeight weight = UIconsWeight.Regular, TData data = default)
         {
-            var question = new Item(text, icon, weight) { Data = data };
+            var action = new Item(text, icon, weight) { Data = data };
 
-            question.IconContainer = Span(Att("tss-actioncard-question-icon"), I(icon, weight));
-            question.TextContainer  = Span(Att("tss-actioncard-question-text",  text: question.Text));
-            question.AskedContainer = Span(Att("tss-actioncard-question-asked", text: _askedText));
+            action.IconContainer = Span(Att("tss-actioncard-action-icon"), I(icon, weight));
+            action.TextContainer  = Span(Att("tss-actioncard-action-text",  text: action.Text));
 
-            // The row is the button itself, so it is a tab stop and Enter or Space asks it with no help.
-            question.Row = Button(Att("tss-actioncard-question", type: "button", title: question.Text),
-                question.IconContainer,
-                question.TextContainer,
-                question.AskedContainer,
-                I(UIcons.ArrowUpRight, cssClass: "tss-actioncard-question-go"));
+            // The row is the button itself, so it is a tab stop and Enter or Space activates it with no help.
+            action.Row = Button(Att("tss-actioncard-action", type: "button", title: action.Text),
+                action.IconContainer,
+                action.TextContainer,
+                I(UIcons.ArrowUpRight, cssClass: "tss-actioncard-action-go"));
 
-            question.Row.addEventListener("click", _ => Ask(question));
+            action.Row.addEventListener("click", _ => Act(action));
 
-            _questions.Add(question);
-            _list.appendChild(question.Row);
+            _actions.Add(action);
+            _list.appendChild(action.Row);
 
             UpdateState();
             return this;
         }
 
         /// <summary>
-        /// Adds several questions with the default icon.
+        /// Adds several actions with the default icon.
         /// </summary>
-        public ActionCard<TData> AddActions(params string[] questions)
+        public ActionCard<TData> AddActions(params string[] actions)
         {
-            foreach (var q in questions) AddAction(q);
+            foreach (var a in actions) AddAction(a);
             return this;
         }
 
         /// <summary>
-        /// Removes a question.
+        /// Removes a action.
         /// </summary>
-        public ActionCard<TData> RemoveAction(Item question)
+        public ActionCard<TData> RemoveAction(Item action)
         {
-            if (question == null || !_questions.Remove(question)) return this;
+            if (action == null || !_actions.Remove(action)) return this;
 
-            _list.removeChild(question.Row);
+            _list.removeChild(action.Row);
 
             UpdateState();
             return this;
         }
 
         /// <summary>
-        /// Removes every question, ready for a fresh set.
+        /// Removes every action, ready for a fresh set.
         /// </summary>
         public ActionCard<TData> ClearActions()
         {
-            _questions.Clear();
+            _actions.Clear();
             ClearChildren(_list);
             _showAll = false;
 
@@ -430,55 +420,22 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Registers a callback invoked when a question is clicked (or activated from the keyboard). This
-        /// is where the host sends it - usually <c>q.Text</c>, or whatever it kept in <c>q.Data</c>.
+        /// Registers a callback invoked when an action is clicked (or activated from the keyboard). This
+        /// is where the host acts on it, usually from <c>action.Data</c>.
         /// </summary>
-        public ActionCard<TData> OnAsk(Action<ActionCard<TData>, Item> onAsk)
+        public ActionCard<TData> OnAction(Action<ActionCard<TData>, Item> onAction)
         {
-            Asked += onAsk;
+            ActionInvoked += onAction;
             return this;
         }
 
         /// <summary>
-        /// Registers a callback invoked with the text of a question when it is clicked.
+        /// Registers a callback invoked with the text of an action when it is clicked.
         /// </summary>
-        public ActionCard<TData> OnAsk(Action<string> onAsk) => OnAsk((_, q) => onAsk?.Invoke(q.Text));
+        public ActionCard<TData> OnAction(Action<string> onAction) => OnAction((_, a) => onAction?.Invoke(a.Text));
 
         /// <summary>
-        /// Configures whether clicking a question marks it as asked. On by default; turn it off when the
-        /// host decides that itself (only once the message was actually sent, say) and calls
-        /// <see cref="MarkAsked(Item, bool)"/>.
-        /// </summary>
-        public ActionCard<TData> MarkAskedOnClick(bool value = true)
-        {
-            _markAskedOnClick = value;
-            return this;
-        }
-
-        /// <summary>
-        /// Marks a question as asked - its icon becomes a check and an "Asked" tag appears - or clears the
-        /// mark. An asked question can still be clicked again.
-        /// </summary>
-        public ActionCard<TData> MarkAsked(Item question, bool value = true)
-        {
-            if (question == null) return this;
-
-            question.IsAsked = value;
-            question.Row.UpdateClassIf(value, "tss-actioncard-question-is-asked");
-
-            ClearChildren(question.IconContainer);
-            question.IconContainer.appendChild(value ? I(UIcons.Check) : I(question.Icon, question.Weight));
-
-            return this;
-        }
-
-        /// <summary>
-        /// Marks the question with the given text as asked, for a host that only kept the text.
-        /// </summary>
-        public ActionCard<TData> MarkAsked(string text, bool value = true) => MarkAsked(_questions.FirstOrDefault(q => q.Text == text), value);
-
-        /// <summary>
-        /// Shows only the first <paramref name="count"/> questions, with a "Show N more" button for the rest.
+        /// Shows only the first <paramref name="count"/> actions, with a "Show N more" button for the rest.
         /// </summary>
         public ActionCard<TData> MaxVisible(int count)
         {
@@ -488,7 +445,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Shows every question, as clicking "Show N more" does.
+        /// Shows every action, as clicking "Show N more" does.
         /// </summary>
         public ActionCard<TData> ShowAll()
         {
@@ -498,20 +455,12 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the text of the "Show N more" button, with <c>{0}</c> for the count and the "Asked" tag,
-        /// for localisation.
+        /// Sets the texts of the "Show N more" button (with <c>{0}</c> for the count) and of the retry
+        /// button, for localisation.
         /// </summary>
-        public ActionCard<TData> SetTexts(string moreFormat = null, string askedText = null, string retryText = null)
+        public ActionCard<TData> SetTexts(string moreFormat = null, string retryText = null)
         {
             if (moreFormat != null) _moreFormat = moreFormat;
-
-            if (askedText != null)
-            {
-                _askedText = askedText;
-
-                foreach (var q in _questions) q.AskedContainer.textContent = askedText;
-            }
-
             if (retryText != null) _retry.textContent = retryText;
 
             UpdateState();
@@ -519,7 +468,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Shows placeholder rows while the questions are still being generated, in place of the list.
+        /// Shows placeholder rows while the actions are still being generated, in place of the list.
         /// The identity column is drawn as usual, since the object is already known.
         /// </summary>
         public ActionCard<TData> Loading(bool value = true, int placeholders = 3)
@@ -552,7 +501,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Shows an error in place of the questions - generating them failed - with a Retry button when a
+        /// Shows an error in place of the actions - generating them failed - with a Retry button when a
         /// handler is given. A null or empty message clears it.
         /// </summary>
         public ActionCard<TData> SetError(string message, Action onRetry = null)
@@ -575,7 +524,7 @@ namespace Tesserae
         public ActionCard<TData> ClearError() => SetError(null);
 
         /// <summary>
-        /// Draws the card as one wrapping line: the object as a chip, then the questions as pills. For a
+        /// Draws the card as one wrapping line: the object as a chip, then the actions as pills. For a
         /// transcript where a full card under every answer would be too much.
         /// </summary>
         public ActionCard<TData> Compact(bool value = true)
@@ -585,7 +534,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Forces the stacked layout - identity on top, questions below - whatever the width. The card
+        /// Forces the stacked layout - identity on top, actions below - whatever the width. The card
         /// already stacks itself below about 520px; this is for a host that wants it everywhere.
         /// </summary>
         public ActionCard<TData> Stacked(bool value = true)
@@ -594,11 +543,9 @@ namespace Tesserae
             return this;
         }
 
-        private void Ask(Item question)
+        private void Act(Item action)
         {
-            if (_markAskedOnClick) MarkAsked(question);
-
-            Asked?.Invoke(this, question);
+            ActionInvoked?.Invoke(this, action);
         }
 
         private void UpdateFacts()
@@ -616,10 +563,10 @@ namespace Tesserae
             var visible = _showAll ? int.MaxValue : _maxVisible;
             var hidden  = 0;
 
-            for (var i = 0; i < _questions.Count; i++)
+            for (var i = 0; i < _actions.Count; i++)
             {
                 var isHidden = i >= visible;
-                _questions[i].Row.UpdateClassIf(isHidden, Empty);
+                _actions[i].Row.UpdateClassIf(isHidden, Empty);
                 if (isHidden) hidden++;
             }
 

@@ -147,7 +147,7 @@
 }
 
 /* A question is a ToolCall header row: the same border, radius, padding, icon chip and hover. */
-.tss-actioncard-question {
+.tss-actioncard-action {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -166,17 +166,17 @@
     cursor: pointer;
 }
 
-.tss-actioncard-question:hover {
+.tss-actioncard-action:hover {
     background: var(--tss-default-background-hover-color);
 }
 
-.tss-actioncard-question:focus-visible,
+.tss-actioncard-action:focus-visible,
 .tss-actioncard-more:focus-visible {
     outline: 2px solid var(--tss-ring-color);
     outline-offset: 1px;
 }
 
-.tss-actioncard-question-icon {
+.tss-actioncard-action-icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -189,7 +189,7 @@
     font-size: 12px;
 }
 
-.tss-actioncard-question-text {
+.tss-actioncard-action-text {
     flex: 1 1 auto;
     min-width: 0;
     overflow: hidden;
@@ -198,7 +198,7 @@
 }
 
 /* Quiet until the row is pointed at or focused, and always there on a touch screen, where nothing hovers. */
-.tss-actioncard-question-go {
+.tss-actioncard-action-go {
     flex-shrink: 0;
     font-size: 11px;
     color: var(--tss-colors-neutral-500, #6b7280);
@@ -206,34 +206,9 @@
     transition: opacity 120ms ease;
 }
 
-.tss-actioncard-question:hover .tss-actioncard-question-go,
-.tss-actioncard-question:focus-visible .tss-actioncard-question-go {
+.tss-actioncard-action:hover .tss-actioncard-action-go,
+.tss-actioncard-action:focus-visible .tss-actioncard-action-go {
     opacity: 1;
-}
-
-.tss-actioncard-question-asked {
-    display: none;
-    flex-shrink: 0;
-    font-size: 11px;
-    color: var(--tss-colors-neutral-600, #4b5563);
-}
-
-.tss-actioncard-question-is-asked {
-    background: var(--tss-secondary-background-color);
-    color: var(--tss-colors-neutral-600, #4b5563);
-}
-
-.tss-actioncard-question-is-asked .tss-actioncard-question-icon {
-    background: rgba(var(--tss-success-background-color-root), 0.16);
-    color: var(--tss-success-background-color);
-}
-
-.tss-actioncard-question-is-asked .tss-actioncard-question-asked {
-    display: inline;
-}
-
-.tss-actioncard-question-is-asked .tss-actioncard-question-go {
-    display: none;
 }
 
 .tss-actioncard-more {
@@ -329,13 +304,13 @@
     padding: 10px;
 }
 
-.tss-actioncard-stacked .tss-actioncard-question {
+.tss-actioncard-stacked .tss-actioncard-action {
     min-height: 40px;
     padding: 6px 8px;
     line-height: 1.35;
 }
 
-.tss-actioncard-stacked .tss-actioncard-question-text {
+.tss-actioncard-stacked .tss-actioncard-action-text {
     white-space: normal;
 }
 
@@ -373,13 +348,13 @@
         padding: 10px;
     }
 
-    .tss-actioncard-question {
+    .tss-actioncard-action {
         min-height: 40px;
         padding: 6px 8px;
         line-height: 1.35;
     }
 
-    .tss-actioncard-question-text {
+    .tss-actioncard-action-text {
         white-space: normal;
     }
 }
@@ -419,7 +394,7 @@
 .tss-actioncard-compact .tss-actioncard-detail,
 .tss-actioncard-compact .tss-actioncard-facts,
 .tss-actioncard-compact .tss-actioncard-title,
-.tss-actioncard-compact .tss-actioncard-question-go {
+.tss-actioncard-compact .tss-actioncard-action-go {
     display: none;
 }
 
@@ -429,7 +404,7 @@
     display: contents;
 }
 
-.tss-actioncard-compact .tss-actioncard-question {
+.tss-actioncard-compact .tss-actioncard-action {
     width: auto;
     max-width: 100%;
     min-height: 26px;
@@ -437,15 +412,8 @@
     font-size: var(--tss-font-size-xsmall, 12px);
 }
 
-.tss-actioncard-compact .tss-actioncard-question-icon {
+.tss-actioncard-compact .tss-actioncard-action-icon {
     display: none;
-}
-
-.tss-actioncard-compact.tss-actioncard .tss-actioncard-question-is-asked .tss-actioncard-question-icon {
-    display: flex;
-    width: 14px;
-    height: 14px;
-    font-size: 9px;
 }
 
 .tss-actioncard-compact .tss-actioncard-skeleton-line {
@@ -507,11 +475,11 @@
 }
 
 @media (hover: none) {
-    .tss-actioncard-question-go {
+    .tss-actioncard-action-go {
         opacity: 1;
     }
 
-    .tss-actioncard-question {
+    .tss-actioncard-action {
         min-height: 44px;
     }
 }
@@ -521,7 +489,7 @@
         animation: none;
     }
 
-    .tss-actioncard-question-go {
+    .tss-actioncard-action-go {
         transition: none;
     }
 }
