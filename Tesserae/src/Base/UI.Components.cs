@@ -1300,22 +1300,34 @@ namespace Tesserae
         public static ContextCard ContextCard(string label, IComponent iconOrImage) => new ContextCard(label, iconOrImage);
 
         /// <summary>
-        /// Creates a <see cref="Tesserae.RelatedQuestions"/>: a card for a chat transcript offering
-        /// follow-up questions about one object, its identity on the left and the questions on the right.
+        /// Creates a <see cref="Tesserae.ActionCard{TData}"/>: a card offering follow-up actions about one
+        /// object, its identity on the left and the actions on the right. Each action carries a
+        /// <typeparamref name="TData"/> the handler reads back.
         /// </summary>
-        public static RelatedQuestions RelatedQuestions(string label, UIcons icon = UIcons.Cube, UIconsWeight weight = UIconsWeight.Regular) => new RelatedQuestions(label, icon, weight);
+        public static ActionCard<TData> ActionCard<TData>(string label, UIcons icon = UIcons.Cube, UIconsWeight weight = UIconsWeight.Regular) => new ActionCard<TData>(label, icon, weight);
 
         /// <summary>
-        /// Creates a <see cref="Tesserae.RelatedQuestions"/> whose tile shows the given icon or image
+        /// Creates a <see cref="Tesserae.ActionCard{TData}"/> whose tile shows the given icon or image
         /// component instead of a <see cref="UIcons"/> glyph.
         /// </summary>
-        public static RelatedQuestions RelatedQuestions(string label, IComponent iconOrImage) => new RelatedQuestions(label, iconOrImage);
+        public static ActionCard<TData> ActionCard<TData>(string label, IComponent iconOrImage) => new ActionCard<TData>(label, iconOrImage);
 
         /// <summary>
-        /// Creates a <see cref="Tesserae.RelatedQuestionsGroup"/> drawing several
-        /// <see cref="Tesserae.RelatedQuestions"/> cards as one, a row per object.
+        /// Creates an <see cref="Tesserae.ActionCard{TData}"/> whose actions carry no data.
         /// </summary>
-        public static RelatedQuestionsGroup RelatedQuestionsGroup(params RelatedQuestions[] cards) => new RelatedQuestionsGroup(cards);
+        public static ActionCard<object> ActionCard(string label, UIcons icon = UIcons.Cube, UIconsWeight weight = UIconsWeight.Regular) => new ActionCard<object>(label, icon, weight);
+
+        /// <summary>
+        /// Creates an <see cref="Tesserae.ActionCard{TData}"/> whose actions carry no data and whose tile
+        /// shows the given icon or image component.
+        /// </summary>
+        public static ActionCard<object> ActionCard(string label, IComponent iconOrImage) => new ActionCard<object>(label, iconOrImage);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ActionCardGroup{TData}"/> drawing several
+        /// <see cref="Tesserae.ActionCard{TData}"/> cards as one, a row per object.
+        /// </summary>
+        public static ActionCardGroup<TData> ActionCardGroup<TData>(params ActionCard<TData>[] cards) => new ActionCardGroup<TData>(cards);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.OmniResult{T}"/> search-result row for the given result: an icon

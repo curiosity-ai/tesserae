@@ -14,7 +14,7 @@ namespace Tesserae
     /// It is split vertically: on the left the object's identity (an icon tile, a label, a second line,
     /// an optional detail line and a few key/value facts), on the right the questions, each one a row
     /// drawn like a <see cref="ToolCall"/> with a small icon saying what kind of question it is. Clicking
-    /// a question calls <see cref="OnAsk(Action{RelatedQuestions, Question})"/>, which is where the host
+    /// a question calls <see cref="OnAsk(Action{ActionCard{TData}, Item})"/>, which is where the host
     /// sends it as the next message, and marks it as asked.
     /// </para>
     /// <para>
@@ -22,24 +22,24 @@ namespace Tesserae
     /// the identity becomes a header strip and the questions wrap onto several lines - by a container
     /// query on its own width, so nothing has to tell it where it is. <see cref="Compact(bool)"/> turns
     /// it into one wrapping line of an identity chip followed by question pills, and
-    /// <see cref="RelatedQuestionsGroup"/> stacks several cards into one.
+    /// <see cref="ActionCardGroup"/> stacks several cards into one.
     /// </para>
     /// </summary>
-    [Transpose.Name("tss.RelatedQuestions")]
-    public sealed class RelatedQuestions : ComponentBase<RelatedQuestions, HTMLElement>
+    [Transpose.Name("tss.ActionCardT")]
+    public sealed class ActionCard<TData> : ComponentBase<ActionCard<TData>, HTMLElement>
     {
         /// <summary>
-        /// One question offered by a <see cref="RelatedQuestions"/> card.
+        /// One question offered by a <see cref="ActionCard{TData}"/> card.
         /// </summary>
-        [Transpose.Name("tss.RelatedQuestions.Question")]
-        public sealed class Question
+        [Transpose.Name("tss.ActionCardT.Item")]
+        public sealed class Item
         {
             internal HTMLButtonElement Row;
             internal HTMLElement       IconContainer;
             internal HTMLElement       TextContainer;
             internal HTMLElement       AskedContainer;
 
-            internal Question(string text, UIcons icon, UIconsWeight weight)
+            internal Item(string text, UIcons icon, UIconsWeight weight)
             {
                 Text   = text ?? string.Empty;
                 Icon   = icon;
@@ -67,13 +67,13 @@ namespace Tesserae
             public bool IsAsked { get; internal set; }
 
             /// <summary>
-            /// Gets or sets an arbitrary payload for the question - the prompt to send when it differs from
-            /// the text shown, a query, an id - so an ask handler can act on it without a lookup.
+            /// Gets or sets the data behind the action - the prompt to send when it differs from the text
+            /// shown, a query, an id - so an ask handler can act on it without a lookup or a cast.
             /// </summary>
-            public object Tag { get; set; }
+            public TData Data { get; set; }
         }
 
-        private const string Empty = "tss-relatedquestions-empty";
+        private const string Empty = "tss-actioncard-empty";
 
         private readonly HTMLElement    _card;
         private readonly HTMLElement    _identity;
@@ -90,7 +90,7 @@ namespace Tesserae
         private readonly HTMLElement    _errorText;
         private readonly HTMLButtonElement _retry;
         private readonly HTMLButtonElement _more;
-        private readonly List<Question> _questions = new List<Question>();
+        private readonly List<Item> _questions = new List<Item>();
 
         private string _label;
         private string _subLabel;
@@ -102,12 +102,12 @@ namespace Tesserae
         private bool   _isLoading;
         private Action _onRetry;
 
-        private event Action<RelatedQuestions, Question> Asked;
+        private event Action<ActionCard<TData>, Item> Asked;
 
         /// <summary>
         /// Initializes a new instance of this class for the object with the given label and icon.
         /// </summary>
-        public RelatedQuestions(string label, UIcons icon = UIcons.Cube, UIconsWeight weight = UIconsWeight.Regular)
+        public ActionCard(string label, UIcons icon = UIcons.Cube, UIconsWeight weight = UIconsWeight.Regular)
             : this()
         {
             SetLabel(label);
@@ -119,44 +119,44 @@ namespace Tesserae
         /// arbitrary component on the icon tile - an <see cref="Icon"/> with its own color, an emoji, an
         /// <see cref="Image"/>.
         /// </summary>
-        public RelatedQuestions(string label, IComponent iconOrImage)
+        public ActionCard(string label, IComponent iconOrImage)
             : this()
         {
             SetLabel(label);
             SetIcon(iconOrImage);
         }
 
-        private RelatedQuestions()
+        private ActionCard()
         {
-            _iconContainer     = Div(Att("tss-relatedquestions-icon"));
-            _labelContainer    = Div(Att("tss-relatedquestions-label"));
-            _subLabelContainer = Div(Att("tss-relatedquestions-sublabel"));
-            _detailContainer   = Div(Att("tss-relatedquestions-detail"));
-            _facts             = Div(Att("tss-relatedquestions-facts"));
+            _iconContainer     = Div(Att("tss-actioncard-icon"));
+            _labelContainer    = Div(Att("tss-actioncard-label"));
+            _subLabelContainer = Div(Att("tss-actioncard-sublabel"));
+            _detailContainer   = Div(Att("tss-actioncard-detail"));
+            _facts             = Div(Att("tss-actioncard-facts"));
 
-            var names = Div(Att("tss-relatedquestions-names"), _labelContainer, _subLabelContainer);
+            var names = Div(Att("tss-actioncard-names"), _labelContainer, _subLabelContainer);
 
-            _identity = Div(Att("tss-relatedquestions-identity"), _iconContainer, names, _facts, _detailContainer);
+            _identity = Div(Att("tss-actioncard-identity"), _iconContainer, names, _facts, _detailContainer);
 
-            _title    = Div(Att("tss-relatedquestions-title"));
-            _list     = Div(Att("tss-relatedquestions-list"));
-            _skeleton = Div(Att("tss-relatedquestions-skeleton"));
+            _title    = Div(Att("tss-actioncard-title"));
+            _list     = Div(Att("tss-actioncard-list"));
+            _skeleton = Div(Att("tss-actioncard-skeleton"));
 
-            _more = Button(Att("tss-relatedquestions-more", type: "button"));
+            _more = Button(Att("tss-actioncard-more", type: "button"));
             _more.addEventListener("click", _ => ShowAll());
 
-            _errorText = Span(Att("tss-relatedquestions-error-text"));
-            _retry     = Button(Att("tss-relatedquestions-more", type: "button", text: "Retry"));
+            _errorText = Span(Att("tss-actioncard-error-text"));
+            _retry     = Button(Att("tss-actioncard-more", type: "button", text: "Retry"));
             _retry.addEventListener("click", _ => _onRetry?.Invoke());
-            _error     = Div(Att("tss-relatedquestions-error"), I(UIcons.TriangleWarning), _errorText, _retry);
+            _error     = Div(Att("tss-actioncard-error"), I(UIcons.TriangleWarning), _errorText, _retry);
 
-            _body = Div(Att("tss-relatedquestions-body"), _title, _list, _more, _skeleton, _error);
+            _body = Div(Att("tss-actioncard-body"), _title, _list, _more, _skeleton, _error);
 
-            _card = Div(Att("tss-relatedquestions-card"), _identity, _body);
+            _card = Div(Att("tss-actioncard-card"), _identity, _body);
 
             // The root is only the size container: a container query styles descendants of the element
             // it measures, never that element itself, so the card the stacked layout restyles sits inside.
-            InnerElement = Div(Att("tss-relatedquestions"), _card);
+            InnerElement = Div(Att("tss-actioncard"), _card);
 
             SetLabel(null);
             SetSubLabel(null);
@@ -179,7 +179,7 @@ namespace Tesserae
         /// <summary>
         /// Gets the questions the card offers, in the order they are shown.
         /// </summary>
-        public IReadOnlyList<Question> Questions => _questions;
+        public IReadOnlyList<Item> Actions => _questions;
 
         /// <summary>
         /// Returns a value indicating whether the card is showing its loading placeholders.
@@ -195,7 +195,7 @@ namespace Tesserae
         /// Sets the label naming the object. It wraps rather than being cut, since the identity column is
         /// narrow and the name is the one thing on it that has to be read in full.
         /// </summary>
-        public RelatedQuestions SetLabel(string label)
+        public ActionCard<TData> SetLabel(string label)
         {
             _label = label ?? string.Empty;
             _labelContainer.textContent = _label;
@@ -206,7 +206,7 @@ namespace Tesserae
         /// Sets the line below the label - the kind of object and an id ("Company · ACC-20931"). A null or
         /// empty value hides it.
         /// </summary>
-        public RelatedQuestions SetSubLabel(string subLabel)
+        public ActionCard<TData> SetSubLabel(string subLabel)
         {
             _subLabel = subLabel;
             _subLabelContainer.textContent = subLabel ?? string.Empty;
@@ -218,9 +218,9 @@ namespace Tesserae
         /// Renders the line below the label in the monospace font, for an id, a path or a table name - the
         /// treatment <see cref="ContextCard.MonospaceSubLabel(bool)"/> gives it.
         /// </summary>
-        public RelatedQuestions MonospaceSubLabel(bool value = true)
+        public ActionCard<TData> MonospaceSubLabel(bool value = true)
         {
-            InnerElement.UpdateClassIf(value, "tss-relatedquestions-mono");
+            InnerElement.UpdateClassIf(value, "tss-actioncard-mono");
             return this;
         }
 
@@ -228,7 +228,7 @@ namespace Tesserae
         /// Sets a quiet line at the foot of the identity column ("Hamburg · Key account"). A null or empty
         /// value hides it.
         /// </summary>
-        public RelatedQuestions SetDetail(string detail)
+        public ActionCard<TData> SetDetail(string detail)
         {
             _detailContainer.textContent = detail ?? string.Empty;
             _detailContainer.UpdateClassIf(string.IsNullOrEmpty(detail), Empty);
@@ -239,12 +239,29 @@ namespace Tesserae
         /// Adds a key/value fact to the identity column ("Renews" / "2027-03-31"), for an object whose
         /// questions make more sense with a few of its numbers beside them.
         /// </summary>
-        public RelatedQuestions AddFact(string key, string value, bool monospace = false)
+        public ActionCard<TData> AddFact(string key, string value, bool monospace = false)
         {
-            var valueElement = Span(Att("tss-relatedquestions-fact-value", text: value ?? string.Empty));
-            valueElement.UpdateClassIf(monospace, "tss-relatedquestions-fact-mono");
+            var valueElement = Span(Att("tss-actioncard-fact-value", text: value ?? string.Empty));
+            valueElement.UpdateClassIf(monospace, "tss-actioncard-fact-mono");
 
-            _facts.appendChild(Span(Att("tss-relatedquestions-fact-key", text: key ?? string.Empty)));
+            return AddFactElement(key, valueElement);
+        }
+
+        /// <summary>
+        /// Adds a key/value fact whose value is an arbitrary component - a <see cref="Badge"/> tag, a
+        /// <see cref="Link"/>, an <see cref="Icon"/> with text - in place of plain text.
+        /// </summary>
+        public ActionCard<TData> AddFact(string key, IComponent value)
+        {
+            var valueElement = Span(Att("tss-actioncard-fact-value"));
+            if (value != null) valueElement.appendChild(value.Render());
+
+            return AddFactElement(key, valueElement);
+        }
+
+        private ActionCard<TData> AddFactElement(string key, HTMLElement valueElement)
+        {
+            _facts.appendChild(Span(Att("tss-actioncard-fact-key", text: key ?? string.Empty)));
             _facts.appendChild(valueElement);
 
             UpdateFacts();
@@ -252,9 +269,9 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Removes every fact added with <see cref="AddFact(string, string, bool)"/>.
+        /// Removes every fact added with <see cref="AddFact(string, string, bool)"/> or <see cref="AddFact(string, IComponent)"/>.
         /// </summary>
-        public RelatedQuestions ClearFacts()
+        public ActionCard<TData> ClearFacts()
         {
             ClearChildren(_facts);
             UpdateFacts();
@@ -265,7 +282,7 @@ namespace Tesserae
         /// Sets the small heading above the questions ("Ask about this company"). A null or empty value
         /// hides it.
         /// </summary>
-        public RelatedQuestions SetTitle(string title)
+        public ActionCard<TData> SetTitle(string title)
         {
             _title.textContent = title ?? string.Empty;
             _title.UpdateClassIf(string.IsNullOrEmpty(title), Empty);
@@ -275,10 +292,10 @@ namespace Tesserae
         /// <summary>
         /// Sets the icon shown on the tile.
         /// </summary>
-        public RelatedQuestions SetIcon(UIcons icon, UIconsWeight weight = UIconsWeight.Regular)
+        public ActionCard<TData> SetIcon(UIcons icon, UIconsWeight weight = UIconsWeight.Regular)
         {
             ClearChildren(_iconContainer);
-            _iconContainer.classList.remove("tss-relatedquestions-icon-image");
+            _iconContainer.classList.remove("tss-actioncard-icon-image");
             _iconContainer.appendChild(I(icon, weight));
             return this;
         }
@@ -286,10 +303,10 @@ namespace Tesserae
         /// <summary>
         /// Sets an arbitrary component on the icon tile. A null value empties the tile.
         /// </summary>
-        public RelatedQuestions SetIcon(IComponent iconOrImage)
+        public ActionCard<TData> SetIcon(IComponent iconOrImage)
         {
             ClearChildren(_iconContainer);
-            _iconContainer.classList.remove("tss-relatedquestions-icon-image");
+            _iconContainer.classList.remove("tss-actioncard-icon-image");
             if (iconOrImage != null) _iconContainer.appendChild(iconOrImage.Render());
             return this;
         }
@@ -297,22 +314,22 @@ namespace Tesserae
         /// <summary>
         /// Fills the tile with a thumbnail (cropped to cover it) - a logo, a photo, a favicon.
         /// </summary>
-        public RelatedQuestions SetImage(string url)
+        public ActionCard<TData> SetImage(string url)
         {
             ClearChildren(_iconContainer);
 
             var hasImage = !string.IsNullOrEmpty(url);
 
-            if (hasImage) _iconContainer.appendChild(Image(Att("tss-relatedquestions-image", src: url)));
+            if (hasImage) _iconContainer.appendChild(Image(Att("tss-actioncard-image", src: url)));
 
-            _iconContainer.UpdateClassIf(hasImage, "tss-relatedquestions-icon-image");
+            _iconContainer.UpdateClassIf(hasImage, "tss-actioncard-icon-image");
             return this;
         }
 
         /// <summary>
         /// Sets the background color of the icon tile (any CSS color).
         /// </summary>
-        public RelatedQuestions IconBackground(string color)
+        public ActionCard<TData> IconBackground(string color)
         {
             _iconContainer.style.background = color ?? string.Empty;
             return this;
@@ -321,7 +338,7 @@ namespace Tesserae
         /// <summary>
         /// Sets the color of the glyph on the icon tile.
         /// </summary>
-        public RelatedQuestions IconForeground(string color)
+        public ActionCard<TData> IconForeground(string color)
         {
             _iconContainer.style.color = color ?? string.Empty;
             return this;
@@ -331,7 +348,7 @@ namespace Tesserae
         /// Tints the icon tile with the given color: a wash of it behind the glyph, the glyph in full
         /// strength. The quieter alternative to a saturated tile.
         /// </summary>
-        public RelatedQuestions IconTint(string color, int percent = 14)
+        public ActionCard<TData> IconTint(string color, int percent = 14)
         {
             if (string.IsNullOrEmpty(color)) return this;
 
@@ -343,9 +360,9 @@ namespace Tesserae
         /// <summary>
         /// Drops the colored square, letting the glyph or image sit on the card.
         /// </summary>
-        public RelatedQuestions NoIconBackground()
+        public ActionCard<TData> NoIconBackground()
         {
-            _iconContainer.classList.add("tss-relatedquestions-icon-nobackground");
+            _iconContainer.classList.add("tss-actioncard-icon-nobackground");
             return this;
         }
 
@@ -353,20 +370,20 @@ namespace Tesserae
         /// Adds a question. The icon says what kind of question it is - a search, a trend, the people
         /// involved, a document - the way a <see cref="ToolCall"/>'s icon names its tool.
         /// </summary>
-        public RelatedQuestions AddQuestion(string text, UIcons icon = UIcons.CommentQuestion, UIconsWeight weight = UIconsWeight.Regular, object tag = null)
+        public ActionCard<TData> AddAction(string text, UIcons icon = UIcons.CommentQuestion, UIconsWeight weight = UIconsWeight.Regular, TData data = default)
         {
-            var question = new Question(text, icon, weight) { Tag = tag };
+            var question = new Item(text, icon, weight) { Data = data };
 
-            question.IconContainer = Span(Att("tss-relatedquestions-question-icon"), I(icon, weight));
-            question.TextContainer  = Span(Att("tss-relatedquestions-question-text",  text: question.Text));
-            question.AskedContainer = Span(Att("tss-relatedquestions-question-asked", text: _askedText));
+            question.IconContainer = Span(Att("tss-actioncard-question-icon"), I(icon, weight));
+            question.TextContainer  = Span(Att("tss-actioncard-question-text",  text: question.Text));
+            question.AskedContainer = Span(Att("tss-actioncard-question-asked", text: _askedText));
 
             // The row is the button itself, so it is a tab stop and Enter or Space asks it with no help.
-            question.Row = Button(Att("tss-relatedquestions-question", type: "button", title: question.Text),
+            question.Row = Button(Att("tss-actioncard-question", type: "button", title: question.Text),
                 question.IconContainer,
                 question.TextContainer,
                 question.AskedContainer,
-                I(UIcons.ArrowUpRight, cssClass: "tss-relatedquestions-question-go"));
+                I(UIcons.ArrowUpRight, cssClass: "tss-actioncard-question-go"));
 
             question.Row.addEventListener("click", _ => Ask(question));
 
@@ -380,16 +397,16 @@ namespace Tesserae
         /// <summary>
         /// Adds several questions with the default icon.
         /// </summary>
-        public RelatedQuestions AddQuestions(params string[] questions)
+        public ActionCard<TData> AddActions(params string[] questions)
         {
-            foreach (var q in questions) AddQuestion(q);
+            foreach (var q in questions) AddAction(q);
             return this;
         }
 
         /// <summary>
         /// Removes a question.
         /// </summary>
-        public RelatedQuestions RemoveQuestion(Question question)
+        public ActionCard<TData> RemoveAction(Item question)
         {
             if (question == null || !_questions.Remove(question)) return this;
 
@@ -402,7 +419,7 @@ namespace Tesserae
         /// <summary>
         /// Removes every question, ready for a fresh set.
         /// </summary>
-        public RelatedQuestions ClearQuestions()
+        public ActionCard<TData> ClearActions()
         {
             _questions.Clear();
             ClearChildren(_list);
@@ -414,9 +431,9 @@ namespace Tesserae
 
         /// <summary>
         /// Registers a callback invoked when a question is clicked (or activated from the keyboard). This
-        /// is where the host sends it - usually <c>q.Text</c>, or whatever it kept in <c>q.Tag</c>.
+        /// is where the host sends it - usually <c>q.Text</c>, or whatever it kept in <c>q.Data</c>.
         /// </summary>
-        public RelatedQuestions OnAsk(Action<RelatedQuestions, Question> onAsk)
+        public ActionCard<TData> OnAsk(Action<ActionCard<TData>, Item> onAsk)
         {
             Asked += onAsk;
             return this;
@@ -425,14 +442,14 @@ namespace Tesserae
         /// <summary>
         /// Registers a callback invoked with the text of a question when it is clicked.
         /// </summary>
-        public RelatedQuestions OnAsk(Action<string> onAsk) => OnAsk((_, q) => onAsk?.Invoke(q.Text));
+        public ActionCard<TData> OnAsk(Action<string> onAsk) => OnAsk((_, q) => onAsk?.Invoke(q.Text));
 
         /// <summary>
         /// Configures whether clicking a question marks it as asked. On by default; turn it off when the
         /// host decides that itself (only once the message was actually sent, say) and calls
-        /// <see cref="MarkAsked(Question, bool)"/>.
+        /// <see cref="MarkAsked(Item, bool)"/>.
         /// </summary>
-        public RelatedQuestions MarkAskedOnClick(bool value = true)
+        public ActionCard<TData> MarkAskedOnClick(bool value = true)
         {
             _markAskedOnClick = value;
             return this;
@@ -442,12 +459,12 @@ namespace Tesserae
         /// Marks a question as asked - its icon becomes a check and an "Asked" tag appears - or clears the
         /// mark. An asked question can still be clicked again.
         /// </summary>
-        public RelatedQuestions MarkAsked(Question question, bool value = true)
+        public ActionCard<TData> MarkAsked(Item question, bool value = true)
         {
             if (question == null) return this;
 
             question.IsAsked = value;
-            question.Row.UpdateClassIf(value, "tss-relatedquestions-question-is-asked");
+            question.Row.UpdateClassIf(value, "tss-actioncard-question-is-asked");
 
             ClearChildren(question.IconContainer);
             question.IconContainer.appendChild(value ? I(UIcons.Check) : I(question.Icon, question.Weight));
@@ -458,12 +475,12 @@ namespace Tesserae
         /// <summary>
         /// Marks the question with the given text as asked, for a host that only kept the text.
         /// </summary>
-        public RelatedQuestions MarkAsked(string text, bool value = true) => MarkAsked(_questions.FirstOrDefault(q => q.Text == text), value);
+        public ActionCard<TData> MarkAsked(string text, bool value = true) => MarkAsked(_questions.FirstOrDefault(q => q.Text == text), value);
 
         /// <summary>
         /// Shows only the first <paramref name="count"/> questions, with a "Show N more" button for the rest.
         /// </summary>
-        public RelatedQuestions MaxVisible(int count)
+        public ActionCard<TData> MaxVisible(int count)
         {
             _maxVisible = Math.Max(1, count);
             UpdateState();
@@ -473,7 +490,7 @@ namespace Tesserae
         /// <summary>
         /// Shows every question, as clicking "Show N more" does.
         /// </summary>
-        public RelatedQuestions ShowAll()
+        public ActionCard<TData> ShowAll()
         {
             _showAll = true;
             UpdateState();
@@ -484,7 +501,7 @@ namespace Tesserae
         /// Sets the text of the "Show N more" button, with <c>{0}</c> for the count and the "Asked" tag,
         /// for localisation.
         /// </summary>
-        public RelatedQuestions SetTexts(string moreFormat = null, string askedText = null, string retryText = null)
+        public ActionCard<TData> SetTexts(string moreFormat = null, string askedText = null, string retryText = null)
         {
             if (moreFormat != null) _moreFormat = moreFormat;
 
@@ -505,7 +522,7 @@ namespace Tesserae
         /// Shows placeholder rows while the questions are still being generated, in place of the list.
         /// The identity column is drawn as usual, since the object is already known.
         /// </summary>
-        public RelatedQuestions Loading(bool value = true, int placeholders = 3)
+        public ActionCard<TData> Loading(bool value = true, int placeholders = 3)
         {
             _isLoading = value;
 
@@ -518,7 +535,7 @@ namespace Tesserae
 
                 for (var i = 0; i < Math.Max(1, placeholders); i++)
                 {
-                    var line = Div(Att("tss-relatedquestions-skeleton-line"));
+                    var line = Div(Att("tss-actioncard-skeleton-line"));
                     line.style.width = widths[i % widths.Length] + "%";
                     _skeleton.appendChild(line);
                 }
@@ -538,7 +555,7 @@ namespace Tesserae
         /// Shows an error in place of the questions - generating them failed - with a Retry button when a
         /// handler is given. A null or empty message clears it.
         /// </summary>
-        public RelatedQuestions SetError(string message, Action onRetry = null)
+        public ActionCard<TData> SetError(string message, Action onRetry = null)
         {
             _errorText.textContent = message ?? string.Empty;
             _onRetry               = onRetry;
@@ -555,15 +572,15 @@ namespace Tesserae
         /// <summary>
         /// Clears the error set with <see cref="SetError(string, Action)"/>.
         /// </summary>
-        public RelatedQuestions ClearError() => SetError(null);
+        public ActionCard<TData> ClearError() => SetError(null);
 
         /// <summary>
         /// Draws the card as one wrapping line: the object as a chip, then the questions as pills. For a
         /// transcript where a full card under every answer would be too much.
         /// </summary>
-        public RelatedQuestions Compact(bool value = true)
+        public ActionCard<TData> Compact(bool value = true)
         {
-            InnerElement.UpdateClassIf(value, "tss-relatedquestions-compact");
+            InnerElement.UpdateClassIf(value, "tss-actioncard-compact");
             return this;
         }
 
@@ -571,13 +588,13 @@ namespace Tesserae
         /// Forces the stacked layout - identity on top, questions below - whatever the width. The card
         /// already stacks itself below about 520px; this is for a host that wants it everywhere.
         /// </summary>
-        public RelatedQuestions Stacked(bool value = true)
+        public ActionCard<TData> Stacked(bool value = true)
         {
-            InnerElement.UpdateClassIf(value, "tss-relatedquestions-stacked");
+            InnerElement.UpdateClassIf(value, "tss-actioncard-stacked");
             return this;
         }
 
-        private void Ask(Question question)
+        private void Ask(Item question)
         {
             if (_markAskedOnClick) MarkAsked(question);
 

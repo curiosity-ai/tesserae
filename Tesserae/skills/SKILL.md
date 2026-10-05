@@ -227,7 +227,7 @@ dialog · drawer · float · layer · modal · modal-stack · panel · popover �
 · tabbed-modal · teaching · tutorial-modal
 
 **AI & Chat** — conversation, tool calls and their context
-ai-variants · chat · context-card · context-cards · plan · related-questions ·
+ai-variants · chat · context-card · context-cards · plan · action-card ·
 resource-card · tool-agent-selector · tool-call
 
 **Media & Graphics** — images, avatars and embedded content

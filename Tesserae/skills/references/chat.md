@@ -107,7 +107,7 @@ queuedStack.Add(queued);                              // a VStack below the Chat
 
 - Avatar — `avatar.md`
 - Questionnaire — an inline question a turn can ask — `questionnaire.md`
-- RelatedQuestions — follow-up questions about an object a reply mentioned — `related-questions.md`
+- ActionCard — follow-up questions about an object a reply mentioned — `action-card.md`
 - ContextCard (the attachment row above the composer) — `context-card.md`
 - ContextCards — a group of those behind one summary pill, or a compact row of pills for the sources a
   reply cites (usable with `WithReferences`) — `context-cards.md`

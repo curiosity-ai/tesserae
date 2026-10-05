@@ -1,18 +1,18 @@
-/* RelatedQuestions - follow-up questions about one object, embedded in a chat transcript.
+/* ActionCard - follow-up questions about one object, embedded in a chat transcript.
    Split vertically: the object's identity on the left, the questions on the right as ToolCall-style rows. */
 
 /* The root is only the size container the stacked layout queries. A container query styles the
    descendants of the element it measures, never that element, which is why the card is a child. */
-.tss-relatedquestions {
+.tss-actioncard {
     container-type: inline-size;
-    container-name: tss-relatedquestions;
+    container-name: tss-actioncard;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     margin-bottom: 8px;
 }
 
-.tss-relatedquestions-card {
+.tss-actioncard-card {
     display: flex;
     border: 1px solid var(--tss-default-border-color);
     border-radius: 8px;
@@ -21,13 +21,13 @@
     overflow: hidden;
 }
 
-.tss-relatedquestions-empty {
+.tss-actioncard-empty {
     display: none !important;
 }
 
 /* ---------- Identity ---------- */
 
-.tss-relatedquestions-identity {
+.tss-actioncard-identity {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -39,7 +39,7 @@
     border-right: 1px solid var(--tss-default-border-color);
 }
 
-.tss-relatedquestions-icon {
+.tss-actioncard-icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -53,63 +53,63 @@
     color: var(--tss-primary-foreground-color);
 }
 
-.tss-relatedquestions-icon-nobackground,
-.tss-relatedquestions-icon-image {
+.tss-actioncard-icon-nobackground,
+.tss-actioncard-icon-image {
     background: transparent;
     color: inherit;
 }
 
-.tss-relatedquestions-image {
+.tss-actioncard-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
 }
 
-.tss-relatedquestions-names {
+.tss-actioncard-names {
     display: flex;
     flex-direction: column;
     gap: 2px;
     min-width: 0;
 }
 
-.tss-relatedquestions-label {
+.tss-actioncard-label {
     font-size: var(--tss-font-size-small, 14px);
     font-weight: var(--tss-font-weight-semibold, 600);
     line-height: 1.3;
     overflow-wrap: anywhere;
 }
 
-.tss-relatedquestions-sublabel,
-.tss-relatedquestions-detail {
+.tss-actioncard-sublabel,
+.tss-actioncard-detail {
     font-size: var(--tss-font-size-xsmall, 12px);
     line-height: 1.3;
     color: var(--tss-colors-neutral-600, #4b5563);
     overflow-wrap: anywhere;
 }
 
-.tss-relatedquestions-mono .tss-relatedquestions-sublabel {
+.tss-actioncard-mono .tss-actioncard-sublabel {
     font-family: var(--tss-monospace-font-family);
 }
 
 /* The detail line belongs to the foot of the column, however tall the questions make the card. */
-.tss-relatedquestions-detail {
+.tss-actioncard-detail {
     margin-top: auto;
 }
 
-.tss-relatedquestions-facts {
+.tss-actioncard-facts {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
     gap: 4px 10px;
     align-items: baseline;
 }
 
-.tss-relatedquestions-fact-key {
+.tss-actioncard-fact-key {
     font-size: 11px;
     color: var(--tss-colors-neutral-600, #4b5563);
 }
 
-.tss-relatedquestions-fact-value {
+.tss-actioncard-fact-value {
     font-size: var(--tss-font-size-xsmall, 12px);
     text-align: right;
     overflow: hidden;
@@ -117,13 +117,13 @@
     white-space: nowrap;
 }
 
-.tss-relatedquestions-fact-mono {
+.tss-actioncard-fact-mono {
     font-family: var(--tss-monospace-font-family);
 }
 
 /* ---------- Questions ---------- */
 
-.tss-relatedquestions-body {
+.tss-actioncard-body {
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -132,7 +132,7 @@
     padding: 12px;
 }
 
-.tss-relatedquestions-title {
+.tss-actioncard-title {
     padding: 2px 2px 4px;
     font-size: 11px;
     letter-spacing: 0.06em;
@@ -140,14 +140,14 @@
     color: var(--tss-colors-neutral-600, #4b5563);
 }
 
-.tss-relatedquestions-list {
+.tss-actioncard-list {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
 /* A question is a ToolCall header row: the same border, radius, padding, icon chip and hover. */
-.tss-relatedquestions-question {
+.tss-actioncard-question {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -166,17 +166,17 @@
     cursor: pointer;
 }
 
-.tss-relatedquestions-question:hover {
+.tss-actioncard-question:hover {
     background: var(--tss-default-background-hover-color);
 }
 
-.tss-relatedquestions-question:focus-visible,
-.tss-relatedquestions-more:focus-visible {
+.tss-actioncard-question:focus-visible,
+.tss-actioncard-more:focus-visible {
     outline: 2px solid var(--tss-ring-color);
     outline-offset: 1px;
 }
 
-.tss-relatedquestions-question-icon {
+.tss-actioncard-question-icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -189,7 +189,7 @@
     font-size: 12px;
 }
 
-.tss-relatedquestions-question-text {
+.tss-actioncard-question-text {
     flex: 1 1 auto;
     min-width: 0;
     overflow: hidden;
@@ -198,7 +198,7 @@
 }
 
 /* Quiet until the row is pointed at or focused, and always there on a touch screen, where nothing hovers. */
-.tss-relatedquestions-question-go {
+.tss-actioncard-question-go {
     flex-shrink: 0;
     font-size: 11px;
     color: var(--tss-colors-neutral-500, #6b7280);
@@ -206,37 +206,37 @@
     transition: opacity 120ms ease;
 }
 
-.tss-relatedquestions-question:hover .tss-relatedquestions-question-go,
-.tss-relatedquestions-question:focus-visible .tss-relatedquestions-question-go {
+.tss-actioncard-question:hover .tss-actioncard-question-go,
+.tss-actioncard-question:focus-visible .tss-actioncard-question-go {
     opacity: 1;
 }
 
-.tss-relatedquestions-question-asked {
+.tss-actioncard-question-asked {
     display: none;
     flex-shrink: 0;
     font-size: 11px;
     color: var(--tss-colors-neutral-600, #4b5563);
 }
 
-.tss-relatedquestions-question-is-asked {
+.tss-actioncard-question-is-asked {
     background: var(--tss-secondary-background-color);
     color: var(--tss-colors-neutral-600, #4b5563);
 }
 
-.tss-relatedquestions-question-is-asked .tss-relatedquestions-question-icon {
+.tss-actioncard-question-is-asked .tss-actioncard-question-icon {
     background: rgba(var(--tss-success-background-color-root), 0.16);
     color: var(--tss-success-background-color);
 }
 
-.tss-relatedquestions-question-is-asked .tss-relatedquestions-question-asked {
+.tss-actioncard-question-is-asked .tss-actioncard-question-asked {
     display: inline;
 }
 
-.tss-relatedquestions-question-is-asked .tss-relatedquestions-question-go {
+.tss-actioncard-question-is-asked .tss-actioncard-question-go {
     display: none;
 }
 
-.tss-relatedquestions-more {
+.tss-actioncard-more {
     align-self: flex-start;
     margin: 0;
     padding: 4px 8px;
@@ -249,34 +249,34 @@
     cursor: pointer;
 }
 
-.tss-relatedquestions-more:hover {
+.tss-actioncard-more:hover {
     background: var(--tss-default-background-hover-color);
 }
 
 /* ---------- Loading and error ---------- */
 
-.tss-relatedquestions-skeleton {
+.tss-actioncard-skeleton {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.tss-relatedquestions-skeleton-line {
+.tss-actioncard-skeleton-line {
     height: 28px;
     box-sizing: border-box;
     border-radius: 8px;
     border: 1px solid var(--tss-default-border-color);
     background: linear-gradient(90deg, var(--tss-colors-neutral-100, #f3f4f6) 0%, var(--tss-default-background-color) 50%, var(--tss-colors-neutral-100, #f3f4f6) 100%);
     background-size: 200% 100%;
-    animation: tss-relatedquestions-shimmer 1.4s ease-in-out infinite;
+    animation: tss-actioncard-shimmer 1.4s ease-in-out infinite;
 }
 
-@keyframes tss-relatedquestions-shimmer {
+@keyframes tss-actioncard-shimmer {
     0%   { background-position: 100% 0; }
     100% { background-position: -100% 0; }
 }
 
-.tss-relatedquestions-error {
+.tss-actioncard-error {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -285,22 +285,22 @@
     color: var(--tss-invalid-border-color);
 }
 
-.tss-relatedquestions-error-text {
+.tss-actioncard-error-text {
     flex: 0 1 auto;
     min-width: 0;
 }
 
-.tss-relatedquestions-error .tss-relatedquestions-more {
+.tss-actioncard-error .tss-actioncard-more {
     align-self: center;
 }
 
 /* ---------- Stacked: a narrow column, forced or measured ---------- */
 
-.tss-relatedquestions-stacked .tss-relatedquestions-card {
+.tss-actioncard-stacked .tss-actioncard-card {
     flex-direction: column;
 }
 
-.tss-relatedquestions-stacked .tss-relatedquestions-identity {
+.tss-actioncard-stacked .tss-actioncard-identity {
     flex: 0 0 auto;
     flex-flow: row wrap;
     align-items: center;
@@ -309,42 +309,42 @@
     border-bottom: 1px solid var(--tss-default-border-color);
 }
 
-.tss-relatedquestions-stacked .tss-relatedquestions-icon {
+.tss-actioncard-stacked .tss-actioncard-icon {
     width: 32px;
     height: 32px;
     border-radius: 8px;
 }
 
-.tss-relatedquestions-stacked .tss-relatedquestions-names {
+.tss-actioncard-stacked .tss-actioncard-names {
     flex: 1 1 0;
 }
 
-.tss-relatedquestions-stacked .tss-relatedquestions-facts,
-.tss-relatedquestions-stacked .tss-relatedquestions-detail {
+.tss-actioncard-stacked .tss-actioncard-facts,
+.tss-actioncard-stacked .tss-actioncard-detail {
     flex: 1 0 100%;
     margin-top: 0;
 }
 
-.tss-relatedquestions-stacked .tss-relatedquestions-body {
+.tss-actioncard-stacked .tss-actioncard-body {
     padding: 10px;
 }
 
-.tss-relatedquestions-stacked .tss-relatedquestions-question {
+.tss-actioncard-stacked .tss-actioncard-question {
     min-height: 40px;
     padding: 6px 8px;
     line-height: 1.35;
 }
 
-.tss-relatedquestions-stacked .tss-relatedquestions-question-text {
+.tss-actioncard-stacked .tss-actioncard-question-text {
     white-space: normal;
 }
 
-@container tss-relatedquestions (max-width: 520px) {
-    .tss-relatedquestions-card {
+@container tss-actioncard (max-width: 520px) {
+    .tss-actioncard-card {
         flex-direction: column;
     }
 
-    .tss-relatedquestions-identity {
+    .tss-actioncard-identity {
         flex: 0 0 auto;
         flex-flow: row wrap;
         align-items: center;
@@ -353,47 +353,47 @@
         border-bottom: 1px solid var(--tss-default-border-color);
     }
 
-    .tss-relatedquestions-icon {
+    .tss-actioncard-icon {
         width: 32px;
         height: 32px;
         border-radius: 8px;
     }
 
-    .tss-relatedquestions-names {
+    .tss-actioncard-names {
         flex: 1 1 0;
     }
 
-    .tss-relatedquestions-facts,
-    .tss-relatedquestions-detail {
+    .tss-actioncard-facts,
+    .tss-actioncard-detail {
         flex: 1 0 100%;
         margin-top: 0;
     }
 
-    .tss-relatedquestions-body {
+    .tss-actioncard-body {
         padding: 10px;
     }
 
-    .tss-relatedquestions-question {
+    .tss-actioncard-question {
         min-height: 40px;
         padding: 6px 8px;
         line-height: 1.35;
     }
 
-    .tss-relatedquestions-question-text {
+    .tss-actioncard-question-text {
         white-space: normal;
     }
 }
 
 /* ---------- Compact: one wrapping line of a chip and pills ---------- */
 
-.tss-relatedquestions-compact .tss-relatedquestions-card {
+.tss-actioncard-compact .tss-actioncard-card {
     flex-flow: row wrap;
     align-items: center;
     gap: 6px;
     padding: 8px;
 }
 
-.tss-relatedquestions-compact .tss-relatedquestions-identity {
+.tss-actioncard-compact .tss-actioncard-identity {
     flex: 0 0 auto;
     flex-direction: row;
     align-items: center;
@@ -403,33 +403,33 @@
     border-radius: 999px;
 }
 
-.tss-relatedquestions-compact .tss-relatedquestions-icon {
+.tss-actioncard-compact .tss-actioncard-icon {
     width: 20px;
     height: 20px;
     border-radius: 999px;
     font-size: 10px;
 }
 
-.tss-relatedquestions-compact .tss-relatedquestions-label {
+.tss-actioncard-compact .tss-actioncard-label {
     font-size: var(--tss-font-size-xsmall, 12px);
     white-space: nowrap;
 }
 
-.tss-relatedquestions-compact .tss-relatedquestions-sublabel,
-.tss-relatedquestions-compact .tss-relatedquestions-detail,
-.tss-relatedquestions-compact .tss-relatedquestions-facts,
-.tss-relatedquestions-compact .tss-relatedquestions-title,
-.tss-relatedquestions-compact .tss-relatedquestions-question-go {
+.tss-actioncard-compact .tss-actioncard-sublabel,
+.tss-actioncard-compact .tss-actioncard-detail,
+.tss-actioncard-compact .tss-actioncard-facts,
+.tss-actioncard-compact .tss-actioncard-title,
+.tss-actioncard-compact .tss-actioncard-question-go {
     display: none;
 }
 
-.tss-relatedquestions-compact .tss-relatedquestions-body,
-.tss-relatedquestions-compact .tss-relatedquestions-list,
-.tss-relatedquestions-compact .tss-relatedquestions-skeleton {
+.tss-actioncard-compact .tss-actioncard-body,
+.tss-actioncard-compact .tss-actioncard-list,
+.tss-actioncard-compact .tss-actioncard-skeleton {
     display: contents;
 }
 
-.tss-relatedquestions-compact .tss-relatedquestions-question {
+.tss-actioncard-compact .tss-actioncard-question {
     width: auto;
     max-width: 100%;
     min-height: 26px;
@@ -437,25 +437,25 @@
     font-size: var(--tss-font-size-xsmall, 12px);
 }
 
-.tss-relatedquestions-compact .tss-relatedquestions-question-icon {
+.tss-actioncard-compact .tss-actioncard-question-icon {
     display: none;
 }
 
-.tss-relatedquestions-compact.tss-relatedquestions .tss-relatedquestions-question-is-asked .tss-relatedquestions-question-icon {
+.tss-actioncard-compact.tss-actioncard .tss-actioncard-question-is-asked .tss-actioncard-question-icon {
     display: flex;
     width: 14px;
     height: 14px;
     font-size: 9px;
 }
 
-.tss-relatedquestions-compact .tss-relatedquestions-skeleton-line {
+.tss-actioncard-compact .tss-actioncard-skeleton-line {
     width: 140px !important;
     height: 26px;
 }
 
 /* ---------- Group: several cards drawn as one ---------- */
 
-.tss-relatedquestions-group {
+.tss-actioncard-group {
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 8px;
@@ -465,63 +465,63 @@
     overflow: hidden;
 }
 
-.tss-relatedquestions-group > .tss-relatedquestions {
+.tss-actioncard-group > .tss-actioncard {
     margin-bottom: 0;
 }
 
-.tss-relatedquestions-group > .tss-relatedquestions + .tss-relatedquestions {
+.tss-actioncard-group > .tss-actioncard + .tss-actioncard {
     border-top: 1px solid var(--tss-default-border-color);
 }
 
-.tss-relatedquestions-group > .tss-relatedquestions > .tss-relatedquestions-card {
+.tss-actioncard-group > .tss-actioncard > .tss-actioncard-card {
     border: none;
     border-radius: 0;
 }
 
 /* A row per object, so the identity reads across - tile beside the name - rather than down. */
-.tss-relatedquestions-group .tss-relatedquestions-identity {
+.tss-actioncard-group .tss-actioncard-identity {
     flex-flow: row wrap;
     align-items: flex-start;
     padding: 12px 14px;
 }
 
-.tss-relatedquestions-group .tss-relatedquestions-names {
+.tss-actioncard-group .tss-actioncard-names {
     flex: 1 1 0;
 }
 
-.tss-relatedquestions-group .tss-relatedquestions-facts,
-.tss-relatedquestions-group .tss-relatedquestions-detail {
+.tss-actioncard-group .tss-actioncard-facts,
+.tss-actioncard-group .tss-actioncard-detail {
     flex: 1 0 100%;
     margin-top: 0;
 }
 
-.tss-relatedquestions-group .tss-relatedquestions-icon {
+.tss-actioncard-group .tss-actioncard-icon {
     width: 28px;
     height: 28px;
     border-radius: 8px;
     font-size: 13px;
 }
 
-.tss-relatedquestions-group .tss-relatedquestions-body {
+.tss-actioncard-group .tss-actioncard-body {
     padding: 10px 12px;
 }
 
 @media (hover: none) {
-    .tss-relatedquestions-question-go {
+    .tss-actioncard-question-go {
         opacity: 1;
     }
 
-    .tss-relatedquestions-question {
+    .tss-actioncard-question {
         min-height: 44px;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .tss-relatedquestions-skeleton-line {
+    .tss-actioncard-skeleton-line {
         animation: none;
     }
 
-    .tss-relatedquestions-question-go {
+    .tss-actioncard-question-go {
         transition: none;
     }
 }
