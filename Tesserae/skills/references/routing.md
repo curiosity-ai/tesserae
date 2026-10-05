@@ -39,8 +39,8 @@ Avoid reusing a `:segment` name as a query key (one shared collection).
 
 Reflect view state (open panel, selected tab, filters) in the URL's query
 segment so it survives refresh and can be shared as a deep link. Prefer
-`RouteState` (`route-state.md`) for reading and writing it: `Set`/`Clear`/`Update`,
-`Consume` for one-shot keys, `SetWithHistory` for tabs, and `RouteState.IsOn`/`IsUnder`/`Matches` to ask
+`RouteQuery` (`route-state.md`) for reading and writing it: `Get`/`TryGet`, `Set`/`Clear`/`Update`,
+`Consume` for one-shot keys, `SetWithHistory` for tabs, and `RoutePath.IsExactly`/`IsDescendantOf` to ask
 where the page is. The members below are what it is built on:
 
 - `Router.GetQueryParameters()` — a **copy** of the current `Parameters` (route
@@ -130,7 +130,7 @@ private static void Show(IComponent page) { Content.Clear(); Content.Add(page); 
 
 ## Related
 
-- RouteState / RouteLocation (the URL as app state: reads, matching, writes, one-shot keys) — `route-state.md`
+- RoutePath / RouteQuery (the URL as app state: where the page is, query reads and writes, one-shot keys) — `route-state.md`
 - Core Concepts (observables, Defer) — `core-concepts.md`
 - UnsavedChangesGuard (blocks navigation while an editor is dirty, via `OnBeforeNavigate`) — `unsaved-changes-guard.md`
 - Full docs & API: `/tesserae/get-started/routing`

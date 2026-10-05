@@ -30,7 +30,7 @@ namespace Tesserae.Tests.Samples
     }
 
     /// <summary>
-    /// Runs the RouteState sample's cases. <see cref="Evaluate"/> is the pure half: a <see cref="RouteLocation"/> built from a string.
+    /// Runs the Route State sample's cases. <see cref="Evaluate"/> is the pure half: a <see cref="RouteLocation"/> built from a string.
     /// <see cref="RunAsync"/> is the half that touches the address bar: it writes the query of the sample's own route, adds and
     /// replaces history entries and navigates to two probe routes registered for the purpose.
     /// </summary>
@@ -44,9 +44,9 @@ namespace Tesserae.Tests.Samples
         private const string PROBE       = "#/route-state-probe/:id";
         private const string PROBE_ASYNC = "#/route-state-async/:id";
 
-        private const string J = "J. Writes without a history entry";
-        private const string K = "K. Writes with history";
-        private const string L = "L. Router engine";
+        private const string F = "F. Writes without a history entry";
+        private const string G = "G. Writes with history";
+        private const string H = "H. Router engine";
 
         private static readonly string Home = "#/view/" + Sample.FormatSampleName(typeof(RouteStateSample)).Replace(" ", "%20");
 
@@ -122,300 +122,300 @@ namespace Tesserae.Tests.Samples
         }
 
         // ------------------------------------------------------------------------------------------------
-        // J: writes that replace the current entry
+        // F: writes that replace the current entry
 
         private static void RunWrites()
         {
-            Check(J, "J1", "?preview=abc", "Set(\"k\", \"v\")", "preview=abc&k=v | replaced 1, pushed 0, handlers 0", () =>
+            Check(F, "F1", "?preview=abc", "Set(\"k\", \"v\")", "preview=abc&k=v | replaced 1, pushed 0, handlers 0", () =>
             {
                 Arrive("?preview=abc");
 
                 var mark = new Mark();
-                RouteState.Set("k", "v");
+                RouteQuery.Set("k", "v");
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(J, "J2", "?preview=abc&k=v", "Set(\"k\", \"v\") again", "preview=abc&k=v | replaced 0, pushed 0, handlers 0", () =>
+            Check(F, "F2", "?preview=abc&k=v", "Set(\"k\", \"v\") again", "preview=abc&k=v | replaced 0, pushed 0, handlers 0", () =>
             {
                 Arrive("?preview=abc&k=v");
 
                 var mark = new Mark();
-                RouteState.Set("k", "v");
+                RouteQuery.Set("k", "v");
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(J, "J3", "?preview=abc&k=v", "Clear(\"k\")", "preview=abc | replaced 1, pushed 0, handlers 0", () =>
+            Check(F, "F3", "?preview=abc&k=v", "Clear(\"k\")", "preview=abc | replaced 1, pushed 0, handlers 0", () =>
             {
                 Arrive("?preview=abc&k=v");
 
                 var mark = new Mark();
-                RouteState.Clear("k");
+                RouteQuery.Clear("k");
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(J, "J3", "?preview=abc", "Clear(\"absent\")", "preview=abc | replaced 0, pushed 0, handlers 0", () =>
+            Check(F, "F3", "?preview=abc", "Clear(\"absent\")", "preview=abc | replaced 0, pushed 0, handlers 0", () =>
             {
                 Arrive("?preview=abc");
 
                 var mark = new Mark();
-                RouteState.Clear("absent");
+                RouteQuery.Clear("absent");
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(J, "J4", "(no query)", "Set(\"k\", \"C++\"); Set(\"k2\", \"a&b=c\"); Get both", "k=C%2B%2B&k2=a%26b%3Dc | C++ | a&b=c", () =>
+            Check(F, "F4", "(no query)", "Set(\"k\", \"C++\"); Set(\"k2\", \"a&b=c\"); Get both", "k=C%2B%2B&k2=a%26b%3Dc | C++ | a&b=c", () =>
             {
                 Arrive("");
 
-                RouteState.Set("k", "C++");
-                RouteState.Set("k2", "a&b=c");
+                RouteQuery.Set("k", "C++");
+                RouteQuery.Set("k2", "a&b=c");
 
-                return Query() + " | " + RouteState.Get("k") + " | " + RouteState.Get("k2");
+                return Query() + " | " + RouteQuery.Get("k") + " | " + RouteQuery.Get("k2");
             });
 
-            Check(J, "J5", "?preview=abc&k=v", "Update(p => p.With(\"a\", \"1\").Remove(\"k\"))", "preview=abc&a=1 | replaced 1, pushed 0, handlers 0", () =>
+            Check(F, "F5", "?preview=abc&k=v", "Update(p => p.With(\"a\", \"1\").Remove(\"k\"))", "preview=abc&a=1 | replaced 1, pushed 0, handlers 0", () =>
             {
                 Arrive("?preview=abc&k=v");
 
                 var mark = new Mark();
-                RouteState.Update(p => p.With("a", "1").Remove("k"));
+                RouteQuery.Update(p => p.With("a", "1").Remove("k"));
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(J, "J6", "?preview=abc&a=1", "Update(p => p.With(\"a\", \"1\")), no net change", "preview=abc&a=1 | replaced 0, pushed 0, handlers 0", () =>
+            Check(F, "F6", "?preview=abc&a=1", "Update(p => p.With(\"a\", \"1\")), no net change", "preview=abc&a=1 | replaced 0, pushed 0, handlers 0", () =>
             {
                 Arrive("?preview=abc&a=1");
 
                 var mark = new Mark();
-                RouteState.Update(p => p.With("a", "1"));
+                RouteQuery.Update(p => p.With("a", "1"));
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(J, "J7", "?toast=i%3Bhi", "Consume(\"toast\", out v), then again", "true \"i;hi\" | (none) | replaced 1; then false, replaced 0", () =>
+            Check(F, "F7", "?toast=i%3Bhi", "Consume(\"toast\", out v), then again", "true \"i;hi\" | (none) | replaced 1; then false, replaced 0", () =>
             {
                 Arrive("?toast=i%3Bhi");
 
                 var first      = new Mark();
-                var wasThere   = RouteState.Consume("toast", out var value);
+                var wasThere   = RouteQuery.Consume("toast", out var value);
                 var firstText  = "replaced " + (_replaced - first.Replaced);
                 var afterFirst = Query();
 
                 var second     = new Mark();
-                var again      = RouteState.Consume("toast", out _);
+                var again      = RouteQuery.Consume("toast", out _);
 
                 return B(wasThere) + " \"" + value + "\" | " + afterFirst + " | " + firstText + "; then " + B(again) + ", replaced " + (_replaced - second.Replaced);
             });
 
-            Check(J, "J8", "?knwnerr=x&msg=hello&keep=1", "Consume(\"knwnerr\", \"msg\")", "true | keep=1 | replaced 1", () =>
+            Check(F, "F8", "?knwnerr=x&msg=hello&keep=1", "Consume(\"knwnerr\", \"msg\")", "true | keep=1 | replaced 1", () =>
             {
                 Arrive("?knwnerr=x&msg=hello&keep=1");
 
                 var mark = new Mark();
-                var any  = RouteState.Consume("knwnerr", "msg");
+                var any  = RouteQuery.Consume("knwnerr", "msg");
 
                 return B(any) + " | " + Query() + " | replaced " + (_replaced - mark.Replaced);
             });
 
-            Check(J, "J8", "?msg=hello&keep=1", "Consume(\"knwnerr\", \"msg\"), only msg there", "true | keep=1 | replaced 1", () =>
+            Check(F, "F8", "?msg=hello&keep=1", "Consume(\"knwnerr\", \"msg\"), only msg there", "true | keep=1 | replaced 1", () =>
             {
                 Arrive("?msg=hello&keep=1");
 
                 var mark = new Mark();
-                var any  = RouteState.Consume("knwnerr", "msg");
+                var any  = RouteQuery.Consume("knwnerr", "msg");
 
                 return B(any) + " | " + Query() + " | replaced " + (_replaced - mark.Replaced);
             });
 
-            Check(J, "J8", "?keep=1", "Consume(\"knwnerr\", \"msg\"), neither there", "false | keep=1 | replaced 0", () =>
+            Check(F, "F8", "?keep=1", "Consume(\"knwnerr\", \"msg\"), neither there", "false | keep=1 | replaced 0", () =>
             {
                 Arrive("?keep=1");
 
                 var mark = new Mark();
-                var any  = RouteState.Consume("knwnerr", "msg");
+                var any  = RouteQuery.Consume("knwnerr", "msg");
 
                 return B(any) + " | " + Query() + " | replaced " + (_replaced - mark.Replaced);
             });
 
-            Check(J, "J9", "?su=search&query=q", "Set(\"other\", \"1\"): keys that belong to someone else", "su=search&query=q&other=1 | replaced 1, pushed 0, handlers 0", () =>
+            Check(F, "F9", "?su=search&query=q", "Set(\"other\", \"1\"): keys that belong to someone else", "su=search&query=q&other=1 | replaced 1, pushed 0, handlers 0", () =>
             {
                 Arrive("?su=search&query=q");
 
                 var mark = new Mark();
-                RouteState.Set("other", "1");
+                RouteQuery.Set("other", "1");
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(J, "J10", "(no query)", "Set(\"a\", \"1\"); Set(\"b\", \"2\")", "a=1&b=2", () =>
+            Check(F, "F10", "(no query)", "Set(\"a\", \"1\"); Set(\"b\", \"2\")", "a=1&b=2", () =>
             {
                 Arrive("");
 
-                RouteState.Set("a", "1");
-                RouteState.Set("b", "2");
+                RouteQuery.Set("a", "1");
+                RouteQuery.Set("b", "2");
 
                 return Query();
             });
         }
 
         // ------------------------------------------------------------------------------------------------
-        // K: writes that add an entry, and the ones that only sometimes do
+        // G: writes that add an entry, and the ones that only sometimes do
 
         private static void RunHistory()
         {
-            Check(K, "K1", "(no query)", "SetWithHistory(\"show\", \"a\"): arriving", "show=a | replaced 1, pushed 0, handlers 0", () =>
+            Check(G, "G1", "(no query)", "SetWithHistory(\"show\", \"a\"): arriving", "show=a | replaced 1, pushed 0, handlers 0", () =>
             {
                 Arrive("");
 
                 var mark = new Mark();
-                RouteState.SetWithHistory("show", "a");
+                RouteQuery.SetWithHistory("show", "a");
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(K, "K2", "?show=a", "SetWithHistory(\"show\", \"b\"): a change", "show=b | replaced 0, pushed 1, handlers 0", () =>
+            Check(G, "G2", "?show=a", "SetWithHistory(\"show\", \"b\"): a change", "show=b | replaced 0, pushed 1, handlers 0", () =>
             {
                 Arrive("?show=a");
 
                 var mark = new Mark();
-                RouteState.SetWithHistory("show", "b");
+                RouteQuery.SetWithHistory("show", "b");
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(K, "K3", "?show=b", "SetWithHistory(\"show\", \"b\"): the same value", "show=b | replaced 0, pushed 0, handlers 0", () =>
+            Check(G, "G3", "?show=b", "SetWithHistory(\"show\", \"b\"): the same value", "show=b | replaced 0, pushed 0, handlers 0", () =>
             {
                 Arrive("?show=b");
 
                 var mark = new Mark();
-                RouteState.SetWithHistory("show", "b");
+                RouteQuery.SetWithHistory("show", "b");
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(K, "K4", "?show=", "SetWithHistory(\"show\", \"a\"): empty value", "show=a | replaced 1, pushed 0, handlers 0", () =>
+            Check(G, "G4", "?show=", "SetWithHistory(\"show\", \"a\"): empty value", "show=a | replaced 1, pushed 0, handlers 0", () =>
             {
                 Arrive("?show=");
 
                 var mark = new Mark();
-                RouteState.SetWithHistory("show", "a");
+                RouteQuery.SetWithHistory("show", "a");
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(K, "K5", "?show=%20", "SetWithHistory(\"show\", \"a\"): whitespace value", "show=a | replaced 1, pushed 0, handlers 0", () =>
+            Check(G, "G5", "?show=%20", "SetWithHistory(\"show\", \"a\"): whitespace value", "show=a | replaced 1, pushed 0, handlers 0", () =>
             {
                 Arrive("?show=%20");
 
                 var mark = new Mark();
-                RouteState.SetWithHistory("show", "a");
+                RouteQuery.SetWithHistory("show", "a");
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(K, "K6", "?preview=abc", "SetWithHistory(\"show\", \"a\") then (\"show\", \"b\")", "preview=abc&show=b | replaced 1, pushed 1, handlers 0", () =>
+            Check(G, "G6", "?preview=abc", "SetWithHistory(\"show\", \"a\") then (\"show\", \"b\")", "preview=abc&show=b | replaced 1, pushed 1, handlers 0", () =>
             {
                 Arrive("?preview=abc");
 
                 var mark = new Mark();
-                RouteState.SetWithHistory("show", "a");
-                RouteState.SetWithHistory("show", "b");
+                RouteQuery.SetWithHistory("show", "a");
+                RouteQuery.SetWithHistory("show", "b");
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(K, "K7", "(no query)", "UpdateWithHistory(.., \"timeFrame\", \"period\"): neither there", "timeFrame=7&period=day | replaced 1, pushed 0, handlers 0", () =>
+            Check(G, "G7", "(no query)", "UpdateWithHistory(.., \"timeFrame\", \"period\"): neither there", "timeFrame=7&period=day | replaced 1, pushed 0, handlers 0", () =>
             {
                 Arrive("");
 
                 var mark = new Mark();
-                RouteState.UpdateWithHistory(p => p.With("timeFrame", "7").With("period", "day"), "timeFrame", "period");
+                RouteQuery.UpdateWithHistory(p => p.With("timeFrame", "7").With("period", "day"), "timeFrame", "period");
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(K, "K7", "?timeFrame=7", "UpdateWithHistory(.., \"timeFrame\", \"period\"): one there", "timeFrame=7&period=day | replaced 1, pushed 0, handlers 0", () =>
+            Check(G, "G7", "?timeFrame=7", "UpdateWithHistory(.., \"timeFrame\", \"period\"): one there", "timeFrame=7&period=day | replaced 1, pushed 0, handlers 0", () =>
             {
                 Arrive("?timeFrame=7");
 
                 var mark = new Mark();
-                RouteState.UpdateWithHistory(p => p.With("period", "day"), "timeFrame", "period");
+                RouteQuery.UpdateWithHistory(p => p.With("period", "day"), "timeFrame", "period");
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(K, "K7", "?timeFrame=7&period=day", "UpdateWithHistory(.., \"timeFrame\", \"period\"): both there, two keys change, one entry", "timeFrame=30&period=week | replaced 0, pushed 1, handlers 0", () =>
+            Check(G, "G7", "?timeFrame=7&period=day", "UpdateWithHistory(.., \"timeFrame\", \"period\"): both there, two keys change, one entry", "timeFrame=30&period=week | replaced 0, pushed 1, handlers 0", () =>
             {
                 Arrive("?timeFrame=7&period=day");
 
                 var mark = new Mark();
-                RouteState.UpdateWithHistory(p => p.With("timeFrame", "30").With("period", "week"), "timeFrame", "period");
+                RouteQuery.UpdateWithHistory(p => p.With("timeFrame", "30").With("period", "week"), "timeFrame", "period");
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(K, "K8", "?show=a&tab=x", "UpdateWithHistory(p => p.With(\"show\", \"b\").Remove(\"tab\"), \"show\")", "show=b | replaced 0, pushed 1, handlers 0", () =>
+            Check(G, "G8", "?show=a&tab=x", "UpdateWithHistory(p => p.With(\"show\", \"b\").Remove(\"tab\"), \"show\")", "show=b | replaced 0, pushed 1, handlers 0", () =>
             {
                 Arrive("?show=a&tab=x");
 
                 var mark = new Mark();
-                RouteState.UpdateWithHistory(p => p.With("show", "b").Remove("tab"), "show");
+                RouteQuery.UpdateWithHistory(p => p.With("show", "b").Remove("tab"), "show");
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(K, "K8", "(no query)", "UpdateWithHistory(p => p.With(\"show\", \"a\").With(\"tab\", \"x\"), \"show\"): arriving", "show=a&tab=x | replaced 1, pushed 0, handlers 0", () =>
+            Check(G, "G8", "(no query)", "UpdateWithHistory(p => p.With(\"show\", \"a\").With(\"tab\", \"x\"), \"show\"): arriving", "show=a&tab=x | replaced 1, pushed 0, handlers 0", () =>
             {
                 Arrive("");
 
                 var mark = new Mark();
-                RouteState.UpdateWithHistory(p => p.With("show", "a").With("tab", "x"), "show");
+                RouteQuery.UpdateWithHistory(p => p.With("show", "a").With("tab", "x"), "show");
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(K, "K10", "#/home?preview=a,b&x=1", "ReplacePath(\"#/search\")", "#/search?preview=a%2Cb&x=1 | replaced 1, pushed 0, handlers 0", () =>
+            Check(G, "G10", "#/home?preview=a,b&x=1", "ReplacePath(\"#/search\")", "#/search?preview=a%2Cb&x=1 | replaced 1, pushed 0, handlers 0", () =>
             {
                 Router.Replace("#/home?preview=a,b&x=1");
 
                 var mark = new Mark();
-                RouteState.ReplacePath("#/search");
+                RoutePath.ReplacePath("#/search");
 
                 return Hash() + " | " + Effects(mark);
             });
 
-            Check(K, "K11", "#/", "ReplacePath(\"#/search\") from a path with no segments", "#/search | replaced 1, pushed 0, handlers 0", () =>
+            Check(G, "G11", "#/", "ReplacePath(\"#/search\") from a path with no segments", "#/search | replaced 1, pushed 0, handlers 0", () =>
             {
                 Router.Replace("#/");
 
                 var mark = new Mark();
-                RouteState.ReplacePath("#/search");
+                RoutePath.ReplacePath("#/search");
 
                 return Hash() + " | " + Effects(mark);
             });
 
-            Check(K, "K12", "?a=1", "ReplacePath to the path it is already on", "true; a=1 | replaced 0, pushed 0, handlers 0", () =>
+            Check(G, "G12", "?a=1", "ReplacePath to the path it is already on", "true; a=1 | replaced 0, pushed 0, handlers 0", () =>
             {
                 Arrive("?a=1");
 
                 var mark = new Mark();
-                var ok   = RouteState.ReplacePath(Home);
+                var ok   = RoutePath.ReplacePath(Home);
 
                 return B(ok) + "; " + Query() + " | " + Effects(mark);
             });
 
-            Check(K, "K13", "?a=1", "ReplacePath(\"#/search\") while a guard refuses", "false; " + Home + "?a=1 | replaced 0, pushed 0, handlers 0", () =>
+            Check(G, "G13", "?a=1", "ReplacePath(\"#/search\") while a guard refuses", "false; " + Home + "?a=1 | replaced 0, pushed 0, handlers 0", () =>
             {
                 Arrive("?a=1");
 
                 var mark = new Mark();
 
                 _refuse = true;
-                var ok  = RouteState.ReplacePath("#/search");
+                var ok  = RoutePath.ReplacePath("#/search");
                 _refuse = false;
 
                 return B(ok) + "; " + Hash() + " | " + Effects(mark);
@@ -424,31 +424,31 @@ namespace Tesserae.Tests.Samples
 
         private static async Task RunHistoryBackAsync()
         {
-            await CheckAsync(K, "K14", "(no query)", "SetWithHistory(\"show\", \"a\"), then \"b\", then the browser's Back", "show=a; handlers 1", async () =>
+            await CheckAsync(G, "G14", "(no query)", "SetWithHistory(\"show\", \"a\"), then \"b\", then the browser's Back", "show=a; handlers 1", async () =>
             {
                 Arrive("");
 
-                RouteState.SetWithHistory("show", "a");
-                RouteState.SetWithHistory("show", "b");
+                RouteQuery.SetWithHistory("show", "a");
+                RouteQuery.SetWithHistory("show", "b");
 
                 var mark = new Mark();
                 window.history.back();
 
-                await WaitFor(() => RouteState.Get("show") == "a" && _navigated > mark.Navigated);
+                await WaitFor(() => RouteQuery.Get("show") == "a" && _navigated > mark.Navigated);
 
-                return "show=" + RouteState.Get("show") + "; handlers " + (_navigated - mark.Navigated);
+                return "show=" + RouteQuery.Get("show") + "; handlers " + (_navigated - mark.Navigated);
             });
         }
 
         // ------------------------------------------------------------------------------------------------
-        // L: the router itself
+        // H: the router itself
 
         private static async Task RunRouterAsync()
         {
-            Check(L, "L1", Home + "?a=1&k=v&z=1", "Router.Replace to the same path with another query", "isBack false", () =>
+            Check(H, "H1", Home + "?a=1&k=v&z=1", "Router.Replace to the same path with another query", "isBack false", () =>
             {
                 Arrive("?a=1");
-                RouteState.Set("k", "v");
+                RouteQuery.Set("k", "v");
 
                 _isBackByPath.Remove(Home.TrimStart('#'));
 
@@ -457,7 +457,7 @@ namespace Tesserae.Tests.Samples
                 return "isBack " + (_isBackByPath.TryGetValue(Home.TrimStart('#'), out var isBack) ? B(isBack) : "(guard not asked)");
             });
 
-            await CheckAsync(L, "L2", Probe("one") + ", then " + Probe("two"), "Navigate to each, then the browser's Back", "forward isBack false; back isBack true", async () =>
+            await CheckAsync(H, "H2", Probe("one") + ", then " + Probe("two"), "Navigate to each, then the browser's Back", "forward isBack false; back isBack true", async () =>
             {
                 Arrive("");
 
@@ -476,7 +476,7 @@ namespace Tesserae.Tests.Samples
                 return "forward isBack " + B(forward) + "; back isBack " + B(back);
             });
 
-            await CheckAsync(L, "L3", Probe("abc") + "?x=1", "the handler removes \"x\" from its parameters; GetQueryParameters(); Set(\"y\", \"2\")", "x kept: true | x=1&y=2", async () =>
+            await CheckAsync(H, "H3", Probe("abc") + "?x=1", "the handler removes \"x\" from its parameters; GetQueryParameters(); Set(\"y\", \"2\")", "x kept: true | x=1&y=2", async () =>
             {
                 Arrive("");
 
@@ -488,12 +488,12 @@ namespace Tesserae.Tests.Samples
 
                 var kept = Router.GetQueryParameters().ContainsKey("x");
 
-                RouteState.Set("y", "2");
+                RouteQuery.Set("y", "2");
 
                 return "x kept: " + B(kept) + " | " + Query();
             });
 
-            Check(L, "L4", "(after L3)", "remove \"x\" from, and add \"z\" to, the parameters GetQueryParameters() returned", "x kept: true, z added: false | x=1&y=2", () =>
+            Check(H, "H4", "(after L3)", "remove \"x\" from, and add \"z\" to, the parameters GetQueryParameters() returned", "x kept: true, z added: false | x=1&y=2", () =>
             {
                 var copy = Router.GetQueryParameters();
 
@@ -505,7 +505,7 @@ namespace Tesserae.Tests.Samples
                 return "x kept: " + B(again.ContainsKey("x")) + ", z added: " + B(again.ContainsKey("z")) + " | " + Query();
             });
 
-            await CheckAsync(L, "L5", Probe("abc") + "?x=1", "GetQueryParameters() on a route with :id; then after Router.Replace to the same path", "id=abc; after Replace has id: false", async () =>
+            await CheckAsync(H, "H5", Probe("abc") + "?x=1", "GetQueryParameters() on a route with :id; then after Router.Replace to the same path", "id=abc; after Replace has id: false", async () =>
             {
                 Arrive("");
 
@@ -520,18 +520,18 @@ namespace Tesserae.Tests.Samples
                 return "id=" + onRoute + "; after Replace has id: " + B(afterReplace);
             });
 
-            await CheckAsync(J, "J11", Probe("abc"), "Set(\"k\", \"v\") on a route with :id", Probe("abc") + "?k=v", async () =>
+            await CheckAsync(F, "F11", Probe("abc"), "Set(\"k\", \"v\") on a route with :id", Probe("abc") + "?k=v", async () =>
             {
                 Arrive("");
 
                 await NavigateAndWait(Probe("abc"));
 
-                RouteState.Set("k", "v");
+                RouteQuery.Set("k", "v");
 
                 return Hash();
             });
 
-            await CheckAsync(L, "L6", Probe("abc") + "?id=zzz", "a query key with the name of a :variable; then Set(\"k\", \"v\")", "id=zzz; handler got zzz | id=zzz&k=v", async () =>
+            await CheckAsync(H, "H6", Probe("abc") + "?id=zzz", "a query key with the name of a :variable; then Set(\"k\", \"v\")", "id=zzz; handler got zzz | id=zzz&k=v", async () =>
             {
                 Arrive("");
 
@@ -540,17 +540,17 @@ namespace Tesserae.Tests.Samples
                 var seen    = Router.GetQueryParameters()["id"];
                 var handler = _probeParams["id"];
 
-                RouteState.Set("k", "v");
+                RouteQuery.Set("k", "v");
 
                 return "id=" + seen + "; handler got " + handler + " | " + Query();
             });
 
-            Check(L, "L7", "(registered routes)", "Router.Exists(\"#/route-state-probe/:id\"), Exists(\"/route-state-probe/:id\"), Exists(\"#/route-state-nothing\")", "true, true, false", () =>
+            Check(H, "H7", "(registered routes)", "Router.Exists(\"#/route-state-probe/:id\"), Exists(\"/route-state-probe/:id\"), Exists(\"#/route-state-nothing\")", "true, true, false", () =>
             {
                 return B(Router.Exists("#/route-state-probe/:id")) + ", " + B(Router.Exists("/route-state-probe/:id")) + ", " + B(Router.Exists("#/route-state-nothing"));
             });
 
-            await CheckAsync(L, "L8", Probe("refuse"), "Navigate to a route whose handler returns false", "handler ran: true; hash restored: true; handlers +0", async () =>
+            await CheckAsync(H, "H8", Probe("refuse"), "Navigate to a route whose handler returns false", "handler ran: true; hash restored: true; handlers +0", async () =>
             {
                 Arrive("");
 
@@ -568,7 +568,7 @@ namespace Tesserae.Tests.Samples
                 return "handler ran: " + B(ran) + "; hash restored: " + B(restored) + "; handlers +" + (_navigated - mark.Navigated);
             });
 
-            await CheckAsync(L, "L9", Probe("one"), "Navigate to the address it is on, then the same with reload: true", "no-op: replaced 0, pushed 0, handlers 0; reload: replaced 0, pushed 0, handlers 1", async () =>
+            await CheckAsync(H, "H9", Probe("one"), "Navigate to the address it is on, then the same with reload: true", "no-op: replaced 0, pushed 0, handlers 0; reload: replaced 0, pushed 0, handlers 1", async () =>
             {
                 Arrive("");
 
@@ -584,7 +584,7 @@ namespace Tesserae.Tests.Samples
                 return "no-op: " + plainText + "; reload: " + Effects(forced);
             });
 
-            await CheckAsync(L, "L10", "#/ROUTE-STATE-PROBE/OnE", "a route in other letters than it was registered with", "matched: true; id=OnE", async () =>
+            await CheckAsync(H, "H10", "#/ROUTE-STATE-PROBE/OnE", "a route in other letters than it was registered with", "matched: true; id=OnE", async () =>
             {
                 Arrive("");
 
@@ -593,7 +593,7 @@ namespace Tesserae.Tests.Samples
                 return "matched: " + B(matched) + "; id=" + (_probeParams is object && _probeParams.TryGetValue("id", out var id) ? id : "(none)");
             });
 
-            await CheckAsync(L, "L11", "#/route-state-async/one", "an async handler: has it finished when OnNavigated fires?", "at OnNavigated: false; later: true", async () =>
+            await CheckAsync(H, "H11", "#/route-state-async/one", "an async handler: has it finished when OnNavigated fires?", "at OnNavigated: false; later: true", async () =>
             {
                 Arrive("");
 
@@ -605,7 +605,7 @@ namespace Tesserae.Tests.Samples
                 return "at OnNavigated: " + B(_asyncFinishedWhenNavigated) + "; later: " + B(_asyncFinished);
             });
 
-            await CheckAsync(L, "L12", Probe("one") + "/cut/secret", "OnTransformRoutes that cuts \"/cut/...\": CurrentHash; RouteState.Path; the handler's id", "#/route-state-probe/one; #/route-state-probe/one; id=one", async () =>
+            await CheckAsync(H, "H12", Probe("one") + "/cut/secret", "OnTransformRoutes that cuts \"/cut/...\": CurrentHash; RoutePath.Current; the handler's id", "#/route-state-probe/one; #/route-state-probe/one; id=one", async () =>
             {
                 Arrive("");
 
@@ -613,12 +613,12 @@ namespace Tesserae.Tests.Samples
 
                 await NavigateAndWait(Probe("one") + "/cut/secret");
 
-                return Router.CurrentHash + "; " + RouteState.Path + "; id=" + (_probeParams is object && _probeParams.TryGetValue("id", out var id) ? id : "(none)");
+                return Router.CurrentHash + "; " + RoutePath.Current + "; id=" + (_probeParams is object && _probeParams.TryGetValue("id", out var id) ? id : "(none)");
             });
 
             Router.OnTransformRoutes(url => url);
 
-            await CheckAsync(L, "L13", "#/route-state-nothing/x", "Navigate to an address no route matches", "not matched +1; handlers +0", async () =>
+            await CheckAsync(H, "H13", "#/route-state-nothing/x", "Navigate to an address no route matches", "not matched +1; handlers +0", async () =>
             {
                 Arrive("");
 
@@ -632,7 +632,7 @@ namespace Tesserae.Tests.Samples
                 return "not matched +" + (_notMatched - missing) + "; handlers +" + (_navigated - mark.Navigated);
             });
 
-            await CheckAsync(L, "L14", Probe("one") + "?q=%", "a stray % in the query", "matched: true; q=%", async () =>
+            await CheckAsync(H, "H14", Probe("one") + "?q=%", "a stray % in the query", "matched: true; q=%", async () =>
             {
                 Arrive("");
 
@@ -641,7 +641,7 @@ namespace Tesserae.Tests.Samples
                 return "matched: " + B(matched) + "; q=" + (_probeParams is object && _probeParams.TryGetValue("q", out var q) ? q : "(none)");
             });
 
-            Check(L, "L15", "(new Parameters)", "With returns the same instance; Clone is independent", "same instance: true; original 1, clone 2", () =>
+            Check(H, "H15", "(new Parameters)", "With returns the same instance; Clone is independent", "same instance: true; original 1, clone 2", () =>
             {
                 var original = new Parameters();
                 var same     = ReferenceEquals(original.With("a", "1"), original);
