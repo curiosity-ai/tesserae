@@ -139,7 +139,7 @@ list of rows, or a compact row of pills with a "+N more". See `context-cards.md`
 - StatefulItemRow — a full-width list row with a trailing slot you choose and a state tone — `stateful-item-row.md`
 
 - ContextCards — the group — `context-cards.md`
-- RelatedQuestions — follow-up questions about one object, its identity drawn from the same parts — `related-questions.md`
+- ActionCard — actions about one object, its identity drawn from the same parts — `action-card.md`
 - ContextMenu — the menu `OnContextMenu` opens, and its items — `context-menu.md`
 - Chat (ChatArea / ChatMessage) — `chat.md`
 - OmniBox — hosts a row of these below its chat input via `WithContextToAdd` — `omni-box.md`
