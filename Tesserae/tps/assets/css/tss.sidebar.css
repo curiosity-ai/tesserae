@@ -1493,6 +1493,15 @@
     color: var(--tss-secondary-foreground-color);
 }
 
+/* While the room beside the logo shows less than half of the name, the name is cut to something like "C.."
+   and the row is better as the logo alone, which is what the collapsed rail draws. The row measures that and
+   puts the class on itself (SidebarIdentityRow.UpdateTextFit). It is visibility and not display: the lines
+   keep their box, so the row goes on measuring how much of the name would fit and brings it back as soon as
+   the rail is wide enough. Nothing is clipped differently and the commands stay where they were. */
+.tss-sidebar-identity.tss-sidebar-identity-text-hidden .tss-sidebar-identity-lines {
+    visibility: hidden;
+}
+
 /* A selected row is filled with a wash of the primary and its text takes that colour; the second line
    would otherwise stay the neutral grey and read as disabled inside it. */
 .tss-sidebar-identity.tss-sidebar-selected .tss-sidebar-identity-subtitle {

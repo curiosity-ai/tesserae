@@ -40,17 +40,29 @@ namespace Tesserae
         private readonly IComponent               _closed;
         private readonly SettableObservable<bool> _selected;
 
-        private SidebarCommand[] _extraCommands = new SidebarCommand[0];
-        private SidebarCommand   _primaryCommand;
-        private SidebarCommand   _secondaryCommand;
-        private Action<Button>   _tooltipClosed;
-        private string           _title;
-        private string           _subtitle;
-        private bool             _fitsRail;
-        private HTMLElement      _fittedRail;
-        private string           _fittedMinWidth;
-        private bool             _waitingForFonts;
-        private double           _refitTimeout;
+        private SidebarCommand[]                 _extraCommands = new SidebarCommand[0];
+        private SidebarCommand                   _primaryCommand;
+        private SidebarCommand                   _secondaryCommand;
+        private Action<Button, TooltipPlacement> _tooltip;
+        private ResizeObserver                   _textObserver;
+        private string                           _title;
+        private string                           _subtitle;
+        private bool                             _fitsRail;
+        private bool                             _textHidden;
+        private HTMLElement                      _fittedRail;
+        private string                           _fittedMinWidth;
+        private bool                             _waitingForFonts;
+        private double                           _refitTimeout;
+
+        /// <summary>
+        /// The share of the name that has to be drawn for the row to keep drawing it. Below it the name is
+        /// ellipsized past being read ("C..") and the logo says more than what is left of it, so the row
+        /// hides its text and is the logo alone - what the collapsed rail already is. See <see cref="UpdateTextFit"/>.
+        /// </summary>
+        private const double MIN_NAME_SHARE_SHOWN = 0.5;
+
+        /// <summary>The class <see cref="UpdateTextFit"/> puts on the open row while its text is hidden, for tss.sidebar.css.</summary>
+        private const string TEXT_HIDDEN_CLASS = "tss-sidebar-identity-text-hidden";
 
         /// <summary>
         /// The width the open rail needs for the row's text to be drawn whole, written on the rail by
@@ -110,6 +122,13 @@ namespace Tesserae
 
             UpdateSubtitleVisibility();
             RefreshDefaultTooltip();
+
+            //The content box is what the rail's width and the commands' strip are taken out of, so it is the
+            //one thing whose size says how much room the name has. Observed for good rather than per mount: a
+            //row that leaves the document, or is collapsed, measures as nothing and is skipped (UpdateTextFit),
+            //and the notification that comes when it is back is the one that measures it again.
+            _textObserver = new ResizeObserver((entries, obs) => UpdateTextFit());
+            _textObserver.observe(_content);
 
             _selected.Observe(isSelected =>
             {
@@ -277,27 +296,35 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the tooltip shown on the collapsed rail, where the row is the picture alone. None - the
-        /// default - shows the name and the second line.
+        /// Sets the tooltip shown where the row is the picture alone: on the collapsed rail, and on the open
+        /// one while the room beside the picture is too narrow for the name (see <see cref="UpdateTextFit"/>).
+        /// None - the default - shows the name and the second line.
         /// </summary>
         /// <param name="text">The tooltip text.</param>
         /// <returns>The current instance of the type.</returns>
         public T Tooltip(string text)
         {
-            _tooltipClosed = (b) => b.Tooltip(text, placement: TooltipPlacement.Right);
-            _tooltipClosed(_closedButton);
+            _tooltip = (b, placement) => b.Tooltip(text, placement: placement);
+            _tooltip(_closedButton, TooltipPlacement.Right);
+
+            if (_textHidden) ApplyOpenTooltip();
+
             return Self;
         }
 
         /// <summary>
-        /// Sets the tooltip component shown on the collapsed rail.
+        /// Sets the tooltip component shown where the row is the picture alone: on the collapsed rail, and on
+        /// the open one while the room beside the picture is too narrow for the name.
         /// </summary>
         /// <param name="tooltip">The tooltip component.</param>
         /// <returns>The current instance of the type.</returns>
         public T Tooltip(IComponent tooltip)
         {
-            _tooltipClosed = (b) => b.Tooltip(tooltip, placement: TooltipPlacement.Right);
-            _tooltipClosed(_closedButton);
+            _tooltip = (b, placement) => b.Tooltip(tooltip, placement: placement);
+            _tooltip(_closedButton, TooltipPlacement.Right);
+
+            if (_textHidden) ApplyOpenTooltip();
+
             return Self;
         }
 
@@ -369,6 +396,9 @@ namespace Tesserae
 
             _onRendered?.Invoke(_open.Render());
 
+            //The tooltip went with the element it was attached to when the row last left the document
+            if (_textHidden) ApplyOpenTooltip();
+
             if (_fitsRail)
             {
                 DomObserver.WhenMounted(_openOuter, () =>
@@ -393,6 +423,7 @@ namespace Tesserae
 
             RefreshDefaultTooltip();
             UpdateRailFit();
+            UpdateTextFit();
         }
 
         /// <summary>
@@ -440,19 +471,7 @@ namespace Tesserae
                 return;
             }
 
-            //Measured before the fonts are in, the text is the fallback's width: measure again once they are
-            if (!_waitingForFonts && Script.Write<bool>("!!(document.fonts && document.fonts.status === 'loading')"))
-            {
-                _waitingForFonts = true;
-
-                Action onFontsLoaded = () =>
-                {
-                    _waitingForFonts = false;
-                    UpdateRailFit();
-                };
-
-                Script.Write("document.fonts.ready.then(function () { {0}(); })", onFontsLoaded);
-            }
+            RefitWhenFontsLoad();
 
             var wanted    = Math.Max(_titleSpan.scrollWidth, _subtitleSpan.scrollWidth);
             var railWidth = rail.getBoundingClientRect().As<DOMRect>().width;
@@ -505,6 +524,59 @@ namespace Tesserae
             if (rail is null || rail.parentElement?.closest(".tss-sidebar-shift-panel-child") is object) return null;
 
             return rail;
+        }
+
+        /// <summary>
+        /// Measured before the fonts are in, the text is the fallback's width: measure again once they are.
+        /// </summary>
+        private void RefitWhenFontsLoad()
+        {
+            if (_waitingForFonts || !Script.Write<bool>("!!(document.fonts && document.fonts.status === 'loading')")) return;
+
+            _waitingForFonts = true;
+
+            Action onFontsLoaded = () =>
+            {
+                _waitingForFonts = false;
+                UpdateRailFit();
+                UpdateTextFit();
+            };
+
+            Script.Write("document.fonts.ready.then(function () { {0}(); })", onFontsLoaded);
+        }
+
+        /// <summary>
+        /// Hides the row's text while the room beside the picture shows less than <see cref="MIN_NAME_SHARE_SHOWN"/>
+        /// of the name, and brings it back once the rail is wide enough: a name cut to "C.." says nothing, and
+        /// the picture alone is what the collapsed rail draws. Only the name decides, since the second line is
+        /// the one that gives way first and a short name over a long address is no reason to hide either.
+        /// <para>
+        /// How much is drawn is read off the name's own box - <c>clientWidth</c> against the <c>scrollWidth</c>
+        /// it would need - which is what the stylesheet's ellipsis is cutting. The text is hidden with
+        /// <c>visibility</c> rather than <c>display</c> so it keeps that box: the measurement goes on being true
+        /// while it is hidden, and nothing is fed back into the layout it is read from, so the row cannot flap
+        /// at the threshold. A row that is not on screen measures as nothing and keeps the answer it had.
+        /// </para>
+        /// </summary>
+        private void UpdateTextFit()
+        {
+            if (!_content.isConnected) return;
+
+            var wanted = _titleSpan.scrollWidth;
+
+            if (wanted <= 0) return;
+
+            RefitWhenFontsLoad();
+
+            var hidden = _titleSpan.clientWidth < wanted * MIN_NAME_SHARE_SHOWN;
+
+            if (hidden == _textHidden) return;
+
+            _textHidden = hidden;
+            _openRoot.UpdateClassIf(hidden, TEXT_HIDDEN_CLASS);
+
+            if (hidden) ApplyOpenTooltip();
+            else _openButton.RemoveTooltip();
         }
 
         /// <summary>The row's own command, drawn last - settings on a profile, configuration on a brand.</summary>
@@ -567,27 +639,45 @@ namespace Tesserae
 
         private void ApplyClosedTooltip()
         {
-            if (_tooltipClosed is object)
-            {
-                _tooltipClosed(_closedButton);
-                return;
-            }
-
-            _closedButton.Tooltip(DefaultClosedTooltip(), placement: TooltipPlacement.Right);
+            ApplyTooltip(_closedButton, TooltipPlacement.Right);
         }
 
         /// <summary>
-        /// The tooltip the collapsed rail gets when the caller has not set one: the name, and the second line
-        /// after it where there is one. Re-applied whenever either changes, and left alone once a tooltip has
-        /// been set by hand.
+        /// The open row's tooltip, for as long as its text is hidden: below the picture rather than beside the
+        /// row, which is as wide as the rail. Set again rather than added to, since a tooltip is a listener and
+        /// adding one twice would show it twice.
+        /// </summary>
+        private void ApplyOpenTooltip()
+        {
+            _openButton.RemoveTooltip();
+            ApplyTooltip(_openButton, TooltipPlacement.Bottom);
+        }
+
+        private void ApplyTooltip(Button button, TooltipPlacement placement)
+        {
+            if (_tooltip is object)
+            {
+                _tooltip(button, placement);
+                return;
+            }
+
+            button.Tooltip(DefaultTooltip(), placement: placement);
+        }
+
+        /// <summary>
+        /// The tooltip the row gets where it is the picture alone, when the caller has not set one: the name,
+        /// and the second line after it where there is one. Re-applied whenever either changes, and left alone
+        /// once a tooltip has been set by hand.
         /// </summary>
         private void RefreshDefaultTooltip()
         {
-            if (_tooltipClosed is object) return;
+            if (_tooltip is object) return;
 
-            _closedButton.Tooltip(DefaultClosedTooltip(), placement: TooltipPlacement.Right);
+            _closedButton.Tooltip(DefaultTooltip(), placement: TooltipPlacement.Right);
+
+            if (_textHidden) ApplyOpenTooltip();
         }
 
-        private string DefaultClosedTooltip() => string.IsNullOrWhiteSpace(_subtitle) ? _title : _title + " - " + _subtitle;
+        private string DefaultTooltip() => string.IsNullOrWhiteSpace(_subtitle) ? _title : _title + " - " + _subtitle;
     }
 }
