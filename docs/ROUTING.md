@@ -97,7 +97,7 @@ See `Tesserae/skills/references/route-state.md` for asking where the page is (`R
 
 - `Router.OnBeforeNavigate(...)` lets you block navigation (return `false` to cancel). There is one handler; the last one registered wins. It sees `Navigate`, `ForceMatchCurrent`, hash changes (and so the browser's Back and Forward) and `Push`/`Replace`. Its `isBack` argument is true only for a `popstate` that returns to the path the previous navigation left.
 - `Router.OnNavigated(...)` lets you respond after navigation completes. It fires after the handler's synchronous part, so before an `async` handler has finished.
-- `Router.OnNotMatched(...)` is invoked when no route matches the new URL.
+- `Router.OnNotMatched(...)` is invoked when no route matches the new URL. The router's state still follows the address bar: `GetQueryParameters()` holds that URL's query, and a `Navigate` back to the page the user came from is not mistaken for "already there".
 - `Router.OnTransformRoutes(...)` rewrites the hash before it is matched.
 - `Router.OnWíllNavigate(...)` can veto `Router.Navigate` before anything happens.
 
