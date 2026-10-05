@@ -12,7 +12,6 @@
   <ItemGroup>
     <PackageReference Include="Transpose.BCL" Version="26.9.5840" />
     <PackageReference Include="Transpose.Core" Version="26.9.5838" />
-    <PackageReference Include="Transpose.Newtonsoft.Json" Version="26.9.5839" />
   </ItemGroup>
 
   <PropertyGroup>
