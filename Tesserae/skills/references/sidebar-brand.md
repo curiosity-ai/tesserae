@@ -84,23 +84,27 @@ into another (`Sidebar.ShiftTo`) does not widen the host, and ellipsizes.
 
 Where the name is ellipsized anyway (a brand on a shifted child sidebar), a name
 cut to `C..` says less than the logo beside it. Once the room shows **less than
-half of the text**, the row hides it and is the logo and its commands, which is
-what the collapsed rail draws. It comes back by itself as the rail gets wider.
-Nothing to call, and no script: it is the stylesheet doing arithmetic on the
-text's own width (`calc-size(max-content, ...)` on its `flex-basis`), so it holds
-while a rail is dragged or animated.
+half of the name**, the row hides its text (the second line with it) and is the
+logo and its commands, which is what the collapsed rail draws. It comes back by
+itself as the rail gets wider. Nothing to call, and no script: it is the
+stylesheet doing arithmetic on the name's own width (`calc-size(max-content, ...)`
+on the text's `flex-basis`), so it holds while a rail is dragged or animated.
+`SidebarProfile` behaves the same.
 
-- Half is taken of the whole text block, name and second line.
+- The name alone decides. The second line is taken out of what the text box
+  measures (it is positioned against it), so a short name over a long second line
+  is not hidden for the line's sake, and the line still runs past the name up to
+  the room the row has and ellipsizes there.
 - It applies to an open rail only, not to a page (`AsPage`) or a navbar
-  (`AsNavbar`), and not to `SidebarProfile`, where a long e-mail would decide for
-  the name.
+  (`AsNavbar`).
 - The words stay in the document, so assistive technology still reads the name.
   There is no tooltip while the text is hidden: a tooltip that appears only then
   would need script to know when.
 - A browser without `calc-size()` keeps ellipsizing the name, as before.
-- A skin that changes the logo's size or the gap beside it sets
-  `--tss-sidebar-brand-logo-size` / `--tss-sidebar-identity-gap`, which the
-  arithmetic reads too.
+- The arithmetic assumes the picture is 32px wide with a 10px gap. A skin that
+  changes either sets `--tss-sidebar-identity-picture-size` /
+  `--tss-sidebar-identity-gap`, which the logo's box and the arithmetic both read;
+  a profile's avatar takes its size from `AvatarSize`, so that one is set beside it.
 
 ## The brand as the rail's open/close control
 

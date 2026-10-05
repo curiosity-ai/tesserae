@@ -1493,22 +1493,45 @@
     color: var(--tss-secondary-foreground-color);
 }
 
-/* Where a brand's name would be cut to something like "C..", the logo says more than what is left of it, so
-   the text goes and the row is the logo and its commands - what the collapsed rail draws. No script is
-   involved, and no selector can ask "is less than half of it showing", so it is asked of the lengths: the
-   text's flex-basis is its own max-content width (calc-size) times 1 or 0 - 1 while half of that width fits
-   in what is left of the row beside the logo and the gap, 0 once it does not. The lines cannot grow and are
-   overflow: hidden, so a basis of 0 is a box with nothing drawn in it, and it comes back by itself as the
-   rail gets wider. The words stay in the document, so assistive technology still reads the name.
+/* Where a name would be cut to something like "C..", the picture says more than what is left of it, so the
+   text goes and the row is the picture and its commands - what the collapsed rail draws. No script is involved,
+   and no selector can ask "is less than half of it showing", so it is asked of the lengths: the text's
+   flex-basis is the room the row has left beside the picture and the gap while half of the name's own
+   max-content width (calc-size) fits in it, and 0 once it does not. The lines cannot grow and are
+   overflow: hidden, so a basis of 0 draws nothing, and the text comes back by itself as the rail widens. The
+   words stay in the document, so assistive technology still reads the name.
 
-   Shown, the basis is the max-content width the box already had, so the row lays out exactly as it did.
-   Half is taken of the whole text block, name and second line, because that is the box whose width this can
-   read; a brand's second line is rarely the longer of the two. Only an open rail, which is where a brand is
-   squeezed (the rule that fits the rail to the name, further up, is scoped the same way): a page or a navbar
-   is as wide as the screen gives it. A browser without calc-size() keeps ellipsizing as it did. */
+   Half is taken of the name alone. calc-size reads the max-content width of the box it is on, and the lines'
+   is the wider of the name and the second line - so the second line is taken out of what the box measures, by
+   positioning it against the lines (whose height keeps its place as padding). Being the room, the lines are
+   also what it is sized by: as wide as its text, at most 100% of them. So it still runs past a short name up
+   to where the room ends and ellipsizes there, as it did in flow, and goes with the name when the name goes.
+   The room is a percentage resolved inside the layout; container query units would read it too, and cost a
+   style recalculation after every layout of every row.
+
+   Only an open rail, which is where a row is squeezed (scoped like the rule that fits the rail to the name,
+   further up); a page or a navbar is as wide as the screen gives it. SidebarSectionHeader shares these
+   classes but is not a .tss-sidebar-identity row, so it is left as it was. A browser without calc-size()
+   keeps ellipsizing. */
 @supports (flex-basis: calc-size(max-content, size)) {
-    .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page):not(.tss-navbar) .tss-sidebar-brand .tss-sidebar-identity-lines {
-        flex-basis: calc-size(max-content, size * max(0, sign(100% - var(--tss-sidebar-brand-logo-size, 32px) - var(--tss-sidebar-identity-gap, 10px) - size / 2)));
+    .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page):not(.tss-navbar) .tss-sidebar-identity .tss-sidebar-identity-lines {
+        --tss-sidebar-identity-room: calc(100% - var(--tss-sidebar-identity-picture-size, 32px) - var(--tss-sidebar-identity-gap, 10px));
+        position: relative;
+        overflow: visible;
+        flex-basis: calc-size(max-content, var(--tss-sidebar-identity-room) * max(0, sign(var(--tss-sidebar-identity-room) - size / 2)));
+    }
+
+    /* The height the second line no longer gives the lines: its font-size by the lines' line-height */
+    .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page):not(.tss-navbar) .tss-sidebar-identity.tss-sidebar-identity-two-lines .tss-sidebar-identity-lines {
+        padding-bottom: calc(var(--tss-font-size-xsmall) * 1.25);
+    }
+
+    .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page):not(.tss-navbar) .tss-sidebar-identity .tss-sidebar-identity-subtitle {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: max-content;
+        max-width: 100%;
     }
 }
 
@@ -1568,13 +1591,13 @@
 }
 
 .tss-sidebar-identity-content > .tss-sidebar-brand-logo {
-    width: var(--tss-sidebar-brand-logo-size, 32px);
-    height: var(--tss-sidebar-brand-logo-size, 32px);
+    width: var(--tss-sidebar-identity-picture-size, 32px);
+    height: var(--tss-sidebar-identity-picture-size, 32px);
 }
 
 .tss-sidebar-identity-closed .tss-sidebar-brand-logo {
-    width: var(--tss-sidebar-brand-logo-size, 32px);
-    height: var(--tss-sidebar-brand-logo-size, 32px);
+    width: var(--tss-sidebar-identity-picture-size, 32px);
+    height: var(--tss-sidebar-identity-picture-size, 32px);
 }
 
 .tss-sidebar-brand-logo > .tss-image,

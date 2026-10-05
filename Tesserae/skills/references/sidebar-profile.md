@@ -84,6 +84,13 @@ squares and the room the name gives up for them all follow:
 On the collapsed rail the row is the picture alone — no name, no commands — with
 the name and the second line in its tooltip. Nothing has to be configured for it.
 
+The open rail does the same when it is too narrow for the name: once the room
+beside the picture shows **less than half of the name**, the text (second line
+included) is hidden and the row is the picture and its commands, coming back when
+the rail is wide enough. The name alone decides, so a short name over a long
+e-mail address keeps both. It is done in the stylesheet, with no script and no
+tooltip. See "The name gives way to the logo" in `sidebar-brand.md`.
+
 ## Example
 
 ```csharp
