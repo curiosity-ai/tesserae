@@ -74,19 +74,22 @@ namespace Tesserae.Tests.Samples
 
         public static RouteResult Evaluate(RouteCase routeCase)
         {
-            string actual;
+            var actual = Try(() => routeCase.Run(new RouteLocation(routeCase.Input)));
 
+            return new RouteResult(routeCase.Section, routeCase.Id, routeCase.Input, routeCase.Call, routeCase.Expected, actual);
+        }
+
+        // a case that throws is a failing row with the message, not a page that stops listing
+        private static string Try(Func<string> act)
+        {
             try
             {
-                actual = routeCase.Execute();
+                return act();
             }
             catch (Exception e)
             {
-                // a case that throws is a failing row with the message, not a page that stops listing
-                actual = "threw: " + e.Message;
+                return "threw: " + e.Message;
             }
-
-            return new RouteResult(routeCase.Section, routeCase.Id, routeCase.Input, routeCase.Call, routeCase.Expected, actual);
         }
 
         public static async Task<List<RouteResult>> RunAsync()
@@ -695,18 +698,7 @@ namespace Tesserae.Tests.Samples
 
         private static void Check(string section, string id, string input, string call, string expected, Func<string> act)
         {
-            string actual;
-
-            try
-            {
-                actual = act();
-            }
-            catch (Exception e)
-            {
-                actual = "threw: " + e.Message;
-            }
-
-            _results.Add(new RouteResult(section, id, input, call, expected, actual));
+            _results.Add(new RouteResult(section, id, input, call, expected, Try(act)));
         }
 
         private static async Task CheckAsync(string section, string id, string input, string call, string expected, Func<Task<string>> act)

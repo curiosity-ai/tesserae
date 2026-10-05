@@ -57,15 +57,15 @@ namespace Tesserae
         /// </summary>
         public bool IsOn(string route, params string[] childQueryKeys)
         {
-            return SameSegments(_segments, SegmentsOf(PathPart(route))) && !HasAnyKey(childQueryKeys);
+            return _segments.SequenceEqual(new RouteLocation(route)._segments, StringComparer.OrdinalIgnoreCase) && childQueryKeys?.Any(_query.ContainsKey) != true;
         }
 
         /// <summary>True when the path is <paramref name="route"/> or below it, on a segment boundary: <c>#/a/b</c> is under <c>#/a</c>, <c>#/ab</c> is not. Every path is under <c>#/</c>.</summary>
         public bool IsUnder(string route)
         {
-            var routeSegments = SegmentsOf(PathPart(route));
+            var routeSegments = new RouteLocation(route)._segments;
 
-            return routeSegments.Length <= _segments.Length && SameSegments(_segments.Take(routeSegments.Length).ToArray(), routeSegments);
+            return routeSegments.Length <= _segments.Length && _segments.Take(routeSegments.Length).SequenceEqual(routeSegments, StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -76,14 +76,9 @@ namespace Tesserae
         {
             var wanted = new RouteLocation(url);
 
-            if (!SameSegments(_segments, wanted._segments) || HasAnyKey(childQueryKeys)) return false;
-
-            foreach (var pair in wanted._query)
-            {
-                if (!_query.TryGetValue(pair.Key, out var value) || value != pair.Value) return false;
-            }
-
-            return true;
+            return _segments.SequenceEqual(wanted._segments, StringComparer.OrdinalIgnoreCase)
+                && childQueryKeys?.Any(_query.ContainsKey) != true
+                && wanted._query.All(pair => _query.TryGetValue(pair.Key, out var value) && value == pair.Value);
         }
 
         /// <summary>
@@ -92,23 +87,7 @@ namespace Tesserae
         /// </summary>
         public string Deepest(params string[] routes)
         {
-            string best      = null;
-            var    bestDepth = -1;
-
-            foreach (var route in routes)
-            {
-                if (route is null) continue;
-
-                var depth = SegmentsOf(PathPart(route)).Length;
-
-                if (depth > bestDepth && IsUnder(route))
-                {
-                    best      = route;
-                    bestDepth = depth;
-                }
-            }
-
-            return best;
+            return routes.Where(route => route is object && IsUnder(route)).OrderByDescending(route => new RouteLocation(route)._segments.Length).FirstOrDefault();
         }
 
         /// <summary>
@@ -120,38 +99,10 @@ namespace Tesserae
         /// <summary>True when <paramref name="key"/> has a value that is not empty or whitespace.</summary>
         public bool Has(string key) => _query.TryGetValue(key, out var value) && !string.IsNullOrWhiteSpace(value);
 
-        /// <summary>True when the key is in the query, whatever its value (<c>?x</c> and <c>?x=</c> give an empty one).</summary>
-        public bool TryGet(string key, out string value) => _query.TryGetValue(key, out value);
-
         /// <summary>The value of the key, <c>""</c> for <c>?x</c> and <c>?x=</c>, null when the key is not in the query.</summary>
         public string Get(string key) => _query.TryGetValue(key, out var value) ? value : null;
 
-        private bool HasAnyKey(string[] keys)
-        {
-            return keys is object && keys.Any(key => _query.ContainsKey(key));
-        }
-
-        private static string PathPart(string hashOrRoute)
-        {
-            var text       = (hashOrRoute ?? "").TrimStart('#');
-            var queryStart = text.IndexOf('?');
-
-            return queryStart >= 0 ? text.Substring(0, queryStart) : text;
-        }
-
         private static string[] SegmentsOf(string path) => (path ?? "").Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-
-        private static bool SameSegments(string[] a, string[] b)
-        {
-            if (a.Length != b.Length) return false;
-
-            for (var i = 0; i < a.Length; i++)
-            {
-                if (!string.Equals(a[i], b[i], StringComparison.OrdinalIgnoreCase)) return false;
-            }
-
-            return true;
-        }
 
         /// <summary>The query string's pairs into <paramref name="par"/>: split on <c>&amp;</c>, then on the first <c>=</c> only, so a value may contain one. The router parses with this too.</summary>
         internal static void ParseQueryInto(string query, Dictionary<string, string> par)

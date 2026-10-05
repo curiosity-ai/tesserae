@@ -91,17 +91,7 @@ A route's `:variables` are not written into the query: on `#/node/:uid`, a write
 
 ## RouteState and RouteLocation
 
-`RouteLocation` is a hash string read the way the router reads it: `Path`, `Query`, `IsOn`, `IsUnder`, `Matches`, `Deepest`, `Mentions`, `Has`, `TryGet`, `Get`. It does not look at the browser or the router, so it can be made from any string, before the first route has matched, or in a test. `RouteState.Current` is the one for the address bar (`Router.CurrentHash`, which is `window.location.hash` after the `OnTransformRoutes` transform), and `RouteState` forwards every read to it.
-
-`RouteState` also owns the writes, all on `ReplaceQueryParameters`: `Set`, `Clear`, `Update`, `Consume` (read a one-shot key and remove it), `SetWithHistory` and `UpdateWithHistory` (add a history entry only once the key has a value), and `ReplacePath`.
-
-```csharp
-var selected = RouteState.IsOn("#/calendar", "uid"); // on the page, unless a ?uid= owns it
-RouteState.SetWithHistory("show", tab);              // Back returns to the previous tab
-if (RouteState.Consume("toast", out var toast)) ShowToast(toast);
-```
-
-See `Tesserae/skills/references/route-state.md` for every member, and the **Route State** sample in the gallery, which runs the cases against them and checks itself.
+See `Tesserae/skills/references/route-state.md` for reading the URL (`RouteLocation`, `RouteState.Current`) and writing view state to it (`RouteState.Set`, `Consume`, `SetWithHistory`, ...).
 
 ## Navigation guards and events
 

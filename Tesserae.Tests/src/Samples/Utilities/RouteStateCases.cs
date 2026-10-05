@@ -25,11 +25,6 @@ namespace Tesserae.Tests.Samples
             Run      = run;
             Expected = expected;
         }
-
-        public string Execute()
-        {
-            return Run(new RouteLocation(Input));
-        }
     }
 
     /// <summary>
@@ -49,13 +44,6 @@ namespace Tesserae.Tests.Samples
 
         private static string B(bool value)   => value ? "true" : "false";
         private static string N(string value) => value ?? "null";
-
-        private static string TryText(RouteLocation location, string key)
-        {
-            var found = location.TryGet(key, out var value);
-
-            return B(found) + ", \"" + value + "\"";
-        }
 
         // Modelled on the admin sidebar: category bases, items under them, one route two items share
         private static readonly string[] AdminItems =
@@ -233,8 +221,8 @@ namespace Tesserae.Tests.Samples
             const string H = "H. Query parsing";
 
             Add(H, "H1",  "#/x?a=1&b=2",                         "Get(a); Get(b); Query.Count",  l => l.Get("a") + "; " + l.Get("b") + "; " + l.Query.Count,   "1; 2; 2");
-            Add(H, "H2",  "#/x?a",                               "TryGet(a)",                    l => TryText(l, "a"),                                         "true, \"\"");
-            Add(H, "H3",  "#/x?a=",                              "TryGet(a)",                    l => TryText(l, "a"),                                         "true, \"\"");
+            Add(H, "H2",  "#/x?a",                               "Get(a) != null; Get(a)",       l => B(l.Get("a") != null) + ", \"" + l.Get("a") + "\"",    "true, \"\"");
+            Add(H, "H3",  "#/x?a=",                              "Get(a) != null; Get(a)",       l => B(l.Get("a") != null) + ", \"" + l.Get("a") + "\"",    "true, \"\"");
             Add(H, "H4",  "#/x?=v",                              "Query.Count",                  l => l.Query.Count.ToString(),                                "0");
             Add(H, "H5",  "#/x?a=b=c",                           "Get(a)",                       l => N(l.Get("a")),                                           "b=c");
             Add(H, "H6",  "#/x?a=%3D%26%2C%3B",                  "Get(a)",                       l => N(l.Get("a")),                                           "=&,;");
@@ -265,7 +253,7 @@ namespace Tesserae.Tests.Samples
             Add(I, "I2", "#/x?show=",                "Has(show); Get(show)",         l => B(l.Has("show")) + "; \"" + l.Get("show") + "\"",            "false; \"\"");
             Add(I, "I3", "#/x?show=%20",             "Has(show)",                    l => B(l.Has("show")),                                             "false");
             Add(I, "I4", "#/x?show",                 "Has(show)",                    l => B(l.Has("show")),                                             "false");
-            Add(I, "I5", "#/x",                      "Has; Get; TryGet",             l => B(l.Has("show")) + "; " + N(l.Get("show")) + "; " + B(l.TryGet("show", out _)), "false; null; false");
+            Add(I, "I5", "#/x",                      "Has; Get",                     l => B(l.Has("show")) + "; " + N(l.Get("show")),                  "false; null");
             Add(I, "I6", "#/manage/home?section=",   "Get(section) != null; Has",    l => B(l.Get("section") != null) + "; " + B(l.Has("section")),    "true; false");
 
             return cases;

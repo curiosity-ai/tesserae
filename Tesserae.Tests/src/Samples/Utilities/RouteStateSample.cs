@@ -11,8 +11,6 @@ namespace Tesserae.Tests.Samples
     [SampleDetails(Group = SampleGroup.Utilities, Order = 70, Icon = UIcons.Navigation, Description = "Read and write URL state: paths, keys, history")]
     public class RouteStateSample : IComponent, ISample
     {
-        private const string MONOSPACE_FONT_FAMILY = "var(--tss-monospace-font-family, monospace)";
-
         private readonly IComponent        _content;
         private readonly TextBlock         _readSummary;
         private readonly TextBlock         _runSummary;
@@ -122,7 +120,7 @@ namespace Tesserae.Tests.Samples
             var cell = TextBlock(Shorten(text)).Small().Style(s =>
             {
                 s.wordBreak   = "break-word";
-                s.fontFamily   = MONOSPACE_FONT_FAMILY;
+                s.fontFamily   = "var(--tss-monospace-font-family, monospace)";
             });
 
             return failing ? cell.Foreground(Theme.Danger.Background) : cell;
