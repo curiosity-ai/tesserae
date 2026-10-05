@@ -178,6 +178,54 @@ reads while the pointer is somewhere else in the list. It follows
 `Theme.SetPrimary(...)`, so an app's own brand color is what marks its current
 page.
 
+## Pressing a group's header opens it
+
+A `SidebarNav` with items opens and closes when its header is pressed, in the open rail
+and in the collapsed one alike (the collapsed rail has no arrow, so this is the only way
+to open a group there). A group that is a page of its own takes `.OnClick(...)`, which
+replaces that default: pressing the header then runs the action, and the arrow opens the
+group. In page mode (`AsPage()`) pressing a header opens the group's panel instead.
+
+## Commands on a group
+
+A `SidebarNav` takes commands as trailing arguments, exactly as a `SidebarButton` does:
+
+```csharp
+SidebarNav workspaces = null;
+
+workspaces = new SidebarNav("workspaces", UIcons.Folder, "Workspaces", false,   // collapsed flag positional, see below
+    new SidebarCommand(UIcons.Plus).Tooltip("New workspace").OnClick(() => workspaces.Add(NewWorkspaceRow())),
+    new SidebarCommand(UIcons.MenuDots).Tooltip("More").HookToParentContextMenu()
+        .OnClickMenu(() => new ISidebarItem[]
+        {
+            new SidebarButton("rename", UIcons.Edit, "Rename"),
+            new SidebarButton("archive", UIcons.Box, "Archive")
+        }));
+```
+
+- **Where and when.** The commands sit at the right of the group's header (left of the
+  triangle in the Curiosity theme). They appear while the pointer is on the header, and
+  stay while one of their menus is open.
+- **They never toggle the group.** A command is not part of the header's button, so
+  pressing one runs it and nothing else: no open or close, and no `OnClick` of the group.
+  The header and the arrow keep their own behaviour (see above).
+- **A right click can run one.** `.HookToParentContextMenu()` on a command makes a right
+  click on the group's header run it, which is how the dots menu above opens from the
+  header. Only the first command carrying it is used.
+- **`.OnClickMenu(() => items)`** opens a menu of sidebar items under the command, the same
+  `ISidebarItem`s a sidebar holds (`SidebarButton`, `SidebarCommands`, ...).
+- **The collapsed rail has none.** A collapsed group is a tile, and tiles carry no commands,
+  so anything a group's commands do must also be reachable some other way.
+- **Page mode** (`AsPage()`): commands still work on the group's row; pressing the header
+  opens the panel, but a press on a command does not.
+- **A long name runs under the strip while the header is hovered.** A row fades its label out
+  where the strip begins; a group does not, so keep group names short or put the commands on
+  the rows inside.
+- **Not on groups:** `CommandsAlwaysVisible()` and badges are `SidebarButton` features.
+- **Pass the collapsed flag positionally.** `new SidebarNav(id, icon, text, initiallyCollapsed: false, cmd1, cmd2)`
+  compiles, but under Transpose a named argument ahead of the commands drops every command
+  after the first.
+
 ## A selection is never hidden
 
 A collapsed `SidebarNav` **expands itself when a child (or a nested descendant)
@@ -187,6 +235,24 @@ trigger it: the user can still collapse the group by hand while the same item
 stays selected. Observe selection yourself through `SidebarButton.SelectedStatus`
 / `SidebarNav.SelectedStatus` (`IObservable<bool>`), and opt a group out of the
 automatic expansion with `.KeepCollapsedOnSelection()`.
+
+A group that keeps collapsed on selection also carries the class
+`tss-sidebar-nav-keep-collapsed` on its rendered root, in both rail states. That is
+how a stylesheet tells a picker (a theme switch, a mode) from a page group: the
+Curiosity theme marks the group holding the current page, and climbs the current
+marker onto a group's header while it is closed over that page, but leaves a
+keep-collapsed group alone. A group with no items carries
+`tss-sidebar-nav-header-empty` on its header in both rail states, so no theme draws
+a chevron or triangle on it.
+
+## A pivot on the collapsed rail
+
+`SidebarPivot` draws its tabs as a segmented control while the sidebar is open. On the
+collapsed rail each tab becomes a tile showing the title's icon alone, with the title's
+words as its tooltip: the icon is read off the rendered title (the first `i`, `img`,
+`svg` or image inside it), so `SegmentTitle(text, icon)` gets it for free and a title
+built any other way still does, as long as it starts with an icon. A title with no icon
+is shown whole, clipped to the rail.
 
 ## A component of your own in the sidebar
 

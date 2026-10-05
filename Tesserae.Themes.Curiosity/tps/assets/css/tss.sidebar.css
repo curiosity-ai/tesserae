@@ -6,10 +6,42 @@
    current row is stone with an inset 2px ink bar on its leading edge, the
    way the website marks the current page, rather than a blue outline. Group
    separators are mono uppercase eyebrows. Footer rows sit under a hairline.
+
+   Geometry: an open row is 36px, a 28px icon cell and a 10px gap; the
+   collapsed rail is 64px wide and its tiles 44px square. Both hold at every
+   screen height, where Tesserae grows its rows from 28px to 36px only past
+   1000px. Rows the brand or the profile draw (the identity rows) and the
+   rounded pill rows keep their own heights.
+
+   Groups (SidebarNav) carry three marks, none of which needs markup of its
+   own:
+     - The triangle. A 7px solid right triangle in the row's bottom-right
+       corner while the group is closed and its top-right corner while it
+       is open, where Tesserae draws a chevron over the icon on hover. Ash
+       at rest, ink under the pointer, and bold - 9px of ink - while the
+       group holds the current page, open or closed. In the open rail it
+       sits at the row's right edge, where the chevron sat; in the collapsed
+       rail it sits in the tile's corner, 4px from the edges.
+     - Depth. Children keep their parent's left edge instead of indenting,
+       and a 4px band on the leading edge says how deep they are: the line
+       colour for level one, the same colour twice as wide for level two. Child rows
+       read in mute-ink until they are current or under the pointer.
+     - One current marker. Stone and the ink bar sit on the deepest visible
+       ancestor of the current page: the row itself while every group over
+       it is open, and the header of the group that was closed over it.
+   Which groups hold the current page is read off the DOM with :has(), so an
+   application marks only the row it always marked (.Selected()). A group
+   marked selected itself (its own page is the current one) carries the
+   marker on its header whenever no row inside it does.
    ========================================================================== */
 
 body.tss-theme-curiosity .tss-sidebar {
     box-shadow: inset -1px 0 0 var(--tss-default-border-color);
+    /* The two inset shadows every row composes (see the box-shadow rule below): the current-page bar
+       and the depth band. Both are a zero shadow until a rule says otherwise, since a shadow list has
+       no "none" item. */
+    --tss-cur-nav-mark: 0 0 0 0 transparent;
+    --tss-cur-nav-depth: 0 0 0 0 transparent;
 }
 
 /* The identity row's command buttons (a panel's own title line, the profile row) carry a 6px radius written with
@@ -24,6 +56,84 @@ body.tss-theme-curiosity .tss-sidebar .tss-btn:not(.tss-disabled):active {
     transform: none;
 }
 
+/* --------------------------------------------------------------------------
+   Geometry
+   -------------------------------------------------------------------------- */
+
+/* Open rows: 36px, 10px in from either edge, a 28px icon cell, and no border: a row's fill and its ink bar
+   reach its edge, where Tesserae's transparent 1px border kept both a pixel in. The pill rows (.Rounded())
+   and the identity rows size themselves. */
+body.tss-theme-curiosity .tss-sidebar-btn-open:not(.tss-sidebar-btn-rounded):not(.tss-sidebar-identity) > .tss-btn,
+body.tss-theme-curiosity .tss-sidebar-btn-open:not(.tss-sidebar-btn-rounded):not(.tss-sidebar-identity) > a > .tss-btn {
+    height: 36px !important;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-width: 0;
+}
+
+body.tss-theme-curiosity .tss-sidebar-btn-open > .tss-sidebar-btn.tss-btn > i,
+body.tss-theme-curiosity .tss-sidebar-btn-open > a > .tss-sidebar-btn.tss-btn > i,
+body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn > i {
+    width: 28px !important;
+    min-width: 28px !important;
+}
+
+/* The command strip and the icon-click hit box follow the row's height. */
+body.tss-theme-curiosity .tss-sidebar-btn-open:not(.tss-sidebar-identity) > .tss-sidebar-commands {
+    top: 7px;
+}
+
+body.tss-theme-curiosity .tss-sidebar-btn-has-icon-click.tss-btn > i,
+body.tss-theme-curiosity .tss-sidebar-btn-has-icon-click.tss-btn > .tss-btn-with-image > .tss-image,
+body.tss-theme-curiosity .tss-sidebar-btn-has-icon-click.tss-btn > i:hover,
+body.tss-theme-curiosity .tss-sidebar-btn-has-icon-click.tss-btn > .tss-btn-with-image > .tss-image:hover {
+    height: 36px !important;
+    line-height: 36px !important;
+}
+
+/* The collapsed rail: 64px, its tiles 44px square and centred. The brand's and profile's tiles keep the
+   identity row's own height, and a pill keeps its own, at the rail's width. */
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed {
+    width: 64px !important;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn.tss-btn,
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon,
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-commands-line .tss-btn,
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-section-header-closed {
+    width: 44px;
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon:not(.tss-sidebar-searchbox-rounded) {
+    height: 44px;
+}
+
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn.tss-btn:not(.tss-sidebar-btn-rounded) {
+    border-width: 0;
+}
+
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn.tss-btn:not(.tss-sidebar-identity-button-closed):not(.tss-sidebar-btn-rounded) {
+    height: 44px !important;
+}
+
+/* --------------------------------------------------------------------------
+   Rows: the current page, and the two bands every row composes
+   -------------------------------------------------------------------------- */
+
+/* Every row draws the same two insets, the current-page bar in front of the depth band. They are custom
+   properties rather than a box-shadow per state so that a selected row two levels down is one rule
+   setting the bar and one setting the band, not a rule per combination. A focused row keeps them: the
+   theme's focus is an outline (tss.button.css), not a shadow. */
+body.tss-theme-curiosity .tss-sidebar .tss-sidebar-btn.tss-btn,
+body.tss-theme-curiosity .tss-sidebar .tss-sidebar-nav-header > .tss-sidebar-nav-button.tss-btn {
+    box-shadow: var(--tss-cur-nav-mark), var(--tss-cur-nav-depth);
+}
+
+/* Where you are: stone, and the 2px ink bar on the leading edge. The same while the pointer is on it,
+   which is what keeps the current row from looking like any other under the pointer. */
 body.tss-theme-curiosity .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
 body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
 body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
@@ -32,10 +142,10 @@ body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sideb
 body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
 body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
 body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    --tss-cur-nav-mark: inset 2px 0 0 var(--tss-default-foreground-color);
     color: var(--tss-default-foreground-color);
     border-color: transparent;
     background: var(--tss-default-background-hover-color);
-    box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
 }
 
 body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled) .tss-fontcolor-default,
@@ -43,6 +153,12 @@ body.tss-theme-curiosity .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-s
     color: var(--tss-default-foreground-color);
 }
 
+/* --------------------------------------------------------------------------
+   Groups: the header and its triangle
+   -------------------------------------------------------------------------- */
+
+/* A group is not a destination, so being marked selected does not by itself fill its header: the marker
+   goes to the deepest visible ancestor of the current page, further down. */
 body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
 body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled),
 body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
@@ -50,6 +166,205 @@ body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:no
     border-color: transparent;
     background: transparent;
 }
+
+/* The icon stays where it is: Tesserae hides it under the pointer to draw its chevron there. */
+body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > .tss-btn > i,
+body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > .tss-btn > .tss-btn-with-image > .tss-image,
+body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):focus-within > .tss-btn > i,
+body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):focus-within > .tss-btn > .tss-btn-with-image > .tss-image {
+    visibility: visible;
+}
+
+/* The arrow button becomes the right end of the row, always on, with nothing drawn but the triangle:
+   the header's own hover does the row's tone. The label stops before it, and a header's commands come
+   in beside it rather than over it (the inset is what positions the strip and what the label reserves
+   for it). */
+body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > .tss-sidebar-nav-button.tss-btn {
+    padding-right: 34px;
+}
+
+/* A long name ends in an ellipsis before the triangle rather than running under it: the padding above only
+   moves the label's box, and the span would still paint through it. */
+body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > .tss-sidebar-nav-button.tss-btn > span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+body.tss-theme-curiosity .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) {
+    --tss-sidebar-commands-inset: 30px;
+}
+
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn,
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > .tss-sidebar-nav-arrow,
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > .tss-sidebar-nav-arrow,
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):focus-within > .tss-sidebar-nav-arrow {
+    visibility: visible;
+    left: auto;
+    right: 0;
+    top: 0;
+    width: 30px !important;
+    height: 36px !important;
+    border-radius: 0;
+    background: transparent !important;
+    border-color: transparent !important;
+}
+
+/* The triangle itself: a solid 7px right triangle, clipped out of a square rather than built from a
+   rotated border, so its two states are two corners of the same cell. Closed points to the bottom-right,
+   open to the top-right. */
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-arrow.tss-btn:after,
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:after {
+    left: auto;
+    right: 12px;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    margin-top: -3.5px;
+    border: 0;
+    transform: none;
+    transition: none;
+    background: var(--tss-cur-ash);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
+    clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+
+/* Ink under the pointer, on the header or on the triangle. */
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-header.tss-sidebar-btn-open:hover > .tss-sidebar-nav-arrow.tss-btn:after,
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-header.tss-sidebar-btn-open:focus-within > .tss-sidebar-nav-arrow.tss-btn:after {
+    background: var(--tss-default-foreground-color);
+}
+
+/* A group over the current page, at any depth, draws its triangle in ink - unless it keeps its selection
+   hidden (SidebarNav.KeepCollapsedOnSelection, the class below): that is a picker, such as the gallery's
+   theme switch, whose selected row is a mode rather than the page the user is on. Only the group that holds
+   the page directly - the row is one of its own children, or its own page is current - is bold: 9px. The
+   groups higher up keep the resting 7px, in ink, so the path to the page reads without shouting. */
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after,
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(.tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
+    background: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after,
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(> .tss-sidebar-nav-children > .tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after,
+body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(> .tss-sidebar-nav-children > * > .tss-sidebar-nav.tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
+    width: 9px;
+    height: 9px;
+    margin-top: -4.5px;
+    right: 11px;
+}
+
+/* A child row reads in mute-ink until it is current, marked or under the pointer, so the rule names only the
+   resting state: selected rows are excluded, :not(:hover) hands the pointer back to the button's own hover
+   colour, and everything in :where() counts for nothing in specificity, which leaves the marker rules below
+   to out-rank it. Page mode is left out, as Tesserae leaves it out of its own rules: the panel's rows are the
+   page's own, in ink - but not while a search has the groups open in place. */
+body.tss-theme-curiosity :where(:where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-children .tss-sidebar-btn-open:not(.tss-sidebar-selected):not(:hover)) > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-curiosity :where(:where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-children .tss-sidebar-btn-open:not(.tss-sidebar-selected):not(:hover)) > a > .tss-sidebar-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-curiosity :where(:where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-children) > .tss-sidebar-btn.tss-btn-default:not(.tss-sidebar-selected):not(:hover):not(.tss-disabled),
+body.tss-theme-curiosity :where(:where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-children .tss-sidebar-nav > .tss-sidebar-nav-header:not(:hover)) > .tss-sidebar-nav-button.tss-btn-default:not(.tss-disabled),
+body.tss-theme-curiosity :where(:where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-children .tss-sidebar-nav > .tss-sidebar-nav-header:not(:hover)).tss-sidebar-btn.tss-btn-default:not(.tss-disabled) {
+    color: var(--tss-secondary-foreground-color);
+}
+
+/* The current marker climbs to the header while the group is closed over the current page, and sits on
+   the header of a group whose own page is current while nothing inside it is - the deepest visible
+   ancestor, so the rail always shows exactly one. */
+body.tss-theme-curiosity .tss-sidebar-nav:not(.tss-sidebar-nav-open):not(.tss-sidebar-nav-keep-collapsed):has(.tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-button.tss-btn:not(.tss-disabled),
+body.tss-theme-curiosity .tss-sidebar-nav.tss-sidebar-selected:not(:has(.tss-sidebar-selected)) > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-button.tss-btn:not(.tss-disabled) {
+    --tss-cur-nav-mark: inset 2px 0 0 var(--tss-default-foreground-color);
+    color: var(--tss-default-foreground-color);
+    border-color: transparent;
+    background: var(--tss-default-background-hover-color);
+}
+
+/* --------------------------------------------------------------------------
+   Groups: the children
+   -------------------------------------------------------------------------- */
+
+/* Children keep their parent's left edge; depth is the band, not an indent. The band is declared on the
+   children container and inherited, so a nested group's header and rows read the same depth as their
+   siblings. Two levels is the limit the band can say at the rail's width; deeper rows keep the second. */
+body.tss-theme-curiosity .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-nav-children > .tss-stack-item {
+    margin-left: 0;
+}
+
+body.tss-theme-curiosity .tss-sidebar-nav > .tss-sidebar-nav-children {
+    --tss-cur-nav-depth: inset 4px 0 0 var(--tss-default-border-color);
+}
+
+body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-nav > .tss-sidebar-nav-children {
+    --tss-cur-nav-depth: inset 8px 0 0 var(--tss-default-border-color);
+}
+
+/* --------------------------------------------------------------------------
+   Groups in the collapsed rail
+   -------------------------------------------------------------------------- */
+
+/* The same triangle in the tile's corner, 4px in from the edges; the same climb of the marker onto the
+   header once the group is closed over the current page. */
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav-header:not(.tss-sidebar-nav-header-empty):after,
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header:after {
+    left: auto;
+    right: 4px;
+    top: auto;
+    bottom: 4px;
+    width: 7px;
+    height: 7px;
+    border: 0;
+    transform: none;
+    transition: none;
+    background: var(--tss-cur-ash);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header:after {
+    top: 4px;
+    bottom: auto;
+    clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav-header:hover:after,
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header:hover:after {
+    background: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header:after,
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(.tss-sidebar-selected) > .tss-sidebar-nav-header:after {
+    background: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header:after,
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(> .tss-sidebar-nav-children > .tss-sidebar-selected) > .tss-sidebar-nav-header:after,
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(> .tss-sidebar-nav-children > * > .tss-sidebar-nav.tss-sidebar-selected) > .tss-sidebar-nav-header:after {
+    width: 9px;
+    height: 9px;
+}
+
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav:not(.tss-sidebar-nav-open):not(.tss-sidebar-nav-keep-collapsed):has(.tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn.tss-btn:not(.tss-disabled),
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav.tss-sidebar-selected:not(:has(.tss-sidebar-selected)) > .tss-sidebar-nav-header.tss-sidebar-btn.tss-btn:not(.tss-disabled) {
+    --tss-cur-nav-mark: inset 2px 0 0 var(--tss-default-foreground-color);
+    color: var(--tss-default-foreground-color);
+    border-color: transparent;
+    background: var(--tss-default-background-hover-color);
+}
+
+/* The child tiles sit 2px under their group's tile, as every tile sits under the one before. */
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav > .tss-sidebar-nav-children > :first-child {
+    margin-top: 2px;
+}
+
+body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-children {
+    padding-bottom: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   The rest of the rail
+   -------------------------------------------------------------------------- */
 
 body.tss-theme-curiosity .tss-sidebar-separator.tss-sidebar-separator-with-text,
 body.tss-theme-curiosity .tss-sidebar-separator.tss-sidebar-separator-with-text .tss-textblock {
@@ -92,7 +407,13 @@ body.tss-theme-curiosity .tss-navbar .tss-sidebar-header .tss-btn.tss-btn-primar
     border-radius: var(--tss-border-radius-full);
 }
 
-/* Page mode: a group's children open as a panel over the rail, framed by a line instead of a shadow. */
+/* Page mode: a group's children open as a panel over the rail, framed by a line instead of a shadow. The
+   group's row points the way the panel comes from, so it keeps Tesserae's own chevron there rather than
+   the triangle - in ash, like the triangles. */
+body.tss-theme-curiosity .tss-sidebar-page:not(.tss-sidebar-searching) .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: var(--tss-cur-ash);
+}
+
 body.tss-theme-curiosity .tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel {
     box-shadow: -1px 0 0 var(--tss-default-foreground-color);
 }

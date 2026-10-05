@@ -63,8 +63,30 @@
     padding-right: 6px;
 }
 
+/* The search box on the collapsed rail is its icon in a tile the size of the rail's buttons, which is what
+   the open box turns back into when the rail opens. */
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: calc(54px - 8px);
+    height: 28px;
+    margin-bottom: 2px;
+    border-radius: 6px;
+    cursor: pointer;
+    flex-shrink: 0;
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon:hover {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-hover-color);
+}
+
 .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon.tss-sidebar-searchbox-rounded {
     border-radius: var(--tss-border-radius-full);
+    height: 42px;
 }
 
 .tss-sidebar-btn-open.tss-sidebar-btn-rounded > .tss-btn,
@@ -250,6 +272,9 @@
     height: 28px !important;
     min-height: unset !important;
     margin-bottom: 2px !important;
+    /* The middle section scrolls; a tile that could shrink was squashed to a few pixels on a rail with
+       more tiles than the screen has room for. */
+    flex-shrink: 0;
 }
 
 .tss-sidebar-btn.tss-btn > i,
@@ -618,7 +643,7 @@
     transform: translateY(-2px) translateX(2px) rotate(45deg);
 }
 
-.tss-sidebar.tss-sidebar-closed .tss-sidebar-nav-header:after {
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-nav-header:not(.tss-sidebar-nav-header-empty):after {
     content: "";
     position: absolute;
     left: 19px;
@@ -1231,6 +1256,18 @@
 
 .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab:last-child {
     margin-bottom: 0px;
+}
+
+/* A tab whose title had an icon is that icon alone on the rail (SidebarPivot.Add), in a tile the size of the
+   rail's other tiles, with the title's words in its tooltip. */
+.tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab.tss-segmentedpivot-tab-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    height: 28px;
+    padding: 0;
+    flex-grow: 0;
 }
 
 /* A button drawn with a field's outline -------------------------------------------------------------- */
