@@ -129,9 +129,7 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
   script managing scrollbars, so scrollers in your own app need nothing declared; a theme should
   do the same. Schibsted Grotesk
   for text and Geist Mono (small, uppercase) for labels, headers, numbers and code. Fonts
-  are bundled (OFL). A modal gets a 12px inset between its ring and everything inside it;
-  `NoContentPadding()` / `NoPadding()` modals (class `tss-modal-no-inset`), `Dialog`, `ModalStack`
-  sheets and a modal in a drawer opt out, so a theme of your own can key off the same class.
+  are bundled (OFL). A modal is inset 12px from its ring by its header, content and footer (not by its own box), so `NoContentPadding()` / `NoPadding()`, which set padding inline, still run to the border; `Dialog`, `ModalStack` sheets and a modal in a drawer are left alone.
   The package also ships the website's signature elements as components (namespace
   `Tesserae.Themes.Curiosity`, usable with or without the theme active): `PixelIntro`
   (the first-load animation, `PlayOnce()`), `FlowField` (the hero's dash field, its pixel
