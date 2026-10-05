@@ -120,12 +120,12 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
   `tss-theme-curiosity`. Paper and ink, the deep call blue for primary actions and
   selection, the electric-blue Signal as highlight, 1px hairlines instead of shadows,
   radius 0 with pill buttons and single-line inputs (square search boxes), a square toggle, hairline-rail scrollbars
-  (a 1px rule for the track and a square 4px ink thumb that widens on hover in Chrome,
+  (a 1px rule for the track and a square 4px thumb that widens on hover in Chrome,
   Edge and Safari; a thin bar in Firefox, which only supports `scrollbar-color`). Like
-  Tesserae's own scrollbar they hide at rest, a ghost thumb and no rail until the pointer is
-  over the scroller, and the thumb only turns ink while that scroller is moving (Signal
-  blue while dragged); the theme tracks that with one `scroll` listener, so scrollers in
-  your own app need nothing declared. Schibsted Grotesk
+  Tesserae's own scrollbar they are quiet at rest (a ghost thumb, no rail) and come up grey with
+  the rail while the pointer is over the scroller; the thumb is only ink while that scroller is
+  moving (Signal blue while dragged). Movement is tracked with one `scroll` listener, so
+  scrollers in your own app need nothing declared. Schibsted Grotesk
   for text and Geist Mono (small, uppercase) for labels, headers, numbers and code. Fonts
   are bundled (OFL). A modal gets a 12px inset between its ring and everything inside it;
   `NoContentPadding()` / `NoPadding()` modals (class `tss-modal-no-inset`), `Dialog`, `ModalStack`

@@ -327,14 +327,15 @@ body.tss-theme-curiosity .tss-fontcolor-primary {
    and turns Signal while it is dragged. The width change is the transparent
    border shrinking around a padding-box background, so nothing re-lays out.
 
-   Like Tesserae's own scrollbar, it hides at rest: a ghost thumb
-   (--tss-scrollbar-thumb-hidden-color) and no rail. The rail comes up while
-   the pointer is anywhere over the scroller (*:hover, which also matches every
-   ancestor of whatever is under the pointer). The thumb only turns ink while
-   the scroller is moving: CSS has no selector for that, so CuriosityTheme's
-   ScrollActivity puts .tss-cur-scrolling on whichever element is scrolling and
-   takes it off shortly after it stops. Hovering alone leaves the thumb a ghost.
-   The hidden state keeps the thumb's geometry, so nothing moves when it fills in.
+   Like Tesserae's own scrollbar it is quiet rather than gone: at rest a ghost
+   thumb (--tss-scrollbar-thumb-hidden-color) and no rail. While the pointer is
+   anywhere over the scroller (*:hover, which also matches every ancestor of
+   whatever is under the pointer) the rail comes up and the thumb turns grey
+   (--tss-scrollbar-thumb-color). The thumb is only ink while the scroller is
+   moving: CSS has no selector for that, so CuriosityTheme's ScrollActivity puts
+   .tss-cur-scrolling on whichever element is scrolling and takes it off shortly
+   after it stops. Signal is for a drag. Every state keeps the thumb's geometry,
+   so nothing moves when it changes.
 
    Two engines, two mechanisms, and they must not meet:
    - Chrome, Edge and Safari draw ::-webkit-scrollbar.
@@ -356,6 +357,7 @@ body.tss-theme-curiosity {
     --tss-cur-scrollbar-rail: var(--tss-default-border-color);
     --tss-cur-scrollbar-rail-hidden: var(--tss-scrollbar-track-hidden-color);
     --tss-cur-scrollbar-thumb: rgb(var(--tss-default-foreground-color-root));
+    --tss-cur-scrollbar-thumb-hover: var(--tss-scrollbar-thumb-color);
     --tss-cur-scrollbar-thumb-hidden: var(--tss-scrollbar-thumb-hidden-color);
     --tss-cur-scrollbar-drag: rgb(var(--tss-highlight-color-root));
 }
@@ -368,6 +370,7 @@ html:has(> body.tss-theme-curiosity) {
     --tss-cur-scrollbar-rail: #DEE0DF;
     --tss-cur-scrollbar-rail-hidden: transparent;
     --tss-cur-scrollbar-thumb: #111418;
+    --tss-cur-scrollbar-thumb-hover: rgba(17, 20, 24, 0.22);
     --tss-cur-scrollbar-thumb-hidden: rgba(17, 20, 24, 0.06);
     --tss-cur-scrollbar-drag: #2F6BFF;
 }
@@ -375,6 +378,7 @@ html:has(> body.tss-theme-curiosity) {
 html:has(> body.tss-theme-curiosity.tss-dark-mode) {
     --tss-cur-scrollbar-rail: #2A2F38;
     --tss-cur-scrollbar-thumb: #F4F4F2;
+    --tss-cur-scrollbar-thumb-hover: rgba(244, 244, 242, 0.22);
     --tss-cur-scrollbar-thumb-hidden: rgba(244, 244, 242, 0.06);
 }
 
@@ -417,7 +421,7 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
         background: var(--tss-cur-scrollbar-thumb-hidden) padding-box;
     }
 
-    /* Pointer over the scroller: the rail. The thumb stays a ghost. */
+    /* Pointer over the scroller: the rail and a grey thumb, as Tesserae's own scrollbar does. */
     html:has(> body.tss-theme-curiosity):hover::-webkit-scrollbar-track:vertical,
     body.tss-theme-curiosity:hover::-webkit-scrollbar-track:vertical,
     body.tss-theme-curiosity *:hover::-webkit-scrollbar-track:vertical {
@@ -430,7 +434,14 @@ html:has(> body.tss-theme-curiosity.tss-dark-mode) {
         background: linear-gradient(var(--tss-cur-scrollbar-rail), var(--tss-cur-scrollbar-rail)) center / 100% 1px no-repeat;
     }
 
-    /* While it scrolls (ScrollActivity): the rail and the ink thumb. Before the :active rules
+    html:has(> body.tss-theme-curiosity):hover::-webkit-scrollbar-thumb,
+    body.tss-theme-curiosity:hover::-webkit-scrollbar-thumb,
+    body.tss-theme-curiosity *:hover::-webkit-scrollbar-thumb {
+        background: var(--tss-cur-scrollbar-thumb-hover) padding-box;
+    }
+
+    /* While it scrolls (ScrollActivity): the rail and the ink thumb. After the hover rules above,
+       which are equally specific, and before the :active rules
        below, which are equally specific and turn the thumb Signal while it is dragged. */
     html:has(> body.tss-theme-curiosity).tss-cur-scrolling::-webkit-scrollbar-track:vertical,
     body.tss-theme-curiosity.tss-cur-scrolling::-webkit-scrollbar-track:vertical,
