@@ -116,7 +116,9 @@ namespace Tesserae
 
                 if (g.Phase == GesturePhase.End)
                 {
-                    _onResizeEnd?.Invoke((int)width);
+                    // Report what the pane really ended up at: the pane's own min/max width and flex-shrink
+                    // can make it differ from the pointer-derived value written above.
+                    _onResizeEnd?.Invoke((int)Math.Round(current.getBoundingClientRect().As<DOMRect>().width));
                     rect = null;
                 }
             });
