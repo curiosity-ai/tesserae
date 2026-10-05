@@ -40,7 +40,7 @@ Avoid reusing a `:segment` name as a query key (one shared collection).
 Reflect view state (open panel, selected tab, filters) in the URL's query
 segment so it survives refresh and can be shared as a deep link. Prefer
 `RouteState` (`route-state.md`) for reading and writing it: `Set`/`Clear`/`Update`,
-`Consume` for one-shot keys, `SetWithHistory` for tabs, and `RouteState.IsOn`/`IsUnder`/`Matches` to ask
+`Consume` for one-shot keys, `SetWithHistory` for tabs, and `RouteState.Current.IsOn`/`IsUnder`/`Matches` to ask
 where the page is. The members below are what it is built on:
 
 - `Router.GetQueryParameters()` — a **copy** of the current `Parameters` (route
