@@ -120,7 +120,7 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
   `tss-theme-curiosity`. Paper and ink, the deep call blue for primary actions and
   selection, the electric-blue Signal as highlight, 1px hairlines instead of shadows,
   radius 0 with pill buttons and single-line inputs (square search boxes), a square toggle, hairline-rail scrollbars
-  (a 1px rule for the track and a square 4px thumb that widens on hover in Chrome,
+  (a 1px rule for the track and a square 6px thumb that widens on hover in Chrome,
   Edge and Safari; a thin bar in Firefox, which only supports `scrollbar-color`). Like
   Tesserae's own scrollbar they are quiet at rest (a ghost thumb, no rail) and come up grey with
   the rail while the pointer is over the scroller; the thumb itself goes solid (ink on paper,

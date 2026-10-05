@@ -323,17 +323,20 @@ body.tss-theme-curiosity .tss-fontcolor-primary {
    Scrollbars: the hairline rail
    --------------------------------------------------------------------------
    The track is the brand's 1px hairline, run down the middle of the bar. The
-   thumb is a 4px ink bar with square ends that widens to 8px under the pointer
+   thumb is a 6px bar with square ends that widens to 8px under the pointer
    and turns Signal while it is dragged. The width change is the transparent
    border shrinking around a padding-box background, so nothing re-lays out.
 
    Like Tesserae's own scrollbar it is quiet rather than gone: at rest a ghost
-   thumb (--tss-scrollbar-thumb-hidden-color) and no rail. While the pointer is
+   thumb (--tss-cur-scrollbar-thumb-hidden) and no rail. While the pointer is
    anywhere over the scroller (*:hover, which also matches every ancestor of
    whatever is under the pointer) the rail comes up and the thumb turns grey
-   (--tss-scrollbar-thumb-color). Only on the thumb itself is it solid, ink on
-   paper and paper on ink, and wider; while it is dragged it turns Signal. Every
-   state keeps the thumb's geometry, so nothing moves when it changes.
+   (--tss-cur-scrollbar-thumb-hover). Only on the thumb itself is it solid, ink
+   on paper and paper on ink, and wider; while it is dragged it turns Signal.
+   Every state keeps the thumb's geometry, so nothing moves when it changes.
+
+   The ghost and the grey are opaque: the ink mixed into the page background,
+   not the ink at some alpha. A translucent thumb lets the rail run through it.
 
    This is CSS only, on purpose. No script watches scrolling, toggles a class
    on a scroller or draws a scrollbar of its own: a script can only reach the
@@ -356,34 +359,34 @@ body.tss-theme-curiosity .tss-fontcolor-primary {
 
 body.tss-theme-curiosity {
     --tss-cur-scrollbar-size: 12px;
-    --tss-cur-scrollbar-inset: 4px;       /* 12px bar, 4px border each side: a 4px thumb */
+    --tss-cur-scrollbar-inset: 3px;       /* 12px bar, 3px border each side: a 6px thumb */
     --tss-cur-scrollbar-inset-hover: 2px; /* an 8px thumb under the pointer */
     --tss-cur-scrollbar-rail: var(--tss-default-border-color);
     --tss-cur-scrollbar-rail-hidden: var(--tss-scrollbar-track-hidden-color);
     --tss-cur-scrollbar-thumb: rgb(var(--tss-default-foreground-color-root));
-    --tss-cur-scrollbar-thumb-hover: var(--tss-scrollbar-thumb-color);
-    --tss-cur-scrollbar-thumb-hidden: var(--tss-scrollbar-thumb-hidden-color);
+    --tss-cur-scrollbar-thumb-hover: color-mix(in srgb, rgb(var(--tss-default-foreground-color-root)) 22%, rgb(var(--tss-default-background-color-root)));
+    --tss-cur-scrollbar-thumb-hidden: color-mix(in srgb, rgb(var(--tss-default-foreground-color-root)) 6%, rgb(var(--tss-default-background-color-root)));
     --tss-cur-scrollbar-drag: rgb(var(--tss-highlight-color-root));
 }
 
 /* html sits above the body that declares the tokens, so Firefox's page scrollbar gets its own. */
 html:has(> body.tss-theme-curiosity) {
     --tss-cur-scrollbar-size: 12px;
-    --tss-cur-scrollbar-inset: 4px;
+    --tss-cur-scrollbar-inset: 3px;
     --tss-cur-scrollbar-inset-hover: 2px;
     --tss-cur-scrollbar-rail: #DEE0DF;
     --tss-cur-scrollbar-rail-hidden: transparent;
     --tss-cur-scrollbar-thumb: #111418;
-    --tss-cur-scrollbar-thumb-hover: rgba(17, 20, 24, 0.22);
-    --tss-cur-scrollbar-thumb-hidden: rgba(17, 20, 24, 0.06);
+    --tss-cur-scrollbar-thumb-hover: #C2C3C2;
+    --tss-cur-scrollbar-thumb-hidden: #E6E6E4;
     --tss-cur-scrollbar-drag: #2F6BFF;
 }
 
 html:has(> body.tss-theme-curiosity.tss-dark-mode) {
     --tss-cur-scrollbar-rail: #2A2F38;
     --tss-cur-scrollbar-thumb: #F4F4F2;
-    --tss-cur-scrollbar-thumb-hover: rgba(244, 244, 242, 0.22);
-    --tss-cur-scrollbar-thumb-hidden: rgba(244, 244, 242, 0.06);
+    --tss-cur-scrollbar-thumb-hover: #434548;
+    --tss-cur-scrollbar-thumb-hidden: #1F2125;
 }
 
 @supports selector(::-webkit-scrollbar) {
