@@ -82,19 +82,25 @@ into another (`Sidebar.ShiftTo`) does not widen the host, and ellipsizes.
 
 ## The name gives way to the logo
 
-Where the name is ellipsized anyway (a brand on a shifted child sidebar, or a
-`SidebarProfile` on a rail that no brand holds open), a name cut to `C..` says
-less than the logo beside it. Once the room shows **less than half of the name**,
-the row hides its text and is the logo alone, with the name (and the second line)
-in the logo's tooltip, which is what the collapsed rail draws. It comes back as
-soon as the rail is wide enough. Nothing to call; the tooltip is the one
-`.Tooltip(...)` sets, or the name and second line by default.
+Where the name is ellipsized anyway (a brand on a shifted child sidebar), a name
+cut to `C..` says less than the logo beside it. Once the room shows **less than
+half of the text**, the row hides it and is the logo and its commands, which is
+what the collapsed rail draws. It comes back by itself as the rail gets wider.
+Nothing to call, and no script: it is the stylesheet doing arithmetic on the
+text's own width (`calc-size(max-content, ...)` on its `flex-basis`), so it holds
+while a rail is dragged or animated.
 
-Only the name decides: a short name over a long second line is not hidden for the
-line's sake. It is measured whenever the row's box changes size, so dragging the
-rail is enough, and the text is hidden with `visibility` (class
-`tss-sidebar-identity-text-hidden` on the row) so it keeps its box and the row can
-go on measuring how much of it would fit. `SidebarProfile` behaves the same.
+- Half is taken of the whole text block, name and second line.
+- It applies to an open rail only, not to a page (`AsPage`) or a navbar
+  (`AsNavbar`), and not to `SidebarProfile`, where a long e-mail would decide for
+  the name.
+- The words stay in the document, so assistive technology still reads the name.
+  There is no tooltip while the text is hidden: a tooltip that appears only then
+  would need script to know when.
+- A browser without `calc-size()` keeps ellipsizing the name, as before.
+- A skin that changes the logo's size or the gap beside it sets
+  `--tss-sidebar-brand-logo-size` / `--tss-sidebar-identity-gap`, which the
+  arithmetic reads too.
 
 ## The brand as the rail's open/close control
 

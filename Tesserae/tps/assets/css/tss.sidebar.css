@@ -1441,7 +1441,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 10px;
+    gap: var(--tss-sidebar-identity-gap, 10px);
     width: 100%;
     min-width: 0;
     overflow: hidden;
@@ -1493,13 +1493,23 @@
     color: var(--tss-secondary-foreground-color);
 }
 
-/* While the room beside the logo shows less than half of the name, the name is cut to something like "C.."
-   and the row is better as the logo alone, which is what the collapsed rail draws. The row measures that and
-   puts the class on itself (SidebarIdentityRow.UpdateTextFit). It is visibility and not display: the lines
-   keep their box, so the row goes on measuring how much of the name would fit and brings it back as soon as
-   the rail is wide enough. Nothing is clipped differently and the commands stay where they were. */
-.tss-sidebar-identity.tss-sidebar-identity-text-hidden .tss-sidebar-identity-lines {
-    visibility: hidden;
+/* Where a brand's name would be cut to something like "C..", the logo says more than what is left of it, so
+   the text goes and the row is the logo and its commands - what the collapsed rail draws. No script is
+   involved, and no selector can ask "is less than half of it showing", so it is asked of the lengths: the
+   text's flex-basis is its own max-content width (calc-size) times 1 or 0 - 1 while half of that width fits
+   in what is left of the row beside the logo and the gap, 0 once it does not. The lines cannot grow and are
+   overflow: hidden, so a basis of 0 is a box with nothing drawn in it, and it comes back by itself as the
+   rail gets wider. The words stay in the document, so assistive technology still reads the name.
+
+   Shown, the basis is the max-content width the box already had, so the row lays out exactly as it did.
+   Half is taken of the whole text block, name and second line, because that is the box whose width this can
+   read; a brand's second line is rarely the longer of the two. Only an open rail, which is where a brand is
+   squeezed (the rule that fits the rail to the name, further up, is scoped the same way): a page or a navbar
+   is as wide as the screen gives it. A browser without calc-size() keeps ellipsizing as it did. */
+@supports (flex-basis: calc-size(max-content, size)) {
+    .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page):not(.tss-navbar) .tss-sidebar-brand .tss-sidebar-identity-lines {
+        flex-basis: calc-size(max-content, size * max(0, sign(100% - var(--tss-sidebar-brand-logo-size, 32px) - var(--tss-sidebar-identity-gap, 10px) - size / 2)));
+    }
 }
 
 /* A selected row is filled with a wash of the primary and its text takes that colour; the second line
@@ -1558,13 +1568,13 @@
 }
 
 .tss-sidebar-identity-content > .tss-sidebar-brand-logo {
-    width: 32px;
-    height: 32px;
+    width: var(--tss-sidebar-brand-logo-size, 32px);
+    height: var(--tss-sidebar-brand-logo-size, 32px);
 }
 
 .tss-sidebar-identity-closed .tss-sidebar-brand-logo {
-    width: 32px;
-    height: 32px;
+    width: var(--tss-sidebar-brand-logo-size, 32px);
+    height: var(--tss-sidebar-brand-logo-size, 32px);
 }
 
 .tss-sidebar-brand-logo > .tss-image,

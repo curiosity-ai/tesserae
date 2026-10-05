@@ -61,9 +61,8 @@ Passing no `subtitle` leaves the row a single line rather than an empty one.
 - `.CommandsOnHover()` — opt into the ordinary row behaviour, where the commands
   wait for the pointer. The default is the other way round: a gear that only appears
   on hover is a gear nobody finds.
-- `.Tooltip(...)` — the tooltip where the row is the picture alone: the collapsed
-  rail, and the open one while the name gives way (below). The default is the name
-  and the second line.
+- `.Tooltip(...)` — the tooltip on the collapsed rail. The default is the name and
+  the second line.
 - `.NotSortable()`, `.Class(...)`, `.OnContextMenu(...)`, `.OnRendered(...)`.
 
 ## The row's height, in both states
@@ -84,13 +83,6 @@ squares and the room the name gives up for them all follow:
 
 On the collapsed rail the row is the picture alone — no name, no commands — with
 the name and the second line in its tooltip. Nothing has to be configured for it.
-
-The open rail does the same when it is too narrow for the name: once the room
-beside the picture shows **less than half of the name**, the text is hidden and
-the row is the picture (and its commands) with the name in the tooltip, coming
-back when the rail is wide enough. The decision is the name's alone, so a short
-name over a long e-mail address keeps both. `.Tooltip(...)` covers both cases.
-See "The name gives way to the logo" in `sidebar-brand.md`.
 
 ## Example
 
