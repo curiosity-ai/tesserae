@@ -8,16 +8,15 @@ description: Read and write the URL as app state - which page the hash is on, wh
 `RouteState` is the one place to read and write the **hash query string** of the current page
 (`#/spaces/app?uid=U&preview=a,b`). `RouteLocation` is the reading half as a plain value: it is built
 from a hash string and does not look at the browser or the router, so it works before the first route
-has matched and in a test. `RouteState.Current` is the `RouteLocation` of the address bar; `RouteState.Path`,
-`Get` and `Has` are shortcuts for it.
+has matched and in a test. `RouteState.Current` is the `RouteLocation` of the address bar, and every read
+member of `RouteState` forwards to it.
 
 Both sit on top of `Router` (see `routing.md`). Use `Router.Navigate`/`Push` to go somewhere; use
 `RouteState` to describe where you already are.
 
 ## Reading
 
-All of these are members of `RouteLocation`. Read them for the address bar through `RouteState.Current`
-(`RouteState.Path`, `RouteState.Get` and `RouteState.Has` also exist as statics):
+All of these exist on `RouteLocation` and, as statics, on `RouteState` (which reads `Current`):
 
 - `Path` - `#/spaces/app`: no query, no trailing `/`, `#/` when there is no path. Case is kept.
 - `Query` - a copy of the query keys as `Parameters`. A route `:variable` is part of the path, not of `Query`.
@@ -33,8 +32,8 @@ All of these are members of `RouteLocation`. Read them for the address bar throu
   Routes naming the same path give the same answer.
 - `Mentions(text)` - `text` appears anywhere in the hash (path, route variable, key or value), compared
   exactly, case included. For "is this node open here in any role".
-- `Has(key)` - the key has a value that is not empty or whitespace. `Get(key)` is `null` when the key is absent
-  and `""` for `?x` and `?x=`, so `Get(key) != null` is true for any key that is present.
+- `Has(key)` - the key has a value that is not empty or whitespace. `TryGet(key, out value)` is true for any
+  key that is present (`?x` and `?x=` give `""`). `Get(key)` is `null` when the key is absent.
 
 Matching of paths is by segment and ignores case, empty segments and a trailing `/`, the way the router
 matches a route. Query keys and values are case-sensitive. A value is split on the **first** `=` only
@@ -43,13 +42,13 @@ throws; the value is kept as written.
 
 ```csharp
 // A nav item is selected on its page whatever the query holds (an open ?preview=...)
-var mailSelected = RouteState.Current.IsOn("#/inboxes");
+var mailSelected = RouteState.IsOn("#/inboxes");
 
 // A page with children: Calendar is selected unless a connected calendar (?uid=) owns the page
-var calendarSelected = RouteState.Current.IsOn("#/calendar", "uid");
+var calendarSelected = RouteState.IsOn("#/calendar", "uid");
 
 // A list of routes where the most specific wins
-var item = RouteState.Current.Deepest("#/manage/shell", "#/manage/shell/curio");
+var item = RouteState.Deepest("#/manage/shell", "#/manage/shell/curio");
 
 // Not tied to the browser: any string, so it can be tested
 var location = new RouteLocation("#/preferences?id=user&preview=x");

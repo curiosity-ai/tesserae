@@ -99,6 +99,9 @@ namespace Tesserae
         /// <summary>True when <paramref name="key"/> has a value that is not empty or whitespace.</summary>
         public bool Has(string key) => _query.TryGetValue(key, out var value) && !string.IsNullOrWhiteSpace(value);
 
+        /// <summary>True when the key is in the query, whatever its value (<c>?x</c> and <c>?x=</c> give an empty one).</summary>
+        public bool TryGet(string key, out string value) => _query.TryGetValue(key, out value);
+
         /// <summary>The value of the key, <c>""</c> for <c>?x</c> and <c>?x=</c>, null when the key is not in the query.</summary>
         public string Get(string key) => _query.TryGetValue(key, out var value) ? value : null;
 
