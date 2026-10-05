@@ -8,18 +8,21 @@ namespace Tesserae
     /// <summary>
     /// A hash such as <c>#/spaces/app?uid=U&amp;preview=a,b</c>, read the way the <see cref="Router"/> reads it. It is a value built
     /// from a string: it does not look at the browser or at the router, so it can be made from any hash, before the first route
-    /// has matched, and in a test. <see cref="RouteState.Current"/> is the one for the address bar.
+    /// has matched, and in a test. <see cref="RoutePath"/> and <see cref="RouteQuery"/> are the same reads for the address bar.
     /// </summary>
     /// <remarks>
+    /// <para>The path and the query are read independently: the query is parsed the first time a key is asked for, so a question
+    /// about the path never depends on it.</para>
     /// <para>Paths are compared by segment, ignoring case, empty segments and a trailing <c>/</c> - the way the router matches a route.
-    /// Query keys and values are case-sensitive. A route <c>:variable</c> is part of the path, not of <see cref="Query"/>.</para>
+    /// Query keys and values are case-sensitive. A route <c>:variable</c> is part of the path, not of the query.</para>
     /// <para>A malformed percent escape (<c>?a=%</c>) never throws: the value is kept as it was written.</para>
     /// </remarks>
     [Transpose.Name("tss.RouteLocation")]
     public sealed class RouteLocation
     {
         private readonly string[]                   _segments;
-        private readonly Dictionary<string, string> _query = new Dictionary<string, string>();
+        private readonly string                     _queryText;
+        private          Dictionary<string, string> _query;
 
         public RouteLocation(string hash)
         {
@@ -29,13 +32,9 @@ namespace Tesserae
             var queryStart = text.IndexOf('?');
             var path       = queryStart >= 0 ? text.Substring(0, queryStart) : text;
 
-            _segments = SegmentsOf(path);
-            Path      = "#/" + string.Join("/", _segments);
-
-            if (queryStart >= 0)
-            {
-                ParseQueryInto(text.Substring(queryStart + 1), _query);
-            }
+            _segments  = SegmentsOf(path);
+            _queryText = queryStart >= 0 ? text.Substring(queryStart + 1) : "";
+            Path       = "#/" + string.Join("/", _segments);
         }
 
         /// <summary>The hash this was made from, exactly as given.</summary>
@@ -45,65 +44,48 @@ namespace Tesserae
         public string Path { get; }
 
         /// <summary>A copy of the query string's keys and values.</summary>
-        public Parameters Query => new Parameters(new Dictionary<string, string>(_query));
+        internal Parameters Query => new Parameters(new Dictionary<string, string>(QueryPairs));
 
-        /// <summary>The path of any hash or route, normalised like <see cref="Path"/>; a query on it is ignored.</summary>
-        public static string PathOf(string hashOrRoute) => new RouteLocation(hashOrRoute).Path;
+        /// <summary>True when the path is exactly <paramref name="route"/>. The query does not matter.</summary>
+        public bool IsExactly(string route) => SameSegments(_segments, new RouteLocation(route)._segments);
 
         /// <summary>
-        /// True when the path is exactly <paramref name="route"/>. A query on the hash does not matter, except for the keys in
-        /// <paramref name="childQueryKeys"/>: they name something that has its own place in the app (a calendar, a clipboard
-        /// filter), so while one is present - with any value - the page belongs to that, not to <paramref name="route"/>.
+        /// True when the path is below <paramref name="route"/>, at any depth, on a segment boundary: <c>#/a/b/c</c> is a descendant of
+        /// <c>#/a</c>, <c>#/a</c> and <c>#/ab</c> are not. Every path but the root is a descendant of <c>#/</c>.
         /// </summary>
-        public bool IsOn(string route, params string[] childQueryKeys)
-        {
-            return _segments.SequenceEqual(new RouteLocation(route)._segments, StringComparer.OrdinalIgnoreCase) && childQueryKeys?.Any(_query.ContainsKey) != true;
-        }
-
-        /// <summary>True when the path is <paramref name="route"/> or below it, on a segment boundary: <c>#/a/b</c> is under <c>#/a</c>, <c>#/ab</c> is not. Every path is under <c>#/</c>.</summary>
-        public bool IsUnder(string route)
+        public bool IsDescendantOf(string route)
         {
             var routeSegments = new RouteLocation(route)._segments;
 
-            return routeSegments.Length <= _segments.Length && _segments.Take(routeSegments.Length).SequenceEqual(routeSegments, StringComparer.OrdinalIgnoreCase);
+            return routeSegments.Length < _segments.Length && SameSegments(_segments.Take(routeSegments.Length), routeSegments);
         }
-
-        /// <summary>
-        /// True when the path is the one in <paramref name="url"/> and every query pair in it is present here with the same value.
-        /// Other keys, and the order of the keys, do not matter. <paramref name="childQueryKeys"/> work as in <see cref="IsOn"/>.
-        /// </summary>
-        public bool Matches(string url, params string[] childQueryKeys)
-        {
-            var wanted = new RouteLocation(url);
-
-            return _segments.SequenceEqual(wanted._segments, StringComparer.OrdinalIgnoreCase)
-                && childQueryKeys?.Any(_query.ContainsKey) != true
-                && wanted._query.All(pair => _query.TryGetValue(pair.Key, out var value) && value == pair.Value);
-        }
-
-        /// <summary>
-        /// Of <paramref name="routes"/>, the one the path is under that has the most segments - the most specific - or null when none is.
-        /// Routes that name the same path give the same answer, so every item sharing one is selected together.
-        /// </summary>
-        public string Deepest(params string[] routes)
-        {
-            return routes.Where(route => route is object && IsUnder(route)).OrderByDescending(route => new RouteLocation(route)._segments.Length).FirstOrDefault();
-        }
-
-        /// <summary>
-        /// True when <paramref name="text"/> appears anywhere in the hash - the path, a route variable, a query key or value - compared
-        /// exactly, case included. For "is this node open here in any role", where an id can sit in several places.
-        /// </summary>
-        public bool Mentions(string text) => !string.IsNullOrEmpty(text) && Hash.IndexOf(text, StringComparison.Ordinal) >= 0;
-
-        /// <summary>True when <paramref name="key"/> has a value that is not empty or whitespace.</summary>
-        public bool Has(string key) => _query.TryGetValue(key, out var value) && !string.IsNullOrWhiteSpace(value);
 
         /// <summary>True when the key is in the query, whatever its value (<c>?x</c> and <c>?x=</c> give an empty one).</summary>
-        public bool TryGet(string key, out string value) => _query.TryGetValue(key, out value);
+        public bool TryGet(string key, out string value) => QueryPairs.TryGetValue(key, out value);
 
         /// <summary>The value of the key, <c>""</c> for <c>?x</c> and <c>?x=</c>, null when the key is not in the query.</summary>
-        public string Get(string key) => _query.TryGetValue(key, out var value) ? value : null;
+        public string Get(string key) => QueryPairs.TryGetValue(key, out var value) ? value : null;
+
+        private Dictionary<string, string> QueryPairs
+        {
+            get
+            {
+                if (_query is null)
+                {
+                    _query = new Dictionary<string, string>();
+
+                    ParseQueryInto(_queryText, _query);
+                }
+
+                return _query;
+            }
+        }
+
+        // the way the router compares a route's segments (StringComparer has no such member under Transpose)
+        private static bool SameSegments(IEnumerable<string> a, IEnumerable<string> b)
+        {
+            return a.Count() == b.Count() && a.Zip(b, (x, y) => string.Equals(x, y, StringComparison.InvariantCultureIgnoreCase)).All(same => same);
+        }
 
         private static string[] SegmentsOf(string path) => (path ?? "").Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 

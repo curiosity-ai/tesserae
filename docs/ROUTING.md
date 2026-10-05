@@ -1,6 +1,6 @@
 # Routing in Tesserae
 
-This guide covers the built-in `Router` helper for SPA-style navigation, and `RouteState`, which reads and writes the URL as app state. The router is intentionally lightweight: it listens for URL changes, matches routes against registered patterns, and calls your handlers with parsed parameters.
+This guide covers the built-in `Router` helper for SPA-style navigation, and `RoutePath` and `RouteQuery`, which read and write the URL as app state. The router is intentionally lightweight: it listens for URL changes, matches routes against registered patterns, and calls your handlers with parsed parameters.
 
 ## Key concepts
 
@@ -69,7 +69,7 @@ Navigate with a query string:
 
 ## Reflecting view state in the query string
 
-Views can round-trip their state (open panels, selected tabs, filters) through the URL and get shareable, refresh-safe deep links. Use `RouteState` for this (see below); it is built on these `Router` members:
+Views can round-trip their state (open panels, selected tabs, filters) through the URL and get shareable, refresh-safe deep links. Use `RouteQuery` for this (see below); it is built on these `Router` members:
 
 - `Router.GetQueryParameters()` returns a copy of the current `Parameters` (path captures plus query keys).
 - `Router.SetQueryParameters(parameters, pushToHistory: false)` rewrites only the query segment of the hash, leaving the route path and everything before the `#` untouched.
@@ -89,9 +89,9 @@ A route's `:variables` are not written into the query: on `#/node/:uid`, a write
 
 `Push` and `Replace` re-derive the router's current parameters from the path you pass them, so `GetQueryParameters()` stays in sync with the URL even when no route re-match happens. They carry no route `:variables`.
 
-## RouteState and RouteLocation
+## RoutePath and RouteQuery
 
-See `Tesserae/skills/references/route-state.md` for reading the URL (`RouteLocation`, `RouteState.Current`) and writing view state to it (`RouteState.Set`, `Consume`, `SetWithHistory`, ...).
+See `Tesserae/skills/references/route-state.md` for asking where the page is (`RoutePath.Current`, `IsExactly`, `IsDescendantOf`) and for reading and writing view state in the query (`RouteQuery.Get`, `Set`, `Clear`, `Consume`, `SetWithHistory`, ...).
 
 ## Navigation guards and events
 
@@ -104,5 +104,5 @@ See `Tesserae/skills/references/route-state.md` for reading the URL (`RouteLocat
 ## Recommendations
 
 - Register routes early in the application initialization, then call `Refresh` and `ForceMatchCurrent` so the initial URL is matched without being changed.
-- Use `Navigate` to go somewhere and `RouteState` to describe where you are. `Push`/`Replace` set the whole hash, so a key you do not repeat is gone.
+- Use `Navigate` to go somewhere, `RoutePath` to ask where you are and `RouteQuery` to keep state in the URL. `Push`/`Replace` set the whole hash, so a key you do not repeat is gone.
 - Keep a key's name to one meaning: query keys and `:variable` names share one collection.

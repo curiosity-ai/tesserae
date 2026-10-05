@@ -44,12 +44,12 @@ namespace Tesserae.Tests.Samples
                 }, "Running...");
 
             _content = SectionStack().Secondary()
-               .SampleTitle(typeof(RouteStateSample), UIcons.Navigation, "The address bar as the app's state: where it is, which keys it holds, what a write does to history")
+               .SampleTitle(typeof(RouteStateSample), UIcons.Navigation, "The address bar as the app's state: which path it is on, which keys it holds, what a write does to history")
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                        TextBlock("`RouteState` reads and writes the hash query string of the current page. `RouteLocation` is the same reading on any hash you give it: `RouteState.Current` is the one for the address bar, and a location can be built from a string before the first route has matched, or in a test."),
+                        TextBlock("`RoutePath` is where the address bar is (`Current`, `IsExactly`, `IsDescendantOf`) and `RouteQuery` is the state in its query string (`Get`, `TryGet`, `Set`, `Clear` and the history writes). Neither reads the other. `RouteLocation` is the same reading on any hash you give it, so a location can be built from a string before the first route has matched, or in a test."),
                         TextBlock("Every row below is a case: a hash (or a setup), the call, what it must give and what it gave. The page checks itself when it opens, with no browser driver; a failing row is shown red and its section opens."),
-                        TextBlock("Paths compare by segment, ignoring case, empty segments and a trailing `/`. Query keys and values are case-sensitive. A malformed `%` never throws.")
+                        TextBlock("Paths compare by segment, ignoring case, empty segments and a trailing `/`. `IsDescendantOf` is false on the route itself. Query keys and values are case-sensitive. A malformed `%` never throws.")
                     )).SetTitle("Overview")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
@@ -57,8 +57,8 @@ namespace Tesserae.Tests.Samples
                             _readSummary,
                             Button("Expand all").OnClick(() => SetAll(true)),
                             Button("Collapse all").OnClick(() => SetAll(false))),
-                        TextBlock("These build a `RouteLocation` from the hash in the row. Nothing navigates.").Secondary(),
-                        _readHost)).SetTitle("Reading a hash (paths, child keys, matching, query parsing)")))
+                        TextBlock("These build a `RouteLocation` from the hash in the row. Nothing navigates. Section C composes the two reads: a page that belongs to a child key once the key is there.").Secondary(),
+                        _readHost)).SetTitle("Reading a hash (path, exact and descendant checks, query parsing)")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                         HStack().WS().Wrap().Gap(8.px()).AlignItemsCenter().Children(run, _runSummary),
