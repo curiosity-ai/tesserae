@@ -38,9 +38,13 @@ namespace Tesserae.Tests.Samples
             return Card(stack).SetTitle(title);
         }
 
-        private void Report(ActionCard<string> card, ActionCard<string>.Item q)
+        // Takes plain strings on purpose: a private member's signature is part of the sample class's
+        // reflection metadata, and naming ActionCard<string>.Item there makes the runtime construct that
+        // generic nested type while the gallery lists the samples - synchronously, before its module is
+        // loaded - which throws and leaves the whole gallery blank in a Release build.
+        private void Report(string label, string text, string data)
         {
-            _lastAction.Text = $"Chose \"{q.Text}\" on {card.Label} (data: {q.Data ?? "none"})";
+            _lastAction.Text = $"Chose \"{text}\" on {label} (data: {data ?? "none"})";
         }
 
         private ActionCard<string> Acme()
@@ -53,7 +57,7 @@ namespace Tesserae.Tests.Samples
                 .AddAction("How has their order volume changed this quarter?",  UIcons.ChartLineUp)
                 .AddAction("Who are our main contacts there?",                  UIcons.Users)
                 .AddAction("Summarize the latest framework contract with Acme", UIcons.FileSignature)
-                .OnAction(Report);
+                .OnAction((card, q) => Report(card.Label, q.Text, q.Data));
         }
 
         // ---------- Overview ----------
@@ -83,7 +87,7 @@ namespace Tesserae.Tests.Samples
                     .AddAction("How does pricing change after the first year?", UIcons.ChartLineUp)
                     .AddAction("Which obligations fall on us, and by when?",   UIcons.ListCheck)
                     .AddAction("Compare it with the 2024 agreement",           UIcons.Exchange)
-                    .OnAction(Report));
+                    .OnAction((card, q) => Report(card.Label, q.Text, q.Data)));
         }
 
         // ---------- Narrow ----------
@@ -100,7 +104,7 @@ namespace Tesserae.Tests.Samples
                             .AddAction("Which routes had the most delays last month?", UIcons.ChartHistogram)
                             .AddAction("What share of shipments arrived late?",      UIcons.ChartPie)
                             .Stacked()
-                            .OnAction(Report))));
+                            .OnAction((card, q) => Report(card.Label, q.Text, q.Data)))));
         }
 
         // ---------- States ----------
@@ -143,7 +147,7 @@ namespace Tesserae.Tests.Samples
                 ActionCard<string>("Acme Logistics", UIcons.Building)
                     .AddActions("Open tickets?", "Order trend this quarter", "Main contacts", "Contract summary")
                     .Compact()
-                    .OnAction(Report));
+                    .OnAction((card, q) => Report(card.Label, q.Text, q.Data)));
         }
 
         // ---------- Group ----------
@@ -161,7 +165,7 @@ namespace Tesserae.Tests.Samples
                         .AddAction("Compare it with the 2024 agreement", UIcons.Exchange),
                     ActionCard<string>("shipments", UIcons.Database).IconTint("#16a34a").SetSubLabel("Dataset · 42,109 rows").MonospaceSubLabel()
                         .AddAction("Which routes had the most delays last month?", UIcons.ChartHistogram)
-                ).OnAction(Report));
+                ).OnAction((card, q) => Report(card.Label, q.Text, q.Data)));
         }
 
         // ---------- In a chat ----------
