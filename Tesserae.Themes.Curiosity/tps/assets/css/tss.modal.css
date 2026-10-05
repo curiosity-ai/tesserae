@@ -18,20 +18,29 @@ body.tss-theme-curiosity .tss-modal.tss-embedded {
     box-shadow: 0 0 0 1px var(--tss-default-border-color);
 }
 
-/* A 12px inset between the ring and everything inside it. Dropped where the content runs to the edge
-   (NoPadding / NoContentPadding add tss-modal-no-inset), where the surface pads itself (Dialog), and
-   where a layout is measured against the modal's own box (the ModalStack deck, the tool calls list,
-   a modal shown in a drawer). */
-body.tss-theme-curiosity .tss-modal {
-    padding: 12px;
+/* A 12px inset between the ring and everything inside it, drawn by the parts that sit against the
+   border rather than by the modal's own box, so a part that opts out of its padding (NoPadding,
+   NoContentPadding) or a layout that sizes itself against the modal keeps working.
+   The header, content and footer already pad themselves 12px sideways, and the header's and footer's
+   parts 6px above and below, so the sides need nothing and the header and footer add the other 6px.
+   The content adds its own 12px only where it is the part against the border: with no header above it
+   or no footer below it. NoContentPadding / NoPadding set padding inline and win over all of this.
+   Left alone: Dialog (pads itself), ModalStack sheets (the deck is measured against the sheet), the tool
+   calls list and a modal shown in a drawer. */
+body.tss-theme-curiosity .tss-modal:not(.tss-dialog, .tss-modalstack-sheet, .tss-toolsused-modal, .tss-modal-in-drawer) > .tss-modal-header {
+    padding-top: 6px;
 }
 
-body.tss-theme-curiosity .tss-modal.tss-modal-no-inset,
-body.tss-theme-curiosity .tss-modal.tss-dialog,
-body.tss-theme-curiosity .tss-modal.tss-modalstack-sheet,
-body.tss-theme-curiosity .tss-modal.tss-toolsused-modal,
-body.tss-theme-curiosity .tss-modal.tss-modal-in-drawer {
-    padding: 0;
+body.tss-theme-curiosity .tss-modal:not(.tss-dialog, .tss-modalstack-sheet, .tss-toolsused-modal, .tss-modal-in-drawer) > .tss-modal-footer:has(> :not(:empty)) {
+    padding-bottom: 6px;
+}
+
+body.tss-theme-curiosity .tss-modal:not(.tss-dialog, .tss-modalstack-sheet, .tss-toolsused-modal, .tss-modal-in-drawer) > .tss-modal-header[style*="display: none"] + .tss-modal-content {
+    padding-top: 12px;
+}
+
+body.tss-theme-curiosity .tss-modal:not(.tss-dialog, .tss-modalstack-sheet, .tss-toolsused-modal, .tss-modal-in-drawer) > .tss-modal-content:has(+ .tss-modal-footer:not(:has(> :not(:empty)))) {
+    padding-bottom: 12px;
 }
 
 body.tss-theme-curiosity .tss-modal-animate {
