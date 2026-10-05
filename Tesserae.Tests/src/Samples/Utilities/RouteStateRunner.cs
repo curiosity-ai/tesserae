@@ -651,6 +651,99 @@ namespace Tesserae.Tests.Samples
 
                 return "same instance: " + B(same) + "; original " + original.Count + ", clone " + clone.Count;
             });
+
+            // The shapes an application's login flow uses (Mosaik's LoginView): a Replace to a bare href, a Replace
+            // and a Push that only change the query, a re-match of the page it is on. None of them is the Back button.
+
+            Check(H, "H16", Home + "?a=1", "Router.Replace(the href with its hash cut off), as after an SSO error marker", "replaced 1, pushed 0, handlers 0 | hash \"\" | query keys 0 | isBack false", () =>
+            {
+                Arrive("?a=1");
+
+                var bare = window.location.href.Split('#')[0].TrimEnd('/');
+                var mark = new Mark();
+
+                _isBackByPath.Remove(bare);
+
+                Router.Replace(bare);
+
+                return Effects(mark) + " | hash \"" + Hash() + "\" | query keys " + Router.GetQueryParameters().Count + " | isBack " + (_isBackByPath.TryGetValue(bare, out var isBack) ? B(isBack) : "(guard not asked)");
+            });
+
+            Check(H, "H17", Home, "Router.Push to the same path twice, as a hub keeping a filter in the query", "first isBack false; second isBack false | replaced 0, pushed 2, handlers 0", () =>
+            {
+                Arrive("");
+
+                var key  = Home.TrimStart('#');
+                var mark = new Mark();
+
+                _isBackByPath.Remove(key);
+                Router.Push(Home + "?f=1");
+                var first = _isBackByPath.TryGetValue(key, out var a) ? B(a) : "(guard not asked)";
+
+                _isBackByPath.Remove(key);
+                Router.Push(Home + "?f=2");
+                var second = _isBackByPath.TryGetValue(key, out var b) ? B(b) : "(guard not asked)";
+
+                return "first isBack " + first + "; second isBack " + second + " | " + Effects(mark);
+            });
+
+            await CheckAsync(H, "H18", Probe("one") + ", from " + Home, "Router.Replace to the path of the page before this one", "isBack false | replaced 1, pushed 0, handlers 0", async () =>
+            {
+                Arrive("");
+
+                await NavigateAndWait(Probe("one"));
+
+                var key  = Home.TrimStart('#');
+                var mark = new Mark();
+
+                _isBackByPath.Remove(key);
+
+                Router.Replace(Home + "?x=1");
+
+                return "isBack " + (_isBackByPath.TryGetValue(key, out var isBack) ? B(isBack) : "(guard not asked)") + " | " + Effects(mark);
+            });
+
+            await CheckAsync(H, "H19", Probe("one") + "?x=1", "Router.Push to the same path, then ForceMatchCurrent: the handler re-runs, and it is not \"back\"", "isBack false | replaced 0, pushed 1, handlers 1", async () =>
+            {
+                Arrive("");
+
+                await NavigateAndWait(Probe("one"));
+
+                var key  = "/route-state-probe/one";
+                var mark = new Mark();
+
+                Router.Push(Probe("one") + "?x=1");
+
+                _isBackByPath.Remove(key);
+
+                var before = _navigated;
+
+                Router.ForceMatchCurrent();
+
+                await WaitFor(() => _navigated > before);
+
+                return "isBack " + (_isBackByPath.TryGetValue(key, out var isBack) ? B(isBack) : "(guard not asked)") + " | " + Effects(mark);
+            });
+
+            await CheckAsync(H, "H20", Home + ", then " + Probe("one"), "Set(\"k\", \"v\") on the second page, then the browser's Back: the first page is still \"back\"", "isBack true; " + Home, async () =>
+            {
+                Arrive("");
+
+                await NavigateAndWait(Probe("one"));
+
+                RouteQuery.Set("k", "v");
+
+                var key    = Home.TrimStart('#');
+                var before = _navigated;
+
+                _isBackByPath.Remove(key);
+
+                window.history.back();
+
+                await WaitFor(() => _navigated > before);
+
+                return "isBack " + (_isBackByPath.TryGetValue(key, out var isBack) ? B(isBack) : "(guard not asked)") + "; " + Hash();
+            });
         }
 
         // ------------------------------------------------------------------------------------------------
