@@ -72,6 +72,7 @@ namespace Tesserae
             _columns.Add(column);
             _stack.Add(column);
             column.IsReadOnly = _isReadOnly;
+            if (_isRowMode) column.RowMode(true);
             return this;
         }
 
