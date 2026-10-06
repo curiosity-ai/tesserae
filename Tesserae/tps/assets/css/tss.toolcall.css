@@ -176,6 +176,9 @@
 
 .tss-toolcall-secondary-action > i {
     font-size: 11px;
+    /* The glyph's ink sits ~1px above the label's cap-height centre; a whole pixel, so it survives rounding. */
+    position: relative;
+    top: 1px;
 }
 
 .tss-toolcall-chevron {
