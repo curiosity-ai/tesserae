@@ -142,6 +142,47 @@
     opacity: 1;
 }
 
+/* Secondary actions — a row of small labelled buttons inside the card, between header and content. */
+.tss-toolcall-secondary-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px 6px 34px;
+}
+
+.tss-toolcall-secondary-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    height: 22px;
+    padding: 0 8px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 6px;
+    background: transparent;
+    cursor: pointer;
+    color: var(--tss-colors-neutral-700, #374151);
+    font-family: inherit;
+    font-size: 12px;
+}
+
+.tss-toolcall-secondary-action:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-toolcall-secondary-action:focus-visible {
+    outline: 2px solid var(--tss-primary-background-color);
+    outline-offset: 1px;
+}
+
+.tss-toolcall-secondary-action > i {
+    font-size: 11px;
+}
+
+.tss-toolcall > .tss-toolcall-secondary-actions + .tss-toolcall-content {
+    border-top: 1px solid var(--tss-default-border-color);
+}
+
 .tss-toolcall-chevron {
     transition: transform 200ms ease;
     font-size: 12px;

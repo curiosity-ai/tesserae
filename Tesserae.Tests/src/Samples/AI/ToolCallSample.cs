@@ -105,6 +105,12 @@ namespace Tesserae.Tests.Samples
                         ).SetSummary("researcher").Inline()
                          .AddAction(UIcons.Eye, "Watch this agent run", () => Toast().Information("Opening the run...")),
 
+                        SampleSubTitle("Secondary actions inside the card"),
+                        TextBlock("AddSecondaryAction puts small labelled buttons on a row inside the card, under the header, for follow-ups a call offers beside its result."),
+                        ToolCall(UIcons.Terminal, "Bash dotnet build", () => TextBlock("Build failed: 2 errors.").BreakSpaces())
+                           .AddSecondaryAction("Retry", () => Toast().Information("Retrying..."), UIcons.Refresh)
+                           .AddSecondaryAction("Copy output", () => Toast().Information("Copied")),
+
                         SampleSubTitle("Live progress while a call runs"),
                         TextBlock("A ToolCall can carry a LiveProgress line on its header row: SetProgress writes into the line already on screen, so a stream of updates never re-renders the call and never replays an animation. Hovering the line shows its full text; expanding the call still opens the content full width underneath."),
                         _runningCall,
