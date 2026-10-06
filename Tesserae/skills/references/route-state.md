@@ -58,24 +58,33 @@ stays, **no route handler runs**, `Router.OnNavigated` does not fire and `OnBefo
 A write that changes nothing does nothing. Before the first route has matched there is nothing to anchor
 to and a write does nothing (a read still works). Pass keys and values unencoded; they are URI-encoded once on write.
 
+**Every write except `Consume` takes a required `QueryHistory`**: whether Back undoes it is the caller's decision, never a default.
+
+| `QueryHistory` | Effect |
+|---|---|
+| `Replace` | rewrites the current entry; Back skips over the change |
+| `Push` | adds an entry; Back undoes the change |
+| `ReplaceFirstThenPush` | for a key that picks a tab or a filter: replaces while the key has no value (arriving with no key is not a step to go back over), pushes once it has one, so Back returns to the previous choice; a blank value counts as none |
+
 | Member | Effect |
 |---|---|
-| `RouteQuery.Set(key, value)` | one key, replaces the history entry |
-| `RouteQuery.Clear(key)` | removes one key, replaces the history entry |
-| `RouteQuery.Update(p => ...)` | several keys in one write |
-| `RouteQuery.Consume(key, out value)` | reads a key and removes it; for something that is asked for once (a toast, a dialog) so a refresh or a shared link does not ask again |
+| `RouteQuery.Set(key, value, history)` | one key |
+| `RouteQuery.Clear(key, history)` | removes one key |
+| `RouteQuery.Update(p => p.With("a", "1").Without("b"), history, params keys)` | several keys in one write, one step back; `Parameters` is immutable, so the lambda returns the result. With `ReplaceFirstThenPush` it pushes only when every key in `keys` already has a value, and `keys` is required; the other modes take no keys. Either mismatch throws `ArgumentException` |
+| `RouteQuery.Consume(key, out value)` | reads a key and removes it, always replacing the entry (an entry that kept the key would ask again on Back); for something that is asked for once (a toast, a dialog) so a refresh or a shared link does not ask again |
 | `RouteQuery.Consume(params keys)` | the same for keys that belong together, removed in one write; true when any was there |
-| `RouteQuery.SetWithHistory(key, value)` | for a key that picks a tab or a filter: the first time it is written it replaces the entry, and once it has a value every change adds an entry, so Back returns to the previous choice |
-| `RouteQuery.UpdateWithHistory(update, params pushWhenPresent)` | one write that adds an entry only when every key in `pushWhenPresent` already has a value, and replaces the entry otherwise; several keys changed together are one step back |
 | `RoutePath.ReplacePath(route)` | moves the address bar to `route`, keeping the query, in place of the current entry; the view stays, no handler runs; true without writing when the path is already `route`; false when a guard refused |
 
 ```csharp
 // A tab strip: arriving on a tab replaces the entry, switching adds one
-void OnTabChosen(string tab) => RouteQuery.SetWithHistory("show", tab);
+void OnTabChosen(string tab) => RouteQuery.Set("show", tab, QueryHistory.ReplaceFirstThenPush);
 
 // An open panel
-RouteQuery.Set("preview", id);
-RouteQuery.Clear("preview");
+RouteQuery.Set("preview", id, QueryHistory.Push);   // Back closes it
+RouteQuery.Clear("preview", QueryHistory.Replace);
+
+// Two filters that change together: one step back
+RouteQuery.Update(p => p.With("timeFrame", "30").With("period", "week"), QueryHistory.ReplaceFirstThenPush, "timeFrame", "period");
 
 // A toast the server asked for in the link, shown once
 if (RouteQuery.Consume("toast", out var toast)) ShowToast(toast);
@@ -106,7 +115,8 @@ location.Get("id");                    // "user"
   drop every key you did not repeat; `RouteQuery.Set` keeps the others.
 - **Route `:variables` are not query keys.** On `#/node/:uid`, `Set("k", "v")` writes `#/node/abc?k=v`, not
   `?uid=abc&k=v`. The handler's `Parameters` still carries `uid`, and `RouteQuery.Get("uid")` is `null`.
-- **A handler and `Router.GetQueryParameters()` get a copy.** Removing a key from it does not change the URL.
+- **`Parameters` is immutable.** A handler and `Router.GetQueryParameters()` cannot change the URL through it: `With`/`Without` return a new
+  instance, and the old in-place `Remove` is a compile error. To drop a key from the URL, `RouteQuery.Clear(key)`.
 - **A key that two parts of the app both use is a clash.** The query is one flat collection; give each part its own key names.
 - **Read before the router is up with `RoutePath` and `RouteQuery`** (they apply the `OnTransformRoutes` transform, so they
   see what the router will match). Do not write before the first match.

@@ -40,16 +40,20 @@ Avoid reusing a `:segment` name as a query key (one shared collection).
 Reflect view state (open panel, selected tab, filters) in the URL's query
 segment so it survives refresh and can be shared as a deep link. Prefer
 `RouteQuery` (`route-state.md`) for reading and writing it: `Get`/`TryGet`, `Set`/`Clear`/`Update`,
-`Consume` for one-shot keys, `SetWithHistory` for tabs, and `RoutePath.IsExactly`/`IsDescendantOf` to ask
+`Consume` for one-shot keys, `QueryHistory.ReplaceFirstThenPush` for tabs, and `RoutePath.IsExactly`/`IsDescendantOf` to ask
 where the page is. The members below are what it is built on:
 
-- `Router.GetQueryParameters()` — a **copy** of the current `Parameters` (route
-  `:variables` and query keys). Changing it changes nothing.
-- `Router.ReplaceQueryParameters(p => p.With("preview", id))` — clone, update,
+- `Parameters` is **immutable**: `.With(key, value)` and `.Without(key)` return a
+  new instance and leave the original alone. There is no in-place `Remove` (it is
+  a compile error), so nothing done to a `Parameters` can reach the URL by accident.
+- `Router.GetQueryParameters()` — the current `Parameters` (route `:variables`
+  and query keys).
+- `Router.ReplaceQueryParameters(p => p.With("preview", id), pushToHistory: false)` — apply the update,
   rewrite only the hash's query segment; no-ops when nothing changed. Use
-  `.Remove(key)` to clear. The route handler is **not** re-invoked — the URL
-  updates silently under the running view. Default is `replaceState` (no
-  history entry); pass `pushToHistory: true` for one. It does nothing before the
+  `.Without(key)` to clear. Return the result: the lambda's return value is what
+  gets written. The route handler is **not** re-invoked — the URL
+  updates silently under the running view. `pushToHistory` is required: `false`
+  is `replaceState` (no history entry), `true` adds one. It does nothing before the
   first route has matched. A route's `:variables` are not written into the query
   (`#/node/abc?k=v`, not `?uid=abc&k=v`).
 - On the next navigation or page load the keys arrive in the handler's
@@ -59,8 +63,8 @@ where the page is. The members below are what it is built on:
 
 - `Router.CurrentHash` — the hash the router matches (`window.location.hash`
   after the `OnTransformRoutes` transform). Readable before the first match.
-- The handler receives a copy of the `Parameters`: `p.Remove("x")` inside it
-  does not change the URL or what the next write keeps.
+- To drop a key from the URL inside a handler (a one-shot `?token=`), call
+  `RouteQuery.Clear("x", QueryHistory.Replace)`; the handler's `Parameters` cannot be changed.
 - `:variable` values are the raw hash segment, not URI-decoded. A query key with
   the name of a `:variable` wins over it in the merged `Parameters`.
 
