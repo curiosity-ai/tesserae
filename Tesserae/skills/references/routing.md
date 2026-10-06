@@ -44,8 +44,8 @@ segment so it survives refresh and can be shared as a deep link. Prefer
 where the page is. The members below are what it is built on:
 
 - `Parameters` is **immutable**: `.With(key, value)` and `.Without(key)` return a
-  new instance and leave the original alone. There is no in-place `Remove` (it is
-  a compile error), so nothing done to a `Parameters` can reach the URL by accident.
+  new instance and leave the original alone. There is no `Remove` and no `Clone`,
+  so nothing done to a `Parameters` can reach the URL by accident.
 - `Router.GetQueryParameters()` — the current `Parameters` (route `:variables`
   and query keys).
 - `Router.ReplaceQueryParameters(p => p.With("preview", id), pushToHistory: false)` — apply the update,
