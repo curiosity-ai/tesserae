@@ -132,6 +132,16 @@ body.tss-theme-curiosity .tss-sidebar .tss-sidebar-nav-header > .tss-sidebar-nav
     box-shadow: var(--tss-cur-nav-mark), var(--tss-cur-nav-depth);
 }
 
+/* A row's fill changes at once, without the 0.15s fade every other button has (tss.button.css). The scrim
+   that fades a long name out under a row's commands takes the row's background (background-color: inherit,
+   in Tesserae's tss.sidebar.css), while the commands themselves appear at once: with the fill fading in,
+   the scrim was translucent for its first frames and the name showed through the icons. The rest of the
+   button's transition is restated as it was. */
+body.tss-theme-curiosity .tss-sidebar .tss-sidebar-btn.tss-btn,
+body.tss-theme-curiosity .tss-sidebar .tss-sidebar-nav-header > .tss-sidebar-nav-button.tss-btn {
+    transition: color .15s linear, border-color .15s linear, transform .1s ease;
+}
+
 /* Where you are: stone, and the 2px ink bar on the leading edge. The same while the pointer is on it,
    which is what keeps the current row from looking like any other under the pointer. */
 body.tss-theme-curiosity .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
