@@ -7,9 +7,11 @@ description: A Button variant that drives itself through save states (pending, v
 
 A button that encapsulates the visual states of a save operation. Click handlers only fire while the button is in `PendingSave`.
 
+The button keeps one width in every state: it is sized by its Verifying label (spinner + `verifying` text, "Verifying..." by default), so it does not resize as it moves through a save. Any label or `message` wider than that is ellipsized; configure a longer `verifying:` text to make the button wider.
+
 ## Create
 
-`new SaveButton()` — there is no `UI.SaveButton` factory; construct directly.
+`SaveButton()` (or `new SaveButton()`).
 Bring other factories into scope with `using static Tesserae.UI;`.
 
 `SaveButton.State`: `NothingToSave`, `PendingSave`, `Verifying`, `Saving`, `Saved`, `Error`.
@@ -19,7 +21,7 @@ Bring other factories into scope with `using static Tesserae.UI;`.
 - `.Configure(save:, verifying:, saving:, saved:, error:, saveHover:, saveIcon:, saveHoverIcon:, pendingPrimary:)` — customise per-state text/icons (all optional).
 - `.SetState(State, string message = null)` — set state imperatively; convenience: `.Pending()`, `.Verifying()`, `.Saving()`, `.Saved()`, `.Error()`, `.NothingToSave()`.
 - `.OnClick(Action)` — handler (only runs in `PendingSave`).
-- `.OnClickSpinWhile(Func<Task>)` — async handler that shows the spinner while awaiting.
+- `.OnClickSpinWhile(Func<Task>, text, onError)` — async handler that shows the `Saving` state (or `text`) while awaiting. If the handler sets no state itself, the button returns to `PendingSave` afterwards; an exception shows `Error` and a toast (or calls `onError` instead), then is rethrown so it is logged to the console.
 - `.VerifyingWhile(Func<Task<State>>, text, onError)` — run an async check and apply the returned state, auto-handling errors.
 
 ## Example
@@ -28,7 +30,7 @@ Bring other factories into scope with `using static Tesserae.UI;`.
 using static Tesserae.UI;
 
 SaveButton saveButton = null;
-saveButton = new SaveButton()
+saveButton = SaveButton()
     .Configure(saved: "All changes saved!")
     .OnClick(async () =>
     {
