@@ -179,6 +179,10 @@ namespace Tesserae.Tests.Samples
                         Label("Search 5,000 people").SetContent(
                             Dropdown()
                                .Items(FirstPageOfPeople())
+                               .SearchAsync(SearchPeopleAsync, placeholder: "Type a name...")),
+                        Label("Placeholder, no seed items").SetContent(
+                            Dropdown()
+                               .Placeholder("Pick a person...")
                                .SearchAsync(SearchPeopleAsync, placeholder: "Type a name..."))
                     ),
                     SampleSubTitle("Validation"),
