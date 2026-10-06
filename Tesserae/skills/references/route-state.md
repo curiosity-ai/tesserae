@@ -116,7 +116,7 @@ location.Get("id");                    // "user"
 - **Route `:variables` are not query keys.** On `#/node/:uid`, `Set("k", "v")` writes `#/node/abc?k=v`, not
   `?uid=abc&k=v`. The handler's `Parameters` still carries `uid`, and `RouteQuery.Get("uid")` is `null`.
 - **`Parameters` is immutable.** A handler and `Router.GetQueryParameters()` cannot change the URL through it: `With`/`Without` return a new
-  instance, and the old in-place `Remove` is a compile error. To drop a key from the URL, `RouteQuery.Clear(key)`.
+  instance, and there is no `Remove`. To drop a key from the URL, `RouteQuery.Clear(key, QueryHistory.Replace)`.
 - **A key that two parts of the app both use is a clash.** The query is one flat collection; give each part its own key names.
 - **Read before the router is up with `RoutePath` and `RouteQuery`** (they apply the `OnTransformRoutes` transform, so they
   see what the router will match). Do not write before the first match.

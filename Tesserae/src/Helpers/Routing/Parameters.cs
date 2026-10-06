@@ -75,14 +75,6 @@ namespace Tesserae
             return copy;
         }
 
-        // Kept only so that code which removed a key from its handler's parameters, expecting the URL to follow, fails to compile
-        // instead of silently doing nothing.
-        [System.Obsolete("Parameters is immutable. To remove a key from the URL use RouteQuery.Clear(key); inside Router.ReplaceQueryParameters or RouteQuery.Update use p.Without(key).", error: true)]
-        public Parameters Remove(string key) => Without(key);
-
         public string     ToQueryString() => _parameters.Any() ? "?" + string.Join("&", _parameters.Select(p => Transpose.Script.EncodeURIComponent(p.Key) + "=" + Transpose.Script.EncodeURIComponent(p.Value))) : "";
-
-        [System.Obsolete("Parameters is immutable, so a copy is the same as the original.")]
-        public Parameters Clone()         => this;
     }
 }

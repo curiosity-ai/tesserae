@@ -309,8 +309,7 @@ through `Router.CurrentHash`, so they work before the first route has matched, a
   `Consume` always replaces, since an entry that kept a one-shot key would ask again on Back.
 - A query write is not a navigation. It does not run a handler, fire `OnNavigated`, ask `OnBeforeNavigate` or touch the
   router's previous-state record (which `isBack` compares against), and it never writes a route's `:variables` into the query.
-- `Parameters` is immutable (`With`/`Without` return a new instance; `Remove` is an `[Obsolete(error: true)]` stub that names
-  `RouteQuery.Clear`), so a handler or a `GetQueryParameters()` caller cannot change the URL through what it was given, and code that
+- `Parameters` is immutable (`With`/`Without` return a new instance; there is no `Remove` or `Clone`), so a handler or a `GetQueryParameters()` caller cannot change the URL through what it was given, and code that
   used to try fails to compile instead of silently doing nothing.
 - The **Route State** sample (`Tesserae.Tests/src/Samples/Utilities/RouteState*.cs`) is the test suite: about 150 cases that
   check themselves when the page opens (reads) or when you press the button (writes, history, the router). A change to routing
