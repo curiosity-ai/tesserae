@@ -63,6 +63,9 @@ namespace Tesserae
             _container       = Div(Att("tss-metric"), _bodyContainer);
 
             InnerElement = _container;
+
+            // Without it the click OnClick subscribes to is never listened for, and a handler silently does nothing.
+            AttachClick();
         }
 
         /// <summary>
@@ -180,6 +183,40 @@ namespace Tesserae
             _changeContainer.appendChild(change.Render());
             return this;
         }
+
+        /// <summary>
+        /// Registers a callback invoked when the tile is clicked - to drill into what the number counts. A
+        /// clickable tile shows the pointer, answers the hover, and becomes keyboard reachable: it is
+        /// activated with Enter or Space while the tile itself has focus.
+        /// </summary>
+        public override Metric OnClick(ComponentEventHandler<Metric, MouseEvent> onClick, bool clearPrevious = true)
+        {
+            if (!_container.classList.contains("tss-metric-clickable"))
+            {
+                _container.classList.add("tss-metric-clickable");
+                _container.setAttribute("role",     "button");
+                _container.setAttribute("tabindex", "0");
+
+                // Only the tile's own keystrokes: a button inside it (a chart's legend, an info icon) keeps Enter and Space for itself.
+                _container.addEventListener("keydown", e =>
+                {
+                    var ev = e.As<KeyboardEvent>();
+
+                    if (ev.target == _container && (ev.key == "Enter" || ev.key == " "))
+                    {
+                        StopEvent(ev);
+                        _container.click();
+                    }
+                });
+            }
+
+            return base.OnClick(onClick, clearPrevious);
+        }
+
+        /// <summary>
+        /// Registers a callback invoked when the tile is clicked. See <see cref="OnClick(ComponentEventHandler{Metric, MouseEvent}, bool)"/>.
+        /// </summary>
+        public Metric OnClick(Action action) => OnClick((_, __) => action());
 
         // The tile is built on the first call that needs one, but only put in the DOM once something is
         // actually on it - so sizing it before filling it doesn't leave an empty square in the card.

@@ -49,7 +49,22 @@ namespace Tesserae.Tests.Samples
                )).SetTitle("Usage")))
                .FlatSection(Stack().Children(Icons()))
                .FlatSection(Stack().Children(WithContributionBar()))
+               .FlatSection(Stack().Children(Clickable()))
                .SeeAlso(typeof(DeltaComponentSample), typeof(SparklineSample), typeof(ChartsSample), typeof(ContributionBarSample));
+        }
+
+        // ---------- Clickable ----------
+
+        private static IComponent Clickable()
+        {
+            return Card(VStack().WS().Children(
+                TextBlock("OnClick makes the tile a way into what it counts: it shows the pointer, answers the hover, and is reachable with Tab and pressed with Enter or Space. Click a tile, or tab to one."),
+                HStack().Children(
+                    Card(Metric("Open tickets", "42").SetIcon(UIcons.Ticket, Theme.Colors.Blue600).ValueFirst()
+                       .OnClick(() => Toast().Information("Open tickets"))).W(240.px()),
+                    Card(Metric("Overdue", "7").SetIcon(UIcons.AlarmClock, Theme.Colors.Red600).ValueFirst()
+                       .OnClick(() => Toast().Warning("Overdue tickets"))).W(240.px()))))
+               .SetTitle("Clickable", UIcons.CursorFinger, Theme.Colors.Green600);
         }
 
         // ---------- Icon tiles ----------

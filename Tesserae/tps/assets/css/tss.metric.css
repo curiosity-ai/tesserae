@@ -106,3 +106,22 @@
 .tss-metric-chart:not(:empty) {
     margin-top: 8px;
 }
+
+/* A clickable tile (Metric.OnClick). It has no padding of its own - the card around it supplies that - so
+   the hover wash is drawn past its edges with a spread shadow of the same colour instead of padding, which
+   would move the number the moment it became clickable. */
+.tss-metric-clickable {
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color .15s linear, box-shadow .15s linear;
+}
+
+.tss-metric-clickable:hover {
+    background: var(--tss-default-background-hover-color);
+    box-shadow: 0 0 0 6px var(--tss-default-background-hover-color);
+}
+
+.tss-metric-clickable:focus-visible {
+    outline: 2px solid var(--tss-primary-background-color);
+    outline-offset: 6px;
+}
