@@ -667,6 +667,9 @@ namespace Tesserae
             Disabled(false);
             _noItemsSpan.style.display = "none";
 
+            // With no seed Items() call nothing has drawn the selected-items bar yet, so the placeholder would never show.
+            RefreshPlaceholder();
+
             return Searchable(placeholder);
         }
 
@@ -920,6 +923,7 @@ namespace Tesserae
         public Dropdown Placeholder(string text)
         {
             _placeholder = TextBlock(text).Secondary();
+            RefreshPlaceholder();
             return this;
         }
 
@@ -929,7 +933,21 @@ namespace Tesserae
         public Dropdown Placeholder(IComponent placeholder)
         {
             _placeholder = placeholder;
+            RefreshPlaceholder();
             return this;
+        }
+
+        /// <summary>
+        /// The selected-items bar is only redrawn when the items or the selection change, so a placeholder set afterwards
+        /// (or on a dropdown whose options all arrive through <see cref="SearchAsync"/>, which may never be given a seed list)
+        /// has to ask for the redraw itself. A dropdown that is out of options keeps showing the no-items message instead.
+        /// </summary>
+        private void RefreshPlaceholder()
+        {
+            if (_lastRenderedItems is object || _asyncSearcher is object)
+            {
+                RenderSelected();
+            }
         }
 
 
