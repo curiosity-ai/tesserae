@@ -35,3 +35,24 @@ body.tss-theme-curiosity .tss-metric-change > .tss-textblock {
     font-size: var(--tss-font-size-xsmall);
     font-variant-numeric: tabular-nums;
 }
+
+/* A clickable tile answers the pointer the way a hoverable card does in the theme: square, framed in ink
+   rather than washed, and filled with stone while pressed. */
+body.tss-theme-curiosity .tss-metric-clickable {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-metric-clickable:hover {
+    background: transparent;
+    box-shadow: 0 0 0 6px var(--tss-default-background-color), 0 0 0 7px var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-metric-clickable:active {
+    background: var(--tss-default-background-hover-color);
+    box-shadow: 0 0 0 6px var(--tss-default-background-hover-color), 0 0 0 7px var(--tss-default-foreground-color);
+}
+
+body.tss-theme-curiosity .tss-metric-clickable:focus-visible {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: 6px;
+}

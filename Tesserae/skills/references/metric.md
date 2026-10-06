@@ -22,6 +22,7 @@ Bring the factory into scope with `using static Tesserae.UI;`.
 - `.Chart(IComponent)` — inline chart under the value: a `Sparkline`, a `ContributionBar`, anything renderable. It takes the full width of the tile.
 - `.SetIcon(UIcons, color, weight)` / `.SetIcon(string text, color, TextSize?)` / `.SetIcon(IComponent, color)` — an `IconTile` in front of the title and the value: the same rounded, tinted square an `OmniResult` row leads with. Pass the full-strength colour the glyph should be; the wash behind it is computed from it. A null component takes the tile away.
 - `.IconSize(UnitSize)` — how big that tile is (44px by default).
+- `.OnClick(Action)` / `.OnClick((metric, mouseEvent) => ...)` — make the tile clickable, to drill into what it counts. It shows the pointer and a hover state, and becomes keyboard reachable (`role="button"`, `tabindex="0"`, Enter or Space while the tile has focus). The hover wash is drawn outside the tile with a spread shadow, so making it clickable does not move its contents.
 - `.ValueFirst(bool = true)` — draw the value above the title, so the number reads first and the words under it only say what was counted ("5 / In my scope").
 
 ## Example

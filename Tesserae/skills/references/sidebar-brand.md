@@ -44,6 +44,8 @@ Passing no `subtitle` leaves the row a single line rather than an empty one.
 - `.OnClick(...)` — what the row itself opens, usually Home.
 - `.Separated()` — a divider on the row's outer edge, run out to the sidebar's own
   edges rather than stopping at its padding. In the header that is the bottom edge.
+- `.SetBadge(string text, BadgeTone tone = BadgeTone.Neutral)` — a badge after the
+  name, such as the environment a build runs in. See below.
 - `.SetTitle(...)` / `.SetSubtitle(...)` — update the row in place.
 - `.Selected(bool = true)` / `.IsSelected` / `.SelectedStatus`, `.CommandsOnHover()`,
   `.Tooltip(...)`, `.NotSortable()`, `.Class(...)`, `.OnContextMenu(...)`,
@@ -101,6 +103,34 @@ while a rail is dragged or animated.
 - A skin that changes the logo's size or the gap beside it sets
   `--tss-sidebar-brand-logo-size` / `--tss-sidebar-identity-gap`, which the
   arithmetic reads too.
+
+## A badge after the name
+
+```csharp
+.SetBadge(string text, BadgeTone tone = BadgeTone.Neutral)   // null or empty text removes it
+.SetBadge(Badge badge)                                       // a badge of your own; null removes it
+```
+
+For a label that qualifies the name itself rather than adding a second line under
+it: the environment a build runs in (`"DEV"`, `"VAL"`), an edition, a pre-release
+marker. `tone` is the same `BadgeTone` a `Badge` takes (`Neutral`, `Primary`,
+`Success`, `Warning`, `Danger`, `Info`, `AI`), so it follows the theme. The
+`Badge` overload is for an outline, an icon or colours outside the tones
+(`.Background(...)` / `.Foreground(...)`).
+
+- The name ellipsizes before the badge does, and the rail grows to fit the name
+  *and* the badge (see below).
+- On the collapsed rail the badge text goes in the logo's default tooltip, after
+  the name: `Aurelia Ops (DEV) - Fleet Europe`. With `.WithSidebarControl(...)` the
+  logo turns into the open button under the pointer, so the tooltip shown is that
+  button's.
+- The name and badge share a `.tss-sidebar-identity-title-line` that only exists
+  while there is a badge; the badge carries `.tss-sidebar-identity-title-badge`.
+
+```csharp
+new SidebarBrand("brand", "Aurelia Ops", "Fleet Europe", logoUrl)
+   .SetBadge("DEV", BadgeTone.Warning);
+```
 
 ## The brand as the rail's open/close control
 
