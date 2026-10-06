@@ -132,6 +132,16 @@ body.tss-theme-curiosity .tss-sidebar .tss-sidebar-nav-header > .tss-sidebar-nav
     box-shadow: var(--tss-cur-nav-mark), var(--tss-cur-nav-depth);
 }
 
+/* A row's fill changes at once, without the 0.15s fade every other button has (tss.button.css). The scrim
+   that fades a long name out under a row's commands takes the row's background (background-color: inherit,
+   in Tesserae's tss.sidebar.css), while the commands themselves appear at once: with the fill fading in,
+   the scrim was translucent for its first frames and the name showed through the icons. The rest of the
+   button's transition is restated as it was. */
+body.tss-theme-curiosity .tss-sidebar .tss-sidebar-btn.tss-btn,
+body.tss-theme-curiosity .tss-sidebar .tss-sidebar-nav-header > .tss-sidebar-nav-button.tss-btn {
+    transition: color .15s linear, border-color .15s linear, transform .1s ease;
+}
+
 /* Where you are: stone, and the 2px ink bar on the leading edge. The same while the pointer is on it,
    which is what keeps the current row from looking like any other under the pointer. */
 body.tss-theme-curiosity .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
@@ -212,8 +222,10 @@ body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-side
 }
 
 /* The triangle itself: a solid 7px right triangle, clipped out of a square rather than built from a
-   rotated border, so its two states are two corners of the same cell. Closed points to the bottom-right,
-   open to the top-right. */
+   rotated border. Closed, its right angle is in the bottom-right corner; open, the square turns a quarter
+   counter-clockwise about its centre, which puts the same shape in the top-right corner of the same cell.
+   Turning rather than re-clipping is what lets the change animate: halfway through, the triangle points
+   right. */
 body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav-arrow.tss-btn:after,
 body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:after {
     left: auto;
@@ -224,13 +236,15 @@ body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-side
     margin-top: -3.5px;
     border: 0;
     transform: none;
-    transition: none;
+    transition: transform var(--tss-cur-nav-caret-turn) ease-out;
     background: var(--tss-cur-ash);
     clip-path: polygon(100% 0, 100% 100%, 0 100%);
 }
 
+/* This also has to out-rank Tesserae's own open chevron (translate plus rotate(45deg)), which is more specific
+   than the rule above. */
 body.tss-theme-curiosity :where(.tss-sidebar:not(.tss-sidebar-page:not(.tss-sidebar-searching))) .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
-    clip-path: polygon(0 0, 100% 0, 100% 100%);
+    transform: rotate(-90deg);
 }
 
 /* Ink under the pointer, on the header or on the triangle. */
@@ -306,26 +320,29 @@ body.tss-theme-curiosity .tss-sidebar-nav-children .tss-sidebar-nav > .tss-sideb
    -------------------------------------------------------------------------- */
 
 /* The same triangle in the tile's corner, 4px in from the edges; the same climb of the marker onto the
-   header once the group is closed over the current page. */
+   header once the group is closed over the current page. Opening turns it a quarter as in the open rail and
+   slides it from the bottom corner to the top one. The slide is on top, measured from the tile's top in both
+   states (bottom to top through auto would not animate), so the closed position subtracts the triangle's
+   size: --tss-cur-nav-caret, which the bold rules below raise to 9px. */
 body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav-header:not(.tss-sidebar-nav-header-empty):after,
 body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header:after {
+    --tss-cur-nav-caret: 7px;
     left: auto;
     right: 4px;
-    top: auto;
-    bottom: 4px;
-    width: 7px;
-    height: 7px;
+    top: calc(100% - 4px - var(--tss-cur-nav-caret));
+    bottom: auto;
+    width: var(--tss-cur-nav-caret);
+    height: var(--tss-cur-nav-caret);
     border: 0;
     transform: none;
-    transition: none;
+    transition: transform var(--tss-cur-nav-caret-turn) ease-out, top var(--tss-cur-nav-caret-turn) ease-out;
     background: var(--tss-cur-ash);
     clip-path: polygon(100% 0, 100% 100%, 0 100%);
 }
 
 body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header:after {
     top: 4px;
-    bottom: auto;
-    clip-path: polygon(0 0, 100% 0, 100% 100%);
+    transform: rotate(-90deg);
 }
 
 body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav-header:hover:after,
@@ -341,8 +358,19 @@ body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav:not(.t
 body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header:after,
 body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(> .tss-sidebar-nav-children > .tss-sidebar-selected) > .tss-sidebar-nav-header:after,
 body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav:not(.tss-sidebar-nav-keep-collapsed):has(> .tss-sidebar-nav-children > * > .tss-sidebar-nav.tss-sidebar-selected) > .tss-sidebar-nav-header:after {
-    width: 9px;
-    height: 9px;
+    --tss-cur-nav-caret: 9px;
+}
+
+/* The triangle's turn, in both rails. A variable on the body rather than a transition rule of its own, so
+   reduced motion switches it off without out-ranking every state rule that restates the transition. */
+body.tss-theme-curiosity {
+    --tss-cur-nav-caret-turn: .2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-curiosity {
+        --tss-cur-nav-caret-turn: 0s;
+    }
 }
 
 body.tss-theme-curiosity .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav:not(.tss-sidebar-nav-open):not(.tss-sidebar-nav-keep-collapsed):has(.tss-sidebar-selected) > .tss-sidebar-nav-header.tss-sidebar-btn.tss-btn:not(.tss-disabled),
