@@ -127,17 +127,15 @@ namespace Tesserae
         /// </remarks>
         protected static readonly string[] DefaultPalette =
         {
-            SeriesColor(1, Theme.Colors.Blue600),
-            SeriesColor(2, Theme.Colors.Green600),
-            SeriesColor(3, Theme.Colors.Orange600),
-            SeriesColor(4, Theme.Colors.Purple600),
-            SeriesColor(5, Theme.Colors.Red600),
-            SeriesColor(6, Theme.Colors.Teal600),
-            SeriesColor(7, Theme.Colors.Yellow600),
-            SeriesColor(8, Theme.Colors.Neutral600)
+            Theme.Chart.Series(1),
+            Theme.Chart.Series(2),
+            Theme.Chart.Series(3),
+            Theme.Chart.Series(4),
+            Theme.Chart.Series(5),
+            Theme.Chart.Series(6),
+            Theme.Chart.Series(7),
+            Theme.Chart.Series(8)
         };
-
-        private static string SeriesColor(int index, string fallback) => "var(--tss-chart-series-" + index + ", " + fallback + ")";
 
         /// <summary>The root container element.</summary>
         protected readonly HTMLElement _container;

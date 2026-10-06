@@ -481,6 +481,13 @@ namespace Tesserae
                 /// <see cref="SetHighlight"/>.
                 /// </summary>
                 public const string Highlight      = "var(--tss-highlight-color)";
+                /// <summary>
+                /// CSS variable reference for the color links and text accents are drawn in. It follows the
+                /// primary color, and a custom theme (see <see cref="ICustomTheme"/>) may set it apart where its
+                /// primary fill is too dark to read as text. Use it for a foreground on the page, and
+                /// <see cref="Theme.Primary.Background"/> for a filled surface.
+                /// </summary>
+                public const string Link           = "var(--tss-link-color)";
             }
 
             public static class Sidebar
@@ -631,6 +638,52 @@ namespace Tesserae
                 /// CSS variable reference for the success tone foreground color while pressed / active.
                 /// </summary>
                 public const string ForegroundActive = "var(--tss-success-foreground-active-color)";
+            }
+
+            public static class Warning
+            {
+                /// <summary>
+                /// CSS variable reference for the warning tone background color. Unlike <see cref="Danger"/> and
+                /// <see cref="Success"/>, a warning has no border, hover or active color of its own.
+                /// </summary>
+                public const string Background = "var(--tss-warning-background-color)";
+                /// <summary>
+                /// CSS variable reference for the warning tone foreground (text) color.
+                /// </summary>
+                public const string Foreground = "var(--tss-warning-foreground-color)";
+            }
+
+            /// <summary>
+            /// The chart palette: the colors a chart draws its series in when the app did not color them itself.
+            /// </summary>
+            public static class Chart
+            {
+                /// <summary>The number of colors in the palette; <see cref="Series"/> wraps around after it.</summary>
+                public const int SeriesCount = 8;
+
+                private static readonly string[] SeriesFallbacks =
+                {
+                    Colors.Blue600,
+                    Colors.Green600,
+                    Colors.Orange600,
+                    Colors.Purple600,
+                    Colors.Red600,
+                    Colors.Teal600,
+                    Colors.Yellow600,
+                    Colors.Neutral600
+                };
+
+                /// <summary>
+                /// CSS variable reference for the color of the series with the given number (1 to <see cref="SeriesCount"/>,
+                /// wrapping). It reads <c>--tss-chart-series-N</c> first, which a custom theme
+                /// (see <see cref="ICustomTheme"/>) can set, and falls back to the toolkit color it always was.
+                /// </summary>
+                public static string Series(int number)
+                {
+                    var index = ((number - 1) % SeriesCount + SeriesCount) % SeriesCount;
+
+                    return "var(--tss-chart-series-" + (index + 1) + ", " + SeriesFallbacks[index] + ")";
+                }
             }
 
             public static class Gradients

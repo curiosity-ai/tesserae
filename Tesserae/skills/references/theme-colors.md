@@ -24,7 +24,10 @@ description: The static `Theme` class for switching light/dark mode and overridi
 
 - `Theme.IsLight` / `Theme.IsDark` — current mode (bool).
 - `Theme.Default`, `Theme.Primary`, `Theme.Secondary`, `Theme.Danger`, `Theme.Success` — color accessors exposing `.Background`, `.Foreground`, `.Border`, etc.
+- `Theme.Warning` — the warning tone, `.Background` and `.Foreground` only (it has no border, hover or active color).
 - `Theme.Default.Highlight` — the highlight color as a CSS variable reference, for drawing your own marked text with it.
+- `Theme.Default.Link` — the color links and text accents are drawn in (`--tss-link-color`). It follows the primary color, but a custom theme may set it apart where its primary fill is too dark to read as text, so use it for a foreground on the page and `Theme.Primary.Background` for a filled surface.
+- `Theme.Chart.Series(n)` — the color of chart series `n` (1 to 8, wrapping): `--tss-chart-series-N` first, which a custom theme can set, then the toolkit color. Use it for a line or bar that stands for no particular series.
 - `Theme.Fonts.SansSerif` / `Theme.Fonts.Monospace` — the two font stacks the toolkit draws with, as CSS variable references. See `styling.md`.
 - `Theme.OnThemeChanged` — event raised on mode change.
 

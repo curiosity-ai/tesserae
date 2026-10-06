@@ -11,7 +11,7 @@ Tesserae applies colors through CSS variables exposed on the static `Theme` clas
 
 Semantic accessors expose `.Background`, `.Foreground`, `.Border`, etc. as CSS-variable strings:
 
-- `Theme.Default`, `Theme.Primary`, `Theme.Secondary`, `Theme.Danger`, `Theme.Success`.
+- `Theme.Default`, `Theme.Primary`, `Theme.Secondary`, `Theme.Danger`, `Theme.Success`, `Theme.Warning`; `Theme.Default.Link` for the link color and `Theme.Chart.Series(n)` for a chart color. See `theme-colors.md`.
 
 Apply them with component fluent helpers:
 

@@ -296,6 +296,21 @@ only while it moves, auto-hiding after a delay) is out; do not bring it back as 
 listener". The `.simplebar-*` rules in `tss.common.css` only style an application that loads
 simplebar itself; Tesserae does not load it, and nothing new should depend on it.
 
+### A color a theme or the toolkit defines has a `Theme` constant
+
+Consumers write `Theme.Default.Background`, `Theme.Default.Link`, `Theme.Danger.Background`, never a
+`"var(--tss-...)"` string of their own - and an application that cannot find the constant it needs invents one
+in its own code, where it drifts from the stylesheet. So **a CSS variable that is meant to be read from outside
+(`--tss-*-color`, `--tss-chart-series-N`, a font stack) gets its `Theme` constant in the same change that
+defines the variable**: in `UI.Theme.cs`, as a `public const string` holding the `var(...)` reference, with a
+summary saying when to use it rather than a sibling (`Link` against `Primary.Background`, for example). Where
+the variable has a fallback (`Theme.Chart.Series`), the constant carries it, and the component that used to
+write the fallback itself (`ChartBase.DefaultPalette`) reads the constant, so there is one definition. Then
+list it in `Tesserae/skills/references/theme-colors.md` and the `ThemeColorsSample`.
+
+A consumer who needs a token that has no constant adds it here, as a change in this repo, and waits for the
+release; a constant in the application's own code is the thing this rule exists to prevent.
+
 ### Type safety
 
 Favor strong, static typing. Avoid `dynamic` unless absolutely necessary

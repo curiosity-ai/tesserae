@@ -160,7 +160,8 @@ namespace Tesserae.Tests.Samples
                                 new ColorListItem("Primary"),
                                 new ColorListItem("Secondary"),
                                 new ColorListItem("Success"),
-                                new ColorListItem("Danger")
+                                new ColorListItem("Danger"),
+                                new ColorListItem("Warning")
                             })
                            .SortedBy("Name"),
                         Label("Primary Light").Inline().SetContent(cpPrimaryLight),
@@ -170,7 +171,9 @@ namespace Tesserae.Tests.Samples
                         Label("Highlight Light").Inline().SetContent(cpHighlightLight),
                         Label("Highlight Dark").Inline().SetContent(cpHighlightDark),
                         TextBlock("The highlight color follows the primary one until Theme.SetHighlight is called - the two pickers above call it, and Theme.ResetHighlight puts the following back. This is what marked search terms are drawn in:").MT(8),
-                        TextBlock("highlighted").SemiBold().Foreground(Theme.Default.Highlight)
+                        TextBlock("highlighted").SemiBold().Foreground(Theme.Default.Highlight),
+                        TextBlock("Theme.Default.Link is the color a link or a text accent is drawn in:").MT(8),
+                        TextBlock("a link").SemiBold().Foreground(Theme.Default.Link)
                     )).SetTitle("Usage")))
                .SeeAlso(typeof(ColorsSample), typeof(ThemeBuilderSample), typeof(ColorPaletteSample), typeof(GradientsSample));
         }
@@ -246,6 +249,13 @@ namespace Tesserae.Tests.Samples
                         { nameof(Theme.Success.BackgroundHover), Theme.Success.BackgroundHover },
                         { nameof(Theme.Success.ForegroundActive), Theme.Success.ForegroundActive },
                         { nameof(Theme.Success.ForegroundHover), Theme.Success.ForegroundHover },
+                    }
+                },
+                {
+                    "Warning", new Dictionary<string, string>
+                    {
+                        { nameof(Theme.Warning.Background), Theme.Warning.Background },
+                        { nameof(Theme.Warning.Foreground), Theme.Warning.Foreground },
                     }
                 }
             };
