@@ -167,12 +167,12 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// A copy of the current route's parameters: its <c>:variables</c> and its query string. Changing the copy does not
-        /// change the URL or the router's state - use <see cref="SetQueryParameters"/> or <see cref="ReplaceQueryParameters"/> for that.
+        /// The current route's parameters: its <c>:variables</c> and its query string. <see cref="Parameters"/> is immutable, so
+        /// nothing done with the result changes the URL - use <see cref="SetQueryParameters"/> or <see cref="ReplaceQueryParameters"/> for that.
         /// </summary>
-        public static Parameters GetQueryParameters() => (_currentState?.Parameters ?? new Parameters()).Clone();
+        public static Parameters GetQueryParameters() => _currentState?.Parameters ?? new Parameters();
 
-        public static void SetQueryParameters(Parameters parameters, bool pushToHistory = false)
+        public static void SetQueryParameters(Parameters parameters, bool pushToHistory)
         {
             if (_currentState is null)
             {
@@ -204,13 +204,13 @@ namespace Tesserae
 
             // A route's :variables live in the path. They are part of the parameters a handler receives, but writing them
             // into the query as well (#/node/abc?uid=abc) would duplicate them, so the ones still carrying the captured value are left out.
-            var written = parameters.Clone();
+            var written = parameters;
 
             foreach (var variable in _currentState.RouteVariables ?? new Dictionary<string, string>())
             {
                 if (written.TryGetValue(variable.Key, out var value) && value == variable.Value)
                 {
-                    written.Remove(variable.Key);
+                    written = written.Without(variable.Key);
                 }
             }
 
@@ -242,7 +242,7 @@ namespace Tesserae
             }
         }
 
-        public static void ReplaceQueryParameters(Func<Parameters, Parameters> updateFn, bool pushToHistory = false)
+        public static void ReplaceQueryParameters(Func<Parameters, Parameters> updateFn, bool pushToHistory)
         {
             if (_currentState is null)
             {
@@ -251,7 +251,7 @@ namespace Tesserae
             }
 
             var currentParameters = _currentState.Parameters ?? new Parameters();
-            var newParameters     = updateFn(currentParameters.Clone());
+            var newParameters     = updateFn(currentParameters) ?? new Parameters();
 
             if (newParameters.SameAs(currentParameters))
             {
@@ -526,8 +526,8 @@ namespace Tesserae
                     var oldState = _currentState;
                     _currentState = toState;
 
-                    // The handler gets a copy: removing a key from it must not change the URL's state for the next write
-                    if (r.Activate(toState.Parameters.Clone()))
+                    // Parameters is immutable, so the handler cannot change the URL's state for the next write through it
+                    if (r.Activate(toState.Parameters))
                     {
                         Navigated?.Invoke(toState, oldState);
                         _lastState = oldState;

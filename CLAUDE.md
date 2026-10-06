@@ -304,9 +304,14 @@ the router reads it, and both are generic and string-based: no application route
 through `Router.CurrentHash`, so they work before the first route has matched, and `RouteQuery` writes only through
 `Router.ReplaceQueryParameters`. `RoutePath.ReplacePath` is the one path write and goes through `Router.Replace`.
 
+- Whether a query write adds a history entry is never a default: `RouteQuery.Set`/`Clear`/`Update` take a required `QueryHistory`
+  (`Replace`, `Push`, `ReplaceFirstThenPush`) and `Router.SetQueryParameters`/`ReplaceQueryParameters` a required `pushToHistory`.
+  `Consume` always replaces, since an entry that kept a one-shot key would ask again on Back.
 - A query write is not a navigation. It does not run a handler, fire `OnNavigated`, ask `OnBeforeNavigate` or touch the
   router's previous-state record (which `isBack` compares against), and it never writes a route's `:variables` into the query.
-- The router hands handlers and `GetQueryParameters()` a copy of the `Parameters`.
+- `Parameters` is immutable (`With`/`Without` return a new instance; `Remove` is an `[Obsolete(error: true)]` stub that names
+  `RouteQuery.Clear`), so a handler or a `GetQueryParameters()` caller cannot change the URL through what it was given, and code that
+  used to try fails to compile instead of silently doing nothing.
 - The **Route State** sample (`Tesserae.Tests/src/Samples/Utilities/RouteState*.cs`) is the test suite: about 150 cases that
   check themselves when the page opens (reads) or when you press the button (writes, history, the router). A change to routing
   behaviour adds or changes a row there. The cases that guard a router fix fail without that fix; revert it once to prove a new one does.

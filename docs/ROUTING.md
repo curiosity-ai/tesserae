@@ -64,26 +64,26 @@ Navigate with a query string:
 
 - Keys and values are URI-encoded when written and decoded when parsed. A value is split on the first `=` only, `+` stays a plus, and a pair without a value (`?flag`) parses as an empty string. A malformed escape (`?q=%`) is kept as written instead of throwing.
 - `:variable` values are the raw hash segment and are not URI-decoded.
-- The handler gets a copy of the parameters. Changing it does not change the URL.
+- `Parameters` is immutable: `With` and `Without` return a new instance, and there is no in-place `Remove`. To drop a key from the URL inside a handler, call `RouteQuery.Clear(key, QueryHistory.Replace)`.
 - Returning `false` from the handler (the `Func<Parameters, bool>` overload) refuses the route and puts the URL back to the previous one.
 
 ## Reflecting view state in the query string
 
 Views can round-trip their state (open panels, selected tabs, filters) through the URL and get shareable, refresh-safe deep links. Use `RouteQuery` for this (see below); it is built on these `Router` members:
 
-- `Router.GetQueryParameters()` returns a copy of the current `Parameters` (path captures plus query keys).
-- `Router.SetQueryParameters(parameters, pushToHistory: false)` rewrites only the query segment of the hash, leaving the route path and everything before the `#` untouched.
-- `Router.ReplaceQueryParameters(update, pushToHistory: false)` clones the current parameters, applies your update, and does nothing when nothing changed.
+- `Router.GetQueryParameters()` returns the current `Parameters` (path captures plus query keys).
+- `Router.SetQueryParameters(parameters, pushToHistory)` rewrites only the query segment of the hash, leaving the route path and everything before the `#` untouched.
+- `Router.ReplaceQueryParameters(update, pushToHistory)` passes the current parameters to your update, writes what it returns, and does nothing when nothing changed.
 
 ```csharp
 // Reflect an opened detail panel in the URL:
-Router.ReplaceQueryParameters(p => p.With("preview", id));
+Router.ReplaceQueryParameters(p => p.With("preview", id), pushToHistory: true);
 
 // And remove it again when the panel closes:
-Router.ReplaceQueryParameters(p => p.Remove("preview"));
+Router.ReplaceQueryParameters(p => p.Without("preview"), pushToHistory: false);
 ```
 
-Both update the URL **silently**: the registered route handler is not re-invoked, `OnNavigated` does not fire and the guard is not asked, so the view that wrote the state keeps running undisturbed. With the default `pushToHistory: false` the URL is rewritten in place (`replaceState`, no history entry); `pushToHistory: true` adds a history entry instead. On the next full navigation or page load the keys come back through the handler's `Parameters`, which is where the view should restore the state from. Before the first route has matched there is no URL to anchor to, and both do nothing.
+Both update the URL **silently**: the registered route handler is not re-invoked, `OnNavigated` does not fire and the guard is not asked, so the view that wrote the state keeps running undisturbed. `pushToHistory` has no default, so every write says what Back does: `false` rewrites the URL in place (`replaceState`, no history entry), `true` adds a history entry. On the next full navigation or page load the keys come back through the handler's `Parameters`, which is where the view should restore the state from. Before the first route has matched there is no URL to anchor to, and both do nothing.
 
 A route's `:variables` are not written into the query: on `#/node/:uid`, a write gives `#/node/abc?k=v`, not `#/node/abc?uid=abc&k=v`.
 
@@ -91,7 +91,7 @@ A route's `:variables` are not written into the query: on `#/node/:uid`, a write
 
 ## RoutePath and RouteQuery
 
-See `Tesserae/skills/references/route-state.md` for asking where the page is (`RoutePath.Current`, `IsExactly`, `IsDescendantOf`) and for reading and writing view state in the query (`RouteQuery.Get`, `Set`, `Clear`, `Consume`, `SetWithHistory`, ...).
+See `Tesserae/skills/references/route-state.md` for asking where the page is (`RoutePath.Current`, `IsExactly`, `IsDescendantOf`) and for reading and writing view state in the query (`RouteQuery.Get`, `Set`, `Clear`, `Consume`, and `QueryHistory` for what each write does to the history).
 
 ## Navigation guards and events
 
