@@ -103,6 +103,35 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Puts a badge after the application's name - the environment it runs in ("DEV", "VAL"), an
+        /// edition, a pre-release marker - in the colours of a <see cref="Tesserae.Badge"/> of the same tone.
+        /// The badge stays whole and the name ellipsizes before it, and the open rail grows to fit both. On
+        /// the collapsed rail its text joins the name in the logo's default tooltip. Null or empty text removes it.
+        /// </summary>
+        /// <param name="text">What the badge says.</param>
+        /// <param name="tone">Its colour, as <see cref="TokenBase{T}.Tone"/> takes it. Neutral by default.</param>
+        /// <returns>The current instance of the type.</returns>
+        public SidebarBrand SetBadge(string text, BadgeTone tone = BadgeTone.Neutral)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return SetBadge(null);
+
+            return SetBadge(new Badge(text).Tone(tone));
+        }
+
+        /// <summary>
+        /// Puts a badge of the caller's own after the application's name - for one with an icon, an outline
+        /// or colours outside the tones (<see cref="TokenBase{T}.Background"/>,
+        /// <see cref="TokenBase{T}.Foreground"/>). Passing null removes it.
+        /// </summary>
+        /// <param name="badge">The badge.</param>
+        /// <returns>The current instance of the type.</returns>
+        public SidebarBrand SetBadge(Badge badge)
+        {
+            SetTitleBadge(badge?.Render(), badge?.Text);
+            return this;
+        }
+
+        /// <summary>
         /// Adds the command that opens the application's configuration.
         /// </summary>
         /// <param name="onClick">What pressing it does.</param>

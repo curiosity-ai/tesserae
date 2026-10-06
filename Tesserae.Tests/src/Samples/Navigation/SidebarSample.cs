@@ -212,6 +212,11 @@ namespace Tesserae.Tests.Samples
                         TextBlock("The row at the top and the row at the bottom are SidebarBrand and SidebarProfile: the same shape, twice the height of an ordinary row, each carrying a picture, a name, an optional second line (.SetSubtitle(...) or the constructor's subtitle) and the commands that belong to what it names — drawn at rest rather than under the pointer, because a gear that only appears on hover is one nobody finds. SidebarProfile takes a picture URL and falls back to the initials it reads off the name, so a photo URL that only answers for accounts that uploaded one can be passed unconditionally; .Presence(...) puts the dot on it, and .Settings(...) / .Logout(...) add the two commands. SidebarBrand takes a logo URL, a UIcons glyph, an emoji or an ISidebarIcon, and .Configure(...) adds the gear. Both take .Separated(), which runs a divider out to the sidebar's own edges — above the row in the footer, below it in the header."),
                         TextBlock("SidebarBrand.WithSidebarControl(onOpen, onClose) makes the brand the rail's own open/close control. While the sidebar is open it is the last command on the row; while it is closed there is no room for a command beside the logo, so the logo is the control — the brand at rest, the open button under the pointer. Collapse the sidebar with the « on the brand and hover the logo to see it. The row reports the two intentions rather than driving a sidebar itself, because the rail a brand sits on is not always the one it opens."))).SetTitle("Brand and profile rows"),
                     Card(VStack().WS().Children(
+                        TextBlock("SidebarBrand.SetBadge(text, tone) puts a badge after the application's name — the environment a build runs in, so nobody mistakes the development or validation deployment for production. The tone takes the same BadgeTone a Badge does; the SetBadge(Badge) overload takes a badge of your own, for an outline, an icon or colours outside the tones. The name ellipsizes before the badge does, the open rail grows to fit both, and on the collapsed rail the badge text joins the name in the logo's tooltip."),
+                        HStack().WS().Children(
+                            BrandBadgeSidebar("dev", "DEV", BadgeTone.Warning),
+                            BrandBadgeSidebar("val", "VAL", BadgeTone.Info)))).SetTitle("Environment badge"),
+                    Card(VStack().WS().Children(
                         TextBlock("This sidebar is built with Sidebar(sortable: true), so its items can be dragged into a new order. The sidebar only reports that order — through .OnSortingChanged(itemOrder), a map of group identifier to the identifiers it now holds, in order — and remembering it is the app's job. This sample writes the map to localStorage (debounced by a second, because a drag reports on every row it crosses) and calls .LoadSorting(...) on startup to put it back. Call LoadSorting only once every item has been added: it reorders what is there, so an item added afterwards lands at the end whatever was saved. .GetCurrentSorting() reads the order out at any time, which is how the button below can restore the order this page declares."),
                         forget)).SetTitle("Remembering the order"),
                     Card(VStack().WS().Children(
@@ -220,6 +225,23 @@ namespace Tesserae.Tests.Samples
                                    .Right(CenteredCardWithBackground(Message("Your application content goes here")))
                )).SetTitle("Usage")))
                .SeeAlso(typeof(SidebarCommandsSample), typeof(SidebarSeparatorSample), typeof(SidenavSample), typeof(NavbarSample), typeof(MenuSample), typeof(BreadcrumbSample));
+        }
+
+        // A short rail whose brand carries an environment badge (see SidebarBrand.SetBadge): the name and
+        // the workspace it is pointed at, with the deployment it runs in after the name.
+        private static IComponent BrandBadgeSidebar(string id, string environment, BadgeTone tone)
+        {
+            var sidebar = Sidebar();
+
+            sidebar.AddHeader(new SidebarBrand($"brand-{id}", "Aurelia Ops", "Fleet Europe", "./assets/img/curiosity-logo.svg")
+               .SetBadge(environment, tone)
+               .Separated()
+               .WithSidebarControl(onOpen: () => sidebar.IsClosed = false, onClose: () => sidebar.IsClosed = true));
+
+            sidebar.AddContent(new SidebarButton($"home-{id}",    UIcons.Home,     "Home"));
+            sidebar.AddContent(new SidebarButton($"reports-{id}", UIcons.Document, "Reports"));
+
+            return sidebar.H(220).MR(16);
         }
 
         // Where this sample keeps the order the user dragged the sidebar into. An app would use one key

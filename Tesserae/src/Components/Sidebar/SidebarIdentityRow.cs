@@ -40,6 +40,9 @@ namespace Tesserae
         private readonly IComponent               _closed;
         private readonly SettableObservable<bool> _selected;
 
+        private HTMLElement      _titleLine;
+        private HTMLElement      _titleBadge;
+        private string           _titleBadgeText;
         private SidebarCommand[] _extraCommands = new SidebarCommand[0];
         private SidebarCommand   _primaryCommand;
         private SidebarCommand   _secondaryCommand;
@@ -396,6 +399,47 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Puts an element on the name's line, after the name - a label that qualifies the name itself rather
+        /// than adding a second line under it, like the environment a brand's application runs in. The name
+        /// gives way before it does: a name too long for the row is ellipsized and the label stays whole.
+        /// <para>
+        /// The name and the label share a line of their own only while there is a label, so a row without
+        /// one keeps exactly the markup it always had.
+        /// </para>
+        /// </summary>
+        /// <param name="badge">The element to put after the name, or null to remove the one there.</param>
+        /// <param name="text">What the label says, for the collapsed rail's tooltip, which has no room for the element.</param>
+        protected void SetTitleBadge(HTMLElement badge, string text)
+        {
+            if (_titleBadge is object) _titleBadge.remove();
+
+            _titleBadge     = badge;
+            _titleBadgeText = badge is object ? text : null;
+
+            if (badge is object)
+            {
+                if (_titleLine is null)
+                {
+                    _titleLine = Div(Att("tss-sidebar-identity-title-line"));
+                    _lines.insertBefore(_titleLine, _titleSpan);
+                    _titleLine.appendChild(_titleSpan);
+                }
+
+                badge.classList.add("tss-sidebar-identity-title-badge");
+                _titleLine.appendChild(badge);
+            }
+            else if (_titleLine is object)
+            {
+                _lines.insertBefore(_titleSpan, _titleLine);
+                _titleLine.remove();
+                _titleLine = null;
+            }
+
+            RefreshDefaultTooltip();
+            UpdateRailFit();
+        }
+
+        /// <summary>
         /// Has the open rail the row sits on grow to the width its name and second line need, so neither is
         /// ellipsized - for the row whose text is what the rail is <em>for</em>, the application's name. The
         /// rail never shrinks below the width it was given; this only raises its floor.
@@ -454,7 +498,7 @@ namespace Tesserae
                 Script.Write("document.fonts.ready.then(function () { {0}(); })", onFontsLoaded);
             }
 
-            var wanted    = Math.Max(_titleSpan.scrollWidth, _subtitleSpan.scrollWidth);
+            var wanted    = Math.Max(TitleLineWidth(), _subtitleSpan.scrollWidth);
             var railWidth = rail.getBoundingClientRect().As<DOMRect>().width;
 
             //scrollWidth is rounded, so a pixel on top keeps a name that measured x.4 from ellipsizing by its last letter
@@ -468,6 +512,21 @@ namespace Tesserae
             _fittedMinWidth = minWidth;
             rail.style.setProperty(RAIL_MIN_WIDTH_VARIABLE, minWidth);
             rail.classList.add(RAIL_FITS_CLASS);
+        }
+
+        /// <summary>
+        /// The width the name's line wants: the name, and with a label after it the distance from the end of
+        /// the name as drawn to the end of the label - the gap and the label, whatever a skin makes them, and
+        /// the same whether or not the name is ellipsized at the moment, since the label follows it.
+        /// </summary>
+        private double TitleLineWidth()
+        {
+            if (_titleBadge is null) return _titleSpan.scrollWidth;
+
+            var titleRect = _titleSpan.getBoundingClientRect().As<DOMRect>();
+            var badgeRect = _titleBadge.getBoundingClientRect().As<DOMRect>();
+
+            return _titleSpan.scrollWidth + Math.Max(0, badgeRect.right - titleRect.right);
         }
 
         /// <summary>
@@ -588,6 +647,10 @@ namespace Tesserae
             _closedButton.Tooltip(DefaultClosedTooltip(), placement: TooltipPlacement.Right);
         }
 
-        private string DefaultClosedTooltip() => string.IsNullOrWhiteSpace(_subtitle) ? _title : _title + " - " + _subtitle;
+        private string DefaultClosedTooltip()
+        {
+            var title = string.IsNullOrWhiteSpace(_titleBadgeText) ? _title : _title + " (" + _titleBadgeText + ")";
+            return string.IsNullOrWhiteSpace(_subtitle) ? title : title + " - " + _subtitle;
+        }
     }
 }

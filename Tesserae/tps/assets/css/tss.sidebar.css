@@ -1487,6 +1487,32 @@
     font-weight: var(--tss-font-weight-bold);
 }
 
+/* A badge after the name (SidebarBrand.SetBadge): the name and the badge share a line of their own, which
+   only exists while there is a badge. The name gives way first - it ellipsizes and the badge stays whole -
+   since a label like "DEV" cut to "D…" says nothing. The badge is set a step smaller than a free-standing
+   one so it sits inside the name's line rather than pushing the row's two lines apart. */
+.tss-sidebar-identity-title-line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.tss-sidebar-identity-title-line > .tss-sidebar-identity-title {
+    flex: 0 1 auto;
+    min-width: 0;
+}
+
+.tss-sidebar-identity-title-line > .tss-sidebar-identity-title-badge {
+    flex: 0 0 auto;
+    padding: 1px 6px;
+    font-size: var(--tss-font-size-tiny);
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+}
+
 .tss-sidebar-identity-subtitle {
     font-size: var(--tss-font-size-xsmall);
     font-weight: var(--tss-font-weight-regular);
