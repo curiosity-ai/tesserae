@@ -37,8 +37,8 @@ Both carry an 8px bottom margin, so when you stack a pill above the answer text 
   handler only, never expanding or collapsing the call. Use it for a way into what the call stands
   for that isn't its content — opening the run it started, retrying it.
 - `.AddSecondaryAction(string text, Action, UIcons? icon = null)` (also `Action<ToolCall>`) /
-  `.ClearSecondaryActions()` — small labelled buttons on a row *inside* the card, under the header and
-  above the content, visible whether the call is expanded or not. Use for follow-ups beside the result
+  `.ClearSecondaryActions()` — small labelled buttons on the header line *inside* the card, between the text
+  and the chevron, visible whether the call is expanded or not. Use for follow-ups beside the result
   ("Retry", "Copy output"). Clicking one runs the handler only.
 - `IsExpanded`, `HasContent`, `Icon`, `Text` — read state.
 

@@ -142,13 +142,12 @@
     opacity: 1;
 }
 
-/* Secondary actions — a row of small labelled buttons inside the card, between header and content. */
+/* Secondary actions — small labelled buttons on the header line, between the text and the chevron. */
 .tss-toolcall-secondary-actions {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     gap: 6px;
-    padding: 4px 8px 6px 34px;
+    flex-shrink: 0;
 }
 
 .tss-toolcall-secondary-action {
@@ -177,10 +176,6 @@
 
 .tss-toolcall-secondary-action > i {
     font-size: 11px;
-}
-
-.tss-toolcall > .tss-toolcall-secondary-actions + .tss-toolcall-content {
-    border-top: 1px solid var(--tss-default-border-color);
 }
 
 .tss-toolcall-chevron {

@@ -255,8 +255,8 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Adds a secondary action to the card: a small labelled button on a row inside the card, under
-        /// the header and above the content, shown whether the call is expanded or not. For the follow-ups
+        /// Adds a secondary action to the card: a small labelled button on the header line, between the
+        /// text and the chevron, shown whether the call is expanded or not. For the follow-ups
         /// a call offers beside its result ("Retry", "Open run", "Copy output"). Unlike
         /// <see cref="AddAction(UIcons, string, Action{ToolCall})"/>, which hangs an icon off the outside
         /// of the chip, this stays within the card. Clicking it runs the handler only.
@@ -286,7 +286,7 @@ namespace Tesserae
 
         /// <summary>
         /// Removes every button added with <see cref="AddSecondaryAction(string, Action{ToolCall}, UIcons?)"/>,
-        /// and the row that held them.
+        /// and the container that held them.
         /// </summary>
         public ToolCall ClearSecondaryActions()
         {
@@ -304,7 +304,7 @@ namespace Tesserae
             if (_secondaryActions is null)
             {
                 _secondaryActions = Div(Att("tss-toolcall-secondary-actions"));
-                InnerElement.insertBefore(_secondaryActions, _content);
+                _header.insertBefore(_secondaryActions, _chevron);
             }
 
             _secondaryActions.style.display = "";
