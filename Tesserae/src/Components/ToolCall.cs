@@ -48,6 +48,7 @@ namespace Tesserae
         private readonly HTMLElement      _chevron;
         private readonly HTMLElement      _content;
         private          HTMLElement      _actions;
+        private          HTMLElement      _secondaryActions;
         private          UIcons           _icon;
         private          string           _text;
         private          Func<IComponent> _contentFactory;
@@ -251,6 +252,64 @@ namespace Tesserae
             }
 
             return _actions;
+        }
+
+        /// <summary>
+        /// Adds a secondary action to the card: a small labelled button on the header line, between the
+        /// text and the chevron, shown whether the call is expanded or not. For the follow-ups
+        /// a call offers beside its result ("Retry", "Open run", "Copy output"). Unlike
+        /// <see cref="AddAction(UIcons, string, Action{ToolCall})"/>, which hangs an icon off the outside
+        /// of the chip, this stays within the card. Clicking it runs the handler only.
+        /// </summary>
+        public ToolCall AddSecondaryAction(string text, Action<ToolCall> onClick, UIcons? icon = null)
+        {
+            var button = UI.Button(Att("tss-toolcall-secondary-action", type: "button"));
+
+            if (icon.HasValue) button.appendChild(I(icon.Value));
+            button.appendChild(Span(Att("tss-toolcall-secondary-action-text", text: text ?? string.Empty)));
+
+            button.addEventListener("click", ev =>
+            {
+                StopEvent(ev);
+                onClick?.Invoke(this);
+            });
+
+            EnsureSecondaryActions().appendChild(button);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a secondary action to the card.
+        /// </summary>
+        public ToolCall AddSecondaryAction(string text, Action onClick, UIcons? icon = null) => AddSecondaryAction(text, _ => onClick?.Invoke(), icon);
+
+        /// <summary>
+        /// Removes every button added with <see cref="AddSecondaryAction(string, Action{ToolCall}, UIcons?)"/>,
+        /// and the container that held them.
+        /// </summary>
+        public ToolCall ClearSecondaryActions()
+        {
+            if (_secondaryActions is object)
+            {
+                ClearChildren(_secondaryActions);
+                _secondaryActions.style.display = "none";
+            }
+
+            return this;
+        }
+
+        private HTMLElement EnsureSecondaryActions()
+        {
+            if (_secondaryActions is null)
+            {
+                _secondaryActions = Div(Att("tss-toolcall-secondary-actions"));
+                _header.insertBefore(_secondaryActions, _chevron);
+            }
+
+            _secondaryActions.style.display = "";
+
+            return _secondaryActions;
         }
 
         /// <summary>
