@@ -22,7 +22,7 @@ Bring factories into scope with `using static Tesserae.UI;`.
 TaskBoard:
 
 - `.Columns(params TaskBoardColumn[])` / `.AddColumn(col)` — set/append columns.
-- `.RowMode(bool = true)` — switch to horizontal rows instead of columns.
+- `.RowMode(bool = true)` — switch to horizontal rows instead of columns. Order does not matter: columns added afterwards pick the mode up too.
 - `.ReadOnly(bool = true)` — disable all drag-and-drop.
 - `.OnColumnDrop(e => ...)` / `.OnColumnUpdate(e => ...)` — column move callbacks
   (`e` is a `SortableEvent` with `oldIndex` / `newIndex`).
