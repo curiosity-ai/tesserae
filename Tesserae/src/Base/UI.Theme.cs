@@ -633,6 +633,18 @@ namespace Tesserae
                 public const string ForegroundActive = "var(--tss-success-foreground-active-color)";
             }
 
+            public static class Warning
+            {
+                /// <summary>
+                /// CSS variable reference for the warning tone background color.
+                /// </summary>
+                public const string Background = "var(--tss-warning-background-color)";
+                /// <summary>
+                /// CSS variable reference for the warning tone foreground (text) color.
+                /// </summary>
+                public const string Foreground = "var(--tss-warning-foreground-color)";
+            }
+
             public static class Gradients
             {
                 /// <summary>
