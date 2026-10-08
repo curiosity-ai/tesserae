@@ -44,6 +44,16 @@ namespace Tesserae.Tests.Samples
                         Button().SetText("With Loading Text").OnClickSpinWhile(async () => await Task.Delay(2000), "Processing..."),
                         Button().SetText("Error Simulation").OnClickSpinWhile(async () => { await Task.Delay(1000); throw new Exception("Action failed"); }, onError: (b, e) => b.SetText("Try again: " + e.Message).Danger())
                     ),
+                    SampleSubTitle("Icon-Only Loading States"),
+                    TextBlock("An icon-only button with a tooltip that spins while its action runs, as a row of download actions in a header does. With no spinner text it spins in place: the icon shrinks into the centre and a ring opens where it was, in the button's own colour, and the button keeps its box. The tooltip is off until the action ends.").MB(8),
+                    HStack().AlignItemsCenter().Children(
+                        Button().SetIcon(UIcons.Download).Tooltip("Download").OnClickSpinWhile(async () => await Task.Delay(2000)),
+                        Button().SetIcon(UIcons.FileCode).Tooltip("Download as Markdown").OnClickSpinWhile(async () => await Task.Delay(2000)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF").OnClickSpinWhile(async () => await Task.Delay(2000)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (fails)").OnClickSpinWhile(async () => { await Task.Delay(1000); throw new Exception("Rendering failed"); }, onError: (b, e) => Toast().Error("Download failed", e.Message)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (primary)").Primary().OnClickSpinWhile(async () => await Task.Delay(2000)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (no border)").NoBorder().OnClickSpinWhile(async () => await Task.Delay(2000))
+                    ),
                     SampleSubTitle("Variations"),
                     HStack().Children(
                         ButtonAndIcon("Split Button", (m, i, ev) => Toast().Information("Icon clicked"), mainIcon: UIcons.Rocket, secondaryIcon: UIcons.AngleDown).OnClick((b, _) => Toast().Success("Main action")),

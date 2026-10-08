@@ -122,3 +122,14 @@ body.tss-theme-curiosity .tss-btn-and-icon > .tss-btn.tss-btn-and-icon-icon,
 body.tss-theme-curiosity .tss-btn-and-icon > .tss-btn.tss-btn-and-icon-icon:hover {
     border-radius: 0 var(--tss-border-radius-full) var(--tss-border-radius-full) 0;
 }
+
+/* An icon-only button spinning in place stays the ghost it was at rest: no stone fill left over from
+   the hover that clicked it, no outline, no press scale. The ring is the glyph's own ink. */
+body.tss-theme-curiosity .tss-btn.tss-btn-default.tss-btn-spinning {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-curiosity .tss-btn.tss-btn-spinning {
+    transform: none;
+}

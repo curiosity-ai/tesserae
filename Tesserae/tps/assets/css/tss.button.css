@@ -108,6 +108,112 @@ a {
     text-decoration: none;
 }
 
+/* An icon-only button spinning in place (Button.ToSpinner without a label). The icon shrinks into the
+   centre while a ring grows out of it, closed at first and then opening into the arc that turns, so the
+   glyph reads as becoming the spinner. Both are drawn in the button's own colour, so the ring takes the
+   tone of whatever the button is (ink on a ghost button, paper on a filled one) and the button keeps
+   its box: no disabled copy, no border it did not already have. */
+.tss-btn.tss-btn-has-spin-ring {
+    position: relative;
+}
+
+.tss-btn.tss-btn-has-spin-ring > i {
+    transition: transform .22s cubic-bezier(.4, 0, .2, 1), opacity .16s linear;
+}
+
+.tss-btn > .tss-btn-spin-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.4em;
+    height: 1.4em;
+    margin: -.7em 0 0 -.7em;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(.4);
+    transition: transform .26s cubic-bezier(.4, 0, .2, 1), opacity .16s linear;
+}
+
+    .tss-btn > .tss-btn-spin-ring > svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        animation: tss-btn-spin-rotate .9s linear infinite;
+        animation-play-state: paused;
+    }
+
+    .tss-btn > .tss-btn-spin-ring circle {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+    }
+
+    .tss-btn > .tss-btn-spin-ring .tss-btn-spin-track {
+        opacity: .18;
+    }
+
+    .tss-btn > .tss-btn-spin-ring .tss-btn-spin-arc {
+        stroke-dasharray: 15 56.55;
+        transform: rotate(-90deg);
+        transform-origin: 50% 50%;
+    }
+
+.tss-btn.tss-btn-spinning {
+    pointer-events: none;
+}
+
+    .tss-btn.tss-btn-spinning > i {
+        transform: scale(.2);
+        opacity: 0;
+    }
+
+    .tss-btn.tss-btn-spinning > .tss-btn-spin-ring {
+        opacity: 1;
+        transform: none;
+    }
+
+        .tss-btn.tss-btn-spinning > .tss-btn-spin-ring > svg {
+            animation-play-state: running;
+        }
+
+        .tss-btn.tss-btn-spinning > .tss-btn-spin-ring .tss-btn-spin-arc {
+            animation: tss-btn-spin-open .55s cubic-bezier(.4, 0, .2, 1);
+        }
+
+/* The ghost button would otherwise keep the hover fill it had when it was clicked. */
+.tss-btn.tss-btn-default.tss-btn-spinning {
+    background-color: var(--tss-default-background-color);
+}
+
+@keyframes tss-btn-spin-rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes tss-btn-spin-open {
+    from {
+        stroke-dasharray: 56.55 56.55;
+    }
+
+    to {
+        stroke-dasharray: 15 56.55;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-btn.tss-btn-has-spin-ring > i,
+    .tss-btn > .tss-btn-spin-ring {
+        transition: opacity .16s linear;
+        transform: none;
+    }
+
+    .tss-btn.tss-btn-spinning > .tss-btn-spin-ring .tss-btn-spin-arc {
+        animation: none;
+    }
+}
+
 .tss-btn.tss-btn-icononhover > i {
     opacity: 0;
     transition: opacity .15s ease-in-out;
