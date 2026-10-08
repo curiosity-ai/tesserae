@@ -15,6 +15,8 @@ namespace Tesserae
         private HTMLSpanElement   _textSpan;
         private HTMLElement       _iconSpan;
         private HTMLElement       _spinner;
+        private HTMLElement       _spinRing;
+        private bool              _isSpinningInPlace;
 
         /// <summary>
         /// Initializes a new instance of this class. Give it an <paramref name="href"/> and it becomes a real
@@ -364,6 +366,14 @@ namespace Tesserae
         /// </summary>
         public void ToSpinner(string text = null)
         {
+            // An icon-only button spins in place: the icon shrinks away and a ring opens where it was, so the button
+            // keeps its own box, tone and position instead of being swapped for a disabled copy.
+            if (string.IsNullOrEmpty(text) && InnerElement.classList.contains("tss-btn-only-icon"))
+            {
+                SpinInPlace();
+                return;
+            }
+
             if (_spinner is null)
             {
                 var s = (HTMLElement)InnerElement.cloneNode(false);
@@ -406,11 +416,48 @@ namespace Tesserae
             }
         }
 
+        private void SpinInPlace()
+        {
+            if (_isSpinningInPlace) return;
+
+            if (_spinRing is null)
+            {
+                // r = 9 on a 24 box: the dash lengths in tss.button.css are fractions of its 56.55 circumference.
+                _spinRing           = Span(Att("tss-btn-spin-ring"));
+                _spinRing.innerHTML = "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle class=\"tss-btn-spin-track\" cx=\"12\" cy=\"12\" r=\"9\"/><circle class=\"tss-btn-spin-arc\" cx=\"12\" cy=\"12\" r=\"9\"/></svg>";
+                InnerElement.appendChild(_spinRing);
+                InnerElement.classList.add("tss-btn-has-spin-ring");
+            }
+
+            _isSpinningInPlace = true;
+            InnerElement.classList.add("tss-btn-spinning");
+            InnerElement.setAttribute("aria-busy", "true");
+
+            if (InnerElement.HasOwnProperty("_tippy"))
+            {
+                Transpose.Script.Write("{0}._tippy.hide(); {0}._tippy.disable();", InnerElement);
+            }
+        }
+
         /// <summary>
         /// Restores the button's original content after <see cref="ToSpinner"/> was used.
         /// </summary>
         public void UndoSpinner()
         {
+            if (_isSpinningInPlace)
+            {
+                _isSpinningInPlace = false;
+                InnerElement.classList.remove("tss-btn-spinning");
+                InnerElement.removeAttribute("aria-busy");
+
+                if (InnerElement.HasOwnProperty("_tippy"))
+                {
+                    Transpose.Script.Write("{0}._tippy.enable();", InnerElement);
+                }
+
+                return;
+            }
+
             if (_spinner is object && _spinner.IsMounted())
             {
                 _spinner.parentElement.replaceChild(InnerElement, _spinner);
