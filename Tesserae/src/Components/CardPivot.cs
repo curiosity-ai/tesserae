@@ -12,10 +12,8 @@ namespace Tesserae
     [Transpose.Name("tss.CardPivot")]
     public sealed class CardPivot : IComponent, ISpecialCaseStyling, IBindableComponent<string>
     {
-        public delegate void PivotEventHandler<TEventArgs>(CardPivot sender, TEventArgs e);
-
-        private event PivotEventHandler<PivotBeforeNavigateEvent> _beforeNavigated;
-        private event PivotEventHandler<PivotNavigateEvent>       _navigated;
+        private event ComponentEventHandler<CardPivot, PivotBeforeNavigateEvent> _beforeNavigated;
+        private event ComponentEventHandler<CardPivot, PivotNavigateEvent>       _navigated;
 
         private readonly SettableObservable<string> _observable = new SettableObservable<string>();
 
@@ -55,7 +53,7 @@ namespace Tesserae
         /// <summary>
         /// Registers a callback invoked when the before navigate event fires.
         /// </summary>
-        public CardPivot OnBeforeNavigate(PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate)
+        public CardPivot OnBeforeNavigate(ComponentEventHandler<CardPivot, PivotBeforeNavigateEvent> onBeforeNavigate)
         {
             _beforeNavigated += onBeforeNavigate;
             return this;
@@ -64,7 +62,7 @@ namespace Tesserae
         /// <summary>
         /// Registers a callback invoked when the navigate event fires.
         /// </summary>
-        public CardPivot OnNavigate(PivotEventHandler<PivotNavigateEvent> onNavigate)
+        public CardPivot OnNavigate(ComponentEventHandler<CardPivot, PivotNavigateEvent> onNavigate)
         {
             _navigated += onNavigate;
             return this;
@@ -236,38 +234,6 @@ namespace Tesserae
                     return _content;
                 }
             }
-        }
-
-        public sealed class PivotNavigateEvent : PivotEvent
-        {
-            internal PivotNavigateEvent(string currentPivot, string targetPivot) : base(currentPivot, targetPivot) { }
-        }
-
-        public class PivotBeforeNavigateEvent : PivotEvent
-        {
-            internal PivotBeforeNavigateEvent(string currentPivot, string targetPivot) : base(currentPivot, targetPivot) => Canceled = false;
-            internal bool Canceled { get; private set; }
-            /// <summary>
-            /// Cancels the component's current operation.
-            /// </summary>
-            public void Cancel() => Canceled = true;
-        }
-
-        public abstract class PivotEvent
-        {
-            internal PivotEvent(string currentPivot, string targetPivot)
-            {
-                CurrentPivot = currentPivot;
-                TargetPivot  = targetPivot;
-            }
-            /// <summary>
-            /// Gets or sets the current pivot.
-            /// </summary>
-            public string CurrentPivot { get; }
-            /// <summary>
-            /// Gets or sets the target pivot.
-            /// </summary>
-            public string TargetPivot { get; }
         }
     }
 }

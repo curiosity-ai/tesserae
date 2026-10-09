@@ -16,7 +16,7 @@ every change, which flickers. See `text-block.md`.
 
 ## The observable types
 
-- `SettableObservable<T>` — mutable single value. `SettableObservable.For(value)` creates one (type inferred).
+- `SettableObservable<T>` — mutable single value. `SettableObservable.Of(value)` creates one (type inferred).
 - `ConstantObservable<T>` — fixed value wrapped as an `IObservable<T>`; emits once, never changes. `new ConstantObservable<T>(value)`.
 - `ObservableList<T>` — observable ordered collection; implements `IList<T>` and `IObservable<IReadOnlyList<T>>`. `new ObservableList<T>(initialValues: …)`.
 - `ObservableDictionary<TKey,TValue>` — observable keyed collection; implements `IDictionary<…>` and `IObservable<IReadOnlyDictionary<…>>`.
@@ -40,7 +40,7 @@ Read / subscribe / set:
 ```csharp
 using static Tesserae.UI;
 
-var status = SettableObservable.For("Idle");
+var status = SettableObservable.Of("Idle");
 var items  = new ObservableList<string>("Alpha", "Beta");
 
 var output = TextBlock(status, s => $"Status: {s}");       // updates in place on change

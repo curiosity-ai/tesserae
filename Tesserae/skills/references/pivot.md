@@ -27,7 +27,7 @@ factories into scope with `using static Tesserae.UI;`.
 - `.OnReorder(...)` — raised after a user drag; the event carries `TabId`, `OldIndex`, `NewIndex` and `TabIds` (every id in the new order). Not raised by `.MoveTab(...)`.
 - `.MoveTab(id, newIndex)` — reorder programmatically (index is clamped into range), e.g. to restore a saved order.
 - `.TabIds` — the tab ids in strip order.
-- `.OnNavigate(...)` / `.OnBeforeNavigate(...)` — navigation callbacks; call `e.Cancel()` in before-navigate to block.
+- `.OnNavigate(...)` / `.OnBeforeNavigate(...)` — navigation callbacks; call `e.Cancel()` in before-navigate to block. The event types (`PivotNavigateEvent`, `PivotBeforeNavigateEvent`, both deriving from `PivotEvent` with `CurrentPivot` / `TargetPivot`) are shared with `PivotSelector`, `SegmentedPivot` and `CardPivot` and live directly in the `Tesserae` namespace, not nested in `Pivot`.
 - `.SelectedTab` — id of the current tab.
 
 ## Example

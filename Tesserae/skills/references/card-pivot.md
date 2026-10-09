@@ -17,7 +17,7 @@ extension. Bring factories into scope with `using static Tesserae.UI;`.
 
 - `.CardPivot(id, titleCreator, contentCreator, cached = false)` — add a tab. `titleCreator`/`contentCreator` are `Func<IComponent>` (the title is usually a `Metric(...)` card).
 - `.Select(id, refresh = false)` — switch tabs.
-- `.OnNavigate(...)` / `.OnBeforeNavigate(...)` — callbacks; `e.Cancel()` blocks navigation.
+- `.OnNavigate(...)` / `.OnBeforeNavigate(...)` — callbacks; `e.Cancel()` blocks navigation. The event types (`PivotNavigateEvent`, `PivotBeforeNavigateEvent`, both deriving from `PivotEvent` with `CurrentPivot` / `TargetPivot`) are shared by all four pivot components and live directly in the `Tesserae` namespace.
 
 ## Sizing tab content
 
