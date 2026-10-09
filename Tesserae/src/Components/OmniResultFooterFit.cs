@@ -49,7 +49,6 @@ namespace Tesserae
 
         private int    _visible = -1;
         private bool   _popupOpen;
-        private bool   _dirty;
         private object _tippy;
 
         static OmniResultFooterFit()
@@ -85,13 +84,9 @@ namespace Tesserae
 
                 foreach (var record in records)
                 {
-                    //The record names the node that changed, which can be anywhere under the footer - a text
-                    //node inside a label inside an entry - so walk up to the footer it belongs to.
-                    Node node = record.target;
+                    var fit = FitOf(record.target);
 
-                    while (node is object && Of(node) is null) node = node.parentNode;
-
-                    if (node is object) fits.Add(Of(node));
+                    if (fit is object) fits.Add(fit);
                 }
 
                 FitAll(fits);
@@ -182,12 +177,8 @@ namespace Tesserae
                 if (batch.Contains(fit)) continue;
 
                 //The entries at the end of the line are in the popover right now - measuring the line without
-                //them would decide they fit. The fit runs once they are back.
-                if (fit._popupOpen)
-                {
-                    fit._dirty = true;
-                    continue;
-                }
+                //them would decide they fit. The fit runs once they are back (see ReturnOverflowed).
+                if (fit._popupOpen) continue;
 
                 batch.Add(fit);
             }
@@ -197,8 +188,44 @@ namespace Tesserae
             foreach (var fit in batch) fit.Measure();
             foreach (var fit in batch) fit.Apply();
 
-            //What the fit itself just changed - classes, widths, the button's place - is not news to it.
-            Mutations.takeRecords();
+            DiscardOwnRecords(batch);
+        }
+
+        /// <summary>
+        /// Drops the mutation records the fit's own writes queued - classes, widths, the button's place are
+        /// not news to it. The observer is shared, so the queue can also hold what another footer's entries
+        /// did meanwhile (a label that finished loading just before a popover closed): those footers are
+        /// fitted rather than having their change thrown away with the rest.
+        /// </summary>
+        private static void DiscardOwnRecords(List<OmniResultFooterFit> own)
+        {
+            var records = Mutations.takeRecords();
+
+            if (records.Length == 0) return;
+
+            var others = new List<OmniResultFooterFit>();
+
+            foreach (var record in records)
+            {
+                var fit = FitOf(record.target);
+
+                if (fit is object && !own.Contains(fit) && !others.Contains(fit)) others.Add(fit);
+            }
+
+            //Their own records are discarded in turn, and nothing is left over once every footer has been
+            //named, so this ends after one more pass.
+            if (others.Count > 0) FitAll(others);
+        }
+
+        /// <summary>
+        /// The fit of the footer a changed node is under: the record names the node that changed, which can
+        /// be anywhere below the footer - a text node inside a label inside an entry.
+        /// </summary>
+        private static OmniResultFooterFit FitOf(Node node)
+        {
+            while (node is object && Of(node) is null) node = node.parentNode;
+
+            return node is object ? Of(node) : null;
         }
 
         private void BeginMeasure()
@@ -206,6 +233,14 @@ namespace Tesserae
             //The button is measured at the end of the line, where it would go, so the space it takes is known
             //before deciding whether it is needed.
             if (_footer.lastElementChild != _more) _footer.appendChild(_more);
+
+            //The floor an entry was given last time is a floor on its natural width too: an entry that said
+            //"Looking up..." and now says "Box" would otherwise measure as wide as it used to be, and keep
+            //crowding out its neighbours. It is set again by Apply, from what is measured now.
+            foreach (HTMLElement element in _footer.children)
+            {
+                if (element.style.minWidth != "") element.style.minWidth = "";
+            }
 
             _footer.classList.add("tss-omniresult-footer-measuring");
         }
@@ -393,7 +428,7 @@ namespace Tesserae
                 _popup.appendChild(element);
             }
 
-            Mutations.takeRecords();
+            DiscardOwnRecords(new List<OmniResultFooterFit> { this });
         }
 
         private void ReturnOverflowed()
@@ -411,13 +446,9 @@ namespace Tesserae
                 _footer.insertBefore(element, _more.parentElement == _footer ? _more : null);
             }
 
-            Mutations.takeRecords();
-
-            if (_dirty)
-            {
-                _dirty = false;
-                FitAll(new List<OmniResultFooterFit> { this });
-            }
+            //Always fitted, not only when a change was seen: what an entry did inside the popover - a label that
+            //finished loading there - is not under the footer's observer, so nothing would have said so.
+            FitAll(new List<OmniResultFooterFit> { this });
         }
     }
 }
