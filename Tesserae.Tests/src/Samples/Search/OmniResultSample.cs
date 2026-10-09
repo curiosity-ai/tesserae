@@ -92,6 +92,7 @@ namespace Tesserae.Tests.Samples
                 .FlatSection(VStack().WS().Children(InlinePaginationSection()))
                 .FlatSection(VStack().WS().Children(InlineLabels()))
                 .FlatSection(VStack().WS().Children(CrowdedFooters()))
+                .FlatSection(VStack().WS().Children(LiveFooters()))
                 .SeeAlso(typeof(OmniBoxSample), typeof(PagesStackSample), typeof(InlineLabelSample), typeof(ContextCardSample), typeof(ResourceCardSample), typeof(CardSample), typeof(DetailsListSample));
         }
 
@@ -768,6 +769,73 @@ namespace Tesserae.Tests.Samples
             return FeatureCard("Crowded footers", "Many entries on one line",
                 "The footer is always one line. When its entries don't fit, each one gives way by ellipsizing - down to a floor that still says something - and once even that isn't enough, the entries at the end of the line go behind a [...] button. Hover or focus it and a popover shows them at full width: they are the entries themselves, not copies, so their clicks, links and tooltips still work. Drag the slider to narrow the rows. The fit uses one ResizeObserver and one MutationObserver shared by every footer on the page, and measures all the footers a change touches in a single pass.",
                 HStack().WS().AlignItemsCenter().Gap(12.px()).MB(8).Children(slider.Grow(), width),
+                box);
+        }
+
+        // ---------- Live footers ----------
+
+        private IComponent LiveFooters()
+        {
+            //Every button changes one footer after it was fitted - entries added, entries taken out in place,
+            //text that gets longer or shorter, lookups that finish late or find nothing - and the line has to
+            //follow each time: ellipsize, give entries to the [...] button, and take them back.
+            var live  = new List<InlineLabel>();
+            var added = 0;
+
+            var row = OmniResult(Hits[1], "Entries come and go, and change length")
+               .SetIcon("PDF", "#ef4444")
+               .SetSource("#0061d5", "Box");
+
+            var box = VStack().WS().MaxWidth(480.px()).Children(row);
+
+            void Reset()
+            {
+                added = 0;
+                live.Clear();
+                live.Add(InlineLabel("sample-files / pdfs").SetIcon(UIcons.Folder));
+                live.Add(InlineLabel("2.4 MB"));
+                live.Add(InlineLabel("Pius Neuhaus").SetIcon(UIcons.User));
+
+                row.SetFooterEntries(live.ToArray());
+            }
+
+            void Add(InlineLabel label)
+            {
+                live.Add(label);
+                row.AddFooterEntry(label);
+            }
+
+            void RemoveAt(int index)
+            {
+                if (live.Count == 0) return;
+
+                //Taken out in place, the way a label that found nothing takes itself out - not by replacing the
+                //whole list.
+                live[index].Render().parentElement?.remove();
+                live.RemoveAt(index);
+            }
+
+            string[] lengths = { "2.4 MB", "2.4 MB, revision C, approved by the quality board on Apr 12", "Box" };
+            var      length  = 0;
+
+            Reset();
+
+            return FeatureCard("Live footers", "Entries added, removed and resized after the first fit",
+                "Each button changes a footer that is already on screen. Add and remove entries - the first, the last, one that takes itself out because its lookup found nothing - and change the length of an entry's text, or let a lookup show a long text and then a short one. After each change the footer should be exactly what it would have been had it been built that way: no gap where a short text used to be, no entry stuck behind the [...] button while there is room, no dot left behind. Narrow the page to see the same with the line crowded.",
+                HStack().WS().Wrap().Gap(8.px()).MB(8).Children(
+                    Button("Add entry").SetIcon(UIcons.Plus).OnClick(() => { added++; Add(InlineLabel("Added entry " + added + " with a few words").SetIcon(UIcons.Clock)); }),
+                    Button("Remove last").SetIcon(UIcons.Minus).OnClick(() => RemoveAt(live.Count - 1)),
+                    Button("Remove first").SetIcon(UIcons.Minus).OnClick(() => RemoveAt(0)),
+                    Button("Cycle the size's text").SetIcon(UIcons.TextSize).OnClick(() => { length = (length + 1) % lengths.Length; if (live.Count > 1) live[1].SetText(lengths[length]); }),
+                    Button("Lookup: long, then short").SetIcon(UIcons.Refresh).OnClick(() => Add(InlineLabel(async l =>
+                    {
+                        await Task.Delay(800);
+                        l.SetText("Resolved to a long path: All Files > field-failures > 2024");
+                        await Task.Delay(1500);
+                        l.SetText("Box");
+                    }))),
+                    Button("Lookup: finds nothing").SetIcon(UIcons.Search).OnClick(() => Add(InlineLabel(async l => { await Task.Delay(800); }))),
+                    Button("Reset").OnClick(Reset)),
                 box);
         }
 
