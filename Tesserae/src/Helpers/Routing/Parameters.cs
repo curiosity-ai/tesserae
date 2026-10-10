@@ -3,12 +3,20 @@ using System.Linq;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A route's parameters: its <c>:variables</c> and its query string. Immutable: <see cref="With"/> and <see cref="Without"/> return a
+    /// new instance and leave this one as it was, so a handler or a <see cref="Router.GetQueryParameters"/> caller holding one cannot change
+    /// the router's state, or anyone else's copy, by accident. To change the URL, write through <see cref="RouteQuery"/> or
+    /// <see cref="Router.ReplaceQueryParameters"/>.
+    /// </summary>
     [Transpose.Name("tss.Parameters")]
     public sealed class Parameters
     {
         private readonly Dictionary<string, string> _parameters;
         public Parameters() => _parameters = new Dictionary<string, string>();
-        public Parameters(Dictionary<string, string> parameters) => _parameters = parameters;
+
+        // Copied, so the caller keeping the dictionary cannot change this instance afterwards
+        public Parameters(Dictionary<string, string> parameters) => _parameters = parameters is null ? new Dictionary<string, string>() : new Dictionary<string, string>(parameters);
 
         public new string this[string key] => _parameters[key];
 
@@ -49,19 +57,24 @@ namespace Tesserae
         }
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator() => _parameters.GetEnumerator();
 
+        /// <summary>A new instance with the key set to the value. This one is not changed.</summary>
         public Parameters With(string key, string value)
         {
-            _parameters[key] = value;
-            return this;
+            var copy = new Parameters(_parameters);
+            copy._parameters[key] = value;
+            return copy;
         }
 
-        public Parameters Remove(string key)
+        /// <summary>A new instance without the key, or this one when the key is not there. This one is not changed.</summary>
+        public Parameters Without(string key)
         {
-            _parameters.Remove(key);
-            return this;
+            if (!_parameters.ContainsKey(key)) return this;
+
+            var copy = new Parameters(_parameters);
+            copy._parameters.Remove(key);
+            return copy;
         }
 
         public string     ToQueryString() => _parameters.Any() ? "?" + string.Join("&", _parameters.Select(p => Transpose.Script.EncodeURIComponent(p.Key) + "=" + Transpose.Script.EncodeURIComponent(p.Value))) : "";
-        public Parameters Clone()         => new Parameters(_parameters.ToDictionary(kv => kv.Key, kv => kv.Value));
     }
 }

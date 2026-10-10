@@ -31,6 +31,12 @@ namespace Tesserae
         public static void OnBeforeNavigate(CanNavigateHandler onBeforeNavigate) => _beforeNavigate = onBeforeNavigate;
         public static void OnTransformRoutes(TransformRoute    transformRoute)   => _transformRoute = transformRoute;
 
+        /// <summary>
+        /// The hash the router matches: <c>window.location.hash</c> after the transform given to <see cref="OnTransformRoutes"/>.
+        /// Readable before the first route has matched, which <see cref="GetQueryParameters"/> is not.
+        /// </summary>
+        public static string CurrentHash => _transformRoute?.Invoke(window.location.hash ?? "") ?? window.location.hash ?? "";
+
         public static void OnWíllNavigate(WillNavigate  onWillNavigate) => _onWillNavigate = onWillNavigate;
         public static void OnNavigated(NavigatedHandler onNavigated)    => Navigated += onNavigated;
         public static void OnNotMatched(NoMatchHandler  notMatched)     => NotMatched += notMatched;
@@ -136,9 +142,8 @@ namespace Tesserae
         {
             if (_beforeNavigate is null) return true;
 
-            var isBack = _lastState is object && _lastState.Path == toState.Path;
-
-            return _beforeNavigate(toState, _currentState, isBack: isBack);
+            // A programmatic Push/Replace is never the browser's Back button. Only a popstate can be one (see LocationChanged).
+            return _beforeNavigate(toState, _currentState, isBack: false);
         }
 
         // Push/Replace bypass route matching, so derive the state's Path and Parameters from the pushed
@@ -155,35 +160,19 @@ namespace Tesserae
 
             if (queryStart >= 0)
             {
-                ParseQueryInto(hash.Substring(queryStart + 1), par);
+                RouteLocation.ParseQueryInto(hash.Substring(queryStart + 1), par);
             }
 
             return new State(new Parameters(par), _currentState?.RouteName, path, fullPath);
         }
 
-        private static void ParseQueryInto(string query, Dictionary<string, string> par)
-        {
-            var queryParts = query.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var qp in queryParts)
-            {
-                // Split on the first '=' only, so values containing '=' survive intact
-                var eq = qp.IndexOf('=');
-
-                if (eq < 0)
-                {
-                    par[Script.DecodeURIComponent(qp)] = "";
-                }
-                else if (eq > 0)
-                {
-                    par[Script.DecodeURIComponent(qp.Substring(0, eq))] = Script.DecodeURIComponent(qp.Substring(eq + 1));
-                }
-            }
-        }
-
+        /// <summary>
+        /// The current route's parameters: its <c>:variables</c> and its query string. <see cref="Parameters"/> is immutable, so
+        /// nothing done with the result changes the URL - use <see cref="SetQueryParameters"/> or <see cref="ReplaceQueryParameters"/> for that.
+        /// </summary>
         public static Parameters GetQueryParameters() => _currentState?.Parameters ?? new Parameters();
 
-        public static void SetQueryParameters(Parameters parameters, bool pushToHistory = false)
+        public static void SetQueryParameters(Parameters parameters, bool pushToHistory)
         {
             if (_currentState is null)
             {
@@ -213,7 +202,19 @@ namespace Tesserae
                 hash = hash.Substring(0, queryStart);
             }
 
-            var queryString = parameters.ToQueryString();
+            // A route's :variables live in the path. They are part of the parameters a handler receives, but writing them
+            // into the query as well (#/node/abc?uid=abc) would duplicate them, so the ones still carrying the captured value are left out.
+            var written = parameters;
+
+            foreach (var variable in _currentState.RouteVariables ?? new Dictionary<string, string>())
+            {
+                if (written.TryGetValue(variable.Key, out var value) && value == variable.Value)
+                {
+                    written = written.Without(variable.Key);
+                }
+            }
+
+            var queryString = written.ToQueryString();
 
             if (hash.Length == 0 && queryString.Length > 0)
             {
@@ -227,9 +228,9 @@ namespace Tesserae
                 hash = "";
             }
 
-            var stateBefore = _currentState;
-            _currentState = new State(parameters, _currentState.RouteName, _currentState.Path, beforeHash + hash + queryString);
-            _lastState    = stateBefore;
+            // A query write is not a navigation: _lastState stays where the last navigation left it, so the back-button check
+            // (LocationChanged) still compares against the page the user came from.
+            _currentState = new State(parameters, _currentState.RouteName, _currentState.Path, beforeHash + hash + queryString) { RouteVariables = _currentState.RouteVariables };
 
             if (pushToHistory)
             {
@@ -241,7 +242,7 @@ namespace Tesserae
             }
         }
 
-        public static void ReplaceQueryParameters(Func<Parameters, Parameters> updateFn, bool pushToHistory = false)
+        public static void ReplaceQueryParameters(Func<Parameters, Parameters> updateFn, bool pushToHistory)
         {
             if (_currentState is null)
             {
@@ -250,7 +251,7 @@ namespace Tesserae
             }
 
             var currentParameters = _currentState.Parameters ?? new Parameters();
-            var newParameters     = updateFn(currentParameters.Clone());
+            var newParameters     = updateFn(currentParameters) ?? new Parameters();
 
             if (newParameters.SameAs(currentParameters))
             {
@@ -467,18 +468,14 @@ namespace Tesserae
 
         public static bool Exists(string hashRoute)
         {
-            hashRoute = hashRoute.Split(new[] { '?' }, count: 2).First();
+            // Stored paths have no '#', so accept the route the way it is written in a link as well
+            hashRoute = hashRoute.Split(new[] { '?' }, count: 2).First().TrimStart('#');
             return _paths.Values.Contains(hashRoute);
         }
 
         private static void LocationChanged(bool allowCallbackEvenIfLocationUnchanged, string trigger)
         {
-            var currentPathFromHash = (window.location.hash ?? "");
-
-            if (_transformRoute is object)
-            {
-                currentPathFromHash = _transformRoute(currentPathFromHash);
-            }
+            var currentPathFromHash = CurrentHash;
 
             if (!allowCallbackEvenIfLocationUnchanged && (_currentState is object))
             {
@@ -505,19 +502,23 @@ namespace Tesserae
                 if (!r.IsMatch(parts, par))
                     continue;
 
+                // What the path captured, before the query is merged in: SetQueryParameters leaves these out of the query it writes
+                var routeVariables = new Dictionary<string, string>(par);
+
                 if (p.Length > 1)
                 {
-                    ParseQueryInto(p[1], par);
+                    RouteLocation.ParseQueryInto(p[1], par);
                 }
 
                 var toState = new State(
                     parameters: new Parameters(par),
-                    path: hash,
-                    fullPath: window.location.href,
-                    routeName: r.Name
-                );
+                    routeName:  r.Name,
+                    path:       hash,
+                    fullPath:   window.location.href
+                ) { RouteVariables = routeVariables };
 
-                var isBack = (_lastState is object && _lastState.Path == toState.Path);
+                // Only the browser's own Back/Forward counts: a query write, Push or Replace never reaches here as a popstate
+                var isBack = (trigger == "popstate") && (_lastState is object && _lastState.Path == toState.Path);
 
                 if ((_beforeNavigate is null) || _beforeNavigate(toState, _currentState, isBack: isBack))
                 {
@@ -525,6 +526,7 @@ namespace Tesserae
                     var oldState = _currentState;
                     _currentState = toState;
 
+                    // Parameters is immutable, so the handler cannot change the URL's state for the next write through it
                     if (r.Activate(toState.Parameters))
                     {
                         Navigated?.Invoke(toState, oldState);
@@ -556,13 +558,25 @@ namespace Tesserae
                 return;
             }
 
-            // If we got here without any of the routes being matched then it means we couldn't match the new URL
+            // Nothing matched, but the address bar is on this address all the same, so the router's state follows it: a Navigate to
+            // the page the user came from must not read as "already there", and a second event for this address is ignored like any other.
+            var unmatched = new Dictionary<string, string>();
+
+            if (p.Length > 1)
+            {
+                RouteLocation.ParseQueryInto(p[1], unmatched);
+            }
+
+            _lastState    = _currentState;
+            _currentState = new State(new Parameters(unmatched), routeName: null, path: hash, fullPath: window.location.href);
+
             NotMatched?.Invoke(parts);
         }
 
         public sealed class State
         {
             public State(string fullPath) : this(null, null, null, fullPath) { }
+
             public State(Parameters parameters, string routeName, string path, string fullPath)
             {
                 Parameters = parameters;
@@ -576,7 +590,10 @@ namespace Tesserae
             public string     Path       { get; }
             public string     FullPath   { get; }
 
-            public State WithFullPath(string fullPath) => new State(Parameters, RouteName, Path, fullPath);
+            /// <summary>What the route's <c>:variables</c> captured from the path; null for a state that came from Push or Replace, or from an address no route matched.</summary>
+            internal Dictionary<string, string> RouteVariables { get; set; }
+
+            public State WithFullPath(string fullPath) => new State(Parameters, RouteName, Path, fullPath) { RouteVariables = RouteVariables };
         }
 
         private sealed class RoutePart
