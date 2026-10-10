@@ -761,6 +761,13 @@ namespace Tesserae.Tests.Samples
                         InlineLabel(async l => { await Task.Delay(1200); l.SetText("112 files, 3 returned after calibration drift"); }),
                         InlineLabel(async l => { await Task.Delay(1800); l.SetText("Reviewers: Quality team, Anja Vogt, Pius Neuhaus"); }),
                         InlineLabel("6 hours ago")),
+                OmniResult(Hits[5], "Host components: a TextBlock is an entry like any label")
+                    .SetIcon("MD", "#0ea5e9")
+                    .SetSource("#0061d5", "Box")
+                    .SetFooterEntries("2.4 MB")
+                    .AddFooterEntry(TextBlock("Plain TextBlock added with AddFooterEntry, long enough to give way"))
+                    .AddFooterEntry(TextBlock("Another TextBlock"))
+                    .AddFooterEntry(TextBlock("Revision C")),
                 OmniResult(Hits[0], "A footer that fits as it is is left alone")
                     .SetIcon(UIcons.Folder, "#6366f1")
                     .SetSource("#0061d5", "Box")
@@ -824,6 +831,7 @@ namespace Tesserae.Tests.Samples
                 "Each button changes a footer that is already on screen. Add and remove entries - the first, the last, one that takes itself out because its lookup found nothing - and change the length of an entry's text, or let a lookup show a long text and then a short one. After each change the footer should be exactly what it would have been had it been built that way: no gap where a short text used to be, no entry stuck behind the [...] button while there is room, no dot left behind. Narrow the page to see the same with the line crowded.",
                 HStack().WS().Wrap().Gap(8.px()).MB(8).Children(
                     Button("Add entry").SetIcon(UIcons.Plus).OnClick(() => { added++; Add(InlineLabel("Added entry " + added + " with a few words").SetIcon(UIcons.Clock)); }),
+                    Button("Add TextBlock").SetIcon(UIcons.Text).OnClick(() => { added++; row.AddFooterEntry(TextBlock("TextBlock entry " + added + " with a few words")); }),
                     Button("Remove last").SetIcon(UIcons.Minus).OnClick(() => RemoveAt(live.Count - 1)),
                     Button("Remove first").SetIcon(UIcons.Minus).OnClick(() => RemoveAt(0)),
                     Button("Cycle the size's text").SetIcon(UIcons.TextSize).OnClick(() => { length = (length + 1) % lengths.Length; if (live.Count > 1) live[1].SetText(lengths[length]); }),
