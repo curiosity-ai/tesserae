@@ -23,7 +23,7 @@ TaskBoard:
 
 - `.Columns(params TaskBoardColumn[])` / `.AddColumn(col)` — set/append columns.
 - `.RowMode(bool = true)` — switch to horizontal rows instead of columns. Order does not matter: columns added afterwards pick the mode up too.
-- `.ReadOnly(bool = true)` — disable all drag-and-drop.
+- `.ReadOnly(bool = true)` — disable all drag-and-drop; the cards drop their grab cursor too.
 - `.OnColumnDrop(e => ...)` / `.OnColumnUpdate(e => ...)` — column move callbacks
   (`e` is a `SortableEvent` with `oldIndex` / `newIndex`).
 - Size with `.Height(...)`, `.Width(...)`.

@@ -734,7 +734,7 @@ namespace Tesserae.Tests.Samples
                     .SetIcon("PDF", "#ef4444")
                     .SetSource("#0061d5", "Box")
                     .SetFooterEntries("sample-files / pdfs / procedures / brake sensors", "2.4 MB", "Pius Neuhaus", "Apr 12, 2024", "Revision C", "Confidential"),
-                OmniResult(Hits[2], "Paths: the part before the angle stays, the part after it ellipsizes")
+                OmniResult(Hits[2], "Paths: the part after the angle gives way before the part before it")
                     .SetIcon("XLSX", "#16a34a")
                     .SetSource("#1a73e8", "Drive")
                     .SetFooterEntries(
