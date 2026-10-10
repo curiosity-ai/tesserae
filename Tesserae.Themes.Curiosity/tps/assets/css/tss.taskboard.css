@@ -35,7 +35,7 @@ body.tss-theme-curiosity .tss-taskboard-card:hover {
     box-shadow: 0 0 0 1px var(--tss-default-foreground-color) !important;
 }
 
-body.tss-theme-curiosity .tss-taskboard-card:active {
+body.tss-theme-curiosity .tss-taskboard-column:not(.tss-taskboard-column-readonly) .tss-taskboard-card:active {
     cursor: grabbing;
 }
 

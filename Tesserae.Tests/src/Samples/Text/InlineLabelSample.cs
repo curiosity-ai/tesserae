@@ -55,13 +55,13 @@ namespace Tesserae.Tests.Samples
         private IComponent Paths()
         {
             return FeatureCard("Paths", "Text with a ':' or a '>' in it",
-                "Text holding a ':' or a '>' is read as a path and drawn in two parts, with an angle glyph in place of the first such character. The part before it never shrinks; the part after it is the one that ellipsizes - so a label short of room still says where something is, and gives up detail about what it is first. Text with nothing on one side of the separator (\"Note:\") is left whole.",
+                "Text holding a ':' or a '>' is read as a path and drawn in two parts, with an angle glyph in place of the first such character. A label short of room ellipsizes from the end, so the part after the angle goes first and the part before it only once even that is gone - it still says where something is, and gives up detail about what it is first. Text with nothing on one side of the separator (\"Note:\") is left whole.",
                 HStack().WS().Wrap().Gap(8.px()).AlignItemsCenter().PT(8).PB(8).Children(
                     InlineLabel("Projects: Brake sensors").SetIcon(UIcons.Folder),
                     InlineLabel("Box > sample-files").SetImage("./assets/img/box-img.svg"),
                     InlineLabel("Status: In review").SetColor("#f59e0b"),
                     InlineLabel("Note:")),
-                TextBlock("The same labels in 200px - only the part after the angle gives way:").Small().MT(8).MB(8),
+                TextBlock("The same labels in 200px - the part after the angle gives way first:").Small().MT(8).MB(8),
                 VStack().Gap(8.px()).Children(
                     InlineLabel("Projects: Brake sensor drift across the Ingolstadt line").SetIcon(UIcons.Folder).MaxWidth(200.px()),
                     InlineLabel("Box > sample-files / pdfs / procedures").SetImage("./assets/img/box-img.svg").MaxWidth(200.px()),

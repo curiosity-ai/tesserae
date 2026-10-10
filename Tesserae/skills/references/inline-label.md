@@ -59,8 +59,9 @@ row.SetFooterEntries(
 - `.SetText(string text, bool splitAtSeparator = true)` / `Text` — the text. Null or empty leaves the
   label as its mark alone. Text holding a `:` or a `>` is read as a path and drawn as two parts with an
   angle glyph in place of the first such character ("Projects: Brake sensors" → Projects › Brake
-  sensors). The part before the angle never shrinks; the part after it is the one that ellipsizes. Text
-  with nothing on one side of the separator ("Note:") stays whole. Pass `splitAtSeparator: false` for
+  sensors). A label short of room ellipsizes from the end: the part after the angle goes first, the part
+  before it only once even that is gone. Text with nothing on one side of the separator ("Note:") stays
+  whole. Pass `splitAtSeparator: false` for
   text where a colon is not a path — a time, a ratio: `InlineLabel().SetText("14:03", splitAtSeparator: false)`.
   The constructor and `UI.InlineLabel(string)` always split.
 - `.SetIcon(UIcons icon, UIconsWeight weight = Regular, string color = null)` — a glyph before the text,

@@ -613,9 +613,29 @@
     white-space: nowrap;
 }
 
+/* Whatever is in the entry is sized by the entry: the fit floors and shrinks the entry's box, and nothing
+   else, so the one thing inside it has to be able to follow it down. A flex item's automatic minimum is
+   its content's width, which for a line of nowrap text is all of it - a TextBlock kept its full width in
+   an entry squeezed to 64px and was drawn over the entries after it. */
+.tss-omniresult-footer-entry > * {
+    min-width: 0;
+}
+
+/* A label clips and ellipsizes its own text (and must not be clipped from outside - see above). Anything
+   else a host passes to AddFooterEntry - a TextBlock, a badge - is clipped to the entry here, with an
+   ellipsis where it is a line of text, so it gives way like a label rather than overlapping its
+   neighbours. */
+.tss-omniresult-footer-entry > :not(.tss-inlinelabel) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .tss-omniresult-footer-entry .tss-textblock {
     margin: 0;
     color: var(--tss-secondary-foreground-color);
+    font-size: inherit;
+    line-height: inherit;
     white-space: nowrap;
 }
 

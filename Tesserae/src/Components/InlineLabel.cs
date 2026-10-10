@@ -167,8 +167,9 @@ namespace Tesserae
         /// <para>
         /// Text holding a <c>:</c> or a <c>&gt;</c> is read as a path - "Projects: Brake sensors", "Box &gt;
         /// sample-files" - and drawn as two parts with an angle glyph between them, in place of the first
-        /// such character. The part before it never shrinks; the part after it is the one that ellipsizes,
-        /// so a label short of room still says where the thing is before it says less of what it is. Pass
+        /// such character. A label short of room ellipsizes from the end, so the part after the angle goes
+        /// first and the part before it only once even that is gone: it still says where the thing is
+        /// before it says less of what it is. Pass
         /// false to <paramref name="splitAtSeparator"/> to draw the text exactly as given - a time, a ratio.
         /// </para>
         /// </summary>
@@ -253,17 +254,13 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Whether none of the text is cut off: the text span ellipsizes (and clips a path's head that is
-        /// too long for it), a path's tail ellipsizes on its own, and the label itself can spill past its
-        /// own box when even the head doesn't fit.
+        /// Whether none of the text is cut off: the text span ellipsizes (a path's two parts and the angle
+        /// between them are one run of text in it, so its end - the tail, then the head - is what goes),
+        /// and the label itself can spill past its own box when even that isn't enough.
         /// </summary>
         private bool IsTextFullyShown()
         {
-            if (IsClipped(InnerElement) || IsClipped(_text)) return false;
-
-            var tail = _text.querySelector(".tss-inlinelabel-text-tail");
-
-            return tail is null || !IsClipped(tail.As<HTMLElement>());
+            return !IsClipped(InnerElement) && !IsClipped(_text);
         }
 
         private static bool IsClipped(HTMLElement element) => element.scrollWidth > element.clientWidth;

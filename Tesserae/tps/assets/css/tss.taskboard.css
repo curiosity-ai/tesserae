@@ -1,3 +1,14 @@
 ﻿.tss-taskboard-cards-container-row-mode > .tss-stack-item {
     width: 100% !important;
 }
+
+/* A card can be picked up, and says so with the hand - unless its column is read only, in which case
+   Sortable is off and the card is just a card. The class is kept on the column, which is where the
+   sortable lives, so the cursor matches exactly what can be dragged. */
+.tss-taskboard-card {
+    cursor: grab;
+}
+
+.tss-taskboard-column-readonly .tss-taskboard-card {
+    cursor: default;
+}

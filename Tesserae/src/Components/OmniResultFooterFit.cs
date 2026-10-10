@@ -11,6 +11,12 @@ namespace Tesserae
     /// once even that does not fit, the entries at the end of the line go behind a [...] button that shows
     /// them, still live and pressable, in a popover when hovered or focused.
     /// <para>
+    /// What is measured, floored and shrunk is the footer's own children: the <c>tss-omniresult-footer-entry</c>
+    /// box around each entry (and the source label, which leads the line unwrapped). The fit never reads or
+    /// sizes what is inside an entry - the label, its mark, its text - so an entry can be anything a host
+    /// puts there, and the one box it writes a width to is the one flexbox lays out.
+    /// </para>
+    /// <para>
     /// The cost is kept to what a list of hundreds of rows can carry: one <see cref="ResizeObserver"/> and one
     /// <see cref="MutationObserver"/> are shared by every footer, so a window resize or a page of new rows
     /// is one callback, and every footer it names is measured in one pass - all the writes, then all the
@@ -30,12 +36,12 @@ namespace Tesserae
         private const string Key = "tssFooterFit";
 
         // How far an entry may be ellipsized before it goes behind the [...] button instead: its separating
-        // dot, a mark and a few letters - enough that what is left still reads as the thing it was.
+        // dot, a mark and a few letters - enough that what is left still reads as the thing it was. It is a
+        // floor on the entry's box (the tss-omniresult-footer-entry wrapper, or the source label), never on
+        // what is inside it: how the content gives way within that box is the content's own business - an
+        // InlineLabel ellipsizes its text from the end, a path label's tail before its head - and a component
+        // a host added through AddFooterEntry has no InlineLabel inside it to look at.
         private const double EntryFloor = 64;
-
-        // A path label ("Box > sample-files") never shrinks its head, so its floor is wherever the head ends
-        // plus this much of the tail.
-        private const double TailFloor = 32;
 
         private static readonly ResizeObserver   Resizes;
         private static readonly MutationObserver Mutations;
@@ -271,7 +277,7 @@ namespace Tesserae
                 if (rect.width <= 0) continue;
 
                 _items.Add(element);
-                _minimums.Add(Math.Min(rect.width, FloorOf(element, rect)));
+                _minimums.Add(Math.Min(rect.width, EntryFloor));
 
                 last = rect;
             }
@@ -331,15 +337,6 @@ namespace Tesserae
             }
 
             _visible = visible;
-        }
-
-        private static double FloorOf(HTMLElement element, DOMRect rect)
-        {
-            var separator = element.querySelector(".tss-inlinelabel-text-separator").As<HTMLElement>();
-
-            if (separator is null) return EntryFloor;
-
-            return separator.getBoundingClientRect().As<DOMRect>().right - rect.left + TailFloor;
         }
 
         private void Apply()

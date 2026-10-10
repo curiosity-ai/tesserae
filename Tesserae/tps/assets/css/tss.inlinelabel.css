@@ -76,33 +76,23 @@
     white-space: nowrap;
 }
 
-/* Text read as a path ("Projects: Brake sensors") is two parts and an angle between them. The part before
-   the angle keeps its whole width; the part after it is the one that gives way and ellipsizes, since an
-   ellipsis on the outer span would never be drawn - its children are flex items, not a line of text. */
-.tss-inlinelabel-text-split {
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
-}
-
-.tss-inlinelabel-text-head {
-    flex-shrink: 0;
+/* Text read as a path ("Projects: Brake sensors") is two parts and an angle between them, laid out as one
+   run of text so the span's own ellipsis does the truncating: the end goes first - the part after the
+   angle - and the part before it only once even that is gone, so a label short of room still says where
+   the thing is before it says less of what it is, and always ends in an ellipsis rather than a hard cut.
+   The parts are not flex items on purpose: an ellipsis is drawn for a line of inline content, never for
+   a row of boxes. */
+.tss-inlinelabel-text-head,
+.tss-inlinelabel-text-tail {
     white-space: nowrap;
 }
 
 .tss-inlinelabel-text-separator {
-    flex-shrink: 0;
+    margin: 0 2px;
     font-size: 0.85em;
     line-height: 1;
+    vertical-align: -0.05em;
     opacity: 0.7;
-}
-
-.tss-inlinelabel-text-tail {
-    flex-shrink: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 /* Pressable, or a real link. Either way hovering it lifts the background - the whole label answers the

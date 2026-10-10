@@ -112,6 +112,13 @@ body.tss-theme-curiosity.tss-dark-mode .tippy-box > .tippy-content > .tss-omnire
     border-color: var(--tss-dark-border-color);
 }
 
+/* A TextBlock a host added to the footer keeps the footer's secondary colour in the popover too: the
+   theme's popover rule gives every default-coloured text full ink, which would set the borrowed entry
+   apart from the labels beside it. */
+body.tss-theme-curiosity .tippy-box .tss-omniresult-footer-popup > .tss-omniresult-footer-entry > .tss-textblock {
+    color: var(--tss-secondary-foreground-color);
+}
+
 /* The preview modal */
 body.tss-theme-curiosity .tss-modal.tss-omniresult-modal {
     border-radius: 0;

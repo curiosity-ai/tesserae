@@ -236,6 +236,10 @@ namespace Tesserae
             {
                 _isReadOnly = value;
                 _sortable.Disabled = value;
+
+                //The cards' grab cursor is a stylesheet rule keyed off this class (tss.taskboard.css), so a
+                //column whose cards can't be dragged doesn't offer a hand for it.
+                _container.UpdateClassIf(value, "tss-taskboard-column-readonly");
             }
         }
 
@@ -356,7 +360,6 @@ namespace Tesserae
                 s.boxShadow = "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)";
                 s.padding = "12px";
                 s.margin = "4px";
-                s.cursor = "grab";
                 s.display = "flex";
                 s.flexDirection = "column";
             }), _layout.Render());
