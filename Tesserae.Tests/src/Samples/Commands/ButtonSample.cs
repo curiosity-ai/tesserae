@@ -46,9 +46,35 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Variations"),
                     HStack().Children(
-                        ButtonAndIcon("Split Button", (m, i, ev) => Toast().Information("Icon clicked"), mainIcon: UIcons.Rocket, secondaryIcon: UIcons.AngleDown).OnClick((b, _) => Toast().Success("Main action")),
                         Button().SetText("No Padding").NoPadding().Primary(),
                         Button().SetText("No Border").NoBorder()
+                    ),
+                    SampleSubTitle("Split Buttons"),
+                    TextBlock("ButtonAndIcon splits one button into two click targets: the main half runs the most common action, the arrow half a complementary one (often a menu of alternatives). The tone and the disabled state apply to both halves.").MB(8),
+                    HStack().Gap(8.px()).MB(8).Children(
+                        ButtonAndIcon("Standard Action", (m, i, ev) => Toast().Information("Clicked action icon!"), mainIcon: UIcons.Play).OnClick((b, _) => Toast().Information("Clicked display!")),
+                        ButtonAndIcon("Primary with Calendar Icon", (m, i, ev) => Toast().Success("Calendar icon clicked"), mainIcon: UIcons.Clock, secondaryIcon: UIcons.Calendar).Primary().OnClick((b, _) => Toast().Success("Main area clicked")),
+                        ButtonAndIcon("Danger Action", (m, i, ev) => Toast().Error("Warning icon clicked"), mainIcon: UIcons.TriangleWarning).Danger().OnClick((b, _) => Toast().Error("Danger area clicked")),
+                        ButtonAndIcon("Disabled", (m, i, ev) => Toast().Error("Should not fire"), mainIcon: UIcons.Lock).Disabled()
+                    ),
+                    HStack().Gap(8.px()).Children(
+                        ButtonAndIcon("Move Item", (m, i, ev) => Toast().Information("Configure move..."), secondaryIcon: UIcons.Settings)
+                           .ReplaceContent(VStack().Children(
+                                HStack().AlignItemsCenter().Children(Icon(UIcons.Arrows), TextBlock("Move Item").SemiBold().PL(8)),
+                                TextBlock("Use this to reorganize your workspace").Tiny().PT(4)))
+                           .OnClick((b, _) => Toast().Information("Moving...")),
+                        ButtonAndIcon("Action with Custom Tooltip", (m, i, ev) => Toast().Information("Arrow clicked"), mainIcon: UIcons.CommentInfo)
+                           .Tooltip("This tooltip is applied to the entire component"),
+                        ButtonAndIcon("Show Options", (m, i, ev) =>
+                        {
+                            Action hideMenu = null;
+                            var menu = VStack().Children(
+                                Button("Option 1").OnClick(() => { Toast().Information("Option 1"); hideMenu?.Invoke(); }),
+                                Button("Option 2").OnClick(() => { Toast().Information("Option 2"); hideMenu?.Invoke(); }),
+                                Button("Option 3").OnClick(() => { Toast().Information("Option 3"); hideMenu?.Invoke(); })
+                            );
+                            Tippy.ShowFor(i, menu, out hideMenu, TooltipAnimation.None, TooltipPlacement.BottomEnd, 0, 0, 350, true, null);
+                        }, mainIcon: UIcons.List).Primary().OnClick((b, _) => Toast().Information("Default option"))
                     ),
                     SampleSubTitle("Buttons That Read As Links"),
                     TextBlock("Link() drops the border and the background so the button reads as text rather than as a box. A tone still applies, as the label's colour rather than as a filled surface - which is how a destructive action that should not be the thing the eye lands on is written. Only a button built with an href underlines on hover: one that merely runs a handler is a button, and an underline would promise an address it doesn't have.").MB(8),

@@ -32,10 +32,70 @@ namespace Tesserae
             _parent.appendChild(_arrowButton.Render());
         }
 
+        // The tone and the enabled state belong to the whole split button, so each one is carried to the
+        // arrow half as well. The base constructor can set them before the arrow exists, hence the null checks.
+
+        /// <summary>
+        /// Gets or set whenever button is primary
+        /// </summary>
+        public override bool IsPrimary
+        {
+            get => base.IsPrimary;
+            set
+            {
+                base.IsPrimary = value;
+                if (_arrowButton is object) _arrowButton.IsPrimary = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or set whenever button is success
+        /// </summary>
+        public override bool IsSuccess
+        {
+            get => base.IsSuccess;
+            set
+            {
+                base.IsSuccess = value;
+                if (_arrowButton is object) _arrowButton.IsSuccess = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or set whenever button is danger
+        /// </summary>
+        public override bool IsDanger
+        {
+            get => base.IsDanger;
+            set
+            {
+                base.IsDanger = value;
+                if (_arrowButton is object) _arrowButton.IsDanger = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets whenever button is enabled
+        /// </summary>
+        public override bool IsEnabled
+        {
+            get => base.IsEnabled;
+            set
+            {
+                base.IsEnabled = value;
+                if (_arrowButton is object) _arrowButton.IsEnabled = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the button that renders the secondary (arrow) half, e.g. to anchor a menu or add a tooltip to it.
+        /// </summary>
+        public Button IconButton => _arrowButton;
+
         /// <summary>
         /// Sets the secondary icon of the component.
         /// </summary>
-        public ButtonAndIcon SetSecondaryIcon(UIcons icon, string color = "", TextSize size = TextSize.Small, UIconsWeight weight = UIconsWeight.Regular)
+        public ButtonAndIcon SetSecondaryIcon(UIcons icon,string color = "", TextSize size = TextSize.Small, UIconsWeight weight = UIconsWeight.Regular)
         {
             _arrowButton.SetIcon(icon, color, size, weight);
             return this;

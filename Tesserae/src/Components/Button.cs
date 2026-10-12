@@ -188,7 +188,7 @@ namespace Tesserae
         /// <summary>
         /// Gets or set whenever button is primary
         /// </summary>
-        public bool IsPrimary
+        public virtual bool IsPrimary
         {
             get => InnerElement.classList.contains("tss-btn-primary");
             set
@@ -209,7 +209,7 @@ namespace Tesserae
         /// <summary>
         /// Gets or set whenever button is primary
         /// </summary>
-        public bool IsSuccess
+        public virtual bool IsSuccess
         {
             get => InnerElement.classList.contains("tss-btn-success");
             set
@@ -230,7 +230,7 @@ namespace Tesserae
         /// <summary>
         /// Gets or set whenever button is danger
         /// </summary>
-        public bool IsDanger
+        public virtual bool IsDanger
         {
             get => InnerElement.classList.contains("tss-btn-danger");
             set
@@ -251,7 +251,7 @@ namespace Tesserae
         /// <summary>
         /// Gets or sets whenever button is enabled
         /// </summary>
-        public bool IsEnabled
+        public virtual bool IsEnabled
         {
             get => !InnerElement.classList.contains("tss-disabled");
             set => InnerElement.UpdateClassIfNot(value, "tss-disabled");
