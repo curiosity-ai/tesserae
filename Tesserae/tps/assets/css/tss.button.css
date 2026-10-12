@@ -232,20 +232,34 @@ a {
         transition: opacity 0s linear .39s, stroke-dashoffset .21s var(--tss-btn-spin-ease) .39s;
     }
 
-/* The outcome is in its colour too: on a ghost (default-tone) button the closing ring and its mark turn
-   the success tone for a check and the danger tone for an x, and keep it while they fade. A filled
-   button keeps its own text colour: red or green on the primary blue does not read. */
+/* The outcome is in its colour on every button: the closing ring and its mark turn the success tone for
+   a check and the danger tone for an x, and keep it while they fade. A filled button (primary, success,
+   danger, or a Background()) lets its fill go while the outcome shows, since green or red on its own
+   tone does not read, and takes it back as the mark fades and the icon returns. The !important is for
+   a Background(), which is an inline style. */
     .tss-btn > .tss-btn-spin-ring {
         transition: color .3s var(--tss-btn-spin-ease);
     }
 
-    .tss-btn.tss-btn-default.tss-btn-spin-success > .tss-btn-spin-ring {
+    .tss-btn.tss-btn-spin-success > .tss-btn-spin-ring {
         color: var(--tss-success-background-color);
     }
 
-    .tss-btn.tss-btn-default.tss-btn-spin-error > .tss-btn-spin-ring {
+    .tss-btn.tss-btn-spin-error > .tss-btn-spin-ring {
         color: var(--tss-danger-background-color);
     }
+
+.tss-btn.tss-btn-spin-resolved:not(.tss-btn-default) {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none;
+    filter: none;
+    transition: background-color .15s linear, border-color .15s linear;
+}
+
+.tss-btn.tss-btn-spin-fading:not(.tss-btn-default) {
+    transition: background-color .15s linear, border-color .15s linear;
+}
 
 /* D and E: back. The closed ring and its mark fade together over 180ms as the icon returns. */
     .tss-btn.tss-btn-spin-fading > .tss-btn-spin-ring .tss-btn-spin-arc {
