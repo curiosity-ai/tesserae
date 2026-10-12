@@ -45,14 +45,22 @@ namespace Tesserae.Tests.Samples
                         Button().SetText("Error Simulation").OnClickSpinWhile(async () => { await Task.Delay(1000); throw new Exception("Action failed"); }, onError: (b, e) => b.SetText("Try again: " + e.Message).Danger())
                     ),
                     SampleSubTitle("Icon-Only Loading States"),
-                    TextBlock("An icon-only button with a tooltip that spins while its action runs, as a row of download actions in a header does. With no spinner text it spins in place: the icon shrinks into the centre and a ring opens where it was, in the button's own colour, and the button keeps its box. The tooltip is off until the action ends.").MB(8),
+                    TextBlock("An icon-only button with no spinner text spins in place, as a row of download actions in a header does: the icon fades, a dot appears on the ring, orbits and stretches into the arc, and when the action ends it collapses back to the dot as the icon returns. The button keeps its box and its tone, and its tooltip is off while it works.").MB(8),
                     HStack().AlignItemsCenter().Children(
-                        Button().SetIcon(UIcons.Download).Tooltip("Download").OnClickSpinWhile(async () => await Task.Delay(2000)),
-                        Button().SetIcon(UIcons.FileCode).Tooltip("Download as Markdown").OnClickSpinWhile(async () => await Task.Delay(2000)),
-                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF").OnClickSpinWhile(async () => await Task.Delay(2000)),
-                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (fails)").OnClickSpinWhile(async () => { await Task.Delay(1000); throw new Exception("Rendering failed"); }, onError: (b, e) => Toast().Error("Download failed", e.Message)),
-                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (primary)").Primary().OnClickSpinWhile(async () => await Task.Delay(2000)),
-                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (no border)").NoBorder().OnClickSpinWhile(async () => await Task.Delay(2000))
+                        Button().SetIcon(UIcons.Download).Tooltip("Download").OnClickSpinWhile(async () => await Task.Delay(2500)),
+                        Button().SetIcon(UIcons.FileCode).Tooltip("Download as Markdown").OnClickSpinWhile(async () => await Task.Delay(2500)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF").OnClickSpinWhile(async () => await Task.Delay(2500)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (quick)").OnClickSpinWhile(async () => await Task.Delay(400)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (primary)").Primary().OnClickSpinWhile(async () => await Task.Delay(2500)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (no border)").NoBorder().OnClickSpinWhile(async () => await Task.Delay(2500))
+                    ),
+                    TextBlock("ShowSpinnerOutcome() ends it on the result instead: the arc closes into a full circle, the track drops away and a check draws in when the action completes, or an x when it throws. The mark is held for a moment, then fades as the icon returns.").MT(16).MB(8),
+                    HStack().AlignItemsCenter().Children(
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (succeeds)").ShowSpinnerOutcome().OnClickSpinWhile(async () => await Task.Delay(2500)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (fails)").ShowSpinnerOutcome().OnClickSpinWhile(async () => { await Task.Delay(2500); throw new Exception("Rendering failed"); }, onError: (b, e) => Toast().Error("Download failed", e.Message)),
+                        Button().SetIcon(UIcons.CloudUpload).Tooltip("Upload (succeeds quickly)").ShowSpinnerOutcome().OnClickSpinWhile(async () => await Task.Delay(500)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (primary, succeeds)").Primary().ShowSpinnerOutcome().OnClickSpinWhile(async () => await Task.Delay(2500)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (primary, fails)").Primary().ShowSpinnerOutcome().OnClickSpinWhile(async () => { await Task.Delay(2500); throw new Exception("Rendering failed"); }, onError: (b, e) => Toast().Error("Download failed", e.Message))
                     ),
                     SampleSubTitle("Variations"),
                     HStack().Children(

@@ -17,6 +17,8 @@ namespace Tesserae
         private HTMLElement       _spinner;
         private HTMLElement       _spinRing;
         private bool              _isSpinningInPlace;
+        private bool              _showSpinnerOutcome;
+        private int               _spinGeneration;
 
         /// <summary>
         /// Initializes a new instance of this class. Give it an <paramref name="href"/> and it becomes a real
@@ -416,20 +418,35 @@ namespace Tesserae
             }
         }
 
+        // How long an icon-only button holds a resolved check or x before it fades back to its icon, and how long
+        // that fade takes. They match the transitions in tss.button.css (the close-and-draw, then the fade).
+        private const int SPIN_RESOLVE_HOLD_MS = 1700;
+        private const int SPIN_RESOLVE_FADE_MS = 600;
+
+        private const string SPIN_CLASSES = "tss-btn-spinning tss-btn-spin-resolved tss-btn-spin-success tss-btn-spin-error tss-btn-spin-fading";
+
         private void SpinInPlace()
         {
             if (_isSpinningInPlace) return;
 
             if (_spinRing is null)
             {
-                // r = 9 on a 24 box: the dash lengths in tss.button.css are fractions of its 56.55 circumference.
+                // r = 20 on a 48 box, as drawn in the spec: the dash lengths in tss.button.css are fractions of its
+                // 125.66 circumference. The mark sits in its own layer so it does not turn with the ring.
                 _spinRing           = Span(Att("tss-btn-spin-ring"));
-                _spinRing.innerHTML = "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle class=\"tss-btn-spin-track\" cx=\"12\" cy=\"12\" r=\"9\"/><circle class=\"tss-btn-spin-arc\" cx=\"12\" cy=\"12\" r=\"9\"/></svg>";
+                _spinRing.innerHTML = "<svg class=\"tss-btn-spin-orbit\" viewBox=\"0 0 48 48\" aria-hidden=\"true\"><circle class=\"tss-btn-spin-track\" cx=\"24\" cy=\"24\" r=\"20\"/><circle class=\"tss-btn-spin-arc\" cx=\"24\" cy=\"24\" r=\"20\" transform=\"rotate(-90 24 24)\"/></svg>"
+                                    + "<svg class=\"tss-btn-spin-mark\" viewBox=\"0 0 48 48\" aria-hidden=\"true\"><path class=\"tss-btn-spin-check\" pathLength=\"1\" d=\"M16 24.5l5.5 5.5L32 19\"/><path class=\"tss-btn-spin-x tss-btn-spin-x1\" pathLength=\"1\" d=\"M18.5 18.5l11 11\"/><path class=\"tss-btn-spin-x tss-btn-spin-x2\" pathLength=\"1\" d=\"M29.5 18.5l-11 11\"/></svg>";
                 InnerElement.appendChild(_spinRing);
                 InnerElement.classList.add("tss-btn-has-spin-ring");
+
+                // Resolve the ring's resting style before it starts spinning, or the first spin has no state to
+                // transition from and the arc appears already stretched.
+                _spinRing.getBoundingClientRect();
             }
 
+            _spinGeneration++;
             _isSpinningInPlace = true;
+            RemoveSpinClasses();
             InnerElement.classList.add("tss-btn-spinning");
             InnerElement.setAttribute("aria-busy", "true");
 
@@ -439,6 +456,79 @@ namespace Tesserae
             }
         }
 
+        private void RemoveSpinClasses()
+        {
+            foreach (var c in SPIN_CLASSES.Split(' ')) InnerElement.classList.remove(c);
+        }
+
+        private void EndSpinInPlace(ButtonSpinnerOutcome outcome)
+        {
+            _isSpinningInPlace = false;
+
+            if (outcome == ButtonSpinnerOutcome.None)
+            {
+                RemoveSpinClasses();
+                ReleaseSpinInPlace();
+                return;
+            }
+
+            // The arc closes into a full circle and the mark draws in; the button stays busy while it is shown.
+            var generation = _spinGeneration;
+            InnerElement.classList.add("tss-btn-spin-resolved", outcome == ButtonSpinnerOutcome.Success ? "tss-btn-spin-success" : "tss-btn-spin-error");
+
+            window.setTimeout(_ =>
+            {
+                if (generation != _spinGeneration) return;
+
+                RemoveSpinClasses();
+                InnerElement.classList.add("tss-btn-spin-fading", outcome == ButtonSpinnerOutcome.Success ? "tss-btn-spin-success" : "tss-btn-spin-error");
+                ReleaseSpinInPlace();
+
+                window.setTimeout(__ =>
+                {
+                    if (generation == _spinGeneration) RemoveSpinClasses();
+                }, SPIN_RESOLVE_FADE_MS);
+            }, SPIN_RESOLVE_HOLD_MS);
+        }
+
+        private void ReleaseSpinInPlace()
+        {
+            InnerElement.removeAttribute("aria-busy");
+
+            if (InnerElement.HasOwnProperty("_tippy"))
+            {
+                Transpose.Script.Write("{0}._tippy.enable();", InnerElement);
+            }
+        }
+
+        /// <summary>
+        /// Makes <see cref="OnClickSpinWhile(Func{Task}, string, Action{Button, Exception})"/> and
+        /// <see cref="SpinWhile"/> end an icon-only button's spinner on the action's outcome: the ring closes and a
+        /// check draws in when it completes, an x when it throws, then the icon returns. Without it the spinner
+        /// fades straight back to the icon. A button with a label, or a spinner text, has no outcome to show.
+        /// </summary>
+        public Button ShowSpinnerOutcome(bool show = true)
+        {
+            _showSpinnerOutcome = show;
+            return this;
+        }
+
+        /// <summary>
+        /// Ends the spinner started by <see cref="ToSpinner"/> on the given outcome. On an icon-only button
+        /// spinning in place, <see cref="ButtonSpinnerOutcome.Success"/> and <see cref="ButtonSpinnerOutcome.Error"/>
+        /// close the ring around a check or an x before the icon returns; anywhere else it is <see cref="UndoSpinner()"/>.
+        /// </summary>
+        public void UndoSpinner(ButtonSpinnerOutcome outcome)
+        {
+            if (_isSpinningInPlace)
+            {
+                EndSpinInPlace(outcome);
+                return;
+            }
+
+            UndoSpinner();
+        }
+
         /// <summary>
         /// Restores the button's original content after <see cref="ToSpinner"/> was used.
         /// </summary>
@@ -446,15 +536,7 @@ namespace Tesserae
         {
             if (_isSpinningInPlace)
             {
-                _isSpinningInPlace = false;
-                InnerElement.classList.remove("tss-btn-spinning");
-                InnerElement.removeAttribute("aria-busy");
-
-                if (InnerElement.HasOwnProperty("_tippy"))
-                {
-                    Transpose.Script.Write("{0}._tippy.enable();", InnerElement);
-                }
-
+                EndSpinInPlace(ButtonSpinnerOutcome.None);
                 return;
             }
 
@@ -469,6 +551,13 @@ namespace Tesserae
             }
 
             _spinner = null;
+        }
+
+        private ButtonSpinnerOutcome SpinnerOutcomeOf(Exception exception)
+        {
+            if (!_showSpinnerOutcome) return ButtonSpinnerOutcome.None;
+
+            return exception is null ? ButtonSpinnerOutcome.Success : ButtonSpinnerOutcome.Error;
         }
 
         /// <summary>
@@ -504,7 +593,7 @@ namespace Tesserae
                     }
                     finally
                     {
-                        UndoSpinner();
+                        UndoSpinner(SpinnerOutcomeOf(innerException));
 
                         if (innerException is object)
                         {
@@ -562,7 +651,7 @@ namespace Tesserae
                 }
                 finally
                 {
-                    UndoSpinner();
+                    UndoSpinner(SpinnerOutcomeOf(innerException));
 
                     if (innerException is object)
                     {
@@ -577,7 +666,6 @@ namespace Tesserae
                     }
 
                 }
-                UndoSpinner();
             }).FireAndForget();
         }
 

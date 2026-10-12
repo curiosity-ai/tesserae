@@ -108,81 +108,150 @@ a {
     text-decoration: none;
 }
 
-/* An icon-only button spinning in place (Button.ToSpinner without a label). The icon shrinks into the
-   centre while a ring grows out of it, closed at first and then opening into the arc that turns, so the
-   glyph reads as becoming the spinner. Both are drawn in the button's own colour, so the ring takes the
-   tone of whatever the button is (ink on a ghost button, paper on a filled one) and the button keeps
-   its box: no disabled copy, no border it did not already have. */
+/* An icon-only button spinning in place (Button.ToSpinner without a label): the "orbiting dot".
+   The icon fades and shrinks, a dot appears on the ring, orbits, and stretches into the arc while the
+   track fades in; on UndoSpinner the arc collapses back to the dot and fades as the icon returns.
+   With an outcome (Button.ShowSpinnerOutcome / UndoSpinner(ButtonSpinnerOutcome)) the arc instead
+   closes into a full circle, the track drops away and a check or an x draws in, held, then the whole
+   mark fades and the icon returns.
+
+   Every step is a transition, not a keyframe, so an action that ends mid-way reverses from where the
+   spinner is rather than jumping. The rule a state lands on carries the timings for getting there:
+   .tss-btn-spinning the way in, the base rules the way back, .tss-btn-spin-resolved / -fading the
+   outcome. Everything is drawn in currentColor, so the ring takes the button's tone (ink on a ghost,
+   paper on a filled button) and the button keeps its box. The ring is r = 20 in a 48 box:
+   125.66 around, the arc a quarter of it (31.4), a dot the round cap of a near-zero dash. */
 .tss-btn.tss-btn-has-spin-ring {
+    --tss-btn-spin-ease: cubic-bezier(.22, 1, .36, 1);
     position: relative;
 }
 
-.tss-btn.tss-btn-has-spin-ring > i {
-    transition: transform .22s cubic-bezier(.4, 0, .2, 1), opacity .16s linear;
-}
+    .tss-btn.tss-btn-has-spin-ring > i {
+        transition: opacity .72s var(--tss-btn-spin-ease) .12s, transform .72s var(--tss-btn-spin-ease) .12s;
+    }
 
 .tss-btn > .tss-btn-spin-ring {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 1.4em;
-    height: 1.4em;
-    margin: -.7em 0 0 -.7em;
+    width: 1.5em;
+    height: 1.5em;
+    margin: -.75em 0 0 -.75em;
     pointer-events: none;
-    opacity: 0;
-    transform: scale(.4);
-    transition: transform .26s cubic-bezier(.4, 0, .2, 1), opacity .16s linear;
 }
 
     .tss-btn > .tss-btn-spin-ring > svg {
+        position: absolute;
+        inset: 0;
         display: block;
         width: 100%;
         height: 100%;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .tss-btn > .tss-btn-spin-ring > .tss-btn-spin-orbit {
         animation: tss-btn-spin-rotate .9s linear infinite;
         animation-play-state: paused;
     }
 
-    .tss-btn > .tss-btn-spin-ring circle {
-        fill: none;
-        stroke: currentColor;
-        stroke-width: 2;
-        stroke-linecap: round;
-    }
-
     .tss-btn > .tss-btn-spin-ring .tss-btn-spin-track {
-        opacity: .18;
+        stroke-opacity: .16;
+        opacity: 0;
+        transition: opacity .48s var(--tss-btn-spin-ease);
     }
 
     .tss-btn > .tss-btn-spin-ring .tss-btn-spin-arc {
-        stroke-dasharray: 15 56.55;
-        transform: rotate(-90deg);
-        transform-origin: 50% 50%;
+        opacity: 0;
+        stroke-dasharray: .01 125.65;
+        transition: opacity .48s var(--tss-btn-spin-ease), stroke-dasharray .48s var(--tss-btn-spin-ease);
     }
 
-.tss-btn.tss-btn-spinning {
+    .tss-btn > .tss-btn-spin-ring .tss-btn-spin-mark path {
+        opacity: 0;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        transition: opacity .36s var(--tss-btn-spin-ease);
+    }
+
+/* A: in. Icon out over 840ms, the dot on the ring at once, orbiting; it stretches from 720ms to the
+   quarter arc at 1920ms while the track fades in from 1080ms. */
+.tss-btn.tss-btn-spinning,
+.tss-btn.tss-btn-spin-resolved {
     pointer-events: none;
 }
 
-    .tss-btn.tss-btn-spinning > i {
-        transform: scale(.2);
+    .tss-btn.tss-btn-spinning > i,
+    .tss-btn.tss-btn-spin-resolved > i {
         opacity: 0;
+        transform: scale(.8);
+        transition: opacity .84s var(--tss-btn-spin-ease), transform .84s var(--tss-btn-spin-ease);
     }
 
-    .tss-btn.tss-btn-spinning > .tss-btn-spin-ring {
+    .tss-btn.tss-btn-spinning > .tss-btn-spin-ring > .tss-btn-spin-orbit,
+    .tss-btn.tss-btn-spin-resolved > .tss-btn-spin-ring > .tss-btn-spin-orbit {
+        animation-play-state: running;
+    }
+
+    .tss-btn.tss-btn-spinning > .tss-btn-spin-ring .tss-btn-spin-track {
         opacity: 1;
-        transform: none;
+        transition: opacity .72s var(--tss-btn-spin-ease) 1.08s;
     }
 
-        .tss-btn.tss-btn-spinning > .tss-btn-spin-ring > svg {
-            animation-play-state: running;
-        }
+    .tss-btn.tss-btn-spinning > .tss-btn-spin-ring .tss-btn-spin-arc {
+        opacity: 1;
+        stroke-dasharray: 31.4 94.26;
+        transition: opacity .24s var(--tss-btn-spin-ease), stroke-dasharray 1.2s var(--tss-btn-spin-ease) .72s;
+    }
 
-        .tss-btn.tss-btn-spinning > .tss-btn-spin-ring .tss-btn-spin-arc {
-            animation: tss-btn-spin-open .55s cubic-bezier(.4, 0, .2, 1);
-        }
+/* D and E: resolve. The arc closes into the full circle over 600ms as the track drops away, then the
+   check draws in (540ms) - or the x, one stroke after the other. */
+    .tss-btn.tss-btn-spin-resolved > .tss-btn-spin-ring .tss-btn-spin-track {
+        opacity: 0;
+        transition: opacity .6s var(--tss-btn-spin-ease);
+    }
 
-/* The ghost button would otherwise keep the hover fill it had when it was clicked. */
-.tss-btn.tss-btn-default.tss-btn-spinning {
+    .tss-btn.tss-btn-spin-resolved > .tss-btn-spin-ring .tss-btn-spin-arc,
+    .tss-btn.tss-btn-spin-fading > .tss-btn-spin-ring .tss-btn-spin-arc {
+        opacity: 1;
+        stroke-dasharray: 125.66 0;
+        transition: opacity .24s var(--tss-btn-spin-ease), stroke-dasharray .6s var(--tss-btn-spin-ease);
+    }
+
+    .tss-btn.tss-btn-spin-resolved.tss-btn-spin-success .tss-btn-spin-check,
+    .tss-btn.tss-btn-spin-resolved.tss-btn-spin-error .tss-btn-spin-x {
+        opacity: 1;
+        stroke-dashoffset: 0;
+        transition: opacity 0s linear .54s, stroke-dashoffset .54s var(--tss-btn-spin-ease) .54s;
+    }
+
+    .tss-btn.tss-btn-spin-resolved.tss-btn-spin-error .tss-btn-spin-x2 {
+        transition: opacity 0s linear .78s, stroke-dashoffset .42s var(--tss-btn-spin-ease) .78s;
+    }
+
+/* D and E: back. The closed ring and its mark fade together over 360ms as the icon returns. */
+    .tss-btn.tss-btn-spin-fading > .tss-btn-spin-ring .tss-btn-spin-arc {
+        opacity: 0;
+        transition: opacity .36s var(--tss-btn-spin-ease);
+    }
+
+    .tss-btn.tss-btn-spin-fading.tss-btn-spin-success .tss-btn-spin-check,
+    .tss-btn.tss-btn-spin-fading.tss-btn-spin-error .tss-btn-spin-x {
+        opacity: 0;
+        stroke-dashoffset: 0;
+        transition: opacity .36s var(--tss-btn-spin-ease);
+    }
+
+    .tss-btn.tss-btn-spin-fading > i {
+        transition: opacity .48s var(--tss-btn-spin-ease) .12s, transform .48s var(--tss-btn-spin-ease) .12s;
+    }
+
+/* The ghost button fades out the hover fill it had when it was clicked, as the icon goes. */
+.tss-btn.tss-btn-default.tss-btn-spinning,
+.tss-btn.tss-btn-default.tss-btn-spin-resolved {
     background-color: var(--tss-default-background-color);
 }
 
@@ -192,25 +261,22 @@ a {
     }
 }
 
-@keyframes tss-btn-spin-open {
-    from {
-        stroke-dasharray: 56.55 56.55;
-    }
-
-    to {
-        stroke-dasharray: 15 56.55;
-    }
-}
-
+/* Reduced motion: no scaling and no stretching. The icon and the arc cross-fade, the arc still turns
+   (it is the only sign of work), and an outcome's mark appears whole. */
 @media (prefers-reduced-motion: reduce) {
     .tss-btn.tss-btn-has-spin-ring > i,
-    .tss-btn > .tss-btn-spin-ring {
-        transition: opacity .16s linear;
+    .tss-btn.tss-btn-spinning > i,
+    .tss-btn.tss-btn-spin-resolved > i {
         transform: none;
     }
 
-    .tss-btn.tss-btn-spinning > .tss-btn-spin-ring .tss-btn-spin-arc {
-        animation: none;
+    .tss-btn.tss-btn-spinning > .tss-btn-spin-ring .tss-btn-spin-arc,
+    .tss-btn.tss-btn-spinning > .tss-btn-spin-ring .tss-btn-spin-track {
+        transition: opacity .3s linear;
+    }
+
+    .tss-btn > .tss-btn-spin-ring .tss-btn-spin-mark path {
+        stroke-dasharray: none;
     }
 }
 

@@ -81,7 +81,7 @@ Behaviour:
 - `.WithHotKey(string keys)` — bind a keyboard shortcut.
 - `.Focus()` — move focus to the button.
 
-Spinner control: `.ToSpinner(text)` / `.UndoSpinner()` / `.SpinWhile(Func<Task>)`. An icon-only button given no spinner text spins in place: its icon shrinks into a ring drawn in the button's own colour, and the button keeps its box (no disabled copy, no added border). A button with a label, or a spinner text, is swapped for a spinner box as before.
+Spinner control: `.ToSpinner(text)` / `.UndoSpinner()` / `.SpinWhile(Func<Task>)`. An icon-only button given no spinner text spins in place: its icon fades, a dot appears on a ring drawn in the button's own colour, orbits and stretches into an arc, and collapses back to the icon when the spinner ends. The button keeps its box (no disabled copy, no added border). `.ShowSpinnerOutcome()` makes `OnClickSpinWhile` / `SpinWhile` end it on the result (the ring closes around a check on success, an x when the action throws, then the icon returns); `.UndoSpinner(ButtonSpinnerOutcome.Success | Error | None)` does the same by hand. A button with a label, or a spinner text, is swapped for a spinner box as before and shows no outcome.
 
 ## Example
 
