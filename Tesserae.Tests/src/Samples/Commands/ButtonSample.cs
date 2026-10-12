@@ -39,10 +39,43 @@ namespace Tesserae.Tests.Samples
                         Button().SetText("Disabled").SetIcon(UIcons.Lock).Disabled()
                     ),
                     SampleSubTitle("Loading States"),
-                    HStack().Children(
-                        Button().SetText("Click to Spin").OnClickSpinWhile(async () => await Task.Delay(2000)),
-                        Button().SetText("With Loading Text").OnClickSpinWhile(async () => await Task.Delay(2000), "Processing..."),
+                    TextBlock("OnClickSpinWhile spins the button in place while the action runs: its content fades, a dot appears on a ring where it was, orbits and stretches into the arc, and when the action ends it collapses back to the dot as the content returns. The button keeps its box and its tone, and its tooltip is off while it works. A spinner text sits beside the ring and is ellipsized if it does not fit: the button never changes size, so nothing around it shifts.").MB(8),
+                    HStack().AlignItemsCenter().Children(
+                        Button().SetText("Click to Spin").OnClickSpinWhile(async () => await Task.Delay(2500)),
+                        Button().SetText("With Loading Text").OnClickSpinWhile(async () => await Task.Delay(2500), "Processing..."),
+                        Button().SetText("Sync").OnClickSpinWhile(async () => await Task.Delay(2500), "Synchronising every workspace..."),
+                        Button().SetText("Save").SetIcon(UIcons.Disk).Primary().OnClickSpinWhile(async () => await Task.Delay(2500)),
                         Button().SetText("Error Simulation").OnClickSpinWhile(async () => { await Task.Delay(1000); throw new Exception("Action failed"); }, onError: (b, e) => b.SetText("Try again: " + e.Message).Danger())
+                    ),
+                    SampleSubTitle("Icon-Only Loading States"),
+                    TextBlock("The same spinner on an icon-only button, as a row of download actions in a header uses it.").MB(8),
+                    HStack().AlignItemsCenter().Children(
+                        Button().SetIcon(UIcons.Download).Tooltip("Download").OnClickSpinWhile(async () => await Task.Delay(2500)),
+                        Button().SetIcon(UIcons.FileCode).Tooltip("Download as Markdown").OnClickSpinWhile(async () => await Task.Delay(2500)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF").OnClickSpinWhile(async () => await Task.Delay(2500)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (quick)").OnClickSpinWhile(async () => await Task.Delay(400)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (primary)").Primary().OnClickSpinWhile(async () => await Task.Delay(2500)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (no border)").NoBorder().OnClickSpinWhile(async () => await Task.Delay(2500))
+                    ),
+                    SampleSubTitle("Loading States With an Outcome"),
+                    TextBlock("When the action returns a ButtonSpinnerOutcome the spinner ends on it: the arc closes into a full circle, the track drops away and a check (Success) or an x (Error) draws in, is held for a moment, then fades as the content returns. An action that throws ends on the x. A ghost button draws the mark in green or red; a filled button keeps its text colour for the mark and turns its fill green or red instead. ToSpinner() and UndoSpinner(outcome) do the same by hand.").MB(8),
+                    HStack().AlignItemsCenter().Children(
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (succeeds)").OnClickSpinWhile(() => SucceedAfter(2500)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (fails)").OnClickSpinWhile(() => FailAfter(2500), onError: (b, e) => Toast().Error("Download failed", e.Message)),
+                        Button().SetIcon(UIcons.CloudUpload).Tooltip("Upload (succeeds quickly)").OnClickSpinWhile(() => SucceedAfter(500)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (primary, succeeds)").Primary().OnClickSpinWhile(() => SucceedAfter(2500)),
+                        Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (primary, fails)").Primary().OnClickSpinWhile(() => FailAfter(2500), onError: (b, e) => Toast().Error("Download failed", e.Message))
+                    ),
+                    HStack().AlignItemsCenter().MT(8).Children(
+                        Button().SetText("Publish").OnClickSpinWhile(() => SucceedAfter(2500)),
+                        Button().SetText("Publish").Primary().OnClickSpinWhile(() => SucceedAfter(2500), "Publishing..."),
+                        Button().SetText("Validate").OnClickSpinWhile(async () => { await Task.Delay(2500); return ButtonSpinnerOutcome.Error; }),
+                        Button().SetText("Delete").SetIcon(UIcons.Trash).Danger().OnClickSpinWhile(() => FailAfter(2500), onError: (b, e) => Toast().Error("Delete failed", e.Message)),
+                        Button().SetText("By hand").Var(out var byHand).OnClick(() =>
+                        {
+                            byHand.ToSpinner();
+                            window.setTimeout(_ => byHand.UndoSpinner(ButtonSpinnerOutcome.Success), 2500);
+                        })
                     ),
                     SampleSubTitle("Variations"),
                     HStack().Children(
@@ -83,6 +116,18 @@ namespace Tesserae.Tests.Samples
                     )
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(ActionButtonSample), typeof(SaveButtonSample), typeof(CommandBarSample), typeof(ToggleSample), typeof(DropdownSample), typeof(AIVariantsSample));
+        }
+
+        private static async Task<ButtonSpinnerOutcome> SucceedAfter(int ms)
+        {
+            await Task.Delay(ms);
+            return ButtonSpinnerOutcome.Success;
+        }
+
+        private static async Task<ButtonSpinnerOutcome> FailAfter(int ms)
+        {
+            await Task.Delay(ms);
+            throw new Exception("Rendering failed");
         }
 
         public HTMLElement Render() => _content.Render();
