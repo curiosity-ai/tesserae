@@ -23,7 +23,11 @@ namespace Tesserae
         /// <param name="defaultText">Optional initial value for the input.</param>
         protected Input(string type, string defaultText = null)
         {
-            InnerElement = UI.TextBox(Att("tss-textbox", type: type, value: defaultText));
+            // The initial text is the input's default value - its value attribute - rather than its live value,
+            // so it is in the markup: a form reset restores it, and DeltaComponent, which patches a re-render
+            // into the node already on screen through its attributes, shows the new text. The live value
+            // follows the attribute until the user types or Text is set.
+            InnerElement = UI.TextBox(Att("tss-textbox", type: type, defaultValue: defaultText));
             _errorSpan = Span(Att("tss-textbox-error"));
             _container = Div(Att("tss-textbox-container tss-default-component-margin"), InnerElement, _errorSpan);
 

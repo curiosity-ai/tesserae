@@ -19,7 +19,12 @@ namespace Tesserae
         /// <param name="text">The initial text.</param>
         public TextArea(string text = string.Empty)
         {
-            InnerElement = UI.TextArea(Att("tss-textbox tss-textarea", type: "text", value: text));
+            // The initial text is the text area's default value - its text content - rather than its live
+            // value. A <textarea> has no value attribute, so text set only through the value property is in
+            // no markup: a form reset clears it, and DeltaComponent, which patches a re-render into the node
+            // already on screen through its attributes and children, keeps showing the old text. The live
+            // value follows the default until the user types or SetText is called.
+            InnerElement = UI.TextArea(Att("tss-textbox tss-textarea", defaultValue: text));
             _errorSpan   = Span(Att("tss-textbox-error"));
 
             // tss-textarea-container is a flex column of full height, so the text area fills whatever
