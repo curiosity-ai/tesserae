@@ -49,6 +49,7 @@
       "Tesserae.UIconHelper",
       "Tesserae.UIcons",
       "Tesserae.WeakRef$1",
+      "tss.ActionButton",
       "tss.AnnotatedTextEditor",
       "tss.AnnotatedTextEditor.Entity",
       "tss.Avatar",
