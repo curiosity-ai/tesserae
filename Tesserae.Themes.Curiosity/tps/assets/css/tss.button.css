@@ -124,13 +124,13 @@ body.tss-theme-curiosity .tss-btn-and-icon > .tss-btn.tss-btn-and-icon-icon:hove
 }
 
 /* An icon-only button spinning in place stays the ghost it was at rest: the stone fill it had under the
-   pointer fades out with the icon (the spec's chip, 1440ms), and there is no outline and no press scale.
+   pointer fades out with the icon (as the spec's chip does, at twice its pace), and there is no outline and no press scale.
    The ring and its mark are the glyph's own ink. */
 body.tss-theme-curiosity .tss-btn.tss-btn-default.tss-btn-spinning,
 body.tss-theme-curiosity .tss-btn.tss-btn-default.tss-btn-spin-resolved {
     background-color: transparent;
     border-color: transparent;
-    transition: background-color 1.44s cubic-bezier(.22, 1, .36, 1), border-color 1.44s cubic-bezier(.22, 1, .36, 1);
+    transition: background-color .72s cubic-bezier(.22, 1, .36, 1), border-color .72s cubic-bezier(.22, 1, .36, 1);
 }
 
 body.tss-theme-curiosity .tss-btn.tss-btn-spinning,

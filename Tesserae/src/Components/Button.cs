@@ -420,8 +420,8 @@ namespace Tesserae
 
         // How long an icon-only button holds a resolved check or x before it fades back to its icon, and how long
         // that fade takes. They match the transitions in tss.button.css (the close-and-draw, then the fade).
-        private const int SPIN_RESOLVE_HOLD_MS = 1700;
-        private const int SPIN_RESOLVE_FADE_MS = 600;
+        private const int SPIN_RESOLVE_HOLD_MS = 1000;
+        private const int SPIN_RESOLVE_FADE_MS = 300;
 
         private const string SPIN_CLASSES = "tss-btn-spinning tss-btn-spin-resolved tss-btn-spin-success tss-btn-spin-error tss-btn-spin-fading";
 
