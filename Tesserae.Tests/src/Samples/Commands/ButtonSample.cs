@@ -54,7 +54,7 @@ namespace Tesserae.Tests.Samples
                         Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (primary)").Primary().OnClickSpinWhile(async () => await Task.Delay(2500)),
                         Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (no border)").NoBorder().OnClickSpinWhile(async () => await Task.Delay(2500))
                     ),
-                    TextBlock("ShowSpinnerOutcome() ends it on the result instead: the arc closes into a full circle, the track drops away and a check draws in when the action completes, or an x when it throws, always in green or red: a filled button lets its fill go while the mark shows. The mark is held for a moment, then fades as the icon returns.").MT(16).MB(8),
+                    TextBlock("ShowSpinnerOutcome() ends it on the result instead: the arc closes into a full circle, the track drops away and a check draws in when the action completes, or an x when it throws, in green or red. A filled button keeps its text colour for the mark and turns its fill green or red instead. The mark is held for a moment, then fades as the icon returns.").MT(16).MB(8),
                     HStack().AlignItemsCenter().Children(
                         Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (succeeds)").ShowSpinnerOutcome().OnClickSpinWhile(async () => await Task.Delay(2500)),
                         Button().SetIcon(UIcons.FilePdf).Tooltip("Download as PDF (fails)").ShowSpinnerOutcome().OnClickSpinWhile(async () => { await Task.Delay(2500); throw new Exception("Rendering failed"); }, onError: (b, e) => Toast().Error("Download failed", e.Message)),

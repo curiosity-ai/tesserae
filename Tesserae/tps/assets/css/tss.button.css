@@ -232,33 +232,40 @@ a {
         transition: opacity 0s linear .39s, stroke-dashoffset .21s var(--tss-btn-spin-ease) .39s;
     }
 
-/* The outcome is in its colour on every button: the closing ring and its mark turn the success tone for
-   a check and the danger tone for an x, and keep it while they fade. A filled button (primary, success,
-   danger, or a Background()) lets its fill go while the outcome shows, since green or red on its own
-   tone does not read, and takes it back as the mark fades and the icon returns. The !important is for
-   a Background(), which is an inline style. */
+/* The outcome is in its colour on every button. A ghost (default-tone) button turns the closing ring and
+   its mark the success tone for a check and the danger tone for an x. A filled button (primary, success,
+   danger, or a Background()) keeps its text colour for the mark and turns its fill instead, back to its
+   own tone as the mark fades and the icon returns. The !important is for a Background(), which is an
+   inline style. */
     .tss-btn > .tss-btn-spin-ring {
         transition: color .3s var(--tss-btn-spin-ease);
     }
 
-    .tss-btn.tss-btn-spin-success > .tss-btn-spin-ring {
+    .tss-btn.tss-btn-default.tss-btn-spin-success > .tss-btn-spin-ring {
         color: var(--tss-success-background-color);
     }
 
-    .tss-btn.tss-btn-spin-error > .tss-btn-spin-ring {
+    .tss-btn.tss-btn-default.tss-btn-spin-error > .tss-btn-spin-ring {
         color: var(--tss-danger-background-color);
     }
 
 .tss-btn.tss-btn-spin-resolved:not(.tss-btn-default) {
-    background-color: transparent !important;
-    border-color: transparent !important;
-    box-shadow: none;
     filter: none;
-    transition: background-color .15s linear, border-color .15s linear;
+    transition: background-color .3s var(--tss-btn-spin-ease), border-color .3s var(--tss-btn-spin-ease);
+}
+
+.tss-btn.tss-btn-spin-resolved.tss-btn-spin-success:not(.tss-btn-default) {
+    background-color: var(--tss-success-background-color) !important;
+    border-color: var(--tss-success-background-color) !important;
+}
+
+.tss-btn.tss-btn-spin-resolved.tss-btn-spin-error:not(.tss-btn-default) {
+    background-color: var(--tss-danger-background-color) !important;
+    border-color: var(--tss-danger-background-color) !important;
 }
 
 .tss-btn.tss-btn-spin-fading:not(.tss-btn-default) {
-    transition: background-color .15s linear, border-color .15s linear;
+    transition: background-color .3s var(--tss-btn-spin-ease), border-color .3s var(--tss-btn-spin-ease);
 }
 
 /* D and E: back. The closed ring and its mark fade together over 180ms as the icon returns. */
