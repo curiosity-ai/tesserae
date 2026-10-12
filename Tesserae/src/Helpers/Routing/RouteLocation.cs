@@ -11,18 +11,15 @@ namespace Tesserae
     /// has matched, and in a test. <see cref="RoutePath"/> and <see cref="RouteQuery"/> are the same reads for the address bar.
     /// </summary>
     /// <remarks>
-    /// <para>The path and the query are read independently: the query is parsed the first time a key is asked for, so a question
-    /// about the path never depends on it.</para>
     /// <para>Paths are compared by segment, ignoring case, empty segments and a trailing <c>/</c> - the way the router matches a route.
     /// Query keys and values are case-sensitive. A route <c>:variable</c> is part of the path, not of the query.</para>
     /// <para>A malformed percent escape (<c>?a=%</c>) never throws: the value is kept as it was written.</para>
     /// </remarks>
     [Transpose.Name("tss.RouteLocation")]
-    public sealed class RouteLocation
+    internal sealed class RouteLocation
     {
         private readonly string[]                   _segments;
-        private readonly string                     _queryText;
-        private          Dictionary<string, string> _query;
+        private readonly Dictionary<string, string> _query = new Dictionary<string, string>();
 
         public RouteLocation(string hash)
         {
@@ -32,9 +29,13 @@ namespace Tesserae
             var queryStart = text.IndexOf('?');
             var path       = queryStart >= 0 ? text.Substring(0, queryStart) : text;
 
-            _segments  = SegmentsOf(path);
-            _queryText = queryStart >= 0 ? text.Substring(queryStart + 1) : "";
-            Path       = "#/" + string.Join("/", _segments);
+            _segments = SegmentsOf(path);
+            Path      = "#/" + string.Join("/", _segments);
+
+            if (queryStart >= 0)
+            {
+                ParseQueryInto(text.Substring(queryStart + 1), _query);
+            }
         }
 
         /// <summary>The hash this was made from, exactly as given.</summary>
@@ -44,7 +45,7 @@ namespace Tesserae
         public string Path { get; }
 
         /// <summary>A copy of the query string's keys and values.</summary>
-        internal Parameters Query => new Parameters(new Dictionary<string, string>(QueryPairs));
+        internal Parameters Query => new Parameters(_query);
 
         /// <summary>True when the path is exactly <paramref name="route"/>. The query does not matter.</summary>
         public bool IsExactly(string route) => SameSegments(_segments, new RouteLocation(route)._segments);
@@ -61,25 +62,10 @@ namespace Tesserae
         }
 
         /// <summary>True when the key is in the query, whatever its value (<c>?x</c> and <c>?x=</c> give an empty one).</summary>
-        public bool TryGet(string key, out string value) => QueryPairs.TryGetValue(key, out value);
+        public bool TryGet(string key, out string value) => _query.TryGetValue(key, out value);
 
         /// <summary>The value of the key, <c>""</c> for <c>?x</c> and <c>?x=</c>, null when the key is not in the query.</summary>
-        public string Get(string key) => QueryPairs.TryGetValue(key, out var value) ? value : null;
-
-        private Dictionary<string, string> QueryPairs
-        {
-            get
-            {
-                if (_query is null)
-                {
-                    _query = new Dictionary<string, string>();
-
-                    ParseQueryInto(_queryText, _query);
-                }
-
-                return _query;
-            }
-        }
+        public string Get(string key) => _query.TryGetValue(key, out var value) ? value : null;
 
         // the way the router compares a route's segments (StringComparer has no such member under Transpose)
         private static bool SameSegments(IEnumerable<string> a, IEnumerable<string> b)

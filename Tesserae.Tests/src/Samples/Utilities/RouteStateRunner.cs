@@ -211,34 +211,14 @@ namespace Tesserae.Tests.Samples
                 return B(wasThere) + " \"" + value + "\" | " + afterFirst + " | " + firstText + "; then " + B(again) + ", replaced " + (_replaced - second.Replaced);
             });
 
-            Check(F, "F8", "?knwnerr=x&msg=hello&keep=1", "Consume(\"knwnerr\", \"msg\")", "true | keep=1 | replaced 1", () =>
+            Check(F, "F8", "?knwnerr=x&msg=hello&keep=1", "Update(p => p.Without(\"knwnerr\").Without(\"msg\"), Replace): one-shot keys that belong together", "keep=1 | replaced 1, pushed 0, handlers 0", () =>
             {
                 Arrive("?knwnerr=x&msg=hello&keep=1");
 
                 var mark = new Mark();
-                var any  = RouteQuery.Consume("knwnerr", "msg");
+                RouteQuery.Update(p => p.Without("knwnerr").Without("msg"), QueryHistory.Replace);
 
-                return B(any) + " | " + Query() + " | replaced " + (_replaced - mark.Replaced);
-            });
-
-            Check(F, "F8", "?msg=hello&keep=1", "Consume(\"knwnerr\", \"msg\"), only msg there", "true | keep=1 | replaced 1", () =>
-            {
-                Arrive("?msg=hello&keep=1");
-
-                var mark = new Mark();
-                var any  = RouteQuery.Consume("knwnerr", "msg");
-
-                return B(any) + " | " + Query() + " | replaced " + (_replaced - mark.Replaced);
-            });
-
-            Check(F, "F8", "?keep=1", "Consume(\"knwnerr\", \"msg\"), neither there", "false | keep=1 | replaced 0", () =>
-            {
-                Arrive("?keep=1");
-
-                var mark = new Mark();
-                var any  = RouteQuery.Consume("knwnerr", "msg");
-
-                return B(any) + " | " + Query() + " | replaced " + (_replaced - mark.Replaced);
+                return Query() + " | " + Effects(mark);
             });
 
             Check(F, "F9", "?su=search&query=q", "Set(\"other\", \"1\", Replace): keys that belong to someone else", "su=search&query=q&other=1 | replaced 1, pushed 0, handlers 0", () =>
@@ -328,52 +308,52 @@ namespace Tesserae.Tests.Samples
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(G, "G7", "(no query)", "Update(.., ReplaceFirstThenPush, \"timeFrame\", \"period\"): neither there", "timeFrame=7&period=day | replaced 1, pushed 0, handlers 0", () =>
+            Check(G, "G7", "(no query)", "Update(.., ReplaceFirstThenPush): neither there", "timeFrame=7&period=day | replaced 1, pushed 0, handlers 0", () =>
             {
                 Arrive("");
 
                 var mark = new Mark();
-                RouteQuery.Update(p => p.With("timeFrame", "7").With("period", "day"), QueryHistory.ReplaceFirstThenPush, "timeFrame", "period");
+                RouteQuery.Update(p => p.With("timeFrame", "7").With("period", "day"), QueryHistory.ReplaceFirstThenPush);
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(G, "G7", "?timeFrame=7", "Update(.., ReplaceFirstThenPush, \"timeFrame\", \"period\"): one there", "timeFrame=7&period=day | replaced 1, pushed 0, handlers 0", () =>
+            Check(G, "G7", "?timeFrame=7", "Update(p => p.With(\"period\", \"day\"), ReplaceFirstThenPush): the changed key is new", "timeFrame=7&period=day | replaced 1, pushed 0, handlers 0", () =>
             {
                 Arrive("?timeFrame=7");
 
                 var mark = new Mark();
-                RouteQuery.Update(p => p.With("period", "day"), QueryHistory.ReplaceFirstThenPush, "timeFrame", "period");
+                RouteQuery.Update(p => p.With("period", "day"), QueryHistory.ReplaceFirstThenPush);
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(G, "G7", "?timeFrame=7&period=day", "Update(.., ReplaceFirstThenPush, \"timeFrame\", \"period\"): both there, two keys change, one entry", "timeFrame=30&period=week | replaced 0, pushed 1, handlers 0", () =>
+            Check(G, "G7", "?timeFrame=7&period=day", "Update(.., ReplaceFirstThenPush): both there, two keys change, one entry", "timeFrame=30&period=week | replaced 0, pushed 1, handlers 0", () =>
             {
                 Arrive("?timeFrame=7&period=day");
 
                 var mark = new Mark();
-                RouteQuery.Update(p => p.With("timeFrame", "30").With("period", "week"), QueryHistory.ReplaceFirstThenPush, "timeFrame", "period");
+                RouteQuery.Update(p => p.With("timeFrame", "30").With("period", "week"), QueryHistory.ReplaceFirstThenPush);
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(G, "G8", "?show=a&tab=x", "Update(p => p.With(\"show\", \"b\").Without(\"tab\"), ReplaceFirstThenPush, \"show\")", "show=b | replaced 0, pushed 1, handlers 0", () =>
+            Check(G, "G8", "?show=a&tab=x", "Update(p => p.With(\"show\", \"b\").Without(\"tab\"), ReplaceFirstThenPush)", "show=b | replaced 0, pushed 1, handlers 0", () =>
             {
                 Arrive("?show=a&tab=x");
 
                 var mark = new Mark();
-                RouteQuery.Update(p => p.With("show", "b").Without("tab"), QueryHistory.ReplaceFirstThenPush, "show");
+                RouteQuery.Update(p => p.With("show", "b").Without("tab"), QueryHistory.ReplaceFirstThenPush);
 
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(G, "G8", "(no query)", "Update(p => p.With(\"show\", \"a\").With(\"tab\", \"x\"), ReplaceFirstThenPush, \"show\"): arriving", "show=a&tab=x | replaced 1, pushed 0, handlers 0", () =>
+            Check(G, "G8", "(no query)", "Update(p => p.With(\"show\", \"a\").With(\"tab\", \"x\"), ReplaceFirstThenPush): arriving", "show=a&tab=x | replaced 1, pushed 0, handlers 0", () =>
             {
                 Arrive("");
 
                 var mark = new Mark();
-                RouteQuery.Update(p => p.With("show", "a").With("tab", "x"), QueryHistory.ReplaceFirstThenPush, "show");
+                RouteQuery.Update(p => p.With("show", "a").With("tab", "x"), QueryHistory.ReplaceFirstThenPush);
 
                 return Query() + " | " + Effects(mark);
             });
@@ -399,22 +379,14 @@ namespace Tesserae.Tests.Samples
                 return Query() + " | " + Effects(mark);
             });
 
-            Check(G, "G17", "?show=a", "Update(.., ReplaceFirstThenPush) with no keys; Update(.., Replace, \"show\")", "throws ArgumentException, throws ArgumentException | show=a | replaced 0, pushed 0, handlers 0", () =>
+            Check(G, "G17", "?show=a&tab=", "Set(\"show\", \"b\", ReplaceFirstThenPush): a blank key the write does not change does not matter", "show=b&tab= | replaced 0, pushed 1, handlers 0", () =>
             {
-                Arrive("?show=a");
+                Arrive("?show=a&tab=");
 
                 var mark = new Mark();
+                RouteQuery.Set("show", "b", QueryHistory.ReplaceFirstThenPush);
 
-                string Attempt(Action write)
-                {
-                    try { write(); return "no throw"; }
-                    catch (ArgumentException) { return "throws ArgumentException"; }
-                }
-
-                var noKeys    = Attempt(() => RouteQuery.Update(p => p.With("show", "b"), QueryHistory.ReplaceFirstThenPush));
-                var extraKeys = Attempt(() => RouteQuery.Update(p => p.With("show", "b"), QueryHistory.Replace, "show"));
-
-                return noKeys + ", " + extraKeys + " | " + Query() + " | " + Effects(mark);
+                return Query() + " | " + Effects(mark);
             });
 
             Check(G, "G10", "#/home?preview=a,b&x=1", "ReplacePath(\"#/search\")", "#/search?preview=a%2Cb&x=1 | replaced 1, pushed 0, handlers 0", () =>

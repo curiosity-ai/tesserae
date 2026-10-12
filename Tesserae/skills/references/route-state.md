@@ -1,6 +1,6 @@
 ---
 name: route-state
-description: Read and write the URL as app state - which path the hash is on, which query keys it holds, and what a write does to the browser history. Use when highlighting a nav item from the URL, keeping a tab, filter or open panel in the hash query string, reading a one-shot parameter once, or testing code that parses a hash, in a Tesserae (C#/Transpose) app.
+description: Read and write the URL as app state - which path the hash is on, which query keys it holds, and what a write does to the browser history. Use when highlighting a nav item from the URL, keeping a tab, filter or open panel in the hash query string, or reading a one-shot parameter once, in a Tesserae (C#/Transpose) app.
 ---
 
 # RoutePath / RouteQuery
@@ -64,15 +64,14 @@ to and a write does nothing (a read still works). Pass keys and values unencoded
 |---|---|
 | `Replace` | rewrites the current entry; Back skips over the change |
 | `Push` | adds an entry; Back undoes the change |
-| `ReplaceFirstThenPush` | for a key that picks a tab or a filter: replaces while the key has no value (arriving with no key is not a step to go back over), pushes once it has one, so Back returns to the previous choice; a blank value counts as none |
+| `ReplaceFirstThenPush` | for a key that picks a tab or a filter: replaces while a key the write changes has no value (arriving with no key is not a step to go back over), pushes once they all have one, so Back returns to the previous choice; a blank value counts as none |
 
 | Member | Effect |
 |---|---|
 | `RouteQuery.Set(key, value, history)` | one key |
 | `RouteQuery.Clear(key, history)` | removes one key |
-| `RouteQuery.Update(p => p.With("a", "1").Without("b"), history, params keys)` | several keys in one write, one step back; `Parameters` is immutable, so the lambda returns the result. With `ReplaceFirstThenPush` it pushes only when every key in `keys` already has a value, and `keys` is required; the other modes take no keys. Either mismatch throws `ArgumentException` |
+| `RouteQuery.Update(p => p.With("a", "1").Without("b"), history)` | several keys in one write, one step back; `Parameters` is immutable, so the lambda returns the result. With `ReplaceFirstThenPush` it pushes only when every key the write changes already had a value |
 | `RouteQuery.Consume(key, out value)` | reads a key and removes it, always replacing the entry (an entry that kept the key would ask again on Back); for something that is asked for once (a toast, a dialog) so a refresh or a shared link does not ask again |
-| `RouteQuery.Consume(params keys)` | the same for keys that belong together, removed in one write; true when any was there |
 | `RoutePath.ReplacePath(route)` | moves the address bar to `route`, keeping the query, in place of the current entry; the view stays, no handler runs; true without writing when the path is already `route`; false when a guard refused |
 
 ```csharp
@@ -84,10 +83,13 @@ RouteQuery.Set("preview", id, QueryHistory.Push);   // Back closes it
 RouteQuery.Clear("preview", QueryHistory.Replace);
 
 // Two filters that change together: one step back
-RouteQuery.Update(p => p.With("timeFrame", "30").With("period", "week"), QueryHistory.ReplaceFirstThenPush, "timeFrame", "period");
+RouteQuery.Update(p => p.With("timeFrame", "30").With("period", "week"), QueryHistory.ReplaceFirstThenPush);
 
 // A toast the server asked for in the link, shown once
 if (RouteQuery.Consume("toast", out var toast)) ShowToast(toast);
+
+// One-shot keys that belong together, removed in one write
+RouteQuery.Update(p => p.Without("error").Without("message"), QueryHistory.Replace);
 
 // A page that finds its canonical address once it knows what it shows
 RoutePath.ReplacePath("#/node/" + node.Id);
@@ -96,18 +98,6 @@ RoutePath.ReplacePath("#/node/" + node.Id);
 `ReplacePath` is the one write that changes the path. It is `Router.Replace` underneath, so it asks the
 guard and, like `Push` and `Replace`, moves the router's previous-state record that back-detection reads.
 The query writes deliberately leave that record alone.
-
-## Testing code that parses a hash
-
-`RouteLocation` is a hash read as a plain value: built from any string, it does not look at the browser or the
-router. It has `Path`, `IsExactly`, `IsDescendantOf`, `Get` and `TryGet`, the same reads as above, and the
-query is only parsed when a key is asked for.
-
-```csharp
-var location = new RouteLocation("#/preferences?id=user&preview=x");
-location.IsExactly("#/preferences");   // true
-location.Get("id");                    // "user"
-```
 
 ## Rules worth knowing
 

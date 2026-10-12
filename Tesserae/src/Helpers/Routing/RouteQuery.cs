@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Tesserae
@@ -28,27 +29,17 @@ namespace Tesserae
         public static bool TryGet(string key, out string value) => Current.TryGet(key, out value);
 
         /// <summary>Sets one key, keeping the others. Does nothing when it already has that value.</summary>
-        public static void Set(string key, string value, QueryHistory history) => Write(p => p.With(key, value), history, key);
+        public static void Set(string key, string value, QueryHistory history) => Write(p => p.With(key, value), history);
 
         /// <summary>Removes one key, keeping the others. Does nothing when it is not there.</summary>
-        public static void Clear(string key, QueryHistory history) => Write(p => p.Without(key), history, key);
+        public static void Clear(string key, QueryHistory history) => Write(p => p.Without(key), history);
 
         /// <summary>
         /// Changes several keys in one write, so they are one step back: <c>Update(p => p.With("a", "1").Without("b"), QueryHistory.Replace)</c>.
-        /// <see cref="Parameters"/> is immutable, so the lambda returns the result. <see cref="QueryHistory.ReplaceFirstThenPush"/> needs the keys
-        /// it looks at in <paramref name="keys"/> and pushes only when every one of them already has a value; the other modes take no keys.
+        /// <see cref="Parameters"/> is immutable, so the lambda returns the result. With <see cref="QueryHistory.ReplaceFirstThenPush"/> it pushes
+        /// only when every key the write changes already had a value.
         /// </summary>
-        public static void Update(Func<Parameters, Parameters> update, QueryHistory history, params string[] keys)
-        {
-            if ((history == QueryHistory.ReplaceFirstThenPush) != (keys.Length > 0))
-            {
-                throw new ArgumentException(history == QueryHistory.ReplaceFirstThenPush
-                    ? "QueryHistory.ReplaceFirstThenPush needs the keys whose values decide between replacing and pushing."
-                    : "Keys are only read by QueryHistory.ReplaceFirstThenPush.", nameof(keys));
-            }
-
-            Write(update, history, keys);
-        }
+        public static void Update(Func<Parameters, Parameters> update, QueryHistory history) => Write(update, history);
 
         /// <summary>
         /// For a key that asks for something once (a toast, a dialog): reads it and removes it from the URL, so a refresh or a shared link does not ask again.
@@ -66,30 +57,26 @@ namespace Tesserae
             return found;
         }
 
-        /// <summary>As <see cref="Consume(string, out string)"/> for several keys that belong together, removed in one write. True when any of them was there.</summary>
-        public static bool Consume(params string[] keys)
+        private static void Write(Func<Parameters, Parameters> update, QueryHistory history)
         {
-            var current = Current;
-            var any     = keys.Any(key => current.TryGet(key, out _));
+            var before = Router.GetQueryParameters();
+            var after  = update(before) ?? new Parameters();
 
-            if (any)
-            {
-                Update(p => keys.Aggregate(p, (acc, key) => acc.Without(key)), QueryHistory.Replace);
-            }
-
-            return any;
-        }
-
-        private static void Write(Func<Parameters, Parameters> update, QueryHistory history, params string[] keys)
-        {
             var push = history == QueryHistory.Push
-                    || (history == QueryHistory.ReplaceFirstThenPush && keys.All(key => HasValue(key)));
+                    || (history == QueryHistory.ReplaceFirstThenPush && ChangedKeys(before, after).All(key => HasValue(before, key)));
 
-            Router.ReplaceQueryParameters(update, pushToHistory: push);
+            Router.ReplaceQueryParameters(_ => after, pushToHistory: push);
         }
+
+        private static IEnumerable<string> ChangedKeys(Parameters before, Parameters after)
+        {
+            return before.Keys.Union(after.Keys).Where(key => ValueOf(before, key) != ValueOf(after, key));
+        }
+
+        private static string ValueOf(Parameters parameters, string key) => parameters.TryGetValue(key, out var value) ? value : null;
 
         // a key that is there but empty or blank is "no value yet": writing it for the first time is arriving, not a step to go back over
-        private static bool HasValue(string key) => !string.IsNullOrWhiteSpace(Get(key));
+        private static bool HasValue(Parameters parameters, string key) => !string.IsNullOrWhiteSpace(ValueOf(parameters, key));
     }
 
     /// <summary>What a <see cref="RouteQuery"/> write does to the browser history.</summary>
@@ -103,8 +90,8 @@ namespace Tesserae
         Push,
 
         /// <summary>
-        /// For a key that picks a tab or a filter: replaces the entry while the key has no value yet (arriving with no key is not a step to go
-        /// back over), and adds one once it has a value, so Back returns to the previous choice. A blank value counts as none.
+        /// For a key that picks a tab or a filter: replaces the entry while a key the write changes has no value yet (arriving with no key is
+        /// not a step to go back over), and adds one once they all have one, so Back returns to the previous choice. A blank value counts as none.
         /// </summary>
         ReplaceFirstThenPush,
     }
