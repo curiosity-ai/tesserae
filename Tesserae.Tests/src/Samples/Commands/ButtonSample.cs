@@ -82,7 +82,7 @@ namespace Tesserae.Tests.Samples
                         Button().SetText("Full").Rounded(BorderRadius.Full).Primary()
                     )
                 )).SetTitle("Usage")))
-               .SeeAlso(typeof(ActionButtonSample), typeof(SaveButtonSample), typeof(CommandBarSample), typeof(ToggleSample), typeof(DropdownSample), typeof(AIVariantsSample));
+               .SeeAlso(typeof(SaveButtonSample), typeof(CommandBarSample), typeof(ToggleSample), typeof(DropdownSample), typeof(AIVariantsSample));
         }
 
         public HTMLElement Render() => _content.Render();

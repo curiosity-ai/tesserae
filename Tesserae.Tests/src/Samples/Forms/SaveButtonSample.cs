@@ -69,7 +69,7 @@ namespace Tesserae.Tests.Samples
                    TextBlock("This button verifies using a custom async task."),
                    GetVerifyingWhileButton()
                )).SetTitle("Verifying While")))
-               .SeeAlso(typeof(ButtonSample), typeof(SavingToastSample), typeof(ValidatorSample), typeof(ActionButtonSample));
+               .SeeAlso(typeof(ButtonSample), typeof(SavingToastSample), typeof(ValidatorSample));
         }
 
         private IComponent GetVerifyingWhileButton()

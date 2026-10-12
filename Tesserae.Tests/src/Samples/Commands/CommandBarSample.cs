@@ -33,7 +33,7 @@ namespace Tesserae.Tests.Samples
                         CommandBarItem("Settings", UIcons.Settings).OnClick(() => Toast().Information("Settings clicked"))
                     )
                 )).SetTitle("Usage")))
-               .SeeAlso(typeof(ButtonSample), typeof(ActionButtonSample), typeof(MenuSample), typeof(ContextMenuSample), typeof(OverflowSetSample));
+               .SeeAlso(typeof(ButtonSample), typeof(MenuSample), typeof(ContextMenuSample), typeof(OverflowSetSample));
         }
 
         public HTMLElement Render() => _content.Render();
