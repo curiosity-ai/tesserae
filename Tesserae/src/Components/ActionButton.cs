@@ -1,19 +1,44 @@
-using System;
+﻿using System;
+using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
 {
     /// <summary>
-    /// Kept so code written against the old ActionButton keeps compiling: it is now a <see cref="ButtonAndIcon"/> (split button)
-    /// with the ActionButton method names. New code should use <see cref="UI.ButtonAndIcon"/> directly.
+    /// A display area plus a separate action icon, each with its own click handler.
+    /// Obsolete: use <see cref="ButtonAndIcon"/> (the split button) instead.
     /// </summary>
+    [Obsolete("Use ButtonAndIcon (the split button): the same two click targets, with the tone and disabled state applied to both halves.")]
     [Transpose.Name("tss.ActionButton")]
-    public class ActionButton : ButtonAndIcon
+    public class ActionButton : IComponent, IHasBackgroundColor
     {
+        /// <summary>
+        /// Gets or sets the container.
+        /// </summary>
+        public HTMLDivElement    Container          { get; protected set; }
+        /// <summary>
+        /// Gets or sets the display button.
+        /// </summary>
+        public HTMLDivElement    DisplayButton      { get; protected set; }
+        /// <summary>
+        /// Gets or sets the action btn.
+        /// </summary>
+        public HTMLButtonElement ActionBtn          { get; protected set; }
+        /// <summary>
+        /// Gets or sets the action btn component.
+        /// </summary>
+        public IComponent        ActionBtnComponent { get; protected set; }
+
+        private readonly IComponent  _content;
+        private          HTMLElement _iconSpan;
+
         public delegate void ActionButtonEventHandler<TSender, TEventArgs>(TSender element, TEventArgs e);
 
-        private event ActionButtonEventHandler<HTMLElement, MouseEvent> ClickedAction;
+        protected event ActionButtonEventHandler<HTMLDivElement, MouseEvent>    ClickedDisplay;
+        protected event ActionButtonEventHandler<HTMLDivElement, MouseEvent>    ContextMenuDisplay;
+        protected event ActionButtonEventHandler<HTMLButtonElement, MouseEvent> ClickedAction;
+        protected event ActionButtonEventHandler<HTMLButtonElement, MouseEvent> ContextMenuAction;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -28,10 +53,11 @@ namespace Tesserae
             UIcons       actionIcon        = UIcons.AngleCircleDown,
             string       actionColor       = null,
             TextSize     actionIconSize    = TextSize.Small)
-            : base(textContent, RaiseAction, displayIcon)
+            : this(HStack().Children(Icon(displayIcon, displayIconWeight, displayIconSize, displayColor), TextBlock(textContent).PL(8)),
+                Icon.Transform(actionIcon, actionIconWeight),
+                actionColor,
+                actionIconSize)
         {
-            SetIcon(displayIcon, displayColor ?? "", displayIconSize, displayIconWeight);
-            SetSecondaryIcon(actionIcon, actionColor ?? "", actionIconSize, actionIconWeight);
         }
 
         /// <summary>
@@ -44,11 +70,12 @@ namespace Tesserae
             UIcons       actionIcon       = UIcons.AngleCircleDown,
             string       actionColor      = null,
             TextSize     actionIconSize   = TextSize.Small)
-            : base(textContent, RaiseAction, displayIcon)
+            : this(HStack().Children(Icon(displayIcon), TextBlock(textContent).PL(8)),
+                Icon.Transform(actionIcon, actionIconWeight),
+                actionColor,
+                actionIconSize)
         {
-            SetSecondaryIcon(actionIcon, actionColor ?? "", actionIconSize, actionIconWeight);
         }
-
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
@@ -58,95 +85,173 @@ namespace Tesserae
             UIconsWeight actionIconWeight = UIconsWeight.Regular,
             string       actionColor      = null,
             TextSize     actionIconSize   = TextSize.Small)
-            : base(textContent, RaiseAction)
+            : this(TextBlock(textContent),
+                Icon.Transform(actionIcon, actionIconWeight),
+                actionColor,
+                actionIconSize)
         {
-            Icon = null;
-            SetSecondaryIcon(actionIcon, actionColor ?? "", actionIconSize, actionIconWeight);
         }
 
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
-        /// <param name="actionIcon">The CSS class of the action icon, as returned by <see cref="Tesserae.Icon.Transform(UIcons, UIconsWeight)"/>.</param>
         public ActionButton(
-            IComponent content,
+            IComponent contnent,
             string     actionIcon     = null,
             string     actionColor    = null,
             TextSize   actionIconSize = TextSize.Small)
-            : base(string.Empty, RaiseAction)
         {
-            ReplaceContent(content);
+            if (string.IsNullOrWhiteSpace(actionIcon)) actionIcon = Icon.Transform(UIcons.AngleCircleDown, UIconsWeight.Regular);
 
-            if (string.IsNullOrWhiteSpace(actionIcon))
+            _content = contnent;
+
+            DisplayButton = Div(Att("tss-actionbutton-displaybutton"), _content.Render());
+
+            _iconSpan = I(Att("tss-icon " + actionIcon + " " + actionIconSize));
+
+            if (actionColor is object)
             {
-                SetSecondaryIcon(UIcons.AngleCircleDown, actionColor ?? "", actionIconSize);
+                _iconSpan.SetStyle(s => s.color = actionColor);
             }
-            else
+
+            _iconSpan.dataset["icon"] = actionIcon;
+
+            ActionBtn          = Button(Att("tss-btn-remove-padding tss-actionbutton-actionbtn"), _iconSpan);
+            ActionBtnComponent = Raw(ActionBtn);
+
+            Container = Div(Att("tss-actionbutton-container tss-default-component-margin"), DisplayButton, ActionBtnComponent.Render());
+
+            DisplayButton.addEventListener("click",       @event => ClickedDisplay?.Invoke(DisplayButton, @event.As<MouseEvent>()));
+            DisplayButton.addEventListener("contextmenu", @event => ContextMenuDisplay?.Invoke(DisplayButton, @event.As<MouseEvent>()));
+
+            ActionBtn.addEventListener("click",       @event => ClickedAction?.Invoke(ActionBtn, @event.As<MouseEvent>()));
+            ActionBtn.addEventListener("contextmenu", @event => ContextMenuAction?.Invoke(ActionBtn, @event.As<MouseEvent>()));
+
+        }
+
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
+        public string Background
+        {
+            get => DisplayButton.style.background;
+            set
             {
-                IconButton.Icon = actionIcon + " " + actionIconSize;
-                if (actionColor is object && IconButton.InnerElement.querySelector("i") is HTMLElement icon) icon.style.color = actionColor;
+                DisplayButton.style.background = value;
+                ActionBtn.style.background = value;
+                DisplayButton.UpdateClassIf(!string.IsNullOrWhiteSpace(value), "tss-filter-effects");
+                ActionBtn.UpdateClassIf(!string.IsNullOrWhiteSpace(value), "tss-btn-filter-effects");
             }
         }
 
-        // Static so it can be handed to the base constructor: the split button passes itself back as the first argument.
-        private static void RaiseAction(ButtonAndIcon mainButton, Button iconButton, MouseEvent e)
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
+        public HTMLElement Render()
         {
-            var self = (ActionButton)mainButton;
-            self.ClickedAction?.Invoke(iconButton.InnerElement, e);
+            return Container;
         }
 
         /// <summary>
-        /// Gets the root element of the component.
+        /// Registers a callback invoked when the click display event fires.
         /// </summary>
-        public HTMLElement Container => Render();
-
-        /// <summary>
-        /// Gets the element of the main (display) half.
-        /// </summary>
-        public HTMLElement DisplayButton => InnerElement;
-
-        /// <summary>
-        /// Gets the element of the action (arrow) half.
-        /// </summary>
-        public HTMLElement ActionBtn => IconButton.InnerElement;
-
-        /// <summary>
-        /// Gets the action (arrow) half as a component.
-        /// </summary>
-        public IComponent ActionBtnComponent => IconButton;
-
-        /// <summary>
-        /// Registers a callback invoked when the main (display) half is clicked.
-        /// </summary>
-        public virtual ActionButton OnClickDisplay(ActionButtonEventHandler<HTMLElement, MouseEvent> onClick, bool clearPrevious = true)
+        public virtual ActionButton OnClickDisplay(ActionButtonEventHandler<HTMLDivElement, MouseEvent> onClick, bool clearPrevious = true)
         {
-            OnClick((b, e) => onClick(b.InnerElement, e), clearPrevious);
+            if (ClickedDisplay != null && clearPrevious)
+            {
+                foreach (Delegate d in ClickedDisplay.GetInvocationList())
+                {
+                    ClickedDisplay -= (ActionButtonEventHandler<HTMLDivElement, MouseEvent>)d;
+                }
+            }
+
+            ClickedDisplay += onClick;
+
             return this;
         }
 
         /// <summary>
-        /// Registers a callback invoked when the action (arrow) half is clicked.
+        /// Registers a callback invoked when the click action event fires.
         /// </summary>
-        public virtual ActionButton OnClickAction(ActionButtonEventHandler<HTMLElement, MouseEvent> onClick, bool clearPrevious = true)
+        public virtual ActionButton OnClickAction(ActionButtonEventHandler<HTMLButtonElement, MouseEvent> onClick, bool clearPrevious = true)
         {
-            if (clearPrevious) ClickedAction = null;
+            if (ClickedAction != null && clearPrevious)
+            {
+                foreach (Delegate d in ClickedAction.GetInvocationList())
+                {
+                    ClickedAction -= (ActionButtonEventHandler<HTMLButtonElement, MouseEvent>)d;
+                }
+            }
+
             ClickedAction += onClick;
+
             return this;
         }
 
         /// <summary>
-        /// Configures the action (arrow) half.
+        /// Configures the modify action button on the component.
         /// </summary>
         public ActionButton ModifyActionButton(Action<IComponent> modify)
         {
-            modify(IconButton);
+            modify(ActionBtnComponent);
             return this;
         }
+
+        /// <summary>
+        /// Gets or set whenever button is danger
+        /// </summary>
+        public bool IsDanger
+        {
+            get => DisplayButton.classList.contains("tss-btn-danger");
+            set
+            {
+                if (value)
+                {
+                    DisplayButton.classList.add("tss-btn-danger");
+                    DisplayButton.classList.remove("tss-btn-default", "tss-btn-primary", "tss-btn-success");
+                    ActionBtn.classList.add("tss-btn-danger");
+                    ActionBtn.classList.remove("tss-btn-default", "tss-btn-primary", "tss-btn-success");
+                }
+                else
+                {
+                    DisplayButton.classList.add("tss-btn-default");
+                    DisplayButton.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary");
+                    ActionBtn.classList.add("tss-btn-default");
+                    ActionBtn.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or set whenever button is primary
+        /// </summary>
+        public bool IsPrimary
+        {
+            get => DisplayButton.classList.contains("tss-btn-primary");
+            set
+            {
+                if (value)
+                {
+                    DisplayButton.classList.add("tss-btn-primary");
+                    DisplayButton.classList.remove("tss-btn-default", "tss-btn-success", "tss-btn-danger");
+                    ActionBtn.classList.add("tss-btn-primary");
+                    ActionBtn.classList.remove("tss-btn-default", "tss-btn-success", "tss-btn-danger");
+                }
+                else
+                {
+                    DisplayButton.classList.add("tss-btn-default");
+                    DisplayButton.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary");
+                    ActionBtn.classList.add("tss-btn-default");
+                    ActionBtn.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary");
+                }
+            }
+        }
+
 
         /// <summary>
         /// Styles the component using the primary tone.
         /// </summary>
-        public new ActionButton Primary()
+        public ActionButton Primary()
         {
             IsPrimary = true;
             return this;
@@ -155,7 +260,7 @@ namespace Tesserae
         /// <summary>
         /// Styles the component using the danger tone.
         /// </summary>
-        public new ActionButton Danger()
+        public ActionButton Danger()
         {
             IsDanger = true;
             return this;
@@ -164,10 +269,19 @@ namespace Tesserae
         /// <summary>
         /// Disables the component.
         /// </summary>
-        public new ActionButton Disabled(bool value = true)
+        public ActionButton Disabled(bool value = true)
         {
             IsEnabled = !value;
             return this;
+        }
+
+        /// <summary>
+        /// Gets or sets whenever button is enabled
+        /// </summary>
+        public bool IsEnabled
+        {
+            get => !Container.classList.contains("tss-disabled");
+            set => Container.UpdateClassIfNot(value, "tss-disabled");
         }
     }
 }

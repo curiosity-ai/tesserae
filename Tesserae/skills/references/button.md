@@ -92,9 +92,7 @@ open a menu anchored on `iconButton`. The tone (`.Primary()` / `.Success()` / `.
 `.Disabled()` apply to both halves. `.SetSecondaryIcon(...)` swaps the arrow glyph, `.IconButton`
 exposes the arrow half, and `.ReplaceContent(IComponent)` puts rich content in the main half.
 
-`UI.ActionButton(...)` is kept for existing code: it returns an `ActionButton`, a `ButtonAndIcon`
-with the old names (`.OnClickDisplay`, `.OnClickAction`, `.ModifyActionButton`). Use `ButtonAndIcon`
-in new code.
+`ActionButton` (`action-button.md`) is obsolete: use `ButtonAndIcon` instead.
 
 ```csharp
 ButtonAndIcon("Show Options", (main, arrow, e) =>

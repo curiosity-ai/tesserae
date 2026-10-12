@@ -5,7 +5,8 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     /// <summary>
-    /// A composite button that pairs a label with a leading icon, useful for command-bar and toolbar items.
+    /// A split button: the main half runs the common action (<see cref="Button.OnClick(Action)"/>), the arrow half
+    /// a complementary one, often a menu of alternatives anchored on it.
     /// </summary>
     [Transpose.Name("tss.ButtonAndIcon")]
     public class ButtonAndIcon : Button
@@ -32,11 +33,10 @@ namespace Tesserae
             _parent.appendChild(_arrowButton.Render());
         }
 
-        // The tone and the enabled state belong to the whole split button, so each one is carried to the
-        // arrow half as well. The base constructor can set them before the arrow exists, hence the null checks.
+        // The tone and the enabled state belong to the whole split button, so each one is carried to the arrow half too.
 
         /// <summary>
-        /// Gets or set whenever button is primary
+        /// Gets or sets whether both halves use the primary tone
         /// </summary>
         public override bool IsPrimary
         {
@@ -44,12 +44,12 @@ namespace Tesserae
             set
             {
                 base.IsPrimary = value;
-                if (_arrowButton is object) _arrowButton.IsPrimary = value;
+                _arrowButton.IsPrimary = value;
             }
         }
 
         /// <summary>
-        /// Gets or set whenever button is success
+        /// Gets or sets whether both halves use the success tone
         /// </summary>
         public override bool IsSuccess
         {
@@ -57,12 +57,12 @@ namespace Tesserae
             set
             {
                 base.IsSuccess = value;
-                if (_arrowButton is object) _arrowButton.IsSuccess = value;
+                _arrowButton.IsSuccess = value;
             }
         }
 
         /// <summary>
-        /// Gets or set whenever button is danger
+        /// Gets or sets whether both halves use the danger tone
         /// </summary>
         public override bool IsDanger
         {
@@ -70,12 +70,12 @@ namespace Tesserae
             set
             {
                 base.IsDanger = value;
-                if (_arrowButton is object) _arrowButton.IsDanger = value;
+                _arrowButton.IsDanger = value;
             }
         }
 
         /// <summary>
-        /// Gets or sets whenever button is enabled
+        /// Gets or sets whether both halves are enabled
         /// </summary>
         public override bool IsEnabled
         {
@@ -83,7 +83,7 @@ namespace Tesserae
             set
             {
                 base.IsEnabled = value;
-                if (_arrowButton is object) _arrowButton.IsEnabled = value;
+                _arrowButton.IsEnabled = value;
             }
         }
 
@@ -95,7 +95,7 @@ namespace Tesserae
         /// <summary>
         /// Sets the secondary icon of the component.
         /// </summary>
-        public ButtonAndIcon SetSecondaryIcon(UIcons icon,string color = "", TextSize size = TextSize.Small, UIconsWeight weight = UIconsWeight.Regular)
+        public ButtonAndIcon SetSecondaryIcon(UIcons icon, string color = "", TextSize size = TextSize.Small, UIconsWeight weight = UIconsWeight.Regular)
         {
             _arrowButton.SetIcon(icon, color, size, weight);
             return this;
