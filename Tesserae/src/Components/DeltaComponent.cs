@@ -222,7 +222,19 @@ namespace Tesserae
             if (current is HTMLElement currentElement && next is HTMLElement nextElement)
             {
                 SyncAttributes(currentElement, nextElement);
-                DiffChildren(currentElement, nextElement);
+
+                //A text area's children are its default value, not content to stream into: the span
+                //DiffChildren inserts for text that does not extend what is there is ignored by the text
+                //area, which then shows nothing. The text is copied across whole instead, and the value on
+                //screen follows it unless the user has typed into the text area.
+                if (currentElement.nodeName == "TEXTAREA")
+                {
+                    if (currentElement.textContent != nextElement.textContent) currentElement.textContent = nextElement.textContent;
+                }
+                else
+                {
+                    DiffChildren(currentElement, nextElement);
+                }
             }
 
             return current;
