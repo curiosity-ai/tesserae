@@ -75,13 +75,14 @@ Behaviour:
 
 - `.OnClick((sender, evt) => ...)` or `.OnClick(Action)`.
 - `.OnClickSpinWhile(Func<Task> action, string text = null, ...)` — show a spinner while the async action runs.
+- `.OnClickSpinWhile(Func<Task<ButtonSpinnerOutcome>> action, string text = null, ...)` — the same, ending on the outcome the action returns (a check for `Success`, an x for `Error` or an exception).
 - `.Disabled(bool = true)`.
 - `.AI(bool withSparklesIcon = true, bool strongEffect = false)` — an action that asks a model for something: a filled purple-to-blue gradient, plus the Sparkles glyph unless the button already has an icon. The AI equivalent of `Primary()` — one per surface.
 - `.AISubtle(bool withSparklesIcon = true, bool strongEffect = false)` — the quiet form of the same hue, for the second and third AI action beside it. `strongEffect` asks for the louder AI form a custom theme may draw. See `ai-variants.md`.
 - `.WithHotKey(string keys)` — bind a keyboard shortcut.
 - `.Focus()` — move focus to the button.
 
-Spinner control: `.ToSpinner(text)` / `.UndoSpinner()` / `.SpinWhile(Func<Task>)`. An icon-only button given no spinner text spins in place: its icon fades, a dot appears on a ring drawn in the button's own colour, orbits and stretches into an arc, and collapses back to the icon when the spinner ends. The button keeps its box (no disabled copy, no added border). `.ShowSpinnerOutcome()` makes `OnClickSpinWhile` / `SpinWhile` end it on the result (the ring closes around a check on success, an x when the action throws, green and red on a ghost button; a filled button keeps its text colour for the mark and turns its fill green or red instead; then the icon returns); `.UndoSpinner(ButtonSpinnerOutcome.Success | Error | None)` does the same by hand. A button with a label, or a spinner text, is swapped for a spinner box as before and shows no outcome.
+Spinner control: `.ToSpinner(text)` / `.UndoSpinner()` / `.UndoSpinner(ButtonSpinnerOutcome)` / `.SpinWhile(...)`. Every button spins in place, the "orbiting dot": its content (icon, label) fades, a dot appears on a ring drawn in the button's own colour, orbits and stretches into an arc, and collapses back to the content when the spinner ends. The button keeps its box (its width and height do not change, so nothing around it shifts; a spinner text sits beside the ring and is ellipsized if it does not fit). To end on a result, give `OnClickSpinWhile` / `SpinWhile` an action that returns `Task<ButtonSpinnerOutcome>`: `Success` closes the ring around a check, `Error` (or an exception) around an x, `None` goes straight back. A ghost button draws the mark green or red; a filled button keeps its text colour for the mark and turns its fill green or red instead. `.UndoSpinner(ButtonSpinnerOutcome.Success)` does the same by hand after `.ToSpinner()`.
 
 ## Example
 

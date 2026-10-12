@@ -31,8 +31,7 @@ namespace Tesserae
         // shows the Verifying label. Only the sizer counts towards the width (see tss.button.css), so the button
         // keeps one width across every state and any label wider than "Verifying..." is ellipsized.
         private readonly HTMLElement _icon       = I(Att());
-        private readonly HTMLElement _spinner    = Div(Att("tss-spinner"));
-        private readonly HTMLElement _spinnerBox;
+        private readonly HTMLElement _spinnerBox = Tesserae.Button.CreateSpinRing("tss-btn-spin-ring-live");
         private readonly HTMLElement _label      = Span(Att());
         private readonly HTMLElement _sizerLabel = Span(Att());
 
@@ -53,8 +52,7 @@ namespace Tesserae
         {
             _button = Button().MinWidth(100.px());
             var element = _button.Render();
-            _spinnerBox = SmallSpinner(_spinner);
-            var sizer   = Span(Att("tss-savebtn-face tss-savebtn-sizer"), SmallSpinner(Div(Att("tss-spinner"))), _sizerLabel);
+            var sizer   = Span(Att("tss-savebtn-face tss-savebtn-sizer"), Tesserae.Button.CreateSpinRing("tss-btn-spin-ring-live"), _sizerLabel);
             sizer.setAttribute("aria-hidden", "true");
             element.appendChild(Span(Att("tss-savebtn-faces"), sizer, Span(Att("tss-savebtn-face"), _icon, _spinnerBox, _label)));
             element.addEventListener("mouseenter", (e) =>
@@ -160,7 +158,7 @@ namespace Tesserae
 
             _icon.style.display       = icon.HasValue ? "" : "none";
             _spinnerBox.style.display = icon.HasValue ? "none" : "";
-            _spinner.UpdateClassIf(state == State.Saving, "tss-spinner-success");
+            _spinnerBox.UpdateClassIf(state == State.Saving, "tss-btn-spin-ring-success");
             _label.innerText          = text ?? "";
 
             return this;
@@ -243,7 +241,8 @@ namespace Tesserae
         /// </summary>
         public SaveButton OnClickSpinWhile(Func<Task> action, string text = null, Action<SaveButton, Exception> onError = null)
         {
-            // Not Button.OnClickSpinWhile: its ToSpinner swaps the button for a clone that does not keep this width.
+            // Not Button.OnClickSpinWhile: the saving state is this button's own face (ring and label), not the
+            // button's overlay spinner, and the action decides the state it ends in.
             _button.OnClick((_, e) =>
             {
                 StopEvent(e);
@@ -287,7 +286,5 @@ namespace Tesserae
         /// Renders the component's root HTML element.
         /// </summary>
         public HTMLElement Render() => _button.Render();
-
-        private static HTMLElement SmallSpinner(HTMLElement spinner) => Span(Att("tss-spinner-size-small"), spinner);
     }
 }

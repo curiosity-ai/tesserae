@@ -14,10 +14,9 @@ namespace Tesserae
     {
         private HTMLSpanElement   _textSpan;
         private HTMLElement       _iconSpan;
-        private HTMLElement       _spinner;
-        private HTMLElement       _spinRing;
+        private HTMLElement       _spinOverlay;
+        private HTMLElement       _spinLabel;
         private bool              _isSpinningInPlace;
-        private bool              _showSpinnerOutcome;
         private int               _spinGeneration;
 
         /// <summary>
@@ -364,97 +363,72 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Replaces the button's content with an inline spinner (commonly used while an async action is in progress).
+        /// Shows the button's spinner (commonly used while an async action is in progress). The button spins in
+        /// place: its icon and label fade while a dot appears on a ring where they were, orbits and stretches into
+        /// an arc. Given a <paramref name="text"/>, the ring sits beside that text instead (ellipsized if it does
+        /// not fit). The button keeps its width, height, tone and position throughout.
         /// </summary>
         public void ToSpinner(string text = null)
         {
-            // An icon-only button spins in place: the icon shrinks away and a ring opens where it was, so the button
-            // keeps its own box, tone and position instead of being swapped for a disabled copy.
-            if (string.IsNullOrEmpty(text) && InnerElement.classList.contains("tss-btn-only-icon"))
+            if (_spinOverlay is null)
             {
-                SpinInPlace();
-                return;
-            }
-
-            if (_spinner is null)
-            {
-                var s = (HTMLElement)InnerElement.cloneNode(false);
-                _spinner = s;
-                _spinner.classList.add("tss-btn-nominsize", "tss-disabled");
-                ClearChildren(_spinner);
-                _spinner.appendChild(Spinner(text).Medium().Render());
-
-                if (InnerElement.IsMounted())
-                {
-                    MountSpinner();
-                }
-                else
-                {
-                    DomObserver.WhenMounted(InnerElement, () =>
-                    {
-                        if (_spinner == s)
-                        {
-                            MountSpinner();
-                        }
-                    });
-                }
-            }
-
-            void MountSpinner()
-            {
-                var rect = (DOMRect)InnerElement.getBoundingClientRect();
-
-                if (InnerElement.HasOwnProperty("_tippy"))
-                {
-                    Transpose.Script.Write("{0}._tippy.disable();", InnerElement);
-                }
-
-                // The button's size is a floor, not a fixed box: the spinner label ("Verifying...") is often wider
-                // than the text it replaces, and a pinned width made it spill out of both sides of the button.
-                _spinner.style.height   = rect.height.px().ToString();
-                _spinner.style.minWidth = rect.width.px().ToString();
-
-                InnerElement.parentElement.replaceChild(_spinner, InnerElement);
-            }
-        }
-
-        // How long an icon-only button holds a resolved check or x before it fades back to its icon, and how long
-        // that fade takes. They match the transitions in tss.button.css (the close-and-draw, then the fade).
-        private const int SPIN_RESOLVE_HOLD_MS = 1000;
-        private const int SPIN_RESOLVE_FADE_MS = 300;
-
-        private const string SPIN_CLASSES = "tss-btn-spinning tss-btn-spin-resolved tss-btn-spin-success tss-btn-spin-error tss-btn-spin-fading";
-
-        private void SpinInPlace()
-        {
-            if (_isSpinningInPlace) return;
-
-            if (_spinRing is null)
-            {
-                // r = 20 on a 48 box, as drawn in the spec: the dash lengths in tss.button.css are fractions of its
-                // 125.66 circumference. The mark sits in its own layer so it does not turn with the ring.
-                _spinRing           = Span(Att("tss-btn-spin-ring"));
-                _spinRing.innerHTML = "<svg class=\"tss-btn-spin-orbit\" viewBox=\"0 0 48 48\" aria-hidden=\"true\"><circle class=\"tss-btn-spin-track\" cx=\"24\" cy=\"24\" r=\"20\"/><circle class=\"tss-btn-spin-arc\" cx=\"24\" cy=\"24\" r=\"20\" transform=\"rotate(-90 24 24)\"/></svg>"
-                                    + "<svg class=\"tss-btn-spin-mark\" viewBox=\"0 0 48 48\" aria-hidden=\"true\"><path class=\"tss-btn-spin-check\" pathLength=\"1\" d=\"M16 24.5l5.5 5.5L32 19\"/><path class=\"tss-btn-spin-x tss-btn-spin-x1\" pathLength=\"1\" d=\"M18.5 18.5l11 11\"/><path class=\"tss-btn-spin-x tss-btn-spin-x2\" pathLength=\"1\" d=\"M29.5 18.5l-11 11\"/></svg>";
-                InnerElement.appendChild(_spinRing);
+                _spinLabel   = Span(Att("tss-btn-spin-label"));
+                _spinOverlay = Span(Att("tss-btn-spin"), CreateSpinRing(), _spinLabel);
+                _spinOverlay.setAttribute("aria-hidden", "true");
+                InnerElement.appendChild(_spinOverlay);
                 InnerElement.classList.add("tss-btn-has-spin-ring");
 
                 // Resolve the ring's resting style before it starts spinning, or the first spin has no state to
                 // transition from and the arc appears already stretched.
-                _spinRing.getBoundingClientRect();
+                _spinOverlay.getBoundingClientRect();
             }
 
             _spinGeneration++;
+            _spinLabel.innerText = text ?? "";
+
             _isSpinningInPlace = true;
             RemoveSpinClasses();
             InnerElement.classList.add("tss-btn-spinning");
             InnerElement.setAttribute("aria-busy", "true");
+            PinSpinLabelWidth();
 
             if (InnerElement.HasOwnProperty("_tippy"))
             {
                 Transpose.Script.Write("{0}._tippy.hide(); {0}._tippy.disable();", InnerElement);
             }
         }
+
+        /// <summary>
+        /// The orbiting-dot ring the button spins with: a track and an arc that turn, and a check and an x that
+        /// do not. r = 20 on a 48 box, as drawn in the spec: the dash lengths in tss.button.css are fractions of
+        /// its 125.66 circumference.
+        /// </summary>
+        internal static HTMLElement CreateSpinRing(string extraClass = null)
+        {
+            var ring = Span(Att(extraClass is null ? "tss-btn-spin-ring" : "tss-btn-spin-ring " + extraClass));
+            ring.innerHTML = "<svg class=\"tss-btn-spin-orbit\" viewBox=\"0 0 48 48\" aria-hidden=\"true\"><circle class=\"tss-btn-spin-track\" cx=\"24\" cy=\"24\" r=\"20\"/><circle class=\"tss-btn-spin-arc\" cx=\"24\" cy=\"24\" r=\"20\" transform=\"rotate(-90 24 24)\"/></svg>"
+                           + "<svg class=\"tss-btn-spin-mark\" viewBox=\"0 0 48 48\" aria-hidden=\"true\"><path class=\"tss-btn-spin-check\" pathLength=\"1\" d=\"M16 24.5l5.5 5.5L32 19\"/><path class=\"tss-btn-spin-x tss-btn-spin-x1\" pathLength=\"1\" d=\"M18.5 18.5l11 11\"/><path class=\"tss-btn-spin-x tss-btn-spin-x2\" pathLength=\"1\" d=\"M29.5 18.5l-11 11\"/></svg>";
+            return ring;
+        }
+
+        // The spinner overlays the button rather than replacing its content, so the content holds the button's
+        // width and height and nothing around it moves; a spinner text that does not fit is ellipsized. The text's
+        // width is pinned so an outcome can collapse it (a max-width transition) and centre the mark.
+        private void PinSpinLabelWidth()
+        {
+            _spinLabel.style.maxWidth = "";
+
+            if (string.IsNullOrEmpty(_spinLabel.innerText) || !InnerElement.IsMounted()) return;
+
+            _spinLabel.style.maxWidth = Math.Ceiling(_spinLabel.getBoundingClientRect().As<DOMRect>().width).px().ToString();
+        }
+
+        // How long a resolved check or x is held before it fades back to the button's content, and how long that
+        // fade takes. They match the transitions in tss.button.css (the close-and-draw, then the fade).
+        private const int SPIN_RESOLVE_HOLD_MS = 1000;
+        private const int SPIN_RESOLVE_FADE_MS = 300;
+
+        private const string SPIN_CLASSES = "tss-btn-spinning tss-btn-spin-resolved tss-btn-spin-success tss-btn-spin-error tss-btn-spin-fading";
 
         private void RemoveSpinClasses()
         {
@@ -502,66 +476,23 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Makes <see cref="OnClickSpinWhile(Func{Task}, string, Action{Button, Exception})"/> and
-        /// <see cref="SpinWhile"/> end an icon-only button's spinner on the action's outcome: the ring closes and a
-        /// check draws in when it completes, an x when it throws, then the icon returns. Without it the spinner
-        /// fades straight back to the icon. A button with a label, or a spinner text, has no outcome to show.
-        /// </summary>
-        public Button ShowSpinnerOutcome(bool show = true)
-        {
-            _showSpinnerOutcome = show;
-            return this;
-        }
-
-        /// <summary>
-        /// Ends the spinner started by <see cref="ToSpinner"/> on the given outcome. On an icon-only button
-        /// spinning in place, <see cref="ButtonSpinnerOutcome.Success"/> and <see cref="ButtonSpinnerOutcome.Error"/>
-        /// close the ring around a check or an x before the icon returns; anywhere else it is <see cref="UndoSpinner()"/>.
+        /// Ends the spinner started by <see cref="ToSpinner"/> on the given outcome:
+        /// <see cref="ButtonSpinnerOutcome.Success"/> and <see cref="ButtonSpinnerOutcome.Error"/> close the ring
+        /// around a check or an x before the button's content returns, <see cref="ButtonSpinnerOutcome.None"/> is
+        /// <see cref="UndoSpinner()"/>.
         /// </summary>
         public void UndoSpinner(ButtonSpinnerOutcome outcome)
         {
-            if (_isSpinningInPlace)
-            {
-                EndSpinInPlace(outcome);
-                return;
-            }
-
-            UndoSpinner();
+            if (_isSpinningInPlace) EndSpinInPlace(outcome);
         }
 
         /// <summary>
-        /// Restores the button's original content after <see cref="ToSpinner"/> was used.
+        /// Ends the spinner started by <see cref="ToSpinner"/> and brings the button's content back.
         /// </summary>
-        public void UndoSpinner()
-        {
-            if (_isSpinningInPlace)
-            {
-                EndSpinInPlace(ButtonSpinnerOutcome.None);
-                return;
-            }
-
-            if (_spinner is object && _spinner.IsMounted())
-            {
-                _spinner.parentElement.replaceChild(InnerElement, _spinner);
-
-                if (InnerElement.HasOwnProperty("_tippy"))
-                {
-                    Transpose.Script.Write("{0}._tippy.enable();", InnerElement);
-                }
-            }
-
-            _spinner = null;
-        }
-
-        private ButtonSpinnerOutcome SpinnerOutcomeOf(Exception exception)
-        {
-            if (!_showSpinnerOutcome) return ButtonSpinnerOutcome.None;
-
-            return exception is null ? ButtonSpinnerOutcome.Success : ButtonSpinnerOutcome.Error;
-        }
+        public void UndoSpinner() => UndoSpinner(ButtonSpinnerOutcome.None);
 
         /// <summary>
-        /// Registers a callback invoked when the click spin while event fires.
+        /// Spins while the action runs, then fades back to the button's content.
         /// </summary>
         public Button OnClickSpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
         {
@@ -569,47 +500,62 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Registers a callback invoked when the click spin while event fires.
+        /// Spins while the action runs, then fades back to the button's content.
         /// </summary>
         public Button OnClickSpinWhile(Func<MouseEvent, Task> action, string text = null, Action<Button, Exception> onError = null)
         {
             return OnClick((_, e) =>
             {
                 StopEvent(e);
-
-                Task.Run(async () =>
-                {
-                    Exception innerException = null;
-                    ToSpinner(text);
-
-                    try
-                    {
-                        await action(e);
-                    }
-                    catch (Exception E)
-                    {
-                        innerException = E;
-                        throw;
-                    }
-                    finally
-                    {
-                        UndoSpinner(SpinnerOutcomeOf(innerException));
-
-                        if (innerException is object)
-                        {
-                            if (onError is object)
-                            {
-                                onError(this, innerException);
-                            }
-                            else
-                            {
-                                console.error(innerException);
-                            }
-                        }
-
-                    }
-                }).FireAndForget();
+                Task.Run(() => SpinWhileAsync(async () => { await action(e); return ButtonSpinnerOutcome.None; }, text, onError, ButtonSpinnerOutcome.None)).FireAndForget();
             });
+        }
+
+        /// <summary>
+        /// Spins while the action runs, then ends on the outcome the action returns: a check for
+        /// <see cref="ButtonSpinnerOutcome.Success"/>, an x for <see cref="ButtonSpinnerOutcome.Error"/>, straight
+        /// back for <see cref="ButtonSpinnerOutcome.None"/>. An action that throws ends on the x.
+        /// </summary>
+        public Button OnClickSpinWhile(Func<Task<ButtonSpinnerOutcome>> action, string text = null, Action<Button, Exception> onError = null)
+        {
+            return OnClickSpinWhile((MouseEvent e) => action(), text, onError);
+        }
+
+        /// <summary>
+        /// Spins while the action runs, then ends on the outcome the action returns: a check for
+        /// <see cref="ButtonSpinnerOutcome.Success"/>, an x for <see cref="ButtonSpinnerOutcome.Error"/>, straight
+        /// back for <see cref="ButtonSpinnerOutcome.None"/>. An action that throws ends on the x.
+        /// </summary>
+        public Button OnClickSpinWhile(Func<MouseEvent, Task<ButtonSpinnerOutcome>> action, string text = null, Action<Button, Exception> onError = null)
+        {
+            return OnClick((_, e) =>
+            {
+                StopEvent(e);
+                Task.Run(() => SpinWhileAsync(() => action(e), text, onError, ButtonSpinnerOutcome.Error)).FireAndForget();
+            });
+        }
+
+        private async Task SpinWhileAsync(Func<Task<ButtonSpinnerOutcome>> action, string text, Action<Button, Exception> onError, ButtonSpinnerOutcome outcomeOnError)
+        {
+            ToSpinner(text);
+
+            ButtonSpinnerOutcome outcome;
+
+            try
+            {
+                outcome = await action();
+            }
+            catch (Exception e)
+            {
+                UndoSpinner(outcomeOnError);
+
+                if (onError is object) onError(this, e);
+                else                   console.error(e);
+
+                throw;
+            }
+
+            UndoSpinner(outcome);
         }
 
         /// <summary>
@@ -631,42 +577,21 @@ namespace Tesserae
         });
 
         /// <summary>
-        /// Runs the given async action while showing an inline spinner on the button. Restores the original button content on completion (or on error, optionally invoking the supplied error handler).
+        /// Runs the given async action while the button spins, then fades back to the button's content (also on
+        /// error, optionally invoking the supplied error handler).
         /// </summary>
         public void SpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
         {
-            Task.Run(async () =>
-            {
-                Exception innerException = null;
-                ToSpinner(text);
+            Task.Run(() => SpinWhileAsync(async () => { await action(); return ButtonSpinnerOutcome.None; }, text, onError, ButtonSpinnerOutcome.None)).FireAndForget();
+        }
 
-                try
-                {
-                    await action();
-                }
-                catch (Exception e)
-                {
-                    innerException = e;
-                    throw;
-                }
-                finally
-                {
-                    UndoSpinner(SpinnerOutcomeOf(innerException));
-
-                    if (innerException is object)
-                    {
-                        if (onError is object)
-                        {
-                            onError(this, innerException);
-                        }
-                        else
-                        {
-                            console.error(innerException);
-                        }
-                    }
-
-                }
-            }).FireAndForget();
+        /// <summary>
+        /// Runs the given async action while the button spins, then ends on the outcome it returns (an x if it
+        /// throws, optionally invoking the supplied error handler).
+        /// </summary>
+        public void SpinWhile(Func<Task<ButtonSpinnerOutcome>> action, string text = null, Action<Button, Exception> onError = null)
+        {
+            Task.Run(() => SpinWhileAsync(action, text, onError, ButtonSpinnerOutcome.Error)).FireAndForget();
         }
 
         /// <summary>
