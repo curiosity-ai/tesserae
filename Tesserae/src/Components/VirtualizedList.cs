@@ -14,11 +14,11 @@ namespace Tesserae
     public class VirtualizedList : IComponent
     {
         private const int PagesToVirtualize    = 5;
+        private const int PagesAbove           = PagesToVirtualize / 2;
+        private const int PagesBelow           = PagesToVirtualize - PagesToVirtualize / 2;
         private const int InitialPagesToCreate = 2;
 
         private readonly ListPageCache<IComponent> _listPageCache;
-        private readonly int                       _pagesToVirtualizeUpperBoundary;
-        private readonly int                       _pagesToVirtualizeLowerBoundary;
         private readonly string                    _componentHeightInPercentage;
         private readonly string                    _componentWidthInPercentage;
         private readonly HTMLElement               _innerElement;
@@ -50,9 +50,6 @@ namespace Tesserae
             }
 
             _listPageCache = new ListPageCache<IComponent>(rowsPerPage, columnsPerRow, CreatePageHtmlElement, CreateComponentContainerHtmlElement);
-
-            _pagesToVirtualizeUpperBoundary = (int)Floor((double)PagesToVirtualize   / 2);
-            _pagesToVirtualizeLowerBoundary = (int)Ceiling((double)PagesToVirtualize / 2);
 
             _componentHeightInPercentage = (100 / rowsPerPage).percent().ToString();
             _componentWidthInPercentage  = (100 / columnsPerRow).percent().ToString();
@@ -184,8 +181,8 @@ namespace Tesserae
                 _basicListContainer.removeChild(rendered[i]);
             }
 
-            var firstPage = Max(1, centerPage - _pagesToVirtualizeLowerBoundary + 1);
-            var lastPage  = Min(_listPageCache.PagesCount, centerPage + _pagesToVirtualizeUpperBoundary);
+            var firstPage = Max(1, centerPage - PagesBelow + 1);
+            var lastPage  = Min(_listPageCache.PagesCount, centerPage + PagesAbove);
 
             for (var pageNumber = firstPage; pageNumber <= lastPage; pageNumber++)
             {

@@ -217,14 +217,9 @@ namespace Tesserae
             {
                 cachedSizes.Clear();
 
-                for (uint i = 0; i < childContainer.childElementCount; i++)
-                {
-                    var child = (HTMLElement)childContainer.children[i];
-                    child.classList.remove(collapseClass);
-                }
+                foreach (HTMLElement child in childContainer.children) child.classList.remove(collapseClass);
 
-                var rect = (DOMRect)childContainer.getBoundingClientRect();
-                cachedFullWidth = rect.width;
+                cachedFullWidth = ((DOMRect)childContainer.getBoundingClientRect()).width;
             }
 
             foreach (HTMLElement child in childContainer.children)

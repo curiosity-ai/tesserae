@@ -139,7 +139,7 @@ namespace Tesserae
                                         }
 
                                         _searchBox.Show();
-                                        RecomputeVisibleVirtualItems();
+                                        _virtualWindow.Recompute();
                                     }
                                 }).FireAndForget();
                             }
@@ -182,7 +182,7 @@ namespace Tesserae
                                 _searchBox.Collapse();
                             }
 
-                            window.setTimeout((_) => RecomputeVisibleVirtualItems(), 1);
+                            window.setTimeout((_) => _virtualWindow.Recompute(), 1);
 
                             return _list.S();
                         }
@@ -291,14 +291,12 @@ namespace Tesserae
         {
             _virtualizedItemHeight = itemHeight;
             var container = _defered.Render();
-            container.parentElement.addEventListener("scroll", (e) => RecomputeVisibleVirtualItems());
-            container.parentElement.addEventListener("resize", (e) => RecomputeVisibleVirtualItems());
+            container.parentElement.addEventListener("scroll", (e) => _virtualWindow.Recompute());
+            container.parentElement.addEventListener("resize", (e) => _virtualWindow.Recompute());
             _defered.Refresh();
-            RecomputeVisibleVirtualItems();
+            _virtualWindow.Recompute();
             return this;
         }
-
-        private void RecomputeVisibleVirtualItems() => _virtualWindow.Recompute();
 
         /// <summary>
         /// Renders the component's root HTML element.

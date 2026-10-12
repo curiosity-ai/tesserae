@@ -87,7 +87,7 @@ namespace Tesserae
                             }
 
                             AddGroupedItems(filteredItems, _list.Items, isGrid: (columns is object && columns.Length > 1));
-                            window.setTimeout((_) => RecomputeVisibleVirtualItems(), 1);
+                            window.setTimeout((_) => _virtualWindow.Recompute(), 1);
                             return _list.S();
                         }
                     )
@@ -181,13 +181,11 @@ namespace Tesserae
             _virtualizedItemHeight = itemHeight;
             _defered.Refresh();
             var container = _defered.Render();
-            container.parentElement.addEventListener("scroll", (e) => RecomputeVisibleVirtualItems());
-            container.parentElement.addEventListener("resize", (e) => RecomputeVisibleVirtualItems());
-            RecomputeVisibleVirtualItems();
+            container.parentElement.addEventListener("scroll", (e) => _virtualWindow.Recompute());
+            container.parentElement.addEventListener("resize", (e) => _virtualWindow.Recompute());
+            _virtualWindow.Recompute();
             return this;
         }
-
-        private void RecomputeVisibleVirtualItems() => _virtualWindow.Recompute();
 
         /// <summary>
         /// Renders the component's root HTML element.

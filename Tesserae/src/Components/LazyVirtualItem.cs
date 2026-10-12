@@ -65,9 +65,7 @@ namespace Tesserae
         private readonly Func<HTMLElement> _container;
         private readonly Func<UnitSize>    _itemHeight;
         private readonly List<LazyVirtualItem> _items;
-        private double _timeout = 0;
-        private double _viewportMinTop = 0;
-        private double _viewportMaxTop = 0;
+        private double _timeout, _viewportMinTop, _viewportMaxTop;
 
         public LazyVirtualWindow(Func<HTMLElement> container, Func<UnitSize> itemHeight, List<LazyVirtualItem> items)
         {
@@ -115,8 +113,7 @@ namespace Tesserae
 
             for (int i = 0; i < _items.Count; i++)
             {
-                bool isVisible = (i >= startIndex && i <= endIndex);
-                _items[i].UpdateVisibility(isVisible);
+                _items[i].UpdateVisibility(i >= startIndex && i <= endIndex);
             }
 
             _viewportMinTop = startIndex * itemH;
