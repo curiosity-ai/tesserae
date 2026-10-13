@@ -1,11 +1,13 @@
 ---
 name: save-button
-description: A Button variant that drives itself through save states (pending, verifying, saving, saved, error) with matching icon, colour, and spinner (the same orbiting-dot ring as Button: blue while verifying, green while saving). Use when wiring an async save action to a single button in a Tesserae (C#/Transpose) app.
+description: A Button variant that drives itself through save states (pending, verifying, saving, saved, error) with matching icon, colour, and spinner (the same orbiting-dot ring as Button: blue while verifying, green while saving, closing into a check when saved or an x on error). Use when wiring an async save action to a single button in a Tesserae (C#/Transpose) app.
 ---
 
 # SaveButton
 
 A button that encapsulates the visual states of a save operation. Click handlers only fire while the button is in `PendingSave`.
+
+The spinner is Button's orbiting-dot ring. `Saved` and `Error` keep it: the arc closes into a full circle and a check (or an x) draws in, in the button's text colour on its success (or danger) fill.
 
 The button keeps one width in every state: it is sized by its Verifying label (spinner + `verifying` text, "Verifying..." by default), so it does not resize as it moves through a save. Any label or `message` wider than that is ellipsized; configure a longer `verifying:` text to make the button wider.
 
