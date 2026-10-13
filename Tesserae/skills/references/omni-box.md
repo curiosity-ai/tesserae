@@ -44,7 +44,7 @@ OmniBox:
   header) — the box still switches through `.ActiveMode`.
 - `.SetChatHeader(IComponent)` — replace (or clear, with `null`) whatever sits above the chat input.
 - `.RegisterSnap(SnapHandler)` / `.RegisterFilterSnap(FilterSnapHandler)` — turn recognized input into inline filter chips (search modes only).
-- `.AddFilterSnap(FilterSnapHandler, value, trigger = null)` / `.ClearSnaps()` — add or drop active filter chips in code, to open the box already filtered.
+- `.AddSnap(SnapHandler)` / `.AddFilterSnap(FilterSnapHandler, value, trigger = null)` / `.ClearSnaps()` — add or drop active snap and filter chips in code, to open the box already filtered (`AddSnap` skips a snap that is already active).
 - `.WithHistory(Func<Task<SearchQuery[]>>)` — enable the history button.
 - `.WithHelp(bool showSyntax = false)` — a `?` button opening a panel that lists the registered filter
   snaps and snaps (with their example values); `showSyntax: true` also documents `AND` / `OR` / `NOT`,
