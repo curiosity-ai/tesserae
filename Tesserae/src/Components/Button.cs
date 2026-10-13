@@ -129,10 +129,16 @@ namespace Tesserae
             get => _iconSpan?.className;
             set
             {
-                if (string.IsNullOrEmpty(value) && _iconSpan != null)
+                if (string.IsNullOrEmpty(value))
                 {
-                    InnerElement.removeChild(_iconSpan);
-                    _iconSpan = null;
+                    // Clearing must not fall through to the creation branch below when there is no
+                    // span yet: that used to build one with a null class, leaving ClearIcon() holding
+                    // a span its own removal then detached, so the next clear threw NotFoundError.
+                    if (_iconSpan != null)
+                    {
+                        InnerElement.removeChild(_iconSpan);
+                        _iconSpan = null;
+                    }
 
                     InnerElement.classList.remove("tss-btn-only-icon");
 
@@ -779,13 +785,6 @@ namespace Tesserae
         public Button ClearIcon()
         {
             Icon = null;
-
-            if (_iconSpan is object)
-            {
-                _iconSpan.style.color = null;
-
-                InnerElement.removeChild(_iconSpan);
-            }
             return this;
         }
 
