@@ -28,7 +28,7 @@ namespace Tesserae
     /// </para>
     /// </summary>
     [Transpose.Name("tss.InlineLabel")]
-    public class InlineLabel : ComponentBase<InlineLabel, HTMLAnchorElement>, ISkipsRedundantTooltip
+    public class InlineLabel : ComponentBase<InlineLabel, HTMLAnchorElement>
     {
         /// <summary>
         /// The element properties the last tooltip check is remembered under: what it was asked about (the
@@ -234,7 +234,7 @@ namespace Tesserae
         /// else - the date behind "2 days ago", what a code stands for, the words a mark on its own stands
         /// for - is never redundant, however much room the label has.
         /// </summary>
-        bool ISkipsRedundantTooltip.IsTooltipRedundant(string tooltipText)
+        internal bool IsTooltipRedundant(string tooltipText)
         {
             if (string.IsNullOrWhiteSpace(Text)) return false;
 
