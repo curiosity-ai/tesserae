@@ -11,7 +11,7 @@ namespace Tesserae
     /// </summary>
     /// <remarks>
     /// <para>Reads come from <see cref="Router.CurrentHash"/>, so they work before the first route has matched.</para>
-    /// <para>Writes go through <see cref="Router.ReplaceQueryParameters"/>: only the query segment changes, every other key is kept, no route
+    /// <para>Writes change only the query segment of the hash: every other key is kept, no route
     /// handler runs, <see cref="Router.OnNavigated"/> does not fire and the back-button guard is not asked. Every write but <c>Consume</c> takes a
     /// <see cref="QueryHistory"/>: whether it adds a history entry is the caller's decision, never a default. Before the first route has matched
     /// there is nothing to write to and they do nothing.</para>
@@ -65,7 +65,7 @@ namespace Tesserae
             var push = history == QueryHistory.Push
                     || (history == QueryHistory.ReplaceFirstThenPush && ChangedKeys(before, after).All(key => HasValue(before, key)));
 
-            Router.ReplaceQueryParameters(_ => after, pushToHistory: push);
+            Router.UpdateQuery(_ => after, pushToHistory: push);
         }
 
         private static IEnumerable<string> ChangedKeys(Parameters before, Parameters after)

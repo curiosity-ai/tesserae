@@ -53,7 +53,7 @@ is not turned into a space. A malformed percent escape (`?a=%`) never throws; th
 
 ## Writing
 
-Every query write goes through `Router.ReplaceQueryParameters`: only the query segment changes, every other key
+Every query write changes only the query segment of the hash: every other key
 stays, **no route handler runs**, `Router.OnNavigated` does not fire and `OnBeforeNavigate` is not asked.
 A write that changes nothing does nothing. Before the first route has matched there is nothing to anchor
 to and a write does nothing (a read still works). Pass keys and values unencoded; they are URI-encoded once on write.

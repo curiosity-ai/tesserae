@@ -6,8 +6,7 @@ namespace Tesserae
     /// <summary>
     /// A route's parameters: its <c>:variables</c> and its query string. Immutable: <see cref="With"/> and <see cref="Without"/> return a
     /// new instance and leave this one as it was, so a handler or a <see cref="Router.GetQueryParameters"/> caller holding one cannot change
-    /// the router's state, or anyone else's copy, by accident. To change the URL, write through <see cref="RouteQuery"/> or
-    /// <see cref="Router.ReplaceQueryParameters"/>.
+    /// the router's state, or anyone else's copy, by accident. To change the URL, write through <see cref="RouteQuery"/>.
     /// </summary>
     [Transpose.Name("tss.Parameters")]
     public sealed class Parameters

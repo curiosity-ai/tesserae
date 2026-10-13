@@ -148,7 +148,7 @@ namespace Tesserae
 
         // Push/Replace bypass route matching, so derive the state's Path and Parameters from the pushed
         // path itself - otherwise GetQueryParameters would keep returning the previous route's values and
-        // the next SetQueryParameters would resurrect them into the URL.
+        // the next query write would resurrect them into the URL.
         private static State StateFromPath(string fullPath)
         {
             var hashIndex  = fullPath.IndexOf('#');
@@ -168,11 +168,18 @@ namespace Tesserae
 
         /// <summary>
         /// The current route's parameters: its <c>:variables</c> and its query string. <see cref="Parameters"/> is immutable, so
-        /// nothing done with the result changes the URL - use <see cref="SetQueryParameters"/> or <see cref="ReplaceQueryParameters"/> for that.
+        /// nothing done with the result changes the URL - use <see cref="RouteQuery"/> for that.
         /// </summary>
         public static Parameters GetQueryParameters() => _currentState?.Parameters ?? new Parameters();
 
-        public static void SetQueryParameters(Parameters parameters, bool pushToHistory)
+        [Obsolete("Use RouteQuery.Update(_ => parameters, QueryHistory.Push) for pushToHistory: true, QueryHistory.Replace for false.")]
+        public static void SetQueryParameters(Parameters parameters, bool pushToHistory) => WriteQuery(parameters, pushToHistory);
+
+        [Obsolete("Use RouteQuery.Update(updateFn, QueryHistory.Push) for pushToHistory: true, QueryHistory.Replace for false. RouteQuery.Set and Clear write one key.")]
+        public static void ReplaceQueryParameters(Func<Parameters, Parameters> updateFn, bool pushToHistory) => UpdateQuery(updateFn, pushToHistory);
+
+        // The one query write: RouteQuery's writes and the obsolete public pair above all end here
+        private static void WriteQuery(Parameters parameters, bool pushToHistory)
         {
             if (_currentState is null)
             {
@@ -242,7 +249,7 @@ namespace Tesserae
             }
         }
 
-        public static void ReplaceQueryParameters(Func<Parameters, Parameters> updateFn, bool pushToHistory)
+        internal static void UpdateQuery(Func<Parameters, Parameters> updateFn, bool pushToHistory)
         {
             if (_currentState is null)
             {
@@ -258,7 +265,7 @@ namespace Tesserae
                 // Nothing to do
                 return;
             }
-            SetQueryParameters(newParameters, pushToHistory);
+            WriteQuery(newParameters, pushToHistory);
         }
 
         /// <summary>
@@ -502,7 +509,7 @@ namespace Tesserae
                 if (!r.IsMatch(parts, par))
                     continue;
 
-                // What the path captured, before the query is merged in: SetQueryParameters leaves these out of the query it writes
+                // What the path captured, before the query is merged in: WriteQuery leaves these out of the query it writes
                 var routeVariables = new Dictionary<string, string>(par);
 
                 if (p.Length > 1)

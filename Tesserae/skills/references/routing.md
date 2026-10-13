@@ -41,21 +41,21 @@ Reflect view state (open panel, selected tab, filters) in the URL's query
 segment so it survives refresh and can be shared as a deep link. Prefer
 `RouteQuery` (`route-state.md`) for reading and writing it: `Get`/`TryGet`, `Set`/`Clear`/`Update`,
 `Consume` for one-shot keys, `QueryHistory.ReplaceFirstThenPush` for tabs, and `RoutePath.IsExactly`/`IsDescendantOf` to ask
-where the page is. The members below are what it is built on:
+where the page is. Underneath:
 
 - `Parameters` is **immutable**: `.With(key, value)` and `.Without(key)` return a
   new instance and leave the original alone. There is no `Remove` and no `Clone`,
   so nothing done to a `Parameters` can reach the URL by accident.
 - `Router.GetQueryParameters()` — the current `Parameters` (route `:variables`
   and query keys).
-- `Router.ReplaceQueryParameters(p => p.With("preview", id), pushToHistory: false)` — apply the update,
-  rewrite only the hash's query segment; no-ops when nothing changed. Use
-  `.Without(key)` to clear. Return the result: the lambda's return value is what
-  gets written. The route handler is **not** re-invoked — the URL
-  updates silently under the running view. `pushToHistory` is required: `false`
-  is `replaceState` (no history entry), `true` adds one. It does nothing before the
-  first route has matched. A route's `:variables` are not written into the query
-  (`#/node/abc?k=v`, not `?uid=abc&k=v`).
+- `Router.SetQueryParameters` and `Router.ReplaceQueryParameters` are **obsolete**:
+  `RouteQuery.Update(p => p.With("preview", id), QueryHistory.Replace)` is the same
+  write (`QueryHistory.Push` for `pushToHistory: true`), and `RouteQuery.Set`/`Clear`
+  write one key. A query write rewrites only the hash's query segment and no-ops when
+  nothing changed. The route handler is **not** re-invoked — the URL updates silently
+  under the running view. It does nothing before the first route has matched. A
+  route's `:variables` are not written into the query (`#/node/abc?k=v`, not
+  `?uid=abc&k=v`).
 - On the next navigation or page load the keys arrive in the handler's
   `Parameters` — restore the state from there.
 - `Push`/`Replace` re-derive the current `Parameters` from the path you pass,

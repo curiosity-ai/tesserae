@@ -69,21 +69,20 @@ Navigate with a query string:
 
 ## Reflecting view state in the query string
 
-Views can round-trip their state (open panels, selected tabs, filters) through the URL and get shareable, refresh-safe deep links. Use `RouteQuery` for this (see below); it is built on these `Router` members:
+Views can round-trip their state (open panels, selected tabs, filters) through the URL and get shareable, refresh-safe deep links. Use `RouteQuery` for this (see below). On `Router`:
 
 - `Router.GetQueryParameters()` returns the current `Parameters` (path captures plus query keys).
-- `Router.SetQueryParameters(parameters, pushToHistory)` rewrites only the query segment of the hash, leaving the route path and everything before the `#` untouched.
-- `Router.ReplaceQueryParameters(update, pushToHistory)` passes the current parameters to your update, writes what it returns, and does nothing when nothing changed.
+- `Router.SetQueryParameters` and `Router.ReplaceQueryParameters` are obsolete. `RouteQuery.Update(update, QueryHistory.Push)` replaces `pushToHistory: true`, and `QueryHistory.Replace` replaces `false`.
 
 ```csharp
 // Reflect an opened detail panel in the URL:
-Router.ReplaceQueryParameters(p => p.With("preview", id), pushToHistory: true);
+RouteQuery.Set("preview", id, QueryHistory.Push);
 
 // And remove it again when the panel closes:
-Router.ReplaceQueryParameters(p => p.Without("preview"), pushToHistory: false);
+RouteQuery.Clear("preview", QueryHistory.Replace);
 ```
 
-Both update the URL **silently**: the registered route handler is not re-invoked, `OnNavigated` does not fire and the guard is not asked, so the view that wrote the state keeps running undisturbed. `pushToHistory` has no default, so every write says what Back does: `false` rewrites the URL in place (`replaceState`, no history entry), `true` adds a history entry. On the next full navigation or page load the keys come back through the handler's `Parameters`, which is where the view should restore the state from. Before the first route has matched there is no URL to anchor to, and both do nothing.
+A query write rewrites only the query segment of the hash, leaving the route path and everything before the `#` untouched, and does nothing when nothing changed. It updates the URL **silently**: the registered route handler is not re-invoked, `OnNavigated` does not fire and the guard is not asked, so the view that wrote the state keeps running undisturbed. `QueryHistory` has no default, so every write says what Back does: `Replace` rewrites the URL in place (`replaceState`, no history entry), `Push` adds a history entry. On the next full navigation or page load the keys come back through the handler's `Parameters`, which is where the view should restore the state from. Before the first route has matched there is no URL to anchor to, and a write does nothing.
 
 A route's `:variables` are not written into the query: on `#/node/:uid`, a write gives `#/node/abc?k=v`, not `#/node/abc?uid=abc&k=v`.
 
