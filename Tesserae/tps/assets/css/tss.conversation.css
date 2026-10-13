@@ -1,0 +1,560 @@
+/* Conversation - an issue-style thread of comment cards and one-line events on a vertical rail.
+
+   The rail is drawn by each item wrapper (.tss-conversation-item::before) rather than by the list, so it runs
+   under every item and on into the gap above the composer, and a component added as an item gets it without
+   doing anything. Comment cards are opaque and sit above it; an event's icon is a disc with a ring of the page
+   background that cuts the rail where it sits. Rail and icon share one centre line: 21px from the left edge. */
+
+.tss-conversation {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    font-size: var(--tss-font-size-small);
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-conversation-items {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.tss-conversation-item {
+    position: relative;
+    min-width: 0;
+    padding-bottom: 16px;
+}
+
+    .tss-conversation-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 20px;
+        width: 2px;
+        background: var(--tss-default-border-color);
+    }
+
+    .tss-conversation-item > * {
+        position: relative;
+    }
+
+.tss-conversation-item-event {
+    padding-bottom: 12px;
+}
+
+/* Comment */
+
+.tss-conversation-comment {
+    min-width: 0;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md, 6px);
+    background: var(--tss-default-background-color);
+}
+
+.tss-conversation-comment-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    box-sizing: border-box;
+    padding: 6px 8px 6px 10px;
+    background: var(--tss-secondary-background-color);
+    border-bottom: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md, 6px) var(--tss-border-radius-md, 6px) 0 0;
+}
+
+.tss-conversation-comment-avatar {
+    display: inline-flex;
+    flex: none;
+}
+
+    .tss-conversation-comment-avatar .tss-avatar {
+        width: 24px;
+        height: 24px;
+    }
+
+.tss-conversation-comment-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 4px;
+    flex: 1 1 auto;
+    min-width: 0;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-conversation-comment-author {
+    font-weight: var(--tss-font-weight-semibold);
+    color: var(--tss-default-foreground-color);
+    overflow-wrap: anywhere;
+}
+
+.tss-conversation-comment-time[title],
+.tss-conversation-comment-edited[title],
+.tss-conversation-event-time[title] {
+    cursor: help;
+}
+
+.tss-conversation-comment-edited::before {
+    content: '\00B7';
+    margin-right: 4px;
+}
+
+.tss-conversation-comment-roles {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 4px;
+    flex: none;
+}
+
+    .tss-conversation-comment-roles .tss-token {
+        color: var(--tss-secondary-foreground-color);
+    }
+
+.tss-conversation-comment-menu {
+    display: inline-flex;
+    flex: none;
+}
+
+    .tss-conversation-comment-menu:empty {
+        display: none;
+    }
+
+.tss-conversation-comment-body {
+    padding: 12px 16px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+    .tss-conversation-comment-body > .tss-markdown > :first-child {
+        margin-top: 0;
+    }
+
+    .tss-conversation-comment-body > .tss-markdown > :last-child {
+        margin-bottom: 0;
+    }
+
+.tss-conversation-comment-attachments {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 16px 12px;
+}
+
+.tss-conversation-comment-attachment {
+    max-width: 100%;
+    overflow: hidden;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-sm, 4px);
+}
+
+    .tss-conversation-comment-attachment img {
+        display: block;
+        max-width: 100%;
+    }
+
+.tss-conversation-comment-highlighted {
+    border-color: var(--tss-primary-background-color);
+    box-shadow: 0 0 0 1px var(--tss-primary-background-color);
+}
+
+    .tss-conversation-comment-highlighted > .tss-conversation-comment-header {
+        border-bottom-color: var(--tss-primary-background-color);
+        background: rgba(var(--tss-primary-background-color-root), 0.08);
+    }
+
+/* Reactions */
+
+.tss-conversation-reactions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 0 16px 12px;
+}
+
+.tss-conversation-reaction-list {
+    display: contents;
+}
+
+.tss-conversation-reaction {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: 26px;
+    box-sizing: border-box;
+    padding: 0 8px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 999px;
+    background: var(--tss-secondary-background-color);
+    color: var(--tss-secondary-foreground-color);
+    font: inherit;
+    font-size: var(--tss-font-size-xsmall);
+    line-height: 1;
+    cursor: pointer;
+}
+
+    .tss-conversation-reaction:hover {
+        border-color: var(--tss-link-color);
+    }
+
+    .tss-conversation-reaction:focus-visible {
+        outline: 2px solid var(--tss-highlight-color);
+        outline-offset: 1px;
+    }
+
+.tss-conversation-reaction-emoji {
+    font-size: 14px;
+}
+
+.tss-conversation-reaction-active {
+    border-color: var(--tss-link-color);
+    background: rgba(var(--tss-link-color-root), 0.12);
+    color: var(--tss-link-color);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+.tss-conversation-reaction-add {
+    display: inline-flex;
+}
+
+.tss-conversation-reaction-picker {
+    border-radius: 999px;
+    color: var(--tss-secondary-foreground-color);
+}
+
+/* Event */
+
+.tss-conversation-event {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding-left: 8px;
+    min-width: 0;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-conversation-event-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 26px;
+    height: 26px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: var(--tss-secondary-background-color);
+    box-shadow: 0 0 0 3px var(--tss-default-background-color);
+    color: var(--tss-secondary-foreground-color);
+    font-size: 12px;
+    line-height: 1;
+}
+
+    .tss-conversation-event-icon > i {
+        line-height: 1;
+    }
+
+.tss-conversation-tone-primary { background: var(--tss-primary-background-color); color: var(--tss-primary-foreground-color); }
+.tss-conversation-tone-success { background: var(--tss-success-background-color); color: var(--tss-success-foreground-color); }
+.tss-conversation-tone-warning { background: var(--tss-warning-background-color); color: var(--tss-warning-foreground-color); }
+.tss-conversation-tone-danger  { background: var(--tss-danger-background-color);  color: var(--tss-danger-foreground-color); }
+.tss-conversation-tone-info    { background: var(--tss-link-color);               color: var(--tss-primary-foreground-color); }
+.tss-conversation-tone-ai      { background: var(--tss-ai-gradient);              color: #fff; }
+
+.tss-conversation-event-content {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding-top: 3px;
+}
+
+.tss-conversation-event-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 4px;
+    row-gap: 2px;
+    line-height: 20px;
+}
+
+.tss-conversation-event-avatar {
+    display: inline-flex;
+}
+
+    .tss-conversation-event-avatar:empty {
+        display: none;
+    }
+
+    .tss-conversation-event-avatar .tss-avatar {
+        width: 20px;
+        height: 20px;
+        font-size: 8px;
+    }
+
+.tss-conversation-event-actor {
+    font-weight: var(--tss-font-weight-semibold);
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-conversation-event-inline {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+}
+
+    .tss-conversation-event-inline:empty {
+        display: none;
+    }
+
+.tss-conversation-event-inline-text {
+    font-weight: var(--tss-font-weight-semibold);
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-conversation-event-detail {
+    margin-top: 4px;
+    min-width: 0;
+}
+
+/* Composer */
+
+.tss-conversation-footer:empty {
+    display: none;
+}
+
+.tss-conversation-footer {
+    padding-top: 16px;
+    border-top: 2px solid var(--tss-default-border-color);
+}
+
+.tss-conversation-composer {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-width: 0;
+}
+
+.tss-conversation-composer-avatar {
+    display: inline-flex;
+    flex: none;
+}
+
+.tss-conversation-composer-box {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md, 6px);
+    background: var(--tss-default-background-color);
+}
+
+.tss-conversation-composer-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 8px 8px 0;
+    background: var(--tss-secondary-background-color);
+    border-bottom: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md, 6px) var(--tss-border-radius-md, 6px) 0 0;
+}
+
+.tss-conversation-composer-tab {
+    margin-bottom: -1px;
+    padding: 6px 14px;
+    border: 1px solid transparent;
+    border-radius: var(--tss-border-radius-sm, 4px) var(--tss-border-radius-sm, 4px) 0 0;
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+    font: inherit;
+    cursor: pointer;
+}
+
+    .tss-conversation-composer-tab:hover {
+        color: var(--tss-default-foreground-color);
+    }
+
+    .tss-conversation-composer-tab:focus-visible {
+        outline: 2px solid var(--tss-highlight-color);
+        outline-offset: -2px;
+    }
+
+.tss-conversation-composer-tab-active {
+    border-color: var(--tss-default-border-color);
+    border-bottom-color: var(--tss-default-background-color);
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+.tss-conversation-composer-editor {
+    padding: 8px;
+}
+
+    .tss-conversation-composer-editor .tss-textarea {
+        width: 100%;
+        min-height: 96px;
+        box-sizing: border-box;
+    }
+
+.tss-conversation-composer-preview {
+    min-height: 96px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--tss-default-border-color);
+}
+
+.tss-conversation-composer-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px;
+}
+
+.tss-conversation-composer-hint {
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+}
+
+.tss-conversation-composer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-left: auto;
+}
+
+@media (max-width: 600px) {
+    .tss-conversation-composer-avatar {
+        display: none;
+    }
+}
+
+/* Compact - Conversation.Compact(). Every measure above, tightened. The rail keeps its 21px centre line: the event
+   icon shrinks to 22px and moves 2px right to stay on it. */
+
+.tss-conversation-compact .tss-conversation-item {
+    padding-bottom: 8px;
+}
+
+.tss-conversation-compact .tss-conversation-item-event {
+    padding-bottom: 4px;
+}
+
+.tss-conversation-compact .tss-conversation-comment-header {
+    min-height: 30px;
+    gap: 6px;
+    padding: 3px 4px 3px 8px;
+}
+
+.tss-conversation-compact .tss-conversation-comment-avatar .tss-avatar {
+    width: 20px;
+    height: 20px;
+    font-size: 8px;
+}
+
+.tss-conversation-compact .tss-conversation-comment-roles .tss-token {
+    padding: 0 6px;
+}
+
+.tss-conversation-compact .tss-conversation-comment-menu .tss-btn {
+    height: 24px;
+    min-height: 24px;
+}
+
+.tss-conversation-compact .tss-conversation-comment-body {
+    padding: 8px 12px;
+}
+
+.tss-conversation-compact .tss-conversation-comment-attachments {
+    gap: 6px;
+    padding: 0 12px 8px;
+}
+
+.tss-conversation-compact .tss-conversation-reactions {
+    gap: 4px;
+    padding: 0 12px 8px;
+}
+
+.tss-conversation-compact .tss-conversation-reaction {
+    height: 22px;
+    padding: 0 6px;
+    gap: 3px;
+}
+
+.tss-conversation-compact .tss-conversation-reaction-emoji {
+    font-size: 12px;
+}
+
+.tss-conversation-compact .tss-conversation-reaction-picker {
+    height: 22px;
+    min-height: 22px;
+}
+
+.tss-conversation-compact .tss-conversation-event {
+    gap: 8px;
+    padding-left: 10px;
+}
+
+.tss-conversation-compact .tss-conversation-event-icon {
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+}
+
+.tss-conversation-compact .tss-conversation-event-content {
+    padding-top: 2px;
+}
+
+.tss-conversation-compact .tss-conversation-event-line {
+    line-height: 18px;
+}
+
+.tss-conversation-compact .tss-conversation-event-avatar .tss-avatar {
+    width: 16px;
+    height: 16px;
+    font-size: 7px;
+}
+
+.tss-conversation-compact .tss-conversation-event-detail {
+    margin-top: 2px;
+}
+
+.tss-conversation-compact .tss-conversation-footer {
+    padding-top: 8px;
+}
+
+.tss-conversation-compact .tss-conversation-composer {
+    gap: 8px;
+}
+
+.tss-conversation-compact .tss-conversation-composer-avatar .tss-avatar {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+}
+
+.tss-conversation-compact .tss-conversation-composer-tabs {
+    padding: 4px 4px 0;
+}
+
+.tss-conversation-compact .tss-conversation-composer-tab {
+    padding: 3px 10px;
+}
+
+.tss-conversation-compact .tss-conversation-composer-editor {
+    padding: 6px;
+}
+
+    .tss-conversation-compact .tss-conversation-composer-editor .tss-textarea {
+        min-height: 60px;
+    }
+
+.tss-conversation-compact .tss-conversation-composer-preview {
+    min-height: 60px;
+    padding: 8px 12px;
+}
+
+.tss-conversation-compact .tss-conversation-composer-footer {
+    padding: 0 6px 6px;
+    gap: 6px;
+}

@@ -43,5 +43,6 @@ return timeline.Render();
 ## Related
 
 - Stack — `stack.md`
+- Conversation (issue-style thread on a rail) — `conversation.md`
 - Grid — `/tesserae/collections/grid`
 - Full docs & API: `/tesserae/collections/timeline`

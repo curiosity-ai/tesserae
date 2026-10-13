@@ -170,6 +170,26 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Tints the token with any CSS colour: a translucent fill and border of it, and text mixed from it and the
+        /// page's foreground, so it stays readable in light and dark mode - the way an issue tracker draws a label
+        /// whose colour a user picked. Pass <c>null</c> to remove the tint.
+        /// </summary>
+        public T Tint(string color)
+        {
+            if (string.IsNullOrEmpty(color))
+            {
+                InnerElement.style.removeProperty("--tss-token-tint");
+                InnerElement.classList.remove("tss-token-tinted");
+            }
+            else
+            {
+                InnerElement.style.setProperty("--tss-token-tint", color);
+                InnerElement.classList.add("tss-token-tinted");
+            }
+            return (T)this;
+        }
+
+        /// <summary>
         /// Configures the component to tone.
         /// </summary>
         public T Tone(BadgeTone tone)

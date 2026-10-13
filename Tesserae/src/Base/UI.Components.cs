@@ -1635,6 +1635,36 @@ namespace Tesserae
         public static CombinedObservable<T1, T2> Combine<T1, T2>(IObservable<T1> o1, IObservable<T2> o2) => new CombinedObservable<T1, T2>(o1, o2);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.Conversation"/>: an issue-style discussion thread of comments and events on a rail.
+        /// </summary>
+        public static Conversation Conversation() => new Conversation();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ConversationComment"/>: one comment card with a Markdown body, for a <see cref="Tesserae.Conversation"/>.
+        /// </summary>
+        public static ConversationComment ConversationComment(string author, string markdown = null, string timestamp = null, Avatar avatar = null) => new ConversationComment(author, markdown, timestamp, avatar);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ConversationEvent"/>: a one-line event on a <see cref="Tesserae.Conversation"/>'s rail.
+        /// </summary>
+        public static ConversationEvent ConversationEvent(UIcons icon, string actor, string text, string timestamp = null) => new ConversationEvent(icon, actor, text, timestamp);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ConversationComposer"/>: the Markdown reply box at the foot of a <see cref="Tesserae.Conversation"/>.
+        /// </summary>
+        public static ConversationComposer ConversationComposer(Avatar avatar = null, string placeholder = "Add your comment here...", string submitText = "Comment") => new ConversationComposer(avatar, placeholder, submitText);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.MetadataPanel"/>: the column of assignees, labels, milestone and participants beside a conversation.
+        /// </summary>
+        public static MetadataPanel MetadataPanel() => new MetadataPanel();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.MetadataSection"/> for a <see cref="Tesserae.MetadataPanel"/>.
+        /// </summary>
+        public static MetadataSection MetadataSection(string title, string emptyText = null) => new MetadataSection(title, emptyText);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Timeline"/> component.
         /// </summary>
         public static Timeline     Timeline()                   => new Timeline();
