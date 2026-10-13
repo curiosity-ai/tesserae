@@ -238,6 +238,22 @@ the sample gallery looks.
 
 ## Conventions
 
+### Accessible names: icons are hidden, icon-only controls are named
+
+Browser automation and screen readers find a control by its role and accessible name, and an icon's
+CSS `::before` glyph is part of that name unless something says otherwise. So `UI.I(...)` - the one
+way the toolkit creates an `<i>`, and it only ever creates icons and decorative marks - marks every
+one `aria-hidden="true"`, and `Tooltip(string)` names an element that has nothing else to be named by
+(`NameAfterTooltipIfNameless`). A new component inherits both by building its icons with `I(...)` and
+its icon-only buttons with a tooltip; a control with no tooltip and no text still needs an
+`.AriaLabel(...)` - the OmniBox's search-row buttons are the worked example.
+
+Hidden has to mean hidden to the accessibility tree too. Zero height and zero opacity hide an element
+from the eye only: a collapsed sidebar group's items stayed findable, and a click on one landed on
+whatever was drawn in its place. So `.tss-sidebar-nav-children` is also `visibility: hidden` while
+collapsed (switched after the fade), and a group's arrow carries `aria-expanded` and an
+`Expand <group>` / `Collapse <group>` name.
+
 ### Loading a script, module or stylesheet at run time
 
 Use **`Transpose.Require.RequireAsync`** — the loader in the Transpose runtime. `Tesserae.Require`

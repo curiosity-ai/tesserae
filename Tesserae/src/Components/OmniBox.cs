@@ -763,17 +763,17 @@ namespace Tesserae
 
                 _searchShortcutContainer = Div(Att("tss-omnibox-shortcut"));
 
-                _searchHistoryBtn = Button().SetIcon(UIcons.TimePast).Class("tss-omnibox-search-history-btn");
+                _searchHistoryBtn = Button().SetIcon(UIcons.TimePast).Class("tss-omnibox-search-history-btn").AriaLabel("Search history".t());
                 _searchHistoryBtn.Collapse(); // Hidden by default unless WithHistory is called
 
-                _searchHelpBtn = Button().SetIcon(UIcons.Interrogation).Class("tss-omnibox-search-help-btn");
+                _searchHelpBtn = Button().SetIcon(UIcons.Interrogation).Class("tss-omnibox-search-help-btn").AriaLabel("Search help".t());
                 _searchHelpBtn.Collapse(); // Hidden by default unless WithHelp is called
 
-                _searchClearBtn = Button().SetIcon(UIcons.CrossCircle).Class("tss-omnibox-search-clear-btn");
+                _searchClearBtn = Button().SetIcon(UIcons.CrossCircle).Class("tss-omnibox-search-clear-btn").AriaLabel("Clear search".t());
                 //tss-omnibox-search-btn is the shared "icon button in the search row" look, which hosts also
                 //put on buttons of their own; tss-omnibox-search-trigger-btn is only this button, the one at
                 //the end of the row that follows the box's rounded corner.
-                _searchTriggerBtn = Button().SetIcon(config.IconSearch).Class("tss-omnibox-search-btn").Class("tss-omnibox-search-trigger-btn");
+                _searchTriggerBtn = Button().SetIcon(config.IconSearch).Class("tss-omnibox-search-btn").Class("tss-omnibox-search-trigger-btn").AriaLabel("Search".t());
 
                 //A search that has been asked for and not answered yet takes the magnifier's place - see
                 //SetSearching. It lives inside the button, over the icon, so the row keeps its shape whether

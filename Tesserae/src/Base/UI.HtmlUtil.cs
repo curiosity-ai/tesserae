@@ -416,11 +416,20 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Creates an &lt;i&gt; element.
+        /// Creates an &lt;i&gt; element, hidden from assistive technology.
         /// </summary>
+        /// <remarks>
+        /// Every &lt;i&gt; the toolkit makes is an icon or a decorative mark, drawn by a CSS <c>::before</c> glyph, and
+        /// browsers count that glyph into the accessible name of whatever contains it - a "Save" button with an icon
+        /// is announced, and found by <c>getByRole('button', { name: 'Save', exact: true })</c>, as "\uXXXX Save".
+        /// <c>aria-hidden</c> keeps the glyph out. Call <c>removeAttribute("aria-hidden")</c> on the rare &lt;i&gt; that carries
+        /// meaning of its own, and give it an <c>aria-label</c>.
+        /// </remarks>
         public static HTMLElement I(Attributes init, params HTMLElement[] children)
         {
-            return InitElement(document.createElement("i"), init, children);
+            var element = InitElement(document.createElement("i"), init, children);
+            element.setAttribute("aria-hidden", "true");
+            return element;
         }
 
         /// <summary>
