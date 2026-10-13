@@ -10,6 +10,18 @@ Tesserae components ship with keyboard support and sensible ARIA defaults. The
 attributes on any `IComponent`. Bring factories into scope with
 `using static Tesserae.UI;`.
 
+## What the toolkit does for you
+
+- **Icons are hidden from assistive tech.** Every `<i>` the toolkit creates (icons, separators,
+  chevrons) carries `aria-hidden="true"`, so an icon's CSS glyph is not read out and does not end up
+  in the accessible name of the button around it - `Button("Save").SetIcon(UIcons.Disk)` is named
+  "Save", which is also what `getByRole('button', { name: 'Save', exact: true })` finds in browser
+  automation. Remove the attribute from an `<i>` that carries meaning of its own and label it.
+- **An icon-only control is named after its tooltip.** `.Tooltip("Delete")` on an element with no
+  text, no `aria-label` and no `aria-labelledby` also sets `aria-label="Delete"` - otherwise a screen
+  reader (or a test) sees an unnamed button. It is decided when the tooltip is set: give a control
+  that gains text later an explicit `.AriaLabel(...)`.
+
 ## Key APIs / patterns
 
 All methods are chainable extensions on `IComponent` and return the component.

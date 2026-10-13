@@ -448,6 +448,38 @@ namespace Tesserae
             return holder.textContent;
         }
 
+        /// <summary>
+        /// Gives an element with nothing to be named by - no text of its own, no <c>aria-label</c>, no
+        /// <c>aria-labelledby</c> - its tooltip's text as its accessible name.
+        /// </summary>
+        /// <remarks>
+        /// An icon-only button says what it does only in its tooltip, which screen readers and browser automation
+        /// never see: to both it is an unnamed button. Only a nameless element is touched, so a button whose text is
+        /// its name keeps it, and a label set explicitly wins. Checked when the tooltip is set, so text added to the
+        /// element afterwards does not take the name back - set an explicit <c>.AriaLabel(...)</c> for that case.
+        /// </remarks>
+        private static void NameAfterTooltipIfNameless(HTMLElement element)
+        {
+            //A name this method gave keeps following the tooltip - a toggle's "Expand" becomes "Collapse" - while a
+            //name somebody set on purpose is never touched.
+            var ours = element.hasAttribute(TOOLTIP_NAME_ATTRIBUTE);
+
+            if (!ours)
+            {
+                if (element.hasAttribute("aria-label") || element.hasAttribute("aria-labelledby")) return;
+                if (!string.IsNullOrWhiteSpace(element.textContent)) return;
+            }
+
+            var text = TooltipTextOf(element);
+
+            if (string.IsNullOrWhiteSpace(text)) return;
+
+            element.setAttribute("aria-label", text.Trim());
+            element.setAttribute(TOOLTIP_NAME_ATTRIBUTE, "");
+        }
+
+        private const string TOOLTIP_NAME_ATTRIBUTE = "data-tss-tooltip-name";
+
         /// <summary>Adds a tooltip with HTML content to the component.</summary>
         public static T Tooltip<T>(this T component, string tooltipHtml, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 250, int delayHide = 0, bool followCursor = false, int maxWidth = 350, bool arrow = false, string theme = null, IComponent parent = null) where T : IComponent
         {
@@ -456,7 +488,10 @@ namespace Tesserae
 
             //The tooltip itself is only built on the first hover, which a phone never has - this is what a
             //touch layout reads instead to say what an icon-only button does (see OmniBox's options sheet)
-            component.Render()[TOOLTIP_TEXT_PROPERTY] = tooltipHtml;
+            var rendered = component.Render();
+            rendered[TOOLTIP_TEXT_PROPERTY] = tooltipHtml;
+
+            NameAfterTooltipIfNameless(rendered);
 
             return component.Tooltip(
                 new Raw(UI.Raw(tooltipHtml)),

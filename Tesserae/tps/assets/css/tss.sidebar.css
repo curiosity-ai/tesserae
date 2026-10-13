@@ -714,18 +714,25 @@
     margin-bottom: 2px;
 }
 
+/* A collapsed group's items are also visibility: hidden - not for the picture, which height and opacity
+   already take care of, but because a zero-height, transparent item is still in the accessibility tree:
+   a screen reader reads it and browser automation finds it, clicks it, and hits whatever is drawn there.
+   The switch waits out the fade on the way closed and is immediate on the way open. */
 .tss-sidebar-nav-children {
     height: 0px;
     overflow: hidden;
     opacity: 0;
+    visibility: hidden;
     transform: translateY(-8px);
-    transition: 0.3s opacity ease-in-out, 0.2s transform ease-in-out;
+    transition: 0.3s opacity ease-in-out, 0.2s transform ease-in-out, 0s visibility linear 0.3s;
 }
 
 .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-children {
     height: auto;
     transform: translateY(0);
     opacity: 1;
+    visibility: visible;
+    transition: 0.3s opacity ease-in-out, 0.2s transform ease-in-out, 0s visibility;
 }
 
 .tss-sidebar-nav > .tss-sidebar-nav-children > :first-child {
@@ -1017,6 +1024,7 @@
     width: calc(100% - 48px);
     height: auto;
     opacity: 1;
+    visibility: visible;
     transform: none;
     overflow-x: hidden;
     overflow-y: auto;

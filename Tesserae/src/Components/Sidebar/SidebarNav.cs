@@ -542,6 +542,12 @@ namespace Tesserae
 
             void CollapsedChanged(bool isCollapsed)
             {
+                //The arrow says which group it opens and whether it is open: "Expand" alone is the name of every
+                //group's arrow at once.
+                var arrow = _arrow.Render();
+                arrow.setAttribute("aria-expanded", isCollapsed ? "false" : "true");
+                arrow.setAttribute("aria-label", (isCollapsed ? "Expand".t() : "Collapse".t()) + " " + _text);
+
                 if (isCollapsed)
                 {
                     nav.classList.remove("tss-sidebar-nav-open");
@@ -639,6 +645,12 @@ namespace Tesserae
 
             void CollapsedChanged(bool isCollapsed)
             {
+                //The arrow says which group it opens and whether it is open: "Expand" alone is the name of every
+                //group's arrow at once.
+                var arrow = _arrow.Render();
+                arrow.setAttribute("aria-expanded", isCollapsed ? "false" : "true");
+                arrow.setAttribute("aria-label", (isCollapsed ? "Expand".t() : "Collapse".t()) + " " + _text);
+
                 if (isCollapsed)
                 {
                     nav.classList.remove("tss-sidebar-nav-open");
