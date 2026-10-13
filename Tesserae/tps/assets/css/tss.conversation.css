@@ -392,6 +392,7 @@
 
     .tss-conversation-composer-editor .tss-textarea {
         width: 100%;
+        min-height: 96px;
         box-sizing: border-box;
     }
 
@@ -426,4 +427,134 @@
     .tss-conversation-composer-avatar {
         display: none;
     }
+}
+
+/* Compact - Conversation.Compact(). Every measure above, tightened. The rail keeps its 21px centre line: the event
+   icon shrinks to 22px and moves 2px right to stay on it. */
+
+.tss-conversation-compact .tss-conversation-item {
+    padding-bottom: 8px;
+}
+
+.tss-conversation-compact .tss-conversation-item-event {
+    padding-bottom: 4px;
+}
+
+.tss-conversation-compact .tss-conversation-comment-header {
+    min-height: 30px;
+    gap: 6px;
+    padding: 3px 4px 3px 8px;
+}
+
+.tss-conversation-compact .tss-conversation-comment-avatar .tss-avatar {
+    width: 20px;
+    height: 20px;
+    font-size: 8px;
+}
+
+.tss-conversation-compact .tss-conversation-comment-roles .tss-token {
+    padding: 0 6px;
+}
+
+.tss-conversation-compact .tss-conversation-comment-menu .tss-btn {
+    height: 24px;
+    min-height: 24px;
+}
+
+.tss-conversation-compact .tss-conversation-comment-body {
+    padding: 8px 12px;
+}
+
+.tss-conversation-compact .tss-conversation-comment-attachments {
+    gap: 6px;
+    padding: 0 12px 8px;
+}
+
+.tss-conversation-compact .tss-conversation-reactions {
+    gap: 4px;
+    padding: 0 12px 8px;
+}
+
+.tss-conversation-compact .tss-conversation-reaction {
+    height: 22px;
+    padding: 0 6px;
+    gap: 3px;
+}
+
+.tss-conversation-compact .tss-conversation-reaction-emoji {
+    font-size: 12px;
+}
+
+.tss-conversation-compact .tss-conversation-reaction-picker {
+    height: 22px;
+    min-height: 22px;
+}
+
+.tss-conversation-compact .tss-conversation-event {
+    gap: 8px;
+    padding-left: 10px;
+}
+
+.tss-conversation-compact .tss-conversation-event-icon {
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+}
+
+.tss-conversation-compact .tss-conversation-event-content {
+    padding-top: 2px;
+}
+
+.tss-conversation-compact .tss-conversation-event-line {
+    line-height: 18px;
+}
+
+.tss-conversation-compact .tss-conversation-event-avatar .tss-avatar {
+    width: 16px;
+    height: 16px;
+    font-size: 7px;
+}
+
+.tss-conversation-compact .tss-conversation-event-detail {
+    margin-top: 2px;
+}
+
+.tss-conversation-compact .tss-conversation-footer {
+    padding-top: 8px;
+}
+
+.tss-conversation-compact .tss-conversation-composer {
+    gap: 8px;
+}
+
+.tss-conversation-compact .tss-conversation-composer-avatar .tss-avatar {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+}
+
+.tss-conversation-compact .tss-conversation-composer-tabs {
+    padding: 4px 4px 0;
+}
+
+.tss-conversation-compact .tss-conversation-composer-tab {
+    padding: 3px 10px;
+}
+
+.tss-conversation-compact .tss-conversation-composer-editor {
+    padding: 6px;
+}
+
+    .tss-conversation-compact .tss-conversation-composer-editor .tss-textarea {
+        min-height: 60px;
+    }
+
+.tss-conversation-compact .tss-conversation-composer-preview {
+    min-height: 60px;
+    padding: 8px 12px;
+}
+
+.tss-conversation-compact .tss-conversation-composer-footer {
+    padding: 0 6px 6px;
+    gap: 6px;
 }

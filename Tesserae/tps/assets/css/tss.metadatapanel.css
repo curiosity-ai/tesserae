@@ -173,3 +173,55 @@
     margin-left: 4px;
     color: var(--tss-secondary-foreground-color);
 }
+
+/* Compact - MetadataPanel.Compact(). */
+
+.tss-metadata-panel-compact .tss-metadata-section {
+    padding: 6px 0;
+}
+
+    .tss-metadata-panel-compact .tss-metadata-section:first-child {
+        padding-top: 0;
+    }
+
+.tss-metadata-panel-compact .tss-metadata-section-header {
+    min-height: 20px;
+    margin-bottom: 2px;
+}
+
+.tss-metadata-panel-compact .tss-metadata-section-edit .tss-btn {
+    height: 20px;
+    min-height: 20px;
+}
+
+.tss-metadata-panel-compact .tss-metadata-section-content {
+    gap: 4px;
+}
+
+.tss-metadata-panel-compact .tss-metadata-person {
+    gap: 6px;
+}
+
+    .tss-metadata-panel-compact .tss-metadata-person .tss-avatar {
+        width: 16px;
+        height: 16px;
+        font-size: 7px;
+    }
+
+.tss-metadata-panel-compact .tss-metadata-item {
+    gap: 6px;
+}
+
+.tss-metadata-panel-compact .tss-metadata-item-text {
+    gap: 0;
+}
+
+.tss-metadata-panel-compact .tss-metadata-avatars {
+    gap: 2px;
+}
+
+    .tss-metadata-panel-compact .tss-metadata-avatars .tss-avatar {
+        width: 20px;
+        height: 20px;
+        font-size: 8px;
+    }

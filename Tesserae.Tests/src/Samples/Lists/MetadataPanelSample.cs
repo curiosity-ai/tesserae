@@ -26,7 +26,8 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(HStack().WS().Wrap().Children(
                         VStack().W(256).PR(32).PB(16).Children(SampleSubTitle("Filled in"), BuildPanel()),
-                        VStack().W(256).PB(16).Children(SampleSubTitle("Empty sections"), BuildEmptyPanel())
+                        VStack().W(256).PR(32).PB(16).Children(SampleSubTitle("Empty sections"), BuildEmptyPanel()),
+                        VStack().W(256).PR(32).PB(16).Children(SampleSubTitle("Compact"), BuildPanel().Compact())
                     )).SetTitle("Usage")))
                .SeeAlso(typeof(ConversationSample), typeof(PropertyGridSample), typeof(AvatarSample), typeof(BadgeSample));
         }

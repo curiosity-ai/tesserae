@@ -15,6 +15,8 @@ assignees / labels / milestone column.
 
 - `Conversation()` — the thread. `.Add(item)`, `.Children(params IComponent[])`, `.Remove(item)`,
   `.Clear()`, `.Composer(IComponent)` (pass `null` to remove), `.Items`.
+  `.Compact(bool = true)` / `.IsCompact` — the dense form: tighter headers, bodies and gaps, smaller avatars,
+  reaction chips and rail icons, a shorter composer. Applies to every item, including ones added later.
 - `ConversationComment(string author, string markdown = null, string timestamp = null, Avatar avatar = null)`
 - `ConversationEvent(UIcons icon, string actor, string text, string timestamp = null)`
 - `ConversationComposer(Avatar avatar = null, string placeholder = "Add your comment here...", string submitText = "Comment")`

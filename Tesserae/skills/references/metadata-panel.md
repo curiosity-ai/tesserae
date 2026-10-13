@@ -13,6 +13,7 @@ and either its content or a muted empty text ("No one assigned"). Usually placed
 
 - `MetadataPanel()` — `.Add(section)`, `.Children(params MetadataSection[])`, `.Remove(section)`,
   `.AriaLabel(string)` (default `"Details"`), `.Sections`.
+  `.Compact(bool = true)` / `.IsCompact` — less space between and inside sections, smaller avatars.
 - `MetadataSection(string title, string emptyText = null)` — empty text defaults to `"None yet"`.
 
 Bring factories into scope with `using static Tesserae.UI;`.

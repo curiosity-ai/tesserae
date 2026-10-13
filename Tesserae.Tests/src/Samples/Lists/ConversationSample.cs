@@ -18,7 +18,7 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                         TextBlock("Conversation lays out a discussion the way an issue tracker does: comment cards joined by a vertical rail, with one-line events in between for what changed - a label added, someone assigned, the thread closed - and a reply box at the foot."),
                         TextBlock("A ConversationComment has a header with the author's Avatar, what they did and when, role badges and an overflow menu; its body is Markdown rendered by a MarkdownBlock, with optional Image attachments and emoji reactions under it. A ConversationEvent puts an icon on the rail and a sentence beside it, with Tags or other components inline. The ConversationComposer has Write / Preview tabs over a TextArea."),
-                        TextBlock("Put a MetadataPanel next to it for the assignees, labels, milestone and participants column."))).SetTitle("Overview")))
+                        TextBlock("Put a MetadataPanel next to it for the assignees, labels, milestone and participants column. Both have a Compact() mode for dense layouts - use the toggle above the example to compare."))).SetTitle("Overview")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                         SampleDo("Keep events short: an actor, a verb, the thing that changed, and when."),
@@ -120,8 +120,15 @@ namespace Tesserae.Tests.Samples
 
             var panel = MetadataPanelSample.BuildPanel();
 
+            var compact = Toggle("Compact").OnChange((t, _) =>
+            {
+                conversation.Compact(t.IsChecked);
+                panel.Compact(t.IsChecked);
+            });
+
             return VStack().WS().Children(
                 title,
+                compact.PB(12),
                 HStack().WS().Wrap().AlignItems(ItemAlign.Start).Children(
                     conversation.Grow().Style(s => { s.flexBasis = "480px"; s.minWidth = "0"; }).PR(24).PB(16),
                     panel.W(256).NoShrink()));

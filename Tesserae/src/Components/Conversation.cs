@@ -1,3 +1,4 @@
+using Transpose;
 using System;
 using System.Collections.Generic;
 using static Transpose.Core.dom;
@@ -23,6 +24,7 @@ namespace Tesserae
         private readonly HTMLElement      _footer;
         private readonly List<IComponent>  _children = new List<IComponent>();
         private readonly List<HTMLElement> _wrappers = new List<HTMLElement>();
+        private          IComponent        _composer;
 
         /// <summary>Initializes a new, empty conversation.</summary>
         public Conversation()
@@ -80,6 +82,29 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>Whether the thread is drawn in its dense form (see <see cref="Compact"/>).</summary>
+        public bool IsCompact
+        {
+            get => _root.classList.contains("tss-conversation-compact");
+            set
+            {
+                _root.UpdateClassIf(value, "tss-conversation-compact");
+                // The composer's text area sized itself to the floor that applied when it was mounted.
+                (_composer as ConversationComposer)?.Refit();
+            }
+        }
+
+        /// <summary>
+        /// Draws the thread densely: tighter comment headers and bodies, smaller avatars, reaction chips and rail
+        /// icons, less space between items and a shorter composer - for a thread in a side panel, or a long one that
+        /// should fit more on screen. It applies to everything in the thread, including items added later.
+        /// </summary>
+        public Conversation Compact(bool value = true)
+        {
+            IsCompact = value;
+            return this;
+        }
+
         /// <summary>
         /// Sets what sits under the last item, off the rail: usually a <see cref="ConversationComposer"/>. Pass
         /// <c>null</c> to remove it.
@@ -87,6 +112,7 @@ namespace Tesserae
         public Conversation Composer(IComponent composer)
         {
             ClearChildren(_footer);
+            _composer = composer;
             if (composer is object) _footer.appendChild(composer.Render());
             return this;
         }
@@ -597,7 +623,8 @@ namespace Tesserae
         /// <param name="submitText">The text of the submit button.</param>
         public ConversationComposer(Avatar avatar = null, string placeholder = "Add your comment here...", string submitText = "Comment")
         {
-            _textArea = new TextArea().SetPlaceholder(placeholder).AutoResize(minHeight: 96, maxHeight: 400);
+            // The height floor is in tss.conversation.css rather than passed to AutoResize, so a compact thread can lower it.
+            _textArea = new TextArea().SetPlaceholder(placeholder).AutoResize(maxHeight: 400);
             _textArea.Render().classList.add("tss-conversation-composer-input");
             _textArea.AriaLabel("Comment");
 
@@ -673,6 +700,18 @@ namespace Tesserae
                 if (b is object) _actions.insertBefore(b.Render(), _submit.Render());
             }
             return this;
+        }
+
+        // Re-measures the text area, as AutoResize does on input, after something changed its height floor.
+        internal void Refit()
+        {
+            var textarea = _editorHost.querySelector("textarea").As<HTMLElement>();
+            if (textarea is null) return;
+            // tss.textbox.css transitions every property, so the new floor would still be animating when measured.
+            textarea.style.transition = "none";
+            textarea.style.height     = "auto";
+            textarea.style.height     = textarea.scrollHeight + "px";
+            textarea.style.transition = "";
         }
 
         /// <summary>Moves focus into the text area.</summary>

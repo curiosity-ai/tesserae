@@ -76,3 +76,10 @@ body.tss-theme-curiosity .tss-conversation-composer-hint {
 body.tss-theme-curiosity .tss-conversation-composer-tab-active {
     font-weight: var(--tss-font-weight-semibold);
 }
+
+/* Compact: the square marker shrinks with the disc, and stays centred on the 1px rail. */
+body.tss-theme-curiosity .tss-conversation-compact .tss-conversation-event-icon {
+    width: 22px;
+    height: 22px;
+    margin-left: 0;
+}

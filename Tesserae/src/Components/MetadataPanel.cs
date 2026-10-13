@@ -57,6 +57,22 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>Whether the panel is drawn in its dense form (see <see cref="Compact"/>).</summary>
+        public bool IsCompact
+        {
+            get => _root.classList.contains("tss-metadata-panel-compact");
+            set => _root.UpdateClassIf(value, "tss-metadata-panel-compact");
+        }
+
+        /// <summary>
+        /// Draws the panel densely: less space between and inside sections, a shorter header row and smaller avatars.
+        /// </summary>
+        public MetadataPanel Compact(bool value = true)
+        {
+            IsCompact = value;
+            return this;
+        }
+
         /// <summary>Sets the accessible name of the panel (<c>"Details"</c> by default).</summary>
         public MetadataPanel AriaLabel(string label)
         {
