@@ -2018,6 +2018,22 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Adds an active snap chip as if the user had typed its trigger and picked it, and re-runs the
+        /// search. Use it to open a box already filtered, e.g. restoring the chips a search was made with.
+        /// A snap that is already active is not added twice.
+        /// </summary>
+        public OmniBox AddSnap(SnapHandler snap)
+        {
+            if (snap == null) return this;
+            if (GetActiveSnaps().Any(s => s.SnapId == snap.SnapId)) return this;
+
+            InlineFilterChips.Add(new InlineFilterChip(snap));
+            OnSearchInputChanged();
+
+            return this;
+        }
+
+        /// <summary>
         /// Adds an active filter chip as if the user had typed the trigger and picked
         /// <paramref name="value"/>, and re-runs the search. Use it to open a box already filtered — a
         /// palette that starts from the filters the view behind it is applying, say. Without
