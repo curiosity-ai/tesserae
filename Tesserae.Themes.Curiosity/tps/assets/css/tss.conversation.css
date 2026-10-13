@@ -1,0 +1,78 @@
+/* ==========================================================================
+   Curiosity theme - Conversation
+   --------------------------------------------------------------------------
+   Comment cards and the composer are square cells framed by one hairline,
+   the event markers on the rail are squares (data marks in the brand are
+   squares), and the highlight is the frame drawn in ink-blue rather than a
+   glow. Role badges already read in the mono label voice through the badge
+   file. Reaction chips stay pills: they are buttons.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-conversation-comment,
+body.tss-theme-curiosity .tss-conversation-comment-header,
+body.tss-theme-curiosity .tss-conversation-composer-box,
+body.tss-theme-curiosity .tss-conversation-composer-tabs,
+body.tss-theme-curiosity .tss-conversation-composer-tab,
+body.tss-theme-curiosity .tss-conversation-comment-attachment {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-conversation-item::before {
+    width: 1px;
+    left: 20.5px;
+}
+
+body.tss-theme-curiosity .tss-conversation-footer {
+    border-top-width: 1px;
+}
+
+body.tss-theme-curiosity .tss-conversation-event-icon {
+    border-radius: 0;
+    width: 24px;
+    height: 24px;
+    margin-left: 1px;
+    background: var(--tss-default-background-color);
+    border: var(--tss-cur-hair);
+    box-shadow: 0 0 0 3px var(--tss-default-background-color);
+}
+
+body.tss-theme-curiosity .tss-conversation-tone-primary,
+body.tss-theme-curiosity .tss-conversation-tone-success,
+body.tss-theme-curiosity .tss-conversation-tone-warning,
+body.tss-theme-curiosity .tss-conversation-tone-danger,
+body.tss-theme-curiosity .tss-conversation-tone-info {
+    border-color: transparent;
+}
+
+body.tss-theme-curiosity .tss-conversation-tone-ai {
+    background: var(--tss-cur-deep);
+    border-color: var(--tss-cur-deep);
+    color: var(--tss-cur-paper);
+}
+
+body.tss-theme-curiosity .tss-conversation-comment-highlighted {
+    box-shadow: none;
+    border-color: var(--tss-cur-signal);
+}
+
+    body.tss-theme-curiosity .tss-conversation-comment-highlighted > .tss-conversation-comment-header {
+        border-bottom-color: var(--tss-cur-signal);
+        background: rgba(47, 107, 255, 0.08);
+    }
+
+body.tss-theme-curiosity .tss-conversation-comment-time,
+body.tss-theme-curiosity .tss-conversation-event-time,
+body.tss-theme-curiosity .tss-conversation-reaction-count,
+body.tss-theme-curiosity .tss-conversation-composer-hint {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+}
+
+body.tss-theme-curiosity .tss-conversation-composer-hint {
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+body.tss-theme-curiosity .tss-conversation-composer-tab-active {
+    font-weight: var(--tss-font-weight-semibold);
+}

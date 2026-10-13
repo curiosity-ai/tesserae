@@ -94,6 +94,8 @@
                 "tps/assets/css/tss.stepper.css",
                 "tps/assets/css/tss.carousel.css",
                 "tps/assets/css/tss.timeline.css",
+                "tps/assets/css/tss.conversation.css",
+                "tps/assets/css/tss.metadatapanel.css",
                 "tps/assets/css/tss.gridpicker.css",
                 "tps/assets/css/tss.tooltip.css",
                 "tps/assets/css/tss.popover.css",

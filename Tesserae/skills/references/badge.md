@@ -23,6 +23,7 @@ Shape/style:
 
 - `.Pill(bool = true)` — rounded pill shape.
 - `.Outline(bool = true)` / `.Filled(bool = true)` — mutually exclusive fill styles.
+- `.Tint(string color)` — tint with any CSS colour (a translucent fill and border, text mixed with the page foreground so it reads in light and dark), the way an issue tracker draws a user-coloured label: `Tag("bug").Pill().Tint("#d73a4a")`. `null` removes it.
 - `.SetIcon(string)` — leading icon (use `Icon.Transform(UIcons.X, UIconsWeight.Regular)`).
 - `.SetText(string)` — change the label.
 - `.Background(string)` / `.Foreground(string)` — override colors.

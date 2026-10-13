@@ -128,3 +128,12 @@
     font-size: 12px;
     line-height: 1;
 }
+
+/* Tint(color): any colour, as an issue tracker's user-picked label. The text is mixed from the tint and the page's
+   foreground, so it darkens on a light page and lightens on a dark one and stays readable either way. */
+.tss-token-tinted {
+    background: color-mix(in srgb, var(--tss-token-tint) 18%, transparent);
+    border-color: color-mix(in srgb, var(--tss-token-tint) 45%, transparent);
+    color: color-mix(in srgb, var(--tss-token-tint) 62%, var(--tss-default-foreground-color));
+    font-weight: var(--tss-font-weight-semibold);
+}

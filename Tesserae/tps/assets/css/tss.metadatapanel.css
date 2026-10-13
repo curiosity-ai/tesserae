@@ -1,0 +1,175 @@
+/* Metadata panel - the column of facts beside a Conversation: titled sections divided by hairlines, each showing
+   its content or a muted empty line. */
+
+.tss-metadata-panel {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    font-size: var(--tss-font-size-small);
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-metadata-section {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--tss-default-border-color);
+    min-width: 0;
+}
+
+    .tss-metadata-section:first-child {
+        padding-top: 0;
+    }
+
+    .tss-metadata-section:last-child {
+        border-bottom: none;
+    }
+
+.tss-metadata-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 24px;
+    margin-bottom: 4px;
+}
+
+.tss-metadata-section-title {
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-semibold);
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-metadata-section-title-editable {
+    cursor: pointer;
+}
+
+    .tss-metadata-section-title-editable:hover {
+        color: var(--tss-link-color);
+    }
+
+.tss-metadata-section-edit {
+    display: inline-flex;
+    color: var(--tss-secondary-foreground-color);
+}
+
+    .tss-metadata-section-edit:empty {
+        display: none;
+    }
+
+.tss-metadata-section-empty {
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-metadata-section-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.tss-metadata-section-text {
+    overflow-wrap: anywhere;
+}
+
+.tss-metadata-person {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+    .tss-metadata-person .tss-avatar {
+        flex: none;
+        width: 20px;
+        height: 20px;
+        font-size: 8px;
+    }
+
+.tss-metadata-person-name {
+    font-weight: var(--tss-font-weight-semibold);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tss-metadata-person-secondary {
+    color: var(--tss-secondary-foreground-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tss-metadata-labels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.tss-metadata-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    min-width: 0;
+}
+
+.tss-metadata-item-icon {
+    flex: none;
+    margin-top: 2px;
+    line-height: 1;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-metadata-item-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.tss-metadata-item-title {
+    font-weight: var(--tss-font-weight-semibold);
+    overflow-wrap: anywhere;
+}
+
+.tss-metadata-item-link {
+    padding: 0;
+    border: none;
+    background: none;
+    color: inherit;
+    font: inherit;
+    font-weight: var(--tss-font-weight-semibold);
+    text-align: left;
+    cursor: pointer;
+}
+
+    .tss-metadata-item-link:hover {
+        color: var(--tss-link-color);
+        text-decoration: underline;
+    }
+
+    .tss-metadata-item-link:focus-visible {
+        outline: 2px solid var(--tss-highlight-color);
+        outline-offset: 1px;
+    }
+
+.tss-metadata-item-subtitle {
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+}
+
+.tss-metadata-avatars {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+}
+
+    .tss-metadata-avatars .tss-avatar {
+        width: 26px;
+        height: 26px;
+        font-size: 9px;
+    }
+
+.tss-metadata-avatars-more {
+    margin-left: 4px;
+    color: var(--tss-secondary-foreground-color);
+}

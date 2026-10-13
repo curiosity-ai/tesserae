@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Curiosity theme - Metadata panel
+   --------------------------------------------------------------------------
+   Section titles name the parts, so they take the mono label voice: small,
+   uppercase, tracked. Hairlines between sections are already the line token.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-metadata-section-title {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-tiny);
+    font-weight: var(--tss-font-weight-regular);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+body.tss-theme-curiosity .tss-metadata-item-subtitle,
+body.tss-theme-curiosity .tss-metadata-avatars-more {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+}
