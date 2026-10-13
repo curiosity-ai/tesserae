@@ -44,6 +44,10 @@ body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-conta
     box-shadow: none;
 }
 
+body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search:focus-within::after {
+    content: none;
+}
+
 body.tss-theme-curiosity .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search .tss-omnibox-search-container .tss-btn.tss-omnibox-search-btn {
     /* The hairline between the clear button and the magnifier, as Tesserae's own palette draws it. */
     border-left: 1px solid var(--tss-default-border-color);
