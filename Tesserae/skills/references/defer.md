@@ -9,9 +9,9 @@ Renders a loading placeholder, then swaps in content produced by an async functi
 
 ## Create
 
-`UI.Defer(Func<Task<IComponent>> asyncGenerator)` or `UI.Defer(asyncGenerator, IComponent loadMessage)` — returns an `IDefer`. Bring factories into scope with `using static Tesserae.UI;`.
+`UI.Defer(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage = null)` — returns an `IDefer`. Bring factories into scope with `using static Tesserae.UI;`.
 
-Observable overloads: `UI.Defer(observable, async val => …, loadMessage)` (up to 10 observables) re-render on change. (`DeferSync` exists for synchronous generators.)
+Observable overloads: `UI.Defer(o1, …, async (v1, …) => …, loadMessage = null)` (up to 10 observables) re-render on change. `UI.Defer(IObservable<TComponent>)` mounts whatever component the observable holds. `DeferSync(...)` takes the same arguments with a synchronous `Func<…, IComponent>` generator.
 
 Each re-render builds a new component and swaps its element in. For text that changes, that
 remounts the block and flickers: use `TextBlock(observable, v => …)` instead, which updates the

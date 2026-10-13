@@ -1526,7 +1526,7 @@ namespace Tesserae
             /// <para>
             /// Obsolete because that copy is a dead picture: <c>cloneNode</c> carries attributes but not event
             /// listeners, not DomObserver's mount registration and not component identity, so a
-            /// <see cref="UI.Defer(Func{Task{IComponent}})"/> inside it never loads and nothing in it ever
+            /// <see cref="UI.Defer(Func{Task{IComponent}}, IComponent)"/> inside it never loads and nothing in it ever
             /// reacts. Use <see cref="Item(Func{IComponent}, Func{IComponent})"/> instead: one recipe, from
             /// which the list and the box each get their own live component.
             /// </para>
@@ -1600,7 +1600,7 @@ namespace Tesserae
             /// <see cref="Item(IComponent, IComponent)"/>.
             /// <para>
             /// The two are independent instances, which is what makes the one in the box live: it mounts, so
-            /// a <see cref="UI.Defer(Func{Task{IComponent}})"/> in it loads, and it keeps its own state. An
+            /// a <see cref="UI.Defer(Func{Task{IComponent}}, IComponent)"/> in it loads, and it keeps its own state. An
             /// option holding something interactive will therefore not share that state between the list and
             /// the box - if that matters, give the box its own read-only short form.
             /// </para>

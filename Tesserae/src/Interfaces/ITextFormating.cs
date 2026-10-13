@@ -39,23 +39,6 @@ namespace Tesserae
     }
 
     /// <summary>
-    /// Specifies the available text colors.
-    /// </summary>
-    [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
-    [Transpose.Name("tss.TC")]
-    public enum TextColor
-    {
-        [Name("text-dark")]      Dark,
-        [Name("text-warning")]   Warning,
-        [Name("text-danger")]    Danger,
-        [Name("text-muted")]     Muted,
-        [Name("text-success")]   Success,
-        [Name("text-primary")]   Primary,
-        [Name("text-secondary")] Secondary,
-    }
-
-
-    /// <summary>
     /// Specifies the available text weights.
     /// </summary>
     [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method

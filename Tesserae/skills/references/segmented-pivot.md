@@ -24,7 +24,7 @@ mechanics as `Pivot`.
 - `.SegmentedPivot(id, titleCreator, contentCreator, cached = false)` — add a segment. `titleCreator`/`contentCreator` are `Func<IComponent>`.
 - `SegmentTitle("Text")` / `SegmentTitle("Text", UIcons.Rocket)` — convenient title `Func<IComponent>`.
 - `.Select(id, refresh = false)` — switch segment.
-- `.OnNavigate(...)` / `.OnBeforeNavigate(...)` — callbacks; `e.Cancel()` blocks navigation.
+- `.OnNavigate(...)` / `.OnBeforeNavigate(...)` — callbacks; `e.Cancel()` blocks navigation. The event types (`PivotNavigateEvent`, `PivotBeforeNavigateEvent`, both deriving from `PivotEvent` with `CurrentPivot` / `TargetPivot`) are shared by all four pivot components and live directly in the `Tesserae` namespace.
 - `.RefreshPivotSizes()` — re-evaluate the scroll/overflow controls after the container is resized in a way a `ResizeObserver` can't observe.
 - `.SelectedTab` — id of the current segment.
 - `.AI(bool value = true, bool strongEffect = false)` — marks the pivot as an AI one: the segmented track takes the purple-to-blue tint, the tabs the accent, and the selected tab is filled with the gradient. See `ai-variants.md`.

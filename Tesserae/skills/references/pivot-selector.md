@@ -20,7 +20,7 @@ extension. Bring factories into scope with `using static Tesserae.UI;`.
 - `.Pivot(params (string id, string title, Func<IComponent> contentCreator)[] tabs)` — add many tabs at once.
 - `.SetCommands(params IComponent[])` — buttons shown beside the dropdown.
 - `.Select(id, refresh = false)` — switch tabs.
-- `.OnNavigate(...)` / `.OnBeforeNavigate(...)` — callbacks; `e.Cancel()` blocks navigation.
+- `.OnNavigate(...)` / `.OnBeforeNavigate(...)` — callbacks; `e.Cancel()` blocks navigation. The event types (`PivotNavigateEvent`, `PivotBeforeNavigateEvent`, both deriving from `PivotEvent` with `CurrentPivot` / `TargetPivot`) are shared by all four pivot components and live directly in the `Tesserae` namespace.
 
 ## Sizing tab content
 

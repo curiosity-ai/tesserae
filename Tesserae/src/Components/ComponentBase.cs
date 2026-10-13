@@ -12,7 +12,7 @@ namespace Tesserae
     /// margin/padding support.
     /// </summary>
     [Transpose.Name("tss.CB")]
-    public abstract class ComponentBase<T, THTML> : IComponent, IHasClickHandler, IHasMarginPadding, IAccessibility where T : ComponentBase<T, THTML> where THTML : HTMLElement
+    public abstract class ComponentBase<T, THTML> : IComponent, IHasMarginPadding, IAccessibility where T : ComponentBase<T, THTML> where THTML : HTMLElement
     {
         // The DOM listener behind each of these is installed the first time something subscribes,
         // not when the component is built. A component that calls AttachClick() and is never given a
@@ -174,22 +174,6 @@ namespace Tesserae
         /// Renders the component's root HTML element.
         /// </summary>
         public abstract HTMLElement Render();
-
-        /// <summary>
-        /// Registers a callback invoked when the click base event fires.
-        /// </summary>
-        public void OnClickBase(ComponentEventHandler<IComponent, MouseEvent> onClick, bool clearPrevious = true)
-        {
-            OnClick((a, b) => onClick(a, b), clearPrevious);
-        }
-
-        /// <summary>
-        /// Registers a callback invoked when the context menu base event fires.
-        /// </summary>
-        public void OnContextMenuBase(ComponentEventHandler<IComponent, MouseEvent> onContextMenu, bool clearPrevious = true)
-        {
-            OnContextMenu((a, b) => onContextMenu(a, b), clearPrevious);
-        }
 
         /// <summary>
         /// Registers a callback invoked when the click event fires.
