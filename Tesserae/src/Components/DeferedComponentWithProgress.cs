@@ -219,6 +219,7 @@ namespace Tesserae
                .FireAndForget();
         }
 
+        // Written out per arity on purpose, like DeferedComponent.Observe: see the note there for why a shared helper was dropped.
         internal static DeferedComponentWithProgress Observe<T1>(IObservable<T1> o1, Func<T1, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessageGenerator = null)
         {
             var d = Create((progress) => asyncGenerator(o1.Value, progress), loadMessageGenerator);
