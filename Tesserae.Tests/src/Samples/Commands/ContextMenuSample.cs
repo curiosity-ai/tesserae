@@ -72,7 +72,23 @@ namespace Tesserae.Tests.Samples
                                     ContextMenuItem("Other 2"))),
                             ContextMenuItem("Other 1")
                         ).ShowFor(btn3)
-                    )
+                    ).MB(16),
+                    SampleSubTitle("Side panel"),
+                    // The panel sits beside the rows in the same popup. It is not a row, so clicking in it keeps the
+                    // menu open and the arrow keys walk past it; its own actions close the menu by calling Hide().
+                    Button("Menu with details").Var(out var btn4).OnClick((s, e) =>
+                    {
+                        var menu = ContextMenu();
+
+                        menu.Items(
+                                ContextMenuItem(HStack().Children(Icon(UIcons.FolderOpen), TextBlock("Open").ML(8))).OnClick((_, __) => Toast().Information("Opening...")),
+                                ContextMenuItem(HStack().Children(Icon(UIcons.Share), TextBlock("Share").ML(8))).OnClick((_, __) => Toast().Information("Sharing...")))
+                           .SidePanel(VStack().W(260).P(12).Children(
+                                TextBlock("report-2026.pdf").SemiBold(),
+                                TextBlock("PDF document - 2.4 MB").Small().Secondary().MB(8),
+                                Button("Copy link").Link().NoPadding().OnClick(() => { Toast().Success("Link copied"); menu.Hide(); })))
+                           .ShowFor(btn4);
+                    })
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(MenuSample), typeof(PopoverSample), typeof(CommandBarSample), typeof(TippySample), typeof(LayerSample));
         }

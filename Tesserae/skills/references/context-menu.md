@@ -26,6 +26,11 @@ submenus, with arrow-key navigation and Esc to dismiss.
 - `.ShowFor(IComponent or HTMLElement, distanceX = 1, distanceY = 1)` — show anchored to a target (auto-hides when the target is removed).
 - `.ShowAt(x, y, minWidth)` — show at screen coordinates.
 - `.Hide()` / `.OnHide(Action)` — dismiss / hide callback.
+- `.SidePanel(IComponent)` — free content beside the rows, inside the same popup (details about the
+  target, actions that are not menu rows). Call it before showing the menu. The panel is not a row: the
+  arrow keys walk past it and a click inside it does not close the menu, so an action in it calls
+  `menu.Hide()` itself. With a panel, the `minWidth` of `ShowAt` (or the target's width for `ShowFor`)
+  sizes the rows' column, and the panel takes its own width.
 
 ## Behaviour
 
@@ -54,6 +59,20 @@ var menu = ContextMenu().Items(
 
 Button btn = null;
 btn = Button("Open menu").OnClick((s, e) => menu.ShowFor(btn));
+```
+
+### With a side panel
+
+```csharp
+var menu = ContextMenu();
+
+menu.Items(
+        ContextMenuItem("Open").OnClick(() => Toast().Information("Open")),
+        ContextMenuItem("Share").OnClick(() => Toast().Information("Share")))
+   .SidePanel(VStack().W(260).P(12).Children(
+        TextBlock("report-2026.pdf").SemiBold(),
+        Button("Copy link").Link().NoPadding().OnClick(() => { Toast().Success("Copied"); menu.Hide(); })))
+   .ShowAt(x, y, 220);
 ```
 
 ## Related

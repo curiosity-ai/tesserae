@@ -16,6 +16,7 @@ namespace Tesserae
         private readonly HTMLElement    _childContainer;
         private          HTMLDivElement _modalOverlay;
         private          HTMLDivElement _popup;
+        private          HTMLElement    _sidePanel;
 
         // How long an open submenu is held while the pointer rests on another row of this menu - the time
         // it has to reach the submenu it was heading for. The same order as the platform menus.
@@ -84,6 +85,18 @@ namespace Tesserae
                 ItemClick?.Invoke(s, e);
                 Hide();
             }, clearPrevious: false);
+        }
+
+        /// <summary>
+        /// Shows a panel of free content beside the menu's items, inside the same popup - details about the
+        /// target, actions that do not read as menu rows. The panel is not a row: the arrow keys walk past it,
+        /// and clicking inside it does not close the menu, so anything in it that should close the menu calls
+        /// <see cref="Hide"/> itself. Call it before the menu is shown.
+        /// </summary>
+        public ContextMenu SidePanel(IComponent panel)
+        {
+            _sidePanel = Div(Att("tss-contextmenu-side-panel"), panel.Render());
+            return this;
         }
 
         /// <summary>
@@ -195,8 +208,20 @@ namespace Tesserae
                 _modalOverlay = Div(Att("tss-contextmenu-overlay"));
                 _modalOverlay.addEventListener("click", e => { StopEvent(e);  Hide(); });
                 _modalOverlay.addEventListener("contextmenu", e => { StopEvent(e);  Hide(); });
-                _popup       = Div(Att("tss-contextmenu-popup", role: "menu"), _childContainer);
-                _contentHtml = Div(Att(),                        _modalOverlay, _popup);
+
+                if (_sidePanel is object)
+                {
+                    // The rows keep the menu role to themselves: the panel beside them is not a menu.
+                    _childContainer.classList.add("tss-contextmenu-items");
+                    _childContainer.setAttribute("role", "menu");
+                    _popup = Div(Att("tss-contextmenu-popup tss-contextmenu-with-side-panel"), _childContainer, _sidePanel);
+                }
+                else
+                {
+                    _popup = Div(Att("tss-contextmenu-popup", role: "menu"), _childContainer);
+                }
+
+                _contentHtml = Div(Att(), _modalOverlay, _popup);
             }
         }
 
@@ -227,10 +252,14 @@ namespace Tesserae
 
             if (!_popup.classList.contains("tss-no-focus")) _popup.classList.add("tss-no-focus");
 
+            //With a side panel the minimum width is the rows' column, and the popup is measured with it applied
+            if (_sidePanel is object) _childContainer.style.minWidth = minWidth + "px";
+
             var popupRect = (ClientRect)_popup.getBoundingClientRect();
-            _popup.style.left     = x        + "px";
-            _popup.style.top      = y        + "px";
-            _popup.style.minWidth = minWidth + "px";
+            _popup.style.left = x + "px";
+            _popup.style.top  = y + "px";
+
+            if (_sidePanel is null) _popup.style.minWidth = minWidth + "px";
 
             //TODO: CHECK THIS LOGIC
 
@@ -297,14 +326,18 @@ namespace Tesserae
             if (!_popup.classList.contains("tss-no-focus")) _popup.classList.add("tss-no-focus");
 
             ClientRect parentRect = (ClientRect)element.getBoundingClientRect();
-            var        popupRect  = (ClientRect)_popup.getBoundingClientRect();
+
+            if (_sidePanel is object) _childContainer.style.minWidth = parentRect.width + "px";
+
+            var popupRect = (ClientRect)_popup.getBoundingClientRect();
 
             var x = parentRect.left   + distanceX;
             var y = parentRect.bottom + distanceY;
 
-            _popup.style.left     = x                + "px";
-            _popup.style.top      = y                + "px";
-            _popup.style.minWidth = parentRect.width + "px";
+            _popup.style.left = x + "px";
+            _popup.style.top  = y + "px";
+
+            if (_sidePanel is null) _popup.style.minWidth = parentRect.width + "px";
 
             //TODO: CHECK THIS LOGIC
 
