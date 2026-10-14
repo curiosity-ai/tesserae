@@ -189,3 +189,23 @@
 .tss-contextmenu-submenu-button-icon {
     padding-left: 15px;
 }
+
+/* ContextMenu.SidePanel(...) - free content beside the rows, inside the same popup. The two columns
+   scroll on their own when ShowAt/ShowFor cap the popup's height, so the popup itself does not. */
+.tss-contextmenu-popup.tss-contextmenu-with-side-panel {
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+}
+
+    .tss-contextmenu-with-side-panel > .tss-contextmenu-items {
+        flex: 0 0 auto;
+        overflow-y: auto;
+    }
+
+    .tss-contextmenu-with-side-panel > .tss-contextmenu-side-panel {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow-y: auto;
+        border-left: 1px solid var(--tss-default-border-color);
+    }
