@@ -27,7 +27,13 @@ description: The static `Theme` class for switching light/dark mode and overridi
 - `Theme.Warning` — the warning tone, `.Background` and `.Foreground` only (no border or hover tokens exist for it).
 - `Theme.Default.Highlight` — the highlight color as a CSS variable reference, for drawing your own marked text with it.
 - `Theme.Fonts.SansSerif` / `Theme.Fonts.Monospace` — the two font stacks the toolkit draws with, as CSS variable references. See `styling.md`.
-- `Theme.OnThemeChanged` — event raised on mode change.
+- `Theme.OnThemeChanged` — raised on the light/dark switch, on `ThemeBuilder.Apply()` /
+  `Theme.ResetBuild()`, and on `SetCustomTheme` / `ClearCustomTheme`. `SetPrimary`,
+  `SetBackground` and `SetHighlight` rewrite their CSS variables without raising it.
+  It is a **static** event, so a component that subscribes must unsubscribe when it is
+  removed, or it keeps itself and its DOM alive for the life of the page. Anything that
+  reads a theme value into a non-CSS form (a hex string for a canvas or a JS library) has
+  to recompute here — see `colors.md` and `wrap-a-javascript-library.md`.
 
 ## Example
 

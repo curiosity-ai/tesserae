@@ -39,7 +39,9 @@ private static void Main()
 - **Create**: `Button("Save")`, `TextBox()`, `Stack()`, … (some components are also
   `new`-ed, e.g. `new Modal(...)`).
 - **Configure**: chain fluent methods — `.Primary()`, `.Disabled()`, `.OnClick(...)`.
-- **Compose**: containers take children via `.Children(...)` or `.Add(...)`.
+- **Compose**: `.Add(child)` appends one child; `.Children(...)` **replaces** the
+  container's children with the ones passed. Pass the whole list in a single call —
+  `.Children(a).Children(b)` leaves only `b`, silently.
 - **Mount**: `MountToBody` / `MountCenteredToBody` attach the root to the DOM.
 
 > **Reaching a nested type.** `using static Tesserae.UI;` imports a factory *method* for
@@ -245,3 +247,12 @@ are unsure which component fits, find the category above that matches what you a
 trying to do, then open the candidate's reference. The categories are the same ones
 the sample gallery and the online documentation use, so a component sits in the same
 place in all three.
+
+The reverse also holds, and is the cheap way to avoid guessing an API that does not
+exist: the factory is the slug in PascalCase, spelled exactly as the reference spells
+it — `check-box` is `CheckBox()`, not `Checkbox()`; `text-box` is `TextBox()`. C# is
+case-sensitive, so a wrong hump is a `CS0103` at build time and not a runtime
+surprise. When a helper you expect is missing from a component's reference, look for
+it in `references/icomponent.md` (the extension methods every component has) before
+concluding it is absent; `Raw(HTMLElement)` wraps a DOM element you manage yourself as
+an `IComponent` when there is genuinely no component for the job.

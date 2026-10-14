@@ -13,7 +13,9 @@ to control how children claim space.
 
 `Stack(Orientation orientation = Vertical)`, or the shortcuts `VStack()` (vertical) and
 `HStack()` (horizontal). Bring factories into scope with `using static Tesserae.UI;`.
-Add children with `.Add(component)` or `.Children(params IComponent[])`.
+Add children with `.Add(component)` (appends one) or
+`.Children(params IComponent[])` (**replaces** every child with the ones passed —
+chaining two `.Children(...)` calls keeps only the last).
 
 ## Key configuration
 
