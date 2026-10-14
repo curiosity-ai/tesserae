@@ -66,6 +66,11 @@ the line on screen keeps the last text it was given.
 - `.Expand()` / `.Collapse()` / `.Toggle()` / `.Expanded(bool)` / `.OnToggle(tu => ...)` —
   the inline list's state; without `.Inline()` expanding opens the modal instead.
 - `IsInline`, `IsExpanded` — read state.
+- A `ToolCall` added to a group is rendered into the group right away, in either mode, so it cannot
+  also be shown somewhere else.
+- Safe to re-render every frame inside a `DeltaComponent` (a streamed chat reply): the calls listed
+  and the open/folded state are read off the element on screen, so a group that grew between frames
+  opens with the calls it has now.
 
 ### Inline instead of a modal
 
