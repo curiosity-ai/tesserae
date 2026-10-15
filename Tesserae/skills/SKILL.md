@@ -172,6 +172,9 @@ references. Open the reference for whatever you are working with. The full set:
   Text that changes is bound, not deferred: `TextBlock(obs, v => $"…{v}")` updates
   the one element in place; `DeferSync(obs, v => TextBlock(...))` rebuilds it and
   flickers (`references/text-block.md`).
+- `references/layout-stability.md` — keep messages, loading states and refreshed
+  `Defer` regions from shifting what is on screen: append at the end, overlay without
+  covering anything important, reserve space, size a `Defer`, check with screenshots.
 - `references/creating-a-component.md` — build your own `IComponent`.
 - `references/markdown-block.md` ("Content sources") — `MarkdownContentSources`: which
   hosts rendered Markdown may load images, diagram pictures and chart data from
