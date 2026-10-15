@@ -35,15 +35,22 @@ namespace Tesserae
             return this;
         }
 
-        private static string FormatDateTime(DateTimeOffset time) => time.ToString("hh:mm:ss");
+        //24-hour, as <input type="time"> reads and reports it; "hh" is the 12-hour clock and turned 14:30 into 02:30
+        private static string FormatDateTime(DateTimeOffset time) => time.ToString("HH:mm");
+
+        //The input reports seconds only when its step is under a minute
+        private static readonly string[] _formats = { "HH:mm", "HH:mm:ss", "HH:mm:ss.fff" };
 
         protected override string FormatMoment(DateTimeOffset time) => FormatDateTime(time);
 
         protected override DateTimeOffset FormatMoment(string time)
         {
-            if (DateTime.TryParseExact(time, "hh:mm:ss", DateTimeFormatInfo.InvariantInfo, out var result))
+            foreach (var format in _formats)
             {
-                return result;
+                if (DateTime.TryParseExact(time, format, DateTimeFormatInfo.InvariantInfo, out var result))
+                {
+                    return result;
+                }
             }
 
             return default;

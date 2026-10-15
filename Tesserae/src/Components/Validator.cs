@@ -87,7 +87,7 @@ namespace Tesserae
         public void RegisterFromCallback(Func<bool> isInvalid, Action onRevalidation)
         {
             var dummy = new DummyComponentToUseForCustomValidationLogicNotTiedToOneComponent(isInvalid);
-            _registeredComponents.Add(dummy, (isInvalid, onRevalidation));
+            _registeredComponents.Add(dummy, (() => !isInvalid(), onRevalidation)); //The slot holds "would be valid", the callback answers "is invalid"
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace Tesserae
             /// <summary>
             /// Gets or sets a value indicating whether the component is currently in an invalid state.
             /// </summary>
-            public bool   IsInvalid { get => _isInvalid(); set => throw new NotSupportedException(); }
+            public bool   IsInvalid { get => _isInvalid(); set { /* Computed by the callback: ResetState sets it like any other, there is nothing to store */ } }
         }
     }
 }

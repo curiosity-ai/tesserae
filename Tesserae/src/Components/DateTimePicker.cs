@@ -38,11 +38,17 @@ namespace Tesserae
 
         protected override string FormatMoment(DateTime dateTime) => FormatDateTime(dateTime);
 
+        //The input reports seconds only when its step is under a minute
+        private static readonly string[] _formats = { "yyyy-MM-ddTHH:mm", "yyyy-MM-ddTHH:mm:ss", "yyyy-MM-ddTHH:mm:ss.fff" };
+
         protected override DateTime FormatMoment(string dateTime)
         {
-            if (System.DateTime.TryParseExact(dateTime, "yyyy-MM-ddTHH:mm", DateTimeFormatInfo.InvariantInfo, out var result))
+            foreach (var format in _formats)
             {
-                return result;
+                if (System.DateTime.TryParseExact(dateTime, format, DateTimeFormatInfo.InvariantInfo, out var result))
+                {
+                    return result;
+                }
             }
 
             return default;

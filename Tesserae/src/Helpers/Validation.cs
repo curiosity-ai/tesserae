@@ -38,11 +38,11 @@ namespace Tesserae
         /// <summary>Validates that the selected date and time is within the specified range.</summary>
         public static string BetweenRange(DateTimePicker dateTimePicker, DateTime from, DateTime to)
         {
-            return dateTimePicker.DateTime > from && dateTimePicker.DateTime < to ? t($"must be between {from} and {to}") : null;
+            return dateTimePicker.DateTime < from || dateTimePicker.DateTime > to ? t($"must be between {from} and {to}") : null;
         }
 
         /// <summary>Validates that the selected date is not in the past.</summary>
-        public static string NotInThePast(DatePicker datePicker) => datePicker.Date < DateTime.Now ? "must not be in the past".t() : null;
+        public static string NotInThePast(DatePicker datePicker) => datePicker.Date < DateTime.Today ? "must not be in the past".t() : null;
 
         /// <summary>Validates that the selected date is not in the future.</summary>
         public static string NotInTheFuture(DatePicker datePicker) => datePicker.Date > DateTime.Now ? "must not be in the future".t() : null;
@@ -50,7 +50,7 @@ namespace Tesserae
         /// <summary>Validates that the selected date is within the specified range.</summary>
         public static string BetweenRange(DatePicker datePicker, DateTime from, DateTime to)
         {
-            return datePicker.Date > from && datePicker.Date < to ? t($"must be between {from} and {to}") : null;
+            return datePicker.Date < from || datePicker.Date > to ? t($"must be between {from} and {to}") : null;
         }
     }
 }

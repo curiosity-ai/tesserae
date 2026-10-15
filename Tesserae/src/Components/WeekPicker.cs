@@ -23,7 +23,8 @@ namespace Tesserae
         /// </summary>
         public (int year, int weekNumber) Week => Moment;
 
-        private static string FormatWeek((int year, int weekNumber) week) => $"{week.year}-W{week.weekNumber}";
+        //Zero-padded, as the input requires: it rejects "2024-W7" and clears itself
+        private static string FormatWeek((int year, int weekNumber) week) => week.year.ToString("0000") + "-W" + week.weekNumber.ToString("00");
 
         protected override string FormatMoment((int year, int weekNumber) week) => FormatWeek(week);
 

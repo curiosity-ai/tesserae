@@ -34,7 +34,8 @@ namespace Tesserae
             return this;
         }
 
-        private static string FormatMonth((int year, int month) monthAndYear) => $"{monthAndYear.year}-{monthAndYear.month}";
+        //Zero-padded, as the input requires: it rejects "2024-5" and clears itself
+        private static string FormatMonth((int year, int month) monthAndYear) => monthAndYear.year.ToString("0000") + "-" + monthAndYear.month.ToString("00");
 
         protected override string FormatMoment((int year, int month) monthAndYear) => FormatMonth(monthAndYear);
 
