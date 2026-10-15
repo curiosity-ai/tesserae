@@ -128,7 +128,8 @@ namespace Tesserae
         /// <returns>The current instance of the type.</returns>
         public GridPicker SetState(int[][] state)
         {
-            _states = state;
+            // A copy, so later changes to the caller's array do not reach the grid behind its back.
+            _states = state.Select(r => r.ToArray()).ToArray();
             UpdateAll();
             if (_hoverColumn >= 0) HoverState(_hoverColumn, _hoverRow);
             return this;
@@ -155,7 +156,9 @@ namespace Tesserae
         {
             if (value == null) return;
             SetState(value);
-            _observable.Value = SnapshotState();
+            // The incoming reference, not a new snapshot: the observable compares by reference, and a fresh array
+            // would read as a change and be bound straight back here, forever.
+            _observable.Value = value;
         }
 
         /// <summary>
