@@ -44,7 +44,7 @@ namespace Tesserae
             Identifier = identifier;
             _text      = text;
             _selected  = new SettableObservable<bool>(false);
-            _tooltip   = (b) => b.Tooltip(text, placement: TooltipPlacement.Right);
+            _tooltip   = (b) => b.TooltipText(text, placement: TooltipPlacement.Right);
 
             var iconStr = $"{Tesserae.Icon.Transform(icon, weight)} medium";
             var iconEl  = I(Att("tss-sidenav-btn-icon " + iconStr));

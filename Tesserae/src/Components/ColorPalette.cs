@@ -128,7 +128,7 @@ namespace Tesserae
             el.setAttribute("aria-label", entry.Label);
             el.setAttribute("tabindex",   "0");
             el.style.background = entry.Color;
-            Raw(el).Tooltip(entry.Label);
+            Raw(el).TooltipText(entry.Label);
 
             el.addEventListener("click",   _ => SelectColor(entry.Color, el));
             el.addEventListener("keydown", e =>

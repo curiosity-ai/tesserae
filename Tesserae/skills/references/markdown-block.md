@@ -38,7 +38,8 @@ The rich copy is also available on its own as `Clipboard.CopyHtml(html, plainTex
 Both modes run the parsed HTML through DOMPurify; the mode picks its configuration.
 
 - `MarkdownSanitization.Default` — DOMPurify's default profile: scripts and event
-  handlers go, links and images stay.
+  handlers go, links and images stay. `<style>`, `style="..."` and form controls go
+  too, so user-written Markdown cannot restyle the app or draw a fake login form.
 - `MarkdownSanitization.NoLinksOrEmbeddedContent` — also removes every link and
   every piece of embedded content (anchors, images, SVG, media) and the attributes
   that fetch a remote URL. A link keeps its label as plain text and is not

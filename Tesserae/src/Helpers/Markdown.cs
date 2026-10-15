@@ -15,6 +15,7 @@ namespace Tesserae
     {
         private static object _shared;
         private static object _noLinksOrEmbeddedContentConfig;
+        private static object _defaultConfig;
 
         private static object GetShared()
         {
@@ -45,6 +46,23 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// The DOMPurify configuration behind <see cref="MarkdownSanitization.Default"/>: DOMPurify's own
+        /// profile, minus what lets a comment take over the page without a script - a <c>style</c> element or
+        /// attribute restyles or covers the whole app, and a form with a password field posts wherever its
+        /// author likes.
+        /// </summary>
+        private static object GetDefaultConfig()
+        {
+            if (_defaultConfig == null)
+            {
+                _defaultConfig = Script.Write<object>(
+                    "{ FORBID_TAGS: ['style','form','input','button','textarea','select'],"
+                  + "  FORBID_ATTR: ['style','action','formaction'] }");
+            }
+            return _defaultConfig;
+        }
+
+        /// <summary>
         /// Parses the given markdown <paramref name="text"/> and runs the resulting HTML through DOMPurify.
         /// </summary>
         /// <param name="text">The Markdown source.</param>
@@ -60,7 +78,7 @@ namespace Tesserae
                 return Script.Write<string>("DOMPurify.sanitize({0}, {1})", cleaned, GetNoLinksOrEmbeddedContentConfig());
             }
 
-            var sanitized = Script.Write<string>("DOMPurify.sanitize({0})", cleaned);
+            var sanitized = Script.Write<string>("DOMPurify.sanitize({0}, {1})", cleaned, GetDefaultConfig());
             return sanitized;
         }
 

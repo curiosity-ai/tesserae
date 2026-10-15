@@ -113,7 +113,7 @@ namespace Tesserae
 
                 if (!string.IsNullOrWhiteSpace(closedText))
                 {
-                    Raw(titleContainerClosed).Tooltip(closedText, placement: TooltipPlacement.Right);
+                    Raw(titleContainerClosed).TooltipText(closedText, placement: TooltipPlacement.Right);
                 }
             }
             else

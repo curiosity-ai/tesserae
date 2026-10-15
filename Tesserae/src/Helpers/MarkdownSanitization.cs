@@ -9,7 +9,8 @@ namespace Tesserae
     {
         /// <summary>
         /// DOMPurify's default profile: scripts and event handlers are removed, but links,
-        /// images and other embedded media survive.
+        /// images and other embedded media survive. Style elements and attributes and form
+        /// controls are removed too, so a comment cannot restyle the page or draw a login form.
         /// </summary>
         Default,
 

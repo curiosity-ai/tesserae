@@ -77,6 +77,7 @@ namespace Tesserae
         public bool        PropagateStylesToWrapper => true;
 
         private string _html;
+        private bool   _contentLoadPending;
         private string _url;
 
         private bool _allowScripts    = true;  // fully sandboxed default = allow-scripts allow-forms
@@ -290,7 +291,11 @@ namespace Tesserae
 
             InnerElement.onload = _ =>
             {
-                SetupMessaging();
+                //Only the document we gave the frame gets a port: a srcdoc page that navigates itself away
+                //must not hand the channel to whatever it navigated to
+                var ours = _contentLoadPending || _url is object;
+                _contentLoadPending = false;
+                if (ours) SetupMessaging();
                 SetupHostSideFit();
                 _onLoaded?.Invoke(InnerElement);
             };
@@ -300,6 +305,8 @@ namespace Tesserae
 
         private void ApplyContent()
         {
+            _contentLoadPending = true;
+
             if (_url is object)
             {
                 InnerElement.removeAttribute("srcdoc");
@@ -351,57 +358,13 @@ namespace Tesserae
             return inject.Length == 0 ? html : InjectIntoHead(html, inject);
         }
 
-        // Inserts `inject` as the first thing inside the document head so the CSP meta takes effect before
-        // any other content. Falls back to wrapping fragments in a minimal document.
+        // Puts `inject` first in a head of our own, ahead of all of the content, rather than searching the
+        // content for its head: a search finds "<head" inside a comment or a string too, and the CSP spliced
+        // in there never applies. The parser merges or ignores the content's own doctype, html and head tags,
+        // and still moves what its head holds (meta, title, style, script) into the document head.
         private static string InjectIntoHead(string html, string inject)
         {
-            if (string.IsNullOrEmpty(html))
-            {
-                return "<!DOCTYPE html><html><head>" + inject + "</head><body></body></html>";
-            }
-
-            var headIndex = IndexOfTag(html, "head");
-
-            if (headIndex >= 0)
-            {
-                var close = html.IndexOf('>', headIndex);
-                if (close >= 0)
-                {
-                    return html.Substring(0, close + 1) + inject + html.Substring(close + 1);
-                }
-            }
-
-            var htmlIndex = IndexOfTag(html, "html");
-
-            if (htmlIndex >= 0)
-            {
-                var close = html.IndexOf('>', htmlIndex);
-                if (close >= 0)
-                {
-                    return html.Substring(0, close + 1) + "<head>" + inject + "</head>" + html.Substring(close + 1);
-                }
-            }
-
-            return "<!DOCTYPE html><html><head>" + inject + "</head><body>" + html + "</body></html>";
-        }
-
-        // Case-insensitive search for an opening tag (e.g. "<head" / "<head ").
-        private static int IndexOfTag(string html, string tag)
-        {
-            var needle = "<" + tag;
-            var lower  = html.ToLower();
-            var idx    = lower.IndexOf(needle, StringComparison.Ordinal);
-
-            while (idx >= 0)
-            {
-                var next = idx + needle.Length;
-                if (next >= lower.Length) return idx;
-                var c = lower[next];
-                if (c == '>' || c == ' ' || c == '\t' || c == '\r' || c == '\n') return idx;
-                idx = lower.IndexOf(needle, next, StringComparison.Ordinal);
-            }
-
-            return -1;
+            return "<!DOCTYPE html><html><head>" + inject + "</head>" + (html ?? "");
         }
 
         private void SetupMessaging()

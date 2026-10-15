@@ -443,9 +443,9 @@ namespace Tesserae
         {
             if (element is null || !element.HasOwnProperty(TOOLTIP_TEXT_PROPERTY)) return null;
 
-            var holder = UI.DIV();
-            holder.innerHTML = element[TOOLTIP_TEXT_PROPERTY].As<string>();
-            return holder.textContent;
+            //Parsed in a document of its own, which loads and runs nothing: an <img onerror> in the markup
+            //must not fire just because something asked for the tooltip's text
+            return Transpose.Script.Write<string>("(function(h){ var d = document.implementation.createHTMLDocument(''); d.body.innerHTML = h; return d.body.textContent; })({0})", element[TOOLTIP_TEXT_PROPERTY].As<string>());
         }
 
         /// <summary>
@@ -480,21 +480,38 @@ namespace Tesserae
 
         private const string TOOLTIP_NAME_ATTRIBUTE = "data-tss-tooltip-name";
 
-        /// <summary>Adds a tooltip with HTML content to the component.</summary>
+        /// <summary>Adds a tooltip with HTML content to the component. For text that comes from data, use <see cref="TooltipText{T}"/>.</summary>
         public static T Tooltip<T>(this T component, string tooltipHtml, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 250, int delayHide = 0, bool followCursor = false, int maxWidth = 350, bool arrow = false, string theme = null, IComponent parent = null) where T : IComponent
         {
             if (string.IsNullOrWhiteSpace(tooltipHtml))
                 return component;
 
+            return TooltipFromString(component, tooltipHtml, UI.Raw(tooltipHtml), animation, placement, delayShow, delayHide, followCursor, maxWidth, arrow, theme, parent);
+        }
+
+        /// <summary>Adds a tooltip that shows <paramref name="text"/> as plain text: markup in it is displayed, never parsed.</summary>
+        public static T TooltipText<T>(this T component, string text, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 250, int delayHide = 0, bool followCursor = false, int maxWidth = 350, bool arrow = false, string theme = null, IComponent parent = null) where T : IComponent
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return component;
+
+            var span = UI.SPAN();
+            span.textContent = text;
+
+            return TooltipFromString(component, span.innerHTML, span, animation, placement, delayShow, delayHide, followCursor, maxWidth, arrow, theme, parent);
+        }
+
+        private static T TooltipFromString<T>(T component, string html, HTMLElement content, TooltipAnimation animation, TooltipPlacement placement, int delayShow, int delayHide, bool followCursor, int maxWidth, bool arrow, string theme, IComponent parent) where T : IComponent
+        {
             //The tooltip itself is only built on the first hover, which a phone never has - this is what a
             //touch layout reads instead to say what an icon-only button does (see OmniBox's options sheet)
             var rendered = component.Render();
-            rendered[TOOLTIP_TEXT_PROPERTY] = tooltipHtml;
+            rendered[TOOLTIP_TEXT_PROPERTY] = html;
 
             NameAfterTooltipIfNameless(rendered);
 
             return component.Tooltip(
-                new Raw(UI.Raw(tooltipHtml)),
+                new Raw(content),
                 animation: animation,
                 placement: placement,
                 delayShow: delayShow,

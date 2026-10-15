@@ -87,7 +87,7 @@ namespace Tesserae
             Identifier     = identifier;
             _text          = text;
             _selected      = new SettableObservable<bool>(false);
-            _tooltipClosed = (b) => b.Tooltip(text, placement: TooltipPlacement.Right);
+            _tooltipClosed = (b) => b.TooltipText(text, placement: TooltipPlacement.Right);
 
             _closedButton = buttonWithIconClosed.Class("tss-sidebar-btn").Id(identifier);
             _openButton   = buttonWithIconOpen.SetText(text).Class("tss-sidebar-btn").Id(identifier);
@@ -239,7 +239,7 @@ namespace Tesserae
             _text      = text;
             _selected  = new SettableObservable<bool>(false);
 
-            _tooltipClosed = (b) => b.Tooltip(text, placement: TooltipPlacement.Right);
+            _tooltipClosed = (b) => b.TooltipText(text, placement: TooltipPlacement.Right);
 
             _image = image;
 

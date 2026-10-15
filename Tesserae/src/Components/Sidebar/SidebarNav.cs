@@ -219,7 +219,7 @@ namespace Tesserae
         public SidebarNav SetText(string text)
         {
             _openHeaderButton.SetText(text);
-            _closedHeader.Tooltip(text, placement: TooltipPlacement.Top);
+            _closedHeader.TooltipText(text, placement: TooltipPlacement.Top);
             _text = text;
             return this;
         }
@@ -600,7 +600,7 @@ namespace Tesserae
 
         private IComponent RenderClosed(IReadOnlyList<ISidebarItem> items)
         {
-            _closedHeader.Tooltip(_text, placement: TooltipPlacement.Top);
+            _closedHeader.TooltipText(_text, placement: TooltipPlacement.Top);
 
             //The same class the open header carries, so a stylesheet draws the group's mark on neither header of
             //a group with nothing in it.

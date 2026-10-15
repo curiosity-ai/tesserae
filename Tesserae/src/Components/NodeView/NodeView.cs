@@ -365,7 +365,7 @@ namespace Tesserae
             void ReplaceIcon(HTMLElement el, UIcons icon)
             {
                 ClearChildren(el);
-                el.appendChild(Button().SetIcon(icon).Tooltip(el.title).NoMinSize().H(32).W(32).Render());
+                el.appendChild(Button().SetIcon(icon).TooltipText(el.title).NoMinSize().H(32).W(32).Render());
             }
         }
 

@@ -146,7 +146,7 @@ namespace Tesserae
                     text = _textError;
                     if (!string.IsNullOrEmpty(message))
                     {
-                        _button.Tooltip(message);
+                        _button.TooltipText(message);
                     }
                     break;
             }

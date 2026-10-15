@@ -172,12 +172,26 @@ namespace Tesserae
 
                 if (eq < 0)
                 {
-                    par[Script.DecodeURIComponent(qp)] = "";
+                    par[Decode(qp)] = "";
                 }
                 else if (eq > 0)
                 {
-                    par[Script.DecodeURIComponent(qp.Substring(0, eq))] = Script.DecodeURIComponent(qp.Substring(eq + 1));
+                    par[Decode(qp.Substring(0, eq))] = Decode(qp.Substring(eq + 1));
                 }
+            }
+        }
+
+        //A link is typed or pasted by anyone: a broken escape like "%E0%A4%A" throws URIError, which would stop
+        //the route from activating at all, so it is kept as written instead
+        private static string Decode(string part)
+        {
+            try
+            {
+                return Script.DecodeURIComponent(part);
+            }
+            catch
+            {
+                return part;
             }
         }
 

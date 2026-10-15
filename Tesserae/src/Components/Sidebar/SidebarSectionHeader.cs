@@ -163,7 +163,7 @@ namespace Tesserae
         private void UpdateTooltip()
         {
             var text = string.IsNullOrWhiteSpace(_subtitle) ? _title : _title + " - " + _subtitle;
-            _closedTarget.Tooltip(text, placement: TooltipPlacement.Right);
+            _closedTarget.TooltipText(text, placement: TooltipPlacement.Right);
         }
     }
 }

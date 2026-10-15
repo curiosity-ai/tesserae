@@ -273,7 +273,7 @@ namespace Tesserae
 
             if (_editButton is null)
             {
-                _editButton = new Button().SetIcon(UIcons.Settings).NoBorder().NoBackground().Compact().Tooltip($"Edit {Title}");
+                _editButton = new Button().SetIcon(UIcons.Settings).NoBorder().NoBackground().Compact().TooltipText($"Edit {Title}");
                 _editButton.OnClick(() => _onEdit?.Invoke(_editButton));
                 _editHost.appendChild(_editButton.Render());
 

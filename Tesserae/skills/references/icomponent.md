@@ -117,11 +117,16 @@ For text-bearing components (`TextBlock`, `Button`, `Label`, …):
 
 ```csharp
 .Tooltip("Plain or <b>HTML</b> text", placement: TooltipPlacement.Top)
+.TooltipText(user.Name)                         // always plain text, markup is shown not parsed
 .Tooltip(componentTooltip, interactive: true)   // rich IComponent tooltip
 .RemoveTooltip()
 ```
 
-A `Tooltip(string)` on an element with no text and no `aria-label` also becomes its `aria-label`,
+`Tooltip(string)` parses its argument as HTML whenever it looks like markup, so a string that
+comes from data (a name, a tag, an error message) goes through `TooltipText(string)` instead:
+otherwise `<img src=x onerror=...>` in that data runs as script.
+
+A `Tooltip(string)` or `TooltipText(string)` on an element with no text and no `aria-label` also becomes its `aria-label`,
 so an icon-only button is named after what its tooltip says (see `accessibility.md`).
 
 `IComponentExtensions.TooltipTextOf(element)` returns the plain text of a `Tooltip(string)`
