@@ -312,6 +312,42 @@ only while it moves, auto-hiding after a delay) is out; do not bring it back as 
 listener". The `.simplebar-*` rules in `tss.common.css` only style an application that loads
 simplebar itself; Tesserae does not load it, and nothing new should depend on it.
 
+### Dynamic content does not shift what is already on screen
+
+Content that arrives after the first paint (a validation or error message, a result count, a
+loading indicator, a banner, a row that streams in) must not move what the user is already looking
+at or about to click. A button that jumps the moment a message appears under it is a mis-click, and
+a page whose content shuffles while it loads reads as broken whatever it ends up looking like.
+
+- **Append at the end or the bottom.** New rows go after the existing ones, a message goes below
+  the field it belongs to, a status line goes at the foot of the list. Nothing above the insertion
+  point moves.
+- **Or overlay it.** Something that must be seen immediately floats over the page (`Toast`,
+  `Float`, a `Layer`, a `Tooltip` on the control) instead of being inserted into the flow.
+- **An overlay hides nothing important.** It must not cover the control the user is operating, the
+  field the message is about, the primary action, or the content being read. Anchor it to an edge
+  or beside its subject, size it to its text, and let it be dismissed.
+- **Reserve the space when the content is expected.** A field that can fail validation keeps a line
+  for its message; content that is being fetched sits in a `Skeleton` sized like the result; a
+  counter uses the width of its largest value. Then the arrival fills a box instead of growing one.
+- **Replace in place rather than rebuild**, so a component keeps its size while its content changes
+  (see "Reactive updates" in the `tesserae` skill: `DeltaComponent`, `.Text(obs)`, the observable
+  list components).
+- **Give a `Defer` / `DeferSync` region a size.** Every refresh unmounts the old content, shows the
+  loading message and mounts the new content, so an unsized region collapses and grows back and
+  everything below it jumps twice. `.Height(...)` for content of known size, `.MinHeight(...)` plus
+  a `loadMessage` sized like the result when it varies, and place the region below what it should
+  not move.
+
+The skill's `references/layout-stability.md` is the consumer-facing version of this section; keep
+the two in step.
+
+**Check it with screenshots, not by reading the code.** Capture the surface before the dynamic content
+appears and after it does (the error raised, the list filled, the toast shown), in every theme and
+mode, and compare the two: everything present in the first capture is at the same position in the
+second, and the overlay in the second covers nothing a user needs. A sample that demonstrates the
+component is the place to exercise both states.
+
 ### Type safety
 
 Favor strong, static typing. Avoid `dynamic` unless absolutely necessary
