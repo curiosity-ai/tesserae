@@ -158,14 +158,16 @@ namespace Tesserae
             window.setTimeout(
                 _ =>
                 {
-                    if (_defaultLoadingMessageIfAny is object)
-                    {
-                        _defaultLoadingMessageIfAny.Text = "Loading...".t();
-                        Container.classList.add("tss-defer-with-loading-msg");
-                    }
-
+                    // Only while this run is still the latest and has not finished: a load that completed inside the
+                    // delay has already rendered its content, and must not be marked as still loading afterwards.
                     if (currentID == id)
                     {
+                        if (_defaultLoadingMessageIfAny is object)
+                        {
+                            _defaultLoadingMessageIfAny.Text = "Loading...".t();
+                            Container.classList.add("tss-defer-with-loading-msg");
+                        }
+
                         ClearChildren(Container);
                         Container.appendChild(_loadMessage.Render());
                     }
@@ -187,24 +189,27 @@ namespace Tesserae
 
                         ClearChildren(Container);
 
-                        if (r.IsCompleted)
+                        // IsCompleted is also true for a faulted or cancelled task, whose Result throws: test those first.
+                        if (r.IsFaulted)
+                        {
+                            Container.appendChild(TextBlock("Error rendering async element").Danger());
+                            Container.appendChild(TextBlock(r.Exception.ToString()).XSmall());
+                            _refreshCompleted?.SetResult(false);
+                        }
+                        else if (r.IsCanceled)
+                        {
+                            _refreshCompleted?.SetResult(false);
+                        }
+                        else
                         {
                             if (r.Result is object)
                             {
                                 Container.appendChild(r.Result.Render());
                             }
-                        }
-                        else
-                        {
-                            Container.appendChild(TextBlock("Error rendering async element").Danger());
-                            Container.appendChild(TextBlock(r.Exception.ToString()).XSmall());
+                            _refreshCompleted?.SetResult(true);
                         }
 
-                        if (_refreshCompleted is object)
-                        {
-                            _refreshCompleted.SetResult(r.IsCompleted);
-                            _refreshCompleted = null;
-                        }
+                        _refreshCompleted = null;
 
                         Tippy.CheckRepositionNeeded(Container);
                     }
