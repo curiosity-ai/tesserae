@@ -18,7 +18,7 @@ factory — use `new`. Bring factories into scope with `using static Tesserae.UI
 ## Key configuration
 
 - `.SetValue(T)` / `.Value` — current step value.
-- `.OnChange(Action<T>)` — fires when the selected step changes (on drag + commit).
+- `.OnChange(Action<T>)` — fires when the selected step changes (live while dragging, and on commit only if the drag did not already report that step).
 - `.Horizontal()` / `.Vertical()` — orientation (also `.Orientation`).
 - `.Disabled(bool = true)` / `.IsEnabled` — enable/disable.
 - `.Comparer(IEqualityComparer<T>)` — custom equality for matching values.

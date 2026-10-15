@@ -108,13 +108,19 @@ namespace Tesserae
         /// <returns>The current instance.</returns>
         public StepsSlider<T> OnChange(Action<T> onChange)
         {
+            // Live while dragging (input), and on commit (change) only for a value the last input did not
+            // already report, so the final step is not raised twice.
+            int? lastInputValue = null;
+
             _slider.OnChange((s, e) =>
             {
-                onChange?.Invoke(Value);
+                if (lastInputValue != _slider.Value) onChange?.Invoke(Value);
+                lastInputValue = null;
             });
 
             _slider.OnInput((s, e) =>
             {
+                lastInputValue = _slider.Value;
                 onChange?.Invoke(Value);
             });
             return this;
