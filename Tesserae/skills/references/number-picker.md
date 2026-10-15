@@ -15,7 +15,7 @@ Bring the factory into scope with `using static Tesserae.UI;`.
 
 ## Key configuration
 
-- `.Value` — read the current value as `int`.
+- `.Value` — read the current value as `int` (a decimal is truncated toward zero; an empty or non-numeric field reads as `0`, and so does a bound int).
 - `.SetMin(int)` / `.SetMax(int)` / `.SetStep(int)` — bounds and increment (or the `Min`/`Max`/`Step` properties).
 - `.OnChange(...)` — react to value changes (inherited from `Input`).
 - `.Disabled()`, `.Required()` — state (inherited).

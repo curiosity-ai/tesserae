@@ -1,4 +1,6 @@
-﻿namespace Tesserae
+﻿using System.Globalization;
+
+namespace Tesserae
 {
     /// <summary>
     /// A form input for entering a numeric value, with optional min/max bounds and step.
@@ -27,16 +29,14 @@
 
         private void UpdateIntObservable()
         {
-            if (int.TryParse(Text, out var parsed))
-            {
-                _intObservable.Value = parsed;
-            }
+            _intObservable.Value = Value;
         }
 
         /// <summary>
-        /// Gets or sets the current value of the component.
+        /// Gets the current value of the component, truncated toward zero, or 0 while the field is empty or holds
+        /// no number (the browser reports a lone "-" as empty too).
         /// </summary>
-        public int Value => int.Parse(Text);
+        public int Value => double.TryParse(Text, CultureInfo.InvariantCulture, out var parsed) ? (int)parsed : 0;
 
         /// <summary>
         /// Returns an observable that tracks the numeric value of the component.
