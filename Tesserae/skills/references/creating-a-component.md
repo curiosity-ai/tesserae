@@ -118,6 +118,28 @@ helpers in `Tesserae/src/Extensions/`, and a sample in `Tesserae.Tests/`.)
   properties onto it.) A component that sizes a container of its own implements
   `ISpecialCaseStyling` and exposes a `StylingContainer`, and the helpers write there
   instead.
+- The second half of `ISpecialCaseStyling` is `PropagateStylesToWrapper`: answer
+  `false` when you size your own container, and the helpers skip the
+  `tss-stk-*` / `tss-grd-*` marker attributes that a wrapper-building container
+  (`Masonry`, `SectionStack`, `KeyedObservableStack`) reads to hoist the property
+  onto its wrapper.
+
+  ```csharp
+  public class MyComponent : IComponent, ISpecialCaseStyling
+  {
+      public HTMLElement StylingContainer         => _container;   // helpers write here
+      public bool        PropagateStylesToWrapper => false;        // this component sizes it
+  }
+  ```
+
+  Give that container a definite size of its own (`width: 100%; height: 100%;
+  overflow: hidden; position: relative`) and let the caller size it with `.WS()`,
+  `.H(220.px())` and friends — a wrapped library that measures a zero-height
+  parent renders nothing.
+- An explicit `.Width()` / `.Height()` clears the element's intrinsic
+  `min-width` / `min-height` unless `.MinWidth()` / `.MinHeight()` was asked for
+  too, so a floor declared in your own CSS does not silently beat the size the
+  caller asked for.
 - **Don't spend `padding` on the element `Render()` returns.** `.P()` / `.PL()` and
   friends write an inline padding onto exactly that element, and an inline value beats
   any stylesheet, so a caller asking for room around your component silently deletes
@@ -126,8 +148,9 @@ helpers in `Tesserae/src/Extensions/`, and a sample in `Tesserae.Tests/`.)
   two compose: the caller's padding moves the whole control, your margin keeps its
   pieces apart. `CheckBox`, `ChoiceGroup.Choice` and `Toggle` lay their mark and their
   text out side by side in a flex row for this reason.
-- To accept children, implement `IContainer<T, TChild>` and wrap each child with
-  the stack-item protocol; most custom components instead *compose* existing
+- To accept children, implement `IContainer<T, TChild>` and add each child
+  through the stack-item protocol (`Stack.GetItem`, which tags the child's own
+  element rather than wrapping it); most custom components instead *compose* existing
   components (return a `Stack().Children(...)`).
 - Mount a top-level component with `MountToBody(component)` or
   `MountCenteredToBody(component)`.

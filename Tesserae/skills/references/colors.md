@@ -51,7 +51,14 @@ Theme.SetHighlight(Color.FromString("#B45309"), Color.FromString("#FBBF24"));
 - `Color.FromString("rgba(16,110,190,1)")` / `Color.FromString("blue")` — parse hex/rgb/named.
 - `Color.FromArgb(0, 120, 212)` — construct from components.
 - `Color.FromHsl(hue, saturation, lightness, alpha = 255)` — construct from HSL, inverting `.GetHue()` / `.GetSaturation()` / `.GetBrightness()`. Hue is in degrees and wraps; saturation and lightness are 0..1 and clamp.
-- `Color.EvalVar(...)` — resolve a CSS variable to a concrete color.
+- `Color.EvalVar("--tss-…")` / `Color.EvalVar("var(--tss-…)")` — read a CSS variable's
+  computed value off `document.body` as a string (any variable, not just colors).
+- `Color.FromString(Theme.Secondary.Background)` — theme accessors *are* `var(...)`
+  strings and `FromString` resolves them, so
+  `Color.FromString(Theme.Secondary.Background).ToHex()` is the one-liner for handing a
+  concrete `#rrggbb` to something that cannot read CSS variables (a canvas, a chart, a
+  wrapped JS library). Resolve it when you use it and recompute on
+  `Theme.OnThemeChanged` — a value baked in at load time will not follow a theme switch.
 - `.ToHex()` / `.ToRGB()` — serialize. `HSLColor` exposes `.Luminosity` for contrast checks.
 - `Avatar.GradientForHue(int hue)` / `Avatar.GradientForColor(Color)` — the two-stop gradient an `Avatar` fills itself with, exposed so anything standing in for an avatar looks like it came out of the same set.
 
@@ -59,6 +66,7 @@ Theme.SetHighlight(Color.FromString("#B45309"), Color.FromString("#FBBF24"));
 
 - Theme switching detail — `theme-colors.md`
 - ThemeBuilder — set every colour variable at once — `theme-builder.md`
+- Handing a resolved color to a JS library — `wrap-a-javascript-library.md`
 - Gradients — `gradients.md`
 - ColorPalette picker — `color-palette.md`
 - Full docs & API: `/tesserae/utilities/colors`, `/tesserae/get-started/colors`
