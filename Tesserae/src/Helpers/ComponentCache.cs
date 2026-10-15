@@ -13,7 +13,7 @@ namespace Tesserae
     {
         private readonly Func<(int Key, TComponent Component), HTMLElement> _createComponentExpression;
 
-        private readonly List<(int Key, HTMLElement HtmlElement)> _componentCache;
+        private readonly Dictionary<int, HTMLElement> _componentCache;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -22,7 +22,7 @@ namespace Tesserae
         {
             _createComponentExpression = createComponentExpression ?? throw new ArgumentNullException(nameof(createComponentExpression));
 
-            _componentCache = new List<(int Key, HTMLElement HtmlElement)>();
+            _componentCache = new Dictionary<int, HTMLElement>();
         }
 
         /// <summary>
@@ -42,17 +42,15 @@ namespace Tesserae
         {
             foreach (var componentAndKey in _componentsAndKeys)
             {
-                var (Key, HtmlElement) = _componentCache.SingleOrDefault(component => component.Key == componentAndKey.Key);
-
-                if (HtmlElement != null)
+                if (_componentCache.TryGetValue(componentAndKey.Key, out var cachedHtmlElement))
                 {
-                    yield return HtmlElement;
+                    yield return cachedHtmlElement;
                 }
                 else
                 {
                     var htmlElement = _createComponentExpression(componentAndKey);
 
-                    _componentCache.Add((componentAndKey.Key, htmlElement));
+                    _componentCache[componentAndKey.Key] = htmlElement;
 
                     yield return htmlElement;
                 }
