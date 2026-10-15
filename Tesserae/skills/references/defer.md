@@ -17,6 +17,12 @@ Each re-render builds a new component and swaps its element in. For text that ch
 remounts the block and flickers: use `TextBlock(observable, v => …)` instead, which updates the
 one element in place (see `text-block.md`). Use `Defer` when the structure changes, not the words.
 
+Every refresh unmounts the old content and mounts the new one, with the loading message in
+between. A region with no size collapses to the loading message while it refreshes and grows
+back afterwards, so everything below it jumps. Give it `.Height(...)` when the content has a known
+size, or `.MinHeight(...)` plus a `loadMessage` (a `Skeleton`) sized like a typical result when it
+varies, and place it below what it should not move. See `layout-stability.md`.
+
 ## Key configuration
 
 `IDefer` members:
