@@ -908,7 +908,7 @@ namespace Tesserae
                                 var newVal = currentVal.Substring(0, (int)cursorPos - 2) + currentVal.Substring((int)cursorPos);
                                 _searchInput.value = newVal;
                                 _searchInput.setSelectionRange((uint)cursorPos - 2, (uint)cursorPos - 2);
-                                OnSearchInputChanged();
+                                OnSearchInputTyped(e);
                             }
                         }
                     }
@@ -927,7 +927,7 @@ namespace Tesserae
                                     var newVal = currentVal.Substring(0, (int)cursorPos) + currentVal.Substring((int)cursorPos + 2);
                                     _searchInput.value = newVal;
                                     _searchInput.setSelectionRange((uint)cursorPos, (uint)cursorPos);
-                                    OnSearchInputChanged();
+                                    OnSearchInputTyped(e);
                                 }
                                 else
                                 {
@@ -937,7 +937,7 @@ namespace Tesserae
                                     var newVal = currentVal.Substring(0, (int)cursorPos);
                                     _searchInput.value = newVal;
                                     _searchInput.setSelectionRange((uint)cursorPos, (uint)cursorPos);
-                                    OnSearchInputChanged();
+                                    OnSearchInputTyped(e);
                                 }
                             }
                         }
@@ -1027,15 +1027,16 @@ namespace Tesserae
                         var currentVal = _searchInput.value;
                         _searchInput.value = currentVal.Substring(0, (int)start) + currentVal.Substring((int)end);
                         _searchInput.setSelectionRange((uint)start, (uint)start);
-                        OnSearchInputChanged();
+                        OnSearchInputTyped(e);
                         StopEvent(e);
                     }
                 });
 
+                //Through the setter, so OnInput hears an emptied box the way it hears typing - a host that
+                //searches as the text changes (CommandPalette) goes back to what it shows for no query.
                 _searchClearBtn.OnClick(() =>
                 {
-                    _searchInput.value = string.Empty;
-                    OnSearchInputChanged();
+                    SearchText = string.Empty;
                     _searchInput.focus();
                 });
 
@@ -1469,6 +1470,8 @@ namespace Tesserae
             }
         }
 
+        //Also the end of every edit the box makes by hand in place of the browser's (deleting a padded
+        //operator token, cut), which stops the native event - so OnInput still hears it.
         private void OnSearchInputTyped(Event e)
         {
             OnSearchInputChanged();
