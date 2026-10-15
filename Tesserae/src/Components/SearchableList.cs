@@ -71,6 +71,11 @@ namespace Tesserae
                         Items,
                         item =>
                         {
+                            // A new marker on every refresh, even one that starts no background search, so a search
+                            // still in flight from an earlier text (e.g. before the box was cleared) is dropped.
+                            var markerLocal = new object();
+                            marker = markerLocal;
+
                             var searchTerms = (_searchBox.Text ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                             var includeItems = new List<IComponent>();
@@ -111,14 +116,12 @@ namespace Tesserae
 
                             if (_backgroundSearcher is object && !string.IsNullOrEmpty(_searchBox.Text))
                             {
-                                var markerLocal = new object();
-                                marker = markerLocal;
                                 var backgroundSearch = _backgroundSearcher(_searchBox.Text);
                                 _searchBox.ShowProgressWhile(backgroundSearch);
                                 backgroundSearch.ContinueWith(t =>
                                 {
                                     if (markerLocal != marker) return;
-                                    if (t.IsCompleted)
+                                    if (t.Status == TaskStatus.RanToCompletion)
                                     {
                                         foreach(var bi in t.Result)
                                         {
