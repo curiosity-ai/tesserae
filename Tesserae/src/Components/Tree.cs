@@ -47,6 +47,13 @@ namespace Tesserae
         {
             InnerElement = Ul(Att("tss-tree", role: "tree"));
 
+            TrackMounting();
+        }
+
+        // DomObserver's callbacks are one-shot, so each removal re-arms the mount tracking: a tree removed and added
+        // back follows the Shift key again.
+        private void TrackMounting()
+        {
             DomObserver.WhenMounted(InnerElement, () =>
             {
                 var onKeyDown = new Action<Event>(e =>
@@ -76,6 +83,7 @@ namespace Tesserae
                 {
                     document.body.removeEventListener("keydown", onKeyDown);
                     document.body.removeEventListener("keyup",   onKeyUp);
+                    TrackMounting();
                 });
             });
         }

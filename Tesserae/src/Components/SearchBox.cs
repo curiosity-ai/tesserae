@@ -25,6 +25,7 @@ namespace Tesserae
 
         private string[]                       _shortcutKeys;
         private Action<Event>                  _globalShortcutHandler;
+        private bool                           _trackingShortcutMount;
         private Action                         _onShortcut;
 
         protected event SearchEventHandler Searched;
@@ -670,8 +671,31 @@ namespace Tesserae
                 InnerElement.select();
             };
 
-            window.addEventListener("keydown", _globalShortcutHandler);
+            //On window only while the box is on the page, or a removed box would keep its handler there for good
+            if (_container.IsMounted()) window.addEventListener("keydown", _globalShortcutHandler);
+
+            if (!_trackingShortcutMount)
+            {
+                _trackingShortcutMount = true;
+                TrackShortcutMounting();
+            }
+
             return this;
+        }
+
+        // DomObserver's callbacks are one-shot, so each removal re-arms the mount tracking.
+        private void TrackShortcutMounting()
+        {
+            DomObserver.WhenMounted(_container, () =>
+            {
+                if (_globalShortcutHandler is object) window.addEventListener("keydown", _globalShortcutHandler);
+
+                DomObserver.WhenRemoved(_container, () =>
+                {
+                    if (_globalShortcutHandler is object) window.removeEventListener("keydown", _globalShortcutHandler);
+                    TrackShortcutMounting();
+                });
+            });
         }
 
         /// <summary>

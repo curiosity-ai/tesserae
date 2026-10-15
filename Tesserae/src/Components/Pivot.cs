@@ -289,7 +289,8 @@ namespace Tesserae
                 NavigateBy(ke.key == "ArrowLeft" ? -1 : 1);
             };
 
-            window.addEventListener("keydown", _tabSwitchHandler);
+            //On window only while the pivot is on the page (see TrackMounting), or a removed one would keep its handler there for good
+            if (StylingContainer.IsMounted()) window.addEventListener("keydown", _tabSwitchHandler);
             return this;
         }
 
@@ -819,27 +820,40 @@ namespace Tesserae
                     TriggerAnimation();
                 });
 
-                _ro.observe(StylingContainer);
+                TrackMounting();
+            }
 
-                DomObserver.WhenMounted(StylingContainer, () =>
+            return StylingContainer;
+        }
+
+        // DomObserver's callbacks are one-shot, so each removal re-arms the mount tracking: a pivot removed and added
+        // back (a cached tab switched away and back) measures itself and answers its keys again.
+        private void TrackMounting()
+        {
+            DomObserver.WhenMounted(StylingContainer, () =>
+            {
+                _ro.observe(StylingContainer);
+                if (_tabSwitchHandler is object) window.addEventListener("keydown", _tabSwitchHandler);
+
+                UpdateScrollState();
+                if (_selectedNav != null) ScrollIntoView(_selectedNav);
+                TriggerAnimation();
+
+                //Also do on a timeout to account for animations on modals
+                window.setTimeout((_) =>
                 {
                     UpdateScrollState();
                     if (_selectedNav != null) ScrollIntoView(_selectedNav);
                     TriggerAnimation();
+                }, 1000);
 
-                    //Also do on a timeout to account for animations on modals
-                    window.setTimeout((_) =>
-                    {
-                        UpdateScrollState();
-                        if (_selectedNav != null) ScrollIntoView(_selectedNav);
-                        TriggerAnimation();
-                    }, 1000);
+                DomObserver.WhenRemoved(StylingContainer, () =>
+                {
+                    _ro.unobserve(StylingContainer);
+                    if (_tabSwitchHandler is object) window.removeEventListener("keydown", _tabSwitchHandler);
+                    TrackMounting();
                 });
-
-                DomObserver.WhenRemoved(StylingContainer, () => _ro.unobserve(StylingContainer));
-            }
-
-            return StylingContainer;
+            });
         }
 
         private void TriggerAnimation(bool instant = false)

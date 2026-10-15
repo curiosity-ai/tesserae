@@ -179,10 +179,8 @@ namespace Tesserae
             Transpose.Script.Write("{0}._tippy.show();", element);
 
             // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
-            hostComponent.WhenRemoved(() =>
-            {
-                onHiddenInternal();
-            });
+            // One watch per anchor, running the hide of whichever tooltip is current: hover-driven callers show on every mouseenter.
+            DomObserver.WhenRemovedLatest(rendered, "tippy", onHiddenInternal);
         }
 
         private static TooltipPlacement CheckDeadZone(TooltipPlacement placement, HTMLElement appendTo)
@@ -271,10 +269,8 @@ namespace Tesserae
             Transpose.Script.Write("{0}._tippy.show();", hostElement);
 
             // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
-            DomObserver.WhenRemoved(hostElement, () =>
-            {
-                onHiddenInternal();
-            });
+            // One watch per anchor, running the hide of whichever tooltip is current: hover-driven callers show on every mouseenter.
+            DomObserver.WhenRemovedLatest(hostElement, "tippy", onHiddenInternal);
         }
 
         /// <summary>

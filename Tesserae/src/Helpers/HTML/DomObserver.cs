@@ -38,13 +38,32 @@ namespace Tesserae
             public HTMLElement ElementOrNullIfCollected  => Script.Write<HTMLElement>("{0}.ref.deref()",         this);
             public Action      CallbackOrNullIfCollected => Script.Write<Action>     ("{0}.callbackref.deref()", this);
 
+            private readonly string _callbackBag;
+
             public ElementAndCallback(HTMLElement element, Action callback, string callbackBag)
             {
+                _callbackBag = callbackBag;
+
                 // Park the callback on the element via an array bag so multiple registrations
                 // on the same element don't accumulate ever-growing property names.
                 Script.Write("var bag = {0}[{2}]; if (!bag) { bag = []; {0}[{2}] = bag; } bag.push({1});", element, callback, callbackBag);
                 Script.Write("{0}.ref = new WeakRef({1})",         this, element);
                 Script.Write("{0}.callbackref = new WeakRef({1})", this, callback);
+            }
+
+            // Returns the callback (null once collected) and takes it out of the element's bag: the entry is done
+            // with it either way, and a component that re-registers on every mount would otherwise grow the bag.
+            public Action TakeCallback()
+            {
+                var element  = ElementOrNullIfCollected;
+                var callback = CallbackOrNullIfCollected;
+
+                if (element is object && callback is object)
+                {
+                    Script.Write("var bag = {0}[{1}]; if (bag) { var i = bag.indexOf({2}); if (i >= 0) bag.splice(i, 1); }", element, _callbackBag, callback);
+                }
+
+                return callback;
             }
         }
 
@@ -165,10 +184,17 @@ namespace Tesserae
 
                     if (element is null) continue;
 
-                    // The element may have been re-removed between the mutation firing and rAF.
-                    if (!element.IsMounted()) continue;
+                    // The element may have been re-removed between the mutation firing and rAF: it stays tracked for the
+                    // next mount rather than being dropped, which would silently end a component's mount / removal cycle.
+                    if (!element.IsMounted())
+                    {
+                        element.setAttribute(MountAttr, "");
+                        _elementsToTrackMountingOf.Add(entry);
+                        StartObservingIfNeeded();
+                        continue;
+                    }
 
-                    entry.CallbackOrNullIfCollected?.Invoke();
+                    entry.TakeCallback()?.Invoke();
                 }
             });
         }
@@ -249,10 +275,17 @@ namespace Tesserae
 
                     if (element is null) continue;
 
-                    // The element may have been re-added between the mutation firing and rAF.
-                    if (element.IsMounted()) continue;
+                    // The element may have been re-added between the mutation firing and rAF: it stays tracked for the
+                    // next removal rather than being dropped, which would silently end a component's mount / removal cycle.
+                    if (element.IsMounted())
+                    {
+                        element.setAttribute(UnmountAttr, "");
+                        _elementsToTrackRemovalOf.Add(entry);
+                        StartObservingIfNeeded();
+                        continue;
+                    }
 
-                    entry.CallbackOrNullIfCollected?.Invoke();
+                    entry.TakeCallback()?.Invoke();
                 }
             });
         }
@@ -316,6 +349,34 @@ namespace Tesserae
             // an element before its initial render / adding-to-the-DOM and so that check has had to be removed (as, in that case, the element would not be mounted because it hasn't been
             // added yet, not because it WAS added to the DOM and had already been removed again)
             WhenRemoved(element, callback, attempt: 0);
+        }
+
+        /// <summary>
+        /// Like <see cref="WhenRemoved(HTMLElement, Action)"/>, but keeps at most one pending registration per element and key: a
+        /// second call before the element is removed only replaces the callback, so something shown on the same anchor again and
+        /// again (a tooltip on every mouseenter) does not pile up removal callbacks. Only the latest callback runs.
+        /// </summary>
+        internal static void WhenRemovedLatest(HTMLElement element, string key, Action callback)
+        {
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+
+            if (callback == null)
+                throw new ArgumentNullException(nameof(callback));
+
+            var callbackProperty = "__tssLatestOnRemoved_" + key;
+            var isTracked        = Script.Write<bool>("{0}.hasOwnProperty({1})", element, callbackProperty);
+
+            Script.Write("{0}[{1}] = {2};", element, callbackProperty, callback);
+
+            if (isTracked) return;
+
+            WhenRemoved(element, () =>
+            {
+                var latest = Script.Write<Action>("{0}[{1}]", element, callbackProperty);
+                Script.Write("delete {0}[{1}];", element, callbackProperty);
+                latest?.Invoke();
+            });
         }
 
         private static void WhenRemoved(HTMLElement element, Action callback, int attempt)

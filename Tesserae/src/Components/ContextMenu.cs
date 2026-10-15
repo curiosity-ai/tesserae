@@ -197,8 +197,11 @@ namespace Tesserae
         /// </summary>
         public void ShowFor(IComponent component, int distanceX = 1, int distanceY = 1)
         {
-            ShowFor(component.Render(), distanceX, distanceY);
-            component.WhenMounted(() => component.WhenRemoved(() => Hide()));
+            var rendered = component.Render();
+            ShowFor(rendered, distanceX, distanceY);
+
+            // One watch per anchor, hiding the menu shown on it last, however often it is shown there
+            DomObserver.WhenMounted(rendered, () => DomObserver.WhenRemovedLatest(rendered, "contextmenu", () => Hide()));
         }
 
         private void EnsureRootPopup()

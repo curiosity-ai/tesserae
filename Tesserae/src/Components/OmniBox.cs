@@ -601,6 +601,7 @@ namespace Tesserae
 
         private string[]      _shortcutKeys;
         private Action<Event> _globalShortcutHandler;
+        private bool          _trackingMount;
 
         private readonly HTMLTextAreaElement _chatInput;
         private readonly HTMLDivElement   _chatContainer;
@@ -3491,6 +3492,7 @@ namespace Tesserae
             UpdateGeneratingText();
 
             _generatingTimer = window.setInterval(_ => UpdateGeneratingText(), 1000);
+            EnsureMountTracking();
         }
 
         private void StopGeneratingTimer()
@@ -4365,8 +4367,40 @@ namespace Tesserae
                 _searchInput.select();
             };
 
-            window.addEventListener("keydown", _globalShortcutHandler);
+            //On window only while the box is on the page, or a removed box would keep its handler there for good
+            if (_container.IsMounted()) window.addEventListener("keydown", _globalShortcutHandler);
+            EnsureMountTracking();
             return this;
+        }
+
+        private void EnsureMountTracking()
+        {
+            if (_trackingMount) return;
+            _trackingMount = true;
+            TrackMounting();
+        }
+
+        // The keyboard shortcut and the generating timer run only while the box is on the page. DomObserver's
+        // callbacks are one-shot, so each removal re-arms the mount tracking.
+        private void TrackMounting()
+        {
+            DomObserver.WhenMounted(_container, () =>
+            {
+                if (_globalShortcutHandler is object) window.addEventListener("keydown", _globalShortcutHandler);
+
+                if (_isGenerating && _generatingTimer == 0)
+                {
+                    UpdateGeneratingText();
+                    _generatingTimer = window.setInterval(_ => UpdateGeneratingText(), 1000);
+                }
+
+                DomObserver.WhenRemoved(_container, () =>
+                {
+                    if (_globalShortcutHandler is object) window.removeEventListener("keydown", _globalShortcutHandler);
+                    StopGeneratingTimer();
+                    TrackMounting();
+                });
+            });
         }
 
         /// <summary>

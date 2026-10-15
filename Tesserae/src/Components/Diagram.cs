@@ -26,6 +26,7 @@ namespace Tesserae
         private bool           _userPanned;
         private bool           _panEnabled = true;
         private double         _layoutTimeout;
+        private bool           _arrangeWhenMounted = true;
 
         /// <summary>
         /// Gets the HTMLElement that should receive styling.
@@ -49,17 +50,31 @@ namespace Tesserae
             ApplyDotSpacing();
             HookPanEvents();
 
+            TrackMounting();
+        }
+
+        // DomObserver's callbacks are one-shot, so each removal re-arms the mount tracking: a diagram removed and added
+        // back keeps following its size. It is arranged again only if something asked for that while it was away, so
+        // nodes the user dragged stay where they were.
+        private void TrackMounting()
+        {
             DomObserver.WhenMounted(_container, () =>
             {
                 _resizeObserver = new ResizeObserver((entries, obs) => ResizeCanvas());
                 _resizeObserver.observe(_container);
                 ResizeCanvas();
-                RequestAutoArrange();
+
+                if (_arrangeWhenMounted)
+                {
+                    _arrangeWhenMounted = false;
+                    RequestAutoArrange();
+                }
 
                 DomObserver.WhenRemoved(_container, () =>
                 {
                     _resizeObserver.unobserve(_container);
                     _resizeObserver = null;
+                    TrackMounting();
                 });
             });
         }
@@ -186,6 +201,10 @@ namespace Tesserae
                 {
                     RunAutoArrange();
                     Redraw();
+                }
+                else
+                {
+                    _arrangeWhenMounted = true;
                 }
             }, 16);
         }

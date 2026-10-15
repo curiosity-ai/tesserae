@@ -123,7 +123,23 @@ namespace Tesserae
             // rendered bars is always small enough to fit the chart instead of overflowing it.
             _resizeObserver = new ResizeObserver((entries, obs) => RefitToWidth());
             _resizeObserver.observe(_histogram);
-            DomObserver.WhenRemoved(_container, () => _resizeObserver.unobserve(_histogram));
+            TrackRemoval();
+        }
+
+        // DomObserver's callbacks are one-shot, so each removal re-arms the tracking: a picker removed and added
+        // back (a cached tab switched away and back) follows its width again.
+        private void TrackRemoval()
+        {
+            DomObserver.WhenRemoved(_container, () =>
+            {
+                _resizeObserver.unobserve(_histogram);
+
+                DomObserver.WhenMounted(_container, () =>
+                {
+                    _resizeObserver.observe(_histogram);
+                    TrackRemoval();
+                });
+            });
         }
 
         /// <summary>
@@ -698,7 +714,13 @@ namespace Tesserae
 
             for (var i = 0; i < _buckets.Count; i++)
             {
-                if (value >= _buckets[i].Start && value <= _buckets[i].End)
+                var bucket = _buckets[i];
+
+                // A bucket's End is the next one's Start: a start on that boundary belongs to the later bucket and an
+                // end to the earlier one, or SetRange(SelectedFrom, SelectedTo) would grow the selection by a bucket.
+                var endsHere = value == bucket.End && (!preferStart || i == _buckets.Count - 1 || bucket.Start == bucket.End);
+
+                if (value >= bucket.Start && (value < bucket.End || endsHere))
                 {
                     return i;
                 }

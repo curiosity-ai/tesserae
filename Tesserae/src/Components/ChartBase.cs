@@ -151,6 +151,11 @@ namespace Tesserae
         private readonly ResizeObserver _resizeObserver;
         private readonly List<IDisposable> _subscriptions = new List<IDisposable>();
 
+        // How to subscribe each observable binding again (the flag asks it to catch up with the current value),
+        // so a chart removed and added back, as a cached tab is, follows its observables again.
+        private readonly List<Func<bool, IDisposable>> _bindings = new List<Func<bool, IDisposable>>();
+        private bool _bindingsReleased;
+
         /// <summary>The active color palette.</summary>
         protected string[] _palette = DefaultPalette;
 
@@ -230,13 +235,42 @@ namespace Tesserae
 
             _resizeObserver = new ResizeObserver((entries, obs) => QueueRender());
             _resizeObserver.observe(_container);
-            DomObserver.WhenMounted(_container, QueueRender);
-            DomObserver.WhenRemoved(_container, () =>
+            TrackMounting();
+        }
+
+        // DomObserver's callbacks are one-shot, so each removal re-arms the mount tracking: the resize observer
+        // and the observable bindings are released while the chart is off the page and restored when it is back.
+        private void TrackMounting()
+        {
+            DomObserver.WhenMounted(_container, () =>
             {
-                _resizeObserver.unobserve(_container);
-                foreach (var s in _subscriptions) s.Dispose();
-                _subscriptions.Clear();
+                _resizeObserver.observe(_container);
+
+                if (_bindingsReleased)
+                {
+                    _bindingsReleased = false;
+                    foreach (var bind in _bindings) _subscriptions.Add(bind(true));
+                }
+
+                QueueRender();
+
+                DomObserver.WhenRemoved(_container, () =>
+                {
+                    _resizeObserver.unobserve(_container);
+                    foreach (var s in _subscriptions) s.Dispose();
+                    _subscriptions.Clear();
+                    _bindingsReleased = true;
+                    TrackMounting();
+                });
             });
+        }
+
+        private void Bind(Func<bool, IDisposable> subscribe)
+        {
+            _bindings.Add(subscribe);
+
+            // Off the page it is subscribed when the chart is mounted again
+            if (!_bindingsReleased) _subscriptions.Add(subscribe(false));
         }
 
         private T Self => (T)this;
@@ -263,7 +297,7 @@ namespace Tesserae
 
         /// <summary>
         /// Binds a single series to an observable sequence of values: the chart re-renders whenever the
-        /// observable changes. The subscription is released when the chart leaves the DOM.
+        /// observable changes. The subscription is released when the chart leaves the DOM, and taken up again when it returns.
         /// </summary>
         public T Series(IObservable<double[]> values, string name = null, string color = null)
         {
@@ -272,11 +306,11 @@ namespace Tesserae
 
             if (values != null)
             {
-                _subscriptions.Add(values.Subscribe(v =>
+                Bind(catchUp => values.Subscribe(v =>
                 {
                     series.Values = v ?? new double[0];
                     QueueRender();
-                }, fireImmediately: false));
+                }, fireImmediately: catchUp));
             }
 
             QueueRender();
@@ -288,7 +322,7 @@ namespace Tesserae
         {
             if (series != null)
             {
-                _subscriptions.Add(series.Subscribe(s =>
+                Bind(_ => series.Subscribe(s =>
                 {
                     _series.Clear();
                     if (s != null) _series.AddRange(s);
@@ -508,7 +542,7 @@ namespace Tesserae
                 //otherwise hand its tooltips tippy's fixed 9999 and draw them behind the Layer above it.
                 if (!int.TryParse(Layers.AboveCurrent(), out var zIndex)) zIndex = 9999;
 
-                Script.Write("tippy({0}, { content: {1}, allowHTML: true, delay: [100, 0], appendTo: document.body, zIndex: {2} });", target, content, zIndex);
+                Script.Write("tippy({0}, { content: {1}, delay: [100, 0], appendTo: document.body, zIndex: {2} });", target, content, zIndex);
 
                 //The mouseenter that would normally open it has already gone by, so replay it against the
                 //instance we just built — tippy then applies its own show delay, as it would on any hover.

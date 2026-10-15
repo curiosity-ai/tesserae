@@ -186,8 +186,8 @@ namespace Tesserae
         /// <summary>
         /// Creates a CommandPalette whose global Ctrl/Cmd keyboard listener is bound
         /// to the lifetime of <paramref name="host"/>: the listener is attached when
-        /// <paramref name="host"/> first mounts to the DOM and detached when it is
-        /// removed. This prevents the palette from leaking listeners (and continuing
+        /// <paramref name="host"/> mounts to the DOM and detached when it is
+        /// removed, and attached again if it is added back. This prevents the palette from leaking listeners (and continuing
         /// to respond to its shortcut) after the owning view has been navigated away.
         /// </summary>
         public CommandPalette(IComponent host, IEnumerable<CommandPaletteAction> actions = null)
@@ -261,22 +261,30 @@ namespace Tesserae
             SetActions(actions);
 
             _globalKeyDownHandler = HandleGlobalKeyDown;
-            host.WhenMounted(() =>
+            TrackHost(host.Render());
+
+            InnerElement    = _contentHtml;
+
+        }
+
+        // DomObserver's callbacks are one-shot, so each removal re-arms the mount tracking: a host removed and added
+        // back (a cached tab switched away and back) gets its shortcut again.
+        private void TrackHost(HTMLElement host)
+        {
+            DomObserver.WhenMounted(host, () =>
             {
                 if (_globalListenerActive) return;
                 window.addEventListener("keydown", _globalKeyDownHandler);
                 _globalListenerActive = true;
-                host.WhenRemoved(() =>
+                DomObserver.WhenRemoved(host, () =>
                 {
                     if (!_globalListenerActive) return;
                     window.removeEventListener("keydown", _globalKeyDownHandler);
                     _globalListenerActive = false;
                     if (IsVisible) Hide();
+                    TrackHost(host);
                 });
             });
-
-            InnerElement    = _contentHtml;
-
         }
 
         /// <summary>

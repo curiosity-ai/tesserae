@@ -369,20 +369,30 @@ namespace Tesserae
                 _isRendered = true;
 
                 _ro = new ResizeObserver((entries, obs) => UpdateScrollState());
-                _ro.observe(StylingContainer);
-
-                DomObserver.WhenMounted(StylingContainer, () =>
-                {
-                    UpdateScrollState();
-
-                    // Also do on a timeout to account for animations on modals.
-                    window.setTimeout((_) => UpdateScrollState(), 1000);
-                });
-
-                DomObserver.WhenRemoved(StylingContainer, () => _ro.unobserve(StylingContainer));
+                TrackMounting();
             }
 
             return StylingContainer;
+        }
+
+        // DomObserver's callbacks are one-shot, so each removal re-arms the mount tracking: a pivot removed and added
+        // back (a cached tab switched away and back) keeps measuring itself.
+        private void TrackMounting()
+        {
+            DomObserver.WhenMounted(StylingContainer, () =>
+            {
+                _ro.observe(StylingContainer);
+                UpdateScrollState();
+
+                // Also do on a timeout to account for animations on modals.
+                window.setTimeout((_) => UpdateScrollState(), 1000);
+
+                DomObserver.WhenRemoved(StylingContainer, () =>
+                {
+                    _ro.unobserve(StylingContainer);
+                    TrackMounting();
+                });
+            });
         }
 
         internal sealed class Tab

@@ -28,6 +28,7 @@ namespace Tesserae
         private          ResizeObserver           _badgeObserver;
         private          string[]                 _shortcutKeys;
         private          Action<Event>            _globalShortcutHandler;
+        private          bool                     _trackingShortcutMount;
 
         private event Action<HTMLElement> _onRendered;
 
@@ -481,9 +482,35 @@ namespace Tesserae
                 button.Render().click();
             };
 
-            window.addEventListener("keydown", _globalShortcutHandler);
+            //On window only while the button is on the page, open or closed, or a removed one would keep its handler there for good
+            if (IsOnPage()) window.addEventListener("keydown", _globalShortcutHandler);
+
+            if (!_trackingShortcutMount)
+            {
+                _trackingShortcutMount = true;
+                TrackShortcutMounting(_open.Render());
+                TrackShortcutMounting(_closed.Render());
+            }
 
             return this;
+        }
+
+        private bool IsOnPage() => _open.Render().IsMounted() || _closed.Render().IsMounted();
+
+        // DomObserver's callbacks are one-shot, so each removal re-arms the mount tracking. The open and the closed
+        // button swap places as the rail opens and closes: only the last of them to leave takes the handler away.
+        private void TrackShortcutMounting(HTMLElement element)
+        {
+            DomObserver.WhenMounted(element, () =>
+            {
+                if (_globalShortcutHandler is object) window.addEventListener("keydown", _globalShortcutHandler);
+
+                DomObserver.WhenRemoved(element, () =>
+                {
+                    if (_globalShortcutHandler is object && !IsOnPage()) window.removeEventListener("keydown", _globalShortcutHandler);
+                    TrackShortcutMounting(element);
+                });
+            });
         }
 
         /// <summary>

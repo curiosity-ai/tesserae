@@ -69,9 +69,24 @@ namespace Tesserae
         public OverflowSet()
         {
             _childContainer = Div(Att("tss-overflowset"));
-            DomObserver.WhenMounted(_childContainer, Recompute);
             _resizeObserver = new ResizeObserver((entries, obs) => Recompute());
-            _resizeObserver.observe(document.body);
+            TrackMounting();
+        }
+
+        // Watches the body only while mounted: DomObserver's callbacks are one-shot, so each removal re-arms the mount tracking.
+        private void TrackMounting()
+        {
+            DomObserver.WhenMounted(_childContainer, () =>
+            {
+                Recompute();
+                _resizeObserver.observe(document.body);
+
+                DomObserver.WhenRemoved(_childContainer, () =>
+                {
+                    _resizeObserver.unobserve(document.body);
+                    TrackMounting();
+                });
+            });
         }
 
         private void Recompute()
