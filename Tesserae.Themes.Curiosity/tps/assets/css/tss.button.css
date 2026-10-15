@@ -139,7 +139,7 @@ body.tss-theme-curiosity .tss-btn.tss-btn-spin-resolved {
 }
 
 /* SaveButton's ring is the spinner's flat deep blue, and the Signal on the dark canvas, where the blue is
-   2.2:1 (see tss.spinner.css). Saving keeps the success tone. */
-body.tss-theme-curiosity.tss-dark-mode .tss-btn .tss-btn-spin-ring.tss-btn-spin-ring-live:not(.tss-btn-spin-ring-success) {
+   2.2:1 (see tss.spinner.css). Saving keeps the success tone; Saved and Error take the button's text colour. */
+body.tss-theme-curiosity.tss-dark-mode .tss-btn .tss-btn-spin-ring.tss-btn-spin-ring-live:not(.tss-btn-spin-ring-success):not(.tss-btn-spin-ring-resolved) {
     color: var(--tss-highlight-color);
 }

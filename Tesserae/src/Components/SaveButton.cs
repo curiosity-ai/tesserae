@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace Tesserae
 {
     /// <summary>
-    /// A button variant that shows a "saving…" spinner and a confirmation tick while an async save operation is in
-    /// progress.
+    /// A button variant that shows a "saving…" spinner while an async save operation is in progress, closing into a
+    /// check when it is saved or an x on error.
     /// </summary>
     [Name("tss.SaveButton")]
     public class SaveButton : IComponent
@@ -137,12 +137,10 @@ namespace Tesserae
                     break;
                 case State.Saved:
                     _button.IsSuccess = true;
-                    icon = UIcons.Check;
                     text = _textSaved;
                     break;
                 default:
                     _button.IsDanger = true;
-                    icon = UIcons.OctagonXmark;
                     text = _textError;
                     if (!string.IsNullOrEmpty(message))
                     {
@@ -158,7 +156,11 @@ namespace Tesserae
 
             _icon.style.display       = icon.HasValue ? "" : "none";
             _spinnerBox.style.display = icon.HasValue ? "none" : "";
+            // Saved and Error keep the ring: it closes into a full circle around a check or an x, as Button's outcome does.
             _spinnerBox.UpdateClassIf(state == State.Saving, "tss-btn-spin-ring-success");
+            _spinnerBox.UpdateClassIf(state == State.Saved || state == State.Error, "tss-btn-spin-ring-resolved");
+            _spinnerBox.UpdateClassIf(state == State.Saved, "tss-btn-spin-ring-check");
+            _spinnerBox.UpdateClassIf(state == State.Error, "tss-btn-spin-ring-x");
             _label.innerText          = text ?? "";
 
             return this;
