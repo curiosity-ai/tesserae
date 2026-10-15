@@ -220,6 +220,11 @@ namespace Tesserae
         {
             var parent = InnerElement;
 
+            // One element per identifier, the first wins: a repeated key would render two nodes with the same
+            // data-tssid, and every reconcile after that would fail to key them.
+            var seenIdentifiers = new HashSet<string>();
+            newChildren = newChildren.Where(c => seenIdentifiers.Add(c.Identifier)).ToArray();
+
             var selectedElement = document.activeElement;
             if (selectedElement is object && !parent.contains(selectedElement))
             {
