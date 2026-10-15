@@ -318,11 +318,6 @@ namespace Tesserae
             });
         }
 
-        internal static Func<Action, IDisposable> Watch<T>(IObservable<T> observable) => refresh =>
-        {
-            ObservableEvent.ValueChanged<T> handler = _ => refresh();
-            observable.ObserveFutureChanges(handler);
-            return new Subscription(() => observable.StopObserving(handler));
-        };
+        internal static Func<Action, IDisposable> Watch<T>(IObservable<T> observable) => refresh => Subscription.OnFutureChanges(observable, refresh);
     }
 }

@@ -20,6 +20,7 @@ every change, which flickers. See `text-block.md`.
 - `ConstantObservable<T>` — fixed value wrapped as an `IObservable<T>`; emits once, never changes. `new ConstantObservable<T>(value)`.
 - `ObservableList<T>` — observable ordered collection; implements `IList<T>` and `IObservable<IReadOnlyList<T>>`. `new ObservableList<T>(initialValues: …)`.
 - `ObservableDictionary<TKey,TValue>` — observable keyed collection; implements `IDictionary<…>` and `IObservable<IReadOnlyDictionary<…>>`.
+- `CombinedObservable<T1,…,T5>`: two to five observables as one `IObservable` of a tuple of their values, raised (debounced) when any of them changes. `UI.Combine(o1, o2)` or `new CombinedObservable<…>(…)`. It stays subscribed to its sources until disposed, so `Dispose()` one that is shorter-lived than its sources (for example one created inside a re-rendered `Defer`).
 
 Bring factories into scope with `using static Tesserae.UI;`.
 

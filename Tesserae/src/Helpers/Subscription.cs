@@ -25,5 +25,17 @@ namespace Tesserae
             _release = null;
             if (r != null) r();
         }
+
+        /// <summary>
+        /// Calls <paramref name="onChange"/> on every future change to <paramref name="source"/> (through
+        /// ObserveFutureChanges) until the returned subscription is disposed, which passes the same handler to
+        /// StopObserving.
+        /// </summary>
+        internal static IDisposable OnFutureChanges<T>(IObservable<T> source, Action onChange)
+        {
+            ObservableEvent.ValueChanged<T> handler = _ => onChange();
+            source.ObserveFutureChanges(handler);
+            return new Subscription(() => source.StopObserving(handler));
+        }
     }
 }
