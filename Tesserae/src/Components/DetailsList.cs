@@ -31,6 +31,11 @@ namespace Tesserae
 
         private Func<Task<TDetailsListItem[]>> _getNextItemPage = null;
 
+        // Bumped by every RefreshListItems, so a page that arrives after a newer refresh (e.g. a sort) knows its sensor is gone.
+        private int _refreshGeneration;
+        // How many of the cached components, from the start, are in _listItemsContainer.
+        private int _renderedCount;
+
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
@@ -224,6 +229,9 @@ namespace Tesserae
 
         private void RefreshListItems()
         {
+            var generation = ++_refreshGeneration;
+            _renderedCount = 0;
+
             if (_componentCache.HasComponents)
             {
                 if (_getNextItemPage is object)
@@ -233,32 +241,48 @@ namespace Tesserae
                         Task.Run<Task>(async () =>
                         {
                             var nextPageItems = await _getNextItemPage();
+                            var hasNewItems   = nextPageItems is object && nextPageItems.Any();
 
-                            var vElement = v.Render();
-                            _listItemsContainer.removeChild(vElement);
-
-                            if (nextPageItems is object && nextPageItems.Any())
+                            // Cache first: if a newer refresh replaced the rows meanwhile, the items still show on its next render.
+                            if (hasNewItems)
                             {
                                 _componentCache.AddComponents(nextPageItems);
-                                //this works since a node on the DOM can only exist at one place at a time
-                                _listItemsContainer.AppendChildren(_componentCache.GetAllRenderedComponentsFromCache().ToArray());
+                            }
 
+                            if (generation != _refreshGeneration)
+                            {
+                                return;
+                            }
+
+                            var vElement = v.Render();
+
+                            if (vElement.parentElement == _listItemsContainer)
+                            {
+                                _listItemsContainer.removeChild(vElement);
+                            }
+
+                            _listItemsContainer.AppendChildren(_componentCache.GetAllRenderedComponentsFromCache().Skip(_renderedCount).ToArray());
+                            _renderedCount = _componentCache.ComponentsCount;
+
+                            // if there are no new items, don't add the visibility sensor again, to not trigger repeated updates
+                            if (hasNewItems)
+                            {
                                 v.Reset();
                                 _listItemsContainer.appendChild(vElement);
                             }
-                            // if there are no new items, don't add the visibility sensor again, to not trigger repeated updates
-
                         }).FireAndForget();
                     }, message: TextBlock("Loading..."));
 
                     _listItemsContainer.RemoveChildElements();
                     _listItemsContainer.AppendChildren(_componentCache.GetAllRenderedComponentsFromCache().ToArray());
+                    _renderedCount = _componentCache.ComponentsCount;
                     _listItemsContainer.appendChild(vis.Render());
                 }
                 else
                 {
                     _listItemsContainer.RemoveChildElements();
                     _listItemsContainer.AppendChildren(_componentCache.GetAllRenderedComponentsFromCache().ToArray());
+                    _renderedCount = _componentCache.ComponentsCount;
                 }
             }
             else if (_emptyListMessageGenerator is object)
