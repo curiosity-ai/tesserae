@@ -57,6 +57,9 @@ The marker replaces the cross rather than sitting beside it, so a tab never resi
 editor goes dirty, and the two can't crowd each other. Pointing at the tab always brings the
 cross back, so there is always something to close with.
 
+On a phone (`body.tss-mobile`) a tab is 44px tall and the cross sits in a 32px box, so a
+finger can hit it; the glyph itself stays the same size.
+
 The cross is reachable by keyboard: it takes focus after its tab title, and Enter or Space
 closes the tab through the same `onBeforeClose` guard a click goes through — as does a middle
 click anywhere on the tab, the gesture every browser's tab strip teaches. On a touch
