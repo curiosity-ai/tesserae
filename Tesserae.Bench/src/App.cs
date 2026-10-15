@@ -428,8 +428,10 @@ namespace Tesserae.Bench
                 for (int i = 0; i < count; i++) Toast().Information("Job finished", $"Indexing batch {i} completed");
             };
 
-            Script.Write("window.__bench = { go: {0}, build: {1}, churnDefer: {2}, burstToasts: {3} }",
-                go, build, churnDefer, burstToasts);
+            Func<string[]> regressions = Regressions.Run;
+
+            Script.Write("window.__bench = { go: {0}, build: {1}, churnDefer: {2}, burstToasts: {3}, regressions: {4} }",
+                go, build, churnDefer, burstToasts, regressions);
         }
 
         private sealed class Row : IDetailsListItem<Row>
