@@ -153,6 +153,26 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Keeps the tree's desktop density on a phone (<see cref="UI.Theme.IsMobileMode"/>). By default a phone
+        /// gives every row a touch-sized floor and its commands room inside it; a tree that is a dense file list,
+        /// like a code editor's, opts out here, and its row commands keep their desktop size rather than becoming
+        /// touch targets of their own.
+        /// </summary>
+        public Tree KeepDensityOnMobile(bool keep = true)
+        {
+            if (keep)
+            {
+                InnerElement.classList.add("tss-tree-dense-on-mobile");
+            }
+            else
+            {
+                InnerElement.classList.remove("tss-tree-dense-on-mobile");
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Enables or disables single-item selection on the tree. Shorthand for
         /// <see cref="Selectable(TreeSelectionMode)"/> with <see cref="TreeSelectionMode.Single"/>.
         /// </summary>
