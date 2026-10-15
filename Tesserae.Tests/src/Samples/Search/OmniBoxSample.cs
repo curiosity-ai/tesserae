@@ -193,7 +193,7 @@ namespace Tesserae.Tests.Samples
         {
             var box = Track(OmniBox(new OmniBox.Config(OmniBox.Mode.Search)
             {
-                PlaceholderSearch = "Click the clock button on the left to see recent searches"
+                PlaceholderSearch = "Press Up, or click the clock button on the left, for recent searches"
             })
             .WS()
             .WithHistory(async () =>
@@ -212,7 +212,7 @@ namespace Tesserae.Tests.Samples
             .OnSearch((s, q) => Toast().Information($"Searched for: {q.RawQuery}")));
 
             return FeatureCard("History", "Recent searches",
-                "WithHistory(Func<Task<SearchQuery[]>>) shows a history button on the left of the search input; clicking it opens the list the fetcher returns, and picking an entry puts it back in the box. Build the entries with OmniBox.ParseQuery so they keep their operator highlighting.",
+                "WithHistory(Func<Task<SearchQuery[]>>) shows a history button on the left of the search input; clicking it opens the list the fetcher returns (most recent first), and picking an entry puts it back in the box. It also turns on Up/Down history: Up in the empty box brings back the most recent search, each further Up goes one further back and Down comes forward again, until something is typed. Searches made in the box are walked first even before the fetcher returns them. Build the entries with OmniBox.ParseQuery so they keep their operator highlighting.",
                 box);
         }
 
