@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Build.UpdateInterfaceIcons
@@ -157,14 +158,11 @@ namespace Build.UpdateInterfaceIcons
                 {
                     var line = lines[i];
 
-                    foreach (var (replace, with) in IconsToFixInCss)
-                    {
-                        if (line.Contains(replace))
-                        {
-                            line     = line.Replace(replace, with);
-                            lines[i] = line;
-                        }
-                    }
+                    // The vendor's misspelling is fixed in every name that carries it; the renames apply to
+                    // whole icon names only.
+                    line     = line.Replace("-hastag:before", "-hashtag:before");
+                    line     = IconsToRenameInCss.Replace(line, m => $"{m.Groups[1].Value}{IconRenames[m.Groups[2].Value]}:before");
+                    lines[i] = line;
 
                     if (line.Contains("line-height: 1;"))
                     {
@@ -233,7 +231,7 @@ namespace Build.UpdateInterfaceIcons
 
             foreach (var i in icons)
             {
-                if (!i.Value.Contains(_brandsPrefix) && i.Value.Count != (IconPrefixes.Length - 1))
+                if (!i.Value.Any(v => v.Contains(_brandsPrefix)) && i.Value.Count != (IconPrefixes.Length - 1))
                 {
                     Console.WriteLine($"icon {i.Key} does not have all versions. It has : {string.Join(",", i.Value)}");
                 }
@@ -325,16 +323,6 @@ namespace Build.UpdateInterfaceIcons
             return $"https://cdn-uicons.flaticon.com/{version}/{type}/webfonts/{type}.woff2";
         }
 
-        public static string GetWoffUrl(string version, string type)
-        {
-            return $"https://cdn-uicons.flaticon.com/{version}/{type}/webfonts/{type}.woff";
-        }
-
-        public static string GetEmbeddedOpenTypeUrl(string version, string type)
-        {
-            return $"https://cdn-uicons.flaticon.com/{version}/{type}/webfonts/{type}.eot#iefix";
-        }
-
         private const string _brandsPrefix           = "brands";
         private const string _regularRoundPrefix     = "rr";
         private const string _solidRoundPrefix       = "sr";
@@ -358,12 +346,16 @@ namespace Build.UpdateInterfaceIcons
             _thinStraiightPrefix
         };
 
-        private static Dictionary<string, string> IconsToFixInCss = new Dictionary<string, string>
+        // Matched against the whole icon name: a substring match on "-hand:before" also renamed every icon whose
+        // name ends in "-hand" (fi-rr-foam-hand became fi-rr-foam-thumbs-down).
+        private static readonly Dictionary<string, string> IconRenames = new Dictionary<string, string>
         {
-            { "-social-network:before", "-thumbs-up:before" },
-            { "-hastag:before", "-hashtag:before" },
-            { "-hand:before", "-thumbs-down:before" },
+            { "social-network", "thumbs-up" },
+            { "hand",           "thumbs-down" },
         };
+
+        private static readonly Regex IconsToRenameInCss = new Regex(
+            $@"(\.fi-(?:{string.Join("|", IconPrefixes)})-)({string.Join("|", IconRenames.Keys.Select(Regex.Escape))}):before\b");
 
         private static HashSet<string> ExportAsVariables = new HashSet<string>()
         {
@@ -416,24 +408,12 @@ namespace Build.UpdateInterfaceIcons
             {
                 sb.Append(("        [Name(\"fi-rr-" + i + "\")] ").PadRight(maxLen, ' '));
                 sb.AppendLine($"{ToValidName(i)},");
-
-                //if (IconAliases.ContainsKey(i))
-                //{
-                //    sb.Append(("        [Name(\"fi-rr-" + i + "\")] ").PadRight(maxLen, ' '));
-                //    sb.AppendLine($"{IconAliases[i]},");
-                //}
             }
 
             foreach (var i in iconsBrands)
             {
                 sb.Append(("        [Name(\"fi-brands-" + i + "\")] ").PadRight(maxLen, ' '));
                 sb.AppendLine($"{ToValidBrandsName(i)},");
-
-                //if (IconAliases.ContainsKey(i))
-                //{
-                //    sb.Append(("        [Name(\"fi-rr-" + i + "\")] ").PadRight(maxLen, ' '));
-                //    sb.AppendLine($"{IconAliases[i]},");
-                //}
             }
             sb.AppendLine("    }");
             sb.AppendLine("}");

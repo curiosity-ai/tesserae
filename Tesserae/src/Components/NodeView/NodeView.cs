@@ -629,10 +629,8 @@ namespace Tesserae
             }
         }
 
-        private static Node CreateGraphNodeType(GraphTemplate template) => Script.Write<Node>("BaklavaJS.Core.createGraphNodeType({0})", template);
         private static AbstractNodeConstructor DefineDynamicNode(DynamicNodeDefinition nodeDefinition) => Script.Write<AbstractNodeConstructor>("BaklavaJS.Core.defineDynamicNode({0})", nodeDefinition);
         private static AbstractNodeConstructor DefineNode(DynamicNodeDefinition definition) => Script.Write<AbstractNodeConstructor>("BaklavaJS.Core.defineNode({0})", definition);
-        private static string GetGraphNodeTypeString(GraphTemplate template) => Script.Write<string>("BaklavaJS.Core.getGraphNodeTypeString({0})", template);
 
 
         [ObjectLiteral]

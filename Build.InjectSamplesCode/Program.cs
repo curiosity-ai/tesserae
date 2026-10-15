@@ -78,39 +78,7 @@ namespace Build.InjectSamplesCode
 
         private static string EscapeCode(string value)
         {
-            const string beginMarker = "//begin-sample-code";
-            const string endMarker   = "//end-sample-code";
-
-            if (value.Contains(beginMarker) && value.Contains(endMarker))
-            {
-                var innerCode = value.Replace(beginMarker, "⁋").Split(new char[] { '⁋' }, 2).Skip(1).First()
-                   .Replace(endMarker, "⁋").Split(new char[] { '⁋' }, 2).First();
-
-
-                innerCode =
-                    @"
-// -- Necessary 'using' headers 
-// using System;
-// using Transpose;
-// using static Transpose.dom;
-// using Tesserae;
-// using static Tesserae.UI;
-
-"
-                   +
-                    RemovePadding(innerCode);
-
-                return EscapeCode(innerCode);
-            }
-            else
-            {
-                return value.Replace("\\", "\\\\").Replace("\r", "\\r").Replace("\n", "\\n").Replace("\"", "\\\"");
-            }
-        }
-
-        private static string RemovePadding(string innerCode)
-        {
-            return string.Join("\r\n", innerCode.Split(new char[] { '\r', '\n' }).Select(l => l.TrimStart(' ', '\t')));
+            return value.Replace("\\", "\\\\").Replace("\r", "\\r").Replace("\n", "\\n").Replace("\"", "\\\"");
         }
     }
 }

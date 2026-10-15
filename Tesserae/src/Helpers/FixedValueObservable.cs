@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Tesserae
+﻿namespace Tesserae
 {
     /// <summary>
     /// Sometimes you want a Defer component that will take multiple observable inputs and update when any of them change - but you may also sometimes want one or more of those inputs to actually be fixed inputs (and example is in an editor
@@ -8,27 +6,16 @@ namespace Tesserae
     /// component - sometimes with three observable inputs and sometimes with four, depending upon whether or not one is readonly). In cases like this, when a non-editable component will be displayed, this may be used to implement the
     /// IObservable interface to pass to Defer - if an EDITABLE version of the input is being used in that particular configuration of the form then there should be an AsObservable method on that component to use instead of this).
     /// </summary>
+    /// <remarks>
+    /// It behaves exactly as <see cref="ConstantObservable{T}"/>: Observe calls back once with the value, and there
+    /// are no future changes to observe.
+    /// </remarks>
     [Transpose.Name("tss.FixedValueObservable")]
-    public sealed class FixedValueObservable<TItem> : IObservable<TItem>
+    public sealed class FixedValueObservable<TItem> : ConstantObservable<TItem>
     {
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
-        public FixedValueObservable(TItem value) => Value = value;
-        /// <summary>
-        /// Gets or sets the current value of the component.
-        /// </summary>
-        public TItem Value { get; }
-
-        // This never changes and so there's no observe-based logic required
-        void IObservable<TItem>.Observe(ObservableEvent.ValueChanged<TItem>              valueGetter) { }
-        void IObservable<TItem>.ObserveFutureChanges(ObservableEvent.ValueChanged<TItem> valueGetter) { }
-        void IObservable<TItem>.StopObserving(ObservableEvent.ValueChanged<TItem>        valueGetter) { }
-
-        IDisposable IObservable<TItem>.Subscribe(Action<TItem> callback, bool fireImmediately)
-        {
-            if (fireImmediately) callback(Value);
-            return Subscription.Empty;
-        }
+        public FixedValueObservable(TItem value) : base(value) { }
     }
 }
