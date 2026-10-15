@@ -279,7 +279,7 @@ namespace Tesserae
         // contradiction surfaces. An explicit size is the stronger statement, so it clears the
         // intrinsic floor — unless the caller asked for a minimum too, which these markers record.
         private const string ExplicitMinWidth  = "tss-min-w";
-        private const string ExplicitMinHeight = "tss-min-h";
+        internal const string ExplicitMinHeight = "tss-min-h";
 
         public static void SetWidth(IComponent component, UnitSize unitSize)
         {

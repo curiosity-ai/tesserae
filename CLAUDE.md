@@ -332,7 +332,11 @@ a page whose content shuffles while it loads reads as broken whatever it ends up
   counter uses the width of its largest value. Then the arrival fills a box instead of growing one.
 - **Replace in place rather than rebuild**, so a component keeps its size while its content changes
   (see "Reactive updates" in the `tesserae` skill: `DeltaComponent`, `.Text(obs)`, the observable
-  list components). A `DeferSync` that swaps a subtree is a layout shift by construction.
+  list components). A `Defer` / `DeferSync` refresh holds its container at the height it had
+  (`DeferredHeightHold`: a `min-height` floor set before the children are replaced and released two
+  frames after the new content is in, never over a floor the caller set with `.MinHeight()`), so
+  the page below does not jump to the loading message and back. What it cannot absorb is the
+  difference between the old and the new content's own size, which is still a shift.
 
 **Check it with screenshots, not by reading the code.** Capture the surface before the dynamic content
 appears and after it does (the error raised, the list filled, the toast shown), in every theme and

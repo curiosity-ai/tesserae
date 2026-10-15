@@ -23,6 +23,7 @@ namespace Tesserae
         private          DebouncerWithMaxDelay  _debouncer;
         private          int _loadingMessageDelay = 1000;
         private          TaskCompletionSource<bool> _refreshCompleted;
+        private readonly DeferredHeightHold         _heightHold;
 
 
         private int id = 0;
@@ -38,6 +39,7 @@ namespace Tesserae
             _waitForComponentToBeMountedBeforeFullyInitiatingRender = true; // 2020-07-02 DWR: This has only just become configurable and the default value matches the previous behaviour - wait for DomObserver.WhenMounted in Render() before calling TriggerRefresh()
             _renderHasBeenCalled                                    = false;
             Container                                               = DIV(loadMessage.Render());
+            _heightHold                                             = new DeferredHeightHold(Container);
 
             _debouncer = new DebouncerWithMaxDelay(() => TriggerRefresh());
 
@@ -151,6 +153,8 @@ namespace Tesserae
 
             _needsRefresh = false;
 
+            _heightHold.Hold();
+
             id++;
 
             var currentID = id; //Save the last value so we only replace the content if the task that finished is the latest to have been triggered
@@ -199,6 +203,8 @@ namespace Tesserae
                             Container.appendChild(TextBlock("Error rendering async element").Danger());
                             Container.appendChild(TextBlock(r.Exception.ToString()).XSmall());
                         }
+
+                        _heightHold.Release();
 
                         if (_refreshCompleted is object)
                         {

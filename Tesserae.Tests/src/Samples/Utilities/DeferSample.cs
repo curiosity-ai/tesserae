@@ -33,6 +33,11 @@ namespace Tesserae.Tests.Samples
                             ))),
                     stack.HeightAuto()
                 )).SetTitle("Usage")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                        TextBlock("A refresh keeps the container at its height until the new content is in, so what sits below it does not jump up to the loading message and back down. Change the number of lines: the footer under the list stays where it is while the list reloads."),
+                        RefreshInPlace()
+                    )).SetTitle("Refreshing in place")))
                .SeeAlso(typeof(DeferWithProgressSample), typeof(BindingSample), typeof(SkeletonSample), typeof(SpinnerSample));
             SetChildren(stack, 5);
         }
@@ -70,6 +75,34 @@ namespace Tesserae.Tests.Samples
                         )).Skeleton()
                     )));
             }
+        }
+
+        private static IComponent RefreshInPlace()
+        {
+            var lines = new SettableObservable<int>(3);
+
+            var list = Defer(lines, async count =>
+            {
+                await Task.Delay(1500);
+
+                var items = VStack().WS();
+
+                for (int i = 1; i <= count; i++)
+                {
+                    items.Add(TextBlock($"Line {i} of {count}").PB(4));
+                }
+
+                return items;
+            }, loadMessage: TextBlock("Reloading...").Secondary());
+
+            return VStack().WS().Children(
+                HStack().Children(
+                    Button("Fewer lines").OnClick(() => lines.Value = Math.Max(1, lines.Value - 2)),
+                    Button("More lines").OnClick(() => lines.Value = lines.Value + 2).ML(8)
+                ).PB(8),
+                list.Class("tss-sample-defer-refresh"),
+                TextBlock("This footer stays put while the list above reloads.").SemiBold().PT(8).Class("tss-sample-defer-footer")
+            );
         }
 
         public HTMLElement Render()

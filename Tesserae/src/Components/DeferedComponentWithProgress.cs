@@ -21,6 +21,7 @@ namespace Tesserae
         private          DebouncerWithMaxDelay  _debouncer;
         private          int _loadingMessageDelay = 1000;
         private          TaskCompletionSource<bool> _refreshCompleted;
+        private readonly DeferredHeightHold         _heightHold;
 
         private int id = 0;
         private DeferedComponentWithProgress(Func<Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessageGenerator)
@@ -36,6 +37,7 @@ namespace Tesserae
 
             _currentLoadMessage = _loadMessageGenerator(0, "");
             Container           = DIV(_currentLoadMessage.Render());
+            _heightHold         = new DeferredHeightHold(Container);
 
             _debouncer = new DebouncerWithMaxDelay(() => TriggerRefresh());
         }
@@ -135,6 +137,8 @@ namespace Tesserae
 
             _needsRefresh = false;
 
+            _heightHold.Hold();
+
             id++;
 
             var currentID = id;
@@ -212,6 +216,8 @@ namespace Tesserae
                         }
 
                         _refreshCompleted = null;
+
+                        _heightHold.Release();
 
                         Tippy.CheckRepositionNeeded(Container);
                     }
