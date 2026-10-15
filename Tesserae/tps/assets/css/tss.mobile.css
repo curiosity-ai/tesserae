@@ -197,18 +197,12 @@ body.tss-mobile .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn.tss-btn {
     min-height: 40px !important;
 }
 
-/* A tree row is a row in a list on a phone, so it gets a touch-sized floor of its own, and its commands
-   are sized to fit inside it. Without both, a row's commands - shown only while it is hovered or selected -
-   came in at the 40px floor above, and the 22px row grew to hold them, moving every row below it. */
-body.tss-mobile .tss-tree-item-content {
-    min-height: 40px;
-}
-
+/* A tree keeps its desktop density on a phone, so its commands are not touch targets of their own: at the
+   40px floor above they were taller than the row, and since they only show while a row is hovered or
+   selected, the row grew the moment they appeared and moved every row below it. */
 body.tss-mobile .tss-tree-commands > .tss-tree-command,
 body.tss-mobile .tss-tree-commands > a > .tss-tree-command {
-    height: 32px !important;
-    min-height: 32px !important;
-    min-width: 32px;
+    min-height: unset !important;
 }
 
 /* Sidebar nav arrow shifted for taller rows */
