@@ -47,7 +47,9 @@ referencing project's `.claude/skills/tesserae/` on build. The plumbing lives in
   `.claude` folder. If one exists, it compares the shipped `.skills-version`
   against the installed marker and, when they differ, wipes and re-copies the
   whole `skills/` payload into `.claude/skills/tesserae/`. No `.claude` folder →
-  it does nothing.
+  it does nothing. The walk stops at the repository root (the first folder holding
+  a `.git`) and never takes the home folder's `~/.claude`, which is Claude Code's
+  global config. `/p:TesseraeInstallClaudeSkills=false` turns the copy off.
 
 So a Tesserae app that has a `.claude` folder automatically gets the skill
 refreshed whenever it upgrades the package. Changes here reach consumers on the

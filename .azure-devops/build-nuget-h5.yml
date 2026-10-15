@@ -85,20 +85,14 @@ steps:
   inputs:
     # Downloads the icon set, regenerates the stylesheets and the UIcons enum, then bakes the optical
     # centering into the glyph outlines. Gated on the download having changed: an unchanged set exits
-    # in seconds without touching anything, so committing the result here is what stops it recurring.
+    # in seconds without touching anything. The result is committed by "commit uicons" below, only
+    # once Tesserae and the gallery have built with it.
     script: |
       dotnet run --project $(Build.SourcesDirectory)\Build.UpdateInterfaceIcons
       if errorlevel 1 exit /b 1
-      git add .
-      git diff --cached --quiet
-      if errorlevel 1 (
-        git commit -m "Updated uicons [skip ci]"
-        git push origin HEAD:master
-      ) else (
-        echo The icon set has not changed, nothing to commit.
-      )
 
-# This has to run after the git commit above, so the injected source-code stays out of the repository
+# Rewrites the sample sources in the working tree; "commit uicons" below adds only the icon files, so
+# the injected source code stays out of the repository
 - task: CmdLine@2
   displayName: 'update samples'
   inputs:
@@ -115,6 +109,29 @@ steps:
 - task: CmdLine@2
   inputs:
     script: 'dir $(Build.SourcesDirectory)\Tesserae\bin\ /S'
+
+- task: CmdLine@2
+  displayName: 'Build Tesserae Tests'
+  inputs:
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Tests\Tesserae.Tests.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Tests/'
+
+# Commits only what the icon updater generates: a plain "git add ." here would also pick up the
+# sample source injected by "update samples" above. Runs after both builds, so an icon set that
+# breaks the build never reaches master.
+- task: CmdLine@2
+  displayName: 'commit uicons'
+  inputs:
+    script: |
+      git add Tesserae/tps/assets/fonts Tesserae/tps/assets/css/uicons-*.css Tesserae/src/Icons/UIcons.cs Build.UpdateInterfaceIcons/uicons-source.txt
+      git diff --cached --quiet
+      if errorlevel 1 (
+        git commit -m "Updated uicons [skip ci]"
+        git push origin HEAD:master
+      ) else (
+        echo The icon set has not changed, nothing to commit.
+      )
+    workingDirectory: '$(Build.SourcesDirectory)'
 
 - task: NuGetCommand@2
   displayName: 'push  Tesserae to nuget'
@@ -142,12 +159,6 @@ steps:
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity-org'
 
-- task: CmdLine@2
-  displayName: 'Build Tesserae Tests'
-  inputs:
-    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Tests\Tesserae.Tests.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion)'
-    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Tests/'
-
 - task: PowerShell@2
   displayName: 'push tests to gh-pages'
   inputs:
@@ -165,4 +176,3 @@ steps:
       git remote add origin $(repo)
       git push --set-upstream origin gh-pages --force
     errorActionPreference: 'continue'
-    ignoreLASTEXITCODE: true

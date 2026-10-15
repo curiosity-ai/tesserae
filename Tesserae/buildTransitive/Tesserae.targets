@@ -17,7 +17,10 @@
 
   <!-- Walk up the tree to find the nearest ancestor containing a .claude folder.
        Done in code rather than via $(SolutionDir), which is only defined when
-       building through a .sln and breaks under `dotnet build SomeProject.csproj`. -->
+       building through a .sln and breaks under `dotnet build SomeProject.csproj`.
+       The walk stops at the repository root (the first folder with a .git), and the
+       user's home folder never counts: ~/.claude is Claude Code's global config, and
+       writing there would make the skill personal to every project on the machine. -->
   <UsingTask TaskName="FindClaudeDir"
              TaskFactory="RoslynCodeTaskFactory"
              AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
@@ -27,10 +30,16 @@
     </ParameterGroup>
     <Task>
       <Code Type="Fragment" Language="cs"><![CDATA[
+        var home = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile)
+                                     .TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar);
         var dir = new System.IO.DirectoryInfo(StartDirectory);
         while (dir != null) {
+            var path = dir.FullName.TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar);
+            if (string.Equals(path, home, System.StringComparison.OrdinalIgnoreCase)) break;
             var candidate = System.IO.Path.Combine(dir.FullName, ".claude");
             if (System.IO.Directory.Exists(candidate)) { ClaudeDirectory = candidate; break; }
+            var git = System.IO.Path.Combine(dir.FullName, ".git");
+            if (System.IO.Directory.Exists(git) || System.IO.File.Exists(git)) break;
             dir = dir.Parent;
         }
       ]]></Code>
@@ -39,7 +48,7 @@
 
   <Target Name="_InstallClaudeSkills"
           AfterTargets="Build"
-          Condition="'$(DesignTimeBuild)' != 'true'">
+          Condition="'$(DesignTimeBuild)' != 'true' and '$(TesseraeInstallClaudeSkills)' != 'false'">
 
     <FindClaudeDir StartDirectory="$(MSBuildProjectDirectory)">
       <Output TaskParameter="ClaudeDirectory" PropertyName="_ClaudeDir" />
