@@ -20,8 +20,8 @@ namespace Tesserae
         private event PivotEventHandler<PivotReorderEvent>        _reordered;
 
         private readonly SettableObservable<string>   _observable     = new SettableObservable<string>();
-        private readonly List<Tab>                    _orderedTabs    = new List<Tab>();
-        private readonly Dictionary<Tab, HTMLElement> _renderedTitles = new Dictionary<Tab, HTMLElement>();
+        private readonly List<PivotTab>                    _orderedTabs    = new List<PivotTab>();
+        private readonly Dictionary<PivotTab, HTMLElement> _renderedTitles = new Dictionary<PivotTab, HTMLElement>();
         private readonly HTMLElement                  _renderedTabs;
         private readonly HTMLElement                  _renderedContent;
         private readonly HTMLElement                  _line;
@@ -223,7 +223,7 @@ namespace Tesserae
             var oldIndex = e.oldDraggableIndex;
             var newIndex = e.newDraggableIndex;
             var moved    = oldIndex != newIndex && oldIndex >= 0 && oldIndex < _orderedTabs.Count && newIndex >= 0 && newIndex < _orderedTabs.Count;
-            Tab tab      = null;
+            PivotTab tab = null;
 
             if (moved)
             {
@@ -317,11 +317,11 @@ namespace Tesserae
             TriggerAnimation();
         }
 
-        internal Pivot Add(Tab tab)
+        internal Pivot Add(PivotTab tab)
         {
             if (_initiallySelectedID is null) _initiallySelectedID = tab.Id;
             _orderedTabs.Add(tab);
-            var title = tab.RenderTitle();
+            var title = tab.CreateTitle().Render();
             title.classList.add(TabClass);
 
             if (tab.Closeable)
@@ -533,7 +533,7 @@ namespace Tesserae
         /// if the guard resolves <c>true</c>. Tabs without a guard close
         /// immediately, exactly as before.
         /// </summary>
-        private void RequestCloseTab(Tab tab)
+        private void RequestCloseTab(PivotTab tab)
         {
             if (tab.OnBeforeClose is null)
             {
@@ -544,7 +544,7 @@ namespace Tesserae
             RequestCloseTabAsync(tab).FireAndForget();
         }
 
-        private async Task RequestCloseTabAsync(Tab tab)
+        private async Task RequestCloseTabAsync(PivotTab tab)
         {
             var canClose = await tab.OnBeforeClose();
 
@@ -679,7 +679,7 @@ namespace Tesserae
             return this;
         }
 
-        private Pivot Select(Tab tab)
+        private Pivot Select(PivotTab tab)
         {
             if (!_isRendered)
             {
@@ -879,59 +879,6 @@ namespace Tesserae
 
             _line.style.width = target.offsetWidth + "px";
             _line.style.left  = target.offsetLeft + "px";
-        }
-
-        internal sealed class Tab
-        {
-            /// <summary>
-            /// Initializes a new instance of this class.
-            /// </summary>
-            public Tab(string id, Func<IComponent> titleCreator, Func<IComponent> contentCreator, bool cached = false, bool closeable = false, Action onClosed = null, Func<Task<bool>> onBeforeClose = null)
-            {
-                Id               = id;
-                _canCacheContent = cached;
-                _contentCreator  = contentCreator;
-                _titleCreator    = titleCreator;
-                Closeable        = closeable;
-                OnClosed         = onClosed;
-                OnBeforeClose    = onBeforeClose;
-            }
-
-            internal bool             KeepCached    => _canCacheContent;
-            internal bool             Closeable     { get; }
-            internal Action           OnClosed      { get; }
-            internal Func<Task<bool>> OnBeforeClose { get; }
-
-            private          Func<IComponent> _titleCreator;
-            private          Func<IComponent> _contentCreator;
-            private          HTMLElement      _content;
-            private readonly bool             _canCacheContent;
-
-            /// <summary>
-            /// Renders the content.
-            /// </summary>
-            public HTMLElement RenderContent()
-            {
-                if (_canCacheContent && _content is object)
-                {
-                    return _content;
-                }
-                else
-                {
-                    _content = _contentCreator().Render();
-                    return _content;
-                }
-            }
-
-            /// <summary>
-            /// Sets the DOM id of the component.
-            /// </summary>
-            public string Id { get; }
-
-            /// <summary>
-            /// Renders the title.
-            /// </summary>
-            public HTMLElement RenderTitle() => _titleCreator().Render();
         }
 
         public sealed class PivotNavigateEvent : PivotEvent

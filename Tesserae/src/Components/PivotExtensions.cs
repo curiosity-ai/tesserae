@@ -27,7 +27,7 @@ namespace Tesserae
         /// <returns>The pivot component itself, for chaining.</returns>
         public static Pivot Pivot(this Pivot pivot, string id, Func<IComponent> titleCreator, Func<IComponent> contentCreator, bool cached = false, bool closeable = false, Action onClosed = null, Func<Task<bool>> onBeforeClose = null)
         {
-            return pivot.Add(new Pivot.Tab(id, titleCreator, contentCreator, cached, closeable, onClosed, onBeforeClose));
+            return pivot.Add(new PivotTab(id, titleCreator, contentCreator, cached, closeable, onClosed, onBeforeClose));
         }
 
         /// <summary>

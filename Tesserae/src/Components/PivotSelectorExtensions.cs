@@ -19,7 +19,7 @@ namespace Tesserae
         /// <returns>The pivot selector component itself, for chaining.</returns>
         public static PivotSelector Pivot(this PivotSelector pivot, string id, string title, Func<IComponent> contentCreator, bool cached = false)
         {
-            return pivot.Add(new PivotSelector.Tab(id, () => UI.TextBlock(title), contentCreator, cached));
+            return pivot.Add(new PivotTab(id, () => UI.TextBlock(title), contentCreator, cached));
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Tesserae
         /// <returns>The pivot selector component itself, for chaining.</returns>
         public static PivotSelector Pivot(this PivotSelector pivot, string id, Func<IComponent> titleCreator, Func<IComponent> contentCreator, bool cached = false)
         {
-            return pivot.Add(new PivotSelector.Tab(id, titleCreator, contentCreator, cached));
+            return pivot.Add(new PivotTab(id, titleCreator, contentCreator, cached));
         }
 
         /// <summary>

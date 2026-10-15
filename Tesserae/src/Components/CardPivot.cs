@@ -19,8 +19,8 @@ namespace Tesserae
 
         private readonly SettableObservable<string> _observable = new SettableObservable<string>();
 
-        private readonly List<Tab>                    _orderedTabs    = new List<Tab>();
-        private readonly Dictionary<Tab, HTMLElement> _renderedTitles = new Dictionary<Tab, HTMLElement>();
+        private readonly List<PivotTab>                    _orderedTabs    = new List<PivotTab>();
+        private readonly Dictionary<PivotTab, HTMLElement> _renderedTitles = new Dictionary<PivotTab, HTMLElement>();
 
         private readonly HTMLElement _renderedTabs;
         private readonly HTMLElement _renderedContent;
@@ -70,7 +70,7 @@ namespace Tesserae
             return this;
         }
 
-        internal CardPivot Add(Tab tab)
+        internal CardPivot Add(PivotTab tab)
         {
             if (_initiallySelectedID is null) _initiallySelectedID = tab.Id;
             _orderedTabs.Add(tab);
@@ -190,52 +190,6 @@ namespace Tesserae
                 Select(_initiallySelectedID);
             }
             return StylingContainer;
-        }
-
-        internal sealed class Tab
-        {
-            /// <summary>
-            /// Initializes a new instance of this class.
-            /// </summary>
-            public Tab(string id, Func<IComponent> titleCreator, Func<IComponent> contentCreator, bool cached = false)
-            {
-                Id               = id;
-                _canCacheContent = cached;
-                _contentCreator  = contentCreator;
-                _titleCreator    = titleCreator;
-            }
-
-            private          Func<IComponent> _titleCreator;
-            private          Func<IComponent> _contentCreator;
-            private          HTMLElement      _content;
-            private readonly bool             _canCacheContent;
-
-            internal bool KeepCached => _canCacheContent;
-            /// <summary>
-            /// Sets the DOM id of the component.
-            /// </summary>
-            public string Id { get; }
-
-            /// <summary>
-            /// Configures the create title on the component.
-            /// </summary>
-            public IComponent CreateTitle() => _titleCreator();
-
-            /// <summary>
-            /// Renders the content.
-            /// </summary>
-            public HTMLElement RenderContent()
-            {
-                if (_canCacheContent && _content is object)
-                {
-                    return _content;
-                }
-                else
-                {
-                    _content = _contentCreator().Render();
-                    return _content;
-                }
-            }
         }
 
         public sealed class PivotNavigateEvent : PivotEvent
