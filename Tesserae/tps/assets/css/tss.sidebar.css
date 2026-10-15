@@ -967,14 +967,11 @@
     }
 
 /* A page is the positioning context of the group panels below - which means nothing between a group and
-   the page may be one: a group is drawn through a Defer, whose wrapper is positioned for its loading message */
+   the page may be one. A group is drawn through a Defer, whose wrapper is positioned only while it shows its
+   loading message (tss-defer-with-loading-msg), never once the group is in it. */
 .tss-sidebar.tss-sidebar-page {
     position: relative;
 }
-
-    .tss-sidebar.tss-sidebar-page .tss-defer-with-loading-msg:has(> .tss-sidebar-nav) {
-        position: static;
-    }
 
 /* A group on a page opens its children as a panel over the sidebar rather than expanding in place
    (Sidebar.OpenNavOverlay). Closed, a group shows no children at all, and its arrow points the way the
