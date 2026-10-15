@@ -36,6 +36,7 @@ namespace Tesserae
         private readonly HTMLElement _closeButton;
         private readonly HTMLElement _drawerContent;
         private readonly HTMLElement _drawerFooter;
+        private readonly FocusTrap   _focusTrap;
 
         private readonly Action<Event> _onOverlayClick;
 
@@ -67,6 +68,9 @@ namespace Tesserae
             _drawer        = Div(Att("tss-drawer", role: "dialog"), handle, _header, _drawerContent, _drawerFooter);
             _overlay       = Div(Att("tss-drawer-overlay"));
             _contentHtml   = Div(Att("tss-drawer-container"), _overlay, _drawer);
+
+            // Built once: every Show reuses _contentHtml, and a trap per Show would add a listener to it each time.
+            _focusTrap     = new FocusTrap(_contentHtml).TrapEscape(() => Hide());
 
             _drawer.setAttribute("aria-modal", "true");
 
@@ -152,9 +156,7 @@ namespace Tesserae
 
         protected override HTMLElement BuildRenderedContent()
         {
-            var trap = new FocusTrap(_contentHtml);
-            trap.TrapEscape(() => Hide());
-            return trap.Render();
+            return _focusTrap.Render();
         }
 
         /// <summary>

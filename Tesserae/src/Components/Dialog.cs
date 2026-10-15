@@ -14,6 +14,7 @@ namespace Tesserae
 
         private readonly Modal _modal;
         private readonly string _scope;
+        private string _previousScope;
         private readonly bool _centerContent;
 
         /// <summary>
@@ -39,8 +40,22 @@ namespace Tesserae
 
             _scope = $"dialog-{RNG.Next()}";
 
-            _modal.OnShow(_ => Hotkeys.SetScope(_scope));
-            _modal.OnHide(_ => Hotkeys.DeleteScope(_scope));
+            _modal.OnShow(_ =>
+            {
+                var current = Hotkeys.GetScope();
+                if (current != _scope) _previousScope = current;
+                Hotkeys.SetScope(_scope);
+            });
+
+            // Deleting the active scope leaves "all", which would take Enter / Esc away from a dialog this one was
+            // opened over: hand the keys back to whichever scope was active before this one was shown.
+            _modal.OnHide(_ =>
+            {
+                var wasActive = Hotkeys.GetScope() == _scope;
+                Hotkeys.DeleteScope(_scope);
+                if (wasActive && _previousScope is object) Hotkeys.SetScope(_previousScope);
+                _previousScope = null;
+            });
         }
 
         /// <summary>
@@ -131,12 +146,14 @@ namespace Tesserae
                .LightDismiss()
                .SetFooter(GetButtonsStack().Children(
                     CreateButton("Ok", onOk, "Esc, Escape, Enter", modifier: btnOk, isPrimary: true, onActed: () => acted = true)
-                ))
-               .OnHide((_) =>
-               {
-                   if (!acted) { onOk(); }
-               })
-               .Show();
+                ));
+
+            OnNextHide(() =>
+            {
+                if (!acted) { onOk?.Invoke(); }
+            });
+
+            _modal.Show();
         }
 
         /// <summary>
@@ -150,12 +167,14 @@ namespace Tesserae
                .SetFooter(GetButtonsStack().Children(
                     CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false, onActed: () => acted = true),
                     CreateButton("Ok", onOk, "Enter", modifier: btnOk, isPrimary: true, onActed: () => acted = true)
-                ))
-               .OnHide((_) =>
-                {
-                    if (!acted) { onCancel(); }
-                })
-               .Show();
+                ));
+
+            OnNextHide(() =>
+            {
+                if (!acted) { onCancel?.Invoke(); }
+            });
+
+            _modal.Show();
         }
 
         /// <summary>
@@ -169,12 +188,14 @@ namespace Tesserae
                .SetFooter(GetButtonsStack().Children(
                     CreateButton("No", onNo, "Esc, Escape", modifier: btnNo, isPrimary: false, onActed: () => acted = true),
                     CreateButton("Yes", onYes, "Enter", modifier: btnYes, isPrimary: true, onActed: () => acted = true)
-                ))
-               .OnHide((_) =>
-                {
-                    if (!acted) { onNo(); }
-                })
-               .Show();
+                ));
+
+            OnNextHide(() =>
+            {
+                if (!acted) { onNo?.Invoke(); }
+            });
+
+            _modal.Show();
         }
 
         /// <summary>
@@ -189,12 +210,14 @@ namespace Tesserae
                     CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false, onActed: () => acted = true),
                     CreateButton("No", onNo, bindToKeys: null, modifier: btnNo, isPrimary: false, onActed: () => acted = true),
                     CreateButton("Yes", onYes, "Enter", modifier: btnYes, isPrimary: true, onActed: () => acted = true)
-                ))
-               .OnHide((_) =>
-                {
-                    if (!acted) { onCancel(); }
-                })
-               .Show();
+                ));
+
+            OnNextHide(() =>
+            {
+                if (!acted) { onCancel?.Invoke(); }
+            });
+
+            _modal.Show();
         }
 
         /// <summary>
@@ -208,12 +231,14 @@ namespace Tesserae
                .SetFooter(GetButtonsStack().Children(
                     CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false, onActed: () => acted = true),
                     CreateButton("Retry", onRetry, "Enter", modifier: btnRetry, isPrimary: true, onActed: () => acted = true)
-                ))
-               .OnHide((_) =>
-                {
-                    if (!acted) { onCancel(); }
-                })
-               .Show();
+                ));
+
+            OnNextHide(() =>
+            {
+                if (!acted) { onCancel?.Invoke(); }
+            });
+
+            _modal.Show();
         }
 
         /// <summary>
@@ -292,6 +317,20 @@ namespace Tesserae
             Cancel,
             Ok,
             Retry
+        }
+
+        // Runs on the next hide only: a dialog reused for another Ok / YesNo / ... must not run the callbacks of the earlier ones again.
+        private void OnNextHide(Action onHide)
+        {
+            Modal.OnHideHandler handler = null;
+
+            handler = _ =>
+            {
+                _modal.RemoveOnHide(handler);
+                onHide();
+            };
+
+            _modal.OnHide(handler);
         }
 
         private Button CreateButton(string text, Action onClick, string bindToKeys, Func<Button, Button> modifier, bool isPrimary, Action onActed)

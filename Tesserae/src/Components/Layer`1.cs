@@ -211,6 +211,7 @@ namespace Tesserae
                 else
                 {
                     _host.InnerElement.removeChild(_renderedContent);
+                    onHidden?.Invoke();
                 }
                 _renderedContent = null;
                 _isVisible       = false;

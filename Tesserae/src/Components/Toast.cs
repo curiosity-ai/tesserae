@@ -479,7 +479,8 @@ namespace Tesserae
 
         private void Fire()
         {
-            if (_contentHtml is object && _contentHtml.IsMounted())
+            // Still mounted while it fades out after a Hide, but that one is on its way out: show a new one
+            if (IsVisible && _contentHtml is object && _contentHtml.IsMounted())
             {
                 UpdateContainer();
             }

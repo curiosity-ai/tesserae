@@ -24,6 +24,7 @@ namespace Tesserae
         private readonly HTMLElement _panelCommand;
         private readonly HTMLElement _closeButton;
         private readonly HTMLElement _panelTitle;
+        private readonly FocusTrap   _focusTrap;
 
         private readonly Action<Event> _onCloseClickAction;
 
@@ -48,6 +49,9 @@ namespace Tesserae
             _panel        = Div(Att("tss-panel tss-panelSize-small tss-panelSide-far"), _panelCommand, Div(Att("tss-panel-inner"), _panelContent, _panelFooter));
             _panelOverlay = Div(Att("tss-panel-overlay"));
             _contentHtml  = Div(Att("tss-panel-container"), _panelOverlay, _panel);
+
+            // Built once: every Show reuses _contentHtml, and a trap per Show would add a listener to it each time.
+            _focusTrap = new FocusTrap(_contentHtml);
 
             if (title is object)
             {
@@ -211,7 +215,7 @@ namespace Tesserae
 
         protected override HTMLElement BuildRenderedContent()
         {
-            return new FocusTrap(_contentHtml).Render();
+            return _focusTrap.Render();
         }
 
         /// <summary>

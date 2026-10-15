@@ -34,6 +34,7 @@ namespace Tesserae
         private readonly HTMLElement    _modalHeaderContents;
         private readonly HTMLElement    _modalFooterContents;
         private readonly HTMLDivElement _modal;
+        private readonly FocusTrap      _focusTrap;
 
         private bool             _isDragged;
         private TranslationPoint _startPoint;
@@ -45,6 +46,9 @@ namespace Tesserae
 
         // Set when a PixelAvatar is perched on this modal, so ShowEmbedded can move it inside.
         internal PixelAvatarAttachment _pixelAvatar;
+
+        // Set by ModalStack while this modal is one of its sheets: it is shown there without being IsVisible.
+        internal bool _inModalStack;
 
         private readonly Action<Event> _onCloseClickAction;
         private readonly Action<Event> _onDragMouseDownAction;
@@ -113,6 +117,14 @@ namespace Tesserae
             _modal.setAttribute("aria-modal", "true");
             _modalOverlay = Div(Att("tss-modal-overlay"));
             _contentHtml  = Div(Att("tss-modal-container"), _modalOverlay, _modal);
+
+            // Built once: the trap listens on _contentHtml, which every Show reuses, so a trap per Show
+            // would answer one Escape once for every time the modal had been opened.
+            _focusTrap = new FocusTrap(_contentHtml).TrapEscape(() =>
+            {
+                if (WillShowCloseButton) Hide();
+            });
+
             IsNonBlocking = false; //blocking by default
 
             // 2020-05-01 DWR: In order to pick up key press events, we need to set the InnerElement on the base class before calling AttachKeys AND we need to give the container a tabindex value, otherwise it's not focusable and can't pick up key
@@ -559,7 +571,15 @@ namespace Tesserae
         {
             var tcs = new TaskCompletionSource<bool>();
 
-            OnHide((_) => tcs.SetResult(true));
+            OnHideHandler onHide = null;
+
+            onHide = _ =>
+            {
+                RemoveOnHide(onHide);
+                tcs.TrySetResult(true);
+            };
+
+            OnHide(onHide);
             Show();
 
             return tcs.Task;
@@ -657,6 +677,12 @@ namespace Tesserae
             return this;
         }
 
+        // For a handler that should run on one hide only, so it can unsubscribe itself.
+        internal void RemoveOnHide(OnHideHandler onHide)
+        {
+            Hidden -= onHide;
+        }
+
         /// <summary>
         /// Registers a callback invoked when the show event fires.
         /// </summary>
@@ -697,6 +723,10 @@ namespace Tesserae
                 return;
             }
 
+            // Hiding a modal that is already closed (an Escape hides it on keydown, and again on keyup) must not
+            // raise OnHide a second time. A stacked or embedded modal is never IsVisible: its Hide is what closes it.
+            if (!IsVisible && !_inModalStack && !_modal.classList.contains("tss-embedded")) return;
+
             RaiseOnHide();
             _observable.Value = false;
 
@@ -725,16 +755,7 @@ namespace Tesserae
             }
         }
 
-        protected override HTMLElement BuildRenderedContent()
-        {
-            var trap = new FocusTrap(_contentHtml);
-
-            if (WillShowCloseButton)
-            {
-                trap.TrapEscape(() => OnCloseClick(null));
-            }
-            return trap.Render();
-        }
+        protected override HTMLElement BuildRenderedContent() => _focusTrap.Render();
 
         private void OnCloseClick(object ev) => Hide();
 

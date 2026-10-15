@@ -18,6 +18,8 @@ namespace Tesserae
             Name  = name;
             Modal = modal;
             Sheet = modal.StylingContainer;
+
+            modal._inModalStack = true;
         }
 
         /// <summary>Gets what this sheet was pushed under - what makes it the same sheet on a later push.</summary>
@@ -32,6 +34,9 @@ namespace Tesserae
         internal HTMLElement Sheet { get; }
 
         internal HTMLElement Tab;
+
+        // What takes this sheet off the stack when its modal is hidden, unsubscribed again when the sheet goes.
+        internal Modal.OnHideHandler OnHide;
     }
 
     /// <summary>
@@ -164,7 +169,8 @@ namespace Tesserae
 
             _entries.Add(entry);
 
-            modal.OnHide(m => Remove(m));
+            entry.OnHide = m => Remove(m);
+            modal.OnHide(entry.OnHide);
 
             EnsureRoot();
 
@@ -202,7 +208,8 @@ namespace Tesserae
 
             _entries.Add(entry);
 
-            modal.OnHide(m => Remove(m));
+            entry.OnHide = m => Remove(m);
+            modal.OnHide(entry.OnHide);
 
             EnsureRoot();
 
@@ -329,6 +336,10 @@ namespace Tesserae
 
         private static void Detach(ModalStackEntry entry)
         {
+            // Off the modal with the sheet: a modal pushed again must not carry a Remove for every earlier push.
+            entry.Modal.RemoveOnHide(entry.OnHide);
+            entry.Modal._inModalStack = IsStacked(entry.Modal);
+
             if (entry.Tab is object && entry.Tab.parentElement is object) entry.Tab.parentElement.removeChild(entry.Tab);
 
             entry.Tab = null;

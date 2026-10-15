@@ -25,7 +25,7 @@ into scope with `using static Tesserae.UI;`.
 - Padding: a modal has no padding on its own box; the header, content and footer pad themselves (12px sideways, 6px above and below the header's and footer's parts). A theme can inset everything from the border by adding to those parts, not to the box: the Curiosity theme tops the header and footer up to 12px and gives the content 12px only where it is the part against the border (no header above, no footer below). `.NoContentPadding()` sets the content's padding inline, so content runs to the border (a side panel, an image, an editor) and the header and footer keep theirs; `.NoPadding()` also drops the header and footer padding. `Dialog`, `ModalStack` sheets and a modal shown with `.DrawerOnMobile()` in a drawer get no extra inset. Padding set on a part or on the modal itself (`.P(16)`) is inline and wins over a theme's.
 - `.Draggable()` / `.Dark()` / `.ShowCloseButton()` / `.HideCloseButton()`.
 - `.Show()`, `.ShowAt(fromTop, fromLeft, fromRight, fromBottom)`, `.ShowAsync()` (Task), `.ShowEmbedded()` (return as an embeddable `IComponent`).
-- `.Hide(Action onHidden = null)`, `.OnShow(...)`, `.OnHide(...)`.
+- `.Hide(Action onHidden = null)`, `.OnShow(...)`, `.OnHide(...)`. `Hide()` on a modal that is not open does nothing, so `OnHide` runs once per close.
 - `.DrawerOnMobile(bool = true)` — while `Theme.IsMobileMode` is on, show this same modal
   (header, commands, footer, close button) in a `Drawer` sliding up from the bottom
   instead of centred on the page. Decided at every `Show()`; `OnShow` / `OnHide` and
