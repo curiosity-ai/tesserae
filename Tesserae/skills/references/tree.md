@@ -23,6 +23,8 @@ A vertically-stacked tree of `Tree.Item` nodes. Nodes expand/collapse to reveal 
 - `.NotSelectable()` — take selection away again, unselecting whatever was selected.
 - `.CascadeSelection(bool = true)` — selecting a folder selects everything inside it, unselecting it unselects them, and a folder only part of which is picked is drawn half-selected (`IsPartiallySelected`).
 - `.Compact(bool = true)` — compact density (22px rows, 13px text, 8px indent), matching a code editor's file explorer.
+  On a phone (`tss-mobile`) every row, compact or not, is at least 40px tall - a tappable list row - and its
+  commands are 32px, so showing them on hover or selection never changes the row's height.
 - `.OnSelected((s, item) => ...)` — fires when the selected item changes; `SelectedItem` holds the last one picked.
 - `.OnSelectionChanged((s, items) => ...)` — fires with everything selected; one call per gesture, even when a range or a cascade moved many rows.
 - `.ClearSelection()` / `.SelectAll()` — move the whole selection from code; `SelectedItems` reads it back, in tree order.
