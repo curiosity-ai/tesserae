@@ -46,7 +46,21 @@ OmniBox:
 - `.SetChatHeader(IComponent)` — replace (or clear, with `null`) whatever sits above the chat input.
 - `.RegisterSnap(SnapHandler)` / `.RegisterFilterSnap(FilterSnapHandler)` — turn recognized input into inline filter chips (search modes only).
 - `.AddSnap(SnapHandler)` / `.AddFilterSnap(FilterSnapHandler, value, trigger = null)` / `.ClearSnaps()` — add or drop active snap and filter chips in code, to open the box already filtered (`AddSnap` skips a snap that is already active).
-- `.WithHistory(Func<Task<SearchQuery[]>>)` — enable the history button.
+- `.WithHistory(Func<Task<SearchQuery[]>>)` — enable the history button, listing what the fetcher returns
+  (most recent first), and Up/Down history in the search input: Up in the empty box fetches the list and
+  puts the most recent search in the box, each further Up goes one further back, Down comes forward again
+  to the empty box. Searches made in the box are walked first (and not repeated) even before the fetcher
+  returns them. Without `WithHistory` the arrows keep their usual meaning in the search input.
+- `.WithChatHistory(IEnumerable<string> messages)` — the same Up/Down walk in the chat input, over the
+  user's earlier messages. Pass them oldest first (conversation order), typically gathered when a
+  conversation is opened; it replaces what was there. Every message sent from the box is added for you
+  (blank messages and a repeat of the latest are skipped), so a box with no `WithChatHistory` still
+  recalls what was sent from it. `.AddToChatHistory(string)` adds one sent some other way,
+  `.ClearChatHistory()` empties it, `.ChatHistory` reads it (oldest first).
+  In both inputs a walk lasts only while the box still shows what it recalled: typing or deleting
+  anything ends it and the arrows go back to moving the caret. Only plain Up/Down take part (Shift, Alt,
+  Ctrl and Cmd keep their text-field meanings), and a host `OnKeyDown` that calls `preventDefault()` on
+  the chat input keeps the key.
 - `.WithHelp(bool showSyntax = false)` — a `?` button opening a panel that lists the registered filter
   snaps and snaps (with their example values); `showSyntax: true` also documents `AND` / `OR` / `NOT`,
   grouping and quoting (search modes only).

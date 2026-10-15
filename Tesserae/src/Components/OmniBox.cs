@@ -632,6 +632,13 @@ namespace Tesserae
         private          double                                   _mobileOptionsRestoreTimeout;
         private Func<Task<SearchQuery[]>> _historyFetcher;
         private Action _hideSearchHistory;
+
+        // Up/Down in an empty box walks back through what was sent before - see WithChatHistory and WithHistory
+        private readonly List<string> _chatHistory      = new List<string>(); // oldest first
+        private readonly List<string> _searchesSent     = new List<string>(); // oldest first, this box's own searches
+        private readonly HistoryWalk  _chatHistoryWalk   = new HistoryWalk();
+        private readonly HistoryWalk  _searchHistoryWalk = new HistoryWalk();
+        private int                   _searchHistoryRequest;
         private Func<string, Task<OmniBoxSuggestionItem[]>> _suggestionsFetcher;
         private int _suggestionsDebounceTimeoutId = 0;
         /// <summary>
@@ -944,7 +951,13 @@ namespace Tesserae
                     }
                     else if (ke.key == "ArrowDown")
                     {
-                        if (_hideFilterSnapSuggestions != null && _currentFilterSnapSuggestionButtons.Count > 0)
+                        // Ahead of the popups: a walk never opens one, and a stray late one must not take Down
+                        // away from a walk that is under way.
+                        if (TryWalkSearchHistory(ke, older: false))
+                        {
+                            StopEvent(e);
+                        }
+                        else if (_hideFilterSnapSuggestions != null && _currentFilterSnapSuggestionButtons.Count > 0)
                         {
                             StopEvent(e);
                             UpdateHighlightedFilterSnapSuggestion(1);
@@ -962,7 +975,14 @@ namespace Tesserae
                     }
                     else if (ke.key == "ArrowUp")
                     {
-                        if (_hideFilterSnapSuggestions != null && _currentFilterSnapSuggestionButtons.Count > 0)
+                        // Up in the empty box (or one still showing what an earlier Up put there) is history,
+                        // even with the suggestions for an empty query open - unless the user has already
+                        // started moving through those, where Up keeps moving.
+                        if (_highlightedSuggestionIndex < 0 && TryWalkSearchHistory(ke, older: true))
+                        {
+                            StopEvent(e);
+                        }
+                        else if (_hideFilterSnapSuggestions != null && _currentFilterSnapSuggestionButtons.Count > 0)
                         {
                             StopEvent(e);
                             UpdateHighlightedFilterSnapSuggestion(-1);
@@ -1102,6 +1122,12 @@ namespace Tesserae
                             HideChatMention();
                             return;
                         }
+                    }
+
+                    if ((ke.key == "ArrowUp" || ke.key == "ArrowDown") && TryWalkChatHistory(ke, older: ke.key == "ArrowUp"))
+                    {
+                        StopEvent(e);
+                        return;
                     }
 
                     if (ke.key == "Enter" && !ke.shiftKey)
@@ -1945,7 +1971,9 @@ namespace Tesserae
 
         private void TriggerSearch()
         {
-            Searched?.Invoke(this, BuildSearchQuery());
+            var query = BuildSearchQuery();
+            RememberSearch(query.RawQuery);
+            Searched?.Invoke(this, query);
         }
 
         private SnapHandler[] GetActiveSnaps()
@@ -2945,6 +2973,7 @@ namespace Tesserae
                 return;
             }
             var val = _chatInput.value;
+            AddToChatHistory(val);
             Chatted?.Invoke(this, new ChatMessage() { Text = val });
             _chatInput.value = "";
             UpdateChatTriggerActiveState();
@@ -3550,13 +3579,254 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Returns the component configured with the given history.
+        /// Shows a history button on the left of the search input that lists the recent searches
+        /// <paramref name="historyFetcher"/> returns, most recent first, and turns on Up/Down history in
+        /// the search input: Up in the empty box fetches the same list and puts its first entry in the box,
+        /// each further Up goes one search further back, and Down comes forward again, back to the empty box.
+        /// The searches made in this box since it was built are walked first even when the fetcher does not
+        /// return them yet. Typing or deleting anything ends the walk, and Up/Down go back to moving the caret.
         /// </summary>
         public OmniBox WithHistory(Func<Task<SearchQuery[]>> historyFetcher)
         {
             _historyFetcher = historyFetcher;
             _searchHistoryBtn.Show();
             return this;
+        }
+
+        /// <summary>
+        /// The messages Up walks back through in the empty chat input, oldest first: what
+        /// <see cref="WithChatHistory"/> was given, plus every message sent from this box since.
+        /// </summary>
+        public IReadOnlyList<string> ChatHistory => _chatHistory;
+
+        /// <summary>
+        /// Replaces the chat history with <paramref name="messages"/>, in the order they were sent (oldest
+        /// first, the order a conversation reads in) - typically the user's own messages, gathered when a
+        /// conversation is opened. Up in the empty chat input puts the most recent one in the box, each
+        /// further Up goes one message further back, and Down comes forward again, back to the empty box.
+        /// Typing or deleting anything ends the walk, and Up/Down go back to moving the caret. Every message
+        /// sent from the box is added for you, so this only needs calling for what was sent before it existed.
+        /// </summary>
+        public OmniBox WithChatHistory(IEnumerable<string> messages)
+        {
+            if (_chatInput is null)
+            {
+                throw new InvalidOperationException("WithChatHistory can only be called when OmniBox is in Chat or SearchAndChat mode.");
+            }
+
+            _chatHistory.Clear();
+            _chatHistoryWalk.End();
+
+            if (messages is object)
+            {
+                foreach (var message in messages) AddToChatHistory(message);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds <paramref name="message"/> to the end of the chat history, as the most recent message - for
+        /// one sent some other way than through this box. Blank messages, and a repeat of the most recent
+        /// one, are skipped.
+        /// </summary>
+        public OmniBox AddToChatHistory(string message)
+        {
+            if (_chatInput is null)
+            {
+                throw new InvalidOperationException("AddToChatHistory can only be called when OmniBox is in Chat or SearchAndChat mode.");
+            }
+
+            _chatHistoryWalk.End();
+
+            if (string.IsNullOrWhiteSpace(message)) return this;
+            if (_chatHistory.Count > 0 && _chatHistory[_chatHistory.Count - 1] == message) return this;
+
+            _chatHistory.Add(message);
+            return this;
+        }
+
+        /// <summary>
+        /// Empties the chat history, so Up in the empty chat input has nothing to bring back until the next
+        /// message is sent.
+        /// </summary>
+        public OmniBox ClearChatHistory()
+        {
+            _chatHistory.Clear();
+            _chatHistoryWalk.End();
+            return this;
+        }
+
+        //Plain arrows only: Shift+Up selects, Alt/Ctrl/Cmd+Up have jobs of their own in a text field, and a host
+        //that took the key in its own OnKeyDown (raised first in the chat input) keeps it.
+        private static bool IsPlainArrowKey(KeyboardEvent ke) => !ke.shiftKey && !ke.altKey && !ke.ctrlKey && !ke.metaKey && !ke.defaultPrevented;
+
+        //True when the key was taken: the box moved, or Up was pressed at the oldest entry, which keeps the
+        //box where it is rather than letting the caret jump to the start of the text.
+        private bool TryWalkChatHistory(KeyboardEvent ke, bool older)
+        {
+            if (!IsPlainArrowKey(ke)) return false;
+
+            var current = _chatInput.value;
+
+            if (!_chatHistoryWalk.IsWalking(current))
+            {
+                //Only Up starts a walk, and only from an empty box: anywhere else the arrows belong to the caret
+                if (!older || !string.IsNullOrEmpty(current) || _chatHistory.Count == 0) return false;
+
+                var newestFirst = new string[_chatHistory.Count];
+                for (int i = 0; i < newestFirst.Length; i++) newestFirst[i] = _chatHistory[_chatHistory.Count - 1 - i];
+                _chatHistoryWalk.Start(newestFirst);
+            }
+
+            if (!_chatHistoryWalk.CanStep(older)) return older;
+
+            ChatText = _chatHistoryWalk.Step(older);
+            //What the box holds, not what was asked for: a textarea normalizes line endings as it takes a value
+            _chatHistoryWalk.Shown(_chatInput.value);
+
+            var end = (uint)_chatInput.value.Length;
+            _chatInput.setSelectionRange(end, end);
+            return true;
+        }
+
+        private bool TryWalkSearchHistory(KeyboardEvent ke, bool older)
+        {
+            if (_historyFetcher is null || !IsPlainArrowKey(ke)) return false;
+
+            var current = _searchInput.value;
+
+            if (_searchHistoryWalk.IsWalking(current))
+            {
+                if (!_searchHistoryWalk.CanStep(older)) return older;
+                ShowSearchHistoryStep(older);
+                return true;
+            }
+
+            if (!older || !string.IsNullOrEmpty(current)) return false;
+
+            StartSearchHistoryWalk();
+            return true;
+        }
+
+        private async void StartSearchHistoryWalk()
+        {
+            var request = ++_searchHistoryRequest;
+
+            SearchQuery[] fetched;
+
+            try
+            {
+                fetched = await _historyFetcher();
+            }
+            catch (Exception ex)
+            {
+                console.error("Failed to fetch history: ", ex);
+                return;
+            }
+
+            //Up again while this was in flight started a newer fetch, and typing, or leaving the box, means the
+            //user has moved on - either way this answer is not for the box as it is now.
+            if (request != _searchHistoryRequest || !string.IsNullOrEmpty(_searchInput.value) || document.activeElement != _searchInput) return;
+
+            //This box's own searches first, newest first: the fetcher may not have heard of the latest yet
+            var entries = new List<string>();
+
+            for (int i = _searchesSent.Count - 1; i >= 0; i--) AddDistinct(entries, _searchesSent[i]);
+
+            if (fetched is object)
+            {
+                foreach (var q in fetched)
+                {
+                    if (q is object) AddDistinct(entries, NormalizeRawQuery(q.RawQuery));
+                }
+            }
+
+            if (entries.Count == 0) return;
+
+            _searchHistoryWalk.Start(entries.ToArray());
+            ShowSearchHistoryStep(older: true);
+
+            void AddDistinct(List<string> list, string value)
+            {
+                if (!string.IsNullOrWhiteSpace(value) && !list.Contains(value)) list.Add(value);
+            }
+        }
+
+        private void ShowSearchHistoryStep(bool older)
+        {
+            //A late suggestions answer would otherwise open over the recalled search and take the next Down
+            HideRegularSuggestions();
+
+            SearchText = _searchHistoryWalk.Step(older);
+            //What the box holds, not what was asked for: the operator tokens are padded as the text goes in
+            _searchHistoryWalk.Shown(_searchInput.value);
+
+            var end = (uint)_searchInput.value.Length;
+            _searchInput.setSelectionRange(end, end);
+            SyncScroll();
+        }
+
+        private void RememberSearch(string rawQuery)
+        {
+            _searchHistoryWalk.End();
+
+            var query = NormalizeRawQuery(rawQuery);
+            if (string.IsNullOrWhiteSpace(query)) return;
+
+            //Searching for something again makes it the most recent search, not a second entry
+            _searchesSent.Remove(query);
+            _searchesSent.Add(query);
+        }
+
+        private static string NormalizeRawQuery(string rawQuery) => rawQuery?.Replace(specialWhitespaceString, " ").Trim();
+
+        /// <summary>
+        /// Up/Down through earlier entries, the way a shell walks its history. A walk starts from an empty box
+        /// and lasts as long as the box still shows what the walk last put there: typing, deleting or pasting
+        /// anything changes the text, which ends it without anyone having to listen for the edit.
+        /// </summary>
+        private sealed class HistoryWalk
+        {
+            private string[] _entries = Array.Empty<string>(); // most recent first
+            private int      _index   = -1;                    // -1 is the empty box the walk started from
+            private string   _shown;                           // what the box held after the last step; null while not walking
+
+            public bool IsWalking(string current) => _shown is object && current == _shown;
+
+            public void Start(string[] newestFirst)
+            {
+                _entries = newestFirst;
+                _index   = -1;
+                _shown   = string.Empty;
+            }
+
+            public void End()
+            {
+                _entries = Array.Empty<string>();
+                _index   = -1;
+                _shown   = null;
+            }
+
+            public bool CanStep(bool older) => older ? _index + 1 < _entries.Length : _index >= 0;
+
+            //Coming forward past the most recent entry is the empty box again, and the walk is over: the next Up
+            //starts afresh, from history as it is by then
+            public string Step(bool older)
+            {
+                _index += older ? 1 : -1;
+
+                if (_index >= 0) return _entries[_index];
+
+                End();
+                return string.Empty;
+            }
+
+            //Ignored once a step has ended the walk
+            public void Shown(string text)
+            {
+                if (_shown is object) _shown = text;
+            }
         }
 
         /// <summary>

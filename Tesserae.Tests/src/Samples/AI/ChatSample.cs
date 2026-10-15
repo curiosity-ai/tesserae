@@ -175,6 +175,9 @@ namespace Tesserae.Tests.Samples
                 // offering "send" as long as there is text, and this sample queues what it hands over.
                 AllowSendWhileGenerating = true
             })
+            // Up in the empty box brings back earlier messages. The box records what is sent from it; the
+            // messages already in the conversation when it opens are handed over here, oldest first.
+            .WithChatHistory(new[] { "Hello there!" })
             .OnChat((sender, msg) =>
             {
                 var text = msg.Text;
