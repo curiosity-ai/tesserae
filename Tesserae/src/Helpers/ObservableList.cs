@@ -90,6 +90,7 @@ namespace Tesserae
                     UnhookValue(_list[index]);
                 }
                 _list[index] = value;
+                HookValue(value);
                 RaiseOnValueChanged();
             }
         }
@@ -171,11 +172,6 @@ namespace Tesserae
         /// <summary>Inserts an item at the specified index.</summary>
         public void Insert(int index, T item)
         {
-            if (_list.Count > index)
-            {
-                UnhookValue(_list[index]);
-            }
-
             _list.Insert(index, item);
             HookValue(item);
             RaiseOnValueChanged();
