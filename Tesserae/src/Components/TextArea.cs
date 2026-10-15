@@ -62,10 +62,12 @@ namespace Tesserae
                 if (value)
                 {
                     InnerElement.classList.remove("tss-disabled");
+                    InnerElement.disabled = false;
                 }
                 else
                 {
                     InnerElement.classList.add("tss-disabled");
+                    InnerElement.disabled = true;
                 }
             }
         }
