@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Transpose;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -8,8 +9,8 @@ namespace Tesserae
     /// <summary>
     /// A component that renders a unified diff using the
     /// <see href="https://github.com/rtfpessoa/diff2html">diff2html</see> library.
-    /// The slim UI bundle and its CSS are bundled with Tesserae and always available -
-    /// no preload step is required.
+    /// The slim UI bundle ships with Tesserae and is fetched the first time a diff is drawn (its CSS is
+    /// part of Tesserae's stylesheet); there is nothing to preload.
     /// </summary>
     [Transpose.Name("tss.cd")]
     public class CodeDiff : ComponentBase<CodeDiff, HTMLElement>
@@ -48,6 +49,7 @@ namespace Tesserae
         private bool     _highlightCode;
         private Matching _matching;
         private double   _timeout;
+        private int      _redrawRequest;
 
         /// <summary>
         /// Initializes a new <see cref="CodeDiff"/> for the given unified diff text.
@@ -103,10 +105,47 @@ namespace Tesserae
             set { _matching = value; ScheduleRedraw(); }
         }
 
+        /// <summary>
+        /// Where diff2html's UI bundle is published next to the application (a resource of Tesserae's that is copied
+        /// but not linked from index.html), loaded the first time a CodeDiff draws.
+        /// </summary>
+        internal const string LibraryUrl = "assets/js/diff2html-ui-slim.min.js";
+
+        private static bool IsLibraryLoaded() => Script.Write<bool>("typeof globalThis.Diff2HtmlUI !== 'undefined'");
+
         private void ScheduleRedraw()
         {
             window.clearTimeout(_timeout);
-            _timeout = window.setTimeout(_ => Redraw(), 16);
+            _timeout = window.setTimeout(_ =>
+            {
+                if (IsLibraryLoaded())
+                {
+                    Redraw();
+                }
+                else
+                {
+                    LoadLibraryThenRedraw(++_redrawRequest).FireAndForget();
+                }
+            }, 16);
+        }
+
+        private async Task LoadLibraryThenRedraw(int request)
+        {
+            try
+            {
+                await global::Transpose.Require.RequireAsync(LibraryUrl);
+            }
+            catch (Exception ex)
+            {
+                console.error("CodeDiff: failed to load diff2html", ex);
+                return;
+            }
+
+            // Every redraw asked for while the script loaded waits on the same load: the last one draws the latest state.
+            if (request == _redrawRequest)
+            {
+                Redraw();
+            }
         }
 
         private void Redraw()

@@ -8,7 +8,9 @@ description: Renders a unified diff (the output of git diff) as a coloured line-
 `CodeDiff` renders unified-diff text — what `git diff` prints — as the familiar
 red/green view, either line-by-line or side-by-side. It wraps
 [diff2html](https://github.com/rtfpessoa/diff2html); the slim UI bundle and its CSS ship
-with Tesserae, so there is nothing to preload.
+with Tesserae, so there is nothing to preload. The CSS is part of `tss.css`; the script is not
+linked from `index.html` but fetched (`assets/js/diff2html-ui-slim.min.js`) the first time a
+CodeDiff draws, so the first diff on a page appears once it has loaded.
 
 Setting any of its properties re-draws (debounced), which is what makes it usable as a
 live preview of a diff being edited or streamed in.

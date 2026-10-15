@@ -5,7 +5,7 @@ description: An interactive node-graph editor (wraps BaklavaJS) with typed input
 
 # NodeView
 
-A visual node-based editor. Define node types with typed input/output interfaces, listen for graph changes, and serialize/restore the graph as JSON. Built on BaklavaJS, so it initializes after the component mounts (calls before mount are queued).
+A visual node-based editor. Define node types with typed input/output interfaces, listen for graph changes, and serialize/restore the graph as JSON. Built on BaklavaJS, so it initializes after the component mounts (calls before mount are queued). BaklavaJS ships with Tesserae but is not linked from `index.html`: the first NodeView to mount fetches `assets/js/baklava.min.js`, and initializes once it has loaded (later ones initialize on mount). Its stylesheet is part of `tss.css`.
 
 ## Create
 

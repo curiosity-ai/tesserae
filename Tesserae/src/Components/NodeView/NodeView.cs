@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Transpose;
 using Transpose.Core;
 using static Transpose.Core.dom;
@@ -34,19 +35,46 @@ namespace Tesserae
             _parent = Raw(_owner);
             _parent.WhenMounted(() =>
             {
-                _viewModel = Script.Write<ViewModel>("BaklavaJS.createBaklava({0})", _owner);
-
-                foreach (var v in _whenMounted)
+                // BaklavaJS is not on the page until a NodeView needs it: only the first one waits for the script.
+                if (IsLibraryLoaded())
                 {
-                    v();
+                    Initialize(settings);
                 }
-
-                HookChangeMonitoring();
-
-                InitializeSettings(settings);
-
-                window.setTimeout((_) => ReplaceToolbarIcons(), 15); //On a timer to ensure the entire UI is built and rendered
+                else
+                {
+                    LoadLibraryThenInitialize(settings).FireAndForget();
+                }
             });
+        }
+
+        /// <summary>
+        /// Where BaklavaJS is published next to the application (a resource of Tesserae's that is copied but not linked
+        /// from index.html), loaded the first time a NodeView is mounted.
+        /// </summary>
+        internal const string LibraryUrl = "assets/js/baklava.min.js";
+
+        private static bool IsLibraryLoaded() => Script.Write<bool>("typeof BaklavaJS !== 'undefined'");
+
+        private async Task LoadLibraryThenInitialize(Action<IViewSettings> settings)
+        {
+            await global::Transpose.Require.RequireAsync(LibraryUrl);
+            Initialize(settings);
+        }
+
+        private void Initialize(Action<IViewSettings> settings)
+        {
+            _viewModel = Script.Write<ViewModel>("BaklavaJS.createBaklava({0})", _owner);
+
+            foreach (var v in _whenMounted)
+            {
+                v();
+            }
+
+            HookChangeMonitoring();
+
+            InitializeSettings(settings);
+
+            window.setTimeout((_) => ReplaceToolbarIcons(), 15); //On a timer to ensure the entire UI is built and rendered
         }
 
         /// <summary>

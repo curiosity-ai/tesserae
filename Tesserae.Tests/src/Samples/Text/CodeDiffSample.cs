@@ -155,7 +155,7 @@ index 5555555..6666666 100644
                .SampleTitle(typeof(CodeDiffSample), UIcons.CodeCompare, "Render unified diffs with diff2html")
                .FlatSection(VStack().Children(
                     Card(VStack().WS().Children(
-                        TextBlock("CodeDiff renders a unified diff string (the output of git diff, hg diff, etc.) using the diff2html library. The slim UI bundle and stylesheet are fetched from jsDelivr the first time a CodeDiff is shown, so no bundled dependency is required."),
+                        TextBlock("CodeDiff renders a unified diff string (the output of git diff, hg diff, etc.) using the diff2html library. The slim UI bundle ships with Tesserae and is fetched the first time a CodeDiff is shown, so pages without one never load it."),
                         TextBlock("Set the Diff property to update the rendering, or toggle Format between LineByLine and SideBySide. DrawFileList controls the file summary above the diff; MatchingLines (none/lines/words) tweaks diff2html's intra-line matching heuristic.").MT(8))).SetTitle("Overview")))
                .FlatSection(VStack().Children(
                     Card(VStack().WS().Children(
