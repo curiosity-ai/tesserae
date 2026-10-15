@@ -28,7 +28,7 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.SetPage(int page, bool raiseEvent = true)` / `.CurrentPage` — go to a page.
 - `.Next()` / `.Previous()` / `.First()` / `.Last()` — relative navigation. `First`/`Last` work
   whether or not their buttons are rendered.
-- `.SetTotalItems(int)` / `.TotalItems`, `.SetPageSize(int)` / `.PageSize` — reconfigure; page is clamped.
+- `.SetTotalItems(int)` / `.TotalItems`, `.SetPageSize(int)` / `.PageSize` — reconfigure; the page is clamped, and a clamp that moves it updates `AsObservable()` and fires `OnPageChange` like `SetPage` does.
 - `.TotalPages` — computed read-only count.
 - `.MaxPageButtons` — how many page numbers the strip shows around an ellipsis (minimum 5, default 7).
   Once a set has more pages than fit, the strip is always `MaxPageButtons + 2` slots wide.

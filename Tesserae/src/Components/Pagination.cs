@@ -295,10 +295,9 @@ namespace Tesserae
             return SetPage(TotalPages);
         }
 
-        private void ClampPage()
-        {
-            _currentPage = Math.Max(1, Math.Min(_currentPage, TotalPages));
-        }
+        //Through SetPage, so a page the new total or size no longer has also moves the observable and raises
+        //OnPageChange: a consumer slicing its data by either would otherwise stay on the old page.
+        private void ClampPage() => SetPage(_currentPage);
 
         private void Update()
         {
