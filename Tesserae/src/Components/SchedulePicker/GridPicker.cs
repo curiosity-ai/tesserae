@@ -129,7 +129,7 @@ namespace Tesserae
         public GridPicker SetState(int[][] state)
         {
             // A copy, so later changes to the caller's array do not reach the grid behind its back.
-            _states = state.Select(r => r.ToArray()).ToArray();
+            _states = state?.Select(r => r?.ToArray()).ToArray();
             UpdateAll();
             if (_hoverColumn >= 0) HoverState(_hoverColumn, _hoverRow);
             return this;
