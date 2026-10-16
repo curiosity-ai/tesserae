@@ -196,9 +196,9 @@ namespace Tesserae
                         {
                             toolbar.Add(Button("Clear all").Link().Small().OnClick(() =>
                             {
-                                _onClearAll?.Invoke();
                                 ClearChildren(rootStack.Render());
                                 rootStack.Add(CreateEmptyState());
+                                _onClearAll?.Invoke();
                             }));
                         }
 
