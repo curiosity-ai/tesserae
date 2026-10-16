@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Transpose;
 using static Transpose.Core.dom;
@@ -661,35 +660,12 @@ namespace Tesserae
 
             foreach (var word in words)
             {
-                if (!string.IsNullOrWhiteSpace(word)) escaped.Add(EscapeForRegExp(word));
+                if (!string.IsNullOrWhiteSpace(word)) escaped.Add(RegExpCreator.EscapeStr(word));
             }
 
             if (escaped.Count == 0) return Highlight((es5.RegExp)null);
 
             return Highlight(new es5.RegExp(string.Join("|", escaped), "gi"));
-        }
-
-        // A word the user typed has to match itself, so everything JavaScript gives a meaning to inside a
-        // pattern is escaped. RegExp.escape is the platform's own answer and the one to use where it exists;
-        // it only arrived in 2025, so browsers older than that get the equivalent by hand.
-        private static readonly bool HasNativeRegExpEscape = Script.Write<bool>("typeof RegExp.escape === 'function'");
-
-        private const string REGEXP_SPECIAL_CHARACTERS = @"\^$.|?*+()[]{}/";
-
-        private static string EscapeForRegExp(string word)
-        {
-            if (HasNativeRegExpEscape) return es5.RegExp.escape(word);
-
-            var escaped = new StringBuilder(word.Length + 8);
-
-            foreach (var c in word)
-            {
-                if (REGEXP_SPECIAL_CHARACTERS.IndexOf(c) >= 0) escaped.Append('\\');
-
-                escaped.Append(c);
-            }
-
-            return escaped.ToString();
         }
 
         // A scan walks the text with exec, which reads and writes lastIndex and only advances the search while

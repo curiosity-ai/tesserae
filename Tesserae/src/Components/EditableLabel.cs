@@ -166,23 +166,25 @@ namespace Tesserae
 
         private void BeginSaveEditing() => window.setTimeout(SaveEditing, 150); // We need to do this on a timeout, because clicking on the Cancel would trigger this method first, with no opportunity to cancel
 
-        private void SaveEditing(object e)
+        private void SaveEditing(object e) => SaveEditing(_isCanceling, InnerElement, InnerElement.value, _labelText, _observable, v => Saved is null || Saved(this, v), () => IsEditingMode = false);
+
+        // Shared with EditableArea: commits newValue unless the edit is being cancelled or the Saved handler rejects it,
+        // in which case the editor keeps focus.
+        internal static void SaveEditing(bool isCanceling, HTMLElement editor, string newValue, HTMLElement labelText, SettableObservable<string> observable, Func<string, bool> saved, Action endEditing)
         {
-            if (_isCanceling) return;
+            if (isCanceling) return;
 
-            var newValue = InnerElement.value;
-
-            if (newValue != _labelText.textContent)
+            if (newValue != labelText.textContent)
             {
-                if (Saved is null || Saved(this, newValue))
+                if (saved(newValue))
                 {
-                    _labelText.textContent = newValue;
-                    _observable.Value      = newValue;
-                    IsEditingMode          = false;
+                    labelText.textContent = newValue;
+                    observable.Value      = newValue;
+                    endEditing();
                 }
                 else
                 {
-                    InnerElement.focus();
+                    editor.focus();
                 }
             }
         }

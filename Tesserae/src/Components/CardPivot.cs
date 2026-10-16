@@ -130,7 +130,7 @@ namespace Tesserae
                         }
                     }
 
-                    ClearChildrenExceptCached();
+                    Pivot.ClearChildrenExceptCached(_renderedContent, "tss-cardpivot");
 
                     var content = tab.RenderContent();
 
@@ -163,21 +163,6 @@ namespace Tesserae
         {
             if (string.IsNullOrEmpty(value)) return;
             Select(value);
-        }
-
-        private void ClearChildrenExceptCached()
-        {
-            foreach (var el in _renderedContent.children)
-            {
-                if (el.classList.contains("tss-cardpivot-keep-cached"))
-                {
-                    el.classList.add("tss-cardpivot-cached-hidden");
-                }
-                else
-                {
-                    _renderedContent.removeChild(el);
-                }
-            }
         }
 
         /// <summary>

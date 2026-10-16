@@ -27,10 +27,8 @@ namespace Tesserae
         private string            _lastSearchTerm = "";
 
         private UnitSize          _virtualizedItemHeight;
-        private double            _virtualizedTimeout = 0;
-        private double            _virtualizedViewportMinTop = 0;
-        private double            _virtualizedViewportMaxTop = 0;
         private readonly List<LazyVirtualItem> _virtualItems = new List<LazyVirtualItem>();
+        private readonly LazyVirtualWindow     _virtualWindow;
 
         /// <summary>
         /// Gets or sets the styling container.
@@ -63,6 +61,7 @@ namespace Tesserae
         public SearchableList(ObservableList<T> items, params UnitSize[] columns)
         {
             Items      = items ?? new ObservableList<T>();
+            _virtualWindow = new LazyVirtualWindow(() => _defered.Render(), () => _virtualizedItemHeight, _virtualItems);
             _searchBox = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType().Width(100.px()).Grow();
             _list      = ItemsList(new IComponent[0], columns);
             object marker;
@@ -142,7 +141,7 @@ namespace Tesserae
                                         }
 
                                         _searchBox.Show();
-                                        RecomputeVisibleVirtualItems();
+                                        _virtualWindow.Recompute();
                                     }
                                 }).FireAndForget();
                             }
@@ -179,7 +178,7 @@ namespace Tesserae
                             // or the box is showing progress (the list is usually empty while its items load).
                             UpdateSearchBoxVisibility();
 
-                            window.setTimeout((_) => RecomputeVisibleVirtualItems(), 1);
+                            window.setTimeout((_) => _virtualWindow.Recompute(), 1);
 
                             return _list.S();
                         }
@@ -352,56 +351,11 @@ namespace Tesserae
         {
             _virtualizedItemHeight = itemHeight;
             var container = _defered.Render();
-            container.parentElement.addEventListener("scroll", (e) => RecomputeVisibleVirtualItems());
-            container.parentElement.addEventListener("resize", (e) => RecomputeVisibleVirtualItems());
+            container.parentElement.addEventListener("scroll", (e) => _virtualWindow.Recompute());
+            container.parentElement.addEventListener("resize", (e) => _virtualWindow.Recompute());
             _defered.Refresh();
-            RecomputeVisibleVirtualItems();
+            _virtualWindow.Recompute();
             return this;
-        }
-
-        private void RecomputeVisibleVirtualItems()
-        {
-            window.clearTimeout(_virtualizedTimeout);
-            var container = _defered.Render();
-            double scrollTop = container.parentElement.scrollTop;
-            if (scrollTop < _virtualizedViewportMinTop || scrollTop > _virtualizedViewportMaxTop)
-            {
-                RecomputeVisibleVirtualItemsInner();
-            }
-            else
-            {
-                _virtualizedTimeout = window.setTimeout((_) => RecomputeVisibleVirtualItemsInner(), 50);
-            }
-        }
-
-        private void RecomputeVisibleVirtualItemsInner() 
-        { 
-            if (_virtualizedItemHeight is null || _virtualItems.Count == 0) return;
-            var container = _defered.Render();
-            double scrollTop = container.parentElement.scrollTop;
-            double containerHeight = container.parentElement.clientHeight;
-            if (containerHeight == 0) return;
-
-            // We use the fixed height to calculate visible indices
-            double itemH = _virtualizedItemHeight.Size;
-            if (itemH <= 0) itemH = 1; // Prevent division by zero
-
-            int firstVisibleIndex = (int)(scrollTop / itemH);
-            int visibleCount = (int)(containerHeight / itemH) + 1;
-
-            // Add overscan (e.g., 1x container height)
-            int overscan = visibleCount;
-            int startIndex = Math.Max(0, firstVisibleIndex - overscan);
-            int endIndex = Math.Min(_virtualItems.Count - 1, firstVisibleIndex + visibleCount + overscan);
-
-            for (int i = 0; i < _virtualItems.Count; i++)
-            {
-                bool isVisible = (i >= startIndex && i <= endIndex);
-                _virtualItems[i].UpdateVisibility(isVisible);
-            }
-
-            _virtualizedViewportMinTop = startIndex * itemH;
-            _virtualizedViewportMaxTop = endIndex   * itemH;
         }
 
         /// <summary>

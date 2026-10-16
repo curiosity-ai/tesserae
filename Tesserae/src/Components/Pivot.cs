@@ -404,7 +404,7 @@ namespace Tesserae
                 }
             }), new AddEventListenerOptions { passive = false });
 
-            _scroller.addEventListener("scroll", e => UpdateScrollButtons());
+            _scroller.addEventListener("scroll", e => UpdateScrollButtons(_scroller, _scrollLeftBtn, _scrollRightBtn));
 
             // ARIA tablist keyboard navigation. Arrow keys move and activate the
             // adjacent tab, Home/End jump to the first/last tab.
@@ -457,16 +457,8 @@ namespace Tesserae
         private void UpdateScrollState()
         {
             if (!StylingContainer.IsMounted()) return;
-            UpdateScrollButtons();
+            UpdateScrollButtons(_scroller, _scrollLeftBtn, _scrollRightBtn);
             UpdateMoreVisibility();
-        }
-
-        private void UpdateScrollButtons()
-        {
-            var canScrollLeft  = _scroller.scrollLeft > 0;
-            var canScrollRight = _scroller.scrollLeft + _scroller.clientWidth < _scroller.scrollWidth - 1; // -1 for sub-pixel rounding
-            _scrollLeftBtn.Render().style.display  = canScrollLeft ? "" : "none";
-            _scrollRightBtn.Render().style.display = canScrollRight ? "" : "none";
         }
 
         private void UpdateMoreVisibility()
@@ -707,7 +699,7 @@ namespace Tesserae
                 content.textContent = E.ToString();
             }
 
-            ClearChildrenExceptCached();
+            ClearChildrenExceptCached(_renderedContent, "tss-pivot");
 
             if (tab.KeepCached)
             {
@@ -719,7 +711,7 @@ namespace Tesserae
 
             _currentSelectedID = tab.Id;
             UpdateTitleStyles(title);
-            ScrollIntoView(title);
+            ScrollIntoView(_scroller, title);
             TriggerAnimation();
 
             _observable.Value = _currentSelectedID;
@@ -745,36 +737,47 @@ namespace Tesserae
             Select(value);
         }
 
-        private void ScrollIntoView(HTMLElement target)
+        // Shared with SegmentedPivot and CardPivot: hides the cached tab contents (prefix-keep-cached) and drops the rest.
+        internal static void ClearChildrenExceptCached(HTMLElement content, string prefix)
         {
-            if (!_scroller.IsMounted()) return;
-            var tabLeft   = (double)target.offsetLeft;
-            var tabRight  = tabLeft + target.offsetWidth;
-            var viewLeft  = _scroller.scrollLeft;
-            var viewRight = viewLeft + _scroller.clientWidth;
-
-            if (tabLeft < viewLeft)
+            foreach (var el in content.children)
             {
-                _scroller.scrollLeft = tabLeft;
-            }
-            else if (tabRight > viewRight)
-            {
-                _scroller.scrollLeft = tabRight - _scroller.clientWidth;
-            }
-        }
-
-        private void ClearChildrenExceptCached()
-        {
-            foreach (var el in _renderedContent.children)
-            {
-                if (el.classList.contains("tss-pivot-keep-cached"))
+                if (el.classList.contains(prefix + "-keep-cached"))
                 {
-                    el.classList.add("tss-pivot-cached-hidden");
+                    el.classList.add(prefix + "-cached-hidden");
                 }
                 else
                 {
-                    _renderedContent.removeChild(el);
+                    content.removeChild(el);
                 }
+            }
+        }
+
+        // Shared with SegmentedPivot: shows each scroll button only while the title bar can scroll that way.
+        internal static void UpdateScrollButtons(HTMLElement scroller, Button scrollLeftBtn, Button scrollRightBtn)
+        {
+            var canScrollLeft  = scroller.scrollLeft > 0;
+            var canScrollRight = scroller.scrollLeft + scroller.clientWidth < scroller.scrollWidth - 1; // -1 for sub-pixel rounding
+            scrollLeftBtn.Render().style.display  = canScrollLeft ? "" : "none";
+            scrollRightBtn.Render().style.display = canScrollRight ? "" : "none";
+        }
+
+        // Shared with SegmentedPivot: scrolls the title bar just enough to bring target into view.
+        internal static void ScrollIntoView(HTMLElement scroller, HTMLElement target)
+        {
+            if (!scroller.IsMounted()) return;
+            var tabLeft   = (double)target.offsetLeft;
+            var tabRight  = tabLeft + target.offsetWidth;
+            var viewLeft  = scroller.scrollLeft;
+            var viewRight = viewLeft + scroller.clientWidth;
+
+            if (tabLeft < viewLeft)
+            {
+                scroller.scrollLeft = tabLeft;
+            }
+            else if (tabRight > viewRight)
+            {
+                scroller.scrollLeft = tabRight - scroller.clientWidth;
             }
         }
 
@@ -824,14 +827,14 @@ namespace Tesserae
                 DomObserver.WhenMounted(StylingContainer, () =>
                 {
                     UpdateScrollState();
-                    if (_selectedNav != null) ScrollIntoView(_selectedNav);
+                    if (_selectedNav != null) ScrollIntoView(_scroller, _selectedNav);
                     TriggerAnimation();
 
                     //Also do on a timeout to account for animations on modals
                     window.setTimeout((_) =>
                     {
                         UpdateScrollState();
-                        if (_selectedNav != null) ScrollIntoView(_selectedNav);
+                        if (_selectedNav != null) ScrollIntoView(_scroller, _selectedNav);
                         TriggerAnimation();
                     }, 1000);
                 });

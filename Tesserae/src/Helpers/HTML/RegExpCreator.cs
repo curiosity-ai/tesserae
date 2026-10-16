@@ -179,7 +179,7 @@ namespace Tesserae
         /// <summary>
         /// Escapes a string for usage within a regular expression
         /// </summary>
-        private static string EscapeStr(String str)
+        internal static string EscapeStr(String str)
         {
             return str.replace(new es5.RegExp("[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\\\^\\$\\|]", "g"), "\\$&");
         }

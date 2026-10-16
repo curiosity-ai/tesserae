@@ -213,7 +213,7 @@ namespace Tesserae
                         }
                     }
 
-                    ClearChildrenExceptCached();
+                    Pivot.ClearChildrenExceptCached(_renderedContent, "tss-segmentedpivot");
 
                     // Append the tab's content directly, exactly like Pivot does. The
                     // content pane (.tss-segmentedpivot-content) is itself a flex column
@@ -232,7 +232,7 @@ namespace Tesserae
 
                     _renderedContent.appendChild(content);
 
-                    if (selectedTitle is object) ScrollIntoView(selectedTitle);
+                    if (selectedTitle is object) Pivot.ScrollIntoView(_scroller, selectedTitle);
 
                     _observable.Value = _currentSelectedID;
 
@@ -273,7 +273,7 @@ namespace Tesserae
                 }
             }), new AddEventListenerOptions { passive = false });
 
-            _scroller.addEventListener("scroll", e => UpdateScrollButtons());
+            _scroller.addEventListener("scroll", e => Pivot.UpdateScrollButtons(_scroller, _scrollLeftBtn, _scrollRightBtn));
         }
 
         private void ScrollByAmount(double dx)
@@ -284,16 +284,8 @@ namespace Tesserae
         private void UpdateScrollState()
         {
             if (!StylingContainer.IsMounted()) return;
-            UpdateScrollButtons();
+            Pivot.UpdateScrollButtons(_scroller, _scrollLeftBtn, _scrollRightBtn);
             UpdateMoreVisibility();
-        }
-
-        private void UpdateScrollButtons()
-        {
-            var canScrollLeft  = _scroller.scrollLeft > 0;
-            var canScrollRight = _scroller.scrollLeft + _scroller.clientWidth < _scroller.scrollWidth - 1; // -1 for sub-pixel rounding
-            _scrollLeftBtn.Render().style.display  = canScrollLeft ? "" : "none";
-            _scrollRightBtn.Render().style.display = canScrollRight ? "" : "none";
         }
 
         private void UpdateMoreVisibility()
@@ -319,39 +311,6 @@ namespace Tesserae
                 items[i] = ContextMenuItem(Raw(clone)).OnClick(() => Select(id));
             }
             ContextMenu().Items(items).ShowFor(_moreBtn);
-        }
-
-        private void ScrollIntoView(HTMLElement target)
-        {
-            if (!_scroller.IsMounted()) return;
-            var tabLeft   = (double)target.offsetLeft;
-            var tabRight  = tabLeft + target.offsetWidth;
-            var viewLeft  = _scroller.scrollLeft;
-            var viewRight = viewLeft + _scroller.clientWidth;
-
-            if (tabLeft < viewLeft)
-            {
-                _scroller.scrollLeft = tabLeft;
-            }
-            else if (tabRight > viewRight)
-            {
-                _scroller.scrollLeft = tabRight - _scroller.clientWidth;
-            }
-        }
-
-        private void ClearChildrenExceptCached()
-        {
-            foreach (var el in _renderedContent.children)
-            {
-                if (el.classList.contains("tss-segmentedpivot-keep-cached"))
-                {
-                    el.classList.add("tss-segmentedpivot-cached-hidden");
-                }
-                else
-                {
-                    _renderedContent.removeChild(el);
-                }
-            }
         }
 
         /// <summary>

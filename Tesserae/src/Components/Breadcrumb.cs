@@ -99,7 +99,7 @@ namespace Tesserae
                 _chevronToUseAsButton         = null;
             }
 
-            UpdateChildrenSizes();
+            _cachedFullWidth = OverflowSet.UpdateChildrenSizes(_childContainer, _cachedSizes, _cacheSizes, "tss-breadcrumb-collapse", _cachedFullWidth);
 
             bool isChevron(HTMLElement e) => e.classList.contains("tss-breadcrumb-chevron");
 
@@ -196,33 +196,6 @@ namespace Tesserae
             }
 
 
-        }
-
-        private void UpdateChildrenSizes()
-        {
-            if (!_cacheSizes)
-            {
-                _cachedSizes.Clear();
-
-                for (uint i = 0; i < _childContainer.childElementCount; i++)
-                {
-                    var child = (HTMLElement)_childContainer.children[i];
-                    child.classList.remove("tss-breadcrumb-collapse");
-                }
-
-                var rect = (DOMRect)_childContainer.getBoundingClientRect();
-                _cachedFullWidth = rect.width;
-            }
-
-
-            foreach (HTMLElement child in _childContainer.children)
-            {
-                if (!_cachedSizes.ContainsKey(child))
-                {
-                    var childRect = (DOMRect)child.getBoundingClientRect();
-                    _cachedSizes[child] = childRect.width;
-                }
-            }
         }
 
         /// <summary>
