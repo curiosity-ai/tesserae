@@ -27,6 +27,7 @@ A vertically-stacked tree of `Tree.Item` nodes. Nodes expand/collapse to reveal 
 - `.OnSelectionChanged((s, items) => ...)` — fires with everything selected; one call per gesture, even when a range or a cascade moved many rows.
 - `.ClearSelection()` / `.SelectAll()` — move the whole selection from code; `SelectedItems` reads it back, in tree order.
 - `.Clear()` / `.Replace(newItem, oldItem)` — manage nodes.
+- `.FocusItem(item)` — move keyboard focus to a row, opening the folders above it.
 - `.Filter(item => bool)` / `.Filter("text")` / `.ClearFilter()` — show only the matching rows and the folders leading to them (see below); `IsFiltered` says whether one is in force.
 
 `Tree.Item`:
@@ -52,6 +53,26 @@ of every row on show:
   (and, on a cascading tree, brings its contents with it).
 - **A plain click** is left alone: it expands the row and runs its `OnClick`, so a tree can both drive
   a details pane and carry a selection.
+
+## Keyboard
+
+The tree follows the WAI-ARIA tree pattern, with nothing to configure. The tree is one tab stop: Tab
+lands on the row that last had focus (else the selected row, else the first), and a row reached from
+the keyboard shows its commands, so Tab goes on to them.
+
+- **Up / Down** — previous / next row on screen (collapsed and filtered-out rows are skipped).
+- **Home / End** — first / last row.
+- **Right** — opens a closed folder (an `ItemsAsync` one starts loading); on an open folder, moves to its first child.
+- **Left** — closes an open folder; otherwise moves to the parent.
+- **Enter** — what a plain click on the row does: opens or closes it and runs its `OnClick`.
+- **Space** — toggles the focused row's selection (`Single` or `Multiple`); **Shift+Space** selects the range up to it in `Multiple`.
+- **Shift+Up / Shift+Down** (and **Ctrl+Shift+Home / End**) — move and extend a `Multiple` selection from the anchor, like a shift-click.
+- **Ctrl (or cmd) + A** — `SelectAll()` in `Multiple`.
+- **\*** — opens every sibling of the focused row.
+- **Typing** — focuses the next row whose text starts with the letters typed.
+
+Moving focus never changes the selection by itself. `tree.FocusItem(item)` moves focus from code,
+opening the folders above the item.
 
 ## Filtering
 

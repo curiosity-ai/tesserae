@@ -26,7 +26,11 @@ namespace Tesserae
 
     /// <summary>
     /// A vertically-stacked tree view with expand / collapse, keyboard navigation, selection and arbitrary item
-    /// rendering.
+    /// rendering. The keyboard follows the WAI-ARIA tree pattern: the arrow keys, Home and End move between the
+    /// rows on screen, Right and Left open, close and step in and out of folders, Enter does what a click on the
+    /// row does, Space selects the focused row (Shift+Space ranges to it in a multiple selection), Shift with the
+    /// arrows extends a multiple selection, Ctrl+A selects everything, * opens a row's siblings, and typing
+    /// focuses the next row starting with what was typed.
     /// </summary>
     [Transpose.Name("tss.Tree")]
     public sealed class Tree : ComponentBase<Tree, HTMLUListElement>, IContainer<Tree.Item, Tree.Item>, IObservableComponent<Tree.Item>
@@ -39,6 +43,9 @@ namespace Tesserae
         private          int                      _updateDepth;
         private          bool                     _updatePending;
         private          Func<Item, bool>         _filter;
+        private          Item                     _focused;
+        private          string                   _typeAhead     = "";
+        private          double                   _typeAheadAt;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -46,6 +53,16 @@ namespace Tesserae
         public Tree()
         {
             InnerElement = Ul(Att("tss-tree", role: "tree"));
+
+            // Keyboard focus moves between the rows (a roving tab stop): the row that last had focus is the one
+            // Tab lands on while focus is inside the tree, and from outside the tree itself is the tab stop and
+            // hands focus straight on to a row. The tree's own stop steps aside while a row holds focus, so
+            // Shift+Tab from a row leaves the tree instead of landing on the tree and bouncing back in.
+            InnerElement.tabIndex = 0;
+            InnerElement.addEventListener("focus",    _ => FocusTabStop());
+            InnerElement.addEventListener("focusin",  e => OnFocusIn(e));
+            InnerElement.addEventListener("focusout", e => OnFocusOut(e));
+            InnerElement.addEventListener("keydown",  e => OnKeyDown(e.As<KeyboardEvent>()));
 
             DomObserver.WhenMounted(InnerElement, () =>
             {
@@ -169,6 +186,15 @@ namespace Tesserae
 
             InnerElement.UpdateClassIf(mode != TreeSelectionMode.None, "tss-tree-selection-enabled");
             InnerElement.UpdateClassIf(mode == TreeSelectionMode.Multiple, "tss-tree-selection-multiple");
+
+            if (mode == TreeSelectionMode.Multiple)
+            {
+                InnerElement.setAttribute("aria-multiselectable", "true");
+            }
+            else
+            {
+                InnerElement.removeAttribute("aria-multiselectable");
+            }
 
             if (mode == TreeSelectionMode.None)
             {
@@ -507,6 +533,243 @@ namespace Tesserae
             EndSelectionUpdate();
         }
 
+        /// <summary>
+        /// Moves keyboard focus to the given item - the row the arrow keys then move from - opening the folders
+        /// above it so it can be seen.
+        /// </summary>
+        public Tree FocusItem(Item item)
+        {
+            if (item is null || item.IsFilteredOut) return this;
+
+            for (var parent = item.Parent; parent is object; parent = parent.Parent)
+            {
+                parent.IsExpanded = true;
+            }
+
+            item.Render().focus();
+
+            return this;
+        }
+
+        /// <summary>The rows the keyboard moves through: those on screen, in the order they are drawn.</summary>
+        private List<Item> NavigableItems() => Flatten(includeCollapsed: false);
+
+        private Item ItemOf(EventTarget target)
+        {
+            if (target is null) return null;
+
+            foreach (var item in Flatten(includeCollapsed: true))
+            {
+                if (item.Render() == target) return item;
+            }
+
+            return null;
+        }
+
+        // Focus arriving on the tree itself (Tab from outside, or a click on its empty space) goes on to the row
+        // that had it last, else to the selected row, else to the first one.
+        private void FocusTabStop()
+        {
+            var visible = NavigableItems();
+
+            if (visible.Count == 0) return;
+
+            var target = _focused is object && visible.Contains(_focused) ? _focused : null;
+
+            if (target is null) target = visible.FirstOrDefault(i => i.IsSelected);
+            if (target is null) target = visible[0];
+
+            target.Render().focus();
+        }
+
+        private void OnFocusIn(Event e)
+        {
+            var item = ItemOf(e.target);
+
+            if (item is null) return;
+
+            if (_focused is object && _focused != item)
+            {
+                _focused.Render().tabIndex = -1;
+                _focused.ShowFocus(false);
+            }
+
+            _focused              = item;
+            item.Render().tabIndex = 0;
+            InnerElement.tabIndex  = -1;
+
+            // A row reached from the keyboard shows its commands, so Tab can go on to them. It is a class rather
+            // than :focus-visible because the commands must stay on screen while focus is between the row and its
+            // button: the browser checks the button can take focus after the row has already let go of it.
+            item.ShowFocus(item.Render().matches(":focus-visible"));
+        }
+
+        private void OnFocusOut(Event e)
+        {
+            var next = e.As<FocusEvent>().relatedTarget;
+
+            if (_focused is object && (next is null || !_focused.OwnsRowElement(next.As<HTMLElement>()))) _focused.ShowFocus(false);
+
+            if (next is object && InnerElement.contains(next.As<HTMLElement>())) return;
+
+            // Leaving the tree: it becomes the tab stop again, so the way back in never depends on a row that may
+            // have been collapsed, filtered out or removed in the meantime.
+            if (_focused is object) _focused.Render().tabIndex = -1;
+
+            InnerElement.tabIndex = 0;
+        }
+
+        private void OnKeyDown(KeyboardEvent e)
+        {
+            // Only keys pressed on a row itself: a command button or anything else inside the row keeps its own keys.
+            var current = ItemOf(e.target);
+
+            if (current is null || e.altKey) return;
+
+            var visible = NavigableItems();
+            var index   = visible.IndexOf(current);
+
+            if (index < 0) return;
+
+            var ctrl     = e.ctrlKey || e.metaKey;
+            var multiple = _selectionMode == TreeSelectionMode.Multiple;
+
+            switch (e.key)
+            {
+                case "ArrowDown":
+                    MoveFocus(current, visible, index + 1, extend: multiple && e.shiftKey);
+                    break;
+
+                case "ArrowUp":
+                    MoveFocus(current, visible, index - 1, extend: multiple && e.shiftKey);
+                    break;
+
+                case "Home":
+                    MoveFocus(current, visible, 0, extend: multiple && e.shiftKey && ctrl);
+                    break;
+
+                case "End":
+                    MoveFocus(current, visible, visible.Count - 1, extend: multiple && e.shiftKey && ctrl);
+                    break;
+
+                case "ArrowRight":
+                    if (!current.IsExpandable) break;
+
+                    if (!current.IsExpanded)
+                    {
+                        current.IsExpanded = true;
+                    }
+                    else if (index + 1 < visible.Count && visible[index + 1].Parent == current)
+                    {
+                        visible[index + 1].Render().focus();
+                    }
+
+                    break;
+
+                case "ArrowLeft":
+                    if (current.IsExpandable && current.IsExpanded)
+                    {
+                        current.IsExpanded = false;
+                    }
+                    else if (current.Parent is object)
+                    {
+                        current.Parent.Render().focus();
+                    }
+
+                    break;
+
+                case "Enter":
+                    current.Activate();
+                    break;
+
+                case " ":
+                    if (_selectionMode == TreeSelectionMode.None || !current.IsSelectable) return;
+
+                    if (multiple && e.shiftKey)
+                    {
+                        SelectRangeTo(current);
+                    }
+                    else
+                    {
+                        ToggleSelection(current);
+                    }
+
+                    break;
+
+                case "*":
+                    foreach (var sibling in current.Parent is object ? current.Parent.Children : _children.ToArray())
+                    {
+                        if (sibling.IsExpandable && !sibling.IsFilteredOut) sibling.IsExpanded = true;
+                    }
+
+                    break;
+
+                default:
+                    if (ctrl && (e.key == "a" || e.key == "A"))
+                    {
+                        if (!multiple) return;
+
+                        SelectAll();
+                        break;
+                    }
+
+                    if (ctrl || e.key is null || e.key.Length != 1 || !TypeAhead(current, visible, e.key)) return;
+
+                    break;
+            }
+
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Moves focus to the row at the given index, clamped to the tree. Extending - Shift held in a multiple
+        // selection - selects everything from the anchor to that row, the way a shift-click does; with nothing
+        // picked yet, the range starts at the row focus is leaving.
+        private void MoveFocus(Item current, List<Item> visible, int index, bool extend)
+        {
+            if (index < 0) index = 0;
+            if (index >= visible.Count) index = visible.Count - 1;
+
+            var target = visible[index];
+
+            if (extend)
+            {
+                if (_anchor is null || !visible.Contains(_anchor)) _anchor = current;
+
+                SelectRangeTo(target);
+            }
+
+            target.Render().focus();
+        }
+
+        // Typing a row's first letters focuses the next row whose text starts with them; letters typed in quick
+        // succession build up one search, a pause starts a new one.
+        private bool TypeAhead(Item current, List<Item> visible, string key)
+        {
+            var now = Transpose.Core.es5.Date.now();
+
+            _typeAhead   = now - _typeAheadAt > 500 ? key : _typeAhead + key;
+            _typeAheadAt = now;
+
+            if (string.IsNullOrWhiteSpace(_typeAhead)) return false;
+
+            var term  = _typeAhead.ToLowerInvariant();
+            var start = visible.IndexOf(current) + (_typeAhead.Length == 1 ? 1 : 0);
+
+            for (var i = 0; i < visible.Count; i++)
+            {
+                var candidate = visible[(start + i) % visible.Count];
+
+                if ((candidate.Text ?? "").ToLowerInvariant().StartsWith(term))
+                {
+                    candidate.Render().focus();
+                    return true;
+                }
+            }
+
+            return true;
+        }
+
         private List<Item> Flatten(bool includeCollapsed)
         {
             var items = new List<Item>();
@@ -588,8 +851,8 @@ namespace Tesserae
                 _headerDiv.appendChild(_commandsDiv);
 
                 InnerElement = Li(Att("tss-tree-item", role: "treeitem"), _headerDiv, _childContainer);
-                InnerElement.setAttribute("aria-expanded", "false");
                 InnerElement.setAttribute("aria-selected", "false");
+                InnerElement.tabIndex = -1;
 
                 _headerDiv.onclick    = ClickHandler;
                 _chevronSpan.onclick  = ChevronClickHandler;
@@ -695,7 +958,7 @@ namespace Tesserae
                 if (value == _isExpanded) return;
 
                 _isExpanded = value;
-                InnerElement.setAttribute("aria-expanded", _isExpanded ? "true" : "false");
+                UpdateAriaExpanded();
 
                 if (_isExpanded)
                 {
@@ -928,8 +1191,14 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Rows that are not on screen - inside a collapsed folder, or hidden by a filter - are left out unless
+            /// <paramref name="includeCollapsed"/> asks for every item.
+            /// </summary>
             internal void Flatten(List<Item> into, bool includeCollapsed)
             {
+                if (!includeCollapsed && _filteredOut) return;
+
                 into.Add(this);
 
                 if (!includeCollapsed && !_isExpanded) return;
@@ -1088,9 +1357,34 @@ namespace Tesserae
                         child.UnselectRecursively(sender);
                     }
                 }
+                else
+                {
+                    // A folder on the way to the new selection keeps its own state, but whatever else is selected
+                    // inside it - a sibling of the new item, say - is let go like everything else.
+                    foreach (var child in _childItems)
+                    {
+                        child.UnselectRecursively(sender);
+                    }
+                }
             }
 
             private bool IsOrHasChild(Item sender) => this == sender || _childItems.Any(l => l.IsOrHasChild(sender));
+
+            /// <summary>
+            /// Whether the item can be opened: it has children, or loads them when it is first expanded.
+            /// </summary>
+            internal bool IsExpandable => HasChildren || _chevronSpan.classList.contains("tss-has-children");
+
+            /// <summary>
+            /// Runs what a plain click on the row runs - opening or closing it, and its <c>OnClick</c>. This is
+            /// what Enter does to the focused row.
+            /// </summary>
+            internal void Activate() => _headerDiv.click();
+
+            internal void ShowFocus(bool show) => _headerDiv.UpdateClassIf(show, "tss-tree-keyboard-focus");
+
+            /// <summary>Whether the element is this row - the item itself or anything on its own line, such as a command.</summary>
+            internal bool OwnsRowElement(HTMLElement element) => element == InnerElement || _headerDiv.contains(element);
 
             private void UpdateChevronVisibility()
             {
@@ -1101,6 +1395,22 @@ namespace Tesserae
                 else
                 {
                     _chevronSpan.classList.remove("tss-has-children");
+                }
+
+                UpdateAriaExpanded();
+            }
+
+            // Only a row that can be opened says whether it is: a leaf carrying aria-expanded="false" is read out
+            // as a collapsed folder.
+            private void UpdateAriaExpanded()
+            {
+                if (IsExpandable)
+                {
+                    InnerElement.setAttribute("aria-expanded", _isExpanded ? "true" : "false");
+                }
+                else
+                {
+                    InnerElement.removeAttribute("aria-expanded");
                 }
             }
 
@@ -1120,6 +1430,7 @@ namespace Tesserae
             {
                 bool alreadyRun = false;
                 _chevronSpan.classList.add("tss-has-children"); // Show chevron indicating there *might* be children or it's expandable
+                UpdateAriaExpanded();
 
                 ExpandedItem += s =>
                 {
@@ -1224,7 +1535,7 @@ namespace Tesserae
                 }
 
                 // Clicking the item content toggles expansion if it has children
-                if (HasChildren || _chevronSpan.classList.contains("tss-has-children"))
+                if (IsExpandable)
                 {
                     IsExpanded = !IsExpanded;
                 }
@@ -1260,7 +1571,7 @@ namespace Tesserae
             {
                 StopEvent(e);
 
-                if (HasChildren || _chevronSpan.classList.contains("tss-has-children"))
+                if (IsExpandable)
                 {
                     IsExpanded = !IsExpanded;
                 }

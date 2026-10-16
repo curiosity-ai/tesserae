@@ -19,7 +19,8 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("A tree displays hierarchical data. Nodes can be expanded or collapsed to reveal nested data."),
-                    TextBlock("Supports synchronous and asynchronous loading of child nodes."))).SetTitle("Overview")))
+                    TextBlock("Supports synchronous and asynchronous loading of child nodes."),
+                    TextBlock("Every tree works from the keyboard: Tab into it, Up and Down move between rows, Right and Left open, close and step in and out of folders, Enter does what a click does, and Space selects the focused row. In a multiple selection Shift with the arrows extends it and Ctrl+A selects everything. Typing jumps to the next row starting with those letters."))).SetTitle("Overview")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Basic Synchronous Tree"),

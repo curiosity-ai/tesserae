@@ -14,6 +14,12 @@ body.tss-theme-curiosity .tss-tree-compact .tss-tree-item-content {
     border-radius: 0;
 }
 
+/* The focus ring is the ink hairline the theme gives every focused control, kept inside the square row. */
+body.tss-theme-curiosity .tss-tree-item:focus-visible > .tss-tree-item-content {
+    outline: 2px solid var(--tss-default-foreground-color);
+    outline-offset: -2px;
+}
+
 body.tss-theme-curiosity .tss-tree-item-content:active {
     background-color: var(--tss-default-background-active-color);
 }

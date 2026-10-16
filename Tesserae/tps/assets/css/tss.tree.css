@@ -32,6 +32,18 @@
     color: var(--tss-default-foreground-color);
 }
 
+/* Keyboard focus: the row (the treeitem) holds focus, but the ring goes on its own line only, not around the
+   subtree the <li> also contains. The tree itself only holds focus for the moment it takes to hand it on. */
+.tss-tree:focus,
+.tss-tree-item:focus {
+    outline: none;
+}
+
+.tss-tree-item:focus-visible > .tss-tree-item-content {
+    outline: 2px solid var(--tss-ring-color);
+    outline-offset: -2px;
+}
+
 .tss-tree-item-content:hover {
     background-color: var(--tss-default-background-hover-color);
 }
@@ -145,6 +157,7 @@
 }
 
 .tss-tree-item-content:hover > .tss-tree-commands,
+.tss-tree-item-content.tss-tree-keyboard-focus > .tss-tree-commands,
 .tss-tree-item-content.tss-selected > .tss-tree-commands,
 .tss-tree-item-content.tss-tree-commands-always-visible > .tss-tree-commands {
     display: flex;
