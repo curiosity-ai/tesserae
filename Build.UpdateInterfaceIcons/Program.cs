@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Build.UpdateInterfaceIcons
@@ -158,11 +157,14 @@ namespace Build.UpdateInterfaceIcons
                 {
                     var line = lines[i];
 
-                    // The vendor's misspelling is fixed in every name that carries it; the renames apply to
-                    // whole icon names only.
-                    line     = line.Replace("-hastag:before", "-hashtag:before");
-                    line     = IconsToRenameInCss.Replace(line, m => $"{m.Groups[1].Value}{IconRenames[m.Groups[2].Value]}:before");
-                    lines[i] = line;
+                    foreach (var (replace, with) in IconsToFixInCss)
+                    {
+                        if (line.Contains(replace))
+                        {
+                            line     = line.Replace(replace, with);
+                            lines[i] = line;
+                        }
+                    }
 
                     if (line.Contains("line-height: 1;"))
                     {
@@ -346,16 +348,12 @@ namespace Build.UpdateInterfaceIcons
             _thinStraiightPrefix
         };
 
-        // Matched against the whole icon name: a substring match on "-hand:before" also renamed every icon whose
-        // name ends in "-hand" (fi-rr-foam-hand became fi-rr-foam-thumbs-down).
-        private static readonly Dictionary<string, string> IconRenames = new Dictionary<string, string>
+        private static Dictionary<string, string> IconsToFixInCss = new Dictionary<string, string>
         {
-            { "social-network", "thumbs-up" },
-            { "hand",           "thumbs-down" },
+            { "-social-network:before", "-thumbs-up:before" },
+            { "-hastag:before", "-hashtag:before" },
+            { "-hand:before", "-thumbs-down:before" },
         };
-
-        private static readonly Regex IconsToRenameInCss = new Regex(
-            $@"(\.fi-(?:{string.Join("|", IconPrefixes)})-)({string.Join("|", IconRenames.Keys.Select(Regex.Escape))}):before\b");
 
         private static HashSet<string> ExportAsVariables = new HashSet<string>()
         {
