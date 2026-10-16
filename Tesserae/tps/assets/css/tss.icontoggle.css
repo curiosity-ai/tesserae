@@ -9,7 +9,9 @@
     --tss-icon-toggle-inset: 3px;
     --tss-icon-toggle-height: 26px;
     --tss-icon-toggle-padding: 8px;
-    --tss-icon-toggle-icon-size: 13px;
+    /* Even, like every height here: the icon is centred in its segment, and an odd icon in an even
+       height leaves half a pixel that a 1x screen rounds to one side. */
+    --tss-icon-toggle-icon-size: 14px;
     box-sizing: border-box;
     width: fit-content;
     padding: var(--tss-icon-toggle-inset);
@@ -46,9 +48,15 @@
         aspect-ratio:unset;
     }
 
+    /* As a block the icon is a line box: the body font's strut and the glyph sitting on its baseline
+       made it 13px tall around an 11px glyph, with the extra below, so every icon sat a pixel or two
+       high. As a flex box with line-height 1 it is exactly the glyph's em square, which is the box the
+       fonts centre their glyphs in. */
     .tss-icon-toggle > .tss-btn.tss-icon-toggle-item > i {
+        display: flex;
         color: inherit;
         font-size: var(--tss-icon-toggle-icon-size);
+        line-height: 1;
     }
 
     /* The 10px the shared button style puts between icon and label is too airy at this scale. */
@@ -109,7 +117,7 @@
     --tss-icon-toggle-inset: 2px;
     --tss-icon-toggle-height: 22px;
     --tss-icon-toggle-padding: 6px;
-    --tss-icon-toggle-icon-size: 11px;
+    --tss-icon-toggle-icon-size: 12px;
 }
 
 .tss-icon-toggle.tss-icon-toggle-large {
@@ -117,7 +125,7 @@
     --tss-icon-toggle-inset: 4px;
     --tss-icon-toggle-height: 32px;
     --tss-icon-toggle-padding: 12px;
-    --tss-icon-toggle-icon-size: 15px;
+    --tss-icon-toggle-icon-size: 16px;
 }
 
 /* .Rounded(...) sets the track radius through the shared .tss-rounded-* classes; the segments derive
