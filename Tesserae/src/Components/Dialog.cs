@@ -14,7 +14,6 @@ namespace Tesserae
 
         private readonly Modal _modal;
         private readonly string _scope;
-        private readonly bool _centerContent;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -30,8 +29,6 @@ namespace Tesserae
                 if (title is TextBlock tb)
                     tb.TextCenter();
             }
-
-            _centerContent = centerContent;
 
             _modal.SetHeader(title);
             _modal.Content = content;

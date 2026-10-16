@@ -119,20 +119,6 @@ namespace Tesserae
         {
             //Copy base-styles using same method from Stack
             Stack.CopyStylesDefinedWithExtension(from, to);
-
-            var fs = from.style;
-            var ts = to.style;
-
-            bool has(string att)
-            {
-                bool ha = from.hasAttribute(att);
-
-                if (ha)
-                {
-                    from.removeAttribute(att);
-                }
-                return ha;
-            }
         }
 
         /// <summary>

@@ -22,13 +22,9 @@ namespace Build.InjectSamplesCode
             Console.WriteLine($"Parsed samples code, found {allCode.Count} samples.");
         }
 
-        // The previous detection pattern was `SampleHeader(nameof(XxxSample))`. That helper has
-        // since been replaced by `SectionStack().SampleTitle(typeof(XxxSample), ...)` (and a
-        // handful of samples — UptimeSample — that don't call SampleTitle at all). The most
-        // reliable cross-cutting marker is now the class declaration itself: every sample is a
-        // `class XxxSample : ... ISample`. The dictionary key (matched against by
-        // SamplesSourceCode.GetCodeForSample) is the bare class name as passed in via
-        // `sampleType.Name` from SamplesHelper.ShowSampleCode.
+        // Every sample is declared `class XxxSample : ... ISample`. The dictionary key (matched by
+        // SamplesSourceCode.GetCodeForSample) is the bare class name, passed in as `sampleType.Name`
+        // from SamplesHelper.ShowSampleCode.
         private static readonly Regex RE_SampleClass = new Regex(
             @"\bclass\s+(\w+Sample)\s*:\s*[^{]*\bISample\b",
             RegexOptions.Compiled);

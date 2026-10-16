@@ -698,9 +698,6 @@ namespace Tesserae
                 }
             }
 
-            [Obsolete("Use UnselectRecursively (corrected spelling)")]
-            internal void UnselectRecursivelly(NavLink sender) => UnselectRecursively(sender);
-
             private bool IsOrHasChild(NavLink sender) => this == sender || _childLinks.Any(l => l.IsOrHasChild(sender));
         }
     }
