@@ -746,16 +746,19 @@ namespace Tesserae
         /// </summary>
         public static ButtonAndIcon ButtonAndIcon(string text, ButtonAndIcon.IconClickHandler onIconClick, UIcons mainIcon = UIcons.Circle, UIcons secondaryIcon = UIcons.AngleDown) => new ButtonAndIcon(text, onIconClick, mainIcon, secondaryIcon);
         /// <summary>
-        /// Creates a new <see cref="ActionButton"/>.
+        /// Creates a new <see cref="ActionButton"/>. Obsolete: use <see cref="ButtonAndIcon"/> (the split button).
         /// </summary>
+        [Obsolete("Use ButtonAndIcon (the split button): the same two click targets, with the tone and disabled state applied to both halves.")]
         public static ActionButton ActionButton(string     textContent, UIcons displayIcon,                         UIconsWeight displayIconWeight = UIconsWeight.Regular, string   displayColor   = null, TextSize displayIconSize = TextSize.Small, UIconsWeight actionIconWeight = UIconsWeight.Regular, UIcons actionIcon = UIcons.AngleCircleDown, string actionColor = null, TextSize actionIconSize = TextSize.Small) => new ActionButton(textContent, displayIcon, displayIconWeight, displayColor, displayIconSize, actionIconWeight, actionIcon, actionColor, actionIconSize);
         /// <summary>
-        /// Creates a new <see cref="ActionButton"/>.
+        /// Creates a new <see cref="ActionButton"/>. Obsolete: use <see cref="ButtonAndIcon"/> (the split button).
         /// </summary>
+        [Obsolete("Use ButtonAndIcon (the split button): the same two click targets, with the tone and disabled state applied to both halves.")]
         public static ActionButton ActionButton(string     textContent, UIcons actionIcon = UIcons.AngleCircleDown, UIconsWeight actionIconWeight  = UIconsWeight.Regular, string   actionColor    = null, TextSize actionIconSize  = TextSize.Small) => new ActionButton(textContent, actionIcon: actionIcon, actionIconWeight: actionIconWeight, actionColor: actionColor, actionIconSize: actionIconSize);
         /// <summary>
-        /// Creates a new <see cref="ActionButton"/>.
+        /// Creates a new <see cref="ActionButton"/>. Obsolete: use <see cref="ButtonAndIcon"/> (the split button).
         /// </summary>
+        [Obsolete("Use ButtonAndIcon (the split button): the same two click targets, with the tone and disabled state applied to both halves.")]
         public static ActionButton ActionButton(IComponent content,    string actionIcon = null,                   string       actionColor       = null,                 TextSize actionIconSize = TextSize.Small) => new ActionButton(content, actionIcon, actionColor, actionIconSize);
 
         /// <summary>

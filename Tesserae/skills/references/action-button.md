@@ -1,9 +1,12 @@
 ---
 name: action-button
-description: A composite button with a main display area plus a separate action icon, each independently clickable. Use when you need a primary action and a secondary trigger (e.g. dropdown/callout) in one control in a Tesserae (C#/Transpose) app.
+description: Obsolete, use ButtonAndIcon (split button) instead. A composite button with a main display area plus a separate action icon, each independently clickable. Read only when maintaining existing ActionButton code in a Tesserae (C#/Transpose) app.
 ---
 
 # ActionButton
+
+> **Obsolete.** `ActionButton` and `UI.ActionButton(...)` are marked `[Obsolete]`. Use the split
+> button, `UI.ButtonAndIcon(...)`, in new code: see the "Split button" section of `button.md`.
 
 `ActionButton` pairs a clickable display region with a smaller action icon button.
 Each region raises its own click event, so the display can run the main action while

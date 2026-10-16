@@ -6,8 +6,10 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     /// <summary>
-    /// A borderless, lightweight button typically used for inline actions inside cards, lists or toolbars.
+    /// A display area plus a separate action icon, each with its own click handler.
+    /// Obsolete: use <see cref="ButtonAndIcon"/> (the split button) instead.
     /// </summary>
+    [Obsolete("Use ButtonAndIcon (the split button): the same two click targets, with the tone and disabled state applied to both halves.")]
     [Transpose.Name("tss.ActionButton")]
     public class ActionButton : IComponent, IHasBackgroundColor
     {

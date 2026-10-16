@@ -1,6 +1,6 @@
 ---
 name: button
-description: The standard clickable button with tone variants, icons, an href that makes it a real link, and inline async spinner states. Use for any action trigger — submit, confirm, navigate, run — in a Tesserae (C#/Transpose) app.
+description: The standard clickable button with tone variants, icons, an href that makes it a real link, inline async spinner states, and a split variant (ButtonAndIcon) with a second click target. Use for any action trigger — submit, confirm, navigate, run — in a Tesserae (C#/Transpose) app.
 ---
 
 # Button
@@ -84,6 +84,26 @@ Behaviour:
 
 Spinner control: `.ToSpinner(text)` / `.UndoSpinner()` / `.UndoSpinner(ButtonSpinnerOutcome)` / `.SpinWhile(...)`. Every button spins in place, the "orbiting dot": its content (icon, label) fades, a dot appears on a ring drawn in the button's own colour, orbits and stretches into an arc, and collapses back to the content when the spinner ends. The button keeps its box (its width and height do not change, so nothing around it shifts; a spinner text sits beside the ring and is ellipsized if it does not fit). To end on a result, give `OnClickSpinWhile` / `SpinWhile` an action that returns `Task<ButtonSpinnerOutcome>`: `Success` closes the ring around a check, `Error` (or an exception) around an x, `None` goes straight back. A ghost button draws the mark green or red; a filled button keeps its text colour for the mark and turns its fill green or red instead. `.UndoSpinner(ButtonSpinnerOutcome.Success)` does the same by hand after `.ToSpinner()`.
 
+## Split button
+
+`UI.ButtonAndIcon(string text, ButtonAndIcon.IconClickHandler onIconClick, UIcons mainIcon = UIcons.Circle, UIcons secondaryIcon = UIcons.AngleDown)`
+is a `Button` with a second click target on its right: the main half runs the common action
+(`.OnClick(...)`), the arrow half calls `onIconClick(mainButton, iconButton, mouseEvent)`, often to
+open a menu anchored on `iconButton`. The tone (`.Primary()` / `.Success()` / `.Danger()`) and
+`.Disabled()` apply to both halves. `.SetSecondaryIcon(...)` swaps the arrow glyph, `.IconButton`
+exposes the arrow half, and `.ReplaceContent(IComponent)` puts rich content in the main half.
+
+`ActionButton` (`action-button.md`) is obsolete: use `ButtonAndIcon` instead.
+
+```csharp
+ButtonAndIcon("Show Options", (main, arrow, e) =>
+{
+    Action hide = null;
+    var menu = VStack().Children(Button("Option 1").OnClick(() => { Pick(1); hide?.Invoke(); }));
+    Tippy.ShowFor(arrow, menu, out hide, placement: TooltipPlacement.BottomEnd);
+}, mainIcon: UIcons.List).Primary().OnClick((b, _) => PickDefault());
+```
+
 ## Example
 
 ```csharp
@@ -98,6 +118,5 @@ var actions = HStack().Children(
 
 ## Related
 
-- ActionButton — `action-button.md`
 - AI variants — the `.AI()` / `.AISubtle()` variant — `ai-variants.md`
 - Full docs & API: `/tesserae/components/button`

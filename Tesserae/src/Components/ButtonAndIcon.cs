@@ -5,7 +5,8 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     /// <summary>
-    /// A composite button that pairs a label with a leading icon, useful for command-bar and toolbar items.
+    /// A split button: the main half runs the common action (<see cref="Button.OnClick(Action)"/>), the arrow half
+    /// a complementary one, often a menu of alternatives anchored on it.
     /// </summary>
     [Transpose.Name("tss.ButtonAndIcon")]
     public class ButtonAndIcon : Button
@@ -31,6 +32,65 @@ namespace Tesserae
             _parent.appendChild(InnerElement);
             _parent.appendChild(_arrowButton.Render());
         }
+
+        // The tone and the enabled state belong to the whole split button, so each one is carried to the arrow half too.
+
+        /// <summary>
+        /// Gets or sets whether both halves use the primary tone
+        /// </summary>
+        public override bool IsPrimary
+        {
+            get => base.IsPrimary;
+            set
+            {
+                base.IsPrimary = value;
+                _arrowButton.IsPrimary = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets whether both halves use the success tone
+        /// </summary>
+        public override bool IsSuccess
+        {
+            get => base.IsSuccess;
+            set
+            {
+                base.IsSuccess = value;
+                _arrowButton.IsSuccess = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets whether both halves use the danger tone
+        /// </summary>
+        public override bool IsDanger
+        {
+            get => base.IsDanger;
+            set
+            {
+                base.IsDanger = value;
+                _arrowButton.IsDanger = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets whether both halves are enabled
+        /// </summary>
+        public override bool IsEnabled
+        {
+            get => base.IsEnabled;
+            set
+            {
+                base.IsEnabled = value;
+                _arrowButton.IsEnabled = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the button that renders the secondary (arrow) half, e.g. to anchor a menu or add a tooltip to it.
+        /// </summary>
+        public Button IconButton => _arrowButton;
 
         /// <summary>
         /// Sets the secondary icon of the component.

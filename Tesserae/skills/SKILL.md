@@ -184,7 +184,7 @@ badge · code-diff · icon-tile · inline-label · keyboard-shortcut · label ·
 list-item-text · markdown-block · section-title · text-block
 
 **Buttons & Commands** — things the user clicks to do something
-action-button · button · command-bar · command-palette · context-menu ·
+action-button (obsolete) · button · command-bar · command-palette · context-menu ·
 icon-toggle · menu · overflow-set · toggle-button
 
 **Inputs** — form controls that capture a value
