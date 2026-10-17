@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Stratus theme - Sidenav (icon rail)
+   --------------------------------------------------------------------------
+   A 72px rail with a 1px rule on its edge. Items are flat 3px tiles with a
+   tiny 500 label; hover is the neutral fill; the selected item is the soft
+   blue wash with navy icon and label and the 3px navy bar on its left edge.
+   The shared button look (outline, bold) is switched off inside the rail.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-sidenav {
+    border-right: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-sidenav-footer {
+    border-top: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:not(#_) {
+    border-radius: var(--tss-border-radius-sm);
+    border-color: transparent;
+    background: transparent;
+    color: var(--tss-default-foreground-color);
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-stratus .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:not(#_):hover {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-hover-color);
+}
+
+body.tss-theme-stratus .tss-sidenav-btn-label {
+    font-size: var(--tss-font-size-tiny);
+    font-weight: var(--tss-font-weight-semibold);
+    letter-spacing: 0;
+}
+
+body.tss-theme-stratus .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:not(#_),
+body.tss-theme-stratus .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:not(#_):hover {
+    background: var(--tss-default-background-active-color);
+    color: var(--tss-str-navy);
+    border-color: transparent;
+    box-shadow: inset 3px 0 0 0 var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-sidenav-btn-wrap.tss-sidenav-selected .tss-sidenav-btn-label {
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-sidenav-btn-dot {
+    background: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-sidenav-btn-dot.tss-sidenav-btn-dot-danger {
+    background: var(--tss-str-error);
+}

@@ -1,0 +1,93 @@
+/* ==========================================================================
+   Stratus theme - OmniBox
+   --------------------------------------------------------------------------
+   The search form of the box is the language's text field: a filled slab with
+   a 1px rule beneath, a 3px focus ring in the focus colour. When it has a chat
+   half it is a panel instead: a white 8px surface at elevation 1, 2px ring on
+   focus. The buttons at its ends are ghost icon buttons.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-omnibox-container {
+    --tss-omnibox-radius: 3px;
+    border: 0;
+    background: var(--tss-str-fill);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+    border-radius: 3px 3px 0 0;
+}
+
+body.tss-theme-stratus .tss-omnibox-container.tss-omnibox-rounded-full {
+    --tss-omnibox-radius: 20px;
+    border-radius: 20px;
+}
+
+body.tss-theme-stratus .tss-omnibox-container.tss-omnibox-chat-and-search,
+body.tss-theme-stratus .tss-omnibox-container.tss-omnibox-mode-chat,
+body.tss-theme-stratus .tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-chat-and-search,
+body.tss-theme-stratus .tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-mode-chat {
+    --tss-omnibox-radius: 8px;
+    border-radius: 8px;
+    background: var(--tss-str-elevated-surface);
+    box-shadow: var(--tss-str-elev-1);
+}
+
+body.tss-theme-stratus .tss-omnibox-container:not(.tss-omnibox-chat-and-search):not(.tss-omnibox-mode-chat):hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-omnibox-container:not(.tss-omnibox-chat-and-search):not(.tss-omnibox-mode-chat):focus-within {
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-omnibox-container.tss-omnibox-chat-and-search:focus-within,
+body.tss-theme-stratus .tss-omnibox-container.tss-omnibox-mode-chat:focus-within {
+    box-shadow: var(--tss-str-elev-1), 0 0 0 2px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-omnibox-container .tss-omnibox-search-container {
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover .tss-omnibox-search-container,
+body.tss-theme-stratus .tss-omnibox-container:focus-within .tss-omnibox-search-container {
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-omnibox-container.tss-disabled {
+    opacity: .4;
+    background: var(--tss-str-fill);
+}
+
+body.tss-theme-stratus .tss-omnibox-container.tss-disabled .tss-omnibox-search-container {
+    background-color: transparent;
+}
+
+/* Buttons inside the box: ghost icon buttons in the accent, a hairline rule where they border the input. */
+body.tss-theme-stratus .tss-omnibox-container:not(#_) .tss-btn.tss-btn-default {
+    border-color: transparent;
+    background: transparent;
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-omnibox-container:not(#_) .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-omnibox-container:not(#_) .tss-btn.tss-btn-primary {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-omnibox-container:not(#_):not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-btn,
+body.tss-theme-stratus .tss-omnibox-container:not(#_):not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-help-btn {
+    border-left-color: transparent;
+    border-right-color: transparent;
+    background: transparent;
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-omnibox-search-input::placeholder {
+    color: var(--tss-secondary-foreground-color);
+    opacity: 1;
+}
