@@ -24,7 +24,10 @@ body.tss-theme-stratus .tss-toast-container > .tss-banner {
     --tss-banner-title-color: var(--tss-default-foreground-color);
     --tss-banner-accent: var(--tss-banner-tone);
     min-height: 40px;
-    padding: 8px 16px 8px 24px;
+    /* The 8px bar plus 16px of padding puts the content 24px from the edge; the 8px gaps and the 32px
+       dismiss button leave a short title and the time room on one line in the 328px. */
+    padding: 8px 8px 8px 16px;
+    gap: 8px;
     border-left: 8px solid var(--tss-banner-tone);
     border-radius: inherit;
     font-weight: var(--tss-font-weight-regular);
@@ -53,4 +56,13 @@ body.tss-theme-stratus .tss-banner-time-text {
     font-weight: var(--tss-font-weight-regular);
     color: var(--tss-secondary-foreground-color);
     opacity: 1;
+}
+
+/* A smaller dismiss button inside the toast (the strip's 40px one would take a quarter of the width). */
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-btn.tss-banner-dismiss-button {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    align-self: flex-start;
 }

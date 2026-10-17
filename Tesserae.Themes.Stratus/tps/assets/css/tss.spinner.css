@@ -21,6 +21,7 @@ body.tss-theme-stratus .tss-spinner.tss-spinner-progress {
 }
 body.tss-theme-stratus .tss-spinner-success { --tss-spinner-color: var(--tss-str-success); }
 body.tss-theme-stratus .tss-spinner-danger { --tss-spinner-color: var(--tss-str-error); }
+body.tss-theme-stratus .tss-spinner-warning { --tss-spinner-color: var(--tss-str-warning-edge); }
 
 body.tss-theme-stratus .tss-spinner-size-xsmall .tss-spinner { width: 12px; height: 12px; --tss-spinner-size: 2px; }
 body.tss-theme-stratus .tss-spinner-size-small .tss-spinner { width: 16px; height: 16px; --tss-spinner-size: 2px; }

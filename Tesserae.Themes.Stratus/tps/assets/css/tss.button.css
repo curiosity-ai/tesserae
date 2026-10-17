@@ -137,6 +137,7 @@ body.tss-theme-stratus .tss-btn.tss-btn-primary:not(.tss-disabled):active {
 }
 
 body.tss-theme-stratus .tss-btn.tss-btn-danger:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-btn.tss-btn-warning:not(.tss-disabled):hover,
 body.tss-theme-stratus .tss-btn.tss-btn-success:not(.tss-disabled):hover {
     border-color: transparent;
 }
@@ -144,6 +145,7 @@ body.tss-theme-stratus .tss-btn.tss-btn-success:not(.tss-disabled):hover {
 /* A tone without a fill keeps its label colour and answers the pointer with the same wash the ghost uses. */
 body.tss-theme-stratus .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):hover,
 body.tss-theme-stratus .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover,
 body.tss-theme-stratus .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover {
     background-color: var(--tss-default-background-hover-color);
     border-color: transparent;
@@ -151,6 +153,7 @@ body.tss-theme-stratus .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):
 
 body.tss-theme-stratus .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):active,
 body.tss-theme-stratus .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-stratus .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):active,
 body.tss-theme-stratus .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):active {
     background-color: var(--tss-default-background-active-color);
 }
@@ -174,6 +177,36 @@ body.tss-theme-stratus .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):
 body.tss-theme-stratus .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):active,
 body.tss-theme-stratus .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default {
     color: var(--tss-str-success);
+}
+
+/* Warning: the yellow fill with a dark label (set by the base, which reads the tokens above). Without a fill
+   (no background, link, link-on-hover) the label is the dark ochre, the yellow on the dark canvas: the
+   yellow itself is 1.6:1 on a white page. */
+body.tss-theme-stratus .tss-btn.tss-btn-warning.tss-btn-nobg,
+body.tss-theme-stratus .tss-btn.tss-btn-warning.tss-btn-nobg .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-stratus .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled),
+body.tss-theme-stratus .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):active,
+body.tss-theme-stratus .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):active .tss-fontcolor-default,
+body.tss-theme-stratus.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover,
+body.tss-theme-stratus.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-stratus.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):active,
+body.tss-theme-stratus.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):active .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-linkonhover.tss-warning,
+body.tss-theme-stratus .tss-btn.tss-btn-linkonhover.tss-warning .tss-fontcolor-default,
+body.tss-theme-stratus .tss-btn.tss-btn-linkonhover.tss-warning:hover,
+body.tss-theme-stratus .tss-btn.tss-btn-linkonhover.tss-warning:hover .tss-fontcolor-default {
+    color: var(--tss-str-warning-text);
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-warning:not(.tss-btn-nobg):not(.tss-btn-link):not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-warning-foreground-color);
 }
 
 /* Link: underlined on hover, in the link colour, no wash. */

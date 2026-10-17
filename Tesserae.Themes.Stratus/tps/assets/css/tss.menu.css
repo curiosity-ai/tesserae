@@ -46,6 +46,10 @@ body.tss-theme-stratus .tss-menu-item.tss-menu-item-danger:not(.tss-disabled) {
     color: var(--tss-str-error);
 }
 
+body.tss-theme-stratus .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) {
+    color: var(--tss-str-warning-text);
+}
+
 body.tss-theme-stratus .tss-menu-item.tss-menu-item-success:not(.tss-disabled) {
     color: var(--tss-str-success);
 }

@@ -46,6 +46,7 @@ body.tss-theme-stratus {
     --tss-str-success: #08875b;
     --tss-str-warning: #ffc929;
     --tss-str-warning-text: #775900;
+    --tss-str-warning-edge: #bb8e09;  /* the warning as a line, an icon or a ring: 3:1 on the page */
     --tss-str-info: #255fcc;
     --tss-str-error-soft: #fad1d8;
     --tss-str-success-soft: #d1ffef;
@@ -112,6 +113,11 @@ body.tss-theme-stratus {
     --tss-primary-foreground-active-color-root: 255, 255, 255;
     --tss-warning-background-color-root: 255, 201, 41;
     --tss-warning-foreground-color-root: 20, 23, 29;
+    --tss-warning-border-color-root: 255, 201, 41;
+    --tss-warning-background-hover-color-root: 221, 171, 23;
+    --tss-warning-foreground-hover-color-root: 20, 23, 29;
+    --tss-warning-background-active-color-root: 187, 142, 9;
+    --tss-warning-foreground-active-color-root: 20, 23, 29;
     --tss-danger-background-color-root: 228, 0, 43;
     --tss-danger-foreground-color-root: 255, 255, 255;
     --tss-danger-border-color-root: 228, 0, 43;
@@ -199,6 +205,11 @@ body.tss-theme-stratus {
     --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.12);
     --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
     --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
     --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
     --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
     --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
@@ -236,6 +247,7 @@ body.tss-theme-stratus.tss-dark-mode {
     --tss-str-success: #27e7a7;
     --tss-str-warning: #ffd557;
     --tss-str-warning-text: #ffd557;
+    --tss-str-warning-edge: #ffd557;
     --tss-str-info: #b3cbf8;
     --tss-str-error-soft: #6a0014;
     --tss-str-success-soft: #005e3e;
@@ -280,6 +292,11 @@ body.tss-theme-stratus.tss-dark-mode {
     --tss-primary-foreground-active-color-root: 20, 23, 29;
     --tss-warning-background-color-root: 255, 213, 87;
     --tss-warning-foreground-color-root: 20, 23, 29;
+    --tss-warning-border-color-root: 255, 213, 87;
+    --tss-warning-background-hover-color-root: 255, 224, 133;
+    --tss-warning-foreground-hover-color-root: 20, 23, 29;
+    --tss-warning-background-active-color-root: 255, 236, 179;
+    --tss-warning-foreground-active-color-root: 20, 23, 29;
     --tss-danger-background-color-root: 248, 100, 113;
     --tss-danger-foreground-color-root: 20, 23, 29;
     --tss-danger-border-color-root: 248, 100, 113;
@@ -353,6 +370,11 @@ body.tss-theme-stratus.tss-dark-mode {
     --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.16);
     --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
     --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
     --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
     --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
     --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
@@ -474,4 +496,10 @@ html:has(> body.tss-theme-stratus.tss-dark-mode) {
         scrollbar-width: thin;
         scrollbar-color: var(--tss-str-scrollbar-thumb) transparent;
     }
+}
+
+/* The warning as text: the yellow fill is 1.6:1 on a white page, so a warning that is only a label colour
+   reads in the dark ochre (the yellow itself on the dark canvas). */
+body.tss-theme-stratus .tss-fontcolor-warning {
+    color: var(--tss-str-warning-text);
 }

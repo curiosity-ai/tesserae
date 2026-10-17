@@ -52,3 +52,13 @@ body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-danger:active {
 body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-danger { background: var(--tss-danger-background-color); }
 body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-danger:hover { background: var(--tss-danger-background-hover-color); }
 body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-danger:active { background: var(--tss-danger-background-active-color); }
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-warning,
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-warning:hover,
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-warning:active {
+    color: var(--tss-warning-foreground-color);
+}
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-warning { background: var(--tss-warning-background-color); }
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-warning:hover { background: var(--tss-warning-background-hover-color); }
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-warning:active { background: var(--tss-warning-background-active-color); }

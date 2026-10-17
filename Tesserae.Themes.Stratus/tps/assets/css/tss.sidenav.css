@@ -53,3 +53,8 @@ body.tss-theme-stratus .tss-sidenav-btn-dot {
 body.tss-theme-stratus .tss-sidenav-btn-dot.tss-sidenav-btn-dot-danger {
     background: var(--tss-str-error);
 }
+
+body.tss-theme-stratus .tss-sidenav-btn-dot.tss-sidenav-btn-dot-warning {
+    background: var(--tss-str-warning);
+    box-shadow: 0 0 0 1px var(--tss-str-warning-edge);
+}
