@@ -25,7 +25,7 @@ body.tss-theme-stratus .tss-btn:not(.tss-sidebar-btn):not(.tss-sidebar-command) 
 /* Size: 40px tall with a 2px edge (transparent on a filled button, the accent on the outline), 6px by 16px of
    padding around a 24px line. The small button is 32px, the large one 48px. Buttons a component builds out of
    its own row (the sidebar) keep that component's size. */
-body.tss-theme-stratus .tss-btn:not(.tss-sidebar-btn):not(.tss-sidebar-command):not(.tss-btn-link) {
+body.tss-theme-stratus .tss-btn:where(:not(.tss-sidebar-btn):not(.tss-sidebar-command):not(.tss-btn-link)) {
     min-height: 40px;
     min-width: 40px;
     padding: 6px 16px;
@@ -33,13 +33,31 @@ body.tss-theme-stratus .tss-btn:not(.tss-sidebar-btn):not(.tss-sidebar-command):
     border-width: 2px;
 }
 
-body.tss-theme-stratus .tss-btn.tss-small:not(.tss-sidebar-btn):not(.tss-sidebar-command) {
+/* Tesserae's own size modifiers still win over the sizing above. */
+body.tss-theme-stratus .tss-btn.tss-btn-nominsize {
+    min-height: unset;
+    min-width: unset;
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-remove-padding {
+    padding: 0;
+}
+
+body.tss-theme-stratus .tss-btn.tss-btn-less-padding {
+    padding: 0 8px;
+}
+
+body.tss-theme-stratus .tss-btn.tss-small.tss-btn-less-padding {
+    padding: 0 4px;
+}
+
+body.tss-theme-stratus .tss-btn.tss-small:where(:not(.tss-sidebar-btn):not(.tss-sidebar-command)) {
     min-height: 32px;
     padding: 2px 16px;
     margin: 0;
 }
 
-body.tss-theme-stratus .tss-btn.tss-btn-only-icon:not(.tss-sidebar-btn):not(.tss-sidebar-command) {
+body.tss-theme-stratus .tss-btn.tss-btn-only-icon:where(:not(.tss-sidebar-btn):not(.tss-sidebar-command)) {
     padding: 6px;
 }
 

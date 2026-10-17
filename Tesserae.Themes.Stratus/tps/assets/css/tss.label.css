@@ -5,8 +5,15 @@
    required mark.
    ========================================================================== */
 
+/* The design system's form label: 14px/24px, weight 500, in the strong neutral (grey on light, white on dark). */
 body.tss-theme-stratus .tss-label {
     font-weight: var(--tss-font-weight-semibold);
+    line-height: 24px;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-label {
+    color: var(--tss-default-foreground-color);
 }
 
 body.tss-theme-stratus .tss-label .tss-required,
