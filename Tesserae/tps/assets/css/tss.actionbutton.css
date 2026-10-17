@@ -101,8 +101,18 @@
     border-color: var(--tss-danger-border-color);
 }
 
+.tss-actionbutton-container > .tss-btn-warning {
+    color: var(--tss-warning-foreground-color);
+    background-color: var(--tss-warning-background-color);
+    border-color: var(--tss-warning-border-color);
+}
+
 .tss-actionbutton-container > .tss-btn-danger .tss-fontcolor-default {
     color: var(--tss-danger-foreground-color);
+}
+
+.tss-actionbutton-container > .tss-btn-warning .tss-fontcolor-default {
+    color: var(--tss-warning-foreground-color);
 }
 
 .tss-actionbutton-container > .tss-btn-danger:hover {
@@ -110,8 +120,17 @@
     background-color: var(--tss-danger-background-hover-color);
 }
 
+.tss-actionbutton-container > .tss-btn-warning:hover {
+    color: var(--tss-warning-foreground-hover-color);
+    background-color: var(--tss-warning-background-hover-color);
+}
+
 .tss-actionbutton-container > .tss-btn-danger:hover .tss-fontcolor-default {
     color: var(--tss-danger-foreground-hover-color);
+}
+
+.tss-actionbutton-container > .tss-btn-warning:hover .tss-fontcolor-default {
+    color: var(--tss-warning-foreground-hover-color);
 }
 
 .tss-actionbutton-container > .tss-btn-danger:active {
@@ -119,8 +138,17 @@
     background-color: var(--tss-danger-background-active-color);
 }
 
+.tss-actionbutton-container > .tss-btn-warning:active {
+    color: var(--tss-warning-foreground-active-color);
+    background-color: var(--tss-warning-background-active-color);
+}
+
 .tss-actionbutton-container > .tss-btn-danger:active .tss-fontcolor-default {
     color: var(--tss-danger-foreground-active-color);
+}
+
+.tss-actionbutton-container > .tss-btn-warning:active .tss-fontcolor-default {
+    color: var(--tss-warning-foreground-active-color);
 }
 
 /* /ActionButton */

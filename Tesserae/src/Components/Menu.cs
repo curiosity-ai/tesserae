@@ -487,6 +487,12 @@ namespace Tesserae
             public Item Danger(bool danger = true) => SetTone("danger", danger);
 
             /// <summary>
+            /// Draws the item in the warning colour, for the entry that needs care but is not destructive (Archive,
+            /// Disable, Overwrite). <c>Warning(false)</c> takes it back.
+            /// </summary>
+            public Item Warning(bool warning = true) => SetTone("warning", warning);
+
+            /// <summary>
             /// Draws the item in the primary (accent) colour, for the entry the menu exists for (Create, Upgrade).
             /// <c>Primary(false)</c> takes it back.
             /// </summary>

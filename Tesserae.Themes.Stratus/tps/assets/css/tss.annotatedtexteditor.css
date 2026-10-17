@@ -1,14 +1,14 @@
 /* ==========================================================================
    Stratus theme - AnnotatedTextEditor
    --------------------------------------------------------------------------
-   The container is the field of the language, top corners only, with the
+   The container is the field of the language, square corners, with the
    rule and 3px focus ring. Entities are the information tint of the language
    with a mid-blue edge and 3px corners; the hover tag is a level-2 tooltip.
    ========================================================================== */
 
 body.tss-theme-stratus .tss-annotated-text-container {
     border: 0;
-    border-radius: 3px 3px 0 0;
+    border-radius: 0;
     background: var(--tss-str-fill);
     box-shadow: 0 1px 0 0 var(--tss-str-rule);
 }

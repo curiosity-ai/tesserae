@@ -123,6 +123,31 @@
     font-weight: var(--tss-font-weight-semibold);
 }
 
+/* The time: when the notice was raised, pinned to the top right of the content, level with the first line of
+   the title (a title that wraps leaves it where it is). It keeps its width and the title gives way before it.
+   Absent unless set. */
+.tss-banner-time {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-left: auto;
+    padding-left: 8px;
+}
+
+.tss-banner-time-text {
+    font-size: var(--tss-font-size-xsmall);
+    line-height: 20px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    color: var(--tss-banner-text-color);
+    opacity: 0.85;
+}
+
+.tss-banner-has-time .tss-banner-header {
+    flex-wrap: nowrap;
+}
+
 .tss-banner-text {
     display: flex;
     align-items: center;

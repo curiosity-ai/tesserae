@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Curiosity theme - Toast
+   --------------------------------------------------------------------------
+   A toast is its banner (see tss.banner.css) in the brand's frame, so the only
+   thing here is the time the banner can carry at the top right. It is a label,
+   so it speaks in the mono label voice: small, uppercase, in mute ink, set a
+   little apart from the title.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-banner-time-text {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--tss-secondary-foreground-color);
+    opacity: 1;
+}

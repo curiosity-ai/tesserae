@@ -496,8 +496,18 @@ a {
     border-color: var(--tss-danger-border-color);
 }
 
+.tss-btn.tss-btn-warning:not(.tss-disabled) {
+    color: var(--tss-warning-foreground-color);
+    background-color: var(--tss-warning-background-color);
+    border-color: var(--tss-warning-border-color);
+}
+
     .tss-btn.tss-btn-danger:not(.tss-disabled) .tss-fontcolor-default {
         color: var(--tss-danger-foreground-color);
+    }
+
+.tss-btn.tss-btn-warning:not(.tss-disabled) .tss-fontcolor-default {
+        color: var(--tss-warning-foreground-color);
     }
 
     .tss-btn.tss-btn-danger:not(.tss-disabled):hover {
@@ -505,8 +515,17 @@ a {
         background-color: var(--tss-danger-background-hover-color);
     }
 
+.tss-btn.tss-btn-warning:not(.tss-disabled):hover {
+        color: var(--tss-warning-foreground-hover-color);
+        background-color: var(--tss-warning-background-hover-color);
+    }
+
         .tss-btn.tss-btn-danger:not(.tss-disabled):hover .tss-fontcolor-default {
             color: var(--tss-danger-foreground-hover-color);
+        }
+
+.tss-btn.tss-btn-warning:not(.tss-disabled):hover .tss-fontcolor-default {
+            color: var(--tss-warning-foreground-hover-color);
         }
 
     .tss-btn.tss-btn-danger:not(.tss-disabled):active {
@@ -514,8 +533,17 @@ a {
         background-color: var(--tss-danger-background-active-color);
     }
 
+.tss-btn.tss-btn-warning:not(.tss-disabled):active {
+        color: var(--tss-warning-foreground-active-color);
+        background-color: var(--tss-warning-background-active-color);
+    }
+
         .tss-btn.tss-btn-danger:not(.tss-disabled):active .tss-fontcolor-default {
             color: var(--tss-danger-foreground-active-color);
+        }
+
+.tss-btn.tss-btn-warning:not(.tss-disabled):active .tss-fontcolor-default {
+            color: var(--tss-warning-foreground-active-color);
         }
 
 .tss-btn.tss-btn-success:not(.tss-disabled) {
@@ -582,13 +610,27 @@ a {
     color: var(--tss-danger-background-color);
 }
 
+.tss-btn.tss-btn-warning.tss-btn-nobg,
+.tss-btn.tss-btn-warning.tss-btn-nobg .tss-fontcolor-default {
+    color: var(--tss-warning-background-color);
+}
+
     .tss-btn.tss-btn-danger.tss-btn-nobg:hover {
         color: var(--tss-danger-background-hover-color);
         background-color: var(--tss-danger-background-hover-color);
     }
 
+.tss-btn.tss-btn-warning.tss-btn-nobg:hover {
+        color: var(--tss-warning-background-hover-color);
+        background-color: var(--tss-warning-background-hover-color);
+    }
+
         .tss-btn.tss-btn-danger.tss-btn-nobg:hover .tss-fontcolor-default {
             color: var(--tss-danger-background-hover-color);
+        }
+
+.tss-btn.tss-btn-warning.tss-btn-nobg:hover .tss-fontcolor-default {
+            color: var(--tss-warning-background-hover-color);
         }
 
     .tss-btn.tss-btn-danger.tss-btn-nobg:active {
@@ -596,8 +638,17 @@ a {
         background-color: var(--tss-danger-background-active-color);
     }
 
+.tss-btn.tss-btn-warning.tss-btn-nobg:active {
+        color: var(--tss-warning-background-active-color);
+        background-color: var(--tss-warning-background-active-color);
+    }
+
         .tss-btn.tss-btn-danger.tss-btn-nobg:active .tss-fontcolor-default {
             color: var(--tss-danger-background-active-color);
+        }
+
+.tss-btn.tss-btn-warning.tss-btn-nobg:active .tss-fontcolor-default {
+            color: var(--tss-warning-background-active-color);
         }
 
 
@@ -691,6 +742,17 @@ a {
             filter: none;
         }
 
+
+        .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled),
+        .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover,
+        .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):active {
+            border: none;
+            background: none;
+            background-color: transparent;
+            box-shadow: none;
+            filter: none;
+        }
+
         /* A neutral link answers a hover with the default wash (it inherits .tss-btn-default's), so a
            toned one answers with a tint of its own tone rather than with the fill it would have as a
            button. */
@@ -714,8 +776,16 @@ a {
             background: color-mix(in srgb, var(--tss-danger-background-color) 12%, transparent);
         }
 
+.tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover {
+            background: color-mix(in srgb, var(--tss-warning-background-color) 12%, transparent);
+        }
+
         .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):active {
             background: color-mix(in srgb, var(--tss-danger-background-color) 20%, transparent);
+        }
+
+.tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):active {
+            background: color-mix(in srgb, var(--tss-warning-background-color) 20%, transparent);
         }
 
         /* The label is painted in its tone, and darkens as it is hovered and pressed the way the
@@ -756,14 +826,29 @@ a {
             color: var(--tss-danger-background-color);
         }
 
+.tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled),
+        .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled) .tss-fontcolor-default {
+            color: var(--tss-warning-background-color);
+        }
+
             .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):hover,
             .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):hover .tss-fontcolor-default {
                 color: var(--tss-danger-background-hover-color);
             }
 
+.tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover,
+            .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover .tss-fontcolor-default {
+                color: var(--tss-warning-background-hover-color);
+            }
+
             .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):active,
             .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):active .tss-fontcolor-default {
                 color: var(--tss-danger-background-active-color);
+            }
+
+.tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):active,
+            .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):active .tss-fontcolor-default {
+                color: var(--tss-warning-background-active-color);
             }
 
         /* Dark mode has to move the other way. The hover / active tokens are the fill a filled
@@ -795,9 +880,19 @@ a {
             color: color-mix(in srgb, var(--tss-danger-background-color) 82%, white);
         }
 
+.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover,
+        .tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover .tss-fontcolor-default {
+            color: color-mix(in srgb, var(--tss-warning-background-color) 82%, white);
+        }
+
         .tss-dark-mode .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):active,
         .tss-dark-mode .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):active .tss-fontcolor-default {
             color: color-mix(in srgb, var(--tss-danger-background-color) 68%, white);
+        }
+
+.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):active,
+        .tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):active .tss-fontcolor-default {
+            color: color-mix(in srgb, var(--tss-warning-background-color) 68%, white);
         }
 
 .tss-btn.tss-btn-nominsize {
@@ -849,13 +944,28 @@ a {
     color: var(--tss-danger-background-color);
 }
 
+.tss-btn.tss-btn-linkonhover.tss-warning,
+.tss-btn.tss-btn-linkonhover.tss-warning .tss-fontcolor-default {
+    color: var(--tss-warning-background-color);
+}
+
     .tss-btn.tss-btn-linkonhover.tss-danger:hover,
     .tss-btn.tss-btn-linkonhover.tss-danger:hover .tss-fontcolor-default {
         color: var(--tss-danger-background-color);
     }
 
+.tss-btn.tss-btn-linkonhover.tss-warning:hover,
+    .tss-btn.tss-btn-linkonhover.tss-warning:hover .tss-fontcolor-default {
+        color: var(--tss-warning-background-color);
+    }
+
     .tss-btn.tss-btn-linkonhover.tss-danger.tss-disabled,
     .tss-btn.tss-btn-linkonhover.tss-danger.tss-disabled .tss-fontcolor-default {
+        color: var(--tss-disabled-foreground-color);
+    }
+
+.tss-btn.tss-btn-linkonhover.tss-warning.tss-disabled,
+    .tss-btn.tss-btn-linkonhover.tss-warning.tss-disabled .tss-fontcolor-default {
         color: var(--tss-disabled-foreground-color);
     }
 

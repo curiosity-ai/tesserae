@@ -36,6 +36,7 @@ tone also brings a default icon (`Info`, `CheckCircle`, `TriangleWarning`,
 - `.SetTitle(string)` / `.SetTitle(IComponent)` — the bold first line. Null or empty drops the line.
 - `.SetText(string)` / `.SetText(IComponent)` — the message under it. Null or empty drops the line.
 - `.SetBadge(string)` / `.SetBadge(IComponent)` — a pill beside the title: the reference the notice is about.
+- `.SetTime(string)` / `.SetTime(DateTime moment, string text = null)` — a small timestamp at the top right, level with the title, clear of the action and the dismiss button: when the notice was raised. The `DateTime` overload renders a `<time datetime=...>` and shows `HH:mm` without `text`; null or empty hides it (the default). `Toast.Time(...)` sets it on the banner a toast shows.
 - `.SetIcon(UIcons, color, weight)` / `.SetIcon(string text, color, TextSize?)` / `.SetIcon(IComponent, color)` — the leading tile. Without a colour it follows the banner's tone.
 - `.NoIcon()` — drop the tile.
 - `.Action(string text, Action onClick)` — a button at the far end, drawn in the banner's own tone.

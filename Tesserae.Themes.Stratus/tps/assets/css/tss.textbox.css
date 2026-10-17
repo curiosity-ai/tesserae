@@ -1,10 +1,12 @@
 /* ==========================================================================
    Stratus theme - TextBox
    --------------------------------------------------------------------------
-   A text field is a filled slab with a 1px rule underneath, rounded on its
-   top corners only. Hover shifts the fill one tone; focus tints it with the
-   selected wash and swaps the rule for a 3px ring in the focus colour. An
-   invalid field takes the error colour on the rule (and on focus the ring).
+   A text field is a filled slab with a 1px rule underneath. Its corners are
+   square: the rule sits on the bottom edge, so a radius would round the top
+   corners only and read as a mistake. Hover shifts the fill one tone; focus
+   tints it with the selected wash and swaps the rule for a 3px ring in the
+   focus colour. An invalid field takes the error colour on the rule (and on
+   focus the ring).
    ========================================================================== */
 
 body.tss-theme-stratus .tss-textbox {
@@ -12,7 +14,7 @@ body.tss-theme-stratus .tss-textbox {
     padding: 0 8px;
     line-height: 20px;
     border: 0;
-    border-radius: 3px 3px 0 0;
+    border-radius: 0;
     background: var(--tss-str-fill);
     box-shadow: 0 1px 0 0 var(--tss-str-rule);
     transition: box-shadow var(--tss-str-ease), background-color var(--tss-str-ease);

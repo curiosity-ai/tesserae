@@ -1,53 +1,126 @@
 /* ==========================================================================
-   Stratus theme - Segmented pivot
+   Stratus theme - SegmentedPivot
    --------------------------------------------------------------------------
-   The segmented control: a recessed track in the moderate component fill with
-   3px corners; the selected segment is raised onto the page surface at
-   elevation 1 with navy 700 text, the others are 500 in the neutral colour
-   and take a darker fill on hover.
+   The segmented control of the language is its button group: a row of ghost
+   buttons in a 1px accent frame with 4px corners, the cells split by 1px
+   dividers that stop 8px short of the frame, and the selected cell filled in
+   the accent (navy, soft blue in dark) with an on-accent label. That replaces
+   Tesserae's recessed grey pill, which the language has no counterpart for.
+
+   Geometry follows the ghost button inside the group: 14px, weight 700, 6px
+   by 16px of padding around a 24px line. A divider is not drawn beside the
+   selected cell or beside the cell under the pointer, as in the reference,
+   so the filled cell reads as one piece. Hover is the interaction wash, a
+   press (and the selected state) is the accent.
+
+   The frame is drawn on the titlebar wrapper when the overflow chrome (the
+   chevrons and the "all tabs" menu) is there, and on the titlebar itself
+   when it is not (SidebarPivot), so both take it. The AI variant keeps its
+   own tint and gradient (tss.ai.css): no frame or dividers on it.
    ========================================================================== */
 
-body.tss-theme-stratus .tss-segmentedpivot-titlebar {
-    border-radius: var(--tss-border-radius-md);
-    background: var(--tss-str-fill-2);
-    box-shadow: none;
-    padding: 3px;
-    gap: 2px;
+body.tss-theme-stratus {
+    --tss-str-seg-frame: var(--tss-str-navy);
 }
 
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar {
+    background: var(--tss-default-background-color);
+    box-shadow: none;
+    border: 1px solid var(--tss-str-seg-frame);
+    border-radius: 4px;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Inside the wrapper the frame is the wrapper's; the titlebar is a plain row. */
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    overflow: visible;
+}
+
+body.tss-theme-stratus .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-stratus .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar {
+    border-radius: 4px;
+}
+
+/* A cell: a ghost button. */
 body.tss-theme-stratus .tss-segmentedpivot-tab {
-    border-radius: var(--tss-border-radius-sm);
-    font-size: var(--tss-font-size-small);
-    font-weight: var(--tss-font-weight-semibold);
-    color: var(--tss-default-foreground-color);
+    position: relative;
+    border-radius: 0;
     padding: 6px 16px;
+    font-size: var(--tss-font-size-small);
+    line-height: 24px;
+    font-weight: var(--tss-font-weight-bold);
+    color: var(--tss-str-navy);
+    background: transparent;
+    box-shadow: none;
     transition: background-color var(--tss-str-ease), color var(--tss-str-ease);
 }
 
+body.tss-theme-stratus .tss-segmentedpivot-tab,
+body.tss-theme-stratus .tss-segmentedpivot-tab *:not(.tss-token):not(.tss-token *) {
+    color: var(--tss-str-navy);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+/* The divider: 1px, inset 8px top and bottom, on the cell's left edge. */
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab + .tss-segmentedpivot-tab::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 0;
+    border-left: 1px solid var(--tss-str-seg-frame);
+    pointer-events: none;
+}
+
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected::before,
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected + .tss-segmentedpivot-tab::before,
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:hover::before,
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:hover + .tss-segmentedpivot-tab::before {
+    display: none;
+}
+
 body.tss-theme-stratus .tss-segmentedpivot-tab:hover {
-    background: var(--tss-str-fill-3);
-    color: var(--tss-default-foreground-color);
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-str-navy);
 }
 
 body.tss-theme-stratus .tss-segmentedpivot-tab:active {
-    background: var(--tss-str-on-fill-2);
+    background: var(--tss-primary-background-color);
 }
 
-body.tss-theme-stratus .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
-    background: var(--tss-default-background-color);
-    color: var(--tss-str-navy);
+body.tss-theme-stratus .tss-segmentedpivot-tab:active,
+body.tss-theme-stratus .tss-segmentedpivot-tab:active *:not(.tss-token):not(.tss-token *) {
+    color: var(--tss-primary-foreground-color);
+}
+
+/* Selected: the accent fill, the on-accent label. */
+body.tss-theme-stratus .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-stratus .tss-segmentedpivot-tab.tss-segmentedpivot-selected:hover {
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
     font-weight: var(--tss-font-weight-bold);
-    box-shadow: var(--tss-str-elev-1);
+    box-shadow: none;
 }
 
 body.tss-theme-stratus .tss-segmentedpivot-tab.tss-segmentedpivot-selected *:not(.tss-token):not(.tss-token *) {
-    color: var(--tss-str-navy);
+    color: var(--tss-primary-foreground-color);
 }
 
-body.tss-theme-stratus .tss-segmentedpivot-tab:focus-visible,
-body.tss-theme-stratus .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
+/* Focus is drawn inside the cell: the strip scrolls and the frame clips, so a ring outside it would be cut off.
+   On the filled cell the ring is the page colour, because blue on navy does not read. */
+body.tss-theme-stratus .tss-segmentedpivot-tab:focus-visible {
     outline: 2px solid var(--tss-str-focus);
-    outline-offset: 1px;
+    outline-offset: -4px;
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
+    outline-color: var(--tss-primary-foreground-color);
     box-shadow: none;
 }
 
@@ -55,14 +128,51 @@ body.tss-theme-stratus .tss-segmentedpivot-content > .tss-background-area {
     border-radius: var(--tss-border-radius-lg);
 }
 
-/* The overflow chevron and the All Tabs button are ghost icon buttons, not outlined ones. */
+/* The overflow chevrons and the "all tabs" button are ghost icon buttons, not outlined ones. */
 body.tss-theme-stratus .tss-segmentedpivot-titlebar-wrapper:not(#_) .tss-btn.tss-btn-default {
     border-color: transparent;
     background: transparent;
     color: var(--tss-str-navy);
-    border-radius: var(--tss-border-radius-sm);
+    border-radius: 0;
 }
 
 body.tss-theme-stratus .tss-segmentedpivot-titlebar-wrapper:not(#_) .tss-btn.tss-btn-default:hover {
     background: var(--tss-default-background-hover-color);
+}
+
+/* SidebarPivot. Open, the control takes the sidebar's width and each cell shares it; collapsed, it is a column of
+   the rail's tiles in the same frame, the dividers running across instead of down. */
+body.tss-theme-stratus .tss-sidebar-segmentedpivot-wrapper-open .tss-segmentedpivot-tab {
+    padding: 6px 8px;
+}
+
+body.tss-theme-stratus .tss-sidebar-segmentedpivot-wrapper-closed {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+body.tss-theme-stratus .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-titlebar {
+    padding: 0;
+    width: 44px;
+    box-sizing: border-box;
+}
+
+body.tss-theme-stratus .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab {
+    margin-bottom: 0;
+    padding: 5px 4px;
+}
+
+body.tss-theme-stratus .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab.tss-segmentedpivot-tab-icon {
+    height: 40px;
+    padding: 0;
+}
+
+body.tss-theme-stratus .tss-segmentedpivot:not(.tss-ai) .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab + .tss-segmentedpivot-tab::before {
+    top: 0;
+    bottom: auto;
+    left: 8px;
+    right: 8px;
+    height: 0;
+    border-left: 0;
+    border-top: 1px solid var(--tss-str-seg-frame);
 }

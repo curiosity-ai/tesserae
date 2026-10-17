@@ -33,3 +33,13 @@ body.tss-theme-retroos .tss-toast-fullwidth.tss-toast-fullwidth-bottom.tss-toast
 body.tss-theme-retroos .tss-toast .tss-fontcolor-default {
     color: rgb(var(--tss-default-foreground-color-root)) !important;
 }
+
+/* The time a banner can carry at its top right: Chicago, in the window's ink, no tint. */
+body.tss-theme-retroos .tss-banner-time-text {
+    font-family: var(--tss-retro-chicago);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+    opacity: 1;
+}

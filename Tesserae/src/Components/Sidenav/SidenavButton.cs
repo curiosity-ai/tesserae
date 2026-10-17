@@ -153,7 +153,16 @@ namespace Tesserae
         /// <summary>Sets a danger color for the dot indicator.</summary>
         public SidenavButton DotDanger()
         {
+            _dot.classList.remove("tss-sidenav-btn-dot-warning");
             _dot.classList.add("tss-sidenav-btn-dot-danger");
+            return this;
+        }
+
+        /// <summary>Sets a warning color for the dot indicator.</summary>
+        public SidenavButton DotWarning()
+        {
+            _dot.classList.remove("tss-sidenav-btn-dot-danger");
+            _dot.classList.add("tss-sidenav-btn-dot-warning");
             return this;
         }
 

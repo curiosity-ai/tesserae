@@ -45,3 +45,12 @@ body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-btn.tss-btn-defau
 body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-btn.tss-btn-default.tss-banner-dismiss-button:not(.tss-disabled):hover { background: var(--tss-default-background-hover-color); }
 body.tss-theme-stratus .tss-toast-container > .tss-banner :focus-visible { outline-color: var(--tss-str-focus); }
 body.tss-theme-stratus .tss-toast-fullwidth.tss-toast > .tss-toast-container { border-radius: 0; }
+
+/* The time: 12px in the secondary grey, level with the 24px title line at the top right. */
+body.tss-theme-stratus .tss-banner-time-text {
+    font-size: var(--tss-font-size-xsmall);
+    line-height: 24px;
+    font-weight: var(--tss-font-weight-regular);
+    color: var(--tss-secondary-foreground-color);
+    opacity: 1;
+}

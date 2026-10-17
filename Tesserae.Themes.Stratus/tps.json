@@ -72,6 +72,7 @@
                 "tps/assets/css/tss.actionbutton.css",
                 "tps/assets/css/tss.message.css",
                 "tps/assets/css/tss.banner.css",
+                "tps/assets/css/tss.toast.css",
                 "tps/assets/css/tss.tree.css",
                 "tps/assets/css/tss.taskboard.css",
                 "tps/assets/css/tss.chat.css",
@@ -90,8 +91,7 @@
                 "tps/assets/css/tss.pagesstack.css",
                 "tps/assets/css/tss.detailsgrid.css",
                 "tps/assets/css/tss.modalstack.css",
-                "tps/assets/css/tss.charts.css",
-                "tps/assets/css/tss.toast.css"
+                "tps/assets/css/tss.charts.css"
             ],
             "output": "assets/css"
         },

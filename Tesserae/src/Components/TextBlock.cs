@@ -263,12 +263,12 @@ namespace Tesserae
                 if (value)
                 {
                     el.classList.add("tss-fontcolor-primary");
-                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-default");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-default", "tss-fontcolor-warning");
                 }
                 else
                 {
                     el.classList.add("tss-fontcolor-default");
-                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-primary");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-primary", "tss-fontcolor-warning");
                 }
             }
         }
@@ -287,12 +287,12 @@ namespace Tesserae
                 if (value)
                 {
                     el.classList.add("tss-fontcolor-secondary");
-                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-primary", "tss-fontcolor-danger", "tss-fontcolor-default");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-primary", "tss-fontcolor-danger", "tss-fontcolor-default", "tss-fontcolor-warning");
                 }
                 else
                 {
                     el.classList.add("tss-fontcolor-default");
-                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-primary");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-primary", "tss-fontcolor-warning");
                 }
             }
         }
@@ -311,12 +311,12 @@ namespace Tesserae
                 if (value)
                 {
                     el.classList.add("tss-fontcolor-success");
-                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-secondary", "tss-fontcolor-primary", "tss-fontcolor-danger", "tss-fontcolor-default");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-secondary", "tss-fontcolor-primary", "tss-fontcolor-danger", "tss-fontcolor-default", "tss-fontcolor-warning");
                 }
                 else
                 {
                     el.classList.add("tss-fontcolor-default");
-                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-primary");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-primary", "tss-fontcolor-warning");
                 }
             }
         }
@@ -335,12 +335,33 @@ namespace Tesserae
                 if (value)
                 {
                     el.classList.add("tss-fontcolor-danger");
-                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-secondary", "tss-fontcolor-primary", "tss-fontcolor-success", "tss-fontcolor-default");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-secondary", "tss-fontcolor-primary", "tss-fontcolor-success", "tss-fontcolor-default", "tss-fontcolor-warning");
                 }
                 else
                 {
                     el.classList.add("tss-fontcolor-default");
-                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-primary");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-primary", "tss-fontcolor-warning");
+                }
+            }
+        }
+
+        /// <summary>Gets or sets whether the text is warning color.</summary>
+        public bool IsWarning
+        {
+            get => GetTarget().classList.contains("tss-fontcolor-warning");
+            set
+            {
+                var el = GetTarget();
+
+                if (value)
+                {
+                    el.classList.add("tss-fontcolor-warning");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-secondary", "tss-fontcolor-primary", "tss-fontcolor-success", "tss-fontcolor-danger", "tss-fontcolor-default");
+                }
+                else
+                {
+                    el.classList.add("tss-fontcolor-default");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-primary", "tss-fontcolor-warning");
                 }
             }
         }

@@ -1,7 +1,7 @@
 /* ==========================================================================
    Stratus theme - TagsInput
    --------------------------------------------------------------------------
-   The field of the language: filled slab, 1px rule, top corners only, grows
+   The field of the language: filled slab, 1px rule, square corners, grows
    past 40px as tags wrap. Chips are the pill tags of the language: the
    selected tint with a navy label and a round remove button.
    ========================================================================== */
@@ -11,7 +11,7 @@ body.tss-theme-stratus .tss-tagsinput {
     padding: 4px 8px;
     font-weight: var(--tss-font-weight-regular);
     border: 0;
-    border-radius: 3px 3px 0 0;
+    border-radius: 0;
     background: var(--tss-str-fill);
     box-shadow: 0 1px 0 0 var(--tss-str-rule);
     transition: box-shadow var(--tss-str-ease), background-color var(--tss-str-ease);

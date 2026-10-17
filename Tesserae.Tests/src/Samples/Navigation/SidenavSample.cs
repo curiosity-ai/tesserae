@@ -31,7 +31,7 @@ namespace Tesserae.Tests.Samples
             var operate   = new SidenavButton("operate",   UIcons.Pulse,     "Operate").ShowDot().DotDanger();
             var build     = new SidenavButton("build",     UIcons.Database,  "Build").Selected();
             var govern    = new SidenavButton("govern",    UIcons.Shield,    "Govern");
-            var configure = new SidenavButton("configure", UIcons.Settings,  "Configure");
+            var configure = new SidenavButton("configure", UIcons.Settings,  "Configure").ShowDot().DotWarning();
 
             sidenav.AddContent(home);
             sidenav.AddContent(operate);

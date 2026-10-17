@@ -140,7 +140,7 @@ body.tss-theme-stratus .tss-sidebar-separator {
 
 /* The search field in the rail keeps the filled-slab look from the text field. */
 body.tss-theme-stratus .tss-sidebar .tss-searchbox-container {
-    border-radius: 3px 3px 0 0;
+    border-radius: 0;
 }
 
 /* Mobile bar and page-level sidebar */

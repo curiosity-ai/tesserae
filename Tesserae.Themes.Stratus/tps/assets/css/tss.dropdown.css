@@ -2,7 +2,7 @@
    Stratus theme - Dropdown
    --------------------------------------------------------------------------
    The closed box is the field of the language (the TextBox slab and rule,
-   40px, top corners only); keyboard focus shows as the 3px ring. The popup is
+   40px, square corners); keyboard focus shows as the 3px ring. The popup is
    a level-4 surface with 8px corners; rows are 3px-cornered, hover is the
    neutral wash, the keyboard-focused row the selected tint with an inset
    navy bar. A multi-select row carries the same checkbox as CheckBox.
@@ -12,7 +12,7 @@ body.tss-theme-stratus .tss-dropdown-container {
     font-weight: var(--tss-font-weight-regular);
     line-height: 20px;
     border: 0;
-    border-radius: 3px 3px 0 0;
+    border-radius: 0;
     background: var(--tss-str-fill);
     box-shadow: 0 1px 0 0 var(--tss-str-rule);
     transition: box-shadow var(--tss-str-ease), background-color var(--tss-str-ease);
@@ -201,7 +201,7 @@ body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss
 body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-searchbox {
     background: var(--tss-str-fill);
     border: 0;
-    border-radius: 3px 3px 0 0;
+    border-radius: 0;
     margin: 4px 8px 0;
     box-shadow: 0 1px 0 0 var(--tss-str-rule);
 }

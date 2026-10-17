@@ -33,7 +33,7 @@ namespace Tesserae
         public Spinner Success()
         {
             InnerElement.classList.add("tss-spinner-success");
-            InnerElement.classList.remove("tss-spinner-danger");
+            InnerElement.classList.remove("tss-spinner-danger", "tss-spinner-warning");
             InnerElement.style.removeProperty("--tss-spinner-color");
             return this;
         }
@@ -45,7 +45,19 @@ namespace Tesserae
         public Spinner Danger()
         {
             InnerElement.classList.add("tss-spinner-danger");
-            InnerElement.classList.remove("tss-spinner-success");
+            InnerElement.classList.remove("tss-spinner-success", "tss-spinner-warning");
+            InnerElement.style.removeProperty("--tss-spinner-color");
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the spinner to indicate a warning.
+        /// </summary>
+        /// <returns>The current instance.</returns>
+        public Spinner Warning()
+        {
+            InnerElement.classList.add("tss-spinner-warning");
+            InnerElement.classList.remove("tss-spinner-success", "tss-spinner-danger");
             InnerElement.style.removeProperty("--tss-spinner-color");
             return this;
         }
@@ -56,8 +68,8 @@ namespace Tesserae
         /// <returns>The current instance.</returns>
         public Spinner Primary()
         {
-            InnerElement.classList.remove("tss-spinner-success");
-            InnerElement.classList.remove("tss-spinner-danger");
+            InnerElement.classList.remove("tss-spinner-success", "tss-spinner-warning");
+            InnerElement.classList.remove("tss-spinner-danger", "tss-spinner-warning");
             InnerElement.style.removeProperty("--tss-spinner-color");
             return this;
         }
@@ -88,8 +100,8 @@ namespace Tesserae
         public Spinner CustomColor(string color)
         {
             InnerElement.style.setProperty("--tss-spinner-color", color);
-            InnerElement.classList.remove("tss-spinner-success");
-            InnerElement.classList.remove("tss-spinner-danger");
+            InnerElement.classList.remove("tss-spinner-success", "tss-spinner-warning");
+            InnerElement.classList.remove("tss-spinner-danger", "tss-spinner-warning");
             return this;
         }
 

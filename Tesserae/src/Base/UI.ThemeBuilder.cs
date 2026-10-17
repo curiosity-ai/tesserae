@@ -217,11 +217,36 @@ namespace Tesserae
 
                 // ---------- Warning ----------
 
+                /// <summary>Sets the full set of "warning" colors in one call.</summary>
+                public ThemeBuilder Warning(Color light, Color dark)
+                {
+                    Set("warning-background-color",        light, dark);
+                    Set("warning-background-hover-color",  light, dark);
+                    Set("warning-background-active-color", light, dark);
+                    Set("warning-border-color",            light, dark);
+                    return this;
+                }
+
                 /// <summary>Sets the warning background color.</summary>
                 public ThemeBuilder WarningBackground(Color light, Color dark) => Set("warning-background-color", light, dark);
 
                 /// <summary>Sets the warning foreground color.</summary>
                 public ThemeBuilder WarningForeground(Color light, Color dark) => Set("warning-foreground-color", light, dark);
+
+                /// <summary>Sets the warning background hover color.</summary>
+                public ThemeBuilder WarningBackgroundHover(Color light, Color dark) => Set("warning-background-hover-color", light, dark);
+
+                /// <summary>Sets the warning background active color.</summary>
+                public ThemeBuilder WarningBackgroundActive(Color light, Color dark) => Set("warning-background-active-color", light, dark);
+
+                /// <summary>Sets the warning border color.</summary>
+                public ThemeBuilder WarningBorder(Color light, Color dark) => Set("warning-border-color", light, dark);
+
+                /// <summary>Sets the warning foreground hover color.</summary>
+                public ThemeBuilder WarningForegroundHover(Color light, Color dark) => Set("warning-foreground-hover-color", light, dark);
+
+                /// <summary>Sets the warning foreground active color.</summary>
+                public ThemeBuilder WarningForegroundActive(Color light, Color dark) => Set("warning-foreground-active-color", light, dark);
 
                 // ---------- Link ----------
 

@@ -32,6 +32,9 @@ namespace Tesserae.Tests.Samples
                         ActionButton("Primary with Calendar Icon", actionIcon: UIcons.Calendar).Primary()
                            .OnClickDisplay((s, e) => Toast().Success("Main area clicked"))
                            .OnClickAction((s,  e) => Toast().Success("Calendar icon clicked")),
+                        ActionButton("Warning Action", displayIcon: UIcons.TriangleWarning).Warning()
+                           .OnClickDisplay((s, e) => Toast().Warning("Warning area clicked"))
+                           .OnClickAction((s,  e) => Toast().Warning("Warning icon clicked")),
                         ActionButton("Danger Action", displayIcon: UIcons.TriangleWarning).Danger()
                            .OnClickDisplay((s, e) => Toast().Error("Danger area clicked"))
                            .OnClickAction((s,  e) => Toast().Error("Warning icon clicked"))

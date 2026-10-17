@@ -108,6 +108,19 @@ namespace Tesserae.Tests.Samples
                             Button().SetText("Bottom, no hide button").OnClick(() => Toast().BottomFull().Banner(showHideButton: false).Show(
                                 Banner("Scheduled maintenance tonight, 23:00 – 01:00 UTC", "Search stays available; indexing is paused for the window.").Primary().Flat())))
                     )).SetTitle("Showing a Banner", UIcons.Megaphone, Theme.Colors.Purple600)))
+               .FlatSection(
+                    Stack().WidthStretch().Children(
+                        Card(VStack().WS().Children(
+                        TextBlock("Time(text) puts a short piece of text at the top right of the toast, level with the title: when the notice was raised. Time(moment, text) does the same as a <time> element carrying the moment, and shows HH:mm when no text is given. It is absent unless asked for, and it is carried onto the banner whichever way that was made."),
+                        SampleSubTitle("A toast with a time"),
+                        HStack().Wrap().Gap(8.px()).Children(
+                            Button().SetText("Info").OnClick(() => Toast().Time("Just now").Information("Sync started", "Your workspace is being indexed.")),
+                            Button().SetText("Success").OnClick(() => Toast().Time(SampleDate.Now).Success("Backup complete", "Archived 1,204 files.")),
+                            Button().SetText("Warning").OnClick(() => Toast().Time("2 min ago").Warning("Storage almost full", "92% of the quota is used.")),
+                            Button().SetText("Error").OnClick(() => Toast().Time(SampleDate.Now, "09:41 UTC").Error("Upload failed", "The file is larger than the 2 GB limit.")),
+                            Button().SetText("A banner of your own").OnClick(() => Toast().Time("1 h ago").Show(
+                                Banner("Export finished", "18 documents, 42 MB.").Success().SetIcon(UIcons.Download).Action("Download", () => Toast().Information("Downloading")))))
+                    )).SetTitle("Showing the time", UIcons.Clock, Theme.Colors.Purple600)))
                .SeeAlso(typeof(BannerSample), typeof(NotificationCenterSample), typeof(SavingToastSample), typeof(MessageSample), typeof(TippySample));
         }
 

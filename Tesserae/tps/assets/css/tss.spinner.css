@@ -30,6 +30,10 @@
     --tss-spinner-color: var(--tss-danger-background-color);
 }
 
+.tss-spinner-warning {
+    --tss-spinner-color: var(--tss-warning-background-color);
+}
+
 .tss-spinner-size-xsmall .tss-spinner {
     width: 12px;
     height: 12px;

@@ -110,6 +110,16 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Sets the command to use the warning style.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
+        public SidebarCommand Warning()
+        {
+            _button.IsWarning = true;
+            return this;
+        }
+
+        /// <summary>
         /// Sets a tooltip for the command.
         /// </summary>
         /// <param name="text">The tooltip text.</param>

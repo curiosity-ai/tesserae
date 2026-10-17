@@ -26,6 +26,9 @@ namespace Tesserae
         private bool _dismissOnClick = true;
         private bool _overwrite      = false;
 
+        private string   _timeText;
+        private DateTime? _timeMoment;
+
         private Position _simPos
         {
             get
@@ -175,6 +178,33 @@ namespace Tesserae
                 _pos = Position.TopFull;
             }
 
+            return this;
+        }
+
+        /// <summary>
+        /// Shows a short piece of text - "just now", "09:41" - at the top right of the toast, level with the
+        /// title. It is put on the banner the toast shows, however that banner was made, and again each time
+        /// the toast is re-fired. A toast shows no time unless asked.
+        /// </summary>
+        /// <param name="text">What to show. Null or empty takes the time away again.</param>
+        /// <returns>The current instance of the type.</returns>
+        public Toast Time(string text)
+        {
+            _timeText   = text;
+            _timeMoment = null;
+            return this;
+        }
+
+        /// <summary>
+        /// Shows the given moment at the top right of the toast, as a <c>&lt;time&gt;</c> element.
+        /// </summary>
+        /// <param name="moment">The moment the notice is about.</param>
+        /// <param name="text">What the reader sees; <c>HH:mm</c> of the moment when omitted.</param>
+        /// <returns>The current instance of the type.</returns>
+        public Toast Time(DateTime moment, string text = null)
+        {
+            _timeText   = text;
+            _timeMoment = moment;
             return this;
         }
 
@@ -557,6 +587,9 @@ namespace Tesserae
             Script.Write("{0}.replaceChildren()", _toastContainer); // clear all children
 
             if (_content is null) return;
+
+            if (_timeMoment.HasValue)                 _content.SetTime(_timeMoment.Value, _timeText);
+            else if (!string.IsNullOrEmpty(_timeText)) _content.SetTime(_timeText);
 
             HookDismiss();
 

@@ -55,6 +55,7 @@ namespace Tesserae
         private readonly HTMLElement _headerContainer;
         private readonly HTMLElement _titleContainer;
         private readonly HTMLElement _badgeContainer;
+        private readonly HTMLElement _timeContainer;
         private readonly HTMLElement _textContainer;
         private readonly HTMLElement _actionContainer;
         private readonly HTMLElement _dismissContainer;
@@ -73,7 +74,8 @@ namespace Tesserae
             _iconContainer    = Div(Att("tss-banner-icon"));
             _titleContainer   = Div(Att("tss-banner-title"));
             _badgeContainer   = Div(Att("tss-banner-badge"));
-            _headerContainer  = Div(Att("tss-banner-header"), _titleContainer, _badgeContainer);
+            _timeContainer    = Div(Att("tss-banner-time"));
+            _headerContainer  = Div(Att("tss-banner-header"), _titleContainer, _badgeContainer, _timeContainer);
             _textContainer    = Div(Att("tss-banner-text"));
             _contentContainer = Div(Att("tss-banner-content"), _headerContainer, _textContainer);
             _actionContainer  = Div(Att("tss-banner-action"));
@@ -84,6 +86,7 @@ namespace Tesserae
             SetTitle(title);
             SetText(message);
             SetBadge((string)null);
+            SetTime((string)null);
 
             Style(BannerStyle.Secondary);
         }
@@ -226,6 +229,48 @@ namespace Tesserae
             _badgeContainer.style.display = badge is null ? "none" : "";
 
             return UpdateHeaderVisibility();
+        }
+
+        /// <summary>
+        /// Puts a short piece of text - "2 min ago", "09:41" - at the top right of the banner, level with the
+        /// title: when the notice was raised. It is drawn small and in the secondary color, and stays clear of
+        /// the action and the dismiss button. A null or empty value hides it, which is the default.
+        /// </summary>
+        public Banner SetTime(string text)
+        {
+            ClearChildren(_timeContainer);
+
+            var isEmpty = string.IsNullOrEmpty(text);
+
+            if (!isEmpty)
+            {
+                var time = document.createElement("time");
+                time.className   = "tss-banner-time-text";
+                time.textContent = text;
+                _timeContainer.appendChild(time);
+            }
+
+            _timeContainer.style.display = isEmpty ? "none" : "";
+
+            InnerElement.UpdateClassIf(!isEmpty, "tss-banner-has-time");
+
+            return UpdateHeaderVisibility();
+        }
+
+        /// <summary>
+        /// Puts the given moment at the top right of the banner as a machine-readable <c>&lt;time&gt;</c>
+        /// element. <paramref name="text"/> is what the reader sees - a relative "just now" is the host's to
+        /// work out; without one the banner shows the moment as <c>HH:mm</c>.
+        /// </summary>
+        public Banner SetTime(DateTime moment, string text = null)
+        {
+            SetTime(string.IsNullOrEmpty(text) ? moment.ToString("HH:mm") : text);
+
+            var time = _timeContainer.firstElementChild;
+
+            if (time is object) time.setAttribute("datetime", moment.ToString("yyyy-MM-ddTHH:mm:ss"));
+
+            return this;
         }
 
         /// <summary>
@@ -453,7 +498,7 @@ namespace Tesserae
 
         private Banner UpdateHeaderVisibility()
         {
-            var isEmpty = _titleContainer.style.display == "none" && _badgeContainer.style.display == "none";
+            var isEmpty = _titleContainer.style.display == "none" && _badgeContainer.style.display == "none" && _timeContainer.style.display == "none";
 
             _headerContainer.style.display = isEmpty ? "none" : "";
 

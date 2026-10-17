@@ -41,6 +41,13 @@ namespace Tesserae.Tests.Samples
                     ))
                .FlatSection(
                     Stack().Width(400.px()).Children(
+                        TextBlock("Spinner tones").Medium(),
+                        Label("Success").SetContent(Spinner("Saved").Success()).AlignCenter(),
+                        Label("Warning").SetContent(Spinner("Retrying...").Warning()).AlignCenter(),
+                        Label("Danger").SetContent(Spinner("Failed").Danger()).AlignCenter()
+                    ))
+               .FlatSection(
+                    Stack().Width(400.px()).Children(
                         TextBlock("Spinner with fixed progress").Medium(),
                         Label("25% Progress").SetContent(Spinner().Progress(25).Large()).AlignCenter(),
                         Label("50% Progress").SetContent(Spinner().Progress(50).Large()).AlignCenter(),
