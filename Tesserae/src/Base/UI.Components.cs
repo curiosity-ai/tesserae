@@ -1545,6 +1545,18 @@ namespace Tesserae
         public static HorizontalSplitView HorizontalSplitView() => new HorizontalSplitView();
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.DockPanel"/>: an IDE-style layout of a document with <see cref="Tesserae.DockPane"/>s
+        /// docked around it, which the user can resize, tab together, unpin to a rail, close and drag to another edge.
+        /// </summary>
+        public static DockPanel DockPanel() => new DockPanel();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.DockPane"/> for a <see cref="Tesserae.DockPanel"/>. The id is the pane's stable
+        /// identity in a saved layout; dock it with <c>.Left()</c>, <c>.Right()</c>, <c>.Top()</c> or <c>.Bottom()</c>.
+        /// </summary>
+        public static DockPane DockPane(string id, string title, IComponent content) => new DockPane(id, title, content);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.VirtualizedList"/> component.
         /// </summary>
         public static VirtualizedList VirtualizedList(int rowsPerPage = 4, int columnsPerRow = 4) => new VirtualizedList(rowsPerPage, columnsPerRow);
@@ -1740,6 +1752,14 @@ namespace Tesserae
         /// <c>.LastDays(365)</c>, <c>.Year(...)</c>, <c>.Month(...)</c> or <c>.Range(...)</c>.
         /// </summary>
         public static ActivityCalendar ActivityCalendar() => new ActivityCalendar();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Scheduler"/>: a calendar of appointments with Day, Week, Month, Agenda and
+        /// multi-resource Timeline views. Hand it the data with <c>.Appointments(...)</c> and <c>.Resources(...)</c>, and
+        /// apply what the user asks for in <c>.OnMove</c>, <c>.OnResize</c> and <c>.OnCreate</c>: it never changes the
+        /// appointments itself.
+        /// </summary>
+        public static Scheduler Scheduler() => new Scheduler();
 
         /// <summary>
         /// Creates a <see cref="Tesserae.StepsSlider{T}"/> component.

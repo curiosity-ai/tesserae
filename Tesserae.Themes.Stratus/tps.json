@@ -75,6 +75,8 @@
                 "tps/assets/css/tss.toast.css",
                 "tps/assets/css/tss.tree.css",
                 "tps/assets/css/tss.taskboard.css",
+                "tps/assets/css/tss.scheduler.css",
+                "tps/assets/css/tss.dockpanel.css",
                 "tps/assets/css/tss.chat.css",
                 "tps/assets/css/tss.toolcall.css",
                 "tps/assets/css/tss.liveprogress.css",

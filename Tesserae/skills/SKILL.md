@@ -143,6 +143,7 @@ and raw `new UnitSize("calc(100% - 32px)")` for anything else.
 - One-axis flow (toolbar, sidebar, form) → `Stack` (`references/stack.md`).
 - Two-axis grid with named tracks → `Grid` (`references/grid.md`).
 - Two resizable panes → `SplitView` / `HorizontalSplitView`.
+- A workspace of tool panes around a document (dock, tab, auto-hide, save the layout) → `DockPanel` (`references/dock-panel.md`).
 - Pinned overlay on a parent → `Float`.
 - Variable-height tile feed → `Masonry`.
 - Modal / popover that must escape clipping → `Layer` (usually via `Dialog`,
@@ -176,7 +177,7 @@ references. Open the reference for whatever you are working with. The full set:
 - `references/wrap-a-javascript-library.md` — wrap a third-party JS library.
 
 **Layout** — containers you build a page out of
-accordion · background-area · card · expander · grid · horizontal-separator ·
+accordion · background-area · card · dock-panel · expander · grid · horizontal-separator ·
 horizontal-split-view · masonry · section-stack · split-view · stack
 
 **Text & Content** — text, labels and rich content blocks
@@ -195,7 +196,7 @@ number-picker · option · picker · rating · slider · steps-slider · tags-in
 
 **Date & Time** — calendar, clock and schedule pickers
 cron-editor · date-picker · date-range-picker · date-time-picker ·
-month-picker · time-histogram-picker · time-picker · week-picker
+month-picker · scheduler · time-histogram-picker · time-picker · week-picker
 
 **Forms & Validation** — binding a form to data, validating and saving it
 property-grid · questionnaire · save-button · saving-toast ·

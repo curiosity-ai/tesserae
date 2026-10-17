@@ -1,0 +1,1046 @@
+/* ==========================================================================
+   Scheduler
+   --------------------------------------------------------------------------
+   A toolbar over one of five bodies: the time grid (Day, Week), the month
+   grid, the agenda list and the resource timeline. An appointment is drawn
+   in its own colour (--tss-scheduler-item-color, from the appointment, its
+   resource or the primary colour) as a tint with a solid edge, so it reads
+   the same on a light and a dark canvas.
+   ========================================================================== */
+
+.tss-scheduler {
+    --tss-scheduler-gutter-width: 56px;
+    --tss-scheduler-lane-header-width: 160px;
+    --tss-scheduler-header-height: 44px;
+    --tss-scheduler-month-row: 104px;
+    --tss-scheduler-tl-row: 30px;
+    --tss-scheduler-tl-pad: 4px;
+    --tss-scheduler-radius: var(--tss-border-radius-sm);
+    --tss-scheduler-line-color: var(--tss-default-separator-color);
+    --tss-scheduler-minor-line-color: rgba(var(--tss-default-separator-color-root), 0.5);
+    --tss-scheduler-offhours-color: rgba(var(--tss-default-foreground-color-root), 0.03);
+    --tss-scheduler-work-color: var(--tss-default-background-color);
+    --tss-scheduler-today-color: var(--tss-primary-background-color);
+    --tss-scheduler-now-color: var(--tss-danger-background-color);
+    --tss-scheduler-selection-color: var(--tss-default-foreground-color);
+    --tss-scheduler-item-tint: 18%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    min-width: 0;
+    height: 100%;
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+    overflow: hidden;
+    outline: none;
+    font-size: var(--tss-font-size-small);
+}
+
+    .tss-scheduler:focus-visible {
+        box-shadow: 0 0 0 2px var(--tss-primary-background-color-transparent);
+    }
+
+/* -------------------------------------------------------------- toolbar */
+
+.tss-scheduler-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--tss-default-border-color);
+    flex-shrink: 0;
+}
+
+.tss-scheduler-navigation,
+.tss-scheduler-views,
+.tss-scheduler-commands {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+    .tss-scheduler-navigation > .tss-btn,
+    .tss-scheduler-views > .tss-btn {
+        margin: 0;
+    }
+
+.tss-scheduler-views {
+    gap: 0;
+}
+
+    .tss-scheduler-views > .tss-btn:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        margin-left: -1px;
+    }
+
+    .tss-scheduler-views > .tss-btn:not(:last-child) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+.tss-scheduler-commands:empty {
+    display: none;
+}
+
+.tss-scheduler-title {
+    font-size: var(--tss-font-size-smallplus);
+    font-weight: var(--tss-font-weight-semibold);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+    padding: 0 4px;
+}
+
+.tss-scheduler-toolbar-spacer {
+    flex-grow: 1;
+}
+
+.tss-scheduler-body {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+    .tss-scheduler-body > * {
+        flex: 1 1 auto;
+        min-height: 0;
+    }
+
+/* ------------------------------------------------------------ items */
+
+.tss-scheduler-item {
+    --tss-scheduler-item: var(--tss-scheduler-item-color, var(--tss-primary-background-color));
+    box-sizing: border-box;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.tss-scheduler-event,
+.tss-scheduler-chip,
+.tss-scheduler-bar {
+    background: color-mix(in srgb, var(--tss-scheduler-item) var(--tss-scheduler-item-tint), var(--tss-default-background-color));
+    color: var(--tss-default-foreground-color);
+    border-left: 3px solid var(--tss-scheduler-item);
+    border-radius: var(--tss-scheduler-radius);
+    overflow: hidden;
+}
+
+.tss-scheduler-item:hover {
+    --tss-scheduler-item-tint: 26%;
+}
+
+.tss-scheduler-item:focus-visible,
+.tss-scheduler-item.tss-scheduler-selected {
+    box-shadow: 0 0 0 2px var(--tss-scheduler-selection-color);
+    z-index: 4;
+}
+
+.tss-scheduler-item.tss-scheduler-selected {
+    --tss-scheduler-item-tint: 34%;
+}
+
+.tss-scheduler-locked {
+    background-image: repeating-linear-gradient(135deg, transparent 0 6px, rgba(var(--tss-default-foreground-color-root), 0.06) 6px 8px);
+    cursor: default;
+}
+
+.tss-scheduler-drag-source {
+    opacity: 0.45;
+}
+
+.tss-scheduler-item-content {
+    min-width: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.tss-scheduler-item-title {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: var(--tss-font-weight-semibold);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+    .tss-scheduler-item-title > span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+.tss-scheduler-item-mark {
+    font-size: 10px;
+    opacity: 0.75;
+    flex-shrink: 0;
+}
+
+.tss-scheduler-item-time {
+    font-size: var(--tss-font-size-xsmall);
+    color: var(--tss-secondary-foreground-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tss-scheduler-resource-chip {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--tss-scheduler-item-color, var(--tss-secondary-foreground-color));
+}
+
+.tss-scheduler-resource-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tss-scheduler-unassigned {
+    font-style: italic;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-scheduler-dragging,
+.tss-scheduler-dragging * {
+    cursor: grabbing !important;
+    user-select: none;
+}
+
+.tss-scheduler-readonly .tss-scheduler-item {
+    cursor: default;
+}
+
+/* Resize edges: a few pixels at each end, shown on hover and on the selection. */
+.tss-scheduler-resize {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 6px;
+    cursor: ns-resize;
+    z-index: 2;
+}
+
+.tss-scheduler-resize-start {
+    top: 0;
+}
+
+.tss-scheduler-resize-end {
+    bottom: 0;
+}
+
+    .tss-scheduler-resize-end::after {
+        content: "";
+        position: absolute;
+        left: calc(50% - 8px);
+        bottom: 2px;
+        width: 16px;
+        height: 2px;
+        border-radius: 1px;
+        background: var(--tss-scheduler-item);
+        opacity: 0;
+    }
+
+.tss-scheduler-item:hover .tss-scheduler-resize-end::after,
+.tss-scheduler-selected .tss-scheduler-resize-end::after {
+    opacity: 0.8;
+}
+
+.tss-scheduler-resize-h {
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    height: auto;
+    cursor: ew-resize;
+}
+
+    .tss-scheduler-resize-h.tss-scheduler-resize-start {
+        left: 0;
+        right: auto;
+    }
+
+    .tss-scheduler-resize-h.tss-scheduler-resize-end {
+        left: auto;
+        right: 0;
+    }
+
+        .tss-scheduler-resize-h.tss-scheduler-resize-end::after {
+            display: none;
+        }
+
+/* The preview of a move, resize, create or external drop. */
+.tss-scheduler-ghost {
+    position: absolute;
+    z-index: 6;
+    box-sizing: border-box;
+    padding: 2px 6px;
+    border: 2px dashed var(--tss-primary-background-color);
+    border-radius: var(--tss-scheduler-radius);
+    background: var(--tss-primary-background-color-transparent);
+    color: var(--tss-default-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-semibold);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+}
+
+.tss-scheduler-ghost-h {
+    top: var(--tss-scheduler-tl-pad);
+    height: calc(var(--tss-scheduler-tl-row) - 4px);
+    line-height: calc(var(--tss-scheduler-tl-row) - 12px);
+}
+
+.tss-scheduler-drop-target {
+    background: var(--tss-primary-background-color-transparent) !important;
+}
+
+.tss-scheduler-external {
+    cursor: grab;
+}
+
+.tss-scheduler-now {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 0;
+    border-top: 2px solid var(--tss-scheduler-now-color);
+    z-index: 5;
+    pointer-events: none;
+}
+
+    .tss-scheduler-now::before {
+        content: "";
+        position: absolute;
+        left: -5px;
+        top: -6px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--tss-scheduler-now-color);
+    }
+
+.tss-scheduler-now-v {
+    top: 0;
+    bottom: 0;
+    right: auto;
+    width: 0;
+    height: auto;
+    border-top: none;
+    border-left: 2px solid var(--tss-scheduler-now-color);
+}
+
+    .tss-scheduler-now-v::before {
+        left: -6px;
+        top: -5px;
+    }
+
+    .tss-scheduler-now-plain::before {
+        display: none;
+    }
+
+/* ---------------------------------------------------------- time grid */
+
+.tss-scheduler-timegrid {
+    overflow: auto;
+}
+
+.tss-scheduler-tg-grid {
+    display: grid;
+    grid-template-rows: auto auto;
+    min-width: min-content;
+}
+
+.tss-scheduler-tg-header {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+    position: sticky;
+    top: 0;
+    z-index: 8;
+    background: var(--tss-default-background-color);
+    border-bottom: 1px solid var(--tss-default-border-color);
+}
+
+.tss-scheduler-tg-corner {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: var(--tss-default-background-color);
+    border-right: 1px solid var(--tss-scheduler-line-color);
+}
+
+.tss-scheduler-tg-dayheader,
+.tss-scheduler-tg-resourceheader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 0;
+    padding: 4px;
+    border-left: 1px solid var(--tss-scheduler-line-color);
+    border-bottom: 1px solid var(--tss-scheduler-line-color);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.tss-scheduler-tg-dayheader {
+    height: var(--tss-scheduler-header-height);
+    box-sizing: border-box;
+}
+
+.tss-scheduler-tg-resourceheader {
+    height: 30px;
+    box-sizing: border-box;
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+.tss-scheduler-tg-dayname {
+    color: var(--tss-secondary-foreground-color);
+    text-transform: uppercase;
+    font-size: var(--tss-font-size-xsmall);
+    letter-spacing: .04em;
+}
+
+.tss-scheduler-tg-daynum {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    height: 26px;
+    border-radius: 13px;
+    font-size: var(--tss-font-size-smallplus);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+.tss-scheduler-today > .tss-scheduler-tg-daynum,
+.tss-scheduler-today > .tss-scheduler-tl-daylabel > .tss-scheduler-tg-daynum {
+    background: var(--tss-scheduler-today-color);
+    color: var(--tss-primary-foreground-color);
+}
+
+.tss-scheduler-today > .tss-scheduler-tg-dayname,
+.tss-scheduler-today > .tss-scheduler-tl-daylabel > .tss-scheduler-tg-dayname {
+    color: var(--tss-scheduler-today-color);
+}
+
+.tss-scheduler-clickable {
+    cursor: pointer;
+}
+
+    .tss-scheduler-clickable:hover .tss-scheduler-tg-daynum {
+        box-shadow: inset 0 0 0 1px var(--tss-default-border-color);
+    }
+
+.tss-scheduler-tg-allday {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-auto-rows: 24px;
+    row-gap: 2px;
+    padding: 3px 0;
+    min-height: 24px;
+}
+
+.tss-scheduler-tg-allday-caption {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: var(--tss-default-background-color);
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+    text-align: right;
+    padding: 4px 6px 0 0;
+    border-right: 1px solid var(--tss-scheduler-line-color);
+    margin: -3px 0;
+}
+
+.tss-scheduler-tg-allday-cell {
+    border-left: 1px solid var(--tss-scheduler-line-color);
+    margin: -3px 0;
+}
+
+    .tss-scheduler-tg-allday-cell.tss-scheduler-today {
+        background: color-mix(in srgb, var(--tss-scheduler-today-color) 5%, transparent);
+    }
+
+.tss-scheduler-tg-allday > .tss-scheduler-chip {
+    z-index: 1;
+    margin: 0 3px;
+}
+
+.tss-scheduler-tg-gutter {
+    position: sticky;
+    left: 0;
+    z-index: 7;
+    background: var(--tss-default-background-color);
+    border-right: 1px solid var(--tss-scheduler-line-color);
+}
+
+.tss-scheduler-tg-hour {
+    position: absolute;
+    right: 6px;
+    transform: translateY(-50%);
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.tss-scheduler-tg-col {
+    position: relative;
+    border-left: 1px solid var(--tss-scheduler-line-color);
+    background-color: var(--tss-scheduler-offhours-color);
+    background-image: linear-gradient(to bottom, var(--tss-scheduler-line-color) 1px, transparent 1px), linear-gradient(to bottom, var(--tss-scheduler-minor-line-color) 1px, transparent 1px);
+    background-size: 100% var(--tss-scheduler-hour-height), 100% var(--tss-scheduler-slot-height);
+    min-width: 0;
+    touch-action: pan-x pan-y;
+}
+
+    .tss-scheduler-tg-col.tss-scheduler-group-start,
+    .tss-scheduler-tg-header > .tss-scheduler-tg-resourceheader + .tss-scheduler-tg-resourceheader {
+        border-left-color: var(--tss-dark-border-color);
+    }
+
+    .tss-scheduler-tg-col.tss-scheduler-today {
+        background-color: color-mix(in srgb, var(--tss-scheduler-today-color) 4%, transparent);
+    }
+
+.tss-scheduler-tg-work {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background-color: var(--tss-scheduler-work-color);
+    background-image: linear-gradient(to bottom, var(--tss-scheduler-line-color) 1px, transparent 1px), linear-gradient(to bottom, var(--tss-scheduler-minor-line-color) 1px, transparent 1px);
+    background-size: 100% var(--tss-scheduler-hour-height), 100% var(--tss-scheduler-slot-height);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.tss-scheduler-tg-col.tss-scheduler-today > .tss-scheduler-tg-work {
+    background-color: color-mix(in srgb, var(--tss-scheduler-today-color) 4%, var(--tss-scheduler-work-color));
+}
+
+.tss-scheduler-event {
+    position: absolute;
+    z-index: 1;
+    padding: 2px 6px 2px 5px;
+    touch-action: none;
+}
+
+    .tss-scheduler-event.tss-scheduler-event-short {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+        .tss-scheduler-event.tss-scheduler-event-short .tss-scheduler-item-content {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            height: 100%;
+        }
+
+    .tss-scheduler-event.tss-scheduler-continues-before {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-top: 2px dotted var(--tss-scheduler-item);
+    }
+
+    .tss-scheduler-event.tss-scheduler-continues-after {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom: 2px dotted var(--tss-scheduler-item);
+    }
+
+/* -------------------------------------------------------------- chips */
+
+.tss-scheduler-chip {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+    height: 22px;
+    padding: 0 6px 0 5px;
+    font-size: var(--tss-font-size-xsmall);
+    white-space: nowrap;
+}
+
+    .tss-scheduler-chip:not(.tss-scheduler-banner) {
+        background: transparent;
+        border-left: none;
+    }
+
+        .tss-scheduler-chip:not(.tss-scheduler-banner):hover,
+        .tss-scheduler-chip:not(.tss-scheduler-banner).tss-scheduler-selected {
+            background: color-mix(in srgb, var(--tss-scheduler-item) 14%, transparent);
+        }
+
+    .tss-scheduler-chip .tss-scheduler-item-title {
+        font-weight: var(--tss-font-weight-regular);
+    }
+
+    .tss-scheduler-chip.tss-scheduler-banner .tss-scheduler-item-title {
+        font-weight: var(--tss-font-weight-semibold);
+    }
+
+    .tss-scheduler-chip.tss-scheduler-continues-before {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-left-style: dotted;
+    }
+
+    .tss-scheduler-chip.tss-scheduler-continues-after {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+.tss-scheduler-chip-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--tss-scheduler-item);
+}
+
+.tss-scheduler-chip-time {
+    color: var(--tss-secondary-foreground-color);
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+}
+
+/* -------------------------------------------------------------- month */
+
+.tss-scheduler-month {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.tss-scheduler-month-head {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    border-bottom: 1px solid var(--tss-default-border-color);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: var(--tss-default-background-color);
+    flex-shrink: 0;
+}
+
+.tss-scheduler-month-weekday {
+    padding: 6px 8px;
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+.tss-scheduler-month-grid {
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.tss-scheduler-month-cell {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    padding: 2px 3px 4px;
+    border-right: 1px solid var(--tss-scheduler-line-color);
+    border-bottom: 1px solid var(--tss-scheduler-line-color);
+    overflow: hidden;
+}
+
+    .tss-scheduler-month-cell:nth-child(7n) {
+        border-right: none;
+    }
+
+    .tss-scheduler-month-cell.tss-scheduler-other-month {
+        background: var(--tss-scheduler-offhours-color);
+    }
+
+        .tss-scheduler-month-cell.tss-scheduler-other-month > .tss-scheduler-month-date {
+            color: var(--tss-secondary-foreground-color);
+        }
+
+.tss-scheduler-month-date {
+    align-self: flex-start;
+    min-width: 24px;
+    height: 24px;
+    margin: 0 0 2px;
+    padding: 0 6px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-weight: var(--tss-font-weight-semibold);
+    cursor: pointer;
+}
+
+    .tss-scheduler-month-date:hover {
+        background: var(--tss-default-background-hover-color);
+    }
+
+.tss-scheduler-month-cell.tss-scheduler-today > .tss-scheduler-month-date {
+    background: var(--tss-scheduler-today-color);
+    color: var(--tss-primary-foreground-color);
+}
+
+.tss-scheduler-month-items {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.tss-scheduler-month-more {
+    align-self: flex-start;
+    border: none;
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+    font: inherit;
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-semibold);
+    padding: 2px 6px;
+    border-radius: var(--tss-scheduler-radius);
+    cursor: pointer;
+}
+
+    .tss-scheduler-month-more:hover {
+        background: var(--tss-default-background-hover-color);
+        color: var(--tss-default-foreground-color);
+    }
+
+/* ------------------------------------------------------------- agenda */
+
+.tss-scheduler-agenda {
+    overflow: auto;
+    padding: 4px 0;
+}
+
+.tss-scheduler-agenda-day {
+    display: grid;
+    grid-template-columns: 170px minmax(0, 1fr);
+    border-bottom: 1px solid var(--tss-scheduler-line-color);
+}
+
+    .tss-scheduler-agenda-day:last-child {
+        border-bottom: none;
+    }
+
+.tss-scheduler-agenda-date {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 10px 12px;
+}
+
+.tss-scheduler-agenda-daynum {
+    font-size: var(--tss-font-size-mediumplus);
+    font-weight: var(--tss-font-weight-semibold);
+    min-width: 28px;
+    text-align: right;
+}
+
+.tss-scheduler-agenda-dayname {
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+}
+
+.tss-scheduler-agenda-day.tss-scheduler-today .tss-scheduler-agenda-daynum,
+.tss-scheduler-agenda-day.tss-scheduler-today .tss-scheduler-agenda-dayname {
+    color: var(--tss-scheduler-today-color);
+}
+
+.tss-scheduler-agenda-rows {
+    display: flex;
+    flex-direction: column;
+    padding: 4px 8px 4px 0;
+    min-width: 0;
+}
+
+.tss-scheduler-agenda-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 8px;
+    border-radius: var(--tss-scheduler-radius);
+    min-width: 0;
+}
+
+    .tss-scheduler-agenda-row:hover {
+        background: var(--tss-default-background-hover-color);
+    }
+
+    .tss-scheduler-agenda-row.tss-scheduler-selected {
+        background: color-mix(in srgb, var(--tss-scheduler-item) 14%, transparent);
+    }
+
+.tss-scheduler-agenda-time {
+    width: 120px;
+    flex-shrink: 0;
+    color: var(--tss-secondary-foreground-color);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.tss-scheduler-agenda-bar {
+    align-self: stretch;
+    width: 4px;
+    flex-shrink: 0;
+    border-radius: 2px;
+    background: var(--tss-scheduler-item);
+}
+
+.tss-scheduler-agenda-main {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.tss-scheduler-agenda-description {
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tss-scheduler-agenda-resources {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+}
+
+.tss-scheduler-agenda-resource {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.tss-scheduler-agenda-empty {
+    padding: 32px;
+    text-align: center;
+    color: var(--tss-secondary-foreground-color);
+}
+
+/* ----------------------------------------------------------- timeline */
+
+.tss-scheduler-timeline {
+    overflow: auto;
+}
+
+.tss-scheduler-tl-grid {
+    display: grid;
+    min-width: min-content;
+}
+
+.tss-scheduler-tl-corner {
+    position: sticky;
+    left: 0;
+    top: 0;
+    z-index: 9;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 10px 8px;
+    box-sizing: border-box;
+    background: var(--tss-default-background-color);
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    border-right: 1px solid var(--tss-default-border-color);
+    border-bottom: 1px solid var(--tss-default-border-color);
+}
+
+.tss-scheduler-tl-header {
+    position: sticky;
+    top: 0;
+    z-index: 8;
+    background: var(--tss-default-background-color);
+    border-bottom: 1px solid var(--tss-default-border-color);
+}
+
+.tss-scheduler-tl-days,
+.tss-scheduler-tl-hours {
+    position: relative;
+}
+
+.tss-scheduler-tl-days {
+    height: 34px;
+}
+
+.tss-scheduler-tl-hours {
+    height: 22px;
+}
+
+.tss-scheduler-tl-day {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    border-left: 1px solid var(--tss-dark-border-color);
+    white-space: nowrap;
+    overflow: clip;
+}
+
+/* The day's name stays in view while its day is scrolled past the lane headers. */
+.tss-scheduler-tl-daylabel {
+    position: sticky;
+    left: var(--tss-scheduler-lane-header-width);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 8px;
+}
+
+    .tss-scheduler-tl-day:first-child {
+        border-left-color: transparent;
+    }
+
+    .tss-scheduler-tl-day .tss-scheduler-tg-daynum {
+        min-width: 22px;
+        height: 22px;
+        font-size: var(--tss-font-size-small);
+    }
+
+.tss-scheduler-tl-hour {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    padding: 3px 0 0 4px;
+    box-sizing: border-box;
+    border-left: 1px solid var(--tss-scheduler-line-color);
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-tiny);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.tss-scheduler-tl-laneheader {
+    position: sticky;
+    left: 0;
+    z-index: 7;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 10px;
+    min-width: 0;
+    background: var(--tss-default-background-color);
+    border-right: 1px solid var(--tss-default-border-color);
+    border-bottom: 1px solid var(--tss-scheduler-line-color);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+.tss-scheduler-tl-lane {
+    position: relative;
+    height: calc(var(--tss-scheduler-tl-rows, 1) * var(--tss-scheduler-tl-row) + 2 * var(--tss-scheduler-tl-pad));
+    min-height: 40px;
+    border-bottom: 1px solid var(--tss-scheduler-line-color);
+    background-color: var(--tss-scheduler-offhours-color);
+    background-image: linear-gradient(to right, var(--tss-dark-border-color) 1px, transparent 1px), linear-gradient(to right, var(--tss-scheduler-minor-line-color) 1px, transparent 1px);
+    background-size: var(--tss-scheduler-tl-day-width) 100%, var(--tss-scheduler-tl-hour-width) 100%;
+    touch-action: pan-x pan-y;
+}
+
+.tss-scheduler-tl-work {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: var(--tss-scheduler-work-color);
+    background-image: linear-gradient(to right, var(--tss-scheduler-minor-line-color) 1px, transparent 1px);
+    background-size: var(--tss-scheduler-tl-hour-width) 100%;
+    pointer-events: none;
+}
+
+.tss-scheduler-bar {
+    position: absolute;
+    z-index: 1;
+    height: calc(var(--tss-scheduler-tl-row) - 4px);
+    display: flex;
+    align-items: center;
+    padding: 0 6px 0 5px;
+    font-size: var(--tss-font-size-xsmall);
+    touch-action: none;
+}
+
+    .tss-scheduler-bar.tss-scheduler-continues-before {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-left-style: dotted;
+    }
+
+    .tss-scheduler-bar.tss-scheduler-continues-after {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+/* ------------------------------------------------------------ tooltip */
+
+.tss-scheduler-tooltip {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 2px 0;
+    max-width: 280px;
+    white-space: normal;
+}
+
+.tss-scheduler-tooltip-title {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+.tss-scheduler-tooltip-time,
+.tss-scheduler-tooltip-resources {
+    font-size: var(--tss-font-size-xsmall);
+    opacity: 0.8;
+}
+
+.tss-scheduler-tooltip-description {
+    margin-top: 4px;
+    font-size: var(--tss-font-size-xsmall);
+}
+
+/* -------------------------------------------------------------- phone */
+
+@media (max-width: 640px) {
+    .tss-scheduler {
+        --tss-scheduler-gutter-width: 44px;
+        --tss-scheduler-lane-header-width: 110px;
+        --tss-scheduler-month-row: 72px;
+    }
+
+    .tss-scheduler-agenda-day {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .tss-scheduler-agenda-time {
+        width: 84px;
+    }
+
+    .tss-scheduler-agenda-resources {
+        display: none;
+    }
+
+    .tss-scheduler-month-cell .tss-scheduler-chip-time {
+        display: none;
+    }
+}

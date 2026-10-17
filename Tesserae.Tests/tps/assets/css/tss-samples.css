@@ -49,3 +49,23 @@ body.tss-theme-curiosity .tss-landing-group {
     text-transform: uppercase;
     color: var(--tss-secondary-foreground-color);
 }
+
+/* SchedulerSample: the unscheduled jobs that can be dragged onto the calendar */
+.tss-scheduler-sample-queue {
+    padding: 8px 10px;
+    border: 1px dashed var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+    background: var(--tss-default-background-color);
+}
+
+/* DockPanelSample: the fake editor and output lines */
+.tss-dockpanel-sample-code {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-small);
+    white-space: pre;
+}
+
+.tss-dockpanel-sample-layout {
+    word-break: break-all;
+    font-family: var(--tss-monospace-font-family);
+}

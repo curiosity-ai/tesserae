@@ -1,0 +1,81 @@
+/* ==========================================================================
+   RetroOS theme - Scheduler
+   --------------------------------------------------------------------------
+   One bit of ink on paper: square blocks framed by a 1px line with their
+   colour kept as a tint, today's number in an inverted square, a selected
+   appointment in the thick ring, the now line solid ink, and the headers in
+   Chicago. The ghost of a drag is the marching dotted outline.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-scheduler {
+    --tss-scheduler-radius: 0px;
+    --tss-scheduler-today-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-scheduler-now-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-scheduler-selection-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-scheduler-line-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-scheduler-minor-line-color: rgba(var(--tss-default-foreground-color-root), .2);
+    border-radius: 0;
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-scheduler-title,
+body.tss-theme-retroos .tss-scheduler-tg-daynum,
+body.tss-theme-retroos .tss-scheduler-tg-resourceheader,
+body.tss-theme-retroos .tss-scheduler-tl-laneheader,
+body.tss-theme-retroos .tss-scheduler-agenda-daynum,
+body.tss-theme-retroos .tss-scheduler-month-date {
+    font-family: var(--tss-retro-chicago);
+    font-weight: 400;
+}
+
+body.tss-theme-retroos .tss-scheduler-tg-dayname,
+body.tss-theme-retroos .tss-scheduler-today > .tss-scheduler-tg-dayname,
+body.tss-theme-retroos .tss-scheduler-today > .tss-scheduler-tl-daylabel > .tss-scheduler-tg-dayname {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-scheduler-tg-daynum,
+body.tss-theme-retroos .tss-scheduler-month-date,
+body.tss-theme-retroos .tss-scheduler-resource-chip,
+body.tss-theme-retroos .tss-scheduler-chip-dot,
+body.tss-theme-retroos .tss-scheduler-now::before {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-scheduler-today > .tss-scheduler-tg-daynum,
+body.tss-theme-retroos .tss-scheduler-today > .tss-scheduler-tl-daylabel > .tss-scheduler-tg-daynum,
+body.tss-theme-retroos .tss-scheduler-month-cell.tss-scheduler-today > .tss-scheduler-month-date {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-scheduler-event,
+body.tss-theme-retroos .tss-scheduler-chip.tss-scheduler-banner,
+body.tss-theme-retroos .tss-scheduler-bar {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-left: 4px solid var(--tss-scheduler-item);
+}
+
+body.tss-theme-retroos .tss-scheduler-item:focus-visible,
+body.tss-theme-retroos .tss-scheduler-item.tss-scheduler-selected {
+    box-shadow: var(--tss-retro-shadow);
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: -2px;
+}
+
+body.tss-theme-retroos .tss-scheduler-ghost {
+    border: 1px dashed rgb(var(--tss-default-foreground-color-root));
+    background: var(--tss-retro-dither-light);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-scheduler-drop-target {
+    background: var(--tss-retro-dither-light) !important;
+}
+
+body.tss-theme-retroos .tss-scheduler-tg-header,
+body.tss-theme-retroos .tss-scheduler-toolbar,
+body.tss-theme-retroos .tss-scheduler-month-head,
+body.tss-theme-retroos .tss-scheduler-tl-header {
+    border-bottom-color: rgb(var(--tss-default-foreground-color-root));
+}

@@ -1,0 +1,544 @@
+/* ==========================================================================
+   DockPanel
+   --------------------------------------------------------------------------
+   Rails on the four borders around the main area; inside it, nested splits
+   peel one edge region off at a time until the document is left. Every pane
+   slot is a header (a caption, or a tab strip) over its body. Drag guides,
+   the landing preview and an unpinned pane's flyout float over the main area.
+   ========================================================================== */
+
+.tss-dockpanel {
+    --tss-dockpanel-gap: 4px;
+    --tss-dockpanel-header-height: 34px;
+    --tss-dockpanel-rail-size: 30px;
+    --tss-dockpanel-radius: var(--tss-border-radius-md);
+    --tss-dockpanel-surface: var(--tss-default-background-color);
+    --tss-dockpanel-canvas: var(--tss-secondary-background-color);
+    --tss-dockpanel-accent: var(--tss-primary-background-color);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas: "top top top" "left main right" "bottom bottom bottom";
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    box-sizing: border-box;
+    background: var(--tss-dockpanel-canvas);
+    color: var(--tss-default-foreground-color);
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-dockpanel-radius);
+    overflow: hidden;
+    font-size: var(--tss-font-size-small);
+}
+
+.tss-dockpanel-main {
+    grid-area: main;
+    position: relative;
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+    padding: var(--tss-dockpanel-gap);
+    overflow: hidden;
+}
+
+    .tss-dockpanel-main > .tss-dockpanel-split,
+    .tss-dockpanel-main > .tss-dockpanel-document {
+        flex: 1 1 auto;
+    }
+
+/* ------------------------------------------------------------- splits */
+
+.tss-dockpanel-split {
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+}
+
+.tss-dockpanel-split-h {
+    flex-direction: row;
+}
+
+.tss-dockpanel-split-v {
+    flex-direction: column;
+}
+
+.tss-dockpanel-fill {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 0;
+}
+
+.tss-dockpanel-region {
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 1;
+    min-width: 0;
+    min-height: 0;
+}
+
+.tss-dockpanel-region-left,
+.tss-dockpanel-region-right {
+    flex-direction: column;
+}
+
+.tss-dockpanel-region-top,
+.tss-dockpanel-region-bottom {
+    flex-direction: row;
+}
+
+/* ------------------------------------------------------------ splitter */
+
+.tss-dockpanel-splitter {
+    position: relative;
+    flex: 0 0 var(--tss-dockpanel-gap);
+    z-index: 2;
+    touch-action: none;
+}
+
+    .tss-dockpanel-splitter::after {
+        content: "";
+        position: absolute;
+        background: transparent;
+        border-radius: 2px;
+        transition: background-color .12s;
+    }
+
+.tss-dockpanel-splitter-v {
+    cursor: col-resize;
+}
+
+    .tss-dockpanel-splitter-v::after {
+        top: 0;
+        bottom: 0;
+        left: -2px;
+        right: -2px;
+    }
+
+.tss-dockpanel-splitter-h {
+    cursor: row-resize;
+}
+
+    .tss-dockpanel-splitter-h::after {
+        left: 0;
+        right: 0;
+        top: -2px;
+        bottom: -2px;
+    }
+
+    .tss-dockpanel-splitter:hover::after,
+    .tss-dockpanel-splitter-active::after {
+        background: var(--tss-primary-background-color-transparent);
+    }
+
+.tss-dockpanel-resizing,
+.tss-dockpanel-resizing * {
+    user-select: none !important;
+}
+
+/* ---------------------------------------------------------- slots */
+
+.tss-dockpanel-slot,
+.tss-dockpanel-document {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 0;
+    min-width: 0;
+    min-height: 0;
+    background: var(--tss-dockpanel-surface);
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-dockpanel-radius);
+    overflow: hidden;
+}
+
+.tss-dockpanel-slot {
+    flex-shrink: 1;
+}
+
+.tss-dockpanel-document {
+    position: relative;
+}
+
+.tss-dockpanel-document-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+}
+
+.tss-dockpanel-header {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+    height: var(--tss-dockpanel-header-height);
+    padding: 0 4px 0 10px;
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--tss-default-border-color);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+    .tss-dockpanel-header.tss-dockpanel-movable,
+    .tss-dockpanel-header-tabs .tss-dockpanel-tab {
+        touch-action: none;
+    }
+
+    .tss-dockpanel-header.tss-dockpanel-movable {
+        cursor: grab;
+    }
+
+.tss-dockpanel-header-tabs {
+    padding-left: 2px;
+}
+
+.tss-dockpanel-caption {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+.tss-dockpanel-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tss-dockpanel-icon {
+    flex-shrink: 0;
+    color: var(--tss-secondary-foreground-color);
+    font-size: 12px;
+}
+
+.tss-dockpanel-header-spacer {
+    flex: 1 1 auto;
+    min-width: 4px;
+}
+
+.tss-dockpanel-tabs {
+    display: flex;
+    align-items: stretch;
+    align-self: stretch;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.tss-dockpanel-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    max-width: 180px;
+    padding: 0 10px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+    font: inherit;
+    cursor: pointer;
+}
+
+    .tss-dockpanel-tab:hover {
+        color: var(--tss-default-foreground-color);
+        background: var(--tss-default-background-hover-color);
+    }
+
+    .tss-dockpanel-tab.tss-dockpanel-tab-active {
+        color: var(--tss-default-foreground-color);
+        font-weight: var(--tss-font-weight-semibold);
+        border-bottom-color: var(--tss-dockpanel-accent);
+    }
+
+        .tss-dockpanel-tab.tss-dockpanel-tab-active .tss-dockpanel-icon {
+            color: var(--tss-dockpanel-accent);
+        }
+
+    .tss-dockpanel-tab:focus-visible,
+    .tss-dockpanel-button:focus-visible,
+    .tss-dockpanel-rail-tab:focus-visible,
+    .tss-dockpanel-restore:focus-visible {
+        outline: 2px solid var(--tss-dockpanel-accent);
+        outline-offset: -2px;
+    }
+
+.tss-dockpanel-button,
+.tss-dockpanel-restore {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: none;
+    border-radius: var(--tss-border-radius-sm);
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+    cursor: pointer;
+    font-size: 12px;
+}
+
+    .tss-dockpanel-button:hover,
+    .tss-dockpanel-restore:hover {
+        background: var(--tss-default-background-hover-color);
+        color: var(--tss-default-foreground-color);
+    }
+
+/* the pin lies down on a pane that slid out from its rail, as it is not pinned */
+.tss-dockpanel-pin-off > i {
+    transform: rotate(-45deg);
+}
+
+.tss-dockpanel-slot-body {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.tss-dockpanel-pane-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+}
+
+.tss-dockpanel-restore {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    z-index: 3;
+    background: var(--tss-dockpanel-surface);
+    box-shadow: 0 0 0 1px var(--tss-default-border-color);
+}
+
+/* ------------------------------------------------------------- rails */
+
+.tss-dockpanel-rail {
+    display: flex;
+    gap: 2px;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+    .tss-dockpanel-rail.tss-dockpanel-rail-empty {
+        display: none;
+    }
+
+.tss-dockpanel-rail-top {
+    grid-area: top;
+    flex-direction: row;
+    padding: 4px 4px 0 calc(var(--tss-dockpanel-rail-size) + 4px);
+}
+
+.tss-dockpanel-rail-bottom {
+    grid-area: bottom;
+    flex-direction: row;
+    padding: 0 4px 4px calc(var(--tss-dockpanel-rail-size) + 4px);
+}
+
+.tss-dockpanel-rail-left {
+    grid-area: left;
+    flex-direction: column;
+    padding: 4px 0 4px 4px;
+}
+
+.tss-dockpanel-rail-right {
+    grid-area: right;
+    flex-direction: column;
+    padding: 4px 4px 4px 0;
+}
+
+.tss-dockpanel-rail-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 10px;
+    height: var(--tss-dockpanel-rail-size);
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-sm);
+    background: var(--tss-dockpanel-surface);
+    color: var(--tss-secondary-foreground-color);
+    font: inherit;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.tss-dockpanel-rail-left .tss-dockpanel-rail-tab,
+.tss-dockpanel-rail-right .tss-dockpanel-rail-tab {
+    writing-mode: vertical-rl;
+    height: auto;
+    width: var(--tss-dockpanel-rail-size);
+    padding: 10px 0;
+}
+
+.tss-dockpanel-rail-left .tss-dockpanel-rail-tab {
+    transform: rotate(180deg);
+}
+
+.tss-dockpanel-rail-tab:hover,
+.tss-dockpanel-rail-tab.tss-dockpanel-rail-tab-open {
+    color: var(--tss-default-foreground-color);
+    border-color: var(--tss-dockpanel-accent);
+}
+
+.tss-dockpanel-rail-tab.tss-dockpanel-rail-tab-open {
+    box-shadow: inset 0 0 0 1px var(--tss-dockpanel-accent);
+}
+
+/* ------------------------------------------------------------ flyout */
+
+.tss-dockpanel-flyout {
+    position: absolute;
+    z-index: 20;
+    display: flex;
+    padding: var(--tss-dockpanel-gap);
+    box-sizing: border-box;
+    transition: transform .16s ease-out, opacity .16s ease-out;
+    opacity: 0;
+}
+
+    .tss-dockpanel-flyout > .tss-dockpanel-slot {
+        flex: 1 1 auto;
+        box-shadow: var(--tss-shadow-lg);
+    }
+
+.tss-dockpanel-flyout-left {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-24px);
+}
+
+.tss-dockpanel-flyout-right {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    flex-direction: row-reverse;
+    transform: translateX(24px);
+}
+
+.tss-dockpanel-flyout-top {
+    left: 0;
+    right: 0;
+    top: 0;
+    flex-direction: column;
+    transform: translateY(-24px);
+}
+
+.tss-dockpanel-flyout-bottom {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-direction: column-reverse;
+    transform: translateY(24px);
+}
+
+.tss-dockpanel-flyout.tss-dockpanel-flyout-shown {
+    transform: none;
+    opacity: 1;
+}
+
+.tss-dockpanel-flyout-splitter {
+    flex: 0 0 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-dockpanel-flyout {
+        transition: none;
+    }
+}
+
+/* ------------------------------------------------------ drag and drop */
+
+.tss-dockpanel-dragging,
+.tss-dockpanel-dragging * {
+    cursor: grabbing !important;
+    user-select: none;
+}
+
+.tss-dockpanel-drag-ghost {
+    position: fixed;
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: var(--tss-border-radius-sm);
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    border: 1px solid var(--tss-dockpanel-accent, var(--tss-primary-background-color));
+    box-shadow: var(--tss-shadow-md);
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-semibold);
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.tss-dockpanel-guides {
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    pointer-events: none;
+}
+
+.tss-dockpanel-preview {
+    position: absolute;
+    display: none;
+    box-sizing: border-box;
+    background: var(--tss-primary-background-color-transparent);
+    border: 2px solid var(--tss-dockpanel-accent);
+    border-radius: var(--tss-dockpanel-radius);
+    transition: left .08s, top .08s, width .08s, height .08s;
+}
+
+/* A guide is a small picture of a window with the part the pane would take filled in. */
+.tss-dockpanel-guide {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    box-sizing: border-box;
+    padding: 5px;
+    border-radius: var(--tss-border-radius-sm);
+    background: var(--tss-default-background-color);
+    border: 1px solid var(--tss-dark-border-color);
+    box-shadow: var(--tss-shadow-md);
+}
+
+    .tss-dockpanel-guide::before {
+        content: "";
+        position: absolute;
+        inset: 5px;
+        border: 1px solid var(--tss-secondary-foreground-color);
+        border-radius: 2px;
+    }
+
+.tss-dockpanel-guide-fill {
+    position: absolute;
+    background: var(--tss-dockpanel-accent);
+    opacity: .55;
+    border-radius: 1px;
+}
+
+.tss-dockpanel-guide-hover {
+    border-color: var(--tss-dockpanel-accent);
+    background: color-mix(in srgb, var(--tss-dockpanel-accent) 12%, var(--tss-default-background-color));
+}
+
+    .tss-dockpanel-guide-hover .tss-dockpanel-guide-fill {
+        opacity: 1;
+    }
+
+.tss-dockpanel-guide-left .tss-dockpanel-guide-fill   { left: 5px;  top: 5px; bottom: 5px; width: 9px; }
+.tss-dockpanel-guide-right .tss-dockpanel-guide-fill  { right: 5px; top: 5px; bottom: 5px; width: 9px; }
+.tss-dockpanel-guide-top .tss-dockpanel-guide-fill    { left: 5px;  right: 5px; top: 5px; height: 9px; }
+.tss-dockpanel-guide-bottom .tss-dockpanel-guide-fill { left: 5px;  right: 5px; bottom: 5px; height: 9px; }
+.tss-dockpanel-guide-tab .tss-dockpanel-guide-fill    { left: 5px;  right: 5px; top: 5px; bottom: 5px; }
+
+.tss-dockpanel-guide-edge.tss-dockpanel-guide-left   { left: 10px; top: calc(50% - 17px); }
+.tss-dockpanel-guide-edge.tss-dockpanel-guide-right  { right: 10px; top: calc(50% - 17px); }
+.tss-dockpanel-guide-edge.tss-dockpanel-guide-top    { top: 10px; left: calc(50% - 17px); }
+.tss-dockpanel-guide-edge.tss-dockpanel-guide-bottom { bottom: 10px; left: calc(50% - 17px); }

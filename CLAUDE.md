@@ -470,6 +470,9 @@ is inside a Masonry/SectionStack, where they are on its wrapper.
   `Top` / `Bottom`) take the panes; `LeftIsSmaller(size, max, min)` /
   `RightIsSmaller(...)` pin one pane to a fixed size; `SplitInMiddle()` is the
   default 50/50; `.Resizable(onResizeEnd)` enables the drag handle.
+- **`DockPanel`** (`Tesserae/src/Components/DockPanel/`) — IDE-style workspace: a
+  `Document(...)` with `DockPane`s docked to its edges, tab groups, splitters,
+  auto-hide rails and drag-to-redock; `GetLayout()` / `LoadLayout()` persist it.
 - **`Float`** (`Tesserae/src/Components/Float.cs`) — corner/edge-anchored
   overlay. Takes a child and a `Position` enum (TopLeft, TopRight, Center, …).
   Parent must be position-relative (`Grid.Relative()` exists for this).
@@ -488,6 +491,7 @@ is inside a Masonry/SectionStack, where they are on its wrapper.
 - One-axis flow (toolbar, sidebar, form) → `Stack`.
 - Two-axis grid with named tracks → `Grid`.
 - Two resizable panes → `SplitView` / `HorizontalSplitView`.
+- Tool panes docked around a document → `DockPanel`.
 - Pinned overlay on a parent → `Float`.
 - Variable-height tile feed → `Masonry`.
 - Modal/popover that must escape clipping → `Layer` (usually wrapped by

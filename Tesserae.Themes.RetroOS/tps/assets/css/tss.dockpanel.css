@@ -1,0 +1,74 @@
+/* ==========================================================================
+   RetroOS theme - DockPanel
+   --------------------------------------------------------------------------
+   Every slot is a window: square, ink framed, a hard drop shadow, a striped
+   title bar in Chicago. The front tab is inverted rather than underlined,
+   the rail tabs are framed paper buttons, and the drop guides and landing
+   preview are dithered ink.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-dockpanel {
+    --tss-dockpanel-radius: 0px;
+    --tss-dockpanel-accent: rgb(var(--tss-default-foreground-color-root));
+    --tss-dockpanel-canvas: rgb(var(--tss-default-background-color-root));
+    --tss-dockpanel-gap: 6px;
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-dockpanel-slot,
+body.tss-theme-retroos .tss-dockpanel-document {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow-sm);
+}
+
+body.tss-theme-retroos .tss-dockpanel-header {
+    border-bottom-color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+}
+
+body.tss-theme-retroos .tss-dockpanel-caption,
+body.tss-theme-retroos .tss-dockpanel-tab,
+body.tss-theme-retroos .tss-dockpanel-rail-tab {
+    font-family: var(--tss-retro-chicago);
+    font-weight: 400;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-dockpanel-tab.tss-dockpanel-tab-active,
+body.tss-theme-retroos .tss-dockpanel-tab.tss-dockpanel-tab-active .tss-dockpanel-icon {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    border-bottom-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-dockpanel-icon,
+body.tss-theme-retroos .tss-dockpanel-button,
+body.tss-theme-retroos .tss-dockpanel-restore {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-dockpanel-button,
+body.tss-theme-retroos .tss-dockpanel-restore,
+body.tss-theme-retroos .tss-dockpanel-rail-tab,
+body.tss-theme-retroos .tss-dockpanel-guide,
+body.tss-theme-retroos .tss-dockpanel-guide::before,
+body.tss-theme-retroos .tss-dockpanel-guide-fill,
+body.tss-theme-retroos .tss-dockpanel-drag-ghost {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-dockpanel-rail-tab {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-dockpanel-flyout > .tss-dockpanel-slot,
+body.tss-theme-retroos .tss-dockpanel-guide,
+body.tss-theme-retroos .tss-dockpanel-drag-ghost {
+    box-shadow: var(--tss-retro-shadow);
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-dockpanel-preview {
+    background: var(--tss-retro-dither-light);
+    border: 1px dashed rgb(var(--tss-default-foreground-color-root));
+}
