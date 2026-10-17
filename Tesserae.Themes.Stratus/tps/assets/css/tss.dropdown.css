@@ -263,7 +263,7 @@ body.tss-theme-stratus .tss-dropdown-container :focus-visible {
     outline: none;
 }
 
-body.tss-theme-stratus .tss-dropdown-container:has(.tss-dropdown input:focus-visible) {
+body.tss-theme-stratus .tss-dropdown-container:has(input:focus-visible) {
     border: 0;
     background: var(--tss-default-background-active-color);
     box-shadow: 0 0 0 3px var(--tss-str-focus);
