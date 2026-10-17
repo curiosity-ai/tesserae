@@ -1,11 +1,12 @@
 /* ==========================================================================
    RetroOS theme - BackgroundArea
    --------------------------------------------------------------------------
-   The area behind a centred card is the Mac desktop: the 50% dither, with the
-   window (the card, paper with its own frame and shadow) sitting on it.
+   Paper. The Mac desktop was a 50% dither, but a BackgroundArea is a page
+   that text sits directly on (a sample's title, a form's labels), and text on
+   a checkerboard is unreadable; the windows (cards) already carry the frame
+   and hard shadow that lift them off the page.
    ========================================================================== */
 
 body.tss-theme-retroos .tss-background-area {
-    background: var(--tss-retro-dither);
-    background-color: rgb(var(--tss-default-background-color-root));
+    background: rgb(var(--tss-default-background-color-root));
 }

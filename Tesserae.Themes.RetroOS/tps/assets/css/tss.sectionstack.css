@@ -1,14 +1,14 @@
 /* ==========================================================================
    RetroOS theme - SectionStack
    --------------------------------------------------------------------------
-   The stack is the desktop (the 50% dither would drown the text, so the
-   secondary variant uses the light 25% dot pattern); every section is a
-   window on it: paper, a 1px ink frame, the hard 2px shadow.
+   The stack is the desktop, kept paper: text sits straight on it (a sample's
+   title, its labels) and no dither, not even the light one, leaves that
+   readable. Every section is a window on it: paper, a 1px ink frame, the
+   hard 2px shadow.
    ========================================================================== */
 
 body.tss-theme-retroos .tss-sectionstack-secondary {
-    background: var(--tss-retro-dither-light);
-    background-color: rgb(var(--tss-default-background-color-root));
+    background: rgb(var(--tss-default-background-color-root));
 }
 
 body.tss-theme-retroos .tss-sectionstack-item {
