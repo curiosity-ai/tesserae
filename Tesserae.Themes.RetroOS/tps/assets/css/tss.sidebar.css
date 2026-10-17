@@ -203,20 +203,15 @@ body.tss-theme-retroos .tss-sidebar-section-header .tss-sidebar-identity-title {
     font-size: 18px;
 }
 
-/* A section heading is a title bar: pinstripes either side of the title. */
+/* A section heading is a small framed plate: ink edge, the hard shadow, the name in Chicago over its second line. */
 body.tss-theme-retroos .tss-sidebar-section-header {
-    background: var(--tss-retro-stripes);
-    background-size: 100% 2px;
-    background-clip: content-box;
-    height: 28px;
-    margin: 4px 0 8px;
+    box-sizing: border-box;
+    height: 48px;
+    margin: 4px 1px 8px;
     border: 1px solid rgb(var(--tss-default-foreground-color-root));
-    padding: 0 4px;
-}
-
-body.tss-theme-retroos .tss-sidebar-section-header > * {
+    box-shadow: var(--tss-retro-shadow-sm);
     background: rgb(var(--tss-default-background-color-root));
-    padding: 0 6px;
+    padding: 0 8px;
 }
 
 body.tss-theme-retroos .tss-sidebar-section-header-closed {
@@ -306,4 +301,17 @@ body.tss-theme-retroos .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav-header:h
 body.tss-theme-retroos .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav-children {
     border-left: 0;
     margin-left: 0;
+}
+
+/* Commands on a row, and the identity row's buttons, are square like the rows (pill rows keep their 8px). */
+body.tss-theme-retroos .tss-sidebar-commands .tss-btn,
+body.tss-theme-retroos .tss-sidebar-commands-line .tss-btn,
+body.tss-theme-retroos .tss-sidebar-identity > .tss-sidebar-commands > .tss-sidebar-command.tss-btn,
+body.tss-theme-retroos .tss-sidebar-identity > .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn {
+    border-radius: 0;
+}
+
+/* A sidebar that renders as a page is framed by its host with a rounded corner; the Mac had none. */
+body.tss-theme-retroos :has(> .tss-sidebar.tss-sidebar-page) {
+    border-radius: 0 !important;
 }
