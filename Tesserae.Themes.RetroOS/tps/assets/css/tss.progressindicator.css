@@ -1,1 +1,38 @@
-/* RetroOS - progressindicator */
+/* ==========================================================================
+   RetroOS theme - Progress indicator
+   --------------------------------------------------------------------------
+   The Finder's copy-dialog bar: a 1px ink frame, square ends, filled from the
+   left with ink over a 50% dither (the part still to do). Indeterminate is the
+   barber pole: diagonal stripes that march in whole steps.
+   ========================================================================== */
+
+@keyframes tss-retroos-barber {
+    from { background-position: 0 0; }
+    to   { background-position: 16px 0; }
+}
+
+body.tss-theme-retroos .tss-progressindicator {
+    height: 16px;
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-sizing: border-box;
+    background: var(--tss-retro-dither);
+}
+
+body.tss-theme-retroos .tss-progressindicator > .tss-progressindicator-bar {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    border-right: 1px solid rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-progressindicator > .tss-progressindicator-bar-indeterminate {
+    left: 0;
+    width: 100%;
+    min-width: 100%;
+    transition: none;
+    transform: none;
+    background: repeating-linear-gradient(135deg, rgb(var(--tss-default-foreground-color-root)) 0 4px, rgb(var(--tss-default-background-color-root)) 4px 8px);
+    background-size: auto;
+    animation: tss-retroos-barber 0.5s steps(8, end) infinite;
+}

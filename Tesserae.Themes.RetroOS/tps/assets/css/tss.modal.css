@@ -1,1 +1,178 @@
-/* RetroOS - modal */
+/* ==========================================================================
+   RetroOS theme - Modal
+   --------------------------------------------------------------------------
+   A Modal is a Mac window. The page behind is veiled in the 50% dither rather
+   than a tint. The window is paper in a 1px frame with the hard 2px shadow;
+   its header is the pinstriped title bar, the title centred in a paper gap in
+   Chicago, and the close button is the small square close box at the left
+   (it inverts while pressed). Other header commands keep to push buttons.
+   No zoom-in animation: a window appears in one frame.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-modal-container,
+body.tss-theme-retroos .tss-modal-container.tss-dark {
+    background: var(--tss-retro-dither);
+    backdrop-filter: none;
+}
+
+body.tss-theme-retroos .tss-modal-modeless {
+    background: none;
+}
+
+body.tss-theme-retroos .tss-modal {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow);
+    outline: none;
+}
+
+body.tss-theme-retroos .tss-modal.tss-embedded {
+    box-shadow: var(--tss-retro-frame);
+    border: 0;
+}
+
+body.tss-theme-retroos .tss-modal-animate {
+    animation: none;
+}
+
+/* The title bar. */
+body.tss-theme-retroos .tss-modal-header {
+    background: var(--tss-retro-stripes);
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+    padding: 4px 6px;
+    min-height: 14px;
+    box-sizing: border-box;
+}
+
+body.tss-theme-retroos .tss-modal-header[style*="display: none"] {
+    display: none !important;
+}
+
+body.tss-theme-retroos .tss-modal-header-content,
+body.tss-theme-retroos .tss-modal-header-content:not(:empty) {
+    flex-grow: 0;
+    margin: 0 auto;
+    padding: 0 12px;
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    line-height: 18px;
+    max-width: 70%;
+    align-items: center;
+}
+
+body.tss-theme-retroos .tss-modal-header-content:empty {
+    display: none;
+}
+
+body.tss-theme-retroos .tss-modal-header-content .tss-textblock,
+body.tss-theme-retroos .tss-modal-header-content .tss-fontcolor-default {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-modal-left-header-commands {
+    order: -2;
+}
+
+body.tss-theme-retroos .tss-modal-header-commands {
+    order: -1;
+}
+
+/* Keeps the title centred over the close box on its left. */
+body.tss-theme-retroos .tss-modal-header::after {
+    content: "";
+    order: 10;
+    flex: 0 0 13px;
+}
+
+body.tss-theme-retroos .tss-modal-header-commands:not(:empty),
+body.tss-theme-retroos .tss-modal-left-header-commands:not(:empty) {
+    padding: 0;
+    gap: 6px;
+}
+
+body.tss-theme-retroos .tss-modal-header-commands > *:not(:first-child) {
+    margin-left: 0;
+}
+
+/* Header commands that are not the close box: push buttons on the stripes. */
+body.tss-theme-retroos .tss-modal-header-commands > .tss-btn,
+body.tss-theme-retroos .tss-modal-header-commands > button,
+body.tss-theme-retroos .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-retroos .tss-modal-left-header-commands > button {
+    min-width: 0;
+    height: 18px;
+    padding: 0 8px;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    line-height: 16px;
+    box-shadow: none;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-modal-header-commands > .tss-btn:hover,
+body.tss-theme-retroos .tss-modal-header-commands > button:hover,
+body.tss-theme-retroos .tss-modal-left-header-commands > .tss-btn:hover,
+body.tss-theme-retroos .tss-modal-left-header-commands > button:hover {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-retroos .tss-modal-header-commands > button:active,
+body.tss-theme-retroos .tss-modal-left-header-commands > .tss-btn:active,
+body.tss-theme-retroos .tss-modal-left-header-commands > button:active {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-modal-header-commands > .tss-btn i,
+body.tss-theme-retroos .tss-modal-left-header-commands > .tss-btn i {
+    color: inherit;
+}
+
+/* The close box: a 13px square, empty at rest, inverted while pressed. */
+body.tss-theme-retroos .tss-modal-header-commands > .tss-btn.tss-modal-button,
+body.tss-theme-retroos .tss-modal-header-commands > button.tss-modal-button {
+    width: 13px;
+    min-width: 13px;
+    height: 13px;
+    min-height: 13px;
+    padding: 0;
+    margin: 0 6px 0 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    flex: 0 0 13px;
+}
+
+body.tss-theme-retroos .tss-modal-button > i {
+    display: none;
+}
+
+/* The body. */
+body.tss-theme-retroos .tss-modal-footer {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-modal-content {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+/* An illustration is part of the window, so it is 1-bit too: the colour is thresholded away. */
+body.tss-theme-retroos .tss-modal img.tss-image {
+    filter: grayscale(1) contrast(100);
+}
+
+body.tss-theme-retroos.tss-dark-mode .tss-modal img.tss-image {
+    filter: grayscale(1) contrast(100) invert(1);
+}

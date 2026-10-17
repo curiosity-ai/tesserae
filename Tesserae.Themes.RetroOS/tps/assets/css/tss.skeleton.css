@@ -1,1 +1,32 @@
-/* RetroOS - skeleton */
+/* ==========================================================================
+   RetroOS theme - Skeleton
+   --------------------------------------------------------------------------
+   A placeholder is a block of the 50% dither, the Mac's own "something goes
+   here" grey, with a 1px frame. It does not shimmer: when animated the
+   dither shifts by a pixel in two steps, a flicker the original screen
+   could do.
+   ========================================================================== */
+
+@keyframes tss-retroos-skeleton {
+    from { background-position: 0 0; }
+    to   { background-position: 2px 0; }
+}
+
+body.tss-theme-retroos .tss-skeleton {
+    background: var(--tss-retro-dither);
+    border-radius: 0;
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-skeleton-circle {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-skeleton-animated {
+    animation: tss-retroos-skeleton 1s steps(2, jump-none) infinite;
+}
+
+body.tss-theme-retroos .tss-skeleton-animated::after {
+    display: none;
+    animation: none;
+}

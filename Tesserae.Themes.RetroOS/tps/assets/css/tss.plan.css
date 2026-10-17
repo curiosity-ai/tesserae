@@ -1,1 +1,250 @@
-/* RetroOS - plan */
+/* ==========================================================================
+   RetroOS theme - Plan
+   --------------------------------------------------------------------------
+   A plan is a window: a pinstriped title strip with the title in a paper gap,
+   a framed body with the hard shadow, the steps on a vertical rule. Status is
+   never colour. The badge is told by its border (pending dashed, running
+   inverted, completed double, failed thick, canceled dotted and struck) and
+   the rail by its line (pending dotted, done solid, failed thick). The
+   running step is a dashed-framed well; the spinning glyph and the sweep turn
+   in whole steps. Bars are the Finder's copy bar: frame, ink over dither.
+   ========================================================================== */
+
+@keyframes tss-retroos-plan-steps { to { transform: rotate(360deg); } }
+@keyframes tss-retroos-plan-barber { from { background-position: 0 0; } to { background-position: 16px 0; } }
+
+body.tss-theme-retroos .tss-plan {
+    --plan-accent: rgb(var(--tss-default-foreground-color-root));
+    --plan-accent-soft: rgb(var(--tss-default-background-color-root));
+    --seg-color: rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-plan-header {
+    padding: 6px 12px;
+    align-items: center;
+    background: var(--tss-retro-stripes);
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-plan-titlewrap {
+    background: rgb(var(--tss-default-background-color-root));
+    padding: 0 10px;
+}
+
+body.tss-theme-retroos .tss-plan-title {
+    font-family: var(--tss-retro-chicago);
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-plan-header-commands {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-plan-status-badge {
+    border-radius: 0;
+    font-family: var(--tss-retro-chicago);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos.tss-dark-mode .tss-plan-status-badge {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-plan-pending .tss-plan-status-badge { border-style: dashed; }
+body.tss-theme-retroos .tss-plan-running .tss-plan-status-badge { background: rgb(var(--tss-default-foreground-color-root)); color: rgb(var(--tss-default-background-color-root)); }
+body.tss-theme-retroos .tss-plan-completed .tss-plan-status-badge { border: 3px double rgb(var(--tss-default-foreground-color-root)); padding-top: 1px; padding-bottom: 1px; }
+body.tss-theme-retroos .tss-plan-failed .tss-plan-status-badge { border-width: 3px; padding-top: 1px; padding-bottom: 1px; }
+body.tss-theme-retroos .tss-plan-canceled .tss-plan-status-badge { border-style: dotted; text-decoration: line-through; }
+
+body.tss-theme-retroos .tss-plan-status-badge .tss-plan-badge-dot {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-plan-running .tss-plan-status-badge .tss-plan-badge-dot {
+    animation: none;
+}
+
+body.tss-theme-retroos .tss-plan-cmd {
+    font-family: var(--tss-retro-chicago);
+    font-size: 15px;
+    font-weight: 400;
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    background: rgb(var(--tss-default-background-color-root));
+    padding: 2px 10px;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-plan-cmd:hover,
+body.tss-theme-retroos.tss-dark-mode .tss-plan-cmd:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* Steps */
+body.tss-theme-retroos .tss-plan-step:not(:last-child) .tss-plan-step-rail::after {
+    width: 0;
+    background: none;
+    border-left: 2px solid var(--seg-color);
+}
+
+body.tss-theme-retroos .tss-plan-step.is-pending { --seg-color: rgb(var(--tss-default-foreground-color-root)); }
+body.tss-theme-retroos .tss-plan-step.is-pending:not(:last-child) .tss-plan-step-rail::after { border-left: 2px dotted rgb(var(--tss-default-foreground-color-root)); }
+body.tss-theme-retroos .tss-plan-step.is-failed:not(:last-child) .tss-plan-step-rail::after { border-left: 4px solid rgb(var(--tss-default-foreground-color-root)); }
+body.tss-theme-retroos .tss-plan-step.is-canceled:not(:last-child) .tss-plan-step-rail::after { border-left: 2px dashed rgb(var(--tss-default-foreground-color-root)); }
+
+body.tss-theme-retroos .tss-plan-step-icon,
+body.tss-theme-retroos .is-pending .tss-plan-step-icon,
+body.tss-theme-retroos .is-running .tss-plan-step-icon,
+body.tss-theme-retroos .is-completed .tss-plan-step-icon,
+body.tss-theme-retroos .is-failed .tss-plan-step-icon,
+body.tss-theme-retroos .is-canceled .tss-plan-step-icon,
+body.tss-theme-retroos .tss-plan-substep .tss-plan-substep-icon,
+body.tss-theme-retroos .tss-plan-substep.is-pending .tss-plan-substep-icon,
+body.tss-theme-retroos .tss-plan-substep.is-running .tss-plan-substep-icon,
+body.tss-theme-retroos .tss-plan-substep.is-completed .tss-plan-substep-icon,
+body.tss-theme-retroos .tss-plan-substep.is-failed .tss-plan-substep-icon,
+body.tss-theme-retroos .tss-plan-substep.is-canceled .tss-plan-substep-icon {
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-plan-step-icon {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .is-running .tss-plan-step-icon .tss-icon,
+body.tss-theme-retroos .tss-plan-substep.is-running .tss-plan-substep-icon .tss-icon {
+    animation: tss-retroos-plan-steps 0.8s steps(8, end) infinite;
+}
+
+body.tss-theme-retroos .tss-plan-step-title,
+body.tss-theme-retroos .is-pending .tss-plan-step-title,
+body.tss-theme-retroos .is-canceled .tss-plan-step-title {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .is-running .tss-plan-step-title {
+    font-weight: 700;
+}
+
+body.tss-theme-retroos .is-canceled .tss-plan-step-title {
+    text-decoration-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-plan-step-toggle {
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-plan-step-toggle:hover,
+body.tss-theme-retroos.tss-dark-mode .tss-plan-step-toggle:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-plan-step-stage,
+body.tss-theme-retroos .is-failed .tss-plan-step-stage,
+body.tss-theme-retroos .tss-plan-summary,
+body.tss-theme-retroos .tss-plan-timestamps,
+body.tss-theme-retroos .tss-plan-substep-message,
+body.tss-theme-retroos .tss-plan-substep.is-pending .tss-plan-substep-title,
+body.tss-theme-retroos .tss-plan-substep-title {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-plan-substep-title {
+    font-weight: 400;
+    font-family: var(--tss-retro-chicago);
+    font-size: 15px;
+}
+
+body.tss-theme-retroos .tss-plan-step.is-running .tss-plan-step-body,
+body.tss-theme-retroos.tss-dark-mode .tss-plan-step.is-running .tss-plan-step-body {
+    background: rgb(var(--tss-default-background-color-root));
+    border: 1px dashed rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-plan-substep + .tss-plan-substep {
+    border-top: 1px dotted rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-plan-substeps {
+    transition: none;
+}
+
+/* Bars */
+body.tss-theme-retroos .tss-plan-step-progress,
+body.tss-theme-retroos .tss-plan-progress {
+    height: 12px;
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-sizing: border-box;
+    background: var(--tss-retro-dither);
+}
+
+body.tss-theme-retroos .tss-plan-step-progress-bar,
+body.tss-theme-retroos .tss-plan-progress-bar {
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-plan-step-progress.is-indeterminate .tss-plan-step-progress-bar,
+body.tss-theme-retroos .tss-plan-progress.is-indeterminate .tss-plan-progress-bar {
+    width: 100%;
+    transform: none;
+    background: repeating-linear-gradient(135deg, rgb(var(--tss-default-foreground-color-root)) 0 4px, rgb(var(--tss-default-background-color-root)) 4px 8px);
+    animation: tss-retroos-plan-barber 0.5s steps(8, end) infinite;
+}
+
+body.tss-theme-retroos .tss-plan-footer,
+body.tss-theme-retroos.tss-dark-mode .tss-plan-footer {
+    border-top: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-plan-summary .tss-plan-footer-msg,
+body.tss-theme-retroos .tss-plan-count,
+body.tss-theme-retroos .tss-plan-pct {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-monospace-font-family);
+    font-weight: 400;
+    font-size: 16px;
+}
+
+body.tss-theme-retroos .tss-plan .tss-plan-startstop {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-plan .tss-plan-startstop:hover,
+body.tss-theme-retroos.tss-dark-mode .tss-plan .tss-plan-startstop:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-plan-startstop:active {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}

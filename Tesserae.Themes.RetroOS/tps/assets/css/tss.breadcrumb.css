@@ -1,1 +1,37 @@
-/* RetroOS - breadcrumb */
+/* ==========================================================================
+   RetroOS theme - Breadcrumb
+   --------------------------------------------------------------------------
+   A path in Chicago, the way the Finder printed a folder path in a window's
+   title: names separated by a chevron, all ink. Each name is a ghost control
+   that inverts under the pointer (tss.button.css); the last name is where you
+   are, so it is plain ink and not the disabled grey. No fade, no radius.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-breadcrumb .tss-btn {
+    border-radius: 0;
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+}
+
+body.tss-theme-retroos .tss-breadcrumb.tss-small .tss-btn {
+    font-size: 14px;
+}
+
+body.tss-theme-retroos .tss-breadcrumb-chevron {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The current page is not a link and not "disabled": it is simply where you are. */
+body.tss-theme-retroos .tss-breadcrumb .tss-btn.tss-disabled {
+    color: rgb(var(--tss-default-foreground-color-root));
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+    cursor: default;
+}
+
+body.tss-theme-retroos .tss-breadcrumb .tss-btn.tss-disabled .tss-fontcolor-default,
+body.tss-theme-retroos .tss-breadcrumb .tss-btn.tss-disabled > i,
+body.tss-theme-retroos .tss-breadcrumb .tss-btn.tss-disabled > span {
+    color: rgb(var(--tss-default-foreground-color-root));
+}

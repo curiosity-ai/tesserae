@@ -1,1 +1,36 @@
-/* RetroOS - gridpicker */
+/* ==========================================================================
+   RetroOS theme - GridPicker
+   --------------------------------------------------------------------------
+   A grid of cells, drawn as one: square cells (the theme's buttons are rounded
+   rectangles, which turned every cell into a dot), each edged by an inset 1px
+   ink line so the grid reads even where an app paints a cell the page colour.
+   Pointing at a cell thickens its edge to 2px. The cells are buttons whose
+   colour an app sets inline per state; the theme cannot make a hue a tone, so
+   it takes the hue out (grayscale) and leaves the app's lightness. Row and
+   column titles are small plain text.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-gridpicker .tss-gridpicker-button,
+body.tss-theme-retroos .tss-gridpicker .tss-gridpicker-button:hover,
+body.tss-theme-retroos .tss-gridpicker .tss-gridpicker-button:active {
+    border-radius: 0;
+    border: none;
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-foreground-color-root));
+    filter: grayscale(1);
+}
+
+body.tss-theme-retroos .tss-gridpicker .tss-gridpicker-button:hover {
+    box-shadow: inset 0 0 0 2px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-gridpicker .tss-gridpicker-button:active {
+    box-shadow: inset 0 0 0 3px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-gridpicker-column-title,
+body.tss-theme-retroos .tss-gridpicker-row-title {
+    font-size: var(--tss-font-size-xsmall);
+    color: rgb(var(--tss-default-foreground-color-root));
+}

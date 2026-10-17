@@ -1,1 +1,40 @@
-/* RetroOS - spinner */
+/* ==========================================================================
+   RetroOS theme - Spinner
+   --------------------------------------------------------------------------
+   The Mac's busy cursor turned in whole steps, never smoothly: the wristwatch
+   moved its hands a tick at a time and the beach ball rotated in jumps. The
+   spinner is a 1-bit ring with a gap, turned in eight steps. A determinate
+   spinner is a ring filled clockwise in ink over a dithered track. Success
+   and danger are not colours; the ring stays ink and the label carries it.
+   ========================================================================== */
+
+@keyframes tss-retroos-steps {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+body.tss-theme-retroos .tss-spinner {
+    --tss-spinner-color: rgb(var(--tss-default-foreground-color-root));
+    border: none;
+    border-radius: 50%;
+    background: conic-gradient(rgb(var(--tss-default-foreground-color-root)) 0 270deg, transparent 0);
+    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - max(var(--tss-spinner-size), 2px)), #000 0);
+    mask: radial-gradient(farthest-side, #0000 calc(100% - max(var(--tss-spinner-size), 2px)), #000 0);
+    animation: tss-retroos-steps 0.8s steps(8, end) infinite;
+}
+
+body.tss-theme-retroos .tss-spinner.tss-spinner-progress {
+    animation: none;
+    background: conic-gradient(rgb(var(--tss-default-foreground-color-root)) calc(var(--tss-spinner-progress, 0) * 1%), transparent 0), var(--tss-retro-dither);
+}
+
+body.tss-theme-retroos .tss-spinner-success,
+body.tss-theme-retroos .tss-spinner-danger {
+    --tss-spinner-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-spinner-label {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 15px;
+}

@@ -1,1 +1,41 @@
-/* RetroOS - metric */
+/* ==========================================================================
+   RetroOS theme - Metric
+   --------------------------------------------------------------------------
+   A KPI tile is a framed readout: the title in the interface font, the value
+   in the big mono face. The trend is told by its arrow and sign, not by red
+   or green. A clickable tile inverts under the pointer like a menu row.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-metric-title {
+    font-family: var(--tss-retro-chicago);
+}
+
+body.tss-theme-retroos .tss-metric-value {
+    font-family: var(--tss-monospace-font-family);
+}
+
+body.tss-theme-retroos .tss-metric-change,
+body.tss-theme-retroos .tss-metric-change * {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-metric-clickable {
+    border-radius: 0;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-metric-clickable:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    box-shadow: 0 0 0 6px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-metric-clickable:hover *,
+body.tss-theme-retroos .tss-metric-clickable:hover .tss-fontcolor-default {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-metric-clickable:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 6px;
+}

@@ -1,1 +1,67 @@
-/* RetroOS - avatar */
+/* ==========================================================================
+   RetroOS theme - Avatar and Persona
+   --------------------------------------------------------------------------
+   A person is a Finder icon: a square with a 1px ink frame, initials in
+   Chicago, no rounding and no hue. A generated avatar (which Tesserae tints
+   by name) is the 50% dither with the initials on a paper plate so they stay
+   readable, so two people are not told apart by colour but by letters. The
+   presence dot is a shape: online is solid ink, away a ring, busy a dither,
+   offline an empty paper square-dot with a thin frame.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-avatar {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-sizing: border-box;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-retroos .tss-avatar-image {
+    border-radius: 0;
+    image-rendering: pixelated;
+}
+
+body.tss-theme-retroos .tss-avatar.tss-avatar-generated {
+    background: var(--tss-retro-dither);
+    background-color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-avatar.tss-avatar-generated > .tss-avatar-initials {
+    width: auto;
+    height: auto;
+    padding: 0 3px;
+    line-height: 1.1;
+    color: rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-avatar-presence {
+    box-sizing: border-box;
+    border-radius: 0;
+    border: 2px solid rgb(var(--tss-default-background-color-root));
+    outline: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-presence-online {
+    background: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-presence-away {
+    background: var(--tss-retro-dither);
+}
+
+body.tss-theme-retroos .tss-presence-busy {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    border-width: 1px;
+    border-style: dotted;
+    border-color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-presence-offline {
+    background: rgb(var(--tss-default-background-color-root));
+}

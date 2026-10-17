@@ -1,1 +1,78 @@
-/* RetroOS - questionnaire */
+/* ==========================================================================
+   RetroOS theme - Questionnaire
+   --------------------------------------------------------------------------
+   A small alert box: square, 1px ink frame and a hard shadow, the question in
+   Chicago. The answers are Mac push buttons (rounded rectangle, 1px edge) that
+   invert while pressed. Once answered, the chosen one stays inverted and the
+   others drop to the disabled grey, with no veil. The answer receipt is a
+   framed tag.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-questionnaire {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: var(--tss-retro-shadow);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-questionnaire-question {
+    font-family: var(--tss-retro-chicago);
+    font-size: 17px;
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-questionnaire-option {
+    background: rgb(var(--tss-default-background-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    padding: 3px 14px;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-questionnaire-option:hover:not(:disabled) {
+    background: rgb(var(--tss-default-background-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-questionnaire-option:active:not(:disabled) {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-questionnaire-option:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 2px;
+}
+
+body.tss-theme-retroos .tss-questionnaire-option:disabled {
+    opacity: 1;
+}
+
+body.tss-theme-retroos .tss-questionnaire-answered .tss-questionnaire-option {
+    opacity: 1;
+    border-color: var(--tss-retro-gray);
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    opacity: 1;
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-retroos .tss-questionnaire-answered-badge {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 15px;
+    font-weight: var(--tss-font-weight-regular);
+}

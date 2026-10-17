@@ -1,1 +1,92 @@
-/* RetroOS - timehistogrampicker */
+/* ==========================================================================
+   RetroOS theme - TimeHistogramPicker
+   --------------------------------------------------------------------------
+   A bar chart over a range slider, drawn in patterns (rule 10): bars outside
+   the chosen range are the 25% dither, bars inside are solid ink. The range
+   track is the slider's dithered rail with an ink selection, and the two
+   handles are the slider's square knob. Disabled is grey edges, no veil.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-time-histogram-picker-bars {
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-time-histogram-picker-bar {
+    border-radius: 0;
+    background: var(--tss-retro-dither-light);
+    opacity: 1;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-time-histogram-picker-bar.tss-selected {
+    background: rgb(var(--tss-default-foreground-color-root));
+    opacity: 1;
+}
+
+body.tss-theme-retroos .tss-time-histogram-picker-track::before {
+    box-sizing: border-box;
+    top: 10px;
+    height: 8px;
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: var(--tss-retro-dither);
+}
+
+body.tss-theme-retroos .tss-time-histogram-picker-selection {
+    box-sizing: border-box;
+    top: 10px;
+    height: 8px;
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-time-histogram-picker-thumb {
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: var(--tss-retro-shadow-sm);
+}
+
+body.tss-theme-retroos .tss-time-histogram-picker-thumb:active {
+    background: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-time-histogram-picker-thumb:focus {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+}
+
+body.tss-theme-retroos .tss-time-histogram-picker-axis {
+    font-size: 12px;
+}
+
+body.tss-theme-retroos .tss-time-histogram-picker-empty {
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1px dashed rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-time-histogram-picker.tss-disabled {
+    opacity: 1;
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-thumb {
+    border-color: var(--tss-retro-gray);
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-selection,
+body.tss-theme-retroos .tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-bar.tss-selected {
+    background: var(--tss-retro-gray);
+    border-color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-track::before {
+    border-color: var(--tss-retro-gray);
+    background: rgb(var(--tss-default-background-color-root));
+}

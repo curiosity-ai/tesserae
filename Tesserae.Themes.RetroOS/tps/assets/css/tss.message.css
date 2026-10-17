@@ -1,1 +1,146 @@
-/* RetroOS - message */
+/* ==========================================================================
+   RetroOS theme - Message
+   --------------------------------------------------------------------------
+   The Mac alert box: paper, a heavy frame, and the icon in an inverted square
+   at the left, with the title in Chicago. The kinds are not colours: info is
+   a plain 1px frame with a drop shadow, success a double frame, warning a
+   dashed frame and error a thick one, and each keeps its own icon and words.
+   A neutral message (an empty state) is unframed text with the icon block.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-message {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-message-icon {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    border-radius: 0;
+    height: 56px;
+    width: 56px;
+    font-size: 32px;
+    line-height: 56px;
+}
+
+body.tss-theme-retroos .tss-message-icon i {
+    line-height: 56px;
+    margin-top: 0;
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-message-title {
+    font-family: var(--tss-retro-chicago);
+    font-size: 22px;
+    font-weight: 400;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-message-text {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-message-note {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1px dashed rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-message-note i {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-message-illustration {
+    opacity: 1;
+}
+
+body.tss-theme-retroos .tss-message-horizontal .tss-message-icon {
+    height: 40px;
+    width: 40px;
+    font-size: 24px;
+    line-height: 40px;
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-message-horizontal .tss-message-icon i {
+    line-height: 40px;
+}
+
+body.tss-theme-retroos .tss-message-horizontal .tss-message-title {
+    font-size: 18px;
+}
+
+/* The kinds */
+body.tss-theme-retroos .tss-message-info,
+body.tss-theme-retroos .tss-message-success,
+body.tss-theme-retroos .tss-message-warning,
+body.tss-theme-retroos .tss-message-error {
+    background: rgb(var(--tss-default-background-color-root));
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow);
+    width: auto;
+}
+
+body.tss-theme-retroos .tss-message-success {
+    border: 3px double rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-message-warning {
+    border: 2px dashed rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-message-error {
+    border: 3px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-message-info .tss-message-icon,
+body.tss-theme-retroos .tss-message-success .tss-message-icon,
+body.tss-theme-retroos .tss-message-warning .tss-message-icon,
+body.tss-theme-retroos .tss-message-error .tss-message-icon {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-message-info .tss-message-title,
+body.tss-theme-retroos .tss-message-success .tss-message-title,
+body.tss-theme-retroos .tss-message-warning .tss-message-title,
+body.tss-theme-retroos .tss-message-error .tss-message-title,
+body.tss-theme-retroos .tss-message-info .tss-message-text,
+body.tss-theme-retroos .tss-message-success .tss-message-text,
+body.tss-theme-retroos .tss-message-warning .tss-message-text,
+body.tss-theme-retroos .tss-message-error .tss-message-text {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos.tss-dark-mode .tss-message-note,
+body.tss-theme-retroos.tss-dark-mode .tss-message-info,
+body.tss-theme-retroos.tss-dark-mode .tss-message-success,
+body.tss-theme-retroos.tss-dark-mode .tss-message-warning,
+body.tss-theme-retroos.tss-dark-mode .tss-message-error {
+    background: rgb(var(--tss-default-background-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos.tss-dark-mode .tss-message-note i {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos.tss-dark-mode .tss-message-info .tss-message-icon,
+body.tss-theme-retroos.tss-dark-mode .tss-message-success .tss-message-icon,
+body.tss-theme-retroos.tss-dark-mode .tss-message-warning .tss-message-icon,
+body.tss-theme-retroos.tss-dark-mode .tss-message-error .tss-message-icon {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos.tss-dark-mode .tss-message-info .tss-message-title,
+body.tss-theme-retroos.tss-dark-mode .tss-message-success .tss-message-title,
+body.tss-theme-retroos.tss-dark-mode .tss-message-warning .tss-message-title,
+body.tss-theme-retroos.tss-dark-mode .tss-message-error .tss-message-title,
+body.tss-theme-retroos.tss-dark-mode .tss-message-info .tss-message-text,
+body.tss-theme-retroos.tss-dark-mode .tss-message-success .tss-message-text,
+body.tss-theme-retroos.tss-dark-mode .tss-message-warning .tss-message-text,
+body.tss-theme-retroos.tss-dark-mode .tss-message-error .tss-message-text {
+    color: rgb(var(--tss-default-foreground-color-root));
+}

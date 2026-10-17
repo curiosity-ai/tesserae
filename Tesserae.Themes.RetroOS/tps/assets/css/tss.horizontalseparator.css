@@ -1,1 +1,23 @@
-/* RetroOS - horizontalseparator */
+/* ==========================================================================
+   RetroOS theme - HorizontalSeparator
+   --------------------------------------------------------------------------
+   The Mac's separator is a dotted line: a menu draws it that way and so does
+   a dialog's group break. The label (Chicago) sits in the gap between the
+   two dotted runs.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-horizontalseparator-container {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+}
+
+body.tss-theme-retroos .tss-horizontalseparator-container::before,
+body.tss-theme-retroos .tss-horizontalseparator-container::after {
+    height: 1px;
+    background: repeating-linear-gradient(to right, rgb(var(--tss-default-foreground-color-root)) 0 1px, transparent 1px 2px);
+}
+
+body.tss-theme-retroos .tss-horizontalseparator,
+body.tss-theme-retroos .tss-horizontalseparator.tss-primary {
+    color: rgb(var(--tss-default-foreground-color-root));
+}

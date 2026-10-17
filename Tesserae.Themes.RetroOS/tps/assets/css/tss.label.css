@@ -1,1 +1,18 @@
-/* RetroOS - label */
+/* ==========================================================================
+   RetroOS theme - Label
+   --------------------------------------------------------------------------
+   A field label is a dialog caption: Chicago, in ink, no weight games. The
+   control it names stays where the base puts it; only the type changes.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-label > label {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* A disabled field's caption is the one grey. */
+body.tss-theme-retroos .tss-label.tss-disabled > label {
+    color: var(--tss-retro-gray);
+}

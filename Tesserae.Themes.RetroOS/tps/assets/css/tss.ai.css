@@ -1,1 +1,159 @@
-/* RetroOS - ai */
+/* ==========================================================================
+   RetroOS theme - AI variants
+   --------------------------------------------------------------------------
+   Tesserae marks anything generated with a purple-to-blue gradient. The Mac
+   had one bit, so the mark is a shape instead: every --tss-ai-* token is
+   redefined as ink and paper, which turns a filled AI control into the
+   inverted one (ink, paper text) and a quiet AI surface into a paper box
+   with a heavy left edge and the hard window shadow. The Sparkles glyph still
+   says what the colour used to. The tokens follow the mode on their own.
+   ========================================================================== */
+
+body.tss-theme-retroos {
+    --tss-ai-from: rgb(var(--tss-default-foreground-color-root));
+    --tss-ai-to: rgb(var(--tss-default-foreground-color-root));
+    --tss-ai-accent: rgb(var(--tss-default-foreground-color-root));
+    --tss-ai-gradient: linear-gradient(rgb(var(--tss-default-foreground-color-root)), rgb(var(--tss-default-foreground-color-root)));
+    --tss-ai-gradient-hover: linear-gradient(rgb(var(--tss-default-foreground-color-root)), rgb(var(--tss-default-foreground-color-root)));
+    --tss-ai-gradient-text: linear-gradient(rgb(var(--tss-default-foreground-color-root)), rgb(var(--tss-default-foreground-color-root)));
+    --tss-ai-surface: linear-gradient(rgb(var(--tss-default-background-color-root)), rgb(var(--tss-default-background-color-root)));
+    --tss-ai-surface-strong: linear-gradient(rgb(var(--tss-default-background-color-root)), rgb(var(--tss-default-background-color-root)));
+    --tss-ai-border-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-ai-shadow: var(--tss-retro-shadow);
+    --tss-ai-shadow-hover: var(--tss-retro-shadow);
+    --tss-ai-arc: conic-gradient(rgb(var(--tss-default-foreground-color-root)) 0 270deg, transparent 0);
+    --tss-ai-on-fill: rgb(var(--tss-default-background-color-root));
+}
+
+/* Text and glyphs: plain ink (the clip-to-text gradient is a solid), the glyph is the mark. */
+body.tss-theme-retroos .tss-textblock.tss-ai-surface {
+    border-radius: 0;
+    border-width: 1px 1px 1px 4px;
+    box-shadow: var(--tss-retro-shadow-sm);
+}
+
+/* The AI button is the filled one: reverse video, and it keeps its edge. */
+body.tss-theme-retroos .tss-btn.tss-ai:not(.tss-disabled),
+body.tss-theme-retroos .tss-btn.tss-ai:not(.tss-disabled):hover {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    background-image: none;
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    box-shadow: none;
+    filter: none;
+}
+
+body.tss-theme-retroos .tss-btn.tss-ai:not(.tss-disabled):active {
+    background-color: rgb(var(--tss-default-background-color-root));
+    background-image: none;
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+    filter: none;
+}
+
+body.tss-theme-retroos .tss-btn.tss-ai:not(.tss-disabled):active .tss-fontcolor-default,
+body.tss-theme-retroos .tss-btn.tss-ai:not(.tss-disabled):active > i {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The subtle one: a plain push button with a dashed edge. */
+body.tss-theme-retroos .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled),
+body.tss-theme-retroos .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):hover {
+    background-color: rgb(var(--tss-default-background-color-root));
+    background-image: none;
+    border: 1px dashed rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-retroos .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled) > i {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):active {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):active .tss-fontcolor-default,
+body.tss-theme-retroos .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):active > i {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* An AI card: the window with a dashed frame. */
+body.tss-theme-retroos .tss-card-container.tss-ai > .tss-card:not(.tss-has-layout) {
+    background: rgb(var(--tss-default-background-color-root));
+    border: 1px dashed rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow);
+}
+
+body.tss-theme-retroos .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-content {
+    background: rgb(var(--tss-default-background-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    border-style: dashed;
+}
+
+body.tss-theme-retroos .tss-card-container.tss-ai > .tss-card.tss-has-layout {
+    filter: none;
+}
+
+body.tss-theme-retroos .tss-inlinelabel.tss-ai {
+    background: rgb(var(--tss-default-background-color-root));
+    border: 1px dashed rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-token.tss-token-ai {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-token.tss-token-ai.tss-token-outline {
+    background: rgb(var(--tss-default-background-color-root));
+    border: 1px dashed rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-token.tss-token-ai.tss-token-outline .tss-token-icon,
+body.tss-theme-retroos .tss-token.tss-token-ai.tss-token-outline .tss-token-remove {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Waiting on a model: the same stepped ring and dither track as every other wait. */
+body.tss-theme-retroos .tss-spinner.tss-ai.tss-spinner-progress {
+    background: conic-gradient(rgb(var(--tss-default-foreground-color-root)) calc(var(--tss-spinner-progress, 0) * 1%), transparent 0), var(--tss-retro-dither);
+}
+
+body.tss-theme-retroos .tss-skeleton.tss-ai {
+    background: var(--tss-retro-dither);
+}
+
+body.tss-theme-retroos .tss-inlinelabel.tss-ai .tss-inlinelabel-skeleton {
+    background: var(--tss-retro-dither);
+}
+
+/* Segmented controls and icon toggles: the selected one is the inverted one, the pointer underlines. */
+body.tss-theme-retroos .tss-icon-toggle.tss-ai,
+body.tss-theme-retroos .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-retroos .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar {
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):active,
+body.tss-theme-retroos .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab:hover,
+body.tss-theme-retroos .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab:active {
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+body.tss-theme-retroos .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-retroos .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-retroos .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    box-shadow: none;
+}

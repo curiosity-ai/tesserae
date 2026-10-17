@@ -1,1 +1,53 @@
-/* RetroOS - inlinepagination */
+/* ==========================================================================
+   RetroOS theme - InlinePagination
+   --------------------------------------------------------------------------
+   The "< 3 of 7 >" control: a single rounded Mac button holding two arrow
+   cells and the label, ink edge, paper inside. Pressing an arrow inverts that
+   cell; a disabled arrow is the grey, not faded.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-inlinepagination {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    overflow: hidden;
+    padding: 0;
+}
+
+body.tss-theme-retroos .tss-inlinepagination-button {
+    border-radius: 0;
+    width: 26px;
+    height: 26px;
+    font-size: 13px;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-inlinepagination-button:hover:not(:disabled) {
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-inlinepagination-button:active:not(:disabled) {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-inlinepagination-button:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: -3px;
+}
+
+body.tss-theme-retroos .tss-inlinepagination-button:disabled {
+    opacity: 1;
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-inlinepagination-label {
+    font-size: 16px;
+    line-height: 24px;
+    padding: 0 8px;
+    border-left: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-right: 1px solid rgb(var(--tss-default-foreground-color-root));
+}

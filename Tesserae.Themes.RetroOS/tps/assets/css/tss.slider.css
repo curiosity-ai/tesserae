@@ -1,1 +1,130 @@
-/* RetroOS - slider */
+/* ==========================================================================
+   RetroOS theme - Slider
+   --------------------------------------------------------------------------
+   Drawn like the System 6 scroll bar: the track is a 1px ink frame filled with
+   the 50% dither, the part up to the value is solid ink, and the knob is a
+   square of paper with a 1px ink edge and a one-pixel drop shadow. Pressing
+   the knob fills it with ink. Hover changes nothing (the Mac had no hover).
+   Disabled is the one grey. Tesserae paints the fill from --tss-slider-color
+   and the rest from --tss-slider-active-color, so the parts are set directly.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-slider-fake-background,
+body.tss-theme-retroos .tss-slider-container input:hover ~ .tss-slider-fake-background {
+    box-sizing: border-box;
+    top: 4px;
+    height: 8px;
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: var(--tss-retro-dither);
+}
+
+body.tss-theme-retroos .tss-slider-fake-progress,
+body.tss-theme-retroos .tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    box-sizing: border-box;
+    top: 4px;
+    height: 8px;
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-slider-container.tss-vertical .tss-slider-fake-background,
+body.tss-theme-retroos .tss-slider-container.tss-vertical .tss-slider-fake-progress {
+    top: auto;
+    left: 8px;
+    width: 8px;
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-slider-container.tss-vertical .tss-slider-fake-background {
+    top: 0;
+    height: 100%;
+}
+
+body.tss-theme-retroos .tss-slider-container input.tss-disabled ~ .tss-slider-fake-background,
+body.tss-theme-retroos .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-background {
+    border-color: var(--tss-retro-gray);
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress,
+body.tss-theme-retroos .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-progress {
+    border-color: var(--tss-retro-gray);
+    background-color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-slider,
+body.tss-theme-retroos .tss-slider:hover,
+body.tss-theme-retroos .tss-slider.tss-disabled {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-slider.tss-fake,
+body.tss-theme-retroos .tss-slider.tss-fake:hover,
+body.tss-theme-retroos .tss-slider.tss-fake:disabled {
+    background-color: transparent;
+}
+
+/* The knob. */
+body.tss-theme-retroos .tss-slider::-webkit-slider-thumb,
+body.tss-theme-retroos .tss-slider:hover::-webkit-slider-thumb,
+body.tss-theme-retroos .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb {
+    box-sizing: border-box;
+    width: 16px;
+    height: 16px;
+    border-radius: 0;
+    background-color: rgb(var(--tss-default-background-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow-sm);
+}
+
+body.tss-theme-retroos .tss-slider::-moz-range-thumb,
+body.tss-theme-retroos .tss-slider:hover::-moz-range-thumb,
+body.tss-theme-retroos .tss-slider-container.tss-vertical .tss-slider::-moz-range-thumb {
+    box-sizing: border-box;
+    width: 16px;
+    height: 16px;
+    border-radius: 0;
+    background-color: rgb(var(--tss-default-background-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow-sm);
+}
+
+body.tss-theme-retroos .tss-slider::-moz-range-progress,
+body.tss-theme-retroos .tss-slider:hover::-moz-range-progress {
+    height: 8px;
+    border-radius: 0;
+    background-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Pressed: the knob fills with ink. */
+body.tss-theme-retroos .tss-slider:not(.tss-disabled):active::-webkit-slider-thumb {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-slider:not(.tss-disabled):active::-moz-range-thumb {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-slider:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+}
+
+body.tss-theme-retroos .tss-slider:focus-visible::-moz-range-thumb {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+}
+
+body.tss-theme-retroos .tss-slider.tss-disabled::-webkit-slider-thumb,
+body.tss-theme-retroos .tss-slider.tss-disabled:hover::-webkit-slider-thumb {
+    border-color: var(--tss-retro-gray);
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-slider.tss-disabled::-moz-range-thumb,
+body.tss-theme-retroos .tss-slider.tss-disabled:hover::-moz-range-thumb {
+    border-color: var(--tss-retro-gray);
+    box-shadow: none;
+}

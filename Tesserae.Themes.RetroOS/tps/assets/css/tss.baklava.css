@@ -1,1 +1,218 @@
-/* RetroOS - baklava */
+/* ==========================================================================
+   RetroOS theme - Baklava controls and nodes
+   --------------------------------------------------------------------------
+   A node is a small window: 1px ink frame, the hard shadow, a pinstriped
+   title bar. A selected node gets the 2px edge instead of a tint, and a node
+   being dragged lifts its shadow to 4px. Its controls are the Mac's: framed
+   paper fields with square corners, buttons that invert when pressed, a
+   checkbox that is an empty square with an X, a slider filled in ink, menus
+   that are paper windows whose highlighted row is reverse video.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-nodeview .baklava-editor {
+    font-family: var(--tss-sansserif-font-family);
+    font-size: 13px;
+}
+
+/* The canvas: a quiet 25% dither under a sparse grid would be noisy, so just the 1px grid rules. */
+body.tss-theme-retroos .tss-nodeview .baklava-editor .background {
+    background-image: radial-gradient(rgb(var(--tss-default-foreground-color-root)) 0 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-position: 0 0;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow);
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node:hover {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node.--selected {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node.--dragging {
+    box-shadow: 4px 4px 0 0 rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node > .__title {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    padding: 1px 6px;
+    border-radius: 0;
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: var(--tss-retro-stripes);
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    justify-content: center;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node > .__title > .__title-label {
+    flex-grow: 0;
+    padding: 0 6px;
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node > .__title > *:first-child {
+    flex-grow: 0;
+}
+
+/* A group node's title is reverse video, which marks it as different without a hue. */
+body.tss-theme-retroos .tss-nodeview .baklava-node[data-node-type^=__baklava_] > .__title {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node[data-node-type^=__baklava_] > .__title > .__title-label {
+    background: transparent;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node .__resize-handle::after {
+    border-radius: 0;
+}
+
+/* Ports are square dots. */
+body.tss-theme-retroos .tss-nodeview .baklava-node-interface .__port {
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node-interface .__port.--selected {
+    background: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node-interface .__tooltip {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow-sm);
+}
+
+/* Connections: a 2px wire; a forbidden one is dotted, a temporary one dashed. */
+body.tss-theme-retroos .tss-nodeview .baklava-connection {
+    stroke-width: 2px;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-connection.--forbidden {
+    stroke-dasharray: 2 4;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-connection.--temporary {
+    animation: none;
+}
+
+/* Controls. */
+body.tss-theme-retroos .tss-nodeview .baklava-button,
+body.tss-theme-retroos .tss-nodeview .baklava-input,
+body.tss-theme-retroos .tss-nodeview .baklava-select > .__selected {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-button {
+    border-radius: 8px;
+    font-family: var(--tss-retro-chicago);
+    font-size: 15px;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-button:hover,
+body.tss-theme-retroos .tss-nodeview .baklava-input:hover,
+body.tss-theme-retroos .tss-nodeview .baklava-select > .__selected:hover {
+    background-color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-button:active {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-input:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-input.--invalid {
+    box-shadow: none;
+    border-style: dashed;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-checkbox .__checkmark-container {
+    background-color: rgb(var(--tss-default-background-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-sizing: border-box;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-checkbox.--checked .__checkmark-container {
+    background-color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-checkbox .__checkmark {
+    stroke: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-slider > .__slider {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Where the slider's fill sits behind the value, the text over the fill is paper. */
+body.tss-theme-retroos .tss-nodeview .baklava-slider {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    mix-blend-mode: normal;
+}
+
+/* Menus and dropdowns: paper windows with the hard shadow; the highlighted row is reverse video. */
+body.tss-theme-retroos .tss-nodeview .baklava-context-menu,
+body.tss-theme-retroos .tss-nodeview .baklava-select > .__dropdown {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow);
+    filter: none;
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-context-menu > .item,
+body.tss-theme-retroos .tss-nodeview .baklava-select > .__dropdown > .item {
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-context-menu > .item:not(.--header):not(.--active):not(.--disabled):hover,
+body.tss-theme-retroos .tss-nodeview .baklava-context-menu > .item.--active,
+body.tss-theme-retroos .tss-nodeview .baklava-select > .__dropdown > .item:not(.--header):not(.--active):hover,
+body.tss-theme-retroos .tss-nodeview .baklava-select > .__dropdown > .item.--active {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-context-menu > .item.--disabled,
+body.tss-theme-retroos .tss-nodeview .baklava-select > .__dropdown > .item.--header {
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-context-menu > .divider {
+    background: repeating-linear-gradient(to right, rgb(var(--tss-default-foreground-color-root)) 0 1px, transparent 1px 2px);
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-icon.--clickable:hover {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The sidebar is a window docked to the edge. */
+body.tss-theme-retroos .tss-nodeview .baklava-sidebar {
+    border-left: 1px solid rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-sidebar.--open {
+    box-shadow: none;
+}

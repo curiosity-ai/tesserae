@@ -1,1 +1,83 @@
-/* RetroOS - diagram */
+/* ==========================================================================
+   RetroOS theme - Diagram
+   --------------------------------------------------------------------------
+   A MacDraw page: a paper canvas under a sparse dot grid, nodes as framed
+   rectangles with a hard shadow (a rounded rectangle for the default, as
+   MacDraw's tool palette drew it), wires in 1px ink. Variants are told apart
+   by line, not colour: primary inverts, secondary is dashed, success is
+   double-framed, danger a thick frame. Dragging a node lifts its shadow.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-diagram {
+    --tss-diagram-dot-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-diagram-line-color: rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background-color: rgb(var(--tss-default-background-color-root));
+    background-image: radial-gradient(circle, rgb(var(--tss-default-foreground-color-root)) 0 0.5px, transparent 0.5px);
+    background-size: 12px 12px;
+}
+
+body.tss-theme-retroos .tss-diagram.tss-diagram-no-dots {
+    background-image: none;
+}
+
+body.tss-theme-retroos .tss-diagram-node {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    box-shadow: var(--tss-retro-shadow-sm);
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: 400;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-diagram-node.tss-diagram-node-icon-only,
+body.tss-theme-retroos .tss-diagram-node .tss-diagram-node-image {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-diagram-node:hover {
+    box-shadow: var(--tss-retro-shadow-sm);
+}
+
+body.tss-theme-retroos .tss-diagram-node:active {
+    transform: none;
+}
+
+body.tss-theme-retroos .tss-diagram-node.tss-diagram-node-dragging {
+    transform: none;
+    box-shadow: var(--tss-retro-shadow);
+}
+
+body.tss-theme-retroos .tss-diagram-node-default,
+body.tss-theme-retroos .tss-diagram-node-secondary,
+body.tss-theme-retroos .tss-diagram-node-success,
+body.tss-theme-retroos .tss-diagram-node-danger {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-diagram-node-primary {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-diagram-node-primary i,
+body.tss-theme-retroos .tss-diagram-node-primary .tss-fontcolor-default {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-diagram-node-secondary {
+    border-style: dashed;
+}
+
+body.tss-theme-retroos .tss-diagram-node-success {
+    border-style: double;
+    border-width: 3px;
+}
+
+body.tss-theme-retroos .tss-diagram-node-danger {
+    border-width: 2px;
+}

@@ -1,1 +1,194 @@
-/* RetroOS - omniresult */
+/* ==========================================================================
+   RetroOS theme - OmniResult
+   --------------------------------------------------------------------------
+   A result row is a Finder list row: square, ruled with a dotted line, and it
+   inverts (ink, paper text, icons following) when pointed at, active, menu-open
+   or selected. What matched is underlined, not coloured; a badge naming the match
+   is a small outlined tag. A visited row is slanted, not purple. The
+   "viewed" pulse and every fade are gone: a state changes in one frame. The
+   modal that opens a result is a plain Mac window (the Modal file draws the
+   title bar); here only its buttons and edges are set.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-omniresult {
+    border-radius: 0;
+    border-bottom: 1px dotted rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-omniresult:hover,
+body.tss-theme-retroos .tss-omniresult.tss-omniresult-active,
+body.tss-theme-retroos .tss-omniresult.tss-omniresult-menu-open,
+body.tss-theme-retroos .tss-omniresult.tss-omniresult-selected {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* Everything in an inverted row follows it. */
+body.tss-theme-retroos .tss-omniresult:hover *,
+body.tss-theme-retroos .tss-omniresult.tss-omniresult-active *,
+body.tss-theme-retroos .tss-omniresult.tss-omniresult-menu-open *,
+body.tss-theme-retroos .tss-omniresult.tss-omniresult-selected * {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-omniresult:focus-visible {
+    box-shadow: inset 0 0 0 2px rgb(var(--tss-default-foreground-color-root));
+    outline: none;
+}
+
+body.tss-theme-retroos .tss-omniresult.tss-omniresult-selected:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-omniresult-select {
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-omniresult-icon-badge img,
+body.tss-theme-retroos .tss-omniresult-icon-badge svg {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-omniresult-title {
+    font-family: var(--tss-retro-chicago);
+    font-size: 17px;
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-omniresult-body {
+    color: inherit;
+}
+
+/* Visited: slanted. */
+body.tss-theme-retroos .tss-omniresult-viewed .tss-omniresult-title,
+body.tss-theme-retroos .tss-omniresult-viewed .tss-omniresult-id-value,
+body.tss-theme-retroos .tss-omniresult-viewed .tss-omniresult-id-chevron,
+body.tss-theme-retroos.tss-dark-mode .tss-omniresult-viewed .tss-omniresult-title,
+body.tss-theme-retroos.tss-dark-mode .tss-omniresult-viewed .tss-omniresult-id-value,
+body.tss-theme-retroos.tss-dark-mode .tss-omniresult-viewed .tss-omniresult-id-chevron {
+    color: inherit;
+    font-style: italic;
+}
+
+body.tss-theme-retroos .tss-omniresult-viewed-flash,
+body.tss-theme-retroos .tss-omniresult-viewed-flash::after {
+    animation: none;
+}
+
+body.tss-theme-retroos .tss-omniresult-viewed-flash::after {
+    display: none;
+}
+
+/* What matched. */
+body.tss-theme-retroos .tss-omniresult-badge-pill,
+body.tss-theme-retroos.tss-dark-mode .tss-omniresult-badge-pill {
+    background: transparent;
+    color: inherit;
+    border: 1px solid currentColor;
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-omniresult-highlight,
+body.tss-theme-retroos.tss-dark-mode .tss-omniresult-highlight {
+    background: transparent;
+    color: inherit;
+    border-radius: 0;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
+
+body.tss-theme-retroos .tss-omniresult-source .tss-inlinelabel-mark-color {
+    border-radius: 0;
+    outline: 1px solid currentColor;
+}
+
+body.tss-theme-retroos .tss-omniresult-footer-more-glyph {
+    border-radius: 0;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-omniresult-footer-more:hover .tss-omniresult-footer-more-glyph,
+body.tss-theme-retroos .tss-omniresult-footer-more:focus-visible .tss-omniresult-footer-more-glyph,
+body.tss-theme-retroos .tss-omniresult-footer-more[aria-expanded="true"] .tss-omniresult-footer-more-glyph {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-omniresult-footer-more:focus-visible .tss-omniresult-footer-more-glyph {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tippy-box > .tippy-content > .tss-omniresult-footer.tss-omniresult-footer-popup {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow);
+}
+
+body.tss-theme-retroos .tss-omniresult-menu-button {
+    border-radius: 0;
+    color: inherit;
+}
+
+/* The modal. */
+body.tss-theme-retroos .tss-modal.tss-omniresult-modal {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-modal.tss-omniresult-modal > .tss-modal-header {
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-modal.tss-omniresult-modal > .tss-modal-footer:has(.tss-omniresult-modal-shortcuts) {
+    border-top: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-omniresult-modal-button {
+    border-radius: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-omniresult-modal-button:hover:not(:disabled) {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-omniresult-modal-button:disabled {
+    opacity: 1;
+    color: var(--tss-retro-gray);
+}
+
+/* "Open in ...": a push button with a split arrow. */
+body.tss-theme-retroos .tss-omniresult-modal-open {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-omniresult-modal-open-primary,
+body.tss-theme-retroos .tss-omniresult-modal-open-more {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-retroos .tss-omniresult-modal-open-more {
+    border-left: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-omniresult-modal-open-primary:hover,
+body.tss-theme-retroos .tss-omniresult-modal-open-more:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* The source's square of colour is an app colour: drawn in grey, outlined in the row's ink. */
+body.tss-theme-retroos .tss-omniresult-source .tss-inlinelabel-mark-color {
+    filter: grayscale(1);
+}

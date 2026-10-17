@@ -1,1 +1,146 @@
-/* RetroOS - badge */
+/* ==========================================================================
+   RetroOS theme - Badge, Tag, Chip
+   --------------------------------------------------------------------------
+   A badge is a small label in Chicago. Tones cannot be hues, so they are
+   shapes: the plain badge is bare text in a hairline frame, Primary is an
+   inverted block (ink with paper text), Success has a double edge, Warning a
+   dashed one, Danger a dotted heavy one with a bold face, Info is plain ink
+   with the rounded corner. A chip is a rounded rectangle, a pill the
+   full-radius one; outline variants are the frame with no fill. A tinted
+   badge forgets its tint: any colour is paper and ink here.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-token {
+    font-family: var(--tss-retro-chicago);
+    font-size: 15px;
+    font-weight: var(--tss-font-weight-regular);
+    line-height: 1.1;
+    padding: 1px 6px;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-chip {
+    border-radius: 8px;
+}
+
+body.tss-theme-retroos .tss-token-pill {
+    border-radius: 9999px;
+    padding-left: 9px;
+    padding-right: 9px;
+}
+
+body.tss-theme-retroos .tss-token-outline,
+body.tss-theme-retroos .tss-tag {
+    background: rgb(var(--tss-default-background-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Tones are shapes. Primary: reverse video. */
+body.tss-theme-retroos .tss-token-primary {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* Success: a double edge. */
+body.tss-theme-retroos .tss-token-success {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-style: double;
+    border-width: 3px;
+    padding: 0 4px;
+}
+
+/* Warning: a dashed edge. */
+body.tss-theme-retroos .tss-token-warning {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-style: dashed;
+}
+
+/* Danger: a heavy edge, in bold. */
+body.tss-theme-retroos .tss-token-danger {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-width: 2px;
+    font-weight: var(--tss-font-weight-bold);
+    padding: 0 5px;
+}
+
+/* Info: the rounded one. */
+body.tss-theme-retroos .tss-token-info {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-radius: 6px;
+}
+
+/* An outline tone keeps its shape and loses its fill. */
+body.tss-theme-retroos .tss-token-outline.tss-token-primary,
+body.tss-theme-retroos .tss-token-outline.tss-token-success,
+body.tss-theme-retroos .tss-token-outline.tss-token-warning,
+body.tss-theme-retroos .tss-token-outline.tss-token-danger,
+body.tss-theme-retroos .tss-token-outline.tss-token-info {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Primary and its outline: the outline is the plain frame, so only the filled one inverts. */
+body.tss-theme-retroos .tss-token-primary:not(.tss-token-outline) .tss-token-icon,
+body.tss-theme-retroos .tss-token-primary:not(.tss-token-outline) .tss-token-remove {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* A tint is a colour; there is none to wear. */
+body.tss-theme-retroos .tss-token-tinted {
+    background: rgb(var(--tss-default-background-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-retroos .tss-token i,
+body.tss-theme-retroos .tss-token-icon {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-token-remove:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-token-primary:not(.tss-token-outline) .tss-token-remove:hover {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The AI tone is a model's mark: reverse video with a dotted line drawn inside the edge, in place of
+   the purple-to-blue gradient; its outline form is the dashed frame on paper. */
+body.tss-theme-retroos .tss-token.tss-token-ai {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    outline: 1px dotted rgb(var(--tss-default-background-color-root));
+    outline-offset: -3px;
+}
+
+body.tss-theme-retroos .tss-token.tss-token-ai .tss-token-icon,
+body.tss-theme-retroos .tss-token.tss-token-ai .tss-token-remove {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-token.tss-token-ai.tss-token-outline {
+    background: rgb(var(--tss-default-background-color-root));
+    border-style: dashed;
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    outline: none;
+}
+
+body.tss-theme-retroos .tss-token.tss-token-ai.tss-token-outline .tss-token-icon,
+body.tss-theme-retroos .tss-token.tss-token-ai.tss-token-outline .tss-token-remove {
+    color: rgb(var(--tss-default-foreground-color-root));
+}

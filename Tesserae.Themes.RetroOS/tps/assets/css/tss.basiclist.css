@@ -1,1 +1,8 @@
-/* RetroOS - basiclist */
+/* ==========================================================================
+   RetroOS theme - BasicList
+   --------------------------------------------------------------------------
+   A basic list is only a scrolling, virtualised column of whatever rows it is
+   given: it draws no edge, ground or row state of its own, so the rows bring
+   the Finder look (inverted selection and so on) and the scrollbar is the
+   System 6 bar from tss.common.css. Nothing to restate.
+   ========================================================================== */

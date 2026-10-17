@@ -1,1 +1,225 @@
-/* RetroOS - toolcall */
+/* ==========================================================================
+   RetroOS theme - Tool call
+   --------------------------------------------------------------------------
+   A tool call is a collapsed Finder disclosure: a framed row with a small
+   inverted icon square, the call's name in the mono face, and a chevron. The
+   pointer inverts the header like a highlighted menu row. The summary chip
+   ("Ran 4 commands") is a rounded rectangle, a push button's shape. The
+   response is a framed paper well in Monaco; errors are told by their label.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-toolcall {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-toolcall > .tss-toolcall-header,
+body.tss-theme-retroos .tss-toolcall.tss-expanded > .tss-toolcall-header,
+body.tss-theme-retroos .tss-toolcall > .tss-toolcall-content {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-toolcall-header,
+body.tss-theme-retroos .tss-toolsused-header {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-toolcall-header:hover,
+body.tss-theme-retroos .tss-toolsused-header:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-toolcall-header.tss-toolcall-not-expandable:hover {
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-toolcall-header:hover .tss-toolcall-chevron,
+body.tss-theme-retroos .tss-toolsused-header:hover .tss-toolsused-chevron,
+body.tss-theme-retroos .tss-toolcall-header:hover .tss-fontcolor-default,
+body.tss-theme-retroos .tss-toolsused-header:hover .tss-fontcolor-default {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-toolcall-header.tss-toolcall-not-expandable:hover .tss-toolcall-chevron,
+body.tss-theme-retroos .tss-toolcall-header.tss-toolcall-not-expandable:hover .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-toolcall-icon,
+body.tss-theme-retroos .tss-toolsused-icon,
+body.tss-theme-retroos .tss-toolsused-list-icon,
+body.tss-theme-retroos .tss-toolsused-modal-detail-icon {
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* On an inverted header the icon square flips back so it stays a visible block. */
+body.tss-theme-retroos .tss-toolcall-header:not(.tss-toolcall-not-expandable):hover .tss-toolcall-icon,
+body.tss-theme-retroos .tss-toolsused-header:hover .tss-toolsused-icon,
+body.tss-theme-retroos .tss-toolsused-list-row:hover .tss-toolsused-list-icon {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-toolcall-icon i,
+body.tss-theme-retroos .tss-toolsused-icon i {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-toolcall-chevron,
+body.tss-theme-retroos .tss-toolsused-chevron,
+body.tss-theme-retroos .tss-toolsused-list-chevron {
+    color: inherit;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-toolsused-inline .tss-toolsused-chevron {
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-toolcall-text {
+    font-size: 15px;
+}
+
+body.tss-theme-retroos .tss-toolsused-header {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    background: rgb(var(--tss-default-background-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+}
+
+body.tss-theme-retroos .tss-toolsused-text {
+    font-weight: 400;
+}
+
+body.tss-theme-retroos .tss-toolcall-actions,
+body.tss-theme-retroos .tss-toolsused-actions {
+    opacity: 1;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-toolcall-action {
+    border-radius: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-toolcall-action:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-toolcall-secondary-action {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 6px;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 14px;
+}
+
+body.tss-theme-retroos .tss-toolcall-secondary-action:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-toolcall-content {
+    border-top: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-toolcall.tss-expanded .tss-toolcall-chevron {
+    transform: rotate(180deg);
+}
+
+body.tss-theme-retroos .tss-toolsused-inline-list {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-toolsused-inline-list > .tss-toolcall + .tss-toolcall {
+    border-top: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-toolsused-back {
+    border-radius: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-toolsused-back:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-toolsused-modal-slider {
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-toolsused-modal-title,
+body.tss-theme-retroos .tss-toolsused-modal-detail-title {
+    font-family: var(--tss-retro-chicago);
+    font-weight: 400;
+    font-size: 17px;
+}
+
+body.tss-theme-retroos .tss-toolsused-list-row {
+    border-bottom: 1px dotted rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-toolsused-list-row:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-toolsused-list-row:hover .tss-toolsused-list-text {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-toolsused-list-text {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 15px;
+}
+
+body.tss-theme-retroos .tss-toolsused-empty,
+body.tss-theme-retroos .tss-toolcallinspect-empty {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-style: normal;
+}
+
+body.tss-theme-retroos .tss-toolcallinspect-label,
+body.tss-theme-retroos .tss-toolcallinspect-label-error {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
+}
+
+body.tss-theme-retroos .tss-toolcallinspect-label-error {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    align-self: flex-start;
+    padding: 0 4px;
+}
+
+body.tss-theme-retroos .tss-toolcallinspect-error {
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 2px solid rgb(var(--tss-default-foreground-color-root));
+    padding: 4px 6px;
+}
+
+body.tss-theme-retroos .tss-toolcallinspect-name {
+    font-weight: 400;
+    font-family: var(--tss-retro-chicago);
+}
+
+body.tss-theme-retroos .tss-toolcallinspect-response {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    font-size: 15px;
+}

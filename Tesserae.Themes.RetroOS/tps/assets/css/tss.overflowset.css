@@ -1,1 +1,30 @@
-/* RetroOS - overflowset */
+/* ==========================================================================
+   RetroOS theme - Overflow Set
+   --------------------------------------------------------------------------
+   A row of menu-bar titles with the overflow arrow at the end. The buttons
+   are ghost buttons (tss.button.css); here they are square, like menu-bar
+   titles, so the inverted one under the pointer is a plain block. The
+   separators are ink; disabled titles are the one grey.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-overflowset {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-overflowset .tss-btn {
+    border-radius: 0;
+    margin: 0;
+}
+
+body.tss-theme-retroos .tss-overflowset-separator {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+}
+
+body.tss-theme-retroos .tss-overflowset .tss-btn.tss-disabled {
+    color: var(--tss-retro-gray) !important;
+}
+
+body.tss-theme-retroos .tss-overflowset-opencolapsed {
+    color: rgb(var(--tss-default-foreground-color-root));
+}

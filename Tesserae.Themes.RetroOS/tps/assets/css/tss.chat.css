@@ -1,1 +1,73 @@
-/* RetroOS - chat */
+/* ==========================================================================
+   RetroOS theme - Chat
+   --------------------------------------------------------------------------
+   Speech balloons, as in MacPaint's text bubbles and Balloon Help: a rounded
+   1px-framed paper bubble for the other side, and the same bubble inverted
+   (ink, paper text) for the person typing. The transcript sits on plain
+   paper. The remove button is a small inverted square at the bubble's corner.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-chatarea {
+    background-color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-chatarea-scrollbtn {
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow-sm);
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-chatmessage-bubble {
+    color: rgb(var(--tss-default-foreground-color-root));
+    padding: 6px 12px;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 12px;
+    background-color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-chat-right .tss-chatmessage-bubble {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    border-radius: 12px;
+    padding: 6px 12px;
+}
+
+body.tss-theme-retroos .tss-chat-right .tss-chatmessage-bubble * {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-chat-right .tss-chatmessage-bubble .tss-chatmessage-remove,
+body.tss-theme-retroos .tss-chat-right .tss-chatmessage-bubble .tss-chatmessage-remove * {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-chatmessage-references,
+body.tss-theme-retroos .tss-chat-right .tss-chatmessage-references {
+    border-top: 1px dotted currentColor;
+}
+
+body.tss-theme-retroos .tss-chatmessage-commands {
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-chatmessage-remove,
+body.tss-theme-retroos.tss-dark-mode .tss-chatmessage-remove {
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-chatmessage-remove:hover,
+body.tss-theme-retroos.tss-dark-mode .tss-chatmessage-remove:hover,
+body.tss-theme-retroos .tss-chatmessage-remove:active,
+body.tss-theme-retroos.tss-dark-mode .tss-chatmessage-remove:active {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-chat-right .tss-chatmessage-bubble .tss-chatmessage-remove:hover,
+body.tss-theme-retroos .tss-chat-right .tss-chatmessage-bubble .tss-chatmessage-remove:hover * {
+    color: rgb(var(--tss-default-background-color-root));
+}

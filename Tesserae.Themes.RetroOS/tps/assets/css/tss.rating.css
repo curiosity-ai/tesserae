@@ -1,1 +1,33 @@
-/* RetroOS - rating */
+/* ==========================================================================
+   RetroOS theme - Rating
+   --------------------------------------------------------------------------
+   A star is the meaning, so stars stay stars: one given is solid ink, one not
+   given is an outline (paper with an ink stroke), so the scale reads without a
+   tone. No scaling on hover, no transition: a state changes in one frame.
+   Rating writes its fill inline as var(--tss-rating-color, #f5c518), so the
+   theme sets that variable to ink; an app that sets its own still wins.
+   ========================================================================== */
+
+body.tss-theme-retroos {
+    --tss-rating-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-rating-star {
+    color: rgb(var(--tss-default-background-color-root));
+    -webkit-text-stroke: 1px rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-rating-star.tss-rating-star-filled {
+    -webkit-text-stroke: 1px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-rating-star.tss-rating-star-hover {
+    transform: none;
+}
+
+body.tss-theme-retroos .tss-rating-star:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+    border-radius: 0;
+}

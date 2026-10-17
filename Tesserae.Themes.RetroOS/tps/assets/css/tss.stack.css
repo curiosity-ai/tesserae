@@ -1,1 +1,13 @@
-/* RetroOS - stack */
+/* ==========================================================================
+   RetroOS theme - Stack
+   --------------------------------------------------------------------------
+   A stack is pure layout and draws nothing: it has no edge, no ground, no
+   shadow on the Mac either. Only an invalid stack (a group of fields that
+   failed validation) shows anything, and it does so with a dashed ink edge:
+   colour has no meaning to spend on one bit, a dash does.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-stack.tss-invalid {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    border-style: dashed;
+}

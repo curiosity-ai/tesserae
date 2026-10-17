@@ -1,1 +1,11 @@
-/* RetroOS - pivotselector */
+/* ==========================================================================
+   RetroOS theme - PivotSelector
+   --------------------------------------------------------------------------
+   PivotSelector draws only its content pane (its selector is a Dropdown or
+   a pivot, styled by their own files), so all that is left to say is that the
+   pane is plain paper with no frame of its own.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-pivotselector-content {
+    background: transparent;
+}

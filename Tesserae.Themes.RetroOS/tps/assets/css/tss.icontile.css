@@ -1,1 +1,28 @@
-/* RetroOS - icontile */
+/* ==========================================================================
+   RetroOS theme - IconTile
+   --------------------------------------------------------------------------
+   A tile is a Finder icon well: a square, 1px ink frame, the glyph in ink on
+   paper. A tile's own colour (the host may set any) is a hue the screen has
+   no use for, so the fill and the glyph are restated as paper and ink, in
+   both modes, over the inline custom properties.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-icontile,
+body.tss-theme-retroos.tss-dark-mode .tss-icontile,
+body.tss-theme-retroos .tss-icontile.tss-icontile-plain {
+    --tss-icontile-radius: 0px;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-icontile .tss-icontile-glyph,
+body.tss-theme-retroos .tss-icontile .tss-icontile-text {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-icontile-text {
+    font-family: var(--tss-retro-chicago);
+    font-weight: var(--tss-font-weight-regular);
+}

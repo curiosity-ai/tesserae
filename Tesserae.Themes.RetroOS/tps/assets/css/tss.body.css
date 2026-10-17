@@ -1,1 +1,14 @@
-/* RetroOS - body */
+/* ==========================================================================
+   RetroOS theme - Body
+   --------------------------------------------------------------------------
+   The page is paper with Geneva ink. The body's own colours come from the
+   tokens in tss.common.css; this file only turns off the browser's text
+   smoothing so the pixel fonts stay pixels, and sets the base size the
+   bitmap fonts are drawn for.
+   ========================================================================== */
+
+body.tss-theme-retroos {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    text-rendering: optimizeSpeed;
+}

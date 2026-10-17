@@ -1,1 +1,11 @@
-/* RetroOS - textblock */
+/* ==========================================================================
+   RetroOS theme - TextBlock
+   --------------------------------------------------------------------------
+   Text is Geneva, inherited from the body; a TextBlock restates nothing but
+   the one thing that cannot exist on a 1-bit screen: the glow. A glowing
+   text is drawn plain, because a blur is a grey and the Mac had none.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-text-glow {
+    text-shadow: none;
+}

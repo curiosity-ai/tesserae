@@ -1,1 +1,98 @@
-/* RetroOS - menu */
+/* ==========================================================================
+   RetroOS theme - Menu
+   --------------------------------------------------------------------------
+   The pull-down menu: a paper box in a 1px frame with a hard 2px shadow,
+   square corners, rows in Chicago. The row under the pointer (or the one the
+   keyboard is on, or whose submenu is open) inverts to paper-on-ink, icons
+   and the submenu arrow following. Disabled rows are the one grey. A divider
+   is a dotted line, and a header is an underlined title, never a hue.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-menu {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow);
+    padding: 2px 0;
+    font-family: var(--tss-retro-chicago);
+}
+
+body.tss-theme-retroos .tss-menu-item {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    line-height: 18px;
+    padding: 1px 14px;
+    gap: 8px;
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-menu-item i,
+body.tss-theme-retroos .tss-menu-item .tss-fontcolor-default,
+body.tss-theme-retroos .tss-menu-item .tss-fontcolor-primary {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-menu-item:not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-menu-item:not(.tss-disabled):focus,
+body.tss-theme-retroos .tss-menu-item.tss-menu-item-open {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* Danger, primary and success are not colours here: the row is told apart by its words and icon. */
+body.tss-theme-retroos .tss-menu-item.tss-menu-item-danger:not(.tss-disabled),
+body.tss-theme-retroos .tss-menu-item.tss-menu-item-primary:not(.tss-disabled),
+body.tss-theme-retroos .tss-menu-item.tss-menu-item-success:not(.tss-disabled) {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus,
+body.tss-theme-retroos .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):focus,
+body.tss-theme-retroos .tss-menu-item.tss-menu-item-success:not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-menu-item.tss-menu-item-success:not(.tss-disabled):focus {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-menu-item.tss-disabled {
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-menu-item-submenu-icon {
+    opacity: 1;
+}
+
+body.tss-theme-retroos .tss-menu-header {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    text-transform: none;
+    letter-spacing: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+    text-decoration: underline;
+    padding: 1px 14px;
+}
+
+/* The Mac menu separator: a dotted line the width of the menu. */
+body.tss-theme-retroos .tss-menu-divider {
+    height: 0;
+    background: none;
+    border-top: 1px dotted rgb(var(--tss-default-foreground-color-root));
+    margin: 3px 0;
+}
+
+body.tss-theme-retroos .tss-menu-item i {
+    color: inherit !important;
+}
+
+body.tss-theme-retroos .tss-menu-item .tss-textblock {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    color: inherit;
+}

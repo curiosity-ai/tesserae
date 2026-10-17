@@ -1,1 +1,52 @@
-/* RetroOS - mobile */
+/* ==========================================================================
+   RetroOS theme - Mobile
+   --------------------------------------------------------------------------
+   Applied while the body also carries tss-mobile. The navbar's drawer is a
+   window pulled over the screen: paper, an ink frame and the hard shadow, and
+   it snaps in with no slide. The backdrop behind it is the Mac desktop: the
+   50% checkerboard, never a translucent black. Controls that Tesserae grows
+   for touch keep the push-button shape. The thin scrollbar is a plain ink bar.
+   ========================================================================== */
+
+body.tss-theme-retroos.tss-mobile .tss-navbar .tss-navbar-drawer {
+    transition: none;
+    background: rgb(var(--tss-default-background-color-root));
+    border-right: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos.tss-mobile .tss-navbar .tss-navbar-drawer:not(.tss-collapse) {
+    box-shadow: var(--tss-retro-shadow) !important;
+}
+
+body.tss-theme-retroos .tss-mobile-backdrop {
+    background: var(--tss-retro-dither);
+    transition: none;
+}
+
+body.tss-theme-retroos.tss-mobile .tss-navbar-mobile-header {
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: var(--tss-retro-stripes);
+    background-size: 100% 2px;
+}
+
+body.tss-theme-retroos.tss-mobile .tss-navbar-mobile-header > * {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos.tss-mobile .tss-navbar-mobile-close {
+    border-radius: 0 !important;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos.tss-mobile .tss-navbar-burger {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos.tss-mobile .tss-pagination .tss-btn {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos.tss-mobile ::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+}

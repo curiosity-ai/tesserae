@@ -1,1 +1,98 @@
-/* RetroOS - inlinelabel */
+/* ==========================================================================
+   RetroOS theme - InlineLabel
+   --------------------------------------------------------------------------
+   An inline label is a small push-button-shaped tag: a 1px ink frame on paper,
+   rounded like a button, text in Chicago. When it can be pressed (a link or a
+   handler) pointing at it inverts it, icon and colour swatch included, as a
+   menu row does. A colour mark keeps its own colour (it is the datum) but is
+   framed in ink. Inside an OmniResult footer it is back to plain text and
+   inverts only as an underline-less highlight.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-inlinelabel {
+    font-family: var(--tss-retro-chicago);
+    font-size: 15px;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-inlinelabel-mark-color {
+    border-radius: 0;
+    outline: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-inlinelabel-mark-image img,
+body.tss-theme-retroos .tss-inlinelabel-mark-image svg,
+body.tss-theme-retroos .tss-inlinelabel-image {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-inlinelabel-text-separator {
+    opacity: 1;
+}
+
+body.tss-theme-retroos .tss-inlinelabel-interactive:hover,
+body.tss-theme-retroos .tss-inlinelabel-interactive:focus-visible,
+body.tss-theme-retroos .tss-inlinelabel-interactive:active {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-inlinelabel-interactive:hover .tss-inlinelabel-mark-icon,
+body.tss-theme-retroos .tss-inlinelabel-interactive:hover .tss-inlinelabel-glyph,
+body.tss-theme-retroos .tss-inlinelabel-interactive:focus-visible .tss-inlinelabel-mark-icon,
+body.tss-theme-retroos .tss-inlinelabel-interactive:focus-visible .tss-inlinelabel-glyph {
+    color: rgb(var(--tss-default-background-color-root)) !important;
+}
+
+body.tss-theme-retroos .tss-inlinelabel-interactive:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+}
+
+body.tss-theme-retroos .tss-inlinelabel-mark-icon,
+body.tss-theme-retroos .tss-inlinelabel-glyph {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-inlinelabel-loading {
+    border: none;
+    background: none;
+}
+
+/* In an OmniResult footer: a line of facts again, not a button. */
+body.tss-theme-retroos .tss-omniresult-footer .tss-inlinelabel {
+    font-family: inherit;
+    border: none;
+    border-radius: 0;
+    background: none;
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-omniresult-footer .tss-inlinelabel-mark-icon,
+body.tss-theme-retroos .tss-omniresult-footer .tss-inlinelabel-mark-icon .tss-inlinelabel-glyph {
+    color: inherit !important;
+}
+
+body.tss-theme-retroos .tss-omniresult-footer .tss-inlinelabel-interactive:hover,
+body.tss-theme-retroos .tss-omniresult-footer .tss-inlinelabel-interactive:focus-visible {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* A label that merely runs a handler is a button, not an address: it is underlined only when it is a real link and pointed at. */
+body.tss-theme-retroos .tss-inlinelabel,
+body.tss-theme-retroos .tss-inlinelabel:hover {
+    text-decoration: none;
+}
+
+body.tss-theme-retroos .tss-inlinelabel[href]:hover .tss-inlinelabel-text,
+body.tss-theme-retroos .tss-inlinelabel[href]:focus-visible .tss-inlinelabel-text,
+body.tss-theme-retroos .tss-inlinelabel[href]:hover .tss-inlinelabel-text-head,
+body.tss-theme-retroos .tss-inlinelabel[href]:focus-visible .tss-inlinelabel-text-head,
+body.tss-theme-retroos .tss-inlinelabel[href]:hover .tss-inlinelabel-text-tail,
+body.tss-theme-retroos .tss-inlinelabel[href]:focus-visible .tss-inlinelabel-text-tail {
+    text-decoration: underline;
+}

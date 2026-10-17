@@ -1,1 +1,48 @@
-/* RetroOS - files */
+/* ==========================================================================
+   RetroOS theme - FileSelector and FileDropArea
+   --------------------------------------------------------------------------
+   The selector is a text field plus a push button (both styled in their own
+   files). The drop area is the Mac's marching-ants rectangle, here a 2px dashed
+   ink frame on paper, square. Dragging a file over it inverts the whole area
+   (ink, text in paper): a selected target, as in the Finder. No bounce, no
+   translucent veil: the overlay is a 25% dither.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-filedroparea {
+    border: 2px dashed rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-filedroparea.tss-dropping {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-filedroparea-message,
+body.tss-theme-retroos .tss-filedroparea-icon {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-filedroparea-icon {
+    transition: none;
+    -webkit-text-stroke: 0;
+}
+
+body.tss-theme-retroos .tss-filedroparea.tss-dropping .tss-filedroparea-icon {
+    animation: none;
+    -webkit-animation: none;
+    -webkit-text-stroke: 0;
+}
+
+body.tss-theme-retroos .tss-filedroparea.tss-dropping :is(.tss-btn, .tss-fontcolor-default, .tss-fontcolor-primary, .tss-fontcolor-secondary, i) {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-filedroparea-overlay,
+body.tss-theme-retroos.tss-dark-mode .tss-filedroparea-overlay {
+    background: var(--tss-retro-dither-light);
+    border: 2px dashed rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+}

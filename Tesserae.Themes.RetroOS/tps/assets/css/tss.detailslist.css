@@ -1,1 +1,67 @@
-/* RetroOS - detailslist */
+/* ==========================================================================
+   RetroOS theme - DetailsList
+   --------------------------------------------------------------------------
+   The Finder's "by Name" list view. The column headers are Chicago over a
+   solid 1px rule that stays with the sticky header; a sortable header is
+   pressed (inverted) under the pointer, the sort arrow beside the label is
+   the Finder's own cue. Rows have no zebra and no solid lines, only a dotted
+   rule between them, and the row under the pointer is reverse video with
+   every cell, icon and second colour following.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-detailslist-header {
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: 0 1px 0 rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-detailslist-column-header,
+body.tss-theme-retroos .tss-detailslist-column-header > .tss-textblock {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+    align-items: center;
+}
+
+body.tss-theme-retroos .tss-detailslist-column-header.tss-cursor-pointer:hover,
+body.tss-theme-retroos .tss-detailslist-column-header.tss-cursor-pointer:hover > .tss-textblock {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-detailslist-column-header.tss-cursor-pointer:hover .tss-detailslist-column-header-sorting-icon {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-detailslist-column-header-sorting-icon {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-detailslist-list-item-container {
+    border-top: 1px dotted rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-detailslist-list-items-container > .tss-detailslist-list-item-container:first-child {
+    border-top-color: transparent;
+}
+
+body.tss-theme-retroos .tss-detailslist-list-item-container:last-of-type {
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-detailslist-list-item-container:hover {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-detailslist-list-item-container:hover * {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* A badge or tag inside a hovered row keeps its own ink-on-paper plate so it stays a plate, not a hole. */
+body.tss-theme-retroos .tss-detailslist-list-item-container:hover .tss-token,
+body.tss-theme-retroos .tss-detailslist-list-item-container:hover .tss-token * {
+    color: rgb(var(--tss-default-foreground-color-root));
+    background-color: rgb(var(--tss-default-background-color-root));
+}

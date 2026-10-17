@@ -1,1 +1,117 @@
-/* RetroOS - drawer */
+/* ==========================================================================
+   RetroOS theme - Drawer
+   --------------------------------------------------------------------------
+   A bottom sheet is a window pulled up from the screen edge: veiled page in
+   the 50% dither, square corners, a double-line top edge, and the grab handle
+   drawn as a short run of 50% dither. The header is the pinstriped
+   title bar (title in a paper gap, square close box at the left). It sits in
+   place at once: no slide, no fade.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-drawer-container {
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-drawer-container.tss-drawer-open {
+    background: var(--tss-retro-dither);
+}
+
+body.tss-theme-retroos .tss-drawer {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    border-top: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-left: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-right: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-shadow:
+        0 -2px 0 0 rgb(var(--tss-default-background-color-root)),
+        0 -3px 0 0 rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-drawer-handle {
+    padding: 4px 0 4px 0;
+}
+
+body.tss-theme-retroos .tss-drawer-handle-bar {
+    width: 36px;
+    height: 4px;
+    border-radius: 0;
+    background: var(--tss-retro-dither);
+}
+
+body.tss-theme-retroos .tss-drawer-header {
+    min-height: 26px;
+    padding: 0 6px;
+    gap: 6px;
+    background: var(--tss-retro-stripes);
+    border-top: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-drawer-title {
+    flex-grow: 0;
+    margin: 0 auto;
+    padding: 0 12px;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    line-height: 18px;
+    align-items: center;
+}
+
+body.tss-theme-retroos .tss-drawer-title:empty {
+    display: none;
+}
+
+body.tss-theme-retroos .tss-drawer-title .tss-textblock,
+body.tss-theme-retroos .tss-drawer-title .tss-fontcolor-default {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-drawer-close {
+    order: -1;
+    width: 13px;
+    height: 13px;
+    flex: 0 0 13px;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 0;
+}
+
+body.tss-theme-retroos .tss-drawer-close > i {
+    display: none;
+}
+
+body.tss-theme-retroos .tss-drawer-close:hover {
+    background-color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-drawer-close:active {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-drawer-header::after {
+    content: "";
+    order: 10;
+    flex: 0 0 13px;
+}
+
+body.tss-theme-retroos .tss-drawer-footer {
+    border-top: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-drawer-content .tss-modal.tss-embedded,
+body.tss-theme-retroos .tss-drawer-content > .tss-modal.tss-modal-in-drawer {
+    border: 0;
+    box-shadow: none;
+}

@@ -1,1 +1,66 @@
-/* RetroOS - notificationcenter */
+/* ==========================================================================
+   RetroOS theme - Notification center
+   --------------------------------------------------------------------------
+   The bell is a square icon button that inverts under the pointer. The count
+   is an inverted square label ringed in paper so it survives on the bell.
+   Kinds are marked by the shape of the dot, not its colour: info a hollow
+   ring, success a solid dot, warning a dithered square, danger a solid
+   square. An unread row carries a thick bar at its left edge, not a tint.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-notif-bell {
+    border-radius: 0;
+    transition: none;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-notif-bell:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-notif-bell:hover > i {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-notif-bell:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+}
+
+body.tss-theme-retroos .tss-notif-badge {
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    box-shadow: 0 0 0 1px rgb(var(--tss-default-background-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 12px;
+    font-weight: 400;
+}
+
+body.tss-theme-retroos .tss-notif-bell:hover .tss-notif-badge {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: 0 0 0 1px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-notif-dot {
+    border-radius: 0;
+    width: 10px;
+    height: 10px;
+    box-sizing: border-box;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-notif-dot.tss-notif-info    { background: rgb(var(--tss-default-background-color-root)); border-radius: 50%; }
+body.tss-theme-retroos .tss-notif-dot.tss-notif-success { background: rgb(var(--tss-default-foreground-color-root)); border-radius: 50%; }
+body.tss-theme-retroos .tss-notif-dot.tss-notif-warning { background: var(--tss-retro-dither); }
+body.tss-theme-retroos .tss-notif-dot.tss-notif-danger  { background: rgb(var(--tss-default-foreground-color-root)); }
+
+body.tss-theme-retroos .tss-notif-unread {
+    background: transparent !important;
+}
+
+body.tss-theme-retroos .tss-notif-unread > .tss-card {
+    box-shadow: inset 5px 0 0 0 rgb(var(--tss-default-foreground-color-root)), var(--tss-retro-frame-shadow);
+}

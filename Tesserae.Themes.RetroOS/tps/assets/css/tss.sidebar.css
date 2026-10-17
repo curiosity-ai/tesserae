@@ -1,1 +1,309 @@
-/* RetroOS - sidebar */
+/* ==========================================================================
+   RetroOS theme - Sidebar
+   --------------------------------------------------------------------------
+   The Finder's window list. The rail is a paper window edge (1px ink line on
+   its trailing side). A row is a Chicago-set line with a glyph; the row under
+   the pointer and the current row are reverse video, icons and second lines
+   following. A group's disclosure arrow is the Finder's solid triangle:
+   pointing right when closed, down when open. Group headings are Chicago
+   text over a dotted rule, the footer sits under a solid one. Corners are
+   square (only the pill rows keep their rounding), nothing fades.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-sidebar {
+    border-right: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-sidebar.tss-navbar {
+    border-right: 0;
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+}
+
+/* Rows: square, Chicago, no fade. The 1px transparent border the rows already carry stays, so selection shifts nothing. */
+body.tss-theme-retroos .tss-sidebar .tss-sidebar-btn.tss-btn,
+body.tss-theme-retroos .tss-sidebar .tss-sidebar-nav-header > .tss-sidebar-nav-button.tss-btn {
+    border-radius: 0;
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    transition: none;
+    box-shadow: none;
+}
+
+body.tss-theme-retroos :where(.tss-sidebar) .tss-sidebar-btn.tss-btn:where(.tss-btn-default):not(.tss-disabled) {
+    background: transparent;
+    border-color: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: -2px;
+}
+
+/* Pill rows (.Rounded()) are the push button: rounded rect with an ink edge. */
+body.tss-theme-retroos .tss-sidebar-btn-rounded > .tss-btn,
+body.tss-theme-retroos .tss-sidebar-btn-rounded > a > .tss-btn,
+body.tss-theme-retroos .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-rounded.tss-sidebar-btn.tss-btn {
+    border-radius: 8px !important;
+}
+
+/* The pointer, and the current page: reverse video. The icon, the second line and every font-colour child follow. */
+body.tss-theme-retroos .tss-sidebar-btn.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-sidebar-btn-open:hover > .tss-sidebar-btn.tss-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-retroos .tss-sidebar-btn-open:hover > a > .tss-sidebar-btn.tss-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-retroos .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-retroos .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-retroos .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-retroos .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-retroos .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-retroos .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-retroos .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-retroos .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-sidebar-btn.tss-btn:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-retroos .tss-sidebar-btn.tss-btn:not(.tss-disabled):hover .tss-fontcolor-secondary,
+body.tss-theme-retroos .tss-sidebar-btn-open:hover > .tss-sidebar-btn.tss-btn:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-retroos .tss-sidebar-btn-open:hover > .tss-sidebar-btn.tss-btn:not(.tss-disabled) .tss-fontcolor-secondary,
+body.tss-theme-retroos .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-retroos .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled) .tss-fontcolor-secondary,
+body.tss-theme-retroos .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-retroos .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled) .tss-fontcolor-secondary,
+body.tss-theme-retroos .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-retroos .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) .tss-fontcolor-secondary,
+body.tss-theme-retroos .tss-sidebar-identity.tss-sidebar-selected .tss-sidebar-identity-subtitle,
+body.tss-theme-retroos .tss-sidebar-btn-open:hover .tss-sidebar-identity-subtitle {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* A group is not a destination: while only something inside it is current, its header stays plain. */
+body.tss-theme-retroos .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled):not(:hover),
+body.tss-theme-retroos .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled):not(:hover),
+body.tss-theme-retroos .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled):not(:hover) {
+    background: transparent;
+    border-color: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-sidebar-nav-header.tss-sidebar-btn-open:hover > .tss-btn,
+body.tss-theme-retroos .tss-sidebar-nav-header.tss-sidebar-btn-open:hover > a > .tss-btn {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* The command strip and the badges ride on the row's colour; a command under the pointer is a 1px-edged box. */
+body.tss-theme-retroos .tss-sidebar-btn-open:hover > .tss-sidebar-commands > .tss-btn.tss-btn-default,
+body.tss-theme-retroos .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands > .tss-btn.tss-btn-default {
+    color: rgb(var(--tss-default-background-color-root));
+    background: transparent;
+}
+
+body.tss-theme-retroos .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-background-color-root));
+}
+
+/* The fade that hides a long name under the commands paints in the row's own fill, so it follows. */
+body.tss-theme-retroos .tss-sidebar-badge,
+body.tss-theme-retroos .tss-sidebar-badges .tss-badge {
+    font-family: var(--tss-retro-chicago);
+}
+
+/* --------------------------------------------------------------------------
+   Groups: the disclosure triangle
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-retroos .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn {
+    border-radius: 0;
+    background: transparent !important;
+    border-color: transparent !important;
+}
+
+/* A solid triangle, clipped out of a square: right while closed, down when open. */
+body.tss-theme-retroos .tss-sidebar-nav-arrow.tss-btn:after,
+body.tss-theme-retroos .tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:after {
+    left: 5px;
+    top: 4px;
+    width: 8px;
+    height: 10px;
+    border: 0;
+    background: currentColor;
+    color: rgb(var(--tss-default-background-color-root));
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    transform: none;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn:after {
+    left: 4px;
+    top: 6px;
+    width: 10px;
+    height: 8px;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform: none;
+}
+
+/* A group that is open and not under the pointer shows its triangle in ink on paper (the arrow only exists on hover in
+   Tesserae; here it is part of the row so the outline reads as an outline). */
+body.tss-theme-retroos .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-nav-children {
+    border-left: 1px dotted rgb(var(--tss-default-foreground-color-root));
+    margin-left: 14px;
+}
+
+/* --------------------------------------------------------------------------
+   Group headings, footer, separators
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-retroos .tss-sidebar-separator {
+    margin-bottom: 4px;
+    border-bottom: 1px dotted rgb(var(--tss-default-foreground-color-root));
+    padding-bottom: 1px;
+}
+
+body.tss-theme-retroos .tss-sidebar-separator.tss-sidebar-separator-with-text,
+body.tss-theme-retroos .tss-sidebar-separator.tss-sidebar-separator-with-text .tss-textblock {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-sidebar-footer {
+    border-top: 1px solid rgb(var(--tss-default-foreground-color-root));
+    padding-top: 6px;
+}
+
+body.tss-theme-retroos .tss-sidebar-footer:empty {
+    border-top: 0;
+}
+
+body.tss-theme-retroos .tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn,
+body.tss-theme-retroos .tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-btn {
+    background: var(--tss-retro-dither);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   Brand, section header, status card, page panel, navbar drawer
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-retroos .tss-sidebar-identity-title,
+body.tss-theme-retroos .tss-sidebar-section-header .tss-sidebar-identity-title {
+    font-family: var(--tss-retro-chicago);
+    font-size: 18px;
+}
+
+/* A section heading is a title bar: pinstripes either side of the title. */
+body.tss-theme-retroos .tss-sidebar-section-header {
+    background: var(--tss-retro-stripes);
+    background-size: 100% 2px;
+    background-clip: content-box;
+    height: 28px;
+    margin: 4px 0 8px;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    padding: 0 4px;
+}
+
+body.tss-theme-retroos .tss-sidebar-section-header > * {
+    background: rgb(var(--tss-default-background-color-root));
+    padding: 0 6px;
+}
+
+body.tss-theme-retroos .tss-sidebar-section-header-closed {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-sidebar-status-card {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow);
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-sidebar-status-title {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-retroos .tss-sidebar-status-text,
+body.tss-theme-retroos .tss-sidebar-status-caption {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The dot is a square pixel; the state is told by the words, so every state is ink. */
+body.tss-theme-retroos .tss-sidebar-status-dot,
+body.tss-theme-retroos .tss-sidebar-status-success .tss-sidebar-status-dot,
+body.tss-theme-retroos .tss-sidebar-status-warning .tss-sidebar-status-dot,
+body.tss-theme-retroos .tss-sidebar-status-danger .tss-sidebar-status-dot {
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-sidebar-status-danger .tss-sidebar-status-dot {
+    background: transparent;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-sizing: border-box;
+}
+
+body.tss-theme-retroos .tss-sidebar-status-card.tss-sidebar-status-clickable:hover {
+    background: conic-gradient(from 0deg at 1px 1px, rgb(var(--tss-default-foreground-color-root)) 0 25%, transparent 0) 0 0 / 2px 2px;
+    background-color: rgb(var(--tss-default-background-color-root));
+}
+
+/* Page mode: the group's children open as a window over the rail. */
+body.tss-theme-retroos .tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow);
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-navbar-drawer {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow);
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-navbar-burger:hover {
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* The collapsed rail: the group tile carries its state as a small solid triangle in its corner. */
+body.tss-theme-retroos .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav-header:not(.tss-sidebar-nav-header-empty):after,
+body.tss-theme-retroos .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header:after {
+    left: auto;
+    right: 3px;
+    bottom: 3px;
+    width: 6px;
+    height: 6px;
+    border: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    transform: none;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header:after {
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+body.tss-theme-retroos .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav-header:hover:after {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav-children {
+    border-left: 0;
+    margin-left: 0;
+}

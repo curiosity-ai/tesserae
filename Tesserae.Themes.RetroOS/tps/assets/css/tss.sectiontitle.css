@@ -1,1 +1,26 @@
-/* RetroOS - sectiontitle */
+/* ==========================================================================
+   RetroOS theme - SectionTitle
+   --------------------------------------------------------------------------
+   A section title is a heading in Chicago, underlined by a 1px ink rule: the
+   Finder's list headers, with the title on the line.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-sectiontitle {
+    font-family: var(--tss-retro-chicago);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-sectiontitle-title {
+    font-family: var(--tss-retro-chicago);
+    font-size: 18px;
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-retroos .tss-sectiontitle-subtitle {
+    font-family: var(--tss-sansserif-font-family);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-sectiontitle-icon {
+    color: rgb(var(--tss-default-foreground-color-root));
+}

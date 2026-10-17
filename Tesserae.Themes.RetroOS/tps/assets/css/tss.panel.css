@@ -1,1 +1,115 @@
-/* RetroOS - panel */
+/* ==========================================================================
+   RetroOS theme - Panel
+   --------------------------------------------------------------------------
+   A side sheet is a tall Mac window pinned to one edge. The page behind is
+   veiled in the 50% dither. Its open edge is the thick double line of an
+   alert (frame, paper gap, frame); the top command row is the pinstriped
+   title bar with the title in a paper gap and the square close box at the
+   left. No sliding: a window appears in one frame.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-panel-container,
+body.tss-theme-retroos .tss-panel-container.tss-dark {
+    background: var(--tss-retro-dither);
+}
+
+body.tss-theme-retroos .tss-panel-container.tss-panel-modeless {
+    background: none;
+}
+
+body.tss-theme-retroos .tss-panel {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow:
+        -2px 0 0 0 rgb(var(--tss-default-background-color-root)),
+        -3px 0 0 0 rgb(var(--tss-default-foreground-color-root));
+    border-left: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-panel.tss-panelSide-near {
+    box-shadow:
+        2px 0 0 0 rgb(var(--tss-default-background-color-root)),
+        3px 0 0 0 rgb(var(--tss-default-foreground-color-root));
+    border-left: 0;
+    border-right: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-panel-near-animate,
+body.tss-theme-retroos .tss-panel-far-animate {
+    animation: none;
+}
+
+body.tss-theme-retroos .tss-panel-command {
+    height: 26px;
+    flex-shrink: 0;
+    background: var(--tss-retro-stripes);
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+    padding: 0 6px;
+    box-sizing: border-box;
+    gap: 6px;
+}
+
+body.tss-theme-retroos .tss-panel-title {
+    flex-grow: 0;
+    width: auto;
+    margin: 0 auto;
+    padding: 0 12px;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    line-height: 18px;
+    max-width: 70%;
+    align-items: center;
+}
+
+body.tss-theme-retroos .tss-panel-title:empty {
+    display: none;
+}
+
+body.tss-theme-retroos .tss-panel-title .tss-textblock,
+body.tss-theme-retroos .tss-panel-title .tss-fontcolor-default {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The close box: left of the title, a 13px empty square that inverts while pressed. */
+body.tss-theme-retroos .tss-panel-command-button {
+    order: -1;
+    width: 13px;
+    height: 13px;
+    min-width: 13px;
+    padding: 0;
+    margin: 0;
+    flex: 0 0 13px;
+    box-sizing: border-box;
+    overflow: hidden;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 0;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-panel-command-button > i {
+    display: none;
+}
+
+body.tss-theme-retroos .tss-panel-command-button:hover {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-panel-command-button:active {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-panel-command::after {
+    content: "";
+    order: 10;
+    flex: 0 0 13px;
+}

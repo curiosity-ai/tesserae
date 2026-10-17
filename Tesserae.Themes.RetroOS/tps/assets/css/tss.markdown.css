@@ -1,1 +1,120 @@
-/* RetroOS - markdown */
+/* ==========================================================================
+   RetroOS theme - MarkdownBlock
+   --------------------------------------------------------------------------
+   Rendered Markdown set as a MacWrite page: headings in Chicago (h1/h2 keep
+   their underline rule), links are plain underlined ink, a blockquote has a
+   dashed left rule, a rule is a dotted line, code is Monaco in a 1px frame
+   (a block is a framed paper plate with a hard shadow, like a window), tables
+   are 1px grids whose header row is reverse video (the Finder's list header),
+   and a <kbd> is the same keycap as KeyboardShortcut. No tints: every ground
+   is paper.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-markdown {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-markdown a,
+body.tss-theme-retroos .tss-markdown a:hover {
+    color: rgb(var(--tss-default-foreground-color-root));
+    text-decoration: underline;
+}
+
+body.tss-theme-retroos .tss-markdown a:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-markdown h1,
+body.tss-theme-retroos .tss-markdown h2,
+body.tss-theme-retroos .tss-markdown h3,
+body.tss-theme-retroos .tss-markdown h4,
+body.tss-theme-retroos .tss-markdown h5,
+body.tss-theme-retroos .tss-markdown h6 {
+    font-family: var(--tss-retro-chicago);
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-markdown h1,
+body.tss-theme-retroos .tss-markdown h2 {
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-markdown hr {
+    height: 1px;
+    background: repeating-linear-gradient(to right, rgb(var(--tss-default-foreground-color-root)) 0 1px, transparent 1px 2px);
+}
+
+body.tss-theme-retroos .tss-markdown blockquote {
+    padding: 0 16px;
+    border-left: 2px dashed rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-markdown dl dt {
+    font-style: normal;
+    font-family: var(--tss-retro-chicago);
+    font-weight: var(--tss-font-weight-regular);
+}
+
+/* Code. */
+body.tss-theme-retroos .tss-markdown code {
+    padding: 0 0.3em;
+    font-size: 1.2em;
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+    background-color: rgb(var(--tss-default-background-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-markdown pre {
+    font-size: 115%;
+    background-color: rgb(var(--tss-default-background-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow-sm);
+}
+
+body.tss-theme-retroos .tss-markdown pre code {
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+}
+
+body.tss-theme-retroos .tss-markdown kbd {
+    font-family: var(--tss-retro-chicago);
+    font-size: 14px;
+    line-height: 12px;
+    color: rgb(var(--tss-default-foreground-color-root));
+    background-color: rgb(var(--tss-default-background-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-bottom-width: 2px;
+    border-radius: 3px;
+}
+
+/* Tables: a 1px grid, the header row reverse video, no zebra. */
+body.tss-theme-retroos .tss-markdown table th,
+body.tss-theme-retroos .tss-markdown table td {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-markdown table th {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    text-align: left;
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-markdown table tr,
+body.tss-theme-retroos .tss-markdown table tr:nth-child(2n) {
+    background-color: rgb(var(--tss-default-background-color-root));
+    border-top: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-markdown .tss-markdown-table-actions {
+    opacity: 1;
+}

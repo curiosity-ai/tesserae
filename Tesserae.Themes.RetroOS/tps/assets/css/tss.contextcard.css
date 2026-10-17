@@ -1,1 +1,119 @@
-/* RetroOS - contextcard */
+/* ==========================================================================
+   RetroOS theme - Context card
+   --------------------------------------------------------------------------
+   A file icon with its name, as in a Finder window: a framed paper card, the
+   icon a 1-bit tile (ink, paper glyph; the app's own tile colours are inline
+   styles, so they are overridden), the name in Geneva and the kind beneath.
+   Clickable cards and the one a menu belongs to invert like a selected icon.
+   The remove button is a small framed square at the corner.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-contextcard {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-contextcard-menu-open,
+body.tss-theme-retroos .tss-contextcard-clickable:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-contextcard-menu-open *,
+body.tss-theme-retroos .tss-contextcard-clickable:hover .tss-contextcard-text *,
+body.tss-theme-retroos .tss-contextcard-clickable:hover .tss-contextcard-chevron,
+body.tss-theme-retroos .tss-contextcard-clickable:hover .tss-contextcard-nobackground {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-contextcard-icon {
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root)) !important;
+    color: rgb(var(--tss-default-background-color-root)) !important;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-sizing: border-box;
+}
+
+body.tss-theme-retroos .tss-contextcard-icon i,
+body.tss-theme-retroos .tss-contextcard-icon svg {
+    color: inherit !important;
+}
+
+body.tss-theme-retroos .tss-contextcard-clickable:hover .tss-contextcard-icon {
+    background: rgb(var(--tss-default-background-color-root)) !important;
+    color: rgb(var(--tss-default-foreground-color-root)) !important;
+}
+
+body.tss-theme-retroos .tss-contextcard-icon.tss-contextcard-icon-nobackground,
+body.tss-theme-retroos .tss-contextcard-icon.tss-contextcard-icon-image {
+    background: transparent !important;
+    color: inherit !important;
+    border-color: transparent;
+}
+
+body.tss-theme-retroos .tss-contextcard-clickable:hover .tss-contextcard-icon.tss-contextcard-icon-nobackground {
+    background: transparent !important;
+    color: rgb(var(--tss-default-background-color-root)) !important;
+}
+
+body.tss-theme-retroos .tss-contextcard-icon.tss-contextcard-icon-image {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-contextcard-label {
+    font-weight: 400;
+}
+
+body.tss-theme-retroos .tss-contextcard-label-extension {
+    opacity: 1;
+}
+
+body.tss-theme-retroos .tss-contextcard-sublabel {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-contextcard-badge {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 14px;
+}
+
+body.tss-theme-retroos .tss-contextcard-badge-custom {
+    border: none;
+    background: transparent;
+}
+
+body.tss-theme-retroos .tss-contextcard-chevron {
+    color: inherit;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-contextcard-remove,
+body.tss-theme-retroos.tss-dark-mode .tss-contextcard-remove {
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-contextcard-remove:hover,
+body.tss-theme-retroos.tss-dark-mode .tss-contextcard-remove:hover,
+body.tss-theme-retroos .tss-contextcard-remove:active,
+body.tss-theme-retroos.tss-dark-mode .tss-contextcard-remove:active {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-contextcard-compact {
+    border-radius: 8px;
+}
+
+body.tss-theme-retroos .tss-contextcard-compact .tss-contextcard-icon {
+    border-radius: 0;
+}

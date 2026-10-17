@@ -1,1 +1,79 @@
-/* RetroOS - segmentedpivot */
+/* ==========================================================================
+   RetroOS theme - SegmentedPivot
+   --------------------------------------------------------------------------
+   The Mac's segmented control: one rounded ink-edged capsule, its segments
+   split by 1px rules, the chosen segment in reverse video. No recessed
+   shadow, no tinted pill. The capsule is the push-button's 8px radius; the
+   segments inside are square so the inverted block fills the corners.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-retroos .tss-segmentedpivot-titlebar {
+    padding: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    box-shadow: none;
+    background: rgb(var(--tss-default-background-color-root));
+    overflow: hidden;
+}
+
+/* The inner strip lives inside the capsule: its own frame goes. */
+body.tss-theme-retroos .tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar {
+    border: 0;
+    border-radius: 0;
+    overflow: visible;
+}
+
+body.tss-theme-retroos .tss-segmentedpivot-tab {
+    padding: 4px 14px;
+    border-radius: 0;
+    border-right: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    transition: none;
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-segmentedpivot-tab:last-child {
+    border-right: 0;
+}
+
+body.tss-theme-retroos .tss-segmentedpivot-tab .tss-textblock {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    color: inherit;
+}
+
+/* Hover has no tone on the Mac; only pressing inverts. */
+body.tss-theme-retroos .tss-segmentedpivot-tab:hover {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-segmentedpivot-tab:active,
+body.tss-theme-retroos .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-retroos .tss-segmentedpivot-tab.tss-segmentedpivot-selected:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-segmentedpivot-tab.tss-segmentedpivot-selected *:not(.tss-token):not(.tss-token *),
+body.tss-theme-retroos .tss-segmentedpivot-tab:active *:not(.tss-token):not(.tss-token *) {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-segmentedpivot-tab:focus-visible,
+body.tss-theme-retroos .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-segmentedpivot-titlebar-wrapper .tss-btn.tss-segmentedpivot-titlebar-more {
+    margin-right: 0;
+}

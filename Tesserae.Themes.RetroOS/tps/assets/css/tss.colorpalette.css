@@ -1,1 +1,56 @@
-/* RetroOS - colorpalette */
+/* ==========================================================================
+   RetroOS theme - ColorPalette
+   --------------------------------------------------------------------------
+   The swatches' colours are the content, so they stay; what the theme draws
+   is the chip around them, the way the Mac's colour picker framed its
+   chips: a square with a 1px ink frame. Pointing at one doubles the frame
+   (no scaling, no glow); the chosen one has the 2px ink ring with a paper
+   gap, so it reads in a screenshot with the colours turned to grey.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-colorpalette-swatch {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: none;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-colorpalette-swatch:hover {
+    transform: none;
+    box-shadow: 0 0 0 2px rgb(var(--tss-default-background-color-root)), 0 0 0 3px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-colorpalette-swatch:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 3px;
+}
+
+body.tss-theme-retroos .tss-colorpalette-swatch.tss-selected {
+    box-shadow: 0 0 0 2px rgb(var(--tss-default-background-color-root)), 0 0 0 4px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-colorpalette-custom {
+    font-family: var(--tss-retro-chicago);
+}
+
+/* --------------------------------------------------------------------------
+   Colour samples (Colors, Theme Colors, Gradients, Theme Builder)
+   --------------------------------------------------------------------------
+   Anything that paints a theme colour or gradient inline is a swatch, and the
+   swatch IS the demonstration, so its colour is left alone. What the theme
+   adds is the Mac frame: a 1px ink edge (so a white chip on paper, or a
+   near-black one in reverse video, still has a visible shape) and no soft
+   grey shadow. The sample's own lightgrey 1px shadow becomes the hard one.
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-retroos [style*="var(--tss-colors-"],
+body.tss-theme-retroos [style*="var(--tss-gradient"] {
+    box-sizing: border-box;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos [style*="lightgrey"] {
+    box-shadow: var(--tss-retro-shadow-sm) !important;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root)) !important;
+    box-sizing: border-box;
+}

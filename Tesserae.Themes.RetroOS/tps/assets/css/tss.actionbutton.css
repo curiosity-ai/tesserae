@@ -1,1 +1,72 @@
-/* RetroOS - actionbutton */
+/* ==========================================================================
+   RetroOS theme - Action Button
+   --------------------------------------------------------------------------
+   A split push button: one rounded 1px outline around the label half and the
+   icon half, a 1px rule between them. Each half inverts under the pointer
+   like a menu row. The primary one wears the default button's thick ring.
+   Danger is told apart by words and icon, not colour. Disabled is the grey.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-actionbutton-container {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    overflow: hidden;
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    outline-offset: 2px;
+}
+
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn:not(.tss-disabled),
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-btn-primary:not(.tss-disabled),
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-btn-danger:not(.tss-disabled),
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-btn-success:not(.tss-disabled) {
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+    box-shadow: none;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-actionbutton-container > .tss-actionbutton-actionbtn {
+    border-left: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn:not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-btn-primary:not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-btn-danger:not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-btn-success:not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn:not(.tss-disabled):active {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn:not(.tss-disabled) > i {
+    color: inherit;
+}
+
+/* Primary: the default button's thick ring around the whole control. */
+body.tss-theme-retroos .tss-actionbutton-container:has(> .tss-btn-primary:not(.tss-disabled)) {
+    box-shadow: 0 0 0 2px rgb(var(--tss-default-background-color-root)), 0 0 0 4px rgb(var(--tss-default-foreground-color-root));
+    margin: 4px;
+    overflow: visible;
+}
+
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-disabled {
+    color: var(--tss-retro-gray);
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-actionbutton-container:has(> .tss-btn.tss-disabled) {
+    border-color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-disabled .tss-fontcolor-default,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-disabled > i {
+    color: var(--tss-retro-gray);
+}

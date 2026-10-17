@@ -1,1 +1,105 @@
-/* RetroOS - nodeview */
+/* ==========================================================================
+   RetroOS theme - NodeView (Baklava node editor)
+   --------------------------------------------------------------------------
+   Baklava draws from --baklava-* variables, so each is restated as ink or
+   paper. The canvas is paper ruled like MacDraw's grid, a node is a small
+   window (see tss.baklava.css), and a connection is a plain ink wire. A
+   hover or selection tint (which was translucent blue) becomes a thicker
+   ink edge; a disabled control is the one grey.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-nodeview,
+body.tss-theme-retroos.tss-dark-mode .tss-nodeview {
+    --baklava-control-color-primary: rgb(var(--tss-default-foreground-color-root));
+    --baklava-control-color-error: rgb(var(--tss-default-foreground-color-root));
+    --baklava-control-color-background: rgb(var(--tss-default-background-color-root));
+    --baklava-control-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-control-color-hover: rgb(var(--tss-default-background-color-root));
+    --baklava-control-color-active: rgb(var(--tss-default-foreground-color-root));
+    --baklava-control-color-disabled-foreground: var(--tss-retro-gray);
+    --baklava-control-border-radius: 0px;
+    --baklava-sidebar-color-background: rgb(var(--tss-default-background-color-root));
+    --baklava-sidebar-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-color-background: rgb(var(--tss-default-background-color-root));
+    --baklava-node-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-color-hover: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-color-selected: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-color-resize-handle: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-title-color-background: rgb(var(--tss-default-background-color-root));
+    --baklava-node-title-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-group-node-title-color-background: rgb(var(--tss-default-foreground-color-root));
+    --baklava-group-node-title-color-foreground: rgb(var(--tss-default-background-color-root));
+    --baklava-node-interface-port-color: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-interface-port-tooltip-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-interface-port-tooltip-color-background: rgb(var(--tss-default-background-color-root));
+    --baklava-node-border-radius: 0px;
+    --baklava-color-connection-default: rgb(var(--tss-default-foreground-color-root));
+    --baklava-color-connection-allowed: rgb(var(--tss-default-foreground-color-root));
+    --baklava-color-connection-forbidden: rgb(var(--tss-default-foreground-color-root));
+    --baklava-editor-background-pattern-default: rgb(var(--tss-default-background-color-root));
+    --baklava-editor-background-pattern-line: rgb(var(--tss-default-foreground-color-root));
+    --baklava-editor-background-pattern-black: rgb(var(--tss-default-background-color-root));
+    --baklava-context-menu-background: rgb(var(--tss-default-background-color-root));
+    --baklava-context-menu-shadow: none;
+    --baklava-toolbar-background: rgb(var(--tss-default-background-color-root));
+    --baklava-toolbar-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-palette-background: rgb(var(--tss-default-background-color-root));
+    --baklava-node-palette-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-selectionbox-color-border: rgb(var(--tss-default-foreground-color-root));
+    --baklava-selectionbox-color-background: transparent;
+    --baklava-visual-transition: 0s;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-toolbar {
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node-palette {
+    border-right: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node-palette section h1 {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px !important;
+    font-weight: var(--tss-font-weight-regular) !important;
+    color: rgb(var(--tss-default-foreground-color-root)) !important;
+    border-bottom: 1px dotted rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node-palette section .baklava-node.--palette {
+    border-radius: 0 !important;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node-palette section .baklava-node.--palette:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node-palette section .baklava-node.--palette:hover .__title {
+    background: transparent;
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-toolbar-button:disabled {
+    opacity: 1 !important;
+    filter: none !important;
+    color: var(--tss-retro-gray);
+}
+
+/* A palette entry is a list row, not a window: no stripes, no shadow, the glyph before its name. */
+body.tss-theme-retroos .tss-nodeview .baklava-node.--palette {
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node.--palette > .__title {
+    background: transparent;
+    border-bottom: none;
+    justify-content: flex-start;
+    padding: 1px 6px 1px 32px !important;
+}
+
+body.tss-theme-retroos .tss-nodeview .baklava-node.--palette > .__title > .__title-label {
+    background: transparent;
+    padding: 0;
+}

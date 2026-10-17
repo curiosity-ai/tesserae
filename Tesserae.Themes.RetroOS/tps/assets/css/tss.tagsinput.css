@@ -1,1 +1,64 @@
-/* RetroOS - tagsinput */
+/* ==========================================================================
+   RetroOS theme - TagsInput
+   --------------------------------------------------------------------------
+   A text field that holds tags: the same 1px ink frame as the TextBox, thickened
+   to 2px while it has the caret. A tag is a small framed label, square, with a
+   remove box set off by a rule; the box inverts when pointed at.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-tagsinput {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-tagsinput:focus-within {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-tagsinput-entry,
+body.tss-theme-retroos .tss-tagsinput-entry:focus {
+    box-shadow: none;
+    outline: none;
+    border: none;
+    background: transparent;
+    caret-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-tagsinput-entry::placeholder {
+    color: rgb(var(--tss-default-foreground-color-root));
+    opacity: 1;
+    font-style: italic;
+}
+
+body.tss-theme-retroos .tss-tagsinput-chip {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    padding: 0 0 0 6px;
+    gap: 0;
+    font-family: var(--tss-retro-chicago);
+    font-size: 15px;
+    line-height: 18px;
+}
+
+body.tss-theme-retroos .tss-tagsinput-chip-remove {
+    width: 16px;
+    height: 18px;
+    margin-left: 6px;
+    border-radius: 0;
+    border-left: 1px solid rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 16px;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-tagsinput-chip-remove:hover {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}

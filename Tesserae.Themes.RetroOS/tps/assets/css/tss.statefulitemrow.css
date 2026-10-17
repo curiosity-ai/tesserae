@@ -1,1 +1,80 @@
-/* RetroOS - statefulitemrow */
+/* ==========================================================================
+   RetroOS theme - StatefulItemRow
+   --------------------------------------------------------------------------
+   A list row whose state is told in one bit. There is no wash of colour, so a
+   tone is a mark on the leading edge: primary a thin solid bar, success a
+   thick one, warning a dashed one, and danger a thick bar over the 25% dither
+   of a row on its way out. The words on the row say which it is; the mark
+   only makes the odd one stand out. A muted row is the one grey. An
+   interactive row is a list row: reverse video under the pointer, with its
+   second line and every control following.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-statefulitemrow {
+    --tss-statefulitemrow-surface: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-bottom: 1px dotted rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-statefulitemrow-primary,
+body.tss-theme-retroos .tss-statefulitemrow-success,
+body.tss-theme-retroos .tss-statefulitemrow-warning,
+body.tss-theme-retroos .tss-statefulitemrow-danger {
+    --tss-statefulitemrow-surface: transparent;
+}
+
+body.tss-theme-retroos .tss-statefulitemrow-primary {
+    box-shadow: inset 2px 0 0 rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-statefulitemrow-success {
+    box-shadow: inset 5px 0 0 rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-statefulitemrow-warning {
+    background: repeating-linear-gradient(to bottom, rgb(var(--tss-default-foreground-color-root)) 0 4px, transparent 4px 6px) no-repeat left / 4px 100%;
+}
+
+body.tss-theme-retroos .tss-statefulitemrow-danger {
+    background: conic-gradient(from 0deg at 1px 1px, rgb(var(--tss-default-foreground-color-root)) 0 25%, transparent 0) 0 0 / 2px 2px;
+    background-color: rgb(var(--tss-default-background-color-root));
+    box-shadow: inset 5px 0 0 rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Muted: no opacity, the grey instead. */
+body.tss-theme-retroos .tss-statefulitemrow-muted {
+    opacity: 1;
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-statefulitemrow-muted .tss-statefulitemrow-title,
+body.tss-theme-retroos .tss-statefulitemrow-muted .tss-statefulitemrow-subtitle {
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-statefulitemrow-title {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-statefulitemrow-subtitle {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-statefulitemrow-struck .tss-statefulitemrow-title {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-statefulitemrow-interactive:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-statefulitemrow-interactive:hover .tss-statefulitemrow-title,
+body.tss-theme-retroos .tss-statefulitemrow-interactive:hover .tss-statefulitemrow-subtitle,
+body.tss-theme-retroos .tss-statefulitemrow-interactive:hover .tss-statefulitemrow-trailing .tss-textblock,
+body.tss-theme-retroos .tss-statefulitemrow-interactive:hover .tss-statefulitemrow-trailing i {
+    color: rgb(var(--tss-default-background-color-root));
+}

@@ -1,1 +1,76 @@
-/* RetroOS - annotatedtexteditor */
+/* ==========================================================================
+   RetroOS theme - AnnotatedTextEditor
+   --------------------------------------------------------------------------
+   A framed multi-line field (2px frame while it holds the caret). The text is
+   painted by the textarea on top; the annotations sit underneath it, so an
+   inverted block would hide the ink text. An entity is therefore a 25% dither
+   with a 1px ink outline: the text stays readable on it in both modes. The hover
+   tag is a tiny window: paper, ink frame, hard shadow.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-annotated-text-container {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-annotated-text-container:hover {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-annotated-text-container:focus-within {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-annotated-text-container.tss-disabled {
+    border-color: var(--tss-retro-gray);
+    background: rgb(var(--tss-default-background-color-root));
+    color: var(--tss-retro-gray);
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-annotated-text-container.tss-annotated-text-readonly {
+    background: rgb(var(--tss-default-background-color-root));
+    border-style: dotted;
+}
+
+body.tss-theme-retroos .tss-annotated-text-input {
+    color: inherit;
+    font-size: 14px;
+    caret-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-annotated-text-input::placeholder {
+    color: rgb(var(--tss-default-foreground-color-root)) !important;
+    opacity: 1;
+    font-style: italic;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-annotated-text-entity,
+body.tss-theme-retroos.tss-dark-mode .tss-annotated-text-entity {
+    border-radius: 0;
+    /* Entities arrive with a colour per type, written inline: every type is told apart by words, not hue. */
+    outline: 1px solid rgb(var(--tss-default-foreground-color-root)) !important;
+    background: var(--tss-retro-dither-light) !important;
+}
+
+body.tss-theme-retroos .tss-annotated-text-hover-tag,
+body.tss-theme-retroos.tss-dark-mode .tss-annotated-text-hover-tag {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow);
+}
+
+body.tss-theme-retroos .tss-annotated-text-default-label {
+    font-size: 13px;
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: 0;
+}

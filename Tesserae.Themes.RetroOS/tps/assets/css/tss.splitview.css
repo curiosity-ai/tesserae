@@ -1,1 +1,31 @@
-/* RetroOS - splitview */
+/* ==========================================================================
+   RetroOS theme - SplitView and HorizontalSplitView
+   --------------------------------------------------------------------------
+   The Mac's split bar is a window pane divider: a 1px ink rule with a small
+   solid ink grip in the middle, which is what the base already draws; here the
+   grip is square-ended, and pointing at the bar thickens the rule to 2px ink
+   (a thicker line, not a hue) with a bigger grip. The panes themselves are
+   plain: they draw nothing of their own.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-splitview.tss-splitview-horizontal > .tss-splitter:before,
+body.tss-theme-retroos .tss-splitview.tss-splitview-vertical > .tss-splitter:before {
+    background: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:before,
+body.tss-theme-retroos .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:before {
+    background: rgb(var(--tss-default-foreground-color-root)) !important;
+}
+
+body.tss-theme-retroos .tss-splitview.tss-splitview-horizontal > .tss-splitter:after,
+body.tss-theme-retroos .tss-splitview.tss-splitview-vertical > .tss-splitter:after {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+}
+
+/* A pane lifted over its neighbour (the "panel style") is a window over a window: the hard shadow, not a blur. */
+body.tss-theme-retroos .tss-splitview-panel-style.tss-split-left > *:first-child,
+body.tss-theme-retroos .tss-splitview-panel-style.tss-split-right > *:last-child {
+    box-shadow: var(--tss-retro-shadow);
+}

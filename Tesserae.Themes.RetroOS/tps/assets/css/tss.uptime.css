@@ -1,1 +1,88 @@
-/* RetroOS - uptime */
+/* ==========================================================================
+   RetroOS theme - Uptime bars and calendar
+   --------------------------------------------------------------------------
+   Status without colour: operational is solid ink, a minor incident a 50%
+   dither, a major outage ink with a paper dot (an alert's "stop" mark),
+   maintenance pinstripes, no data an empty outlined cell and the future a
+   dashed one. The pointer inverts a cell. The tooltip is the tooltip's own
+   paper box: the dark box of the default theme has no place on the Mac.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-uptime-bars span,
+body.tss-theme-retroos .tss-uptime-month-day,
+body.tss-theme-retroos .tss-uptime-month-empty {
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-uptime-bars span:hover,
+body.tss-theme-retroos .tss-uptime-bars span:focus-visible {
+    transform: none;
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+}
+
+body.tss-theme-retroos .tss-uptime-bars span.operational,
+body.tss-theme-retroos .tss-uptime-month-day.operational { background: rgb(var(--tss-default-foreground-color-root)); }
+
+body.tss-theme-retroos .tss-uptime-bars span.minor,
+body.tss-theme-retroos .tss-uptime-month-day.minor { background: var(--tss-retro-dither); }
+
+body.tss-theme-retroos .tss-uptime-bars span.major,
+body.tss-theme-retroos .tss-uptime-month-day.major {
+    background: radial-gradient(circle at center, rgb(var(--tss-default-background-color-root)) 0 2px, rgb(var(--tss-default-foreground-color-root)) 2px) ;
+}
+
+body.tss-theme-retroos .tss-uptime-bars span.maintenance,
+body.tss-theme-retroos .tss-uptime-month-day.maintenance { background: var(--tss-retro-stripes); }
+
+body.tss-theme-retroos .tss-uptime-bars span.none { background: rgb(var(--tss-default-background-color-root)); }
+
+body.tss-theme-retroos .tss-uptime-bars span.future,
+body.tss-theme-retroos .tss-uptime-month-day.future {
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: none;
+    border: 1px dashed rgb(var(--tss-default-foreground-color-root));
+    box-sizing: border-box;
+}
+
+body.tss-theme-retroos .tss-uptime-month-empty {
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-uptime-month-card {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: var(--tss-retro-shadow);
+}
+
+body.tss-theme-retroos .tss-uptime-month-header {
+    font-family: var(--tss-retro-chicago);
+    font-weight: 400;
+}
+
+body.tss-theme-retroos .tss-uptime-month-header span {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tippy-box[data-theme~='uptime'] {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow);
+}
+
+body.tss-theme-retroos .tippy-box[data-theme~='uptime'] .tss-textblock,
+body.tss-theme-retroos .tippy-box[data-theme~='uptime'] .tss-fontweight-semibold {
+    color: rgb(var(--tss-default-foreground-color-root)) !important;
+    font-weight: 400 !important;
+}
+
+body.tss-theme-retroos .tippy-box[data-theme~='uptime'] > .tippy-arrow {
+    display: none;
+}

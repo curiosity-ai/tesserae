@@ -1,1 +1,33 @@
-/* RetroOS - textbreadcrumb */
+/* ==========================================================================
+   RetroOS theme - TextBreadcrumb
+   --------------------------------------------------------------------------
+   The same path as Breadcrumb but as running text. A crumb under the pointer
+   is a Finder menu title: reverse video in a square block. The separators are
+   ink. Nothing slides.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-textbreadcrumb-container {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-textbreadcrumb {
+    border-radius: 0;
+    font-family: var(--tss-retro-chicago);
+}
+
+body.tss-theme-retroos .tss-textbreadcrumb:hover {
+    color: rgb(var(--tss-default-background-color-root));
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-textbreadcrumb-wrap,
+body.tss-theme-retroos .tss-textbreadcrumb-wrap:hover,
+body.tss-theme-retroos .tss-textbreadcrumb-wrap:hover .sep i,
+body.tss-theme-retroos .tss-textbreadcrumb-sep i:before {
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-textbreadcrumb-sep {
+    color: rgb(var(--tss-default-foreground-color-root));
+}

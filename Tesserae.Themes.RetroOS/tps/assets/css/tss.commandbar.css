@@ -1,1 +1,63 @@
-/* RetroOS - commandbar */
+/* ==========================================================================
+   RetroOS theme - Command Bar
+   --------------------------------------------------------------------------
+   The Finder's menu bar: a paper strip with a 1px frame, commands set in
+   Chicago, no gaps for tone. The command under the pointer inverts like a
+   title in the menu bar; the primary command is a rounded push button.
+   Disabled commands are the one grey.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-commandbar {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: var(--tss-retro-shadow-sm);
+    padding: 2px 4px;
+    gap: 8px;
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+}
+
+body.tss-theme-retroos .tss-commandbar-section {
+    gap: 2px;
+}
+
+body.tss-theme-retroos .tss-commandbar-item {
+    border: 1px solid transparent;
+    border-radius: 0;
+    padding: 2px 10px;
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-commandbar-item:not(.tss-disabled):not(:disabled):hover,
+body.tss-theme-retroos .tss-commandbar-item:not(.tss-disabled):not(:disabled):active {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-commandbar-item i,
+body.tss-theme-retroos .tss-commandbar-item .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-commandbar-item-primary {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-commandbar-item.tss-disabled,
+body.tss-theme-retroos .tss-commandbar-item:disabled {
+    opacity: 1;
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-commandbar-item-primary.tss-disabled,
+body.tss-theme-retroos .tss-commandbar-item-primary:disabled {
+    border-color: var(--tss-retro-gray);
+}

@@ -1,1 +1,6 @@
-/* RetroOS - grid */
+/* ==========================================================================
+   RetroOS theme - Grid
+   --------------------------------------------------------------------------
+   A grid is pure layout and draws nothing, as on the Mac: nothing to restate.
+   (Its cells take their look from whatever is put in them.)
+   ========================================================================== */
