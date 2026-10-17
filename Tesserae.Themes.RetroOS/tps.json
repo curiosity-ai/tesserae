@@ -110,7 +110,18 @@
                 "tps/assets/css/tss.codediff.css",
                 "tps/assets/css/tss.ai.css",
                 "tps/assets/css/tss.baklava.css",
-                "tps/assets/css/tss.charts.css"
+                "tps/assets/css/tss.charts.css",
+                "tps/assets/css/tss.toast.css",
+                "tps/assets/css/tss.daterange.css",
+                "tps/assets/css/tss.overflowset.css",
+                "tps/assets/css/tss.pivotselector.css",
+                "tps/assets/css/tss.pixelavatar.css",
+                "tps/assets/css/tss.basiclist.css",
+                "tps/assets/css/tss.backgroundarea.css",
+                "tps/assets/css/tss.float.css",
+                "tps/assets/css/tss.grid.css",
+                "tps/assets/css/tss.stack.css",
+                "tps/assets/css/tss.body.css"
             ],
             "output": "assets/css"
         },
