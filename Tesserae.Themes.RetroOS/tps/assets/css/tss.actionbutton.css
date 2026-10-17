@@ -3,8 +3,9 @@
    --------------------------------------------------------------------------
    A split push button: one rounded 1px outline around the label half and the
    icon half, a 1px rule between them. Each half inverts under the pointer
-   like a menu row. The primary one wears the default button's thick ring.
-   Danger is told apart by words and icon, not colour. Disabled is the grey.
+   like a menu row, its icon and text following. The primary one wears the
+   default button's thick ring around the whole control. Danger is told apart
+   by words and icon, not colour.
    ========================================================================== */
 
 body.tss-theme-retroos .tss-actionbutton-container {
@@ -15,58 +16,72 @@ body.tss-theme-retroos .tss-actionbutton-container {
     overflow: hidden;
     font-family: var(--tss-retro-chicago);
     font-size: 16px;
+}
+
+body.tss-theme-retroos .tss-actionbutton-container:focus-visible,
+body.tss-theme-retroos .tss-actionbutton-container:focus-within:has(:focus-visible) {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
     outline-offset: 2px;
 }
 
-body.tss-theme-retroos .tss-actionbutton-container > .tss-btn,
-body.tss-theme-retroos .tss-actionbutton-container > .tss-btn:not(.tss-disabled),
-body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-btn-primary:not(.tss-disabled),
-body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-btn-danger:not(.tss-disabled),
-body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-btn-success:not(.tss-disabled) {
+/* Both halves, whatever tone class they carry, are paper with ink. */
+body.tss-theme-retroos .tss-actionbutton-container > .tss-actionbutton-displaybutton,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-actionbutton-actionbtn,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn-primary,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn-danger {
     border: 0;
     border-radius: 0;
     margin: 0;
     box-shadow: none;
     background: rgb(var(--tss-default-background-color-root));
     color: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
 }
 
 body.tss-theme-retroos .tss-actionbutton-container > .tss-actionbutton-actionbtn {
     border-left: 1px solid rgb(var(--tss-default-foreground-color-root));
 }
 
-body.tss-theme-retroos .tss-actionbutton-container > .tss-btn:not(.tss-disabled):hover,
-body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-btn-primary:not(.tss-disabled):hover,
-body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-btn-danger:not(.tss-disabled):hover,
-body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-btn-success:not(.tss-disabled):hover,
-body.tss-theme-retroos .tss-actionbutton-container > .tss-btn:not(.tss-disabled):active {
-    background: rgb(var(--tss-default-foreground-color-root));
-    color: rgb(var(--tss-default-background-color-root));
-    box-shadow: none;
+body.tss-theme-retroos .tss-actionbutton-container .tss-textblock,
+body.tss-theme-retroos .tss-actionbutton-container .tss-fontcolor-default,
+body.tss-theme-retroos .tss-actionbutton-container i {
+    color: inherit !important;
 }
 
-body.tss-theme-retroos .tss-actionbutton-container > .tss-btn:not(.tss-disabled) .tss-fontcolor-default,
-body.tss-theme-retroos .tss-actionbutton-container > .tss-btn:not(.tss-disabled) > i {
-    color: inherit;
+body.tss-theme-retroos .tss-actionbutton-container .tss-textblock {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-retroos .tss-actionbutton-container .tss-textblock.tss-fontsize-tiny {
+    font-size: 14px;
+}
+
+/* Under the pointer, or pressed: reverse video. */
+body.tss-theme-retroos .tss-actionbutton-container > .tss-actionbutton-displaybutton:hover,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-actionbutton-actionbtn:hover,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn-primary:hover,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn-danger:hover,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-actionbutton-displaybutton:active,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-actionbutton-actionbtn:active,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn-primary:active,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn-danger:active {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
 }
 
 /* Primary: the default button's thick ring around the whole control. */
-body.tss-theme-retroos .tss-actionbutton-container:has(> .tss-btn-primary:not(.tss-disabled)) {
+body.tss-theme-retroos .tss-actionbutton-container:has(> .tss-btn-primary) {
     box-shadow: 0 0 0 2px rgb(var(--tss-default-background-color-root)), 0 0 0 4px rgb(var(--tss-default-foreground-color-root));
     margin: 4px;
     overflow: visible;
 }
 
-body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-disabled {
-    color: var(--tss-retro-gray);
-    background: rgb(var(--tss-default-background-color-root));
+body.tss-theme-retroos .tss-actionbutton-container:has(> .tss-btn-primary) > .tss-btn-primary:first-child {
+    border-radius: 7px 0 0 7px;
 }
 
-body.tss-theme-retroos .tss-actionbutton-container:has(> .tss-btn.tss-disabled) {
-    border-color: var(--tss-retro-gray);
-}
-
-body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-disabled .tss-fontcolor-default,
-body.tss-theme-retroos .tss-actionbutton-container > .tss-btn.tss-disabled > i {
-    color: var(--tss-retro-gray);
+body.tss-theme-retroos .tss-actionbutton-container:has(> .tss-btn-primary) > .tss-btn-primary:last-child {
+    border-radius: 0 7px 7px 0;
 }
