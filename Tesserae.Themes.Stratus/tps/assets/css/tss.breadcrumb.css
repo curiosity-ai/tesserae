@@ -17,7 +17,7 @@ body.tss-theme-stratus .tss-breadcrumb:not(#_) .tss-btn {
     border: 2px solid transparent;
     border-radius: var(--tss-border-radius-sm);
     background: transparent;
-    color: var(--tss-link-color);
+    color: var(--tss-str-crumb-link);
     font-weight: var(--tss-font-weight-bold);
 }
 
@@ -49,9 +49,11 @@ body.tss-theme-stratus .tss-breadcrumb-chevron {
 body.tss-theme-stratus {
     --tss-str-link-hover: #002d80;    /* text.link.neutral.hover */
     --tss-str-chevron: #919cb0;       /* text.neutral.moderate */
+    --tss-str-crumb-link: #255fcc;    /* text.link.neutral.default */
 }
 
 body.tss-theme-stratus.tss-dark-mode {
     --tss-str-link-hover: #b3cbf8;
     --tss-str-chevron: #e0e3e9;
+    --tss-str-crumb-link: #638ee0;
 }

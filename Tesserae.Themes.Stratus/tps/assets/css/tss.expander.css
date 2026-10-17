@@ -55,3 +55,9 @@ body.tss-theme-stratus .tss-expander-content {
 }
 
 body.tss-theme-stratus .tss-expander-icon { border-radius: var(--tss-border-radius-sm); }
+
+/* The chevron sits at the trailing edge of the header, as in the language, not before the title. */
+body.tss-theme-stratus .tss-expander-header > .tss-expander-chevron { order: 2; margin-left: auto; transform: none; }
+body.tss-theme-stratus .tss-expander.tss-expanded > .tss-expander-header > .tss-expander-chevron { transform: rotate(180deg); }
+body.tss-theme-stratus .tss-expander-header > .tss-expander-header-content { order: 1; flex: 1; }
+body.tss-theme-stratus .tss-expander-content .tss-textblock.tss-fontcolor-default { color: var(--tss-secondary-foreground-color); }

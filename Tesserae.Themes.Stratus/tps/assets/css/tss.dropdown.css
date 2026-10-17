@@ -9,6 +9,8 @@
    ========================================================================== */
 
 body.tss-theme-stratus .tss-dropdown-container {
+    font-weight: var(--tss-font-weight-regular);
+    line-height: 20px;
     border: 0;
     border-radius: 3px 3px 0 0;
     background: var(--tss-str-fill);
@@ -253,4 +255,16 @@ body.tss-theme-stratus .tss-dropdown-container > .tss-dropdown:focus-visible {
 /* The row shows its ring inside its edge, so the global outline is dropped there. */
 body.tss-theme-stratus .tss-dropdown-item:focus-visible {
     outline: none;
+}
+
+/* A searchable dropdown's own input takes the keyboard focus; the field's ring is drawn on the container (so it
+   follows the field, not the text), and the input inside must not add the global outline in a second box. */
+body.tss-theme-stratus .tss-dropdown-container :focus-visible {
+    outline: none;
+}
+
+body.tss-theme-stratus .tss-dropdown-container:has(.tss-dropdown input:focus-visible) {
+    border: 0;
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
 }

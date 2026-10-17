@@ -33,9 +33,10 @@ body.tss-theme-stratus .tss-searchbox-container:focus-within {
 
 body.tss-theme-stratus .tss-searchbox-container.tss-disabled {
     border: 0;
-    background: var(--tss-str-fill);
+    background: transparent;
     color: var(--tss-default-foreground-color);
     opacity: .4;
+    box-shadow: inset 0 -1px 0 0 var(--tss-str-rule);
 }
 
 body.tss-theme-stratus .tss-searchbox {

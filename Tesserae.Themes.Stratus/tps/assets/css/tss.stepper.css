@@ -62,6 +62,32 @@ body.tss-theme-stratus .tss-stepper-description {
     color: var(--tss-secondary-foreground-color);
 }
 
+/* The connector between two steps: a 2px line at the circles' centre line (the design system's), navy once the step
+   before it is finished or current, the quiet fill while it is still ahead. Steps are 40px apart to give it room. */
+body.tss-theme-stratus .tss-stepper-header {
+    gap: 40px;
+}
+
+body.tss-theme-stratus .tss-stepper-step {
+    position: relative;
+}
+
+body.tss-theme-stratus .tss-stepper-step + .tss-stepper-step::before {
+    content: "";
+    position: absolute;
+    left: -32px;
+    top: calc(50% - 1px);
+    width: 24px;
+    height: 2px;
+    background: var(--tss-str-on-fill-2);
+    pointer-events: none;
+}
+
+body.tss-theme-stratus .tss-stepper-complete + .tss-stepper-step::before,
+body.tss-theme-stratus .tss-stepper-active + .tss-stepper-step.tss-stepper-complete::before {
+    background: var(--tss-str-navy);
+}
+
 body.tss-theme-stratus .tss-stepper-content {
     border: 0;
     border-radius: var(--tss-border-radius-lg);
@@ -88,4 +114,20 @@ body.tss-theme-stratus .tss-stepper-nav:hover:not(:disabled) {
 body.tss-theme-stratus .tss-stepper-nav:disabled,
 body.tss-theme-stratus .tss-stepper-nav.tss-disabled {
     opacity: .4;
+}
+
+/* Dark: the design system sets an upcoming step's numeral and label in white (text.neutral.strong). */
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-circle,
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-label {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-active .tss-stepper-circle {
+    color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-active .tss-stepper-label,
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-complete .tss-stepper-label,
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-complete .tss-stepper-circle {
+    color: var(--tss-str-corporate);
 }

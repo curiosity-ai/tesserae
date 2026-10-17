@@ -1,34 +1,31 @@
 /* ==========================================================================
    Stratus theme - Picker
    --------------------------------------------------------------------------
-   The input is a TextBox (themed there); the suggestion layer is a level-4
-   surface with 8px corners, and a suggestion lights navy-on-white on hover,
-   like a menu row. Chips follow the TagsInput chip.
+   The input is a TextBox (themed there); the suggestion layer is the combobox
+   menu of the language: a level-3 surface square at the top (it hangs from the
+   field) and 3px at the bottom, rows 44px tall with the neutral wash on hover.
+   Chips follow the TagsInput chip.
    ========================================================================== */
 
 body.tss-theme-stratus .tss-layer-picker-suggestions {
-    border-radius: var(--tss-border-radius-xl);
+    border-radius: 0 0 var(--tss-border-radius-sm) var(--tss-border-radius-sm);
     background: var(--tss-str-elevated-surface);
-    box-shadow: var(--tss-str-elev-4);
+    box-shadow: var(--tss-str-elev-3);
 }
 
 body.tss-theme-stratus .tss-picker-suggestions > .tss-picker-label {
     color: var(--tss-secondary-foreground-color);
     font-size: var(--tss-font-size-xsmall);
-    font-weight: var(--tss-font-weight-bold);
-    letter-spacing: .04em;
-    text-transform: uppercase;
 }
 
 body.tss-theme-stratus .tss-picker-suggestions > .tss-picker-suggestion {
-    padding: 6px 8px;
-    border-radius: var(--tss-border-radius-sm);
+    padding: 12px;
+    border-radius: 0;
 }
 
 body.tss-theme-stratus .tss-picker-suggestions > .tss-picker-suggestion:hover {
-    background: var(--tss-default-background-active-color);
+    background: var(--tss-default-background-hover-color);
     color: var(--tss-default-foreground-color);
-    box-shadow: inset 3px 0 0 0 var(--tss-str-navy);
 }
 
 body.tss-theme-stratus .tss-picker-selection {

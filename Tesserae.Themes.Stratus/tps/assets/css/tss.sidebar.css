@@ -55,8 +55,7 @@ body.tss-theme-stratus .tss-sidebar:not(#_) .tss-btn.tss-btn-default .tss-fontco
 
 /* Row size: 40px tall with 12px side padding (the design system's row is 44px). The base sidebar fixes row
    height at 28px with !important, so the open rail's rows restate it. The closed rail keeps its tiles. */
-body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn,
-body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn {
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-btn.tss-sidebar-btn:not(.tss-sidebar-command):not(.tss-sidebar-nav-arrow):not(.tss-sidebar-btn-closed-icon) {
     height: 40px !important;
     padding-left: 12px;
     padding-right: 12px;
