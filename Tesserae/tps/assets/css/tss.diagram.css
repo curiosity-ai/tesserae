@@ -128,3 +128,9 @@
     background-color: var(--tss-danger-background-color);
     border-color: var(--tss-danger-border-color);
 }
+
+.tss-diagram-node-warning {
+    color: var(--tss-warning-foreground-color);
+    background-color: var(--tss-warning-background-color);
+    border-color: var(--tss-warning-border-color);
+}

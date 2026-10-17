@@ -643,6 +643,26 @@ namespace Tesserae
                 /// CSS variable reference for the warning tone foreground (text) color.
                 /// </summary>
                 public const string Foreground = "var(--tss-warning-foreground-color)";
+                /// <summary>
+                /// CSS variable reference for the warning tone border color.
+                /// </summary>
+                public const string Border           = "var(--tss-warning-border-color)";
+                /// <summary>
+                /// CSS variable reference for the warning tone background color on hover.
+                /// </summary>
+                public const string BackgroundHover  = "var(--tss-warning-background-hover-color)";
+                /// <summary>
+                /// CSS variable reference for the warning tone foreground color on hover.
+                /// </summary>
+                public const string ForegroundHover  = "var(--tss-warning-foreground-hover-color)";
+                /// <summary>
+                /// CSS variable reference for the warning tone background color while pressed / active.
+                /// </summary>
+                public const string BackgroundActive = "var(--tss-warning-background-active-color)";
+                /// <summary>
+                /// CSS variable reference for the warning tone foreground color while pressed / active.
+                /// </summary>
+                public const string ForegroundActive = "var(--tss-warning-foreground-active-color)";
             }
 
             public static class Gradients

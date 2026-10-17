@@ -112,8 +112,8 @@ body.tss-theme-retroos .tippy-box[data-theme~='tss-tree-tippy'] {
     background: rgb(var(--tss-default-background-color-root));
 }
 
-body.tss-theme-retroos .tss-tree-menu > .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
-body.tss-theme-retroos .tss-tree-menu > a > .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success) {
+body.tss-theme-retroos .tss-tree-menu > .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success),
+body.tss-theme-retroos .tss-tree-menu > a > .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success) {
     background: rgb(var(--tss-default-background-color-root));
     color: rgb(var(--tss-default-foreground-color-root));
     border-color: transparent;
@@ -121,8 +121,8 @@ body.tss-theme-retroos .tss-tree-menu > a > .tss-tree-command:not(.tss-btn-dange
     font-size: 16px;
 }
 
-body.tss-theme-retroos .tss-tree-menu > .tss-tree-command.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
-body.tss-theme-retroos .tss-tree-menu > a > .tss-tree-command.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover {
+body.tss-theme-retroos .tss-tree-menu > .tss-tree-command.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success):hover,
+body.tss-theme-retroos .tss-tree-menu > a > .tss-tree-command.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success):hover {
     background: rgb(var(--tss-default-foreground-color-root));
     color: rgb(var(--tss-default-background-color-root));
     border-color: rgb(var(--tss-default-foreground-color-root));

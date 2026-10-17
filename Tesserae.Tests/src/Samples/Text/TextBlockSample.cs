@@ -42,6 +42,7 @@ namespace Tesserae.Tests.Samples
                     VStack().Children(
                         TextBlock("Bold Primary Text").Bold().Primary(),
                         TextBlock("Semi-Bold Success Text").SemiBold().Success(),
+                        TextBlock("Regular Warning Text").Regular().Warning(),
                         TextBlock("Regular Danger Text").Regular().Danger()
                     ),
                     SampleSubTitle("Wrapping and Overflow"),

@@ -1,0 +1,4 @@
+/* Stratus theme - Popover: the wrapper is transparent, so whatever sits in it (menu, card) brings the
+   elevation-2 surface; the arrow takes the elevated surface colour. */
+body.tss-theme-stratus .tippy-box[data-theme~='tss-popover'] > .tippy-arrow { color: var(--tss-str-elevated-surface); }
+body.tss-theme-stratus .tss-popover { font-size: var(--tss-font-size-small); }

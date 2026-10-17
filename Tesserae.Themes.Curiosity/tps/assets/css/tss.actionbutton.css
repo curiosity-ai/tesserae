@@ -30,12 +30,13 @@ body.tss-theme-curiosity .tss-actionbutton-container > .tss-actionbutton-actionb
 }
 
 body.tss-theme-curiosity .tss-actionbutton-container > .tss-actionbutton-actionbtn.tss-btn-primary,
-body.tss-theme-curiosity .tss-actionbutton-container > .tss-actionbutton-actionbtn.tss-btn-danger {
+body.tss-theme-curiosity .tss-actionbutton-container > .tss-actionbutton-actionbtn.tss-btn-danger,
+body.tss-theme-curiosity .tss-actionbutton-container > .tss-actionbutton-actionbtn.tss-btn-warning {
     box-shadow: inset 1px 0 0 color-mix(in srgb, currentColor 35%, transparent);
 }
 
-body.tss-theme-curiosity .tss-actionbutton-container > .tss-actionbutton-displaybutton:not(.tss-btn-primary):not(.tss-btn-danger):active,
-body.tss-theme-curiosity .tss-actionbutton-container > .tss-actionbutton-actionbtn:not(.tss-btn-primary):not(.tss-btn-danger):active {
+body.tss-theme-curiosity .tss-actionbutton-container > .tss-actionbutton-displaybutton:not(.tss-btn-primary):not(.tss-btn-danger):not(.tss-btn-warning):active,
+body.tss-theme-curiosity .tss-actionbutton-container > .tss-actionbutton-actionbtn:not(.tss-btn-primary):not(.tss-btn-danger):not(.tss-btn-warning):active {
     background: var(--tss-default-background-active-color);
 }
 

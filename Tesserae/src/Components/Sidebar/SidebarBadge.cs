@@ -141,6 +141,16 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Sets the badge to use the warning style.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
+        public SidebarBadge Warning()
+        {
+            _button.IsWarning = true;
+            return this;
+        }
+
+        /// <summary>
         /// Sets a tooltip for the badge.
         /// </summary>
         /// <param name="text">The tooltip text.</param>

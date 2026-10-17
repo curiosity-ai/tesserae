@@ -145,12 +145,17 @@
     cursor: pointer;
 }
 
+    /* The input is a zero-height box whose thumb is centred on it. It used to sit at top: 7px with the browser's
+       default 2px margin on top of that, which put the thumb centre at 9px while the 8px track is centred on 8px (a
+       thumb 1px low), and the same margin pushed the thumb 2px right of the start of the rail. No margin, and the box
+       on the track's centre line. */
     .tss-slider.tss-fake {
         background-color: transparent;
         border-color: transparent;
         position: absolute;
         left: 0;
-        top: 7px;
+        margin: 0;
+        top: 8px;
         z-index: 1;
     }
 

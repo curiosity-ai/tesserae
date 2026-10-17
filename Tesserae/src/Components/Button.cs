@@ -199,12 +199,12 @@ namespace Tesserae
                 if (value)
                 {
                     InnerElement.classList.add("tss-btn-primary");
-                    InnerElement.classList.remove("tss-btn-default", "tss-btn-success", "tss-btn-danger");
+                    InnerElement.classList.remove("tss-btn-default", "tss-btn-success", "tss-btn-danger", "tss-btn-warning");
                 }
                 else
                 {
                     InnerElement.classList.add("tss-btn-default");
-                    InnerElement.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary");
+                    InnerElement.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary", "tss-btn-warning");
                 }
             }
         }
@@ -220,12 +220,12 @@ namespace Tesserae
                 if (value)
                 {
                     InnerElement.classList.add("tss-btn-success");
-                    InnerElement.classList.remove("tss-btn-default", "tss-btn-primary", "tss-btn-danger");
+                    InnerElement.classList.remove("tss-btn-default", "tss-btn-primary", "tss-btn-danger", "tss-btn-warning");
                 }
                 else
                 {
                     InnerElement.classList.add("tss-btn-default");
-                    InnerElement.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary");
+                    InnerElement.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary", "tss-btn-warning");
                 }
             }
         }
@@ -241,12 +241,33 @@ namespace Tesserae
                 if (value)
                 {
                     InnerElement.classList.add("tss-btn-danger");
-                    InnerElement.classList.remove("tss-btn-default", "tss-btn-primary", "tss-btn-success");
+                    InnerElement.classList.remove("tss-btn-default", "tss-btn-primary", "tss-btn-success", "tss-btn-warning");
                 }
                 else
                 {
                     InnerElement.classList.add("tss-btn-default");
-                    InnerElement.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary");
+                    InnerElement.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary", "tss-btn-warning");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or set whenever button is warning
+        /// </summary>
+        public bool IsWarning
+        {
+            get => InnerElement.classList.contains("tss-btn-warning");
+            set
+            {
+                if (value)
+                {
+                    InnerElement.classList.add("tss-btn-warning");
+                    InnerElement.classList.remove("tss-btn-default", "tss-btn-primary", "tss-btn-success", "tss-btn-danger");
+                }
+                else
+                {
+                    InnerElement.classList.add("tss-btn-default");
+                    InnerElement.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary", "tss-btn-warning");
                 }
             }
         }
@@ -622,6 +643,15 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Styles the component using the warning tone.
+        /// </summary>
+        public Button Warning()
+        {
+            IsWarning = true;
+            return this;
+        }
+
+        /// <summary>
         /// Styles the component as an AI action - a filled purple-to-blue gradient. It is the AI
         /// equivalent of <see cref="Primary"/>, so like a primary button there should be one of them on a
         /// surface at a time; the second and third AI action beside it want <see cref="AISubtle"/>.
@@ -637,7 +667,7 @@ namespace Tesserae
         {
             InnerElement.classList.add("tss-ai");
             InnerElement.UpdateClassIf(strongEffect, "tss-ai-strong");
-            InnerElement.classList.remove("tss-ai-subtle", "tss-btn-primary", "tss-btn-success", "tss-btn-danger");
+            InnerElement.classList.remove("tss-ai-subtle", "tss-btn-primary", "tss-btn-success", "tss-btn-danger", "tss-btn-warning");
             InnerElement.classList.add("tss-btn-default");
 
             if (withSparklesIcon && _iconSpan is null) SetIcon(UIcons.Sparkles);

@@ -1,0 +1,97 @@
+/* ==========================================================================
+   Stratus theme - Toggle
+   --------------------------------------------------------------------------
+   Measured against the design system's toggle: a 48 by 24px pill with a 1px
+   corporate-navy edge on the page colour and an 18px thumb, 3px in, drawn in
+   the accent with a level-2 shadow. Hover shifts the track to the interaction
+   grey. On, the track fills with the accent (no edge) and the thumb takes the
+   page colour and slides 24px. The label is 16px, 8px from the track. Keyboard
+   focus is the 2px ring around the track. Disabled is 40%.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-toggle-container {
+    align-items: center;
+    height: 24px;
+}
+
+body.tss-theme-stratus .tss-toggle-container .tss-toggle-mark {
+    box-sizing: border-box;
+    width: 48px;
+    height: 24px;
+    border-radius: 40px;
+    background-color: var(--tss-default-background-color);
+    border: 1px solid var(--tss-str-corporate);
+    transition: background-color var(--tss-str-ease), border-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-toggle-container .tss-toggle-text {
+    margin-left: 8px;
+    min-height: 24px;
+    line-height: 24px;
+}
+
+body.tss-theme-stratus .tss-toggle-container .tss-toggle-text .tss-textblock {
+    font-size: var(--tss-font-size-smallplus);
+    line-height: 24px;
+}
+
+body.tss-theme-stratus .tss-toggle-container .tss-toggle-mark:after {
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    background-color: var(--tss-primary-background-color);
+    box-shadow: var(--tss-str-elev-2);
+    transition: transform .25s ease-in-out;
+}
+
+body.tss-theme-stratus .tss-toggle-container:not(.tss-disabled):hover .tss-toggle-mark {
+    background-color: var(--tss-default-background-hover-color);
+    border-color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-toggle-container:not(.tss-disabled):hover .tss-toggle-mark:after {
+    background-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-stratus .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-stratus .tss-toggle-container:hover input:checked ~ .tss-toggle-mark,
+body.tss-theme-stratus .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-stratus .tss-toggle-container:not(.tss-disabled):hover input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-toggle-container input:checked ~ .tss-toggle-mark:after,
+body.tss-theme-stratus .tss-toggle-container:hover input:checked ~ .tss-toggle-mark:after {
+    left: 2px;
+    background-color: var(--tss-default-background-color);
+    transform: translate(24px, 0);
+}
+
+body.tss-theme-stratus .tss-toggle-container input:focus-visible ~ .tss-toggle-mark {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus .tss-toggle-container.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+    cursor: not-allowed;
+}
+
+body.tss-theme-stratus .tss-toggle-container.tss-disabled .tss-toggle-mark,
+body.tss-theme-stratus .tss-toggle-container.tss-disabled:hover .tss-toggle-mark {
+    background-color: var(--tss-default-background-color);
+    border-color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark,
+body.tss-theme-stratus .tss-toggle-container.tss-disabled:hover input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+}

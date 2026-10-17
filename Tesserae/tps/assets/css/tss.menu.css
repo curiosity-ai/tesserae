@@ -57,9 +57,18 @@
     color: var(--tss-danger-background-color);
 }
 
+.tss-menu-item.tss-menu-item-warning:not(.tss-disabled) {
+    color: var(--tss-warning-background-color);
+}
+
 .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):hover,
 .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus {
     background-color: color-mix(in srgb, var(--tss-danger-background-color) 12%, transparent);
+}
+
+.tss-menu-item.tss-menu-item-warning:not(.tss-disabled):hover,
+.tss-menu-item.tss-menu-item-warning:not(.tss-disabled):focus {
+    background-color: color-mix(in srgb, var(--tss-warning-background-color) 12%, transparent);
 }
 
 .tss-menu-item.tss-menu-item-primary:not(.tss-disabled) {

@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Stratus theme - Markdown
+   --------------------------------------------------------------------------
+   Code sits on the "on background" fill with Roboto Mono and 3px corners;
+   a blockquote carries a 4px navy rule; tables follow the TextBlock table.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-markdown pre {
+    border-radius: var(--tss-border-radius-sm);
+    background: var(--tss-str-on-fill);
+    border: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-markdown code {
+    font-family: var(--tss-monospace-font-family);
+}
+
+body.tss-theme-stratus .tss-markdown :not(pre) > code {
+    background: var(--tss-str-on-fill);
+    border-radius: 3px;
+}
+
+body.tss-theme-stratus .tss-markdown kbd {
+    border-radius: 3px;
+    border-bottom-width: 2px;
+    border-bottom-color: var(--tss-str-rule);
+    font-family: var(--tss-monospace-font-family);
+}
+
+body.tss-theme-stratus .tss-markdown blockquote {
+    border-left: 4px solid var(--tss-str-navy);
+    background: var(--tss-str-fill);
+    border-radius: 0 3px 3px 0;
+}
+
+body.tss-theme-stratus .tss-markdown table {
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: none;
+    border: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-markdown th {
+    background: var(--tss-str-on-fill);
+    font-weight: var(--tss-font-weight-bold);
+}

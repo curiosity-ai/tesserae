@@ -124,6 +124,13 @@ namespace Tesserae
             return textBlock;
         }
 
+        /// <summary>Sets the text to warning color.</summary>
+        public static T Warning<T>(this T textBlock) where T : TextBlock
+        {
+            textBlock.IsWarning = true;
+            return textBlock;
+        }
+
         /// <summary>Sets the text to secondary color.</summary>
         public static T Secondary<T>(this T textBlock) where T : TextBlock
         {

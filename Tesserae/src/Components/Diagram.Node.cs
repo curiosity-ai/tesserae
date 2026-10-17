@@ -180,6 +180,11 @@ namespace Tesserae
             public Node Danger() => SetStyle("tss-diagram-node-danger");
 
             /// <summary>
+            /// Styles the node using the warning tone.
+            /// </summary>
+            public Node Warning() => SetStyle("tss-diagram-node-warning");
+
+            /// <summary>
             /// Configures the node with arbitrary background, foreground and border colors.
             /// </summary>
             public Node Color(string background, string foreground = "", string borderColor = "")

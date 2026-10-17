@@ -138,6 +138,10 @@
     background: var(--tss-danger-background-color, #e81123);
 }
 
+.tss-sidenav-btn-dot.tss-sidenav-btn-dot-warning {
+    background: var(--tss-warning-background-color, #e81123);
+}
+
 /* Brand (logo) cell at top */
 .tss-sidenav-btn-wrap.tss-sidenav-btn-brand > .tss-btn.tss-sidenav-btn {
     border-radius: 8px;

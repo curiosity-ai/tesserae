@@ -206,16 +206,41 @@ namespace Tesserae
                 if (value)
                 {
                     DisplayButton.classList.add("tss-btn-danger");
-                    DisplayButton.classList.remove("tss-btn-default", "tss-btn-primary", "tss-btn-success");
+                    DisplayButton.classList.remove("tss-btn-default", "tss-btn-primary", "tss-btn-success", "tss-btn-warning");
                     ActionBtn.classList.add("tss-btn-danger");
-                    ActionBtn.classList.remove("tss-btn-default", "tss-btn-primary", "tss-btn-success");
+                    ActionBtn.classList.remove("tss-btn-default", "tss-btn-primary", "tss-btn-success", "tss-btn-warning");
                 }
                 else
                 {
                     DisplayButton.classList.add("tss-btn-default");
-                    DisplayButton.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary");
+                    DisplayButton.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary", "tss-btn-warning");
                     ActionBtn.classList.add("tss-btn-default");
-                    ActionBtn.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary");
+                    ActionBtn.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary", "tss-btn-warning");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or set whenever button is warning
+        /// </summary>
+        public bool IsWarning
+        {
+            get => DisplayButton.classList.contains("tss-btn-warning");
+            set
+            {
+                if (value)
+                {
+                    DisplayButton.classList.add("tss-btn-warning");
+                    DisplayButton.classList.remove("tss-btn-default", "tss-btn-primary", "tss-btn-success", "tss-btn-danger");
+                    ActionBtn.classList.add("tss-btn-warning");
+                    ActionBtn.classList.remove("tss-btn-default", "tss-btn-primary", "tss-btn-success", "tss-btn-danger");
+                }
+                else
+                {
+                    DisplayButton.classList.add("tss-btn-default");
+                    DisplayButton.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary", "tss-btn-warning");
+                    ActionBtn.classList.add("tss-btn-default");
+                    ActionBtn.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary", "tss-btn-warning");
                 }
             }
         }
@@ -231,16 +256,16 @@ namespace Tesserae
                 if (value)
                 {
                     DisplayButton.classList.add("tss-btn-primary");
-                    DisplayButton.classList.remove("tss-btn-default", "tss-btn-success", "tss-btn-danger");
+                    DisplayButton.classList.remove("tss-btn-default", "tss-btn-success", "tss-btn-danger", "tss-btn-warning");
                     ActionBtn.classList.add("tss-btn-primary");
-                    ActionBtn.classList.remove("tss-btn-default", "tss-btn-success", "tss-btn-danger");
+                    ActionBtn.classList.remove("tss-btn-default", "tss-btn-success", "tss-btn-danger", "tss-btn-warning");
                 }
                 else
                 {
                     DisplayButton.classList.add("tss-btn-default");
-                    DisplayButton.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary");
+                    DisplayButton.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary", "tss-btn-warning");
                     ActionBtn.classList.add("tss-btn-default");
-                    ActionBtn.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary");
+                    ActionBtn.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary", "tss-btn-warning");
                 }
             }
         }
@@ -261,6 +286,15 @@ namespace Tesserae
         public ActionButton Danger()
         {
             IsDanger = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Styles the component using the warning tone.
+        /// </summary>
+        public ActionButton Warning()
+        {
+            IsWarning = true;
             return this;
         }
 

@@ -59,6 +59,11 @@
     --tss-primary-foreground-active-color-root: 255, 255, 255;
     --tss-warning-background-color-root: 220, 145, 53;
     --tss-warning-foreground-color-root: 255, 255, 255;
+    --tss-warning-border-color-root: 220, 145, 53;
+    --tss-warning-background-hover-color-root: 196, 126, 38;
+    --tss-warning-foreground-hover-color-root: 255, 255, 255;
+    --tss-warning-background-active-color-root: 172, 108, 28;
+    --tss-warning-foreground-active-color-root: 255, 255, 255;
     --tss-danger-background-color-root: 220, 53, 69;
     --tss-danger-foreground-color-root: 255, 255, 255;
     --tss-danger-border-color-root: 220, 53, 69;
@@ -107,6 +112,11 @@
     --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
     --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
     --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
     --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
     --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
     --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
@@ -198,6 +208,11 @@
     --tss-primary-foreground-active-color-root: 255, 255, 255;
     --tss-warning-background-color-root: 255, 174, 81;
     --tss-warning-foreground-color-root: 255, 255, 255;
+    --tss-warning-border-color-root: 255, 174, 81;
+    --tss-warning-background-hover-color-root: 214, 138, 52;
+    --tss-warning-foreground-hover-color-root: 255, 255, 255;
+    --tss-warning-background-active-color-root: 184, 116, 40;
+    --tss-warning-foreground-active-color-root: 255, 255, 255;
     --tss-danger-background-color-root: 255, 81, 98;
     --tss-danger-foreground-color-root: 255, 255, 255;
     --tss-danger-border-color-root: 255, 81, 98;
@@ -245,6 +260,11 @@
     --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
     --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
     --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
     --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
     --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
     --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));

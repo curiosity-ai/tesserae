@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Stratus theme - Notification center
+   --------------------------------------------------------------------------
+   The bell is a round ghost icon button with the neutral hover fill and the
+   2px focus ring; the unread count is the error red; an unread item takes the
+   soft blue wash and the tone dots use the feedback colours.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-notif-bell:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-notif-bell:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-notif-badge {
+    background: var(--tss-str-error);
+    color: var(--tss-danger-foreground-color);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-notif-dot.tss-notif-info    { background: var(--tss-str-info); }
+body.tss-theme-stratus .tss-notif-dot.tss-notif-success { background: var(--tss-str-success); }
+body.tss-theme-stratus .tss-notif-dot.tss-notif-warning { background: var(--tss-str-warning); }
+body.tss-theme-stratus .tss-notif-dot.tss-notif-danger  { background: var(--tss-str-error); }
+
+body.tss-theme-stratus .tss-notif-unread {
+    background: var(--tss-str-blue-soft) !important;
+}

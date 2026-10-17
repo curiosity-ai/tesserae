@@ -1,0 +1,216 @@
+/* ==========================================================================
+   Stratus theme - Sidebar
+   --------------------------------------------------------------------------
+   The side navigation of the language, measured against the design system's
+   SideNav: flat rows with 14px labels in the corporate blue, 12px of padding
+   round a 20px line (the design system's 44px row is held to 40px here, since a
+   Tesserae sidebar usually carries many more rows). The selected row is bold on
+   the soft blue wash, with no bar; hover is the neutral fill. Both run the
+   full width of the rail, edge to edge, like the reference's rows. A nav group's
+   header reads as a section, not a destination.
+
+   Rows are buttons underneath, and the shared button stylesheet outlines and
+   bolds default buttons, so every rule here carries :not(#_) (an id's worth of
+   specificity) to say "inside the rail, a default button is a flat row".
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-sidebar {
+    border-right: 0;
+    background: var(--tss-str-elevated-surface);
+    box-shadow: var(--tss-str-elev-1);
+}
+
+body.tss-theme-stratus .tss-sidebar.tss-sidebar-page {
+    box-shadow: none;
+}
+
+/* Flat rows: no outline, regular weight, the neutral label colour. */
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-btn.tss-btn-default,
+body.tss-theme-stratus .tss-navbar-drawer:not(#_) .tss-btn.tss-btn-default {
+    border-color: transparent;
+    background: transparent;
+    color: var(--tss-str-corporate);
+    font-weight: var(--tss-font-weight-regular);
+    border-radius: 0;
+    min-height: 40px;
+    line-height: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-navbar-drawer:not(#_) .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background-color: var(--tss-default-background-hover-color);
+    border-color: transparent;
+    color: var(--tss-default-foreground-hover-color);
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-btn.tss-btn-default:not(.tss-disabled):active {
+    background-color: var(--tss-default-background-active-color);
+    border-color: transparent;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-btn.tss-btn-default .tss-fontcolor-default {
+    color: inherit;
+}
+
+/* Row size: 40px tall with 12px side padding (the design system's row is 44px). The base sidebar fixes row
+   height at 28px with !important, so the open rail's rows restate it. The closed rail keeps its tiles. */
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-btn.tss-sidebar-btn:not(.tss-sidebar-command):not(.tss-sidebar-nav-arrow):not(.tss-sidebar-btn-closed-icon) {
+    height: 40px !important;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+/* The pointer stays on a row while its commands are on screen. */
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    background-color: var(--tss-default-background-hover-color);
+    border-color: transparent;
+    color: var(--tss-default-foreground-hover-color);
+}
+
+/* Selected: the wash, navy text, 3px navy bar inside the left edge (an inset shadow, so nothing shifts). */
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus.tss-dark-mode .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus.tss-dark-mode .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus.tss-dark-mode .tss-sidebar:not(#_) .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) {
+    background: var(--tss-default-background-active-color);
+    border-color: transparent;
+    color: var(--tss-str-corporate);
+    font-weight: var(--tss-font-weight-bold);
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-stratus.tss-dark-mode .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-stratus.tss-dark-mode .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled) {
+    background: var(--tss-default-background-active-color);
+    color: var(--tss-str-corporate);
+    border-color: transparent;
+    box-shadow: none;
+}
+
+/* Full-bleed rows. The reference's row highlight runs from the panel's left edge to its right edge; here the
+   rows sit inside the sidebar's own padding (12px of it on the left, 4px of the scroll gutter on the right), so a
+   highlight painted by the button alone leaves a margin on both sides.
+
+   The rail's scrolling middle is stretched to the full 250px, and each row paints its hover and selected wash
+   on a pseudo-element behind the button that overshoots in both directions and is clipped by that middle
+   (overflow-x: hidden). Nothing moves: labels, icons, indents and commands stay where the base puts them, and
+   it holds at any nesting depth because the wash reaches for the rail's edge, not for a fixed offset. The
+   button keeps painting the same colour over its own part, so the two are one band. */
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) > .tss-stack-item:nth-child(2) {
+    width: calc(100% + 24px) !important;
+    overflow-x: hidden;
+}
+
+/* A group's children container clips (overflow: hidden) so a closed group can collapse to nothing. Open, its
+   height is auto and the clip has nothing to do except cut off the wash of the rows inside it. */
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-children {
+    overflow: visible;
+}
+
+/* The reference's rows touch; Tesserae leaves 2px under each, which would cut every wash into separate bars. */
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-btn-open,
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-nav-children > .tss-stack-item {
+    margin-bottom: 0;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-btn-open::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -100vw;
+    right: -100vw;
+    z-index: -1;
+    background: transparent;
+    pointer-events: none;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover::before,
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-nav-header.tss-sidebar-btn-open:hover::before {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-btn-open:not(.tss-sidebar-selected):active::before {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-btn-open.tss-sidebar-selected::before {
+    background: var(--tss-default-background-active-color);
+}
+
+/* A nav group is a section: it takes the neutral hover, never the selected wash or bar. */
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
+    background: transparent;
+    border-color: transparent;
+    color: var(--tss-str-corporate);
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav-header > .tss-btn.tss-sidebar-nav-button {
+    font-weight: var(--tss-font-weight-bold);
+    color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav-header > .tss-btn.tss-sidebar-nav-button:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+/* Group arrow: a chevron in the rule grey, deepening under the pointer. */
+body.tss-theme-stratus .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: var(--tss-default-foreground-color);
+}
+
+/* Row commands and badges */
+body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-commands .tss-btn.tss-btn-default {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-sidebar-badge,
+body.tss-theme-stratus .tss-sidebar-badges .tss-badge {
+    border-radius: var(--tss-border-radius-full);
+}
+
+body.tss-theme-stratus .tss-sidebar-separator {
+    border-color: var(--tss-default-border-color);
+}
+
+/* The search field in the rail keeps the filled-slab look from the text field. */
+body.tss-theme-stratus .tss-sidebar .tss-searchbox-container {
+    border-radius: 0;
+}
+
+/* Mobile bar and page-level sidebar */
+body.tss-theme-stratus .tss-navbar {
+    border-bottom: 1px solid var(--tss-default-border-color);
+    box-shadow: var(--tss-str-elev-1);
+}
+
+body.tss-theme-stratus .tss-navbar-drawer {
+    box-shadow: var(--tss-str-elev-4);
+}
+
+body.tss-theme-stratus .tss-sidebar-nav-overlay-panel {
+    box-shadow: var(--tss-str-elev-4);
+    border-radius: var(--tss-border-radius-lg);
+}
+
+body.tss-theme-stratus .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-4);
+}

@@ -1,0 +1,5 @@
+/* Stratus theme - ModalStack: the veil matches the modal's; a hovered strip takes the selected tint. */
+body.tss-theme-stratus .tss-modalstack-scrim { backdrop-filter: none; }
+body.tss-theme-stratus .tss-modalstack-tab:hover { background: var(--tss-default-background-active-color); }
+body.tss-theme-stratus .tss-modalstack-tab:focus-visible { outline-color: var(--tss-str-focus); }
+body.tss-theme-stratus .tss-modalstack-trail-step:hover { color: var(--tss-str-navy); }

@@ -798,19 +798,19 @@
     min-width: 52px !important;
 }
 
-    .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
-    .tss-sidebar-menu > .tss-sidebar-btn-open > a > .tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
-    .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command.tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
-    .tss-sidebar-menu > .tss-sidebar-commands-line > a > .tss-sidebar-command.tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success) {
+    .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success),
+    .tss-sidebar-menu > .tss-sidebar-btn-open > a > .tss-btn:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success),
+    .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command.tss-btn:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success),
+    .tss-sidebar-menu > .tss-sidebar-commands-line > a > .tss-sidebar-command.tss-btn:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success) {
         background: var(--tss-tooltip-background-color);
         color: var(--tss-tooltip-foreground-color);
         border-color: var(--tss-tooltip-background-color);
     }
 
-    .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
-    .tss-sidebar-menu > .tss-sidebar-btn-open > a > .tss-btn.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
-    .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
-    .tss-sidebar-menu > .tss-sidebar-commands-line > a > .tss-sidebar-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover {
+    .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success):hover,
+    .tss-sidebar-menu > .tss-sidebar-btn-open > a > .tss-btn.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success):hover,
+    .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success):hover,
+    .tss-sidebar-menu > .tss-sidebar-commands-line > a > .tss-sidebar-command:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success):hover {
         color: var(--tss-default-background-hover-color);
         background: var(--tss-default-foreground-hover-color);
         border-color: var(--tss-default-foreground-color);
@@ -1374,6 +1374,11 @@
 .tss-sidebar-btn-open .tss-btn-primary .tss-sidebar-btn-shortcut .tss-kbd-separator,
 .tss-sidebar-btn-open .tss-btn-danger .tss-sidebar-btn-shortcut .tss-kbd-separator,
 .tss-sidebar-btn-open .tss-btn-success .tss-sidebar-btn-shortcut .tss-kbd-separator {
+    color: inherit;
+}
+
+
+.tss-sidebar-btn-open .tss-btn-warning .tss-sidebar-btn-shortcut .tss-kbd-separator{
     color: inherit;
 }
 

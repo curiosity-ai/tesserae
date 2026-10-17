@@ -19,7 +19,7 @@ badge and action.
 
 Position: `.TopRight()` (default), `.TopCenter()`, `.TopLeft()`, `.BottomRight()`, `.BottomCenter()`, `.BottomLeft()`, `.TopFull()`, `.BottomFull()`.
 
-Other: `.Banner(bool showHideButton = true)` (full-width banner that shifts page content), `.Duration(TimeSpan)`, `.Width(UnitSize)` / `.Height(UnitSize)`, `.NoDismiss()` (don't dismiss on click), `.Overwrite()` (replace an existing toast with the same content), `.Class(name)` / `.RemoveClass(name)`.
+Other: `.Banner(bool showHideButton = true)` (full-width banner that shifts page content), `.Time(string text)` / `.Time(DateTime moment, string text = null)` (a small timestamp at the top right of the toast, level with the title: put on the banner the toast shows, however it was made, and again if the toast is re-fired; a toast shows none unless asked; the `DateTime` overload renders a `<time datetime=...>` and shows `HH:mm` when no text is given), `.Duration(TimeSpan)`, `.Width(UnitSize)` / `.Height(UnitSize)`, `.NoDismiss()` (don't dismiss on click), `.Overwrite()` (replace an existing toast with the same content), `.Class(name)` / `.RemoveClass(name)`.
 
 ## Fire methods (each shows the toast and returns it)
 
@@ -56,6 +56,10 @@ Button("Show").OnClick((s, e) =>
 
 Toast().TopLeft().Success("Done", "Saved at top left.");
 Toast().TopFull().Banner().Error("Error", "Acting as a banner.");
+
+// A timestamp at the top right
+Toast().Time("Just now").Information("Sync started", "Your workspace is being indexed.");
+Toast().Time(DateTime.Now).Success("Backup complete", "Archived 1,204 files.");
 
 // A banner of your own, with an icon, a badge and an action
 Toast().Show(Banner("Export finished", "18 documents, 42 MB.")

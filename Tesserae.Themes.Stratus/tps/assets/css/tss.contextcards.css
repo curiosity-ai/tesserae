@@ -1,0 +1,3 @@
+/* Stratus theme - ContextCards: the header is a pill-free row that washes on hover; the icon is a 3px tile. */
+body.tss-theme-stratus .tss-contextcards-icon { border-radius: var(--tss-border-radius-sm); }
+body.tss-theme-stratus .tss-contextcards-list > .tss-contextcard { border-radius: var(--tss-border-radius-lg); }

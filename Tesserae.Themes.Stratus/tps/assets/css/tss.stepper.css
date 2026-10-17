@@ -1,0 +1,133 @@
+/* ==========================================================================
+   Stratus theme - Stepper
+   --------------------------------------------------------------------------
+   Measured against the design system's Stepper: 32px circles, 14px labels in
+   the corporate blue. The current step is a navy disc with a white numeral and
+   a 700 label; a finished step is a white disc with a 2px navy edge and a
+   corporate numeral; an upcoming step is a light-grey disc with a grey
+   numeral and a grey label. The content panel is a 6px card at elevation 1.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-stepper-step {
+    border-radius: var(--tss-border-radius-sm);
+    padding: 6px 8px;
+    column-gap: 8px;
+}
+
+body.tss-theme-stratus .tss-stepper-circle {
+    width: 32px;
+    height: 32px;
+    box-sizing: border-box;
+    border: 0;
+    background: var(--tss-str-on-fill);
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-semibold);
+    line-height: 32px;
+}
+
+body.tss-theme-stratus .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-circle {
+    border: 0;
+    background: var(--tss-str-on-fill-2);
+}
+
+body.tss-theme-stratus .tss-stepper-label {
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-regular);
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-stepper-active .tss-stepper-circle {
+    background: var(--tss-str-navy);
+    border: 0;
+    color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-stepper-active .tss-stepper-label {
+    font-weight: var(--tss-font-weight-bold);
+    color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-stepper-complete .tss-stepper-circle {
+    background: var(--tss-default-background-color);
+    border: 2px solid var(--tss-str-navy);
+    color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-stepper-complete .tss-stepper-label {
+    color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-stepper-description {
+    color: var(--tss-secondary-foreground-color);
+}
+
+/* The connector between two steps: a 2px line at the circles' centre line (the design system's), navy once the step
+   before it is finished or current, the quiet fill while it is still ahead. Steps are 40px apart to give it room. */
+body.tss-theme-stratus .tss-stepper-header {
+    gap: 40px;
+}
+
+body.tss-theme-stratus .tss-stepper-step {
+    position: relative;
+}
+
+body.tss-theme-stratus .tss-stepper-step + .tss-stepper-step::before {
+    content: "";
+    position: absolute;
+    left: -32px;
+    top: calc(50% - 1px);
+    width: 24px;
+    height: 2px;
+    background: var(--tss-str-on-fill-2);
+    pointer-events: none;
+}
+
+body.tss-theme-stratus .tss-stepper-complete + .tss-stepper-step::before,
+body.tss-theme-stratus .tss-stepper-active + .tss-stepper-step.tss-stepper-complete::before {
+    background: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-stepper-content {
+    border: 0;
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-1);
+    padding: 16px;
+}
+
+/* Back / Next are the secondary button of the language (see tss.button.css), sized to match. */
+body.tss-theme-stratus .tss-stepper-nav {
+    border: 2px solid var(--tss-str-navy);
+    border-radius: var(--tss-border-radius-sm);
+    color: var(--tss-str-navy);
+    background: var(--tss-default-background-color);
+    font-weight: var(--tss-font-weight-bold);
+    min-height: 40px;
+    padding: 6px 16px;
+    line-height: 24px;
+}
+
+body.tss-theme-stratus .tss-stepper-nav:hover:not(:disabled) {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-stepper-nav:disabled,
+body.tss-theme-stratus .tss-stepper-nav.tss-disabled {
+    opacity: .4;
+}
+
+/* Dark: the design system sets an upcoming step's numeral and label in white (text.neutral.strong). */
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-circle,
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-label {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-active .tss-stepper-circle {
+    color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-active .tss-stepper-label,
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-complete .tss-stepper-label,
+body.tss-theme-stratus.tss-dark-mode .tss-stepper-complete .tss-stepper-circle {
+    color: var(--tss-str-corporate);
+}

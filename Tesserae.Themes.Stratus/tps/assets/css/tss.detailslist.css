@@ -1,0 +1,61 @@
+/* ==========================================================================
+   Stratus theme - Details list (table)
+   --------------------------------------------------------------------------
+   Measured against the design system's Data Table: a 48px header row on the
+   tinted surface with 700 labels (8px by 16px cells) and a 1px strong rule
+   under it; 40px body rows with 16px cell padding and no dividers, the even
+   rows on the faint fill instead; hover is the neutral fill and a selected row
+   (aria-selected / .tss-selected) the soft blue wash. The sort arrow is the
+   accent.
+   ========================================================================== */
+
+body.tss-theme-stratus {
+    --tss-detailslist-default-padding: 10px 16px;
+    --tss-str-head-rule: #919cb0;     /* border.neutral.default */
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+    --tss-str-head-rule: #e0e3e9;
+}
+
+body.tss-theme-stratus .tss-detailslist-header {
+    background: var(--tss-str-on-fill);
+    box-shadow: inset 0 -1px 0 0 var(--tss-str-head-rule);
+}
+
+body.tss-theme-stratus .tss-detailslist-column-header {
+    padding: 14px 16px;
+    font-weight: var(--tss-font-weight-bold);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-detailslist-column-header:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-detailslist-column-header-sorting-icon {
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-detailslist-list-item-container,
+body.tss-theme-stratus .tss-detailslist-list-item-container:last-of-type {
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    transition: background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-detailslist-list-item-container:nth-of-type(even) {
+    background-color: var(--tss-str-fill);
+}
+
+body.tss-theme-stratus .tss-detailslist-list-item-container:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-detailslist-list-item-container.tss-selected,
+body.tss-theme-stratus .tss-detailslist-list-item-container[aria-selected="true"],
+body.tss-theme-stratus .tss-detailslist-list-item-container.tss-selected:nth-of-type(even),
+body.tss-theme-stratus .tss-detailslist-list-item-container[aria-selected="true"]:nth-of-type(even) {
+    background-color: var(--tss-default-background-active-color);
+    box-shadow: none;
+}

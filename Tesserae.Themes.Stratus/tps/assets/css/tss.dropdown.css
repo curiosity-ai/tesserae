@@ -1,0 +1,270 @@
+/* ==========================================================================
+   Stratus theme - Dropdown
+   --------------------------------------------------------------------------
+   The closed box is the field of the language (the TextBox slab and rule,
+   40px, square corners); keyboard focus shows as the 3px ring. The popup is
+   a level-4 surface with 8px corners; rows are 3px-cornered, hover is the
+   neutral wash, the keyboard-focused row the selected tint with an inset
+   navy bar. A multi-select row carries the same checkbox as CheckBox.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-dropdown-container {
+    font-weight: var(--tss-font-weight-regular);
+    line-height: 20px;
+    border: 0;
+    border-radius: 0;
+    background: var(--tss-str-fill);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+    transition: box-shadow var(--tss-str-ease), background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-dropdown-container > .tss-dropdown {
+    height: 40px;
+    padding: 0 8px;
+}
+
+body.tss-theme-stratus .tss-dropdown-container > .tss-dropdown.tss-dropdown-noarrow {
+    padding: 0 12px;
+}
+
+/* The closed select does not change its fill under the pointer (only the cursor): the language keeps hover for
+   the controls that take typing. */
+body.tss-theme-stratus .tss-dropdown-container:hover {
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-invalid:hover {
+    box-shadow: 0 3px 0 0 var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-dropdown-container:has(> .tss-dropdown:focus-visible) {
+    border: 0;
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-dropdown-nobg {
+    background: transparent;
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-noborder {
+    border: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-disabled {
+    border: 0;
+    background: var(--tss-str-fill);
+    color: var(--tss-default-foreground-color);
+    opacity: .4;
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-invalid {
+    box-shadow: 0 3px 0 0 var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border: 0;
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-invalid:has(> .tss-dropdown:focus-visible) {
+    box-shadow: 0 0 0 3px var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-dropdown-container > .tss-dropdown-icon {
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-dropdown-error {
+    color: var(--tss-str-error);
+    font-size: var(--tss-font-size-xsmall);
+    margin-top: 4px;
+}
+
+/* Popup */
+body.tss-theme-stratus .tss-dropdown-popup {
+    border: 0;
+    border-radius: 0 0 var(--tss-border-radius-sm) var(--tss-border-radius-sm);
+    background: var(--tss-str-elevated-surface);
+    box-shadow: var(--tss-str-elev-3);
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+body.tss-theme-stratus .tss-dropdown-item,
+body.tss-theme-stratus .tss-dropdown-header {
+    background: transparent;
+}
+
+/* A row is 44px: 12px of padding around a 20px line, square, the full width of the popup. */
+body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-item {
+    border-radius: 0;
+    margin: 0;
+    padding: 12px;
+    min-height: 44px;
+    width: 100%;
+    border-width: 0;
+}
+
+/* The selected row is bold on the selected tint; it keeps its tint under the pointer. */
+body.tss-theme-stratus .tss-dropdown-item.tss-selected,
+body.tss-theme-stratus .tss-dropdown-item.tss-selected:hover {
+    font-weight: var(--tss-font-weight-bold);
+    color: var(--tss-default-foreground-color);
+    background-color: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-selected {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-item:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+/* The row the keyboard is on takes the hover wash (the selected one keeps its tint); a row focused by Tab shows
+   the 3px ring inside its edge. */
+body.tss-theme-stratus .tss-dropdown-item:focus,
+body.tss-theme-stratus .tss-dropdown-item.tss-dropdown-item-focus {
+    border-color: transparent;
+    background-color: var(--tss-default-background-hover-color);
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-dropdown-item.tss-selected:focus,
+body.tss-theme-stratus .tss-dropdown-item.tss-selected.tss-dropdown-item-focus {
+    background-color: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-item:focus-visible {
+    box-shadow: inset 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item.tss-dropdown-item-focus {
+    box-shadow: none;
+    background-color: transparent;
+}
+
+body.tss-theme-stratus .tss-dropdown-header {
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-bold);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-stratus .tss-dropdown-divider {
+    background-color: var(--tss-default-separator-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-item.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+}
+
+/* Multi-select: the CheckBox mark. */
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item:before {
+    border-radius: var(--tss-border-radius-sm);
+    border-color: var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item:after {
+    border-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before {
+    background-color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before {
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-selected:after {
+    border-color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-disabled:before,
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss-selected:before {
+    background-color: var(--tss-default-background-color);
+    border-color: var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss-selected:before {
+    background-color: var(--tss-primary-background-color);
+}
+
+/* The search box inside the popup is a flat tinted row. */
+body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-searchbox {
+    background: var(--tss-str-fill);
+    border: 0;
+    border-radius: 0;
+    margin: 4px 8px 0;
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border: 0;
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-searchbox.tss-searchbox-container {
+    height: 36px;
+}
+
+body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-searchbox .tss-searchbox {
+    height: 36px;
+    line-height: 36px;
+}
+
+/* An option's content is often a Button (the box shows a clone of it). Inside a dropdown it is just the
+   label: flat, no outline, the text colour and weight of the row. */
+body.tss-theme-stratus .tss-dropdown-item-on-box .tss-btn,
+body.tss-theme-stratus .tss-dropdown-item .tss-btn {
+    border: 0 !important;
+    background: transparent !important;
+    color: inherit !important;
+    font-weight: var(--tss-font-weight-regular) !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+    min-width: 0 !important;
+    line-height: 20px !important;
+}
+
+/* A popup row carries its own weight (bold when selected); the box keeps the regular one. */
+body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-item .tss-btn {
+    font-weight: inherit !important;
+}
+
+body.tss-theme-stratus .tss-dropdown-item-on-box .tss-btn .tss-fontcolor-default,
+body.tss-theme-stratus .tss-dropdown-item .tss-btn .tss-fontcolor-default {
+    color: inherit !important;
+}
+
+/* The ring is drawn on the container (above); the focusable box inside it must not add its own outline. */
+body.tss-theme-stratus .tss-dropdown-container > .tss-dropdown:focus-visible {
+    outline: none;
+}
+
+/* The row shows its ring inside its edge, so the global outline is dropped there. */
+body.tss-theme-stratus .tss-dropdown-item:focus-visible {
+    outline: none;
+}
+
+/* A searchable dropdown's own input takes the keyboard focus; the field's ring is drawn on the container (so it
+   follows the field, not the text), and the input inside must not add the global outline in a second box. */
+body.tss-theme-stratus .tss-dropdown-container :focus-visible {
+    outline: none;
+}
+
+body.tss-theme-stratus .tss-dropdown-container:has(input:focus-visible) {
+    border: 0;
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}

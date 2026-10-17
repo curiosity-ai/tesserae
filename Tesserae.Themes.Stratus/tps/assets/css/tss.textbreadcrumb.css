@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Stratus theme - Text breadcrumbs
+   --------------------------------------------------------------------------
+   The same reading as the Breadcrumb: ancestors in the link blue at 700,
+   separators the moderate neutral, the current item the strong neutral at
+   regular weight.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-textbreadcrumb {
+    border-radius: var(--tss-border-radius-sm);
+    border-width: 4px;
+    color: var(--tss-str-crumb-link);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-textbreadcrumb:hover {
+    border-width: 4px;
+    color: var(--tss-str-link-hover);
+    text-decoration: underline;
+}
+
+body.tss-theme-stratus .tss-textbreadcrumb-wrap:last-child .tss-textbreadcrumb {
+    color: var(--tss-secondary-foreground-color);
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-stratus .tss-textbreadcrumb-wrap:last-child .tss-textbreadcrumb:hover {
+    text-decoration: none;
+}
+
+body.tss-theme-stratus .tss-textbreadcrumb-sep {
+    color: var(--tss-str-chevron);
+}

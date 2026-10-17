@@ -1,0 +1,13 @@
+/* Stratus theme - Panel: a full-height sheet at elevation 6 (no corners, it meets the window edge);
+   the 48px command row carries a bold title and ghost 3px close tile. */
+body.tss-theme-stratus .tss-panel { box-shadow: var(--tss-str-elev-6); background-color: var(--tss-str-elevated-surface); }
+body.tss-theme-stratus .tss-panel-command { height: 56px; border-bottom: 1px solid var(--tss-default-separator-color); }
+body.tss-theme-stratus .tss-panel-title { padding-left: 24px; font-weight: var(--tss-font-weight-bold); font-size: var(--tss-font-size-mediumplus); }
+body.tss-theme-stratus .tss-panel-command-button { border-radius: var(--tss-border-radius-sm); width: 40px; height: 40px; margin-right: 8px; font-weight: normal; }
+body.tss-theme-stratus .tss-panel-command-button:hover { outline: none; }
+body.tss-theme-stratus .tss-panel-command-button:active { color: var(--tss-str-navy); outline: none; }
+body.tss-theme-stratus .tss-panel-command-button:focus-visible { outline: 2px solid var(--tss-str-focus); outline-offset: 0; }
+body.tss-theme-stratus .tss-panel-inner { padding: 24px; }
+
+body.tss-theme-stratus .tss-panel-title > *,
+body.tss-theme-stratus .tss-panel-title .tss-textblock { font-weight: var(--tss-font-weight-bold); font-size: var(--tss-font-size-mediumplus); }

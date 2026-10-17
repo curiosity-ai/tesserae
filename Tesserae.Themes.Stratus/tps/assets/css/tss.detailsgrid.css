@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Stratus theme - Details grid
+   --------------------------------------------------------------------------
+   A label/value table in the language's table dress: 6px corners with the
+   control-edge-light border, labels in the secondary colour at 500 and values
+   in the primary text, 14px.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-detailsgrid {
+    font-size: var(--tss-font-size-small);
+    border-radius: var(--tss-border-radius-lg);
+}
+
+body.tss-theme-stratus .tss-detailsgrid-row {
+    border-bottom-color: var(--tss-default-separator-color);
+}
+
+body.tss-theme-stratus .tss-detailsgrid-label {
+    font-weight: var(--tss-font-weight-semibold);
+}

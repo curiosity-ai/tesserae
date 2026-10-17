@@ -1,0 +1,6 @@
+/* Stratus theme - Skeleton: the minimal component-on-background tone with 3px corners and a white sweep
+   (the same sweep in light and dark, as the language draws it). */
+body.tss-theme-stratus .tss-skeleton { background: var(--tss-str-on-fill); border-radius: 3px; }
+body.tss-theme-stratus .tss-skeleton-circle { border-radius: 50%; }
+body.tss-theme-stratus .tss-skeleton-animated::after { background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.54), rgba(255, 255, 255, 0)); }
+body.tss-theme-stratus.tss-dark-mode .tss-skeleton-animated::after { background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0)); }

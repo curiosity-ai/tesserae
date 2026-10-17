@@ -1,0 +1,6 @@
+/* Stratus theme - ContextCard: a 6px bordered tile at rest, elevation 2 and a wash when clickable; the icon
+   tile is a 3px accent square. */
+body.tss-theme-stratus .tss-contextcard { border-radius: var(--tss-border-radius-lg); transition: box-shadow var(--tss-str-ease), background-color var(--tss-str-ease); }
+body.tss-theme-stratus .tss-contextcard-clickable:hover { background: var(--tss-default-background-hover-color); box-shadow: var(--tss-str-elev-1); }
+body.tss-theme-stratus .tss-contextcard-icon { border-radius: var(--tss-border-radius-sm); }
+body.tss-theme-stratus .tss-contextcard-label { font-weight: var(--tss-font-weight-bold); }

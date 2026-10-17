@@ -1,0 +1,79 @@
+/* ==========================================================================
+   Stratus theme - Command palette
+   --------------------------------------------------------------------------
+   A floating 8px surface at elevation 6 (the dialog level) over the dimmed
+   page, on the elevated surface colour. Rows are 3px with the neutral hover
+   fill; the active row is the soft blue wash with navy text and the 3px navy
+   bar. Section captions are small 700 secondary text; shortcuts are keycaps.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-commandpalette-overlay {
+    background: var(--tss-overlay-light);
+}
+
+body.tss-theme-stratus .tss-commandpalette-animator {
+    background: var(--tss-str-elevated-surface);
+    border: 0;
+    border-radius: var(--tss-border-radius-xl);
+    box-shadow: var(--tss-str-elev-6);
+}
+
+body.tss-theme-stratus .tss-commandpalette-search-container {
+    border-bottom: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-omnibox-container.tss-commandpalette-search:not(#_),
+body.tss-theme-stratus .tss-omnibox-container.tss-commandpalette-search:not(#_):hover,
+body.tss-theme-stratus .tss-omnibox-container.tss-commandpalette-search:not(#_):focus-within {
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-commandpalette-section {
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-bold);
+    letter-spacing: .04em;
+}
+
+body.tss-theme-stratus .tss-commandpalette-item {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-commandpalette-item.tss-active {
+    background: var(--tss-default-background-active-color);
+    color: var(--tss-str-navy);
+    box-shadow: inset 3px 0 0 0 var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-commandpalette-item.tss-active .tss-commandpalette-subtitle,
+body.tss-theme-stratus .tss-commandpalette-item.tss-active .tss-commandpalette-submenu {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-commandpalette-item.tss-active .tss-commandpalette-shortcut {
+    border-color: var(--tss-str-rule);
+    color: var(--tss-default-foreground-color);
+    background: var(--tss-default-background-color);
+}
+
+body.tss-theme-stratus .tss-commandpalette-result.tss-active,
+body.tss-theme-stratus .tss-commandpalette-result:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-commandpalette-result.tss-active {
+    background: var(--tss-default-background-active-color);
+    box-shadow: inset 3px 0 0 0 var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-commandpalette-shortcut {
+    border-radius: var(--tss-border-radius-sm);
+    border-color: var(--tss-str-rule);
+    background: var(--tss-str-on-fill);
+    font-family: var(--tss-monospace-font-family);
+}
+
+body.tss-theme-stratus .tss-commandpalette-back:not(#_),
+body.tss-theme-stratus .tss-commandpalette-close:not(#_) {
+    border-radius: var(--tss-border-radius-sm);
+}

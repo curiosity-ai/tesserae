@@ -1,0 +1,70 @@
+/* ==========================================================================
+   Stratus theme - Menu
+   --------------------------------------------------------------------------
+   A floating surface: 6px corners, elevation 4, no outline. Items are 40px
+   rows with a neutral hover fill, the active tone in 500 weight; a header is
+   the small secondary caption; the divider is the 1px separator.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-menu {
+    border: 0;
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-4);
+    padding: 8px 0;
+    background-color: var(--tss-str-elevated-surface);
+}
+
+body.tss-theme-stratus .tss-menu-item {
+    padding: 8px 16px;
+    min-height: 40px;
+    box-sizing: border-box;
+    border: 0;
+    transition: background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-menu-item:hover,
+body.tss-theme-stratus .tss-menu-item:focus,
+body.tss-theme-stratus .tss-menu-item.tss-menu-item-open {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-menu-item:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: -2px;
+}
+
+body.tss-theme-stratus .tss-menu-item:active {
+    background-color: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-menu-item.tss-menu-item-primary:not(.tss-disabled) {
+    color: var(--tss-str-navy);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-stratus .tss-menu-item.tss-menu-item-danger:not(.tss-disabled) {
+    color: var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) {
+    color: var(--tss-str-warning-text);
+}
+
+body.tss-theme-stratus .tss-menu-item.tss-menu-item-success:not(.tss-disabled) {
+    color: var(--tss-str-success);
+}
+
+body.tss-theme-stratus .tss-menu-item.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-menu-header {
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-menu-divider {
+    background-color: var(--tss-default-separator-color);
+}

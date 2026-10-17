@@ -1,0 +1,75 @@
+/* Stratus theme - Dialog: the modal surface (see tss.modal.css) with the answer buttons 16px apart, as the
+   language's dialog spaces its actions, right-aligned. */
+body.tss-theme-stratus .tss-dialog .tss-modal-header { padding: 24px 24px 0 24px; border-bottom: 0; }
+body.tss-theme-stratus .tss-dialog .tss-modal-content { padding: 16px 24px; }
+body.tss-theme-stratus .tss-dialog .tss-modal-footer { padding: 16px 24px 24px 24px; border-top: 0; }
+
+body.tss-theme-stratus .tss-dialog .tss-modal-footer-commands,
+body.tss-theme-stratus .tss-dialog .tss-modal-footer-content { gap: 16px; }
+body.tss-theme-stratus .tss-dialog .tss-modal-footer .tss-btn { margin-left: 0; margin-right: 16px; }
+body.tss-theme-stratus .tss-dialog .tss-modal-footer .tss-btn:last-child { margin-right: 0; }
+
+/* The language's dialog reads from the left and answers on the right: text is left-aligned (Tesserae centres
+   a dialog's message) and the actions are pushed to the trailing edge. */
+body.tss-theme-stratus .tss-dialog .tss-modal-content.tss-modal-centered-content {
+    text-align: left;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+body.tss-theme-stratus .tss-dialog .tss-modal-footer-content { justify-content: flex-end; }
+body.tss-theme-stratus .tss-dialog .tss-modal-footer-content > .tss-stack { gap: 16px; }
+body.tss-theme-stratus .tss-dialog .tss-modal-footer-content .tss-btn { margin: 0; }
+/* The stack carries its justification inline (space-evenly) and a reversed row for the answer order, so the
+   trailing edge is flex-end for a row and flex-start for a reversed row. */
+body.tss-theme-stratus .tss-dialog .tss-modal-footer-content > .tss-stack { justify-content: flex-end !important; width: 100%; }
+body.tss-theme-stratus .tss-dialog .tss-modal-footer-content > .tss-stack[style*="row-reverse"] { justify-content: flex-start !important; }
+
+/* Measured against the language's dialog (a 28rem column, 24px of padding, 16px between title, message and
+   actions, with another 16px above the actions: 32px between message and buttons).
+
+   - Width: Tesserae shrink-wraps a dialog to its text (288px for "Are you sure?"); the language's is 448px wide
+     whatever it says. The floor is 448px, kept 16px off a narrow screen's edges. The message and the title are
+     TextBlocks capped inline at 50vw, so they are held to the column (448 less the 24px padding each side, and
+     less 40px of room in the title row for the reference's close button) with !important; content that is not
+     plain text (a Stack with its own width) keeps whatever width it asks for.
+   - Rhythm: the header and footer content boxes carry 6px of padding top and bottom of their own, which put
+     the title 6px low, the actions 6px further from the message and 6px more room under them.
+   - Title: 20px on a 32px line in regular weight; the modal's bold title is for the modal, not for a dialog. */
+body.tss-theme-stratus .tss-dialog {
+    min-width: min(448px, calc(100vw - 32px));
+}
+
+body.tss-theme-stratus .tss-dialog .tss-modal-content > .tss-textblock {
+    max-width: 400px !important;
+}
+
+body.tss-theme-stratus .tss-dialog .tss-modal-header-content > .tss-textblock {
+    max-width: 360px !important;
+}
+
+body.tss-theme-stratus .tss-dialog .tss-modal-header-content,
+body.tss-theme-stratus .tss-dialog .tss-modal-footer-content {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+body.tss-theme-stratus .tss-dialog .tss-modal-header-content,
+body.tss-theme-stratus .tss-dialog .tss-modal-header-content > *,
+body.tss-theme-stratus .tss-dialog .tss-modal-header-content .tss-textblock {
+    font-weight: var(--tss-font-weight-regular);
+}
+
+/* A dialog without a title (Dialog("message")) keeps the header's 24px of top padding as the dialog's own, and
+   drops the empty command box's padding and the content's top padding, so the message starts 24px from the top
+   instead of 40. */
+body.tss-theme-stratus .tss-dialog .tss-modal-header-commands:not(:has(.tss-btn)) {
+    padding: 0;
+}
+
+body.tss-theme-stratus .tss-dialog .tss-modal-header:not(:has(.tss-modal-header-content > *)) {
+    min-height: 0;
+}
+
+body.tss-theme-stratus .tss-dialog .tss-modal-header:not(:has(.tss-modal-header-content > *)) + .tss-modal-content {
+    padding-top: 0;
+}

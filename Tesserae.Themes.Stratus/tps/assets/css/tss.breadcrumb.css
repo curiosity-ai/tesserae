@@ -1,0 +1,59 @@
+/* ==========================================================================
+   Stratus theme - Breadcrumb
+   --------------------------------------------------------------------------
+   Measured against the design system's Breadcrumb: 14px on a 24px line,
+   ancestors are links in the link blue at 700, the chevrons are 16px in the
+   moderate neutral, and the current location (the last item) is the strong
+   neutral at regular weight. The items are buttons underneath, so they drop
+   the size, fill and outline the shared button stylesheet would give them.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-breadcrumb:not(#_) .tss-btn {
+    min-width: 0;
+    min-height: 0;
+    padding: 3px 8px;
+    margin: 0;
+    line-height: 24px;
+    border: 2px solid transparent;
+    border-radius: var(--tss-border-radius-sm);
+    background: transparent;
+    color: var(--tss-str-crumb-link);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-breadcrumb:not(#_) .tss-btn .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-stratus .tss-breadcrumb:not(#_) .tss-btn:hover {
+    background: transparent;
+    color: var(--tss-str-link-hover);
+    text-decoration: underline;
+}
+
+body.tss-theme-stratus .tss-breadcrumb:not(#_) > button.tss-btn:last-of-type {
+    color: var(--tss-secondary-foreground-color);
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-stratus .tss-breadcrumb:not(#_) > button.tss-btn:last-of-type:hover {
+    text-decoration: none;
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-breadcrumb-chevron {
+    color: var(--tss-str-chevron);
+    font-size: 16px;
+}
+
+body.tss-theme-stratus {
+    --tss-str-link-hover: #002d80;    /* text.link.neutral.hover */
+    --tss-str-chevron: #919cb0;       /* text.neutral.moderate */
+    --tss-str-crumb-link: #255fcc;    /* text.link.neutral.default */
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+    --tss-str-link-hover: #b3cbf8;
+    --tss-str-chevron: #e0e3e9;
+    --tss-str-crumb-link: #638ee0;
+}

@@ -1,0 +1,505 @@
+/* ==========================================================================
+   Stratus theme - tokens
+   --------------------------------------------------------------------------
+   Everything in this theme is scoped under body.tss-theme-stratus, the class
+   StratusTheme adds to the body while it is active. Tesserae draws every
+   component from the --tss-* variables in its own tss.common.css, so most of
+   the theme is this file: the design language's palette, type scale, radii
+   and elevation mapped onto those variables. The per-component files after
+   it only restyle what a variable cannot reach (shape, a filled input with
+   its rule, a focus ring that sits outside the control).
+
+   A derived variable (--tss-x-color: rgb(var(--tss-x-color-root))) is resolved
+   where it is declared, so redefining only the -root value on the body would
+   leave every derived value at Tesserae's defaults. Both are restated here.
+
+   The language, in six lines:
+     1. Cool neutrals and one hue. Deep navy (#00205b) carries every primary
+        action and every selected state; mid blue (#255fcc) is link, focus and
+        information. Success, warning and error are the only other colours.
+     2. Inter for text, Roboto Mono for code. 14px is the body size, 16px the
+        large one, and weight 500 / 700 do the emphasising.
+     3. Corners are small and exact: 3px on controls, 6px on cards, 8px on
+        floating surfaces, full on avatars and tags.
+     4. Depth is a tiered shadow scale (levels 1 to 6). A card rests at level 1,
+        lifts to level 2 under the pointer; a dialog sits at level 6.
+     5. A text field is a filled slab with a 1px rule underneath, which thickens
+        to 3px in the state colour on focus, error, success or information.
+     6. Focus is a 2px mid-blue ring, 2px clear of the control, never a glow.
+   ========================================================================== */
+
+body.tss-theme-stratus {
+
+    /* Stratus tokens, light. Raw hexes live here once so every other file reads var(--tss-str-...). */
+    --tss-str-navy: #00205b;
+    --tss-str-navy-hover: #002d80;
+    --tss-str-navy-active: #063b9e;
+    --tss-str-blue: #255fcc;
+    --tss-str-blue-soft: #e5ecf7;
+    --tss-str-blue-tint: #cfddf8;
+    --tss-str-fill: #fafafa;          /* component background, minimal: a text field at rest */
+    --tss-str-fill-2: #f1f1f1;        /* ... moderate: hover, a segmented track */
+    --tss-str-fill-3: #e6e6e6;        /* ... strong */
+    --tss-str-on-fill: #eff1f4;       /* a control sitting on a surface that is already filled */
+    --tss-str-on-fill-2: #e0e3e9;
+    --tss-str-error: #e4002b;
+    --tss-str-success: #08875b;
+    --tss-str-warning: #ffc929;
+    --tss-str-warning-text: #775900;
+    --tss-str-warning-edge: #bb8e09;  /* the warning as a line, an icon or a ring: 3:1 on the page */
+    --tss-str-info: #255fcc;
+    --tss-str-error-soft: #fad1d8;
+    --tss-str-success-soft: #d1ffef;
+    --tss-str-warning-soft: #fff9e5;
+    --tss-str-info-soft: #e5ecf7;
+    --tss-str-rule: #63728a;          /* the rule under a field, a control's own edge */
+    --tss-str-focus: #255fcc;
+    --tss-str-focus-ring: 0 0 0 2px rgb(var(--tss-default-background-color-root)), 0 0 0 4px var(--tss-str-focus);
+    --tss-str-elev-1: 0 1px 4px 0 rgba(0, 0, 0, 0.24);
+    --tss-str-elev-2: 0 2px 8px 0 rgba(0, 0, 0, 0.20);
+    --tss-str-elev-3: 0 3px 12px 0 rgba(0, 0, 0, 0.20);
+    --tss-str-elev-4: 0 4px 16px 1px rgba(0, 0, 0, 0.20);
+    --tss-str-elev-6: 0 8px 32px 2px rgba(0, 0, 0, 0.20);
+    --tss-str-elev-8: 0 8px 48px 2px rgba(0, 0, 0, 0.24);
+    --tss-str-elevated-surface: #ffffff;
+    --tss-str-hair: 1px solid var(--tss-default-border-color);
+    --tss-str-ease: .1s ease-in-out;
+
+    /* Families: Inter reads, Roboto Mono names the code. */
+    --tss-sansserif-font-family: "Inter", Arial, ui-sans-serif, system-ui, sans-serif;
+    --tss-monospace-font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --tss-font-weight-regular: 400;
+    --tss-font-weight-semibold: 500;
+    --tss-font-weight-bold: 700;
+
+    /* The scale: 14px is the body size (Tesserae's 13px "small"), 16px the large body. */
+    --tss-font-size-mega: 48px;
+    --tss-font-size-xxlarge: 36px;
+    --tss-font-size-xlarge: 32px;
+    --tss-font-size-large: 24px;
+    --tss-font-size-mediumplus: 20px;
+    --tss-font-size-medium: 18px;
+    --tss-font-size-smallplus: 16px;
+    --tss-font-size-small: 14px;
+    --tss-font-size-xsmall: 12px;
+    --tss-font-size-tiny: 11px;
+
+    --tss-default-background-color-root: 255, 255, 255;
+    --tss-default-foreground-color-root: 20, 23, 29;       /* dark.70 */
+    --tss-secondary-background-color-root: 250, 250, 250;  /* warmgrey.10 */
+    --tss-secondary-foreground-color-root: 99, 114, 138;   /* coolgrey.60, 4.9:1 on white */
+    --tss-sidebar-background-color-root: 250, 250, 250;
+    --tss-disabled-background-color-root: 241, 241, 241;
+    --tss-disabled-foreground-color-root: 145, 156, 176;   /* coolgrey.50 */
+    --tss-default-border-color-root: 206, 213, 221;        /* coolgrey.30: a rule between things */
+    --tss-dark-border-color-root: 99, 114, 138;            /* coolgrey.60: a control's own edge */
+    --tss-default-separator-color-root: 224, 227, 233;     /* coolgrey.20 */
+    --tss-invalid-border-color-root: 228, 0, 43;
+    --tss-default-background-hover-color-root: 241, 241, 241;  /* warmgrey.20 */
+    --tss-default-foreground-hover-color-root: 20, 23, 29;
+    --tss-default-background-active-color-root: 229, 236, 247; /* primaryblue.10 */
+    --tss-default-foreground-active-color-root: 0, 32, 91;
+    --tss-progress-background-color-root: 224, 227, 233;
+    --tss-link-color-root: 37, 95, 204;
+    --tss-highlight-color-root: 37, 95, 204;
+    --tss-tooltip-background-color-root: 20, 23, 29;
+    --tss-tooltip-foreground-color-root: 255, 255, 255;
+    --tss-primary-background-color-root: 0, 32, 91;        /* the navy fills every primary action */
+    --tss-primary-foreground-color-root: 255, 255, 255;
+    --tss-primary-border-color-root: 0, 32, 91;
+    --tss-primary-background-hover-color-root: 0, 45, 128;
+    --tss-primary-foreground-hover-color-root: 255, 255, 255;
+    --tss-primary-background-active-color-root: 6, 59, 158;
+    --tss-primary-foreground-active-color-root: 255, 255, 255;
+    --tss-warning-background-color-root: 255, 201, 41;
+    --tss-warning-foreground-color-root: 20, 23, 29;
+    --tss-warning-border-color-root: 255, 201, 41;
+    --tss-warning-background-hover-color-root: 221, 171, 23;
+    --tss-warning-foreground-hover-color-root: 20, 23, 29;
+    --tss-warning-background-active-color-root: 187, 142, 9;
+    --tss-warning-foreground-active-color-root: 20, 23, 29;
+    --tss-danger-background-color-root: 228, 0, 43;
+    --tss-danger-foreground-color-root: 255, 255, 255;
+    --tss-danger-border-color-root: 228, 0, 43;
+    --tss-danger-background-hover-color-root: 187, 0, 35;
+    --tss-danger-foreground-hover-color-root: 255, 255, 255;
+    --tss-danger-background-active-color-root: 146, 0, 28;
+    --tss-danger-foreground-active-color-root: 255, 255, 255;
+    --tss-success-background-color-root: 8, 135, 91;
+    --tss-success-foreground-color-root: 255, 255, 255;
+    --tss-success-border-color-root: 8, 135, 91;
+    --tss-success-background-hover-color-root: 3, 110, 74;
+    --tss-success-foreground-hover-color-root: 255, 255, 255;
+    --tss-success-background-active-color-root: 0, 94, 62;
+    --tss-success-foreground-active-color-root: 255, 255, 255;
+    --tss-slider-color-root: 0, 32, 91;
+    --tss-slider-active-color-root: 206, 213, 221;
+    --tss-slider-disabled-color-root: 224, 227, 233;
+    --tss-primary-shadow-color-root: 0, 0, 0;
+    --tss-shadow-color-from: rgba(0, 0, 0, 0.20);
+    --tss-shadow-color-to: rgba(0, 0, 0, 0.24);
+
+    /* Elevation: the scale from the language, level 1 resting up to level 6 for a dialog. */
+    --tss-primary-shadow: var(--tss-str-elev-1);
+    --tss-box-shadow: var(--tss-str-elev-2);
+    --tss-box-shadow-darker: var(--tss-str-elev-4);
+    --tss-card-shadow: var(--tss-str-elev-1);
+    --tss-toast-shadow: var(--tss-str-elev-2);
+    --tss-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.16);
+    --tss-shadow-sm-hover: var(--tss-str-elev-1);
+    --tss-shadow: var(--tss-str-elev-1);
+    --tss-shadow-hover: var(--tss-str-elev-2);
+    --tss-shadow-md: var(--tss-str-elev-2);
+    --tss-shadow-md-hover: var(--tss-str-elev-3);
+    --tss-shadow-lg: var(--tss-str-elev-4);
+    --tss-shadow-lg-hover: var(--tss-str-elev-4);
+    --tss-shadow-xl: var(--tss-str-elev-6);
+    --tss-shadow-xl-hover: var(--tss-str-elev-8);
+    --tss-overlay-light: rgba(20, 23, 29, 0.32);
+    --tss-overlay-dark: rgba(0, 0, 0, 0.56);
+
+    --tss-border-radius-sm: 3px;
+    --tss-border-radius-md: 3px;
+    --tss-border-radius-lg: 6px;
+    --tss-border-radius-xl: 8px;
+    --tss-border-radius-full: 9999px;
+
+    /* Focus is a clear 2px ring in the mid blue, set off from the control by 2px of page. */
+    --tss-ring-offset-width: 2px;
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+    --tss-ring-opacity: 1;
+
+    --tss-scrollbar-track-color: transparent;
+    --tss-scrollbar-track-hidden-color: transparent;
+    --tss-scrollbar-thumb-color: #b3bbc8;
+    --tss-scrollbar-thumb-hidden-color: #ced5dd;
+    --tss-simplebar-thumb-color: #b3bbc8;
+
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.12);
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-ring-color: var(--tss-str-focus);
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+
+    --tss-str-navy: #86a8e9;
+    --tss-str-navy-hover: #b3cbf8;
+    --tss-str-navy-active: #cfddf8;
+    --tss-str-blue: #86a8e9;
+    --tss-str-blue-soft: #282e3a;
+    --tss-str-blue-tint: #3c4657;
+    --tss-str-fill: #25282e;
+    --tss-str-fill-2: #292d33;
+    --tss-str-fill-3: #32353b;
+    --tss-str-on-fill: #181c21;
+    --tss-str-on-fill-2: #25282e;
+    --tss-str-error: #f86471;
+    --tss-str-success: #27e7a7;
+    --tss-str-warning: #ffd557;
+    --tss-str-warning-text: #ffd557;
+    --tss-str-warning-edge: #ffd557;
+    --tss-str-info: #b3cbf8;
+    --tss-str-error-soft: #6a0014;
+    --tss-str-success-soft: #005e3e;
+    --tss-str-warning-soft: #554000;
+    --tss-str-info-soft: #00205b;
+    --tss-str-rule: #ced5dd;
+    --tss-str-focus: #e5ecf7;
+    --tss-str-elevated-surface: #25282e;
+    --tss-str-elev-1: 0 1px 4px 0 rgba(0, 0, 0, 0.5);
+    --tss-str-elev-2: 0 2px 8px 0 rgba(0, 0, 0, 0.5);
+    --tss-str-elev-3: 0 3px 12px 0 rgba(0, 0, 0, 0.5);
+    --tss-str-elev-4: 0 4px 16px 1px rgba(0, 0, 0, 0.5);
+    --tss-str-elev-6: 0 8px 32px 2px rgba(0, 0, 0, 0.55);
+    --tss-str-elev-8: 0 8px 48px 2px rgba(0, 0, 0, 0.6);
+
+    --tss-default-background-color-root: 20, 23, 29;       /* dark.70 */
+    --tss-default-foreground-color-root: 255, 255, 255;
+    --tss-secondary-background-color-root: 24, 28, 33;     /* dark.60 */
+    --tss-secondary-foreground-color-root: 206, 213, 221;  /* coolgrey.30 */
+    --tss-sidebar-background-color-root: 24, 28, 33;
+    --tss-disabled-background-color-root: 37, 40, 46;
+    --tss-disabled-foreground-color-root: 99, 114, 138;
+    --tss-default-border-color-root: 60, 70, 87;           /* coolgrey.80 */
+    --tss-dark-border-color-root: 145, 156, 176;           /* coolgrey.50 */
+    --tss-default-separator-color-root: 50, 53, 59;
+    --tss-invalid-border-color-root: 248, 100, 113;
+    --tss-default-background-hover-color-root: 50, 53, 59; /* dark.20 */
+    --tss-default-foreground-hover-color-root: 255, 255, 255;
+    --tss-default-background-active-color-root: 40, 46, 58;
+    --tss-default-foreground-active-color-root: 255, 255, 255;
+    --tss-progress-background-color-root: 60, 70, 87;
+    --tss-link-color-root: 134, 168, 233;
+    --tss-highlight-color-root: 134, 168, 233;
+    --tss-tooltip-background-color-root: 224, 227, 233;
+    --tss-tooltip-foreground-color-root: 20, 23, 29;
+    --tss-primary-background-color-root: 134, 168, 233;    /* surface.accent, dark */
+    --tss-primary-foreground-color-root: 20, 23, 29;
+    --tss-primary-border-color-root: 134, 168, 233;
+    --tss-primary-background-hover-color-root: 179, 203, 248;
+    --tss-primary-foreground-hover-color-root: 20, 23, 29;
+    --tss-primary-background-active-color-root: 207, 221, 248;
+    --tss-primary-foreground-active-color-root: 20, 23, 29;
+    --tss-warning-background-color-root: 255, 213, 87;
+    --tss-warning-foreground-color-root: 20, 23, 29;
+    --tss-warning-border-color-root: 255, 213, 87;
+    --tss-warning-background-hover-color-root: 255, 224, 133;
+    --tss-warning-foreground-hover-color-root: 20, 23, 29;
+    --tss-warning-background-active-color-root: 255, 236, 179;
+    --tss-warning-foreground-active-color-root: 20, 23, 29;
+    --tss-danger-background-color-root: 248, 100, 113;
+    --tss-danger-foreground-color-root: 20, 23, 29;
+    --tss-danger-border-color-root: 248, 100, 113;
+    --tss-danger-background-hover-color-root: 255, 137, 152;
+    --tss-danger-foreground-hover-color-root: 20, 23, 29;
+    --tss-danger-background-active-color-root: 255, 162, 176;
+    --tss-danger-foreground-active-color-root: 20, 23, 29;
+    --tss-success-background-color-root: 39, 231, 167;
+    --tss-success-foreground-color-root: 20, 23, 29;
+    --tss-success-border-color-root: 39, 231, 167;
+    --tss-success-background-hover-color-root: 94, 247, 196;
+    --tss-success-foreground-hover-color-root: 20, 23, 29;
+    --tss-success-background-active-color-root: 156, 252, 218;
+    --tss-success-foreground-active-color-root: 20, 23, 29;
+    --tss-slider-color-root: 134, 168, 233;
+    --tss-slider-active-color-root: 60, 70, 87;
+    --tss-slider-disabled-color-root: 37, 40, 46;
+    --tss-primary-shadow-color-root: 0, 0, 0;
+    --tss-shadow-color-from: rgba(0, 0, 0, 0.5);
+    --tss-shadow-color-to: rgba(0, 0, 0, 0.5);
+
+    --tss-primary-shadow: var(--tss-str-elev-1);
+    --tss-box-shadow: var(--tss-str-elev-2);
+    --tss-box-shadow-darker: var(--tss-str-elev-4);
+    --tss-card-shadow: var(--tss-str-elev-1);
+    --tss-toast-shadow: var(--tss-str-elev-2);
+    --tss-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+    --tss-shadow-sm-hover: var(--tss-str-elev-1);
+    --tss-shadow: var(--tss-str-elev-1);
+    --tss-shadow-hover: var(--tss-str-elev-2);
+    --tss-shadow-md: var(--tss-str-elev-2);
+    --tss-shadow-md-hover: var(--tss-str-elev-3);
+    --tss-shadow-lg: var(--tss-str-elev-4);
+    --tss-shadow-lg-hover: var(--tss-str-elev-4);
+    --tss-shadow-xl: var(--tss-str-elev-6);
+    --tss-shadow-xl-hover: var(--tss-str-elev-8);
+    --tss-overlay-light: rgba(20, 23, 29, 0.6);
+    --tss-overlay-dark: rgba(0, 0, 0, 0.7);
+
+    --tss-scrollbar-thumb-color: #505d74;
+    --tss-scrollbar-thumb-hidden-color: #3c4657;
+    --tss-simplebar-thumb-color: #505d74;
+
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.16);
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-ring-color: var(--tss-str-focus);
+}
+
+body.tss-theme-stratus {
+    font-feature-settings: "kern" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus: the 2px mid-blue ring, set off from the control. Components that draw their own ring
+   (inputs fold it into the rule) say so in their file. */
+body.tss-theme-stratus :focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus ::selection {
+    background: rgba(37, 95, 204, 0.24);
+}
+
+body.tss-theme-stratus.tss-dark-mode ::selection {
+    background: rgba(134, 168, 233, 0.32);
+}
+
+body.tss-theme-stratus .tss-fontcolor-primary {
+    color: var(--tss-link-color);
+}
+
+body.tss-theme-stratus :where(a) {
+    color: var(--tss-link-color);
+    text-underline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   Scrollbars: a slim rounded thumb that darkens under the pointer.
+   CSS only: no script watches scrolling or draws a bar of its own. Chromium and
+   WebKit draw ::-webkit-scrollbar; Firefox (and nothing else that understands
+   ::-webkit-scrollbar) takes scrollbar-color / scrollbar-width, which would stop
+   Chromium 121+ from using the ::-webkit-scrollbar rules, so they are fenced off
+   with @supports.
+   -------------------------------------------------------------------------- */
+body.tss-theme-stratus {
+    --tss-str-scrollbar-thumb: #b3bbc8;
+    --tss-str-scrollbar-thumb-hover: #63728a;
+}
+
+html:has(> body.tss-theme-stratus) {
+    --tss-str-scrollbar-thumb: #b3bbc8;
+    --tss-str-scrollbar-thumb-hover: #63728a;
+}
+
+html:has(> body.tss-theme-stratus.tss-dark-mode) {
+    --tss-str-scrollbar-thumb: #505d74;
+    --tss-str-scrollbar-thumb-hover: #919cb0;
+}
+
+@supports selector(::-webkit-scrollbar) {
+
+    html:has(> body.tss-theme-stratus)::-webkit-scrollbar,
+    body.tss-theme-stratus::-webkit-scrollbar,
+    body.tss-theme-stratus ::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-stratus)::-webkit-scrollbar-track,
+    body.tss-theme-stratus::-webkit-scrollbar-track,
+    body.tss-theme-stratus ::-webkit-scrollbar-track,
+    html:has(> body.tss-theme-stratus)::-webkit-scrollbar-corner,
+    body.tss-theme-stratus::-webkit-scrollbar-corner,
+    body.tss-theme-stratus ::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-stratus)::-webkit-scrollbar-thumb,
+    body.tss-theme-stratus::-webkit-scrollbar-thumb,
+    body.tss-theme-stratus ::-webkit-scrollbar-thumb {
+        border: 3px solid transparent;
+        border-radius: 9999px;
+        background: var(--tss-str-scrollbar-thumb) padding-box;
+    }
+
+    html:has(> body.tss-theme-stratus)::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-stratus::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-stratus ::-webkit-scrollbar-thumb:hover {
+        background: var(--tss-str-scrollbar-thumb-hover) padding-box;
+    }
+
+    html:has(> body.tss-theme-stratus)::-webkit-scrollbar-button,
+    body.tss-theme-stratus::-webkit-scrollbar-button,
+    body.tss-theme-stratus ::-webkit-scrollbar-button {
+        display: none;
+        width: 0;
+        height: 0;
+    }
+}
+
+@supports not selector(::-webkit-scrollbar) {
+    html:has(> body.tss-theme-stratus),
+    body.tss-theme-stratus {
+        scrollbar-width: thin;
+        scrollbar-color: var(--tss-str-scrollbar-thumb) transparent;
+    }
+}
+
+/* The warning as text: the yellow fill is 1.6:1 on a white page, so a warning that is only a label colour
+   reads in the dark ochre (the yellow itself on the dark canvas). */
+body.tss-theme-stratus .tss-fontcolor-warning {
+    color: var(--tss-str-warning-text);
+}

@@ -1,0 +1,104 @@
+/* ==========================================================================
+   Stratus theme - CheckBox
+   --------------------------------------------------------------------------
+   Measured against the design system's checkbox: a 16px box (24px from the
+   18px text size up) with 3px corners and a 1px edge in the corporate navy
+   (soft blue in dark) on a transparent face. Hover fills it with the
+   interaction grey; checked fills it with the accent and drops the edge, with
+   a tick in the on-accent colour. The label is 14px on a 16px line, 8px from
+   the box, in a 22px row. Keyboard focus is the 2px ring around the box.
+   Disabled is 40%.
+   ========================================================================== */
+
+body.tss-theme-stratus {
+    --tss-str-corporate: #00205b;     /* border.accent.corporate: the edge of a toggleable control */
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+    --tss-str-corporate: #cfddf8;
+}
+
+body.tss-theme-stratus .tss-checkbox-container {
+    --tss-str-mark: 16px;
+    align-items: center;
+}
+
+body.tss-theme-stratus .tss-checkbox-container.tss-fontsize-small {
+    height: 22px;
+}
+
+body.tss-theme-stratus .tss-checkbox-container.tss-fontsize-medium,
+body.tss-theme-stratus .tss-checkbox-container.tss-fontsize-mediumplus,
+body.tss-theme-stratus .tss-checkbox-container.tss-fontsize-large,
+body.tss-theme-stratus .tss-checkbox-container.tss-fontsize-xlarge,
+body.tss-theme-stratus .tss-checkbox-container.tss-fontsize-xxlarge,
+body.tss-theme-stratus .tss-checkbox-container.tss-fontsize-mega {
+    --tss-str-mark: 24px;
+}
+
+body.tss-theme-stratus .tss-checkbox-container .tss-checkbox-mark {
+    box-sizing: border-box;
+    width: var(--tss-str-mark);
+    height: var(--tss-str-mark);
+    border-radius: var(--tss-border-radius-sm);
+    border: 1px solid var(--tss-str-corporate);
+    background-color: transparent;
+    transition: background-color var(--tss-str-ease), border-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-checkbox-container .tss-checkbox-text {
+    margin-left: 8px;
+    line-height: 16px;
+}
+
+body.tss-theme-stratus .tss-checkbox-container:not(.tss-disabled):hover .tss-checkbox-mark {
+    background-color: var(--tss-default-background-hover-color);
+    border-color: var(--tss-str-corporate);
+}
+
+/* The tick is the base's rotated corner, sized from the box so it stays centred at 16px and at 24px. */
+body.tss-theme-stratus .tss-checkbox-container .tss-checkbox-mark:after {
+    left: calc(var(--tss-str-mark) * 0.34);
+    top: calc(var(--tss-str-mark) * 0.07);
+    width: calc(var(--tss-str-mark) * 0.31);
+    height: calc(var(--tss-str-mark) * 0.62);
+    border-color: transparent;
+    border-width: 0 calc(var(--tss-str-mark) / 8) calc(var(--tss-str-mark) / 8) 0;
+}
+
+body.tss-theme-stratus .tss-checkbox-container:hover input:not(:checked) ~ .tss-checkbox-mark:after {
+    display: none;
+}
+
+body.tss-theme-stratus .tss-checkbox-container input:checked ~ .tss-checkbox-mark,
+body.tss-theme-stratus .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark {
+    background-color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-stratus .tss-checkbox-container:not(.tss-disabled):hover input:checked ~ .tss-checkbox-mark {
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-checkbox-container input:checked ~ .tss-checkbox-mark:after {
+    border-color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-checkbox-container input:focus-visible ~ .tss-checkbox-mark {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-checkbox-container.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+    cursor: not-allowed;
+}
+
+body.tss-theme-stratus .tss-checkbox-container.tss-disabled .tss-checkbox-mark,
+body.tss-theme-stratus .tss-checkbox-container.tss-disabled:hover .tss-checkbox-mark {
+    background-color: transparent;
+    border-color: var(--tss-str-corporate);
+}

@@ -138,9 +138,10 @@ body.tss-theme-retroos .tss-contextmenu-item > .tss-btn {
 }
 
 /* Row content is Chicago at menu size whatever size class its text carries, and takes the row's ink
-   (a danger-toned text or icon would otherwise be paper on paper: there are no hues to tell it apart). */
+   (a danger- or warning-toned text or icon would otherwise be paper on paper: there are no hues to tell it apart). */
 body.tss-theme-retroos .tss-contextmenu-item .tss-textblock,
 body.tss-theme-retroos .tss-contextmenu-item .tss-textblock.tss-fontcolor-danger,
+body.tss-theme-retroos .tss-contextmenu-item .tss-textblock.tss-fontcolor-warning,
 body.tss-theme-retroos .tss-contextmenu-item .tss-textblock.tss-fontcolor-success,
 body.tss-theme-retroos .tss-contextmenu-item .tss-textblock.tss-fontcolor-primary,
 body.tss-theme-retroos .tss-contextmenu-item .tss-textblock.tss-fontcolor-default {

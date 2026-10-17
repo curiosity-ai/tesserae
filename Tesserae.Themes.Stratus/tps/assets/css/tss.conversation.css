@@ -1,0 +1,28 @@
+/* ==========================================================================
+   Stratus theme - Conversation
+   --------------------------------------------------------------------------
+   Comments are 6px cards at elevation level 1, the header on the "on
+   background" fill. The vertical rail and the event icons keep Tesserae's
+   structure; a highlighted comment takes the 2px focus colour.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-conversation-comment {
+    border-radius: var(--tss-border-radius-lg);
+}
+
+body.tss-theme-stratus .tss-conversation-comment-header {
+    border-radius: 5px 5px 0 0;
+    background: var(--tss-str-on-fill);
+}
+
+body.tss-theme-stratus .tss-conversation-comment-highlighted {
+    box-shadow: 0 0 0 2px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-conversation-composer-box {
+    border-radius: var(--tss-border-radius-lg);
+}
+
+body.tss-theme-stratus .tss-conversation-composer-tabs {
+    border-radius: 5px 5px 0 0;
+}

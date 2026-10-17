@@ -1,0 +1,66 @@
+/* ==========================================================================
+   Stratus theme - Context menu (and the dropdown-style list it draws)
+   --------------------------------------------------------------------------
+   The same floating surface as the Menu: 6px corners, elevation 4, 40px rows,
+   neutral hover fill, selected row in the soft blue wash. Keyboard focus is
+   the 2px ring inside the row. The trigger button of a ContextMenu is a
+   default (outlined) button and keeps that look.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-contextmenu-popup {
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-4);
+    background: var(--tss-str-elevated-surface);
+    padding: 8px 0;
+}
+
+body.tss-theme-stratus .tss-contextmenu-item {
+    background: transparent;
+    border: 0;
+    min-height: 40px;
+    padding: 0 16px;
+    box-sizing: border-box;
+    transition: background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-contextmenu-item:hover,
+body.tss-theme-stratus .tss-contextmenu-item.tss-selected {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-contextmenu-item:focus {
+    border: 0;
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: -2px;
+}
+
+body.tss-theme-stratus .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:focus {
+    outline: 0;
+}
+
+body.tss-theme-stratus .tss-contextmenu-item:active {
+    background-color: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-contextmenu-item.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-contextmenu-header {
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-bold);
+    min-height: 32px;
+    line-height: 32px;
+}
+
+body.tss-theme-stratus .tss-contextmenu-divider {
+    background-color: var(--tss-default-separator-color);
+}
+
+body.tss-theme-stratus .tss-contextmenu-item.tss-contextmenu-item-separator:hover,
+body.tss-theme-stratus .tss-contextmenu-item.tss-contextmenu-item-separator:focus {
+    background-color: transparent;
+}

@@ -1,0 +1,53 @@
+/* ==========================================================================
+   Stratus theme - Questionnaire
+   --------------------------------------------------------------------------
+   A level-1 card holding the question; answers are pill chips with the
+   secondary-button outline, and the chosen answer fills navy.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-questionnaire {
+    border: 0;
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-card-shadow);
+    padding: 16px;
+}
+
+body.tss-theme-stratus .tss-questionnaire-question {
+    color: var(--tss-default-foreground-color);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-questionnaire-option {
+    border: 1px solid var(--tss-str-navy);
+    border-radius: var(--tss-border-radius-full);
+    color: var(--tss-str-navy);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-stratus .tss-questionnaire-option:hover:not(:disabled) {
+    background: var(--tss-str-blue-soft);
+    border-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-questionnaire-option:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+    background: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-questionnaire-answered-badge {
+    background: var(--tss-str-info-soft);
+    color: var(--tss-str-navy);
+    border-radius: var(--tss-border-radius-sm);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-questionnaire-answered-badge {
+    color: var(--tss-default-foreground-color);
+}

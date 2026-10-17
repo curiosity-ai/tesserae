@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Stratus theme - Picker
+   --------------------------------------------------------------------------
+   The input is a TextBox (themed there); the suggestion layer is the combobox
+   menu of the language: a level-3 surface square at the top (it hangs from the
+   field) and 3px at the bottom, rows 44px tall with the neutral wash on hover.
+   Chips follow the TagsInput chip.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-layer-picker-suggestions {
+    border-radius: 0 0 var(--tss-border-radius-sm) var(--tss-border-radius-sm);
+    background: var(--tss-str-elevated-surface);
+    box-shadow: var(--tss-str-elev-3);
+}
+
+body.tss-theme-stratus .tss-picker-suggestions > .tss-picker-label {
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+}
+
+body.tss-theme-stratus .tss-picker-suggestions > .tss-picker-suggestion {
+    padding: 12px;
+    border-radius: 0;
+}
+
+body.tss-theme-stratus .tss-picker-suggestions > .tss-picker-suggestion:hover {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-picker-selection {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-picker-selection:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-picker-remove {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-picker-remove:hover {
+    border-color: transparent;
+    background: var(--tss-default-background-active-color);
+}

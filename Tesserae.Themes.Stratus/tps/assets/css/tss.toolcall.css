@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Stratus theme - Tool call
+   --------------------------------------------------------------------------
+   A call is a 6px card on the minimal component fill, its header a quiet
+   row that picks up the hover wash; the expanded body is the page colour,
+   code in Roboto Mono. The summary popup keeps the pill.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-toolcall {
+    border-radius: var(--tss-border-radius-lg);
+    border-color: var(--tss-default-border-color);
+    background: var(--tss-str-fill);
+}
+
+body.tss-theme-stratus .tss-toolcall > .tss-toolcall-header {
+    border-radius: 5px;
+}
+
+body.tss-theme-stratus .tss-toolcall.tss-expanded > .tss-toolcall-header {
+    border-radius: 5px 5px 0 0;
+}
+
+body.tss-theme-stratus .tss-toolcall > .tss-toolcall-content {
+    border-radius: 0 0 5px 5px;
+    background: var(--tss-default-background-color);
+}
+
+body.tss-theme-stratus .tss-toolcall-icon {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-toolcall-secondary-action {
+    border-radius: var(--tss-border-radius-sm);
+}

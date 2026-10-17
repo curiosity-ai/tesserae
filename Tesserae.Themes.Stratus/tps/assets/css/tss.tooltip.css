@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Stratus theme - Tooltip
+   --------------------------------------------------------------------------
+   The language's tooltip is a 3px label in the accent overlay colour (navy; white in dark mode) with
+   4px by 8px of padding, 14px text on a 20px line at elevation level 1, drawn at 90% opacity. A popover
+   (data-theme tss-popover) is a transparent wrapper and keeps its content's own surface.
+   ========================================================================== */
+
+body.tss-theme-stratus { --tss-str-tip-bg: #00205b; --tss-str-tip-fg: #ffffff; }
+body.tss-theme-stratus.tss-dark-mode { --tss-str-tip-bg: #ffffff; --tss-str-tip-fg: #14171d; }
+
+body.tss-theme-stratus .tippy-box:not([data-theme~='tss-popover']) {
+    background-color: var(--tss-str-tip-bg);
+    color: var(--tss-str-tip-fg);
+    border-radius: 3px;
+    box-shadow: var(--tss-str-elev-1);
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-regular);
+    line-height: 20px;
+    opacity: .9;
+}
+body.tss-theme-stratus .tippy-box:not([data-theme~='tss-popover']) > .tippy-content { padding: 4px 8px; }
+body.tss-theme-stratus .tippy-box:not([data-theme~='tss-popover']) > .tippy-arrow { color: var(--tss-str-tip-bg); }
+body.tss-theme-stratus .tippy-box:not([data-theme~='tss-popover'])[data-state=hidden] { opacity: 0; }
+body.tss-theme-stratus .tippy-box[data-theme~='tss-popover'] { box-shadow: none; border-radius: 0; font-size: var(--tss-font-size-small); font-weight: inherit; opacity: 1; }

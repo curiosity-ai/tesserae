@@ -5,7 +5,7 @@
    moved its hands a tick at a time and the beach ball rotated in jumps. The
    spinner is a 1-bit ring with a gap, turned in eight steps. A determinate
    spinner is a ring filled clockwise in ink over a dithered track. Success
-   and danger are not colours; the ring stays ink and the label carries it.
+   danger and warning are not colours; the ring stays ink and the label carries it.
    ========================================================================== */
 
 @keyframes tss-retroos-steps {
@@ -29,6 +29,7 @@ body.tss-theme-retroos .tss-spinner.tss-spinner-progress {
 }
 
 body.tss-theme-retroos .tss-spinner-success,
+body.tss-theme-retroos .tss-spinner-warning,
 body.tss-theme-retroos .tss-spinner-danger {
     --tss-spinner-color: rgb(var(--tss-default-foreground-color-root));
 }

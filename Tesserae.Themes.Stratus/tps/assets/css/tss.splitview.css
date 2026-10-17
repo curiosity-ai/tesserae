@@ -1,0 +1,7 @@
+/* Stratus theme - SplitView: a 1px neutral rule between panes; under the pointer it thickens in the focus blue. */
+body.tss-theme-stratus .tss-splitview > .tss-splitter:before { background: var(--tss-default-border-color); }
+body.tss-theme-stratus .tss-splitview > .tss-splitter:after { background: var(--tss-dark-border-color); border-radius: 9999px; }
+body.tss-theme-stratus .tss-splitview > .tss-splitter:hover:before,
+body.tss-theme-stratus .tss-splitview > .tss-splitter:active:before { background: var(--tss-str-focus) !important; }
+body.tss-theme-stratus .tss-splitview > .tss-splitter:hover:after,
+body.tss-theme-stratus .tss-splitview > .tss-splitter:active:after { background: var(--tss-str-focus) !important; }

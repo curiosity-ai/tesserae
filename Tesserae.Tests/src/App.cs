@@ -8,6 +8,7 @@ using Tesserae;
 using Tesserae.Tests.Samples;
 using Tesserae.Tests;
 using Tesserae.Themes.Curiosity;
+using Tesserae.Themes.Stratus;
 using Tesserae.Themes.RetroOS;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -20,6 +21,7 @@ namespace Tesserae.Tests
         private const string _themeKey            = "tss-sample-theme";
         private const string _defaultThemeId      = "default";
         private const string _curiosityThemeId    = "curiosity";
+        private const string _stratusThemeId      = "stratus";
         private const string _retroOSThemeId      = "retroos";
 
         private static void Main()
@@ -54,7 +56,7 @@ namespace Tesserae.Tests
             // The page is kept invisible until the theme's stylesheet has arrived, so the first paint is
             // already themed instead of flashing the default look for a frame.
             var savedThemeId   = localStorage.getItem(_themeKey);
-            var initialThemeId = savedThemeId == _defaultThemeId || savedThemeId == _retroOSThemeId ? savedThemeId : _curiosityThemeId;
+            var initialThemeId = savedThemeId == _defaultThemeId || savedThemeId == _stratusThemeId || savedThemeId == _retroOSThemeId ? savedThemeId : _curiosityThemeId;
 
             if (initialThemeId != _defaultThemeId)
             {
@@ -62,7 +64,7 @@ namespace Tesserae.Tests
 
                 async Task ActivateInitialTheme()
                 {
-                    try     { await Theme.SetCustomTheme(initialThemeId == _retroOSThemeId ? (ICustomTheme)RetroOSTheme.Instance : CuriosityTheme.Instance); }
+                    try     { await Theme.SetCustomTheme(initialThemeId == _stratusThemeId ? (ICustomTheme)StratusTheme.Instance : initialThemeId == _retroOSThemeId ? RetroOSTheme.Instance : CuriosityTheme.Instance); }
                     finally { document.body.style.visibility = ""; }
                 }
 
@@ -196,12 +198,14 @@ namespace Tesserae.Tests
             var themeNav              = new SidebarNav("THEME", UIcons.Palette, "Theme", initiallyCollapsed: true).NotSortable().KeepCollapsedOnSelection();
             var defaultThemeButton    = new SidebarButton("THEME_DEFAULT", UIcons.Square, "Default Theme");
             var curiosityThemeButton  = new SidebarButton("THEME_CURIOSITY", UIcons.SquareSmall, "Curiosity Theme");
+            var stratusThemeButton    = new SidebarButton("THEME_STRATUS", UIcons.Plane, "Stratus Theme");
             var retroOSThemeButton    = new SidebarButton("THEME_RETROOS", UIcons.ComputerClassic, "RetroOS Theme");
 
             void MarkTheme(string themeId)
             {
                 defaultThemeButton.IsSelected   = themeId == _defaultThemeId;
                 curiosityThemeButton.IsSelected = themeId == _curiosityThemeId;
+                stratusThemeButton.IsSelected   = themeId == _stratusThemeId;
                 retroOSThemeButton.IsSelected   = themeId == _retroOSThemeId;
             }
 
@@ -209,16 +213,18 @@ namespace Tesserae.Tests
             {
                 localStorage.setItem(_themeKey, themeId);
                 MarkTheme(themeId);
-                Theme.SetCustomTheme(themeId == _curiosityThemeId ? (ICustomTheme)CuriosityTheme.Instance : themeId == _retroOSThemeId ? RetroOSTheme.Instance : null).FireAndForget();
+                Theme.SetCustomTheme(themeId == _curiosityThemeId ? (ICustomTheme)CuriosityTheme.Instance : themeId == _stratusThemeId ? StratusTheme.Instance : themeId == _retroOSThemeId ? RetroOSTheme.Instance : null).FireAndForget();
             }
 
             defaultThemeButton.OnClick(() => SelectTheme(_defaultThemeId));
             curiosityThemeButton.OnClick(() => SelectTheme(_curiosityThemeId));
+            stratusThemeButton.OnClick(() => SelectTheme(_stratusThemeId));
             retroOSThemeButton.OnClick(() => SelectTheme(_retroOSThemeId));
 
             themeNav.OnClick(() => themeNav.Toggle());
             themeNav.Add(defaultThemeButton);
             themeNav.Add(curiosityThemeButton);
+            themeNav.Add(stratusThemeButton);
             themeNav.Add(retroOSThemeButton);
             MarkTheme(initialThemeId);
 

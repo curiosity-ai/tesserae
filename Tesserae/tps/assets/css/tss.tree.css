@@ -248,15 +248,15 @@
     justify-content: flex-start;
 }
 
-.tss-tree-menu > .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
-.tss-tree-menu > a > .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success) {
+.tss-tree-menu > .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success),
+.tss-tree-menu > a > .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success) {
     background: var(--tss-tooltip-background-color);
     color: var(--tss-tooltip-foreground-color);
     border-color: var(--tss-tooltip-background-color);
 }
 
-.tss-tree-menu > .tss-tree-command.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
-.tss-tree-menu > a > .tss-tree-command.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover {
+.tss-tree-menu > .tss-tree-command.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success):hover,
+.tss-tree-menu > a > .tss-tree-command.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success):hover {
     color: var(--tss-default-background-hover-color);
     background: var(--tss-default-foreground-hover-color);
     border-color: var(--tss-default-foreground-color);

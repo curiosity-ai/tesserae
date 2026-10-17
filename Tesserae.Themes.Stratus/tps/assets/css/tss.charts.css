@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Stratus theme - Charts and Sparkline
+   --------------------------------------------------------------------------
+   Tesserae's charts have no stylesheet of their own: a series without an
+   explicit colour reads --tss-chart-series-N, so the theme sets the eight
+   from the language's saturated hues (blue, green, orange, purple, pink,
+   sky blue, lime, red; the lighter dark-mode steps on a dark page). Axis
+   labels take the secondary text colour and the grid the separator tone;
+   a series an app coloured itself keeps its colour.
+   ========================================================================== */
+
+body.tss-theme-stratus {
+    --tss-chart-series-1: #255fcc;
+    --tss-chart-series-2: #18a272;
+    --tss-chart-series-3: #ff8f2e;
+    --tss-chart-series-4: #bb35a7;
+    --tss-chart-series-5: #219ae1;
+    --tss-chart-series-6: #f0369e;
+    --tss-chart-series-7: #a3da22;
+    --tss-chart-series-8: #f23346;
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+    --tss-chart-series-1: #86a8e9;
+    --tss-chart-series-2: #27e7a7;
+    --tss-chart-series-3: #ffc38f;
+    --tss-chart-series-4: #f489e4;
+    --tss-chart-series-5: #5fc3ff;
+    --tss-chart-series-6: #ff8bcb;
+    --tss-chart-series-7: #beef4f;
+    --tss-chart-series-8: #ff8998;
+}
+
+body.tss-theme-stratus .tss-chart text,
+body.tss-theme-stratus .tss-sparkline text {
+    font-family: var(--tss-sansserif-font-family);
+    fill: var(--tss-secondary-foreground-color);
+}
+
+/* The legend reads in the body text colour, the axes in the secondary one. */
+body.tss-theme-stratus .tss-chart svg > text[font-size="11"] {
+    fill: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-chart svg > line {
+    stroke: var(--tss-default-separator-color);
+}
+
+body.tss-theme-stratus .tss-chart linearGradient stop,
+body.tss-theme-stratus .tss-sparkline linearGradient stop {
+    stop-opacity: 0.16;
+}

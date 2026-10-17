@@ -119,6 +119,15 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Sets the command to use the warning style.
+        /// </summary>
+        public TreeCommand Warning()
+        {
+            _button.IsWarning = true;
+            return this;
+        }
+
+        /// <summary>
         /// Sets a tooltip for the command.
         /// </summary>
         public TreeCommand Tooltip(string text)

@@ -23,6 +23,7 @@ namespace Tesserae.Tests.Samples
             var enrich    = DiagramNode("Enrich").SetIcon(UIcons.Sparkles).Primary();
             var index     = DiagramNode("Search Index").SetIcon(UIcons.Search).Success();
             var graph     = DiagramNode("Graph").SetIcon(UIcons.ChartNetwork).Danger();
+            var review    = DiagramNode("Review").SetIcon(UIcons.TriangleWarning).Warning();
             var iconOnly  = DiagramNode().SetIcon(UIcons.Bolt, color: "white").Color("linear-gradient(135deg, #6a11cb, #2575fc)", "white", "transparent");
             var custom    = DiagramNode("Custom Colors").SetIcon(UIcons.Palette, color: "#7c4700").Color("#ffd9a1", "#7c4700", "#e0a96d");
 
@@ -31,6 +32,7 @@ namespace Tesserae.Tests.Samples
                .Connect(parse, enrich)
                .Connect(enrich, index)
                .Connect(enrich, graph)
+               .Connect(index, review)
                .Connect(iconOnly, parse)
                .Connect(graph, custom)
                .WS().H(420.px());

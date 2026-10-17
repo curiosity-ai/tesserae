@@ -115,6 +115,7 @@ namespace Tesserae.Tests.Samples
                                 {
                                     new TreeCommand(UIcons.Pencil).SetText("Rename").OnClick(() => window.alert("Rename config.json")),
                                     new TreeCommand(UIcons.Copy).SetText("Duplicate").OnClick(() => window.alert("Duplicate config.json")),
+                                    new TreeCommand(UIcons.TriangleWarning).SetText("Archive").Warning().OnClick(() => window.alert("Archive config.json")),
                                     new TreeCommand(UIcons.Trash).SetText("Delete").Danger().OnClick(() => window.alert("Delete config.json"))
                                 })
                             )

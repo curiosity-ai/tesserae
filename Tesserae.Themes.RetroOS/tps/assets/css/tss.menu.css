@@ -44,8 +44,9 @@ body.tss-theme-retroos .tss-menu-item.tss-menu-item-open {
     color: rgb(var(--tss-default-background-color-root));
 }
 
-/* Danger, primary and success are not colours here: the row is told apart by its words and icon. */
+/* Danger, warning, primary and success are not colours here: the row is told apart by its words and icon. */
 body.tss-theme-retroos .tss-menu-item.tss-menu-item-danger:not(.tss-disabled),
+body.tss-theme-retroos .tss-menu-item.tss-menu-item-warning:not(.tss-disabled),
 body.tss-theme-retroos .tss-menu-item.tss-menu-item-primary:not(.tss-disabled),
 body.tss-theme-retroos .tss-menu-item.tss-menu-item-success:not(.tss-disabled) {
     color: rgb(var(--tss-default-foreground-color-root));
@@ -53,6 +54,8 @@ body.tss-theme-retroos .tss-menu-item.tss-menu-item-success:not(.tss-disabled) {
 
 body.tss-theme-retroos .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):hover,
 body.tss-theme-retroos .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus,
+body.tss-theme-retroos .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):focus,
 body.tss-theme-retroos .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):hover,
 body.tss-theme-retroos .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):focus,
 body.tss-theme-retroos .tss-menu-item.tss-menu-item-success:not(.tss-disabled):hover,

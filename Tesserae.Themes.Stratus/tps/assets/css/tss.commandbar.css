@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Stratus theme - Command bar
+   --------------------------------------------------------------------------
+   A toolbar on the tinted surface with a 1px bottom rule, 3px-cornered ghost
+   commands (neutral hover fill, 500 labels), the primary command filled navy.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-commandbar {
+    background: var(--tss-str-on-fill);
+    border: 0;
+    border-bottom: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-sm);
+    padding: 4px 8px;
+}
+
+body.tss-theme-stratus .tss-commandbar-item {
+    border-radius: var(--tss-border-radius-sm);
+    font-family: inherit;
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-semibold);
+    padding: 8px 12px;
+    color: var(--tss-str-navy);
+    transition: background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-commandbar-item:hover {
+    background: var(--tss-str-on-fill-2);
+}
+
+body.tss-theme-stratus .tss-commandbar-item:active {
+    background: var(--tss-str-blue-tint);
+}
+
+body.tss-theme-stratus .tss-commandbar-item:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 1px;
+}
+
+body.tss-theme-stratus .tss-commandbar-item-primary {
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-commandbar-item-primary:hover {
+    background: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-commandbar-item-primary:active {
+    background: var(--tss-primary-background-active-color);
+}
+
+body.tss-theme-stratus .tss-commandbar-item.tss-disabled,
+body.tss-theme-stratus .tss-commandbar-item:disabled {
+    opacity: .4;
+}

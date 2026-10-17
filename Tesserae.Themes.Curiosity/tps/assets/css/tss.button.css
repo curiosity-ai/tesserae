@@ -62,6 +62,7 @@ body.tss-theme-curiosity .tss-btn.tss-btn-primary:not(.tss-disabled):active {
 }
 
 body.tss-theme-curiosity .tss-btn.tss-btn-danger:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-btn.tss-btn-warning:not(.tss-disabled):hover,
 body.tss-theme-curiosity .tss-btn.tss-btn-success:not(.tss-disabled):hover {
     border-color: transparent;
 }
@@ -70,6 +71,7 @@ body.tss-theme-curiosity .tss-btn.tss-btn-success:not(.tss-disabled):hover {
    rather than with a wash of the tone (which painted a danger label on a danger fill). */
 body.tss-theme-curiosity .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):hover,
 body.tss-theme-curiosity .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover,
 body.tss-theme-curiosity .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover {
     background-color: var(--tss-default-background-hover-color);
     border-color: transparent;
@@ -77,6 +79,7 @@ body.tss-theme-curiosity .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled
 
 body.tss-theme-curiosity .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):active,
 body.tss-theme-curiosity .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-curiosity .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):active,
 body.tss-theme-curiosity .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):active {
     background-color: var(--tss-default-background-active-color);
 }
@@ -86,6 +89,15 @@ body.tss-theme-curiosity .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled)
 body.tss-theme-curiosity .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):active,
 body.tss-theme-curiosity .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default {
     color: var(--tss-danger-background-color);
+}
+
+body.tss-theme-curiosity .tss-btn.tss-btn-warning.tss-btn-nobg,
+body.tss-theme-curiosity .tss-btn.tss-btn-warning.tss-btn-nobg .tss-fontcolor-default,
+body.tss-theme-curiosity .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-curiosity .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-curiosity .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default {
+    color: var(--tss-warning-background-color);
 }
 
 body.tss-theme-curiosity .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover,

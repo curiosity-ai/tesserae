@@ -1,0 +1,103 @@
+/* ==========================================================================
+   Stratus theme - Choice group (radio)
+   --------------------------------------------------------------------------
+   Measured against the design system's radio, which is its checkbox made
+   round: a 16px circle (24px from the 18px text size up) with a 1px edge in
+   the corporate navy on a transparent face. Hover fills it with the
+   interaction grey; selected fills it with the accent, drops the edge and sets
+   a dot in the on-accent colour (8px, 12px in the large size). 8px to the
+   label. Keyboard focus is the 2px ring around the circle. Disabled is 40%.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-option-container {
+    --tss-str-mark: 16px;
+}
+
+body.tss-theme-stratus .tss-option-container.tss-fontsize-medium,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-mediumplus,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-large,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-xlarge,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-xxlarge,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-mega {
+    --tss-str-mark: 24px;
+}
+
+body.tss-theme-stratus .tss-option-container.tss-fontsize-small .tss-option-mark,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-medium .tss-option-mark,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-mediumplus .tss-option-mark,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-large .tss-option-mark,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-xlarge .tss-option-mark,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-xxlarge .tss-option-mark,
+body.tss-theme-stratus .tss-option-container.tss-fontsize-mega .tss-option-mark {
+    width: var(--tss-str-mark);
+    height: var(--tss-str-mark);
+}
+
+body.tss-theme-stratus .tss-option-container .tss-option-mark {
+    box-sizing: border-box;
+    margin-left: 0;
+    border: 1px solid var(--tss-str-corporate);
+    background-color: transparent;
+    transition: background-color var(--tss-str-ease), border-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-option-container .tss-option-text {
+    margin-left: 8px;
+}
+
+body.tss-theme-stratus .tss-option-container:not(.tss-disabled):hover .tss-option-mark {
+    background-color: var(--tss-default-background-hover-color);
+    border-color: var(--tss-str-corporate);
+}
+
+/* The dot: Tesserae's :after, recoloured and centred; the base draws it as a 5px border. */
+body.tss-theme-stratus .tss-option-container .tss-option-mark:after {
+    box-sizing: border-box;
+    left: 50%;
+    top: 50%;
+    width: calc(var(--tss-str-mark) / 2);
+    height: calc(var(--tss-str-mark) / 2);
+    border: 0;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-option-container:hover input:not(:checked) ~ .tss-option-mark:after {
+    display: none;
+}
+
+body.tss-theme-stratus .tss-option-container input:checked ~ .tss-option-mark,
+body.tss-theme-stratus .tss-option-container.tss-disabled input:checked ~ .tss-option-mark {
+    border-color: var(--tss-primary-background-color);
+    background-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-stratus .tss-option-container:not(.tss-disabled):hover input:checked ~ .tss-option-mark {
+    border-color: var(--tss-primary-background-hover-color);
+    background-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-option-container input:checked ~ .tss-option-mark:after,
+body.tss-theme-stratus .tss-option-container:hover input:checked ~ .tss-option-mark:after,
+body.tss-theme-stratus .tss-option-container.tss-disabled input:checked ~ .tss-option-mark:after {
+    border-color: transparent;
+    background-color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-option-container input:focus-visible ~ .tss-option-mark {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus .tss-option-container.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+    cursor: not-allowed;
+}
+
+body.tss-theme-stratus .tss-option-container.tss-disabled .tss-option-mark,
+body.tss-theme-stratus .tss-option-container.tss-disabled:hover .tss-option-mark {
+    border-color: var(--tss-str-corporate);
+    background-color: transparent;
+}

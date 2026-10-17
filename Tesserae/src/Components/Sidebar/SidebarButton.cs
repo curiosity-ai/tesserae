@@ -558,6 +558,17 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Sets the button to use a warning style.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
+        public SidebarButton Warning()
+        {
+            _openButton.Warning();
+            _closedButton.Warning();
+            return this;
+        }
+
+        /// <summary>
         /// Sets the button to use the default style.
         /// </summary>
         /// <returns>The current instance of the type.</returns>

@@ -20,7 +20,7 @@ determinate progress arc.
 - `.Left()` / `.Right()` / `.Above()` / `.Below()` — label position
   (also `.Position`).
 - `.SetText(text)` / `.Text` — the label.
-- `.Primary()` / `.Success()` / `.Danger()` / `.CustomColor(color)` — colour.
+- `.Primary()` / `.Success()` / `.Warning()` / `.Danger()` / `.CustomColor(color)` — colour.
 - `.AI(bool strongEffect = false)` — the purple-to-blue AI gradient on the ring and on its label: waiting on a model rather than on a server. The ring becomes a masked conic gradient instead of a border, rotating at the same speed; the determinate form runs the gradient across the filled part of the sweep. See `ai-variants.md`.
 - `.Progress(float percent)` or `.Progress(int position, int total)` — switch
   to a determinate arc.

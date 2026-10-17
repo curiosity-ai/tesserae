@@ -1,0 +1,83 @@
+/* ==========================================================================
+   Stratus theme - Pagination
+   --------------------------------------------------------------------------
+   Measured against the design system's Pagination: every slot is a 32px
+   square with a 2px edge and 3px corners, spaced 8px apart. Page numbers are
+   ghost buttons (500, no outline); the current page is filled with the
+   pressed accent; Previous and Next are outlined icon buttons in the accent,
+   held 24px / 32px clear of the numbers. The footer variant sits on the tinted
+   surface under a list.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-pagination-buttons {
+    gap: 8px;
+}
+
+body.tss-theme-stratus .tss-pagination-button {
+    border: 2px solid transparent;
+    background: transparent;
+    color: var(--tss-default-foreground-color);
+    border-radius: var(--tss-border-radius-sm);
+    font-weight: var(--tss-font-weight-semibold);
+    line-height: 24px;
+    transition: background-color var(--tss-str-ease), color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-pagination-button:hover:not(:disabled):not(.tss-active) {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-pagination-button.tss-active {
+    background: var(--tss-primary-background-active-color);
+    border-color: transparent;
+    color: var(--tss-primary-foreground-active-color);
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-stratus .tss-pagination-button:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+/* Previous / Next: the secondary icon button, an accent outline on the page. */
+body.tss-theme-stratus .tss-pagination-nav {
+    border-color: var(--tss-str-navy);
+    background: var(--tss-default-background-color);
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-pagination-nav:hover:not(:disabled) {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-pagination-nav:active:not(:disabled) {
+    background: var(--tss-default-background-active-color);
+}
+
+/* The strip puts 8px between slots; the numbers sit 24px (after Previous) and 16px more (before Next) clear. */
+body.tss-theme-stratus .tss-pagination-nav:first-child {
+    margin-right: 16px;
+}
+
+body.tss-theme-stratus .tss-pagination-nav:last-child {
+    margin-left: 16px;
+}
+
+body.tss-theme-stratus .tss-pagination-button.tss-disabled,
+body.tss-theme-stratus .tss-pagination-button:disabled {
+    opacity: .4;
+}
+
+body.tss-theme-stratus .tss-pagination-ellipsis {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-pagination-status {
+    font-size: var(--tss-font-size-xsmall);
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-pagination-footer {
+    background: var(--tss-str-on-fill);
+    border-top: 1px solid var(--tss-default-border-color);
+}
