@@ -1,0 +1,67 @@
+/* ==========================================================================
+   RetroOS theme - Accordion and Expander
+   --------------------------------------------------------------------------
+   An expander is a Finder list section with a disclosure triangle: a square
+   frame, no rounding, the header in Chicago. An accordion is a column of them
+   sharing their edges (no gap, one line between two sections). Pointing at a
+   header inverts it like a highlighted row, and its icons follow. The open
+   section's content is separated from the header by the 1px ink rule.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-accordion {
+    gap: 0;
+}
+
+body.tss-theme-retroos .tss-expander {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-accordion > .tss-expander + .tss-expander {
+    margin-top: -1px;
+}
+
+body.tss-theme-retroos .tss-expander-header {
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-expander-header:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-expander-header:hover i,
+body.tss-theme-retroos .tss-expander-header:hover .tss-textblock,
+body.tss-theme-retroos .tss-expander-header:hover .tss-fontcolor-default,
+body.tss-theme-retroos .tss-expander-header:hover .tss-fontcolor-secondary,
+body.tss-theme-retroos .tss-expander-header:hover .tss-expander-title {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-expander-title,
+body.tss-theme-retroos .tss-expander-title .tss-textblock {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-retroos .tss-expander-chevron {
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-expander-content {
+    border-top: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The option icon is a framed Finder icon well; any colour the host asked for is ink and paper here. */
+body.tss-theme-retroos .tss-expander-icon {
+    border: 1px solid currentColor;
+    border-radius: 0;
+    background: transparent !important;
+    color: inherit !important;
+}
+
+body.tss-theme-retroos .tss-expander-icon i {
+    color: inherit !important;
+}

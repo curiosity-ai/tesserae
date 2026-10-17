@@ -1,0 +1,19 @@
+/* ==========================================================================
+   RetroOS theme - Layer
+   --------------------------------------------------------------------------
+   A bare layer's content is a floating surface, so it is a window without a
+   title bar: paper, a 1px frame, the hard 2px shadow. The transparent variant
+   (the host of a modal or a panel, which draw their own) stays frameless.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-layer-content {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background-color: rgb(var(--tss-default-background-color-root));
+    box-shadow: var(--tss-retro-shadow);
+}
+
+body.tss-theme-retroos .tss-layer-content.tss-layer-content-transparent {
+    border-color: transparent;
+    background-color: transparent;
+    box-shadow: none;
+}

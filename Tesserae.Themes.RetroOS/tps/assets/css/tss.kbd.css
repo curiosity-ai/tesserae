@@ -1,0 +1,44 @@
+/* ==========================================================================
+   RetroOS theme - KeyboardShortcut and ShortcutGuide
+   --------------------------------------------------------------------------
+   The Mac showed a shortcut as a glyph after the menu item (the cloverleaf
+   and a letter), unframed. Here a key is a small square-cornered keycap: a
+   1px ink frame with the 2px bottom edge a keyboard key has, paper inside,
+   Chicago on it. The separator is plain text. The guide's section titles
+   are Chicago headings and its rows are divided by dotted rules.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-kbd-key {
+    font-family: var(--tss-retro-chicago);
+    font-size: 14px;
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-bottom-width: 2px;
+    border-radius: 3px;
+}
+
+body.tss-theme-retroos .tss-kbd-separator {
+    font-family: var(--tss-retro-chicago);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-shortcut-guide-section-title {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-shortcut-guide-row {
+    border-bottom: 1px dotted rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-shortcut-guide-row:last-child {
+    border-bottom: none;
+}
+
+body.tss-theme-retroos .tss-shortcut-guide-description {
+    color: rgb(var(--tss-default-foreground-color-root));
+}

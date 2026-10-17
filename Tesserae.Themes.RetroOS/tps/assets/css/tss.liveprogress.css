@@ -1,0 +1,14 @@
+/* ==========================================================================
+   RetroOS theme - Live progress
+   --------------------------------------------------------------------------
+   One line of status text, like the Finder's "3 items, 4.2 MB available"
+   line under a window's title bar: ink, upright (the Mac drew no italics in
+   its chrome) and in the mono face. It still never animates.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-liveprogress {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-style: normal;
+    font-family: var(--tss-monospace-font-family);
+    font-size: 14px;
+}

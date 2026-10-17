@@ -1,0 +1,25 @@
+/* ==========================================================================
+   RetroOS theme - MarkHighlighter
+   --------------------------------------------------------------------------
+   A found match is a Finder selection: ink background, paper text. The
+   focused match is the same inversion plus an underline (the highlight API
+   only allows colours and text decoration, so a thicker edge is not possible).
+   Custom properties inherit into ::highlight(), so the ink and paper tokens
+   follow dark mode. The <mark> fallback backend gets the same look.
+   ========================================================================== */
+
+body.tss-theme-retroos ::highlight(tss-marked) {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos ::highlight(tss-marked-focused) {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    text-decoration: underline;
+}
+
+body.tss-theme-retroos mark {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}

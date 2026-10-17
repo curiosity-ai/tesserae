@@ -1,0 +1,27 @@
+/* ==========================================================================
+   RetroOS theme - ListItemText
+   --------------------------------------------------------------------------
+   A list row's title in Chicago over a Geneva subtitle (the Finder's name
+   and its "kind" line). Both are ink: the second line is told apart by its
+   face, not by a tint. The icon is a framed square tile, like a Finder icon
+   well; it inverts with the row because it takes the row's colours.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-listitemtext-title {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-listitemtext-subtitle {
+    font-size: 13px;
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-listitemtext-icon {
+    border: 1px solid currentColor;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+}

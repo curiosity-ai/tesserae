@@ -1,0 +1,35 @@
+/* ==========================================================================
+   RetroOS theme - Progress ring
+   --------------------------------------------------------------------------
+   A pie of the Finder's bar: an ink arc with square ends over a dotted track,
+   the figure in the interface font. Indeterminate turns in eight steps, as
+   the busy cursor did.
+   ========================================================================== */
+
+@keyframes tss-retroos-ring-steps {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+body.tss-theme-retroos .tss-progressring-track {
+    stroke: rgb(var(--tss-default-foreground-color-root));
+    stroke-dasharray: 1 2;
+}
+
+body.tss-theme-retroos .tss-progressring-fill {
+    stroke: rgb(var(--tss-default-foreground-color-root));
+    stroke-linecap: butt;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-progressring-label {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 14px;
+    font-weight: 400;
+}
+
+body.tss-theme-retroos .tss-progressring-indeterminate .tss-progressring-fill,
+body.tss-theme-retroos .tss-progressring-indeterminate svg circle.tss-progressring-fill {
+    animation: tss-retroos-ring-steps 0.8s steps(8, end) infinite;
+}

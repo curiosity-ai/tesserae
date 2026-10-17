@@ -1,0 +1,76 @@
+/* ==========================================================================
+   RetroOS theme - ModalStack
+   --------------------------------------------------------------------------
+   A pile of Mac windows: the scrim is the 50% dither, each sheet is a window
+   (see tss.modal.css) and the ones behind show only their pinstriped title
+   bar, like overlapping windows on the desktop. Nothing eases: a sheet moves
+   in one frame. The breadcrumb trail above the pile is drawn on paper chips
+   so it reads over the dither; the one under the pointer inverts.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-modalstack-scrim,
+body.tss-theme-retroos.tss-dark-mode .tss-modalstack-scrim {
+    background: var(--tss-retro-dither);
+    backdrop-filter: none;
+}
+
+body.tss-theme-retroos .tss-modalstack-sheets > .tss-modalstack-sheet {
+    transition: none;
+    will-change: auto;
+}
+
+body.tss-theme-retroos .tss-modalstack-sheet.tss-modalstack-peek {
+    filter: none;
+}
+
+body.tss-theme-retroos .tss-modalstack-peek > .tss-modal-header {
+    opacity: 1;
+    border-bottom: 0;
+}
+
+body.tss-theme-retroos .tss-modalstack-tab {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-modalstack-tab:hover {
+    background: var(--tss-retro-dither-light);
+}
+
+body.tss-theme-retroos .tss-modalstack-tab:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: -3px;
+}
+
+body.tss-theme-retroos .tss-modalstack-trail {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    line-height: 18px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-modalstack-trail-current,
+body.tss-theme-retroos .tss-modalstack-trail-step,
+body.tss-theme-retroos .tss-modalstack-trail-more,
+body.tss-theme-retroos .tss-modalstack-trail-separator {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    padding: 0 6px;
+}
+
+body.tss-theme-retroos .tss-modalstack-trail-current {
+    font-weight: var(--tss-font-weight-regular);
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    padding: 0 5px;
+}
+
+body.tss-theme-retroos .tss-modalstack-trail-step {
+    border-radius: 0;
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    text-decoration: underline;
+}
+
+body.tss-theme-retroos .tss-modalstack-trail-step:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}

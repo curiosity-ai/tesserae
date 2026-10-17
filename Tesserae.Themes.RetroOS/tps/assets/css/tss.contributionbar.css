@@ -1,0 +1,64 @@
+/* ==========================================================================
+   RetroOS theme - Contribution bar
+   --------------------------------------------------------------------------
+   A stacked bar in the Finder's "Get Info" disk-usage manner: a 1px frame,
+   segments told apart by fill pattern (ink, 50% dither, 25% dots, stripes,
+   paper), each cut off by a 1px ink line. The legend swatches repeat the
+   same pattern so a segment can be read back. The segment colours are
+   inline styles, hence !important.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-contribution-bar {
+    border-radius: 0;
+    height: 14px;
+    background: rgb(var(--tss-default-background-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-contribution-segment {
+    border-right: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-sizing: border-box;
+}
+
+body.tss-theme-retroos .tss-contribution-segment:last-child {
+    border-right: 0;
+}
+
+body.tss-theme-retroos .tss-contribution-segment:nth-child(6n+1),
+body.tss-theme-retroos .tss-contribution-legend-item:nth-child(6n+1) .tss-contribution-legend-dot { background: rgb(var(--tss-default-foreground-color-root)) !important; }
+body.tss-theme-retroos .tss-contribution-segment:nth-child(6n+2),
+body.tss-theme-retroos .tss-contribution-legend-item:nth-child(6n+2) .tss-contribution-legend-dot { background: var(--tss-retro-dither) !important; }
+body.tss-theme-retroos .tss-contribution-segment:nth-child(6n+3),
+body.tss-theme-retroos .tss-contribution-legend-item:nth-child(6n+3) .tss-contribution-legend-dot { background: var(--tss-retro-stripes) !important; }
+body.tss-theme-retroos .tss-contribution-segment:nth-child(6n+4),
+body.tss-theme-retroos .tss-contribution-legend-item:nth-child(6n+4) .tss-contribution-legend-dot { background: var(--tss-retro-dither-light) rgb(var(--tss-default-background-color-root)) !important; }
+body.tss-theme-retroos .tss-contribution-segment:nth-child(6n+5),
+body.tss-theme-retroos .tss-contribution-legend-item:nth-child(6n+5) .tss-contribution-legend-dot { background: rgb(var(--tss-default-background-color-root)) !important; }
+body.tss-theme-retroos .tss-contribution-segment:nth-child(6n),
+body.tss-theme-retroos .tss-contribution-legend-item:nth-child(6n) .tss-contribution-legend-dot { background: repeating-linear-gradient(to right, rgb(var(--tss-default-foreground-color-root)) 0 1px, rgb(var(--tss-default-background-color-root)) 1px 3px) !important; }
+
+body.tss-theme-retroos .tss-contribution-legend-dot {
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-sizing: border-box;
+}
+
+body.tss-theme-retroos .tss-contribution-legend-item,
+body.tss-theme-retroos .tss-contribution-legend-label {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-contribution-toggle {
+    border-radius: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1px solid transparent;
+}
+
+body.tss-theme-retroos .tss-contribution-toggle:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-contribution-legend-value {
+    font-family: var(--tss-monospace-font-family);
+}

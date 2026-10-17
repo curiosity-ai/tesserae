@@ -1,0 +1,45 @@
+/* ==========================================================================
+   RetroOS theme - EditableLabel
+   --------------------------------------------------------------------------
+   Plain text until pointed at; then the whole line inverts like a selected
+   Finder item and the pencil appears. Editing swaps it for the framed text
+   field (2px frame while it holds the caret), with the cancel box beside it.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-editablelabel-displaybox {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-editablelabel-displaybox:hover {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-editablelabel-displaybox:hover :is(i, .tss-fontcolor-default, .tss-fontcolor-primary, .tss-fontcolor-secondary, .tss-editablelabel-textspan) {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-editablelabel-textbox {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    caret-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-editablelabel-textbox:focus {
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-foreground-color-root));
+    outline: none;
+}
+
+body.tss-theme-retroos .tss-editablelabel-cancel-icon {
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-editablelabel-cancel-icon:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}

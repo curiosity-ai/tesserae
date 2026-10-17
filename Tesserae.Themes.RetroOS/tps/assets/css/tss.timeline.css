@@ -1,0 +1,42 @@
+/* ==========================================================================
+   RetroOS theme - Timeline
+   --------------------------------------------------------------------------
+   A vertical ruler drawn as a dotted ink line (the Finder's outline guide),
+   with a square node on it for each event, hollow with a 2px frame, and each
+   entry a plain framed pane with the hard shadow of a floating window. The
+   node colour a caller sets (--tss-timeline-circle-color) has no meaning in
+   one bit, so it is not used.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-timeline-owner {
+    background: repeating-linear-gradient(to bottom, rgb(var(--tss-default-foreground-color-root)) 0 2px, transparent 2px 4px) no-repeat center / 1px 100%;
+}
+
+body.tss-theme-retroos .tss-timeline-owner.tss-left {
+    background: repeating-linear-gradient(to bottom, rgb(var(--tss-default-foreground-color-root)) 0 2px, transparent 2px 4px) no-repeat 20px 0 / 1px 100%;
+}
+
+body.tss-theme-retroos .tss-timeline-container::after {
+    border-radius: 0;
+    width: 14px;
+    height: 14px;
+    right: -7px;
+    background-color: rgb(var(--tss-default-background-color-root));
+    border: 2px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-timeline-container.tss-right::after {
+    left: -7px;
+}
+
+body.tss-theme-retroos .tss-timeline-owner.tss-left > .tss-timeline > .tss-timeline-container.tss-left::after,
+body.tss-theme-retroos .tss-timeline-owner.tss-left > .tss-timeline > .tss-timeline-container.tss-right::after {
+    left: 14px;
+}
+
+body.tss-theme-retroos .tss-timeline-container .tss-timeline-content {
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow);
+    background: rgb(var(--tss-default-background-color-root));
+}

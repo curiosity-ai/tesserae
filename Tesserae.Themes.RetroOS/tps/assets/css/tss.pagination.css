@@ -1,0 +1,77 @@
+/* ==========================================================================
+   RetroOS theme - Pagination
+   --------------------------------------------------------------------------
+   Page numbers are small square push buttons in a row: 1px ink edge, Chicago
+   digits. The current page is reverse video, as a selected item is; a button
+   under the pointer is not toned (the Mac had no hover) but pressing inverts.
+   Previous / next are bare arrows. Disabled controls use the one grey, never
+   opacity. The footer variant is a window's status strip: a solid rule above.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-pagination-footer {
+    border-top: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-pagination-button {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: none;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-pagination-button:hover:not(:disabled) {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-pagination-button:active:not(:disabled),
+body.tss-theme-retroos .tss-pagination-button.tss-active,
+body.tss-theme-retroos .tss-pagination-button.tss-active:hover:not(:disabled) {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-pagination-button:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+}
+
+/* The arrows are controls, not destinations: no edge until pressed or pointed at. */
+body.tss-theme-retroos .tss-pagination-nav {
+    border-color: transparent;
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-pagination-nav:hover:not(:disabled) {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-pagination-button.tss-disabled,
+body.tss-theme-retroos .tss-pagination-button:disabled {
+    opacity: 1;
+    color: var(--tss-retro-gray);
+    border-color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-pagination-nav.tss-disabled,
+body.tss-theme-retroos .tss-pagination-nav:disabled {
+    border-color: transparent;
+}
+
+body.tss-theme-retroos .tss-pagination-ellipsis,
+body.tss-theme-retroos .tss-pagination-status {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Whole pixels only: a slot sized in ch lands on a fractional pixel and the 1px edge smears into two. */
+body.tss-theme-retroos .tss-pagination-page,
+body.tss-theme-retroos .tss-pagination-ellipsis {
+    width: max(32px, round(up, calc(var(--tss-pagination-digits, 1) * 1ch + 16px), 2px));
+}

@@ -1,0 +1,130 @@
+/* ==========================================================================
+   RetroOS theme - Card
+   --------------------------------------------------------------------------
+   A card is a Finder window: a 1px ink frame on paper with the hard 2px drop
+   shadow. A card with a header is a window with a title bar: pinstripes, the
+   title centred in a paper gap, and the small square close box at the left.
+   Footers are the window's status strip, a plain line under the content.
+   A hoverable card inverts while the pointer is on it, like a selected icon.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-card-container {
+    padding: 0 3px 3px 0;
+}
+
+body.tss-theme-retroos .tss-card {
+    height: calc(100% - 3px);
+    width: calc(100% - 3px);
+    background: rgb(var(--tss-default-background-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow);
+    transition: none;
+    transform: none;
+}
+
+body.tss-theme-retroos .tss-card.tss-card-hover:hover,
+body.tss-theme-retroos .tss-card.tss-card-hover:active {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    box-shadow: var(--tss-retro-shadow);
+}
+
+body.tss-theme-retroos .tss-card.tss-card-hover:hover .tss-fontcolor-default,
+body.tss-theme-retroos .tss-card.tss-card-hover:hover .tss-fontcolor-secondary,
+body.tss-theme-retroos .tss-card.tss-card-hover:hover i {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* With a layout the card is only the frame's carrier: the window is its header and content. */
+body.tss-theme-retroos .tss-card.tss-has-layout {
+    background: rgb(var(--tss-default-background-color-root)) !important;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root)) !important;
+    box-shadow: var(--tss-retro-shadow) !important;
+}
+
+body.tss-theme-retroos .tss-card.tss-has-layout:hover {
+    background-color: rgb(var(--tss-default-background-color-root)) !important;
+    color: inherit;
+}
+
+/* The title bar. */
+body.tss-theme-retroos .tss-card-header {
+    position: relative;
+    justify-content: center;
+    gap: 0;
+    min-height: 19px;
+    padding: 0 24px;
+    margin-bottom: 0;
+    border: none;
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: var(--tss-retro-stripes);
+    background-color: rgb(var(--tss-default-background-color-root));
+    box-shadow: none;
+}
+
+/* The close box. */
+body.tss-theme-retroos .tss-card-header::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    width: 11px;
+    height: 11px;
+    margin-top: -6px;
+    box-sizing: border-box;
+    background: rgb(var(--tss-default-background-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Everything in the bar sits in a paper gap, so the stripes run only where nothing is written. */
+body.tss-theme-retroos .tss-card-header > * {
+    background: rgb(var(--tss-default-background-color-root));
+    padding: 0 8px;
+    width: auto;
+    flex: 0 0 auto;
+}
+
+body.tss-theme-retroos .tss-card-title,
+body.tss-theme-retroos .tss-card-title .tss-textblock {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    line-height: 17px;
+    text-align: center;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-card-content {
+    padding: 16px;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-card-footer {
+    margin-top: 0;
+    padding: 6px 12px;
+    border: none;
+    border-top: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-header {
+    padding: 0 24px;
+    margin-bottom: 0;
+}
+
+body.tss-theme-retroos .tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-footer {
+    padding: 2px 8px;
+    margin-top: 0;
+}
+
+/* An icon in the title is ink like the words: a colour has no meaning on one bit. */
+body.tss-theme-retroos .tss-card-title i,
+body.tss-theme-retroos i.tss-card-title-icon {
+    color: rgb(var(--tss-default-foreground-color-root)) !important;
+}

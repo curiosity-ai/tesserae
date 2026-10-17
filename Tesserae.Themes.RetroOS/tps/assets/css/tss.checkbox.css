@@ -1,0 +1,120 @@
+/* ==========================================================================
+   RetroOS theme - CheckBox
+   --------------------------------------------------------------------------
+   The Mac check box: a small square with a 1px ink edge, and an X (never a
+   tick) when it is on. No hover tone. Pressing it fills the square solid, as
+   a pressed control inverts. Disabled is the one grey, edge and X alike.
+   The X is a 1-bit image, so there is a paper-on-ink variant for dark mode.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-checkbox-container {
+    --tss-retro-x: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' shape-rendering='crispEdges'%3E%3Cpath d='M1 1h2v1h1v1h1v1h2V3h1V2h1V1h2v2h-1v1h-1v1H8v2h1v1h1v1h1v2H9v-1H8V9H7V8H5v1H4v1H3v1H1V9h1V8h1V7h1V5H3V4H2V3H1z' fill='%23000'/%3E%3C/svg%3E");
+}
+
+body.tss-theme-retroos.tss-dark-mode .tss-checkbox-container {
+    --tss-retro-x: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' shape-rendering='crispEdges'%3E%3Cpath d='M1 1h2v1h1v1h1v1h2V3h1V2h1V1h2v2h-1v1h-1v1H8v2h1v1h1v1h1v2H9v-1H8V9H7V8H5v1H4v1H3v1H1V9h1V8h1V7h1V5H3V4H2V3H1z' fill='%23fff'/%3E%3C/svg%3E");
+}
+
+body.tss-theme-retroos .tss-checkbox-container.tss-disabled {
+    --tss-retro-x: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' shape-rendering='crispEdges'%3E%3Cpath d='M1 1h2v1h1v1h1v1h2V3h1V2h1V1h2v2h-1v1h-1v1H8v2h1v1h1v1h1v2H9v-1H8V9H7V8H5v1H4v1H3v1H1V9h1V8h1V7h1V5H3V4H2V3H1z' fill='%23707070'/%3E%3C/svg%3E");
+}
+
+body.tss-theme-retroos.tss-dark-mode .tss-checkbox-container.tss-disabled {
+    --tss-retro-x: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' shape-rendering='crispEdges'%3E%3Cpath d='M1 1h2v1h1v1h1v1h2V3h1V2h1V1h2v2h-1v1h-1v1H8v2h1v1h1v1h1v2H9v-1H8V9H7V8H5v1H4v1H3v1H1V9h1V8h1V7h1V5H3V4H2V3H1z' fill='%23707070'/%3E%3C/svg%3E");
+}
+
+body.tss-theme-retroos .tss-checkbox-container {
+    color: rgb(var(--tss-default-foreground-color-root));
+    align-items: center;
+}
+
+body.tss-theme-retroos .tss-checkbox-container .tss-checkbox-mark {
+    box-sizing: border-box;
+    height: 14px;
+    width: 14px;
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background-color: rgb(var(--tss-default-background-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-checkbox-container .tss-checkbox-text {
+    margin-left: 6px;
+}
+
+/* The X, centred in the box. */
+body.tss-theme-retroos .tss-checkbox-container .tss-checkbox-mark:after,
+body.tss-theme-retroos .tss-checkbox-container[class] .tss-checkbox-mark:after {
+    content: "";
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    border: 0;
+    transform: none;
+    background: var(--tss-retro-x) center / 12px 12px no-repeat;
+}
+
+body.tss-theme-retroos .tss-checkbox-container:hover input:not(:checked) ~ .tss-checkbox-mark:after {
+    display: none;
+}
+
+body.tss-theme-retroos .tss-checkbox-container input:checked ~ .tss-checkbox-mark:after,
+body.tss-theme-retroos .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark:after {
+    display: block;
+}
+
+body.tss-theme-retroos .tss-checkbox-container input:checked ~ .tss-checkbox-mark,
+body.tss-theme-retroos .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+    background-color: rgb(var(--tss-default-background-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Pressed: the box fills solid and the X is drawn in paper. */
+body.tss-theme-retroos .tss-checkbox-container:not(.tss-disabled):active .tss-checkbox-mark {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-checkbox-container:not(.tss-disabled):active input:checked ~ .tss-checkbox-mark:after {
+    filter: invert(1);
+}
+
+body.tss-theme-retroos .tss-checkbox-container input:focus-visible ~ .tss-checkbox-mark {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+}
+
+body.tss-theme-retroos .tss-checkbox-container.tss-disabled {
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-checkbox-container.tss-disabled .tss-checkbox-mark,
+body.tss-theme-retroos .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark {
+    background-color: rgb(var(--tss-default-background-color-root));
+    border-color: var(--tss-retro-gray);
+}
+
+/* Larger text, larger box. */
+body.tss-theme-retroos .tss-checkbox-container[class*="tss-fontsize-"] .tss-checkbox-mark {
+    height: 14px;
+    width: 14px;
+}
+
+body.tss-theme-retroos .tss-checkbox-container.tss-fontsize-large .tss-checkbox-mark,
+body.tss-theme-retroos .tss-checkbox-container.tss-fontsize-xlarge .tss-checkbox-mark,
+body.tss-theme-retroos .tss-checkbox-container.tss-fontsize-xxlarge .tss-checkbox-mark,
+body.tss-theme-retroos .tss-checkbox-container.tss-fontsize-mega .tss-checkbox-mark {
+    height: 18px;
+    width: 18px;
+}
+
+body.tss-theme-retroos .tss-checkbox-container.tss-fontsize-large .tss-checkbox-mark:after,
+body.tss-theme-retroos .tss-checkbox-container.tss-fontsize-xlarge .tss-checkbox-mark:after,
+body.tss-theme-retroos .tss-checkbox-container.tss-fontsize-xxlarge .tss-checkbox-mark:after,
+body.tss-theme-retroos .tss-checkbox-container.tss-fontsize-mega .tss-checkbox-mark:after {
+    width: 16px;
+    height: 16px;
+    background-size: 16px 16px;
+}

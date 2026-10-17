@@ -1,0 +1,14 @@
+/* ==========================================================================
+   RetroOS theme - TextArea
+   --------------------------------------------------------------------------
+   The same framed field as the TextBox (tss.textbox.css styles .tss-textbox,
+   which a text area also is), with the padding of a multi-line field and no
+   drag grip: the Mac's text boxes did not resize.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-textbox.tss-textarea {
+    border-radius: 0;
+    padding: 6px 8px;
+    line-height: 1.4;
+    resize: none;
+}

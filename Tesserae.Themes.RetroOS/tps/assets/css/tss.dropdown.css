@@ -1,0 +1,293 @@
+/* ==========================================================================
+   RetroOS theme - Dropdown
+   --------------------------------------------------------------------------
+   The Mac pop-up menu. Closed, it is a paper box in a 1px ink frame with a
+   hard drop shadow and a small solid triangle at the right (a mask, so one
+   image serves light and dark). Pressing it inverts it. Open, the list is a
+   pull-down menu: square, framed, shadowed, rows in Chicago that invert under
+   the pointer or the keyboard, a check mark on the chosen row (an X in a box
+   in a multi-select, like the check box), dotted separators. Invalid is a
+   double frame with an inverted message tag.
+   ========================================================================== */
+
+/* Masks: alpha only, so they take the row's colour. On the body because the menu lives in a layer, outside the box. */
+body.tss-theme-retroos {
+    --tss-retro-dd-tri: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='6' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h11v1H0zM1 1h9v1H1zM2 2h7v1H2zM3 3h5v1H3zM4 4h3v1H4zM5 5h1v1H5z'/%3E%3C/svg%3E");
+    --tss-retro-dd-tick: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' shape-rendering='crispEdges'%3E%3Cpath d='M9 1h2v2H9zM8 3h2v2H8zM7 5h2v2H7zM6 7h2v2H6zM4 8h2v2H4zM3 6h2v2H3zM2 5h2v1H2z'/%3E%3C/svg%3E");
+    --tss-retro-dd-x: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' shape-rendering='crispEdges'%3E%3Cpath d='M1 1h2v1h1v1h1v1h2V3h1V2h1V1h2v2h-1v1h-1v1H8v2h1v1h1v1h1v2H9v-1H8V9H7V8H5v1H4v1H3v1H1V9h1V8h1V7h1V5H3V4H2V3H1z'/%3E%3C/svg%3E");
+}
+
+body.tss-theme-retroos .tss-dropdown-container {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow);
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-dropdown-container:hover {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow);
+}
+
+body.tss-theme-retroos .tss-dropdown-container.tss-dropdown-nobg,
+body.tss-theme-retroos .tss-dropdown-container.tss-dropdown-nobg:hover {
+    background: transparent;
+}
+
+/* Pressed: reverse video, text and arrow follow. */
+body.tss-theme-retroos .tss-dropdown-container:not(.tss-disabled):active {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-dropdown-container:not(.tss-disabled):active .tss-dropdown-item-on-box,
+body.tss-theme-retroos .tss-dropdown-container:not(.tss-disabled):active .tss-dropdown-item-on-box * {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-dropdown-item-on-box {
+    color: inherit;
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+}
+
+body.tss-theme-retroos .tss-dropdown-container:has(> .tss-dropdown:focus-visible) {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+}
+
+body.tss-theme-retroos .tss-dropdown-container.tss-noborder,
+body.tss-theme-retroos .tss-dropdown-container.tss-noborder:hover {
+    border-color: transparent;
+    box-shadow: none;
+}
+
+/* The arrow: a solid triangle in place of the icon font's chevron. */
+body.tss-theme-retroos .tss-dropdown-container > .tss-dropdown-icon {
+    font-size: 0;
+    width: 11px;
+    height: 6px;
+    top: calc(50% - 3px);
+    right: 8px;
+    background-color: currentColor;
+    -webkit-mask: var(--tss-retro-dd-tri) center / 11px 6px no-repeat;
+    mask: var(--tss-retro-dd-tri) center / 11px 6px no-repeat;
+}
+
+body.tss-theme-retroos .tss-dropdown-container > .tss-dropdown-icon::before {
+    display: none;
+}
+
+body.tss-theme-retroos .tss-dropdown-container.tss-disabled {
+    border-color: var(--tss-retro-gray);
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: var(--tss-retro-gray);
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-dropdown-container.tss-disabled .tss-dropdown-item-on-box {
+    color: var(--tss-retro-gray);
+}
+
+/* Invalid: the frame doubles. The inner box's own border is dropped so it is not a third line. */
+body.tss-theme-retroos .tss-dropdown-container.tss-invalid {
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-background-color-root)), inset 0 0 0 2px rgb(var(--tss-default-foreground-color-root)), var(--tss-retro-shadow);
+}
+
+body.tss-theme-retroos .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border: none;
+}
+
+body.tss-theme-retroos .tss-dropdown-container.tss-has-validation {
+    margin-bottom: 22px;
+}
+
+body.tss-theme-retroos .tss-dropdown-error {
+    font-family: var(--tss-retro-chicago);
+    font-size: 14px;
+    line-height: 1.2;
+    color: rgb(var(--tss-default-background-color-root));
+    background: rgb(var(--tss-default-foreground-color-root));
+    padding: 0 4px;
+    width: fit-content;
+}
+
+body.tss-theme-retroos .tss-dropdown-container.tss-has-validation > .tss-dropdown-error {
+    left: 0;
+    right: auto;
+    top: calc(100% + 4px);
+    max-width: 100%;
+}
+
+/* ---- The menu ---- */
+body.tss-theme-retroos .tss-dropdown-popup {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow);
+    background: rgb(var(--tss-default-background-color-root));
+    margin-top: 2px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+body.tss-theme-retroos .tss-dropdown-item,
+body.tss-theme-retroos .tss-dropdown-popup .tss-dropdown-item {
+    margin: 0;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    padding: 2px 12px;
+    min-height: 24px;
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-dropdown-item:hover,
+body.tss-theme-retroos .tss-dropdown-item:focus,
+body.tss-theme-retroos .tss-dropdown-item.tss-dropdown-item-focus,
+body.tss-theme-retroos .tss-dropdown-popup .tss-dropdown-item:hover {
+    border: none;
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    outline: none;
+}
+
+/* An option's own content follows the row when it inverts. */
+body.tss-theme-retroos .tss-dropdown-item:hover :is(.tss-btn, .tss-btn:hover, i, .tss-fontcolor-default, .tss-fontcolor-primary, .tss-fontcolor-secondary),
+body.tss-theme-retroos .tss-dropdown-item:focus :is(.tss-btn, .tss-btn:hover, i, .tss-fontcolor-default, .tss-fontcolor-primary, .tss-fontcolor-secondary),
+body.tss-theme-retroos .tss-dropdown-item.tss-dropdown-item-focus :is(.tss-btn, .tss-btn:hover, i, .tss-fontcolor-default, .tss-fontcolor-primary, .tss-fontcolor-secondary) {
+    color: inherit !important;
+    background-color: transparent !important;
+}
+
+body.tss-theme-retroos .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item:focus:not(:hover),
+body.tss-theme-retroos .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item.tss-dropdown-item-focus:not(:hover) {
+    border: none;
+}
+
+body.tss-theme-retroos .tss-dropdown-item.tss-disabled,
+body.tss-theme-retroos .tss-dropdown-item.tss-disabled:hover {
+    background: rgb(var(--tss-default-background-color-root));
+    color: var(--tss-retro-gray);
+}
+
+/* The chosen row of a single-select carries a check mark, as a Mac menu does. */
+body.tss-theme-retroos .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item {
+    padding-left: 24px;
+}
+
+body.tss-theme-retroos .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    margin-top: -6px;
+    width: 12px;
+    height: 12px;
+    background-color: currentColor;
+    -webkit-mask: var(--tss-retro-dd-tick) center / 12px 12px no-repeat;
+    mask: var(--tss-retro-dd-tick) center / 12px 12px no-repeat;
+}
+
+/* Multi-select: a check box on every row, an X when chosen. */
+body.tss-theme-retroos .tss-dropdown-multi > .tss-dropdown-item {
+    padding-left: 30px !important;
+}
+
+body.tss-theme-retroos .tss-dropdown-multi > .tss-dropdown-item:before,
+body.tss-theme-retroos .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before,
+body.tss-theme-retroos .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before {
+    box-sizing: border-box;
+    width: 14px;
+    height: 14px;
+    left: 8px;
+    border-radius: 0;
+    background-color: rgb(var(--tss-default-background-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-dropdown-multi > .tss-dropdown-item:after,
+body.tss-theme-retroos .tss-dropdown-multi > .tss-dropdown-item:hover:after {
+    display: none;
+}
+
+body.tss-theme-retroos .tss-dropdown-multi > .tss-dropdown-item.tss-selected:after,
+body.tss-theme-retroos .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:after {
+    display: block;
+    left: 9px;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    border: 0;
+    transform: translateY(-50%);
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    -webkit-mask: var(--tss-retro-dd-x) center / 12px 12px no-repeat;
+    mask: var(--tss-retro-dd-x) center / 12px 12px no-repeat;
+}
+
+body.tss-theme-retroos .tss-dropdown-multi > .tss-dropdown-item.tss-disabled:before,
+body.tss-theme-retroos .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss-selected:before {
+    background-color: rgb(var(--tss-default-background-color-root));
+    border-color: var(--tss-retro-gray);
+}
+
+/* Group headers and separators. */
+body.tss-theme-retroos .tss-dropdown-header {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    text-decoration: underline;
+    padding: 2px 12px;
+    border: none;
+}
+
+body.tss-theme-retroos .tss-dropdown-header .tss-btn,
+body.tss-theme-retroos .tss-dropdown-header .tss-btn:hover {
+    color: inherit;
+    background: transparent;
+    font-size: 16px;
+}
+
+body.tss-theme-retroos .tss-dropdown-divider {
+    height: 0;
+    margin: 2px 0;
+    background: none;
+    border: 0;
+    border-top: 1px dotted rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Search matches: underlined, because a tone would vanish on an inverted row. */
+body.tss-theme-retroos .tss-dropdown-popup mark {
+    background: transparent;
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
+
+/* The search field is a band at the top of the menu. */
+body.tss-theme-retroos .tss-dropdown-popup .tss-dropdown-searchbox {
+    margin: 0;
+    width: 100%;
+    background: rgb(var(--tss-default-background-color-root));
+    border: none;
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border: none;
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-dropdown-searchbox + .tss-dropdown-items {
+    padding-top: 0;
+}

@@ -1,0 +1,86 @@
+/* ==========================================================================
+   RetroOS theme - Picker
+   --------------------------------------------------------------------------
+   The input is the framed text field (tss-textbox.css). The suggestions are a
+   Mac pull-down: a square ink-framed sheet with a hard shadow, a Chicago title
+   and rows that invert under the pointer like menu items. A chosen item is a
+   small framed tag; its remove box inverts when pointed at.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-layer-picker-suggestions {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow);
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    padding: 0;
+    -webkit-font-smoothing: none;
+}
+
+body.tss-theme-retroos .tss-picker-suggestions {
+    padding: 0;
+}
+
+body.tss-theme-retroos .tss-picker-suggestions > .tss-picker-label {
+    padding: 4px 12px;
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+    text-decoration: underline;
+    border-bottom: 1px dotted rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-picker-suggestions > .tss-picker-suggestion {
+    padding: 3px 12px;
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+}
+
+body.tss-theme-retroos .tss-picker-suggestions > .tss-picker-suggestion:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-picker-suggestions > .tss-picker-suggestion:hover :is(i, .tss-fontcolor-default, .tss-fontcolor-primary, .tss-fontcolor-secondary, .tss-btn) {
+    color: inherit !important;
+}
+
+/* A chosen item. */
+body.tss-theme-retroos .tss-picker-selection {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    padding-left: 6px;
+    box-sizing: border-box;
+    min-height: 26px;
+}
+
+body.tss-theme-retroos .tss-picker-selection:hover {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-picker-selections:not(.tss-picker-selections-inline) > .tss-picker-selection {
+    margin: 0 4px 4px 0;
+}
+
+body.tss-theme-retroos .tss-picker-remove {
+    margin-left: 6px;
+    padding: 4px 6px;
+    border: none;
+    border-left: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: transparent;
+    min-height: 0;
+}
+
+body.tss-theme-retroos .tss-picker-remove:hover {
+    border: none;
+    border-left: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-picker-remove:hover :is(i, .tss-fontcolor-default) {
+    color: inherit;
+}

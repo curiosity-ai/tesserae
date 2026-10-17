@@ -1,0 +1,146 @@
+/* ==========================================================================
+   RetroOS theme - TextBox
+   --------------------------------------------------------------------------
+   The Mac edit-text field: a square paper box in a 1px ink frame, Geneva text
+   and an I-beam caret. Focus does not glow, it thickens the frame to 2px (an
+   inset ring, so the text does not move). An invalid field gets a double frame
+   and its message becomes an inverted label: no red, words and shape say it.
+   A read-only field is a dotted frame, a disabled one is the one grey.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-textbox {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    caret-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+    transition: none;
+    color-scheme: light;
+}
+
+body.tss-theme-retroos.tss-dark-mode .tss-textbox {
+    color-scheme: dark;
+}
+
+body.tss-theme-retroos .tss-textbox:hover {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+}
+
+/* Focus: a 2px frame. */
+body.tss-theme-retroos .tss-textbox:focus,
+body.tss-theme-retroos .tss-textbox:focus:hover {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-foreground-color-root));
+    outline: none;
+}
+
+/* A placeholder is a hint, not content: slanted rather than greyed (the grey is for disabled). */
+body.tss-theme-retroos .tss-textbox::placeholder,
+body.tss-theme-retroos .tss-textbox:hover::placeholder,
+body.tss-theme-retroos .tss-textbox:focus::placeholder {
+    color: rgb(var(--tss-default-foreground-color-root)) !important;
+    opacity: 1;
+    font-style: italic;
+    transition: none;
+}
+
+/* Read-only: the content can be selected but not changed, so the frame is dotted. */
+body.tss-theme-retroos .tss-textbox[readonly]:not(.tss-disabled) {
+    border-style: dotted;
+}
+
+body.tss-theme-retroos .tss-textbox.tss-disabled,
+body.tss-theme-retroos .tss-textbox:disabled {
+    border: 1px solid var(--tss-retro-gray);
+    background: rgb(var(--tss-default-background-color-root));
+    color: var(--tss-retro-gray);
+    box-shadow: none;
+    cursor: default;
+}
+
+body.tss-theme-retroos .tss-textbox.tss-disabled::placeholder {
+    color: var(--tss-retro-gray) !important;
+}
+
+/* Invalid: a double frame (a second line inside the first). */
+body.tss-theme-retroos .tss-textbox-container.tss-invalid .tss-textbox,
+body.tss-theme-retroos .tss-textbox-container.tss-invalid .tss-textbox:hover {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-background-color-root)), inset 0 0 0 2px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-textbox-container.tss-invalid .tss-textbox:focus {
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-foreground-color-root)), inset 0 0 0 2px rgb(var(--tss-default-background-color-root)), inset 0 0 0 3px rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The message is an inverted tag under the field: it reads without a colour. */
+body.tss-theme-retroos .tss-textbox-error {
+    font-family: var(--tss-retro-chicago);
+    font-size: 14px;
+    line-height: 1.2;
+    color: rgb(var(--tss-default-background-color-root));
+    background: rgb(var(--tss-default-foreground-color-root));
+    margin-top: 2px;
+    padding: 0 4px;
+    width: fit-content;
+    max-width: 100%;
+}
+
+body.tss-theme-retroos .tss-textbox-error:empty {
+    background: transparent;
+    padding: 0;
+}
+
+/* NoBorder sits in a host that draws the frame. */
+body.tss-theme-retroos .tss-textbox.tss-textbox-noborder,
+body.tss-theme-retroos .tss-textbox.tss-textbox-noborder:hover,
+body.tss-theme-retroos .tss-textbox.tss-textbox-noborder:focus {
+    border-color: transparent;
+    box-shadow: none;
+}
+
+/* A colour input is a text box too: let its swatch fill the frame. */
+body.tss-theme-retroos .tss-textbox[type="color"] {
+    padding: 2px;
+    cursor: pointer;
+}
+
+body.tss-theme-retroos .tss-textbox[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+body.tss-theme-retroos .tss-textbox[type="color"]::-webkit-color-swatch {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-textbox::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
+/* A table in rendered text: ruled in ink, header on a pinstripe like a title bar. */
+body.tss-theme-retroos .tss-textblock table {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-textblock table thead {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-textblock table th {
+    font-family: var(--tss-retro-chicago);
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-textblock table td {
+    border-bottom: 1px dotted rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-textblock table tbody tr {
+    transition: none;
+}

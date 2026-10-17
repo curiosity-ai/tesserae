@@ -1,0 +1,68 @@
+/* ==========================================================================
+   RetroOS theme - TaskBoard
+   --------------------------------------------------------------------------
+   Each column is a small window: an ink frame with the hard shadow and a
+   pinstriped title bar with the column's name centred in a paper gap. A card
+   is a framed paper tile that inverts under the pointer's press; the slot a
+   dragged card will land in is a dashed outline on the 25% dither, as the
+   Finder showed where an icon would drop. TaskBoard writes the column and card
+   shape as inline styles, so radius and shadow are restated with !important.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-taskboard-column {
+    border-radius: 0 !important;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root)) !important;
+    box-shadow: var(--tss-retro-shadow) !important;
+    background: rgb(var(--tss-default-background-color-root)) !important;
+    overflow: hidden;
+}
+
+/* The column title: the TextBlock the header stack carries first, set in a stripe title bar. */
+body.tss-theme-retroos .tss-taskboard-column > .tss-stack:first-child {
+    background: var(--tss-retro-stripes);
+    background-size: 100% 2px;
+    background-clip: content-box;
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    justify-content: center;
+}
+
+body.tss-theme-retroos .tss-taskboard-column > .tss-stack:first-child > .tss-textblock:first-child {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    background: rgb(var(--tss-default-background-color-root));
+    padding: 0 8px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-taskboard-card {
+    border-radius: 0 !important;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root)) !important;
+    box-shadow: none !important;
+    background: rgb(var(--tss-default-background-color-root)) !important;
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: none !important;
+}
+
+body.tss-theme-retroos .tss-taskboard-card:hover {
+    box-shadow: var(--tss-retro-shadow-sm) !important;
+}
+
+body.tss-theme-retroos .tss-taskboard-column:not(.tss-taskboard-column-readonly) .tss-taskboard-card:active {
+    cursor: grabbing;
+}
+
+body.tss-theme-retroos .tss-taskboard-card.tss-taskboard-card-ghost,
+body.tss-theme-retroos .tss-taskboard-column.tss-taskboard-column-ghost {
+    background: conic-gradient(from 0deg at 1px 1px, rgb(var(--tss-default-foreground-color-root)) 0 25%, transparent 0) 0 0 / 2px 2px !important;
+    background-color: rgb(var(--tss-default-background-color-root)) !important;
+    box-shadow: none !important;
+    outline: 1px dashed rgb(var(--tss-default-foreground-color-root));
+    outline-offset: -1px;
+}
+
+body.tss-theme-retroos .tss-taskboard-card.tss-taskboard-card-ghost > * {
+    visibility: hidden;
+}

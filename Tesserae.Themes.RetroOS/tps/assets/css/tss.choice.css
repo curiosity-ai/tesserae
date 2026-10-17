@@ -1,0 +1,102 @@
+/* ==========================================================================
+   RetroOS theme - ChoiceGroup
+   --------------------------------------------------------------------------
+   The Mac radio button: a small circle with a 1px ink edge and a solid ink
+   dot for the chosen one (round, so it never reads as a check box). No hover
+   tone; a press fills the circle and the dot flips to paper. Disabled is grey.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-option-container {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-option-container .tss-option-mark {
+    box-sizing: border-box;
+    height: 14px;
+    width: 14px;
+    margin-left: 1px;
+    border-radius: 50%;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background-color: rgb(var(--tss-default-background-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-option-container .tss-option-text {
+    margin-left: 6px;
+}
+
+/* The dot. */
+body.tss-theme-retroos .tss-option-container .tss-option-mark:after {
+    content: "";
+    display: none;
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 6px;
+    height: 6px;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 50%;
+    background-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-option-container:hover input:not(:checked) ~ .tss-option-mark:after {
+    display: none;
+}
+
+body.tss-theme-retroos .tss-option-container input:checked ~ .tss-option-mark:after,
+body.tss-theme-retroos .tss-option-container:hover input:checked ~ .tss-option-mark:after {
+    display: block;
+    border: 0;
+    background-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-option-container input:checked ~ .tss-option-mark,
+body.tss-theme-retroos .tss-option-container:hover input:checked ~ .tss-option-mark {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-option-container:not(.tss-disabled):active .tss-option-mark {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-option-container:not(.tss-disabled):active input:checked ~ .tss-option-mark:after {
+    background-color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-option-container input:focus-visible ~ .tss-option-mark {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+}
+
+body.tss-theme-retroos .tss-option-container.tss-disabled {
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-option-container.tss-disabled .tss-option-mark,
+body.tss-theme-retroos .tss-option-container.tss-disabled input:checked ~ .tss-option-mark {
+    border-color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-option-container.tss-disabled input:checked ~ .tss-option-mark:after {
+    background-color: var(--tss-retro-gray);
+}
+
+/* Larger text, larger radio. */
+body.tss-theme-retroos .tss-option-container.tss-fontsize-large .tss-option-mark,
+body.tss-theme-retroos .tss-option-container.tss-fontsize-xlarge .tss-option-mark,
+body.tss-theme-retroos .tss-option-container.tss-fontsize-xxlarge .tss-option-mark,
+body.tss-theme-retroos .tss-option-container.tss-fontsize-mega .tss-option-mark {
+    height: 18px;
+    width: 18px;
+}
+
+body.tss-theme-retroos .tss-option-container.tss-fontsize-large .tss-option-mark:after,
+body.tss-theme-retroos .tss-option-container.tss-fontsize-xlarge .tss-option-mark:after,
+body.tss-theme-retroos .tss-option-container.tss-fontsize-xxlarge .tss-option-mark:after,
+body.tss-theme-retroos .tss-option-container.tss-fontsize-mega .tss-option-mark:after {
+    left: 5px;
+    top: 5px;
+    width: 6px;
+    height: 6px;
+}

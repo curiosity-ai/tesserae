@@ -1,0 +1,66 @@
+/* ==========================================================================
+   RetroOS theme - Nav
+   --------------------------------------------------------------------------
+   The Finder's outline list: a row per link in Geneva, a solid disclosure
+   triangle in the left margin (right when closed, down when open), the
+   current row and the row under the pointer in reverse video. Nested links
+   hang under a dotted guide. Nothing animates.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-nav-link > .tss-nav-link-header {
+    background: rgb(var(--tss-default-background-color-root));
+    border-left: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header {
+    border-right: 0;
+}
+
+body.tss-theme-retroos .tss-nav-link > .tss-nav-link-header:hover,
+body.tss-theme-retroos .tss-nav-link > .tss-nav-link-header.tss-selected,
+body.tss-theme-retroos .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header.tss-selected {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    text-decoration: none;
+    border-color: transparent;
+}
+
+body.tss-theme-retroos .tss-nav-link > .tss-nav-link-header:hover *,
+body.tss-theme-retroos .tss-nav-link > .tss-nav-link-header.tss-selected * {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* The disclosure triangle, clipped from a square so it stays crisp. */
+body.tss-theme-retroos .tss-nav-link-button:after {
+    left: 6px;
+    top: 4px;
+    width: 8px;
+    height: 12px;
+    border: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    transform: none;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-nav-link.tss-expanded > .tss-nav-link-header > .tss-nav-link-button:after {
+    left: 4px;
+    top: 6px;
+    width: 12px;
+    height: 8px;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform: none;
+}
+
+body.tss-theme-retroos .tss-nav-link > .tss-nav-link-header:hover > .tss-nav-link-button:after,
+body.tss-theme-retroos .tss-nav-link > .tss-nav-link-header.tss-selected > .tss-nav-link-button:after {
+    background: rgb(var(--tss-default-background-color-root));
+    border: 0;
+}
+
+body.tss-theme-retroos .tss-nav-link > .tss-nav-link-container {
+    border-left: 1px dotted rgb(var(--tss-default-foreground-color-root));
+    margin-left: 10px;
+}

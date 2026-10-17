@@ -1,0 +1,51 @@
+/* ==========================================================================
+   RetroOS theme - Dialog
+   --------------------------------------------------------------------------
+   The classic Mac alert box: no title bar, and a thick double-line frame
+   (a 1px rule, a 1px paper gap, a 1px rule) with the hard shadow outside it.
+   The title is plain Chicago on paper, left-aligned; the buttons sit at the
+   bottom right and the default one wears its ring (see tss.button.css).
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-modal.tss-dialog {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow:
+        inset 0 0 0 2px rgb(var(--tss-default-background-color-root)),
+        inset 0 0 0 3px rgb(var(--tss-default-foreground-color-root)),
+        var(--tss-retro-shadow);
+    padding: 6px;
+    box-sizing: border-box;
+}
+
+body.tss-theme-retroos .tss-dialog .tss-modal-header {
+    background: rgb(var(--tss-default-background-color-root));
+    border-bottom: 0;
+    padding: 8px 12px 0 12px;
+}
+
+body.tss-theme-retroos .tss-dialog .tss-modal-header::after {
+    content: none;
+}
+
+body.tss-theme-retroos .tss-dialog .tss-modal-header-content,
+body.tss-theme-retroos .tss-dialog .tss-modal-header-content:not(:empty) {
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+    max-width: none;
+}
+
+body.tss-theme-retroos .tss-dialog .tss-modal-content {
+    padding: 4px 12px;
+}
+
+body.tss-theme-retroos .tss-dialog .tss-modal-footer {
+    padding: 4px 12px 8px 12px;
+}
+
+/* Every button in an alert is an outlined push button, not only the default one. */
+body.tss-theme-retroos .tss-dialog .tss-modal-footer .tss-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-retroos .tss-dialog .tss-modal-footer .tss-btn.tss-btn-nobg:not(.tss-disabled) {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}

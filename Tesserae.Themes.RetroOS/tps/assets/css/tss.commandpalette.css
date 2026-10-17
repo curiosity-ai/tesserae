@@ -1,0 +1,163 @@
+/* ==========================================================================
+   RetroOS theme - Command Palette
+   --------------------------------------------------------------------------
+   A window floated over the 50% dither: paper, 1px frame, hard 2px shadow,
+   square. The search row is separated by a 1px rule. Result rows are menu
+   rows: the hovered row and the one the keyboard is on invert to paper-on-ink
+   and everything inside follows (icon tile, subtitle, shortcut keys, arrow).
+   Section labels are underlined Chicago, shortcuts are small rounded key caps.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-commandpalette-overlay {
+    background: var(--tss-retro-dither);
+}
+
+body.tss-theme-retroos .tss-commandpalette-animator {
+    background: rgb(var(--tss-default-background-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow);
+}
+
+body.tss-theme-retroos .tss-commandpalette-search-container {
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-commandpalette-breadcrumbs,
+body.tss-theme-retroos .tss-commandpalette-path,
+body.tss-theme-retroos .tss-commandpalette-back {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-commandpalette-close {
+    width: 13px;
+    height: 13px;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    margin: 0 4px;
+}
+
+body.tss-theme-retroos .tss-commandpalette-close .tss-commandpalette-close-icon {
+    display: none;
+}
+
+body.tss-theme-retroos .tss-commandpalette-close:hover {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-commandpalette-close:active {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-commandpalette-results {
+    padding: 2px 0;
+    gap: 0;
+}
+
+body.tss-theme-retroos .tss-commandpalette-section {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    text-transform: none;
+    letter-spacing: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+    text-decoration: underline;
+    padding: 4px 12px 2px;
+}
+
+body.tss-theme-retroos .tss-commandpalette-item {
+    border-radius: 0;
+    padding: 4px 12px;
+    gap: 10px;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-commandpalette-item:hover,
+body.tss-theme-retroos .tss-commandpalette-item.tss-active,
+body.tss-theme-retroos .tss-commandpalette-result:hover,
+body.tss-theme-retroos .tss-commandpalette-result.tss-active {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-commandpalette-item:hover *,
+body.tss-theme-retroos .tss-commandpalette-item.tss-active *,
+body.tss-theme-retroos .tss-commandpalette-result:hover *,
+body.tss-theme-retroos .tss-commandpalette-result.tss-active * {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-commandpalette-item.tss-disabled {
+    opacity: 1;
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-commandpalette-item.tss-disabled:hover {
+    background: rgb(var(--tss-default-background-color-root));
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-commandpalette-item.tss-disabled:hover * {
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-commandpalette-result {
+    padding: 4px 8px;
+}
+
+/* The icon is a square tile with a 1px frame; on an inverted row the frame and ground swap. */
+body.tss-theme-retroos .tss-commandpalette-icon {
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-sizing: border-box;
+}
+
+body.tss-theme-retroos .tss-commandpalette-item:hover .tss-commandpalette-icon,
+body.tss-theme-retroos .tss-commandpalette-item.tss-active .tss-commandpalette-icon {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-commandpalette-title {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-retroos .tss-commandpalette-subtitle {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-commandpalette-icon-placeholder {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-commandpalette-shortcut {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 3px;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-monospace-font-family);
+    font-size: 14px;
+    line-height: 14px;
+}
+
+body.tss-theme-retroos .tss-commandpalette-item:hover .tss-commandpalette-shortcut,
+body.tss-theme-retroos .tss-commandpalette-item.tss-active .tss-commandpalette-shortcut {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-commandpalette-submenu,
+body.tss-theme-retroos .tss-commandpalette-empty {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
