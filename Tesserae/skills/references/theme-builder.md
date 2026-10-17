@@ -36,10 +36,9 @@ Each setter takes `(Color light, Color dark)`:
   border and the shadow together; `.PrimaryBackground`, `.PrimaryBackgroundHover`,
   `.PrimaryBackgroundActive`, `.PrimaryBorder`, `.PrimaryForeground`,
   `.PrimaryForegroundHover`, `.PrimaryForegroundActive`, `.PrimaryShadow` set the pieces.
-- **Tones** — `.Danger(light, dark)` and `.Success(light, dark)` (same all-at-once shape as
+- **Tones** — `.Danger(light, dark)`, `.Warning(light, dark)` and `.Success(light, dark)` (same all-at-once shape as
   `Primary`), plus their `…Background`/`…BackgroundHover`/`…BackgroundActive`/`…Border`/
-  `…Foreground`/`…ForegroundHover`/`…ForegroundActive` parts, and
-  `.WarningBackground` / `.WarningForeground`.
+  `…Foreground`/`…ForegroundHover`/`…ForegroundActive` parts.
 - **Chrome** — `.SecondaryBackground`, `.SecondaryForeground`, `.SidebarBackground`,
   `.SidebarForeground`, `.DisabledBackground`, `.DisabledForeground`,
   `.TooltipBackground`, `.TooltipForeground`.

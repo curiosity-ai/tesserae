@@ -38,6 +38,8 @@ A vertically-stacked tree of `Tree.Item` nodes. Nodes expand/collapse to reveal 
 - `.Selectable(bool = true)` — say whether the row can be picked at all; one that cannot shows no checkbox and is skipped by ranges, cascades and `SelectAll`.
 - `.OnSelected(...)` / `.OnSelectionChanged((item, isSelected) => ...)` / `.OnExpanded(...)` / `.OnCollapsed(...)` — node events.
 - `.CommandsAlwaysVisible(bool)` — keep row commands visible (not hover-only).
+
+`TreeCommand` (a row command, `new TreeCommand(UIcons.Trash)`): `.SetText(...)`, `.Tooltip(...)`, `.OnClick(...)`, and the tone `.Primary()` / `.Success()` / `.Warning()` / `.Danger()`.
 - `.IconColor(color)` — tint the row's icon (a danger colour on a file that fails to compile, say), leaving the text alone; null goes back to the theme's colour.
 - `Text`, `Icon`, `IsExpanded`, `IsSelected`, `IsPartiallySelected`, `IsSelectable`, `HasChildren`, `Children`, `Parent`, `IsFilteredOut` — read/write state.
 

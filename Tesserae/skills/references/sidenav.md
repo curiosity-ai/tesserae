@@ -31,7 +31,7 @@ SidenavButton — `new SidenavButton(string identifier, UIcons icon, string text
 (or with `href` / `UIconsWeight`):
 
 - `.Selected(bool = true)`, `.OnClick(action)`, `.Tooltip(text)`.
-- `.ShowDot(bool = true)` / `.DotDanger()` — notification dot.
+- `.ShowDot(bool = true)` / `.DotWarning()` / `.DotDanger()` — notification dot, in the warning or danger colour.
 - `.AsBrand()` — style as the brand/logo at the top.
 
 ## Example

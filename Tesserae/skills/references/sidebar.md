@@ -72,7 +72,8 @@ foreach (var space in spaces)
 ```
 
 Common item types: `SidebarButton(id, UIcons icon, text)` (`.Selected()`,
-`.OnClick(...)`, `.Primary()`, `.Danger()`, `.Rounded()`,
+`.OnClick(...)`, `.Primary()`, `.Success()`, `.Warning()`, `.Danger()`, `.Rounded()`,
+(`SidebarBadge` and `SidebarCommand` take the same tones),
 `.SetKeyboardShortcut("Ctrl", "Shift", "O")`, `.ShortcutOnlyOnHover()`,
 `.Tooltip(...)`),
 `SidebarSeparator(id, text)`, `SidebarNav(id, icon, text, initiallyCollapsed)`,

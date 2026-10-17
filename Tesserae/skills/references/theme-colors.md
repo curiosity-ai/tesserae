@@ -23,7 +23,7 @@ description: The static `Theme` class for switching light/dark mode and overridi
 ## Properties
 
 - `Theme.IsLight` / `Theme.IsDark` — current mode (bool).
-- `Theme.Default`, `Theme.Primary`, `Theme.Secondary`, `Theme.Danger`, `Theme.Success` — color accessors exposing `.Background`, `.Foreground`, `.Border`, etc.
+- `Theme.Default`, `Theme.Primary`, `Theme.Secondary`, `Theme.Danger`, `Theme.Warning`, `Theme.Success` — color accessors exposing `.Background`, `.Foreground`, `.Border`, etc.
 - `Theme.Warning` — the warning tone, `.Background` and `.Foreground` only (no border or hover tokens exist for it).
 - `Theme.Default.Highlight` — the highlight color as a CSS variable reference, for drawing your own marked text with it.
 - `Theme.Fonts.SansSerif` / `Theme.Fonts.Monospace` — the two font stacks the toolkit draws with, as CSS variable references. See `styling.md`.

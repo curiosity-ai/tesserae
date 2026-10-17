@@ -33,7 +33,8 @@ that merely runs a handler is a button, and underlining it would promise an addr
 `.Link()` drops the border and the background so the button reads as text rather than as a box, for
 an action that should not be the thing the eye lands on. A **tone composes with it**: it colours the
 label rather than filling a surface, so a destructive action written as text is `.Link().Danger()` —
-the form to reach for when a red button would shout louder than the action deserves.
+the form to reach for when a red button would shout louder than the action deserves. `.Link().Warning()` is
+the same for an action that needs care but is not destructive (Archive, Overwrite).
 
 ```csharp
 Button("Make private").Link().Danger().OnClick(StageMakePrivate)
@@ -59,7 +60,7 @@ is the check itself, for a custom component that dispatches its own clicks.
 
 ## Key configuration
 
-Tone: `.Primary()`, `.Success()`, `.Danger()` (default is neutral).
+Tone: `.Primary()`, `.Success()`, `.Warning()`, `.Danger()` (default is neutral). `IsPrimary` / `IsSuccess` / `IsWarning` / `IsDanger` read and set the same tones; they are mutually exclusive.
 Style: `.Compact()`, `.NoBorder()`, `.NoBackground()`, `.Link()` (reads as text rather than as a
 box, and composes with a tone), `.LinkOnHover()`, `.Color(background, textColor, borderColor, iconColor)`.
 

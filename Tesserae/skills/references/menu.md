@@ -33,7 +33,7 @@ Item:
 - `.OnClick(Action)` — activation handler (closes the whole menu stack).
 - `.SubMenu(Menu submenu)` — nested submenu, opened on hover, ArrowRight or Enter; nest arbitrarily deep.
 - `.Disabled(bool = true)` — non-interactive row.
-- `.Danger(bool = true)` / `.Primary(bool = true)` / `.Success(bool = true)` — draw the row in that tone (label, icon and hover wash): danger for the entry that deletes or removes something, primary for the one the menu exists for, success for one that confirms or enables. One tone at a time; the last call wins, and passing `false` takes it back.
+- `.Danger(bool = true)` / `.Warning(bool = true)` / `.Primary(bool = true)` / `.Success(bool = true)` — draw the row in that tone (label, icon and hover wash): danger for the entry that deletes or removes something, warning for one that needs care but is not destructive (Archive, Overwrite), primary for the one the menu exists for, success for one that confirms or enables. One tone at a time; the last call wins, and passing `false` takes it back.
 
 ## Behaviour
 

@@ -5,7 +5,8 @@
    SideNav: flat rows with 14px labels in the corporate blue, 12px of padding
    round a 20px line (the design system's 44px row is held to 40px here, since a
    Tesserae sidebar usually carries many more rows). The selected row is bold on
-   the soft blue wash, with no bar; hover is the neutral fill. A nav group's
+   the soft blue wash, with no bar; hover is the neutral fill. Both run the
+   full width of the rail, edge to edge, like the reference's rows. A nav group's
    header reads as a section, not a destination.
 
    Rows are buttons underneath, and the shared button stylesheet outlines and
@@ -93,6 +94,51 @@ body.tss-theme-stratus.tss-dark-mode .tss-sidebar:not(#_) .tss-sidebar-btn-open.
     color: var(--tss-str-corporate);
     border-color: transparent;
     box-shadow: none;
+}
+
+/* Full-bleed rows. The reference's row highlight runs from the panel's left edge to its right edge; here the
+   rows sit inside the sidebar's own padding (12px of it on the left, 4px of the scroll gutter on the right), so a
+   highlight painted by the button alone leaves a margin on both sides.
+
+   The rail's scrolling middle is stretched to the full 250px, and each row paints its hover and selected wash
+   on a pseudo-element behind the button that overshoots in both directions and is clipped by that middle
+   (overflow-x: hidden). Nothing moves: labels, icons, indents and commands stay where the base puts them, and
+   it holds at any nesting depth because the wash reaches for the rail's edge, not for a fixed offset. The
+   button keeps painting the same colour over its own part, so the two are one band. */
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) > .tss-stack-item:nth-child(2) {
+    width: calc(100% + 24px) !important;
+    overflow-x: hidden;
+}
+
+/* A group's children container clips (overflow: hidden) so a closed group can collapse to nothing. Open, its
+   height is auto and the clip has nothing to do except cut off the wash of the rows inside it. */
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-children {
+    overflow: visible;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-btn-open::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -100vw;
+    right: -100vw;
+    z-index: -1;
+    background: transparent;
+    pointer-events: none;
+}
+
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover::before,
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-nav-header.tss-sidebar-btn-open:hover::before {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-btn-open:not(.tss-sidebar-selected):active::before {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-btn-open.tss-sidebar-selected::before {
+    background: var(--tss-default-background-active-color);
 }
 
 /* A nav group is a section: it takes the neutral hover, never the selected wash or bar. */

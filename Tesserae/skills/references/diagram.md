@@ -44,7 +44,7 @@ Node:
 - `.SetIcon(UIcons icon, string color = "", TextSize size = Small, UIconsWeight weight = Regular)`
   / `.SetIcon(Emoji, TextSize)` / `.SetImage(string url)` / `.ClearIcon()` — the mark before
   the label.
-- `.Default()` / `.Primary()` / `.Secondary()` / `.Success()` / `.Danger()` — the same tones
+- `.Default()` / `.Primary()` / `.Secondary()` / `.Success()` / `.Warning()` / `.Danger()` — the same tones
   a `Button` has.
 - `.Color(string background, string foreground = "", string borderColor = "")` — anything the
   tones don't cover; `background` takes a gradient as happily as a colour.

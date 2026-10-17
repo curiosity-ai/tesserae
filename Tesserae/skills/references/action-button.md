@@ -19,7 +19,7 @@ as the display content. Bring factories into scope with `using static Tesserae.U
 
 - `.OnClickDisplay((display, evt) => ...)` — handler for the main area.
 - `.OnClickAction((button, evt) => ...)` — handler for the action icon.
-- `.Primary()` / `.Danger()` — tone (default is neutral).
+- `.Primary()` / `.Warning()` / `.Danger()` — tone (default is neutral); `IsPrimary` / `IsWarning` / `IsDanger` read and set it.
 - `.Disabled(bool = true)` — disable interaction.
 - `.ModifyActionButton(Action<IComponent>)` — tweak the action icon (e.g. add a tooltip via `Raw(c).Tooltip(...)`).
 - `.Background` — CSS background of both regions.
