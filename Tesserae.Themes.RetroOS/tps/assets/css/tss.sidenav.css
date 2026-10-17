@@ -1,0 +1,88 @@
+/* ==========================================================================
+   RetroOS theme - Sidenav
+   --------------------------------------------------------------------------
+   The icon rail is the Finder's palette of big icons with a caption under
+   each: a glyph over a Chicago name, the whole cell inverting for the current
+   section (the Finder's selected icon: black box, white name). Pointing at a
+   cell does nothing, like a desktop icon; pressing it inverts. The rail is a
+   window edge: a 1px line on its trailing side and one above the footer.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-sidenav {
+    border-right: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-sidenav.tss-sidenav-secondary {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-sidenav-footer {
+    border-top: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn {
+    border-radius: 0;
+    border-color: transparent;
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-sidenav-btn-label {
+    font-family: var(--tss-retro-chicago);
+    font-size: 13px;
+    line-height: 13px;
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: 0;
+}
+
+body.tss-theme-retroos .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover {
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Pressed and current: reverse video, glyph and caption together. */
+body.tss-theme-retroos .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:active,
+body.tss-theme-retroos .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn,
+body.tss-theme-retroos .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:active *,
+body.tss-theme-retroos .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn * {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: -3px;
+}
+
+/* The brand is a push button: a rounded ink-edged box. */
+body.tss-theme-retroos .tss-sidenav-btn-wrap.tss-sidenav-btn-brand > .tss-btn.tss-sidenav-btn {
+    border-radius: 8px;
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+/* A notification dot is a square pixel block ringed in paper; the danger one is hollow. */
+body.tss-theme-retroos .tss-sidenav-btn-dot {
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: 0 0 0 2px rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-sidenav-btn-wrap.tss-sidenav-selected .tss-sidenav-btn-dot {
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: 0 0 0 1px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-sidenav-btn-dot.tss-sidenav-btn-dot-danger {
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: 0 0 0 2px rgb(var(--tss-default-foreground-color-root));
+    width: 6px;
+    height: 6px;
+}

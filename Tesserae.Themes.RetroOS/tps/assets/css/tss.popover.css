@@ -1,0 +1,27 @@
+/* ==========================================================================
+   RetroOS theme - Popover
+   --------------------------------------------------------------------------
+   A popover draws no chrome of its own: the content placed in it (a menu, a
+   card) is the window, with its own frame and shadow. So the Tippy box is
+   transparent and frameless here, and its arrow is dropped; the Mac had no
+   pointer on a pop-up, it simply opened under the control.
+   ========================================================================== */
+
+body.tss-theme-retroos .tippy-box[data-theme~='tss-popover'] {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tippy-box[data-theme~='tss-popover'] > .tippy-content {
+    padding: 0;
+}
+
+body.tss-theme-retroos .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    display: none;
+}
+
+body.tss-theme-retroos .tippy-box[data-theme~='tss-popover'] .tippy-content .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root));
+}

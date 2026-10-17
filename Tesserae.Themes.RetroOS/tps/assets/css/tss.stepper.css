@@ -1,0 +1,111 @@
+/* ==========================================================================
+   RetroOS theme - Stepper
+   --------------------------------------------------------------------------
+   Each step is a numbered square node (the Mac drew checkboxes and control
+   boxes square) with its label in Chicago. Upcoming steps are an empty square;
+   the active step is a solid ink square with a paper numeral; a completed
+   step is a square inside a square, the double border the Mac used for a
+   default or "done" state. State is told by shape and fill, never by hue. A
+   step under the pointer inverts like a menu item. The step's content is a
+   plain framed pane and Back / Next are push buttons.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-stepper-step {
+    border-radius: 0;
+    transition: none;
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+}
+
+body.tss-theme-retroos .tss-stepper-step:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-stepper-step:hover .tss-stepper-description,
+body.tss-theme-retroos .tss-stepper-step:hover .tss-stepper-label {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-stepper-circle {
+    box-sizing: border-box;
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-weight: var(--tss-font-weight-regular);
+    font-size: 16px;
+}
+
+/* Under the pointer the node follows the row: paper on ink, outlined in paper. */
+body.tss-theme-retroos .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-circle {
+    border: 1px solid rgb(var(--tss-default-background-color-root));
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-stepper-label {
+    font-family: var(--tss-retro-chicago);
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-retroos .tss-stepper-description {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-sansserif-font-family);
+}
+
+/* The step you are on: a solid block. */
+body.tss-theme-retroos .tss-stepper-active .tss-stepper-circle {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-stepper-step.tss-stepper-active:hover .tss-stepper-circle {
+    background: rgb(var(--tss-default-background-color-root));
+    border-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* A finished step: a double frame, a square within a square. */
+body.tss-theme-retroos .tss-stepper-complete .tss-stepper-circle {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: inset 0 0 0 2px rgb(var(--tss-default-background-color-root)), inset 0 0 0 3px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-stepper-step.tss-stepper-complete:hover .tss-stepper-circle {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    box-shadow: inset 0 0 0 2px rgb(var(--tss-default-foreground-color-root)), inset 0 0 0 3px rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-stepper-content {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-stepper-nav {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-stepper-nav:active:not(:disabled):not(.tss-disabled) {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-stepper-nav:disabled,
+body.tss-theme-retroos .tss-stepper-nav.tss-disabled {
+    opacity: 1;
+    color: var(--tss-retro-gray);
+    border-color: var(--tss-retro-gray);
+}

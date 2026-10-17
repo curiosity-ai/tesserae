@@ -1,0 +1,205 @@
+/* ==========================================================================
+   RetroOS theme - Conversation
+   --------------------------------------------------------------------------
+   A thread of small document windows on a dotted rail. A comment is a framed
+   paper window with the hard shadow; its header is set off by a solid rule,
+   and the comment a link points at (highlighted) takes the double frame the
+   Mac gave a default or active window. An event is a square node on the rail
+   - one bit has no hues, so the tone is told by the node's shape and fill:
+   primary and ai are solid ink, success a double frame, warning dashed, info
+   dotted, danger solid with a paper inner ring. Reactions are small push
+   buttons; the ones you pressed are reverse video. The composer's tabs are the
+   folder tabs of Pivot and its box is a plain frame.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-conversation {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-conversation-item::before {
+    width: 2px;
+    background: repeating-linear-gradient(to bottom, rgb(var(--tss-default-foreground-color-root)) 0 2px, transparent 2px 4px);
+}
+
+/* Comment */
+body.tss-theme-retroos .tss-conversation-comment {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: var(--tss-retro-shadow-sm);
+}
+
+body.tss-theme-retroos .tss-conversation-comment-header {
+    background: rgb(var(--tss-default-background-color-root));
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-conversation-comment-author,
+body.tss-theme-retroos .tss-conversation-event-actor {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-retroos .tss-conversation-comment-attachment {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+}
+
+/* The linked-to comment: a double frame (a thick outer ring beside the thin one). */
+body.tss-theme-retroos .tss-conversation-comment-highlighted {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: 0 0 0 2px rgb(var(--tss-default-background-color-root)), 0 0 0 4px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-conversation-comment-highlighted > .tss-conversation-comment-header {
+    border-bottom-color: rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: inset 0 -3px 0 rgb(var(--tss-default-background-color-root)), inset 0 -4px 0 rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Reactions */
+body.tss-theme-retroos .tss-conversation-reaction {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-conversation-reaction:hover {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Pressed: reverse video. Chosen by you: the double frame, so the emoji (a colour glyph) stays on paper. */
+body.tss-theme-retroos .tss-conversation-reaction:active {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-conversation-reaction-active,
+body.tss-theme-retroos .tss-conversation-reaction-active:hover {
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-background-color-root)), inset 0 0 0 2px rgb(var(--tss-default-foreground-color-root));
+    font-weight: var(--tss-font-weight-regular);
+}
+
+/* Emoji are colour glyphs, so they are drawn in grey tones (the nearest the Mac had) and nothing else. */
+body.tss-theme-retroos .tss-conversation-reaction-emoji {
+    filter: grayscale(1) contrast(1.6);
+}
+
+body.tss-theme-retroos .tss-conversation-reaction:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-conversation-reaction-picker {
+    border-radius: 8px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Events */
+body.tss-theme-retroos .tss-conversation-event,
+body.tss-theme-retroos .tss-conversation-event-detail {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-conversation-event-icon {
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: 0 0 0 3px rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-conversation-tone-primary,
+body.tss-theme-retroos .tss-conversation-tone-ai {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-conversation-tone-success {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: 0 0 0 3px rgb(var(--tss-default-background-color-root)), inset 0 0 0 2px rgb(var(--tss-default-background-color-root)), inset 0 0 0 3px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-conversation-tone-warning {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-style: dashed;
+}
+
+body.tss-theme-retroos .tss-conversation-tone-info {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-style: dotted;
+    border-width: 2px;
+}
+
+body.tss-theme-retroos .tss-conversation-tone-danger {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    box-shadow: 0 0 0 3px rgb(var(--tss-default-background-color-root)), inset 0 0 0 2px rgb(var(--tss-default-foreground-color-root)), inset 0 0 0 3px rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-conversation-event-inline-text {
+    font-family: var(--tss-retro-chicago);
+    font-weight: var(--tss-font-weight-regular);
+}
+
+/* Composer */
+body.tss-theme-retroos .tss-conversation-footer {
+    border-top: 2px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-conversation-composer-box {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-conversation-composer-tabs {
+    background: rgb(var(--tss-default-background-color-root));
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-conversation-composer-tab {
+    border-radius: 6px 6px 0 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    padding: 2px 14px;
+    margin-bottom: -1px;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-conversation-composer-tab:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-conversation-composer-tab:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-conversation-composer-tab-active,
+body.tss-theme-retroos .tss-conversation-composer-tab-active:hover {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    border-bottom-color: rgb(var(--tss-default-background-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-retroos .tss-conversation-composer-preview {
+    border-bottom: 1px dotted rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-conversation-composer-hint {
+    color: rgb(var(--tss-default-foreground-color-root));
+}

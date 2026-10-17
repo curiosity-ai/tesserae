@@ -1,0 +1,140 @@
+/* ==========================================================================
+   RetroOS theme - Tool / Agent Selector
+   --------------------------------------------------------------------------
+   The trigger is a push button (rounded, 1px edge) that inverts while its
+   popup is open. The popup is a pull-down window: frame, hard 2px shadow,
+   square. Rows are menu rows that invert under the pointer or the keyboard;
+   the checkbox is the Mac square with an ink tick, icon tiles are framed
+   squares, the count badge is a solid ink pill. Nothing eases.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-toolagent-trigger {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-toolagent-trigger:hover {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-toolagent-trigger:active,
+body.tss-theme-retroos .tss-toolagent-trigger.tss-toolagent-trigger-active {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-toolagent-trigger-chevron,
+body.tss-theme-retroos .tss-toolagent-trigger i {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-toolagent-badge {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 14px;
+    font-weight: var(--tss-font-weight-regular);
+    box-shadow: 0 0 0 1px rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-toolagent-popup {
+    background: rgb(var(--tss-default-background-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow);
+}
+
+body.tss-theme-retroos .tss-toolagent-section-title {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+    text-decoration: underline;
+}
+
+body.tss-theme-retroos .tss-toolagent-list {
+    padding: 0 0 4px;
+}
+
+body.tss-theme-retroos .tss-toolagent-item {
+    border-radius: 0;
+    padding: 4px 12px;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-toolagent-item:hover,
+body.tss-theme-retroos .tss-toolagent-item.tss-toolagent-item-highlight {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-toolagent-item:hover *,
+body.tss-theme-retroos .tss-toolagent-item.tss-toolagent-item-highlight * {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-toolagent-item-checkmark {
+    width: 14px;
+    height: 14px;
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-toolagent-item-input:checked ~ .tss-toolagent-item-checkmark {
+    background: rgb(var(--tss-default-background-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-toolagent-item-input:checked ~ .tss-toolagent-item-checkmark:after {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    width: 4px;
+    height: 8px;
+}
+
+/* On an inverted row the box keeps its paper ground, so frame and tick stay legible. */
+body.tss-theme-retroos .tss-toolagent-item:hover .tss-toolagent-item-checkmark,
+body.tss-theme-retroos .tss-toolagent-item.tss-toolagent-item-highlight .tss-toolagent-item-checkmark {
+    background: rgb(var(--tss-default-background-color-root));
+    border-color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-toolagent-item:hover .tss-toolagent-item-input:checked ~ .tss-toolagent-item-checkmark:after,
+body.tss-theme-retroos .tss-toolagent-item.tss-toolagent-item-highlight .tss-toolagent-item-input:checked ~ .tss-toolagent-item-checkmark:after {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-toolagent-item-icon {
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-sizing: border-box;
+}
+
+body.tss-theme-retroos .tss-toolagent-item:hover .tss-toolagent-item-icon,
+body.tss-theme-retroos .tss-toolagent-item.tss-toolagent-item-highlight .tss-toolagent-item-icon {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-toolagent-item-title {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-retroos .tss-toolagent-item-description,
+body.tss-theme-retroos .tss-toolagent-empty {
+    color: rgb(var(--tss-default-foreground-color-root));
+}

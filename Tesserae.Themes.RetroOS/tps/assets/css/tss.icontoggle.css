@@ -1,0 +1,92 @@
+/* ==========================================================================
+   RetroOS theme - Icon Toggle
+   --------------------------------------------------------------------------
+   The Mac segmented control: touching cells inside one 1px frame, divided by
+   1px rules. The selected cell is reverse video (paper on ink), icons
+   included, and so is the cell being pressed; no tone change on hover, the
+   Mac had none. Disabled is the one grey, frame included.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-icon-toggle {
+    padding: 0;
+    gap: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: none;
+    overflow: hidden;
+}
+
+body.tss-theme-retroos .tss-icon-toggle.tss-icon-toggle-compact,
+body.tss-theme-retroos .tss-icon-toggle.tss-icon-toggle-large,
+body.tss-theme-retroos .tss-icon-toggle.tss-rounded-sm,
+body.tss-theme-retroos .tss-icon-toggle.tss-rounded-md,
+body.tss-theme-retroos .tss-icon-toggle.tss-rounded-full {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-icon-toggle > .tss-btn.tss-icon-toggle-item,
+body.tss-theme-retroos .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-disabled) {
+    border: 0;
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(:first-child) {
+    border-left: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-icon-toggle.tss-icon-toggle-vertical > .tss-btn.tss-icon-toggle-item:not(:first-child) {
+    border-left: 0;
+    border-top: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-retroos .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-retroos .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-disabled):active {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-icon-toggle > .tss-btn.tss-icon-toggle-item .tss-fontcolor-default,
+body.tss-theme-retroos .tss-icon-toggle > .tss-btn.tss-icon-toggle-item > i {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: -4px;
+}
+
+body.tss-theme-retroos .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-disabled {
+    background: rgb(var(--tss-default-background-color-root));
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-icon-toggle.tss-icon-toggle-disabled {
+    opacity: 1;
+    border-color: var(--tss-retro-gray);
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-icon-toggle.tss-icon-toggle-disabled > .tss-btn.tss-icon-toggle-item {
+    color: var(--tss-retro-gray);
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-icon-toggle.tss-icon-toggle-disabled > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected {
+    background: var(--tss-retro-dither);
+    color: var(--tss-retro-gray);
+}

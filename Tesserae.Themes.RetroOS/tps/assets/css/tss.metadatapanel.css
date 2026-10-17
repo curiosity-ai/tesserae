@@ -1,0 +1,64 @@
+/* ==========================================================================
+   RetroOS theme - MetadataPanel
+   --------------------------------------------------------------------------
+   The Get Info column: each section is a Chicago heading over its facts, the
+   sections divided by dotted rules. Everything is ink; the secondary tone is
+   told apart by face and size, not by grey (the one grey is for disabled
+   things). A link or an editable heading inverts under the pointer, and the
+   progress under a milestone is the theme's own bar.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-metadata-panel {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-metadata-section {
+    border-bottom: 1px dotted rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-metadata-section:last-child {
+    border-bottom: none;
+}
+
+body.tss-theme-retroos .tss-metadata-section-title {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-metadata-section-title-editable:hover,
+body.tss-theme-retroos .tss-metadata-item-link:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    text-decoration: none;
+}
+
+body.tss-theme-retroos .tss-metadata-item-link {
+    font-family: var(--tss-retro-chicago);
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-retroos .tss-metadata-item-link:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-metadata-section-edit,
+body.tss-theme-retroos .tss-metadata-section-empty,
+body.tss-theme-retroos .tss-metadata-person-secondary,
+body.tss-theme-retroos .tss-metadata-item-icon,
+body.tss-theme-retroos .tss-metadata-item-subtitle,
+body.tss-theme-retroos .tss-metadata-avatars-more {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* An empty section is a placeholder: set in italics so it still reads as "nothing here" without a grey. */
+body.tss-theme-retroos .tss-metadata-section-empty {
+    font-style: italic;
+}
+
+body.tss-theme-retroos .tss-metadata-person-name,
+body.tss-theme-retroos .tss-metadata-item-title {
+    font-family: var(--tss-retro-chicago);
+    font-weight: var(--tss-font-weight-regular);
+}

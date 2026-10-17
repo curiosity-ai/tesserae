@@ -1,0 +1,309 @@
+/* ==========================================================================
+   RetroOS theme - OmniBox
+   --------------------------------------------------------------------------
+   One search field with end buttons, or a chat panel: both square, in a 1px
+   ink frame that thickens to 2px (an overlay ring above the row's buttons)
+   while the box has focus. End buttons are plain squares that invert when
+   pointed at. Parsed query words sit on the 25% dither with a 1px outline,
+   the operators are underlined: shape, not hue, says what the parser
+   understood (and the text stays ink, since the input paints it on top).
+   Chips are framed squares. The keyboard-selected suggestion inverts, like a
+   menu row. The popovers the box opens are pull-downs: paper, frame, shadow.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-omnibox-container {
+    --tss-omnibox-radius: 0px;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-omnibox-container.tss-omnibox-rounded-full {
+    --tss-omnibox-radius: var(--tss-border-radius-full);
+}
+
+body.tss-theme-retroos .tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-chat-and-search,
+body.tss-theme-retroos .tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-mode-chat {
+    --tss-omnibox-radius: 24px;
+}
+
+body.tss-theme-retroos .tss-omnibox-container:hover {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover .tss-omnibox-search-container,
+body.tss-theme-retroos .tss-omnibox-container:focus-within .tss-omnibox-search-container {
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-omnibox-container:focus-within {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-omnibox-container:focus-within::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: max(0px, calc(var(--tss-omnibox-radius) - 1px));
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-foreground-color-root));
+    pointer-events: none;
+}
+
+body.tss-theme-retroos .tss-omnibox-container.tss-disabled {
+    border-color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-omnibox-container.tss-disabled .tss-omnibox-search-container {
+    border-color: var(--tss-retro-gray);
+    background: rgb(var(--tss-default-background-color-root));
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-omnibox-search-input,
+body.tss-theme-retroos .tss-omnibox-chat-input {
+    caret-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-omnibox-chat-input {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-omnibox-search-input::placeholder,
+body.tss-theme-retroos .tss-omnibox-chat-input::placeholder {
+    color: rgb(var(--tss-default-foreground-color-root)) !important;
+    opacity: 1;
+    font-style: italic;
+    transition: none;
+}
+
+/* The end buttons of the row: paper squares divided by 1px rules. */
+body.tss-theme-retroos .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn,
+body.tss-theme-retroos .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-help-btn {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-danger) {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):hover {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):hover :is(i, .tss-fontcolor-default) {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-btn {
+    border-left-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
+
+/* The spinner swaps in without a fade. */
+body.tss-theme-retroos .tss-omnibox-searching .tss-omnibox-search-trigger-btn > .tss-omnibox-search-spinner,
+body.tss-theme-retroos .tss-omnibox-container.tss-omnibox-searching .tss-omnibox-search-trigger-btn > i {
+    animation-duration: 1ms;
+}
+
+/* Parsed query: dither and outline on words, underlined syntax. */
+body.tss-theme-retroos .tss-omnibox-search-token-word,
+body.tss-theme-retroos.tss-dark-mode .tss-omnibox-search-token-word {
+    color: rgb(var(--tss-default-foreground-color-root));
+    background: var(--tss-retro-dither-light);
+    outline: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-omnibox-search-token-operator-and,
+body.tss-theme-retroos .tss-omnibox-search-token-operator-or,
+body.tss-theme-retroos .tss-omnibox-search-token-operator-not,
+body.tss-theme-retroos .tss-omnibox-search-token-paren,
+body.tss-theme-retroos .tss-omnibox-search-token-quote,
+body.tss-theme-retroos.tss-dark-mode .tss-omnibox-search-token-operator-and,
+body.tss-theme-retroos.tss-dark-mode .tss-omnibox-search-token-operator-or,
+body.tss-theme-retroos.tss-dark-mode .tss-omnibox-search-token-operator-not,
+body.tss-theme-retroos.tss-dark-mode .tss-omnibox-search-token-paren,
+body.tss-theme-retroos.tss-dark-mode .tss-omnibox-search-token-quote {
+    color: rgb(var(--tss-default-foreground-color-root));
+    text-decoration: underline;
+}
+
+/* Chips. */
+body.tss-theme-retroos .tss-omnibox-inline-chips {
+    background: transparent;
+    border-right: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-omnibox-inline-chip {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-omnibox-container.tss-omnibox-rounded-full .tss-omnibox-inline-chip {
+    border-radius: var(--tss-border-radius-full);
+}
+
+body.tss-theme-retroos .tss-omnibox-inline-chip-close {
+    border-radius: 0;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-omnibox-inline-chip-close:hover {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-omnibox-right-text,
+body.tss-theme-retroos .tss-omnibox-chat-counter {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-monospace-font-family);
+}
+
+/* The selected suggestion inverts. */
+body.tss-theme-retroos .tss-omnibox-suggestion-highlight {
+    background: rgb(var(--tss-default-foreground-color-root)) !important;
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-omnibox-suggestion-highlight :is(i, .tss-fontcolor-default, .tss-fontcolor-secondary, .tss-btn) {
+    color: inherit !important;
+}
+
+body.tss-theme-retroos .tss-omnibox-help-header,
+body.tss-theme-retroos .tss-omnibox-model-selector-header,
+body.tss-theme-retroos .tippy-content .tss-textblock.tss-omnibox-model-selector-header,
+body.tss-theme-retroos .tippy-content .tss-textblock.tss-omnibox-help-header {
+    font-family: var(--tss-retro-chicago);
+    font-size: 15px;
+    text-transform: none;
+    letter-spacing: 0;
+    opacity: 1;
+    text-decoration: underline;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-omnibox-help-trigger {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 700;
+}
+
+body.tss-theme-retroos .tss-omnibox-help-example {
+    opacity: 1;
+}
+
+/* Send: a push button; solid ink once there is something to send. */
+body.tss-theme-retroos .tss-btn.tss-omnibox-chat-btn {
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled) {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled):hover {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger),
+body.tss-theme-retroos .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger):hover,
+body.tss-theme-retroos .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled):active {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-omnibox-chat-btn > i.tss-omnibox-chat-btn-swap {
+    animation: none;
+}
+
+body.tss-theme-retroos .tss-omnibox-container .tss-omnibox-search-container .tss-btn.tss-omnibox-ask-ai-btn,
+body.tss-theme-retroos .tss-omnibox-container .tss-omnibox-footer .tss-btn.tss-omnibox-ask-ai-btn {
+    border-radius: 8px;
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-retroos .tss-omnibox-container.tss-disabled .tss-btn.tss-omnibox-ask-ai-btn {
+    opacity: 1;
+}
+
+body.tss-theme-retroos .tss-btn.tss-omnibox-model-selector-btn {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 15px;
+}
+
+body.tss-theme-retroos .tss-btn.tss-omnibox-model-selector-btn:hover {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-btn.tss-omnibox-model-selector-btn.tss-omnibox-model-selector-locked {
+    opacity: 1;
+    border-style: dotted;
+}
+
+body.tss-theme-retroos .tss-omnibox-model-selector-divider {
+    height: 0;
+    background: none;
+    border-top: 1px dotted rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-omnibox-model-selector-check {
+    color: inherit;
+}
+
+/* Popover rows: menu rows that invert. */
+body.tss-theme-retroos .tippy-box .tss-btn.tss-omnibox-search-history-entry,
+body.tss-theme-retroos .tippy-box .tss-btn.tss-omnibox-snap-suggestion,
+body.tss-theme-retroos .tippy-box .tss-btn.tss-omnibox-help-entry,
+body.tss-theme-retroos .tippy-box .tss-btn.tss-omnibox-model-selector-row {
+    border-radius: 0;
+    border-color: transparent;
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tippy-box .tss-btn.tss-omnibox-search-history-entry:not(.tss-disabled):hover,
+body.tss-theme-retroos .tippy-box .tss-btn.tss-omnibox-snap-suggestion:not(.tss-disabled):hover,
+body.tss-theme-retroos .tippy-box .tss-btn.tss-omnibox-help-entry:not(.tss-disabled):hover,
+body.tss-theme-retroos .tippy-box .tss-btn.tss-omnibox-model-selector-row:hover {
+    background: rgb(var(--tss-default-foreground-color-root)) !important;
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tippy-box .tss-btn:hover :is(i, .tss-omnibox-help-trigger, .tss-omnibox-help-example, .tss-fontcolor-default, .tss-fontcolor-secondary) {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tippy-box:has(> .tippy-content .tss-omnibox-search-history-entry),
+body.tss-theme-retroos .tippy-box:has(> .tippy-content .tss-omnibox-snap-suggestion),
+body.tss-theme-retroos .tippy-box:has(> .tippy-content .tss-omnibox-help-panel),
+body.tss-theme-retroos .tippy-box:has(> .tippy-content .tss-omnibox-model-selector-popover) {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow);
+}
+
+body.tss-theme-retroos .tss-omnibox-suggested-text {
+    color: rgb(var(--tss-default-foreground-color-root));
+    opacity: 1;
+    font-style: italic;
+}

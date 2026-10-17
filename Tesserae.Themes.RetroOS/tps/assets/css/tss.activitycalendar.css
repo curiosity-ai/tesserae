@@ -1,0 +1,123 @@
+/* ==========================================================================
+   RetroOS theme - Activity calendar
+   --------------------------------------------------------------------------
+   Activity levels are fills, not tints: empty is paper, then 25% dots, 50%
+   dither, mostly-ink dots and solid ink, every cell square and framed by its
+   own 1px line (the future is dashed). A selected day wears the thick ring.
+   The tooltip is a small paper box with a hard shadow, like a Balloon Help
+   bubble.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-activitycalendar {
+    --tss-activitycalendar-radius: 0px;
+    --tss-activitycalendar-empty-color: rgb(var(--tss-default-background-color-root));
+    --tss-activitycalendar-gap: 2px;
+}
+
+body.tss-theme-retroos .tss-activitycalendar-title-text,
+body.tss-theme-retroos .tss-activitycalendar-summary-value {
+    font-family: var(--tss-retro-chicago);
+    font-weight: 400;
+}
+
+body.tss-theme-retroos .tss-activitycalendar-info,
+body.tss-theme-retroos .tss-activitycalendar-month,
+body.tss-theme-retroos .tss-activitycalendar-weekday,
+body.tss-theme-retroos .tss-activitycalendar-summary-caption,
+body.tss-theme-retroos .tss-activitycalendar-summary-unit,
+body.tss-theme-retroos .tss-activitycalendar-legend {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-activitycalendar-month,
+body.tss-theme-retroos .tss-activitycalendar-weekday {
+    font-family: var(--tss-retro-chicago);
+}
+
+body.tss-theme-retroos .tss-activitycalendar-summary-item::before {
+    border-left: 1px dotted rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-activitycalendar-day {
+    border-radius: 0;
+    transition: none;
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-activitycalendar-day[data-level="1"] { background: var(--tss-retro-dither-light) rgb(var(--tss-default-background-color-root)); }
+body.tss-theme-retroos .tss-activitycalendar-day[data-level="2"] { background: var(--tss-retro-dither); }
+body.tss-theme-retroos .tss-activitycalendar-day[data-level="3"] { background: radial-gradient(rgb(var(--tss-default-background-color-root)) 0 0.5px, transparent 0.5px) 0 0 / 2px 2px, rgb(var(--tss-default-foreground-color-root)); }
+body.tss-theme-retroos .tss-activitycalendar-day[data-level="4"] { background: rgb(var(--tss-default-foreground-color-root)); }
+
+body.tss-theme-retroos .tss-activitycalendar-daynumbers .tss-activitycalendar-day[data-level="3"],
+body.tss-theme-retroos .tss-activitycalendar-daynumbers .tss-activitycalendar-day[data-level="4"] {
+    background: rgb(var(--tss-default-foreground-color-root));
+}
+body.tss-theme-retroos .tss-activitycalendar-daynumbers .tss-activitycalendar-day[data-level="4"] {
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-foreground-color-root)), inset 0 0 0 2px rgb(var(--tss-default-background-color-root));
+}
+
+/* A numbered day sits on a plain cell, so its figure stays legible; strong ones are ink with paper figures. */
+body.tss-theme-retroos .tss-activitycalendar-daynumbers .tss-activitycalendar-day {
+    font-family: var(--tss-monospace-font-family);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+body.tss-theme-retroos .tss-activitycalendar-daynumbers .tss-activitycalendar-day[data-level="1"],
+body.tss-theme-retroos .tss-activitycalendar-daynumbers .tss-activitycalendar-day[data-level="2"] {
+    background: rgb(var(--tss-default-background-color-root));
+    background-image: var(--tss-retro-dither-light);
+}
+body.tss-theme-retroos .tss-activitycalendar-daynumbers .tss-activitycalendar-day.tss-activitycalendar-strong {
+    color: rgb(var(--tss-default-background-color-root));
+}
+body.tss-theme-retroos .tss-activitycalendar-daynumbers .tss-activitycalendar-day.tss-activitycalendar-future {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-activitycalendar-day.tss-activitycalendar-future {
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: none;
+    border: 1px dashed rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Pointer and selection: the thick line. */
+body.tss-theme-retroos .tss-activitycalendar-grid .tss-activitycalendar-day:not(.tss-activitycalendar-future):hover,
+body.tss-theme-retroos .tss-activitycalendar-day.tss-activitycalendar-active {
+    box-shadow: 0 0 0 2px rgb(var(--tss-default-background-color-root)), 0 0 0 3px rgb(var(--tss-default-foreground-color-root));
+    position: relative;
+}
+
+body.tss-theme-retroos .tss-activitycalendar-day.tss-activitycalendar-selected {
+    box-shadow: 0 0 0 1px rgb(var(--tss-default-background-color-root)), 0 0 0 3px rgb(var(--tss-default-foreground-color-root));
+    position: relative;
+}
+
+body.tss-theme-retroos .tss-activitycalendar-grid:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 2px;
+}
+
+body.tss-theme-retroos .tss-activitycalendar-tooltip {
+    border-radius: 0;
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow);
+    animation: none;
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+}
+
+body.tss-theme-retroos .tss-activitycalendar-tooltip::after {
+    display: none;
+}
+
+body.tss-theme-retroos .tss-activitycalendar-tooltip .tss-fontcolor-default,
+body.tss-theme-retroos .tss-activitycalendar-tooltip .tss-fontcolor-secondary {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-activitycalendar-tooltip-value {
+    font-weight: 400;
+}

@@ -1,0 +1,130 @@
+/* ==========================================================================
+   RetroOS theme - Pivot
+   --------------------------------------------------------------------------
+   The tabbed dialog of System 6: each tab is a little folder tab, ink edge on
+   three sides with the top corners rounded, standing on one baseline rule that
+   runs the width of the strip. The current tab is paper and breaks the
+   baseline, so it reads as the front folder; the others sit a pixel lower with
+   the line under them. Pointing at a tab inverts it, like a menu title. The
+   sliding underline is gone (nothing slides on a Mac), a dirty tab carries a
+   square pixel and not a round dot.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-pivot-titlebar-wrapper {
+    background: transparent;
+}
+
+body.tss-theme-retroos .tss-pivot-titlebar {
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: inset 0 -1px 0 rgb(var(--tss-default-foreground-color-root));
+    padding: 4px 8px 0;
+    gap: 2px;
+    font-family: var(--tss-retro-chicago);
+}
+
+body.tss-theme-retroos .tss-pivot-titlebar > * {
+    background: transparent;
+}
+
+body.tss-theme-retroos .tss-pivot-titlebar > .tss-btn.tss-pivot-tab[role="tab"]:not(.tss-disabled) {
+    box-sizing: border-box;
+    height: 28px;
+    min-height: 0;
+    margin: 0;
+    padding: 0 14px;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 6px 6px 0 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    transition: none;
+    position: relative;
+    top: 0;
+}
+
+/* The tabs behind the front one stand a little lower, shorter by 3px. */
+body.tss-theme-retroos .tss-pivot-titlebar > .tss-btn.tss-pivot-tab[role="tab"]:not(.tss-disabled):not(.tss-pivot-selected-title) {
+    height: 25px;
+    margin-top: 3px;
+}
+
+body.tss-theme-retroos .tss-pivot-titlebar > .tss-btn.tss-pivot-tab[role="tab"]:not(.tss-disabled):not(.tss-pivot-selected-title):hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-pivot-titlebar > .tss-btn.tss-pivot-tab[role="tab"]:not(.tss-disabled):not(.tss-pivot-selected-title):hover > span,
+body.tss-theme-retroos .tss-pivot-titlebar > .tss-btn.tss-pivot-tab[role="tab"]:not(.tss-disabled):not(.tss-pivot-selected-title):hover .tss-pivot-tab-close {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* The front tab is paper and cuts the baseline: its bottom edge is paper and it reaches the rule. */
+body.tss-theme-retroos .tss-pivot-titlebar > .tss-btn.tss-pivot-tab[role="tab"]:not(.tss-disabled).tss-pivot-selected-title {
+    background: rgb(var(--tss-default-background-color-root));
+    border-bottom-color: rgb(var(--tss-default-background-color-root));
+    height: 29px;
+    margin-bottom: -1px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-pivot-titlebar > .tss-btn.tss-pivot-tab[role="tab"]:not(.tss-disabled):focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+}
+
+body.tss-theme-retroos .tss-pivot-titlebar > .tss-btn.tss-pivot-tab[role="tab"]:not(.tss-disabled) > span,
+body.tss-theme-retroos .tss-pivot-titlebar > .tss-btn.tss-pivot-tab[role="tab"]:not(.tss-disabled) > div {
+    font-weight: var(--tss-font-weight-regular);
+}
+
+/* The slider has no place in a one-frame interface. */
+body.tss-theme-retroos .tss-pivot-line {
+    display: none;
+    transition: none;
+}
+
+/* The scroll arrows and the "..." menu are small push buttons at the end of the strip. */
+body.tss-theme-retroos .tss-pivot-titlebar-more,
+body.tss-theme-retroos .tss-pivot-titlebar-scroll-left,
+body.tss-theme-retroos .tss-pivot-titlebar-scroll-right {
+    align-self: flex-end;
+    margin-bottom: 2px;
+}
+
+/* Close box and unsaved marker: square. The marker is a solid pixel block; the close glyph inverts to a block on hover. */
+body.tss-theme-retroos .tss-pivot-tab-close:hover {
+    color: rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-pivot-tab-close:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-pivot-tab-needs-saving .tss-pivot-tab-close::after,
+body.tss-theme-retroos .tss-pivot-tab-needs-saving::after,
+body.tss-theme-retroos .tss-pivot-tab-mark {
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-pivot-tab-needs-saving:hover::after,
+body.tss-theme-retroos .tss-pivot-tab-needs-saving:hover .tss-pivot-tab-close::after {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+/* A tab being dragged is a dithered ghost, the Finder's dragged-icon outline. */
+body.tss-theme-retroos .tss-pivot-tab-ghost {
+    opacity: 1;
+    background: var(--tss-retro-dither);
+}
+
+body.tss-theme-retroos .tss-pivot-tab-drag,
+body.tss-theme-retroos .tss-pivot-tab-fallback {
+    box-shadow: var(--tss-retro-shadow);
+    background: rgb(var(--tss-default-background-color-root));
+}

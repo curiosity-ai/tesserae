@@ -1,0 +1,161 @@
+/* ==========================================================================
+   RetroOS theme - Context Menu
+   --------------------------------------------------------------------------
+   Two parts. The trigger is the Mac pop-up menu control: a paper box with a
+   1px frame and a 1px shadow and a pointer at its right. The popup is the
+   pull-down menu: a frame, a hard 2px shadow, 22px Chicago rows that invert
+   under the pointer (and for the keyboard's row), grey when disabled, and a
+   dotted line for a divider. Icons and nested buttons follow the row's ink.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-contextmenu {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow-sm);
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+}
+
+body.tss-theme-retroos .tss-contextmenu.tss-disabled {
+    border-color: var(--tss-retro-gray);
+    background: rgb(var(--tss-default-background-color-root));
+    color: var(--tss-retro-gray);
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-contextmenu:after {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    border-width: 2px 0 0 2px;
+}
+
+body.tss-theme-retroos .tss-contextmenu-container.tss-invalid .tss-contextmenu {
+    border-style: dashed;
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-contextmenu-error {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-contextmenu-popup {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: var(--tss-retro-shadow);
+    min-height: 0;
+    padding: 2px 0;
+    font-family: var(--tss-retro-chicago);
+}
+
+body.tss-theme-retroos .tss-contextmenu-item {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    min-height: 22px;
+    line-height: 20px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-contextmenu-item i,
+body.tss-theme-retroos .tss-contextmenu-item .tss-fontcolor-default,
+body.tss-theme-retroos .tss-contextmenu-item .tss-fontcolor-primary {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-contextmenu-item:not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-contextmenu-item:not(.tss-disabled):focus,
+body.tss-theme-retroos .tss-contextmenu-item:not(.tss-disabled).tss-selected {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    border: 0;
+}
+
+body.tss-theme-retroos .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:not(:hover):not(.tss-selected):focus {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-contextmenu-item.tss-disabled {
+    color: var(--tss-retro-gray);
+}
+
+/* A nested button (a toolbar-style item) is the row, not a button inside it. */
+body.tss-theme-retroos .tss-contextmenu-item > .tss-btn {
+    border-color: transparent;
+    background: transparent;
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-contextmenu-item:not(.tss-disabled):hover > .tss-btn,
+body.tss-theme-retroos .tss-contextmenu-item:not(.tss-disabled):focus > .tss-btn,
+body.tss-theme-retroos .tss-contextmenu-item:not(.tss-disabled).tss-selected > .tss-btn {
+    background: transparent;
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-contextmenu-header {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    text-decoration: underline;
+    min-height: 22px;
+    line-height: 20px;
+    padding: 0 14px;
+}
+
+/* The Mac menu separator: a dotted line, edge to edge. */
+body.tss-theme-retroos .tss-contextmenu-divider {
+    height: 0;
+    background: none;
+    border: 0;
+    border-top: 1px dotted rgb(var(--tss-default-foreground-color-root));
+    margin: 3px 0;
+}
+
+body.tss-theme-retroos .tss-contextmenu-item.tss-contextmenu-item-separator:hover,
+body.tss-theme-retroos .tss-contextmenu-item.tss-contextmenu-item-separator:focus {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-contextmenu-with-side-panel > .tss-contextmenu-side-panel {
+    border-left: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-contextmenu-item > .tss-btn {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    border-radius: 0;
+    margin: 0;
+}
+
+/* Row content is Chicago at menu size whatever size class its text carries, and takes the row's ink
+   (a danger-toned text or icon would otherwise be paper on paper: there are no hues to tell it apart). */
+body.tss-theme-retroos .tss-contextmenu-item .tss-textblock,
+body.tss-theme-retroos .tss-contextmenu-item .tss-textblock.tss-fontcolor-danger,
+body.tss-theme-retroos .tss-contextmenu-item .tss-textblock.tss-fontcolor-success,
+body.tss-theme-retroos .tss-contextmenu-item .tss-textblock.tss-fontcolor-primary,
+body.tss-theme-retroos .tss-contextmenu-item .tss-textblock.tss-fontcolor-default {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-contextmenu-item i {
+    color: inherit !important;
+}
+
+body.tss-theme-retroos .tss-contextmenu-item .tss-horizontalseparator {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    color: inherit;
+}

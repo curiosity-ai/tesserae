@@ -1,0 +1,85 @@
+/* ==========================================================================
+   RetroOS theme - Charts and Sparkline
+   --------------------------------------------------------------------------
+   MacPaint-style charts: series are told apart by pattern, never by hue.
+   Tesserae's charts have no stylesheet of their own; a series without an
+   explicit colour reads --tss-chart-series-N, so those are set here to ink,
+   paper and the one grey in turn. SVG paint cannot reference a CSS pattern,
+   so a paper series is outlined in ink, and lines (where paper would vanish)
+   are always ink and are told apart by their dashes, like a plotter's pens.
+   Gridlines are dotted, axes a plain 1px line, and the fade under an area
+   chart is dropped: the Mac had no gradients.
+   ========================================================================== */
+
+body.tss-theme-retroos {
+    --tss-chart-series-1: rgb(var(--tss-default-foreground-color-root));
+    --tss-chart-series-2: rgb(var(--tss-default-background-color-root));
+    --tss-chart-series-3: var(--tss-retro-gray);
+    --tss-chart-series-4: rgb(var(--tss-default-foreground-color-root));
+    --tss-chart-series-5: rgb(var(--tss-default-background-color-root));
+    --tss-chart-series-6: var(--tss-retro-gray);
+    --tss-chart-series-7: rgb(var(--tss-default-foreground-color-root));
+    --tss-chart-series-8: rgb(var(--tss-default-background-color-root));
+}
+
+/* Gridlines: dotted. */
+body.tss-theme-retroos .tss-chart line[stroke*="neutral-500-alpha"] {
+    stroke: rgb(var(--tss-default-foreground-color-root));
+    stroke-dasharray: 1 3;
+}
+
+/* Axes, labels and the crosshair stay ink. */
+body.tss-theme-retroos .tss-chart text {
+    font-family: var(--tss-monospace-font-family);
+    fill: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* A filled series (bars, slices, legend swatches, markers) is outlined so a paper one is still a shape. */
+body.tss-theme-retroos .tss-chart rect[fill^="var(--tss-chart-series"],
+body.tss-theme-retroos .tss-chart circle[fill^="var(--tss-chart-series"],
+body.tss-theme-retroos .tss-chart path[fill^="var(--tss-chart-series"] {
+    stroke: rgb(var(--tss-default-foreground-color-root));
+    stroke-width: 1;
+}
+
+/* Lines are ink; each series has its own dash. */
+body.tss-theme-retroos .tss-chart path[stroke^="var(--tss-chart-series"],
+body.tss-theme-retroos .tss-sparkline polyline[stroke^="var(--tss-chart-series"] {
+    stroke: rgb(var(--tss-default-foreground-color-root));
+    stroke-linejoin: miter;
+    stroke-linecap: butt;
+}
+body.tss-theme-retroos .tss-chart path[stroke^="var(--tss-chart-series-2"] { stroke-dasharray: 6 3; }
+body.tss-theme-retroos .tss-chart path[stroke^="var(--tss-chart-series-3"] { stroke-dasharray: 2 2; }
+body.tss-theme-retroos .tss-chart path[stroke^="var(--tss-chart-series-4"] { stroke-dasharray: 8 2 2 2; }
+body.tss-theme-retroos .tss-chart path[stroke^="var(--tss-chart-series-5"] { stroke-dasharray: 1 3; }
+body.tss-theme-retroos .tss-chart path[stroke^="var(--tss-chart-series-6"] { stroke-dasharray: 10 3; }
+body.tss-theme-retroos .tss-chart path[stroke^="var(--tss-chart-series-7"] { stroke-dasharray: 4 2 1 2; }
+body.tss-theme-retroos .tss-chart path[stroke^="var(--tss-chart-series-8"] { stroke-dasharray: 3 3; }
+
+/* No fade under a line: the Mac had no gradients. */
+body.tss-theme-retroos .tss-chart linearGradient stop,
+body.tss-theme-retroos .tss-sparkline linearGradient stop {
+    stop-opacity: 0;
+}
+
+/* The tooltip box drawn into the SVG. */
+body.tss-theme-retroos .tss-chart rect[fill*="background"] {
+    fill: rgb(var(--tss-default-background-color-root));
+    stroke: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-chart {
+    font-family: var(--tss-monospace-font-family);
+}
+
+/* A sparkline is one line, so whatever colour the app asked for (green for growth, red for decline) is ink:
+   the trend is read from its shape. The area fill under it is dropped with the gradient above. */
+body.tss-theme-retroos .tss-sparkline polyline {
+    stroke: rgb(var(--tss-default-foreground-color-root));
+    stroke-linejoin: miter;
+}
+
+body.tss-theme-retroos .tss-sparkline polygon {
+    fill: none;
+}

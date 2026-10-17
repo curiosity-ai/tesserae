@@ -1,0 +1,18 @@
+/* ==========================================================================
+   RetroOS theme - PixelAvatar
+   --------------------------------------------------------------------------
+   The cat is already pixel art on a hard grid, which suits the Mac. The
+   halo the base draws around it (four 1px drop-shadows in half-alpha ink)
+   becomes a solid 1px ink outline, so every coat stays legible on paper in
+   both modes, and the props (the laptop) use ink and paper. The artwork's own
+   colours stay: they are the avatar.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-pixelavatar,
+body.tss-theme-retroos.tss-dark-mode .tss-pixelavatar {
+    --tss-pxav-outline: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-pixelavatar-canvas {
+    image-rendering: pixelated;
+}

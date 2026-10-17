@@ -1,0 +1,61 @@
+/* ==========================================================================
+   RetroOS theme - CronEditor
+   --------------------------------------------------------------------------
+   A sentence with live parts. The summary is dotted-underlined text that
+   inverts when pointed at, like a hot spot. Opened, it is a framed panel with
+   a hard shadow. Each inline choice (the dropdowns set in the sentence) is a
+   small pop-up box: paper, 1px ink frame, a drop shadow, a solid triangle;
+   Tesserae hard-codes dark-neutral chips there, so they are redrawn here.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-cron-editor {
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-cron-desc {
+    border-bottom: 1px dotted rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-cron-desc:hover {
+    border-bottom: 1px dotted rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-cron-open {
+    background-color: rgb(var(--tss-default-background-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow);
+}
+
+body.tss-theme-retroos .tss-cron-inline-dropdown.tss-dropdown-container,
+body.tss-theme-retroos .tss-cron-inline-dropdown.tss-dropdown-container:hover {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow-sm);
+}
+
+body.tss-theme-retroos .tss-cron-inline-dropdown.tss-dropdown-container:not(.tss-disabled):active {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-cron-inline-dropdown .tss-dropdown-item-on-box,
+body.tss-theme-retroos .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-fontcolor-default,
+body.tss-theme-retroos .tss-cron-inline-dropdown .tss-dropdown-icon {
+    color: inherit !important;
+    font-size: 15px;
+}
+
+body.tss-theme-retroos .tss-cron-inline-dropdown .tss-dropdown-icon {
+    font-size: 0 !important;
+}
+
+body.tss-theme-retroos .tss-cron-label {
+    color: rgb(var(--tss-default-foreground-color-root));
+}

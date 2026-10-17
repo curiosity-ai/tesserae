@@ -1,0 +1,482 @@
+/* ==========================================================================
+   RetroOS theme - tokens
+   --------------------------------------------------------------------------
+   The original Macintosh (System 1 to 6): one bit of colour. Everything is
+   black on white, and every mid-tone is a dither of the two, never a grey.
+   Selection, a pressed button and a highlighted menu item invert. Surfaces are
+   framed by a 1px black line and lifted by a hard 1px/2px offset shadow, never
+   a blur. UI.Theme.Dark() is reverse video: the same drawing, white on black.
+
+   Everything is scoped under body.tss-theme-retroos, the class RetroOSTheme
+   adds to the body while it is active. Tesserae draws every component from
+   the --tss-* variables in its own tss.common.css, so this file maps the
+   palette onto them; the per-component files restyle what a variable cannot
+   reach. A derived variable (--tss-x-color: rgb(var(--tss-x-color-root))) is
+   resolved where it is declared, so both are restated here, light and dark.
+
+   The tokens a component file can use:
+     --tss-retro-dither         50% checkerboard (the desktop, disabled and pressed fills)
+     --tss-retro-dither-light   25% dot pattern (quiet fills, tracks)
+     --tss-retro-stripes        the title bar's pinstripes
+     --tss-retro-shadow         2px 2px solid shadow   --tss-retro-shadow-sm   1px 1px
+     --tss-retro-frame          a 1px outline ring     --tss-retro-frame-shadow  ring + shadow
+     --tss-retro-gray           the one grey, for disabled text
+   ========================================================================== */
+
+body.tss-theme-retroos {
+    /* RetroOS tokens. Pixel patterns are painted with the live colours, so they follow the mode. */
+    --tss-retro-black: #000;
+    --tss-retro-white: #fff;
+    --tss-retro-ink: rgb(var(--tss-default-foreground-color-root));
+    --tss-retro-paper: rgb(var(--tss-default-background-color-root));
+    --tss-retro-gray: rgb(112, 112, 112);
+    /* 50% dither: the Mac's desktop and every mid-tone. */
+    --tss-retro-dither: repeating-conic-gradient(rgb(var(--tss-default-foreground-color-root)) 0% 25%, rgb(var(--tss-default-background-color-root)) 0% 50%) 0 0 / 2px 2px;
+    /* 25% dither: the lighter tone for tracks and quiet fills. */
+    --tss-retro-dither-light: conic-gradient(from 0deg at 1px 1px, rgb(var(--tss-default-foreground-color-root)) 0 25%, transparent 0) 0 0 / 2px 2px;
+    /* Pinstripes: the title bar. */
+    --tss-retro-stripes: repeating-linear-gradient(to bottom, rgb(var(--tss-default-foreground-color-root)) 0 1px, rgb(var(--tss-default-background-color-root)) 1px 2px);
+    --tss-retro-hair: 1px solid rgb(var(--tss-default-foreground-color-root));
+    /* The drop shadow of a window, a menu or a button: solid, offset, never blurred. */
+    --tss-retro-shadow: 2px 2px 0 0 rgb(var(--tss-default-foreground-color-root));
+    --tss-retro-shadow-sm: 1px 1px 0 0 rgb(var(--tss-default-foreground-color-root));
+    --tss-retro-frame: 0 0 0 1px rgb(var(--tss-default-foreground-color-root));
+    --tss-retro-frame-shadow: 0 0 0 1px rgb(var(--tss-default-foreground-color-root)), 2px 2px 0 1px rgb(var(--tss-default-foreground-color-root));
+
+    /* Geneva for text, Chicago for chrome (--tss-retro-chicago: menus, buttons, titles), Monaco for code. */
+    --tss-sansserif-font-family: "DotGothic16", "Geneva", ui-sans-serif, system-ui, sans-serif;
+    --tss-monospace-font-family: "VT323", "Monaco", ui-monospace, Menlo, Consolas, monospace;
+    --tss-retro-chicago: "Jersey 15", "Chicago", "DotGothic16", ui-sans-serif, system-ui, sans-serif;
+    --tss-font-weight-regular: 400;
+    --tss-font-weight-semibold: 400;
+    --tss-font-weight-bold: 700;
+
+    --tss-primary-shadow: none;
+    --tss-box-shadow: var(--tss-retro-shadow);
+    --tss-box-shadow-darker: var(--tss-retro-shadow);
+    --tss-card-shadow: var(--tss-retro-frame);
+    --tss-toast-shadow: var(--tss-retro-frame-shadow);
+    --tss-shadow-sm: none;
+    --tss-shadow-sm-hover: none;
+    --tss-shadow: var(--tss-retro-frame);
+    --tss-shadow-hover: var(--tss-retro-frame);
+    --tss-shadow-md: var(--tss-retro-frame-shadow);
+    --tss-shadow-md-hover: var(--tss-retro-frame-shadow);
+    --tss-shadow-lg: var(--tss-retro-frame-shadow);
+    --tss-shadow-lg-hover: var(--tss-retro-frame-shadow);
+    --tss-shadow-xl: var(--tss-retro-frame-shadow);
+    --tss-shadow-xl-hover: var(--tss-retro-frame-shadow);
+
+    --tss-border-radius-sm: 0px;
+    --tss-border-radius-md: 0px;
+    --tss-border-radius-lg: 0px;
+    --tss-border-radius-xl: 0px;
+    --tss-border-radius-full: 9999px;
+
+    --tss-ring-offset-width: 1px;
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+    --tss-ring-opacity: 1;
+
+    --tss-scrollbar-track-color: transparent;
+    --tss-scrollbar-track-hidden-color: transparent;
+    --tss-scrollbar-thumb-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-scrollbar-thumb-hidden-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-simplebar-thumb-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-overlay-light: rgba(255, 255, 255, 0.55);
+    --tss-overlay-dark: rgba(0, 0, 0, 0.45);
+    --tss-retro-arrow-up:    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M8 4h1v1h1v1h1v1h1v1h1v1H3V8h1V7h1V6h1V5h1z' fill='%23000'/%3E%3C/svg%3E");
+    --tss-retro-arrow-down:  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M3 6h10v1h-1v1h-1v1h-1v1H9v1H8v-1H7V9H6V8H5V7H4V6z' fill='%23000'/%3E%3C/svg%3E");
+    --tss-retro-arrow-left:  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M4 8h1V7h1V6h1V5h1V4h1v8H8v-1H7v-1H6V9H5V8z' fill='%23000'/%3E%3C/svg%3E");
+    --tss-retro-arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M12 8h-1V7h-1V6H9V5H8V4H7v8h1v-1h1v-1h1V9h1V8z' fill='%23000'/%3E%3C/svg%3E");
+    --tss-default-background-color-root: 255, 255, 255;
+    --tss-default-foreground-color-root: 0, 0, 0;
+    --tss-secondary-background-color-root: 255, 255, 255;
+    --tss-secondary-foreground-color-root: 0, 0, 0;
+    --tss-sidebar-background-color-root: 255, 255, 255;
+    --tss-disabled-background-color-root: 255, 255, 255;
+    --tss-disabled-foreground-color-root: 112, 112, 112;
+    --tss-default-border-color-root: 0, 0, 0;
+    --tss-dark-border-color-root: 0, 0, 0;
+    --tss-default-separator-color-root: 0, 0, 0;
+    --tss-invalid-border-color-root: 0, 0, 0;
+    --tss-default-background-hover-color-root: 0, 0, 0;
+    --tss-default-foreground-hover-color-root: 255, 255, 255;
+    --tss-default-background-active-color-root: 0, 0, 0;
+    --tss-default-foreground-active-color-root: 255, 255, 255;
+    --tss-progress-background-color-root: 255, 255, 255;
+    --tss-link-color-root: 0, 0, 0;
+    --tss-highlight-color-root: 0, 0, 0;
+    --tss-tooltip-background-color-root: 255, 255, 255;
+    --tss-tooltip-foreground-color-root: 0, 0, 0;
+    --tss-primary-background-color-root: 255, 255, 255;
+    --tss-primary-foreground-color-root: 0, 0, 0;
+    --tss-primary-border-color-root: 0, 0, 0;
+    --tss-primary-background-hover-color-root: 0, 0, 0;
+    --tss-primary-foreground-hover-color-root: 255, 255, 255;
+    --tss-primary-background-active-color-root: 0, 0, 0;
+    --tss-primary-foreground-active-color-root: 255, 255, 255;
+    --tss-warning-background-color-root: 0, 0, 0;
+    --tss-warning-foreground-color-root: 255, 255, 255;
+    --tss-danger-background-color-root: 0, 0, 0;
+    --tss-danger-foreground-color-root: 255, 255, 255;
+    --tss-danger-border-color-root: 0, 0, 0;
+    --tss-danger-background-hover-color-root: 0, 0, 0;
+    --tss-danger-foreground-hover-color-root: 255, 255, 255;
+    --tss-danger-background-active-color-root: 0, 0, 0;
+    --tss-danger-foreground-active-color-root: 255, 255, 255;
+    --tss-success-background-color-root: 0, 0, 0;
+    --tss-success-foreground-color-root: 255, 255, 255;
+    --tss-success-border-color-root: 0, 0, 0;
+    --tss-success-background-hover-color-root: 0, 0, 0;
+    --tss-success-foreground-hover-color-root: 255, 255, 255;
+    --tss-success-background-active-color-root: 0, 0, 0;
+    --tss-success-foreground-active-color-root: 255, 255, 255;
+    --tss-slider-color-root: 0, 0, 0;
+    --tss-slider-active-color-root: 255, 255, 255;
+    --tss-slider-disabled-color-root: 112, 112, 112;
+    --tss-primary-shadow-color-root: 0, 0, 0;
+
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
+    --tss-ring-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos.tss-dark-mode {
+    --tss-overlay-light: rgba(0, 0, 0, 0.55);
+    --tss-overlay-dark: rgba(255, 255, 255, 0.35);
+    --tss-retro-arrow-up:    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M8 4h1v1h1v1h1v1h1v1h1v1H3V8h1V7h1V6h1V5h1z' fill='%23fff'/%3E%3C/svg%3E");
+    --tss-retro-arrow-down:  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M3 6h10v1h-1v1h-1v1h-1v1H9v1H8v-1H7V9H6V8H5V7H4V6z' fill='%23fff'/%3E%3C/svg%3E");
+    --tss-retro-arrow-left:  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M4 8h1V7h1V6h1V5h1V4h1v8H8v-1H7v-1H6V9H5V8z' fill='%23fff'/%3E%3C/svg%3E");
+    --tss-retro-arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M12 8h-1V7h-1V6H9V5H8V4H7v8h1v-1h1v-1h1V9h1V8z' fill='%23fff'/%3E%3C/svg%3E");
+    --tss-default-background-color-root: 0, 0, 0;
+    --tss-default-foreground-color-root: 255, 255, 255;
+    --tss-secondary-background-color-root: 0, 0, 0;
+    --tss-secondary-foreground-color-root: 255, 255, 255;
+    --tss-sidebar-background-color-root: 0, 0, 0;
+    --tss-disabled-background-color-root: 0, 0, 0;
+    --tss-disabled-foreground-color-root: 112, 112, 112;
+    --tss-default-border-color-root: 255, 255, 255;
+    --tss-dark-border-color-root: 255, 255, 255;
+    --tss-default-separator-color-root: 255, 255, 255;
+    --tss-invalid-border-color-root: 255, 255, 255;
+    --tss-default-background-hover-color-root: 255, 255, 255;
+    --tss-default-foreground-hover-color-root: 0, 0, 0;
+    --tss-default-background-active-color-root: 255, 255, 255;
+    --tss-default-foreground-active-color-root: 0, 0, 0;
+    --tss-progress-background-color-root: 0, 0, 0;
+    --tss-link-color-root: 255, 255, 255;
+    --tss-highlight-color-root: 255, 255, 255;
+    --tss-tooltip-background-color-root: 0, 0, 0;
+    --tss-tooltip-foreground-color-root: 255, 255, 255;
+    --tss-primary-background-color-root: 0, 0, 0;
+    --tss-primary-foreground-color-root: 255, 255, 255;
+    --tss-primary-border-color-root: 255, 255, 255;
+    --tss-primary-background-hover-color-root: 255, 255, 255;
+    --tss-primary-foreground-hover-color-root: 0, 0, 0;
+    --tss-primary-background-active-color-root: 255, 255, 255;
+    --tss-primary-foreground-active-color-root: 0, 0, 0;
+    --tss-warning-background-color-root: 255, 255, 255;
+    --tss-warning-foreground-color-root: 0, 0, 0;
+    --tss-danger-background-color-root: 255, 255, 255;
+    --tss-danger-foreground-color-root: 0, 0, 0;
+    --tss-danger-border-color-root: 255, 255, 255;
+    --tss-danger-background-hover-color-root: 255, 255, 255;
+    --tss-danger-foreground-hover-color-root: 0, 0, 0;
+    --tss-danger-background-active-color-root: 255, 255, 255;
+    --tss-danger-foreground-active-color-root: 0, 0, 0;
+    --tss-success-background-color-root: 255, 255, 255;
+    --tss-success-foreground-color-root: 0, 0, 0;
+    --tss-success-border-color-root: 255, 255, 255;
+    --tss-success-background-hover-color-root: 255, 255, 255;
+    --tss-success-foreground-hover-color-root: 0, 0, 0;
+    --tss-success-background-active-color-root: 255, 255, 255;
+    --tss-success-foreground-active-color-root: 0, 0, 0;
+    --tss-slider-color-root: 255, 255, 255;
+    --tss-slider-active-color-root: 0, 0, 0;
+    --tss-slider-disabled-color-root: 112, 112, 112;
+    --tss-primary-shadow-color-root: 255, 255, 255;
+
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
+    --tss-ring-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+
+/* --------------------------------------------------------------------------
+   Base: type, selection, focus
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-retroos {
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: auto;
+    font-smooth: never;
+    font-variant-ligatures: none;
+    letter-spacing: 0;
+}
+
+body.tss-theme-retroos button,
+body.tss-theme-retroos input,
+body.tss-theme-retroos textarea,
+body.tss-theme-retroos select {
+    font-variant-ligatures: none;
+}
+
+/* Selection inverts, as on the Mac. */
+body.tss-theme-retroos ::selection {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos :focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+}
+
+body.tss-theme-retroos .tss-fontcolor-primary {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos a {
+    color: rgb(var(--tss-default-foreground-color-root));
+    text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   Scrollbars: the System 6 bar
+   --------------------------------------------------------------------------
+   A 16px bar with an arrow box at each end, a 50% dither for the track and a
+   white thumb with a 1px black edge, like the Finder's windows. CSS only, on
+   purpose (see the repository's "Scrollbars are CSS only"): no script watches
+   scrolling or draws a bar.
+
+   Two engines, two mechanisms, and they must not meet: Chrome, Edge and Safari
+   draw ::-webkit-scrollbar; Firefox has only scrollbar-color and
+   scrollbar-width, and so do Chromium 121+, where setting either one stops
+   the ::-webkit-scrollbar styles. The standard properties therefore sit under
+   @supports not selector(::-webkit-scrollbar), which is Firefox alone.
+   Chromium draws the page scrollbar from body, not html, so body is in every
+   selector list, and html:has() reaches Firefox's.
+   -------------------------------------------------------------------------- */
+
+html:has(> body.tss-theme-retroos),
+body.tss-theme-retroos {
+    --tss-retro-sb-ink: #000;
+    --tss-retro-sb-paper: #fff;
+    --tss-retro-sb-size: 16px;
+    --tss-retro-sb-track: repeating-conic-gradient(#000 0% 25%, #fff 0% 50%) 0 0 / 2px 2px;
+    --tss-retro-arrow-up:    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M8 4h1v1h1v1h1v1h1v1h1v1H3V8h1V7h1V6h1V5h1z' fill='%23000'/%3E%3C/svg%3E");
+    --tss-retro-arrow-down:  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M3 6h10v1h-1v1h-1v1h-1v1H9v1H8v-1H7V9H6V8H5V7H4V6z' fill='%23000'/%3E%3C/svg%3E");
+    --tss-retro-arrow-left:  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M4 8h1V7h1V6h1V5h1V4h1v8H8v-1H7v-1H6V9H5V8z' fill='%23000'/%3E%3C/svg%3E");
+    --tss-retro-arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M12 8h-1V7h-1V6H9V5H8V4H7v8h1v-1h1v-1h1V9h1V8z' fill='%23000'/%3E%3C/svg%3E");
+}
+
+html:has(> body.tss-theme-retroos.tss-dark-mode) {
+    --tss-retro-sb-ink: #fff;
+    --tss-retro-sb-paper: #000;
+    --tss-retro-sb-track: repeating-conic-gradient(#fff 0% 25%, #000 0% 50%) 0 0 / 2px 2px;
+    --tss-retro-arrow-up:    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M8 4h1v1h1v1h1v1h1v1h1v1H3V8h1V7h1V6h1V5h1z' fill='%23fff'/%3E%3C/svg%3E");
+    --tss-retro-arrow-down:  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M3 6h10v1h-1v1h-1v1h-1v1H9v1H8v-1H7V9H6V8H5V7H4V6z' fill='%23fff'/%3E%3C/svg%3E");
+    --tss-retro-arrow-left:  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M4 8h1V7h1V6h1V5h1V4h1v8H8v-1H7v-1H6V9H5V8z' fill='%23fff'/%3E%3C/svg%3E");
+    --tss-retro-arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M12 8h-1V7h-1V6H9V5H8V4H7v8h1v-1h1v-1h1V9h1V8z' fill='%23fff'/%3E%3C/svg%3E");
+}
+
+@supports selector(::-webkit-scrollbar) {
+
+    html:has(> body.tss-theme-retroos)::-webkit-scrollbar,
+    body.tss-theme-retroos::-webkit-scrollbar,
+    body.tss-theme-retroos ::-webkit-scrollbar {
+        width: var(--tss-retro-sb-size);
+        height: var(--tss-retro-sb-size);
+        background: var(--tss-retro-sb-paper);
+    }
+
+    html:has(> body.tss-theme-retroos)::-webkit-scrollbar-corner,
+    body.tss-theme-retroos::-webkit-scrollbar-corner,
+    body.tss-theme-retroos ::-webkit-scrollbar-corner {
+        background: var(--tss-retro-sb-paper);
+        border-top: 1px solid var(--tss-retro-sb-ink);
+        border-left: 1px solid var(--tss-retro-sb-ink);
+    }
+
+    html:has(> body.tss-theme-retroos)::-webkit-scrollbar-track,
+    body.tss-theme-retroos::-webkit-scrollbar-track,
+    body.tss-theme-retroos ::-webkit-scrollbar-track,
+    body.tss-theme-retroos *:hover::-webkit-scrollbar-track {
+        background: var(--tss-retro-sb-track);
+        border-radius: 0;
+    }
+
+    html:has(> body.tss-theme-retroos)::-webkit-scrollbar-track:vertical,
+    body.tss-theme-retroos::-webkit-scrollbar-track:vertical,
+    body.tss-theme-retroos ::-webkit-scrollbar-track:vertical {
+        border-left: 1px solid var(--tss-retro-sb-ink);
+    }
+
+    html:has(> body.tss-theme-retroos)::-webkit-scrollbar-track:horizontal,
+    body.tss-theme-retroos::-webkit-scrollbar-track:horizontal,
+    body.tss-theme-retroos ::-webkit-scrollbar-track:horizontal {
+        border-top: 1px solid var(--tss-retro-sb-ink);
+    }
+
+    html:has(> body.tss-theme-retroos)::-webkit-scrollbar-thumb,
+    body.tss-theme-retroos::-webkit-scrollbar-thumb,
+    body.tss-theme-retroos ::-webkit-scrollbar-thumb,
+    body.tss-theme-retroos *:hover::-webkit-scrollbar-thumb,
+    body.tss-theme-retroos ::-webkit-scrollbar-thumb:hover {
+        background: var(--tss-retro-sb-paper);
+        border: 1px solid var(--tss-retro-sb-ink);
+        border-radius: 0;
+    }
+
+    html:has(> body.tss-theme-retroos)::-webkit-scrollbar-thumb:active,
+    body.tss-theme-retroos::-webkit-scrollbar-thumb:active,
+    body.tss-theme-retroos ::-webkit-scrollbar-thumb:active,
+    body.tss-theme-retroos *:hover::-webkit-scrollbar-thumb:active {
+        background: var(--tss-retro-sb-ink);
+    }
+
+    html:has(> body.tss-theme-retroos)::-webkit-scrollbar-button:single-button,
+    body.tss-theme-retroos::-webkit-scrollbar-button:single-button,
+    body.tss-theme-retroos ::-webkit-scrollbar-button:single-button {
+        display: block;
+        width: var(--tss-retro-sb-size);
+        height: var(--tss-retro-sb-size);
+        box-sizing: border-box;
+        background-color: var(--tss-retro-sb-paper);
+        background-repeat: no-repeat;
+        background-position: center;
+        border: 1px solid var(--tss-retro-sb-ink);
+    }
+
+    html:has(> body.tss-theme-retroos)::-webkit-scrollbar-button:single-button:active,
+    body.tss-theme-retroos::-webkit-scrollbar-button:single-button:active,
+    body.tss-theme-retroos ::-webkit-scrollbar-button:single-button:active {
+        background-color: var(--tss-retro-sb-ink);
+    }
+
+    html:has(> body.tss-theme-retroos)::-webkit-scrollbar-button:vertical:start:decrement,
+    body.tss-theme-retroos::-webkit-scrollbar-button:vertical:start:decrement,
+    body.tss-theme-retroos ::-webkit-scrollbar-button:vertical:start:decrement { background-image: var(--tss-retro-arrow-up); }
+
+    html:has(> body.tss-theme-retroos)::-webkit-scrollbar-button:vertical:end:increment,
+    body.tss-theme-retroos::-webkit-scrollbar-button:vertical:end:increment,
+    body.tss-theme-retroos ::-webkit-scrollbar-button:vertical:end:increment { background-image: var(--tss-retro-arrow-down); }
+
+    html:has(> body.tss-theme-retroos)::-webkit-scrollbar-button:horizontal:start:decrement,
+    body.tss-theme-retroos::-webkit-scrollbar-button:horizontal:start:decrement,
+    body.tss-theme-retroos ::-webkit-scrollbar-button:horizontal:start:decrement { background-image: var(--tss-retro-arrow-left); }
+
+    html:has(> body.tss-theme-retroos)::-webkit-scrollbar-button:horizontal:end:increment,
+    body.tss-theme-retroos::-webkit-scrollbar-button:horizontal:end:increment,
+    body.tss-theme-retroos ::-webkit-scrollbar-button:horizontal:end:increment { background-image: var(--tss-retro-arrow-right); }
+
+    /* The hidden pair of buttons a double-button bar would show: not drawn. */
+    html:has(> body.tss-theme-retroos)::-webkit-scrollbar-button:start:increment,
+    html:has(> body.tss-theme-retroos)::-webkit-scrollbar-button:end:decrement,
+    body.tss-theme-retroos::-webkit-scrollbar-button:start:increment,
+    body.tss-theme-retroos::-webkit-scrollbar-button:end:decrement,
+    body.tss-theme-retroos ::-webkit-scrollbar-button:start:increment,
+    body.tss-theme-retroos ::-webkit-scrollbar-button:end:decrement {
+        display: none;
+    }
+}
+
+/* Firefox: the standard properties, thin, ink on paper. */
+@supports not selector(::-webkit-scrollbar) {
+    html:has(> body.tss-theme-retroos),
+    body.tss-theme-retroos,
+    body.tss-theme-retroos * {
+        scrollbar-width: auto;
+        scrollbar-color: var(--tss-retro-sb-ink) var(--tss-retro-sb-paper);
+    }
+}

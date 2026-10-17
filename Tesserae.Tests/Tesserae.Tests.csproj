@@ -12,5 +12,6 @@
     <ProjectReference Include="..\Tesserae\Tesserae.csproj" />
     <ProjectReference Include="..\Tesserae.Themes.Curiosity\Tesserae.Themes.Curiosity.csproj" />
     <ProjectReference Include="..\Tesserae.Themes.Stratus\Tesserae.Themes.Stratus.csproj" />
+    <ProjectReference Include="..\Tesserae.Themes.RetroOS\Tesserae.Themes.RetroOS.csproj" />
   </ItemGroup>
 </Project>

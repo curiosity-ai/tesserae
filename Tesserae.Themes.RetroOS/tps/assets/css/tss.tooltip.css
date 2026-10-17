@@ -1,0 +1,59 @@
+/* ==========================================================================
+   RetroOS theme - Tooltip (Tippy)
+   --------------------------------------------------------------------------
+   The Mac "balloon": paper with a 1px frame, rounded like a speech balloon,
+   and a hard shadow. No tail (a border does not follow a CSS triangle, and a
+   solid black tail would be a different object), no fade, no scale. A button
+   shown inside one inverts under the pointer like a menu row.
+   ========================================================================== */
+
+body.tss-theme-retroos .tippy-box {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    box-shadow: var(--tss-retro-shadow);
+    font-family: var(--tss-sansserif-font-family);
+    transition: none;
+}
+
+body.tss-theme-retroos .tippy-box[data-state=hidden] {
+    opacity: 0;
+    transform: none;
+}
+
+body.tss-theme-retroos .tippy-box > .tippy-arrow {
+    display: none;
+}
+
+body.tss-theme-retroos .tippy-content {
+    padding: 4px 8px;
+}
+
+body.tss-theme-retroos .tippy-content .tss-fontcolor-default,
+body.tss-theme-retroos .tippy-content .tss-fontcolor-primary {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tippy-content .tss-btn-default:not(.tss-disabled) {
+    color: rgb(var(--tss-default-foreground-color-root));
+    background-color: rgb(var(--tss-default-background-color-root));
+    border-color: transparent;
+}
+
+body.tss-theme-retroos .tippy-content .tss-btn-default:not(.tss-disabled):hover {
+    color: rgb(var(--tss-default-background-color-root));
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Menus and popovers brought up through Tippy are boxes of their own, with their own edge. */
+body.tss-theme-retroos .tippy-box[data-theme~='tss-sidebar-tippy'],
+body.tss-theme-retroos .tippy-box[data-theme~='tss-tree-tippy'] {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tippy-box[data-theme~='tss-sidebar-tippy'] .tippy-content,
+body.tss-theme-retroos .tippy-box[data-theme~='tss-tree-tippy'] .tippy-content {
+    padding: 2px 0;
+}

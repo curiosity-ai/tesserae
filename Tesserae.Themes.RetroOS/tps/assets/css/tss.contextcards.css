@@ -1,0 +1,116 @@
+/* ==========================================================================
+   RetroOS theme - Context cards (a group)
+   --------------------------------------------------------------------------
+   The summary pill is a rounded push button that inverts under the pointer;
+   its list is a framed Finder list with dotted row rules. The compact form is
+   a row of small framed tags. "More" is the dashed-edge button.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-contextcards-header {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+}
+
+body.tss-theme-retroos .tss-contextcards-header:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-contextcards-header:hover .tss-contextcards-chevron {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-contextcards-text {
+    font-weight: 400;
+}
+
+body.tss-theme-retroos .tss-contextcards-icon {
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-contextcards-header:hover .tss-contextcards-icon {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-contextcards-chevron {
+    color: inherit;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-contextcards-list {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-contextcards-list > .tss-contextcard + .tss-contextcard {
+    border-top: 1px dotted rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-contextcards-list > .tss-contextcard {
+    background: transparent;
+}
+
+body.tss-theme-retroos .tss-contextcards-list > .tss-contextcard:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove {
+    border-radius: 0;
+    border-color: transparent;
+    background: transparent;
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    border-color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-label {
+    font-weight: 400;
+}
+
+body.tss-theme-retroos .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove,
+body.tss-theme-retroos.tss-dark-mode .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-contextcards-more {
+    border: 1px dashed rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 15px;
+}
+
+body.tss-theme-retroos .tss-contextcards-more:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-contextcards-more:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+}

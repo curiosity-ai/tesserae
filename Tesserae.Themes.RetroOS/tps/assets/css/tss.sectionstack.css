@@ -1,0 +1,24 @@
+/* ==========================================================================
+   RetroOS theme - SectionStack
+   --------------------------------------------------------------------------
+   The stack is the desktop, kept paper: text sits straight on it (a sample's
+   title, its labels) and no dither, not even the light one, leaves that
+   readable. Every section is a window on it: paper, a 1px ink frame, the
+   hard 2px shadow.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-sectionstack-secondary {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-sectionstack-item {
+    transition: none;
+    transform: none;
+}
+
+body.tss-theme-retroos .tss-sectionstack-card {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: var(--tss-retro-shadow);
+}

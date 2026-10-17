@@ -1,0 +1,168 @@
+/* ==========================================================================
+   RetroOS theme - Action card
+   --------------------------------------------------------------------------
+   A Get Info window split in two panes: the object's identity on the left
+   (framed icon tile, name, facts) divided from the actions by a double rule,
+   and the actions on the right as stacked push buttons that invert when
+   pointed at. The placeholder rows are 50% dither, the error a framed line.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-actioncard-card {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow-sm);
+}
+
+body.tss-theme-retroos .tss-actioncard-identity {
+    background: rgb(var(--tss-default-background-color-root));
+    border-right: 3px double rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-actioncard-icon {
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root)) !important;
+    color: rgb(var(--tss-default-background-color-root)) !important;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-sizing: border-box;
+}
+
+body.tss-theme-retroos .tss-actioncard-icon i,
+body.tss-theme-retroos .tss-actioncard-icon svg {
+    color: inherit !important;
+}
+
+body.tss-theme-retroos .tss-actioncard-icon.tss-actioncard-icon-nobackground,
+body.tss-theme-retroos .tss-actioncard-icon.tss-actioncard-icon-image {
+    background: transparent !important;
+    color: inherit !important;
+    border-color: transparent;
+}
+
+body.tss-theme-retroos .tss-actioncard-icon.tss-actioncard-icon-image {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-actioncard-label {
+    font-family: var(--tss-retro-chicago);
+    font-size: 17px;
+    font-weight: 400;
+}
+
+body.tss-theme-retroos .tss-actioncard-sublabel,
+body.tss-theme-retroos .tss-actioncard-detail,
+body.tss-theme-retroos .tss-actioncard-fact-key {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-actioncard-fact-key {
+    font-size: 13px;
+}
+
+body.tss-theme-retroos .tss-actioncard-fact-value {
+    font-size: 14px;
+}
+
+body.tss-theme-retroos .tss-actioncard-title {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-retro-chicago);
+    font-size: 15px;
+    letter-spacing: 0;
+    text-transform: none;
+    border-bottom: 1px dotted rgb(var(--tss-default-foreground-color-root));
+    margin-bottom: 2px;
+}
+
+body.tss-theme-retroos .tss-actioncard-action {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 15px;
+}
+
+body.tss-theme-retroos .tss-actioncard-action:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-actioncard-action:focus-visible,
+body.tss-theme-retroos .tss-actioncard-more:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 2px;
+}
+
+body.tss-theme-retroos .tss-actioncard-action-icon {
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-actioncard-action:hover .tss-actioncard-action-icon {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-actioncard-action-go {
+    color: inherit;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-actioncard-more {
+    border-radius: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+body.tss-theme-retroos .tss-actioncard-more:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-actioncard-skeleton-line {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    background: var(--tss-retro-dither);
+    animation: none;
+}
+
+body.tss-theme-retroos .tss-actioncard-error {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-actioncard-compact .tss-actioncard-identity {
+    border: none;
+    border-radius: 8px;
+}
+
+body.tss-theme-retroos .tss-actioncard-compact .tss-actioncard-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-actioncard-stacked .tss-actioncard-identity {
+    border-right: none;
+    border-bottom: 3px double rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-actioncard-group {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-actioncard-group > .tss-actioncard + .tss-actioncard {
+    border-top: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+@container tss-actioncard (max-width: 520px) {
+    body.tss-theme-retroos .tss-actioncard-identity {
+        border-right: none;
+        border-bottom: 3px double rgb(var(--tss-default-foreground-color-root));
+    }
+
+    body.tss-theme-retroos .tss-actioncard-icon {
+        border-radius: 0;
+    }
+}

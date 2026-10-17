@@ -1,0 +1,81 @@
+/* ==========================================================================
+   RetroOS theme - Banner
+   --------------------------------------------------------------------------
+   A notice strip drawn as a small alert: paper, a 1px frame, the icon in an
+   inverted square, the title in Chicago. Tones have no colour: primary is a
+   plain frame, success a double frame, warning a dashed one, danger a thick
+   one. A Flat banner is a rule above or below, not a box.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-banner {
+    --tss-banner-accent: rgb(var(--tss-default-foreground-color-root));
+    --tss-banner-title-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-banner-text-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-banner-surface: rgb(var(--tss-default-background-color-root));
+    --tss-banner-border-color: rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-banner-success { border: 3px double rgb(var(--tss-default-foreground-color-root)); }
+body.tss-theme-retroos .tss-banner-warning { border: 2px dashed rgb(var(--tss-default-foreground-color-root)); }
+body.tss-theme-retroos .tss-banner-danger  { border: 3px solid rgb(var(--tss-default-foreground-color-root)); }
+
+body.tss-theme-retroos .tss-banner-flat {
+    border-left: none;
+    border-right: none;
+}
+
+body.tss-theme-retroos .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-retroos.tss-dark-mode .tss-icontile.tss-banner-icon-tile {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-banner-icon-tile i {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-banner-compact .tss-banner-icon > .tss-icontile {
+    --tss-icontile-radius: 0px;
+}
+
+body.tss-theme-retroos .tss-banner-title {
+    font-family: var(--tss-retro-chicago);
+    font-size: 17px;
+    font-weight: 400;
+}
+
+body.tss-theme-retroos .tss-banner-badge-pill.tss-badge {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    font-family: var(--tss-retro-chicago);
+    font-weight: 400;
+}
+
+body.tss-theme-retroos .tss-btn.tss-banner-action-warning {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-btn.tss-banner-dismiss-button {
+    border-radius: 0;
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    opacity: 1;
+}
+
+body.tss-theme-retroos .tss-btn.tss-banner-dismiss-button:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-btn.tss-banner-dismiss-button:hover i {
+    color: rgb(var(--tss-default-background-color-root));
+}

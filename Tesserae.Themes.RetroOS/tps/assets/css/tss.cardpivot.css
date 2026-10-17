@@ -1,0 +1,45 @@
+/* ==========================================================================
+   RetroOS theme - CardPivot
+   --------------------------------------------------------------------------
+   A row of equal cells in one ink frame, divided by 1px lines, like the
+   segments of a Mac control strip. The selected cell is reverse video (and
+   everything inside it - a Metric's title, value and change line - follows),
+   a cell under the pointer takes the 25% dither. No shadow, no slide.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-cardpivot-titlebar {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow);
+    background: rgb(var(--tss-default-background-color-root));
+    margin-bottom: 18px;
+}
+
+body.tss-theme-retroos .tss-cardpivot-tab {
+    border-right: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-bottom: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-cardpivot-tab:hover:not(.tss-cardpivot-selected) {
+    background: conic-gradient(from 0deg at 1px 1px, rgb(var(--tss-default-foreground-color-root)) 0 25%, transparent 0) 0 0 / 2px 2px;
+    background-color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-cardpivot-tab.tss-cardpivot-selected {
+    border-bottom: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* Colours a child sets inline (a Metric's grey title) have to follow the inversion too. */
+body.tss-theme-retroos .tss-cardpivot-tab.tss-cardpivot-selected * {
+    color: rgb(var(--tss-default-background-color-root)) !important;
+}
+
+body.tss-theme-retroos .tss-cardpivot-tab:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: -4px;
+}

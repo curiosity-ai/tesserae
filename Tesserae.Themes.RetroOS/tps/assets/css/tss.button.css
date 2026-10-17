@@ -1,0 +1,203 @@
+/* ==========================================================================
+   RetroOS theme - Button
+   --------------------------------------------------------------------------
+   The Mac push button: white, a 1px black edge, rounded corners, label in the
+   interface font. Pressing it inverts it. The default button (Primary) wears
+   the thick outer ring. A ghost button (Default) draws no edge until it is
+   pointed at, then inverts like a menu item. Disabled is the one grey.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-btn {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 8px;
+    box-shadow: none;
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-btn:hover {
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-btn:focus {
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-btn:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 2px;
+}
+
+/* A pressed button, and the one under the pointer for a ghost, are reverse video. */
+body.tss-theme-retroos .tss-btn:not(.tss-disabled):active {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    filter: none;
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-btn:not(.tss-disabled):active .tss-fontcolor-default,
+body.tss-theme-retroos .tss-btn:not(.tss-disabled):active > i {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* Standard: a plain push button; no tone change on hover, the Mac had none. */
+body.tss-theme-retroos .tss-btn:not(.tss-btn-default):not(.tss-btn-link):not(.tss-disabled):hover {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    filter: none;
+}
+
+/* Primary is the default button: the same button inside the thick outer ring. */
+body.tss-theme-retroos .tss-btn.tss-btn-primary:not(.tss-disabled) {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: 0 0 0 2px rgb(var(--tss-default-background-color-root)), 0 0 0 4px rgb(var(--tss-default-foreground-color-root));
+    margin: 4px;
+}
+
+body.tss-theme-retroos .tss-btn.tss-btn-primary:not(.tss-disabled):hover {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    filter: none;
+    box-shadow: 0 0 0 2px rgb(var(--tss-default-background-color-root)), 0 0 0 4px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-btn.tss-btn-primary:not(.tss-disabled):active {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    box-shadow: 0 0 0 2px rgb(var(--tss-default-background-color-root)), 0 0 0 4px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-btn.tss-btn-primary:not(.tss-disabled) .tss-fontcolor-default {
+    color: inherit;
+}
+
+/* Danger and success are not colours here: the same button, told apart by their words and icons. */
+body.tss-theme-retroos .tss-btn.tss-btn-danger:not(.tss-disabled),
+body.tss-theme-retroos .tss-btn.tss-btn-success:not(.tss-disabled) {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-btn.tss-btn-danger:not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-btn.tss-btn-success:not(.tss-disabled):hover {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    filter: none;
+}
+
+body.tss-theme-retroos .tss-btn.tss-btn-danger:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-retroos .tss-btn.tss-btn-success:not(.tss-disabled) .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-retroos .tss-btn.tss-btn-danger:not(.tss-disabled):active,
+body.tss-theme-retroos .tss-btn.tss-btn-success:not(.tss-disabled):active {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* Ghost: no edge at rest; a menu-item inversion under the pointer. */
+body.tss-theme-retroos .tss-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-retroos .tss-btn.tss-btn-nobg:not(.tss-disabled) {
+    border-color: transparent;
+    background-color: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-btn.tss-btn-nobg:not(.tss-disabled):hover {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-btn.tss-btn-default:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-retroos .tss-btn.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-retroos .tss-btn.tss-btn-default:not(.tss-disabled):hover > i,
+body.tss-theme-retroos .tss-btn.tss-btn-nobg:not(.tss-disabled):hover > i {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-btn.tss-btn-nobg.tss-btn-primary:not(.tss-disabled),
+body.tss-theme-retroos .tss-btn.tss-btn-nobg.tss-btn-danger:not(.tss-disabled),
+body.tss-theme-retroos .tss-btn.tss-btn-nobg.tss-btn-success:not(.tss-disabled) {
+    box-shadow: none;
+    margin: 0;
+}
+
+/* A link button is underlined text. */
+body.tss-theme-retroos .tss-btn.tss-btn-link:not(.tss-disabled) {
+    border-color: transparent;
+    background-color: transparent;
+    text-decoration: underline;
+    box-shadow: none;
+    margin: 0;
+}
+
+body.tss-theme-retroos .tss-btn.tss-btn-link:not(.tss-disabled):hover {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* Disabled: the one grey, and a thin edge. */
+body.tss-theme-retroos .tss-btn.tss-disabled {
+    background-color: rgb(var(--tss-default-background-color-root));
+    border-color: var(--tss-retro-gray);
+    color: var(--tss-retro-gray);
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-btn.tss-disabled .tss-fontcolor-default {
+    color: var(--tss-retro-gray);
+}
+
+/* Split button: the two halves share one rounded outline. */
+body.tss-theme-retroos .tss-btn-and-icon {
+    border-radius: 8px;
+}
+
+body.tss-theme-retroos .tss-btn-and-icon > .tss-btn,
+body.tss-theme-retroos .tss-btn-and-icon > .tss-btn:hover {
+    border-radius: 8px 0 0 8px;
+}
+
+body.tss-theme-retroos .tss-btn-and-icon > .tss-btn.tss-btn-and-icon-icon,
+body.tss-theme-retroos .tss-btn-and-icon > .tss-btn.tss-btn-and-icon-icon:hover {
+    border-radius: 0 8px 8px 0;
+    border-left-width: 0;
+}
+
+/* A spinning button keeps its edge and its ground; the ring is the glyph's own ink. */
+body.tss-theme-retroos .tss-btn.tss-btn-spinning,
+body.tss-theme-retroos .tss-btn.tss-btn-spin-resolved {
+    background-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-btn.tss-btn-default.tss-btn-spinning,
+body.tss-theme-retroos .tss-btn.tss-btn-default.tss-btn-spin-resolved {
+    background-color: transparent;
+}
+
+body.tss-theme-retroos .tss-btn.tss-btn-default.tss-btn-spin-success .tss-btn-spin-ring,
+body.tss-theme-retroos .tss-btn.tss-btn-default.tss-btn-spin-error .tss-btn-spin-ring,
+body.tss-theme-retroos .tss-btn .tss-btn-spin-ring.tss-btn-spin-ring-live,
+body.tss-theme-retroos .tss-btn .tss-btn-spin-ring.tss-btn-spin-ring-live.tss-btn-spin-ring-success {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-btn.tss-btn-spin-resolved.tss-btn-spin-success:not(.tss-btn-default),
+body.tss-theme-retroos .tss-btn.tss-btn-spin-resolved.tss-btn-spin-error:not(.tss-btn-default) {
+    background-color: rgb(var(--tss-default-foreground-color-root)) !important;
+    border-color: rgb(var(--tss-default-foreground-color-root)) !important;
+    color: rgb(var(--tss-default-background-color-root));
+}

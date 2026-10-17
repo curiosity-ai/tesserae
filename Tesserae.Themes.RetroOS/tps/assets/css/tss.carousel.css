@@ -1,0 +1,60 @@
+/* ==========================================================================
+   RetroOS theme - Carousel
+   --------------------------------------------------------------------------
+   The viewport is a window pane: a 1px ink frame, square. The previous and
+   next buttons are the scroll bar's arrow boxes, squares with a 1px frame
+   that invert when pressed; a disabled one is the one grey (no opacity). The
+   indicators are radio buttons: an open circle, filled ink for the current one.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-carousel-viewport {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+}
+
+body.tss-theme-retroos .tss-carousel-nav {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow-sm);
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-carousel-nav:not(:disabled):not(.tss-disabled):active,
+body.tss-theme-retroos .tss-carousel-nav:not(:disabled):not(.tss-disabled):hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-carousel-nav:not(:disabled):not(.tss-disabled):hover i,
+body.tss-theme-retroos .tss-carousel-nav:not(:disabled):not(.tss-disabled):active i {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-carousel-nav:disabled,
+body.tss-theme-retroos .tss-carousel-nav.tss-disabled {
+    opacity: 1;
+    color: var(--tss-retro-gray);
+    border-color: var(--tss-retro-gray);
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-carousel-nav:disabled i,
+body.tss-theme-retroos .tss-carousel-nav.tss-disabled i {
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-carousel-indicator {
+    box-sizing: border-box;
+    width: 12px;
+    height: 12px;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 50%;
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-carousel-indicator.tss-active {
+    background: radial-gradient(rgb(var(--tss-default-foreground-color-root)) 0 3px, rgb(var(--tss-default-background-color-root)) 3.5px);
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}

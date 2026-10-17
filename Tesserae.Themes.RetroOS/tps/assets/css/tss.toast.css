@@ -1,0 +1,35 @@
+/* ==========================================================================
+   RetroOS theme - Toast
+   --------------------------------------------------------------------------
+   The Mac had no toasts; the nearest thing is a small alert that floats over
+   the desktop. So a toast is its banner (see tss.banner.css) in a square
+   frame with the hard window shadow, and it appears and goes in one frame.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-toast-container {
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow);
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-toast-container:hover {
+    cursor: pointer;
+}
+
+body.tss-theme-retroos .tss-toast-fullwidth.tss-toast > .tss-toast-container {
+    border: none;
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none !important;
+}
+
+body.tss-theme-retroos .tss-toast-fullwidth.tss-toast-fullwidth-bottom.tss-toast > .tss-toast-container {
+    border-bottom: none;
+    border-top: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-toast .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root)) !important;
+}

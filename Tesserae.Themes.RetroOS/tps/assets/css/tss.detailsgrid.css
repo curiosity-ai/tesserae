@@ -1,0 +1,50 @@
+/* ==========================================================================
+   RetroOS theme - DetailsGrid
+   --------------------------------------------------------------------------
+   The Get Info sheet: a square ink frame around label / value rows, the rows
+   divided by dotted rules, the label in Chicago and the value in Geneva, both
+   ink (the Mac had no secondary tone; the label is told apart by its face).
+   Stacked mode has no frame and sets the label over its value in Chicago.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-detailsgrid {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-detailsgrid-row {
+    border-bottom: 1px dotted rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-detailsgrid-row:last-child {
+    border-bottom: none;
+}
+
+body.tss-theme-retroos .tss-detailsgrid-label {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-detailsgrid-borderless {
+    border: none;
+}
+
+body.tss-theme-retroos .tss-detailsgrid-borderless .tss-detailsgrid-row,
+body.tss-theme-retroos .tss-detailsgrid-multicolumn .tss-detailsgrid-row,
+body.tss-theme-retroos .tss-detailsgrid-stacked .tss-detailsgrid-row {
+    border-bottom: none;
+}
+
+body.tss-theme-retroos .tss-detailsgrid-stacked .tss-detailsgrid-label {
+    font-size: 16px;
+    letter-spacing: 0;
+    text-transform: none;
+    font-weight: var(--tss-font-weight-regular);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-detailsgrid-stacked {
+    border: none;
+}

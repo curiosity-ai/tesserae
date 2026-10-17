@@ -1,0 +1,51 @@
+/* ==========================================================================
+   RetroOS theme - PagesStack
+   --------------------------------------------------------------------------
+   A fan of document pages: each is a Finder document icon, a sheet of paper
+   with a 1px ink frame and a 1px hard shadow instead of the soft blur. The
+   page you point at gets the 2px frame (a thicker line, not a hue). The faux
+   text ruling is ink hairlines; the "+N" count is a framed paper square.
+   Nothing animates: the fan opens in one frame.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-pagesstack-page,
+body.tss-theme-retroos.tss-dark-mode .tss-pagesstack-page {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: var(--tss-retro-shadow-sm);
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-pagesstack-page:hover {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    outline: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-pagesstack-page-clickable:focus-visible {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow-sm);
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+}
+
+body.tss-theme-retroos .tss-pagesstack-lines,
+body.tss-theme-retroos.tss-dark-mode .tss-pagesstack-lines {
+    background: repeating-linear-gradient(to bottom,
+        rgb(var(--tss-default-foreground-color-root)) 0 1px,
+        transparent 1px 4px);
+}
+
+body.tss-theme-retroos .tss-pagesstack-image {
+    image-rendering: pixelated;
+}
+
+body.tss-theme-retroos .tss-pagesstack-more {
+    font-family: var(--tss-retro-chicago);
+    font-size: 14px;
+    font-weight: var(--tss-font-weight-regular);
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}

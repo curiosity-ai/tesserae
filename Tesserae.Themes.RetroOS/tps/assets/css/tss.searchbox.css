@@ -1,0 +1,141 @@
+/* ==========================================================================
+   RetroOS theme - SearchBox
+   --------------------------------------------------------------------------
+   A framed text field with a magnifier: 1px ink frame, 2px while it has the
+   caret. The clear and cancel boxes are small squares that invert when pointed
+   at. A failed search is a double frame (never a colour). The progress bar is
+   a solid 2px ink line whose indeterminate sweep moves in whole steps, as a
+   1-bit display would; the underlined variant stays a rule.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-searchbox-container {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-searchbox-container:hover {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-searchbox-container:focus-within {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-searchbox {
+    color: rgb(var(--tss-default-foreground-color-root));
+    caret-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-searchbox::placeholder,
+body.tss-theme-retroos .tss-searchbox:hover::placeholder,
+body.tss-theme-retroos .tss-searchbox:focus::placeholder {
+    color: rgb(var(--tss-default-foreground-color-root)) !important;
+    opacity: 1;
+    font-style: italic;
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-searchbox-container.tss-disabled {
+    border-color: var(--tss-retro-gray);
+    background: rgb(var(--tss-default-background-color-root));
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-searchbox-container.tss-disabled .tss-searchbox,
+body.tss-theme-retroos .tss-searchbox-container.tss-disabled .tss-searchbox-icon {
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-searchbox-icon {
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+/* Underlined: a rule, not a frame. */
+body.tss-theme-retroos .tss-searchbox-container.tss-underlined {
+    border-width: 0 0 1px;
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-retroos .tss-searchbox-container.tss-underlined:focus-within {
+    border-width: 0 0 2px;
+    box-shadow: none;
+}
+
+/* The small square buttons. */
+body.tss-theme-retroos .tss-searchbox-clear,
+body.tss-theme-retroos .tss-searchbox-cancel {
+    border-radius: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-searchbox-clear:hover,
+body.tss-theme-retroos .tss-searchbox-cancel:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-searchbox-clear:focus-visible,
+body.tss-theme-retroos .tss-searchbox-cancel:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: -3px;
+}
+
+/* A search that did not answer: the frame doubles and the warning glyph shows. */
+body.tss-theme-retroos .tss-searchbox-failed-icon {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-searchbox-container.tss-searchbox-failed,
+body.tss-theme-retroos .tss-searchbox-container.tss-searchbox-failed:hover,
+body.tss-theme-retroos .tss-searchbox-container.tss-searchbox-failed:focus-within {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-background-color-root)), inset 0 0 0 2px rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Progress: a solid ink line; the sweep steps instead of gliding. */
+body.tss-theme-retroos .tss-searchbox-progress-bar {
+    background: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-searchbox-progress.tss-searchbox-progress-indeterminate > .tss-searchbox-progress-bar {
+    animation: tss-retro-searchbox-sweep 1.4s steps(14, end) infinite;
+}
+
+@keyframes tss-retro-searchbox-sweep {
+    from {
+        left: -30%;
+    }
+    to {
+        left: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-retroos .tss-searchbox-progress.tss-searchbox-progress-indeterminate > .tss-searchbox-progress-bar {
+        width: 100%;
+        left: 0;
+        opacity: 1;
+        background: var(--tss-retro-dither);
+        animation: none;
+    }
+}
+
+/* A row with no match: the one grey, not a veil. */
+body.tss-theme-retroos .tss-searchable-list-no-match {
+    opacity: 1;
+    filter: none;
+    color: var(--tss-retro-gray);
+}
+
+body.tss-theme-retroos .tss-searchable-list-no-match * {
+    color: var(--tss-retro-gray);
+}

@@ -1,0 +1,216 @@
+/* ==========================================================================
+   RetroOS theme - CodeDiff (diff2html)
+   --------------------------------------------------------------------------
+   diff2html draws from its own --d2h-* variables, so every one is restated as
+   ink or paper (the dark scheme's too: CodeDiff may ask for either). A diff
+   cannot be green and red on one bit, so a change is told by shape, as in a
+   printed listing:
+     - an added line has a 3px ink bar down its left edge and its changed
+       words are reverse video;
+     - a removed line is struck through, its changed words struck and dotted;
+   and the "+" / "-" the gutter prints stay. Each file is a window: its
+   header is the pinstriped title bar with the file name in a paper gap, the
+   code is Monaco, and the file's frame is 1px ink with the hard shadow.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-codediff {
+    --d2h-bg-color: rgb(var(--tss-default-background-color-root));
+    --d2h-border-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-dim-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-line-border-color: rgb(var(--tss-default-background-color-root));
+    --d2h-file-header-bg-color: rgb(var(--tss-default-background-color-root));
+    --d2h-file-header-border-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-empty-placeholder-bg-color: rgb(var(--tss-default-background-color-root));
+    --d2h-empty-placeholder-border-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-selected-color: rgb(var(--tss-default-background-color-root));
+    --d2h-ins-bg-color: rgb(var(--tss-default-background-color-root));
+    --d2h-ins-border-color: rgb(var(--tss-default-background-color-root));
+    --d2h-ins-highlight-bg-color: rgb(var(--tss-default-background-color-root));
+    --d2h-ins-label-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-del-bg-color: rgb(var(--tss-default-background-color-root));
+    --d2h-del-border-color: rgb(var(--tss-default-background-color-root));
+    --d2h-del-highlight-bg-color: rgb(var(--tss-default-background-color-root));
+    --d2h-del-label-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-change-del-color: rgb(var(--tss-default-background-color-root));
+    --d2h-change-ins-color: rgb(var(--tss-default-background-color-root));
+    --d2h-info-bg-color: rgb(var(--tss-default-background-color-root));
+    --d2h-info-border-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-change-label-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-moved-label-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-dark-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-dark-bg-color: rgb(var(--tss-default-background-color-root));
+    --d2h-dark-border-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-dark-dim-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-dark-line-border-color: rgb(var(--tss-default-background-color-root));
+    --d2h-dark-file-header-bg-color: rgb(var(--tss-default-background-color-root));
+    --d2h-dark-file-header-border-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-dark-empty-placeholder-bg-color: rgb(var(--tss-default-background-color-root));
+    --d2h-dark-empty-placeholder-border-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-dark-selected-color: rgb(var(--tss-default-background-color-root));
+    --d2h-dark-ins-bg-color: rgb(var(--tss-default-background-color-root));
+    --d2h-dark-ins-border-color: rgb(var(--tss-default-background-color-root));
+    --d2h-dark-ins-highlight-bg-color: rgb(var(--tss-default-background-color-root));
+    --d2h-dark-ins-label-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-dark-del-bg-color: rgb(var(--tss-default-background-color-root));
+    --d2h-dark-del-border-color: rgb(var(--tss-default-background-color-root));
+    --d2h-dark-del-highlight-bg-color: rgb(var(--tss-default-background-color-root));
+    --d2h-dark-del-label-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-dark-change-del-color: rgb(var(--tss-default-background-color-root));
+    --d2h-dark-change-ins-color: rgb(var(--tss-default-background-color-root));
+    --d2h-dark-info-bg-color: rgb(var(--tss-default-background-color-root));
+    --d2h-dark-info-border-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-dark-change-label-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-dark-moved-label-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-wrapper {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-file-wrapper {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-retro-shadow);
+    margin-bottom: 14px;
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-file-header {
+    background: var(--tss-retro-stripes);
+    background-color: rgb(var(--tss-default-background-color-root));
+    border-bottom: 1px solid rgb(var(--tss-default-foreground-color-root));
+    height: auto;
+    padding: 2px 10px;
+    justify-content: center;
+    font-family: var(--tss-retro-chicago);
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-file-header > * {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-file-name-wrapper {
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+    font-weight: var(--tss-font-weight-regular);
+    flex: 0 0 auto;
+    width: auto;
+    padding: 0 8px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-file-name {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-file-collapse {
+    font-family: var(--tss-retro-chicago);
+    font-size: 14px;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    padding: 0 6px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-icon {
+    fill: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-tag {
+    font-family: var(--tss-retro-chicago);
+    font-size: 14px;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    padding: 0 4px;
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-lines-added,
+body.tss-theme-retroos .tss-codediff .d2h-lines-deleted {
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-diff-table,
+body.tss-theme-retroos .tss-codediff .d2h-code-line,
+body.tss-theme-retroos .tss-codediff .d2h-code-side-line,
+body.tss-theme-retroos .tss-codediff .d2h-code-linenumber,
+body.tss-theme-retroos .tss-codediff .d2h-code-side-linenumber {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 15px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-code-linenumber,
+body.tss-theme-retroos .tss-codediff .d2h-code-side-linenumber {
+    background: rgb(var(--tss-default-background-color-root));
+    border: none;
+    border-right: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Gutter-less rows: the "@@ hunk" line is a dotted-ruled info row. */
+body.tss-theme-retroos .tss-codediff .d2h-info {
+    background: rgb(var(--tss-default-background-color-root));
+    border-top: 1px dotted rgb(var(--tss-default-foreground-color-root));
+    border-bottom: 1px dotted rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Added: an ink bar at the left edge; its changed words are inverted. */
+body.tss-theme-retroos .tss-codediff .d2h-ins {
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: inset 3px 0 0 0 rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-ins.d2h-change,
+body.tss-theme-retroos .tss-codediff .d2h-change {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-code-line ins,
+body.tss-theme-retroos .tss-codediff .d2h-code-side-line ins {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    text-decoration: none;
+    border-radius: 0;
+}
+
+/* Removed: struck through. */
+body.tss-theme-retroos .tss-codediff .d2h-del .d2h-code-line-ctn,
+body.tss-theme-retroos .tss-codediff .d2h-del .d2h-code-side-line .d2h-code-line-ctn {
+    text-decoration: line-through;
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-code-line del,
+body.tss-theme-retroos .tss-codediff .d2h-code-side-line del {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    text-decoration: line-through;
+    border-bottom: 1px dotted rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+}
+
+/* An empty counterpart in side-by-side view is the 25% dither: nothing is there. */
+body.tss-theme-retroos .tss-codediff .d2h-emptyplaceholder {
+    background: var(--tss-retro-dither-light);
+    background-color: rgb(var(--tss-default-background-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-file-collapse-input {
+    accent-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-file-list-wrapper,
+body.tss-theme-retroos .tss-codediff .d2h-file-list-header,
+body.tss-theme-retroos .tss-codediff .d2h-file-list-line {
+    font-family: var(--tss-retro-chicago);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-codediff .d2h-file-list a {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
