@@ -1,0 +1,12 @@
+/* ToolApprovalToggle - an IconToggle whose selected icon takes the colour of the mode it stands for. */
+.tss-tool-approval-toggle.tss-tool-approval-allow > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected > i {
+    color: var(--tss-success-background-color);
+}
+
+.tss-tool-approval-toggle.tss-tool-approval-ask > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected > i {
+    color: var(--tss-warning-background-color);
+}
+
+.tss-tool-approval-toggle.tss-tool-approval-block > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected > i {
+    color: var(--tss-danger-background-color);
+}

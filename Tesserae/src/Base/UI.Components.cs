@@ -804,6 +804,11 @@ namespace Tesserae
         public static IconToggle<T>.Item IconToggleItem<T>(UIcons icon, string tooltip, T data, string text = null) => new IconToggle<T>.Item(icon, tooltip, data, text);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.ToolApprovalToggle"/> component.
+        /// </summary>
+        public static ToolApprovalToggle ToolApprovalToggle(ToolApprovalMode selected = ToolApprovalMode.NeedsApproval, string alwaysAllowLabel = null, string needsApprovalLabel = null, string blockedLabel = null) => new ToolApprovalToggle(selected, alwaysAllowLabel, needsApprovalLabel, blockedLabel);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.ChoiceGroup.Choice"/> component.
         /// </summary>
         public static ChoiceGroup.Choice Choice(string label = string.Empty) => new ChoiceGroup.Choice(label);
