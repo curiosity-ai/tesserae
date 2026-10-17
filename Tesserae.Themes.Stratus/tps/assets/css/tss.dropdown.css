@@ -216,3 +216,8 @@ body.tss-theme-stratus .tss-dropdown-item .tss-btn .tss-fontcolor-default {
 body.tss-theme-stratus .tss-dropdown-container > .tss-dropdown:focus-visible {
     outline: none;
 }
+
+/* The keyboard-focused row is marked by its tint and navy bar, so the global ring is dropped there. */
+body.tss-theme-stratus .tss-dropdown-item:focus-visible {
+    outline: none;
+}

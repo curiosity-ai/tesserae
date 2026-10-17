@@ -5,6 +5,7 @@ body.tss-theme-stratus .tss-dialog .tss-modal-content { padding: 0 24px; }
 body.tss-theme-stratus .tss-dialog .tss-modal-footer { padding: 8px 24px 16px 24px; border-top: 0; }
 
 /* The answer buttons sit 8px apart, as the language spaces a button group. */
-body.tss-theme-stratus .tss-dialog .tss-modal-footer .tss-btn + .tss-btn { margin-left: 8px; }
 body.tss-theme-stratus .tss-dialog .tss-modal-footer-commands,
 body.tss-theme-stratus .tss-dialog .tss-modal-footer-content { gap: 8px; }
+body.tss-theme-stratus .tss-dialog .tss-modal-footer .tss-btn { margin-left: 0; margin-right: 8px; }
+body.tss-theme-stratus .tss-dialog .tss-modal-footer .tss-btn:last-child { margin-right: 0; }
