@@ -167,8 +167,8 @@ What makes it work, and what to keep when touching it:
 - The fonts (Schibsted Grotesk, Geist Mono, OFL) are bundled in the package rather than loaded from
   Google Fonts. The skill reference is `Tesserae/skills/references/custom-themes.md`.
 - **A second theme: `Tesserae.Themes.Stratus`** ([Tesserae.Themes.Stratus/](Tesserae.Themes.Stratus/)), an aerospace
-  design language built from the Airbus Design System's tokens and component behaviour (the package is deliberately not
-  named after it): deep navy accent, cool greys, filled inputs with a bottom rule, 3px/6px/8px radii, shadows from a
+  design language built from the tokens and component behaviour of an open-source aerospace design system (used as a reference
+  only; the package is deliberately not named after it): deep navy accent, cool greys, filled inputs with a bottom rule, 3px/6px/8px radii, shadows from a
   tiered elevation scale (`--tss-str-elev-N`, level 1 to 6), Inter and Roboto Mono, a 2px blue focus ring. It follows
   the same mechanics as Curiosity (root class `tss-theme-stratus`, one file per Tesserae stylesheet, `tps.json` resource
   group with `"load": false`, derived variables restated with their roots) and is picked in the gallery's Theme nav

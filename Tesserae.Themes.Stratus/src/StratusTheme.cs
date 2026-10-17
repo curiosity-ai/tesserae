@@ -4,7 +4,7 @@ namespace Tesserae.Themes.Stratus
     /// An aerospace-grade design language as a Tesserae custom theme: a deep navy accent on cool-grey
     /// neutrals, filled inputs that carry their state on a bottom rule, small 3px corners, a tiered
     /// elevation scale instead of hairlines, and Inter for text with Roboto Mono for code. The palette,
-    /// scale and component behaviour follow the Airbus Design System (Apache-2.0), re-expressed as
+    /// scale and component behaviour follow an open-source (Apache-2.0) aerospace design system, re-expressed as
     /// Tesserae stylesheets; the name and everything else here is this package's own.
     ///
     /// <para>

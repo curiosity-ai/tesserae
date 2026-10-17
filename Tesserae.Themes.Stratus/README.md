@@ -6,7 +6,7 @@ small 3px corners, a tiered elevation scale instead of hairlines, and Inter with
 dark (`UI.Theme.Dark()`) are both covered.
 
 The palette, type scale, spacing, radii, elevation levels and component behaviour follow the
-[Airbus Design System](https://github.com/airbus/design-system) (Apache-2.0), re-expressed as Tesserae
+an open-source (Apache-2.0) aerospace design system, re-expressed as Tesserae
 stylesheets. The package is independent of that project: it ships none of its code, fonts or logos, and
 it carries a name of its own.
 
