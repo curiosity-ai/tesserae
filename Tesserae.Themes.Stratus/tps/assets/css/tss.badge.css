@@ -2,8 +2,14 @@
    Stratus theme - Badge, Tag, Chip
    --------------------------------------------------------------------------
    Measured against the design system's chip: 24px tall, 12px radius, 14px
-   500-weight text with 12px of padding either side (a tag, which the language
-   has no shape for, stays a 20px rectangle with 3px corners). A plain badge is the moderate component fill; the
+   500-weight text with 12px of padding either side. A tag, which the language
+   has no shape for, is the same 24px / 14px size as the chip beside it with
+   square 3px corners (it used to be a 20px / 12px one, which sat visibly
+   lower and smaller in a row of chips); only a token inside another
+   component's row (the sidebar brand, a count) stays the compact 20px label.
+   A removable token follows the chip's remove button: an 18px round button
+   3px from the end, in the label's own colour with the chip's fill showing
+   through as the cross, 8px after the text. A plain badge is the moderate component fill; the
    tones are the language's feedback fills (white on navy, green and red; ink
    on the warning yellow, and on every tone in dark where the fills are light).
    An outlined token keeps the tone on its rule and its text, with no fill.
@@ -21,16 +27,38 @@ body.tss-theme-stratus .tss-token {
 }
 
 /* A token inside another component's row (the sidebar brand, a count) stays the compact 20px label. */
-body.tss-theme-stratus .tss-sidebar .tss-token,
-body.tss-theme-stratus .tss-tag {
+body.tss-theme-stratus .tss-sidebar .tss-token {
     min-height: 20px;
     padding: 0 8px;
     font-size: var(--tss-font-size-xsmall);
     line-height: 18px;
 }
 
+/* A tag is the chip's size with square corners and a rule (the border is inside the 24px). */
 body.tss-theme-stratus .tss-tag {
+    min-height: 24px;
+    padding: 0 8px;
+    font-size: var(--tss-font-size-small);
+    line-height: 22px;
     border-radius: 3px;
+}
+
+/* The glyph in a token is 16px (the chip's icon), 8px from the text: the base's 12px icon on a 6px gap looked
+   like a bullet beside a 14px label. */
+body.tss-theme-stratus .tss-token:not(#_) .tss-token-icon {
+    font-size: 16px;
+}
+
+body.tss-theme-stratus .tss-token:not(#_) .tss-token-content {
+    gap: 8px;
+}
+
+body.tss-theme-stratus .tss-sidebar .tss-token:not(#_) .tss-token-icon {
+    font-size: 12px;
+}
+
+body.tss-theme-stratus .tss-sidebar .tss-token:not(#_) .tss-token-content {
+    gap: 4px;
 }
 
 /* The plain token: a tone, an outline or the AI gradient keeps its own fill. */
@@ -97,7 +125,100 @@ body.tss-theme-stratus .tss-token-outline.tss-token-info {
     background: transparent;
 }
 
+/* ----- The remove button ---------------------------------------------------------------------------------
+   The design system's chip clear button: an 18px circle (a 16px glyph in 2px of padding) in the label colour with
+   the chip's fill showing through as the cross, inset 3px from the end and 8px from the text. On a plain chip the
+   label turns the corporate blue as soon as there is a button on it. Hover is the link blue, pressed the accent's
+   pressed shade; on a tone it is the same circle at 65% and 85%. The cross is the UIcons cross-small glyph, so
+   the circle's colour is the glyph's background and the cross is the glyph's own colour. */
+body.tss-theme-stratus .tss-token.tss-token-removable {
+    gap: 8px;
+    padding-right: 3px;
+}
+
+body.tss-theme-stratus .tss-token.tss-token-removable:not(#_) > .tss-token-remove,
+body.tss-theme-stratus .tss-token:not(#_) .tss-token-remove {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--tss-primary-background-color);
+    color: var(--tss-str-on-fill-2);
+    transition: background-color var(--tss-str-ease), opacity var(--tss-str-ease);
+}
+
+/* The cross-small glyph is drawn 2px above the middle of its em box (measured: 9.5px cross, centre 2px high in an
+   18px circle), so it is dropped by that much to sit in the middle of the circle. */
+body.tss-theme-stratus .tss-token .tss-token-remove i {
+    font-size: 18px;
+    line-height: 1;
+    transform: translateY(2px);
+}
+
+body.tss-theme-stratus .tss-token:not(#_) .tss-token-remove:hover {
+    background: var(--tss-str-blue);
+}
+
+body.tss-theme-stratus .tss-token:not(#_) .tss-token-remove:active {
+    background: var(--tss-primary-background-active-color);
+}
+
+/* A plain chip with a button: the label is the corporate blue (the reference's :has(button) rule). */
+body.tss-theme-stratus .tss-token.tss-token-removable:not(.tss-token-primary, .tss-token-success, .tss-token-warning, .tss-token-danger, .tss-token-info, .tss-token-ai, .tss-token-outline) {
+    color: var(--tss-str-corporate);
+}
+
+/* A toned token: the circle is the label colour, the cross is the fill. */
+
+body.tss-theme-stratus .tss-token.tss-token-primary:not(#_) .tss-token-remove,
+body.tss-theme-stratus .tss-token.tss-token-success:not(#_) .tss-token-remove,
+body.tss-theme-stratus .tss-token.tss-token-warning:not(#_) .tss-token-remove,
+body.tss-theme-stratus .tss-token.tss-token-danger:not(#_) .tss-token-remove,
+body.tss-theme-stratus .tss-token.tss-token-info:not(#_) .tss-token-remove,
+body.tss-theme-stratus .tss-token.tss-token-ai:not(#_) .tss-token-remove {
+    background: currentColor;
+}
+
+body.tss-theme-stratus .tss-token.tss-token-primary:not(#_) .tss-token-remove:hover,
+body.tss-theme-stratus .tss-token.tss-token-success:not(#_) .tss-token-remove:hover,
+body.tss-theme-stratus .tss-token.tss-token-warning:not(#_) .tss-token-remove:hover,
+body.tss-theme-stratus .tss-token.tss-token-danger:not(#_) .tss-token-remove:hover,
+body.tss-theme-stratus .tss-token.tss-token-info:not(#_) .tss-token-remove:hover,
+body.tss-theme-stratus .tss-token.tss-token-ai:not(#_) .tss-token-remove:hover {
+    background: currentColor;
+    opacity: .65;
+}
+
+body.tss-theme-stratus .tss-token.tss-token-primary:not(#_) .tss-token-remove:active,
+body.tss-theme-stratus .tss-token.tss-token-success:not(#_) .tss-token-remove:active,
+body.tss-theme-stratus .tss-token.tss-token-warning:not(#_) .tss-token-remove:active,
+body.tss-theme-stratus .tss-token.tss-token-danger:not(#_) .tss-token-remove:active,
+body.tss-theme-stratus .tss-token.tss-token-info:not(#_) .tss-token-remove:active,
+body.tss-theme-stratus .tss-token.tss-token-ai:not(#_) .tss-token-remove:active {
+    background: currentColor;
+    opacity: .85;
+}
+
+/* The cross of each tone is that tone's fill. (A circle painted with currentColor also paints the glyph, since
+   the glyph is currentColor too, so the glyph takes its own colour here.) */
+body.tss-theme-stratus .tss-token.tss-token-primary:not(#_) .tss-token-remove i { color: var(--tss-primary-background-color); }
+body.tss-theme-stratus .tss-token.tss-token-success:not(#_) .tss-token-remove i { color: var(--tss-success-background-color); }
+body.tss-theme-stratus .tss-token.tss-token-warning:not(#_) .tss-token-remove i { color: var(--tss-warning-background-color); }
+body.tss-theme-stratus .tss-token.tss-token-danger:not(#_) .tss-token-remove i  { color: var(--tss-danger-background-color); }
+body.tss-theme-stratus .tss-token.tss-token-info:not(#_) .tss-token-remove i    { color: var(--tss-str-blue); }
+body.tss-theme-stratus .tss-token.tss-token-ai:not(#_) .tss-token-remove i      { color: var(--tss-ai-accent); }
+
+/* An outlined token has no fill to show through: the circle takes the page colour for its cross. */
+body.tss-theme-stratus .tss-token.tss-token-outline:not(#_) .tss-token-remove i { color: var(--tss-default-background-color); }
+body.tss-theme-stratus .tss-token.tss-token-outline.tss-token-ai:not(#_) .tss-token-remove i { color: var(--tss-default-background-color); }
+body.tss-theme-stratus .tss-token.tss-token-outline.tss-token-ai:not(#_) .tss-token-remove { background: var(--tss-ai-accent); }
+
 body.tss-theme-stratus .tss-token-remove:focus-visible {
     outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
     border-radius: 50%;
 }
