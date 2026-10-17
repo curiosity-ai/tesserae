@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Stratus theme - Carousel
+   --------------------------------------------------------------------------
+   The arrows are white round buttons at elevation 2 (the language's floating
+   control) with the focus ring; the page indicators are small dots that fill
+   navy for the current slide.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-carousel-nav {
+    border: 0;
+    background: var(--tss-str-elevated-surface);
+    color: var(--tss-default-foreground-color);
+    box-shadow: var(--tss-str-elev-2);
+    transition: background-color var(--tss-str-ease), box-shadow var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-carousel-nav:hover:not(.tss-disabled):not(:disabled) {
+    background: var(--tss-default-background-hover-color);
+    box-shadow: var(--tss-str-elev-3);
+}
+
+body.tss-theme-stratus .tss-carousel-nav:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus .tss-carousel-nav:disabled,
+body.tss-theme-stratus .tss-carousel-nav.tss-disabled {
+    opacity: .4;
+}
+
+body.tss-theme-stratus .tss-carousel-indicator {
+    border-color: var(--tss-str-rule);
+    background: transparent;
+}
+
+body.tss-theme-stratus .tss-carousel-indicator.tss-active {
+    background: var(--tss-str-navy);
+    border-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-carousel-indicator:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}

@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Stratus theme - Task board
+   --------------------------------------------------------------------------
+   Columns are recessed tracks on the tinted surface; cards are 6px surfaces at
+   elevation 1 that lift to elevation 2 under the pointer (3 while dragged),
+   exactly as the language's card does.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-taskboard-card {
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-1);
+    transition: box-shadow var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-taskboard-card:hover {
+    box-shadow: var(--tss-str-elev-2);
+}
+
+body.tss-theme-stratus .tss-taskboard-card.sortable-chosen,
+body.tss-theme-stratus .tss-taskboard-card.sortable-drag {
+    box-shadow: var(--tss-str-elev-3);
+}
+
+body.tss-theme-stratus .tss-taskboard-column-readonly .tss-taskboard-card:hover {
+    box-shadow: var(--tss-str-elev-1);
+}

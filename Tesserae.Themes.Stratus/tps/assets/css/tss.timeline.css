@@ -1,0 +1,16 @@
+/* ==========================================================================
+   Stratus theme - Timeline
+   --------------------------------------------------------------------------
+   A 2px rule in the separator tone, with a 6px content card per event at
+   elevation 1 and no outline, the dot taking the tone of its event.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-timeline-owner {
+    background-image: linear-gradient(var(--tss-default-border-color), var(--tss-default-border-color));
+}
+
+body.tss-theme-stratus .tss-timeline-container .tss-timeline-content {
+    border: 0;
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-1);
+}

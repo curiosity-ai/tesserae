@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Stratus theme - Tree
+   --------------------------------------------------------------------------
+   Rows are 3px-cornered with the neutral hover fill; the selected row is the
+   soft blue wash with navy text and the 3px navy bar. Keyboard focus is the
+   2px mid-blue ring inside the row.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-tree-item-content {
+    border-radius: var(--tss-border-radius-sm);
+    padding: 6px 8px;
+    transition: background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-tree-item:focus-visible > .tss-tree-item-content {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: -2px;
+}
+
+body.tss-theme-stratus .tss-tree-item-content.tss-selected {
+    background-color: var(--tss-default-background-active-color);
+    color: var(--tss-str-navy);
+    font-weight: var(--tss-font-weight-semibold);
+    box-shadow: inset 3px 0 0 0 var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-tree-chevron:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tippy-box[data-theme~='tss-tree-tippy'] {
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-4);
+}

@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Stratus theme - Pages stack
+   --------------------------------------------------------------------------
+   The stacked page thumbnails are 3px surfaces on the moderate fill with a
+   level-1 shadow; the focused one is outlined in the 2px focus blue.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-pagesstack-page {
+    border-radius: var(--tss-border-radius-sm);
+    box-shadow: var(--tss-str-elev-1);
+}
+
+body.tss-theme-stratus .tss-pagesstack-page:hover {
+    border-color: var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-pagesstack-page-clickable:focus-visible {
+    border-color: var(--tss-str-focus);
+    box-shadow: 0 0 0 2px var(--tss-str-focus);
+}
