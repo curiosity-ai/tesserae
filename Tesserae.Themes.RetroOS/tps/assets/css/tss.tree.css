@@ -1,1 +1,129 @@
-/* RetroOS - tree */
+/* ==========================================================================
+   RetroOS theme - Tree
+   --------------------------------------------------------------------------
+   The Finder's outline view: a solid disclosure triangle in the left margin
+   (pointing right when a folder is closed, down when it is open), a row per
+   node in Geneva, and the children hung under a dotted guide. The selected row
+   and the row under the pointer are reverse video, square, and take their
+   icon, checkbox and commands with them. Focus is the 2px ink line.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-tree-item-content {
+    border-radius: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-tree-item-content:hover,
+body.tss-theme-retroos .tss-tree-item-content.tss-selected {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-tree-item-content:hover > i,
+body.tss-theme-retroos .tss-tree-item-content.tss-selected > i,
+body.tss-theme-retroos .tss-tree-item-content:hover .tss-tree-text,
+body.tss-theme-retroos .tss-tree-item-content.tss-selected .tss-tree-text,
+body.tss-theme-retroos .tss-tree-item-content:hover .tss-tree-checkbox,
+body.tss-theme-retroos .tss-tree-item-content.tss-selected .tss-tree-checkbox,
+body.tss-theme-retroos .tss-tree-selection-multiple .tss-tree-item-content.tss-selected .tss-tree-checkbox,
+body.tss-theme-retroos .tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected .tss-tree-checkbox,
+body.tss-theme-retroos .tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* A partially selected row (some children picked) is inverted as well, by its checkbox. */
+body.tss-theme-retroos .tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected:not(:hover):not(.tss-selected) {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected:not(:hover):not(.tss-selected) .tss-tree-checkbox {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-tree-item:focus-visible > .tss-tree-item-content {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: -2px;
+}
+
+/* A focused row that is also inverted keeps a paper outline inside it so the focus is still a line. */
+body.tss-theme-retroos .tss-tree-item:focus-visible > .tss-tree-item-content.tss-selected {
+    outline-color: rgb(var(--tss-default-background-color-root));
+    outline-offset: -3px;
+}
+
+/* The disclosure triangle: the icon-font glyph is dropped and a solid triangle is clipped from a square. */
+body.tss-theme-retroos .tss-tree-chevron {
+    position: relative;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 0;
+}
+
+body.tss-theme-retroos .tss-tree-chevron::before {
+    content: none;
+}
+
+body.tss-theme-retroos .tss-tree-chevron::after {
+    content: "";
+    display: block;
+    width: 8px;
+    height: 10px;
+    background: currentColor;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+body.tss-theme-retroos .tss-tree-item.tss-expanded > .tss-tree-item-content > .tss-tree-chevron::after {
+    width: 10px;
+    height: 8px;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+body.tss-theme-retroos .tss-tree-chevron:hover {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-tree-item-content:hover > .tss-tree-chevron,
+body.tss-theme-retroos .tss-tree-item-content.tss-selected > .tss-tree-chevron {
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-tree-checkbox:hover,
+body.tss-theme-retroos .tss-tree-selection-multiple .tss-tree-item-content .tss-tree-checkbox {
+    color: inherit;
+}
+
+/* A loading node: the spinner turns in steps, not smoothly. */
+body.tss-theme-retroos .tss-tree-icon.fi-rr-spinner {
+    animation: tss-tree-spin 1s steps(8) infinite;
+}
+
+body.tss-theme-retroos .tss-tree-children {
+    border-left: 1px dotted rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-tree-compact .tss-tree-item-content {
+    border-radius: 0;
+}
+
+/* The commands menu (tippy): a paper menu with the ink frame and hard shadow; the hovered item inverts. */
+body.tss-theme-retroos .tippy-box[data-theme~='tss-tree-tippy'] {
+    border-radius: 0;
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-retro-shadow);
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-retroos .tss-tree-menu > .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
+body.tss-theme-retroos .tss-tree-menu > a > .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success) {
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-color: transparent;
+    font-family: var(--tss-retro-chicago);
+    font-size: 16px;
+}
+
+body.tss-theme-retroos .tss-tree-menu > .tss-tree-command.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
+body.tss-theme-retroos .tss-tree-menu > a > .tss-tree-command.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
