@@ -181,6 +181,14 @@ body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-commands .tss-btn.tss-b
     border-radius: var(--tss-border-radius-sm);
 }
 
+/* The base pins the commands 3px from the top, which centres them on its 28px row; these rows are 40px, so
+   the strip spans the row and centres its buttons instead. */
+body.tss-theme-stratus .tss-sidebar-btn-open:not(.tss-sidebar-identity) > .tss-sidebar-commands {
+    top: 0;
+    bottom: 0;
+    align-items: center;
+}
+
 body.tss-theme-stratus .tss-sidebar-badge,
 body.tss-theme-stratus .tss-sidebar-badges .tss-badge {
     border-radius: var(--tss-border-radius-full);

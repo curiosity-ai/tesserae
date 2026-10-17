@@ -28,6 +28,10 @@ body.tss-theme-stratus .tss-modal-footer { background: var(--tss-str-surface-6);
 
 body.tss-theme-stratus .tss-modal-header { padding-top: 24px; padding-bottom: 0; min-height: 32px; border-bottom: 0; }
 body.tss-theme-stratus .tss-modal-footer { padding-top: 16px; padding-bottom: 24px; border-top: 0; }
+
+/* A footer with nothing in it (a ProgressModal, a modal with only content) takes no room. */
+body.tss-theme-stratus .tss-modal-footer:not(:has(> :not(:empty))) { padding-top: 0; padding-bottom: 0; }
+
 body.tss-theme-stratus .tss-modal-content { padding: 16px 24px; }
 body.tss-theme-stratus .tss-modal-footer-commands > .tss-btn + .tss-btn { margin-left: 16px; }
 
