@@ -75,7 +75,12 @@ body.tss-theme-stratus .tss-slider:active::-moz-range-thumb {
 }
 
 /* Vertical: the base swaps the thumb to a 24 by 16 pill; the language's thumb is round either way. */
-body.tss-theme-stratus .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb,
+/* One rule per engine: a selector list holding a pseudo-element the engine does not know is dropped whole. */
+body.tss-theme-stratus .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb {
+    width: var(--tss-str-slider-thumb);
+    height: var(--tss-str-slider-thumb);
+}
+
 body.tss-theme-stratus .tss-slider-container.tss-vertical .tss-slider::-moz-range-thumb {
     width: var(--tss-str-slider-thumb);
     height: var(--tss-str-slider-thumb);
@@ -105,7 +110,12 @@ body.tss-theme-stratus .tss-slider-container input.tss-disabled ~ .tss-slider-fa
     background-color: var(--tss-str-slider-track);
 }
 
-body.tss-theme-stratus .tss-slider.tss-disabled::-webkit-slider-thumb,
+body.tss-theme-stratus .tss-slider.tss-disabled::-webkit-slider-thumb {
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-default-background-color);
+    box-shadow: none;
+}
+
 body.tss-theme-stratus .tss-slider.tss-disabled::-moz-range-thumb {
     background-color: var(--tss-primary-background-hover-color);
     border-color: var(--tss-default-background-color);
