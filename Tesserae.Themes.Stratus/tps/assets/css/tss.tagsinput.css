@@ -52,3 +52,7 @@ body.tss-theme-stratus.tss-dark-mode .tss-tagsinput-chip-remove:hover {
     background: var(--tss-str-fill-3);
     color: var(--tss-default-foreground-color);
 }
+
+body.tss-theme-stratus .tss-tagsinput-entry:focus-visible {
+    outline: none;
+}

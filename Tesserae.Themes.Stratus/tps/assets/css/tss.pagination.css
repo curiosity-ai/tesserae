@@ -1,0 +1,51 @@
+/* ==========================================================================
+   Stratus theme - Pagination
+   --------------------------------------------------------------------------
+   Page slots are 32px squares with 3px corners and the control edge as their
+   rule; hover is the neutral fill, the current page is filled navy, the
+   chevrons borderless in the neutral colour. The footer variant sits on the
+   tinted surface under a list.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-pagination-button {
+    border-color: var(--tss-str-rule);
+    border-radius: var(--tss-border-radius-sm);
+    font-weight: var(--tss-font-weight-semibold);
+    transition: background-color var(--tss-str-ease), color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-pagination-button:hover:not(:disabled):not(.tss-active) {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-pagination-button.tss-active {
+    background: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-pagination-button:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus .tss-pagination-nav {
+    border-color: transparent;
+    background: transparent;
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-pagination-nav:hover:not(:disabled) {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-pagination-button.tss-disabled,
+body.tss-theme-stratus .tss-pagination-button:disabled {
+    opacity: .4;
+}
+
+body.tss-theme-stratus .tss-pagination-footer {
+    background: var(--tss-str-on-fill);
+    border-top: 1px solid var(--tss-default-border-color);
+}

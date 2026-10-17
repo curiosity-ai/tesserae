@@ -1,0 +1,54 @@
+/* ==========================================================================
+   Stratus theme - ActionButton
+   --------------------------------------------------------------------------
+   A split control: the container carries the secondary-button outline (or the
+   filled tone when its halves are primary/danger) and the two halves inside
+   are flat, separated by a 1px divider.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-actionbutton-container {
+    border: 1px solid var(--tss-str-navy);
+    border-radius: var(--tss-border-radius-sm);
+    overflow: hidden;
+}
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn:hover,
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn:active,
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn.tss-btn-default:not(.tss-disabled):active {
+    background: var(--tss-default-background-active-color);
+}
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-actionbutton-actionbtn {
+    border-left: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-primary,
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-primary:hover,
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-primary:active {
+    color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-primary { background: var(--tss-primary-background-color); }
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-primary:hover { background: var(--tss-primary-background-hover-color); }
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-primary:active { background: var(--tss-primary-background-active-color); }
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-danger,
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-danger:hover,
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-danger:active {
+    color: var(--tss-danger-foreground-color);
+}
+
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-danger { background: var(--tss-danger-background-color); }
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-danger:hover { background: var(--tss-danger-background-hover-color); }
+body.tss-theme-stratus .tss-actionbutton-container > .tss-btn-danger:active { background: var(--tss-danger-background-active-color); }

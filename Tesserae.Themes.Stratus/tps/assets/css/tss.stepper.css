@@ -1,0 +1,65 @@
+/* ==========================================================================
+   Stratus theme - Stepper
+   --------------------------------------------------------------------------
+   Numbered circles: the current step is filled navy with white numerals, a
+   finished step is outlined in navy with its numeral, an upcoming step is the
+   control edge colour. Labels are 500, the current one 700; the content panel
+   is a 6px card at elevation 1.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-stepper-step {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-stepper-circle {
+    border: 2px solid var(--tss-str-rule);
+    color: var(--tss-default-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-stepper-label {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-stratus .tss-stepper-active .tss-stepper-circle {
+    background: var(--tss-str-navy);
+    border-color: var(--tss-str-navy);
+    color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-stepper-active .tss-stepper-label {
+    font-weight: var(--tss-font-weight-bold);
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-stepper-complete .tss-stepper-circle {
+    background: transparent;
+    border-color: var(--tss-str-navy);
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-stepper-content {
+    border: 0;
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-1);
+    padding: 16px;
+}
+
+body.tss-theme-stratus .tss-stepper-nav {
+    border: 1px solid var(--tss-str-navy);
+    border-radius: var(--tss-border-radius-sm);
+    color: var(--tss-str-navy);
+    background: var(--tss-default-background-color);
+    font-weight: var(--tss-font-weight-bold);
+    padding: 8px 16px;
+}
+
+body.tss-theme-stratus .tss-stepper-nav:hover:not(:disabled) {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-stepper-nav:disabled,
+body.tss-theme-stratus .tss-stepper-nav.tss-disabled {
+    opacity: .4;
+}

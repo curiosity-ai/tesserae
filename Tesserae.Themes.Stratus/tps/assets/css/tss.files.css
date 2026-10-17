@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Stratus theme - File selector and drop area
+   --------------------------------------------------------------------------
+   The drop area is a 2px dashed box in the blue-soft tint with 6px corners;
+   dragging a file over it fills it with the selected wash and the accent
+   edge. The overlay follows the same dashed edge.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-filedroparea {
+    border: 2px dashed var(--tss-str-rule);
+    border-radius: var(--tss-border-radius-lg);
+    background: var(--tss-str-fill);
+    transition: background-color var(--tss-str-ease), border-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-filedroparea:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-filedroparea.tss-dropping {
+    background: var(--tss-default-background-active-color);
+    border-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-filedroparea-message {
+    color: var(--tss-secondary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-filedroparea-icon {
+    color: var(--tss-str-navy);
+    -webkit-text-stroke: 0;
+}
+
+body.tss-theme-stratus .tss-filedroparea.tss-dropping .tss-filedroparea-icon {
+    -webkit-text-stroke: 0;
+}
+
+body.tss-theme-stratus .tss-filedroparea-overlay {
+    border-color: var(--tss-str-navy);
+    border-radius: var(--tss-border-radius-lg);
+}

@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Stratus theme - IconToggle
+   --------------------------------------------------------------------------
+   The segmented control of the language: a cool-grey track with 3px corners,
+   the selected segment navy (soft blue in dark) with an on-accent label, no
+   shadow. Geometry is Tesserae's.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-icon-toggle {
+    --tss-icon-toggle-radius: var(--tss-border-radius-lg);
+    background: var(--tss-str-fill-2);
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item {
+    font-weight: var(--tss-font-weight-bold);
+    color: var(--tss-default-foreground-color);
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    background: var(--tss-str-fill-3);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):active {
+    background: var(--tss-str-on-fill-2);
+}
+
+body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-stratus.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-stratus.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+    box-shadow: none;
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):not(:hover) {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 1px;
+}
+
+body.tss-theme-stratus .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-icon-toggle.tss-icon-toggle-disabled {
+    opacity: 1;
+}

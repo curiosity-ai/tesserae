@@ -1,0 +1,88 @@
+/* ==========================================================================
+   Stratus theme - Badge, Tag, Chip
+   --------------------------------------------------------------------------
+   Small, exact labels: 3px corners on a badge or tag, a full pill on a chip,
+   500-weight 12px text. A plain badge is the moderate component fill; the
+   tones are the language's feedback fills (white on navy, green and red; ink
+   on the warning yellow, and on every tone in dark where the fills are light).
+   An outlined token keeps the tone on its rule and its text, with no fill.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-token {
+    gap: 4px;
+    min-height: 20px;
+    padding: 1px 8px;
+    border-radius: 3px;
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-semibold);
+    line-height: 16px;
+}
+
+/* The plain token: a tone, an outline or the AI gradient keeps its own fill. */
+body.tss-theme-stratus .tss-token:not(.tss-token-primary, .tss-token-success, .tss-token-warning, .tss-token-danger, .tss-token-info, .tss-token-ai, .tss-token-outline, .tss-tag) {
+    background: var(--tss-str-fill-2);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-chip,
+body.tss-theme-stratus .tss-token-pill {
+    border-radius: 9999px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+body.tss-theme-stratus .tss-chip {
+    min-height: 24px;
+    line-height: 20px;
+}
+
+/* A tag is categorisation: the page colour with a rule. */
+body.tss-theme-stratus .tss-tag {
+    background: var(--tss-default-background-color);
+    border: 1px solid var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-token-outline {
+    background: transparent;
+    border-color: var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-token-info {
+    background: var(--tss-str-info);
+    color: #fff;
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-token-info {
+    color: var(--tss-default-background-color);
+}
+
+body.tss-theme-stratus .tss-token-outline.tss-token-primary {
+    color: var(--tss-str-navy);
+    border-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-token-outline.tss-token-success {
+    color: var(--tss-str-success);
+    border-color: var(--tss-str-success);
+}
+
+body.tss-theme-stratus .tss-token-outline.tss-token-warning {
+    color: var(--tss-str-warning-text);
+    border-color: var(--tss-str-warning-text);
+}
+
+body.tss-theme-stratus .tss-token-outline.tss-token-danger {
+    color: var(--tss-str-error);
+    border-color: var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-token-outline.tss-token-info {
+    color: var(--tss-str-info);
+    border-color: var(--tss-str-info);
+    background: transparent;
+}
+
+body.tss-theme-stratus .tss-token-remove:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    border-radius: 50%;
+}

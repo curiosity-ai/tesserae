@@ -1,0 +1,60 @@
+/* ==========================================================================
+   Stratus theme - AnnotatedTextEditor
+   --------------------------------------------------------------------------
+   The container is the field of the language, top corners only, with the
+   rule and 3px focus ring. Entities are the information tint of the language
+   with a mid-blue edge and 3px corners; the hover tag is a level-2 tooltip.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-annotated-text-container {
+    border: 0;
+    border-radius: 3px 3px 0 0;
+    background: var(--tss-str-fill);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-annotated-text-container:hover {
+    background: var(--tss-default-background-hover-color);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-annotated-text-container:focus-within {
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-annotated-text-container.tss-disabled {
+    background: var(--tss-str-fill);
+    color: var(--tss-default-foreground-color);
+    opacity: .4;
+}
+
+body.tss-theme-stratus .tss-annotated-text-container.tss-annotated-text-readonly {
+    background: transparent;
+    box-shadow: 0 -1px 0 0 var(--tss-str-rule) inset;
+}
+
+body.tss-theme-stratus .tss-annotated-text-input::placeholder {
+    color: var(--tss-secondary-foreground-color) !important;
+    opacity: 1;
+}
+
+body.tss-theme-stratus .tss-annotated-text-entity {
+    border-radius: var(--tss-border-radius-sm);
+    outline-color: var(--tss-str-info);
+    background-color: var(--tss-str-info-soft);
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-annotated-text-entity {
+    background-color: rgba(134, 168, 233, 0.24);
+    outline-color: rgba(134, 168, 233, 0.7);
+}
+
+body.tss-theme-stratus .tss-annotated-text-hover-tag,
+body.tss-theme-stratus.tss-dark-mode .tss-annotated-text-hover-tag {
+    border: 0;
+    border-radius: var(--tss-border-radius-sm);
+    background: var(--tss-tooltip-background-color);
+    color: var(--tss-tooltip-foreground-color);
+    box-shadow: var(--tss-str-elev-2);
+}

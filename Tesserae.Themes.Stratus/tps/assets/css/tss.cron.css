@@ -1,0 +1,49 @@
+/* ==========================================================================
+   Stratus theme - Cron editor
+   --------------------------------------------------------------------------
+   The inline dropdowns of the sentence are navy chips (soft-blue tint in
+   dark) rather than the 40px field, and the open panel is a level-4 surface.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-cron-editor {
+    border: 0;
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-cron-desc {
+    border-bottom-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-cron-open {
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-str-elev-4);
+}
+
+body.tss-theme-stratus .tss-cron-inline-dropdown.tss-dropdown-container {
+    background-color: var(--tss-str-blue-soft);
+    box-shadow: none;
+    border-radius: var(--tss-border-radius-sm);
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-cron-inline-dropdown.tss-dropdown-container:hover {
+    background-color: var(--tss-str-blue-tint);
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-cron-inline-dropdown.tss-dropdown-container:has(> .tss-dropdown:focus-visible) {
+    background-color: var(--tss-str-blue-tint);
+    box-shadow: 0 0 0 2px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-cron-inline-dropdown .tss-dropdown-item-on-box,
+body.tss-theme-stratus .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-fontcolor-default,
+body.tss-theme-stratus .tss-cron-inline-dropdown .tss-dropdown-icon {
+    color: var(--tss-str-navy) !important;
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-cron-inline-dropdown .tss-dropdown-item-on-box,
+body.tss-theme-stratus.tss-dark-mode .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-fontcolor-default,
+body.tss-theme-stratus.tss-dark-mode .tss-cron-inline-dropdown .tss-dropdown-icon {
+    color: var(--tss-default-foreground-color) !important;
+}

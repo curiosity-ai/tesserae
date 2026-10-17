@@ -1,0 +1,9 @@
+/* ==========================================================================
+   Stratus theme - Icon tile
+   --------------------------------------------------------------------------
+   A tile is a 6px rounded square on the moderate component fill.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-icontile {
+    --tss-icontile-radius: 6px;
+}

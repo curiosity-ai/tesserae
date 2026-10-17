@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Stratus theme - Segmented pivot
+   --------------------------------------------------------------------------
+   The segmented control: a recessed track in the moderate component fill with
+   3px corners; the selected segment is raised onto the page surface at
+   elevation 1 with navy 700 text, the others are 500 in the neutral colour
+   and take a darker fill on hover.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-segmentedpivot-titlebar {
+    border-radius: var(--tss-border-radius-md);
+    background: var(--tss-str-fill-2);
+    box-shadow: none;
+    padding: 3px;
+    gap: 2px;
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-tab {
+    border-radius: var(--tss-border-radius-sm);
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-semibold);
+    color: var(--tss-default-foreground-color);
+    padding: 6px 16px;
+    transition: background-color var(--tss-str-ease), color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-tab:hover {
+    background: var(--tss-str-fill-3);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-tab:active {
+    background: var(--tss-str-on-fill-2);
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    background: var(--tss-default-background-color);
+    color: var(--tss-str-navy);
+    font-weight: var(--tss-font-weight-bold);
+    box-shadow: var(--tss-str-elev-1);
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-tab.tss-segmentedpivot-selected *:not(.tss-token):not(.tss-token *) {
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-tab:focus-visible,
+body.tss-theme-stratus .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 1px;
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-content > .tss-background-area {
+    border-radius: var(--tss-border-radius-lg);
+}
+
+/* The overflow chevron and the All Tabs button are ghost icon buttons, not outlined ones. */
+body.tss-theme-stratus .tss-segmentedpivot-titlebar-wrapper:not(#_) .tss-btn.tss-btn-default {
+    border-color: transparent;
+    background: transparent;
+    color: var(--tss-str-navy);
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-segmentedpivot-titlebar-wrapper:not(#_) .tss-btn.tss-btn-default:hover {
+    background: var(--tss-default-background-hover-color);
+}

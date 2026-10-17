@@ -1,0 +1,12 @@
+/* ==========================================================================
+   Stratus theme - GridPicker
+   --------------------------------------------------------------------------
+   The cells are the cool-grey wash with 3px corners; the hot ones follow the
+   Tesserae script, so only the shape is set here.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-gridpicker-button {
+    border-radius: 2px;
+    background-color: var(--tss-str-on-fill-2);
+    box-shadow: none;
+}

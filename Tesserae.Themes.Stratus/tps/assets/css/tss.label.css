@@ -1,0 +1,15 @@
+/* ==========================================================================
+   Stratus theme - Label
+   --------------------------------------------------------------------------
+   A field label is 500-weight, 14px, with the language's error red on the
+   required mark.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-label {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-stratus .tss-label .tss-required,
+body.tss-theme-stratus .tss-label-required {
+    color: var(--tss-str-error);
+}

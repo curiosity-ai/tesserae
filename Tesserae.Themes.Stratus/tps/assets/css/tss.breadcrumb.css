@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Stratus theme - Breadcrumb
+   --------------------------------------------------------------------------
+   Ancestors are links in the link blue at weight 400 and underline on hover;
+   the chevrons are the rule grey; the current location (the last item) is the
+   neutral text colour at 700. The items are buttons, so they drop the fill and
+   outline the shared button stylesheet would give them.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-breadcrumb:not(#_) .tss-btn {
+    border-radius: var(--tss-border-radius-sm);
+    border-color: transparent;
+    background: transparent;
+    color: var(--tss-link-color);
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-stratus .tss-breadcrumb:not(#_) .tss-btn .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-stratus .tss-breadcrumb:not(#_) .tss-btn:hover {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-str-navy-hover);
+    text-decoration: underline;
+}
+
+body.tss-theme-stratus .tss-breadcrumb:not(#_) > button.tss-btn:last-of-type {
+    color: var(--tss-default-foreground-color);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+body.tss-theme-stratus .tss-breadcrumb-chevron {
+    color: var(--tss-str-rule);
+}

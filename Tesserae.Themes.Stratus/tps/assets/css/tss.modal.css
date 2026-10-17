@@ -30,3 +30,8 @@ body.tss-theme-stratus .tss-modal-header-commands > .tss-btn:active,
 body.tss-theme-stratus .tss-modal-header-commands > button:active,
 body.tss-theme-stratus .tss-modal-left-header-commands > .tss-btn:active,
 body.tss-theme-stratus .tss-modal-left-header-commands > button:active { color: var(--tss-str-navy); }
+
+/* The title is a TextBlock with its own weight and size, so the rule reaches the children too. */
+body.tss-theme-stratus .tss-modal-header-content,
+body.tss-theme-stratus .tss-modal-header-content > *,
+body.tss-theme-stratus .tss-modal-header-content .tss-textblock { font-weight: var(--tss-font-weight-bold); font-size: var(--tss-font-size-mediumplus); }

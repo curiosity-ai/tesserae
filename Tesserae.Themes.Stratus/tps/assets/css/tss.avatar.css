@@ -1,0 +1,38 @@
+/* ==========================================================================
+   Stratus theme - Avatar
+   --------------------------------------------------------------------------
+   Round, bold initials. A generated avatar drops Tesserae's two-stop hue
+   gradient for a flat fill from the language's saturated hues, still picked
+   from the initials (--tss-avatar-hue), at a lightness that holds white text.
+   Presence is a dot with a 2px ring of the page colour.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-avatar {
+    font-weight: var(--tss-font-weight-bold);
+    background: var(--tss-str-fill-3);
+}
+
+body.tss-theme-stratus .tss-avatar.tss-avatar-generated {
+    background: hsl(var(--tss-avatar-hue), 52%, 38%);
+}
+
+body.tss-theme-stratus .tss-avatar.tss-avatar-generated > .tss-avatar-initials {
+    color: #fff;
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-avatar.tss-avatar-generated {
+    background: hsl(var(--tss-avatar-hue), 70%, 72%);
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-avatar.tss-avatar-generated > .tss-avatar-initials {
+    color: #14171d;
+}
+
+body.tss-theme-stratus .tss-avatar-presence {
+    border-width: 2px;
+}
+
+body.tss-theme-stratus .tss-presence-online { background: var(--tss-str-success); }
+body.tss-theme-stratus .tss-presence-away   { background: var(--tss-str-warning); }
+body.tss-theme-stratus .tss-presence-busy   { background: var(--tss-str-error); }
+body.tss-theme-stratus .tss-presence-offline { background: var(--tss-dark-border-color); }

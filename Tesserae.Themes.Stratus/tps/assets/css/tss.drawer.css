@@ -3,3 +3,6 @@ body.tss-theme-stratus .tss-drawer { box-shadow: var(--tss-str-elev-6); backgrou
 body.tss-theme-stratus .tss-drawer-handle-bar { background: var(--tss-dark-border-color); }
 body.tss-theme-stratus .tss-drawer-header { border-bottom: 1px solid var(--tss-default-separator-color); padding-left: 24px; font-weight: var(--tss-font-weight-bold); }
 body.tss-theme-stratus .tss-drawer-close { border-radius: var(--tss-border-radius-sm); }
+
+body.tss-theme-stratus .tss-drawer-title > *,
+body.tss-theme-stratus .tss-drawer-title .tss-textblock { font-weight: var(--tss-font-weight-bold); }

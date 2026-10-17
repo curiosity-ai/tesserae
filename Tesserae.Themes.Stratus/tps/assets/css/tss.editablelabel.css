@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Stratus theme - EditableLabel
+   --------------------------------------------------------------------------
+   Reading is plain text with a neutral wash on hover; editing is the field
+   of the language (filled slab, rule, 3px focus ring).
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-editablelabel-displaybox {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-editablelabel-textbox {
+    min-height: 40px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 3px 3px 0 0;
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-editablelabel-cancel-icon {
+    color: var(--tss-str-error);
+    border-radius: var(--tss-border-radius-sm);
+}

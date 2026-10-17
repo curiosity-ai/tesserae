@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Stratus theme - Keyboard shortcut
+   --------------------------------------------------------------------------
+   A key cap: 3px corners, the moderate component fill, a 1px rule and a 2px
+   foot, set in Roboto Mono.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-kbd-key {
+    border-radius: 3px;
+    background: var(--tss-str-fill);
+    border: 1px solid var(--tss-default-border-color);
+    border-bottom-width: 2px;
+    border-bottom-color: var(--tss-str-rule);
+    box-shadow: none;
+    color: var(--tss-default-foreground-color);
+    font-family: var(--tss-monospace-font-family);
+    font-weight: var(--tss-font-weight-semibold);
+}

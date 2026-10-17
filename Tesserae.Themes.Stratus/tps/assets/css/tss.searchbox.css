@@ -93,3 +93,8 @@ body.tss-theme-stratus .tss-searchbox-failed-icon {
 body.tss-theme-stratus .tss-searchbox-progress {
     height: 3px;
 }
+
+/* The container draws the ring (:focus-within); the input inside adds none. */
+body.tss-theme-stratus .tss-searchbox:focus-visible {
+    outline: none;
+}

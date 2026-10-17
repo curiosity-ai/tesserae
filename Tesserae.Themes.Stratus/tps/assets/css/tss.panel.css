@@ -8,3 +8,6 @@ body.tss-theme-stratus .tss-panel-command-button:hover { outline: none; }
 body.tss-theme-stratus .tss-panel-command-button:active { color: var(--tss-str-navy); outline: none; }
 body.tss-theme-stratus .tss-panel-command-button:focus-visible { outline: 2px solid var(--tss-str-focus); outline-offset: 0; }
 body.tss-theme-stratus .tss-panel-inner { padding: 24px; }
+
+body.tss-theme-stratus .tss-panel-title > *,
+body.tss-theme-stratus .tss-panel-title .tss-textblock { font-weight: var(--tss-font-weight-bold); font-size: var(--tss-font-size-mediumplus); }

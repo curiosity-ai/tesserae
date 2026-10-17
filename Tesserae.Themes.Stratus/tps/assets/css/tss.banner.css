@@ -5,16 +5,16 @@ body.tss-theme-stratus .tss-banner {
     --tss-banner-accent: var(--tss-str-info);
     --tss-banner-title-color: var(--tss-default-foreground-color);
     --tss-banner-text-color: var(--tss-default-foreground-color);
-    --tss-banner-surface: var(--tss-str-info-soft);
+    --tss-banner-surface: color-mix(in srgb, var(--tss-str-info) 11%, var(--tss-default-background-color));
     --tss-banner-border-color: transparent;
     border: 0;
     border-left: 4px solid var(--tss-banner-accent);
     border-radius: var(--tss-border-radius-sm);
 }
-body.tss-theme-stratus .tss-banner-primary { --tss-banner-accent: var(--tss-str-info); --tss-banner-surface: var(--tss-str-info-soft); }
-body.tss-theme-stratus .tss-banner-success { --tss-banner-accent: var(--tss-str-success); --tss-banner-surface: var(--tss-str-success-soft); }
-body.tss-theme-stratus .tss-banner-danger  { --tss-banner-accent: var(--tss-str-error);   --tss-banner-surface: var(--tss-str-error-soft); }
-body.tss-theme-stratus .tss-banner-warning { --tss-banner-accent: var(--tss-str-warning); --tss-banner-surface: var(--tss-str-warning-soft); }
+body.tss-theme-stratus .tss-banner-primary { --tss-banner-accent: var(--tss-str-info); --tss-banner-surface: color-mix(in srgb, var(--tss-str-info) 11%, var(--tss-default-background-color)); }
+body.tss-theme-stratus .tss-banner-success { --tss-banner-accent: var(--tss-str-success); --tss-banner-surface: color-mix(in srgb, var(--tss-str-success) 11%, var(--tss-default-background-color)); }
+body.tss-theme-stratus .tss-banner-danger  { --tss-banner-accent: var(--tss-str-error);   --tss-banner-surface: color-mix(in srgb, var(--tss-str-error) 11%, var(--tss-default-background-color)); }
+body.tss-theme-stratus .tss-banner-warning { --tss-banner-accent: var(--tss-str-warning); --tss-banner-surface: color-mix(in srgb, var(--tss-str-warning) 11%, var(--tss-default-background-color)); }
 body.tss-theme-stratus .tss-banner-primary,
 body.tss-theme-stratus .tss-banner-success,
 body.tss-theme-stratus .tss-banner-warning,

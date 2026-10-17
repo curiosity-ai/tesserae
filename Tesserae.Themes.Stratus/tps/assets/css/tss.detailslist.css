@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Stratus theme - Details list (table)
+   --------------------------------------------------------------------------
+   The data table of the language: a header row on the tinted surface with 700
+   labels and a 1px rule under it, rows divided by 1px separators, hover the
+   neutral fill, and rows that are selected (aria-selected / .tss-selected) the
+   soft blue wash. The sort arrow is the accent.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-detailslist-header {
+    background: var(--tss-str-on-fill);
+    box-shadow: inset 0 -1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-detailslist-column-header {
+    font-weight: var(--tss-font-weight-bold);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-detailslist-column-header:hover {
+    background: var(--tss-str-on-fill-2);
+}
+
+body.tss-theme-stratus .tss-detailslist-column-header-sorting-icon {
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-detailslist-list-item-container {
+    border-top-color: var(--tss-default-separator-color);
+    transition: background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-detailslist-list-item-container:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-detailslist-list-item-container.tss-selected,
+body.tss-theme-stratus .tss-detailslist-list-item-container[aria-selected="true"] {
+    background-color: var(--tss-default-background-active-color);
+    box-shadow: inset 3px 0 0 0 var(--tss-str-navy);
+}

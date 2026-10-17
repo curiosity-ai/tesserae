@@ -1,0 +1,22 @@
+/* ==========================================================================
+   Stratus theme - ColorPalette
+   --------------------------------------------------------------------------
+   Round swatches; hover and selection use the focus blue, with the 2px gap
+   to the page that the focus ring of the language has.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-colorpalette-swatch {
+    box-shadow: 0 0 0 1px var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-colorpalette-swatch:hover {
+    box-shadow: 0 0 0 2px var(--tss-str-blue);
+}
+
+body.tss-theme-stratus .tss-colorpalette-swatch:focus-visible {
+    outline-color: var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-colorpalette-swatch.tss-selected {
+    box-shadow: 0 0 0 2px var(--tss-default-background-color), 0 0 0 4px var(--tss-str-focus);
+}

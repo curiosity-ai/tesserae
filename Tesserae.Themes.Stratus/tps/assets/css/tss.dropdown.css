@@ -195,3 +195,24 @@ body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-searchbox .tss-searchbo
     height: 36px;
     line-height: 36px;
 }
+
+/* An option's content is often a Button (the box shows a clone of it). Inside a dropdown it is just the
+   label: flat, no outline, the text colour and weight of the row. */
+body.tss-theme-stratus .tss-dropdown-item-on-box .tss-btn,
+body.tss-theme-stratus .tss-dropdown-item .tss-btn {
+    border: 0 !important;
+    background: transparent !important;
+    color: inherit !important;
+    font-weight: var(--tss-font-weight-regular) !important;
+    box-shadow: none !important;
+}
+
+body.tss-theme-stratus .tss-dropdown-item-on-box .tss-btn .tss-fontcolor-default,
+body.tss-theme-stratus .tss-dropdown-item .tss-btn .tss-fontcolor-default {
+    color: inherit !important;
+}
+
+/* The ring is drawn on the container (above); the focusable box inside it must not add its own outline. */
+body.tss-theme-stratus .tss-dropdown-container > .tss-dropdown:focus-visible {
+    outline: none;
+}

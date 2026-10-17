@@ -1,0 +1,14 @@
+/* ==========================================================================
+   Stratus theme - Inline label
+   --------------------------------------------------------------------------
+   An inline mention keeps 3px corners and takes the hover wash in the
+   language's selected tint.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-inlinelabel {
+    border-radius: var(--tss-border-radius-sm);
+}
+
+body.tss-theme-stratus .tss-inlinelabel-image {
+    border-radius: var(--tss-border-radius-sm);
+}

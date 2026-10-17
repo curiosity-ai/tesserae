@@ -1,0 +1,16 @@
+/* ==========================================================================
+   Stratus theme - Chat
+   --------------------------------------------------------------------------
+   A user bubble is a 6px slab in the selected wash (the accent tint) rather
+   than an 18px pill; the scroll-to-bottom button rides on elevation level 2.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-chat-right .tss-chatmessage-bubble {
+    border-radius: var(--tss-border-radius-lg);
+    background: var(--tss-default-background-active-color);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-chatarea-scrollbtn {
+    box-shadow: var(--tss-str-elev-2);
+}

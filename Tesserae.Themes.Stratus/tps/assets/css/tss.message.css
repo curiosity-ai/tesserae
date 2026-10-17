@@ -4,10 +4,10 @@ body.tss-theme-stratus .tss-message-icon { background: var(--tss-str-on-fill); c
 body.tss-theme-stratus .tss-message-title { font-weight: var(--tss-font-weight-bold); }
 body.tss-theme-stratus .tss-message-text { color: var(--tss-secondary-foreground-color); }
 body.tss-theme-stratus .tss-message-info, body.tss-theme-stratus .tss-message-success, body.tss-theme-stratus .tss-message-warning, body.tss-theme-stratus .tss-message-error { border-radius: var(--tss-border-radius-sm); border: 0; border-left: 4px solid transparent; }
-body.tss-theme-stratus .tss-message-info    { background-color: var(--tss-str-info-soft);    border-left-color: var(--tss-str-info); }
-body.tss-theme-stratus .tss-message-success { background-color: var(--tss-str-success-soft); border-left-color: var(--tss-str-success); }
-body.tss-theme-stratus .tss-message-warning { background-color: var(--tss-str-warning-soft); border-left-color: var(--tss-str-warning); }
-body.tss-theme-stratus .tss-message-error   { background-color: var(--tss-str-error-soft);   border-left-color: var(--tss-str-error); }
+body.tss-theme-stratus .tss-message-info    { background-color: color-mix(in srgb, var(--tss-str-info) 11%, var(--tss-default-background-color));    border-left-color: var(--tss-str-info); }
+body.tss-theme-stratus .tss-message-success { background-color: color-mix(in srgb, var(--tss-str-success) 11%, var(--tss-default-background-color)); border-left-color: var(--tss-str-success); }
+body.tss-theme-stratus .tss-message-warning { background-color: color-mix(in srgb, var(--tss-str-warning) 11%, var(--tss-default-background-color)); border-left-color: var(--tss-str-warning); }
+body.tss-theme-stratus .tss-message-error   { background-color: color-mix(in srgb, var(--tss-str-error) 11%, var(--tss-default-background-color));   border-left-color: var(--tss-str-error); }
 body.tss-theme-stratus.tss-dark-mode .tss-message-info,
 body.tss-theme-stratus.tss-dark-mode .tss-message-success,
 body.tss-theme-stratus.tss-dark-mode .tss-message-warning,
