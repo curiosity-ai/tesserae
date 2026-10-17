@@ -1,0 +1,6 @@
+/* Stratus theme - Metric: the title is secondary text, the value bold; a clickable tile washes with 3px corners. */
+body.tss-theme-stratus .tss-metric-title { color: var(--tss-secondary-foreground-color); }
+body.tss-theme-stratus .tss-metric-value { font-weight: var(--tss-font-weight-bold); }
+body.tss-theme-stratus .tss-metric-clickable { border-radius: var(--tss-border-radius-sm); }
+body.tss-theme-stratus .tss-metric-clickable:hover { background: var(--tss-default-background-hover-color); box-shadow: 0 0 0 6px var(--tss-default-background-hover-color); }
+body.tss-theme-stratus .tss-metric-clickable:focus-visible { outline: 2px solid var(--tss-str-focus); }

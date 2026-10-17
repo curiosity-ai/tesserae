@@ -1,0 +1,2 @@
+/* Stratus theme - SectionStack: section cards are 6px, elevation 1. */
+body.tss-theme-stratus .tss-sectionstack-card { border-radius: var(--tss-border-radius-lg); box-shadow: var(--tss-str-elev-1); }

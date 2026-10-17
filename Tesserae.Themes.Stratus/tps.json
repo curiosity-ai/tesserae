@@ -1,0 +1,38 @@
+{
+    "output": "$(OutDir)/tps/",
+    "outputBy": "Module",
+    "reflection": {
+        "disabled": true,
+        "target": "file"
+    },
+    "resources": [
+        {
+            "name": "tss-theme-stratus.css",
+            "load": false,
+            "files": [
+                "tps/assets/css/tss.fonts.css",
+                "tps/assets/css/tss.common.css",
+                "tps/assets/css/tss.button.css",
+                "tps/assets/css/tss.textbox.css",
+                "tps/assets/css/tss.textarea.css",
+                "tps/assets/css/tss.card.css",
+                "tps/assets/css/tss.expander.css",
+                "tps/assets/css/tss.checkbox.css",
+                "tps/assets/css/tss.choice.css",
+                "tps/assets/css/tss.searchbox.css",
+                "tps/assets/css/tss.sectiontitle.css",
+                "tps/assets/css/tss.sectionstack.css",
+                "tps/assets/css/tss.sidebar.css",
+                "tps/assets/css/tss.toggle.css"
+            ],
+            "output": "assets/css"
+        },
+        {
+            "name": "fonts",
+            "files": [
+                "tps/assets/fonts/*"
+            ],
+            "output": "assets/fonts/stratus/"
+        }
+    ]
+}

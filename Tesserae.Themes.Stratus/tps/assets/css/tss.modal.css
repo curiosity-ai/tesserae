@@ -1,0 +1,32 @@
+/* Stratus theme - Modal: an 8px sheet at elevation 6 over a veil of the page's ink at 32% (56% in dark);
+   the header carries a bold 20px title and a rule beneath, the footer a rule above, and the corner
+   commands are 32px ghost squares with a 3px corner. */
+body.tss-theme-stratus .tss-modal-container { backdrop-filter: none; }
+
+body.tss-theme-stratus .tss-modal {
+    border-radius: var(--tss-border-radius-xl);
+    box-shadow: var(--tss-str-elev-6);
+    background-color: var(--tss-str-elevated-surface);
+    outline-color: transparent;
+}
+
+body.tss-theme-stratus .tss-modal.tss-embedded { box-shadow: var(--tss-str-elev-1); border-radius: var(--tss-border-radius-lg); }
+
+body.tss-theme-stratus .tss-modal-header,
+body.tss-theme-stratus .tss-modal-footer { background: var(--tss-str-elevated-surface); padding-left: 24px; padding-right: 24px; }
+
+body.tss-theme-stratus .tss-modal-header { padding-top: 8px; border-bottom: 1px solid var(--tss-default-separator-color); }
+body.tss-theme-stratus .tss-modal-footer { padding-top: 8px; padding-bottom: 8px; border-top: 1px solid var(--tss-default-separator-color); }
+body.tss-theme-stratus .tss-modal-header-content { font-weight: var(--tss-font-weight-bold); font-size: var(--tss-font-size-mediumplus); }
+body.tss-theme-stratus .tss-modal-content { padding: 16px 24px; }
+body.tss-theme-stratus .tss-modal-footer-commands > .tss-btn + .tss-btn { margin-left: 8px; }
+
+body.tss-theme-stratus .tss-modal-header-commands > .tss-btn,
+body.tss-theme-stratus .tss-modal-header-commands > button,
+body.tss-theme-stratus .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-stratus .tss-modal-left-header-commands > button { border-radius: var(--tss-border-radius-sm); }
+
+body.tss-theme-stratus .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-stratus .tss-modal-header-commands > button:active,
+body.tss-theme-stratus .tss-modal-left-header-commands > .tss-btn:active,
+body.tss-theme-stratus .tss-modal-left-header-commands > button:active { color: var(--tss-str-navy); }

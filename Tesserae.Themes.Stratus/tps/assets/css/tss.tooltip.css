@@ -1,0 +1,3 @@
+/* Stratus theme - Tooltip: a 3px dark-neutral label (light on dark in dark mode) at elevation 2, 12px text. */
+body.tss-theme-stratus .tippy-box { border-radius: var(--tss-border-radius-sm); box-shadow: var(--tss-str-elev-2); font-size: var(--tss-font-size-xsmall); font-weight: var(--tss-font-weight-semibold); line-height: 16px; }
+body.tss-theme-stratus .tippy-box[data-theme~='tss-popover'] { box-shadow: none; border-radius: 0; font-size: var(--tss-font-size-small); font-weight: inherit; }

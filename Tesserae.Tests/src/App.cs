@@ -8,6 +8,7 @@ using Tesserae;
 using Tesserae.Tests.Samples;
 using Tesserae.Tests;
 using Tesserae.Themes.Curiosity;
+using Tesserae.Themes.Stratus;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 
@@ -19,6 +20,7 @@ namespace Tesserae.Tests
         private const string _themeKey            = "tss-sample-theme";
         private const string _defaultThemeId      = "default";
         private const string _curiosityThemeId    = "curiosity";
+        private const string _stratusThemeId      = "stratus";
 
         private static void Main()
         {
@@ -51,15 +53,16 @@ namespace Tesserae.Tests
             // The gallery opens in the Curiosity theme unless the visitor picked the default one before.
             // The page is kept invisible until the theme's stylesheet has arrived, so the first paint is
             // already themed instead of flashing the default look for a frame.
-            var initialThemeId = localStorage.getItem(_themeKey) == _defaultThemeId ? _defaultThemeId : _curiosityThemeId;
+            var storedThemeId  = localStorage.getItem(_themeKey);
+            var initialThemeId = storedThemeId == _defaultThemeId || storedThemeId == _stratusThemeId ? storedThemeId : _curiosityThemeId;
 
-            if (initialThemeId == _curiosityThemeId)
+            if (initialThemeId != _defaultThemeId)
             {
                 document.body.style.visibility = "hidden";
 
                 async Task ActivateInitialTheme()
                 {
-                    try     { await Theme.SetCustomTheme(CuriosityTheme.Instance); }
+                    try     { await Theme.SetCustomTheme(initialThemeId == _stratusThemeId ? (ICustomTheme)StratusTheme.Instance : CuriosityTheme.Instance); }
                     finally { document.body.style.visibility = ""; }
                 }
 
@@ -193,26 +196,30 @@ namespace Tesserae.Tests
             var themeNav              = new SidebarNav("THEME", UIcons.Palette, "Theme", initiallyCollapsed: true).NotSortable().KeepCollapsedOnSelection();
             var defaultThemeButton    = new SidebarButton("THEME_DEFAULT", UIcons.Square, "Default Theme");
             var curiosityThemeButton  = new SidebarButton("THEME_CURIOSITY", UIcons.SquareSmall, "Curiosity Theme");
+            var stratusThemeButton    = new SidebarButton("THEME_STRATUS", UIcons.Plane, "Stratus Theme");
 
             void MarkTheme(string themeId)
             {
                 defaultThemeButton.IsSelected   = themeId == _defaultThemeId;
                 curiosityThemeButton.IsSelected = themeId == _curiosityThemeId;
+                stratusThemeButton.IsSelected   = themeId == _stratusThemeId;
             }
 
             void SelectTheme(string themeId)
             {
                 localStorage.setItem(_themeKey, themeId);
                 MarkTheme(themeId);
-                Theme.SetCustomTheme(themeId == _curiosityThemeId ? CuriosityTheme.Instance : null).FireAndForget();
+                Theme.SetCustomTheme(themeId == _curiosityThemeId ? (ICustomTheme)CuriosityTheme.Instance : themeId == _stratusThemeId ? StratusTheme.Instance : null).FireAndForget();
             }
 
             defaultThemeButton.OnClick(() => SelectTheme(_defaultThemeId));
             curiosityThemeButton.OnClick(() => SelectTheme(_curiosityThemeId));
+            stratusThemeButton.OnClick(() => SelectTheme(_stratusThemeId));
 
             themeNav.OnClick(() => themeNav.Toggle());
             themeNav.Add(defaultThemeButton);
             themeNav.Add(curiosityThemeButton);
+            themeNav.Add(stratusThemeButton);
             MarkTheme(initialThemeId);
 
             sidebar.AddFooter(themeNav);

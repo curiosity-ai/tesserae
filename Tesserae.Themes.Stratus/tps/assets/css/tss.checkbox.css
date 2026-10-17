@@ -1,0 +1,61 @@
+/* ==========================================================================
+   Stratus theme - CheckBox
+   --------------------------------------------------------------------------
+   A 20px box with 3px corners and a 1px strong-rule edge on the page colour.
+   Hover tints the box with the selected wash; checked fills it navy (soft
+   blue in dark) with a white (ink in dark) tick; keyboard focus is the 2px
+   ring around the box. Disabled is 40%.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-checkbox-container .tss-checkbox-mark {
+    border-radius: var(--tss-border-radius-sm);
+    border: 1px solid var(--tss-str-rule);
+    background-color: var(--tss-default-background-color);
+    transition: background-color var(--tss-str-ease), border-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-checkbox-container:hover .tss-checkbox-mark {
+    background-color: var(--tss-str-blue-soft);
+    border-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-checkbox-container .tss-checkbox-mark:after {
+    border-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-checkbox-container input:checked ~ .tss-checkbox-mark,
+body.tss-theme-stratus .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+    background-color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-stratus .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-checkbox-container input:checked ~ .tss-checkbox-mark:after {
+    border-color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-checkbox-container input:focus-visible ~ .tss-checkbox-mark {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus .tss-checkbox-container.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+    cursor: not-allowed;
+}
+
+body.tss-theme-stratus .tss-checkbox-container.tss-disabled .tss-checkbox-mark,
+body.tss-theme-stratus .tss-checkbox-container.tss-disabled:hover .tss-checkbox-mark {
+    background-color: var(--tss-default-background-color);
+    border-color: var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark {
+    background-color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+}

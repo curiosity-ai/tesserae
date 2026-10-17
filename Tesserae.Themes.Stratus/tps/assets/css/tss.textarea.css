@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Stratus theme - TextArea
+   --------------------------------------------------------------------------
+   The same filled slab and rule as TextBox (tss.textbox.css), at its own
+   height: padding instead of a fixed 40px line.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-textarea.tss-textbox {
+    height: auto;
+    padding: 10px 12px;
+    line-height: 1.5;
+}
+
+body.tss-theme-stratus .tss-textarea-container > .tss-textarea {
+    height: 100%;
+}
+
+body.tss-theme-stratus .tss-textarea-container > .tss-textarea.tss-textarea-autoresize {
+    height: auto;
+}

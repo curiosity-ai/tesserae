@@ -1,0 +1,4 @@
+/* Stratus theme - HorizontalSeparator: the neutral rule, the label in the secondary tone at 14px. */
+body.tss-theme-stratus .tss-horizontalseparator-container { color: var(--tss-secondary-foreground-color); font-size: var(--tss-font-size-small); }
+body.tss-theme-stratus .tss-horizontalseparator-container::before,
+body.tss-theme-stratus .tss-horizontalseparator-container::after { background-color: var(--tss-default-border-color); }

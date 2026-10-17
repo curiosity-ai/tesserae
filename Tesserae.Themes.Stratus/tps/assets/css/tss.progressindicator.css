@@ -1,0 +1,4 @@
+/* Stratus theme - ProgressIndicator: a 4px flat bar, accent on a coolgrey track. */
+body.tss-theme-stratus .tss-progressindicator { height: 4px; border-radius: 9999px; background-color: var(--tss-default-separator-color); }
+body.tss-theme-stratus .tss-progressindicator > .tss-progressindicator-bar { background: var(--tss-str-navy); border-radius: 9999px; }
+body.tss-theme-stratus .tss-progressindicator > .tss-progressindicator-bar-indeterminate { background: linear-gradient(to right, transparent 0%, var(--tss-str-navy) 50%, transparent 100%); }

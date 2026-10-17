@@ -1,0 +1,2 @@
+/* Stratus theme - LiveProgress: secondary text, upright. */
+body.tss-theme-stratus .tss-liveprogress { color: var(--tss-secondary-foreground-color); font-style: normal; font-size: var(--tss-font-size-xsmall); }

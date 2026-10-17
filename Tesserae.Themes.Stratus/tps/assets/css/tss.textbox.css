@@ -1,0 +1,91 @@
+/* ==========================================================================
+   Stratus theme - TextBox
+   --------------------------------------------------------------------------
+   A text field is a filled slab with a 1px rule underneath, rounded on its
+   top corners only. Hover shifts the fill one tone; focus tints it with the
+   selected wash and swaps the rule for a 3px ring in the focus colour. An
+   invalid field takes the error colour on the rule (and on focus the ring).
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-textbox {
+    height: 40px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 3px 3px 0 0;
+    background: var(--tss-str-fill);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+    transition: box-shadow var(--tss-str-ease), background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-textbox:hover {
+    border: 0;
+    background: var(--tss-default-background-hover-color);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-textbox:focus,
+body.tss-theme-stratus .tss-textbox:focus-visible {
+    border: 0;
+    outline: none;
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-textbox::placeholder {
+    color: var(--tss-secondary-foreground-color) !important;
+    opacity: 1;
+}
+
+body.tss-theme-stratus .tss-textbox:hover::placeholder,
+body.tss-theme-stratus .tss-textbox:focus::placeholder {
+    opacity: 1;
+}
+
+body.tss-theme-stratus .tss-textbox.tss-disabled {
+    border: 0;
+    background: var(--tss-str-fill);
+    color: var(--tss-default-foreground-color);
+    opacity: .4;
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-textbox-container.tss-invalid .tss-textbox {
+    border: 0;
+    box-shadow: 0 3px 0 0 var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-textbox-container.tss-invalid .tss-textbox:focus {
+    box-shadow: 0 0 0 3px var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-textbox-error {
+    color: var(--tss-str-error);
+    font-size: var(--tss-font-size-xsmall);
+    margin-top: 4px;
+}
+
+/* An input inside a box that draws its own edge stays flat. */
+body.tss-theme-stratus .tss-textbox.tss-textbox-noborder,
+body.tss-theme-stratus .tss-textbox.tss-textbox-noborder:hover,
+body.tss-theme-stratus .tss-textbox.tss-textbox-noborder:focus {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+body.tss-theme-stratus .tss-textblock table {
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: none;
+    border: 1px solid var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-textblock table thead {
+    background-color: var(--tss-str-on-fill);
+}
+
+body.tss-theme-stratus .tss-textblock table th {
+    border-bottom: 1px solid var(--tss-default-border-color);
+    color: var(--tss-default-foreground-color);
+    font-weight: var(--tss-font-weight-bold);
+}

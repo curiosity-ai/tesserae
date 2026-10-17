@@ -1,0 +1,64 @@
+/* ==========================================================================
+   Stratus theme - Toggle
+   --------------------------------------------------------------------------
+   A pill track with a round thumb. Off: the strong-rule edge and thumb on the
+   page colour. On: the navy track (soft blue in dark) with a thumb in the
+   on-accent colour. Geometry is Tesserae's; only colours and focus change.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-toggle-container .tss-toggle-mark {
+    background-color: var(--tss-default-background-color);
+    border-color: var(--tss-str-rule);
+    transition: background-color var(--tss-str-ease), border-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-toggle-container .tss-toggle-mark:after {
+    background-color: var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-toggle-container:hover .tss-toggle-mark {
+    background-color: var(--tss-str-blue-soft);
+    border-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-toggle-container:hover .tss-toggle-mark:after {
+    background-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-stratus .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-stratus .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-toggle-container input:checked ~ .tss-toggle-mark:after,
+body.tss-theme-stratus .tss-toggle-container:hover input:checked ~ .tss-toggle-mark:after {
+    background-color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-toggle-container input:focus-visible ~ .tss-toggle-mark {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus .tss-toggle-container.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+    cursor: not-allowed;
+}
+
+body.tss-theme-stratus .tss-toggle-container.tss-disabled .tss-toggle-mark,
+body.tss-theme-stratus .tss-toggle-container.tss-disabled:hover .tss-toggle-mark {
+    background-color: var(--tss-default-background-color);
+    border-color: var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+}

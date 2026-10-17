@@ -1,0 +1,6 @@
+/* Stratus theme - Spinner: the accent arc over a coolgrey track. */
+body.tss-theme-stratus .tss-spinner { --tss-spinner-color: var(--tss-str-navy); border-color: var(--tss-spinner-color) var(--tss-default-separator-color) var(--tss-default-separator-color); }
+body.tss-theme-stratus .tss-spinner.tss-spinner-progress { background: conic-gradient(var(--tss-spinner-color) calc(var(--tss-spinner-progress, 0) * 1%), var(--tss-default-separator-color) 0); }
+body.tss-theme-stratus .tss-spinner-success { --tss-spinner-color: var(--tss-str-success); }
+body.tss-theme-stratus .tss-spinner-danger { --tss-spinner-color: var(--tss-str-error); }
+body.tss-theme-stratus .tss-spinner-label { color: var(--tss-secondary-foreground-color); font-size: var(--tss-font-size-small); }

@@ -1,0 +1,3 @@
+/* Stratus theme - Layer: a floating surface is a 3px-rounded sheet at elevation 2, with no frame. */
+body.tss-theme-stratus .tss-layer-content { border: 0; border-radius: var(--tss-border-radius-md); box-shadow: var(--tss-str-elev-2); }
+body.tss-theme-stratus .tss-layer-content.tss-layer-content-transparent { border: 0; box-shadow: none; }

@@ -1,0 +1,4 @@
+/* Stratus theme - Skeleton: the component-on-background tone with a white sweep. */
+body.tss-theme-stratus .tss-skeleton { background: var(--tss-str-on-fill-2); border-radius: var(--tss-border-radius-sm); }
+body.tss-theme-stratus .tss-skeleton-circle { border-radius: 50%; }
+body.tss-theme-stratus.tss-dark-mode .tss-skeleton-animated::after { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent); }

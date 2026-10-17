@@ -1,0 +1,4 @@
+/* Stratus theme - ProgressRing: the accent over a coolgrey track, label in 700. */
+body.tss-theme-stratus .tss-progressring-track { stroke: var(--tss-default-separator-color); }
+body.tss-theme-stratus .tss-progressring-fill { stroke: var(--tss-str-navy); }
+body.tss-theme-stratus .tss-progressring-label { font-weight: var(--tss-font-weight-bold); font-size: var(--tss-font-size-xsmall); }

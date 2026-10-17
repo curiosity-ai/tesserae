@@ -1,0 +1,64 @@
+/* ==========================================================================
+   Stratus theme - Choice group (radio)
+   --------------------------------------------------------------------------
+   A round 18px mark with a 1px strong-rule edge. Hover washes it blue-soft;
+   checked draws the navy ring with a navy dot (Tesserae's :after is the dot,
+   recoloured here). Keyboard focus is the 2px ring around the mark.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-option-container .tss-option-mark {
+    border: 1px solid var(--tss-str-rule);
+    background-color: var(--tss-default-background-color);
+    transition: border-color var(--tss-str-ease), background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-option-container:hover .tss-option-mark {
+    border-color: var(--tss-str-navy);
+    background-color: var(--tss-str-blue-soft);
+}
+
+body.tss-theme-stratus .tss-option-container .tss-option-mark:after {
+    border-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-option-container input:checked ~ .tss-option-mark {
+    border-color: var(--tss-primary-background-color);
+    background-color: var(--tss-default-background-color);
+}
+
+body.tss-theme-stratus .tss-option-container input:checked ~ .tss-option-mark:after {
+    border-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-stratus .tss-option-container:hover input:checked ~ .tss-option-mark {
+    border-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-option-container:hover input:checked ~ .tss-option-mark:after {
+    border-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-option-container input:focus-visible ~ .tss-option-mark {
+    outline: 2px solid var(--tss-str-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-stratus .tss-option-container.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+    cursor: not-allowed;
+}
+
+body.tss-theme-stratus .tss-option-container.tss-disabled .tss-option-mark,
+body.tss-theme-stratus .tss-option-container.tss-disabled:hover .tss-option-mark {
+    border-color: var(--tss-str-rule);
+    background-color: var(--tss-default-background-color);
+}
+
+body.tss-theme-stratus .tss-option-container.tss-disabled input:checked ~ .tss-option-mark {
+    border-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-stratus .tss-option-container.tss-disabled input:checked ~ .tss-option-mark:after {
+    border-color: var(--tss-primary-background-color);
+}

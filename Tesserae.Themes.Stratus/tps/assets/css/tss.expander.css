@@ -1,0 +1,21 @@
+/* Stratus theme - Expander / Accordion: a bordered 6px panel; the header is a 48px row that washes on hover,
+   and the open header takes the selected tint with an accent chevron. */
+body.tss-theme-stratus .tss-accordion { gap: 0; }
+
+body.tss-theme-stratus .tss-expander {
+    border-radius: var(--tss-border-radius-lg);
+    border-color: var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-accordion > .tss-expander + .tss-expander { margin-top: -1px; border-radius: 0; }
+body.tss-theme-stratus .tss-accordion > .tss-expander:first-child { border-radius: var(--tss-border-radius-lg) var(--tss-border-radius-lg) 0 0; }
+body.tss-theme-stratus .tss-accordion > .tss-expander:last-child:not(:first-child) { border-radius: 0 0 var(--tss-border-radius-lg) var(--tss-border-radius-lg); }
+
+body.tss-theme-stratus .tss-expander-header { min-height: 24px; padding: 12px 16px; transition: background-color var(--tss-str-ease); }
+body.tss-theme-stratus .tss-expander-header:hover { background: var(--tss-default-background-hover-color); }
+body.tss-theme-stratus .tss-expander-header:focus-visible { outline-offset: -2px; }
+body.tss-theme-stratus .tss-expander.tss-expanded > .tss-expander-header { background: var(--tss-default-background-active-color); }
+body.tss-theme-stratus .tss-expander-title { font-weight: var(--tss-font-weight-bold); }
+body.tss-theme-stratus .tss-expander-chevron { color: var(--tss-str-navy); }
+body.tss-theme-stratus .tss-expander-content { border-top-color: var(--tss-default-separator-color); padding: 16px; }
+body.tss-theme-stratus .tss-expander-icon { border-radius: var(--tss-border-radius-sm); }

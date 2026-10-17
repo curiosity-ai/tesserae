@@ -1,0 +1,5 @@
+/* Stratus theme - Dialog: the modal sheet, with the roomier 24px gutters of the language. */
+body.tss-theme-stratus .tss-dialog { border-radius: var(--tss-border-radius-xl); }
+body.tss-theme-stratus .tss-dialog .tss-modal-header { padding: 16px 24px 8px 24px; border-bottom: 0; }
+body.tss-theme-stratus .tss-dialog .tss-modal-content { padding: 0 24px; }
+body.tss-theme-stratus .tss-dialog .tss-modal-footer { padding: 8px 24px 16px 24px; border-top: 0; }
