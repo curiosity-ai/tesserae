@@ -33,7 +33,7 @@ body.tss-theme-retroos {
     /* 50% dither: the Mac's desktop and every mid-tone. */
     --tss-retro-dither: repeating-conic-gradient(rgb(var(--tss-default-foreground-color-root)) 0% 25%, rgb(var(--tss-default-background-color-root)) 0% 50%) 0 0 / 2px 2px;
     /* 25% dither: the lighter tone for tracks and quiet fills. */
-    --tss-retro-dither-light: radial-gradient(rgb(var(--tss-default-foreground-color-root)) 0 0.5px, transparent 0.5px) 0 0 / 2px 2px;
+    --tss-retro-dither-light: conic-gradient(from 0deg at 1px 1px, rgb(var(--tss-default-foreground-color-root)) 0 25%, transparent 0) 0 0 / 2px 2px;
     /* Pinstripes: the title bar. */
     --tss-retro-stripes: repeating-linear-gradient(to bottom, rgb(var(--tss-default-foreground-color-root)) 0 1px, rgb(var(--tss-default-background-color-root)) 1px 2px);
     --tss-retro-hair: 1px solid rgb(var(--tss-default-foreground-color-root));
