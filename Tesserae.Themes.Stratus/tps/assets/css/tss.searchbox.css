@@ -10,6 +10,8 @@
 body.tss-theme-stratus .tss-searchbox-container {
     height: 40px;
     padding: 0 8px;
+    font-weight: var(--tss-font-weight-regular);
+    line-height: 20px;
     border: 0;
     border-radius: 3px 3px 0 0;
     background: var(--tss-str-fill);

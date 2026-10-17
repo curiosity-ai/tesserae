@@ -2,7 +2,7 @@
    Stratus theme - Card pivot
    --------------------------------------------------------------------------
    A strip of tab cards on a single 6px-cornered surface at elevation 1; the
-   selected card carries the 3px navy bar and 700 navy text.
+   selected card carries the 4px navy bar (as the tab indicator) and 700 navy text.
    ========================================================================== */
 
 body.tss-theme-stratus .tss-cardpivot-titlebar {
@@ -13,11 +13,11 @@ body.tss-theme-stratus .tss-cardpivot-titlebar {
 
 body.tss-theme-stratus .tss-cardpivot-tab {
     border-right-color: var(--tss-default-border-color);
-    border-bottom: 3px solid transparent;
+    border-bottom: 4px solid transparent;
 }
 
 body.tss-theme-stratus .tss-cardpivot-tab.tss-cardpivot-selected {
-    border-bottom: 3px solid var(--tss-str-navy);
+    border-bottom: 4px solid var(--tss-str-navy);
     background: var(--tss-default-background-active-color);
     color: var(--tss-str-navy);
 }

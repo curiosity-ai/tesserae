@@ -1,57 +1,81 @@
 /* ==========================================================================
    Stratus theme - Pivot (tabs)
    --------------------------------------------------------------------------
-   Tabs sit on the page with a 1px rule beneath the whole strip. Labels are
-   14px 500 in the corporate navy; the selected tab is 700 with the 3px navy
-   indicator (the sliding .tss-pivot-line) over the rule. Hover is the neutral
-   fill, square corners, focus a ring drawn inside the tab so it is not clipped
-   by the scroller.
+   Measured against the design system's Tab: 40px tall (8px by 16px of padding
+   round a 24px line), square corners, labels 500 in the corporate blue and
+   700 when selected. Every tab carries its own 1px rule along its bottom edge
+   (the strip is only as wide as its tabs, not the page), and the selected tab
+   adds a 4px accent bar over it. Hover is the neutral fill; focus is a ring
+   drawn inside the tab so the scroller does not clip it.
+
+   Tabs are buttons underneath, and the shared button stylesheet sizes, outlines
+   and bolds default buttons, so every rule here that has to win over it
+   carries :not(#_) (an id's worth of specificity).
    ========================================================================== */
+
+body.tss-theme-stratus {
+    --tss-str-corporate: #063b9e;     /* text.accent.corporate, light: primaryblue.70 */
+    --tss-str-tab-rule: #00205b;      /* border.accent.corporate */
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+    --tss-str-corporate: #cfddf8;     /* primaryblue.20 */
+    --tss-str-tab-rule: #cfddf8;
+}
 
 body.tss-theme-stratus .tss-pivot-titlebar-wrapper {
     background: transparent;
-    box-shadow: inset 0 -1px 0 0 var(--tss-default-border-color);
+    box-shadow: none;
 }
 
 body.tss-theme-stratus .tss-pivot-titlebar {
-    color: var(--tss-str-navy);
+    color: var(--tss-str-corporate);
 }
 
 body.tss-theme-stratus .tss-pivot-titlebar > * {
     background: transparent;
 }
 
-body.tss-theme-stratus .tss-pivot-titlebar .tss-btn.tss-pivot-tab {
+body.tss-theme-stratus .tss-pivot-titlebar:not(#_) .tss-btn.tss-pivot-tab {
+    border: 0;
     border-radius: 0;
     min-width: 0;
     min-height: 40px;
     padding: 8px 16px;
+    line-height: 24px;
     margin: 0;
     font-weight: var(--tss-font-weight-semibold);
-    color: var(--tss-str-navy);
+    color: var(--tss-str-corporate);
+    box-shadow: inset 0 -1px 0 0 var(--tss-str-tab-rule);
 }
 
-body.tss-theme-stratus .tss-pivot-titlebar .tss-btn.tss-pivot-tab:hover {
+body.tss-theme-stratus .tss-pivot-titlebar:not(#_) .tss-btn.tss-pivot-tab .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-stratus .tss-pivot-titlebar:not(#_) .tss-btn.tss-pivot-tab:hover {
     background: var(--tss-default-background-hover-color);
+    color: var(--tss-str-corporate);
+    box-shadow: inset 0 -1px 0 0 var(--tss-str-tab-rule);
 }
 
-body.tss-theme-stratus .tss-pivot-titlebar .tss-btn.tss-pivot-tab:active {
+body.tss-theme-stratus .tss-pivot-titlebar:not(#_) .tss-btn.tss-pivot-tab:active {
     background: var(--tss-default-background-active-color);
 }
 
-body.tss-theme-stratus .tss-pivot-titlebar .tss-btn.tss-pivot-tab:focus-visible {
+body.tss-theme-stratus .tss-pivot-titlebar:not(#_) .tss-btn.tss-pivot-tab:focus-visible {
     outline: 2px solid var(--tss-str-focus);
     outline-offset: -2px;
 }
 
-body.tss-theme-stratus .tss-pivot-titlebar > .tss-pivot-selected-title,
-body.tss-theme-stratus .tss-pivot-titlebar > .tss-pivot-selected-title > span,
-body.tss-theme-stratus .tss-pivot-titlebar > .tss-pivot-selected-title > div {
+body.tss-theme-stratus .tss-pivot-titlebar:not(#_) > .tss-pivot-selected-title,
+body.tss-theme-stratus .tss-pivot-titlebar:not(#_) > .tss-pivot-selected-title > span,
+body.tss-theme-stratus .tss-pivot-titlebar:not(#_) > .tss-pivot-selected-title > div {
     font-weight: var(--tss-font-weight-bold);
 }
 
 body.tss-theme-stratus .tss-pivot-line {
-    height: 3px;
+    height: 4px;
     border-radius: 0;
     background-color: var(--tss-str-navy);
 }
@@ -63,12 +87,12 @@ body.tss-theme-stratus .tss-pivot-titlebar-scroll-right {
 }
 
 /* Overflow chevrons and the All Tabs button: ghost icon buttons. */
-body.tss-theme-stratus .tss-pivot-titlebar-wrapper:not(#_) .tss-btn.tss-btn-default {
+body.tss-theme-stratus .tss-pivot-titlebar-wrapper:not(#_) .tss-btn.tss-btn-default:not(.tss-pivot-tab) {
     border-color: transparent;
     background: transparent;
-    color: var(--tss-str-navy);
+    color: var(--tss-str-corporate);
 }
 
-body.tss-theme-stratus .tss-pivot-titlebar-wrapper:not(#_) .tss-btn.tss-btn-default:hover {
+body.tss-theme-stratus .tss-pivot-titlebar-wrapper:not(#_) .tss-btn.tss-btn-default:not(.tss-pivot-tab):hover {
     background: var(--tss-default-background-hover-color);
 }

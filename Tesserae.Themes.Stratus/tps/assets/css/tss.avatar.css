@@ -1,35 +1,49 @@
 /* ==========================================================================
    Stratus theme - Avatar
    --------------------------------------------------------------------------
-   Round, bold initials. A generated avatar drops Tesserae's two-stop hue
-   gradient for a flat fill from the language's saturated hues, still picked
-   from the initials (--tss-avatar-hue), at a lightness that holds white text.
-   Presence is a dot with a 2px ring of the page colour.
+   Measured against the design system's avatar: a round image or, with none,
+   a disc in the strong on-background grey carrying the person in the
+   corporate accent (a deep blue, pale in dark). Tesserae's initials stand in
+   for that figure, so a generated avatar is the same grey disc with its
+   initials in the corporate accent, in bold; --tss-avatar-hue is no longer
+   spent on the fill. Presence is a dot of 22% of the avatar with a 1.5px ring (online green, away
+   yellow, busy red, offline grey).
    ========================================================================== */
+
+body.tss-theme-stratus {
+    --tss-str-avatar-fill: #ced5dd;     /* componentonbackground.strong */
+    --tss-str-avatar-ink: #063b9e;      /* text.accent.corporate */
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+    --tss-str-avatar-fill: #3a3e44;
+    --tss-str-avatar-ink: #cfddf8;
+}
 
 body.tss-theme-stratus .tss-avatar {
     font-weight: var(--tss-font-weight-bold);
-    background: var(--tss-str-fill-3);
+    background: var(--tss-str-avatar-fill);
 }
 
 body.tss-theme-stratus .tss-avatar.tss-avatar-generated {
-    background: hsl(var(--tss-avatar-hue), 52%, 38%);
+    background: var(--tss-str-avatar-fill);
 }
 
-body.tss-theme-stratus .tss-avatar.tss-avatar-generated > .tss-avatar-initials {
-    color: #fff;
+body.tss-theme-stratus .tss-avatar.tss-avatar-generated > .tss-avatar-initials,
+body.tss-theme-stratus .tss-avatar > .tss-avatar-initials {
+    color: var(--tss-str-avatar-ink);
 }
 
-body.tss-theme-stratus.tss-dark-mode .tss-avatar.tss-avatar-generated {
-    background: hsl(var(--tss-avatar-hue), 70%, 72%);
-}
-
-body.tss-theme-stratus.tss-dark-mode .tss-avatar.tss-avatar-generated > .tss-avatar-initials {
-    color: #14171d;
-}
-
+/* The dot is 22% of the avatar (never under 7px), set 6% in from the corner, ringed 1.5px in the page colour. */
 body.tss-theme-stratus .tss-avatar-presence {
-    border-width: 2px;
+    box-sizing: content-box;
+    width: 22%;
+    height: 22%;
+    min-width: 7px;
+    min-height: 7px;
+    right: 6%;
+    bottom: 6%;
+    border-width: 1.5px;
 }
 
 body.tss-theme-stratus .tss-presence-online { background: var(--tss-str-success); }

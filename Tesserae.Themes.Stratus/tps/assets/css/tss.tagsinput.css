@@ -9,6 +9,7 @@
 body.tss-theme-stratus .tss-tagsinput {
     min-height: 40px;
     padding: 4px 8px;
+    font-weight: var(--tss-font-weight-regular);
     border: 0;
     border-radius: 3px 3px 0 0;
     background: var(--tss-str-fill);

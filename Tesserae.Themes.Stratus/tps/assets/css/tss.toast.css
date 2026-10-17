@@ -1,5 +1,47 @@
-/* Stratus theme - Toast: the banner floated at elevation 2, 3px corners; the banner supplies tone and bar. */
-body.tss-theme-stratus .tss-toast-container { border-radius: var(--tss-border-radius-sm); box-shadow: var(--tss-str-elev-2); background: var(--tss-str-elevated-surface); }
-body.tss-theme-stratus .tss-toast-container:hover { box-shadow: var(--tss-str-elev-3); }
-body.tss-theme-stratus .tss-toast-container > .tss-banner { border-radius: inherit; }
+/* ==========================================================================
+   Stratus theme - Toast
+   --------------------------------------------------------------------------
+   The language's toast is not a coloured strip: it is a 328px-wide surface at
+   elevation level 6 with 3px corners, an 8px bar of the tone down its leading
+   edge, and the text in the default colour. A Tesserae toast holds a Banner,
+   so inside the toast the banner stops being a solid strip: it takes the
+   surface, draws the bar in its tone and puts the glyph in the tone.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-toast-container {
+    width: 328px;
+    border-radius: var(--tss-border-radius-sm);
+    box-shadow: var(--tss-str-elev-6);
+    background: var(--tss-str-surface-6, var(--tss-default-background-color));
+}
+body.tss-theme-stratus .tss-toast-container:hover { box-shadow: var(--tss-str-elev-8); }
+body.tss-theme-stratus .tss-toast-topcenter > .tss-toast-container,
+body.tss-theme-stratus .tss-toast-bottomcenter > .tss-toast-container { min-width: 328px; }
+
+body.tss-theme-stratus .tss-toast-container > .tss-banner {
+    --tss-banner-surface: var(--tss-str-surface-6, var(--tss-default-background-color));
+    --tss-banner-text-color: var(--tss-default-foreground-color);
+    --tss-banner-title-color: var(--tss-default-foreground-color);
+    --tss-banner-accent: var(--tss-banner-tone);
+    min-height: 40px;
+    padding: 8px 16px 8px 24px;
+    border-left: 8px solid var(--tss-banner-tone);
+    border-radius: inherit;
+    font-weight: var(--tss-font-weight-regular);
+}
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-banner-title { font-size: var(--tss-font-size-smallplus); line-height: 24px; }
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-banner-text { font-weight: var(--tss-font-weight-regular); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-icontile.tss-banner-icon-tile { color: var(--tss-banner-tone); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner.tss-banner-warning .tss-icontile.tss-banner-icon-tile { color: var(--tss-str-warning-text); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-banner-badge-pill.tss-badge { background: var(--tss-banner-tone); color: var(--tss-primary-foreground-color); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner.tss-banner-warning .tss-banner-badge-pill.tss-badge { color: var(--tss-warning-foreground-color); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-banner-action .tss-btn,
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-banner-action .tss-btn.tss-btn-default:not(.tss-disabled) { color: var(--tss-link-color); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-banner-action .tss-btn:hover,
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-banner-action .tss-btn.tss-btn-default:not(.tss-disabled):hover { background: var(--tss-default-background-hover-color); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-btn.tss-btn-default.tss-banner-dismiss-button:not(.tss-disabled),
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-btn.tss-btn-default.tss-banner-dismiss-button:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-btn.tss-btn-default.tss-banner-dismiss-button:not(.tss-disabled):active { color: var(--tss-default-foreground-color); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner .tss-btn.tss-btn-default.tss-banner-dismiss-button:not(.tss-disabled):hover { background: var(--tss-default-background-hover-color); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner :focus-visible { outline-color: var(--tss-str-focus); }
 body.tss-theme-stratus .tss-toast-fullwidth.tss-toast > .tss-toast-container { border-radius: 0; }

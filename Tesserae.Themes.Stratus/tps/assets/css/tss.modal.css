@@ -1,25 +1,35 @@
-/* Stratus theme - Modal: an 8px sheet at elevation 6 over a veil of the page's ink at 32% (56% in dark);
-   the header carries a bold 20px title and a rule beneath, the footer a rule above, and the corner
-   commands are 32px ghost squares with a 3px corner. */
+/* ==========================================================================
+   Stratus theme - Modal
+   --------------------------------------------------------------------------
+   The language's dialog surface: 6px corners at elevation level 6 on the
+   elevation-6 fill (white; the lightest dark surface in dark mode), with 24px
+   gutters. The title is 20px on a 32px line, 16px sits between the title and
+   the content, 32px between the content and the actions, and 24px below the
+   actions. There are no rules between the parts. The veil is the page's ink
+   at 32% (56% in dark).
+   ========================================================================== */
+
+body.tss-theme-stratus { --tss-str-surface-6: #ffffff; }
+body.tss-theme-stratus.tss-dark-mode { --tss-str-surface-6: #32353b; }
+
 body.tss-theme-stratus .tss-modal-container { backdrop-filter: none; }
 
 body.tss-theme-stratus .tss-modal {
-    border-radius: var(--tss-border-radius-xl);
+    border-radius: var(--tss-border-radius-lg);
     box-shadow: var(--tss-str-elev-6);
-    background-color: var(--tss-str-elevated-surface);
+    background-color: var(--tss-str-surface-6);
     outline-color: transparent;
 }
 
 body.tss-theme-stratus .tss-modal.tss-embedded { box-shadow: var(--tss-str-elev-1); border-radius: var(--tss-border-radius-lg); }
 
 body.tss-theme-stratus .tss-modal-header,
-body.tss-theme-stratus .tss-modal-footer { background: var(--tss-str-elevated-surface); padding-left: 24px; padding-right: 24px; }
+body.tss-theme-stratus .tss-modal-footer { background: var(--tss-str-surface-6); padding-left: 24px; padding-right: 24px; }
 
-body.tss-theme-stratus .tss-modal-header { padding-top: 8px; border-bottom: 1px solid var(--tss-default-separator-color); }
-body.tss-theme-stratus .tss-modal-footer { padding-top: 8px; padding-bottom: 8px; border-top: 1px solid var(--tss-default-separator-color); }
-body.tss-theme-stratus .tss-modal-header-content { font-weight: var(--tss-font-weight-bold); font-size: var(--tss-font-size-mediumplus); }
+body.tss-theme-stratus .tss-modal-header { padding-top: 24px; padding-bottom: 0; min-height: 32px; border-bottom: 0; }
+body.tss-theme-stratus .tss-modal-footer { padding-top: 16px; padding-bottom: 24px; border-top: 0; }
 body.tss-theme-stratus .tss-modal-content { padding: 16px 24px; }
-body.tss-theme-stratus .tss-modal-footer-commands > .tss-btn + .tss-btn { margin-left: 8px; }
+body.tss-theme-stratus .tss-modal-footer-commands > .tss-btn + .tss-btn { margin-left: 16px; }
 
 body.tss-theme-stratus .tss-modal-header-commands > .tss-btn,
 body.tss-theme-stratus .tss-modal-header-commands > button,
@@ -34,4 +44,4 @@ body.tss-theme-stratus .tss-modal-left-header-commands > button:active { color: 
 /* The title is a TextBlock with its own weight and size, so the rule reaches the children too. */
 body.tss-theme-stratus .tss-modal-header-content,
 body.tss-theme-stratus .tss-modal-header-content > *,
-body.tss-theme-stratus .tss-modal-header-content .tss-textblock { font-weight: var(--tss-font-weight-bold); font-size: var(--tss-font-size-mediumplus); }
+body.tss-theme-stratus .tss-modal-header-content .tss-textblock { font-weight: var(--tss-font-weight-bold); font-size: var(--tss-font-size-mediumplus); line-height: 32px; }

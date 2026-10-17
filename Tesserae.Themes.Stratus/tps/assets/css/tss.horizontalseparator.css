@@ -1,4 +1,11 @@
-/* Stratus theme - HorizontalSeparator: the neutral rule, the label in the secondary tone at 14px. */
-body.tss-theme-stratus .tss-horizontalseparator-container { color: var(--tss-secondary-foreground-color); font-size: var(--tss-font-size-small); }
+/* Stratus theme - HorizontalSeparator: the divider is a 1px rule in the mid cool grey (the light grey in dark
+   mode) with 8px above and below; a label sits on it in the secondary tone at 14px. */
+body.tss-theme-stratus .tss-horizontalseparator-container {
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-small);
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
 body.tss-theme-stratus .tss-horizontalseparator-container::before,
-body.tss-theme-stratus .tss-horizontalseparator-container::after { background-color: var(--tss-default-border-color); }
+body.tss-theme-stratus .tss-horizontalseparator-container::after { background-color: var(--tss-str-panel-border, #919cb0); }
+body.tss-theme-stratus .tss-horizontalseparator { color: var(--tss-secondary-foreground-color); }

@@ -1,10 +1,12 @@
 /* ==========================================================================
    Stratus theme - Sidebar
    --------------------------------------------------------------------------
-   The side navigation of the language: flat rows on a quiet surface, 3px
-   corners, 14px labels. The selected row is the soft blue wash with navy
-   text and a 3px navy bar on its left edge; hover is the neutral fill. A nav
-   group's header reads as a section, not a destination.
+   The side navigation of the language, measured against the design system's
+   SideNav: flat rows with 14px labels in the corporate blue, 12px of padding
+   round a 20px line (the design system's 44px row is held to 40px here, since a
+   Tesserae sidebar usually carries many more rows). The selected row is bold on
+   the soft blue wash, with no bar; hover is the neutral fill. A nav group's
+   header reads as a section, not a destination.
 
    Rows are buttons underneath, and the shared button stylesheet outlines and
    bolds default buttons, so every rule here carries :not(#_) (an id's worth of
@@ -12,11 +14,13 @@
    ========================================================================== */
 
 body.tss-theme-stratus .tss-sidebar {
-    border-right: 1px solid var(--tss-default-border-color);
+    border-right: 0;
+    background: var(--tss-str-elevated-surface);
+    box-shadow: var(--tss-str-elev-1);
 }
 
 body.tss-theme-stratus .tss-sidebar.tss-sidebar-page {
-    border-right: 0;
+    box-shadow: none;
 }
 
 /* Flat rows: no outline, regular weight, the neutral label colour. */
@@ -24,9 +28,13 @@ body.tss-theme-stratus .tss-sidebar:not(#_) .tss-btn.tss-btn-default,
 body.tss-theme-stratus .tss-navbar-drawer:not(#_) .tss-btn.tss-btn-default {
     border-color: transparent;
     background: transparent;
-    color: var(--tss-default-foreground-color);
+    color: var(--tss-str-corporate);
     font-weight: var(--tss-font-weight-regular);
-    border-radius: var(--tss-border-radius-sm);
+    border-radius: 0;
+    min-height: 40px;
+    line-height: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 body.tss-theme-stratus .tss-sidebar:not(#_) .tss-btn.tss-btn-default:not(.tss-disabled):hover,
@@ -43,6 +51,15 @@ body.tss-theme-stratus .tss-sidebar:not(#_) .tss-btn.tss-btn-default:not(.tss-di
 
 body.tss-theme-stratus .tss-sidebar:not(#_) .tss-btn.tss-btn-default .tss-fontcolor-default {
     color: inherit;
+}
+
+/* Row size: 40px tall with 12px side padding (the design system's row is 44px). The base sidebar fixes row
+   height at 28px with !important, so the open rail's rows restate it. The closed rail keeps its tiles. */
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn,
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn {
+    height: 40px !important;
+    padding-left: 12px;
+    padding-right: 12px;
 }
 
 /* The pointer stays on a row while its commands are on screen. */
@@ -63,9 +80,9 @@ body.tss-theme-stratus.tss-dark-mode .tss-sidebar:not(#_) .tss-sidebar-btn-open.
 body.tss-theme-stratus.tss-dark-mode .tss-sidebar:not(#_) .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) {
     background: var(--tss-default-background-active-color);
     border-color: transparent;
-    color: var(--tss-str-navy);
-    font-weight: var(--tss-font-weight-semibold);
-    box-shadow: inset 3px 0 0 0 var(--tss-str-navy);
+    color: var(--tss-str-corporate);
+    font-weight: var(--tss-font-weight-bold);
+    box-shadow: none;
 }
 
 body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
@@ -73,10 +90,10 @@ body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-se
 body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
 body.tss-theme-stratus.tss-dark-mode .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
 body.tss-theme-stratus.tss-dark-mode .tss-sidebar:not(#_) .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled) {
-    background: var(--tss-str-blue-tint);
-    color: var(--tss-str-navy);
+    background: var(--tss-default-background-active-color);
+    color: var(--tss-str-corporate);
     border-color: transparent;
-    box-shadow: inset 3px 0 0 0 var(--tss-str-navy);
+    box-shadow: none;
 }
 
 /* A nav group is a section: it takes the neutral hover, never the selected wash or bar. */
@@ -86,13 +103,13 @@ body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav.tss-sidebar-selecte
 body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
     background: transparent;
     border-color: transparent;
-    color: var(--tss-default-foreground-color);
+    color: var(--tss-str-corporate);
     box-shadow: none;
 }
 
 body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav-header > .tss-btn.tss-sidebar-nav-button {
     font-weight: var(--tss-font-weight-bold);
-    color: var(--tss-default-foreground-color);
+    color: var(--tss-str-corporate);
 }
 
 body.tss-theme-stratus .tss-sidebar:not(#_) .tss-sidebar-nav-header > .tss-btn.tss-sidebar-nav-button:hover {

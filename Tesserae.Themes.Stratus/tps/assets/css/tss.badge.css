@@ -1,8 +1,9 @@
 /* ==========================================================================
    Stratus theme - Badge, Tag, Chip
    --------------------------------------------------------------------------
-   Small, exact labels: 3px corners on a badge or tag, a full pill on a chip,
-   500-weight 12px text. A plain badge is the moderate component fill; the
+   Measured against the design system's chip: 24px tall, 12px radius, 14px
+   500-weight text with 12px of padding either side (a tag, which the language
+   has no shape for, stays a 20px rectangle with 3px corners). A plain badge is the moderate component fill; the
    tones are the language's feedback fills (white on navy, green and red; ink
    on the warning yellow, and on every tone in dark where the fills are light).
    An outlined token keeps the tone on its rule and its text, with no fill.
@@ -10,30 +11,44 @@
 
 body.tss-theme-stratus .tss-token {
     gap: 4px;
-    min-height: 20px;
-    padding: 1px 8px;
-    border-radius: 3px;
-    font-size: var(--tss-font-size-xsmall);
+    min-height: 24px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    font-size: var(--tss-font-size-small);
     font-weight: var(--tss-font-weight-semibold);
-    line-height: 16px;
+    line-height: 22px;
+}
+
+/* A token inside another component's row (the sidebar brand, a count) stays the compact 20px label. */
+body.tss-theme-stratus .tss-sidebar .tss-token,
+body.tss-theme-stratus .tss-tag {
+    min-height: 20px;
+    padding: 0 8px;
+    font-size: var(--tss-font-size-xsmall);
+    line-height: 18px;
+}
+
+body.tss-theme-stratus .tss-tag {
+    border-radius: 3px;
 }
 
 /* The plain token: a tone, an outline or the AI gradient keeps its own fill. */
 body.tss-theme-stratus .tss-token:not(.tss-token-primary, .tss-token-success, .tss-token-warning, .tss-token-danger, .tss-token-info, .tss-token-ai, .tss-token-outline, .tss-tag) {
-    background: var(--tss-str-fill-2);
+    background: var(--tss-str-on-fill-2);
     color: var(--tss-default-foreground-color);
 }
 
 body.tss-theme-stratus .tss-chip,
 body.tss-theme-stratus .tss-token-pill {
-    border-radius: 9999px;
-    padding-left: 10px;
-    padding-right: 10px;
+    border-radius: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
 }
 
 body.tss-theme-stratus .tss-chip {
     min-height: 24px;
-    line-height: 20px;
+    line-height: 22px;
 }
 
 /* A tag is categorisation: the page colour with a rule. */
@@ -48,7 +63,7 @@ body.tss-theme-stratus .tss-token-outline {
 }
 
 body.tss-theme-stratus .tss-token-info {
-    background: var(--tss-str-info);
+    background: var(--tss-str-blue);
     color: #fff;
 }
 

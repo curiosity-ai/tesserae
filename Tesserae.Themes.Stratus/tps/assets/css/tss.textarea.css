@@ -7,8 +7,15 @@
 
 body.tss-theme-stratus .tss-textarea.tss-textbox {
     height: auto;
-    padding: 10px 12px;
-    line-height: 1.5;
+    padding: 8px;
+    font-family: inherit;
+    font-size: var(--tss-font-size-small);
+    line-height: 20px;
+    resize: vertical;
+}
+
+body.tss-theme-stratus .tss-textarea.tss-textbox.tss-textarea-autoresize {
+    resize: none;
 }
 
 body.tss-theme-stratus .tss-textarea-container > .tss-textarea {

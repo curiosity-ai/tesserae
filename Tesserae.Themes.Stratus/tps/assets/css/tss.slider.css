@@ -1,48 +1,69 @@
 /* ==========================================================================
    Stratus theme - Slider
    --------------------------------------------------------------------------
-   The filled part of the track is navy (soft blue in dark), the rest the
-   cool-grey rule; the thumb is a white pill with a 2px navy edge that gains
-   the 2px focus ring from the keyboard. Geometry is Tesserae's.
+   Measured against the design system's range slider: an 8px track in the
+   strong on-background grey, filled with the accent hover shade (light navy,
+   pale blue in dark), and a 16px round thumb in that same shade with a 2px
+   edge in the page colour and a level-2 shadow. Keyboard focus is the 2px
+   ring around the thumb. Disabled is the track and fill at 40%.
    ========================================================================== */
 
-body.tss-theme-stratus .tss-slider-fake-progress {
-    background-color: var(--tss-str-navy);
+body.tss-theme-stratus {
+    --tss-str-slider-track: #ced5dd;
 }
 
+body.tss-theme-stratus.tss-dark-mode {
+    --tss-str-slider-track: #3a3e44;
+}
+
+body.tss-theme-stratus .tss-slider-fake-progress,
 body.tss-theme-stratus .tss-slider-container input:hover ~ .tss-slider-fake-progress {
-    background-color: var(--tss-str-navy-hover);
+    background-color: var(--tss-primary-background-hover-color);
 }
 
 body.tss-theme-stratus .tss-slider-fake-background,
-body.tss-theme-stratus .tss-slider-container input:hover ~ .tss-slider-fake-background {
-    background-color: var(--tss-slider-active-color);
+body.tss-theme-stratus .tss-slider-container input:hover ~ .tss-slider-fake-background,
+body.tss-theme-stratus .tss-slider:hover {
+    background-color: var(--tss-str-slider-track);
 }
 
 body.tss-theme-stratus .tss-slider::-webkit-slider-thumb {
-    background-color: var(--tss-default-background-color);
-    border: 2px solid var(--tss-str-navy);
-    border-radius: var(--tss-border-radius-full);
-    box-shadow: var(--tss-str-elev-1);
+    box-sizing: border-box;
+    width: 16px;
+    height: 16px;
+    background-color: var(--tss-primary-background-hover-color);
+    border: 2px solid var(--tss-default-background-color);
+    border-radius: 50%;
+    box-shadow: var(--tss-str-elev-2);
 }
 
 body.tss-theme-stratus .tss-slider::-moz-range-thumb {
-    background-color: var(--tss-default-background-color);
-    border: 2px solid var(--tss-str-navy);
-    border-radius: var(--tss-border-radius-full);
-    box-shadow: var(--tss-str-elev-1);
+    box-sizing: border-box;
+    width: 16px;
+    height: 16px;
+    background-color: var(--tss-primary-background-hover-color);
+    border: 2px solid var(--tss-default-background-color);
+    border-radius: 50%;
+    box-shadow: var(--tss-str-elev-2);
 }
 
 body.tss-theme-stratus .tss-slider:hover::-webkit-slider-thumb,
 body.tss-theme-stratus .tss-slider:active::-webkit-slider-thumb {
-    border-color: var(--tss-str-navy-hover);
-    background-color: var(--tss-str-blue-soft);
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-default-background-color);
 }
 
 body.tss-theme-stratus .tss-slider:hover::-moz-range-thumb,
 body.tss-theme-stratus .tss-slider:active::-moz-range-thumb {
-    border-color: var(--tss-str-navy-hover);
-    background-color: var(--tss-str-blue-soft);
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-default-background-color);
+}
+
+/* Vertical: the base swaps the thumb to a 24 by 16 pill; the language's thumb is round either way. */
+body.tss-theme-stratus .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb,
+body.tss-theme-stratus .tss-slider-container.tss-vertical .tss-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
 }
 
 body.tss-theme-stratus .tss-slider:focus-visible::-webkit-slider-thumb {
@@ -55,16 +76,23 @@ body.tss-theme-stratus .tss-slider:focus-visible::-moz-range-thumb {
     outline-offset: 2px;
 }
 
-body.tss-theme-stratus .tss-slider:hover {
-    background-color: var(--tss-slider-active-color);
+/* Disabled: the same slider at 40%, not a different grey. */
+body.tss-theme-stratus .tss-slider-container:has(input.tss-disabled) {
+    opacity: .4;
+}
+
+body.tss-theme-stratus .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress,
+body.tss-theme-stratus .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-progress {
+    background-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-slider-container input.tss-disabled ~ .tss-slider-fake-background {
+    background-color: var(--tss-str-slider-track);
 }
 
 body.tss-theme-stratus .tss-slider.tss-disabled::-webkit-slider-thumb,
 body.tss-theme-stratus .tss-slider.tss-disabled::-moz-range-thumb {
-    border-color: var(--tss-disabled-foreground-color);
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-default-background-color);
     box-shadow: none;
-}
-
-body.tss-theme-stratus .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress {
-    background-color: var(--tss-disabled-foreground-color);
 }

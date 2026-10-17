@@ -1,4 +1,6 @@
-/* Stratus theme - ProgressIndicator: a 4px flat bar, accent on a coolgrey track. */
-body.tss-theme-stratus .tss-progressindicator { height: 4px; border-radius: 9999px; background-color: var(--tss-default-separator-color); }
-body.tss-theme-stratus .tss-progressindicator > .tss-progressindicator-bar { background: var(--tss-str-navy); border-radius: 9999px; }
-body.tss-theme-stratus .tss-progressindicator > .tss-progressindicator-bar-indeterminate { background: linear-gradient(to right, transparent 0%, var(--tss-str-navy) 50%, transparent 100%); }
+/* Stratus theme - ProgressIndicator: the language's progress bar, an 8px track with 4px ends on the moderate
+   component background, filled in the information blue (not the navy accent). Indeterminate slides a solid
+   fill across the track. */
+body.tss-theme-stratus .tss-progressindicator { height: 8px; border-radius: 4px; background-color: var(--tss-str-fill-2); }
+body.tss-theme-stratus .tss-progressindicator > .tss-progressindicator-bar { background: var(--tss-str-blue); border-radius: 4px; }
+body.tss-theme-stratus .tss-progressindicator > .tss-progressindicator-bar-indeterminate { background: var(--tss-str-blue); border-radius: 4px; min-width: 25%; }

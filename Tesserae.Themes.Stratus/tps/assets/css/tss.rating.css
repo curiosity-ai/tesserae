@@ -1,19 +1,35 @@
 /* ==========================================================================
    Stratus theme - Rating
    --------------------------------------------------------------------------
-   Empty stars take the rule colour, filled ones the warning amber of the
-   language (the app's own --tss-rating-color still wins), focus is the ring.
+   Measured against the design system's rating: stars in the corporate accent
+   (a deep blue, pale in dark), a filled star for a given point and an outlined
+   one for an open point, 2px apart. Tesserae's stars are a glyph, so the open
+   star is the same glyph with its fill removed and a stroke in the accent.
+   The app's own --tss-rating-color still wins. Focus is the 2px ring.
    ========================================================================== */
 
+body.tss-theme-stratus {
+    --tss-rating-color: #063b9e;     /* text.accent.corporate */
+}
+
+body.tss-theme-stratus.tss-dark-mode {
+    --tss-rating-color: #cfddf8;
+}
+
 body.tss-theme-stratus .tss-rating-star {
-    color: var(--tss-default-border-color);
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--tss-rating-color);
 }
 
 body.tss-theme-stratus .tss-rating-star.tss-rating-star-filled {
-    color: var(--tss-rating-color, var(--tss-str-warning));
+    color: var(--tss-rating-color);
+}
+
+body.tss-theme-stratus .tss-rating-readonly .tss-rating-star:not(.tss-rating-star-filled) {
+    opacity: .6;
 }
 
 body.tss-theme-stratus .tss-rating-star:focus-visible {
-    outline-color: var(--tss-str-focus);
+    outline: 2px solid var(--tss-str-focus);
     border-radius: var(--tss-border-radius-sm);
 }

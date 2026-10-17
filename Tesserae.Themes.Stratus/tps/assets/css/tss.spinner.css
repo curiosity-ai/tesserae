@@ -1,6 +1,30 @@
-/* Stratus theme - Spinner: the accent arc over a coolgrey track. */
-body.tss-theme-stratus .tss-spinner { --tss-spinner-color: var(--tss-str-navy); border-color: var(--tss-spinner-color) var(--tss-default-separator-color) var(--tss-default-separator-color); }
-body.tss-theme-stratus .tss-spinner.tss-spinner-progress { background: conic-gradient(var(--tss-spinner-color) calc(var(--tss-spinner-progress, 0) * 1%), var(--tss-default-separator-color) 0); }
+/* ==========================================================================
+   Stratus theme - Spinner
+   --------------------------------------------------------------------------
+   The language's spinner is a ring in the information blue with its right
+   quarter open, turning at .75s linear: 24px with a 3px stroke by default and
+   a 56px / 4px size for a page-level wait. The progress variant keeps its
+   conic fill on the moderate component background. The label is the default
+   text colour at 14px.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-spinner {
+    --tss-spinner-color: var(--tss-str-blue);
+    border-color: var(--tss-spinner-color);
+    border-right-color: transparent;
+    animation-duration: .75s;
+    animation-timing-function: linear;
+}
+body.tss-theme-stratus .tss-spinner.tss-spinner-progress {
+    border-color: transparent;
+    background: conic-gradient(var(--tss-spinner-color) calc(var(--tss-spinner-progress, 0) * 1%), var(--tss-str-fill-2) 0);
+}
 body.tss-theme-stratus .tss-spinner-success { --tss-spinner-color: var(--tss-str-success); }
 body.tss-theme-stratus .tss-spinner-danger { --tss-spinner-color: var(--tss-str-error); }
-body.tss-theme-stratus .tss-spinner-label { color: var(--tss-secondary-foreground-color); font-size: var(--tss-font-size-small); }
+
+body.tss-theme-stratus .tss-spinner-size-xsmall .tss-spinner { width: 12px; height: 12px; --tss-spinner-size: 2px; }
+body.tss-theme-stratus .tss-spinner-size-small .tss-spinner { width: 16px; height: 16px; --tss-spinner-size: 2px; }
+body.tss-theme-stratus .tss-spinner-size-medium .tss-spinner { width: 24px; height: 24px; --tss-spinner-size: 3px; }
+body.tss-theme-stratus .tss-spinner-size-large .tss-spinner { width: 56px; height: 56px; --tss-spinner-size: 4px; }
+
+body.tss-theme-stratus .tss-spinner-label { color: var(--tss-default-foreground-color); font-size: var(--tss-font-size-small); line-height: 20px; }

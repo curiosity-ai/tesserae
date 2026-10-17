@@ -1,4 +1,4 @@
-/* Stratus theme - ProgressRing: the accent over a coolgrey track, label in 700. */
-body.tss-theme-stratus .tss-progressring-track { stroke: var(--tss-default-separator-color); }
-body.tss-theme-stratus .tss-progressring-fill { stroke: var(--tss-str-navy); }
+/* Stratus theme - ProgressRing: the information blue over the moderate component background, label in 700. */
+body.tss-theme-stratus .tss-progressring-track { stroke: var(--tss-str-fill-2); }
+body.tss-theme-stratus .tss-progressring-fill { stroke: var(--tss-str-blue); }
 body.tss-theme-stratus .tss-progressring-label { font-weight: var(--tss-font-weight-bold); font-size: var(--tss-font-size-xsmall); }

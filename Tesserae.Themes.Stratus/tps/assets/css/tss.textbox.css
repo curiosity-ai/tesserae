@@ -50,6 +50,20 @@ body.tss-theme-stratus .tss-textbox.tss-disabled {
     box-shadow: 0 1px 0 0 var(--tss-str-rule);
 }
 
+/* Dark: the placeholder is full white, not the secondary grey (the language's own dark placeholder). */
+body.tss-theme-stratus.tss-dark-mode .tss-textbox::placeholder {
+    color: var(--tss-default-foreground-color) !important;
+}
+
+/* Read-only: the slab is dropped, leaving the field's text above a 1px rule drawn inside its bottom edge, and it
+   stays that way under the pointer and the focus ring (it takes no input). */
+body.tss-theme-stratus .tss-textbox[readonly]:not(.tss-disabled):not(.tss-textbox-noborder),
+body.tss-theme-stratus .tss-textbox[readonly]:not(.tss-disabled):not(.tss-textbox-noborder):hover,
+body.tss-theme-stratus .tss-textbox[readonly]:not(.tss-disabled):not(.tss-textbox-noborder):focus {
+    background: transparent;
+    box-shadow: inset 0 -1px 0 0 var(--tss-str-rule);
+}
+
 body.tss-theme-stratus .tss-textbox-container.tss-invalid .tss-textbox {
     border: 0;
     box-shadow: 0 3px 0 0 var(--tss-str-error);
@@ -62,6 +76,7 @@ body.tss-theme-stratus .tss-textbox-container.tss-invalid .tss-textbox:focus {
 body.tss-theme-stratus .tss-textbox-error {
     color: var(--tss-str-error);
     font-size: var(--tss-font-size-xsmall);
+    line-height: 18px;
     margin-top: 4px;
 }
 

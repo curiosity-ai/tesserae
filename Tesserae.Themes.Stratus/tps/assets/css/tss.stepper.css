@@ -1,42 +1,65 @@
 /* ==========================================================================
    Stratus theme - Stepper
    --------------------------------------------------------------------------
-   Numbered circles: the current step is filled navy with white numerals, a
-   finished step is outlined in navy with its numeral, an upcoming step is the
-   control edge colour. Labels are 500, the current one 700; the content panel
-   is a 6px card at elevation 1.
+   Measured against the design system's Stepper: 32px circles, 14px labels in
+   the corporate blue. The current step is a navy disc with a white numeral and
+   a 700 label; a finished step is a white disc with a 2px navy edge and a
+   corporate numeral; an upcoming step is a light-grey disc with a grey
+   numeral and a grey label. The content panel is a 6px card at elevation 1.
    ========================================================================== */
 
 body.tss-theme-stratus .tss-stepper-step {
     border-radius: var(--tss-border-radius-sm);
+    padding: 6px 8px;
+    column-gap: 8px;
 }
 
 body.tss-theme-stratus .tss-stepper-circle {
-    border: 2px solid var(--tss-str-rule);
-    color: var(--tss-default-foreground-color);
-    font-size: var(--tss-font-size-xsmall);
-    font-weight: var(--tss-font-weight-bold);
+    width: 32px;
+    height: 32px;
+    box-sizing: border-box;
+    border: 0;
+    background: var(--tss-str-on-fill);
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-semibold);
+    line-height: 32px;
+}
+
+body.tss-theme-stratus .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-circle {
+    border: 0;
+    background: var(--tss-str-on-fill-2);
 }
 
 body.tss-theme-stratus .tss-stepper-label {
-    font-weight: var(--tss-font-weight-semibold);
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-regular);
+    color: var(--tss-secondary-foreground-color);
 }
 
 body.tss-theme-stratus .tss-stepper-active .tss-stepper-circle {
     background: var(--tss-str-navy);
-    border-color: var(--tss-str-navy);
+    border: 0;
     color: var(--tss-primary-foreground-color);
 }
 
 body.tss-theme-stratus .tss-stepper-active .tss-stepper-label {
     font-weight: var(--tss-font-weight-bold);
-    color: var(--tss-str-navy);
+    color: var(--tss-str-corporate);
 }
 
 body.tss-theme-stratus .tss-stepper-complete .tss-stepper-circle {
-    background: transparent;
-    border-color: var(--tss-str-navy);
-    color: var(--tss-str-navy);
+    background: var(--tss-default-background-color);
+    border: 2px solid var(--tss-str-navy);
+    color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-stepper-complete .tss-stepper-label {
+    color: var(--tss-str-corporate);
+}
+
+body.tss-theme-stratus .tss-stepper-description {
+    color: var(--tss-secondary-foreground-color);
 }
 
 body.tss-theme-stratus .tss-stepper-content {
@@ -46,13 +69,16 @@ body.tss-theme-stratus .tss-stepper-content {
     padding: 16px;
 }
 
+/* Back / Next are the secondary button of the language (see tss.button.css), sized to match. */
 body.tss-theme-stratus .tss-stepper-nav {
-    border: 1px solid var(--tss-str-navy);
+    border: 2px solid var(--tss-str-navy);
     border-radius: var(--tss-border-radius-sm);
     color: var(--tss-str-navy);
     background: var(--tss-default-background-color);
     font-weight: var(--tss-font-weight-bold);
-    padding: 8px 16px;
+    min-height: 40px;
+    padding: 6px 16px;
+    line-height: 24px;
 }
 
 body.tss-theme-stratus .tss-stepper-nav:hover:not(:disabled) {

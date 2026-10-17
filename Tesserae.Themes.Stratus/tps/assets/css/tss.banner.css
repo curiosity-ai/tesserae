@@ -1,37 +1,136 @@
-/* Stratus theme - Banner: the language's inline notification. A soft tinted surface (the *-soft tokens),
-   a 4px accent bar on the leading edge, the tone on the icon and title, plain text for the message.
-   Primary reads as information (mid blue); warning keeps its yellow bar but takes the dark ochre for text. */
+/* ==========================================================================
+   Stratus theme - Banner
+   --------------------------------------------------------------------------
+   The language's banner is a solid, saturated strip, not a tinted wash: the
+   tone fills the whole strip (information blue, success green, warning yellow,
+   error red), the text on it is bold 14px in white (dark ink on the yellow and
+   on every tone in dark mode, where the fills are the light steps), it is
+   at least 56px tall with 8px / 16px of padding, square at the ends, and its
+   icon and dismiss button are drawn in the text colour. Actions are the
+   ghost-negative button: no outline, the text colour, a veil on hover.
+   ========================================================================== */
+
 body.tss-theme-stratus .tss-banner {
-    --tss-banner-accent: var(--tss-str-info);
-    --tss-banner-title-color: var(--tss-default-foreground-color);
-    --tss-banner-text-color: var(--tss-default-foreground-color);
-    --tss-banner-surface: color-mix(in srgb, var(--tss-str-info) 11%, var(--tss-default-background-color));
+    --tss-banner-surface: var(--tss-str-blue);
+    --tss-banner-text-color: var(--tss-primary-foreground-color);
+    --tss-banner-title-color: var(--tss-primary-foreground-color);
+    --tss-banner-accent: var(--tss-primary-foreground-color);
     --tss-banner-border-color: transparent;
+    min-height: 56px;
+    padding: 8px 16px;
+    gap: 16px;
     border: 0;
-    border-left: 4px solid var(--tss-banner-accent);
+    border-radius: 0;
+    font-weight: var(--tss-font-weight-bold);
+}
+
+/* The neutral tone (Secondary) has no saturated colour: the filled component background instead. */
+body.tss-theme-stratus .tss-banner:not(.tss-banner-primary):not(.tss-banner-success):not(.tss-banner-warning):not(.tss-banner-danger) {
+    --tss-banner-surface: var(--tss-str-on-fill-2);
+    --tss-banner-text-color: var(--tss-default-foreground-color);
+    --tss-banner-title-color: var(--tss-default-foreground-color);
+    --tss-banner-accent: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-banner-primary { --tss-banner-surface: var(--tss-str-blue); }
+body.tss-theme-stratus .tss-banner-success {
+    --tss-banner-surface: var(--tss-success-background-color);
+    --tss-banner-text-color: var(--tss-success-foreground-color);
+    --tss-banner-title-color: var(--tss-success-foreground-color);
+    --tss-banner-accent: var(--tss-success-foreground-color);
+}
+body.tss-theme-stratus .tss-banner-danger {
+    --tss-banner-surface: var(--tss-danger-background-color);
+    --tss-banner-text-color: var(--tss-danger-foreground-color);
+    --tss-banner-title-color: var(--tss-danger-foreground-color);
+    --tss-banner-accent: var(--tss-danger-foreground-color);
+}
+body.tss-theme-stratus .tss-banner-warning {
+    --tss-banner-surface: var(--tss-warning-background-color);
+    --tss-banner-text-color: var(--tss-warning-foreground-color);
+    --tss-banner-title-color: var(--tss-warning-foreground-color);
+    --tss-banner-accent: var(--tss-warning-foreground-color);
+}
+
+body.tss-theme-stratus .tss-banner-compact { padding: 4px 16px; min-height: 40px; gap: 12px; }
+body.tss-theme-stratus .tss-banner-flat { border-radius: 0; }
+
+body.tss-theme-stratus .tss-banner-title { font-size: var(--tss-font-size-small); font-weight: var(--tss-font-weight-bold); line-height: 20px; }
+body.tss-theme-stratus .tss-banner-text { font-size: var(--tss-font-size-small); font-weight: var(--tss-font-weight-semibold); line-height: 20px; }
+body.tss-theme-stratus .tss-banner-content { gap: 0; }
+
+/* The symbol is the bare 24px glyph in the text colour, no tile behind it. */
+body.tss-theme-stratus .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-stratus.tss-dark-mode .tss-icontile.tss-banner-icon-tile {
+    --tss-icontile-size: 24px;
+    background: transparent;
+    color: var(--tss-banner-text-color);
+    border-radius: 0;
+}
+body.tss-theme-stratus .tss-banner-compact .tss-banner-icon > .tss-icontile { --tss-icontile-size: 24px; }
+
+/* A badge on the strip is a veil of the text colour, not a second tone. */
+body.tss-theme-stratus .tss-banner-badge-pill.tss-badge {
+    border-radius: 9999px;
+    background: color-mix(in srgb, var(--tss-banner-text-color) 22%, transparent);
+    color: var(--tss-banner-text-color);
+    font-weight: var(--tss-font-weight-bold);
+}
+
+/* Actions and dismiss: the ghost-negative button. */
+body.tss-theme-stratus .tss-banner .tss-banner-action .tss-btn,
+body.tss-theme-stratus .tss-banner .tss-banner-action .tss-btn.tss-btn-default:not(.tss-disabled) {
+    background: transparent;
+    border-color: transparent;
+    color: var(--tss-banner-text-color);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+body.tss-theme-stratus .tss-banner .tss-banner-action .tss-btn .tss-fontcolor-default { color: inherit; }
+body.tss-theme-stratus .tss-banner .tss-banner-action .tss-btn:hover,
+body.tss-theme-stratus .tss-banner .tss-banner-action .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: color-mix(in srgb, var(--tss-banner-text-color) 18%, transparent);
+    color: var(--tss-banner-text-color);
+}
+body.tss-theme-stratus .tss-btn.tss-banner-dismiss-button {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    opacity: 1;
+    padding: 2px;
+    background: transparent;
+    border-color: transparent;
+    color: var(--tss-banner-text-color);
     border-radius: var(--tss-border-radius-sm);
 }
-body.tss-theme-stratus .tss-banner-primary { --tss-banner-accent: var(--tss-str-info); --tss-banner-surface: color-mix(in srgb, var(--tss-str-info) 11%, var(--tss-default-background-color)); }
-body.tss-theme-stratus .tss-banner-success { --tss-banner-accent: var(--tss-str-success); --tss-banner-surface: color-mix(in srgb, var(--tss-str-success) 11%, var(--tss-default-background-color)); }
-body.tss-theme-stratus .tss-banner-danger  { --tss-banner-accent: var(--tss-str-error);   --tss-banner-surface: color-mix(in srgb, var(--tss-str-error) 11%, var(--tss-default-background-color)); }
-body.tss-theme-stratus .tss-banner-warning { --tss-banner-accent: var(--tss-str-warning); --tss-banner-surface: color-mix(in srgb, var(--tss-str-warning) 11%, var(--tss-default-background-color)); }
-body.tss-theme-stratus .tss-banner-primary,
-body.tss-theme-stratus .tss-banner-success,
-body.tss-theme-stratus .tss-banner-warning,
-body.tss-theme-stratus .tss-banner-danger {
-    --tss-banner-title-color: var(--tss-default-foreground-color);
-    --tss-banner-text-color: var(--tss-default-foreground-color);
+body.tss-theme-stratus .tss-btn.tss-banner-dismiss-button:hover {
+    background: color-mix(in srgb, var(--tss-banner-text-color) 30%, transparent);
+    color: var(--tss-banner-text-color);
 }
-body.tss-theme-stratus .tss-banner-flat { border-radius: 0; border-left: 4px solid var(--tss-banner-accent); border-right: 0; }
-body.tss-theme-stratus .tss-banner-title { font-size: var(--tss-font-size-smallplus); font-weight: var(--tss-font-weight-bold); line-height: 24px; }
-body.tss-theme-stratus .tss-banner-text { font-size: var(--tss-font-size-small); line-height: 20px; }
+body.tss-theme-stratus .tss-btn.tss-banner-dismiss-button:active {
+    background: color-mix(in srgb, var(--tss-banner-text-color) 50%, transparent);
+}
+body.tss-theme-stratus .tss-banner :focus-visible { outline-color: var(--tss-banner-text-color); }
 
-/* The tile is the tone itself, in white (dark ink in dark mode), so the symbol reads at a glance. */
-body.tss-theme-stratus .tss-icontile.tss-banner-icon-tile,
-body.tss-theme-stratus.tss-dark-mode .tss-icontile.tss-banner-icon-tile { background: transparent; color: var(--tss-banner-accent); border-radius: 0; }
-body.tss-theme-stratus .tss-banner-warning .tss-icontile.tss-banner-icon-tile { color: var(--tss-str-warning-text); }
-body.tss-theme-stratus .tss-banner-badge-pill.tss-badge { border-radius: 9999px; background: var(--tss-banner-accent); color: var(--tss-default-background-color); font-weight: var(--tss-font-weight-bold); }
-body.tss-theme-stratus .tss-banner-warning .tss-banner-badge-pill.tss-badge { color: var(--tss-warning-foreground-color); }
-body.tss-theme-stratus .tss-btn.tss-banner-dismiss-button { opacity: 1; color: var(--tss-default-foreground-color); border-radius: var(--tss-border-radius-sm); }
-body.tss-theme-stratus .tss-btn.tss-banner-dismiss-button:hover { background: var(--tss-default-background-hover-color); color: var(--tss-default-foreground-color); }
-body.tss-theme-stratus .tss-btn.tss-banner-action-warning { background: var(--tss-warning-background-color); color: var(--tss-warning-foreground-color); border-color: var(--tss-warning-background-color); }
+/* Inside a toast the toast brings the surface; the strip stays as it is. */
+body.tss-theme-stratus .tss-toast-container > .tss-banner { border-radius: inherit; }
+
+/* Glyphs follow the strip's text colour, whatever colour class the icon carries, and are 20px. */
+body.tss-theme-stratus .tss-banner .tss-banner-dismiss-button i,
+body.tss-theme-stratus .tss-banner .tss-banner-dismiss-button .tss-fontcolor-default,
+body.tss-theme-stratus .tss-banner .tss-banner-icon-tile i { color: inherit; }
+body.tss-theme-stratus .tss-banner .tss-banner-icon-tile i { font-size: 20px; }
+body.tss-theme-stratus .tss-banner .tss-banner-dismiss-button i { font-size: 16px; }
+
+/* Outranks the button's own ghost rule (default + noborder), which paints the label in the accent. */
+body.tss-theme-stratus .tss-banner .tss-btn.tss-btn-default.tss-banner-dismiss-button:not(.tss-disabled),
+body.tss-theme-stratus .tss-banner .tss-btn.tss-btn-default.tss-banner-dismiss-button:not(.tss-disabled):hover,
+body.tss-theme-stratus .tss-banner .tss-btn.tss-btn-default.tss-banner-dismiss-button:not(.tss-disabled):active { color: var(--tss-banner-text-color); }
+body.tss-theme-stratus .tss-banner .tss-btn.tss-btn-default.tss-banner-dismiss-button:not(.tss-disabled):hover { background: color-mix(in srgb, var(--tss-banner-text-color) 30%, transparent); }
+
+/* The tone each strip is drawn in, for the parts of a component that borrow it (a toast's side bar). */
+body.tss-theme-stratus .tss-banner { --tss-banner-tone: var(--tss-str-blue); }
+body.tss-theme-stratus .tss-banner:not(.tss-banner-primary):not(.tss-banner-success):not(.tss-banner-warning):not(.tss-banner-danger) { --tss-banner-tone: var(--tss-str-rule); }
+body.tss-theme-stratus .tss-banner-success { --tss-banner-tone: var(--tss-success-background-color); }
+body.tss-theme-stratus .tss-banner-warning { --tss-banner-tone: var(--tss-warning-background-color); }
+body.tss-theme-stratus .tss-banner-danger { --tss-banner-tone: var(--tss-danger-background-color); }
