@@ -5,6 +5,8 @@
     min-height: 32px;
     display: flex;
     min-width: 100px;
+    /* Only as wide as its two halves: a theme that borders the container would otherwise draw it across the whole column. */
+    width: fit-content;
     align-items: unset;
     justify-content: unset;
     line-height: normal;
