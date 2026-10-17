@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Stratus theme - Rating
+   --------------------------------------------------------------------------
+   Empty stars take the rule colour, filled ones the warning amber of the
+   language (the app's own --tss-rating-color still wins), focus is the ring.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-rating-star {
+    color: var(--tss-default-border-color);
+}
+
+body.tss-theme-stratus .tss-rating-star.tss-rating-star-filled {
+    color: var(--tss-rating-color, var(--tss-str-warning));
+}
+
+body.tss-theme-stratus .tss-rating-star:focus-visible {
+    outline-color: var(--tss-str-focus);
+    border-radius: var(--tss-border-radius-sm);
+}

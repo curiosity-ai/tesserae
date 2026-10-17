@@ -1,0 +1,5 @@
+/* Stratus theme - Toast: the banner floated at elevation 2, 3px corners; the banner supplies tone and bar. */
+body.tss-theme-stratus .tss-toast-container { border-radius: var(--tss-border-radius-sm); box-shadow: var(--tss-str-elev-2); background: var(--tss-str-elevated-surface); }
+body.tss-theme-stratus .tss-toast-container:hover { box-shadow: var(--tss-str-elev-3); }
+body.tss-theme-stratus .tss-toast-container > .tss-banner { border-radius: inherit; }
+body.tss-theme-stratus .tss-toast-fullwidth.tss-toast > .tss-toast-container { border-radius: 0; }

@@ -1,0 +1,4 @@
+/* Stratus theme - ActionCard: the 6px card at elevation 1; icon tile is a 3px accent square. */
+body.tss-theme-stratus .tss-actioncard-card { border-radius: var(--tss-border-radius-lg); box-shadow: var(--tss-str-elev-1); border-color: var(--tss-default-separator-color); }
+body.tss-theme-stratus .tss-actioncard-icon { border-radius: var(--tss-border-radius-sm); }
+body.tss-theme-stratus .tss-actioncard-label { font-weight: var(--tss-font-weight-bold); }

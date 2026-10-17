@@ -1,0 +1,37 @@
+/* Stratus theme - Banner: the language's inline notification. A soft tinted surface (the *-soft tokens),
+   a 4px accent bar on the leading edge, the tone on the icon and title, plain text for the message.
+   Primary reads as information (mid blue); warning keeps its yellow bar but takes the dark ochre for text. */
+body.tss-theme-stratus .tss-banner {
+    --tss-banner-accent: var(--tss-str-info);
+    --tss-banner-title-color: var(--tss-default-foreground-color);
+    --tss-banner-text-color: var(--tss-default-foreground-color);
+    --tss-banner-surface: var(--tss-str-info-soft);
+    --tss-banner-border-color: transparent;
+    border: 0;
+    border-left: 4px solid var(--tss-banner-accent);
+    border-radius: var(--tss-border-radius-sm);
+}
+body.tss-theme-stratus .tss-banner-primary { --tss-banner-accent: var(--tss-str-info); --tss-banner-surface: var(--tss-str-info-soft); }
+body.tss-theme-stratus .tss-banner-success { --tss-banner-accent: var(--tss-str-success); --tss-banner-surface: var(--tss-str-success-soft); }
+body.tss-theme-stratus .tss-banner-danger  { --tss-banner-accent: var(--tss-str-error);   --tss-banner-surface: var(--tss-str-error-soft); }
+body.tss-theme-stratus .tss-banner-warning { --tss-banner-accent: var(--tss-str-warning); --tss-banner-surface: var(--tss-str-warning-soft); }
+body.tss-theme-stratus .tss-banner-primary,
+body.tss-theme-stratus .tss-banner-success,
+body.tss-theme-stratus .tss-banner-warning,
+body.tss-theme-stratus .tss-banner-danger {
+    --tss-banner-title-color: var(--tss-default-foreground-color);
+    --tss-banner-text-color: var(--tss-default-foreground-color);
+}
+body.tss-theme-stratus .tss-banner-flat { border-radius: 0; border-left: 4px solid var(--tss-banner-accent); border-right: 0; }
+body.tss-theme-stratus .tss-banner-title { font-size: var(--tss-font-size-smallplus); font-weight: var(--tss-font-weight-bold); line-height: 24px; }
+body.tss-theme-stratus .tss-banner-text { font-size: var(--tss-font-size-small); line-height: 20px; }
+
+/* The tile is the tone itself, in white (dark ink in dark mode), so the symbol reads at a glance. */
+body.tss-theme-stratus .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-stratus.tss-dark-mode .tss-icontile.tss-banner-icon-tile { background: transparent; color: var(--tss-banner-accent); border-radius: 0; }
+body.tss-theme-stratus .tss-banner-warning .tss-icontile.tss-banner-icon-tile { color: var(--tss-str-warning-text); }
+body.tss-theme-stratus .tss-banner-badge-pill.tss-badge { border-radius: 9999px; background: var(--tss-banner-accent); color: var(--tss-default-background-color); font-weight: var(--tss-font-weight-bold); }
+body.tss-theme-stratus .tss-banner-warning .tss-banner-badge-pill.tss-badge { color: var(--tss-warning-foreground-color); }
+body.tss-theme-stratus .tss-btn.tss-banner-dismiss-button { opacity: 1; color: var(--tss-default-foreground-color); border-radius: var(--tss-border-radius-sm); }
+body.tss-theme-stratus .tss-btn.tss-banner-dismiss-button:hover { background: var(--tss-default-background-hover-color); color: var(--tss-default-foreground-color); }
+body.tss-theme-stratus .tss-btn.tss-banner-action-warning { background: var(--tss-warning-background-color); color: var(--tss-warning-foreground-color); border-color: var(--tss-warning-background-color); }

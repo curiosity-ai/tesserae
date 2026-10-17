@@ -1,0 +1,54 @@
+/* ==========================================================================
+   Stratus theme - TagsInput
+   --------------------------------------------------------------------------
+   The field of the language: filled slab, 1px rule, top corners only, grows
+   past 40px as tags wrap. Chips are the pill tags of the language: the
+   selected tint with a navy label and a round remove button.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-tagsinput {
+    min-height: 40px;
+    padding: 4px 8px;
+    border: 0;
+    border-radius: 3px 3px 0 0;
+    background: var(--tss-str-fill);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+    transition: box-shadow var(--tss-str-ease), background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-tagsinput:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-tagsinput:focus-within {
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-tagsinput-chip {
+    background: var(--tss-str-blue-soft);
+    color: var(--tss-str-navy);
+    border-radius: var(--tss-border-radius-full);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-semibold);
+    padding: 2px 4px 2px 10px;
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-tagsinput-chip {
+    background: var(--tss-str-blue-tint);
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-tagsinput-chip-remove {
+    color: inherit;
+}
+
+body.tss-theme-stratus .tss-tagsinput-chip-remove:hover {
+    background: var(--tss-str-blue-tint);
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus.tss-dark-mode .tss-tagsinput-chip-remove:hover {
+    background: var(--tss-str-fill-3);
+    color: var(--tss-default-foreground-color);
+}

@@ -1,0 +1,197 @@
+/* ==========================================================================
+   Stratus theme - Dropdown
+   --------------------------------------------------------------------------
+   The closed box is the field of the language (the TextBox slab and rule,
+   40px, top corners only); keyboard focus shows as the 3px ring. The popup is
+   a level-4 surface with 8px corners; rows are 3px-cornered, hover is the
+   neutral wash, the keyboard-focused row the selected tint with an inset
+   navy bar. A multi-select row carries the same checkbox as CheckBox.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-dropdown-container {
+    border: 0;
+    border-radius: 3px 3px 0 0;
+    background: var(--tss-str-fill);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+    transition: box-shadow var(--tss-str-ease), background-color var(--tss-str-ease);
+}
+
+body.tss-theme-stratus .tss-dropdown-container > .tss-dropdown {
+    height: 40px;
+    padding: 0 8px 0 12px;
+}
+
+body.tss-theme-stratus .tss-dropdown-container > .tss-dropdown.tss-dropdown-noarrow {
+    padding: 0 12px;
+}
+
+body.tss-theme-stratus .tss-dropdown-container:hover {
+    background: var(--tss-default-background-hover-color);
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-dropdown-container:has(> .tss-dropdown:focus-visible) {
+    border: 0;
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-dropdown-nobg {
+    background: transparent;
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-noborder {
+    border: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-disabled {
+    border: 0;
+    background: var(--tss-str-fill);
+    color: var(--tss-default-foreground-color);
+    opacity: .4;
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-invalid {
+    box-shadow: 0 3px 0 0 var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border: 0;
+}
+
+body.tss-theme-stratus .tss-dropdown-container.tss-invalid:has(> .tss-dropdown:focus-visible) {
+    box-shadow: 0 0 0 3px var(--tss-str-error);
+}
+
+body.tss-theme-stratus .tss-dropdown-container > .tss-dropdown-icon {
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-dropdown-error {
+    color: var(--tss-str-error);
+    font-size: var(--tss-font-size-xsmall);
+    margin-top: 4px;
+}
+
+/* Popup */
+body.tss-theme-stratus .tss-dropdown-popup {
+    border: 0;
+    border-radius: var(--tss-border-radius-xl);
+    background: var(--tss-str-elevated-surface);
+    box-shadow: var(--tss-str-elev-4);
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+body.tss-theme-stratus .tss-dropdown-item,
+body.tss-theme-stratus .tss-dropdown-header {
+    background: transparent;
+}
+
+body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-item {
+    border-radius: var(--tss-border-radius-sm);
+    margin: 0 4px;
+    width: calc(100% - 8px);
+}
+
+body.tss-theme-stratus .tss-dropdown-item.tss-selected {
+    font-weight: var(--tss-font-weight-semibold);
+    color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-selected {
+    color: var(--tss-default-foreground-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-item:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-item:focus,
+body.tss-theme-stratus .tss-dropdown-item.tss-dropdown-item-focus {
+    border-color: transparent;
+    background-color: var(--tss-default-background-active-color);
+    box-shadow: inset 3px 0 0 0 var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item.tss-dropdown-item-focus {
+    box-shadow: none;
+    background-color: transparent;
+}
+
+body.tss-theme-stratus .tss-dropdown-header {
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-bold);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-stratus .tss-dropdown-divider {
+    background-color: var(--tss-default-separator-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-item.tss-disabled {
+    opacity: .4;
+    color: var(--tss-default-foreground-color);
+}
+
+/* Multi-select: the CheckBox mark. */
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item:before {
+    border-radius: var(--tss-border-radius-sm);
+    border-color: var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item:after {
+    border-color: var(--tss-str-navy);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before {
+    background-color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-background-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before {
+    background-color: var(--tss-primary-background-hover-color);
+    border-color: var(--tss-primary-background-hover-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-selected:after {
+    border-color: var(--tss-primary-foreground-color);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-disabled:before,
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss-selected:before {
+    background-color: var(--tss-default-background-color);
+    border-color: var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss-selected:before {
+    background-color: var(--tss-primary-background-color);
+}
+
+/* The search box inside the popup is a flat tinted row. */
+body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-searchbox {
+    background: var(--tss-str-fill);
+    border: 0;
+    border-radius: 3px 3px 0 0;
+    margin: 4px 8px 0;
+    box-shadow: 0 1px 0 0 var(--tss-str-rule);
+}
+
+body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border: 0;
+    background: var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-searchbox.tss-searchbox-container {
+    height: 36px;
+}
+
+body.tss-theme-stratus .tss-dropdown-popup .tss-dropdown-searchbox .tss-searchbox {
+    height: 36px;
+    line-height: 36px;
+}

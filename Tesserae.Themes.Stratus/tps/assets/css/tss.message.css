@@ -1,0 +1,29 @@
+/* Stratus theme - Message: the empty-state / notice panel. Neutral is a centred panel with a
+   coolgrey round icon; the four tones use the soft tint with a 4px accent bar and a 6px corner. */
+body.tss-theme-stratus .tss-message-icon { background: var(--tss-str-on-fill); color: var(--tss-secondary-foreground-color); }
+body.tss-theme-stratus .tss-message-title { font-weight: var(--tss-font-weight-bold); }
+body.tss-theme-stratus .tss-message-text { color: var(--tss-secondary-foreground-color); }
+body.tss-theme-stratus .tss-message-info, body.tss-theme-stratus .tss-message-success, body.tss-theme-stratus .tss-message-warning, body.tss-theme-stratus .tss-message-error { border-radius: var(--tss-border-radius-sm); border: 0; border-left: 4px solid transparent; }
+body.tss-theme-stratus .tss-message-info    { background-color: var(--tss-str-info-soft);    border-left-color: var(--tss-str-info); }
+body.tss-theme-stratus .tss-message-success { background-color: var(--tss-str-success-soft); border-left-color: var(--tss-str-success); }
+body.tss-theme-stratus .tss-message-warning { background-color: var(--tss-str-warning-soft); border-left-color: var(--tss-str-warning); }
+body.tss-theme-stratus .tss-message-error   { background-color: var(--tss-str-error-soft);   border-left-color: var(--tss-str-error); }
+body.tss-theme-stratus.tss-dark-mode .tss-message-info,
+body.tss-theme-stratus.tss-dark-mode .tss-message-success,
+body.tss-theme-stratus.tss-dark-mode .tss-message-warning,
+body.tss-theme-stratus.tss-dark-mode .tss-message-error { border-color: transparent; }
+body.tss-theme-stratus.tss-dark-mode .tss-message-info    { border-left-color: var(--tss-str-info); }
+body.tss-theme-stratus.tss-dark-mode .tss-message-success { border-left-color: var(--tss-str-success); }
+body.tss-theme-stratus.tss-dark-mode .tss-message-warning { border-left-color: var(--tss-str-warning); }
+body.tss-theme-stratus.tss-dark-mode .tss-message-error   { border-left-color: var(--tss-str-error); }
+body.tss-theme-stratus .tss-message-info .tss-message-icon,
+body.tss-theme-stratus .tss-message-success .tss-message-icon,
+body.tss-theme-stratus .tss-message-warning .tss-message-icon,
+body.tss-theme-stratus .tss-message-error .tss-message-icon { background: transparent; }
+body.tss-theme-stratus .tss-message-info .tss-message-icon { color: var(--tss-str-info); }
+body.tss-theme-stratus .tss-message-success .tss-message-icon { color: var(--tss-str-success); }
+body.tss-theme-stratus .tss-message-warning .tss-message-icon { color: var(--tss-str-warning-text); }
+body.tss-theme-stratus .tss-message-error .tss-message-icon { color: var(--tss-str-error); }
+body.tss-theme-stratus .tss-message-info .tss-message-title, body.tss-theme-stratus .tss-message-success .tss-message-title, body.tss-theme-stratus .tss-message-warning .tss-message-title, body.tss-theme-stratus .tss-message-error .tss-message-title,
+body.tss-theme-stratus .tss-message-info .tss-message-text, body.tss-theme-stratus .tss-message-success .tss-message-text, body.tss-theme-stratus .tss-message-warning .tss-message-text, body.tss-theme-stratus .tss-message-error .tss-message-text { color: var(--tss-default-foreground-color); }
+body.tss-theme-stratus .tss-message-note { border-radius: var(--tss-border-radius-sm); }
