@@ -78,30 +78,40 @@ body.tss-theme-retroos .tss-btn.tss-btn-primary:not(.tss-disabled) .tss-fontcolo
     color: inherit;
 }
 
-/* Danger and success are not colours here: the same button, told apart by their words and icons. */
+/* Danger, success and warning are not colours here: the same button, told apart by their words and icons
+   (and warning by a dashed edge, as its Banner has). */
 body.tss-theme-retroos .tss-btn.tss-btn-danger:not(.tss-disabled),
-body.tss-theme-retroos .tss-btn.tss-btn-success:not(.tss-disabled) {
+body.tss-theme-retroos .tss-btn.tss-btn-success:not(.tss-disabled),
+body.tss-theme-retroos .tss-btn.tss-btn-warning:not(.tss-disabled) {
     background-color: rgb(var(--tss-default-background-color-root));
     color: rgb(var(--tss-default-foreground-color-root));
     border-color: rgb(var(--tss-default-foreground-color-root));
 }
 
 body.tss-theme-retroos .tss-btn.tss-btn-danger:not(.tss-disabled):hover,
-body.tss-theme-retroos .tss-btn.tss-btn-success:not(.tss-disabled):hover {
+body.tss-theme-retroos .tss-btn.tss-btn-success:not(.tss-disabled):hover,
+body.tss-theme-retroos .tss-btn.tss-btn-warning:not(.tss-disabled):hover {
     background-color: rgb(var(--tss-default-background-color-root));
     color: rgb(var(--tss-default-foreground-color-root));
     filter: none;
 }
 
 body.tss-theme-retroos .tss-btn.tss-btn-danger:not(.tss-disabled) .tss-fontcolor-default,
-body.tss-theme-retroos .tss-btn.tss-btn-success:not(.tss-disabled) .tss-fontcolor-default {
+body.tss-theme-retroos .tss-btn.tss-btn-success:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-retroos .tss-btn.tss-btn-warning:not(.tss-disabled) .tss-fontcolor-default {
     color: inherit;
 }
 
 body.tss-theme-retroos .tss-btn.tss-btn-danger:not(.tss-disabled):active,
-body.tss-theme-retroos .tss-btn.tss-btn-success:not(.tss-disabled):active {
+body.tss-theme-retroos .tss-btn.tss-btn-success:not(.tss-disabled):active,
+body.tss-theme-retroos .tss-btn.tss-btn-warning:not(.tss-disabled):active {
     background-color: rgb(var(--tss-default-foreground-color-root));
     color: rgb(var(--tss-default-background-color-root));
+}
+
+/* Warning: a dashed edge instead of the solid one (the ghost, link and nobg variants have no edge to dash). */
+body.tss-theme-retroos .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    border-style: dashed;
 }
 
 /* Ghost: no edge at rest; a menu-item inversion under the pointer. */
@@ -128,7 +138,8 @@ body.tss-theme-retroos .tss-btn.tss-btn-nobg:not(.tss-disabled):hover > i {
 
 body.tss-theme-retroos .tss-btn.tss-btn-nobg.tss-btn-primary:not(.tss-disabled),
 body.tss-theme-retroos .tss-btn.tss-btn-nobg.tss-btn-danger:not(.tss-disabled),
-body.tss-theme-retroos .tss-btn.tss-btn-nobg.tss-btn-success:not(.tss-disabled) {
+body.tss-theme-retroos .tss-btn.tss-btn-nobg.tss-btn-success:not(.tss-disabled),
+body.tss-theme-retroos .tss-btn.tss-btn-nobg.tss-btn-warning:not(.tss-disabled) {
     box-shadow: none;
     margin: 0;
 }

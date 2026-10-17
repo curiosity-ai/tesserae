@@ -3,8 +3,8 @@
    --------------------------------------------------------------------------
    A flat deep blue arc on a line-tone ring: progress is one of the few things
    the blue is spent on. On the dark canvas, where deep blue is 2.2:1, the arc
-   is the Signal. The label is the mono metadata voice in mute ink. Success
-   and danger keep their tones.
+   is the Signal. The label is the mono metadata voice in mute ink. Success,
+   warning and danger keep their tones.
    ========================================================================== */
 
 body.tss-theme-curiosity.tss-dark-mode .tss-spinner {
@@ -14,6 +14,11 @@ body.tss-theme-curiosity.tss-dark-mode .tss-spinner {
 body.tss-theme-curiosity .tss-spinner-success,
 body.tss-theme-curiosity.tss-dark-mode .tss-spinner-success {
     --tss-spinner-color: var(--tss-success-background-color);
+}
+
+body.tss-theme-curiosity .tss-spinner-warning,
+body.tss-theme-curiosity.tss-dark-mode .tss-spinner-warning {
+    --tss-spinner-color: var(--tss-warning-background-color);
 }
 
 body.tss-theme-curiosity .tss-spinner-danger,

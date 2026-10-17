@@ -52,6 +52,7 @@ body.tss-theme-retroos .tss-diagram-node.tss-diagram-node-dragging {
 body.tss-theme-retroos .tss-diagram-node-default,
 body.tss-theme-retroos .tss-diagram-node-secondary,
 body.tss-theme-retroos .tss-diagram-node-success,
+body.tss-theme-retroos .tss-diagram-node-warning,
 body.tss-theme-retroos .tss-diagram-node-danger {
     background-color: rgb(var(--tss-default-background-color-root));
     color: rgb(var(--tss-default-foreground-color-root));
@@ -79,5 +80,11 @@ body.tss-theme-retroos .tss-diagram-node-success {
 }
 
 body.tss-theme-retroos .tss-diagram-node-danger {
+    border-width: 2px;
+}
+
+/* Warning: a dashed 2px frame, between the secondary node's thin dashes and the danger node's thick solid one. */
+body.tss-theme-retroos .tss-diagram-node-warning {
+    border-style: dashed;
     border-width: 2px;
 }

@@ -68,7 +68,7 @@ body.tss-theme-retroos .tss-sidenav-btn-wrap.tss-sidenav-btn-brand > .tss-btn.ts
     background: rgb(var(--tss-default-background-color-root));
 }
 
-/* A notification dot is a square pixel block ringed in paper; the danger one is hollow. */
+/* A notification dot is a square pixel block ringed in paper; the danger one is hollow, the warning one a dithered square. */
 body.tss-theme-retroos .tss-sidenav-btn-dot {
     border-radius: 0;
     background: rgb(var(--tss-default-foreground-color-root));
@@ -82,6 +82,13 @@ body.tss-theme-retroos .tss-sidenav-btn-wrap.tss-sidenav-selected .tss-sidenav-b
 
 body.tss-theme-retroos .tss-sidenav-btn-dot.tss-sidenav-btn-dot-danger {
     background: rgb(var(--tss-default-background-color-root));
+    box-shadow: 0 0 0 2px rgb(var(--tss-default-foreground-color-root));
+    width: 6px;
+    height: 6px;
+}
+
+body.tss-theme-retroos .tss-sidenav-btn-dot.tss-sidenav-btn-dot-warning {
+    background: var(--tss-retro-dither);
     box-shadow: 0 0 0 2px rgb(var(--tss-default-foreground-color-root));
     width: 6px;
     height: 6px;

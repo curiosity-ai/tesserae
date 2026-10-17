@@ -5,7 +5,7 @@
    icon half, a 1px rule between them. Each half inverts under the pointer
    like a menu row, its icon and text following. The primary one wears the
    default button's thick ring around the whole control. Danger is told apart
-   by words and icon, not colour.
+   by words and icon, not colour; Warning by a dashed outline.
    ========================================================================== */
 
 body.tss-theme-retroos .tss-actionbutton-container {
@@ -28,7 +28,8 @@ body.tss-theme-retroos .tss-actionbutton-container:focus-within:has(:focus-visib
 body.tss-theme-retroos .tss-actionbutton-container > .tss-actionbutton-displaybutton,
 body.tss-theme-retroos .tss-actionbutton-container > .tss-actionbutton-actionbtn,
 body.tss-theme-retroos .tss-actionbutton-container > .tss-btn-primary,
-body.tss-theme-retroos .tss-actionbutton-container > .tss-btn-danger {
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn-danger,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn-warning {
     border: 0;
     border-radius: 0;
     margin: 0;
@@ -63,10 +64,12 @@ body.tss-theme-retroos .tss-actionbutton-container > .tss-actionbutton-displaybu
 body.tss-theme-retroos .tss-actionbutton-container > .tss-actionbutton-actionbtn:hover,
 body.tss-theme-retroos .tss-actionbutton-container > .tss-btn-primary:hover,
 body.tss-theme-retroos .tss-actionbutton-container > .tss-btn-danger:hover,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn-warning:hover,
 body.tss-theme-retroos .tss-actionbutton-container > .tss-actionbutton-displaybutton:active,
 body.tss-theme-retroos .tss-actionbutton-container > .tss-actionbutton-actionbtn:active,
 body.tss-theme-retroos .tss-actionbutton-container > .tss-btn-primary:active,
-body.tss-theme-retroos .tss-actionbutton-container > .tss-btn-danger:active {
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn-danger:active,
+body.tss-theme-retroos .tss-actionbutton-container > .tss-btn-warning:active {
     background: rgb(var(--tss-default-foreground-color-root));
     color: rgb(var(--tss-default-background-color-root));
 }
@@ -84,4 +87,9 @@ body.tss-theme-retroos .tss-actionbutton-container:has(> .tss-btn-primary) > .ts
 
 body.tss-theme-retroos .tss-actionbutton-container:has(> .tss-btn-primary) > .tss-btn-primary:last-child {
     border-radius: 0 7px 7px 0;
+}
+
+/* Warning: the same split button inside a dashed outline. */
+body.tss-theme-retroos .tss-actionbutton-container:has(> .tss-btn-warning) {
+    border-style: dashed;
 }

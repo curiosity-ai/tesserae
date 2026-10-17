@@ -35,6 +35,8 @@ body.tss-theme-curiosity .tss-menu-item.tss-menu-item-open {
 
 body.tss-theme-curiosity .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):hover,
 body.tss-theme-curiosity .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus,
+body.tss-theme-curiosity .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):hover,
+body.tss-theme-curiosity .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):focus,
 body.tss-theme-curiosity .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):hover,
 body.tss-theme-curiosity .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):focus,
 body.tss-theme-curiosity .tss-menu-item.tss-menu-item-success:not(.tss-disabled):hover,

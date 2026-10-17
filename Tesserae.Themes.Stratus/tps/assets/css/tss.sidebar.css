@@ -116,6 +116,12 @@ body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sideba
     overflow: visible;
 }
 
+/* The reference's rows touch; Tesserae leaves 2px under each, which would cut every wash into separate bars. */
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-btn-open,
+body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-nav-children > .tss-stack-item {
+    margin-bottom: 0;
+}
+
 body.tss-theme-stratus .tss-sidebar:not(.tss-sidebar-closed):not(#_) .tss-sidebar-middle .tss-sidebar-btn-open::before {
     content: "";
     position: absolute;
