@@ -360,6 +360,11 @@
     scrollbar-width: none;
 }
 
+    /* a toggle keeps its label: the strip scrolls rather than squeezing the buttons into each other */
+    .tss-dockpanel-bar-toggles > * {
+        flex-shrink: 0;
+    }
+
     .tss-dockpanel-bar-toggles::-webkit-scrollbar {
         display: none;
     }
