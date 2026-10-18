@@ -387,6 +387,22 @@ namespace Tesserae.Tests
                 });
             }
 
+            // A sample's route is its display name (#/view/Gantt%20Chart). A link naming it by type (#/view/GanttChartSample)
+            // or by its documentation slug (#/view/gantt-chart) is moved onto that route instead of falling back to the landing page.
+            Router.OnNotMatched(parts =>
+            {
+                if (parts.Length != 2 || !string.Equals(parts[0], "view", StringComparison.OrdinalIgnoreCase)) return;
+
+                var requested = parts[1];
+                var sample    = samples.Values.FirstOrDefault(s => string.Equals(s.Type, requested, StringComparison.OrdinalIgnoreCase)
+                                                                || string.Equals(s.Name.Replace(" ", "-"), requested, StringComparison.OrdinalIgnoreCase));
+
+                if (sample is null || !Router.Replace($"#/view/{sample.Name.Replace(" ", "%20")}")) return;
+
+                currentPage.Value = sample;
+                sidebar.ShowContent();
+            });
+
             Router.Initialize();
             Router.Refresh(onDone: Router.ForceMatchCurrent); // We need to forcibly match the route at first loading since we want the just-registered routes to be matched against the current URL without us *changing* that URL
         }

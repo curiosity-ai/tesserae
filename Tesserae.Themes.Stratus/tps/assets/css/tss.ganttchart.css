@@ -1,0 +1,15 @@
+/* Stratus theme - GanttChart: the 8px card radius on the frame, 3px on the bars, and the axis in Roboto Mono. */
+
+body.tss-theme-stratus .tss-gantt {
+    border-radius: 8px;
+}
+
+body.tss-theme-stratus .tss-gantt-bar {
+    border-radius: 3px;
+}
+
+body.tss-theme-stratus .tss-gantt-tick-label,
+body.tss-theme-stratus .tss-gantt-bar-text {
+    font-family: var(--tss-monospace-font-family);
+    font-variant-numeric: tabular-nums;
+}

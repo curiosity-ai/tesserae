@@ -1,0 +1,28 @@
+/* ==========================================================================
+   Curiosity theme - GanttChart
+   --------------------------------------------------------------------------
+   A ruled sheet, not a card: square corners, hairline rules, and bars that are
+   square strips rather than pills (data marks in the brand are squares). The
+   axis reads in mono with tabular figures, like every other number here.
+   Bar colours are the caller's and are left alone.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-gantt {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-gantt-bar {
+    border-radius: 0;
+    --tss-gantt-bar-height: 12px;
+}
+
+body.tss-theme-curiosity .tss-gantt-tick-label,
+body.tss-theme-curiosity .tss-gantt-bar-text {
+    font-family: var(--tss-monospace-font-family);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -.02em;
+}
+
+body.tss-theme-curiosity .tss-gantt-header-label {
+    font-weight: var(--tss-font-weight-semibold);
+}

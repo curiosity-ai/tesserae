@@ -1157,6 +1157,26 @@ namespace Tesserae
         public static ContributionBar ContributionBar() => new ContributionBar();
 
         /// <summary>
+        /// Creates a new <see cref="Tesserae.GanttChart"/>: labelled rows of bars on a shared timeline.
+        /// </summary>
+        public static GanttChart GanttChart() => new GanttChart();
+
+        /// <summary>
+        /// Creates a new <see cref="Tesserae.GanttRow"/> for a <see cref="Tesserae.GanttChart"/>, labelled with <paramref name="label"/>.
+        /// </summary>
+        public static GanttRow GanttRow(string label, params GanttBar[] bars) => new GanttRow(label, bars);
+
+        /// <summary>
+        /// Creates a new <see cref="Tesserae.GanttRow"/> for a <see cref="Tesserae.GanttChart"/>, labelled with a component.
+        /// </summary>
+        public static GanttRow GanttRow(IComponent label, params GanttBar[] bars) => new GanttRow(label, bars);
+
+        /// <summary>
+        /// Creates a new <see cref="Tesserae.GanttBar"/> spanning <paramref name="start"/> to <paramref name="end"/> on the chart's axis.
+        /// </summary>
+        public static GanttBar GanttBar(double start, double end) => new GanttBar(start, end);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.PivotSelector"/> component.
         /// </summary>
         public static PivotSelector PivotSelector() => new PivotSelector();

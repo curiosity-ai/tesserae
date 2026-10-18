@@ -218,7 +218,7 @@ mark-highlighter · omni-box · omni-result · search-box ·
 searchable-grouped-list · searchable-list
 
 **Charts & Visualization** — numbers and relationships, drawn
-activity-calendar · charts · contribution-bar · diagram · metric · node-view · sparkline ·
+activity-calendar · charts · contribution-bar · diagram · gantt-chart · metric · node-view · sparkline ·
 uptime
 
 **Feedback & Status** — progress, notifications and empty states
