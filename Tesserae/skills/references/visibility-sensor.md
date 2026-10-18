@@ -38,4 +38,4 @@ var stack = Stack().Children(
 
 - InfiniteScrollingList — `infinite-scrolling-list.md`
 - VirtualizedList — `virtualized-list.md`
-- Full docs & API: `/tesserae/components/visibility-sensor`
+- Full docs & API: `/tesserae/behaviors/visibility-sensor`

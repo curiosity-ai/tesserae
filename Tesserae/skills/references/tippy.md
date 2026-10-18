@@ -40,4 +40,4 @@ Stack().Children(
 ## Related
 
 - Toast — `toast.md`
-- Full docs & API: `/tesserae/utilities/tippy`
+- Full docs & API: `/tesserae/feedback/tippy`

@@ -111,6 +111,8 @@
                 "tps/assets/css/tss.diagram.css",
                 "tps/assets/css/tss.uptime.css",
                 "tps/assets/css/tss.activitycalendar.css",
+                "tps/assets/css/tss.scheduler.css",
+                "tps/assets/css/tss.dockpanel.css",
                 "tps/assets/css/baklava.css",
                 "tps/assets/css/tss.chat.css",
                 "tps/assets/css/tss.toolcall.css",

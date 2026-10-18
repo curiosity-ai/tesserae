@@ -56,4 +56,4 @@ pager.OnPrevious(p => Step(p, -1)).OnNext(p => Step(p, +1)).SetTooltips("Previou
 
 - Pagination — numbered page buttons for a list that pages — `pagination.md`
 - OmniResult — its modal header uses this for previous/next through the results — `omni-result.md`
-- Full docs & API: `/tesserae/components/inline-pagination`
+- Full docs & API: `/tesserae/navigation/inline-pagination`

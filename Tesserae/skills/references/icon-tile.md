@@ -60,4 +60,4 @@ var avatar = IconTile(Avatar(initials: "PN")).Circular();
 - Banner — leads its notice with one — `banner.md`
 - Metric — puts one beside the value — `metric.md`
 - Icon — the plain glyph without a tile — `icon.md`
-- Full docs & API: `/tesserae/components/icon-tile`
+- Full docs & API: `/tesserae/text/icon-tile`

@@ -44,4 +44,4 @@ var picker = Picker<TagItem>(maximumAllowedSelections: 3, suggestionsTitleText: 
 ## Related
 
 - Dropdown — `dropdown.md`
-- Full docs & API: `/tesserae/components/picker`
+- Full docs & API: `/tesserae/inputs/picker`

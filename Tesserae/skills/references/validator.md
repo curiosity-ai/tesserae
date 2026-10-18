@@ -43,6 +43,6 @@ var submit = Button("Validate").OnClick((s, b) => validator.Revalidate());
 
 ## Related
 
-- TextBox — `/tesserae/components/text-box`
-- Dropdown — `/tesserae/components/dropdown`
-- Full docs & API: `/tesserae/utilities/validator`
+- TextBox — `/tesserae/inputs/text-box`
+- Dropdown — `/tesserae/inputs/dropdown`
+- Full docs & API: `/tesserae/forms/validator`

@@ -42,7 +42,7 @@ HStack().AlignItemsCenter().Children(saveIcon, TextBlock("Save"), rocket);
 
 ## Related
 
-- UIcons — `/tesserae/utilities/uicons`
+- UIcons — `/tesserae/theming/uicons`
 - IconToggle — `icon-toggle.md`
 - AI variants — the `.AI()` variant — `ai-variants.md`
-- Full docs & API: `/tesserae/components/icon`
+- Full docs & API: `/tesserae/theming/icon`

@@ -54,4 +54,4 @@ var list = DetailsList<FileRow>(
 - DetailsGrid — `details-grid.md` (a handful of named fields about one thing, not a table)
 - VirtualizedList — `virtualized-list.md` (untyped, very large lists)
 - ItemsList — `items-list.md`
-- Full docs & API: `/tesserae/collections/details-list`
+- Full docs & API: `/tesserae/lists/details-list`

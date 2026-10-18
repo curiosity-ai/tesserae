@@ -391,4 +391,4 @@ var walker = PixelAvatar(SpriteKey.Value, PixelAvatarDesign.SpottedOrange, Pixel
 
 - User avatars and personas — `avatar.md`
 - Corner-anchored overlays in general — `float.md`
-- Full docs & API: `/tesserae/components/pixel-avatar`
+- Full docs & API: `/tesserae/media/pixel-avatar`

@@ -153,4 +153,4 @@ palette = new CommandPalette(ui, new[] { nav, home, help });
 - Keyboard shortcut chips — `keyboard-shortcut.md`
 - ShortcutGuide — the modal listing every shortcut — `shortcut-guide.md`
 - Toast — `toast.md`
-- Full docs & API: `/tesserae/utilities/command-palette`
+- Full docs & API: `/tesserae/commands/command-palette`

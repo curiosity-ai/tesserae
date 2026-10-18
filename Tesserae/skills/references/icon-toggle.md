@@ -78,4 +78,4 @@ IconToggle(
 - OmniBox (uses one as its Search/Chat mode selector) — `omni-box.md`
 - Icon — `icon.md`
 - AI variants — the `.AI()` variant — `ai-variants.md`
-- Full docs & API: `/tesserae/components/icon-toggle`
+- Full docs & API: `/tesserae/commands/icon-toggle`

@@ -40,4 +40,4 @@ document.body.appendChild(shell.Render());
 ## Related
 
 - Card — `card.md`
-- Full docs & API: `/tesserae/components/background-area`
+- Full docs & API: `/tesserae/layout/background-area`

@@ -73,4 +73,4 @@ async Task LoadAsync()
 
 - SearchableGroupedList — `searchable-grouped-list.md` (grouped variant)
 - ItemsList — `items-list.md`
-- Full docs & API: `/tesserae/collections/searchable-list`
+- Full docs & API: `/tesserae/search/searchable-list`

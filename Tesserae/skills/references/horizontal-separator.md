@@ -44,4 +44,4 @@ var ui = Stack().Children(
 
 - TextBlock, Icon
 - Stack — `stack.md`
-- Full docs & API: `/tesserae/components/horizontal-separator`
+- Full docs & API: `/tesserae/layout/horizontal-separator`

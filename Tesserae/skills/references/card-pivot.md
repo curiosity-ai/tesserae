@@ -42,4 +42,4 @@ var pivot = CardPivot()
 
 - Pivot — `pivot.md`
 - SegmentedPivot — `segmented-pivot.md`
-- Full docs & API: `/tesserae/surfaces/card-pivot`
+- Full docs & API: `/tesserae/navigation/card-pivot`

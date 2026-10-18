@@ -34,4 +34,4 @@ var bold = Button("Bold").SetIcon(UIcons.Bold)
 
 - Button — `button.md`
 - Toggle — `toggle.md`
-- Full docs & API: `/tesserae/components/toggle-button`
+- Full docs & API: `/tesserae/commands/toggle-button`

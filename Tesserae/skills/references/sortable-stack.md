@@ -44,4 +44,4 @@ return sortable.Render();
 
 - Stack — `stack.md`
 - ObservableStack — `observable-stack.md`
-- Full docs & API: `/tesserae/collections/sortable-stack`
+- Full docs & API: `/tesserae/lists/sortable-stack`

@@ -55,4 +55,4 @@ modal.Show();
 - ShortcutGuide — `shortcut-guide.md` (a modal listing the app's keyboard shortcuts)
 - Float — `float.md`
 - PixelAvatar — `pixel-avatar.md` (a cat perched on the modal's top edge)
-- Full docs & API: `/tesserae/surfaces/modal`
+- Full docs & API: `/tesserae/overlays/modal`

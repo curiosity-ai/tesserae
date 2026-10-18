@@ -81,4 +81,4 @@ both advertises and performs the toggle. Rows for keys another component already
 - Modal (the surface underneath) — `modal.md`
 - CommandPalette (the Ctrl/Cmd-K launcher a guide usually lists) — `command-palette.md`
 - Sidebar (`SidebarButton.SetKeyboardShortcut(...)`) — `sidebar.md`
-- Full docs & API: `/tesserae/surfaces/shortcut-guide`
+- Full docs & API: `/tesserae/overlays/shortcut-guide`

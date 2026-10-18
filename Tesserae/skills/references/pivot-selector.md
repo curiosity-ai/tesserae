@@ -45,4 +45,4 @@ var selector = PivotSelector()
 
 - Pivot — `pivot.md` (tab-strip variant)
 - SegmentedPivot — `segmented-pivot.md`
-- Full docs & API: `/tesserae/surfaces/pivot-selector`
+- Full docs & API: `/tesserae/navigation/pivot-selector`

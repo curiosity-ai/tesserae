@@ -42,4 +42,4 @@ var column   = VStack().H(150.px()).AlignItems(ItemAlign.Center).Children(vertic
 ## Related
 
 - StepsSlider (snaps to named discrete steps) — `steps-slider.md`
-- Full docs & API: `/tesserae/components/slider`
+- Full docs & API: `/tesserae/inputs/slider`

@@ -35,4 +35,4 @@ picker.OnChange((sender, args) =>
 ## Related
 
 - Button — `button.md`
-- Full docs & API: `/tesserae/components/color-picker`
+- Full docs & API: `/tesserae/inputs/color-picker`

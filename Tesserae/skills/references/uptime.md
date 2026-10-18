@@ -42,4 +42,4 @@ var month = UptimeCalendar("July 2024", "99.8%").Items(items.Take(30));
 
 - ActivityCalendar (an amount per day, as a heat map) — `activity-calendar.md`
 - Components overview — `/tesserae/components/`
-- Full docs & API: `/tesserae/components/uptime`
+- Full docs & API: `/tesserae/charts/uptime`

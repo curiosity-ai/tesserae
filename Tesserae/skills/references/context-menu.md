@@ -80,4 +80,4 @@ menu.Items(
 - Dialog — `dialog.md`
 - Panel — `panel.md`
 - ContextCard — attaches one of these to a card's right-click via `OnContextMenu` — `context-card.md`
-- Full docs & API: `/tesserae/surfaces/context-menu`
+- Full docs & API: `/tesserae/commands/context-menu`

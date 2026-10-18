@@ -41,4 +41,4 @@ canvas.OnPinch(s => ApplyScale(s.Scale));
 
 ## Related
 
-- Full docs & API: `/tesserae/utilities/gestures`
+- Full docs & API: `/tesserae/behaviors/gestures`

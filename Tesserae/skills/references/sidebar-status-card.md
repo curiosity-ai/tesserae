@@ -69,4 +69,4 @@ carries commands, is a `SidebarBrand` (`sidebar-brand.md`).
 - SidebarBrand — `sidebar-brand.md`
 - Sidenav (icon rail to the left) — `sidenav.md`
 - ProgressIndicator — `progress-indicator.md`
-- Full docs & API: `/tesserae/components/sidebar-status-card`
+- Full docs & API: `/tesserae/navigation/sidebar`

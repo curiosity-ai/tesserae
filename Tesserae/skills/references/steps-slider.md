@@ -44,4 +44,4 @@ var pct = new StepsSlider<int>(0, 25, 50, 75, 100).OnChange(v => console.log(v))
 ## Related
 
 - Slider (continuous range) — `slider.md`
-- Full docs & API: `/tesserae/components/steps-slider`
+- Full docs & API: `/tesserae/inputs/steps-slider`

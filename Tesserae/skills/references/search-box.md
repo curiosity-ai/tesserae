@@ -108,4 +108,4 @@ async Task RunSearchAsync(SearchBox box, string query)
 ## Related
 
 - TextBox — `text-box.md`
-- Full docs & API: `/tesserae/components/search-box`
+- Full docs & API: `/tesserae/search/search-box`

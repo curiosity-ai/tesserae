@@ -53,4 +53,4 @@ chat.Add(ChatMessage(confirm).LeftAligned().MaxWidth());
 - Chat — the transcript this usually sits in — `chat.md`
 - Dialog — when the question should block the page instead — `dialog.md`
 - Rating — a score rather than a choice — `rating.md`
-- Full docs & API: `/tesserae/components/questionnaire`
+- Full docs & API: `/tesserae/forms/questionnaire`

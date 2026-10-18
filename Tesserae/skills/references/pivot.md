@@ -101,4 +101,4 @@ reorderable strip still feel like a set of buttons:
 - CardPivot — `card-pivot.md`
 - TabbedModal — `tabbed-modal.md`
 - UnsavedChangesGuard / TabSaveIndicator (warn before losing a dirty tab) — `unsaved-changes-guard.md`
-- Full docs & API: `/tesserae/surfaces/pivot`
+- Full docs & API: `/tesserae/navigation/pivot`

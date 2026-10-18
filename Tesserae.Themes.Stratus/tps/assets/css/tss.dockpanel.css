@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Stratus theme - DockPanel
+   --------------------------------------------------------------------------
+   Slots are elevated cards (level 1) on the filled canvas, a flyout rises to
+   level 4, the active tab carries the blue underline, and the drop guides
+   are small level-2 cards with the blue fill.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-dockpanel {
+    --tss-dockpanel-radius: 6px;
+    --tss-dockpanel-accent: var(--tss-str-blue);
+    --tss-dockpanel-canvas: var(--tss-str-fill-2);
+}
+
+body.tss-theme-stratus .tss-dockpanel-slot,
+body.tss-theme-stratus .tss-dockpanel-document {
+    border-color: transparent;
+    box-shadow: var(--tss-str-elev-1);
+}
+
+body.tss-theme-stratus .tss-dockpanel-flyout > .tss-dockpanel-slot {
+    box-shadow: var(--tss-str-elev-4);
+}
+
+body.tss-theme-stratus .tss-dockpanel-guide,
+body.tss-theme-stratus .tss-dockpanel-drag-ghost {
+    border-radius: 3px;
+    box-shadow: var(--tss-str-elev-2);
+}
+
+body.tss-theme-stratus .tss-dockpanel-rail-tab {
+    border-radius: 3px;
+}

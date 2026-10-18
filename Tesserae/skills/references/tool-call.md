@@ -135,4 +135,4 @@ var failed = ToolCall(UIcons.Globe, "Fetch https://api.example.com/v1/status",
 - Chat — `chat.md`
 - ActionCard — actions drawn as rows like a call's header — `action-card.md`
 - Expander — `expander.md`
-- Full docs & API: `/tesserae/components/tool-call`
+- Full docs & API: `/tesserae/ai-chat/tool-call`

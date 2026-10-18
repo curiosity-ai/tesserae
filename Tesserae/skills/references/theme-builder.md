@@ -84,4 +84,4 @@ Theme.ResetBuild();   // back to the shipped defaults
 - Colors — the palette constants and the `Color` helper — `colors.md`
 - Gradients — `gradients.md`
 - Custom styles — your own CSS classes on top — `custom-styles.md`
-- Full docs & API: `/tesserae/utilities/theme-builder`
+- Full docs & API: `/tesserae/theming/theme-builder`

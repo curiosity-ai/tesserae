@@ -44,6 +44,6 @@ modal.Hide();
 ## Related
 
 - Modal — `modal.md` (underlying surface)
-- ProgressIndicator — `/tesserae/components/progress-indicator`
-- Spinner — `/tesserae/components/spinner`
-- Full docs & API: `/tesserae/surfaces/progress-modal`
+- ProgressIndicator — `/tesserae/feedback/progress-indicator`
+- Spinner — `/tesserae/feedback/spinner`
+- Full docs & API: `/tesserae/feedback/progress-modal`

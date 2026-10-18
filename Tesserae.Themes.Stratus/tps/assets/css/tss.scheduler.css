@@ -1,0 +1,28 @@
+/* ==========================================================================
+   Stratus theme - Scheduler
+   --------------------------------------------------------------------------
+   3px blocks on the white surface, today and the drop preview in the
+   interactive blue, the now line in the error red, and the selection drawn
+   as the 2px focus ring the theme uses for every focused control.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-scheduler {
+    --tss-scheduler-radius: 3px;
+    --tss-scheduler-today-color: var(--tss-str-blue);
+    --tss-scheduler-now-color: var(--tss-str-error);
+    --tss-scheduler-selection-color: var(--tss-str-focus);
+    border-radius: 6px;
+}
+
+body.tss-theme-stratus .tss-scheduler-toolbar {
+    background: var(--tss-str-fill);
+}
+
+body.tss-theme-stratus .tss-scheduler-ghost {
+    border-color: var(--tss-str-blue);
+    background: color-mix(in srgb, var(--tss-str-blue) 14%, transparent);
+}
+
+body.tss-theme-stratus .tss-scheduler-tooltip-title {
+    font-weight: 600;
+}

@@ -42,4 +42,4 @@ Swatch values can be theme colors, e.g. `ColorPalette.Define("Primary", Theme.Pr
 ## Related
 
 - Colors / Theme — `colors.md`
-- Full docs & API: `/tesserae/utilities/color-palette`
+- Full docs & API: `/tesserae/theming/color-palette`

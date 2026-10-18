@@ -47,4 +47,4 @@ var bar = CommandBar(
 ## Related
 
 - Button — `button.md` (alternative for standalone actions)
-- Full docs & API: `/tesserae/components/command-bar`
+- Full docs & API: `/tesserae/commands/command-bar`

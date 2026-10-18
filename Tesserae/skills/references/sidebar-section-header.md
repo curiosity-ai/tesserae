@@ -62,4 +62,4 @@ All three head a sidebar.
 - SidebarBrand — `sidebar-brand.md`
 - SidebarStatusCard — `sidebar-status-card.md`
 - SidebarSeparator (groups within the section) — `sidebar-separator.md`
-- Full docs & API: `/tesserae/components/sidebar-section-header`
+- Full docs & API: `/tesserae/navigation/sidebar`

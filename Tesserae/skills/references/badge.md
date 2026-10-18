@@ -47,7 +47,7 @@ var row = HStack().Children(
 
 ## Related
 
-- Full docs & API: `/tesserae/components/badge`
+- Full docs & API: `/tesserae/text/badge`
 - Button — `button.md`
 - StatefulItemRow — the list row these usually sit at the end of — `stateful-item-row.md`
 - AI variants — the `BadgeTone.AI` tone — `ai-variants.md`

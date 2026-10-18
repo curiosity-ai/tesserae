@@ -42,6 +42,6 @@ return masonry.Render();
 
 ## Related
 
-- Grid — `/tesserae/collections/grid` (fixed rows/columns)
+- Grid — `/tesserae/layout/grid` (fixed rows/columns)
 - Stack — `stack.md`
-- Full docs & API: `/tesserae/collections/masonry`
+- Full docs & API: `/tesserae/layout/masonry`

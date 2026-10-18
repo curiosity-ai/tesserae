@@ -38,5 +38,5 @@ remember.AsObservable().Observe(isChecked => SaveSetting(isChecked));
 ## Related
 
 - ChoiceGroup (single select) — `choice-group.md`
-- Toggle — `/tesserae/components/toggle`
-- Full docs & API: `/tesserae/components/check-box`
+- Toggle — `/tesserae/inputs/toggle`
+- Full docs & API: `/tesserae/inputs/check-box`

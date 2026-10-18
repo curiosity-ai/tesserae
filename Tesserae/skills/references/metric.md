@@ -67,4 +67,4 @@ Card(Metric(TextBlock("Rejection by DOV").Tiny().SemiBold().Foreground(Theme.Sec
 - IconTile — the tile `SetIcon` puts in front — `icon-tile.md`
 - ContributionBar — a breakdown under the value — `contribution-bar.md`
 - Sparkline — `sparkline.md`
-- Full docs & API: `/tesserae/components/metric`
+- Full docs & API: `/tesserae/charts/metric`

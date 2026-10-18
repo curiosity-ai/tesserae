@@ -37,4 +37,4 @@ var labelled = Stack().Children(
 ## Related
 
 - UIcons (icon glyphs) — `uicons.md`
-- Full docs & API: `/tesserae/utilities/emoji`
+- Full docs & API: `/tesserae/theming/emoji`

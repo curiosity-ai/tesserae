@@ -429,4 +429,4 @@ Dragging and reading are one choice, so turn the list's dragging off for rows yo
 - ContributionBar — the score breakdown under the footer — `contribution-bar.md`
 - CheckBox — the selection control — `check-box.md`
 - DetailsList / SearchableList (when the results are really a table or a grid) — `details-list.md`, `searchable-list.md`
-- Full docs & API: `/tesserae/components/omni-result`
+- Full docs & API: `/tesserae/search/omni-result`

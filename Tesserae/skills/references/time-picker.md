@@ -38,4 +38,4 @@ var component = Stack().Children(
 
 - Date Picker — `date-picker.md`
 - Date Time Picker — `date-time-picker.md`
-- Full docs & API: `/tesserae/components/time-picker`
+- Full docs & API: `/tesserae/date-time/time-picker`

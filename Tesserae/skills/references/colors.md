@@ -69,4 +69,4 @@ Theme.SetHighlight(Color.FromString("#B45309"), Color.FromString("#FBBF24"));
 - Handing a resolved color to a JS library — `wrap-a-javascript-library.md`
 - Gradients — `gradients.md`
 - ColorPalette picker — `color-palette.md`
-- Full docs & API: `/tesserae/utilities/colors`, `/tesserae/get-started/colors`
+- Full docs & API: `/tesserae/get-started/colors`, `/tesserae/get-started/colors`

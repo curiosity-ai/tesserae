@@ -44,6 +44,6 @@ DeferSync(tags.AsObservable(), list => TextBlock(string.Join(", ", list)));
 
 ## Related
 
-- Picker (fixed-set multi-select) — `/tesserae/components/picker`
-- TextBox — `/tesserae/components/text-box`
-- Full docs & API: `/tesserae/components/tags-input`
+- Picker (fixed-set multi-select) — `/tesserae/inputs/picker`
+- TextBox — `/tesserae/inputs/text-box`
+- Full docs & API: `/tesserae/inputs/tags-input`

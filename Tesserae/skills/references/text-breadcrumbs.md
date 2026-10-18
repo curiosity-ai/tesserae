@@ -45,4 +45,4 @@ var ui = Stack().Children(message, breadcrumbs);
 ## Related
 
 - Stack — `stack.md`
-- Full docs & API: `/tesserae/components/text-breadcrumbs`
+- Full docs & API: `/tesserae/navigation/text-breadcrumbs`

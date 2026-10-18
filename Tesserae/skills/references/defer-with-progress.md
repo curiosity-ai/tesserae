@@ -41,5 +41,5 @@ DeferWithProgress(async reportProgress =>
 ## Related
 
 - Defer (no progress) — `defer.md`
-- ProgressIndicator — `/tesserae/components/progress-indicator`
-- Full docs & API: `/tesserae/utilities/defer-with-progress`
+- ProgressIndicator — `/tesserae/feedback/progress-indicator`
+- Full docs & API: `/tesserae/behaviors/defer-with-progress`

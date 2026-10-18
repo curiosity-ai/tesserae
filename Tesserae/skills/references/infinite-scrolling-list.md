@@ -50,4 +50,4 @@ return InfiniteScrollingList(
 
 - VirtualizedList — `virtualized-list.md`
 - ItemsList — `items-list.md`
-- Full docs & API: `/tesserae/collections/infinite-scrolling-list`
+- Full docs & API: `/tesserae/lists/infinite-scrolling-list`

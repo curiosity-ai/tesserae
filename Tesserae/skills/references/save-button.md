@@ -46,4 +46,4 @@ saveButton = SaveButton()
 
 - Button — `button.md`
 - SavingToast — `saving-toast.md`
-- Full docs & API: `/tesserae/components/save-button`
+- Full docs & API: `/tesserae/forms/save-button`

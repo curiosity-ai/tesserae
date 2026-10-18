@@ -35,4 +35,4 @@ var area = Stack().Relative().WidthStretch().Height(400.px()).Children(
 
 - Panel — `panel.md`
 - Modal — `modal.md`
-- Full docs & API: `/tesserae/surfaces/float`
+- Full docs & API: `/tesserae/overlays/float`

@@ -61,4 +61,4 @@ var component = board.Height(600.px());
 ## Related
 
 - Cards — `card.md`
-- Full docs & API: `/tesserae/components/task-board`
+- Full docs & API: `/tesserae/lists/task-board`

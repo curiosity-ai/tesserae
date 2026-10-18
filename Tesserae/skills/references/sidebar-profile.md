@@ -114,4 +114,4 @@ new SidebarProfile("account", user.FullName, user.Email)
 - SidebarBrand — `sidebar-brand.md`
 - Sidebar — `sidebar.md`
 - Avatar / Persona — `avatar.md`
-- Full docs & API: `/tesserae/components/sidebar-profile`
+- Full docs & API: `/tesserae/navigation/sidebar`

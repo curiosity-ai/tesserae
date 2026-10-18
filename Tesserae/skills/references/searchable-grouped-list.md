@@ -58,5 +58,5 @@ return SearchableGroupedList(items,
 
 - SearchableList — `searchable-list.md` (ungrouped)
 - ItemsList — `items-list.md`
-- SearchBox — `/tesserae/components/search-box`
-- Full docs & API: `/tesserae/collections/searchable-grouped-list`
+- SearchBox — `/tesserae/search/search-box`
+- Full docs & API: `/tesserae/search/searchable-grouped-list`

@@ -96,4 +96,4 @@ items.ReplaceAll(items.Value.Reverse().ToArray());
 - Observables — `ObservableList<T>` and friends — `observables.md`
 - Stack — the container this renders as — `stack.md`
 - Chat — the streaming transcript this shape suits — `chat.md`
-- Full docs & API: `/tesserae/collections/keyed-observable-stack`
+- Full docs & API: `/tesserae/lists/keyed-observable-stack`

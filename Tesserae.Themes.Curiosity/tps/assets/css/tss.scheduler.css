@@ -1,0 +1,71 @@
+/* ==========================================================================
+   Curiosity theme - Scheduler
+   --------------------------------------------------------------------------
+   Square blocks with the hairline edge every surface has here, the toolbar
+   title in the display face, and the day names, hour labels and captions in
+   the mono uppercase label voice. Today and the now line are Signal; the
+   selection is an ink ring (paper in dark), as the focus ring is elsewhere.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-scheduler {
+    --tss-scheduler-radius: 0px;
+    --tss-scheduler-today-color: var(--tss-cur-signal);
+    --tss-scheduler-now-color: var(--tss-cur-signal);
+    --tss-scheduler-selection-color: var(--tss-default-foreground-color);
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-scheduler-title {
+    letter-spacing: -.01em;
+}
+
+body.tss-theme-curiosity .tss-scheduler-tg-dayname,
+body.tss-theme-curiosity .tss-scheduler-tg-hour,
+body.tss-theme-curiosity .tss-scheduler-tg-allday-caption,
+body.tss-theme-curiosity .tss-scheduler-month-weekday,
+body.tss-theme-curiosity .tss-scheduler-tl-corner,
+body.tss-theme-curiosity .tss-scheduler-tl-hour,
+body.tss-theme-curiosity .tss-scheduler-item-time,
+body.tss-theme-curiosity .tss-scheduler-chip-time,
+body.tss-theme-curiosity .tss-scheduler-agenda-time,
+body.tss-theme-curiosity .tss-scheduler-agenda-dayname {
+    font-family: var(--tss-monospace-font-family);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .04em;
+}
+
+body.tss-theme-curiosity .tss-scheduler-tg-dayname,
+body.tss-theme-curiosity .tss-scheduler-month-weekday,
+body.tss-theme-curiosity .tss-scheduler-tl-corner,
+body.tss-theme-curiosity .tss-scheduler-tg-allday-caption,
+body.tss-theme-curiosity .tss-scheduler-agenda-dayname {
+    text-transform: uppercase;
+    font-size: var(--tss-font-size-tiny);
+}
+
+/* Today's number is a Signal square, the brand's data mark, not a pill. */
+body.tss-theme-curiosity .tss-scheduler-tg-daynum,
+body.tss-theme-curiosity .tss-scheduler-month-date,
+body.tss-theme-curiosity .tss-scheduler-now::before,
+body.tss-theme-curiosity .tss-scheduler-resource-chip,
+body.tss-theme-curiosity .tss-scheduler-chip-dot {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-scheduler-today > .tss-scheduler-tg-daynum,
+body.tss-theme-curiosity .tss-scheduler-today > .tss-scheduler-tl-daylabel > .tss-scheduler-tg-daynum,
+body.tss-theme-curiosity .tss-scheduler-month-cell.tss-scheduler-today > .tss-scheduler-month-date {
+    color: #fff;
+}
+
+body.tss-theme-curiosity .tss-scheduler-ghost {
+    border-radius: 0;
+    border-color: var(--tss-cur-signal);
+    background: color-mix(in srgb, var(--tss-cur-signal) 14%, transparent);
+    font-family: var(--tss-monospace-font-family);
+}
+
+body.tss-theme-curiosity .tss-scheduler-tooltip-time,
+body.tss-theme-curiosity .tss-scheduler-tooltip-resources {
+    font-family: var(--tss-monospace-font-family);
+}

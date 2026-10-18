@@ -58,5 +58,5 @@ return Stack().Children(output, addButton).Render();
 
 - ObservableStack — `observable-stack.md` (renders an `ObservableList`)
 - KeyedObservableStack — the keyed, reorder-friendly variant — `keyed-observable-stack.md`
-- Defer — `/tesserae/utilities/defer`
-- Full docs & API: `/tesserae/collections/observables`
+- Defer — `/tesserae/behaviors/defer`
+- Full docs & API: `/tesserae/behaviors/observables`

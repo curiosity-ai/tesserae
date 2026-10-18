@@ -9,8 +9,8 @@ A CSS Grid layout container. Define column (and optionally row) tracks with
 `UnitSize[]`, set gaps and alignment, and add children with `.Add(...)`. Items
 can be placed/stretched across tracks. Implements `ISpecialCaseStyling`, so
 sizing helpers write directly onto the grid element (no extra wrapper). Same
-component is documented under both `/tesserae/components/grid` and
-`/tesserae/collections/grid`.
+component is documented under both `/tesserae/layout/grid` and
+`/tesserae/layout/grid`.
 
 ## Create
 
@@ -60,4 +60,4 @@ var responsive = Grid(new UnitSize("repeat(auto-fit, minmax(min(200px, 100%), 1f
 
 - Stack — `stack.md` (one-axis flow)
 - Masonry — variable-height columns
-- Full docs & API: `/tesserae/collections/grid` and `/tesserae/components/grid`
+- Full docs & API: `/tesserae/layout/grid` and `/tesserae/layout/grid`

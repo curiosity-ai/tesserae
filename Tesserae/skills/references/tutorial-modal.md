@@ -48,4 +48,4 @@ modal.Show();
 - Modal — `modal.md` (underlying surface)
 - Dialog — `dialog.md`
 - Panel — `panel.md`
-- Full docs & API: `/tesserae/surfaces/tutorial-modal`
+- Full docs & API: `/tesserae/overlays/tutorial-modal`

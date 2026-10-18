@@ -120,4 +120,4 @@ var ui = VStack().WS().Children(delta);
 ## Related
 
 - TextBlock — `text-block.md`
-- Full docs & API: `/tesserae/components/delta-component`
+- Full docs & API: `/tesserae/behaviors/delta-component`

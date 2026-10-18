@@ -40,4 +40,4 @@ for (int i = 1; i <= 3; i++)
 
 - Panel — `panel.md`
 - Dialog — `dialog.md`
-- Full docs & API: `/tesserae/surfaces/section-stack`
+- Full docs & API: `/tesserae/layout/section-stack`

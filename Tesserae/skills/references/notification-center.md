@@ -50,5 +50,5 @@ var center = NotificationCenter()
 ## Related
 
 - Toast (transient notifications) — `toast.md`
-- Panel — `/tesserae/surfaces/panel`
-- Full docs & API: `/tesserae/utilities/notification-center`
+- Panel — `/tesserae/overlays/panel`
+- Full docs & API: `/tesserae/feedback/notification-center`

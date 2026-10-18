@@ -51,4 +51,4 @@ group.AsObservable().Observe(choice => Toast().Information(choice?.Text));
 
 - CheckBox (multi-select) — `check-box.md`
 - Questionnaire — the one-shot, inline form for a chat — `questionnaire.md`
-- Full docs & API: `/tesserae/components/choice-group`
+- Full docs & API: `/tesserae/inputs/choice-group`

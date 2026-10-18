@@ -101,4 +101,4 @@ var actions = HStack().Children(
 
 - ActionButton — `action-button.md`
 - AI variants — the `.AI()` / `.AISubtle()` variant — `ai-variants.md`
-- Full docs & API: `/tesserae/components/button`
+- Full docs & API: `/tesserae/commands/button`

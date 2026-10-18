@@ -47,4 +47,4 @@ Button("Start Walkthrough").SetIcon(UIcons.Play).OnClick(() =>
 ## Related
 
 - Stepper (in-page wizard) — `stepper.md`
-- Full docs & API: `/tesserae/components/teaching`
+- Full docs & API: `/tesserae/overlays/teaching`

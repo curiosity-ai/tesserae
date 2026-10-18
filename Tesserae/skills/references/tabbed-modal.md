@@ -46,4 +46,4 @@ AddTab(1, closeable: true);
 
 - Pivot — `pivot.md`
 - Modal — `modal.md`
-- Full docs & API: `/tesserae/surfaces/tabbed-modal`
+- Full docs & API: `/tesserae/overlays/tabbed-modal`

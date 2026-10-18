@@ -51,6 +51,6 @@ var ui = Stack().Children(selected, group);
 
 ## Related
 
-- ChoiceGroup — `/tesserae/components/choice-group`
-- CheckBox — `/tesserae/components/check-box`
-- Full docs & API: `/tesserae/components/option`
+- ChoiceGroup — `/tesserae/inputs/choice-group`
+- CheckBox — `/tesserae/inputs/check-box`
+- Full docs & API: `/tesserae/inputs/option`

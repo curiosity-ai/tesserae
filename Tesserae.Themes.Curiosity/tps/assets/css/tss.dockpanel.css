@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Curiosity theme - DockPanel
+   --------------------------------------------------------------------------
+   Every slot is a square hairline frame on the stone canvas, the active tab
+   is underlined in Signal, captions take the mono uppercase label voice, and
+   the drop guides and landing preview are Signal on paper with no rounding.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-dockpanel {
+    --tss-dockpanel-radius: 0px;
+    --tss-dockpanel-accent: var(--tss-cur-signal);
+}
+
+body.tss-theme-curiosity .tss-dockpanel-caption,
+body.tss-theme-curiosity .tss-dockpanel-tab,
+body.tss-theme-curiosity .tss-dockpanel-rail-tab {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-curiosity .tss-dockpanel-button,
+body.tss-theme-curiosity .tss-dockpanel-restore,
+body.tss-theme-curiosity .tss-dockpanel-rail-tab,
+body.tss-theme-curiosity .tss-dockpanel-guide,
+body.tss-theme-curiosity .tss-dockpanel-guide::before,
+body.tss-theme-curiosity .tss-dockpanel-guide-fill,
+body.tss-theme-curiosity .tss-dockpanel-drag-ghost {
+    border-radius: 0;
+}
+
+body.tss-theme-curiosity .tss-dockpanel-preview {
+    background: color-mix(in srgb, var(--tss-cur-signal) 12%, transparent);
+}
+
+body.tss-theme-curiosity .tss-dockpanel-drag-ghost {
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}

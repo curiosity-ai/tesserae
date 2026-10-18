@@ -74,4 +74,4 @@ SearchableList(items).WithPagination(25).S();
 - InlinePagination — the compact "3 of 7" pill, for stepping one at a time from a toolbar — `inline-pagination.md`
 - SearchableList / SearchableGroupedList — `.WithPagination(pageSize)` pages them for you — `searchable-list.md`
 
-- Full docs & API: `/tesserae/components/pagination`
+- Full docs & API: `/tesserae/navigation/pagination`

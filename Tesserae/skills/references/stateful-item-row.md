@@ -94,4 +94,4 @@ var access = VStack().WS().Children(
 - Badge — the pill in the trailing slot — `badge.md`
 - Banner — the same tones, on a notice that explains a row — `banner.md`
 - ItemsList / DetailsList — what usually holds a column of these — `items-list.md`, `details-list.md`
-- Full docs & API: `/tesserae/components/stateful-item-row`
+- Full docs & API: `/tesserae/lists/stateful-item-row`

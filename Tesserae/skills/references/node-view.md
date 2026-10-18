@@ -42,4 +42,4 @@ nodeView.OnChange(nv => console.log(nv.GetJsonState(true)));
 
 - Diagram — a read-mostly flow chart, laid out for you — `diagram.md`
 - SplitView (common layout for an editor + JSON pane) — `/tesserae/layout/split-view`
-- Full docs & API: `/tesserae/utilities/node-view`
+- Full docs & API: `/tesserae/charts/node-view`

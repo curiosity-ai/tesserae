@@ -201,4 +201,4 @@ separators included, so you own the whole presentation.
 ## Related
 
 - ChoiceGroup, Toggle — alternative single-choice inputs
-- Full docs & API: `/tesserae/components/dropdown`
+- Full docs & API: `/tesserae/inputs/dropdown`

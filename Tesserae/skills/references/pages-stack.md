@@ -83,4 +83,4 @@ Standalone, in a row of its own, remember it is right-aligned inside its rail �
 - OmniResult — the search-result row this is the preview for — `omni-result.md`
 - Image — what a thumbnail page is drawn with — `image.md`
 - Carousel (when the pages should be paged through rather than previewed) — `carousel.md`
-- Full docs & API: `/tesserae/components/pages-stack`
+- Full docs & API: `/tesserae/media/pages-stack`

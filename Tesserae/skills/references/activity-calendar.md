@@ -101,4 +101,4 @@ var month = ActivityCalendar().Month(2026, 5).Vertical().FirstDayOfWeek(DayOfWee
 - Uptime (status per day rather than an amount) — `uptime.md`
 - Charts (HeatMap for an arbitrary matrix, BarChart for buckets) — `charts.md`
 - Metric (headline numbers next to it) — `metric.md`
-- Full docs & API: `/tesserae/components/activity-calendar`
+- Full docs & API: `/tesserae/charts/activity-calendar`

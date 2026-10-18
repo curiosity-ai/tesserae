@@ -61,4 +61,4 @@ var header = DetailsGrid(2).Stacked()
 - OmniResult — the modal a result opens into is where this usually sits — `omni-result.md`
 - DetailsList — many rows, many columns, sorting and grouping — `details-list.md`
 - Metric — one number with a label, for a dashboard tile — `metric.md`
-- Full docs & API: `/tesserae/components/details-grid`
+- Full docs & API: `/tesserae/lists/details-grid`

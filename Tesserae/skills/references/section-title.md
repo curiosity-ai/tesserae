@@ -32,5 +32,5 @@ var stack = Stack().Children(
 
 ## Related
 
-- SectionStack — `/tesserae/surfaces/section-stack`
-- Full docs & API: `/tesserae/components/section-title`
+- SectionStack — `/tesserae/layout/section-stack`
+- Full docs & API: `/tesserae/text/section-title`

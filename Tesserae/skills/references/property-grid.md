@@ -46,4 +46,4 @@ var grid = PropertyGrid(model)
 
 ## Related
 
-- Full docs & API: `/tesserae/components/property-grid`
+- Full docs & API: `/tesserae/forms/property-grid`

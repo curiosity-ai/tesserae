@@ -41,5 +41,5 @@ var form = VStack().Children(
 ## Related
 
 - Label — `label.md`
-- DatePicker — `/tesserae/components/date-picker`
-- Full docs & API: `/tesserae/components/month-picker`
+- DatePicker — `/tesserae/date-time/date-picker`
+- Full docs & API: `/tesserae/date-time/month-picker`

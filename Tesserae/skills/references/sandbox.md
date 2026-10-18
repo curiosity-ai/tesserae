@@ -56,4 +56,4 @@ var sandbox = Sandbox("<h1>Hello</h1><script>console.log('hi')</script>")
 
 ## Related
 
-- Full docs & API: `/tesserae/components/sandbox`
+- Full docs & API: `/tesserae/media/sandbox`

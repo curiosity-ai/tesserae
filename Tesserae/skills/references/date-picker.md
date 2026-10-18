@@ -42,4 +42,4 @@ var ui = Stack().Children(Label("Due date").SetContent(picker));
 
 - DateTimePicker — `date-time-picker.md`
 - DateRangePicker — `date-range-picker.md`
-- Full docs & API: `/tesserae/components/date-picker`
+- Full docs & API: `/tesserae/date-time/date-picker`

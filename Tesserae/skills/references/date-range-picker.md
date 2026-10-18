@@ -37,4 +37,4 @@ range.OnChange(r =>
 
 - DatePicker — `date-picker.md`
 - DateTimePicker — `date-time-picker.md`
-- Full docs & API: `/tesserae/components/date-range-picker`
+- Full docs & API: `/tesserae/date-time/date-range-picker`

@@ -137,4 +137,4 @@ row.SetFooterEntries(
 - Badge — a filled pill, for a status or a count rather than a fact on a line — `badge.md`
 - Button — an action, or a link that looks like a button (`Button(text, href)`) — `button.md`
 - AI variants — the `.AI()` variant — `ai-variants.md`
-- Full docs & API: `/tesserae/components/inline-label`
+- Full docs & API: `/tesserae/text/inline-label`
