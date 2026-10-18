@@ -32,6 +32,10 @@
     font-size: var(--tss-font-size-small);
 }
 
+.tss-dockpanel-parking {
+    display: none;
+}
+
 .tss-dockpanel-main {
     grid-area: main;
     position: relative;

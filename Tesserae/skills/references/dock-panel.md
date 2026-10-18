@@ -57,6 +57,9 @@ Give the panel a height: it fills the box it is given.
 
 The layout is rebuilt on every change by moving each pane's content element (not recreating it), so
 content keeps its state; each pane body's scroll position is carried across.
+A pane that is not on screen (closed, on its rail) keeps its content mounted in a hidden holder inside
+the panel, so `WhenMounted`/`WhenRemoved`-scoped work in it (socket subscriptions, validators, editors)
+keeps running and the pane comes back exactly as it was left.
 
 ## Related
 

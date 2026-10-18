@@ -49,6 +49,12 @@ namespace Tesserae
         private readonly HTMLElement _documentHost;
         private readonly HTMLElement _documentBody;
         private readonly HTMLElement _restoreButton;
+
+        // Where the body of a pane that is not on screen (closed, on its rail, between flyouts) waits. It is inside
+        // the panel and hidden, so the content stays mounted for as long as the panel is: a body left in a detached
+        // subtree would be reported as removed, and whatever tied itself to its lifetime (a socket subscription, a
+        // validator, an editor) would shut down for good before the pane was ever shown again.
+        private readonly HTMLElement _parking;
         private readonly Dictionary<DockEdge, HTMLElement> _rails = new Dictionary<DockEdge, HTMLElement>();
 
         private readonly List<DockPane>             _panes        = new List<DockPane>();
@@ -115,7 +121,10 @@ namespace Tesserae
                 _rails[edge] = rail;
             }
 
-            InnerElement = Div(Att("tss-dockpanel"), _rails[DockEdge.Top], _rails[DockEdge.Left], _main, _rails[DockEdge.Right], _rails[DockEdge.Bottom]);
+            _parking = Div(Att("tss-dockpanel-parking"));
+            _parking.setAttribute("aria-hidden", "true");
+
+            InnerElement = Div(Att("tss-dockpanel"), _rails[DockEdge.Top], _rails[DockEdge.Left], _main, _rails[DockEdge.Right], _rails[DockEdge.Bottom], _parking);
         }
 
         /// <summary>Gets the element sizing helpers write to.</summary>
@@ -153,6 +162,7 @@ namespace Tesserae
             if (pane is null) return this;
 
             var index = _panes.FindIndex(p => p.Id == pane.Id);
+            if (index >= 0 && _panes[index] != pane) _panes[index].Body.remove();
             if (index >= 0) _panes[index] = pane;
             else _panes.Add(pane);
 
@@ -162,6 +172,7 @@ namespace Tesserae
         /// <summary>Removes the pane with the given id.</summary>
         public DockPanel Remove(string id)
         {
+            foreach (var removed in _panes.Where(p => p.Id == id)) removed.Body.remove();
             _panes.RemoveAll(p => p.Id == id);
             if (_flyoutPane?.Id == id) CloseFlyout();
             return Invalidate();
@@ -489,6 +500,13 @@ namespace Tesserae
             {
                 if (IsOnRail(_flyoutPane)) OpenFlyout(_flyoutPane, raise: false);
                 else CloseFlyout();
+            }
+
+            // Every body the new layout did not place goes to the parking holder in this same task, before the DOM
+            // observers look at what was removed, so none of them reads as unmounted.
+            foreach (var pane in _panes)
+            {
+                if (!_main.contains(pane.Body) && pane.Body.parentElement != _parking) _parking.appendChild(pane.Body);
             }
 
             foreach (var (pane, top, left) in scrolls)
@@ -835,7 +853,7 @@ namespace Tesserae
                 _flyout = null;
 
                 // Keep the pane body out of the closing flyout, so a rebuild that docks the pane finds it free.
-                if (pane is object && flyout.contains(pane.Body)) pane.Body.remove();
+                if (pane is object && flyout.contains(pane.Body)) _parking.appendChild(pane.Body);
                 flyout.remove();
             }
 
