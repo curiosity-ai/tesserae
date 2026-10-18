@@ -49,6 +49,18 @@ Give the panel a height: it fills the box it is given.
 - `.EdgePriority(params DockEdge[])` — who owns the corners; default Top, Bottom, Left, Right (top and
   bottom span the full width).
 - Commands: `.Open(id)`, `.Close(id)`, `.Pin(id)`, `.Unpin(id)`, `.Activate(id)`, `.Move(id, edge)`, `.ShowFlyout(id)`.
+- `.Show(id)` brings a pane into view whatever its state (opens it, selects its tab, slides it out from its rail);
+  `.Toggle(id)` shows it, or hides it if it is in view; `IsShown(id)` says whether it can be seen right now.
+- `PaneToggle(id)` returns a `Button` (pane icon + title) for a toolbar outside the panel that toggles the pane and
+  stays pressed (`aria-pressed`, `tss-dockpanel-toggle-on`) while it is in view. Start secondary panes `.Closed()`,
+  hide the restore menu with `.RestoreMenu(false)`, and put the toggles in the app's own header:
+
+  ```csharp
+  var dock = DockPanel().Document(editor).Panes(
+      DockPane("settings", "Settings", settings).Left(),
+      DockPane("output", "Output", output).Bottom().Closed()).RestoreMenu(false);
+  var bar = HStack().Children(dock.CurrentPanes.Select(p => (IComponent)dock.PaneToggle(p.Id).Compact().NoBackground()).ToArray());
+  ```
 - `.GetLayout()` → JSON; `.LoadLayout(json)` → bool (unknown ids ignored, disallowed edges ignored,
   sizes clamped).
 - `.OnLayoutChanged(Action<string>)` (after every change, with the JSON), `.OnCloseRequested(Func<DockPane, bool>)`
@@ -57,6 +69,9 @@ Give the panel a height: it fills the box it is given.
 
 The layout is rebuilt on every change by moving each pane's content element (not recreating it), so
 content keeps its state; each pane body's scroll position is carried across.
+A pane that is not on screen (closed, on its rail) keeps its content mounted in a hidden holder inside
+the panel, so `WhenMounted`/`WhenRemoved`-scoped work in it (socket subscriptions, validators, editors)
+keeps running and the pane comes back exactly as it was left.
 
 ## Related
 

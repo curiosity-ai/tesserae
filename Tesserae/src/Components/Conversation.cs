@@ -707,11 +707,14 @@ namespace Tesserae
         {
             var textarea = _editorHost.querySelector("textarea").As<HTMLElement>();
             if (textarea is null) return;
-            // tss.textbox.css transitions every property, so the new floor would still be animating when measured.
-            textarea.style.transition = "none";
-            textarea.style.height     = "auto";
-            textarea.style.height     = textarea.scrollHeight + "px";
-            textarea.style.transition = "";
+            ContentHeight.FitWhenRendered(textarea, () =>
+            {
+                // tss.textbox.css transitions every property, so the new floor would still be animating when measured.
+                textarea.style.transition = "none";
+                textarea.style.height     = "auto";
+                textarea.style.height     = textarea.scrollHeight + "px";
+                textarea.style.transition = "";
+            });
         }
 
         /// <summary>Moves focus into the text area.</summary>

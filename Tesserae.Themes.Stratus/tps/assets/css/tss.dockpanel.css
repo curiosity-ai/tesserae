@@ -6,7 +6,8 @@
    are small level-2 cards with the blue fill.
    ========================================================================== */
 
-body.tss-theme-stratus .tss-dockpanel {
+body.tss-theme-stratus .tss-dockpanel,
+body.tss-theme-stratus .tss-dockpanel-toggle {
     --tss-dockpanel-radius: 6px;
     --tss-dockpanel-accent: var(--tss-str-blue);
     --tss-dockpanel-canvas: var(--tss-str-fill-2);

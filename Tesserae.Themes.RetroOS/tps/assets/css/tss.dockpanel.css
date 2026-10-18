@@ -7,6 +7,10 @@
    preview are dithered ink.
    ========================================================================== */
 
+body.tss-theme-retroos .tss-dockpanel-toggle {
+    --tss-dockpanel-accent: rgb(var(--tss-default-foreground-color-root));
+}
+
 body.tss-theme-retroos .tss-dockpanel {
     --tss-dockpanel-radius: 0px;
     --tss-dockpanel-accent: rgb(var(--tss-default-foreground-color-root));
