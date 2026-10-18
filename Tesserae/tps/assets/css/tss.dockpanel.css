@@ -17,8 +17,8 @@
     --tss-dockpanel-accent: var(--tss-primary-background-color);
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
-    grid-template-rows: auto minmax(0, 1fr) auto;
-    grid-template-areas: "top top top" "left main right" "bottom bottom bottom";
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    grid-template-areas: "bar bar bar" "top top top" "left main right" "bottom bottom bottom";
     width: 100%;
     height: 100%;
     min-width: 0;
@@ -317,6 +317,73 @@
     background: var(--tss-dockpanel-surface);
     box-shadow: 0 0 0 1px var(--tss-default-border-color);
 }
+
+/* ---------------------------------------------------------------- bar */
+
+/* Title, pane toggles and commands on one line along the top of the panel (DockPanel.Title / PaneToggles /
+   HeaderCommands). The title gives way before the toggles do, and the toggles scroll sideways rather than wrap. */
+.tss-dockpanel-bar {
+    grid-area: bar;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    min-height: var(--tss-dockpanel-header-height);
+    padding: 4px 8px 0 8px;
+    box-sizing: border-box;
+}
+
+    .tss-dockpanel-bar.tss-dockpanel-bar-empty {
+        display: none;
+    }
+
+.tss-dockpanel-bar-title {
+    display: flex;
+    align-items: center;
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+    .tss-dockpanel-bar-title:empty {
+        display: none;
+    }
+
+.tss-dockpanel-bar-toggles {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex: 0 10 auto;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+    .tss-dockpanel-bar-toggles::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tss-dockpanel-bar-toggles:empty {
+        display: none;
+    }
+
+    .tss-dockpanel-bar-title:not(:empty) + .tss-dockpanel-bar-toggles {
+        padding-left: 8px;
+        border-left: 1px solid var(--tss-default-border-color);
+    }
+
+.tss-dockpanel-bar-commands {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 0 0 auto;
+    margin-left: auto;
+}
+
+    .tss-dockpanel-bar-commands:empty {
+        display: none;
+    }
 
 /* ------------------------------------------------------- pane toggles */
 

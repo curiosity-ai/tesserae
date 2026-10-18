@@ -49,6 +49,10 @@ namespace Tesserae
         private readonly HTMLElement _documentHost;
         private readonly HTMLElement _documentBody;
         private readonly HTMLElement _restoreButton;
+        private readonly HTMLElement _bar;
+        private readonly HTMLElement _barTitle;
+        private readonly HTMLElement _barToggles;
+        private readonly HTMLElement _barCommands;
 
         // Where the body of a pane that is not on screen (closed, on its rail, between flyouts) waits. It is inside
         // the panel and hidden, so the content stays mounted for as long as the panel is: a body left in a detached
@@ -65,6 +69,9 @@ namespace Tesserae
         private DockPanelLabels _labels        = new DockPanelLabels();
         private bool            _restoreMenu   = true;
         private readonly List<(string Id, Button Button)> _toggles = new List<(string, Button)>();
+        private readonly List<Button>   _barToggleButtons = new List<Button>();
+        private bool                    _paneToggles;
+        private string                  _barToggleIds;
         private double          _collapseBelow = 600;
         private bool            _narrow;
         private bool            _rendered;
@@ -125,7 +132,13 @@ namespace Tesserae
             _parking = Div(Att("tss-dockpanel-parking"));
             _parking.setAttribute("aria-hidden", "true");
 
-            InnerElement = Div(Att("tss-dockpanel"), _rails[DockEdge.Top], _rails[DockEdge.Left], _main, _rails[DockEdge.Right], _rails[DockEdge.Bottom], _parking);
+            _barTitle    = Div(Att("tss-dockpanel-bar-title"));
+            _barToggles  = Div(Att("tss-dockpanel-bar-toggles", role: "toolbar"));
+            _barToggles.setAttribute("aria-label", _labels.Panes);
+            _barCommands = Div(Att("tss-dockpanel-bar-commands"));
+            _bar         = Div(Att("tss-dockpanel-bar tss-dockpanel-bar-empty"), _barTitle, _barToggles, _barCommands);
+
+            InnerElement = Div(Att("tss-dockpanel"), _bar, _rails[DockEdge.Top], _rails[DockEdge.Left], _main, _rails[DockEdge.Right], _rails[DockEdge.Bottom], _parking);
         }
 
         /// <summary>Gets the element sizing helpers write to.</summary>
@@ -215,10 +228,77 @@ namespace Tesserae
             return Invalidate();
         }
 
+        // ------------------------------------------------------------------ bar
+
+        /// <summary>
+        /// Puts a title at the start of the bar along the top of the panel, the line that also carries the pane toggles
+        /// (<see cref="PaneToggles"/>) and the commands (<see cref="HeaderCommands"/>). Lets a panel that fills a page or a
+        /// tab name what is open and offer its panes in one line rather than two. The bar is shown only while it has a
+        /// title, commands or pane toggles; pass null to clear the title.
+        /// </summary>
+        public DockPanel Title(IComponent title)
+        {
+            ClearChildren(_barTitle);
+            if (title is object) _barTitle.appendChild(title.Render());
+            return UpdateBar();
+        }
+
+        /// <summary>Puts a text title at the start of the panel's bar. See <see cref="Title(IComponent)"/>.</summary>
+        public DockPanel Title(string title) => Title(string.IsNullOrEmpty(title) ? null : TextBlock(title).SemiBold().NoWrap());
+
+        /// <summary>Puts commands (save, close, ...) at the end of the panel's bar, replacing any set before.</summary>
+        public DockPanel HeaderCommands(params IComponent[] commands)
+        {
+            ClearChildren(_barCommands);
+            foreach (var command in commands ?? new IComponent[0]) if (command is object) _barCommands.appendChild(command.Render());
+            return UpdateBar();
+        }
+
+        /// <summary>
+        /// Shows a <see cref="PaneToggle"/> for every pane in the panel's bar, after the title, kept in step as panes are
+        /// added and removed. Each pane can then be reached from the bar, so the restore menu is not shown while this is on.
+        /// </summary>
+        public DockPanel PaneToggles(bool show = true)
+        {
+            _paneToggles = show;
+            UpdateBarToggles();
+            UpdateBar();
+            return Invalidate();
+        }
+
+        private DockPanel UpdateBar()
+        {
+            var empty = _barTitle.childElementCount == 0 && _barCommands.childElementCount == 0 && !_paneToggles;
+            _bar.classList.toggle("tss-dockpanel-bar-empty", empty);
+            return this;
+        }
+
+        // Rebuilt only when the set of panes changes, so the buttons (and their focus) survive an ordinary rebuild.
+        private void UpdateBarToggles()
+        {
+            var ids = _paneToggles ? string.Join("\n", _panes.Select(p => p.Id)) : null;
+            if (ids == _barToggleIds) return;
+
+            _barToggleIds = ids;
+            _toggles.RemoveAll(t => _barToggleButtons.Contains(t.Button));
+            _barToggleButtons.Clear();
+            ClearChildren(_barToggles);
+
+            if (!_paneToggles) return;
+
+            foreach (var pane in _panes)
+            {
+                var toggle = PaneToggle(pane.Id).Compact().NoBackground();
+                _barToggleButtons.Add(toggle);
+                _barToggles.appendChild(toggle.Render());
+            }
+        }
+
         /// <summary>Replaces the text the panel draws on its own, for translation.</summary>
         public DockPanel Labels(DockPanelLabels labels)
         {
             _labels = labels ?? new DockPanelLabels();
+            _barToggles.setAttribute("aria-label", _labels.Panes);
             _restoreButton.setAttribute("aria-label", _labels.ClosedPanes);
             return Invalidate();
         }
@@ -571,7 +651,9 @@ namespace Tesserae
             foreach (var rail in _rails) BuildRail(rail.Key, rail.Value);
 
             var closed = _panes.Where(p => !p.IsOpen).ToList();
-            _restoreButton.style.display = _restoreMenu && closed.Count > 0 ? "" : "none";
+            _restoreButton.style.display = _restoreMenu && !_paneToggles && closed.Count > 0 ? "" : "none";
+
+            UpdateBarToggles();
 
             if (_flyoutPane is object)
             {
