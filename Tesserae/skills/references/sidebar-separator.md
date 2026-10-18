@@ -40,4 +40,4 @@ sidebar.AddContent(new SidebarButton("settings", UIcons.Settings, "Settings"));
 ## Related
 
 - Sidebar — `sidebar.md`
-- Full docs & API: `/tesserae/components/sidebar-separator`
+- Full docs & API: `/tesserae/navigation/sidebar-separator`

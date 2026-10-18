@@ -34,4 +34,4 @@ var stars = Rating(5).SetValue(4).ReadOnly();
 
 ## Related
 
-- Full docs & API: `/tesserae/components/rating`
+- Full docs & API: `/tesserae/inputs/rating`

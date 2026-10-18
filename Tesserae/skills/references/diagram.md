@@ -89,4 +89,4 @@ var entry = DiagramNode("Entry point").SetIcon(UIcons.CursorFinger).Primary()
 - Tree — hierarchy rather than flow — `tree.md`
 - Plan — a task list with progress, when the steps are sequential — `plan.md`
 - Grid — for a layout rather than a graph — `grid.md`
-- Full docs & API: `/tesserae/components/diagram`
+- Full docs & API: `/tesserae/charts/diagram`

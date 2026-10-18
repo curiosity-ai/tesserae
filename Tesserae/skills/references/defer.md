@@ -42,5 +42,5 @@ loadMessage: Spinner("Loading content..."));
 ## Related
 
 - DeferWithProgress (progress-reporting variant) — `defer-with-progress.md`
-- Spinner / ProgressIndicator — `/tesserae/components/spinner`, `/tesserae/components/progress-indicator`
-- Full docs & API: `/tesserae/utilities/defer`
+- Spinner / ProgressIndicator — `/tesserae/feedback/spinner`, `/tesserae/feedback/progress-indicator`
+- Full docs & API: `/tesserae/behaviors/defer`

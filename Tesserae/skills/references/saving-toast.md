@@ -41,4 +41,4 @@ await SaveAsync().WithSavingToast(savedMessage: "Saved!");
 ## Related
 
 - SaveButton — `save-button.md`
-- Full docs & API: `/tesserae/components/saving-toast` and `/tesserae/utilities/saving-toast`
+- Full docs & API: `/tesserae/forms/saving-toast` and `/tesserae/forms/saving-toast`

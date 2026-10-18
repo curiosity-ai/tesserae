@@ -46,4 +46,4 @@ anchor = Button("Show popover").OnClick(() => popover.ShowFor(anchor));
 ## Related
 
 - Menu — `menu.md`
-- Full docs & API: `/tesserae/components/popover`
+- Full docs & API: `/tesserae/overlays/popover`

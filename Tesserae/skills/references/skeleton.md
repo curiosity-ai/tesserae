@@ -47,4 +47,4 @@ var loadingArticle = VStack().Children(
 
 - Spinner (indeterminate loading) — `spinner.md`
 - AI variants — the `.AI()` variant — `ai-variants.md`
-- Full docs & API: `/tesserae/components/skeleton`
+- Full docs & API: `/tesserae/feedback/skeleton`

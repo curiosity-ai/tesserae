@@ -44,4 +44,4 @@ var card = Card(TextBlock("Card body content."))
 - BackgroundArea — `background-area.md`
 - UIcons — the glyph set `SetTitle`'s icon comes from — `uicons.md`
 - AI variants — the `.AI()` variant this shares with eight other components — `ai-variants.md`
-- Full docs & API: `/tesserae/components/card`
+- Full docs & API: `/tesserae/layout/card`

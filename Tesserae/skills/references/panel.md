@@ -44,4 +44,4 @@ panel.Show();
 
 - Modal — `modal.md`
 - Dialog — `dialog.md`
-- Full docs & API: `/tesserae/surfaces/panel`
+- Full docs & API: `/tesserae/overlays/panel`

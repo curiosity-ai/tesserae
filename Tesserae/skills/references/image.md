@@ -39,5 +39,5 @@ var avatar = Image("/avatars/jane.jpg", fallback: "/avatars/default.png")
 ## Related
 
 - Icon — `icon.md`
-- Avatar — `/tesserae/components/avatar`
-- Full docs & API: `/tesserae/components/image`
+- Avatar — `/tesserae/media/avatar`
+- Full docs & API: `/tesserae/media/image`

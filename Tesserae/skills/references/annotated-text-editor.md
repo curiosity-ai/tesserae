@@ -45,5 +45,5 @@ var editor = AnnotatedTextEditor(
 
 ## Related
 
-- Full docs & API: `/tesserae/components/annotated-text-editor`
-- TextBox — `/tesserae/components/text-box`
+- Full docs & API: `/tesserae/inputs/annotated-text-editor`
+- TextBox — `/tesserae/inputs/text-box`

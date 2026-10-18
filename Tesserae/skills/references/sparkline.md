@@ -44,4 +44,4 @@ var row = HStack().AlignItemsCenter().Children(
 ## Related
 
 - Cards (dashboard tiles to host sparklines) — `card.md`
-- Full docs & API: `/tesserae/components/sparkline`
+- Full docs & API: `/tesserae/charts/sparkline`

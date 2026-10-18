@@ -59,4 +59,4 @@ var rows = VStack().WS().Children(
 - ContextCard — the compact card for one attached piece of context — `context-card.md`
 - ItemsList / DetailsList — what usually holds a column of these — `items-list.md`, `details-list.md`
 - TextBlock — one line of text on its own — `text-block.md`
-- Full docs & API: `/tesserae/components/list-item-text`
+- Full docs & API: `/tesserae/text/list-item-text`

@@ -82,4 +82,4 @@ button, so it does not hover. For a section whose state changes while it is open
 - SidebarSectionHeader — `sidebar-section-header.md`
 - SidebarBrand — `sidebar-brand.md`
 - SidebarStatusCard — `sidebar-status-card.md`
-- Full docs & API: `/tesserae/components/sidenav`
+- Full docs & API: `/tesserae/navigation/sidenav`

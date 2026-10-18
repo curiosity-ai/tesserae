@@ -34,4 +34,4 @@ HStack().Gap(24.px()).AlignItems(ItemAlign.End).Children(
 ## Related
 
 - ProgressIndicator — `progress-indicator.md`
-- Full docs & API: `/tesserae/components/progress-ring`
+- Full docs & API: `/tesserae/feedback/progress-ring`

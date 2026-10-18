@@ -45,4 +45,4 @@ var nav = Breadcrumb()
 
 - OverflowSet — `overflow-set.md` (same collapse mechanism, generic items)
 - Stack — `stack.md`
-- Full docs & API: `/tesserae/collections/breadcrumb`
+- Full docs & API: `/tesserae/navigation/breadcrumb`

@@ -72,6 +72,6 @@ trigger = Button("File").OnClick(() => menu.ShowFor(trigger));
 
 ## Related
 
-- Popover — `/tesserae/components/popover`
-- ContextMenu — `/tesserae/surfaces/context-menu`
-- Full docs & API: `/tesserae/components/menu`
+- Popover — `/tesserae/overlays/popover`
+- ContextMenu — `/tesserae/commands/context-menu`
+- Full docs & API: `/tesserae/commands/menu`

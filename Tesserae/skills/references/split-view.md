@@ -43,5 +43,5 @@ var split = SplitView().H(60.vh()).W(60.vw())
 
 ## Related
 
-- Stack — `/tesserae/collections/stack`
-- Full docs & API: `/tesserae/components/split-view`
+- Stack — `/tesserae/layout/stack`
+- Full docs & API: `/tesserae/layout/split-view`

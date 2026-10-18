@@ -42,4 +42,4 @@ var plan = Plan("Database Migration")
 ## Related
 
 - ProgressIndicator — `progress-indicator.md`
-- Full docs & API: `/tesserae/components/plan`
+- Full docs & API: `/tesserae/ai-chat/plan`

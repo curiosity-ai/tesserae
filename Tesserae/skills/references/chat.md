@@ -111,4 +111,4 @@ queuedStack.Add(queued);                              // a VStack below the Chat
 - ContextCard (the attachment row above the composer) — `context-card.md`
 - ContextCards — a group of those behind one summary pill, or a compact row of pills for the sources a
   reply cites (usable with `WithReferences`) — `context-cards.md`
-- Full docs & API: `/tesserae/components/chat`
+- Full docs & API: `/tesserae/ai-chat/chat`

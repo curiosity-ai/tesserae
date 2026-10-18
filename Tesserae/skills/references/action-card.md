@@ -110,4 +110,4 @@ var group = ActionCardGroup(
 - ContextCard — the identity half is drawn from the same parts — `context-card.md`
 - ToolCall / ToolsUsed — the rows match a tool call's header — `tool-call.md`
 - Chat (ChatArea / ChatMessage) — `chat.md`
-- Full docs & API: `/tesserae/components/action-card`
+- Full docs & API: `/tesserae/ai-chat/action-card`

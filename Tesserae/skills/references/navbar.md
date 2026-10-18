@@ -55,6 +55,6 @@ var page = VStack().H(500.px()).Children(navbar, TextBlock("Content").Padding(16
 
 ## Related
 
-- Sidebar — `/tesserae/components/sidebar`
+- Sidebar — `/tesserae/navigation/sidebar`
 - Menu — `menu.md`
-- Full docs & API: `/tesserae/components/navbar`
+- Full docs & API: `/tesserae/navigation/navbar`

@@ -96,3 +96,4 @@ scheduler = Scheduler()
 ## Related
 
 `date-picker.md`, `week-picker.md`, `timeline.md`, `activity-calendar.md`, `context-menu.md`, `task-board.md`.
+- Full docs & API: `/tesserae/date-time/scheduler`

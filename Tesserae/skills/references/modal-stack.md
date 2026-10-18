@@ -74,4 +74,4 @@ ModalStack.Changed += () => Router.ReplaceQueryParameters(
 - OmniResult — `ToModal()` builds the sheet a search result opens into — `omni-result.md`
 - Layer — the overlay infrastructure underneath — `layer.md`
 - Routing — keeping the URL in step with the chain — `routing.md`
-- Full docs & API: `/tesserae/components/modal-stack`
+- Full docs & API: `/tesserae/overlays/modal-stack`

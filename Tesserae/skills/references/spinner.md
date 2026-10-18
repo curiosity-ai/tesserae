@@ -41,5 +41,5 @@ var saving = Spinner("Saving...").Below().Success().Progress(40);
 
 - Skeleton (placeholder shapes) — `skeleton.md`
 - AI variants — the `.AI()` variant — `ai-variants.md`
-- ProgressIndicator — `/tesserae/components/progress-indicator`
-- Full docs & API: `/tesserae/components/spinner`
+- ProgressIndicator — `/tesserae/feedback/progress-indicator`
+- Full docs & API: `/tesserae/feedback/spinner`

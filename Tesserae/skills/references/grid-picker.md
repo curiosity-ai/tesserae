@@ -44,4 +44,4 @@ var picker = GridPicker(columns, rows, states: 2, initialStates: initial, format
 ## Related
 
 - Button — `button.md`
-- Full docs & API: `/tesserae/components/grid-picker`
+- Full docs & API: `/tesserae/inputs/grid-picker`

@@ -495,4 +495,4 @@ var app = HStack().WS().Children(sidebar.HS(), VStack().Grow().HS());
 - SidebarSeparator — `sidebar-separator.md`
 - SidebarStatusCard (live status at the top) — `sidebar-status-card.md`
 - Sidenav (icon-only rail) — `sidenav.md`
-- Full docs & API: `/tesserae/components/sidebar`
+- Full docs & API: `/tesserae/navigation/sidebar`

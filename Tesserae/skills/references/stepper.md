@@ -48,4 +48,4 @@ var wizard = Stepper(
 ## Related
 
 - Steps (Neko doc component) and StepsSlider — `steps-slider.md`
-- Full docs & API: `/tesserae/components/stepper`
+- Full docs & API: `/tesserae/navigation/stepper`

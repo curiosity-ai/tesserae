@@ -41,4 +41,4 @@ editable.OnSave((sender, newValue) =>
 
 - EditableLabel — `editable-label.md` (single-line)
 - TextBlock, TextBox
-- Full docs & API: `/tesserae/components/editable-area`
+- Full docs & API: `/tesserae/inputs/editable-area`

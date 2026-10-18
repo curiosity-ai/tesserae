@@ -39,7 +39,7 @@ var form = Stack().Children(
 
 ## Related
 
-- TextBox — `/tesserae/components/text-box`
-- Slider — `/tesserae/components/slider`
-- Full docs & API: `/tesserae/components/number-picker`
-- Full docs & API: `/tesserae/components/number-picker`
+- TextBox — `/tesserae/inputs/text-box`
+- Slider — `/tesserae/inputs/slider`
+- Full docs & API: `/tesserae/inputs/number-picker`
+- Full docs & API: `/tesserae/inputs/number-picker`

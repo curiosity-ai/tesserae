@@ -41,5 +41,5 @@ var view = HorizontalSplitView()
 
 ## Related
 
-- Full docs & API: `/tesserae/surfaces/horizontal-split-view`
+- Full docs & API: `/tesserae/layout/horizontal-split-view`
 - SplitView (left/right variant) — `/tesserae/surfaces/`

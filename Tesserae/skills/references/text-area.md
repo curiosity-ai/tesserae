@@ -59,5 +59,5 @@ var component = VStack().Children(
 
 ## Related
 
-- TextBox (single line) — `/tesserae/components/text-box`
-- Full docs & API: `/tesserae/components/text-area`
+- TextBox (single line) — `/tesserae/inputs/text-box`
+- Full docs & API: `/tesserae/inputs/text-area`

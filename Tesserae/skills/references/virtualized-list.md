@@ -44,4 +44,4 @@ return list.Render();
 - DetailsList — `details-list.md` (typed, sortable, virtualised table)
 - InfiniteScrollingList — `infinite-scrolling-list.md` (lazy paging)
 - ItemsList — `items-list.md` (small, non-virtualised)
-- Full docs & API: `/tesserae/collections/virtualized-list`
+- Full docs & API: `/tesserae/lists/virtualized-list`

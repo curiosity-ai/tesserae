@@ -48,6 +48,6 @@ var emptyList = Message().Text("Sessions you start will show up here")
 
 ## Related
 
-- Toast — `/tesserae/surfaces/toast`
+- Toast — `/tesserae/feedback/toast`
 - Components overview — `/tesserae/components/`
-- Full docs & API: `/tesserae/components/message`
+- Full docs & API: `/tesserae/feedback/message`

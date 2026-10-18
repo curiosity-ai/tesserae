@@ -44,4 +44,4 @@ var bar = OverflowSet()
 
 - Breadcrumb — `breadcrumb.md` (hierarchical trail, same collapse logic)
 - Stack — `stack.md`
-- Full docs & API: `/tesserae/collections/overflow-set`
+- Full docs & API: `/tesserae/commands/overflow-set`

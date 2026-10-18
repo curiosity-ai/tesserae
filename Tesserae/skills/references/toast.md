@@ -72,4 +72,4 @@ Toast().Show(Banner("Export finished", "18 documents, 42 MB.")
 
 - Banner — the strip a toast shows, and the same one inline — `banner.md`
 - NotificationCenter (persistent inbox) — `notification-center.md`
-- Full docs & API: `/tesserae/utilities/toast`
+- Full docs & API: `/tesserae/feedback/toast`

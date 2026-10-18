@@ -43,4 +43,4 @@ var rows = Stack().Children(
 ## Related
 
 - Emoji — `emoji.md`
-- Full docs & API: `/tesserae/utilities/uicons`
+- Full docs & API: `/tesserae/theming/uicons`

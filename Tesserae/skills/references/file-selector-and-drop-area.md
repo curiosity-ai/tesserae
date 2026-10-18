@@ -51,4 +51,4 @@ var drop = FileDropArea()
 ## Related
 
 - Validator (form validation) — `validator.md`
-- Full docs & API: `/tesserae/utilities/file-selector-and-drop-area`
+- Full docs & API: `/tesserae/inputs/file-selector-and-drop-area`

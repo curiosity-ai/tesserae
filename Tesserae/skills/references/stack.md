@@ -48,6 +48,6 @@ return stack.Render();
 
 ## Related
 
-- Grid — `/tesserae/collections/grid` (two-axis layout)
+- Grid — `/tesserae/layout/grid` (two-axis layout)
 - SortableStack — `sortable-stack.md`, ObservableStack — `observable-stack.md`
-- Full docs & API: `/tesserae/collections/stack`
+- Full docs & API: `/tesserae/layout/stack`

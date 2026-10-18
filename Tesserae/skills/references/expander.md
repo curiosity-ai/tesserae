@@ -41,4 +41,4 @@ var expander = Expander(
 ## Related
 
 - Accordion — `accordion.md`
-- Full docs & API: `/tesserae/components/expander`
+- Full docs & API: `/tesserae/layout/expander`

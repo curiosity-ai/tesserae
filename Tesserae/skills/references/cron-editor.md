@@ -43,4 +43,4 @@ var ui = VStack().Children(editor, text);
 ## Related
 
 - Dropdown — `dropdown.md` (used internally for frequency/time)
-- Full docs & API: `/tesserae/components/cron-editor`
+- Full docs & API: `/tesserae/date-time/cron-editor`

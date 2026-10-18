@@ -87,4 +87,4 @@ said it cannot be dismissed at all (`toast.md`).
 - IconTile — the leading tile — `icon-tile.md`
 - Message — the larger empty-state block — `message.md`
 - NotificationCenter — a persistent inbox rather than a strip — `notification-center.md`
-- Full docs & API: `/tesserae/components/banner`
+- Full docs & API: `/tesserae/feedback/banner`

@@ -49,4 +49,4 @@ if (answer == Dialog.Response.Yes) { /* ... */ }
 
 - Modal — `modal.md` (underlying surface)
 - Panel — `panel.md`
-- Full docs & API: `/tesserae/surfaces/dialog`
+- Full docs & API: `/tesserae/overlays/dialog`

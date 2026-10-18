@@ -67,4 +67,4 @@ that declares "the body never scrolls" keeps that declaration.
 
 - Modal — `modal.md`
 - Dialog — `dialog.md`
-- Full docs & API: `/tesserae/surfaces/layer`
+- Full docs & API: `/tesserae/overlays/layer`

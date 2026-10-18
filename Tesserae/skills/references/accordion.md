@@ -49,5 +49,5 @@ var accordion = Accordion(
 
 ## Related
 
-- Full docs & API: `/tesserae/components/accordion`
+- Full docs & API: `/tesserae/layout/accordion`
 - Card — `card.md`

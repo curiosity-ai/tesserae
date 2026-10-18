@@ -41,4 +41,4 @@ var picker = TimeHistogramPicker(values, 12)
 ## Related
 
 - Date Picker — `date-picker.md`
-- Full docs & API: `/tesserae/components/time-histogram-picker`
+- Full docs & API: `/tesserae/date-time/time-histogram-picker`

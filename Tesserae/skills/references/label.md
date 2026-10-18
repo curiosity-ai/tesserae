@@ -43,6 +43,6 @@ var form = Stack().Children(
 
 ## Related
 
-- TextBlock — `/tesserae/components/text-block`
-- TextBox — `/tesserae/components/text-box`
-- Full docs & API: `/tesserae/components/label`
+- TextBlock — `/tesserae/text/text-block`
+- TextBox — `/tesserae/inputs/text-box`
+- Full docs & API: `/tesserae/text/label`

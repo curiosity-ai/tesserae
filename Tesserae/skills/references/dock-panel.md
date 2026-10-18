@@ -61,3 +61,4 @@ content keeps its state; each pane body's scroll position is carried across.
 ## Related
 
 `split-view.md`, `horizontal-split-view.md`, `grid.md`, `panel.md`, `pivot.md`.
+- Full docs & API: `/tesserae/layout/dock-panel`

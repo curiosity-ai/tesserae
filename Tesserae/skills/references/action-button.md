@@ -42,4 +42,4 @@ var b = ActionButton("Save", displayIcon: UIcons.Disk)
 ## Related
 
 - Button — `button.md`
-- Full docs & API: `/tesserae/components/action-button`
+- Full docs & API: `/tesserae/commands/action-button`

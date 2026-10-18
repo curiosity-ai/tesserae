@@ -62,4 +62,4 @@ Theme.SetHighlight(Color.FromString("#b45309"), Color.FromString("#fbbf24"));
 - Custom themes — a whole packaged look, switched at run time (`ICustomTheme`); these values still apply on top of one — `custom-themes.md`
 - Colors (palette constants + Color helper) — `colors.md`
 - Gradients — `gradients.md`
-- Full docs & API: `/tesserae/utilities/theme-colors`
+- Full docs & API: `/tesserae/theming/theme-colors`

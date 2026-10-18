@@ -38,5 +38,5 @@ var carousel = Carousel(
 
 ## Related
 
-- Image — `/tesserae/components/image`
-- Full docs & API: `/tesserae/components/carousel`
+- Image — `/tesserae/media/image`
+- Full docs & API: `/tesserae/media/carousel`

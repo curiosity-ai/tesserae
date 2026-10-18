@@ -128,4 +128,4 @@ var files = new Tree().Compact().Selectable(TreeSelectionMode.Multiple).CascadeS
 ## Related
 
 - Components overview — `/tesserae/components/`
-- Full docs & API: `/tesserae/components/tree`
+- Full docs & API: `/tesserae/lists/tree`

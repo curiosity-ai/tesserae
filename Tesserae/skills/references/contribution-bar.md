@@ -43,4 +43,4 @@ var bar = ContributionBar()
 - DeltaComponent — `delta-component.md`
 - Metric — `Chart()` takes a bar, so a KPI can show what its number is made of — `metric.md`
 - OmniResult — hosts one under a search result's footer as its score breakdown — `omni-result.md`
-- Full docs & API: `/tesserae/components/contribution-bar`
+- Full docs & API: `/tesserae/charts/contribution-bar`

@@ -120,4 +120,4 @@ when you want a gradient as a feature rather than as a marker.
 - Spinner — `spinner.md` · ProgressIndicator — `progress-indicator.md`
 - IconToggle — `icon-toggle.md` · SegmentedPivot — `segmented-pivot.md`
 - Gradients — `gradients.md` · Chat — `chat.md` · Tool call — `tool-call.md` · Plan — `plan.md`
-- Full docs & API: `/tesserae/ai/ai-variants`
+- Full docs & API: `/tesserae/ai-chat/ai-variants`
