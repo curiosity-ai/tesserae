@@ -1,0 +1,189 @@
+.tss-gantt {
+    --tss-gantt-label-width: 240px;
+    --tss-gantt-row-height: 44px;
+    --tss-gantt-track-min-width: 480px;
+    --tss-gantt-cell-padding: 16px;
+    --tss-gantt-bar-height: 16px;
+    --tss-gantt-bar-min-width: 4px;
+    --tss-gantt-border: 1px solid var(--tss-default-border-color);
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border: var(--tss-gantt-border);
+    border-radius: var(--tss-border-radius-lg);
+    background: var(--tss-default-background-color);
+    box-sizing: border-box;
+}
+
+.tss-gantt-grid {
+    display: grid;
+    grid-template-columns: var(--tss-gantt-label-width) minmax(var(--tss-gantt-track-min-width), 1fr);
+    min-width: calc(var(--tss-gantt-label-width) + var(--tss-gantt-track-min-width));
+    position: relative;
+}
+
+.tss-gantt-header-label,
+.tss-gantt-row-label {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    padding: 0 var(--tss-gantt-cell-padding);
+    border-right: var(--tss-gantt-border);
+    box-sizing: border-box;
+}
+
+.tss-gantt-header-label,
+.tss-gantt-header-track {
+    min-height: 44px;
+    background: var(--tss-secondary-background-color);
+    border-bottom: var(--tss-gantt-border);
+}
+
+.tss-gantt-header-label {
+    font-weight: 600;
+}
+
+.tss-gantt-header-track {
+    position: relative;
+    overflow: hidden;
+}
+
+.tss-gantt-column-label,
+.tss-gantt-tick-label {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-small);
+    white-space: nowrap;
+}
+
+.tss-gantt-column-label {
+    justify-content: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 4px;
+    box-sizing: border-box;
+}
+
+.tss-gantt-tick-label {
+    transform: translateX(-50%);
+}
+
+.tss-gantt-tick-label-start {
+    transform: translateX(4px);
+}
+
+.tss-gantt-tick-label-end {
+    transform: translateX(calc(-100% - 6px));
+}
+
+.tss-gantt-header-separator {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-left: var(--tss-gantt-border);
+}
+
+.tss-gantt-lines {
+    grid-column: 2;
+    grid-row: 2 / -1;
+    position: relative;
+    pointer-events: none;
+}
+
+.tss-gantt-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-left: 1px dashed var(--tss-default-border-color);
+}
+
+.tss-gantt-row-label {
+    grid-column: 1;
+    background: var(--tss-default-background-color);
+    border-bottom: var(--tss-gantt-border);
+    overflow: hidden;
+}
+
+.tss-gantt-row-label > * {
+    min-width: 0;
+}
+
+.tss-gantt-row-track {
+    grid-column: 2;
+    position: relative;
+    border-bottom: var(--tss-gantt-border);
+}
+
+.tss-gantt-row-label:nth-last-child(2),
+.tss-gantt-row-track:last-child {
+    border-bottom: none;
+}
+
+.tss-gantt-bar-group {
+    display: contents;
+}
+
+.tss-gantt-bar {
+    --tss-gantt-bar-color: var(--tss-colors-blue-500);
+    position: absolute;
+    top: 50%;
+    height: var(--tss-gantt-bar-height);
+    transform: translateY(-50%);
+    border-radius: var(--tss-border-radius-full);
+    border: 1px solid color-mix(in srgb, var(--tss-gantt-bar-color) 60%, transparent);
+    background: color-mix(in srgb, var(--tss-gantt-bar-color) 20%, transparent);
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.tss-gantt-bar:hover {
+    background: color-mix(in srgb, var(--tss-gantt-bar-color) 35%, transparent);
+}
+
+.tss-gantt-bar-clickable {
+    cursor: pointer;
+}
+
+.tss-gantt-bar-striped {
+    background-image: repeating-linear-gradient(-45deg, transparent 0 4px, color-mix(in srgb, var(--tss-gantt-bar-color) 30%, transparent) 4px 8px);
+}
+
+.tss-gantt-bar-blue    { --tss-gantt-bar-color: var(--tss-colors-blue-500); }
+.tss-gantt-bar-green   { --tss-gantt-bar-color: var(--tss-colors-green-500); }
+.tss-gantt-bar-purple  { --tss-gantt-bar-color: var(--tss-colors-purple-500); }
+.tss-gantt-bar-orange  { --tss-gantt-bar-color: var(--tss-colors-orange-500); }
+.tss-gantt-bar-red     { --tss-gantt-bar-color: var(--tss-colors-red-500); }
+.tss-gantt-bar-teal    { --tss-gantt-bar-color: var(--tss-colors-teal-500); }
+.tss-gantt-bar-magenta { --tss-gantt-bar-color: var(--tss-colors-magenta-500); }
+.tss-gantt-bar-yellow  { --tss-gantt-bar-color: var(--tss-colors-yellow-500); }
+.tss-gantt-bar-neutral { --tss-gantt-bar-color: var(--tss-colors-neutral-500); }
+
+.tss-gantt-bar-text {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 6px;
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.tss-gantt-bar-text-inside {
+    padding: 0 10px;
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-gantt-empty {
+    grid-column: 1 / -1;
+    padding: var(--tss-gantt-cell-padding);
+    color: var(--tss-secondary-foreground-color);
+}
