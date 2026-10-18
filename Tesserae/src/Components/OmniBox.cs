@@ -3064,7 +3064,11 @@ namespace Tesserae
         private void ResizeChatInput()
         {
             if (_chatInput == null) return;
+            ContentHeight.FitWhenRendered(_chatInput, FitChatInput);
+        }
 
+        private void FitChatInput()
+        {
             // Reset to auto so scrollHeight reflects the content height, not the current box height.
             _chatInput.style.height = "auto";
             var contentHeight = _chatInput.scrollHeight;

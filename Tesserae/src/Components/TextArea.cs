@@ -287,15 +287,18 @@ namespace Tesserae
                 InnerElement.style.maxHeight = maxHeight.Value + "px";
             }
 
-            void Resize()
+            void Fit()
             {
                 InnerElement.style.height = "auto";
                 InnerElement.style.height = InnerElement.scrollHeight + "px";
             }
 
+            void Resize() => ContentHeight.FitWhenRendered(InnerElement, Fit);
+
             if (!allowShrink)
             {
-                DomObserver.WhenMounted(InnerElement, () =>
+                // Measured once the text area has a box: mounted inside a hidden container it would read a 0px floor.
+                DomObserver.WhenMounted(InnerElement, () => ContentHeight.FitWhenRendered(InnerElement, () =>
                 {
                     var rect = (DOMRect)InnerElement.getBoundingClientRect();
                     // Do not override user-provided minHeight if it is greater
@@ -303,8 +306,8 @@ namespace Tesserae
                     {
                         InnerElement.style.minHeight = rect.height + "px";
                     }
-                    Resize();
-                });
+                    Fit();
+                }));
             }
             else
             {
