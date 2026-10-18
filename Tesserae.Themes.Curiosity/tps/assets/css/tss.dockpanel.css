@@ -6,7 +6,8 @@
    the drop guides and landing preview are Signal on paper with no rounding.
    ========================================================================== */
 
-body.tss-theme-curiosity .tss-dockpanel {
+body.tss-theme-curiosity .tss-dockpanel,
+body.tss-theme-curiosity .tss-dockpanel-toggle {
     --tss-dockpanel-radius: 0px;
     --tss-dockpanel-accent: var(--tss-cur-signal);
 }

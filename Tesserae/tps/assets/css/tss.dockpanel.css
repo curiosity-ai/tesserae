@@ -318,6 +318,23 @@
     box-shadow: 0 0 0 1px var(--tss-default-border-color);
 }
 
+/* ------------------------------------------------------- pane toggles */
+
+/* DockPanel.PaneToggle: a button outside the panel that shows and hides one pane. It sits wherever the app puts
+   it, so it declares the accent itself rather than inheriting it from the panel. Pressed is a tint of the accent
+   behind the label and an accent icon (an underline would follow the button's rounded corners). */
+.tss-dockpanel-toggle {
+    --tss-dockpanel-accent: var(--tss-primary-background-color);
+}
+
+    .tss-btn.tss-dockpanel-toggle.tss-dockpanel-toggle-on {
+        background: color-mix(in srgb, var(--tss-dockpanel-accent) 14%, transparent);
+    }
+
+        .tss-btn.tss-dockpanel-toggle.tss-dockpanel-toggle-on i {
+            color: var(--tss-dockpanel-accent);
+        }
+
 /* ------------------------------------------------------------- rails */
 
 .tss-dockpanel-rail {

@@ -64,6 +64,7 @@ namespace Tesserae
         private DockEdge[]      _edgePriority  = { DockEdge.Top, DockEdge.Bottom, DockEdge.Left, DockEdge.Right };
         private DockPanelLabels _labels        = new DockPanelLabels();
         private bool            _restoreMenu   = true;
+        private readonly List<(string Id, Button Button)> _toggles = new List<(string, Button)>();
         private double          _collapseBelow = 600;
         private bool            _narrow;
         private bool            _rendered;
@@ -271,6 +272,82 @@ namespace Tesserae
         {
             if (p.TabGroup is object) _activeTab[GroupKey(p)] = p.Id;
         });
+
+        /// <summary>
+        /// Brings a pane into view, whatever its state: opens it if it is closed, selects its tab, and slides it out
+        /// if it is on a rail (unpinned, or every pane is because the panel is narrow).
+        /// </summary>
+        public DockPanel Show(string id)
+        {
+            var pane = Pane(id);
+            if (pane is null) return this;
+
+            if (!pane.IsOpen || !IsShownInPlace(pane))
+            {
+                Change(id, p =>
+                {
+                    p.IsOpen = true;
+                    if (p.TabGroup is object) _activeTab[GroupKey(p)] = p.Id;
+                });
+            }
+
+            if (_rendered && IsOnRail(pane) && _flyoutPane != pane) OpenFlyout(pane);
+            return this;
+        }
+
+        /// <summary>
+        /// Hides a pane that is in view and shows one that is not: a docked pane is closed (and listed in the restore
+        /// menu), a pane slid out from its rail slides back. What a <see cref="PaneToggle"/> button does.
+        /// </summary>
+        public DockPanel Toggle(string id)
+        {
+            var pane = Pane(id);
+            if (pane is null) return this;
+
+            if (!IsShown(id)) return Show(id);
+
+            if (IsOnRail(pane))
+            {
+                CloseFlyout();
+                RefreshToggles();
+                return this;
+            }
+
+            return Close(id);
+        }
+
+        /// <summary>
+        /// Whether a pane can be seen right now: open, its tab selected if it shares a slot, and slid out if it lives on
+        /// a rail.
+        /// </summary>
+        public bool IsShown(string id)
+        {
+            var pane = Pane(id);
+            if (pane is null || !pane.IsOpen) return false;
+            if (IsOnRail(pane)) return _flyoutPane == pane && _flyout is object;
+            return IsShownInPlace(pane);
+        }
+
+        /// <summary>
+        /// A button that shows and hides one pane (<see cref="Toggle"/>), for a toolbar outside the panel, the way an
+        /// IDE's View menu reaches its tool windows. It carries the pane's icon and title, is marked pressed
+        /// (<c>aria-pressed</c> and the <c>tss-dockpanel-toggle-on</c> class) while the pane is in view, and follows every
+        /// change made in the panel. A panel whose panes start closed can hide its own restore menu
+        /// (<see cref="RestoreMenu"/>) and offer these instead.
+        /// </summary>
+        public Button PaneToggle(string id)
+        {
+            var pane = Pane(id) ?? throw new ArgumentException($"There is no pane with the id '{id}'.", nameof(id));
+
+            var button = UI.Button(pane.Title).Class("tss-dockpanel-toggle");
+            if (pane.PaneIcon.HasValue) button.SetIcon(pane.PaneIcon.Value);
+            button.OnClick(() => Toggle(pane.Id));
+
+            // Kept by id, so a toggle follows a pane that is replaced (Add with the same id) and goes quiet if removed.
+            _toggles.Add((pane.Id, button));
+            RefreshToggle(pane.Id, button);
+            return button;
+        }
 
         /// <summary>Moves a pane to another edge, on its own (out of any tab group).</summary>
         public DockPanel Move(string id, DockEdge edge) => Change(id, p =>
@@ -514,6 +591,27 @@ namespace Tesserae
                 pane.Body.scrollTop  = top;
                 pane.Body.scrollLeft = left;
             }
+
+            RefreshToggles();
+        }
+
+        private bool IsShownInPlace(DockPane pane)
+        {
+            if (!pane.IsOpen || IsOnRail(pane)) return false;
+            return pane.TabGroup is null || ActiveIn(pane.Edge, pane.TabGroup) == pane;
+        }
+
+        private void RefreshToggles()
+        {
+            foreach (var (id, button) in _toggles) RefreshToggle(id, button);
+        }
+
+        private void RefreshToggle(string id, Button button)
+        {
+            var shown = IsShown(id);
+            var el    = button.Render();
+            el.classList.toggle("tss-dockpanel-toggle-on", shown);
+            el.setAttribute("aria-pressed", shown ? "true" : "false");
         }
 
         private HTMLElement BuildLevel(int level)
@@ -799,6 +897,7 @@ namespace Tesserae
                 var target = e.target.As<Node>();
                 if (_flyout is null || _flyout.contains(target)) return;
                 if (_rails.Values.Any(r => r.contains(target))) return;
+                if (_toggles.Any(t => t.Button.Render().contains(target))) return; // its own toggle closes it on click
                 if (target.As<HTMLElement>()?.closest(".tss-contextmenu, [data-tippy-root], .tss-layer") is object) return;
                 CloseFlyout();
             };
@@ -807,6 +906,7 @@ namespace Tesserae
 
             foreach (var rail in _rails) BuildRail(rail.Key, rail.Value);
 
+            RefreshToggles();
             if (raise) _onFlyoutOpened?.Invoke(pane);
         }
 
@@ -861,6 +961,7 @@ namespace Tesserae
             {
                 _flyoutPane = null;
                 foreach (var rail in _rails) BuildRail(rail.Key, rail.Value);
+                RefreshToggles();
             }
         }
 
