@@ -51,6 +51,17 @@ Give the panel a height: it fills the box it is given.
 - Commands: `.Open(id)`, `.Close(id)`, `.Pin(id)`, `.Unpin(id)`, `.Activate(id)`, `.Move(id, edge)`, `.ShowFlyout(id)`.
 - `.Show(id)` brings a pane into view whatever its state (opens it, selects its tab, slides it out from its rail);
   `.Toggle(id)` shows it, or hides it if it is in view; `IsShown(id)` says whether it can be seen right now.
+- **The bar along the top:** `.Title(component | string)` (left), `.PaneToggles()` (a toggle per pane, after the
+  title, kept in step with the panes; hides the restore menu) and `.HeaderCommands(params IComponent[])` (right).
+  The bar is only drawn while it has one of the three. Use it when the panel fills a page or a tab, so the name of
+  what is open, the panes and the save/close commands share one line:
+
+  ```csharp
+  DockPanel().Document(editor).Panes(settings, output)
+     .Title("Program.cs")
+     .PaneToggles()
+     .HeaderCommands(Button("Save").SetIcon(UIcons.Disk), Button().SetIcon(UIcons.Cross));
+  ```
 - `PaneToggle(id)` returns a `Button` (pane icon + title) for a toolbar outside the panel that toggles the pane and
   stays pressed (`aria-pressed`, `tss-dockpanel-toggle-on`) while it is in view. Start secondary panes `.Closed()`,
   hide the restore menu with `.RestoreMenu(false)`, and put the toggles in the app's own header:

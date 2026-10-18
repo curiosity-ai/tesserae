@@ -233,6 +233,9 @@ namespace Tesserae
         /// <summary>The name of the button that lists the closed panes.</summary>
         public string ClosedPanes { get; set; } = "Closed panes";
 
+        /// <summary>The accessible name of the pane toggles in the panel's bar.</summary>
+        public string Panes       { get; set; } = "Panes";
+
         /// <summary>The header of the restore menu.</summary>
         public string Reopen      { get; set; } = "Reopen";
     }

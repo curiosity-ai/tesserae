@@ -29,33 +29,31 @@ namespace Tesserae.Tests.Samples
                     DockPane("history",  "History",  TextBlock("No earlier versions.").Secondary().P(12)).Icon(UIcons.Clock).Right().Closed())
                .OnLayoutChanged(json => layoutText.Text = json);
 
-            // PaneToggle: one button per pane that shows it (opening, selecting or sliding it out) and hides it again,
-            // pressed while the pane is in view - the way an IDE's View menu reaches its tool windows.
-            var toggles = HStack().Wrap().AlignItemsCenter().Gap(4.px()).Children(
-                new IComponent[] { TextBlock("Panes:").Small() }
-                   .Concat(dock.CurrentPanes.Select(p => (IComponent)dock.PaneToggle(p.Id).Compact().NoBackground()))
-                   .ToArray());
-
             var priority = HStack().AlignItemsCenter().Gap(4.px()).Children(
                 TextBlock("Corners:").Small(),
                 Button("Top & bottom span").OnClick(() => dock.EdgePriority(DockEdge.Top, DockEdge.Bottom, DockEdge.Left, DockEdge.Right)),
                 Button("Sides span").OnClick(() => dock.EdgePriority(DockEdge.Left, DockEdge.Right, DockEdge.Top, DockEdge.Bottom)));
 
-            var persistence = HStack().AlignItemsCenter().Gap(4.px()).Children(
-                Button("Save layout").SetIcon(UIcons.Disk).OnClick(() =>
+            // The bar along the top of the panel: a title, a toggle per pane (PaneToggle, pressed while the pane is in
+            // view) and commands, on one line.
+            dock.Title(HStack().AlignItemsCenter().Gap(8.px()).Children(Icon(UIcons.Folder), TextBlock("Workspace").SemiBold()))
+               .PaneToggles()
+               .HeaderCommands(
+                Button().SetIcon(UIcons.Disk).Tooltip("Save layout").OnClick(() =>
                 {
                     _savedLayout = dock.GetLayout();
                     Toast().Success("Layout saved");
                 }),
-                Button("Restore layout").SetIcon(UIcons.Refresh).OnClick(() =>
+                Button().SetIcon(UIcons.Refresh).Tooltip("Restore layout").OnClick(() =>
                 {
                     if (_savedLayout is null) Toast().Warning("Save a layout first");
                     else dock.LoadLayout(_savedLayout);
-                }),
-                Button("Reopen all").OnClick(() =>
-                {
-                    foreach (var pane in dock.CurrentPanes.Where(p => !p.IsOpen).ToList()) dock.Open(pane.Id);
                 }));
+
+            var reopen = Button("Reopen all").OnClick(() =>
+            {
+                foreach (var pane in dock.CurrentPanes.Where(p => !p.IsOpen).ToList()) dock.Open(pane.Id);
+            });
 
             _content = SectionStack().Secondary()
                .S()
@@ -63,13 +61,12 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                         TextBlock("DockPanel arranges a document with panes docked to its four edges, the way an IDE does. Panes on one edge stack with a splitter between them, and become tabs of one slot when they share a tab group. Every seam can be dragged to resize."),
-                        TextBlock("Drag a pane by its title or tab: markers appear on the borders to dock it to another edge, and a compass over the pane under the pointer joins it as a tab or places it above, below or beside. The pin sends a pane to a rail on its edge, from where it slides out over the document; the cross closes it, and the menu at the top right of the document reopens it. Below 600px every pane goes to its rail. PaneToggle gives a toolbar outside the panel a button per pane that shows and hides it."))).SetTitle("Overview")))
+                        TextBlock("Drag a pane by its title or tab: markers appear on the borders to dock it to another edge, and a compass over the pane under the pointer joins it as a tab or places it above, below or beside. The pin sends a pane to a rail on its edge, from where it slides out over the document; the cross closes it, and the menu at the top right of the document reopens it. Below 600px every pane goes to its rail. The bar along the top carries a title, a toggle per pane and commands on one line (Title, PaneToggles, HeaderCommands); PaneToggle alone puts a pane's toggle in a toolbar of your own."))).SetTitle("Overview")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                         TextBlock("Give every pane a stable id: it is what a saved layout refers to. Save the layout from OnLayoutChanged (for example to local storage) and put it back with LoadLayout when the page opens, so people find their workspace as they left it. Limit AllowEdges for panes that only make sense in one orientation, and keep the document the thing people came for: start with few panes pinned and the rest on the rails."))).SetTitle("Best Practices")))
                .FlatSection(Card(VStack().WS().Children(
-                        HStack().AlignItemsCenter().Gap(24.px()).Children(priority, persistence).MB(8),
-                        toggles.MB(8),
+                        HStack().AlignItemsCenter().Gap(24.px()).Children(priority, reopen).MB(8),
                         dock.WS().H(560),
                         layoutText.MT(8))).SetTitle("Usage"))
                .SeeAlso(typeof(SplitViewSample), typeof(HorizontalSplitViewSample), typeof(GridSample), typeof(PanelSample), typeof(PivotSample));
