@@ -124,7 +124,8 @@ a {
    spinner is rather than jumping. The rule a state lands on carries the timings for getting there:
    .tss-btn-spinning the way in, the base rules the way back, .tss-btn-spin-resolved / -fading the
    outcome. Everything is drawn in currentColor, so the ring takes the button's tone. The ring is
-   r = 20 in a 48 box: 125.66 around, the arc a quarter of it (31.4), a dot the round cap of a
+   r = 20 in a 48 box: 125.66 around, the arc --tss-spinner-arc (a quarter, 31.4, unless the theme
+   says otherwise), a dot the round cap of a
    near-zero dash. */
 .tss-btn.tss-btn-has-spin-ring {
     --tss-btn-spin-ease: cubic-bezier(.22, 1, .36, 1);
@@ -263,7 +264,7 @@ a {
 
     .tss-btn.tss-btn-spinning .tss-btn-spin-ring .tss-spinner-arc {
         opacity: 1;
-        stroke-dasharray: 31.4 94.26;
+        stroke-dasharray: var(--tss-spinner-arc);
         transition: opacity .12s var(--tss-btn-spin-ease), stroke-dasharray .6s var(--tss-btn-spin-ease) .36s;
     }
 
