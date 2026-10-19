@@ -57,6 +57,22 @@ The same option exists on the static helpers behind the component:
 string and `Markdown.RenderMarkdownSanitized(text, sanitization)` returns a rendered
 element.
 
+## Mermaid diagrams
+
+A fenced block tagged `mermaid` is drawn as a diagram (SVG) by the
+[Mermaid](https://mermaid.js.org/) library, which ships with Tesserae as
+`assets/js/tss-mermaid.min.js` and is **loaded lazily** the first time a diagram
+appears, so pages without one pay nothing. Applies to `MarkdownBlock` and
+`Markdown.RenderMarkdownSanitized`; for other HTML use
+`Markdown.RenderMermaidDiagrams(HTMLElement root)`. The theme follows dark mode at
+the time of rendering. A block that fails to parse stays as its source (class
+`tss-mermaid-error`). Diagrams are not drawn under `NoLinksOrEmbeddedContent`
+(it forbids SVG), where the block stays a code block.
+
+````csharp
+MarkdownBlock("```mermaid\nflowchart LR\n  A --> B\n```");
+````
+
 ## Example
 
 ```csharp

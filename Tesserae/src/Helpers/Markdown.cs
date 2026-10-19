@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Transpose;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -8,6 +9,8 @@ namespace Tesserae
     /// <summary>
     /// Static helpers for converting Markdown text to sanitized HTML using the
     /// globally-loaded <c>marked</c> and <c>DOMPurify</c> libraries.
+    /// A <c>```mermaid</c> block is drawn as a diagram by the Mermaid library, loaded lazily the first time one appears
+    /// (never under <see cref="MarkdownSanitization.NoLinksOrEmbeddedContent"/>, which forbids SVG).
     /// The dependencies are bundled with Tesserae and always loaded - no preload step is required.
     /// </summary>
     [Transpose.Name("tss.Markdown")]
@@ -64,6 +67,65 @@ namespace Tesserae
             return sanitized;
         }
 
+        /// <summary>The URL <see cref="RenderMermaidDiagrams"/> loads the Mermaid library from, on first use.</summary>
+        public const string MermaidScriptUrl = "assets/js/tss-mermaid.min.js";
+
+        private static int _mermaidCounter;
+
+        /// <summary>
+        /// Replaces every <c>```mermaid</c> code block under <paramref name="root"/> with the diagram it describes.
+        /// The Mermaid library is not part of the always-loaded bundle: it is fetched the first time a page has
+        /// a diagram to draw. A block that fails to parse stays as its source, with the error beneath it.
+        /// Meant for HTML that came out of <see cref="ConvertMarkdownSanitized"/>; <see cref="MarkdownBlock"/>
+        /// and <see cref="RenderMarkdownSanitized"/> call it themselves.
+        /// </summary>
+        public static void RenderMermaidDiagrams(HTMLElement root)
+        {
+            var blocks = root.querySelectorAll("pre > code.language-mermaid");
+            if (blocks.length == 0) return;
+
+            foreach (var found in blocks)
+            {
+                RenderMermaidDiagramAsync(found.As<HTMLElement>()).FireAndForget();
+            }
+        }
+
+        private static async Task RenderMermaidDiagramAsync(HTMLElement code)
+        {
+            var pre    = code.parentElement;
+            var source = code.textContent ?? string.Empty;
+
+            try
+            {
+                await Require.LoadScriptAsync(MermaidScriptUrl);
+
+                //The text was set again while the library loaded, and this block went with it.
+                if (pre.parentElement == null) return;
+
+                var dark = document.body.classList.contains("tss-dark-mode");
+                var id   = "tss-mermaid-" + (++_mermaidCounter);
+
+                //Mermaid is an untyped global with no C# surface; strict security level makes it sanitize its own output.
+                var svg = await Script.Write<Task<string>>(
+                    "(async function(){ var m = globalThis.mermaid; m.initialize({ startOnLoad:false, securityLevel:'strict', theme:{0} ? 'dark' : 'default' });"
+                  + " return (await m.render({1}, {2})).svg; })()", dark, id, source);
+
+                if (pre.parentElement == null) return;
+
+                var host = Div(Att("tss-mermaid"));
+                host.innerHTML = svg;
+                pre.parentElement.replaceChild(host, pre);
+            }
+            catch (Exception e)
+            {
+                //A failed render leaves mermaid's own error element on the body.
+                Script.Write("var leftover = document.getElementById('d' + {0}); if (leftover) leftover.remove();", "tss-mermaid-" + _mermaidCounter);
+                if (pre.parentElement == null) return;
+                pre.classList.add("tss-mermaid-error");
+                pre.title = e.Message;
+            }
+        }
+
         private static string RemoveExcessiveNewLines(string markedOutput)
         {
             return Script.Write<string>("{0}.replace(/>\\r?\\n</g, \"><\")", markedOutput);
@@ -79,6 +141,7 @@ namespace Tesserae
             var el            = Raw(convertedText, forceParseAsHTML: true);
             el.classList.add("tss-markdown");
             el.style.whiteSpace = "break-spaces";
+            if (sanitization == MarkdownSanitization.Default) RenderMermaidDiagrams(el);
             return el;
         }
     }

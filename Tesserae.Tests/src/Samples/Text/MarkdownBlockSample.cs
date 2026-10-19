@@ -48,6 +48,16 @@ https://example.com/tracker is plain text, and this image never loads:
 ![a pixel that would call home](https://example.com/pixel.png)
 ";
 
+            const string mermaidSample =
+@"```mermaid
+flowchart LR
+    A[Markdown] --> B(marked)
+    B --> C{DOMPurify}
+    C -->|safe HTML| D[MarkdownBlock]
+    D --> E[Mermaid diagram]
+```
+";
+
             const string tableSample =
 @"| Region | Q1    | Q2    | Notes                |
 | :----- | ----: | ----: | -------------------- |
@@ -81,6 +91,9 @@ https://example.com/tracker is plain text, and this image never loads:
                         SampleSubTitle("Copying tables"),
                         TextBlock("Every table gets two buttons beside it: Copy Table puts it on the clipboard as HTML, so it pastes as a table into a document, a spreadsheet or an email, and Copy as CSV puts it there as comma-separated text. Turn them off with TableCopyButtons(false)."),
                         MarkdownBlock(tableSample),
+                        SampleSubTitle("Mermaid diagrams"),
+                        TextBlock("A fenced block tagged mermaid is drawn as a diagram. The Mermaid library is not part of the main bundle: it is fetched the first time a diagram appears. A block that does not parse stays as its source. Diagrams are not drawn under NoLinksOrEmbeddedContent, which forbids SVG."),
+                        MarkdownBlock(mermaidSample),
                         SampleSubTitle("Sanitization"),
                         TextBlock("MarkdownBlock will strip dangerous HTML even when it is embedded inside Markdown:"),
                         MarkdownBlock("This `<script>alert('xss')</script>` will not run, and this <img src=x onerror=alert(1)> attribute is stripped too."),

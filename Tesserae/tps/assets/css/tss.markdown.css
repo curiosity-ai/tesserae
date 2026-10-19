@@ -366,3 +366,19 @@
         opacity: 1;
     }
 }
+
+.tss-markdown .tss-mermaid {
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    margin: 8px 0;
+}
+
+    .tss-markdown .tss-mermaid > svg {
+        max-width: 100%;
+        height: auto;
+    }
+
+.tss-markdown pre.tss-mermaid-error {
+    outline: 1px solid var(--tss-danger-color, #c00);
+}

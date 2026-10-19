@@ -170,6 +170,14 @@
             "output": "assets/js"
         },
         {
+            "name": "tss-mermaid.min.js",
+            "load": false,
+            "files": [
+                "tps/assets/js/mermaid.min.js"
+            ],
+            "output": "assets/js"
+        },
+        {
             "name": "fonts",
             "files": [
                 "tps/assets/fonts/*"

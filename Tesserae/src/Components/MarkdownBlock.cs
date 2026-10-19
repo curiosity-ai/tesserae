@@ -45,6 +45,7 @@ namespace Tesserae
                 DestroyTableActionTooltips();
                 InnerElement.innerHTML = Tesserae.Markdown.ConvertMarkdownSanitized(_text, _sanitization);
                 if (_tableCopyButtons) AddTableCopyButtons(InnerElement);
+                if (_sanitization == MarkdownSanitization.Default) Tesserae.Markdown.RenderMermaidDiagrams(InnerElement);
                 _onAfterRender?.Invoke(InnerElement);
             }
         }
