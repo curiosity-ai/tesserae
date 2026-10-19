@@ -22,7 +22,7 @@ namespace Tesserae
     /// <c>.Validation(...)</c> on the same box keeps working.
     /// </remarks>
     [Transpose.Name("tss.AutoCompleteBox")]
-    public sealed class AutoCompleteBox : Input<AutoCompleteBox>, IRoundedStyle
+    public sealed class AutoCompleteBox : Input<AutoCompleteBox>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, IRoundedStyle
     {
         private static int _instanceCounter;
 
@@ -30,6 +30,7 @@ namespace Tesserae
         private readonly HTMLElement _status;
         private readonly HTMLElement _statusIcon;
         private readonly HTMLElement _statusText;
+        private readonly HTMLElement _statusSpinner;
         private readonly IComponent  _statusComponent;
         private readonly HTMLElement _container;
         private readonly Popover     _popover;
@@ -60,10 +61,10 @@ namespace Tesserae
             InnerElement.setAttribute("aria-autocomplete", "list");
             InnerElement.setAttribute("aria-expanded",     "false");
 
-            _listId = "tss-autocomplete-list-" + (++_instanceCounter);
+            _listId = "tss-autocompletebox-list-" + (++_instanceCounter);
             InnerElement.setAttribute("aria-controls", _listId);
 
-            _list = Div(Att("tss-autocomplete-list", id: _listId, role: "listbox"));
+            _list = Div(Att("tss-autocompletebox-list", id: _listId, role: "listbox"));
 
             // Keeps the focus in the input while a row (or the list's scrollbar) is pressed, so picking
             // a suggestion does not blur the box and close the list before the click lands.
@@ -71,16 +72,17 @@ namespace Tesserae
 
             // The indicator sits inside the box at its end: an icon and a short label, which is also
             // what a screen reader announces. The check's explanation, if it has one, is its tooltip.
-            _statusIcon      = I(Att("tss-autocomplete-status-icon"));
-            _statusText      = Span(Att("tss-autocomplete-status-text"));
-            _status          = Div(Att("tss-autocomplete-status"), _statusIcon, _statusText);
+            _statusIcon      = I(Att("tss-autocompletebox-status-icon"));
+            _statusText      = Span(Att("tss-autocompletebox-status-text"));
+            _statusSpinner   = Spinner().XSmall().Class("tss-autocompletebox-status-spinner").Render(); // Shown only while a check runs
+            _status          = Div(Att("tss-autocompletebox-status"), _statusIcon, _statusSpinner, _statusText);
             _statusComponent = Raw(_status);
             _status.setAttribute("aria-live", "polite");
 
             _container = Render();
-            _container.classList.add("tss-autocomplete");
+            _container.classList.add("tss-autocompletebox");
 
-            var field = Div(Att("tss-autocomplete-field"));
+            var field = Div(Att("tss-autocompletebox-field"));
             _container.insertBefore(field, InnerElement);
             field.appendChild(InnerElement);
             field.appendChild(_status);
@@ -90,7 +92,7 @@ namespace Tesserae
             new ResizeObserver((entries, obs) =>
             {
                 if (!_status.isConnected) return; // Detached, it measures as nothing
-                field.style.setProperty("--tss-autocomplete-status-width", _status.offsetWidth + "px");
+                field.style.setProperty("--tss-autocompletebox-status-width", _status.offsetWidth + "px");
             }).observe(_status);
 
             _popover = new Popover(Raw(_list))
@@ -128,6 +130,53 @@ namespace Tesserae
         {
             Placeholder = placeholder;
             return this;
+        }
+
+        /// <summary>Gets or sets the text size.</summary>
+        public TextSize Size
+        {
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
+            set
+            {
+                InnerElement.classList.remove(Size.ToString());
+                InnerElement.classList.add(value.ToString());
+            }
+        }
+
+        /// <summary>Gets or sets the text weight.</summary>
+        public TextWeight Weight
+        {
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
+            set
+            {
+                InnerElement.classList.remove(Weight.ToString());
+                InnerElement.classList.add(value.ToString());
+            }
+        }
+
+        /// <summary>Gets or sets the text alignment.</summary>
+        public TextAlign TextAlign
+        {
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextAlign.Left);
+            set
+            {
+                InnerElement.classList.remove(TextAlign.ToString());
+                InnerElement.classList.add(value.ToString());
+            }
+        }
+
+        /// <summary>Gets or sets the background color.</summary>
+        public string Background
+        {
+            get => InnerElement.style.background;
+            set => InnerElement.style.background = value;
+        }
+
+        /// <summary>Gets or sets the foreground color.</summary>
+        public string Foreground
+        {
+            get => InnerElement.style.color;
+            set => InnerElement.style.color = value;
         }
 
         /// <summary>Gets or sets whether the box is read-only; a read-only box shows no suggestions.</summary>
@@ -190,18 +239,18 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Checks the text asynchronously after each edit, debounced by <paramref name="debounceMs"/>,
+        /// Checks the text asynchronously after each edit, debounced by <paramref name="debounceMilliseconds"/>,
         /// and shows the answer as an icon and its message at the end of the box, with the answer's
         /// tooltip (if any) over them: <see cref="AutoCompleteCheck.Valid"/>,
         /// <see cref="AutoCompleteCheck.Warning"/>, <see cref="AutoCompleteCheck.Invalid"/> (which also
         /// draws the box's border red), or <see cref="AutoCompleteCheck.None"/> for nothing. An empty
         /// box is not checked. The initial text is checked straight away.
         /// </summary>
-        public AutoCompleteBox CheckAsync(Func<string, Task<AutoCompleteCheck>> check, int debounceMs = 400)
+        public AutoCompleteBox CheckAsync(Func<string, Task<AutoCompleteCheck>> check, int debounceMilliseconds = 400)
         {
             _check           = check;
-            _checkDebounceMs = Math.Max(0, debounceMs);
-            InnerElement.classList.add("tss-autocomplete-has-check");
+            _checkDebounceMs = Math.Max(0, debounceMilliseconds);
+            InnerElement.classList.add("tss-autocompletebox-has-check");
             Recheck();
             return this;
         }
@@ -258,8 +307,8 @@ namespace Tesserae
 
         private void ShowChecking()
         {
-            _status.className      = "tss-autocomplete-status tss-autocomplete-status-checking";
-            _statusIcon.className  = "tss-autocomplete-status-icon " + Icon.Transform(UIcons.Spinner, UIconsWeight.Regular);
+            _status.className      = "tss-autocompletebox-status tss-autocompletebox-status-checking";
+            _statusIcon.className  = "tss-autocompletebox-status-icon";
             _statusText.innerText  = "Checking…";
             _status.title          = "";
             SetStatusTooltip(null);
@@ -269,12 +318,12 @@ namespace Tesserae
         {
             LastCheck = result;
 
-            _container.classList.toggle("tss-autocomplete-invalid", result?.State == AutoCompleteCheckState.Invalid);
+            _container.classList.toggle("tss-autocompletebox-invalid", result?.State == AutoCompleteCheckState.Invalid);
 
             if (result is null || result.State == AutoCompleteCheckState.None)
             {
-                _status.className     = "tss-autocomplete-status";
-                _statusIcon.className = "tss-autocomplete-status-icon";
+                _status.className     = "tss-autocompletebox-status";
+                _statusIcon.className = "tss-autocompletebox-status-icon";
                 _statusText.innerText = "";
                 _status.title         = "";
                 SetStatusTooltip(null);
@@ -291,8 +340,8 @@ namespace Tesserae
                 default:                             icon = UIcons.CrossCircle;     state = "invalid"; break;
             }
 
-            _status.className     = "tss-autocomplete-status tss-autocomplete-status-visible tss-autocomplete-status-" + state;
-            _statusIcon.className = "tss-autocomplete-status-icon " + Icon.Transform(icon, UIconsWeight.Regular);
+            _status.className     = "tss-autocompletebox-status tss-autocompletebox-status-visible tss-autocompletebox-status-" + state;
+            _statusIcon.className = "tss-autocompletebox-status-icon " + Icon.Transform(icon, UIconsWeight.Regular);
             _statusText.innerText = result.Message ?? "";
 
             // A long label is cut short, so without a tooltip the full message stays reachable as the title.
@@ -306,11 +355,11 @@ namespace Tesserae
 
             if (string.IsNullOrWhiteSpace(tooltip))
             {
-                _status.classList.remove("tss-autocomplete-status-has-tooltip");
+                _status.classList.remove("tss-autocompletebox-status-has-tooltip");
                 return;
             }
 
-            _status.classList.add("tss-autocomplete-status-has-tooltip");
+            _status.classList.add("tss-autocompletebox-status-has-tooltip");
             _statusComponent.Tooltip(TextBlock(tooltip));
         }
 
@@ -409,7 +458,7 @@ namespace Tesserae
             for (var i = 0; i < matches.Count; i++)
             {
                 var value = matches[i];
-                var row   = Div(Att("tss-autocomplete-item", id: _listId + "-" + i, role: "option"));
+                var row   = Div(Att("tss-autocompletebox-item", id: _listId + "-" + i, role: "option"));
                 row.setAttribute("aria-selected", "false");
                 AppendHighlighted(row, value, query);
 
@@ -434,7 +483,7 @@ namespace Tesserae
             }
 
             if (index > 0) row.appendChild(document.createTextNode(value.Substring(0, index)));
-            row.appendChild(Span(Att("tss-autocomplete-match", text: value.Substring(index, query.Length))));
+            row.appendChild(Span(Att("tss-autocompletebox-match", text: value.Substring(index, query.Length))));
             if (index + query.Length < value.Length) row.appendChild(document.createTextNode(value.Substring(index + query.Length)));
         }
 
@@ -442,7 +491,7 @@ namespace Tesserae
         {
             if (_highlighted >= 0 && _highlighted < _rows.Count)
             {
-                _rows[_highlighted].classList.remove("tss-autocomplete-item-highlight");
+                _rows[_highlighted].classList.remove("tss-autocompletebox-item-highlight");
                 _rows[_highlighted].setAttribute("aria-selected", "false");
             }
 
@@ -455,7 +504,7 @@ namespace Tesserae
             }
 
             var row = _rows[index];
-            row.classList.add("tss-autocomplete-item-highlight");
+            row.classList.add("tss-autocompletebox-item-highlight");
             row.setAttribute("aria-selected", "true");
             InnerElement.setAttribute("aria-activedescendant", row.id);
 

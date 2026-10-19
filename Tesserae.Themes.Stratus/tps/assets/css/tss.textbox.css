@@ -69,13 +69,13 @@ body.tss-theme-stratus .tss-textbox[readonly]:not(.tss-disabled):not(.tss-textbo
 }
 
 body.tss-theme-stratus .tss-textbox-container.tss-invalid .tss-textbox,
-body.tss-theme-stratus .tss-textbox-container.tss-autocomplete-invalid .tss-textbox {
+body.tss-theme-stratus .tss-textbox-container.tss-autocompletebox-invalid .tss-textbox {
     border: 0;
     box-shadow: 0 3px 0 0 var(--tss-str-error);
 }
 
 body.tss-theme-stratus .tss-textbox-container.tss-invalid .tss-textbox:focus,
-body.tss-theme-stratus .tss-textbox-container.tss-autocomplete-invalid .tss-textbox:focus {
+body.tss-theme-stratus .tss-textbox-container.tss-autocompletebox-invalid .tss-textbox:focus {
     box-shadow: 0 0 0 3px var(--tss-str-error);
 }
 

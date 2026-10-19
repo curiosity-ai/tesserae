@@ -1,7 +1,7 @@
 /* AutoCompleteBox */
 /* The input itself is a .tss-textbox; these rules cover the suggestion list and the check indicator inside it. */
 
-.tss-autocomplete-list {
+.tss-autocompletebox-list {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -16,7 +16,7 @@
 }
 
 /* A row keeps its height when the list is cut by max-height; the list scrolls instead. */
-.tss-autocomplete-item {
+.tss-autocompletebox-item {
     flex-shrink: 0;
     padding: 6px 12px;
     cursor: pointer;
@@ -29,26 +29,26 @@
     -webkit-user-select: none;
 }
 
-.tss-autocomplete-item.tss-autocomplete-item-highlight {
+.tss-autocompletebox-item.tss-autocompletebox-item-highlight {
     background-color: var(--tss-default-background-hover-color);
 }
 
-.tss-autocomplete-match {
+.tss-autocompletebox-match {
     font-weight: var(--tss-font-weight-semibold);
 }
 
 /* The check indicator sits inside the box at its end; the input's end padding follows its measured width
-   (--tss-autocomplete-status-width, kept by a ResizeObserver), so typed text never runs under the label. */
-.tss-autocomplete-field {
+   (--tss-autocompletebox-status-width, kept by a ResizeObserver), so typed text never runs under the label. */
+.tss-autocompletebox-field {
     position: relative;
     width: 100%;
 }
 
-.tss-textbox-container.tss-autocomplete .tss-textbox.tss-autocomplete-has-check {
-    padding-right: calc(var(--tss-autocomplete-status-width, 0px) + 16px);
+.tss-textbox-container.tss-autocompletebox .tss-textbox.tss-autocompletebox-has-check {
+    padding-right: calc(var(--tss-autocompletebox-status-width, 0px) + 16px);
 }
 
-.tss-autocomplete-status {
+.tss-autocompletebox-status {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -62,50 +62,49 @@
     cursor: default;
 }
 
-.tss-autocomplete-status.tss-autocomplete-status-visible,
-.tss-autocomplete-status.tss-autocomplete-status-checking {
+.tss-autocompletebox-status.tss-autocompletebox-status-visible,
+.tss-autocompletebox-status.tss-autocompletebox-status-checking {
     display: flex;
 }
 
-.tss-autocomplete-status.tss-autocomplete-status-has-tooltip {
+.tss-autocompletebox-status.tss-autocompletebox-status-has-tooltip {
     cursor: help;
 }
 
-.tss-autocomplete-status-icon {
+.tss-autocompletebox-status-icon {
     display: inline-flex;
     flex-shrink: 0;
     line-height: 1;
 }
 
 /* The label next to the icon; one line, cut short with an ellipsis when the box is narrow. */
-.tss-autocomplete-status-text {
+.tss-autocompletebox-status-text {
     min-width: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.tss-autocomplete-status-text:empty {
+.tss-autocompletebox-status-text:empty {
     display: none;
 }
 
-.tss-autocomplete-status-valid   { color: var(--tss-success-background-color); }
-.tss-autocomplete-status-warning { color: var(--tss-warning-background-color); }
-.tss-autocomplete-status-invalid { color: var(--tss-danger-background-color); }
+.tss-autocompletebox-status-valid   { color: var(--tss-success-background-color); }
+.tss-autocompletebox-status-warning { color: var(--tss-warning-background-color); }
+.tss-autocompletebox-status-invalid { color: var(--tss-danger-background-color); }
 
 /* An invalid answer draws the box like an invalid field, without touching .tss-invalid (which belongs to .Validation). */
-.tss-textbox-container.tss-autocomplete-invalid .tss-textbox {
+.tss-textbox-container.tss-autocompletebox-invalid .tss-textbox {
     border-color: var(--tss-invalid-border-color);
 }
 
-.tss-autocomplete-status-checking .tss-autocomplete-status-icon {
-    animation: tss-autocomplete-spin 1s linear infinite;
+/* While a check runs, the toolkit's Spinner takes the icon's place; its own (empty) label is not used. */
+.tss-autocompletebox-status .tss-autocompletebox-status-spinner,
+.tss-autocompletebox-status-checking .tss-autocompletebox-status-icon,
+.tss-autocompletebox-status-spinner .tss-spinner-label {
+    display: none;
 }
 
-@keyframes tss-autocomplete-spin { to { transform: rotate(360deg); } }
-
-@media (prefers-reduced-motion: reduce) {
-    .tss-autocomplete-status-checking .tss-autocomplete-status-icon {
-        animation: none;
-    }
+.tss-autocompletebox-status-checking .tss-autocompletebox-status-spinner {
+    display: flex;
 }

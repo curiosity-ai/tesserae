@@ -63,7 +63,7 @@ namespace Tesserae.Tests.Samples
                             return Fruits.Contains(text)
                                 ? AutoCompleteCheck.Valid()
                                 : AutoCompleteCheck.Invalid(tooltip: $"\"{text}\" is not in the list of fruits this field accepts.");
-                        }, debounceMs: 250))
+                        }, debounceMilliseconds: 250))
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(TextBoxSample), typeof(DropdownSample), typeof(PickerSample));
         }

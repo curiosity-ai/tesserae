@@ -10,7 +10,9 @@ asynchronous check whose answer is shown as an icon and a short label at the end
 a shortcut, not a constraint. If the value must be one of a list, use a `Dropdown().Searchable()` instead.
 
 Extends `Input`, so it has `.Text`, `.Disabled()`, `.Required()`, `.Validation(...)`, `.Bind(...)`,
-`.OnChange(...)`, `.OnInput(...)`, `.OnBlur(...)` like a `TextBox`.
+`.OnChange(...)`, `.OnInput(...)`, `.OnBlur(...)` like a `TextBox`, and the same text formatting
+(`ITextFormating`: `.Medium()`, `.SemiBold()`, `.TextCenter()`…), `.Background(...)` / `.Foreground(...)` and `.Rounded(...)`.
+CSS classes are `tss-autocompletebox-*`.
 
 ## Create
 
@@ -28,10 +30,10 @@ Extends `Input`, so it has `.Text`, `.Disabled()`, `.Required()`, `.Validation(.
 - `.ReadOnly()` — read-only box; it shows no suggestions.
 - `.OnChange((box, _) => ...)` — a pick (click, Enter, or Tab on a highlighted row) sets the text and raises the
   change event, so one handler sees a pick and an edit alike (an edit raises it on blur).
-- `.CheckAsync(Func<string, Task<AutoCompleteCheck>> check, int debounceMs = 400)` — runs after each edit
+- `.CheckAsync(Func<string, Task<AutoCompleteCheck>> check, int debounceMilliseconds = 400)` — runs after each edit
   (debounced) and once for the initial text. Return `AutoCompleteCheck.Valid(message = "Verified", tooltip = null)`,
   `.Warning(message, tooltip = null)`, `.Invalid(message = "Not verified", tooltip = null)` or `.None()`.
-  The answer is drawn inside the box at its end: an icon (check, warning triangle, cross; a spinner
+  The answer is drawn inside the box at its end: an icon (check, warning triangle, cross; the toolkit's `Spinner`
   with "Checking…" while it runs) followed by the message as a one-line label, which is also announced
   to screen readers. `tooltip` is an explanation shown in a tooltip over the indicator (plain text).
   An invalid answer also turns the box's border red. The input's end padding follows the label's
