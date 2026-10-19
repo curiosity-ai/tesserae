@@ -38,6 +38,8 @@ namespace Tesserae
         private string[]                        _suggestions = new string[0];
         private Func<Task<string[]>>            _suggestionsLoader;
         private Task<string[]>                  _suggestionsLoading;
+        private bool                            _suggestionsLoaded = true;
+        private bool                            _dismissed;
         private int                             _maxSuggestions = 50;
         private Action<AutoCompleteBox, string> _onSuggestionSelected;
 
@@ -105,11 +107,16 @@ namespace Tesserae
 
             SubscribeInputUpdated((_, __) =>
             {
+                _dismissed = false;
                 if (document.activeElement == InnerElement) ShowSuggestionsAsync().FireAndForget();
                 ScheduleCheck();
             });
 
-            SubscribeReceivedFocus((_, __) => ShowSuggestionsAsync().FireAndForget());
+            SubscribeReceivedFocus((_, __) =>
+            {
+                _dismissed = false;
+                ShowSuggestionsAsync().FireAndForget();
+            });
             SubscribeClicked((_, __) => { if (!_popover.IsVisible) ShowSuggestionsAsync().FireAndForget(); });
             SubscribeLostFocus((_, __) => _popover.Hide());
             SubscribeKeyDown((_, e) => OnKeyDown(e));
@@ -135,6 +142,7 @@ namespace Tesserae
             _suggestions        = Distinct(suggestions);
             _suggestionsLoader  = null;
             _suggestionsLoading = null;
+            _suggestionsLoaded  = true;
             RefreshIfOpen();
             return this;
         }
@@ -148,6 +156,7 @@ namespace Tesserae
         {
             _suggestionsLoader  = loader;
             _suggestionsLoading = null;
+            _suggestionsLoaded  = false;
             _suggestions        = new string[0];
             return this;
         }
@@ -319,7 +328,8 @@ namespace Tesserae
                 // A reload or another loader replaced this one while it ran.
                 if (_suggestionsLoading != loading) return _suggestions;
 
-                _suggestions = loaded;
+                _suggestions       = loaded;
+                _suggestionsLoaded = true;
             }
             else
             {
@@ -476,6 +486,11 @@ namespace Tesserae
                     Highlight(next);
                     break;
                 }
+                case "Escape":
+                {
+                    _dismissed = true; // The popover closes itself; this only stops a following Tab from completing
+                    break;
+                }
                 case "Enter":
                 {
                     if (_popover.IsVisible && _highlighted >= 0 && _highlighted < _visible.Count)
@@ -488,26 +503,61 @@ namespace Tesserae
                 case "Tab":
                 {
                     // Tab completes, then moves on as usual: to the row the user arrowed to, or else to the
-                    // first suggestion when it continues what was typed. An empty box tabbed through, or
-                    // text the list only contains somewhere in the middle, is left as it is.
-                    var completion = !_popover.IsVisible                                  ? null
-                                   : _highlighted >= 0 && _highlighted < _visible.Count ? _visible[_highlighted]
-                                   : FirstCompletion();
+                    // first suggestion that continues what was typed. It reads the suggestions, not the list
+                    // on screen, so a Tab pressed before the list has appeared still completes. An empty box
+                    // tabbed through, text that matches only mid-word, or a list closed with Escape is left
+                    // as it is.
+                    if (_popover.IsVisible && _highlighted >= 0 && _highlighted < _visible.Count)
+                    {
+                        Pick(_visible[_highlighted]);
+                        break;
+                    }
 
-                    if (completion is object) Pick(completion);
-                    else _popover.Hide();
+                    if (!_dismissed && !string.IsNullOrWhiteSpace(Text))
+                    {
+                        if (!_suggestionsLoaded)
+                        {
+                            // The loader is still running and focus cannot wait for it: Tab stays in the
+                            // box this once and completes when the answer arrives; the next Tab moves on.
+                            e.preventDefault();
+                            CompleteWhenLoadedAsync().FireAndForget();
+                            break;
+                        }
+
+                        var completion = FirstCompletion(_suggestions);
+
+                        if (completion is object)
+                        {
+                            Pick(completion);
+                            break;
+                        }
+                    }
+
+                    _popover.Hide();
                     break;
                 }
             }
         }
 
-        private string FirstCompletion()
+        private string FirstCompletion(string[] all)
         {
             var typed = Text ?? "";
-            if (string.IsNullOrWhiteSpace(typed) || _visible.Count == 0) return null;
+            if (string.IsNullOrWhiteSpace(typed) || all.Contains(typed)) return null; // Nothing typed, or already a suggestion as typed
 
-            var first = _visible[0];
-            return first.StartsWith(typed, StringComparison.OrdinalIgnoreCase) ? first : null;
+            // Same order as the list: the first prefix match is its first row.
+            return all.FirstOrDefault(s => s.StartsWith(typed, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private async Task CompleteWhenLoadedAsync()
+        {
+            var typed = Text;
+            var all   = await GetSuggestionsAsync();
+
+            // The user typed on, or left the box, while the loader ran.
+            if (Text != typed || document.activeElement != InnerElement) return;
+
+            var completion = FirstCompletion(all);
+            if (completion is object) Pick(completion);
         }
 
         private void Pick(string value)
