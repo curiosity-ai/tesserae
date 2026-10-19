@@ -420,15 +420,15 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// The orbiting-dot ring the button spins with: a track and an arc that turn, and a check and an x that
-        /// do not. r = 20 on a 48 box, as drawn in the spec: the dash lengths in tss.button.css are fractions of
-        /// its 125.66 circumference.
+        /// The ring the button spins with: the toolkit's spinner (<see cref="Spinner.Ring"/>), whose track and
+        /// arc turn, and on the same 48 box a check and an x that do not.
         /// </summary>
         internal static HTMLElement CreateSpinRing(string extraClass = null)
         {
-            var ring = Span(Att(extraClass is null ? "tss-btn-spin-ring" : "tss-btn-spin-ring " + extraClass));
-            ring.innerHTML = "<svg class=\"tss-btn-spin-orbit\" viewBox=\"0 0 48 48\" aria-hidden=\"true\"><circle class=\"tss-btn-spin-track\" cx=\"24\" cy=\"24\" r=\"20\"/><circle class=\"tss-btn-spin-arc\" cx=\"24\" cy=\"24\" r=\"20\" transform=\"rotate(-90 24 24)\"/></svg>"
-                           + "<svg class=\"tss-btn-spin-mark\" viewBox=\"0 0 48 48\" aria-hidden=\"true\"><path class=\"tss-btn-spin-check\" pathLength=\"1\" d=\"M16 24.5l5.5 5.5L32 19\"/><path class=\"tss-btn-spin-x tss-btn-spin-x1\" pathLength=\"1\" d=\"M18.5 18.5l11 11\"/><path class=\"tss-btn-spin-x tss-btn-spin-x2\" pathLength=\"1\" d=\"M29.5 18.5l-11 11\"/></svg>";
+            var mark = Span(Att(""));
+            mark.innerHTML = "<svg class=\"tss-btn-spin-mark\" viewBox=\"0 0 48 48\" aria-hidden=\"true\"><path class=\"tss-btn-spin-check\" pathLength=\"1\" d=\"M16 24.5l5.5 5.5L32 19\"/><path class=\"tss-btn-spin-x tss-btn-spin-x1\" pathLength=\"1\" d=\"M18.5 18.5l11 11\"/><path class=\"tss-btn-spin-x tss-btn-spin-x2\" pathLength=\"1\" d=\"M29.5 18.5l-11 11\"/></svg>";
+            var ring = Span(Att(extraClass is null ? "tss-btn-spin-ring" : "tss-btn-spin-ring " + extraClass), Spinner.Ring());
+            ring.appendChild(mark.firstElementChild);
             return ring;
         }
 

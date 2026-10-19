@@ -20,7 +20,7 @@ namespace Tesserae
         /// <param name="text">The label text.</param>
         public Spinner(string text = string.Empty)
         {
-            InnerElement = Div(Att("tss-spinner"));
+            InnerElement = Ring();
             _label       = Label(Att("tss-spinner-label", text: text));
             _container   = Div(Att("tss-spinner-container tss-spinner-position-right tss-spinner-size-small"), InnerElement, _label);
             AttachClick();
@@ -28,13 +28,20 @@ namespace Tesserae
 
         /// <summary>
         /// The bare ring, without the label or the size container: the one spinner every component draws
-        /// when it is waiting on something, so a theme that restyles <c>.tss-spinner</c> restyles all of
-        /// them. It has no size of its own - the component that places it sizes it through its parent
-        /// (a rule like <c>.my-slot &gt; .tss-spinner</c>), the way <c>.tss-spinner-size-*</c> does, because
-        /// <c>.tss-spinner</c> sets <c>--tss-spinner-size</c> on itself and a single class on the same
-        /// element only ties with it.
+        /// when it is waiting on something (the button's in-place spinner and SaveButton included, see
+        /// <see cref="Button.CreateSpinRing"/>), so a theme that restyles <c>.tss-spinner</c> restyles all
+        /// of them. A track and an arc, r = 20 on a 48 box: the dash lengths in tss.spinner.css and
+        /// tss.button.css are fractions of its 125.66 circumference. The component that places it sizes it
+        /// through its parent (a rule like <c>.my-slot &gt; .tss-spinner</c>), the way
+        /// <c>.tss-spinner-size-*</c> does, because <c>.tss-spinner</c> sets its size and
+        /// <c>--tss-spinner-stroke</c> on itself and a single class on the same element only ties with it.
         /// </summary>
-        internal static HTMLDivElement Ring() => Div(Att("tss-spinner"));
+        internal static HTMLDivElement Ring()
+        {
+            var ring = Div(Att("tss-spinner"));
+            ring.innerHTML = "<svg class=\"tss-spinner-orbit\" viewBox=\"0 0 48 48\" aria-hidden=\"true\"><circle class=\"tss-spinner-track\" cx=\"24\" cy=\"24\" r=\"20\"/><circle class=\"tss-spinner-arc\" cx=\"24\" cy=\"24\" r=\"20\" transform=\"rotate(-90 24 24)\"/></svg>";
+            return ring;
+        }
 
         /// <summary>
         /// Sets the spinner to indicate success.

@@ -131,7 +131,6 @@
 .tss-tree-item-content > .tss-spinner {
     width: 14px;
     height: 14px;
-    --tss-spinner-size: 2px;
     margin: 0 9px 0 1px;
 }
 
