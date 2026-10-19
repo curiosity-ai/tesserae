@@ -183,6 +183,21 @@ What makes it work, and what to keep when touching it:
   page's pixel plays run to frames), in the same frame notation: when the website's glyphs change, copy the new
   frame strings across rather than redrawing them.
 
+## Mermaid diagrams in Markdown
+
+A `mermaid` fence in `MarkdownBlock` / `Markdown.RenderMarkdownSanitized` is drawn by
+[Pele](https://pele.run) (not the Mermaid library), see
+[MarkdownDiagrams.cs](Tesserae/src/Helpers/MarkdownDiagrams.cs). The minified build
+(`pele.global.js` of the npm package, `Tesserae/tps/assets/js/pele.min.js`) ships as the
+unlinked `tss-pele.min.js` resource (`"load": false` in `tps.json`) and is fetched with
+`Require.LoadScriptAsync` the first time a diagram appears; the fence stays a code block
+until then and when it fails to draw. To update, replace that file with the new
+`dist/pele.global.js`. The look is `tss.mermaid.css`: it maps Pele's `--pele-*` variables
+onto Tesserae tokens (and `--tss-chart-series-N`), so a theme's fonts, radius, colours and series
+already follow; each theme package also has a small `tss.mermaid.css` that matches the diagram frame
+and lines to its code blocks (RetroOS: ink frame with hard shadow, Stratus: filled surface, Curiosity:
+ink lines and the Signal accent).
+
 ## Installing Transpose
 
 Install or update the Transpose compiler and the dotnet serve tool globally before getting started:

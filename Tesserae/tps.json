@@ -128,6 +128,7 @@
                 "tps/assets/css/tss.kbd.css",
                 "tps/assets/css/tss.notificationcenter.css",
                 "tps/assets/css/tss.markdown.css",
+                "tps/assets/css/tss.mermaid.css",
                 "tps/assets/css/tss.plan.css",
                 "tps/assets/css/tss.pagesstack.css",
                 "tps/assets/css/tss.omniresult.css",
@@ -166,6 +167,14 @@
                 "tps/assets/js/purify.min.js",
                 "tps/assets/js/marked.min.js",
                 "tps/assets/js/diff2html-ui-slim.min.js"
+            ],
+            "output": "assets/js"
+        },
+        {
+            "name": "tss-pele.min.js",
+            "load": false,
+            "files": [
+                "tps/assets/js/pele.min.js"
             ],
             "output": "assets/js"
         },

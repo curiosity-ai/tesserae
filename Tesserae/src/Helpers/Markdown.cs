@@ -9,6 +9,13 @@ namespace Tesserae
     /// Static helpers for converting Markdown text to sanitized HTML using the
     /// globally-loaded <c>marked</c> and <c>DOMPurify</c> libraries.
     /// The dependencies are bundled with Tesserae and always loaded - no preload step is required.
+    /// <para>
+    /// A <c>```mermaid</c> fence is drawn as a diagram by <see href="https://pele.run">Pele</see> in the elements
+    /// <see cref="RenderMarkdownSanitized"/> and <see cref="MarkdownBlock"/> produce. Pele is loaded on demand, the
+    /// first time a diagram appears, and the fence stays as a code block until then and when it cannot be drawn.
+    /// <see cref="ConvertMarkdownSanitized"/> only returns HTML, so its fence is left as the code block marked
+    /// <c>language-mermaid</c>.
+    /// </para>
     /// </summary>
     [Transpose.Name("tss.Markdown")]
     public static class Markdown
@@ -79,6 +86,7 @@ namespace Tesserae
             var el            = Raw(convertedText, forceParseAsHTML: true);
             el.classList.add("tss-markdown");
             el.style.whiteSpace = "break-spaces";
+            MarkdownDiagrams.Render(el, sanitization);
             return el;
         }
     }

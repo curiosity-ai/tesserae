@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Curiosity theme - Mermaid diagrams in Markdown
+   --------------------------------------------------------------------------
+   Pele draws the diagram from --pele-* variables, which Tesserae's own
+   tss.mermaid.css points at the tokens, so the fonts, the square corners and
+   the series colours (--tss-chart-series-N, see tss.charts.css) already
+   follow the theme. What the brand adds: lines are ink, not a mid grey, and
+   a node is the same ash tint a code block is. The accent is the Signal.
+   Dark mode needs no rules of its own: ink and paper swap through the tokens.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-mermaid {
+    --pele-line: var(--tss-default-foreground-color);
+    --pele-surface: var(--tss-default-background-hover-color);
+    --pele-surface-alt: var(--tss-default-background-active-color);
+    --pele-border: var(--tss-secondary-foreground-color);
+    --pele-accent: var(--tss-highlight-color);
+    --pele-title-weight: var(--tss-font-weight-regular);
+    --pele-heading-weight: var(--tss-font-weight-semibold);
+}

@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Stratus theme - Mermaid diagrams in Markdown
+   --------------------------------------------------------------------------
+   Inter, Roboto Mono, the 3px radius and the series colours already follow
+   through the tokens (tss.mermaid.css in Tesserae, tss.charts.css here). A
+   diagram is set like a code block in this theme: on the filled surface, in a
+   1px frame, with the rule colour for edges and node borders and the navy
+   accent. Dark mode swaps through the --tss-str-* tokens.
+   ========================================================================== */
+
+body.tss-theme-stratus .tss-mermaid {
+    --pele-surface: var(--tss-str-on-fill);
+    --pele-surface-alt: var(--tss-str-on-fill-2);
+    --pele-line: var(--tss-str-rule);
+    --pele-border: var(--tss-str-rule);
+    --pele-accent: var(--tss-primary-background-color);
+    border-radius: var(--tss-border-radius-sm);
+}

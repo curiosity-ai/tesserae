@@ -9,6 +9,7 @@ namespace Tesserae
     /// <summary>
     /// A component that renders Markdown text as sanitized HTML.
     /// Uses the bundled <c>marked</c> and <c>DOMPurify</c> libraries via <see cref="Markdown"/>.
+    /// A <c>```mermaid</c> fence is drawn as a diagram (see <see cref="Markdown"/>).
     /// </summary>
     [Transpose.Name("tss.mdb")]
     public class MarkdownBlock : ComponentBase<MarkdownBlock, HTMLElement>, ICanWrap
@@ -43,8 +44,10 @@ namespace Tesserae
             {
                 _text = value ?? string.Empty;
                 DestroyTableActionTooltips();
+                MarkdownDiagrams.Dispose(InnerElement);
                 InnerElement.innerHTML = Tesserae.Markdown.ConvertMarkdownSanitized(_text, _sanitization);
                 if (_tableCopyButtons) AddTableCopyButtons(InnerElement);
+                MarkdownDiagrams.Render(InnerElement, _sanitization);
                 _onAfterRender?.Invoke(InnerElement);
             }
         }
