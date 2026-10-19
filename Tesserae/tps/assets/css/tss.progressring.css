@@ -6,7 +6,7 @@
     justify-content: center;
 }
 
-    .tss-progressring svg {
+    .tss-progressring > svg {
         transform: rotate(0deg);
     }
 
@@ -32,19 +32,19 @@
         pointer-events: none;
     }
 
-/* Indeterminate spin: a three-quarter arc on the ring's own track, turning. */
-.tss-progressring-indeterminate .tss-progressring-fill {
-    stroke-dasharray: calc(var(--tss-ring-circ, 150) * 0.75) calc(var(--tss-ring-circ, 150) * 0.25);
-    stroke-dashoffset: 0 !important;
+/* Indeterminate: the toolkit's spinner (Spinner.Ring) stands in for the ring, at its size and thickness. */
+.tss-progressring > .tss-spinner {
+    display: none;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
 }
 
-.tss-progressring-indeterminate svg circle.tss-progressring-fill {
-    transform-origin: center;
-    transform-box: fill-box;
-    animation: tss-progressring-rotate 1.4s linear infinite;
+.tss-progressring-indeterminate > svg {
+    visibility: hidden;
 }
 
-@keyframes tss-progressring-rotate {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
+.tss-progressring-indeterminate > .tss-spinner {
+    display: block;
 }

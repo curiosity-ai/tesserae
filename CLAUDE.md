@@ -330,8 +330,8 @@ the 48 box, so it scales with the size), `--tss-spinner-arc` (the arc's dash pat
 `--tss-spinner-mask` for a form that paints the element's background instead of the svg (the AI
 gradient, RetroOS's dithered progress). The button outcome ring (`Button.CreateSpinRing`, for
 `Button.ToSpinner` and `SaveButton`) is this same ring with a check and an x on top; in place it drives
-the arc with its own transitions so an outcome can close it. The one ring left on its own is
-`ProgressRing`'s indeterminate mode, which turns that component's own arc on its own track.
+the arc with its own transitions so an outcome can close it, and `ProgressRing.Indeterminate()` puts
+the same ring over its box at its own thickness. Nothing else in the toolkit spins.
 
 ### Scrollbars are CSS only
 
