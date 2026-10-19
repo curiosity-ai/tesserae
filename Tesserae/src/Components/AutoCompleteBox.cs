@@ -40,6 +40,7 @@ namespace Tesserae
         private Task<string[]>                  _suggestionsLoading;
         private bool                            _suggestionsLoaded = true;
         private bool                            _dismissed;
+        private bool                            _picking;
         private int                             _maxSuggestions = 50;
         private Action<AutoCompleteBox, string> _onSuggestionSelected;
 
@@ -108,7 +109,9 @@ namespace Tesserae
             SubscribeInputUpdated((_, __) =>
             {
                 _dismissed = false;
-                if (document.activeElement == InnerElement) ShowSuggestionsAsync().FireAndForget();
+
+                // A pick sets the text too; the list it just closed stays closed.
+                if (!_picking && document.activeElement == InnerElement) ShowSuggestionsAsync().FireAndForget();
                 ScheduleCheck();
             });
 
@@ -488,7 +491,7 @@ namespace Tesserae
                 }
                 case "Escape":
                 {
-                    _dismissed = true; // The popover closes itself; this only stops a following Tab from completing
+                    _dismissed = true; // The popover closes itself; this lets the next Tab leave the box
                     break;
                 }
                 case "Enter":
@@ -502,33 +505,25 @@ namespace Tesserae
                 }
                 case "Tab":
                 {
-                    // Tab completes, then moves on as usual: to the row the user arrowed to, or else to the
-                    // first suggestion that continues what was typed. It reads the suggestions, not the list
-                    // on screen, so a Tab pressed before the list has appeared still completes. An empty box
-                    // tabbed through, text that matches only mid-word, or a list closed with Escape is left
-                    // as it is.
-                    if (_popover.IsVisible && _highlighted >= 0 && _highlighted < _visible.Count)
-                    {
-                        Pick(_visible[_highlighted]);
-                        break;
-                    }
-
+                    // Once the user has typed, Tab (Shift+Tab backwards) moves through the open list like
+                    // the arrow keys and Enter picks; Escape closes the list, and the next Tab leaves the
+                    // box. An empty box is tabbed through as usual, so a form can still be crossed by Tab.
                     if (!_dismissed && !string.IsNullOrWhiteSpace(Text))
                     {
-                        if (!_suggestionsLoaded)
+                        if (_popover.IsVisible && _rows.Count > 0)
                         {
-                            // The loader is still running and focus cannot wait for it: Tab stays in the
-                            // box this once and completes when the answer arrives; the next Tab moves on.
                             e.preventDefault();
-                            CompleteWhenLoadedAsync().FireAndForget();
+                            var step = e.shiftKey ? -1 : 1;
+                            Highlight(_highlighted < 0 ? (step > 0 ? 0 : _rows.Count - 1) : (_highlighted + step + _rows.Count) % _rows.Count);
                             break;
                         }
 
-                        var completion = FirstCompletion(_suggestions);
-
-                        if (completion is object)
+                        if (!_suggestionsLoaded)
                         {
-                            Pick(completion);
+                            // The loader is still running: stay in the box and land on the first row once
+                            // the list arrives.
+                            e.preventDefault();
+                            HighlightFirstWhenLoadedAsync().FireAndForget();
                             break;
                         }
                     }
@@ -539,32 +534,23 @@ namespace Tesserae
             }
         }
 
-        private string FirstCompletion(string[] all)
-        {
-            var typed = Text ?? "";
-            if (string.IsNullOrWhiteSpace(typed) || all.Contains(typed)) return null; // Nothing typed, or already a suggestion as typed
-
-            // Same order as the list: the first prefix match is its first row.
-            return all.FirstOrDefault(s => s.StartsWith(typed, StringComparison.OrdinalIgnoreCase));
-        }
-
-        private async Task CompleteWhenLoadedAsync()
+        private async Task HighlightFirstWhenLoadedAsync()
         {
             var typed = Text;
-            var all   = await GetSuggestionsAsync();
+            await ShowSuggestionsAsync();
 
             // The user typed on, or left the box, while the loader ran.
-            if (Text != typed || document.activeElement != InnerElement) return;
-
-            var completion = FirstCompletion(all);
-            if (completion is object) Pick(completion);
+            if (Text != typed || !_popover.IsVisible || _rows.Count == 0) return;
+            if (_highlighted < 0) Highlight(0);
         }
 
         private void Pick(string value)
         {
             _popover.Hide();
 
-            Text = value; // Raises the input event, which schedules the check
+            _picking = true;
+            try     { Text = value; } // Raises the input event, which schedules the check
+            finally { _picking = false; }
             RaiseOnChange(null);
             _onSuggestionSelected?.Invoke(this, value);
         }

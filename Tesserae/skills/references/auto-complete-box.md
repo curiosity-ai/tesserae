@@ -42,10 +42,9 @@ The indicator, and the red border of an invalid answer, are separate from `.Erro
 `.Validation(...)`, which keep working on the same box.
 
 Keyboard: ArrowDown/ArrowUp open the list and move through it, Enter picks the highlighted row, Escape
-closes it. Tab completes and moves to the next field as usual: it picks the highlighted row, or, with none
-highlighted, the first suggestion that starts with the typed text, whether or not the list has appeared yet.
-If a suggestions loader is still running, that one Tab stays in the box and completes when the answer arrives.
-An empty box, text no suggestion starts with, or a list closed with Escape is left as typed. The input is a `role="combobox"` over a `role="listbox"`.
+closes it. Once something is typed, Tab and Shift+Tab move through the open list like the arrow keys (and,
+while a suggestions loader is still running, land on the first row when it arrives); Tab leaves the box when
+it is empty, after a pick, or after Escape. The input is a `role="combobox"` over a `role="listbox"`.
 
 ## Example
 
