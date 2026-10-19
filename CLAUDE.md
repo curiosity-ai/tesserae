@@ -314,6 +314,18 @@ Two things that has to get right, and both were bugs before it existed:
   `Layers.CurrentZIndex` reads z-indices, so there is no counter to get out of step: an element
   removed without releasing simply stops being found.
 
+### One spinner
+
+A component that shows it is waiting draws the toolkit's spinner: `UI.Spinner()` where it wants the
+label and sizes, `Spinner.Ring()` (the bare `.tss-spinner` element, sized by a parent-scoped rule
+such as `.my-slot > .tss-spinner`) where it only wants the ring. Never a rotated `UIcons.Spinner`
+glyph, a pseudo-element copy of the ring's CSS, or a keyframe of its own: each theme restyles
+`.tss-spinner` (RetroOS turns it in steps, Stratus opens its right quarter), and a copy misses that.
+Plan's running step, the Tree's loading row and the Dropdown's async search all used to be copies.
+Two rings are deliberately separate: the button outcome ring (`Button.CreateSpinRing`, shared by
+`Button.ToSpinner` and `SaveButton`), which closes into a check or an x, and `ProgressRing`'s
+indeterminate mode, which turns that component's own arc on its own track.
+
 ### Scrollbars are CSS only
 
 A scrollbar is styled with CSS and nothing else: `::-webkit-scrollbar*` where the engine draws

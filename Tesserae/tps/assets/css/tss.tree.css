@@ -127,17 +127,12 @@
     font-size: 16px;
 }
 
-.tss-tree-icon.fi-rr-spinner {
-    animation: tss-tree-spin 1s linear infinite;
-}
-
-@keyframes tss-tree-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+/* The loading row of ItemsAsync: the toolkit's spinner, in the icon's place and the width of a 16px glyph. */
+.tss-tree-item-content > .tss-spinner {
+    width: 14px;
+    height: 14px;
+    --tss-spinner-size: 2px;
+    margin: 0 9px 0 1px;
 }
 
 .tss-tree-text {

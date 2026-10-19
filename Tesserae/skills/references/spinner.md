@@ -26,6 +26,15 @@ determinate progress arc.
   to a determinate arc.
 - `.Indeterminate()` — back to continuous spinning.
 
+## Theming
+
+Every component that waits on something draws this same ring (the `.tss-spinner`
+element): Dropdown's loading and search states, SearchBox's busy slot, a Tree
+node loading its children, a running Plan step, AutoCompleteBox, OmniBox and
+ProgressModal. A custom theme that restyles `.tss-spinner` restyles all of them.
+The exceptions are ProgressRing's indeterminate mode, which turns the ring's own
+arc, and the outcome ring of `Button.ToSpinner` / `SaveButton`.
+
 ## Example
 
 ```csharp
