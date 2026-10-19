@@ -57,6 +57,33 @@ The same option exists on the static helpers behind the component:
 string and `Markdown.RenderMarkdownSanitized(text, sanitization)` returns a rendered
 element.
 
+## Mermaid diagrams
+
+A fenced code block tagged `mermaid` is drawn as a diagram by [Pele](https://pele.run),
+which renders Mermaid syntax (every diagram type of Mermaid 12.1) to SVG. It is not the
+Mermaid library. Nothing to call: it happens in `MarkdownBlock` and in
+`Markdown.RenderMarkdownSanitized`.
+
+````csharp
+MarkdownBlock(@"```mermaid
+flowchart LR
+  A[Markdown] --> B[Diagram]
+```");
+````
+
+- **Loaded on demand.** Pele ships as its own file (`assets/js/tss-pele.min.js`, not
+  linked from `index.html`) and is fetched the first time a source contains a diagram.
+  Until then, and for good when a diagram cannot be drawn (a block still being streamed,
+  a syntax error), the fence stays a plain code block; the reason is its tooltip.
+- **Themed.** Colors, fonts, radius and series colors come from Tesserae's tokens
+  (`tss.mermaid.css` sets the `--pele-*` variables on `.tss-mermaid`), so a diagram
+  follows light/dark mode and custom themes without being redrawn. Override a
+  `--pele-*` variable on `.tss-mermaid` to restyle.
+- **Safe.** The SVG goes through DOMPurify; `MarkdownSanitization.NoLinksOrEmbeddedContent`
+  also turns off links and images inside diagrams.
+- `Markdown.ConvertMarkdownSanitized` returns a string, so it leaves the fence as a
+  `language-mermaid` code block.
+
 ## Example
 
 ```csharp

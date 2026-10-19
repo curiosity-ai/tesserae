@@ -56,6 +56,34 @@ https://example.com/tracker is plain text, and this image never loads:
 | West   | 1,530 | 1,702 | Best quarter so far  |
 ";
 
+            const string diagramSample =
+@"Each of these is a mermaid code fence in the source:
+
+```mermaid
+flowchart LR
+  A[Markdown] --> B{Has a mermaid fence?}
+  B -- yes --> C[Pele draws it]
+  B -- no --> D[Plain HTML]
+  C --> E([Themed SVG])
+  D --> E
+```
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant M as MarkdownBlock
+  U->>M: Text = ""..."" 
+  M-->>U: Rendered diagram
+```
+
+```mermaid
+pie title Where the time goes
+  ""Parsing"" : 12
+  ""Layout"" : 30
+  ""Painting"" : 58
+```
+";
+
             var live   = MarkdownBlock(startingMarkdown);
             var editor = TextArea(startingMarkdown).WS().H(220).OnInput((ta, _) => live.Text = ta.Text);
 
@@ -81,6 +109,9 @@ https://example.com/tracker is plain text, and this image never loads:
                         SampleSubTitle("Copying tables"),
                         TextBlock("Every table gets two buttons beside it: Copy Table puts it on the clipboard as HTML, so it pastes as a table into a document, a spreadsheet or an email, and Copy as CSV puts it there as comma-separated text. Turn them off with TableCopyButtons(false)."),
                         MarkdownBlock(tableSample),
+                        SampleSubTitle("Mermaid diagrams"),
+                        TextBlock("A mermaid code fence is drawn as a diagram by Pele, which renders Mermaid syntax to SVG and takes its colors and fonts from the Tesserae theme, so it follows light and dark mode and any custom theme without being redrawn. Pele is loaded the first time a diagram appears; a block that cannot be drawn stays a code block."),
+                        MarkdownBlock(diagramSample),
                         SampleSubTitle("Sanitization"),
                         TextBlock("MarkdownBlock will strip dangerous HTML even when it is embedded inside Markdown:"),
                         MarkdownBlock("This `<script>alert('xss')</script>` will not run, and this <img src=x onerror=alert(1)> attribute is stripped too."),

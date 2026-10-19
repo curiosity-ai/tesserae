@@ -1,0 +1,52 @@
+/* Mermaid diagrams in Markdown, drawn by Pele (https://pele.run).
+   Pele colours everything from --pele-* variables, so the whole look is this block: the page's own
+   tokens, which is why a diagram follows light/dark mode and any custom theme without being redrawn.
+   Series colours read --tss-chart-series-N first, the same hook the charts use. */
+
+.tss-mermaid {
+    --pele-bg: var(--tss-default-background-color);
+    --pele-fg: var(--tss-default-foreground-color);
+    --pele-muted: var(--tss-secondary-foreground-color);
+    --pele-line: var(--tss-secondary-foreground-color);
+    --pele-surface: var(--tss-secondary-background-color);
+    --pele-surface-alt: var(--tss-disabled-background-color);
+    --pele-border: var(--tss-dark-border-color);
+    --pele-accent: var(--tss-primary-background-color);
+    --pele-critical: var(--tss-danger-background-color);
+    --pele-error: var(--tss-danger-background-color);
+    --pele-font: var(--tss-sansserif-font-family);
+    --pele-font-mono: var(--tss-monospace-font-family);
+    --pele-title-weight: var(--tss-font-weight-semibold);
+    --pele-heading-weight: var(--tss-font-weight-semibold);
+    --pele-radius: var(--tss-border-radius-md);
+    --pele-series-1: var(--tss-chart-series-1, var(--tss-colors-blue-600));
+    --pele-series-2: var(--tss-chart-series-2, var(--tss-colors-green-600));
+    --pele-series-3: var(--tss-chart-series-3, var(--tss-colors-orange-600));
+    --pele-series-4: var(--tss-chart-series-4, var(--tss-colors-purple-600));
+    --pele-series-5: var(--tss-chart-series-5, var(--tss-colors-red-600));
+    --pele-series-6: var(--tss-chart-series-6, var(--tss-colors-teal-600));
+    --pele-series-7: var(--tss-chart-series-7, var(--tss-colors-yellow-600));
+    --pele-series-8: var(--tss-chart-series-8, var(--tss-colors-neutral-600));
+
+    display: block;
+    box-sizing: border-box;
+    margin: 16px 0;
+    padding: 16px;
+    overflow: auto;
+    text-align: center;
+    white-space: normal;
+    color: var(--tss-default-foreground-color);
+    background-color: var(--tss-default-background-color);
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+}
+
+.tss-mermaid > svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* A diagram that could not be drawn (a half-streamed block, a typo) stays as the source it was. */
+.tss-markdown pre.tss-mermaid-source {
+    border-left: 3px solid var(--tss-warning-background-color);
+}
