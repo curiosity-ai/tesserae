@@ -199,7 +199,6 @@
 .tss-plan-step-icon > .tss-spinner {
     width: 16px;
     height: 16px;
-    --tss-spinner-size: 2px;
 }
 
 .is-pending   .tss-plan-step-icon { color: var(--tss-colors-neutral-400); }
@@ -339,7 +338,6 @@
     width: 12px;
     height: 12px;
     margin: 1px;
-    --tss-spinner-size: 2px;
 }
 .tss-plan-substep.is-pending   .tss-plan-substep-icon { color: var(--tss-colors-neutral-400); }
 .tss-plan-substep.is-running   .tss-plan-substep-icon { color: var(--tss-primary-background-color); }
