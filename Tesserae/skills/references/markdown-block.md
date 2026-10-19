@@ -77,7 +77,8 @@ flowchart LR
   a syntax error), the fence stays a plain code block; the reason is its tooltip.
 - **Themed.** Colors, fonts, radius and series colors come from Tesserae's tokens
   (`tss.mermaid.css` sets the `--pele-*` variables on `.tss-mermaid`), so a diagram
-  follows light/dark mode and custom themes without being redrawn. Override a
+  follows light/dark mode and custom themes without being redrawn (the Curiosity, Stratus
+  and RetroOS packages each add a few rules so a diagram is framed like their code blocks). Override a
   `--pele-*` variable on `.tss-mermaid` to restyle.
 - **Safe.** The SVG goes through DOMPurify; `MarkdownSanitization.NoLinksOrEmbeddedContent`
   also turns off links and images inside diagrams.

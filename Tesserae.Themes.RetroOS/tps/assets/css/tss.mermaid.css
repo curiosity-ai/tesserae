@@ -1,0 +1,22 @@
+/* ==========================================================================
+   RetroOS theme - Mermaid diagrams in Markdown
+   --------------------------------------------------------------------------
+   A diagram is a framed paper plate with a hard shadow, like a code block or a
+   window: 1px ink frame, no tints, every ground is paper. Lines and node
+   borders are ink, nodes are paper (the outline is what draws them), and the
+   accent is ink too. The pixel fonts and the series colours already follow the
+   tokens. Dark mode swaps ink and paper through the tokens.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-mermaid {
+    --pele-surface: var(--tss-retro-paper);
+    --pele-surface-alt: var(--tss-retro-paper);
+    --pele-line: var(--tss-retro-ink);
+    --pele-border: var(--tss-retro-ink);
+    --pele-muted: var(--tss-retro-ink);
+    --pele-accent: var(--tss-retro-ink);
+    --pele-critical: var(--tss-retro-ink);
+    --pele-radius: 0px;
+    border-color: var(--tss-retro-ink);
+    box-shadow: var(--tss-retro-shadow-sm);
+}

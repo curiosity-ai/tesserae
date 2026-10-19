@@ -193,7 +193,10 @@ unlinked `tss-pele.min.js` resource (`"load": false` in `tps.json`) and is fetch
 `Require.LoadScriptAsync` the first time a diagram appears; the fence stays a code block
 until then and when it fails to draw. To update, replace that file with the new
 `dist/pele.global.js`. The look is `tss.mermaid.css`: it maps Pele's `--pele-*` variables
-onto Tesserae tokens (and `--tss-chart-series-N`), so themes follow without their own file.
+onto Tesserae tokens (and `--tss-chart-series-N`), so a theme's fonts, radius, colours and series
+already follow; each theme package also has a small `tss.mermaid.css` that matches the diagram frame
+and lines to its code blocks (RetroOS: ink frame with hard shadow, Stratus: filled surface, Curiosity:
+ink lines and the Signal accent).
 
 ## Installing Transpose
 
