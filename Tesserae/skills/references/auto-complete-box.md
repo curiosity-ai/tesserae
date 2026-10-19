@@ -42,8 +42,9 @@ The indicator, and the red border of an invalid answer, are separate from `.Erro
 `.Validation(...)`, which keep working on the same box.
 
 Keyboard: ArrowDown/ArrowUp open the list and move through it, Enter picks the highlighted row, Escape
-closes it. Tab moves to the next field as usual; if a row is highlighted it is picked first, otherwise the
-typed text is kept. The input is a `role="combobox"` over a `role="listbox"`.
+closes it. Tab completes and moves to the next field as usual: it picks the highlighted row, or, with none
+highlighted, the first suggestion when it starts with the typed text. An empty box, or text no suggestion
+starts with, is left as typed. The input is a `role="combobox"` over a `role="listbox"`.
 
 ## Example
 

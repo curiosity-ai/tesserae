@@ -487,18 +487,27 @@ namespace Tesserae
                 }
                 case "Tab":
                 {
-                    // A row the user arrowed to is a choice they made; Tab keeps it, then moves on as usual.
-                    if (_popover.IsVisible && _highlighted >= 0 && _highlighted < _visible.Count)
-                    {
-                        Pick(_visible[_highlighted]);
-                    }
-                    else
-                    {
-                        _popover.Hide();
-                    }
+                    // Tab completes, then moves on as usual: to the row the user arrowed to, or else to the
+                    // first suggestion when it continues what was typed. An empty box tabbed through, or
+                    // text the list only contains somewhere in the middle, is left as it is.
+                    var completion = !_popover.IsVisible                                  ? null
+                                   : _highlighted >= 0 && _highlighted < _visible.Count ? _visible[_highlighted]
+                                   : FirstCompletion();
+
+                    if (completion is object) Pick(completion);
+                    else _popover.Hide();
                     break;
                 }
             }
+        }
+
+        private string FirstCompletion()
+        {
+            var typed = Text ?? "";
+            if (string.IsNullOrWhiteSpace(typed) || _visible.Count == 0) return null;
+
+            var first = _visible[0];
+            return first.StartsWith(typed, StringComparison.OrdinalIgnoreCase) ? first : null;
         }
 
         private void Pick(string value)
