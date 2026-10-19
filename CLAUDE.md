@@ -185,8 +185,10 @@ What makes it work, and what to keep when touching it:
 
 ## Mermaid diagrams in Markdown
 
-A `mermaid` fence in `MarkdownBlock` / `Markdown.RenderMarkdownSanitized` is drawn by
+A `mermaid` fence in `MarkdownBlock` / `Markdown.RenderMarkdownSanitized`, and the standalone `Mermaid`
+component ([Mermaid.cs](Tesserae/src/Components/Mermaid.cs)), are drawn by
 [Pele](https://pele.run) (not the Mermaid library), see
+[Pele.cs](Tesserae/src/Helpers/Pele.cs) (the loader and the calls, shared) and
 [MarkdownDiagrams.cs](Tesserae/src/Helpers/MarkdownDiagrams.cs). The minified build
 (`pele.global.js` of the npm package, `Tesserae/tps/assets/js/pele.min.js`) ships as the
 unlinked `tss-pele.min.js` resource (`"load": false` in `tps.json`) and is fetched with

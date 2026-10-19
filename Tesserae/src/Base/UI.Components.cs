@@ -850,6 +850,13 @@ namespace Tesserae
         public static MarkdownBlock MarkdownBlock(string text = "", MarkdownSanitization sanitization = MarkdownSanitization.Default) => new MarkdownBlock(text, sanitization);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.Mermaid"/> component that draws Mermaid diagram source as themed SVG, with Pele.
+        /// </summary>
+        /// <param name="source">The Mermaid source.</param>
+        /// <param name="sanitize">Whether the SVG is run through DOMPurify before it is inserted. On by default.</param>
+        public static Mermaid Mermaid(string source = "", bool sanitize = true) => new Mermaid(source, sanitize);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.CodeDiff"/> component that renders a unified diff using diff2html.
         /// </summary>
         public static CodeDiff CodeDiff(string diff = "", Tesserae.CodeDiff.Format format = Tesserae.CodeDiff.Format.LineByLine) => new CodeDiff(diff, format);

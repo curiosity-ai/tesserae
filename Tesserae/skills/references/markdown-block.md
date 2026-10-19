@@ -106,6 +106,7 @@ md.Text = "Updated **content**.";
 ## Related
 
 - CodeDiff — a unified diff rather than prose — `code-diff.md`
+- Mermaid — the same diagram renderer as a standalone component — `mermaid.md`
 - TextBlock — `/tesserae/text/text-block`
 - AnnotatedTextEditor — `/tesserae/inputs/annotated-text-editor`
 - Full docs & API: `/tesserae/text/markdown-block`
