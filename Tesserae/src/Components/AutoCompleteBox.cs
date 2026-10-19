@@ -487,7 +487,15 @@ namespace Tesserae
                 }
                 case "Tab":
                 {
-                    _popover.Hide();
+                    // A row the user arrowed to is a choice they made; Tab keeps it, then moves on as usual.
+                    if (_popover.IsVisible && _highlighted >= 0 && _highlighted < _visible.Count)
+                    {
+                        Pick(_visible[_highlighted]);
+                    }
+                    else
+                    {
+                        _popover.Hide();
+                    }
                     break;
                 }
             }

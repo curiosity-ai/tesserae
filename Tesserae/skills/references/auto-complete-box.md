@@ -42,7 +42,8 @@ The indicator, and the red border of an invalid answer, are separate from `.Erro
 `.Validation(...)`, which keep working on the same box.
 
 Keyboard: ArrowDown/ArrowUp open the list and move through it, Enter picks the highlighted row, Escape
-and Tab close it. The input is a `role="combobox"` over a `role="listbox"`.
+closes it. Tab moves to the next field as usual; if a row is highlighted it is picked first, otherwise the
+typed text is kept. The input is a `role="combobox"` over a `role="listbox"`.
 
 ## Example
 
