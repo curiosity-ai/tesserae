@@ -29,7 +29,7 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("An AutoCompleteBox is a TextBox with a list of suggestions that narrows as you type. The text stays free: a suggestion is a shortcut, not a constraint, which is what sets it apart from a searchable Dropdown."),
-                    TextBlock("It can also check the typed value asynchronously, debounced after each edit, and show the answer on a line under the box: valid, a warning, or invalid."))).SetTitle("Overview")))
+                    TextBlock("It can also check the typed value asynchronously, debounced after each edit, and show the answer as an icon at the end of the box: valid, a warning, or invalid. Hover the icon for the message."))).SetTitle("Overview")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use it when the set of good values is known but not closed: model ids a server lists, tags, e-mail domains. If the value must be one of the list, use a Dropdown. Prefer a warning over invalid when the check cannot know every good value."))).SetTitle("Best Practices")))

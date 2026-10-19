@@ -16,8 +16,8 @@ namespace Tesserae
     /// Suggestions come from a fixed list or from a loader that runs once, on first use, and is cached
     /// until <see cref="ReloadSuggestions"/>; either way they are filtered here, prefix matches first.
     /// The check (<see cref="CheckAsync"/>) runs debounced after every edit and once for the initial
-    /// text, and only the answer for the text currently in the box is shown. Its result is drawn on a
-    /// line of its own under the input, apart from <see cref="Input{TInput}.Error"/>, so a synchronous
+    /// text, and only the answer for the text currently in the box is shown. Its result is an icon at
+    /// the end of the box, apart from <see cref="Input{TInput}.Error"/>, so a synchronous
     /// <c>.Validation(...)</c> on the same box keeps working.
     /// </remarks>
     [Transpose.Name("tss.AutoCompleteBox")]
@@ -66,6 +66,8 @@ namespace Tesserae
             // a suggestion does not blur the box and close the list before the click lands.
             _list.addEventListener("mousedown", e => e.preventDefault());
 
+            // The indicator sits inside the box at its end; its message is the hover title, and the
+            // visually hidden text is what a screen reader announces.
             _statusIcon = I(Att("tss-autocomplete-status-icon"));
             _statusText = Span(Att("tss-autocomplete-status-text"));
             _status     = Div(Att("tss-autocomplete-status"), _statusIcon, _statusText);
@@ -73,7 +75,11 @@ namespace Tesserae
 
             var container = Render();
             container.classList.add("tss-autocomplete");
-            container.appendChild(_status);
+
+            var field = Div(Att("tss-autocomplete-field"));
+            container.insertBefore(field, InnerElement);
+            field.appendChild(InnerElement);
+            field.appendChild(_status);
 
             _popover = new Popover(Raw(_list))
                .Placement(TooltipPlacement.BottomStart)
@@ -165,7 +171,8 @@ namespace Tesserae
 
         /// <summary>
         /// Checks the text asynchronously after each edit, debounced by <paramref name="debounceMs"/>,
-        /// and shows the answer under the box: <see cref="AutoCompleteCheck.Valid"/>,
+        /// and shows the answer as an icon at the end of the box, with the message as its hover title:
+        /// <see cref="AutoCompleteCheck.Valid"/>,
         /// <see cref="AutoCompleteCheck.Warning"/>, <see cref="AutoCompleteCheck.Invalid"/>, or
         /// <see cref="AutoCompleteCheck.None"/> for nothing. An empty box is not checked. The initial
         /// text is checked straight away.
@@ -174,6 +181,7 @@ namespace Tesserae
         {
             _check           = check;
             _checkDebounceMs = Math.Max(0, debounceMs);
+            InnerElement.classList.add("tss-autocomplete-has-check");
             Recheck();
             return this;
         }
@@ -233,7 +241,7 @@ namespace Tesserae
             _status.className      = "tss-autocomplete-status tss-autocomplete-status-checking";
             _statusIcon.className  = "tss-autocomplete-status-icon " + Icon.Transform(UIcons.Spinner, UIconsWeight.Regular);
             _statusText.innerText  = "Checking…";
-            _status.title          = "";
+            _status.title          = "Checking…";
         }
 
         private void ShowCheck(AutoCompleteCheck result)
@@ -471,7 +479,7 @@ namespace Tesserae
     [Transpose.Name("tss.AutoCompleteCheckState")]
     public enum AutoCompleteCheckState
     {
-        /// <summary>Nothing to say; the status line stays empty.</summary>
+        /// <summary>Nothing to say; no indicator is shown.</summary>
         None,
         /// <summary>The value is known to be good.</summary>
         Valid,
@@ -493,10 +501,10 @@ namespace Tesserae
 
         /// <summary>The verdict.</summary>
         public AutoCompleteCheckState State   { get; }
-        /// <summary>The message shown next to the verdict's icon, or <c>null</c>.</summary>
+        /// <summary>The message shown as the indicator's hover title and announced to screen readers, or <c>null</c>.</summary>
         public string                 Message { get; }
 
-        /// <summary>No verdict: clears the status line.</summary>
+        /// <summary>No verdict: clears the indicator.</summary>
         public static AutoCompleteCheck None()                       => new AutoCompleteCheck(AutoCompleteCheckState.None,    null);
         /// <summary>The value is good.</summary>
         public static AutoCompleteCheck Valid(string message = null) => new AutoCompleteCheck(AutoCompleteCheckState.Valid,   message);

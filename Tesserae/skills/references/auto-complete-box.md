@@ -6,7 +6,7 @@ description: A free-text input that suggests values as the user types and can ch
 # AutoCompleteBox
 
 A single-line text input with a suggestion list that narrows as you type, plus an optional debounced
-asynchronous check whose answer is shown on a line under the box. The text stays free: a suggestion is
+asynchronous check whose answer is shown as an icon at the end of the box. The text stays free: a suggestion is
 a shortcut, not a constraint. If the value must be one of a list, use a `Dropdown().Searchable()` instead.
 
 Extends `Input`, so it has `.Text`, `.Disabled()`, `.Required()`, `.Validation(...)`, `.Bind(...)`,
@@ -29,12 +29,14 @@ Extends `Input`, so it has `.Text`, `.Disabled()`, `.Required()`, `.Validation(.
   event, so one `.OnChange(...)` handler sees both a pick and an edit (an edit raises it on blur).
 - `.CheckAsync(Func<string, Task<AutoCompleteCheck>> check, int debounceMs = 400)` — runs after each edit
   (debounced) and once for the initial text. Return `AutoCompleteCheck.Valid(msg)`,
-  `.Warning(msg)`, `.Invalid(msg)` or `.None()`. While it runs the line shows a spinner and
-  "Checking…"; only the answer for the current text is shown. An empty box is not checked.
+  `.Warning(msg)`, `.Invalid(msg)` or `.None()`. The answer is an icon inside the box at its end
+  (check, warning triangle, cross; a spinner while it runs), with the message as its hover title
+  and announced to screen readers. Only the answer for the current text is shown. An empty box is
+  not checked.
 - `.Recheck()` — run the check now (e.g. after a setting it depends on changed). `.LastCheck` holds the
   last answer.
 
-The check line is separate from `.Error` / `.Validation(...)`, which keep working on the same box.
+The indicator is separate from `.Error` / `.Validation(...)`, which keep working on the same box.
 
 Keyboard: ArrowDown/ArrowUp open the list and move through it, Enter picks the highlighted row, Escape
 and Tab close it. The input is a `role="combobox"` over a `role="listbox"`.

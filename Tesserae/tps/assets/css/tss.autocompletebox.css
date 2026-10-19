@@ -1,5 +1,5 @@
 /* AutoCompleteBox */
-/* The input itself is a .tss-textbox; these rules cover the suggestion list and the check line under it. */
+/* The input itself is a .tss-textbox; these rules cover the suggestion list and the check indicator inside it. */
 
 .tss-autocomplete-list {
     display: flex;
@@ -15,7 +15,9 @@
     box-shadow: var(--tss-box-shadow, 0 4px 16px 0 rgba(0,0,0,0.12));
 }
 
+/* A row keeps its height when the list is cut by max-height; the list scrolls instead. */
 .tss-autocomplete-item {
+    flex-shrink: 0;
     padding: 6px 12px;
     cursor: pointer;
     font-size: var(--tss-font-size-small);
@@ -35,16 +37,26 @@
     font-weight: var(--tss-font-weight-semibold);
 }
 
-/* The check line takes no space until a check has something to say, then keeps to one line. */
+/* The check indicator sits inside the box at its end; the input keeps room for it. */
+.tss-autocomplete-field {
+    position: relative;
+    width: 100%;
+}
+
+.tss-textbox-container.tss-autocomplete .tss-textbox.tss-autocomplete-has-check {
+    padding-right: 32px;
+}
+
 .tss-autocomplete-status {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 10px;
     display: none;
     align-items: center;
-    gap: 4px;
-    font-size: var(--tss-font-size-tiny);
-    line-height: 1.4;
+    font-size: var(--tss-font-size-small);
     color: var(--tss-secondary-foreground-color);
-    white-space: nowrap;
-    overflow: hidden;
+    cursor: default;
 }
 
 .tss-autocomplete-status.tss-autocomplete-status-visible,
@@ -52,9 +64,19 @@
     display: flex;
 }
 
+.tss-autocomplete-status-icon {
+    display: inline-flex;
+    line-height: 1;
+}
+
+/* Announced by screen readers through the indicator's aria-live, never drawn. */
 .tss-autocomplete-status-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
     overflow: hidden;
-    text-overflow: ellipsis;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
 }
 
 .tss-autocomplete-status-valid   { color: var(--tss-success-background-color); }
