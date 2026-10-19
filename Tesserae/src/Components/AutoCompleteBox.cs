@@ -505,16 +505,24 @@ namespace Tesserae
                 }
                 case "Tab":
                 {
-                    // Once the user has typed, Tab (Shift+Tab backwards) moves through the open list like
-                    // the arrow keys and Enter picks; Escape closes the list, and the next Tab leaves the
-                    // box. An empty box is tabbed through as usual, so a form can still be crossed by Tab.
+                    // Once the user has typed, Tab (Shift+Tab backwards) moves through the open list and
+                    // Enter picks. Past either end of the list it does not wrap: the box is left as usual,
+                    // with the typed text kept, so Tab never traps the focus. Escape closes the list, and
+                    // the next Tab leaves too. An empty box is tabbed through as usual.
                     if (!_dismissed && !string.IsNullOrWhiteSpace(Text))
                     {
                         if (_popover.IsVisible && _rows.Count > 0)
                         {
-                            e.preventDefault();
-                            var step = e.shiftKey ? -1 : 1;
-                            Highlight(_highlighted < 0 ? (step > 0 ? 0 : _rows.Count - 1) : (_highlighted + step + _rows.Count) % _rows.Count);
+                            var next = e.shiftKey ? (_highlighted < 0 ? -1 : _highlighted - 1) : _highlighted + 1;
+
+                            if (next >= 0 && next < _rows.Count)
+                            {
+                                e.preventDefault();
+                                Highlight(next);
+                                break;
+                            }
+
+                            _popover.Hide();
                             break;
                         }
 

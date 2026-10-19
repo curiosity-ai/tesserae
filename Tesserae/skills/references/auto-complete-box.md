@@ -42,9 +42,10 @@ The indicator, and the red border of an invalid answer, are separate from `.Erro
 `.Validation(...)`, which keep working on the same box.
 
 Keyboard: ArrowDown/ArrowUp open the list and move through it, Enter picks the highlighted row, Escape
-closes it. Once something is typed, Tab and Shift+Tab move through the open list like the arrow keys (and,
-while a suggestions loader is still running, land on the first row when it arrives); Tab leaves the box when
-it is empty, after a pick, or after Escape. The input is a `role="combobox"` over a `role="listbox"`.
+closes it. Once something is typed, Tab and Shift+Tab move through the open list (and, while a suggestions
+loader is still running, Tab lands on the first row when it arrives). They do not wrap: Tab past the last row,
+or Shift+Tab before the first, leaves the box with the typed text kept. Tab also leaves the box when it is
+empty, after a pick, or after Escape. The input is a `role="combobox"` over a `role="listbox"`.
 
 ## Example
 
