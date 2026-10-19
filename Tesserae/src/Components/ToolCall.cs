@@ -32,6 +32,16 @@ namespace Tesserae
 
             return button;
         }
+
+        // The actions hang outside the chip, so the chip gives up their width: a chip that fills its
+        // container would otherwise push them past the container's edge.
+        internal static void ReserveSpace(HTMLElement root, HTMLElement actions)
+        {
+            var count = actions is null ? 0 : actions.children.length;
+
+            root.UpdateClassIf(count > 0, "tss-toolcall-has-actions");
+            root.style.setProperty("--tss-toolcall-action-count", count.ToString());
+        }
     }
 
     /// <summary>
@@ -224,6 +234,7 @@ namespace Tesserae
         public ToolCall AddAction(UIcons icon, string tooltip, Action<ToolCall> onClick)
         {
             EnsureActions().appendChild(ToolCallActions.Build(icon, tooltip, () => onClick?.Invoke(this)));
+            ToolCallActions.ReserveSpace(InnerElement, _actions);
 
             return this;
         }
@@ -239,6 +250,7 @@ namespace Tesserae
         public ToolCall ClearActions()
         {
             if (_actions is object) ClearChildren(_actions);
+            ToolCallActions.ReserveSpace(InnerElement, _actions);
 
             return this;
         }
@@ -729,6 +741,7 @@ namespace Tesserae
         public ToolsUsed AddAction(UIcons icon, string tooltip, Action<ToolsUsed> onClick)
         {
             EnsureActions().appendChild(ToolCallActions.Build(icon, tooltip, () => onClick?.Invoke(this)));
+            ToolCallActions.ReserveSpace(InnerElement, _actions);
 
             return this;
         }
@@ -744,6 +757,7 @@ namespace Tesserae
         public ToolsUsed ClearActions()
         {
             if (_actions is object) ClearChildren(_actions);
+            ToolCallActions.ReserveSpace(InnerElement, _actions);
 
             return this;
         }

@@ -101,6 +101,14 @@
     position: relative;
 }
 
+/* The chip gives up the width of the actions hanging off it (6px margin, 22px buttons, 2px gaps), so a
+   chip that fills its container - a long live progress line - keeps them inside it instead of pushing
+   them over the container's edge. */
+.tss-toolcall.tss-toolcall-has-actions,
+.tss-toolsused.tss-toolcall-has-actions > .tss-toolsused-header {
+    max-width: calc(100% - 4px - var(--tss-toolcall-action-count, 0) * 24px);
+}
+
 .tss-toolcall:hover .tss-toolcall-actions,
 .tss-toolcall:focus-within .tss-toolcall-actions,
 .tss-toolsused:hover .tss-toolsused-actions,
@@ -216,6 +224,7 @@
     align-items: center;
     gap: 10px;
     max-width: 100%;
+    box-sizing: border-box;
     padding: 6px 12px;
     border-radius: 999px;
     border: 1px solid var(--tss-default-border-color);
@@ -302,6 +311,7 @@
 .tss-toolsused-inline-list > .tss-toolcall {
     display: flex;
     width: 100%;
+    max-width: 100%;
     margin-bottom: 0;
     border: none;
     border-radius: 0;
