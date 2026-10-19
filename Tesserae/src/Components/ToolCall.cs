@@ -45,6 +45,55 @@ namespace Tesserae
     }
 
     /// <summary>
+    /// Keeps a chip that shows a live progress line at the widest it has been while the line was showing,
+    /// so a stream of updates can push its chevron and actions to the right but never pulls them back
+    /// under the pointer. Once the line is gone the chip settles to its own width again.
+    /// </summary>
+    internal static class ToolCallWidthFloor
+    {
+        private const string WIDEST_VARIABLE = "--tss-toolcall-widest";
+
+        // One observer for every chip. A chat refreshes its reply by diffing a rebuilt layout onto the
+        // one on screen, which keeps the node but writes the rebuilt node's style attribute over it - the
+        // floor goes with it, the chip shrinks, and the observer, which runs after layout and before
+        // paint, puts the floor back in the same frame. That is also why the widest width is kept as a
+        // property of the node rather than of the component: the component that set it is gone.
+        private static readonly ResizeObserver Resizes = new ResizeObserver((entries, _) =>
+        {
+            foreach (var entry in entries) Hold(entry.target.As<HTMLElement>());
+        });
+
+        internal static void Watch(HTMLElement chip) => Resizes.observe(chip);
+
+        private static void Hold(HTMLElement chip)
+        {
+            // A rebuilt chip whose node the diff threw away, or one removed for good.
+            if (!chip.isConnected)
+            {
+                Resizes.unobserve(chip);
+                return;
+            }
+
+            var progress = chip.querySelector(":scope > .tss-toolsused-progress, :scope > .tss-toolcall-header > .tss-toolcall-progress").As<HTMLElement>();
+
+            if (progress is null || progress.classList.contains("tss-liveprogress-empty"))
+            {
+                Transpose.Script.Write("delete {0}._tssWidest;", chip);
+                chip.style.removeProperty(WIDEST_VARIABLE);
+                return;
+            }
+
+            var widest = Math.Max(chip.getBoundingClientRect().As<DOMRect>().width, Transpose.Script.Write<double>("({0}._tssWidest || 0)", chip));
+
+            Transpose.Script.Write("{0}._tssWidest = {1};", chip, widest);
+
+            var floor = widest + "px";
+
+            if (chip.style.getPropertyValue(WIDEST_VARIABLE) != floor) chip.style.setProperty(WIDEST_VARIABLE, floor);
+        }
+    }
+
+    /// <summary>
     /// Inline tool-call indicator that expands accordion-style to show the
     /// associated content. The content component is created lazily the first
     /// time the user expands the tool call.
@@ -221,6 +270,7 @@ namespace Tesserae
             {
                 _progress = new LiveProgress().Class("tss-toolcall-progress");
                 _header.insertBefore(_progress.Render(), _chevron);
+                ToolCallWidthFloor.Watch(InnerElement);
             }
 
             return _progress;
@@ -728,6 +778,7 @@ namespace Tesserae
             {
                 _progress = new LiveProgress().Class("tss-toolsused-progress");
                 _header.insertBefore(_progress.Render(), _summaryChevron);
+                ToolCallWidthFloor.Watch(_header);
             }
 
             return _progress;

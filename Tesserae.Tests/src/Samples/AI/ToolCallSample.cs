@@ -96,7 +96,7 @@ namespace Tesserae.Tests.Samples
                         Button("Add a tool").OnClick(() => AddInlineTool()),
 
                         SampleSubTitle("A button beside the call"),
-                        TextBlock("AddAction hangs an icon button off the right of the call, outside the chip, for a way into what the call stands for that isn't its content - the run it started, say. It sits at a third of its strength until the pointer is anywhere on the call, so a transcript of them reads as calls rather than as a column of controls. Clicking it runs the handler only: the call is neither expanded nor collapsed by it. A ToolsUsed group takes the same button beside its summary pill. While a progress line is showing it sits in a slot of a fixed width, so the line updating never moves the button."),
+                        TextBlock("AddAction hangs an icon button off the right of the call, outside the chip, for a way into what the call stands for that isn't its content - the run it started, say. It sits at a third of its strength until the pointer is anywhere on the call, so a transcript of them reads as calls rather than as a column of controls. Clicking it runs the handler only: the call is neither expanded nor collapsed by it. A ToolsUsed group takes the same button beside its summary pill. While a progress line is showing, the chip keeps the widest width it has had, so a longer line can push the button to the right but a shorter one never pulls it back."),
                         ToolCall(UIcons.UserRobot, "Invoke agent \"researcher\"", () => TextBlock("Summarised 4 sources.").BreakSpaces())
                            .AddAction(UIcons.Eye, "Watch this agent run", () => Toast().Information("Opening the run...")),
                         ToolsUsed(
