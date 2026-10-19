@@ -27,6 +27,16 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// The bare ring, without the label or the size container: the one spinner every component draws
+        /// when it is waiting on something, so a theme that restyles <c>.tss-spinner</c> restyles all of
+        /// them. It has no size of its own - the component that places it sizes it through its parent
+        /// (a rule like <c>.my-slot &gt; .tss-spinner</c>), the way <c>.tss-spinner-size-*</c> does, because
+        /// <c>.tss-spinner</c> sets <c>--tss-spinner-size</c> on itself and a single class on the same
+        /// element only ties with it.
+        /// </summary>
+        internal static HTMLDivElement Ring() => Div(Att("tss-spinner"));
+
+        /// <summary>
         /// Sets the spinner to indicate success.
         /// </summary>
         /// <returns>The current instance.</returns>

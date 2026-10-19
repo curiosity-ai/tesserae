@@ -32,16 +32,10 @@
         pointer-events: none;
     }
 
-/* Indeterminate spin */
+/* Indeterminate spin: a three-quarter arc on the ring's own track, turning. */
 .tss-progressring-indeterminate .tss-progressring-fill {
-    animation: tss-progressring-spin 1.4s linear infinite;
     stroke-dasharray: calc(var(--tss-ring-circ, 150) * 0.75) calc(var(--tss-ring-circ, 150) * 0.25);
     stroke-dashoffset: 0 !important;
-}
-
-@keyframes tss-progressring-spin {
-    0%   { transform: rotate(-90deg); }
-    100% { transform: rotate(270deg); }
 }
 
 .tss-progressring-indeterminate svg circle.tss-progressring-fill {
