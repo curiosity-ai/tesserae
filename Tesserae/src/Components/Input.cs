@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 
@@ -16,13 +15,6 @@ namespace Tesserae
         private readonly HTMLDivElement             _container;
         private readonly HTMLSpanElement            _errorSpan;
         private readonly SettableObservable<string> _observable;
-
-        private Func<string, Task<InputCheck>> _check;
-        private int                            _checkDebounceMs = 400;
-        private double                         _checkTimeout;
-        private int                            _checkRequest;
-        private HTMLElement                    _status, _statusIcon, _statusText;
-        private IComponent                     _statusComponent;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Input{TInput}"/> class.
@@ -53,11 +45,7 @@ namespace Tesserae
             // the derived constructor has finished running (a classic virtual-in-constructor
             // antipattern). This achieves the same observable-update behaviour safely.
             SubscribeChanged((_,      __) => _observable.Value = Text);
-            SubscribeInputUpdated((_, __) =>
-            {
-                _observable.Value = Text;
-                ScheduleCheck();
-            });
+            SubscribeInputUpdated((_, __) => _observable.Value = Text);
         }
 
         /// <summary>
@@ -254,161 +242,6 @@ namespace Tesserae
         {
             InnerElement.value = value;
             _observable.Value  = value;
-        }
-
-        /// <summary>
-        /// Checks the text asynchronously after each edit, debounced by <paramref name="debounceMs"/>,
-        /// and shows the answer at the end of the box as an icon and its message, with the answer's
-        /// tooltip (if any) over them: <see cref="InputCheck.Valid"/>, <see cref="InputCheck.Warning"/>,
-        /// <see cref="InputCheck.Invalid"/> (which also draws the border red), or
-        /// <see cref="InputCheck.None"/> for nothing. An empty box is not checked; the initial text is
-        /// checked straight away. Only the answer for the text currently in the box is shown.
-        /// </summary>
-        /// <remarks>
-        /// Apart from <see cref="Error"/> and <see cref="IsInvalid"/>, so a synchronous
-        /// <c>.Validation(...)</c> on the same box keeps working; <see cref="LastCheck"/> holds the verdict.
-        /// </remarks>
-        public TInput CheckAsync(Func<string, Task<InputCheck>> check, int debounceMs = 400)
-        {
-            if (_status is null) BuildCheckIndicator();
-
-            _check           = check;
-            _checkDebounceMs = Math.Max(0, debounceMs);
-            return Recheck();
-        }
-
-        /// <summary>Runs the check now for the current text, without waiting for the debounce.</summary>
-        public TInput Recheck()
-        {
-            window.clearTimeout(_checkTimeout);
-            RunCheckAsync().FireAndForget();
-            return this.As<TInput>();
-        }
-
-        /// <summary>The answer of the last check that completed for the current text, or <c>null</c>.</summary>
-        public InputCheck LastCheck { get; private set; }
-
-        // Built on the first CheckAsync, so an input without a check carries none of it.
-        private void BuildCheckIndicator()
-        {
-            // An icon and a short label inside the box at its end, which is also what a screen reader
-            // announces; the check's explanation, if it has one, is its tooltip.
-            _statusIcon      = I(Att("tss-input-check-icon"));
-            _statusText      = Span(Att("tss-input-check-text"));
-            _status          = Div(Att("tss-input-check"), _statusIcon, _statusText);
-            _statusComponent = Raw(_status);
-            _status.setAttribute("aria-live", "polite");
-
-            var field = Div(Att("tss-input-check-field"));
-            _container.insertBefore(field, InnerElement);
-            field.appendChild(InnerElement);
-            field.appendChild(_status);
-            InnerElement.classList.add("tss-input-has-check");
-
-            // The label's length depends on the answer, so the input's end padding follows the
-            // indicator's measured width and typed text never runs under it.
-            new ResizeObserver((entries, obs) =>
-            {
-                if (!_status.isConnected) return; // Detached, it measures as nothing
-                field.style.setProperty("--tss-input-check-width", _status.offsetWidth + "px");
-            }).observe(_status);
-        }
-
-        private void ScheduleCheck()
-        {
-            if (_check is null) return;
-
-            window.clearTimeout(_checkTimeout);
-            _checkRequest++;
-
-            if (string.IsNullOrWhiteSpace(Text))
-            {
-                ShowCheck(null);
-                return;
-            }
-
-            _checkTimeout = window.setTimeout(_ => RunCheckAsync().FireAndForget(), _checkDebounceMs);
-        }
-
-        private async Task RunCheckAsync()
-        {
-            if (_check is null) return;
-
-            var request = ++_checkRequest;
-            var text    = Text;
-
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                ShowCheck(null);
-                return;
-            }
-
-            ShowChecking();
-
-            var result = await _check(text);
-
-            // A later edit started its own check; its answer is the one the box should show.
-            if (request != _checkRequest) return;
-
-            ShowCheck(result);
-        }
-
-        private void ShowChecking()
-        {
-            _status.className     = "tss-input-check tss-input-check-checking";
-            _statusIcon.className = "tss-input-check-icon " + Icon.Transform(UIcons.Spinner, UIconsWeight.Regular);
-            _statusText.innerText = "Checking…";
-            _status.title         = "";
-            SetCheckTooltip(null);
-        }
-
-        private void ShowCheck(InputCheck result)
-        {
-            LastCheck = result;
-
-            _container.classList.toggle("tss-input-check-invalid", result?.State == InputCheckState.Invalid);
-
-            if (result is null || result.State == InputCheckState.None)
-            {
-                _status.className     = "tss-input-check";
-                _statusIcon.className = "tss-input-check-icon";
-                _statusText.innerText = "";
-                _status.title         = "";
-                SetCheckTooltip(null);
-                return;
-            }
-
-            UIcons icon;
-            string state;
-
-            switch (result.State)
-            {
-                case InputCheckState.Valid:   icon = UIcons.CheckCircle;     state = "valid";   break;
-                case InputCheckState.Warning: icon = UIcons.TriangleWarning; state = "warning"; break;
-                default:                      icon = UIcons.CrossCircle;     state = "invalid"; break;
-            }
-
-            _status.className     = "tss-input-check tss-input-check-visible tss-input-check-state-" + state;
-            _statusIcon.className = "tss-input-check-icon " + Icon.Transform(icon, UIconsWeight.Regular);
-            _statusText.innerText = result.Message ?? "";
-
-            // A long label is cut short, so without a tooltip the full message stays reachable as the title.
-            _status.title = string.IsNullOrWhiteSpace(result.Tooltip) ? result.Message ?? "" : "";
-            SetCheckTooltip(result.Tooltip);
-        }
-
-        private void SetCheckTooltip(string tooltip)
-        {
-            _statusComponent.RemoveTooltip();
-
-            if (string.IsNullOrWhiteSpace(tooltip))
-            {
-                _status.classList.remove("tss-input-check-has-tooltip");
-                return;
-            }
-
-            _status.classList.add("tss-input-check-has-tooltip");
-            _statusComponent.Tooltip(TextBlock(tooltip));
         }
 
         /// <summary>

@@ -6,7 +6,7 @@ description: A free-text input that suggests values as the user types and can ch
 # AutoCompleteBox
 
 A single-line text input with a suggestion list that narrows as you type, plus an optional debounced
-asynchronous check (`Input.CheckAsync`) whose answer is shown as an icon and a short label at the end of the box. The text stays free: a suggestion is
+asynchronous check whose answer is shown as an icon and a short label at the end of the box. The text stays free: a suggestion is
 a shortcut, not a constraint. If the value must be one of a list, use a `Dropdown().Searchable()` instead.
 
 Extends `Input`, so it has `.Text`, `.Disabled()`, `.Required()`, `.Validation(...)`, `.Bind(...)`,
@@ -24,13 +24,23 @@ Extends `Input`, so it has `.Text`, `.Disabled()`, `.Required()`, `.Validation(.
   first keystroke), and cached. The component does the filtering (prefix matches first, then
   substring, case-insensitive), so the loader returns everything.
 - `.ReloadSuggestions()` — drop the cached answer, after a setting the list depends on has changed.
+- `.MaxSuggestions(int)` — cap on rows shown (default 50).
 - `.ReadOnly()` — read-only box; it shows no suggestions.
-- `.CheckAsync(Func<string, Task<InputCheck>> check, int debounceMs = 400)` — the asynchronous check every input
-  has (see `text-box.md`): a Verified / warning / Not verified label inside the box at its end, with an optional
-  tooltip; an invalid answer turns the border red. It is what a field with an open set of values usually wants.
+- `.OnChange((box, _) => ...)` — a pick (click, Enter, or Tab on a highlighted row) sets the text and raises the
+  change event, so one handler sees a pick and an edit alike (an edit raises it on blur).
+- `.CheckAsync(Func<string, Task<AutoCompleteCheck>> check, int debounceMs = 400)` — runs after each edit
+  (debounced) and once for the initial text. Return `AutoCompleteCheck.Valid(message = "Verified", tooltip = null)`,
+  `.Warning(message, tooltip = null)`, `.Invalid(message = "Not verified", tooltip = null)` or `.None()`.
+  The answer is drawn inside the box at its end: an icon (check, warning triangle, cross; a spinner
+  with "Checking…" while it runs) followed by the message as a one-line label, which is also announced
+  to screen readers. `tooltip` is an explanation shown in a tooltip over the indicator (plain text).
+  An invalid answer also turns the box's border red. The input's end padding follows the label's
+  width. Only the answer for the current text is shown. An empty box is not checked.
+- `.Recheck()` — run the check now (e.g. after a setting it depends on changed). `.LastCheck` holds the
+  last answer.
 
-A pick (click, Enter, or Tab on a highlighted row) sets the text and raises the change event, so one
-`.OnChange(...)` handler sees a pick and an edit alike (an edit raises it on blur).
+The indicator, and the red border of an invalid answer, are separate from `.Error` / `.IsInvalid` /
+`.Validation(...)`, which keep working on the same box.
 
 Keyboard: ArrowDown/ArrowUp open the list and move through it, Enter picks the highlighted row, Escape
 closes it. Tab moves to the next field as usual, picking the highlighted row first if there is one; with
@@ -45,8 +55,8 @@ var models = AutoCompleteBox(currentModel)
    .SetPlaceholder("The model id this endpoint answers to")
    .Suggestions(async () => await LoadModelIdsAsync())
    .CheckAsync(async id => (await LoadModelIdsAsync()).Contains(id)
-        ? InputCheck.Valid("Listed", tooltip: "This endpoint lists the model id.")
-        : InputCheck.Invalid(tooltip: $"This endpoint does not list \"{id}\"."))
+        ? AutoCompleteCheck.Valid("Listed", tooltip: "This endpoint lists the model id.")
+        : AutoCompleteCheck.Invalid(tooltip: $"This endpoint does not list \"{id}\"."))
    .OnChange((box, _) => Save(box.Text));
 ```
 

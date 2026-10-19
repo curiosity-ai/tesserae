@@ -24,3 +24,9 @@ body.tss-theme-curiosity .tss-autocomplete-item {
 body.tss-theme-curiosity .tss-autocomplete-item.tss-autocomplete-item-highlight {
     box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
 }
+
+/* An invalid answer: the same red ring as an invalid text box. */
+body.tss-theme-curiosity .tss-textbox-container.tss-autocomplete-invalid .tss-textbox {
+    border-color: var(--tss-invalid-border-color);
+    box-shadow: inset 0 0 0 1px var(--tss-invalid-border-color);
+}

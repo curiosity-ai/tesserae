@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -10,8 +8,6 @@ namespace Tesserae.Tests.Samples
     [SampleDetails(Group = SampleGroup.Inputs, Order = 10, Icon = UIcons.InputText, Description = "Single-line text input, with icons and prefixes")]
     public class TextBoxSample : IComponent, ISample
     {
-        private static readonly string[] Users = { "ada", "grace", "linus" };
-
         private readonly IComponent _content;
 
         public TextBoxSample()
@@ -42,16 +38,6 @@ namespace Tesserae.Tests.Samples
                         Label("Positive Integer only").SetContent(TextBox().Validation(Validation.NonZeroPositiveInteger)),
                         Label("Custom Error").SetContent(TextBox().Error("Something went wrong").IsInvalid())
                     ),
-                    SampleSubTitle("Asynchronous check"),
-                    TextBlock("CheckAsync runs after each edit, debounced, and shows its answer inside the box; this one takes 300 ms and knows three user names. Hover the label for the explanation.").Small().Secondary(),
-                    Label("User name").SetContent(TextBox("ada")
-                       .CheckAsync(async text =>
-                        {
-                            await Task.Delay(300);
-                            return Users.Contains(text)
-                                ? InputCheck.Valid(tooltip: $"\"{text}\" has an account.")
-                                : InputCheck.Invalid(tooltip: $"No account is called \"{text}\".");
-                        })),
                     SampleSubTitle("Event Handling"),
                     VStack().Children(
                         TextBox().SetPlaceholder("Type and check toast...").OnChange((s, e) => Toast().Information($"Text changed to: {s.Text}")),
