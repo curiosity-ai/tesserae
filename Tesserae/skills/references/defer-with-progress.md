@@ -22,6 +22,8 @@ Same `IDefer` surface as Defer:
 
 Progress fraction is `0f`–`1f` (the default indicator multiplies by 100).
 
+A refresh unmounts the old content and shows the progress view in its place, so give the region a size like `Defer` (`defer.md`, `layout-stability.md`).
+
 ## Example
 
 ```csharp
