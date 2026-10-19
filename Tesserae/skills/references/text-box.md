@@ -44,4 +44,5 @@ var stack = Stack().Children(
 ## Related
 
 - Label — `label.md`
+- AutoCompleteBox (suggestions + async check) — `auto-complete-box.md`
 - Full docs & API: `/tesserae/inputs/text-box`

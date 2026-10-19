@@ -1,0 +1,110 @@
+/* AutoCompleteBox */
+/* The input itself is a .tss-textbox; these rules cover the suggestion list and the check indicator inside it. */
+
+.tss-autocompletebox-list {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 4px 0;
+    background-color: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 4px;
+    box-shadow: var(--tss-box-shadow, 0 4px 16px 0 rgba(0,0,0,0.12));
+}
+
+/* A row keeps its height when the list is cut by max-height; the list scrolls instead. */
+.tss-autocompletebox-item {
+    flex-shrink: 0;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: var(--tss-font-size-small);
+    line-height: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.tss-autocompletebox-item.tss-autocompletebox-item-highlight {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+.tss-autocompletebox-match {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+/* The check indicator sits inside the box at its end; the input's end padding follows its measured width
+   (--tss-autocompletebox-status-width, kept by a ResizeObserver), so typed text never runs under the label. */
+.tss-autocompletebox-field {
+    position: relative;
+    width: 100%;
+}
+
+.tss-textbox-container.tss-autocompletebox .tss-textbox.tss-autocompletebox-has-check {
+    padding-right: calc(var(--tss-autocompletebox-status-width, 0px) + 16px);
+}
+
+.tss-autocompletebox-status {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 10px;
+    max-width: 60%;
+    display: none;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--tss-font-size-small);
+    color: var(--tss-secondary-foreground-color);
+    cursor: default;
+}
+
+.tss-autocompletebox-status.tss-autocompletebox-status-visible,
+.tss-autocompletebox-status.tss-autocompletebox-status-checking {
+    display: flex;
+}
+
+.tss-autocompletebox-status.tss-autocompletebox-status-has-tooltip {
+    cursor: help;
+}
+
+.tss-autocompletebox-status-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+/* The label next to the icon; one line, cut short with an ellipsis when the box is narrow. */
+.tss-autocompletebox-status-text {
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tss-autocompletebox-status-text:empty {
+    display: none;
+}
+
+.tss-autocompletebox-status-valid   { color: var(--tss-success-background-color); }
+.tss-autocompletebox-status-warning { color: var(--tss-warning-background-color); }
+.tss-autocompletebox-status-invalid { color: var(--tss-danger-background-color); }
+
+/* An invalid answer draws the box like an invalid field, without touching .tss-invalid (which belongs to .Validation). */
+.tss-textbox-container.tss-autocompletebox-invalid .tss-textbox {
+    border-color: var(--tss-invalid-border-color);
+}
+
+/* While a check runs, the toolkit's Spinner takes the icon's place; its own (empty) label is not used. */
+.tss-autocompletebox-status .tss-autocompletebox-status-spinner,
+.tss-autocompletebox-status-checking .tss-autocompletebox-status-icon,
+.tss-autocompletebox-status-spinner .tss-spinner-label {
+    display: none;
+}
+
+.tss-autocompletebox-status-checking .tss-autocompletebox-status-spinner {
+    display: flex;
+}

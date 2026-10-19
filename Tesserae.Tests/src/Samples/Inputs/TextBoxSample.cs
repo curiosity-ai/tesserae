@@ -50,7 +50,7 @@ namespace Tesserae.Tests.Samples
                         TextBox().SetPlaceholder("Full").Rounded(BorderRadius.Full)
                     )
                 )).SetTitle("Usage")))
-               .SeeAlso(typeof(TextAreaSample), typeof(SearchBoxSample), typeof(NumberPickerSample), typeof(ValidatorSample), typeof(LabelSample));
+               .SeeAlso(typeof(TextAreaSample), typeof(AutoCompleteBoxSample), typeof(SearchBoxSample), typeof(NumberPickerSample), typeof(ValidatorSample), typeof(LabelSample));
         }
 
         public HTMLElement Render() => _content.Render();

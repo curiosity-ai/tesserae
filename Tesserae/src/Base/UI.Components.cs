@@ -970,6 +970,12 @@ namespace Tesserae
         public static TextBox TextBox(string text = string.Empty) => new TextBox(text);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.AutoCompleteBox"/>: a free-text box that suggests values as the user
+        /// types and can check the typed value asynchronously.
+        /// </summary>
+        public static AutoCompleteBox AutoCompleteBox(string text = string.Empty) => new AutoCompleteBox(text);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.TextArea"/> component.
         /// </summary>
         public static TextArea TextArea(string text = string.Empty) => new TextArea(text);
