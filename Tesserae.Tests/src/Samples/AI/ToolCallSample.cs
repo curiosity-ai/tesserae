@@ -96,14 +96,15 @@ namespace Tesserae.Tests.Samples
                         Button("Add a tool").OnClick(() => AddInlineTool()),
 
                         SampleSubTitle("A button beside the call"),
-                        TextBlock("AddAction hangs an icon button off the right of the call, outside the chip, for a way into what the call stands for that isn't its content - the run it started, say. It sits at a third of its strength until the pointer is anywhere on the call, so a transcript of them reads as calls rather than as a column of controls. Clicking it runs the handler only: the call is neither expanded nor collapsed by it. A ToolsUsed group takes the same button beside its summary pill."),
+                        TextBlock("AddAction hangs an icon button off the right of the call, outside the chip, for a way into what the call stands for that isn't its content - the run it started, say. It sits at a third of its strength until the pointer is anywhere on the call, so a transcript of them reads as calls rather than as a column of controls. Clicking it runs the handler only: the call is neither expanded nor collapsed by it. A ToolsUsed group takes the same button beside its summary pill. While a progress line is showing it sits in a slot of a fixed width, so the line updating never moves the button."),
                         ToolCall(UIcons.UserRobot, "Invoke agent \"researcher\"", () => TextBlock("Summarised 4 sources.").BreakSpaces())
                            .AddAction(UIcons.Eye, "Watch this agent run", () => Toast().Information("Opening the run...")),
                         ToolsUsed(
                             ToolCall(UIcons.Search, "Search documentation", () => TextBlock("3 pages matched.").BreakSpaces()),
                             ToolCall(UIcons.Eye, "Read README.md", () => TextBlock("# Needle").BreakSpaces())
                         ).SetSummary("researcher").Inline()
-                         .AddAction(UIcons.Eye, "Watch this agent run", () => Toast().Information("Opening the run...")),
+                         .AddAction(UIcons.Eye, "Watch this agent run", () => Toast().Information("Opening the run..."))
+                         .SetProgress(_streamedProgress),
 
                         SampleSubTitle("Secondary actions inside the card"),
                         TextBlock("AddSecondaryAction puts small labelled buttons on the header line inside the card, before the chevron, for follow-ups a call offers beside its result."),

@@ -109,6 +109,16 @@
     max-width: calc(100% - 4px - var(--tss-toolcall-action-count, 0) * 24px);
 }
 
+/* While a live progress line is showing it gets a slot of a fixed width rather than the width of its
+   text, so a stream of updates does not resize the chip - which kept the chevron and the actions
+   sliding back and forth under the pointer. The text ellipsizes inside the slot (its tooltip has the
+   rest), and the slot only gives way when the container is too narrow to hold it. */
+.tss-toolcall-header > .tss-toolcall-progress:not(.tss-liveprogress-empty),
+.tss-toolsused-header > .tss-toolsused-progress:not(.tss-liveprogress-empty) {
+    flex: 0 1 var(--tss-toolcall-progress-width, 24em);
+    width: var(--tss-toolcall-progress-width, 24em);
+}
+
 .tss-toolcall:hover .tss-toolcall-actions,
 .tss-toolcall:focus-within .tss-toolcall-actions,
 .tss-toolsused:hover .tss-toolsused-actions,
