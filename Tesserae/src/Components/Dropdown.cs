@@ -1262,7 +1262,10 @@ namespace Tesserae
             if (_spinner is object)
                 return;
 
+            //The spinner takes the arrow's place, so a box with nothing selected yet does not read as a spinner on top of a chevron
             _spinner = Div(Att("tss-spinner"));
+            _container.classList.add("tss-dropdown-loading");
+            _container.setAttribute("aria-busy", "true");
             _container.appendChild(_spinner);
             _container.style.pointerEvents = "none";
         }
@@ -1277,6 +1280,9 @@ namespace Tesserae
                 return;
 
             _spinner.remove();
+            _spinner = null;
+            _container.classList.remove("tss-dropdown-loading");
+            _container.removeAttribute("aria-busy");
             _container.style.pointerEvents = "unset";
         }
 

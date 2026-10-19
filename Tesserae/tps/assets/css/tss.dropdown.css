@@ -114,12 +114,18 @@
         border: 1px solid var(--tss-invalid-border-color);
     }
 
+    /* While items load the spinner stands where the arrow is: centred, it sat on an empty box with the
+       chevron drawn over it. The arrow is hidden rather than removed, so the box keeps its width. */
     .tss-dropdown-container > .tss-spinner {
         position: absolute;
-        right: calc(50% - 10px);
-        top: calc(50% - 10px);
-        width: 20px;
-        height: 20px;
+        right: 6px;
+        top: calc(50% - 7px);
+        width: 14px;
+        height: 14px;
+    }
+
+    .tss-dropdown-container.tss-dropdown-loading > .tss-dropdown-icon {
+        visibility: hidden;
     }
 
     .tss-dropdown-error {
