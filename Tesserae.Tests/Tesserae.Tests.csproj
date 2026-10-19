@@ -1,11 +1,6 @@
 ﻿<Project Sdk="Transpose.Build.Target/26.9.4870">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <!-- The three theme projects must not build at the same time. Each one's tps run compiles Tesserae
-         as a dependency with settings that differ from Tesserae's own build, so the first of them always
-         rewrites Tesserae/bin/.../tss.dll, and two doing it at once fail with TPS0004 (file in use).
-         Tesserae.sln orders them the same way (Curiosity, Stratus, RetroOS) for a solution build. -->
-    <BuildInParallel>false</BuildInParallel>
   </PropertyGroup>
 
   <ItemGroup>
