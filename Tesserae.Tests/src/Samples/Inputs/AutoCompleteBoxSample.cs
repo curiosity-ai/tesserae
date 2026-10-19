@@ -51,10 +51,9 @@ namespace Tesserae.Tests.Samples
                             await Task.Delay(500);
 
                             return Models.Contains(text)
-                                ? AutoCompleteCheck.Valid("Listed", tooltip: "This endpoint lists the model id in its /models answer.")
-                                : AutoCompleteCheck.Warning("Not listed", tooltip: $"This endpoint does not list \"{text}\". It may still answer to it, if the server accepts ids it does not advertise.");
-                        })
-                       .OnSuggestionSelected((s, value) => Toast().Information($"Picked {value}"))),
+                                ? InputCheck.Valid("Listed", tooltip: "This endpoint lists the model id in its /models answer.")
+                                : InputCheck.Warning("Not listed", tooltip: $"This endpoint does not list \"{text}\". It may still answer to it, if the server accepts ids it does not advertise.");
+                        })),
                     SampleSubTitle("Invalid values"),
                     Label("Fruit, checked").SetContent(AutoCompleteBox()
                        .Suggestions(Fruits)
@@ -62,8 +61,8 @@ namespace Tesserae.Tests.Samples
                         {
                             await Task.Delay(300);
                             return Fruits.Contains(text)
-                                ? AutoCompleteCheck.Valid()
-                                : AutoCompleteCheck.Invalid(tooltip: $"\"{text}\" is not in the list of fruits this field accepts.");
+                                ? InputCheck.Valid()
+                                : InputCheck.Invalid(tooltip: $"\"{text}\" is not in the list of fruits this field accepts.");
                         }, debounceMs: 250))
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(TextBoxSample), typeof(DropdownSample), typeof(PickerSample));

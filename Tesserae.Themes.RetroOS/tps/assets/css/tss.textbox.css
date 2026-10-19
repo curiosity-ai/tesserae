@@ -67,14 +67,14 @@ body.tss-theme-retroos .tss-textbox.tss-disabled::placeholder {
 /* Invalid: a double frame (a second line inside the first). */
 body.tss-theme-retroos .tss-textbox-container.tss-invalid .tss-textbox,
 body.tss-theme-retroos .tss-textbox-container.tss-invalid .tss-textbox:hover,
-body.tss-theme-retroos .tss-textbox-container.tss-autocomplete-invalid .tss-textbox,
-body.tss-theme-retroos .tss-textbox-container.tss-autocomplete-invalid .tss-textbox:hover {
+body.tss-theme-retroos .tss-textbox-container.tss-input-check-invalid .tss-textbox,
+body.tss-theme-retroos .tss-textbox-container.tss-input-check-invalid .tss-textbox:hover {
     border-color: rgb(var(--tss-default-foreground-color-root));
     box-shadow: inset 0 0 0 1px rgb(var(--tss-default-background-color-root)), inset 0 0 0 2px rgb(var(--tss-default-foreground-color-root));
 }
 
 body.tss-theme-retroos .tss-textbox-container.tss-invalid .tss-textbox:focus,
-body.tss-theme-retroos .tss-textbox-container.tss-autocomplete-invalid .tss-textbox:focus {
+body.tss-theme-retroos .tss-textbox-container.tss-input-check-invalid .tss-textbox:focus {
     box-shadow: inset 0 0 0 1px rgb(var(--tss-default-foreground-color-root)), inset 0 0 0 2px rgb(var(--tss-default-background-color-root)), inset 0 0 0 3px rgb(var(--tss-default-foreground-color-root));
 }
 
