@@ -1,0 +1,74 @@
+/* AutoCompleteBox */
+/* The input itself is a .tss-textbox; these rules cover the suggestion list and the check line under it. */
+
+.tss-autocomplete-list {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 4px 0;
+    background-color: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 4px;
+    box-shadow: var(--tss-box-shadow, 0 4px 16px 0 rgba(0,0,0,0.12));
+}
+
+.tss-autocomplete-item {
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: var(--tss-font-size-small);
+    line-height: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.tss-autocomplete-item.tss-autocomplete-item-highlight {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+.tss-autocomplete-match {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+/* The check line takes no space until a check has something to say, then keeps to one line. */
+.tss-autocomplete-status {
+    display: none;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--tss-font-size-tiny);
+    line-height: 1.4;
+    color: var(--tss-secondary-foreground-color);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.tss-autocomplete-status.tss-autocomplete-status-visible,
+.tss-autocomplete-status.tss-autocomplete-status-checking {
+    display: flex;
+}
+
+.tss-autocomplete-status-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tss-autocomplete-status-valid   { color: var(--tss-success-background-color); }
+.tss-autocomplete-status-warning { color: var(--tss-warning-background-color); }
+.tss-autocomplete-status-invalid { color: var(--tss-danger-background-color); }
+
+.tss-autocomplete-status-checking .tss-autocomplete-status-icon {
+    animation: tss-autocomplete-spin 1s linear infinite;
+}
+
+@keyframes tss-autocomplete-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-autocomplete-status-checking .tss-autocomplete-status-icon {
+        animation: none;
+    }
+}

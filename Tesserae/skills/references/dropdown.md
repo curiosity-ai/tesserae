@@ -201,4 +201,5 @@ separators included, so you own the whole presentation.
 ## Related
 
 - ChoiceGroup, Toggle — alternative single-choice inputs
+- AutoCompleteBox — free text with suggestions, when the value need not be in the list — `auto-complete-box.md`
 - Full docs & API: `/tesserae/inputs/dropdown`

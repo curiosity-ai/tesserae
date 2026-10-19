@@ -189,7 +189,7 @@ action-button · button · command-bar · command-palette · context-menu ·
 icon-toggle · menu · overflow-set · toggle-button
 
 **Inputs** — form controls that capture a value
-annotated-text-editor · check-box · choice-group · color-picker · dropdown ·
+annotated-text-editor · auto-complete-box · check-box · choice-group · color-picker · dropdown ·
 editable-area · editable-label · file-selector-and-drop-area · grid-picker ·
 number-picker · option · picker · rating · slider · steps-slider · tags-input
 · text-area · text-box · toggle

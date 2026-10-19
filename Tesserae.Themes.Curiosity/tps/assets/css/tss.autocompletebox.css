@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Curiosity theme - AutoCompleteBox
+   --------------------------------------------------------------------------
+   The suggestion list is the same floating surface as a menu: square, paper,
+   framed by one 1px ink rule instead of a shadow. The row the keyboard or the
+   pointer is on is stone with an inset 2px ink bar on its leading edge.
+   ========================================================================== */
+
+body.tss-theme-curiosity .tss-autocomplete-list {
+    border-radius: 0;
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: none;
+}
+
+body.tss-theme-curiosity.tss-dark-mode .tss-autocomplete-list {
+    border-color: var(--tss-dark-border-color);
+}
+
+body.tss-theme-curiosity .tss-autocomplete-item {
+    padding: 7px 14px;
+    transition: background-color .15s linear;
+}
+
+body.tss-theme-curiosity .tss-autocomplete-item.tss-autocomplete-item-highlight {
+    box-shadow: inset 2px 0 0 var(--tss-default-foreground-color);
+}
