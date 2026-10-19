@@ -8,8 +8,8 @@ namespace Tesserae
 {
     /// <summary>
     /// Draws the <c>```mermaid</c> fences of rendered Markdown as diagrams, with
-    /// <see href="https://pele.run">Pele</see>. Pele is not part of the bundle the page starts with: it ships as
-    /// its own file and is fetched the first time a Markdown source actually contains a diagram.
+    /// <see href="https://pele.run">Pele</see> (see <see cref="Pele"/> for how it is loaded). The library is
+    /// fetched the first time a Markdown source actually contains a diagram.
     /// </summary>
     /// <remarks>
     /// The fence stays on the page as a plain code block until the library is there, and stays for good when the
@@ -17,12 +17,6 @@ namespace Tesserae
     /// </remarks>
     internal static class MarkdownDiagrams
     {
-        /// <summary>Where the compiler puts the unlinked <c>tss-pele.min.js</c> resource of <c>tps.json</c>.</summary>
-        internal const string ScriptUrl = "assets/js/tss-pele.min.js";
-
-        private static Task _loading;
-        private static bool _loaded;
-
         /// <summary>Turns every <c>mermaid</c> code block under <paramref name="root"/> into a diagram.</summary>
         internal static void Render(HTMLElement root, MarkdownSanitization sanitization)
         {
@@ -32,7 +26,7 @@ namespace Tesserae
                 var pre  = code.parentElement;
                 var text = code.textContent ?? string.Empty;
 
-                if (_loaded)
+                if (Pele.IsLoaded)
                 {
                     //Synchronous once loaded, so a source that is re-rendered as it streams in does not flash its code block.
                     Draw(pre, text, sanitization);
@@ -57,14 +51,11 @@ namespace Tesserae
         {
             try
             {
-                if (_loading is null) _loading = Require.LoadScriptAsync(ScriptUrl);
-                await _loading;
-                _loaded = true;
+                await Pele.LoadAsync();
             }
             catch
             {
-                _loading = null; //retried by the next Markdown that has a diagram
-                return;
+                return; //retried by the next Markdown that has a diagram
             }
 
             //The Markdown may have been re-rendered while the library was on its way.
@@ -85,16 +76,14 @@ namespace Tesserae
             //strict mode takes them out of the diagram too. The SVG goes through DOMPurify on top of Pele's own escaping.
             var allowRemote = sanitization != MarkdownSanitization.NoLinksOrEmbeddedContent;
 
-            var mounted = Script.Write<object>(
-                "globalThis.pele.mount({0}, {1}, { links: {2}, images: {2}, sanitize: function (svg) { return DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true }, RETURN_DOM_FRAGMENT: true }); } })",
-                host, text, allowRemote);
-
-            var error = Script.Write<string>("{0}.error ? String({0}.error.message) : null", mounted);
+            var mounted = Pele.Mount(host, text, Pele.Options(sanitize: true, links: allowRemote, images: allowRemote, zoom: true));
+            var error   = Pele.ErrorOf(mounted);
 
             if (error != null)
             {
-                Script.Write("{0}.destroy();", mounted);
+                Pele.Destroy(mounted);
                 parent.removeChild(host);
+                pre.classList.add("tss-mermaid-source");
                 pre.title = error;
                 return;
             }

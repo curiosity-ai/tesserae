@@ -50,3 +50,22 @@
 .tss-markdown pre.tss-mermaid-source {
     border-left: 3px solid var(--tss-warning-background-color);
 }
+
+/* The Mermaid component shows its source as text until the library has loaded. */
+.tss-mermaid > pre.tss-mermaid-source {
+    margin: 0;
+    text-align: left;
+    white-space: pre-wrap;
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-small);
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-mermaid.tss-mermaid-failed {
+    border-color: var(--tss-danger-border-color);
+}
+
+/* The Mermaid component with no source draws nothing, so it takes no room either. */
+.tss-mermaid:empty {
+    display: none;
+}
