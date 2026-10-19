@@ -28,11 +28,14 @@ Both carry an 8px bottom margin, so when you stack a pill above the answer text 
 - `.SetProgress(string)` / `.SetProgress(IObservable<string>)` / `.ClearProgress()` — a live progress
   line on the header row while the call runs (see `live-progress.md`). Updates rewrite the text of
   the line already on screen, so a stream of updates never re-renders the call, and expanding it
-  still opens the content full width underneath.
+  still opens the content full width underneath. While it shows, the line sits in a slot of a fixed
+  width (`--tss-toolcall-progress-width`, default `24em`) and ellipsizes inside it, so updates never
+  resize the chip or move its chevron and actions; the slot shrinks only in a narrower container.
 - `Progress` — the `LiveProgress` itself, for finer control.
 - `.AddAction(UIcons icon, string tooltip, Action)` (also `Action<ToolCall>`) / `.ClearActions()` — an
   icon button hanging off the right of the call, outside the chip and out of flow (so a call is the
-  same width with or without one). It shows at a third of its strength until the pointer is anywhere
+  same width with or without one, except that a chip filling its container gives up the actions'
+  width so they stay inside it). It shows at a third of its strength until the pointer is anywhere
   on the call, and at full strength on hover, focus, or on a touch screen. Clicking it runs the
   handler only, never expanding or collapsing the call. Use it for a way into what the call stands
   for that isn't its content — opening the run it started, retrying it.
