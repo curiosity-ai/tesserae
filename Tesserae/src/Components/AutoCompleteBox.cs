@@ -38,8 +38,6 @@ namespace Tesserae
         private string[]                        _suggestions = new string[0];
         private Func<Task<string[]>>            _suggestionsLoader;
         private Task<string[]>                  _suggestionsLoading;
-        private bool                            _suggestionsLoaded = true;
-        private bool                            _dismissed;
         private bool                            _picking;
         private int                             _maxSuggestions = 50;
         private Action<AutoCompleteBox, string> _onSuggestionSelected;
@@ -108,18 +106,12 @@ namespace Tesserae
 
             SubscribeInputUpdated((_, __) =>
             {
-                _dismissed = false;
-
                 // A pick sets the text too; the list it just closed stays closed.
                 if (!_picking && document.activeElement == InnerElement) ShowSuggestionsAsync().FireAndForget();
                 ScheduleCheck();
             });
 
-            SubscribeReceivedFocus((_, __) =>
-            {
-                _dismissed = false;
-                ShowSuggestionsAsync().FireAndForget();
-            });
+            SubscribeReceivedFocus((_, __) => ShowSuggestionsAsync().FireAndForget());
             SubscribeClicked((_, __) => { if (!_popover.IsVisible) ShowSuggestionsAsync().FireAndForget(); });
             SubscribeLostFocus((_, __) => _popover.Hide());
             SubscribeKeyDown((_, e) => OnKeyDown(e));
@@ -145,7 +137,6 @@ namespace Tesserae
             _suggestions        = Distinct(suggestions);
             _suggestionsLoader  = null;
             _suggestionsLoading = null;
-            _suggestionsLoaded  = true;
             RefreshIfOpen();
             return this;
         }
@@ -159,7 +150,6 @@ namespace Tesserae
         {
             _suggestionsLoader  = loader;
             _suggestionsLoading = null;
-            _suggestionsLoaded  = false;
             _suggestions        = new string[0];
             return this;
         }
@@ -331,8 +321,7 @@ namespace Tesserae
                 // A reload or another loader replaced this one while it ran.
                 if (_suggestionsLoading != loading) return _suggestions;
 
-                _suggestions       = loaded;
-                _suggestionsLoaded = true;
+                _suggestions = loaded;
             }
             else
             {
@@ -489,11 +478,6 @@ namespace Tesserae
                     Highlight(next);
                     break;
                 }
-                case "Escape":
-                {
-                    _dismissed = true; // The popover closes itself; this lets the next Tab leave the box
-                    break;
-                }
                 case "Enter":
                 {
                     if (_popover.IsVisible && _highlighted >= 0 && _highlighted < _visible.Count)
@@ -505,51 +489,18 @@ namespace Tesserae
                 }
                 case "Tab":
                 {
-                    // Once the user has typed, Tab (Shift+Tab backwards) moves through the open list and
-                    // Enter picks. Past either end of the list it does not wrap: the box is left as usual,
-                    // with the typed text kept, so Tab never traps the focus. Escape closes the list, and
-                    // the next Tab leaves too. An empty box is tabbed through as usual.
-                    if (!_dismissed && !string.IsNullOrWhiteSpace(Text))
+                    // Tab leaves the box as usual; a row the user arrowed to is a choice they made, so it is
+                    // picked on the way out. With none highlighted the typed text is kept.
+                    if (_popover.IsVisible && _highlighted >= 0 && _highlighted < _visible.Count)
                     {
-                        if (_popover.IsVisible && _rows.Count > 0)
-                        {
-                            var next = e.shiftKey ? (_highlighted < 0 ? -1 : _highlighted - 1) : _highlighted + 1;
-
-                            if (next >= 0 && next < _rows.Count)
-                            {
-                                e.preventDefault();
-                                Highlight(next);
-                                break;
-                            }
-
-                            _popover.Hide();
-                            break;
-                        }
-
-                        if (!_suggestionsLoaded)
-                        {
-                            // The loader is still running: stay in the box and land on the first row once
-                            // the list arrives.
-                            e.preventDefault();
-                            HighlightFirstWhenLoadedAsync().FireAndForget();
-                            break;
-                        }
+                        Pick(_visible[_highlighted]);
+                        break;
                     }
 
                     _popover.Hide();
                     break;
                 }
             }
-        }
-
-        private async Task HighlightFirstWhenLoadedAsync()
-        {
-            var typed = Text;
-            await ShowSuggestionsAsync();
-
-            // The user typed on, or left the box, while the loader ran.
-            if (Text != typed || !_popover.IsVisible || _rows.Count == 0) return;
-            if (_highlighted < 0) Highlight(0);
         }
 
         private void Pick(string value)
