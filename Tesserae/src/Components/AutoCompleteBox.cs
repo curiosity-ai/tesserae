@@ -16,8 +16,9 @@ namespace Tesserae
     /// Suggestions come from a fixed list or from a loader that runs once, on first use, and is cached
     /// until <see cref="ReloadSuggestions"/>; either way they are filtered here, prefix matches first.
     /// The check (<see cref="CheckAsync"/>) runs debounced after every edit and once for the initial
-    /// text, and only the answer for the text currently in the box is shown. Its result is an icon at
-    /// the end of the box, apart from <see cref="Input{TInput}.Error"/>, so a synchronous
+    /// text, and only the answer for the text currently in the box is shown. Its result is an icon and
+    /// a short label at the end of the box (an invalid answer also draws the box's border red), apart
+    /// from <see cref="Input{TInput}.Error"/> and <see cref="Input{TInput}.IsInvalid"/>, so a synchronous
     /// <c>.Validation(...)</c> on the same box keeps working.
     /// </remarks>
     [Transpose.Name("tss.AutoCompleteBox")]
@@ -29,6 +30,8 @@ namespace Tesserae
         private readonly HTMLElement _status;
         private readonly HTMLElement _statusIcon;
         private readonly HTMLElement _statusText;
+        private readonly IComponent  _statusComponent;
+        private readonly HTMLElement _container;
         private readonly Popover     _popover;
         private readonly string      _listId;
 
@@ -66,20 +69,29 @@ namespace Tesserae
             // a suggestion does not blur the box and close the list before the click lands.
             _list.addEventListener("mousedown", e => e.preventDefault());
 
-            // The indicator sits inside the box at its end; its message is the hover title, and the
-            // visually hidden text is what a screen reader announces.
-            _statusIcon = I(Att("tss-autocomplete-status-icon"));
-            _statusText = Span(Att("tss-autocomplete-status-text"));
-            _status     = Div(Att("tss-autocomplete-status"), _statusIcon, _statusText);
+            // The indicator sits inside the box at its end: an icon and a short label, which is also
+            // what a screen reader announces. The check's explanation, if it has one, is its tooltip.
+            _statusIcon      = I(Att("tss-autocomplete-status-icon"));
+            _statusText      = Span(Att("tss-autocomplete-status-text"));
+            _status          = Div(Att("tss-autocomplete-status"), _statusIcon, _statusText);
+            _statusComponent = Raw(_status);
             _status.setAttribute("aria-live", "polite");
 
-            var container = Render();
-            container.classList.add("tss-autocomplete");
+            _container = Render();
+            _container.classList.add("tss-autocomplete");
 
             var field = Div(Att("tss-autocomplete-field"));
-            container.insertBefore(field, InnerElement);
+            _container.insertBefore(field, InnerElement);
             field.appendChild(InnerElement);
             field.appendChild(_status);
+
+            // The label's length depends on the answer, so the input's end padding follows the
+            // indicator's measured width and typed text never runs under it.
+            new ResizeObserver((entries, obs) =>
+            {
+                if (!_status.isConnected) return; // Detached, it measures as nothing
+                field.style.setProperty("--tss-autocomplete-status-width", _status.offsetWidth + "px");
+            }).observe(_status);
 
             _popover = new Popover(Raw(_list))
                .Placement(TooltipPlacement.BottomStart)
@@ -171,11 +183,11 @@ namespace Tesserae
 
         /// <summary>
         /// Checks the text asynchronously after each edit, debounced by <paramref name="debounceMs"/>,
-        /// and shows the answer as an icon at the end of the box, with the message as its hover title:
-        /// <see cref="AutoCompleteCheck.Valid"/>,
-        /// <see cref="AutoCompleteCheck.Warning"/>, <see cref="AutoCompleteCheck.Invalid"/>, or
-        /// <see cref="AutoCompleteCheck.None"/> for nothing. An empty box is not checked. The initial
-        /// text is checked straight away.
+        /// and shows the answer as an icon and its message at the end of the box, with the answer's
+        /// tooltip (if any) over them: <see cref="AutoCompleteCheck.Valid"/>,
+        /// <see cref="AutoCompleteCheck.Warning"/>, <see cref="AutoCompleteCheck.Invalid"/> (which also
+        /// draws the box's border red), or <see cref="AutoCompleteCheck.None"/> for nothing. An empty
+        /// box is not checked. The initial text is checked straight away.
         /// </summary>
         public AutoCompleteBox CheckAsync(Func<string, Task<AutoCompleteCheck>> check, int debounceMs = 400)
         {
@@ -241,12 +253,15 @@ namespace Tesserae
             _status.className      = "tss-autocomplete-status tss-autocomplete-status-checking";
             _statusIcon.className  = "tss-autocomplete-status-icon " + Icon.Transform(UIcons.Spinner, UIconsWeight.Regular);
             _statusText.innerText  = "Checking…";
-            _status.title          = "Checking…";
+            _status.title          = "";
+            SetStatusTooltip(null);
         }
 
         private void ShowCheck(AutoCompleteCheck result)
         {
             LastCheck = result;
+
+            _container.classList.toggle("tss-autocomplete-invalid", result?.State == AutoCompleteCheckState.Invalid);
 
             if (result is null || result.State == AutoCompleteCheckState.None)
             {
@@ -254,6 +269,7 @@ namespace Tesserae
                 _statusIcon.className = "tss-autocomplete-status-icon";
                 _statusText.innerText = "";
                 _status.title         = "";
+                SetStatusTooltip(null);
                 return;
             }
 
@@ -270,7 +286,24 @@ namespace Tesserae
             _status.className     = "tss-autocomplete-status tss-autocomplete-status-visible tss-autocomplete-status-" + state;
             _statusIcon.className = "tss-autocomplete-status-icon " + Icon.Transform(icon, UIconsWeight.Regular);
             _statusText.innerText = result.Message ?? "";
-            _status.title         = result.Message ?? "";
+
+            // A long label is cut short, so without a tooltip the full message stays reachable as the title.
+            _status.title = string.IsNullOrWhiteSpace(result.Tooltip) ? result.Message ?? "" : "";
+            SetStatusTooltip(result.Tooltip);
+        }
+
+        private void SetStatusTooltip(string tooltip)
+        {
+            _statusComponent.RemoveTooltip();
+
+            if (string.IsNullOrWhiteSpace(tooltip))
+            {
+                _status.classList.remove("tss-autocomplete-status-has-tooltip");
+                return;
+            }
+
+            _status.classList.add("tss-autocomplete-status-has-tooltip");
+            _statusComponent.Tooltip(TextBlock(tooltip));
         }
 
         private async Task<string[]> GetSuggestionsAsync()
@@ -493,24 +526,27 @@ namespace Tesserae
     [Transpose.Name("tss.AutoCompleteCheck")]
     public sealed class AutoCompleteCheck
     {
-        private AutoCompleteCheck(AutoCompleteCheckState state, string message)
+        private AutoCompleteCheck(AutoCompleteCheckState state, string message, string tooltip)
         {
             State   = state;
             Message = message;
+            Tooltip = tooltip;
         }
 
         /// <summary>The verdict.</summary>
         public AutoCompleteCheckState State   { get; }
-        /// <summary>The message shown as the indicator's hover title and announced to screen readers, or <c>null</c>.</summary>
+        /// <summary>The short label shown next to the indicator's icon and announced to screen readers, or <c>null</c> for the icon alone.</summary>
         public string                 Message { get; }
+        /// <summary>The explanation shown in a tooltip over the indicator, or <c>null</c> for none.</summary>
+        public string                 Tooltip { get; }
 
         /// <summary>No verdict: clears the indicator.</summary>
-        public static AutoCompleteCheck None()                       => new AutoCompleteCheck(AutoCompleteCheckState.None,    null);
-        /// <summary>The value is good.</summary>
-        public static AutoCompleteCheck Valid(string message = null) => new AutoCompleteCheck(AutoCompleteCheckState.Valid,   message);
+        public static AutoCompleteCheck None() => new AutoCompleteCheck(AutoCompleteCheckState.None, null, null);
+        /// <summary>The value is good. Labelled "Verified" unless <paramref name="message"/> says otherwise.</summary>
+        public static AutoCompleteCheck Valid(string message = "Verified", string tooltip = null) => new AutoCompleteCheck(AutoCompleteCheckState.Valid, message, tooltip);
         /// <summary>The value may be wrong, but is allowed.</summary>
-        public static AutoCompleteCheck Warning(string message)      => new AutoCompleteCheck(AutoCompleteCheckState.Warning, message);
-        /// <summary>The value is wrong.</summary>
-        public static AutoCompleteCheck Invalid(string message)      => new AutoCompleteCheck(AutoCompleteCheckState.Invalid, message);
+        public static AutoCompleteCheck Warning(string message, string tooltip = null) => new AutoCompleteCheck(AutoCompleteCheckState.Warning, message, tooltip);
+        /// <summary>The value is wrong; the box's border turns red. Labelled "Not verified" unless <paramref name="message"/> says otherwise.</summary>
+        public static AutoCompleteCheck Invalid(string message = "Not verified", string tooltip = null) => new AutoCompleteCheck(AutoCompleteCheckState.Invalid, message, tooltip);
     }
 }

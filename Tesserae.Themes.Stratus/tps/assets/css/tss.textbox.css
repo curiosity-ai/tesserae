@@ -68,12 +68,14 @@ body.tss-theme-stratus .tss-textbox[readonly]:not(.tss-disabled):not(.tss-textbo
     box-shadow: inset 0 -1px 0 0 var(--tss-str-rule);
 }
 
-body.tss-theme-stratus .tss-textbox-container.tss-invalid .tss-textbox {
+body.tss-theme-stratus .tss-textbox-container.tss-invalid .tss-textbox,
+body.tss-theme-stratus .tss-textbox-container.tss-autocomplete-invalid .tss-textbox {
     border: 0;
     box-shadow: 0 3px 0 0 var(--tss-str-error);
 }
 
-body.tss-theme-stratus .tss-textbox-container.tss-invalid .tss-textbox:focus {
+body.tss-theme-stratus .tss-textbox-container.tss-invalid .tss-textbox:focus,
+body.tss-theme-stratus .tss-textbox-container.tss-autocomplete-invalid .tss-textbox:focus {
     box-shadow: 0 0 0 3px var(--tss-str-error);
 }
 

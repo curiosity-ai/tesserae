@@ -37,14 +37,15 @@
     font-weight: var(--tss-font-weight-semibold);
 }
 
-/* The check indicator sits inside the box at its end; the input keeps room for it. */
+/* The check indicator sits inside the box at its end; the input's end padding follows its measured width
+   (--tss-autocomplete-status-width, kept by a ResizeObserver), so typed text never runs under the label. */
 .tss-autocomplete-field {
     position: relative;
     width: 100%;
 }
 
 .tss-textbox-container.tss-autocomplete .tss-textbox.tss-autocomplete-has-check {
-    padding-right: 32px;
+    padding-right: calc(var(--tss-autocomplete-status-width, 0px) + 16px);
 }
 
 .tss-autocomplete-status {
@@ -52,8 +53,10 @@
     top: 0;
     bottom: 0;
     right: 10px;
+    max-width: 60%;
     display: none;
     align-items: center;
+    gap: 4px;
     font-size: var(--tss-font-size-small);
     color: var(--tss-secondary-foreground-color);
     cursor: default;
@@ -64,24 +67,36 @@
     display: flex;
 }
 
+.tss-autocomplete-status.tss-autocomplete-status-has-tooltip {
+    cursor: help;
+}
+
 .tss-autocomplete-status-icon {
     display: inline-flex;
+    flex-shrink: 0;
     line-height: 1;
 }
 
-/* Announced by screen readers through the indicator's aria-live, never drawn. */
+/* The label next to the icon; one line, cut short with an ellipsis when the box is narrow. */
 .tss-autocomplete-status-text {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
+    min-width: 0;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tss-autocomplete-status-text:empty {
+    display: none;
 }
 
 .tss-autocomplete-status-valid   { color: var(--tss-success-background-color); }
 .tss-autocomplete-status-warning { color: var(--tss-warning-background-color); }
 .tss-autocomplete-status-invalid { color: var(--tss-danger-background-color); }
+
+/* An invalid answer draws the box like an invalid field, without touching .tss-invalid (which belongs to .Validation). */
+.tss-textbox-container.tss-autocomplete-invalid .tss-textbox {
+    border-color: var(--tss-invalid-border-color);
+}
 
 .tss-autocomplete-status-checking .tss-autocomplete-status-icon {
     animation: tss-autocomplete-spin 1s linear infinite;

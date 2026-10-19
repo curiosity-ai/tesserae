@@ -29,7 +29,7 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("An AutoCompleteBox is a TextBox with a list of suggestions that narrows as you type. The text stays free: a suggestion is a shortcut, not a constraint, which is what sets it apart from a searchable Dropdown."),
-                    TextBlock("It can also check the typed value asynchronously, debounced after each edit, and show the answer as an icon at the end of the box: valid, a warning, or invalid. Hover the icon for the message."))).SetTitle("Overview")))
+                    TextBlock("It can also check the typed value asynchronously, debounced after each edit, and show the answer as an icon and a short label at the end of the box: valid, a warning, or invalid. An invalid answer also turns the border red, and an answer can carry a tooltip that explains it."))).SetTitle("Overview")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use it when the set of good values is known but not closed: model ids a server lists, tags, e-mail domains. If the value must be one of the list, use a Dropdown. Prefer a warning over invalid when the check cannot know every good value."))).SetTitle("Best Practices")))
@@ -51,8 +51,8 @@ namespace Tesserae.Tests.Samples
                             await Task.Delay(500);
 
                             return Models.Contains(text)
-                                ? AutoCompleteCheck.Valid("Listed by this endpoint")
-                                : AutoCompleteCheck.Warning($"This endpoint does not list \"{text}\"");
+                                ? AutoCompleteCheck.Valid("Listed", tooltip: "This endpoint lists the model id in its /models answer.")
+                                : AutoCompleteCheck.Warning("Not listed", tooltip: $"This endpoint does not list \"{text}\". It may still answer to it, if the server accepts ids it does not advertise.");
                         })
                        .OnSuggestionSelected((s, value) => Toast().Information($"Picked {value}"))),
                     SampleSubTitle("Invalid values"),
@@ -61,7 +61,9 @@ namespace Tesserae.Tests.Samples
                        .CheckAsync(async text =>
                         {
                             await Task.Delay(300);
-                            return Fruits.Contains(text) ? AutoCompleteCheck.Valid() : AutoCompleteCheck.Invalid("Not a fruit we know");
+                            return Fruits.Contains(text)
+                                ? AutoCompleteCheck.Valid()
+                                : AutoCompleteCheck.Invalid(tooltip: $"\"{text}\" is not in the list of fruits this field accepts.");
                         }, debounceMs: 250))
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(TextBoxSample), typeof(DropdownSample), typeof(PickerSample));
