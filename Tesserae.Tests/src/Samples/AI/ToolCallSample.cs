@@ -19,6 +19,7 @@ namespace Tesserae.Tests.Samples
         private readonly ToolCall                     _runningCall;
         private readonly LiveProgress                 _standaloneProgress;
         private readonly DeltaComponent               _diffedBubble;
+        private readonly DeltaComponent               _diffedAgent;
         private readonly ToolsUsed                    _inlineTools;
         private readonly SettableObservable<string>   _streamedProgress = new SettableObservable<string>(string.Empty);
         private          double                       _timer;
@@ -30,6 +31,7 @@ namespace Tesserae.Tests.Samples
             _runningCall        = ToolCall(UIcons.Search, "Search documentation \"tesserae popover\"", () => TextBlock("3 pages matched.").BreakSpaces());
             _standaloneProgress = LiveProgress().Stream(_streamedProgress);
             _diffedBubble       = DeltaComponent(BuildDiffedBubbleContent()).Animated();
+            _diffedAgent        = DeltaComponent(BuildDiffedAgentContent()).Animated();
 
             _inlineTools = ToolsUsed(
                     ToolCall(UIcons.Search, "Grep \"Inline\" Tesserae/src/", () => TextBlock("Tesserae/src/Components/ToolCall.cs:  public ToolsUsed Inline(bool value = true)").BreakSpaces()),
@@ -122,6 +124,8 @@ namespace Tesserae.Tests.Samples
                         TextBlock("A streaming chat bubble refreshes itself by diffing a freshly built layout onto the DOM already on screen, so the call and its line are rebuilt on every update and the reader keeps the elements an earlier layout left behind. The line still reads as one text changing: it opts out of the fade the diff puts on patched content, and its tooltip follows the element rather than the instance that was last written to."),
                         TextBlock("The update that ends the run is a rebuild like all the others - it just carries an empty progress, which takes the line off the row instead of leaving an empty gap where it was."),
                         _diffedBubble,
+                        TextBlock("An agent's calls, rebuilt the same way. A longer line pushes the button beside the group to the right and a shorter one leaves it where it is, though every rebuild hands the diff a chip sized for the current line."),
+                        _diffedAgent.Id("tss-toolcall-sample-diffed-agent"),
 
                         Button("Stream progress").Primary().OnClick(() => StartProgressDemo())
                     )).SetTitle("Usage")))
@@ -144,6 +148,21 @@ namespace Tesserae.Tests.Samples
             if (_diffedCallOpen) call.Expanded();
 
             return VStack().NoDefaultMargin().Children(call);
+        }
+
+        // The shape a chat gives an agent's run: an inline group with a way into the agent beside it,
+        // carrying the reply's progress line, rebuilt with the rest of the bubble on every update.
+        private IComponent BuildDiffedAgentContent()
+        {
+            var group = ToolsUsed(
+                    ToolCall(UIcons.Search, "Search for 'evil origin concept' · 9.8 s", () => TextBlock("12 documents matched.").BreakSpaces()),
+                    ToolCall(UIcons.Filter, "Consult search filters · 3 ms", () => TextBlock("file-kind, date").BreakSpaces()))
+               .SetSummary("search")
+               .Inline()
+               .AddAction(UIcons.Eye, "Watch this agent run", () => Toast().Information("Opening the run..."))
+               .SetProgress(_streamedProgress.Value);
+
+            return VStack().NoDefaultMargin().Children(group);
         }
 
         // A call appended to a group that is already open inline lands in the list on screen, without the
@@ -180,9 +199,11 @@ namespace Tesserae.Tests.Samples
                     return;
                 }
 
-                Publish(step < 50
-                    ? $"Reading documents · {step}%"
-                    : $"Encoding chunks · {step}%");
+                // The stages differ in length, the way an agent's do, so the line both grows and shrinks.
+                Publish(step < 25 ? $"Reading documents · {step}%"
+                      : step < 50 ? $"Interpreting the search request · Pondering the filters for last month · {step}%"
+                      : step < 75 ? $"Encoding chunks · {step}%"
+                      :             $"Ranking · {step}%");
             }, 150);
         }
 
@@ -194,6 +215,7 @@ namespace Tesserae.Tests.Samples
             _streamedProgress.Value = progress;
 
             _diffedBubble.ReplaceContent(BuildDiffedBubbleContent());
+            _diffedAgent.ReplaceContent(BuildDiffedAgentContent());
         }
 
         public HTMLElement Render() => _content.Render();

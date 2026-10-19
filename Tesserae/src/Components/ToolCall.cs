@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -53,41 +53,53 @@ namespace Tesserae
     {
         private const string WIDEST_VARIABLE = "--tss-toolcall-widest";
 
-        // One observer for every chip. A chat refreshes its reply by diffing a rebuilt layout onto the
-        // one on screen, which keeps the node but writes the rebuilt node's style attribute over it - the
-        // floor goes with it, the chip shrinks, and the observer, which runs after layout and before
-        // paint, puts the floor back in the same frame. That is also why the widest width is kept as a
-        // property of the node rather than of the component: the component that set it is gone.
-        private static readonly ResizeObserver Resizes = new ResizeObserver((entries, _) =>
+        // A chat refreshes its reply by diffing a rebuilt layout onto the one on screen, which keeps the
+        // chip's node but writes the rebuilt node's style attribute over it - the floor goes with it, and
+        // the component that set it is gone. So the widest width is a property of the node, and a
+        // mutation observer puts the floor back: it runs as a microtask straight after the diff, before
+        // anything is laid out or painted. A ResizeObserver would see the shrink too, but changing a
+        // size from inside one reports a "loop completed with undelivered notifications" error.
+        internal static void Watch(HTMLElement chip, HTMLElement header)
         {
-            foreach (var entry in entries) Hold(entry.target.As<HTMLElement>());
-        });
+            var observer = new MutationObserver((_, __) => Hold(chip));
 
-        internal static void Watch(HTMLElement chip) => Resizes.observe(chip);
+            // The header only, not the content under it: an expanded call can be large and streaming.
+            observer.observe(header, new MutationObserverInit { childList = true, characterData = true, subtree = true, attributes = true, attributeFilter = new[] { "class", "style" } });
+
+            if (chip != header) observer.observe(chip, new MutationObserverInit { attributes = true, attributeFilter = new[] { "style" } });
+        }
 
         private static void Hold(HTMLElement chip)
         {
-            // A rebuilt chip whose node the diff threw away, or one removed for good.
-            if (!chip.isConnected)
-            {
-                Resizes.unobserve(chip);
-                return;
-            }
+            if (!chip.isConnected) return;
 
             var progress = chip.querySelector(":scope > .tss-toolsused-progress, :scope > .tss-toolcall-header > .tss-toolcall-progress").As<HTMLElement>();
 
             if (progress is null || progress.classList.contains("tss-liveprogress-empty"))
             {
                 Transpose.Script.Write("delete {0}._tssWidest;", chip);
-                chip.style.removeProperty(WIDEST_VARIABLE);
+                if (chip.style.getPropertyValue(WIDEST_VARIABLE) != "") chip.style.removeProperty(WIDEST_VARIABLE);
                 return;
             }
 
-            var widest = Math.Max(chip.getBoundingClientRect().As<DOMRect>().width, Transpose.Script.Write<double>("({0}._tssWidest || 0)", chip));
+            var widest = Transpose.Script.Write<double>("({0}._tssWidest || 0)", chip);
 
-            Transpose.Script.Write("{0}._tssWidest = {1};", chip, widest);
+            // Put back a floor a patch took off before measuring, or the width read is the shrunk one.
+            if (widest > 0) SetFloor(chip, widest);
 
-            var floor = widest + "px";
+            var width = chip.getBoundingClientRect().As<DOMRect>().width;
+
+            if (width > widest)
+            {
+                Transpose.Script.Write("{0}._tssWidest = {1};", chip, width);
+                SetFloor(chip, width);
+            }
+        }
+
+        // Written only when it changes: the write is a style mutation, which calls Hold again.
+        private static void SetFloor(HTMLElement chip, double width)
+        {
+            var floor = width + "px";
 
             if (chip.style.getPropertyValue(WIDEST_VARIABLE) != floor) chip.style.setProperty(WIDEST_VARIABLE, floor);
         }
@@ -270,7 +282,7 @@ namespace Tesserae
             {
                 _progress = new LiveProgress().Class("tss-toolcall-progress");
                 _header.insertBefore(_progress.Render(), _chevron);
-                ToolCallWidthFloor.Watch(InnerElement);
+                ToolCallWidthFloor.Watch(InnerElement, _header);
             }
 
             return _progress;
@@ -778,7 +790,7 @@ namespace Tesserae
             {
                 _progress = new LiveProgress().Class("tss-toolsused-progress");
                 _header.insertBefore(_progress.Render(), _summaryChevron);
-                ToolCallWidthFloor.Watch(_header);
+                ToolCallWidthFloor.Watch(_header, _header);
             }
 
             return _progress;
