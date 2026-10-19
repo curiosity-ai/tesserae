@@ -128,6 +128,13 @@
         visibility: hidden;
     }
 
+    /* Nothing is selected while the first items load, so a content-sized box shrinks to its padding and
+       the spinner. Only while loading: as a permanent floor it would widen every content-sized dropdown.
+       An explicit .Width() or .MinWidth() writes an inline min-width, which wins over this. */
+    .tss-dropdown-container.tss-dropdown-loading {
+        min-width: 120px;
+    }
+
     .tss-dropdown-error {
         color: var(--tss-invalid-border-color);
         display: none;

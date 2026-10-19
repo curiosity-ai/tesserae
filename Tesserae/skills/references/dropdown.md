@@ -34,7 +34,7 @@ Dropdown:
 
 - `.Items(params Dropdown.Item[])` — set options (replaces existing).
 - `.AddItems(params Dropdown.Item[])` — append options, keeping the current ones and the selection; items whose `Key` is already listed are skipped.
-- `.Items(Func<Task<Item[]>>)` + `.LoadItemsAsync()` — async loading (auto-loaded when opened). While it runs the box is inert, a spinner replaces the arrow and the container carries `tss-dropdown-loading` and `aria-busy`.
+- `.Items(Func<Task<Item[]>>)` + `.LoadItemsAsync()` — async loading (auto-loaded when opened). While it runs the box is inert, a spinner replaces the arrow and the container carries `tss-dropdown-loading` and `aria-busy`, and it is at least 120px wide (an explicit `.Width()` / `.MinWidth()` wins).
 - `.Single()` / `.Multi()` — selection mode.
 - `.Searchable(string placeholder = "Search")` — add a search box.
 - `.SearchAsync(Func<string, Task<Item[]>> searcher, string placeholder = "Search", int debounceMilliseconds = 250)` — lazy loading for lists too large to load up front; see below.
