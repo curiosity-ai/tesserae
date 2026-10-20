@@ -29,8 +29,9 @@ Both carry an 8px bottom margin, so when you stack a pill above the answer text 
   line on the header row while the call runs (see `live-progress.md`). Updates rewrite the text of
   the line already on screen, so a stream of updates never re-renders the call, and expanding it
   still opens the content full width underneath. While it shows, the chip keeps the widest width it
-  has had (up to its container), so a longer line pushes the chevron and actions to the right but a
-  shorter one never pulls them back; once the line is cleared the chip settles to its own width.
+  has had plus 48px of headroom (up to its container and its `MaxWidth`), so a longer line pushes the
+  chevron and actions to the right in a few steps and a shorter one never pulls them back; once the
+  line is cleared the chip settles to its own width.
 - `Progress` — the `LiveProgress` itself, for finer control.
 - `.AddAction(UIcons icon, string tooltip, Action)` (also `Action<ToolCall>`) / `.ClearActions()` — an
   icon button hanging off the right of the call, outside the chip and out of flow (so a call is the

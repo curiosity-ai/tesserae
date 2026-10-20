@@ -53,8 +53,9 @@ namespace Tesserae
         });
 
         // A call's MaxWidth() is an inline max-width, which no stylesheet rule can combine with the room the
-        // actions need, so it is copied to a variable the stylesheet takes the smaller of the two from. Kept
-        // in step by an observer, since MaxWidth() can come at any time and a diff rewrites the style.
+        // actions need or with the width floor, so it is copied to a variable the stylesheet takes the
+        // smaller from. Kept in step by an observer, since MaxWidth() can come at any time and a diff
+        // rewrites the style. Safe to call more than once for the same call.
         internal static void FollowMaxWidth(HTMLElement root)
         {
             SyncMaxWidth(root);
@@ -86,6 +87,10 @@ namespace Tesserae
     internal static class ToolCallWidthFloor
     {
         private const string WIDEST_VARIABLE = "--tss-toolcall-widest";
+
+        // A chip that outgrows its floor gets this much room on top, so a line that keeps growing a few
+        // characters at a time moves the actions in a few larger steps rather than on every update.
+        private const double GROWTH_HEADROOM = 48;
 
         // A chat refreshes its reply by diffing a rebuilt layout onto the one on screen, which keeps the
         // chip's node but writes the rebuilt node's style attribute over it - the floor goes with it, and
@@ -157,8 +162,6 @@ namespace Tesserae
             }
         }
 
-        // Raising the floor to the width a chip already has changes nothing on screen, so this never
-        // causes a second layout.
         private static void MeasureAll()
         {
             var chips = ToMeasure.ToArray();
@@ -173,10 +176,14 @@ namespace Tesserae
                 var width  = chip.getBoundingClientRect().As<DOMRect>().width;
                 var widest = Transpose.Script.Write<double>("({0}._tssWidest || 0)", chip);
 
-                if (width > widest)
+                // While the line fits the floor the chip is the floor's width, so only a line that has
+                // outgrown it measures wider. The stylesheet clamps the floor to the container.
+                if (width > widest + 0.5)
                 {
-                    Transpose.Script.Write("{0}._tssWidest = {1};", chip, width);
-                    SetFloor(chip, width);
+                    var floor = width + GROWTH_HEADROOM;
+
+                    Transpose.Script.Write("{0}._tssWidest = {1};", chip, floor);
+                    SetFloor(chip, floor);
                 }
             }
         }
@@ -368,6 +375,7 @@ namespace Tesserae
                 _progress = new LiveProgress().Class("tss-toolcall-progress");
                 _header.insertBefore(_progress.Render(), _chevron);
                 ToolCallWidthFloor.Watch(InnerElement, _header);
+                ToolCallActions.FollowMaxWidth(InnerElement);
             }
 
             return _progress;
