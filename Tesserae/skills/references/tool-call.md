@@ -35,7 +35,8 @@ Both carry an 8px bottom margin, so when you stack a pill above the answer text 
 - `.AddAction(UIcons icon, string tooltip, Action)` (also `Action<ToolCall>`) / `.ClearActions()` — an
   icon button hanging off the right of the call, outside the chip and out of flow (so a call is the
   same width with or without one, except that a chip filling its container gives up the actions'
-  width so they stay inside it). It shows at a third of its strength until the pointer is anywhere
+  width so they stay inside it). A `MaxWidth()` on the call or on a group holds the chip *and* its
+  actions, so the actions never end up past it. It shows at a third of its strength until the pointer is anywhere
   on the call, and at full strength on hover, focus, or on a touch screen. Clicking it runs the
   handler only, never expanding or collapsing the call. Use it for a way into what the call stands
   for that isn't its content — opening the run it started, retrying it.

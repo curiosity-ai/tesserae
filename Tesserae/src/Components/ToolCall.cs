@@ -11,6 +11,8 @@ namespace Tesserae
     /// </summary>
     internal static class ToolCallActions
     {
+        private const string MAX_WIDTH_VARIABLE = "--tss-toolcall-max-width";
+
         internal static HTMLElement Build(UIcons icon, string tooltip, Action onClick)
         {
             var button = UI.Button(Att("tss-toolcall-action", type: "button", ariaLabel: tooltip), I(icon));
@@ -41,6 +43,31 @@ namespace Tesserae
 
             root.UpdateClassIf(count > 0, "tss-toolcall-has-actions");
             root.style.setProperty("--tss-toolcall-action-count", count.ToString());
+        }
+
+        // A call's MaxWidth() is an inline max-width, which no stylesheet rule can combine with the room the
+        // actions need, so it is copied to a variable the stylesheet takes the smaller of the two from. Kept
+        // in step by an observer, since MaxWidth() can come at any time and a diff rewrites the style.
+        internal static void FollowMaxWidth(HTMLElement root)
+        {
+            SyncMaxWidth(root);
+            new MutationObserver((_, __) => SyncMaxWidth(root)).observe(root, new MutationObserverInit { attributes = true, attributeFilter = new[] { "style" } });
+        }
+
+        // Written only when it changes: the write is a style mutation, which calls this again.
+        private static void SyncMaxWidth(HTMLElement root)
+        {
+            var maxWidth = root.style.maxWidth;
+            var copied   = root.style.getPropertyValue(MAX_WIDTH_VARIABLE);
+
+            if (string.IsNullOrEmpty(maxWidth))
+            {
+                if (copied != "") root.style.removeProperty(MAX_WIDTH_VARIABLE);
+            }
+            else if (copied != maxWidth)
+            {
+                root.style.setProperty(MAX_WIDTH_VARIABLE, maxWidth);
+            }
         }
     }
 
@@ -323,6 +350,7 @@ namespace Tesserae
             {
                 _actions = Div(Att("tss-toolcall-actions"));
                 _header.insertBefore(_actions, _chevron);
+                ToolCallActions.FollowMaxWidth(InnerElement);
             }
 
             return _actions;

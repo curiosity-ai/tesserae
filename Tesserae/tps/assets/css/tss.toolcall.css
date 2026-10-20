@@ -119,6 +119,15 @@
     max-width: calc(100% - var(--tss-toolcall-actions-reserve));
 }
 
+/* A call's MaxWidth() is an inline max-width, which would replace the rule above and let a call whose
+   text does not fit grow past its container, actions and all: the text ellipsizes, but it still counts
+   at full length when the call sizes itself. ToolCallActions.FollowMaxWidth copies the inline value to
+   --tss-toolcall-max-width, and the call keeps the room for its actions inside the smaller of the two -
+   the same as a group, whose MaxWidth() lands on its root and holds the pill and its actions both. */
+.tss-toolcall.tss-toolcall-has-actions {
+    max-width: calc(min(var(--tss-toolcall-max-width, 100%), 100%) - var(--tss-toolcall-actions-reserve)) !important;
+}
+
 /* While a live progress line is showing, the chip keeps the widest width it has had
    (--tss-toolcall-widest, kept up by ToolCallWidthFloor), so an update can push the chevron and the
    actions to the right but never pulls them back. Clamped to the chip's max-width, which a min-width
@@ -341,7 +350,7 @@
 .tss-toolsused-inline-list > .tss-toolcall {
     display: flex;
     width: 100%;
-    max-width: 100%;
+    max-width: 100% !important;
     margin-bottom: 0;
     border: none;
     border-radius: 0;

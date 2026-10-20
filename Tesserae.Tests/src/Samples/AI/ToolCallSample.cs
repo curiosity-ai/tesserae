@@ -14,12 +14,16 @@ namespace Tesserae.Tests.Samples
 
         private const string FETCH_ARGUMENTS = @"{ ""url"": ""https://api.example.com/v1/status"", ""method"": ""GET"", ""timeoutMs"": 30000 }";
 
+        private static readonly UnitSize MAX_WIDTH = 420.px();
+
         private readonly IComponent _content;
 
         private readonly ToolCall                     _runningCall;
         private readonly LiveProgress                 _standaloneProgress;
         private readonly DeltaComponent               _diffedBubble;
         private readonly DeltaComponent               _diffedAgent;
+        private readonly DeltaComponent               _diffedAgentMaxWidth;
+        private readonly DeltaComponent               _diffedCallMaxWidth;
         private readonly ToolsUsed                    _inlineTools;
         private readonly SettableObservable<string>   _streamedProgress = new SettableObservable<string>(string.Empty);
         private          double                       _timer;
@@ -32,6 +36,8 @@ namespace Tesserae.Tests.Samples
             _standaloneProgress = LiveProgress().Stream(_streamedProgress);
             _diffedBubble       = DeltaComponent(BuildDiffedBubbleContent()).Animated();
             _diffedAgent        = DeltaComponent(BuildDiffedAgentContent()).Animated();
+            _diffedAgentMaxWidth = DeltaComponent(BuildDiffedAgentContent(MAX_WIDTH)).Animated();
+            _diffedCallMaxWidth  = DeltaComponent(BuildDiffedCallWithActionContent(MAX_WIDTH)).Animated();
 
             _inlineTools = ToolsUsed(
                     ToolCall(UIcons.Search, "Grep \"Inline\" Tesserae/src/", () => TextBlock("Tesserae/src/Components/ToolCall.cs:  public ToolsUsed Inline(bool value = true)").BreakSpaces()),
@@ -126,6 +132,9 @@ namespace Tesserae.Tests.Samples
                         _diffedBubble,
                         TextBlock("An agent's calls, rebuilt the same way. A longer line pushes the button beside the group to the right and a shorter one leaves it where it is, though every rebuild hands the diff a chip sized for the current line."),
                         _diffedAgent.Id("tss-toolcall-sample-diffed-agent"),
+                        TextBlock("The same group, and a single call with the same button, each given a MaxWidth: the chip grows until it and its button fill it, and no further."),
+                        _diffedAgentMaxWidth.Id("tss-toolcall-sample-diffed-agent-max-width"),
+                        _diffedCallMaxWidth.Id("tss-toolcall-sample-diffed-call-max-width"),
 
                         Button("Stream progress").Primary().OnClick(() => StartProgressDemo())
                     )).SetTitle("Usage")))
@@ -152,7 +161,7 @@ namespace Tesserae.Tests.Samples
 
         // The shape a chat gives an agent's run: an inline group with a way into the agent beside it,
         // carrying the reply's progress line, rebuilt with the rest of the bubble on every update.
-        private IComponent BuildDiffedAgentContent()
+        private IComponent BuildDiffedAgentContent(UnitSize maxWidth = null)
         {
             var group = ToolsUsed(
                     ToolCall(UIcons.Search, "Search for 'evil origin concept' · 9.8 s", () => TextBlock("12 documents matched.").BreakSpaces()),
@@ -162,7 +171,19 @@ namespace Tesserae.Tests.Samples
                .AddAction(UIcons.Eye, "Watch this agent run", () => Toast().Information("Opening the run..."))
                .SetProgress(_streamedProgress.Value);
 
+            if (maxWidth is object) group.MaxWidth(maxWidth);
+
             return VStack().NoDefaultMargin().Children(group);
+        }
+
+        private IComponent BuildDiffedCallWithActionContent(UnitSize maxWidth)
+        {
+            var call = ToolCall(UIcons.UserRobot, "Invoke agent \"researcher\"", () => TextBlock("Summarised 4 sources.").BreakSpaces())
+               .AddAction(UIcons.Eye, "Watch this agent run", () => Toast().Information("Opening the run..."))
+               .SetProgress(_streamedProgress.Value)
+               .MaxWidth(maxWidth);
+
+            return VStack().NoDefaultMargin().Children(call);
         }
 
         // A call appended to a group that is already open inline lands in the list on screen, without the
@@ -216,6 +237,8 @@ namespace Tesserae.Tests.Samples
 
             _diffedBubble.ReplaceContent(BuildDiffedBubbleContent());
             _diffedAgent.ReplaceContent(BuildDiffedAgentContent());
+            _diffedAgentMaxWidth.ReplaceContent(BuildDiffedAgentContent(MAX_WIDTH));
+            _diffedCallMaxWidth.ReplaceContent(BuildDiffedCallWithActionContent(MAX_WIDTH));
         }
 
         public HTMLElement Render() => _content.Render();
