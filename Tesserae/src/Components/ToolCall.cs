@@ -45,13 +45,20 @@ namespace Tesserae
             root.style.setProperty("--tss-toolcall-action-count", count.ToString());
         }
 
+        // One observer for every call, so a call rebuilt on every update costs an observe() and not an
+        // observer of its own.
+        private static readonly MutationObserver MaxWidthChanges = new MutationObserver((records, _) =>
+        {
+            foreach (var record in records) SyncMaxWidth(record.target.As<HTMLElement>());
+        });
+
         // A call's MaxWidth() is an inline max-width, which no stylesheet rule can combine with the room the
         // actions need, so it is copied to a variable the stylesheet takes the smaller of the two from. Kept
         // in step by an observer, since MaxWidth() can come at any time and a diff rewrites the style.
         internal static void FollowMaxWidth(HTMLElement root)
         {
             SyncMaxWidth(root);
-            new MutationObserver((_, __) => SyncMaxWidth(root)).observe(root, new MutationObserverInit { attributes = true, attributeFilter = new[] { "style" } });
+            MaxWidthChanges.observe(root, new MutationObserverInit { attributes = true, attributeFilter = new[] { "style" } });
         }
 
         // Written only when it changes: the write is a style mutation, which calls this again.
@@ -84,25 +91,53 @@ namespace Tesserae
         // chip's node but writes the rebuilt node's style attribute over it - the floor goes with it, and
         // the component that set it is gone. So the widest width is a property of the node, and a
         // mutation observer puts the floor back: it runs as a microtask straight after the diff, before
-        // anything is laid out or painted. A ResizeObserver would see the shrink too, but changing a
-        // size from inside one reports a "loop completed with undelivered notifications" error.
+        // anything is laid out or painted. (A ResizeObserver only sees the shrink once it is laid out.)
+        //
+        // One observer for every chip, so a chip rebuilt on every update costs an observe() and not an
+        // observer of its own. Putting a floor back needs no measuring; finding a new widest width does,
+        // and that waits for the next frame, read for every chip at once where the browser lays the page
+        // out anyway - measuring in the observer would force a layout per update.
+        private static readonly MutationObserver Mutations = new MutationObserver((records, _) =>
+        {
+            foreach (var record in records)
+            {
+                var chip = ChipOf(record.target);
+
+                if (chip is object) Restore(chip);
+            }
+        });
+
+        private static readonly List<HTMLElement> ToMeasure = new List<HTMLElement>();
+
         internal static void Watch(HTMLElement chip, HTMLElement header)
         {
-            var observer = new MutationObserver((_, __) => Hold(chip));
+            Transpose.Script.Write("{0}._tssFloorChip = true;", chip);
 
             // The header only, not the content under it: an expanded call can be large and streaming.
-            observer.observe(header, new MutationObserverInit { childList = true, characterData = true, subtree = true, attributes = true, attributeFilter = new[] { "class", "style" } });
+            Mutations.observe(header, new MutationObserverInit { childList = true, characterData = true, subtree = true, attributes = true, attributeFilter = new[] { "class", "style" } });
 
-            if (chip != header) observer.observe(chip, new MutationObserverInit { attributes = true, attributeFilter = new[] { "style" } });
+            if (chip != header) Mutations.observe(chip, new MutationObserverInit { attributes = true, attributeFilter = new[] { "style" } });
         }
 
-        private static void Hold(HTMLElement chip)
+        private static HTMLElement ChipOf(Node node)
+        {
+            while (node is object && !Transpose.Script.Write<bool>("!!{0}._tssFloorChip", node)) node = node.parentNode;
+
+            return node.As<HTMLElement>();
+        }
+
+        private static bool IsLive(HTMLElement chip)
+        {
+            var progress = chip.querySelector(":scope > .tss-toolsused-progress, :scope > .tss-toolcall-header > .tss-toolcall-progress").As<HTMLElement>();
+
+            return progress is object && !progress.classList.contains("tss-liveprogress-empty");
+        }
+
+        private static void Restore(HTMLElement chip)
         {
             if (!chip.isConnected) return;
 
-            var progress = chip.querySelector(":scope > .tss-toolsused-progress, :scope > .tss-toolcall-header > .tss-toolcall-progress").As<HTMLElement>();
-
-            if (progress is null || progress.classList.contains("tss-liveprogress-empty"))
+            if (!IsLive(chip))
             {
                 Transpose.Script.Write("delete {0}._tssWidest;", chip);
                 if (chip.style.getPropertyValue(WIDEST_VARIABLE) != "") chip.style.removeProperty(WIDEST_VARIABLE);
@@ -111,19 +146,42 @@ namespace Tesserae
 
             var widest = Transpose.Script.Write<double>("({0}._tssWidest || 0)", chip);
 
-            // Put back a floor a patch took off before measuring, or the width read is the shrunk one.
             if (widest > 0) SetFloor(chip, widest);
 
-            var width = chip.getBoundingClientRect().As<DOMRect>().width;
-
-            if (width > widest)
+            if (Transpose.Script.Write<bool>("!{0}._tssToMeasure", chip))
             {
-                Transpose.Script.Write("{0}._tssWidest = {1};", chip, width);
-                SetFloor(chip, width);
+                Transpose.Script.Write("{0}._tssToMeasure = true;", chip);
+                ToMeasure.Add(chip);
+
+                if (ToMeasure.Count == 1) window.requestAnimationFrame(_ => MeasureAll());
             }
         }
 
-        // Written only when it changes: the write is a style mutation, which calls Hold again.
+        // Raising the floor to the width a chip already has changes nothing on screen, so this never
+        // causes a second layout.
+        private static void MeasureAll()
+        {
+            var chips = ToMeasure.ToArray();
+            ToMeasure.Clear();
+
+            foreach (var chip in chips)
+            {
+                Transpose.Script.Write("{0}._tssToMeasure = false;", chip);
+
+                if (!chip.isConnected || !IsLive(chip)) continue;
+
+                var width  = chip.getBoundingClientRect().As<DOMRect>().width;
+                var widest = Transpose.Script.Write<double>("({0}._tssWidest || 0)", chip);
+
+                if (width > widest)
+                {
+                    Transpose.Script.Write("{0}._tssWidest = {1};", chip, width);
+                    SetFloor(chip, width);
+                }
+            }
+        }
+
+        // Written only when it changes: the write is a style mutation, which comes back to Restore.
         private static void SetFloor(HTMLElement chip, double width)
         {
             var floor = width + "px";
