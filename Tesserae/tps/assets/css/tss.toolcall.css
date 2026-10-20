@@ -101,6 +101,67 @@
     position: relative;
 }
 
+/* The chip gives up the width of the actions hanging off it (6px margin, 22px buttons, 2px gaps), so a
+   chip that fills its container - a long live progress line - keeps them inside it instead of pushing
+   them over the container's edge. */
+.tss-toolcall,
+.tss-toolsused {
+    --tss-toolcall-actions-reserve: 0px;
+}
+
+/* The floor and the copied max-width are a chip's own: a call nested in another's content must not
+   inherit them. A chip's inline value still wins over these. */
+.tss-toolcall,
+.tss-toolsused-header {
+    --tss-toolcall-widest: initial;
+}
+
+.tss-toolcall {
+    --tss-toolcall-max-width: initial;
+}
+
+.tss-toolcall.tss-toolcall-has-actions,
+.tss-toolsused.tss-toolcall-has-actions {
+    --tss-toolcall-actions-reserve: calc(4px + var(--tss-toolcall-action-count, 0) * 24px);
+}
+
+.tss-toolcall.tss-toolcall-has-actions,
+.tss-toolsused.tss-toolcall-has-actions > .tss-toolsused-header {
+    max-width: calc(100% - var(--tss-toolcall-actions-reserve));
+}
+
+/* A call's MaxWidth() is an inline max-width, which would replace the rule above and let a call whose
+   text does not fit grow past its container, actions and all: the text ellipsizes, but it still counts
+   at full length when the call sizes itself. ToolCallActions.FollowMaxWidth copies the inline value to
+   --tss-toolcall-max-width, and the call keeps the room for its actions inside the smaller of the two -
+   the same as a group, whose MaxWidth() lands on its root and holds the pill and its actions both. */
+.tss-toolcall.tss-toolcall-has-actions {
+    max-width: calc(min(var(--tss-toolcall-max-width, 100%), 100%) - var(--tss-toolcall-actions-reserve)) !important;
+}
+
+/* While a live progress line is showing, the chip keeps the widest width it has had, plus some headroom
+   (--tss-toolcall-widest, kept up by ToolCallWidthFloor), so an update can push the chevron and the
+   actions to the right but never pulls them back. Clamped to what the chip's max-width allows, which a
+   min-width would otherwise beat - for a call, its MaxWidth() too (--tss-toolcall-max-width). */
+.tss-toolcall:has(> .tss-toolcall-header > .tss-toolcall-progress:not(.tss-liveprogress-empty)) {
+    min-width: min(var(--tss-toolcall-widest, 0px), calc(min(var(--tss-toolcall-max-width, 100%), 100%) - var(--tss-toolcall-actions-reserve, 0px)));
+}
+
+.tss-toolsused-header:has(> .tss-toolsused-progress:not(.tss-liveprogress-empty)) {
+    min-width: min(var(--tss-toolcall-widest, 0px), calc(100% - var(--tss-toolcall-actions-reserve, 0px)));
+}
+
+/* The room the floor leaves goes to the line rather than the label, so the line keeps to the label. */
+.tss-toolcall-header:has(> .tss-toolcall-progress:not(.tss-liveprogress-empty)) > .tss-toolcall-text,
+.tss-toolsused-header:has(> .tss-toolsused-progress:not(.tss-liveprogress-empty)) > .tss-toolsused-text {
+    flex: 0 1 auto;
+}
+
+.tss-toolcall-header > .tss-toolcall-progress:not(.tss-liveprogress-empty),
+.tss-toolsused-header > .tss-toolsused-progress:not(.tss-liveprogress-empty) {
+    flex: 1 1 auto;
+}
+
 .tss-toolcall:hover .tss-toolcall-actions,
 .tss-toolcall:focus-within .tss-toolcall-actions,
 .tss-toolsused:hover .tss-toolsused-actions,
@@ -216,6 +277,7 @@
     align-items: center;
     gap: 10px;
     max-width: 100%;
+    box-sizing: border-box;
     padding: 6px 12px;
     border-radius: 999px;
     border: 1px solid var(--tss-default-border-color);
@@ -302,6 +364,7 @@
 .tss-toolsused-inline-list > .tss-toolcall {
     display: flex;
     width: 100%;
+    max-width: 100% !important;
     margin-bottom: 0;
     border: none;
     border-radius: 0;

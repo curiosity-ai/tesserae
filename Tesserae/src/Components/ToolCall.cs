@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
@@ -11,6 +11,8 @@ namespace Tesserae
     /// </summary>
     internal static class ToolCallActions
     {
+        private const string MAX_WIDTH_VARIABLE = "--tss-toolcall-max-width";
+
         internal static HTMLElement Build(UIcons icon, string tooltip, Action onClick)
         {
             var button = UI.Button(Att("tss-toolcall-action", type: "button", ariaLabel: tooltip), I(icon));
@@ -31,6 +33,167 @@ namespace Tesserae
             if (!string.IsNullOrEmpty(tooltip)) Raw(button).Tooltip(tooltip);
 
             return button;
+        }
+
+        // The actions hang outside the chip, so the chip gives up their width: a chip that fills its
+        // container would otherwise push them past the container's edge.
+        internal static void ReserveSpace(HTMLElement root, HTMLElement actions)
+        {
+            var count = actions is null ? 0 : actions.children.length;
+
+            root.UpdateClassIf(count > 0, "tss-toolcall-has-actions");
+            root.style.setProperty("--tss-toolcall-action-count", count.ToString());
+        }
+
+        // One observer for every call, so a call rebuilt on every update costs an observe() and not an
+        // observer of its own.
+        private static readonly MutationObserver MaxWidthChanges = new MutationObserver((records, _) =>
+        {
+            foreach (var record in records) SyncMaxWidth(record.target.As<HTMLElement>());
+        });
+
+        // A call's MaxWidth() is an inline max-width, which no stylesheet rule can combine with the room the
+        // actions need or with the width floor, so it is copied to a variable the stylesheet takes the
+        // smaller from. Kept in step by an observer, since MaxWidth() can come at any time and a diff
+        // rewrites the style. Safe to call more than once for the same call.
+        internal static void FollowMaxWidth(HTMLElement root)
+        {
+            SyncMaxWidth(root);
+            MaxWidthChanges.observe(root, new MutationObserverInit { attributes = true, attributeFilter = new[] { "style" } });
+        }
+
+        // Written only when it changes: the write is a style mutation, which calls this again.
+        private static void SyncMaxWidth(HTMLElement root)
+        {
+            var maxWidth = root.style.maxWidth;
+            var copied   = root.style.getPropertyValue(MAX_WIDTH_VARIABLE);
+
+            if (string.IsNullOrEmpty(maxWidth))
+            {
+                if (copied != "") root.style.removeProperty(MAX_WIDTH_VARIABLE);
+            }
+            else if (copied != maxWidth)
+            {
+                root.style.setProperty(MAX_WIDTH_VARIABLE, maxWidth);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Keeps a chip that shows a live progress line at the widest it has been while the line was showing,
+    /// so a stream of updates can push its chevron and actions to the right but never pulls them back
+    /// under the pointer. Once the line is gone the chip settles to its own width again.
+    /// </summary>
+    internal static class ToolCallWidthFloor
+    {
+        private const string WIDEST_VARIABLE = "--tss-toolcall-widest";
+
+        // A chip that outgrows its floor gets this much room on top, so a line that keeps growing a few
+        // characters at a time moves the actions in a few larger steps rather than on every update.
+        private const double GROWTH_HEADROOM = 48;
+
+        // A chat refreshes its reply by diffing a rebuilt layout onto the one on screen, which keeps the
+        // chip's node but writes the rebuilt node's style attribute over it - the floor goes with it, and
+        // the component that set it is gone. So the widest width is a property of the node, and a
+        // mutation observer puts the floor back: it runs as a microtask straight after the diff, before
+        // anything is laid out or painted. (A ResizeObserver only sees the shrink once it is laid out.)
+        //
+        // One observer for every chip, so a chip rebuilt on every update costs an observe() and not an
+        // observer of its own. Putting a floor back needs no measuring; finding a new widest width does,
+        // and that waits for the next frame, read for every chip at once where the browser lays the page
+        // out anyway - measuring in the observer would force a layout per update.
+        private static readonly MutationObserver Mutations = new MutationObserver((records, _) =>
+        {
+            foreach (var record in records)
+            {
+                var chip = ChipOf(record.target);
+
+                if (chip is object) Restore(chip);
+            }
+        });
+
+        private static readonly List<HTMLElement> ToMeasure = new List<HTMLElement>();
+
+        internal static void Watch(HTMLElement chip, HTMLElement header)
+        {
+            Transpose.Script.Write("{0}._tssFloorChip = true;", chip);
+
+            // The header only, not the content under it: an expanded call can be large and streaming.
+            Mutations.observe(header, new MutationObserverInit { childList = true, characterData = true, subtree = true, attributes = true, attributeFilter = new[] { "class", "style" } });
+
+            if (chip != header) Mutations.observe(chip, new MutationObserverInit { attributes = true, attributeFilter = new[] { "style" } });
+        }
+
+        private static HTMLElement ChipOf(Node node)
+        {
+            while (node is object && !Transpose.Script.Write<bool>("!!{0}._tssFloorChip", node)) node = node.parentNode;
+
+            return node.As<HTMLElement>();
+        }
+
+        private static bool IsLive(HTMLElement chip)
+        {
+            var progress = chip.querySelector(":scope > .tss-toolsused-progress, :scope > .tss-toolcall-header > .tss-toolcall-progress").As<HTMLElement>();
+
+            return progress is object && !progress.classList.contains("tss-liveprogress-empty");
+        }
+
+        private static void Restore(HTMLElement chip)
+        {
+            if (!chip.isConnected) return;
+
+            if (!IsLive(chip))
+            {
+                Transpose.Script.Write("delete {0}._tssWidest;", chip);
+                if (chip.style.getPropertyValue(WIDEST_VARIABLE) != "") chip.style.removeProperty(WIDEST_VARIABLE);
+                return;
+            }
+
+            var widest = Transpose.Script.Write<double>("({0}._tssWidest || 0)", chip);
+
+            if (widest > 0) SetFloor(chip, widest);
+
+            if (Transpose.Script.Write<bool>("!{0}._tssToMeasure", chip))
+            {
+                Transpose.Script.Write("{0}._tssToMeasure = true;", chip);
+                ToMeasure.Add(chip);
+
+                if (ToMeasure.Count == 1) window.requestAnimationFrame(_ => MeasureAll());
+            }
+        }
+
+        private static void MeasureAll()
+        {
+            var chips = ToMeasure.ToArray();
+            ToMeasure.Clear();
+
+            foreach (var chip in chips)
+            {
+                Transpose.Script.Write("{0}._tssToMeasure = false;", chip);
+
+                if (!chip.isConnected || !IsLive(chip)) continue;
+
+                var width  = chip.getBoundingClientRect().As<DOMRect>().width;
+                var widest = Transpose.Script.Write<double>("({0}._tssWidest || 0)", chip);
+
+                // While the line fits the floor the chip is the floor's width, so only a line that has
+                // outgrown it measures wider. The stylesheet clamps the floor to the container.
+                if (width > widest + 0.5)
+                {
+                    var floor = width + GROWTH_HEADROOM;
+
+                    Transpose.Script.Write("{0}._tssWidest = {1};", chip, floor);
+                    SetFloor(chip, floor);
+                }
+            }
+        }
+
+        // Written only when it changes: the write is a style mutation, which comes back to Restore.
+        private static void SetFloor(HTMLElement chip, double width)
+        {
+            var floor = width + "px";
+
+            if (chip.style.getPropertyValue(WIDEST_VARIABLE) != floor) chip.style.setProperty(WIDEST_VARIABLE, floor);
         }
     }
 
@@ -211,6 +374,8 @@ namespace Tesserae
             {
                 _progress = new LiveProgress().Class("tss-toolcall-progress");
                 _header.insertBefore(_progress.Render(), _chevron);
+                ToolCallWidthFloor.Watch(InnerElement, _header);
+                ToolCallActions.FollowMaxWidth(InnerElement);
             }
 
             return _progress;
@@ -224,6 +389,7 @@ namespace Tesserae
         public ToolCall AddAction(UIcons icon, string tooltip, Action<ToolCall> onClick)
         {
             EnsureActions().appendChild(ToolCallActions.Build(icon, tooltip, () => onClick?.Invoke(this)));
+            ToolCallActions.ReserveSpace(InnerElement, _actions);
 
             return this;
         }
@@ -239,6 +405,7 @@ namespace Tesserae
         public ToolCall ClearActions()
         {
             if (_actions is object) ClearChildren(_actions);
+            ToolCallActions.ReserveSpace(InnerElement, _actions);
 
             return this;
         }
@@ -249,6 +416,7 @@ namespace Tesserae
             {
                 _actions = Div(Att("tss-toolcall-actions"));
                 _header.insertBefore(_actions, _chevron);
+                ToolCallActions.FollowMaxWidth(InnerElement);
             }
 
             return _actions;
@@ -716,6 +884,7 @@ namespace Tesserae
             {
                 _progress = new LiveProgress().Class("tss-toolsused-progress");
                 _header.insertBefore(_progress.Render(), _summaryChevron);
+                ToolCallWidthFloor.Watch(_header, _header);
             }
 
             return _progress;
@@ -729,6 +898,7 @@ namespace Tesserae
         public ToolsUsed AddAction(UIcons icon, string tooltip, Action<ToolsUsed> onClick)
         {
             EnsureActions().appendChild(ToolCallActions.Build(icon, tooltip, () => onClick?.Invoke(this)));
+            ToolCallActions.ReserveSpace(InnerElement, _actions);
 
             return this;
         }
@@ -744,6 +914,7 @@ namespace Tesserae
         public ToolsUsed ClearActions()
         {
             if (_actions is object) ClearChildren(_actions);
+            ToolCallActions.ReserveSpace(InnerElement, _actions);
 
             return this;
         }

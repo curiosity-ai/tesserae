@@ -48,6 +48,7 @@ The scripts split into three jobs:
 | `textdiff-samples.js` `compare.js` `compare-samples.js` `pixdiff.js` `capture-samples.js` `diffimg.js` | compare two builds |
 | `inspect.js` | explain one difference: an element's box and the properties behind it |
 | `all-samples.js` `smoke.js` | error gates over the samples gallery |
+| `toolcall-progress.js` | regression test: a streaming tool call's chip only grows, so its actions never slide back or past the container |
 
 ## Running it
 
