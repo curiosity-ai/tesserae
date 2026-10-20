@@ -200,9 +200,7 @@ body.tss-theme-retroos .tss-btn.tss-btn-default.tss-btn-spin-resolved {
 }
 
 body.tss-theme-retroos .tss-btn.tss-btn-default.tss-btn-spin-success .tss-btn-spin-ring,
-body.tss-theme-retroos .tss-btn.tss-btn-default.tss-btn-spin-error .tss-btn-spin-ring,
-body.tss-theme-retroos .tss-btn .tss-btn-spin-ring.tss-btn-spin-ring-live,
-body.tss-theme-retroos .tss-btn .tss-btn-spin-ring.tss-btn-spin-ring-live.tss-btn-spin-ring-success {
+body.tss-theme-retroos .tss-btn.tss-btn-default.tss-btn-spin-error .tss-btn-spin-ring {
     color: rgb(var(--tss-default-foreground-color-root));
 }
 

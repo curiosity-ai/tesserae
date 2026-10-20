@@ -6,7 +6,7 @@
    (Button.CreateSpinRing) and add their check and x on top.
 
    --tss-spinner-color is the arc and the track (at 16%). --tss-spinner-stroke is the ring's thickness
-   in the 48 box, so it scales with the spinner: 4 is 1.33px at 16px. --tss-spinner-arc is the arc's
+   in the 48 box, so it scales with the spinner and every size is the same ring: 4 is 1.33px at 16px. --tss-spinner-arc is the arc's
    dash pattern, for a theme that wants a longer one; the entry stretches to it. */
 .tss-spinner {
     --tss-spinner-color: var(--tss-primary-background-color);
@@ -73,25 +73,21 @@
 .tss-spinner-size-xsmall .tss-spinner {
     width: 12px;
     height: 12px;
-    --tss-spinner-stroke: 4.5;
 }
 
 .tss-spinner-size-small .tss-spinner {
     width: 16px;
     height: 16px;
-    --tss-spinner-stroke: 4;
 }
 
 .tss-spinner-size-medium .tss-spinner {
     width: 20px;
     height: 20px;
-    --tss-spinner-stroke: 3.6;
 }
 
 .tss-spinner-size-large .tss-spinner {
     width: 28px;
     height: 28px;
-    --tss-spinner-stroke: 3.4;
 }
 
 .tss-spinner-container {

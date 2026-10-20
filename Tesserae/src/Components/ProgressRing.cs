@@ -71,10 +71,9 @@ namespace Tesserae
 
             _label = Div(Att("tss-progressring-label"));
 
-            // Indeterminate is the toolkit's spinner over the ring's box, at the ring's own thickness
-            // (--tss-spinner-stroke is in the spinner's 48-unit box).
+            // Indeterminate is the toolkit's spinner over the ring's box: the same ring as every other wait,
+            // at this one's size.
             _spinner = Spinner.Ring();
-            _spinner.style.setProperty("--tss-spinner-stroke", (48.0 * thickness / size).ToString(System.Globalization.CultureInfo.InvariantCulture));
 
             _container = Div(Att("tss-progressring", role: "progressbar"));
             _container.setAttribute("aria-valuenow", "0");
@@ -128,7 +127,7 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>Shows an indeterminate spinning ring: the toolkit's spinner (see <see cref="Spinner"/>), at this ring's size and thickness.</summary>
+        /// <summary>Shows an indeterminate spinning ring: the toolkit's spinner (see <see cref="Spinner"/>), at this ring's size.</summary>
         public ProgressRing Indeterminate(bool value = true)
         {
             _indeterminate = value;
