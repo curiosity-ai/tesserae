@@ -32,7 +32,7 @@
         pointer-events: none;
     }
 
-/* Indeterminate: the toolkit's spinner (Spinner.Ring) stands in for the ring, at its size and thickness. */
+/* Indeterminate: the toolkit's spinner (Spinner.Ring) stands in for the ring, at its size. */
 .tss-progressring > .tss-spinner {
     display: none;
     position: absolute;

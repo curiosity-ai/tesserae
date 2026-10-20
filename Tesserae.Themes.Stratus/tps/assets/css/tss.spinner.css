@@ -11,6 +11,7 @@
 body.tss-theme-stratus .tss-spinner {
     --tss-spinner-color: var(--tss-str-blue);
     --tss-spinner-arc: 94.25 31.42;
+    --tss-spinner-stroke: 6;
 }
     body.tss-theme-stratus .tss-spinner > .tss-spinner-orbit { animation-duration: .75s; }
     body.tss-theme-stratus .tss-spinner .tss-spinner-track { stroke-opacity: 0; }
@@ -19,10 +20,10 @@ body.tss-theme-stratus .tss-spinner-success { --tss-spinner-color: var(--tss-str
 body.tss-theme-stratus .tss-spinner-danger { --tss-spinner-color: var(--tss-str-error); }
 body.tss-theme-stratus .tss-spinner-warning { --tss-spinner-color: var(--tss-str-warning-edge); }
 
-/* --tss-spinner-stroke is in the ring's 48 box: 2px at 12 and 16px, 3px at 24px, 4px at 56px. */
-body.tss-theme-stratus .tss-spinner-size-xsmall .tss-spinner { width: 12px; height: 12px; --tss-spinner-stroke: 8; }
-body.tss-theme-stratus .tss-spinner-size-small .tss-spinner { width: 16px; height: 16px; --tss-spinner-stroke: 6; }
-body.tss-theme-stratus .tss-spinner-size-medium .tss-spinner { width: 24px; height: 24px; --tss-spinner-stroke: 6; }
-body.tss-theme-stratus .tss-spinner-size-large .tss-spinner { width: 56px; height: 56px; --tss-spinner-stroke: 3.43; }
+/* One stroke, 6 in the ring's 48 box (3px at the 24px default), so every size is the same ring. */
+body.tss-theme-stratus .tss-spinner-size-xsmall .tss-spinner { width: 12px; height: 12px; }
+body.tss-theme-stratus .tss-spinner-size-small .tss-spinner { width: 16px; height: 16px; }
+body.tss-theme-stratus .tss-spinner-size-medium .tss-spinner { width: 24px; height: 24px; }
+body.tss-theme-stratus .tss-spinner-size-large .tss-spinner { width: 56px; height: 56px; }
 
 body.tss-theme-stratus .tss-spinner-label { color: var(--tss-default-foreground-color); font-size: var(--tss-font-size-small); line-height: 20px; }
