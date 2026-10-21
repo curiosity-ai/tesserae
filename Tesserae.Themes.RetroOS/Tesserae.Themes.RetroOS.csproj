@@ -31,10 +31,10 @@
 
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>(c) Copyright 2026 RetroOS GmbH - all right reserved</Copyright>
-    <Company>RetroOS GmbH</Company>
-    <Authors>RetroOS GmbH</Authors>
-    <PackageProjectUrl>https://github.com/retroos-ai/tesserae</PackageProjectUrl>
+    <Copyright>(c) Copyright 2026 Curiosity GmbH - all right reserved</Copyright>
+    <Company>Curiosity GmbH</Company>
+    <Authors>Curiosity GmbH</Authors>
+    <PackageProjectUrl>https://github.com/curiosity-ai/tesserae</PackageProjectUrl>
     <PackageId>Tesserae.Themes.RetroOS</PackageId>
     <Description>A Tesserae custom theme inspired by the original 1984 Macintosh System Software: 1-bit black and white, dithered greys, pinstriped title bars, hard drop shadows and pixel fonts.</Description>
     <PackageTags>transpose, HTML, UI, components, user interface, tesserae, theme</PackageTags>
