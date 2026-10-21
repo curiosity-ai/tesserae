@@ -674,6 +674,7 @@ namespace Tesserae
         private readonly IconToggle<Mode> _modeToggle;
         private readonly bool _tokenIgnoreCase;
         private bool _isGenerating = false;
+        private bool _isStopping = false;
         private bool _allowSendWhileGenerating = false;
         private readonly UIcons _iconChat;
         private readonly UIcons _iconStop;
@@ -2969,7 +2970,8 @@ namespace Tesserae
         {
             if (_isGenerating && !CanSendWhileGenerating)
             {
-                TriggerStop();
+                // A stop already asked for is not asked for again: the trigger is spinning until the host says it is over.
+                if (!_isStopping) TriggerStop();
                 return;
             }
             var val = _chatInput.value;
@@ -3003,6 +3005,7 @@ namespace Tesserae
 
         // The trigger is built showing "send"
         private bool _chatTriggerShowsStop;
+        private bool _chatTriggerSpinning;
 
         private void UpdateChatTriggerIcon()
         {
@@ -3010,6 +3013,18 @@ namespace Tesserae
 
             //Runs on every keystroke, and only a change of glyph is worth redrawing - or animating
             var showStop = _isGenerating && !CanSendWhileGenerating;
+
+            // While the host is stopping the reply the stop glyph gives way to the button's own spinner; with
+            // text in the input the trigger is "send" again, and a send is still allowed while stopping.
+            var spin = showStop && _isStopping;
+
+            if (spin != _chatTriggerSpinning)
+            {
+                _chatTriggerSpinning = spin;
+
+                if (spin) _chatTriggerBtn.ToSpinner();
+                else      _chatTriggerBtn.UndoSpinner();
+            }
 
             if (showStop == _chatTriggerShowsStop) return;
 
@@ -3413,6 +3428,9 @@ namespace Tesserae
                 if (_isGenerating == value) return;
                 _isGenerating = value;
 
+                // A reply that starts or ends is no longer stopping, whichever the host said last.
+                _isStopping = false;
+
                 UpdateChatTriggerIcon();
 
                 if (_chatTriggerBtn != null)
@@ -3429,6 +3447,25 @@ namespace Tesserae
                 {
                     StopGeneratingTimer();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the reply in flight is being stopped: the host asked for the stop and is
+        /// waiting for the generation to actually end. The trigger shows the button's own spinner instead of
+        /// the stop glyph and does not raise <see cref="OnStop"/> again; a message typed meanwhile is sent as
+        /// usual when <see cref="AllowSendWhileGenerating"/> is on. Cleared when <see cref="IsGenerating"/>
+        /// changes, so a host only has to set it; set the footer's <see cref="GeneratingText"/> alongside it
+        /// to say "Stopping" there too.
+        /// </summary>
+        public bool IsStopping
+        {
+            get => _isStopping;
+            set
+            {
+                if (_isStopping == value) return;
+                _isStopping = value;
+                UpdateChatTriggerIcon();
             }
         }
 
