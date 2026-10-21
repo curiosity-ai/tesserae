@@ -24,6 +24,8 @@ Bring the factory into scope with `using static Tesserae.UI;`.
 - `.IconSize(UnitSize)` — how big that tile is (44px by default).
 - `.OnClick(Action)` / `.OnClick((metric, mouseEvent) => ...)` — make the tile clickable, to drill into what it counts. It shows the pointer and a hover state, and becomes keyboard reachable (`role="button"`, `tabindex="0"`, Enter or Space while the tile has focus). The hover wash is drawn outside the tile with a spread shadow, so making it clickable does not move its contents.
 - `.ValueFirst(bool = true)` — draw the value above the title, so the number reads first and the words under it only say what was counted ("5 / In my scope").
+- `.Compact(bool = true)` — put the title and the value on one line, sharing a baseline ("Requests 1.1k"). Combine with `.ValueFirst()` for the number first ("42 open tickets"). The change stays on the same line; a chart wraps under both; the leading icon tile shrinks to 32px (`.IconSize()` still wins).
+- `.ValueBackground(string background, string foreground = null)` — put the value on a filled badge that hugs the number. Any CSS colour or theme variable; `foreground` recolours the number, and is left alone when null. A null background removes the fill. The badge takes the theme's `--tss-border-radius-md` (square under Curiosity and RetroOS; RetroOS draws it as reverse video whatever colours are given).
 
 ## Example
 
@@ -59,6 +61,22 @@ Card(Metric(TextBlock("Rejection by DOV").Tiny().SemiBold().Foreground(Theme.Sec
         .Add("38 validated", 38, Theme.Colors.Green600)
         .Add("5 rej.",        5, Theme.Colors.Red500)
         .Add("4 deleg.",      4, Theme.Colors.Blue500))).W(360.px());
+```
+
+## Compact and filled
+
+```csharp
+using static Tesserae.UI;
+
+// One line, title first: "Requests 1.1k"
+Card(Metric("Requests", "1.1k").Compact()).W(280.px());
+
+// One line, number first, on a badge: "[42] open tickets"
+Card(Metric("open tickets", "42").Compact().ValueFirst()
+    .ValueBackground("var(--tss-primary-background-color)", "var(--tss-primary-foreground-color)")).W(280.px());
+
+// A filled value in the regular two-line layout
+Card(Metric("Errors", "12").ValueBackground(Theme.Colors.Red100, Theme.Colors.Red800)).W(240.px());
 ```
 
 ## Related

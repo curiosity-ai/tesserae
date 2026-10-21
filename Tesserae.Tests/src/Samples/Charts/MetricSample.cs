@@ -48,9 +48,45 @@ namespace Tesserae.Tests.Samples
                     )
                )).SetTitle("Usage")))
                .FlatSection(Stack().Children(Icons()))
+               .FlatSection(Stack().Children(CompactAndFilled()))
                .FlatSection(Stack().Children(WithContributionBar()))
                .FlatSection(Stack().Children(Clickable()))
                .SeeAlso(typeof(DeltaComponentSample), typeof(SparklineSample), typeof(ChartsSample), typeof(ContributionBarSample));
+        }
+
+        // ---------- Compact, and a filled value ----------
+
+        private static IComponent CompactAndFilled()
+        {
+            return Card(VStack().WS().Children(
+                TextBlock("Compact() puts the title and the value on one line, sharing a baseline - for a row of counters or a header with no room for a tile two lines tall. The title leads by default; add ValueFirst() to put the number first."),
+                TextBlock("ValueBackground(background, foreground) puts the number on a filled badge. It takes any CSS color or theme variable, and recolors the number only when a foreground is given.").MT(8),
+                SampleSubTitle("Compact, title first"),
+                HStack().WS().Wrap().Gap(16.px()).Children(
+                    Card(Metric("Requests", "1.1k").Compact()).W(280.px()),
+                    Card(Metric("Cost", "$0.09").Compact()
+                       .Change(HStack().AlignItemsCenter().Children(Icon(UIcons.ArrowDown).Foreground(Theme.Colors.Red600).S(), TextBlock("-0.4%").Foreground(Theme.Colors.Red600)))).W(280.px()),
+                    Card(Metric("Coverage", "83%").Compact().SetIcon(UIcons.ClipboardListCheck, Theme.Colors.Blue600)).W(280.px())),
+                SampleSubTitle("Compact, value first"),
+                HStack().WS().Wrap().Gap(16.px()).Children(
+                    Card(Metric("open tickets", "42").Compact().ValueFirst()).W(280.px()),
+                    Card(Metric("overdue", "7").Compact().ValueFirst()
+                       .Change(HStack().AlignItemsCenter().Children(Icon(UIcons.ArrowUp).Foreground(Theme.Colors.Red600).S(), TextBlock("+2").Foreground(Theme.Colors.Red600)))).W(280.px()),
+                    Card(Metric("team members", "18").Compact().ValueFirst().SetIcon(UIcons.Users, Theme.Colors.Teal600)).W(280.px())),
+                SampleSubTitle("A filled value"),
+                HStack().WS().Wrap().Gap(16.px()).Children(
+                    Card(Metric("Requests", "1.1k").ValueBackground("var(--tss-default-background-hover-color)")).W(280.px()),
+                    Card(Metric("Errors", "12").ValueBackground(Theme.Colors.Red100, Theme.Colors.Red800).ValueFirst()).W(280.px()),
+                    Card(Metric("Web traffic", "1,234,567").ValueBackground(Theme.Colors.Green100, Theme.Colors.Green800)
+                       .Chart(Sparkline(new double[] { 10, 20, 15, 30, 25, 40, 35, 50 }))).W(280.px())),
+                SampleSubTitle("Compact with a filled value"),
+                HStack().WS().Wrap().Gap(16.px()).Children(
+                    Card(Metric("open tickets", "42").Compact().ValueFirst().ValueBackground("var(--tss-primary-background-color)", "var(--tss-primary-foreground-color)")).W(280.px()),
+                    Card(Metric("Overdue", "7").Compact().ValueBackground(Theme.Colors.Red100, Theme.Colors.Red800)).W(280.px()),
+                    Card(Metric("in review", "21").Compact().ValueFirst().ValueBackground(Theme.Colors.Blue100, Theme.Colors.Blue800)
+                       .Chart(ContributionBar().Max(100).Thickness(6.px()).ShowValues(false).ShowLegend(false)
+                           .Add("Reviewed", 62, Theme.Colors.Blue600).Add("In review", 21, Theme.Colors.Blue400).Add("Not started", 17, Theme.Colors.Neutral400))).W(280.px()))))
+               .SetTitle("Compact and filled", UIcons.Tags, Theme.Colors.Orange600);
         }
 
         // ---------- Clickable ----------

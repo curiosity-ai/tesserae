@@ -94,6 +94,60 @@
     margin-bottom: 8px;
 }
 
+/* Compact(): the title and the value on one line, sharing a baseline - "42 Open tickets", or "Open tickets 42"
+   without ValueFirst(). The change follows them on the same line; a chart, which needs the width, wraps onto
+   a line of its own under them. The header and the value keep the order ValueFirst() gives them (0, or 1 and 2),
+   so the change and the chart only have to come after both. */
+.tss-metric-compact .tss-metric-body {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 8px;
+}
+
+.tss-metric-compact .tss-metric-title,
+.tss-metric-compact.tss-metric-change-in-header .tss-metric-header {
+    margin-bottom: 0;
+}
+
+.tss-metric-compact.tss-metric-change-in-header .tss-metric-header {
+    width: auto;
+}
+
+.tss-metric-compact .tss-metric-change {
+    order: 3;
+    margin-left: 0;
+}
+
+.tss-metric-compact .tss-metric-chart {
+    order: 4;
+    flex-basis: 100%;
+}
+
+/* A one-line metric is about a line and a half tall, so the leading tile shrinks to match it. IconSize()
+   writes the size on the tile itself and still wins. */
+.tss-metric-compact .tss-metric-icon > .tss-icontile {
+    --tss-icontile-size: 32px;
+    --tss-icontile-radius: 8px;
+}
+
+/* ValueBackground(): the number on a filled badge. The fill hugs the value rather than spanning the column
+   the value sits in, and the value is recoloured only when a foreground was asked for. */
+.tss-metric-value-filled .tss-metric-value {
+    background: var(--tss-metric-value-background);
+    padding: 2px 10px;
+    border-radius: var(--tss-border-radius-md);
+}
+
+.tss-metric-value-filled:not(.tss-metric-compact) .tss-metric-value {
+    align-self: flex-start;
+}
+
+.tss-metric-value-recolored .tss-metric-value,
+.tss-metric-value-recolored .tss-metric-value * {
+    color: var(--tss-metric-value-foreground);
+}
+
 /* A chart under the value - a Sparkline, a ContributionBar - takes the full width of the card rather than
    the width of its own content, so a bar reaches both edges the way the value does. */
 .tss-metric-chart {

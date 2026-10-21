@@ -39,3 +39,20 @@ body.tss-theme-retroos .tss-metric-clickable:focus-visible {
     outline: 2px solid rgb(var(--tss-default-foreground-color-root));
     outline-offset: 6px;
 }
+
+/* ValueBackground(): the badge is reverse video - ink fill, paper figures - whatever colours were asked for,
+   the way the trend here is told by its sign rather than red or green. The colours travel as custom
+   properties inline on the tile, which the swatch frame in tss.colorpalette.css would otherwise draw a box
+   around. */
+body.tss-theme-retroos .tss-metric.tss-metric-value-filled {
+    border: 0;
+}
+
+body.tss-theme-retroos .tss-metric-value-filled .tss-metric-value {
+    background: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-metric-value-filled .tss-metric-value,
+body.tss-theme-retroos .tss-metric-value-filled .tss-metric-value * {
+    color: rgb(var(--tss-default-background-color-root));
+}
