@@ -132,6 +132,10 @@ A component can skip a tooltip that would only repeat what it already shows in f
 does this: a tooltip matching its own text shows only while that text is ellipsized, checked on every
 hover.
 
+The reverse needs no tooltip at all: a `TextBlock`, a `Label`'s caption or an `InlineLabel` whose text
+is cut short shows the whole text in a tooltip on hover, unless it (or something around it) already has
+a `.Tooltip(...)` or a `title` (see `text-block.md`).
+
 (See `tippy` for the underlying Tippy.js wrapper.)
 
 ## Accessibility — `IAccessibilityExtensions.cs`

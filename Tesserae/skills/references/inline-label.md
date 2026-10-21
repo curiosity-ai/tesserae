@@ -97,6 +97,9 @@ all of that text is on screen and shows once the label is cut short. It is check
 follows the layout as the window is resized. The result is cached on the element and measured again only
 when the label's width or text changes. A tooltip saying anything else always shows.
 
+A label with no tooltip at all gets that one for free: once it is cut short, resting the pointer on it
+shows its whole text (the path as given, `Box > sample-files`) — see `text-block.md`.
+
 **Hover.** A pressable or linked label lifts its background on hover, in a footer as well as on its own —
 in a footer with a shade the row itself can't be, since the row is already on its own hover background by
 the time the pointer reaches a label. Only a label with an `href` also underlines — one that merely runs a

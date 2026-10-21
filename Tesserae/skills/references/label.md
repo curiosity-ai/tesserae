@@ -26,6 +26,9 @@ Bring the factory into scope with `using static Tesserae.UI;`.
 - `.AlignLabelTop()` — top-align the label against tall content.
 - Inherited from `TextBlock`: `.Primary()`, `.Secondary()`, `.Tiny()`, `.Disabled()`, `.SemiBold()`.
 
+A caption that is cut short (`.Ellipsis()` with too little room) shows its whole text in a tooltip on
+hover, as a `TextBlock` does; hovering the captioned control does not bring it up.
+
 ## Example
 
 ```csharp

@@ -57,6 +57,8 @@ namespace Tesserae
 
             AttachClick();
 
+            OverflowTooltip.EnsureListening();
+
             InnerElement.addEventListener("click", e =>
             {
                 if (_clickHandler is null) return;
@@ -177,6 +179,10 @@ namespace Tesserae
         {
             Text = text;
 
+            //A path draws its separator as a glyph, so the element's own text would read "BoxFiles" in the tooltip
+            //that the label gets when it is cut short
+            InnerElement[OverflowTooltip.TextProperty] = text;
+
             var isEmpty = string.IsNullOrEmpty(text);
 
             ClearChildren(_text);
@@ -263,7 +269,7 @@ namespace Tesserae
             return !IsClipped(InnerElement) && !IsClipped(_text);
         }
 
-        private static bool IsClipped(HTMLElement element) => element.scrollWidth > element.clientWidth;
+        private static bool IsClipped(HTMLElement element) => OverflowTooltip.IsWiderThanItsBox(element);
 
         private static string CollapseWhitespace(string text)
         {
