@@ -132,6 +132,52 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Draws the title and the value on one line instead of two - "42 Open tickets" - for a row of counters,
+        /// a toolbar or a card header that has no room for a tile two lines tall. The title follows the value
+        /// when <see cref="ValueFirst"/> is set and leads it otherwise. A change indicator stays on the same line,
+        /// after both; a chart still goes under them.
+        /// </summary>
+        public Metric Compact(bool value = true)
+        {
+            _container.UpdateClassIf(value, "tss-metric-compact");
+
+            return this;
+        }
+
+        /// <summary>
+        /// Puts the value on a filled, rounded background - a badge for the number, to set it apart from the
+        /// words around it (most of all in a <see cref="Compact"/> metric). Takes any CSS color, or a theme
+        /// variable such as <c>var(--tss-primary-background-color)</c>; the foreground, when given, recolors the
+        /// value to match it. A null background takes the fill away again.
+        /// </summary>
+        public Metric ValueBackground(string background, string foreground = null)
+        {
+            if (string.IsNullOrEmpty(background))
+            {
+                _container.classList.remove("tss-metric-value-filled");
+                _container.style.removeProperty("--tss-metric-value-background");
+            }
+            else
+            {
+                _container.classList.add("tss-metric-value-filled");
+                _container.style.setProperty("--tss-metric-value-background", background);
+            }
+
+            if (string.IsNullOrEmpty(background) || string.IsNullOrEmpty(foreground))
+            {
+                _container.classList.remove("tss-metric-value-recolored");
+                _container.style.removeProperty("--tss-metric-value-foreground");
+            }
+            else
+            {
+                _container.classList.add("tss-metric-value-recolored");
+                _container.style.setProperty("--tss-metric-value-foreground", foreground);
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Pulls the change indicator up onto the title's own line, pushed to its far end - for a card whose
         /// trend belongs beside the label rather than under the chart.
         /// </summary>
