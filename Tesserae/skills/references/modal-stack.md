@@ -64,8 +64,8 @@ void OpenPreview(SearchHit doc, bool steppingThroughResults)   // `document`/`Do
 }
 
 // Keep the URL naming the whole chain, so a refresh reopens it.
-ModalStack.Changed += () => Router.ReplaceQueryParameters(
-    p => p.With("open", string.Join(",", ModalStack.Entries.Select(e => e.Key))));
+ModalStack.Changed += () => RouteQuery.Set(
+    "open", string.Join(",", ModalStack.Entries.Select(e => e.Key)), QueryHistory.Replace);
 ```
 
 ## Related

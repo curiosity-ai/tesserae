@@ -337,6 +337,16 @@ only while it moves, auto-hiding after a delay) is out; do not bring it back as 
 listener". The `.simplebar-*` rules in `tss.common.css` only style an application that loads
 simplebar itself; Tesserae does not load it, and nothing new should depend on it.
 
+### URL state: `RoutePath` and `RouteQuery`
+
+The API and its rules are in `Tesserae/skills/references/route-state.md`. Two things are for working in this repo:
+
+- `RouteLocation` (internal) is the hash parsing both read through. It is internal so consumers have one way to read the
+  address bar; `Tesserae.Tests` sees it through `InternalsVisibleTo` in `Tesserae/src/Properties/AssemblyInfo.cs`.
+- The **Route State** sample (`Tesserae.Tests/src/Samples/Utilities/RouteState*.cs`) is the test suite: about 150 cases that
+  check themselves when the page opens (reads) or when you press the button (writes, history, the router). A change to routing
+  behaviour adds or changes a row there. The cases that guard a router fix fail without that fix; revert it once to prove a new one does.
+
 ### Type safety
 
 Favor strong, static typing. Avoid `dynamic` unless absolutely necessary
