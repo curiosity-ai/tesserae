@@ -67,6 +67,18 @@ Useful properties:
 - `IsSelectable` — allow text selection.
 - `EnableEllipsis` / `EnableBreakSpaces` — overflow behaviour.
 
+### Text that is cut short gets a tooltip
+
+A block whose text is cut short — `EnableEllipsis`, a line clamp, any `overflow` that hides the
+rest — shows the whole text in a tooltip when the pointer rests on it. There is nothing to call: the
+check runs on hover, so text that fits gets no tooltip, and one that is cut short in a narrow window
+and fits in a wide one only gets it while it is cut. The tooltip shows the text the block holds at
+that moment.
+
+It stays out of the way of anything that already says something on hover: a block with its own
+`.Tooltip(...)` or `.Title(...)`, or one inside an element that has one (a button, a card), shows only
+that. The same goes for a `Label`'s caption and for an `InlineLabel`.
+
 ## Example
 
 ```csharp

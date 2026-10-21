@@ -63,6 +63,8 @@ namespace Tesserae
 
             AttachClick();
             AttachContextMenu();
+
+            OverflowTooltip.EnsureListening();
         }
 
         /// <summary>
@@ -76,6 +78,8 @@ namespace Tesserae
             InnerElement.textContent = text;
             AttachClick();
             AttachContextMenu();
+
+            OverflowTooltip.EnsureListening();
         }
 
         /// <summary>Gets or sets the background color.</summary>
