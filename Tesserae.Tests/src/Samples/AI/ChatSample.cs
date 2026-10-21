@@ -103,7 +103,8 @@ namespace Tesserae.Tests.Samples
                 {
                     if (cancelled)
                     {
-                        input.IsGenerating = false;
+                        input.IsGenerating  = false;
+                        input.GeneratingText = "Generating";
                         chatArea.Busy(false);
                         return;
                     }
@@ -194,8 +195,12 @@ namespace Tesserae.Tests.Samples
             })
             .OnStop((sender) =>
             {
-                cancelled = true;
-                sender.IsGenerating = false;
+                // A real reply takes a moment to stop - the stream and its tool calls have to unwind - so the
+                // box is told the stop is under way and the reply ends a little later, as the server's would.
+                sender.IsStopping    = true;
+                sender.GeneratingText = "Stopping";
+
+                window.setTimeout(_ => cancelled = true, 2000);
             });
 
             var chatContainer = VStack().WS().H(10).Grow().Children(
