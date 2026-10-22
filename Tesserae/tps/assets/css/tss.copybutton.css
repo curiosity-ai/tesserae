@@ -1,0 +1,52 @@
+/* CopyButton: the copy and check icons share one slot; copying swaps them with a turn and a scale,
+   and the label morphs to "Copied" (width morph in tss.microinteractions.css). */
+.tss-btn.tss-copybutton {
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.tss-copybutton-icons {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: 1em;
+    height: 1em;
+}
+
+    .tss-copybutton-icons > i {
+        grid-area: 1 / 1;
+        line-height: 1;
+        transition: opacity .18s ease-out, transform .28s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+/* The check keeps the button's own colour: a theme may invert a focused button (RetroOS), and a
+   fixed success green can vanish against it. */
+.tss-copybutton-check {
+    opacity: 0;
+    transform: scale(.4) rotate(-45deg);
+}
+
+.tss-copybutton-copied .tss-copybutton-copy {
+    opacity: 0;
+    transform: scale(.4) rotate(45deg);
+}
+
+.tss-copybutton-copied .tss-copybutton-check {
+    opacity: 1;
+    transform: none;
+}
+
+.tss-copybutton-text:empty {
+    display: none;
+}
+
+.tss-btn.tss-copybutton.tss-copybutton-ghost {
+    box-shadow: none;
+    border-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-copybutton-icons > i {
+        transition: none;
+    }
+}

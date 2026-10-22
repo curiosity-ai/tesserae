@@ -286,6 +286,23 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.Card"/> component.
         /// </summary>
         public static Card Card(IComponent content, bool noAnimation = false) => new Card(content, noAnimation);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.FlipCard"/> that turns over in 3D between <paramref name="front"/> and
+        /// <paramref name="back"/>.
+        /// </summary>
+        public static FlipCard FlipCard(IComponent front, IComponent back) => new FlipCard(front, back);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.CompareSlider"/>: <paramref name="before"/> over <paramref name="after"/>,
+        /// with a divider dragged across to compare them.
+        /// </summary>
+        public static CompareSlider CompareSlider(IComponent before, IComponent after, double position = 50) => new CompareSlider(before, after, position);
+
+        /// <summary>
+        /// Creates an <see cref="Tesserae.AnimatedNumber"/>: a number that counts (or ticks) to each new value.
+        /// </summary>
+        public static AnimatedNumber AnimatedNumber(double value = 0, string format = "N0") => new AnimatedNumber(value, format);
         /// <summary>
         /// Creates a new, empty <see cref="ResourceCard"/>.
         /// </summary>
@@ -741,6 +758,30 @@ namespace Tesserae
         /// Creates a new <see cref="Button"/>.
         /// </summary>
         public static Button Button(UIcons icon) => new Button().SetIcon(icon);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.HoldButton"/>: a button that must be pressed and held for
+        /// <paramref name="durationMs"/> to confirm, with a fill that sweeps across while it is held.
+        /// </summary>
+        public static HoldButton HoldButton(string text, int durationMs = 1200) => new HoldButton(text, durationMs);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ConfirmButton"/>: the first click arms it (the label morphs to
+        /// <paramref name="confirmText"/>), a second click confirms.
+        /// </summary>
+        public static ConfirmButton ConfirmButton(string text, string confirmText = "Click again to confirm", string doneText = null) => new ConfirmButton(text, confirmText, doneText);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.CopyButton"/> that copies <paramref name="textToCopy"/> and confirms in place.
+        /// Without a <paramref name="label"/> it is icon-only.
+        /// </summary>
+        public static CopyButton CopyButton(string textToCopy, string label = null) => new CopyButton(textToCopy, label);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.CopyButton"/> that copies what <paramref name="getTextToCopy"/> returns at the
+        /// moment it is clicked.
+        /// </summary>
+        public static CopyButton CopyButton(Func<string> getTextToCopy, string label = null) => new CopyButton(getTextToCopy, label);
         /// <summary>
         /// Creates a new <see cref="ButtonAndIcon"/>.
         /// </summary>
@@ -968,6 +1009,11 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.TextBox"/> component.
         /// </summary>
         public static TextBox TextBox(string text = string.Empty) => new TextBox(text);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.CodeInput"/>: a one-time-code field drawn as <paramref name="length"/> segments.
+        /// </summary>
+        public static CodeInput CodeInput(int length = 6) => new CodeInput(length);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.AutoCompleteBox"/>: a free-text box that suggests values as the user

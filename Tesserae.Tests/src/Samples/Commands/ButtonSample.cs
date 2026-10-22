@@ -115,6 +115,12 @@ namespace Tesserae.Tests.Samples
                         Button().SetText("Small").Rounded(BorderRadius.Small).Primary(),
                         Button().SetText("Medium").Rounded(BorderRadius.Medium).Primary(),
                         Button().SetText("Full").Rounded(BorderRadius.Full).Primary()
+                    ),
+                    SampleSubTitle("Progress Fill"),
+                    TextBlock("SetProgress(percent) fills the button from the left behind its label, sweeping to each new value: the progress of the work the button started, shown on the control that started it. ClearProgress() takes the fill away when the work is done. The label should still say the number when it matters.").MB(8),
+                    HStack().Children(
+                        UploadDemo(Button("Upload sample").SetIcon(UIcons.Upload)),
+                        UploadDemo(Button("Export").SetIcon(UIcons.Download).Primary())
                     )
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(ActionButtonSample), typeof(SaveButtonSample), typeof(CommandBarSample), typeof(ToggleSample), typeof(DropdownSample), typeof(AIVariantsSample));
@@ -130,6 +136,47 @@ namespace Tesserae.Tests.Samples
         {
             await Task.Delay(ms);
             throw new Exception("Rendering failed");
+        }
+
+        // Runs a fake upload on click: the fill sweeps up in uneven steps, the label counts with it, and both
+        // go back to rest a moment after "Done".
+        private static Button UploadDemo(Button button)
+        {
+            var label   = button.Text;
+            var running = false;
+
+            return button.OnClick(() =>
+            {
+                if (running) return;
+                running = true;
+
+                var percent = 0;
+                var steps   = new[] { 8, 21, 34, 52, 67, 81, 93, 100 };
+                var i       = 0;
+
+                Action step = null;
+
+                step = () =>
+                {
+                    percent = steps[i++];
+                    button.SetProgress(percent).SetText(percent < 100 ? $"Uploading {percent}%" : "Done");
+
+                    if (i < steps.Length)
+                    {
+                        window.setTimeout(_ => step(), 280);
+                    }
+                    else
+                    {
+                        window.setTimeout(_ =>
+                        {
+                            button.ClearProgress().SetText(label);
+                            running = false;
+                        }, 1200);
+                    }
+                };
+
+                step();
+            });
         }
 
         public HTMLElement Render() => _content.Render();

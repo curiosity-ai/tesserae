@@ -25,6 +25,7 @@
                 "tps/assets/css/tss.body.css",
                 "tps/assets/css/tss.button.css",
                 "tps/assets/css/tss.animations.css",
+                "tps/assets/css/tss.microinteractions.css",
                 "tps/assets/css/tss.label.css",
                 "tps/assets/css/tss.textblock.css",
                 "tps/assets/css/tss.listitemtext.css",
@@ -137,6 +138,13 @@
                 "tps/assets/css/tss.modalstack.css",
                 "tps/assets/css/diff2html.min.css",
                 "tps/assets/css/tss.codediff.css",
+                "tps/assets/css/tss.holdbutton.css",
+                "tps/assets/css/tss.confirmbutton.css",
+                "tps/assets/css/tss.copybutton.css",
+                "tps/assets/css/tss.animatednumber.css",
+                "tps/assets/css/tss.flipcard.css",
+                "tps/assets/css/tss.compareslider.css",
+                "tps/assets/css/tss.codeinput.css",
                 "tps/assets/css/tss.ai.css"
             ],
             "output": "assets/css"

@@ -1,0 +1,100 @@
+/* CodeInput: a row of cells drawn under one transparent input that spans them all. The input does
+   the typing, pasting and autofill; the cells only show its value, the active cell and a caret. */
+.tss-codeinput {
+    position: relative;
+    display: inline-block;
+    --tss-codeinput-cell: 44px;
+}
+
+.tss-codeinput-cells {
+    display: flex;
+    gap: 8px;
+}
+
+.tss-codeinput-cell {
+    position: relative;
+    width: var(--tss-codeinput-cell);
+    height: calc(var(--tss-codeinput-cell) * 1.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+    background: var(--tss-default-background-color);
+    font-size: 20px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    transition: border-color .15s ease-out, box-shadow .15s ease-out, background-color .15s ease-out;
+}
+
+.tss-codeinput-filled {
+    border-color: var(--tss-default-foreground-color);
+}
+
+.tss-codeinput-active {
+    border-color: var(--tss-primary-border-color);
+    box-shadow: 0 0 0 3px rgba(var(--tss-primary-background-color-root), .2);
+}
+
+.tss-codeinput-caret::after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 45%;
+    background: var(--tss-primary-border-color);
+    animation: tss-codeinput-blink 1s steps(1) infinite;
+}
+
+@keyframes tss-codeinput-blink {
+    50% { opacity: 0; }
+}
+
+.tss-codeinput-char {
+    display: inline-block;
+}
+
+.tss-codeinput-pop {
+    animation: tss-codeinput-pop .22s cubic-bezier(.34, 1.56, .64, 1) both;
+}
+
+@keyframes tss-codeinput-pop {
+    from { transform: scale(.4) translateY(30%); opacity: 0; }
+    to   { transform: none; opacity: 1; }
+}
+
+.tss-codeinput-invalid .tss-codeinput-cell {
+    border-color: var(--tss-danger-border-color);
+}
+
+.tss-codeinput-invalid .tss-codeinput-active {
+    box-shadow: 0 0 0 3px rgba(var(--tss-danger-border-color-root), .2);
+}
+
+/* The real input: over the cells, invisible, monospaced so a click lands near the right cell. */
+.tss-codeinput-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    caret-color: transparent;
+    background: transparent;
+    color: transparent;
+    cursor: text;
+}
+
+.tss-codeinput.tss-disabled {
+    opacity: .5;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-codeinput-pop,
+    .tss-codeinput-caret::after {
+        animation: none;
+    }
+}

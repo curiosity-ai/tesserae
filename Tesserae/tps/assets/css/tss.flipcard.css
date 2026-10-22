@@ -1,0 +1,72 @@
+/* FlipCard: both faces stacked in one grid cell, so the card is as tall as the taller one; the
+   inner box turns in 3D and each face hides its back. */
+.tss-flipcard {
+    perspective: 1200px;
+    display: block;
+}
+
+.tss-flipcard-inner {
+    display: grid;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform .6s cubic-bezier(.22, 1, .36, 1);
+}
+
+.tss-flipcard-face {
+    grid-area: 1 / 1;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    min-width: 0;
+    background: var(--tss-default-background-color);
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-card-shadow);
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.tss-flipcard-back {
+    transform: rotateY(180deg);
+}
+
+.tss-flipcard-flipped > .tss-flipcard-inner {
+    transform: rotateY(180deg);
+}
+
+.tss-flipcard-vertical .tss-flipcard-back {
+    transform: rotateX(180deg);
+}
+
+.tss-flipcard-vertical.tss-flipcard-flipped > .tss-flipcard-inner {
+    transform: rotateX(180deg);
+}
+
+.tss-flipcard-clickable {
+    cursor: pointer;
+    border-radius: var(--tss-border-radius-lg);
+}
+
+    .tss-flipcard-clickable:focus-visible {
+        outline: none;
+        box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow);
+    }
+
+/* Reduced motion: no turn, a crossfade between the faces. */
+@media (prefers-reduced-motion: reduce) {
+    .tss-flipcard-inner,
+    .tss-flipcard-flipped > .tss-flipcard-inner,
+    .tss-flipcard-back,
+    .tss-flipcard-vertical .tss-flipcard-back,
+    .tss-flipcard-vertical.tss-flipcard-flipped > .tss-flipcard-inner {
+        transform: none;
+        transition: none;
+    }
+
+    .tss-flipcard-face {
+        transition: opacity .2s linear;
+    }
+
+    .tss-flipcard-flipped .tss-flipcard-front,
+    .tss-flipcard:not(.tss-flipcard-flipped) .tss-flipcard-back {
+        opacity: 0;
+    }
+}

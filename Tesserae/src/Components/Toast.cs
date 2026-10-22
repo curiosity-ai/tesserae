@@ -25,6 +25,9 @@ namespace Tesserae
 
         private bool _dismissOnClick = true;
         private bool _overwrite      = false;
+        private bool _countdown      = false;
+
+        private HTMLElement _countdownBar;
 
         private string   _timeText;
         private DateTime? _timeMoment;
@@ -448,6 +451,19 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Draws a bar along the foot of the toast that drains over its <see cref="Duration"/>, so the time left to
+        /// act on it (an Undo, say) can be seen. It refills while the pointer is over the toast, since the toast then
+        /// waits, and starts over when the pointer leaves. Call it before the method that shows the toast.
+        /// </summary>
+        /// <param name="show">Whether to draw the bar.</param>
+        /// <returns>The current instance of the type.</returns>
+        public Toast Countdown(bool show = true)
+        {
+            _countdown = show;
+            return this;
+        }
+
+        /// <summary>
         /// Prevents the toast from being overwritten by a new toast with the same content.
         /// </summary>
         /// <param name="value">Whether to prevent overwriting.</param>
@@ -594,6 +610,16 @@ namespace Tesserae
             HookDismiss();
 
             _toastContainer.appendChild(_content.Render());
+
+            if (_countdown)
+            {
+                if (_countdownBar is null)
+                {
+                    _countdownBar = Div(Att("tss-toast-countdown"));
+                    _countdownBar.setAttribute("aria-hidden", "true");
+                }
+                _toastContainer.appendChild(_countdownBar);
+            }
         }
 
         /// <summary>
@@ -729,12 +755,22 @@ namespace Tesserae
                 window.clearTimeout(_timeoutHandle);
                 _timeoutHandle = 0;
             }
+
+            if (_countdownBar is object) _countdownBar.classList.remove("tss-toast-countdown-running");
         }
 
         private void ResetTimeout()
         {
             ClearTimeout();
             _timeoutHandle = window.setTimeout((_) => RemoveAndHide(), _timeoutDuration);
+
+            if (_countdownBar is object)
+            {
+                // A layout read between taking the class off and putting it back restarts the drain from full.
+                _countdownBar.style.animationDuration = _timeoutDuration + "ms";
+                _countdownBar.getBoundingClientRect();
+                _countdownBar.classList.add("tss-toast-countdown-running");
+            }
         }
 
         /// <summary>

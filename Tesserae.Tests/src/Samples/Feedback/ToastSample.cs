@@ -121,6 +121,19 @@ namespace Tesserae.Tests.Samples
                             Button().SetText("A banner of your own").OnClick(() => Toast().Time("1 h ago").Show(
                                 Banner("Export finished", "18 documents, 42 MB.").Success().SetIcon(UIcons.Download).Action("Download", () => Toast().Information("Downloading")))))
                     )).SetTitle("Showing the time", UIcons.Clock, Theme.Colors.Purple600)))
+               .FlatSection(
+                    Stack().WidthStretch().Children(
+                        Card(VStack().WS().Children(
+                        TextBlock("Countdown() draws a bar along the foot of the toast that drains over its Duration, so the time left to act on it can be seen - the undo window of a destructive action. The bar refills while the pointer is over the toast (the toast waits then) and starts over when it leaves. Call it before the method that shows the toast."),
+                        SampleSubTitle("Undo with a countdown"),
+                        HStack().Wrap().Gap(8.px()).Children(
+                            Button().SetText("Archive conversation").SetIcon(UIcons.Archive).OnClick(() =>
+                                Toast().BottomCenter().Countdown().Duration(TimeSpan.FromSeconds(6)).Show(
+                                    Banner("Conversation archived", "It moved to the Archive folder.").Secondary().SetIcon(UIcons.Archive)
+                                       .Action("Undo", () => Toast().Success("Restored")))),
+                            Button().SetText("Error, 4 s").OnClick(() =>
+                                Toast().Countdown().Duration(TimeSpan.FromSeconds(4)).Error("Sync failed", "Retrying when the bar runs out.")))
+                    )).SetTitle("Showing the time left", UIcons.Hourglass, Theme.Colors.Purple600)))
                .SeeAlso(typeof(BannerSample), typeof(NotificationCenterSample), typeof(SavingToastSample), typeof(MessageSample), typeof(TippySample));
         }
 

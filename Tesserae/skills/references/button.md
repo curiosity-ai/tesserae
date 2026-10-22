@@ -85,6 +85,8 @@ Behaviour:
 
 Spinner control: `.ToSpinner(text)` / `.UndoSpinner()` / `.UndoSpinner(ButtonSpinnerOutcome)` / `.SpinWhile(...)`. Every button spins in place, the "orbiting dot": its content (icon, label) fades, a dot appears on a ring drawn in the button's own colour, orbits and stretches into an arc, and collapses back to the content when the spinner ends. The button keeps its box (its width and height do not change, so nothing around it shifts; a spinner text sits beside the ring and is ellipsized if it does not fit). To end on a result, give `OnClickSpinWhile` / `SpinWhile` an action that returns `Task<ButtonSpinnerOutcome>`: `Success` closes the ring around a check, `Error` (or an exception) around an x, `None` goes straight back. A ghost button draws the mark green or red; a filled button keeps its text colour for the mark and turns its fill green or red instead. `.UndoSpinner(ButtonSpinnerOutcome.Success)` does the same by hand after `.ToSpinner()`.
 
+Progress: `.SetProgress(double percent)` fills the button from the left, behind its label, sweeping to each new value (the progress of an upload or export the button started); `.ClearProgress()` removes the fill. Keep the number in the label when it matters (`SetText($"Uploading {p}%")`). For press-and-hold, two-step and copy buttons see `hold-button.md`, `confirm-button.md`, `copy-button.md`.
+
 ## Example
 
 ```csharp

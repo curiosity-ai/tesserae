@@ -166,6 +166,14 @@ namespace Tesserae
 
         private static int PointerId(Event e) => Script.Write<int>("({0}.pointerId || 0)", e);
 
+        private bool StartedOnNestedControl(Event e)
+        {
+            var target = e.target.As<HTMLElement>();
+            if (target is null || ReferenceEquals(target, _element)) return false;
+            var control = (HTMLElement)target.closest("button, a[href], input, select, textarea, label, [role=button], [contenteditable]");
+            return control is object && !ReferenceEquals(control, _element) && _element.contains(control);
+        }
+
         private void CapturePointer(int id)   => Script.Write("try { {0}.setPointerCapture({1}); } catch (e) { }", _element, id);
         private void ReleasePointer(int id)    => Script.Write("try { {0}.releasePointerCapture({1}); } catch (e) { }", _element, id);
 
@@ -174,7 +182,9 @@ namespace Tesserae
             var me = e.As<MouseEvent>();
             var id = PointerId(e);
 
-            CapturePointer(id);
+            // Capturing retargets the click that follows to this element, so a press that starts on a button or
+            // link nested inside it would lose its click. Such a press is captured only once it turns into a pan.
+            if (!StartedOnNestedControl(e)) CapturePointer(id);
 
             var info = new PointerInfo { StartX = me.clientX, StartY = me.clientY, LastX = me.clientX, LastY = me.clientY, StartTime = Now() };
 
@@ -240,6 +250,7 @@ namespace Tesserae
                     return;
 
                 _panning = true;
+                CapturePointer(id);
                 CancelLongPress();
                 _panLastX = _panStartX;
                 _panLastY = _panStartY;

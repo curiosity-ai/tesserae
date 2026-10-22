@@ -118,3 +118,40 @@
     border-bottom: none;
     border-top: 1px solid var(--tss-default-border-color);
 }
+
+/* Toast.Countdown(): a hairline along the foot that drains over the toast's duration. It sits at full
+   width while the toast waits (pointer over it) and restarts from full when the timer does. */
+.tss-toast-countdown {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    background: var(--tss-primary-background-color);
+    opacity: .55;
+    transform-origin: left center;
+    pointer-events: none;
+}
+
+    .tss-toast-countdown.tss-toast-countdown-running {
+        animation-name: tss-toast-countdown;
+        animation-timing-function: linear;
+        animation-fill-mode: forwards;
+    }
+
+.tss-toast-success .tss-toast-countdown {
+    background: var(--tss-success-background-color);
+}
+
+.tss-toast-warning .tss-toast-countdown {
+    background: var(--tss-warning-border-color);
+}
+
+.tss-toast-error .tss-toast-countdown {
+    background: var(--tss-danger-background-color);
+}
+
+@keyframes tss-toast-countdown {
+    from { transform: scaleX(1); }
+    to   { transform: scaleX(0); }
+}

@@ -1,0 +1,102 @@
+/* CompareSlider: "after" in the flow (it sets the size), "before" over it, clipped at the divider. */
+.tss-compare {
+    --tss-compare-pos: 50%;
+    position: relative;
+    overflow: hidden;
+    display: block;
+    border-radius: var(--tss-border-radius-lg);
+    touch-action: pan-y;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: ew-resize;
+}
+
+.tss-compare-after,
+.tss-compare-before {
+    display: block;
+}
+
+    .tss-compare-after > *,
+    .tss-compare-before > * {
+        width: 100%;
+        height: 100%;
+    }
+
+.tss-compare-before {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(0 calc(100% - var(--tss-compare-pos)) 0 0);
+}
+
+.tss-compare img {
+    pointer-events: none;
+    display: block;
+}
+
+.tss-compare-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--tss-compare-pos);
+    width: 2px;
+    margin-left: -1px;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .2);
+    outline: none;
+}
+
+.tss-compare-knob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    color: #222;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    font-size: 11px;
+    transition: transform .15s ease-out;
+}
+
+.tss-compare-dragging .tss-compare-knob,
+.tss-compare-handle:focus-visible .tss-compare-knob {
+    transform: translate(-50%, -50%) scale(1.12);
+}
+
+.tss-compare-handle:focus-visible .tss-compare-knob {
+    box-shadow: 0 0 0 3px var(--tss-ring-color, rgba(36, 142, 250, .6)), 0 2px 8px rgba(0, 0, 0, .25);
+}
+
+.tss-compare-label {
+    position: absolute;
+    top: 10px;
+    padding: 2px 8px;
+    border-radius: var(--tss-border-radius-sm);
+    background: rgba(0, 0, 0, .55);
+    color: #fff;
+    font-size: 12px;
+    pointer-events: none;
+    transition: opacity .15s linear;
+}
+
+    .tss-compare-label:empty {
+        display: none;
+    }
+
+.tss-compare-label-before {
+    left: 10px;
+}
+
+.tss-compare-label-after {
+    right: 10px;
+}
+
+.tss-compare-label-hidden {
+    opacity: 0;
+}

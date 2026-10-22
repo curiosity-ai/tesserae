@@ -1,0 +1,37 @@
+/* AnimatedNumber: tabular digits so a count does not jitter; Tick slides the new value in from
+   below (going up) or above (going down). */
+.tss-animatednumber {
+    display: inline-flex;
+    overflow: hidden;
+    font-variant-numeric: tabular-nums;
+    vertical-align: bottom;
+}
+
+.tss-animatednumber-value {
+    display: inline-block;
+}
+
+.tss-animatednumber-up {
+    animation: tss-animatednumber-up .3s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.tss-animatednumber-down {
+    animation: tss-animatednumber-down .3s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+@keyframes tss-animatednumber-up {
+    from { transform: translateY(60%); opacity: 0; }
+    to   { transform: none; opacity: 1; }
+}
+
+@keyframes tss-animatednumber-down {
+    from { transform: translateY(-60%); opacity: 0; }
+    to   { transform: none; opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-animatednumber-up,
+    .tss-animatednumber-down {
+        animation: none;
+    }
+}

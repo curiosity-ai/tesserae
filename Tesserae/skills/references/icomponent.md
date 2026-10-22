@@ -150,6 +150,18 @@ Focus order: `.TabIndex(int)`, `.SkipTab()`. (See `accessibility`.)
 `.OnTapped(...)`, `.OnDoubleTapped(...)`, `.OnLongPress(...)`, `.OnPan(...)`,
 `.OnPinch(...)`, `.OnRotate(...)`. (See `gestures`.)
 
+## Micro-interactions — `MicroInteractionExtensions.cs`
+
+One-shot feedback, called at the moment it is due: `.Shake()` (refused action /
+invalid submit), `.Pop()` (toggled reaction, changed count), `.Nudge()` (blocked
+dismissal), `.SpinOnce()` (turns the first icon once: a refresh), `.Flash()` (a row
+that was inserted or moved). Behaviours: `.PressFeedback(bool = true)`,
+`.Shimmer(bool = true)` (loading in place), `.RevealOnHoverOf(IComponent host)`
+(actions shown on hover/focus of the host), `.SwipeToDismiss(Action onDismissed,
+double threshold = 0.35, bool removeOnDismiss = true)` and
+`.DismissWithSwipe(Action onDismissed = null, bool toTheLeft = false, bool
+removeOnDismiss = true)`. Reduced motion is respected. (See `micro-interactions`.)
+
 ## Reactive binding — `BindingExtensions.cs`
 
 `.Bind(SettableObservable<T> source)` — keep the component in sync with an

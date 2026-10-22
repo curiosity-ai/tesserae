@@ -1,0 +1,200 @@
+/* Micro-interactions: the one-shot feedback animations and hover/gesture behaviours of
+   MicroInteractionExtensions (Shake, Pop, Nudge, SpinOnce, Flash, PressFeedback, Shimmer,
+   RevealOnHoverOf, SwipeToDismiss), and the width morph the fluid buttons share.
+
+   A one-shot is a class the extension adds, restarts and removes on animationend, so each rule
+   is an animation and nothing else. Under prefers-reduced-motion a shake becomes a ring in the
+   danger colour (the refusal still shows), and the rest stand still. */
+
+.tss-mi-shake {
+    animation: tss-mi-shake .42s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes tss-mi-shake {
+    0%, 100% { transform: translateX(0); }
+    15%      { transform: translateX(-6px); }
+    30%      { transform: translateX(5px); }
+    45%      { transform: translateX(-4px); }
+    60%      { transform: translateX(3px); }
+    75%      { transform: translateX(-2px); }
+    90%      { transform: translateX(1px); }
+}
+
+.tss-mi-pop {
+    animation: tss-mi-pop .38s cubic-bezier(.34, 1.56, .64, 1) both;
+}
+
+@keyframes tss-mi-pop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.18); }
+    70%  { transform: scale(.96); }
+    100% { transform: scale(1); }
+}
+
+.tss-mi-nudge {
+    animation: tss-mi-nudge .28s cubic-bezier(.34, 1.56, .64, 1) both;
+}
+
+@keyframes tss-mi-nudge {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.025); }
+}
+
+.tss-mi-spin {
+    animation: tss-mi-spin .6s cubic-bezier(.65, 0, .35, 1) both;
+}
+
+i.tss-mi-spin {
+    display: inline-block;
+}
+
+@keyframes tss-mi-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* The keyframe names only the start: the end is the element's own background, whatever it is. */
+.tss-mi-flash {
+    animation: tss-mi-flash 1.4s ease-out both;
+}
+
+@keyframes tss-mi-flash {
+    0%  { background-color: rgba(var(--tss-primary-background-color-root), .22); }
+    30% { background-color: rgba(var(--tss-primary-background-color-root), .16); }
+}
+
+.tss-mi-press {
+    transition: transform .12s ease-out;
+}
+
+    .tss-mi-press:active {
+        transform: scale(.97);
+    }
+
+/* Shimmer: a soft band of light crossing the element, drawn over it. */
+.tss-mi-shimmer {
+    position: relative;
+    overflow: hidden;
+}
+
+    .tss-mi-shimmer::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, .45) 50%, transparent 80%);
+        transform: translateX(-100%);
+        animation: tss-mi-shimmer 1.4s ease-in-out infinite;
+    }
+
+.tss-dark-mode .tss-mi-shimmer::after {
+    background: linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, .12) 50%, transparent 80%);
+}
+
+@keyframes tss-mi-shimmer {
+    to { transform: translateX(100%); }
+}
+
+/* RevealOnHoverOf: hidden to the eye, never to the tab order. */
+.tss-mi-reveal {
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity .18s ease-out, transform .18s ease-out;
+}
+
+.tss-mi-reveal-host:hover .tss-mi-reveal,
+.tss-mi-reveal-host:focus-within .tss-mi-reveal,
+.tss-mi-reveal:focus-within,
+.tss-mi-reveal:focus {
+    opacity: 1;
+    transform: none;
+}
+
+@media (hover: none) {
+    .tss-mi-reveal {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* SwipeToDismiss: follows the pointer with no transition while dragged, springs back or slides
+   off with one when let go, then gives its height back. */
+.tss-mi-swipe {
+    transition: transform .28s cubic-bezier(.22, 1, .36, 1), opacity .28s ease-out;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: grab;
+}
+
+    .tss-mi-swipe.tss-mi-swipe-dragging {
+        transition: none;
+        cursor: grabbing;
+    }
+
+    .tss-mi-swipe.tss-mi-swipe-out {
+        pointer-events: none;
+    }
+
+    .tss-mi-swipe.tss-mi-swipe-collapse {
+        overflow: hidden;
+        transition: height .2s ease-in, margin .2s ease-in, padding .2s ease-in;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        border-width: 0 !important;
+    }
+
+/* The width morph of a fluid button (CopyButton, ConfirmButton), and the label that slides in. */
+.tss-mi-morph-width {
+    transition: width .24s cubic-bezier(.22, 1, .36, 1);
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.tss-mi-text-in {
+    animation: tss-mi-text-in .22s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+@keyframes tss-mi-text-in {
+    from { opacity: 0; transform: translateY(5px); filter: blur(2px); }
+    to   { opacity: 1; transform: none; filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-mi-pop,
+    .tss-mi-nudge,
+    .tss-mi-spin,
+    .tss-mi-text-in {
+        animation: none;
+    }
+
+    .tss-mi-shake {
+        animation: tss-mi-shake-still .6s ease-out both;
+    }
+
+    .tss-mi-shimmer::after {
+        animation: none;
+        transform: none;
+        background: rgba(127, 127, 127, .12);
+    }
+
+    .tss-mi-press:active {
+        transform: none;
+    }
+
+    .tss-mi-reveal,
+    .tss-mi-swipe,
+    .tss-mi-morph-width {
+        transition: none;
+    }
+
+    .tss-mi-reveal {
+        transform: none;
+    }
+}
+
+@keyframes tss-mi-shake-still {
+    0%, 60% { box-shadow: 0 0 0 2px var(--tss-danger-border-color); }
+    100%    { box-shadow: 0 0 0 0 transparent; }
+}

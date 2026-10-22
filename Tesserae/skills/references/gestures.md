@@ -5,7 +5,7 @@ description: Fluent tap / double-tap / long-press / pan / pinch / rotate recogni
 
 # Gestures
 
-`GestureExtensions` adds gesture recognition to any `IComponent` via extension methods. One `GestureRecognizer` is attached per element and shared across all handlers, so DOM-listener overhead is fixed. Built on Pointer Events (mouse + touch + stylus). Pan/pinch/rotate set `touch-action: none` to avoid native scroll/zoom hijacking.
+`GestureExtensions` adds gesture recognition to any `IComponent` via extension methods. One `GestureRecognizer` is attached per element and shared across all handlers, so DOM-listener overhead is fixed. Built on Pointer Events (mouse + touch + stylus). Pan/pinch/rotate set `touch-action: none` to avoid native scroll/zoom hijacking. The recogniser captures the pointer on press so a drag keeps reporting outside the element, except when the press starts on a button, link or field nested inside it: that press is captured only once it turns into a pan, so a plain click still reaches the control.
 
 ## Methods (extensions on `IComponent`)
 
@@ -40,5 +40,7 @@ canvas.OnPinch(s => ApplyScale(s.Scale));
 ```
 
 ## Related
+
+- Swipe-to-dismiss and other feedback built on these — `micro-interactions.md`
 
 - Full docs & API: `/tesserae/behaviors/gestures`

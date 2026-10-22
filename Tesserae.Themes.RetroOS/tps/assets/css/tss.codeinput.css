@@ -1,0 +1,30 @@
+/* ==========================================================================
+   RetroOS theme - CodeInput
+   --------------------------------------------------------------------------
+   Each cell is an edit-text box: square, 1px ink frame. The cell taking the
+   next character thickens its frame to 2px (an inset ring, as a focused
+   TextBox does) and carries an ink caret. A refused code gets the double frame
+   of an invalid field rather than a colour.
+   ========================================================================== */
+
+body.tss-theme-retroos .tss-codeinput-cell {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    transition: none;
+}
+
+body.tss-theme-retroos .tss-codeinput-active {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-codeinput-caret::after {
+    background: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-retroos .tss-codeinput-invalid .tss-codeinput-cell,
+body.tss-theme-retroos .tss-codeinput-invalid .tss-codeinput-active {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-background-color-root)), inset 0 0 0 2px rgb(var(--tss-default-foreground-color-root));
+}

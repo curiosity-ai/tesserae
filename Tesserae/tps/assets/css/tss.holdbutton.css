@@ -1,0 +1,72 @@
+/* HoldButton: press and hold. The fill is a transition, not a keyframe: holding sweeps it across
+   over --tss-hold-duration (linear, so it reads as time), letting go drains it back quickly from
+   wherever it got to. Confirmed, the check takes the icon's place and the fill stays full. */
+.tss-btn.tss-holdbutton {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    touch-action: none;
+    -webkit-touch-callout: none;
+    gap: 6px;
+    transition: transform .12s ease-out;
+}
+
+    .tss-btn.tss-holdbutton.tss-holdbutton-holding {
+        transform: scale(.98);
+    }
+
+.tss-holdbutton-fill {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: currentColor;
+    opacity: .16;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform .25s cubic-bezier(.22, 1, .36, 1);
+    pointer-events: none;
+}
+
+.tss-holdbutton-holding > .tss-holdbutton-fill {
+    transform: scaleX(1);
+    transition: transform var(--tss-hold-duration, 1200ms) linear;
+}
+
+.tss-holdbutton-confirmed > .tss-holdbutton-fill {
+    transform: scaleX(1);
+    transition: none;
+}
+
+.tss-holdbutton-check {
+    display: none;
+}
+
+.tss-holdbutton-confirmed > .tss-holdbutton-check {
+    display: inline-block;
+    animation: tss-mi-pop .38s cubic-bezier(.34, 1.56, .64, 1) both;
+}
+
+.tss-holdbutton-confirmed > .tss-holdbutton-icon {
+    display: none;
+}
+
+.tss-btn.tss-holdbutton.tss-holdbutton-confirmed {
+    pointer-events: none;
+}
+
+/* Announced, never shown: shared by the buttons that confirm in place. */
+.tss-holdbutton-live {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-btn.tss-holdbutton,
+    .tss-btn.tss-holdbutton.tss-holdbutton-holding {
+        transform: none;
+    }
+}

@@ -177,19 +177,19 @@ references. Open the reference for whatever you are working with. The full set:
 - `references/wrap-a-javascript-library.md` — wrap a third-party JS library.
 
 **Layout** — containers you build a page out of
-accordion · background-area · card · dock-panel · expander · grid · horizontal-separator ·
-horizontal-split-view · masonry · section-stack · split-view · stack
+accordion · background-area · card · dock-panel · expander · flip-card · grid ·
+horizontal-separator · horizontal-split-view · masonry · section-stack · split-view · stack
 
 **Text & Content** — text, labels and rich content blocks
-badge · code-diff · icon-tile · inline-label · keyboard-shortcut · label ·
+animated-number · badge · code-diff · icon-tile · inline-label · keyboard-shortcut · label ·
 list-item-text · markdown-block · section-title · text-block
 
 **Buttons & Commands** — things the user clicks to do something
-action-button · button · command-bar · command-palette · context-menu ·
-icon-toggle · menu · overflow-set · toggle-button
+action-button · button · command-bar · command-palette · confirm-button ·
+context-menu · copy-button · hold-button · icon-toggle · menu · overflow-set · toggle-button
 
 **Inputs** — form controls that capture a value
-annotated-text-editor · auto-complete-box · check-box · choice-group · color-picker · dropdown ·
+annotated-text-editor · auto-complete-box · check-box · choice-group · code-input · color-picker · dropdown ·
 editable-area · editable-label · file-selector-and-drop-area · grid-picker ·
 number-picker · option · picker · rating · slider · steps-slider · tags-input
 · text-area · text-box · toggle
@@ -234,13 +234,14 @@ ai-variants · chat · context-card · context-cards · plan · action-card ·
 resource-card · tool-agent-selector · tool-call
 
 **Media & Graphics** — images, avatars and embedded content
-avatar · carousel · image · pages-stack · pixel-avatar · sandbox
+avatar · carousel · compare-slider · image · pages-stack · pixel-avatar · sandbox
 
 **Theming & Icons** — colours, gradients, icons and emoji
 color-palette · custom-themes · emoji · gradients · icon · theme-builder · uicons
 
 **Utilities & Behaviors** — helpers that render little or nothing on their own
-defer · defer-with-progress · delta-component · gestures · visibility-sensor
+defer · defer-with-progress · delta-component · gestures · micro-interactions ·
+visibility-sensor
 
 To find the reference for a component, lowercase-kebab its name and open
 `references/<that>.md` (e.g. `DetailsList` → `references/details-list.md`). If you

@@ -16,6 +16,7 @@ namespace Tesserae
         private HTMLElement       _iconSpan;
         private HTMLElement       _spinOverlay;
         private HTMLElement       _spinLabel;
+        private HTMLElement       _progressFill;
         private bool              _isSpinningInPlace;
         private int               _spinGeneration;
 
@@ -800,6 +801,42 @@ namespace Tesserae
         public Button SetTitle(string title)
         {
             Title = title;
+            return this;
+        }
+
+        /// <summary>
+        /// Fills the button from the left to <paramref name="percent"/> of its width, behind its label: the progress
+        /// of the work the button started (an upload, an export), shown on the control that started it. Each change
+        /// sweeps to the new width. Pair it with a label that says the number ("Uploading 40%") when the percentage
+        /// matters, and call <see cref="ClearProgress"/> when the work ends.
+        /// </summary>
+        /// <param name="percent">How much is done, from 0 to 100.</param>
+        public Button SetProgress(double percent)
+        {
+            percent = Math.Max(0, Math.Min(100, percent));
+
+            if (_progressFill is null)
+            {
+                _progressFill = Span(Att("tss-btn-progress-fill"));
+                _progressFill.setAttribute("aria-hidden", "true");
+                InnerElement.insertBefore(_progressFill, InnerElement.firstChild);
+                InnerElement.classList.add("tss-btn-has-progress");
+                _progressFill.getBoundingClientRect();
+            }
+
+            _progressFill.style.transform = $"scaleX({(percent / 100).ToString("0.####")})";
+            return this;
+        }
+
+        /// <summary>Removes the fill drawn by <see cref="SetProgress"/>.</summary>
+        public Button ClearProgress()
+        {
+            if (_progressFill is object)
+            {
+                _progressFill.remove();
+                _progressFill = null;
+                InnerElement.classList.remove("tss-btn-has-progress");
+            }
             return this;
         }
 

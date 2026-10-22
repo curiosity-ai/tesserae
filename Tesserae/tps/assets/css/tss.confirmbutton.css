@@ -1,0 +1,45 @@
+/* ConfirmButton: armed, it takes the theme's danger button (tss-btn-danger, set from code) and a bar drains along its foot over the time it
+   stays armed; done, it shows a check. The label swap is a width morph (tss.microinteractions.css). */
+.tss-btn.tss-confirmbutton {
+    position: relative;
+    overflow: hidden;
+    gap: 6px;
+    white-space: nowrap;
+    transition: background-color .2s ease-out, color .2s ease-out, border-color .2s ease-out;
+}
+
+.tss-confirmbutton-countdown {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: currentColor;
+    opacity: 0;
+    transform-origin: left center;
+    pointer-events: none;
+}
+
+.tss-confirmbutton-armed > .tss-confirmbutton-countdown {
+    opacity: .6;
+    animation: tss-toast-countdown var(--tss-confirm-timeout, 3000ms) linear forwards;
+}
+
+.tss-btn.tss-confirmbutton.tss-confirmbutton-done {
+    pointer-events: none;
+}
+
+    .tss-btn.tss-confirmbutton.tss-confirmbutton-done::before {
+        content: "";
+        width: .9em;
+        height: .5em;
+        margin-top: -.25em;
+        border-left: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: rotate(-45deg);
+        animation: tss-mi-pop .38s cubic-bezier(.34, 1.56, .64, 1) both;
+    }
+
+.tss-btn.tss-confirmbutton.tss-confirmbutton-done > .tss-confirmbutton-icon {
+    display: none;
+}

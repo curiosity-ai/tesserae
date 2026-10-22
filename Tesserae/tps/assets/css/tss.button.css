@@ -1082,3 +1082,30 @@ a {
     .tss-savebtn-sizer .tss-btn-spin-ring * {
         animation: none !important;
     }
+
+/* Button.SetProgress: a fill behind the label that sweeps to the new width on every change. The
+   button isolates a stacking context so the fill can sit under its content (z-index -1) and still
+   above its background. currentColor keeps it in the button's own tone. */
+.tss-btn.tss-btn-has-progress {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.tss-btn > .tss-btn-progress-fill {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: currentColor;
+    opacity: .16;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform .3s cubic-bezier(.22, 1, .36, 1);
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-btn > .tss-btn-progress-fill {
+        transition: none;
+    }
+}
