@@ -56,6 +56,18 @@ steps:
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Curiosity/'
 
 - task: CmdLine@2
+  displayName: 'restore Stratus theme project'
+  inputs:
+    script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Themes.Stratus\Tesserae.Themes.Stratus.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Stratus/'
+
+- task: CmdLine@2
+  displayName: 'restore RetroOS theme project'
+  inputs:
+    script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Themes.RetroOS\Tesserae.Themes.RetroOS.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.RetroOS/'
+
+- task: CmdLine@2
   displayName: 'restore tests project'
   inputs:
     script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Tests\Tesserae.Tests.csproj'
@@ -139,6 +151,34 @@ steps:
   inputs:
     command: 'push'
     packagesToPush: '**/*/Tesserae.Themes.Curiosity.$(themePackageVersion).nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-curiosity-org'
+
+- task: CmdLine@2
+  displayName: 'Build Tesserae.Themes.Stratus'
+  inputs:
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Themes.Stratus\Tesserae.Themes.Stratus.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion) /p:ThemeVersion=$(themePackageVersion)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Stratus/'
+
+- task: NuGetCommand@2
+  displayName: 'push Tesserae.Themes.Stratus to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*/Tesserae.Themes.Stratus.$(themePackageVersion).nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-curiosity-org'
+
+- task: CmdLine@2
+  displayName: 'Build Tesserae.Themes.RetroOS'
+  inputs:
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Themes.RetroOS\Tesserae.Themes.RetroOS.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion) /p:ThemeVersion=$(themePackageVersion)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.RetroOS/'
+
+- task: NuGetCommand@2
+  displayName: 'push Tesserae.Themes.RetroOS to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*/Tesserae.Themes.RetroOS.$(themePackageVersion).nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity-org'
 
