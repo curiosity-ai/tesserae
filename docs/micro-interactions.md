@@ -10,8 +10,11 @@ categories), each mapped to one of:
   composing existing components, often with one of the new pieces for the feedback.
 - **Later** — a reasonable addition that was left out of this change; the reason is given.
 
-The TypeUI prompts behind each example are paywalled, so the classification is from the live
-previews, their labels and their resting states.
+This classification is from each example's name, its labels and its resting state, as found in the
+site's server-rendered markup. It is not from the motion itself: the site's scripts, which run the
+interactions, could not be loaded from the environment this was written in (every script and
+stylesheet request was refused by the host's bot protection), and the implementation prompts are
+paywalled. The new components follow the names; check them against the live examples.
 
 ## Buttons (24)
 
