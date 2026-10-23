@@ -1723,6 +1723,21 @@ namespace Tesserae
         public static Sparkline Sparkline(double[] data, double width = 100, double height = 30, string color = "") => new Sparkline(data, width, height, color);
 
         /// <summary>
+        /// Creates a new <see cref="Tesserae.TrendBadge"/>: an arrow and the size of a change, colored by whether the movement is good news.
+        /// </summary>
+        public static TrendBadge TrendBadge(string text, TrendDirection direction = TrendDirection.Flat, TrendSentiment sentiment = TrendSentiment.Neutral) => new TrendBadge(text, direction, sentiment);
+
+        /// <summary>
+        /// Creates a new <see cref="Tesserae.TargetBar"/>: a thin bar that measures a value against a target.
+        /// </summary>
+        public static TargetBar TargetBar(double value, double target = 100, double max = 150) => new TargetBar(value, target, max);
+
+        /// <summary>
+        /// Creates a new <see cref="Tesserae.DataTable"/>: a header band over rows of components, each row optionally flagged with a colored edge.
+        /// </summary>
+        public static DataTable DataTable() => new DataTable();
+
+        /// <summary>
         /// Creates a metadata-driven <see cref="Tesserae.PropertyGrid{T}"/> that auto-generates a two-way-bound
         /// editing form for the supplied object.
         /// </summary>

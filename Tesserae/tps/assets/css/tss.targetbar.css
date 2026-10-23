@@ -1,0 +1,57 @@
+/* TargetBar — a value measured against a target: a filled bar, a tick at the target, a caption under it. */
+
+.tss-targetbar {
+    --tss-targetbar-color: var(--tss-primary-background-color);
+    --tss-targetbar-thickness: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+    width: 100%;
+}
+
+.tss-targetbar-track {
+    position: relative;
+    height: var(--tss-targetbar-thickness);
+    border-radius: 999px;
+    background: var(--tss-progress-background-color);
+}
+
+.tss-targetbar-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: var(--tss-targetbar-color);
+}
+
+/* The tick overhangs the track so it reads as a gauge mark rather than part of the fill. */
+.tss-targetbar-marker {
+    position: absolute;
+    top: -3px;
+    bottom: -3px;
+    width: 2px;
+    margin-left: -1px;
+    border-radius: 1px;
+    background: var(--tss-secondary-foreground-color);
+    opacity: 0.55;
+}
+
+.tss-targetbar-caption {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: var(--tss-font-size-xsmall);
+    color: var(--tss-secondary-foreground-color);
+    line-height: 1.2;
+}
+
+.tss-targetbar-value {
+    font-family: var(--tss-monospace-font-family);
+    font-weight: var(--tss-font-weight-semibold);
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-targetbar-empty .tss-targetbar-fill,
+.tss-targetbar-empty .tss-targetbar-marker {
+    display: none;
+}

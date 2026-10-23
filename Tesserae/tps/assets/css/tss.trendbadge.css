@@ -1,0 +1,32 @@
+/* TrendBadge — an arrow and the size of a change, colored by whether the movement is good news. */
+
+.tss-trendbadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 2px 8px 2px 4px;
+    border-radius: 999px;
+    font-family: var(--tss-monospace-font-family);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-semibold);
+    white-space: nowrap;
+    background: var(--tss-secondary-background-color);
+    color: var(--tss-secondary-foreground-color);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.tss-trendbadge-arrow {
+    font-size: 14px;
+    line-height: 1;
+}
+
+.tss-trendbadge-good {
+    background: color-mix(in srgb, var(--tss-success-background-color) 24%, transparent);
+    color: color-mix(in srgb, var(--tss-success-background-color) 72%, var(--tss-default-foreground-color));
+}
+
+.tss-trendbadge-bad {
+    background: color-mix(in srgb, var(--tss-danger-background-color) 24%, transparent);
+    color: color-mix(in srgb, var(--tss-danger-background-color) 72%, var(--tss-default-foreground-color));
+}

@@ -26,6 +26,7 @@ Shape/style:
 - `.Tint(string color)` — tint with any CSS colour (a translucent fill and border, text mixed with the page foreground so it reads in light and dark), the way an issue tracker draws a user-coloured label: `Tag("bug").Pill().Tint("#d73a4a")`. `null` removes it.
 - `.SetIcon(string)` — leading icon (use `Icon.Transform(UIcons.X, UIconsWeight.Regular)`).
 - `.SetText(string)` — change the label.
+- `.Dot(string color = null)` / `.NoDot()` — a small status dot before the text, in the given CSS colour (or the text's own colour): `Chip("19 on track").Pill().Dot(Theme.Colors.Green700)`.
 - `.Background(string)` / `.Foreground(string)` — override colors.
 - `.AI()` (`BadgeTone.AI`) — the AI tone: a filled purple-to-blue gradient, or the tint plus accent when combined with `.Outline()`. `.AI(strongEffect: true)` asks for the louder form a custom theme may draw. `UI.AIBadge(text, strongEffect)` is the shorthand for a Sparkles-led gradient pill. See `ai-variants.md`.
 
