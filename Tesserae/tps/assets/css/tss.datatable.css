@@ -1,0 +1,82 @@
+/* DataTable — a header band over rows of components, with an optional state-colored edge on each row. */
+
+.tss-datatable {
+    --tss-datatable-columns: minmax(0, 1fr);
+    --tss-datatable-row-padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* Below its minimum width the table scrolls sideways instead of crushing the columns. */
+    overflow-x: auto;
+    overflow-y: hidden;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-lg);
+    background: var(--tss-default-background-color);
+}
+
+.tss-datatable-compact {
+    --tss-datatable-row-padding: 8px 16px;
+}
+
+.tss-datatable-header,
+.tss-datatable-body {
+    min-width: var(--tss-datatable-min-width, 640px);
+}
+
+.tss-datatable-header,
+.tss-datatable-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--tss-datatable-columns);
+    align-items: center;
+    column-gap: 16px;
+    padding: var(--tss-datatable-row-padding);
+}
+
+.tss-datatable-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: var(--tss-secondary-background-color);
+}
+
+.tss-datatable-row + .tss-datatable-row,
+.tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top: 1px solid var(--tss-default-border-color);
+}
+
+.tss-datatable-row:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-datatable-cell {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.tss-datatable-align-center {
+    justify-content: center;
+}
+
+.tss-datatable-align-end {
+    justify-content: flex-end;
+}
+
+.tss-datatable-heading {
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: var(--tss-font-weight-semibold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--tss-secondary-foreground-color);
+}
+
+/* The accent runs the full height of the row, like a status gutter. */
+.tss-datatable-accented::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--tss-datatable-accent);
+}

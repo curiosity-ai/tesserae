@@ -1,0 +1,28 @@
+/* Sparkline — a trend line with an optional dotted reference line and a dot on its last point. */
+
+.tss-sparkline {
+    position: relative;
+}
+
+/* The drawing is stretched to the box it is given; the line keeps its declared width regardless. */
+.tss-sparkline-line,
+.tss-sparkline-reference {
+    vector-effect: non-scaling-stroke;
+}
+
+.tss-sparkline-reference {
+    stroke: var(--tss-secondary-foreground-color);
+    stroke-width: 1;
+    stroke-dasharray: 1 3;
+    opacity: 0.6;
+}
+
+.tss-sparkline-end {
+    position: absolute;
+    right: 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    transform: translate(50%, -50%);
+    pointer-events: none;
+}

@@ -12,6 +12,17 @@ namespace Tesserae
     public class Sparkline : IComponent
     {
         private readonly HTMLElement _innerElement;
+        private readonly double[]    _data;
+        private readonly double      _width;
+        private readonly double      _height;
+        private readonly string      _color;
+
+        private double  _strokeWidth     = 1;
+        private bool    _fill            = true;
+        private bool    _endMarker;
+        private bool    _hasReference;
+        private bool    _referenceIsMean;
+        private double  _referenceValue;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -22,6 +33,11 @@ namespace Tesserae
             {
                 color = "var(--tss-primary-background-color)";
             }
+
+            _data   = data;
+            _width  = width;
+            _height = height;
+            _color  = color;
 
             _innerElement = Div(
                 Att("tss-sparkline")
@@ -36,6 +52,80 @@ namespace Tesserae
             _innerElement.style.height    = height + "px";
             _innerElement.style.minHeight = height + "px";
 
+            Draw();
+        }
+
+        /// <summary>
+        /// Sets the width of the line, in pixels. The line keeps that width when the chart is stretched
+        /// to fill its row, rather than being scaled with the drawing.
+        /// </summary>
+        public Sparkline StrokeWidth(double width)
+        {
+            _strokeWidth = width;
+            Draw();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Turns the tinted area under the line on or off. On by default.
+        /// </summary>
+        public Sparkline Fill(bool value = true)
+        {
+            _fill = value;
+            Draw();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Marks the last point of the series with a dot in the line's colour - the "this week" end of a
+        /// trend that runs up to now.
+        /// </summary>
+        public Sparkline EndMarker(bool value = true)
+        {
+            _endMarker = value;
+            Draw();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Draws a dotted horizontal line across the chart at the given value - a target, a threshold or a
+        /// baseline the trend should be read against. A value outside the range of the series is clamped
+        /// to the nearest edge of the chart.
+        /// </summary>
+        public Sparkline ReferenceLine(double value)
+        {
+            _hasReference    = true;
+            _referenceIsMean = false;
+            _referenceValue  = value;
+            Draw();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Draws a dotted horizontal line across the chart at the mean of the series.
+        /// </summary>
+        public Sparkline ReferenceLine()
+        {
+            _hasReference    = true;
+            _referenceIsMean = true;
+            Draw();
+
+            return this;
+        }
+
+        private void Draw()
+        {
+            while (_innerElement.firstChild != null)
+            {
+                _innerElement.removeChild(_innerElement.firstChild);
+            }
+
+            var data = _data;
+
             if (data == null || data.Length == 0)
             {
                 return;
@@ -44,6 +134,10 @@ namespace Tesserae
             {
                 data = new double[] { data[0], data[0] };
             }
+
+            var color  = _color;
+            var width  = _width;
+            var height = _height;
 
             double min = data.Min();
             double max = data.Max();
@@ -89,20 +183,57 @@ namespace Tesserae
                 points += $"{x},{y} ";
             }
 
+            // Add area under the line with gradient
+            if (_fill)
+            {
+                var polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+                polygon.setAttribute("fill", $"url(#{gradientId})");
+                polygon.setAttribute("points", $"{width},{height} 0,{height} " + points);
+                svg.appendChild(polygon);
+            }
+
+            if (_hasReference)
+            {
+                double reference = _referenceValue;
+
+                if (_referenceIsMean)
+                {
+                    reference = data.Average();
+                }
+
+                double referenceY = height - ((Math.Max(min, Math.Min(max, reference)) - min) / range) * height;
+
+                var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", "0");
+                line.setAttribute("x2", width.ToString());
+                line.setAttribute("y1", referenceY.ToString());
+                line.setAttribute("y2", referenceY.ToString());
+                line.setAttribute("class", "tss-sparkline-reference");
+                svg.appendChild(line);
+            }
+
             var polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
             polyline.setAttribute("fill", "none");
             polyline.setAttribute("stroke", color);
-            polyline.setAttribute("stroke-width", "1"); // Changed to 1
+            polyline.setAttribute("stroke-width", _strokeWidth.ToString());
+            polyline.setAttribute("stroke-linejoin", "round");
+            polyline.setAttribute("class", "tss-sparkline-line");
             polyline.setAttribute("points", points);
 
-            // Add area under the line with gradient
-            var polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-            polygon.setAttribute("fill", $"url(#{gradientId})");
-            polygon.setAttribute("points", $"{width},{height} 0,{height} " + points);
-
-            svg.appendChild(polygon);
             svg.appendChild(polyline);
             _innerElement.appendChild(svg);
+
+            if (_endMarker)
+            {
+                // An HTML dot over the chart rather than an SVG circle: the drawing is stretched to whatever
+                // box it ends up in (preserveAspectRatio="none"), which would turn a circle into an ellipse.
+                double lastY = height - (((data[data.Length - 1] - min) / range) * height);
+
+                var dot = Div(Att("tss-sparkline-end"));
+                dot.style.top        = (100 * lastY / height) + "%";
+                dot.style.background = color;
+                _innerElement.appendChild(dot);
+            }
         }
 
         /// <summary>

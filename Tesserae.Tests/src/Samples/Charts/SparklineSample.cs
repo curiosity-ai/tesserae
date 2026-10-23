@@ -47,10 +47,20 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Conversions").W(120.px()),
                         Sparkline(new double[] { 10, 20, 15, 30, 25, 40, 35, 50 }, width: 150, height: 40)
                     ),
+                    SampleSubTitle("End Marker and Reference Line"),
+                    HStack().AlignItemsCenter().Children(
+                        TextBlock("Weekly orders").W(120.px()),
+                        Sparkline(new double[] { 30, 42, 35, 48, 40, 52, 44, 38, 50, 58, 49, 62 }, width: 150, height: 40, color: Theme.Colors.Blue600).EndMarker().ReferenceLine().StrokeWidth(1.5)
+                    ),
+                    SampleSubTitle("Line only"),
+                    HStack().AlignItemsCenter().Children(
+                        TextBlock("Latency").W(120.px()),
+                        Sparkline(new double[] { 30, 31, 29, 36, 32, 30, 41, 29, 30, 31 }, width: 150, height: 40, color: Theme.Colors.Neutral500).Fill(false).ReferenceLine(30)
+                    ),
                     SampleSubTitle("Larger Chart"),
                     Sparkline(new double[] { 5, 10, 8, 20, 18, 35, 30, 45, 42, 60, 55, 70 }, width: 300, height: 80, color: Theme.Colors.Green600).WS()
                 )).SetTitle("Usage")))
-               .SeeAlso(typeof(ChartsSample), typeof(MetricSample), typeof(DeltaComponentSample), typeof(ContributionBarSample), typeof(UptimeSample));
+               .SeeAlso(typeof(ChartsSample), typeof(MetricSample), typeof(DeltaComponentSample), typeof(ContributionBarSample), typeof(UptimeSample), typeof(DashboardSample));
         }
 
         public HTMLElement Render() => _content.Render();

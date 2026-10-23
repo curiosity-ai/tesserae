@@ -26,6 +26,13 @@ Bring factories into scope with `using static Tesserae.UI;`.
   or CSS vars like `"var(--tss-danger-background-color)"`.
 - Sizing helpers (`.WS()`, `.W()`, `.PT()`, ...) apply to the chart element itself.
 
+Fluent options (each redraws the chart):
+
+- `.EndMarker()` — a dot on the last point, the "this week" end of a trend.
+- `.ReferenceLine(double value)` / `.ReferenceLine()` — a dotted horizontal line at a value, or at the series mean.
+- `.StrokeWidth(double)` — line width in pixels; it stays that width when the chart is stretched.
+- `.Fill(false)` — drop the tinted area under the line.
+
 The chart re-renders when re-added to a container, so swap in a fresh instance
 (e.g. `host.Replace(newChart, oldChart)`) to update it.
 
@@ -41,7 +48,11 @@ var row = HStack().AlignItemsCenter().Children(
 );
 ```
 
+A scorecard row - trend, figure, change and progress against a target - is `DataTable` + `Sparkline` + `TrendBadge` + `TargetBar`; see `data-table.md`.
+
 ## Related
+
+- DataTable, TrendBadge, TargetBar — `data-table.md`, `trend-badge.md`, `target-bar.md`
 
 - Cards (dashboard tiles to host sparklines) — `card.md`
 - Full docs & API: `/tesserae/charts/sparkline`

@@ -137,3 +137,12 @@
     color: color-mix(in srgb, var(--tss-token-tint) 62%, var(--tss-default-foreground-color));
     font-weight: var(--tss-font-weight-semibold);
 }
+
+/* The status dot of a badge: a swatch in the color it is given, or in the text's own color. */
+.tss-token-dot {
+    flex: 0 0 auto;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}

@@ -218,8 +218,8 @@ mark-highlighter · omni-box · omni-result · search-box ·
 searchable-grouped-list · searchable-list
 
 **Charts & Visualization** — numbers and relationships, drawn
-activity-calendar · charts · contribution-bar · diagram · gantt-chart · mermaid · metric · node-view ·
-sparkline · uptime
+activity-calendar · charts · contribution-bar · data-table · diagram · gantt-chart · mermaid · metric ·
+node-view · sparkline · target-bar · trend-badge · uptime
 
 **Feedback & Status** — progress, notifications and empty states
 banner · live-progress · message · notification-center · progress-indicator ·

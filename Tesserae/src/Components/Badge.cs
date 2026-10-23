@@ -23,6 +23,7 @@ namespace Tesserae
         protected readonly HTMLSpanElement _textSpan;
         protected readonly HTMLElement     _content;
         protected          HTMLElement     _icon;
+        protected          HTMLElement     _dot;
         protected          HTMLButtonElement _removeButton;
         private            string          _variantClass;
         private            Action<T>       _removeRequested;
@@ -113,6 +114,44 @@ namespace Tesserae
         public T SetIcon(string icon)
         {
             Icon = icon;
+            return (T)this;
+        }
+
+        /// <summary>
+        /// Puts a small status dot before the text - the legend swatch of a filter pill, a state marker
+        /// ("19 on track"). The dot takes the given CSS color, or the text's own color when none is given.
+        /// </summary>
+        public T Dot(string color = null)
+        {
+            if (_dot == null)
+            {
+                _dot = Span(Att("tss-token-dot"));
+                _content.insertBefore(_dot, _icon ?? _textSpan);
+            }
+
+            if (string.IsNullOrEmpty(color))
+            {
+                _dot.style.removeProperty("background");
+            }
+            else
+            {
+                _dot.style.background = color;
+            }
+
+            return (T)this;
+        }
+
+        /// <summary>
+        /// Takes the status dot away again.
+        /// </summary>
+        public T NoDot()
+        {
+            if (_dot != null)
+            {
+                _content.removeChild(_dot);
+                _dot = null;
+            }
+
             return (T)this;
         }
 
