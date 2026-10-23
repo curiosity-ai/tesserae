@@ -28,6 +28,10 @@
        can shrink and scroll when the segments overflow. */
     align-self: flex-start;
     max-width: 100%;
+    /* Themes that clip the pill (overflow:hidden) drop its flex auto-min-size
+       to 0, so tall content would shrink the bar to a thin sliver with the
+       tab titles cut off. Like .tss-segmentedpivot-wrapper, keep its height. */
+    flex-shrink: 0;
     box-sizing: border-box;
     margin-bottom: 16px;
     border-radius: var(--tss-border-radius-lg);
