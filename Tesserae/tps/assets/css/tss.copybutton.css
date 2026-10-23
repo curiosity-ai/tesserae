@@ -1,5 +1,6 @@
 /* CopyButton: the copy and check icons share one slot; copying swaps them with a turn and a scale,
-   and the label morphs to "Copied" (width morph in tss.microinteractions.css). */
+   and the label slides to "Copied". Both labels share one cell (a label stack in
+   tss.microinteractions.css), so the button keeps its width. */
 .tss-btn.tss-copybutton {
     gap: 6px;
     white-space: nowrap;

@@ -50,6 +50,45 @@
     padding: 12px 14px;
 }
 
+/* Opening and closing animate the height in CSS alone: the body is a one-row grid whose track goes
+   from 0fr to 1fr, and a grid track can transition to the content's own height, which max-height
+   and height: auto cannot. Nothing is measured, so content that grows while open is never clipped.
+   Collapsed, the content also drops its vertical padding and its rule (a 0fr track still holds a
+   box's padding), and turns visibility: hidden once the close has finished, so a closed section is
+   out of the tab order and the accessibility tree, not only out of sight. Opening shows it at once. */
+.tss-expander-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition: grid-template-rows .25s cubic-bezier(.22, 1, .36, 1), visibility 0s linear .25s;
+}
+
+.tss-expander.tss-expanded > .tss-expander-body {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition: grid-template-rows .25s cubic-bezier(.22, 1, .36, 1), visibility 0s linear 0s;
+}
+
+    .tss-expander-body > .tss-expander-content {
+        min-height: 0;
+        overflow: hidden;
+        transition: padding .25s cubic-bezier(.22, 1, .36, 1), border-top-width .25s cubic-bezier(.22, 1, .36, 1);
+    }
+
+.tss-expander:not(.tss-expanded) > .tss-expander-body > .tss-expander-content {
+    padding-top: 0;
+    padding-bottom: 0;
+    border-top-width: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-expander-body,
+    .tss-expander.tss-expanded > .tss-expander-body,
+    .tss-expander-body > .tss-expander-content {
+        transition: none;
+    }
+}
+
 .tss-expander-icon {
     display: flex;
     align-items: center;

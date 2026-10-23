@@ -1,6 +1,8 @@
 /* AnimatedNumber: tabular digits so a count does not jitter; Tick slides the new value in from
-   below (going up) or above (going down). */
+   below (going up) or above (going down) while the old one leaves the other way, both clipped to
+   the number's own line. */
 .tss-animatednumber {
+    position: relative;
     display: inline-flex;
     overflow: hidden;
     font-variant-numeric: tabular-nums;
@@ -19,6 +21,34 @@
     animation: tss-animatednumber-down .3s cubic-bezier(.22, 1, .36, 1) both;
 }
 
+/* The value that is leaving: laid over the new one, and gone once its animation ends. */
+.tss-animatednumber-outgoing {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.tss-animatednumber-leave-up {
+    animation: tss-animatednumber-leave-up .3s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.tss-animatednumber-leave-down {
+    animation: tss-animatednumber-leave-down .3s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+@keyframes tss-animatednumber-leave-up {
+    from { transform: none; opacity: 1; }
+    to   { transform: translateY(-60%); opacity: 0; }
+}
+
+@keyframes tss-animatednumber-leave-down {
+    from { transform: none; opacity: 1; }
+    to   { transform: translateY(60%); opacity: 0; }
+}
+
 @keyframes tss-animatednumber-up {
     from { transform: translateY(60%); opacity: 0; }
     to   { transform: none; opacity: 1; }
@@ -31,7 +61,9 @@
 
 @media (prefers-reduced-motion: reduce) {
     .tss-animatednumber-up,
-    .tss-animatednumber-down {
+    .tss-animatednumber-down,
+    .tss-animatednumber-leave-up,
+    .tss-animatednumber-leave-down {
         animation: none;
     }
 }

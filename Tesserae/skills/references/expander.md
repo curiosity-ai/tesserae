@@ -6,7 +6,11 @@ description: A single expand/collapse section with a clickable header that revea
 # Expander
 
 A collapsible section: a clickable header (with chevron) toggles the body
-content. Use standalone, or group several inside an `Accordion`.
+content. Use standalone, or group several inside an `Accordion`. Opening and
+closing animate the height in CSS alone (a grid track going from `0fr` to
+`1fr`), so the content is never measured and is never clipped if it grows
+while open; a closed body is `visibility: hidden`, out of the tab order. A
+theme can retime or switch it off (RetroOS does), and reduced motion snaps.
 
 ## Create
 

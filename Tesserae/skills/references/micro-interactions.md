@@ -26,6 +26,14 @@ they restart if already playing and leave nothing behind:
 - `.SwipeToDismiss(Action onDismissed, double threshold = 0.35, bool removeOnDismiss = true)` — drag sideways; past `threshold` of its width it slides off, collapses its height and calls back, otherwise springs back. Vertical scrolling keeps working on touch. Buttons inside it still get their clicks.
 - `.DismissWithSwipe(Action onDismissed = null, bool toTheLeft = false, bool removeOnDismiss = true)` — plays that exit from code (a close button, a Delete key).
 
+Each of these keeps the motion in CSS (`tss.microinteractions.css`) and only
+flips a class from C#, except `SwipeToDismiss`, whose drag follows the pointer;
+a theme can retime any of them, and reduced motion is one media query. When
+adding your own, prefer that split: a state CSS can see (`:hover`,
+`:focus-within`, `aria-expanded`) needs no code at all, an event only code knows
+about needs one class, and only pointer-following or per-frame values need
+script.
+
 Under `prefers-reduced-motion` a shake becomes a brief red ring and the rest stand
 still, so nothing is carried by motion alone. Pair a shake with a message saying
 why, and keep a visible control beside any swipe.

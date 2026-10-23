@@ -1,6 +1,6 @@
 /* Micro-interactions: the one-shot feedback animations and hover/gesture behaviours of
    MicroInteractionExtensions (Shake, Pop, Nudge, SpinOnce, Flash, PressFeedback, Shimmer,
-   RevealOnHoverOf, SwipeToDismiss), and the width morph the fluid buttons share.
+   RevealOnHoverOf, SwipeToDismiss), and the label stack the confirming buttons share.
 
    A one-shot is a class the extension adds, restarts and removes on animationend, so each rule
    is an animation and nothing else. Under prefers-reduced-motion a shake becomes a ring in the
@@ -145,28 +145,46 @@ i.tss-mi-spin {
         border-width: 0 !important;
     }
 
-/* The width morph of a fluid button (CopyButton, ConfirmButton), and the label that slides in. */
-.tss-mi-morph-width {
-    transition: width .24s cubic-bezier(.22, 1, .36, 1);
-    overflow: hidden;
-    white-space: nowrap;
+/* A label stack (ConfirmButton, CopyButton): every label of a control in one grid cell, so the
+   control is as wide as its longest label and keeps that width whichever is showing. The current
+   label is in place; the ones before it wait 16px to the left, the ones after it 16px to the right,
+   so stepping forward slides the new label in from the right and the old one out to the left. */
+.tss-mi-labels {
+    display: inline-grid;
+    justify-items: center;
+    align-items: center;
 }
 
-.tss-mi-text-in {
-    animation: tss-mi-text-in .22s cubic-bezier(.22, 1, .36, 1) both;
-}
+    .tss-mi-labels > .tss-mi-label {
+        grid-area: 1 / 1;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+        opacity: 0;
+        transform: translateX(16px);
+        transition: opacity .18s ease-out, transform .26s cubic-bezier(.22, 1, .36, 1);
+    }
 
-@keyframes tss-mi-text-in {
-    from { opacity: 0; transform: translateY(5px); filter: blur(2px); }
-    to   { opacity: 1; transform: none; filter: none; }
-}
+        .tss-mi-labels > .tss-mi-label.tss-mi-label-before {
+            transform: translateX(-16px);
+        }
+
+        .tss-mi-labels > .tss-mi-label.tss-mi-label-current {
+            opacity: 1;
+            transform: none;
+        }
 
 @media (prefers-reduced-motion: reduce) {
     .tss-mi-pop,
     .tss-mi-nudge,
-    .tss-mi-spin,
-    .tss-mi-text-in {
+    .tss-mi-spin {
         animation: none;
+    }
+
+    .tss-mi-labels > .tss-mi-label {
+        transform: none !important;
+        transition: opacity .12s linear;
     }
 
     .tss-mi-shake {
@@ -184,8 +202,7 @@ i.tss-mi-spin {
     }
 
     .tss-mi-reveal,
-    .tss-mi-swipe,
-    .tss-mi-morph-width {
+    .tss-mi-swipe {
         transition: none;
     }
 

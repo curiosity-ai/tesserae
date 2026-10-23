@@ -13,7 +13,8 @@ namespace Tesserae
     public sealed class CopyButton : ComponentBase<CopyButton, HTMLButtonElement>
     {
         private readonly Func<string>     _getText;
-        private readonly HTMLSpanElement  _textSpan;
+        private readonly HTMLElement      _labels;
+        private readonly HTMLSpanElement  _copiedSpan;
         private readonly HTMLSpanElement  _live;
 
         private event Action<string> _copied;
@@ -44,11 +45,14 @@ namespace Tesserae
                 I(UIcons.Copy,  cssClass: "tss-copybutton-copy"),
                 I(UIcons.Check, cssClass: "tss-copybutton-check"));
 
-            _textSpan = Span(Att("tss-copybutton-text", text: _label));
-            _live     = Span(Att("tss-holdbutton-live"));
+            // The label and "Copied" share one cell, so the button keeps the width of the longer one and the swap
+            // is a CSS transition. An icon-only button has no labels at all.
+            _copiedSpan = Span(Att(text: _copiedLabel));
+            _labels     = _label.Length == 0 ? Span(Att("tss-copybutton-text")) : MicroInteractionExtensions.LabelStack(Span(Att(text: _label)), _copiedSpan);
+            _live       = Span(Att("tss-holdbutton-live"));
             _live.setAttribute("aria-live", "polite");
 
-            InnerElement = Button(Att("tss-btn tss-btn-default tss-copybutton tss-fontsize-small tss-fontweight-regular tss-default-component-margin"), icons, _textSpan, _live);
+            InnerElement = Button(Att("tss-btn tss-btn-default tss-copybutton tss-fontsize-small tss-fontweight-regular tss-default-component-margin"), icons, _labels, _live);
             InnerElement.type = "button";
             UpdateIconOnly();
 
@@ -66,6 +70,7 @@ namespace Tesserae
         public CopyButton CopiedText(string text)
         {
             _copiedLabel = text ?? "";
+            _copiedSpan.textContent = _copiedLabel;
             return this;
         }
 
@@ -98,15 +103,9 @@ namespace Tesserae
             Clipboard.Copy(text, showMessage: false);
 
             var generation = ++_generation;
-            var label      = _label.Length == 0 ? "" : _copiedLabel;
 
-            MicroInteractionExtensions.MorphWidth(InnerElement, () =>
-            {
-                InnerElement.classList.add("tss-copybutton-copied");
-                _textSpan.textContent = label;
-            });
-
-            if (label.Length > 0) MicroInteractionExtensions.Play(_textSpan, "tss-mi-text-in");
+            InnerElement.classList.add("tss-copybutton-copied");
+            if (_label.Length > 0) MicroInteractionExtensions.ShowLabel(_labels, 1);
             _live.textContent = string.IsNullOrEmpty(_copiedLabel) ? "Copied" : _copiedLabel;
 
             _copied?.Invoke(text);
@@ -114,11 +113,8 @@ namespace Tesserae
             window.setTimeout(_ =>
             {
                 if (generation != _generation) return;
-                MicroInteractionExtensions.MorphWidth(InnerElement, () =>
-                {
-                    InnerElement.classList.remove("tss-copybutton-copied");
-                    _textSpan.textContent = _label;
-                });
+                InnerElement.classList.remove("tss-copybutton-copied");
+                if (_label.Length > 0) MicroInteractionExtensions.ShowLabel(_labels, 0);
                 _live.textContent = "";
             }, _resetAfterMs);
 
@@ -131,8 +127,9 @@ namespace Tesserae
             InnerElement.UpdateClassIf(iconOnly, "tss-btn-only-icon");
             InnerElement.style.minWidth = iconOnly ? "unset" : "";
 
-            if (iconOnly) InnerElement.setAttribute("aria-label", "Copy");
-            else InnerElement.removeAttribute("aria-label");
+            // The labels are hidden from assistive technology (both are in the DOM at once), so the button is named
+            // after its resting label; the confirmation is announced through the live region instead.
+            InnerElement.setAttribute("aria-label", iconOnly ? "Copy" : _label);
         }
 
         /// <summary>Renders the component's root HTML element.</summary>

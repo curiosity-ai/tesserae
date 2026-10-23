@@ -1,5 +1,6 @@
-/* ConfirmButton: armed, it takes the theme's danger button (tss-btn-danger, set from code) and a bar drains along its foot over the time it
-   stays armed; done, it shows a check. The label swap is a width morph (tss.microinteractions.css). */
+/* ConfirmButton: armed, it takes the theme's danger button (tss-btn-danger, set from code) and a
+   bar drains along its foot over the time it stays armed; done, its label carries a check. The labels share one cell (a label stack in
+   tss.microinteractions.css), so the button keeps its width through every state. */
 .tss-btn.tss-confirmbutton {
     position: relative;
     overflow: hidden;
@@ -29,17 +30,10 @@
     pointer-events: none;
 }
 
-    .tss-btn.tss-confirmbutton.tss-confirmbutton-done::before {
-        content: "";
-        width: .9em;
-        height: .5em;
-        margin-top: -.25em;
-        border-left: 2px solid currentColor;
-        border-bottom: 2px solid currentColor;
-        transform: rotate(-45deg);
-        animation: tss-mi-pop .38s cubic-bezier(.34, 1.56, .64, 1) both;
-    }
+.tss-confirmbutton-done-label > i {
+    display: inline-block;
+}
 
-.tss-btn.tss-confirmbutton.tss-confirmbutton-done > .tss-confirmbutton-icon {
-    display: none;
+.tss-confirmbutton-done .tss-confirmbutton-done-label > i {
+    animation: tss-mi-pop .38s cubic-bezier(.34, 1.56, .64, 1) both;
 }

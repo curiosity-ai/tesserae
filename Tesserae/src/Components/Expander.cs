@@ -41,7 +41,10 @@ namespace Tesserae
             _content.id = contentId;
             _content.setAttribute("role", "region");
 
-            InnerElement = Div(Att("tss-expander"), _header, _content);
+            // The content sits in a one-row grid whose track goes from 0fr to 1fr: the browser animates the height
+            // to whatever the content measures now, so nothing is measured here and nothing goes stale when the
+            // content grows (tss.expander.css).
+            InnerElement = Div(Att("tss-expander"), _header, Div(Att("tss-expander-body"), _content));
 
             _observable = new SettableObservable<bool>();
 
@@ -250,7 +253,6 @@ namespace Tesserae
         private void UpdateExpandedState()
         {
             InnerElement.UpdateClassIf(_isExpanded, "tss-expanded");
-            _content.style.display = _isExpanded ? "block" : "none";
             _header.setAttribute("aria-expanded", _isExpanded ? "true" : "false");
         }
 

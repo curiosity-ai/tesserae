@@ -6,7 +6,8 @@ description: A button that copies text to the clipboard and confirms in place (c
 # CopyButton
 
 Copies a text and says so where the user is looking: the copy icon turns into a
-check, a label (if any) morphs to "Copied", and both turn back after a moment.
+check, a label (if any) slides to "Copied", and both turn back after a moment.
+The two labels share one grid cell, so the button keeps the width of the longer.
 The confirmation is announced to screen readers, so no toast is shown. Without a
 label it is an icon-only button named "Copy".
 

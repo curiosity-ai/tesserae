@@ -23,6 +23,7 @@ namespace Tesserae
     public sealed class AnimatedNumber : ComponentBase<AnimatedNumber, HTMLSpanElement>, IBindableComponent<double>
     {
         private readonly HTMLSpanElement            _valueSpan;
+        private readonly HTMLSpanElement            _outgoingSpan;
         private readonly SettableObservable<double> _observable;
 
         private string              _format;
@@ -43,8 +44,10 @@ namespace Tesserae
             _format     = format ?? "N0";
             _shown      = value;
             _observable = new SettableObservable<double>(value);
-            _valueSpan  = Span(Att("tss-animatednumber-value"));
-            InnerElement = Span(Att("tss-animatednumber"), _valueSpan);
+            _valueSpan    = Span(Att("tss-animatednumber-value"));
+            _outgoingSpan = Span(Att("tss-animatednumber-outgoing"));
+            _outgoingSpan.setAttribute("aria-hidden", "true");
+            InnerElement  = Span(Att("tss-animatednumber"), _valueSpan, _outgoingSpan);
             Paint(value);
         }
 
@@ -134,10 +137,15 @@ namespace Tesserae
 
             if (_style == AnimatedNumberStyle.Tick)
             {
+                // The old value leaves the way the number moved (up when it grew) while the new one arrives behind
+                // it: two class flips, the motion itself is CSS (tss.animatednumber.css).
+                _outgoingSpan.textContent = _valueSpan.textContent;
                 Paint(to);
-                var cls = to > from ? "tss-animatednumber-up" : "tss-animatednumber-down";
+                var up = to > from;
                 _valueSpan.classList.remove("tss-animatednumber-up", "tss-animatednumber-down");
-                MicroInteractionExtensions.Play(_valueSpan, cls);
+                _outgoingSpan.classList.remove("tss-animatednumber-leave-up", "tss-animatednumber-leave-down");
+                MicroInteractionExtensions.Play(_valueSpan, up ? "tss-animatednumber-up" : "tss-animatednumber-down");
+                MicroInteractionExtensions.Play(_outgoingSpan, up ? "tss-animatednumber-leave-up" : "tss-animatednumber-leave-down");
                 return;
             }
 

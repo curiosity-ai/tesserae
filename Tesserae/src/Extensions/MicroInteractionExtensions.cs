@@ -213,39 +213,43 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Animates a change to an element's width: <paramref name="change"/> runs (usually swapping a label), and the
-        /// element eases from its old width to its new one instead of snapping, the "fluid" button that grows to fit
-        /// "Copied" or "Click again to confirm". The width is released once the transition ends, so later layout is
-        /// unaffected.
+        /// Builds a stack of labels that share one grid cell: the stack is as wide as its longest label, so a button
+        /// that swaps "Remove item" for "Click again to confirm" keeps its size and nothing around it moves. Which
+        /// label shows is a class on each label (<see cref="ShowLabel"/>); the crossfade and slide are CSS
+        /// transitions in tss.microinteractions.css, so no width is measured and nothing runs per frame. The labels
+        /// are hidden from assistive technology: the owner names itself after the label it shows.
         /// </summary>
-        internal static void MorphWidth(HTMLElement element, Action change)
+        internal static HTMLElement LabelStack(params HTMLElement[] labels)
         {
-            if (!element.IsMounted() || PrefersReducedMotion)
+            var stack = UI.Span(UI.Att("tss-mi-labels"));
+            stack.setAttribute("aria-hidden", "true");
+
+            foreach (var label in labels)
             {
-                change();
-                return;
+                label.classList.add("tss-mi-label");
+                stack.appendChild(label);
             }
 
-            var from = element.getBoundingClientRect().As<DOMRect>().width;
-            element.style.width = "";
-            change();
-            var to = element.getBoundingClientRect().As<DOMRect>().width;
+            ShowLabel(stack, 0);
+            return stack;
+        }
 
-            if (Math.Abs(from - to) < 0.5) return;
+        /// <summary>
+        /// Shows the label at <paramref name="index"/> in a <see cref="LabelStack"/>. Labels before it wait to the
+        /// left and labels after it to the right, so moving forward slides the new label in from the right and the
+        /// old one out to the left, and moving back runs the other way.
+        /// </summary>
+        internal static void ShowLabel(HTMLElement stack, int index)
+        {
+            var i = 0;
 
-            element.style.width = from.ToString("0.##") + "px";
-            element.getBoundingClientRect();
-            element.classList.add("tss-mi-morph-width");
-            element.style.width = to.ToString("0.##") + "px";
-
-            var token = Script.Write<int>("({0}.tssMorphToken = ({0}.tssMorphToken | 0) + 1)", element);
-
-            window.setTimeout(_ =>
+            foreach (var child in stack.children)
             {
-                if (Script.Write<int>("({0}.tssMorphToken | 0)", element) != token) return;
-                element.classList.remove("tss-mi-morph-width");
-                element.style.width = "";
-            }, 260);
+                var label = child.As<HTMLElement>();
+                label.UpdateClassIf(i < index,  "tss-mi-label-before");
+                label.UpdateClassIf(i == index, "tss-mi-label-current");
+                i++;
+            }
         }
 
         /// <summary>

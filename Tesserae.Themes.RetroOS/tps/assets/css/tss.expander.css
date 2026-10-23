@@ -50,6 +50,13 @@ body.tss-theme-retroos .tss-expander-chevron {
     transition: none;
 }
 
+/* A window opens in one step here, as the chevron turns in one: no animated height. */
+body.tss-theme-retroos .tss-expander-body,
+body.tss-theme-retroos .tss-expander.tss-expanded > .tss-expander-body,
+body.tss-theme-retroos .tss-expander-body > .tss-expander-content {
+    transition: none;
+}
+
 body.tss-theme-retroos .tss-expander-content {
     border-top: 1px solid rgb(var(--tss-default-foreground-color-root));
 }

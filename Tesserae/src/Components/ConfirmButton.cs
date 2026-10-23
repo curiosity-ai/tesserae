@@ -14,7 +14,7 @@ namespace Tesserae
     [Transpose.Name("tss.ConfirmButton")]
     public sealed class ConfirmButton : ComponentBase<ConfirmButton, HTMLButtonElement>
     {
-        private readonly HTMLSpanElement _textSpan;
+        private readonly HTMLElement     _labels;
         private readonly HTMLSpanElement _countdown;
         private readonly HTMLSpanElement _live;
 
@@ -44,13 +44,19 @@ namespace Tesserae
             _confirmText = confirmText ?? _text;
             _doneText    = doneText;
 
-            _textSpan  = Span(Att("tss-confirmbutton-text", text: _text));
+            // The three labels share one cell, so the button is as wide as the longest and keeps that width
+            // through every state; the swap itself is a CSS transition.
+            _labels = MicroInteractionExtensions.LabelStack(
+                Span(Att(text: _text)),
+                Span(Att(text: _confirmText)),
+                Span(Att("tss-confirmbutton-done-label"), I(UIcons.Check), Span(Att(text: string.IsNullOrEmpty(_doneText) ? _text : _doneText))));
             _countdown = Span(Att("tss-confirmbutton-countdown"));
             _live      = Span(Att("tss-holdbutton-live"));
             _live.setAttribute("aria-live", "polite");
 
-            InnerElement = Button(Att("tss-btn tss-btn-default tss-confirmbutton tss-fontsize-small tss-fontweight-regular tss-default-component-margin"), _textSpan, _countdown, _live);
+            InnerElement = Button(Att("tss-btn tss-btn-default tss-confirmbutton tss-fontsize-small tss-fontweight-regular tss-default-component-margin"), _labels, _countdown, _live);
             InnerElement.type = "button";
+            InnerElement.setAttribute("aria-label", _text);
             InnerElement.style.setProperty("--tss-confirm-timeout", _timeoutMs + "ms");
 
             InnerElement.addEventListener("click", _ =>
@@ -105,12 +111,23 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>Puts an icon before the label.</summary>
+        /// <summary>
+        /// Puts an icon before the resting and armed labels. It lives inside those labels, so the confirmed label
+        /// (which carries a check instead) takes its place without changing the button's width.
+        /// </summary>
         public ConfirmButton SetIcon(UIcons icon)
         {
-            var existing = (HTMLElement)InnerElement.querySelector(".tss-confirmbutton-icon");
-            if (existing is object) existing.remove();
-            InnerElement.insertBefore(I(icon, cssClass: "tss-confirmbutton-icon"), _textSpan);
+            var i = 0;
+
+            foreach (var child in _labels.children)
+            {
+                if (i++ == 2) break;
+                var label    = child.As<HTMLElement>();
+                var existing = (HTMLElement)label.querySelector(".tss-confirmbutton-icon");
+                if (existing is object) existing.remove();
+                label.insertBefore(I(icon, cssClass: "tss-confirmbutton-icon"), label.firstChild);
+            }
+
             return this;
         }
 
@@ -135,11 +152,9 @@ namespace Tesserae
 
             if (wasIdle) return this;
 
-            SetLabel(_text, () =>
-            {
-                InnerElement.classList.remove("tss-confirmbutton-armed", "tss-confirmbutton-done");
-                SetDangerTone(false);
-            });
+            InnerElement.classList.remove("tss-confirmbutton-armed", "tss-confirmbutton-done");
+            SetDangerTone(false);
+            ShowLabel(0, _text);
             return this;
         }
 
@@ -148,11 +163,9 @@ namespace Tesserae
             _state = State.Armed;
             var generation = ++_generation;
 
-            SetLabel(_confirmText, () =>
-            {
-                InnerElement.classList.add("tss-confirmbutton-armed");
-                SetDangerTone(true);
-            });
+            InnerElement.classList.add("tss-confirmbutton-armed");
+            SetDangerTone(true);
+            ShowLabel(1, _confirmText);
             _live.textContent = _confirmText;
 
             window.clearTimeout(_timer);
@@ -169,12 +182,10 @@ namespace Tesserae
             window.clearTimeout(_timer);
 
             var label = string.IsNullOrEmpty(_doneText) ? _text : _doneText;
-            SetLabel(label, () =>
-            {
-                InnerElement.classList.remove("tss-confirmbutton-armed");
-                InnerElement.classList.add("tss-confirmbutton-done");
-                SetDangerTone(false);
-            });
+            InnerElement.classList.remove("tss-confirmbutton-armed");
+            InnerElement.classList.add("tss-confirmbutton-done");
+            SetDangerTone(false);
+            ShowLabel(2, label);
             _live.textContent = label;
 
             _confirmed?.Invoke();
@@ -206,14 +217,10 @@ namespace Tesserae
             }
         }
 
-        private void SetLabel(string text, Action alsoChange)
+        private void ShowLabel(int index, string accessibleName)
         {
-            MicroInteractionExtensions.MorphWidth(InnerElement, () =>
-            {
-                alsoChange();
-                _textSpan.textContent = text;
-            });
-            MicroInteractionExtensions.Play(_textSpan, "tss-mi-text-in");
+            MicroInteractionExtensions.ShowLabel(_labels, index);
+            InnerElement.setAttribute("aria-label", accessibleName);
         }
 
         /// <summary>Renders the component's root HTML element.</summary>
