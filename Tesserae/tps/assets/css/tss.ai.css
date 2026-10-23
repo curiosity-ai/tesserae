@@ -323,26 +323,28 @@ i.tss-icon.tss-ai {
 
 /* Spinner ------------------------------------------------------------------------------------------ */
 
-/* The default spinner is a rotating border arc, and a border takes one flat colour per side - so the AI
-   one stops being a border at all: a conic gradient masked down to a ring of the same thickness, still
-   rotated by the same animation at the same speed. --tss-spinner-size is the ring thickness in both
-   forms, so every size variant keeps working untouched.
+/* The spinner's ring is an svg stroke, which takes one flat colour - so the AI one is not the svg at
+   all: a conic gradient masked down to the same band (--tss-spinner-mask), turned by the same animation
+   at the same speed. --tss-spinner-stroke is its thickness in both forms, so every size variant keeps
+   working untouched.
 
-   The accent stays declared as --tss-spinner-color for anything else that reads it (and as the colour a
-   browser without conic-gradient falls back to drawing the border in). */
+   The accent stays declared as --tss-spinner-color for anything else that reads it. */
 .tss-spinner.tss-ai {
     --tss-spinner-color: var(--tss-ai-accent);
+    -webkit-mask: var(--tss-spinner-mask);
+    mask: var(--tss-spinner-mask);
 }
+
+    .tss-spinner.tss-ai > .tss-spinner-orbit {
+        display: none;
+    }
 
 .tss-spinner.tss-ai:not(.tss-spinner-progress) {
-    border: none;
     background: var(--tss-ai-arc);
-    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - var(--tss-spinner-size)), #000 0);
-    mask: radial-gradient(farthest-side, #0000 calc(100% - var(--tss-spinner-size)), #000 0);
+    animation: tss-spinner-animation .7s linear infinite;
 }
 
-/* The determinate form is already a conic sweep with a hard edge at the progress mark; the AI one runs
-   the gradient across the filled part instead of painting it in one colour. */
+/* The determinate form runs the gradient across the filled part, with a hard edge at the progress mark. */
 .tss-spinner.tss-ai.tss-spinner-progress {
     background: conic-gradient(from 0deg, var(--tss-ai-from), var(--tss-ai-to) calc(var(--tss-spinner-progress, 0) * 1%), var(--tss-progress-background-color) 0);
 }

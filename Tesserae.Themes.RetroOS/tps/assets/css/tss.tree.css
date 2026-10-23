@@ -91,11 +91,6 @@ body.tss-theme-retroos .tss-tree-selection-multiple .tss-tree-item-content .tss-
     color: inherit;
 }
 
-/* A loading node: the spinner turns in steps, not smoothly. */
-body.tss-theme-retroos .tss-tree-icon.fi-rr-spinner {
-    animation: tss-tree-spin 1s steps(8) infinite;
-}
-
 body.tss-theme-retroos .tss-tree-children {
     border-left: 1px dotted rgb(var(--tss-default-foreground-color-root));
 }

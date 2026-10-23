@@ -314,6 +314,25 @@ Two things that has to get right, and both were bugs before it existed:
   `Layers.CurrentZIndex` reads z-indices, so there is no counter to get out of step: an element
   removed without releasing simply stops being found.
 
+### One spinner
+
+A component that shows it is waiting draws the toolkit's spinner: `UI.Spinner()` where it wants the
+label and sizes, `Spinner.Ring()` (the bare `.tss-spinner` element, sized by a parent-scoped rule
+such as `.my-slot > .tss-spinner`) where it only wants the ring. Never a rotated `UIcons.Spinner`
+glyph, a pseudo-element copy of the ring's CSS, an svg ring of its own, or a keyframe of its own:
+each theme restyles `.tss-spinner` (RetroOS turns it in steps, Stratus opens a quarter of it), and a
+copy misses that. Plan's running step, the Tree's loading row, the Dropdown's async search and the
+button's in-place ring all used to be copies.
+
+The ring is an svg (r = 20 in a 48 box) with a faint track and a quarter arc that enters as a dot and
+stretches out. Its knobs are variables: `--tss-spinner-color`, `--tss-spinner-stroke` (thickness in
+the 48 box, so it scales with the size), `--tss-spinner-arc` (the arc's dash pattern), and
+`--tss-spinner-mask` for a form that paints the element's background instead of the svg (the AI
+gradient, RetroOS's dithered progress). The button outcome ring (`Button.CreateSpinRing`, for
+`Button.ToSpinner` and `SaveButton`) is this same ring with a check and an x on top; in place it drives
+the arc with its own transitions so an outcome can close it, and `ProgressRing.Indeterminate()` puts
+the same ring over its box at its own thickness. Nothing else in the toolkit spins.
+
 ### Scrollbars are CSS only
 
 A scrollbar is styled with CSS and nothing else: `::-webkit-scrollbar*` where the engine draws

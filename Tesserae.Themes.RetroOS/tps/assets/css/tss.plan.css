@@ -6,11 +6,10 @@
    never colour. The badge is told by its border (pending dashed, running
    inverted, completed double, failed thick, canceled dotted and struck) and
    the rail by its line (pending dotted, done solid, failed thick). The
-   running step is a dashed-framed well; the spinning glyph and the sweep turn
-   in whole steps. Bars are the Finder's copy bar: frame, ink over dither.
+   running step is a dashed-framed well; its spinner (the theme's own, from
+   tss.spinner.css) and the sweep turn in whole steps. Bars are the Finder's copy bar: frame, ink over dither.
    ========================================================================== */
 
-@keyframes tss-retroos-plan-steps { to { transform: rotate(360deg); } }
 @keyframes tss-retroos-plan-barber { from { background-position: 0 0; } to { background-position: 16px 0; } }
 
 body.tss-theme-retroos .tss-plan {
@@ -125,11 +124,6 @@ body.tss-theme-retroos .tss-plan-substep.is-canceled .tss-plan-substep-icon {
 
 body.tss-theme-retroos .tss-plan-step-icon {
     background: rgb(var(--tss-default-background-color-root));
-}
-
-body.tss-theme-retroos .is-running .tss-plan-step-icon .tss-icon,
-body.tss-theme-retroos .tss-plan-substep.is-running .tss-plan-substep-icon .tss-icon {
-    animation: tss-retroos-plan-steps 0.8s steps(8, end) infinite;
 }
 
 body.tss-theme-retroos .tss-plan-step-title,

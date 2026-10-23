@@ -198,13 +198,12 @@
     display: inline-flex;
 }
 
-    /* Sized through the parent, the way .tss-spinner-size-* is: .tss-spinner sets --tss-spinner-size on
-       itself, so a single class on the same element only ties with it and loses on source order. */
+    /* Sized through the parent, the way .tss-spinner-size-* is: .tss-spinner sets its size on itself, so
+       a single class on the same element only ties with it and loses on source order. */
     .tss-searchbox-status > .tss-spinner {
         display: none;
         width: 16px;
         height: 16px;
-        --tss-spinner-size: 2px;
     }
 
     .tss-searchbox-container.tss-searchbox-is-busy > .tss-searchbox-status > .tss-spinner {
