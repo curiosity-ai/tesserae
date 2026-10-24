@@ -28,6 +28,7 @@ states, same size. Dropping one into a laid-out page moves nothing.
 | `Badge` / `Tag` / `Chip` | `.AI()` (`BadgeTone.AI`) | Filled gradient; `.Outline()` gives tint plus accent instead. `UI.AIBadge()` is a Sparkles-led gradient pill. |
 | `Spinner` | `.AI()` | The gradient on the ring (a masked conic gradient rather than a border), and on its label. The determinate form runs it across the filled sweep. |
 | `ProgressIndicator` | `.AI()` | Bar painted with the gradient, determinate or indeterminate. |
+| `TextBox` | `.AI()` | Tint over the field and an accent edge in every state - a value a model wrote. `SpinWhileAsync` shows a spinner inside it, in the AI arc while the field is AI. |
 | `IconToggle<T>` | `.AI()` | Tinted track, accent-coloured items, the selected pill filled with the gradient. |
 | `SegmentedPivot` | `.AI()` | The same, one level up: tinted segmented track, accent tabs, gradient fill on the selected tab. |
 
@@ -118,6 +119,6 @@ when you want a gradient as a feature rather than as a marker.
 - Card — `card.md` · TextBlock — `text-block.md` · Icon — `icon.md` · Button — `button.md`
 - InlineLabel — `inline-label.md` · Skeleton — `skeleton.md` · Badge — `badge.md`
 - Spinner — `spinner.md` · ProgressIndicator — `progress-indicator.md`
-- IconToggle — `icon-toggle.md` · SegmentedPivot — `segmented-pivot.md`
+- TextBox — `text-box.md` · IconToggle — `icon-toggle.md` · SegmentedPivot — `segmented-pivot.md`
 - Gradients — `gradients.md` · Chat — `chat.md` · Tool call — `tool-call.md` · Plan — `plan.md`
 - Full docs & API: `/tesserae/ai-chat/ai-variants`

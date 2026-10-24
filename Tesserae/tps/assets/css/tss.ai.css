@@ -4,7 +4,7 @@
    Every component that can say "this was generated, or this action asks a model for something" says it
    the same way: a purple-to-blue gradient, and the Sparkles glyph where a mark is wanted. A component
    opts in by carrying `tss-ai` on the element its own stylesheet already styles, so an AI variant is a
-   handful of overrides rather than a parallel set of rules - see AI() on Card, Button, Icon, TextBlock,
+   handful of overrides rather than a parallel set of rules - see AI() on Card, Button, Icon, TextBlock, TextBox,
    InlineLabel, Skeleton, Spinner and ProgressIndicator, and BadgeTone.AI on Badge / Tag / Chip.
 
    The gradient is deliberately quiet. On a filled surface (a button, a badge) it runs between the 500
@@ -473,4 +473,26 @@ i.tss-icon.tss-ai {
 .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-scroll-left > i,
 .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-scroll-right > i {
     color: var(--tss-ai-accent);
+}
+
+/* TextBox ------------------------------------------------------------------------------------------- */
+
+/* A field holding what a model wrote: the tint over the field's own background and an accent edge, in every state.
+   Typing is not the model's, so whoever owns the field turns AI() off when the user takes over the value. */
+.tss-textbox.tss-ai {
+    background: var(--tss-ai-surface), var(--tss-default-background-color);
+    border-color: var(--tss-ai-border-color);
+}
+
+.tss-textbox.tss-ai:hover {
+    border-color: var(--tss-ai-accent);
+}
+
+.tss-textbox.tss-ai:focus {
+    border-color: var(--tss-ai-accent);
+    box-shadow: 0 0 0 3px rgba(var(--tss-colors-purple-500-root), 0.18);
+}
+
+.tss-dark-mode .tss-textbox.tss-ai:focus {
+    box-shadow: 0 0 0 3px rgba(var(--tss-colors-purple-400-root), 0.28);
 }

@@ -230,3 +230,18 @@ body.tss-theme-curiosity .tss-progressindicator.tss-ai.tss-ai-strong > .tss-prog
 body.tss-theme-curiosity .tss-progressindicator.tss-ai.tss-ai-strong > .tss-progressindicator-bar-indeterminate {
     background: var(--tss-ai-gradient);
 }
+
+/* TextBox: the Signal tint and a Signal hairline; hover and focus take the deep blue edge, focus the theme's 1px inner
+   ring in it. Restated under the theme's scope because tss.textbox.css sets the edge there. */
+body.tss-theme-curiosity .tss-textbox.tss-ai {
+    border-color: var(--tss-ai-border-color);
+}
+
+body.tss-theme-curiosity .tss-textbox.tss-ai:hover {
+    border-color: var(--tss-ai-accent);
+}
+
+body.tss-theme-curiosity .tss-textbox.tss-ai:focus {
+    border-color: var(--tss-ai-accent);
+    box-shadow: inset 0 0 0 1px var(--tss-ai-accent);
+}

@@ -21,6 +21,8 @@ A single-line text input with placeholder, read-only, password, and validation s
 - `.NoMinWidth()` — drop the default minimum width.
 - `.UnlockHeight()` — allow the input to fill its container's height.
 - `MaxLength` — property capping the character count.
+- `.AI(bool value = true, bool strongEffect = false)` / `.IsAI` — mark the field as holding what a model wrote (a generated title, a suggested value): AI tint and accent edge. Turn it off (`AI(false)`) once the user types over the value. See `ai-variants.md`.
+- `await tb.SpinWhileAsync(async () => …)` / `SpinWhileAsync<T>(…)` — a spinner inside the field, at its end, while the call runs; gone when it finishes or throws (the exception propagates). The text box's version of `Button.OnClickSpinWhile`. Overlapping calls share one spinner; the field stays editable; the spinner takes the AI arc while the field is `AI()`. `.IsSpinning` reads it.
 
 Validation / errors (inherited from `Input`):
 
@@ -39,6 +41,15 @@ var stack = Stack().Children(
     TextBox().Password(),
     TextBox().Validation(tb => tb.Text.Length == 0 ? "Required" : null)
 );
+
+// A value a model suggests: spin inside the field while it is fetched, mark it AI, and drop the mark once the user types.
+var title = TextBox().SetPlaceholder("Suggested from the description");
+
+var suggestion = await title.SpinWhileAsync(() => SuggestTitleAsync(description.Text));
+title.Text = suggestion;
+title.AI();
+
+title.OnInput((s, e) => { if (e is object) s.AI(false); });   // Text = … raises OnInput with no event
 ```
 
 ## Related

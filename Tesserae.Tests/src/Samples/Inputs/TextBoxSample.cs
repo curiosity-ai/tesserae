@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -12,6 +13,24 @@ namespace Tesserae.Tests.Samples
 
         public TextBoxSample()
         {
+            //SpinWhileAsync shows a spinner inside the field while the call runs; the value it fills in is the model's, so
+            //it is marked AI() until the user types over it.
+            var suggested = TextBox().SetPlaceholder("Click Suggest, or type your own");
+            var suggest   = Button("Suggest").AISubtle();
+
+            suggest.OnClickSpinWhile(() => suggested.SpinWhileAsync(async () =>
+            {
+                await Task.Delay(1500);
+                suggested.Text = "Weekly digest of open support tickets";
+                suggested.AI();
+            }));
+
+            suggested.OnInput((s, e) =>
+            {
+                //Setting Text raises OnInput with no event; only a keystroke takes the value over.
+                if (e is object) s.AI(false);
+            });
+
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(TextBoxSample), UIcons.Text, "A control to input text")
                .FlatSection(Stack().Children(
@@ -48,6 +67,11 @@ namespace Tesserae.Tests.Samples
                         TextBox().SetPlaceholder("Small").Rounded(BorderRadius.Small),
                         TextBox().SetPlaceholder("Medium").Rounded(BorderRadius.Medium),
                         TextBox().SetPlaceholder("Full").Rounded(BorderRadius.Full)
+                    ),
+                    SampleSubTitle("AI and Loading"),
+                    VStack().Children(
+                        Label("Generated").SetContent(TextBox("Quarterly revenue summary for the EMEA region").AI()),
+                        Label("Suggested title").SetContent(HStack().WS().AlignItemsCenter().Children(suggested.W(10).Grow(), suggest.ML(8)))
                     )
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(TextAreaSample), typeof(AutoCompleteBoxSample), typeof(SearchBoxSample), typeof(NumberPickerSample), typeof(ValidatorSample), typeof(LabelSample));
