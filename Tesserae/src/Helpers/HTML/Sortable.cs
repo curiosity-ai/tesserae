@@ -28,6 +28,16 @@ namespace Tesserae
             get => Script.Write<bool>("{0}.option('disabled')", _sortable);
             set => Script.Write("{0}.option('disabled', {1})", _sortable, value);
         }
+
+        /// <summary>
+        /// Replaces the sortable's group with one that says whether items may be dragged out of it (<paramref name="pull"/>)
+        /// and dropped into it (<paramref name="put"/>) - the object form of Sortable's <c>group</c> option, which the string
+        /// <see cref="SortableOptions.group"/> cannot express.
+        /// </summary>
+        public void SetGroup(string name, bool pull, bool put)
+        {
+            Script.Write("{0}.option('group', { name: {1}, pull: {2}, put: {3} })", _sortable, name, pull, put);
+        }
     }
 
     [ObjectLiteral]

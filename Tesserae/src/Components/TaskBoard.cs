@@ -18,6 +18,8 @@ namespace Tesserae
         private bool _isRowMode = false;
         private readonly Sortable _sortable;
         private bool _isReadOnly = false;
+        private bool _reorderColumns = true;
+        private bool _stretchColumns = false;
         private Action<SortableEvent> _onColumnDrop;
         private Action<SortableEvent> _onColumnUpdate;
 
@@ -72,7 +74,7 @@ namespace Tesserae
             _columns.Add(column);
             _stack.Add(column);
             column.IsReadOnly = _isReadOnly;
-            if (_isRowMode) column.RowMode(true);
+            column.Layout(_isRowMode, _stretchColumns);
             return this;
         }
 
@@ -96,11 +98,38 @@ namespace Tesserae
         public TaskBoard ReadOnly(bool isReadOnly = true)
         {
             _isReadOnly = isReadOnly;
-            _sortable.Disabled = isReadOnly;
+            _sortable.Disabled = isReadOnly || !_reorderColumns;
             foreach (var col in _columns)
             {
                 col.IsReadOnly = isReadOnly;
             }
+            return this;
+        }
+
+        /// <summary>
+        /// Whether the columns themselves can be dragged into another order (on by default). Turn it off for a board whose
+        /// columns are a fixed workflow; the cards still move between them.
+        /// </summary>
+        public TaskBoard ReorderColumns(bool reorderColumns = true)
+        {
+            _reorderColumns = reorderColumns;
+            _sortable.Disabled = _isReadOnly || !reorderColumns;
+            return this;
+        }
+
+        /// <summary>
+        /// Makes the columns share the board's width instead of each being 300px wide, down to 220px each before the board
+        /// scrolls - so a board with a handful of columns shows all of them. Has no effect in <see cref="RowMode"/>.
+        /// </summary>
+        public TaskBoard StretchColumns(bool stretchColumns = true)
+        {
+            _stretchColumns = stretchColumns;
+
+            foreach (var col in _columns)
+            {
+                col.Layout(_isRowMode, stretchColumns);
+            }
+
             return this;
         }
 
@@ -143,7 +172,7 @@ namespace Tesserae
 
             foreach (var col in _columns)
             {
-                col.RowMode(isRowMode);
+                col.Layout(isRowMode, _stretchColumns);
             }
             return this;
         }
@@ -162,6 +191,7 @@ namespace Tesserae
         private readonly Stack _cardsContainer;
         private readonly List<TaskBoardCard> _cards = new List<TaskBoardCard>();
         private readonly TextBlock _titleText;
+        private readonly Stack _headerCommands;
         private string _groupName;
         private readonly Sortable _sortable;
         private bool _isReadOnly = false;
@@ -179,7 +209,9 @@ namespace Tesserae
             _titleText = TextBlock(title).SemiBold();
 
             _headerStack = Stack().Horizontal().AlignItemsCenter().JustifyContent(ItemJustify.Between).Padding("8px");
+            _headerCommands = Stack().Horizontal().AlignItemsCenter().Gap(4.px());
             _headerStack.Add(_titleText);
+            _headerStack.Add(_headerCommands);
 
             _cardsContainer = Stack().Vertical().Padding("4px").Class("tss-taskboard-cards-container");
             _cardsContainer.Style(s =>
@@ -207,6 +239,9 @@ namespace Tesserae
                 animation = 150,
                 group = _groupName,
                 ghostClass = "tss-taskboard-card-ghost",
+                //A locked card stays where it is; preventOnFilter is off so a click on it still reaches its own handlers.
+                filter = "." + TaskBoardCard.LockedClass,
+                preventOnFilter = false,
                 onEnd = (e) =>
                 {
                     _onCardDrop?.Invoke(e);
@@ -241,6 +276,33 @@ namespace Tesserae
                 //column whose cards can't be dragged doesn't offer a hand for it.
                 _container.UpdateClassIf(value, "tss-taskboard-column-readonly");
             }
+        }
+
+        /// <summary>
+        /// Whether a card dragged from another column of the same group may be dropped here. A column that refuses drops
+        /// still lets its own cards be reordered and dragged out, unless they are <see cref="TaskBoardCard.Locked"/>.
+        /// </summary>
+        public TaskBoardColumn AcceptDrops(bool acceptDrops = true)
+        {
+            _sortable.SetGroup(_groupName, pull: true, put: acceptDrops);
+            _container.UpdateClassIf(!acceptDrops, "tss-taskboard-column-no-drops");
+            return this;
+        }
+
+        /// <summary>
+        /// Places components on the right of the column's header, beside its title - a count, a badge, an add button.
+        /// Replaces whatever was there.
+        /// </summary>
+        public TaskBoardColumn HeaderCommands(params IComponent[] commands)
+        {
+            _headerCommands.Clear();
+
+            foreach (var command in commands)
+            {
+                _headerCommands.Add(command);
+            }
+
+            return this;
         }
 
         /// <summary>
@@ -303,12 +365,13 @@ namespace Tesserae
             return this;
         }
 
-        internal void RowMode(bool isRowMode)
+        internal void Layout(bool isRowMode, bool stretch)
         {
             if (isRowMode)
             {
                 _container.style.width = "100%";
                 _container.style.minWidth = "";
+                _container.style.flex = "";
                 _container.style.height = "auto";
                 _container.style.maxHeight = "none";
                 _container.style.flexShrink = "0";
@@ -319,8 +382,9 @@ namespace Tesserae
             }
             else
             {
-                _container.style.width = "300px";
-                _container.style.minWidth = "";
+                _container.style.width = stretch ? "auto" : "300px";
+                _container.style.minWidth = stretch ? "220px" : "";
+                _container.style.flex = stretch ? "1 1 0" : "";
                 _container.style.height = "calc(100% - 16px)";
                 _container.style.maxHeight = "100%";
                 _container.style.flexShrink = "0";
@@ -340,6 +404,8 @@ namespace Tesserae
     [Transpose.Name("tss.TaskBoardCard")]
     public class TaskBoardCard : IComponent
     {
+        internal const string LockedClass = "tss-taskboard-card-locked";
+
         private readonly HTMLElement _container;
         private readonly Stack _layout;
         private HTMLElement _header;
@@ -364,6 +430,21 @@ namespace Tesserae
                 s.flexDirection = "column";
             }), _layout.Render());
         }
+
+        /// <summary>
+        /// Keeps the card where it is: it cannot be dragged to another place or column, while its own content stays
+        /// clickable. The other cards of its column can still be dragged around it.
+        /// </summary>
+        public TaskBoardCard Locked(bool isLocked = true)
+        {
+            _container.UpdateClassIf(isLocked, LockedClass);
+            return this;
+        }
+
+        /// <summary>
+        /// Returns whether the card is <see cref="Locked"/>.
+        /// </summary>
+        public bool IsLocked => _container.classList.contains(LockedClass);
 
         /// <summary>
         /// Configures the component to header.
