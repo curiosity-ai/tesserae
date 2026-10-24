@@ -157,3 +157,8 @@ body.tss-theme-retroos .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-se
     color: rgb(var(--tss-default-background-color-root));
     box-shadow: none;
 }
+
+/* TextBox: AI is a shape here, not a colour - the paper field with the heavy left edge an AI surface has. */
+body.tss-theme-retroos .tss-textbox.tss-ai {
+    border-left-width: 4px;
+}

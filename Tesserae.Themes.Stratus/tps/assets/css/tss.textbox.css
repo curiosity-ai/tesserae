@@ -111,3 +111,21 @@ body.tss-theme-stratus .tss-textblock table th {
     color: var(--tss-default-foreground-color);
     font-weight: var(--tss-font-weight-bold);
 }
+
+/* AI (TextBox.AI): the AI tint over the filled field and the bottom rule in the accent; focus keeps the theme's ring. */
+body.tss-theme-stratus .tss-textbox.tss-ai,
+body.tss-theme-stratus .tss-textbox.tss-ai:hover {
+    background: var(--tss-ai-surface), var(--tss-str-fill);
+    box-shadow: 0 1px 0 0 var(--tss-ai-accent);
+}
+
+body.tss-theme-stratus .tss-textbox.tss-ai:focus,
+body.tss-theme-stratus .tss-textbox.tss-ai:focus-visible {
+    background: var(--tss-ai-surface), var(--tss-default-background-active-color);
+    box-shadow: 0 0 0 3px var(--tss-str-focus);
+}
+
+/* The field is 40px tall here, so the spinner's box is too. */
+body.tss-theme-stratus .tss-textbox-spinner {
+    height: 40px;
+}

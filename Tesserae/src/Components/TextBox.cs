@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
+using static Tesserae.UI;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
@@ -198,6 +201,99 @@ namespace Tesserae
         {
             InnerElement.classList.add("tss-textbox-h100");
             return this;
+        }
+
+        /// <summary>
+        /// Marks the text box as holding what a model wrote - a generated title, a suggested value: the field takes the AI
+        /// tint and an accent edge, and a spinner shown by <see cref="SpinWhileAsync(Func{Task})"/> takes the AI arc. Turn it
+        /// off again (<c>AI(false)</c>) when the value stops being the model's, e.g. once the user types over it.
+        /// </summary>
+        /// <param name="value">Whether the AI look is on.</param>
+        /// <param name="strongEffect">Asks for the louder form of the AI styling (<c>tss-ai-strong</c>); see the ai-variants reference.</param>
+        public TextBox AI(bool value = true, bool strongEffect = false)
+        {
+            InnerElement.UpdateClassIf(value, "tss-ai");
+            InnerElement.UpdateClassIf(value && strongEffect, "tss-ai-strong");
+            return this;
+        }
+
+        /// <summary>Whether <see cref="AI"/> is on.</summary>
+        public bool IsAI => InnerElement.classList.contains("tss-ai");
+
+        private int         _spinning;
+        private HTMLElement _spinnerHost;
+
+        /// <summary>
+        /// Shows a spinner inside the text box, at its end, while <paramref name="action"/> runs - the text box's
+        /// equivalent of <see cref="Button.OnClickSpinWhile(Func{Task}, string, Action{Button, Exception})"/>. The spinner
+        /// goes when the action ends, whether it finished or threw (the exception is not swallowed). Overlapping calls
+        /// share one spinner, which stays until the last of them ends. The field stays editable meanwhile.
+        /// </summary>
+        public async Task SpinWhileAsync(Func<Task> action)
+        {
+            StartSpinner();
+
+            try
+            {
+                await action();
+            }
+            finally
+            {
+                StopSpinner();
+            }
+        }
+
+        /// <summary>
+        /// <see cref="SpinWhileAsync(Func{Task})"/> for an action with a result, which is handed back.
+        /// </summary>
+        public async Task<T> SpinWhileAsync<T>(Func<Task<T>> action)
+        {
+            StartSpinner();
+
+            try
+            {
+                return await action();
+            }
+            finally
+            {
+                StopSpinner();
+            }
+        }
+
+        /// <summary>Whether a <see cref="SpinWhileAsync(Func{Task})"/> action is running.</summary>
+        public bool IsSpinning => _spinning > 0;
+
+        private void StartSpinner()
+        {
+            _spinning++;
+
+            if (_spinning > 1) return;
+
+            //Built per spin rather than kept, so it takes the AI arc only while the field is AI.
+            var spinner = Spinner().XSmall();
+
+            if (IsAI) spinner.AI();
+
+            _spinnerHost = Div(Att("tss-textbox-spinner"), spinner.Render());
+
+            var container = Render();
+
+            container.appendChild(_spinnerHost);
+            container.classList.add("tss-textbox-spinning");
+        }
+
+        private void StopSpinner()
+        {
+            if (_spinning == 0) return;
+
+            _spinning--;
+
+            if (_spinning > 0) return;
+
+            _spinnerHost?.remove();
+            _spinnerHost = null;
+
+            Render().classList.remove("tss-textbox-spinning");
         }
     }
 }

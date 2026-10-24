@@ -100,6 +100,27 @@
     height: 100%;
 }
 
+/* TextBox.SpinWhileAsync: a spinner at the end of the field while an async call runs. It sits over the input's own
+   box (the container also holds the message line below it, so it is the input's height, not the container's), takes
+   no clicks so the field stays usable, and the input makes room for it so text never runs under it. */
+.tss-textbox-spinner {
+    position: absolute;
+    top: 0;
+    right: 12px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+
+.tss-textbox-container:has(> .tss-textbox-h100) > .tss-textbox-spinner {
+    height: 100%;
+}
+
+.tss-textbox-container.tss-textbox-spinning > .tss-textbox {
+    padding-right: 36px;
+}
+
 .tss-textbox-container.tss-rounded-md .tss-textbox {
     padding: 0px 8px;
 }
