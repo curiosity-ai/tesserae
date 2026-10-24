@@ -53,9 +53,14 @@ namespace Tesserae.Tests.Samples
                                     Avatar(initials: "MW").Size(AvatarSize.XSmall)
                                 )),
                             TaskBoardCard(TextBlock("Add Playwright tests"))
-                                .Header(Badge("Testing").Success())
+                                .Header(Badge("Testing").Success()),
+                            TaskBoardCard(TextBlock("Migrate the build agents - locked, it stays where it is"))
+                                .Header(Badge("Locked").Warning())
+                                .Locked()
                         ),
                     TaskBoardColumn("Done")
+                        .HeaderCommands(Badge("no drops"))
+                        .AcceptDrops(false)
                         .OnCardAdd(e => console.log("Card added to Done"))
                         .OnCardRemove(e => console.log("Card removed from Done"))
                         .OnCardDrop(e => console.log("Card dropped in Done"))
@@ -77,13 +82,14 @@ namespace Tesserae.Tests.Samples
             toggle.AsObservable().Observe(isRowMode => board.RowMode(isRowMode));
 
             var readOnlyToggle = Toggle("Read Only").OnChange((s, e) => board.ReadOnly(s.IsChecked));
+            var stretchToggle  = Toggle("Stretch Columns").OnChange((s, e) => board.StretchColumns(s.IsChecked));
 
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(TaskBoardSample), UIcons.ClipboardList, "A board for managing tasks")
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("TaskBoard provides a Trello-like interface with draggable columns and cards. Use it for Kanban boards and task management."),
-                    HStack().Children(toggle, readOnlyToggle),
+                    HStack().Children(toggle, readOnlyToggle, stretchToggle),
                     board.Height(600.px())
                )).SetTitle("Overview")))
                .SeeAlso(typeof(CardSample), typeof(PlanSample), typeof(DetailsListSample), typeof(GesturesSample), typeof(StackSample));

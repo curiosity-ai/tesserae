@@ -12,3 +12,7 @@
 .tss-taskboard-column-readonly .tss-taskboard-card {
     cursor: default;
 }
+
+.tss-taskboard-card.tss-taskboard-card-locked {
+    cursor: default;
+}
