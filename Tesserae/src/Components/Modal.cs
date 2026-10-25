@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
+using static TNT.T;
 
 namespace Tesserae
 {
@@ -105,7 +106,7 @@ namespace Tesserae
                 _modalHeader.style.display = "none";
             }
 
-            _closeButton = UI.Button(Att($"tss-modal-button", el: el => el.onclick = e => Hide()), I(Att("tss-fontsize-small " + UIcons.Cross.ToCssClass())));
+            _closeButton = UI.Button(Att($"tss-modal-button", type: "button", ariaLabel: "Close".t(), el: el => el.onclick = e => Hide()), I(Att("tss-fontsize-small " + UIcons.Cross.ToCssClass())));
             _modalHeaderCommands.appendChild(_closeButton);
 
             _modalContent = Div(Att("tss-modal-content"));
@@ -116,8 +117,10 @@ namespace Tesserae
             IsNonBlocking = false; //blocking by default
 
             // 2020-05-01 DWR: In order to pick up key press events, we need to set the InnerElement on the base class before calling AttachKeys AND we need to give the container a tabindex value, otherwise it's not focusable and can't pick up key
+            // -1 rather than 0: the box takes the focus as it opens (DoShow), but it is not a Tab stop of its own - with 0
+            // the focus trap cycled through the whole dialog as one more stop between its last control and its first.
             InnerElement    = _modal;
-            _modal.tabIndex = 0;
+            _modal.tabIndex = -1;
             AttachKeys();
 
             // Look for [Esc] presses and hide the modal if one occurs - note that we don't know at this point whether this modal will have a close button (or be considered "light dismiss"-applicable, which is where clicking outside the modal can close the modal
@@ -619,6 +622,8 @@ namespace Tesserae
             _modal.classList.add("tss-modal-in-drawer");
             _drawer.Content = Raw(_modal);
 
+            RememberFocus(_modal);
+
             _shownInDrawer = true;
             _drawer.Show();
             _modal.focus();
@@ -642,6 +647,7 @@ namespace Tesserae
 
             _modal.style.transform = "translate(0px,0px)";
             if (AnimateOnShow) _modal.classList.add("tss-modal-animate");
+            RememberFocus(_modal);
             base.Show();
             _modal.focus(); // 2020-05-01 DWR: We need to put focus into the modal container in order to pick up keypresses
             _observable.Value = true;
@@ -693,12 +699,17 @@ namespace Tesserae
                 _shownInDrawer    = false;
                 _observable.Value = false;
                 RaiseOnHide();
+                RestoreFocus(_modal);
                 _drawer.Hide(onHidden);
                 return;
             }
 
             RaiseOnHide();
             _observable.Value = false;
+
+            // Back to whatever had the focus when the modal opened (the button that opened it, usually), while the
+            // focus is still inside: once the fade removes the modal the browser drops it on the body.
+            RestoreFocus(_modal);
 
             base.Hide(onHidden);
         }

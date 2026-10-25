@@ -82,6 +82,9 @@ namespace Tesserae
         private static bool           _truncated;
         private static Action<Event>  _onKeyDown;
 
+        // What had the focus when the first sheet opened, handed back once the last one has closed.
+        private static HTMLElement    _focusBeforeOpen;
+
         // The sheets behind are sized to the sheet in front, so its size is watched for as long as it is
         // the front one - it can still be loading its content when it is pushed, and it can follow the window.
         private static ResizeObserver _frontObserver;
@@ -342,6 +345,9 @@ namespace Tesserae
         {
             if (_root is object && _root.IsMounted()) return;
 
+            var active = document.activeElement as HTMLElement;
+            _focusBeforeOpen = active is object && active != document.body ? active : null;
+
             _scrim  = Div(Att("tss-modalstack-scrim"));
             _trail  = Div(Att("tss-modalstack-trail"));
             _sheets = Div(Att("tss-modalstack-sheets"));
@@ -400,7 +406,15 @@ namespace Tesserae
 
             Layers.ReleasePageScroll(_root);
 
+            // Closing the last sheet took the focus with it, to the body; a keyboard user goes back to where they
+            // opened the deck from. Not when something else took the focus on purpose meanwhile.
+            var active  = document.activeElement as HTMLElement;
+            var restore = _focusBeforeOpen;
+            _focusBeforeOpen = null;
+
             if (_root.parentElement is object) _root.parentElement.removeChild(_root);
+
+            if (restore is object && restore.isConnected && (active is null || active == document.body || _root.contains(active))) restore.focus();
 
             _root   = null;
             _scrim  = null;

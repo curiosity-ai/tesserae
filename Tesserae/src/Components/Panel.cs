@@ -2,6 +2,7 @@
 using System;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
+using static TNT.T;
 
 namespace Tesserae
 {
@@ -41,11 +42,12 @@ namespace Tesserae
 
             _panelTitle = Div(Att("tss-panel-title"));
 
-            _closeButton  = Button(Att($"tss-panel-command-button", el: el => el.onclick = (e) => Hide()), I(Att("tss-fontsize-small " + UIcons.Cross.ToCssClass())));
+            _closeButton  = Button(Att($"tss-panel-command-button", type: "button", ariaLabel: "Close".t(), el: el => el.onclick = (e) => Hide()), I(Att("tss-fontsize-small " + UIcons.Cross.ToCssClass())));
             _panelCommand = Div(Att("tss-panel-command"), _panelTitle, _closeButton);
             _panelContent = Div(Att("tss-panel-content"));
             _panelFooter  = Div(Att("tss-panel-footer"));
-            _panel        = Div(Att("tss-panel tss-panelSize-small tss-panelSide-far"), _panelCommand, Div(Att("tss-panel-inner"), _panelContent, _panelFooter));
+            _panel        = Div(Att("tss-panel tss-panelSize-small tss-panelSide-far", role: "dialog"), _panelCommand, Div(Att("tss-panel-inner"), _panelContent, _panelFooter));
+            _panel.tabIndex = -1; //Takes the focus as it opens when there is nothing inside to give it to, never a Tab stop
             _panelOverlay = Div(Att("tss-panel-overlay"));
             _contentHtml  = Div(Att("tss-panel-container"), _panelOverlay, _panel);
 
@@ -211,7 +213,15 @@ namespace Tesserae
 
         protected override HTMLElement BuildRenderedContent()
         {
-            return new FocusTrap(_contentHtml).Render();
+            var trap = new FocusTrap(_contentHtml);
+
+            // Escape does what the close button does, so only when there is one to do it.
+            trap.TrapEscape(() =>
+            {
+                if (ShowCloseButton) Hide();
+            });
+
+            return trap.Render();
         }
 
         /// <summary>
@@ -230,8 +240,15 @@ namespace Tesserae
                 _panel.classList.remove("tss-panel-near-animate");
             }
 
+            RememberFocus(_panel);
+
             var result = base.Show();
             _observable.Value = true;
+
+            // Opened from the keyboard, the focus would otherwise stay on the trigger behind the overlay, outside
+            // the trap. The first control inside takes it (the close button, usually) or the panel itself.
+            FocusInto();
+
             return result;
         }
 
@@ -251,6 +268,8 @@ namespace Tesserae
         {
             HidePanel?.Invoke(this);
             _observable.Value = false;
+
+            RestoreFocus(_panel);
 
             base.Hide(onHidden);
         }
@@ -274,6 +293,26 @@ namespace Tesserae
                 if (IsVisible) Hide();
             }
         }
+        private void FocusInto()
+        {
+            if (!IsVisible || _panel.contains(document.activeElement)) return;
+
+            var candidates = _panel.querySelectorAll("a[href], button, textarea, input, select, [tabindex]");
+
+            for (uint i = 0; i < candidates.length; i++)
+            {
+                var element = (HTMLElement)candidates[i];
+
+                if (element == _panel || element.tabIndex < 0 || element.hasAttribute("disabled")) continue;
+                if (element.getClientRects().As<DOMRectList>().length == 0) continue;
+
+                element.focus();
+                return;
+            }
+
+            _panel.focus();
+        }
+
         private void OnCloseClick(object ev)
         {
             Hide();

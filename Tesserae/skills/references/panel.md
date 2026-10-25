@@ -24,6 +24,13 @@ scope with `using static Tesserae.UI;`.
 - `.Dark()` / `.HideCloseButton()`.
 - `.Show()` / `.Hide(Action onHidden = null)` / `.OnHide(...)`.
 
+## Keyboard and focus
+
+- Opening moves the focus into the panel (its first control, usually the close button, which is
+  named "Close"; else the panel itself) and Tab stays inside it.
+- Escape closes the panel while it shows a close button; on close the focus returns to the element
+  that had it when the panel opened.
+
 ## Example
 
 ```csharp
