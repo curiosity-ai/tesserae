@@ -14,7 +14,8 @@ body.tss-theme-rechenwerk .tss-pivotselector > .tss-stack > .tss-dropdown-contai
 }
 
 body.tss-theme-rechenwerk .tss-pivotselector > .tss-stack > .tss-dropdown-container > .tss-dropdown > span,
-body.tss-theme-rechenwerk .tss-pivotselector > .tss-stack > .tss-dropdown-container > .tss-dropdown .tss-dropdown-item-on-box {
+body.tss-theme-rechenwerk .tss-pivotselector > .tss-stack > .tss-dropdown-container > .tss-dropdown .tss-dropdown-item-on-box,
+body.tss-theme-rechenwerk .tss-pivotselector > .tss-stack > .tss-dropdown-container > .tss-dropdown .tss-dropdown-item-on-box .tss-btn {
     font-size: 12px;
     font-weight: 600;
     letter-spacing: var(--tss-rw-tracking);

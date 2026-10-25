@@ -409,6 +409,13 @@ body.tss-theme-rechenwerk :focus-visible {
     outline-offset: 2px;
 }
 
+/* A text field shows focus as its own hard shadow (tss.textbox.css): no outline on top of it. Checkboxes,
+   radios and range inputs keep the outline, which is their only focus mark. */
+body.tss-theme-rechenwerk input:not([type=checkbox]):not([type=radio]):not([type=range]):focus-visible,
+body.tss-theme-rechenwerk textarea:focus-visible {
+    outline: none;
+}
+
 body.tss-theme-rechenwerk.tss-dark-mode :focus-visible,
 body.tss-theme-rechenwerk .tss-sidebar :focus-visible {
     outline-color: rgb(244, 194, 13);

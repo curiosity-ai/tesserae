@@ -351,9 +351,20 @@ body.tss-theme-rechenwerk .tss-omnibox-container .tss-omnibox-footer .tss-btn.ts
     font-size: 11px;
 }
 
-body.tss-theme-rechenwerk .tss-omnibox-container .tss-omnibox-search-container .tss-btn.tss-omnibox-ask-ai-btn {
-    height: calc(100% - 10px);
-    margin: 0 7px 0 4px;
+/* Inside the line the key stands on a 2px shadow, so it fits the 36px box with room round it. */
+body.tss-theme-rechenwerk .tss-omnibox-container .tss-omnibox-search-container .tss-btn.tss-omnibox-ask-ai-btn:not(.tss-disabled) {
+    height: calc(100% - 12px);
+    margin: 0 8px 0 6px;
+    box-shadow: 2px 2px 0 0 rgb(17, 17, 17);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-omnibox-container .tss-omnibox-search-container .tss-btn.tss-omnibox-ask-ai-btn:not(.tss-disabled) {
+    box-shadow: 2px 2px 0 0 rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container .tss-omnibox-search-container .tss-btn.tss-omnibox-ask-ai-btn:not(.tss-disabled):active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
 }
 
 body.tss-theme-rechenwerk .tss-btn.tss-omnibox-model-selector-btn,

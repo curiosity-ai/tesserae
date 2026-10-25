@@ -216,6 +216,12 @@ body.tss-theme-rechenwerk .tss-toolsused-modal-title {
     text-transform: uppercase;
 }
 
+/* On the detail pane the list's title is emptied but stays in the row, taking half of it from the
+   call's name: an empty one gives its room back. */
+body.tss-theme-rechenwerk .tss-toolsused-modal-title:empty {
+    display: none;
+}
+
 body.tss-theme-rechenwerk .tss-toolsused-modal-detail-title {
     font-size: 13px;
     font-weight: 700;
