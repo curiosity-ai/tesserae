@@ -225,8 +225,39 @@ namespace Tesserae
             }
         }
 
-        private void AfterShown()
+        // A menu button opened with Enter or Space hands the focus to the first item (the WAI-ARIA menu button
+        // pattern); opened with the pointer it waits for an arrow key, as it always has. Which of the two it was
+        // is read off the focus the menu is opening from, since the click that opens it does not reach here:
+        // the browser shows :focus-visible on it only when the user is driving it from the keyboard. A field
+        // being typed in always matches :focus-visible, and a menu shown under it (suggestions) must not take
+        // the caret away, so text entry never counts.
+        private static bool IsOpeningFromKeyboard()
         {
+            var active = document.activeElement as HTMLElement;
+
+            if (active is null || active == document.body) return false;
+            if (active.isContentEditable || active is HTMLTextAreaElement || active is HTMLSelectElement) return false;
+            if (active is HTMLInputElement input && input.type != "button" && input.type != "checkbox" && input.type != "radio" && input.type != "submit" && input.type != "reset") return false;
+
+            try
+            {
+                return active.matches(":focus-visible");
+            }
+            catch
+            {
+                return false; //An engine without :focus-visible: behave as before
+            }
+        }
+
+        private void AfterShown(bool fromKeyboard = false)
+        {
+            if (fromKeyboard)
+            {
+                FocusFirstRow();
+                if (_contentHtml.classList.contains("tss-no-focus")) _contentHtml.classList.remove("tss-no-focus");
+                _popup.classList.remove("tss-no-focus");
+            }
+
             window.setTimeout((e) =>
             {
                 // Hidden again within the delay (two quick right-clicks, a submenu the pointer passed over):
@@ -243,6 +274,9 @@ namespace Tesserae
         public void ShowAt(int x, int y, int minWidth)
         {
             EnsureRootPopup();
+
+            var fromKeyboard = IsOpeningFromKeyboard();
+            RememberFocus(_contentHtml);
 
             _popup.style.height = "unset";
             _popup.style.left   = "-1000px";
@@ -307,7 +341,7 @@ namespace Tesserae
                 }
             }
 
-            AfterShown();
+            AfterShown(fromKeyboard);
         }
 
         /// <summary>
@@ -316,6 +350,9 @@ namespace Tesserae
         public void ShowFor(HTMLElement element, int distanceX = 1, int distanceY = 1)
         {
             EnsureRootPopup();
+
+            var fromKeyboard = IsOpeningFromKeyboard();
+            RememberFocus(_contentHtml);
 
             _popup.style.height = "unset";
             _popup.style.left   = "-1000px";
@@ -385,7 +422,7 @@ namespace Tesserae
                 }
             }
 
-            AfterShown();
+            AfterShown(fromKeyboard);
         }
 
         // Opens this menu beside the row of another menu that it belongs to. Beside means touching the
@@ -565,6 +602,11 @@ namespace Tesserae
             CancelPendingMenuItemActivations();
             window.removeEventListener("mousemove", _onWindowMouseMoveAction);
             document.removeEventListener("keydown", _onPopupKeyDownAction);
+
+            // Escape, an item chosen, a click outside: the focus goes back to the menu button (or wherever it was
+            // when the menu opened) rather than to the body once the popup is gone. A submenu remembers nothing,
+            // its parent row takes the focus back in CloseSubMenuToParent.
+            RestoreFocus(_contentHtml);
 
             base.Hide(() => { _onHide?.Invoke(); onHidden?.Invoke(); });
 
