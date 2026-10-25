@@ -186,9 +186,9 @@ What makes it work, and what to keep when touching it:
 - **A skeuomorphic theme: `Tesserae.Themes.Weniger`** ([Tesserae.Themes.Weniger/](Tesserae.Themes.Weniger/)), after
   the West German industrial design of the 1950s to 80s (*Weniger, aber besser*; an homage, named after the motto
   rather than any manufacturer). Warm light-grey plastic with a hairline groove inside every panel (a negative
-  `outline-offset`), brushed and turned aluminium for knobs, toggle thumbs, slider caps and the sidebar plate, buttons as flat
-  caps in a dark socket standing off the panel on a soft shadow (the cap is a rounder `::before` than the tight-cornered
-  socket, bevelled in its own colour), recessed wells for fields, signal orange as the one accent, green and orange LED lamps, and
+  `outline-offset`), brushed and turned aluminium for knobs, toggle thumbs, slider caps and the sidebar plate, buttons as
+  extruded slabs with their side wall showing, a shade darker of the key's own colour (OKLCH), pushed in when pressed,
+  recessed wells for fields, signal orange as the one accent, green and orange LED lamps, and
   metrics on a grey-green LCD in 7-segment figures. Dark mode is the charcoal edition. Root class `tss-theme-weniger`,
   tokens `--tss-wg-*` in its `tss.common.css` (materials, depths, lamps, LCD), Hanken Grotesk / DSEG7 and DSEG14 /
   JetBrains Mono bundled (OFL). Its README lists the design rules every stylesheet follows. Picked in the gallery's

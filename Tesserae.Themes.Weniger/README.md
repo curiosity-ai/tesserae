@@ -6,8 +6,8 @@ design of the 1950s to 80s: the radios, record players, pocket calculators and c
 manufacturer, and uses none of their names, logos or lettering.)
 
 Every surface is a moulded part. Warm light-grey plastic lit from above, with a hairline groove set in from the edge
-of each panel; turned and brushed aluminium for knobs, thumbs and caps; flat key caps set in a dark socket that
-stand off the panel on a soft shadow and go down when pressed; fields that are recessed wells; numbers that read off a grey-green LCD. One colour is allowed to speak:
+of each panel; turned and brushed aluminium for knobs, thumbs and caps; keys that are thick slabs of plastic with
+their side wall showing, pushed in when pressed; fields that are recessed wells; numbers that read off a grey-green LCD. One colour is allowed to speak:
 signal orange, for the control that matters. A green LED says "on". Dark mode (`UI.Theme.Dark()`) is the charcoal
 edition of the same devices: graphite plastic, gunmetal metal, the same orange and the same LCD.
 
@@ -49,16 +49,15 @@ of `tss.common.css`; `tss.button.css`, `tss.card.css`, `tss.textbox.css`, `tss.c
 3. **Soft rounded squares, never sharp, rarely pills.** Panels 14px, keys, fields and menus 8px
    (`--tss-wg-radius-key`), chips and small keys 5px (`--tss-wg-radius-small`). Only knobs, round push buttons,
    LEDs, avatars and toggle tracks are fully round.
-4. **Controls are keys.** A button is a flat cap in a near-black socket (`--tss-wg-socket`): on a coloured key the
-   socket is the button's own tight-cornered box and the cap a rounder `::before` set up and to the left in it, so
-   more socket shows at the bottom and the right. The cap's edges catch light top-left and roll into shade
-   bottom-right (inset bevel in the cap's own colour, OKLCH, never white or black washed over it), and the key
-   stands off the panel on a broad soft shadow (`--tss-wg-key-lift`); held down it moves 1px and the shadow
-   tightens (`--tss-wg-key-lift-down`). Panel-level keys (checkboxes, pivots, rows) use `--tss-wg-key`,
-   `--tss-wg-raised` and `--tss-wg-pressed`. A ghost control (Tesserae's default button, toolbar and row commands)
-   is flat at rest and rises into a socketed grey key under the pointer, so a dense toolbar does not become a
-   keyboard. An IconToggle is a strip of square caps in one socket, each with a shallow round dish and its icon
-   engraved in it; the latched key's engraving is filled orange.
+4. **Controls are keys.** A button is an extruded slab, like the transport keys of a tape deck: a flat face with a
+   line of light along its top edge and a hairline rim, and below it the key's side wall, the same colour a shade
+   darker, 4px proud of the panel on a soft shadow (`--tss-wg-slab-*` in `tss.button.css`). Under the pointer it
+   lifts a pixel; held down it is pushed in until a hair of the wall is left. Light, rim and wall are the key's own
+   colour made lighter or darker in OKLCH, never white or black washed over it. Panel-level keys (checkboxes,
+   pivots, rows) use `--tss-wg-key`, `--tss-wg-raised` and `--tss-wg-pressed`. A ghost control (Tesserae's default
+   button, toolbar and row commands) is flat at rest and rises into a grey slab under the pointer, so a dense
+   toolbar does not become a keyboard. An IconToggle is a strip of square caps in one dark socket, each with a
+   shallow round dish and its icon engraved in it; the latched key's engraving is filled orange.
 5. **Orange is the one voice.** `--tss-wg-orange` marks the primary action, the checked state (checkbox latched,
    toggle slot, slider scale), the current item's pilot lamp, focus, and links (`--tss-link-color-root`, a darker
    orange for contrast). Do not use it for decoration. White type on orange, weight 600.

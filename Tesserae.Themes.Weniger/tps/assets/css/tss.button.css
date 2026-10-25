@@ -1,16 +1,16 @@
 /* ==========================================================================
    Weniger theme - Button
    --------------------------------------------------------------------------
-   A button is a key on the front of a device: a flat cap in a dark socket,
-   standing off the panel on a broad soft shadow (see "The socketed key"
-   below). A coloured key (primary, danger, success, warning) has its cap
-   moulded in its colour; held down it travels toward the panel and its
-   shadow tightens. Primary is the orange key, the one control a device lets
-   speak.
+   A button is a key on the front of a device: a thick slab of moulded
+   plastic with its side wall showing below it (see "The extruded key"
+   below). A coloured key (primary, danger, success, warning) is moulded in
+   its colour, its wall a shade darker of the same; held down it is pushed in
+   until the wall is gone. Primary is the orange key, the one control a
+   device lets speak.
 
    The default button is Tesserae's ghost, and stays one at rest, so a
    toolbar does not become a keyboard; under the pointer it rises into a
-   grey plastic key in its socket, and pressed it goes in like the others. Link
+   grey plastic slab, and pressed it goes in like the others. Link
    buttons stay type. Disabled is a key with nothing behind it: flat, no
    shadow, the legend faded.
    ========================================================================== */
@@ -37,81 +37,71 @@ body.tss-theme-weniger .tss-btn:focus-visible {
 }
 
 /* --------------------------------------------------------------------------
-   The socketed key
+   The extruded key
    --------------------------------------------------------------------------
-   A key is a flat cap set in a near-black socket, the way the keys of a
-   pocket synthesizer or a calculator sit in the housing. On a coloured key
-   the socket is the button's own box, tight-cornered, and the cap is a
-   rounder layer (::before) set up and to the left in it, so more socket
-   shows at the bottom and the right; the cap is one solid colour. The cap's edges are rounded off, so they catch the light along
-   the top and the left and roll into shade along the bottom and the right
-   (inset shadows inside the socket). The whole key, socket and cap, stands
-   off the panel and throws a broad soft shadow down and to the right.
+   A key is a thick slab of moulded plastic, like the transport keys on a
+   tape deck: a flat face with a line of light along its top edge and a
+   hairline rim, and below it the key's side wall, the same plastic a shade
+   darker, standing 4px proud of the panel on a soft shadow. Under the
+   pointer the key lifts a pixel and the wall grows to match; held down it
+   is pushed in until only a hair of the wall is left.
 
-   Held down, the key goes 1px toward the panel: its shadow tightens to a
-   contact shadow and the cap's bevel softens.
+   --tss-wg-k is the key's colour. The light, the rim and the wall are that
+   colour made lighter or darker in OKLCH where the browser can (relative
+   colour syntax), so an orange key is shaded in oranges; elsewhere they are
+   white and black at low alpha over it.
 
-   --tss-wg-k is the cap's colour. Where the browser can derive colours from
-   a colour (relative colour syntax), the bevel's light and shade are that
-   colour made lighter or darker in OKLCH, so an orange cap is shaded in
-   oranges; elsewhere they are white and black at low alpha.
+   The wall is drawn with box-shadow, so it takes no layout space of its own:
+   a margin of the same 4px below every solid key keeps it clear of what
+   follows.
    -------------------------------------------------------------------------- */
 
 body.tss-theme-weniger {
+    /* The IconToggle's socket strip (tss.icontoggle.css) draws with these. */
     --tss-wg-socket: rgb(22, 21, 20);
     --tss-wg-key-plastic: rgb(214, 210, 205);
-    --tss-wg-key-bevel-hi: rgba(255, 255, 255, 0.55);
-    --tss-wg-key-bevel-lo: rgba(0, 0, 0, 0.22);
     --tss-wg-key-lift: 2px 3px 3px rgba(30, 24, 18, 0.3), 5px 9px 12px -2px rgba(30, 24, 18, 0.34), 10px 18px 24px -6px rgba(30, 24, 18, 0.3);
-    --tss-wg-key-lift-hover: 2px 4px 4px rgba(30, 24, 18, 0.3), 7px 12px 15px -2px rgba(30, 24, 18, 0.36), 13px 22px 28px -6px rgba(30, 24, 18, 0.32);
-    --tss-wg-key-lift-down: 1px 2px 3px rgba(30, 24, 18, 0.34);
+
+    --tss-wg-slab-wall: 4px;
+    --tss-wg-slab-cast: 30, 24, 18;
 }
 
 body.tss-theme-weniger.tss-dark-mode {
     --tss-wg-socket: rgb(10, 10, 10);
     --tss-wg-key-plastic: rgb(78, 77, 75);
-    --tss-wg-key-bevel-hi: rgba(255, 255, 255, 0.22);
-    --tss-wg-key-bevel-lo: rgba(0, 0, 0, 0.4);
     --tss-wg-key-lift: 2px 3px 3px rgba(0, 0, 0, 0.5), 5px 9px 12px -2px rgba(0, 0, 0, 0.6), 10px 18px 24px -6px rgba(0, 0, 0, 0.55);
-    --tss-wg-key-lift-hover: 2px 4px 4px rgba(0, 0, 0, 0.5), 7px 12px 15px -2px rgba(0, 0, 0, 0.62), 13px 22px 28px -6px rgba(0, 0, 0, 0.58);
-    --tss-wg-key-lift-down: 1px 2px 3px rgba(0, 0, 0, 0.6);
+    --tss-wg-slab-cast: 0, 0, 0;
+}
+
+/* The key's own light, rim and wall: the fallback first, its own colour where the browser can derive it. */
+body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link) {
+    --tss-wg-slab-hi: rgba(255, 255, 255, 0.4);
+    --tss-wg-slab-edge: rgba(0, 0, 0, 0.22);
+    --tss-wg-slab-side: rgba(0, 0, 0, 0.18);
+}
+
+@supports (color: oklch(from red l c h)) {
+    body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link) {
+        --tss-wg-slab-hi: oklch(from var(--tss-wg-k) calc(l + 0.16) calc(c * 0.9) h / 0.85);
+        --tss-wg-slab-edge: oklch(from var(--tss-wg-k) calc(l - 0.28) c h / 0.55);
+        --tss-wg-slab-wall-colour: oklch(from var(--tss-wg-k) calc(l - 0.17) c h);
+        --tss-wg-slab-face-top: oklch(from var(--tss-wg-k) calc(l + 0.03) c h);
+    }
 }
 
 /* --------------------------------------------------------------------------
    Coloured keys
    -------------------------------------------------------------------------- */
-
-body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
-body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
-body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
-body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
-    position: relative;
-    isolation: isolate;
-    border: none;
-    border-radius: var(--tss-wg-radius-small);
-    background-color: var(--tss-wg-socket);
-    background-image: none;
-    box-shadow: var(--tss-wg-key-lift);
-    filter: none;
-}
-
-/* The cap: its own layer, rounder than the socket it sits in, set up and to the left in it. The socket is
-   the button's own box, so the two shapes keep their own radii, which a border cannot do: a border's inner
-   edge is always less round than its outer one. */
-body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link)::before,
-body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link)::before,
-body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link)::before,
-body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link)::before {
-    content: "";
-    position: absolute;
-    inset: 2px 4px 4px 2px;
-    z-index: -1;
-    border-radius: calc(var(--tss-wg-radius-key) + 3px);
-    background: var(--tss-wg-k);
-    box-shadow: inset 2px 2px 1px var(--tss-wg-key-bevel-hi), inset -2px -3px 5px -1px var(--tss-wg-key-bevel-lo);
-    pointer-events: none;
-    transition: box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
-}
 
 body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
     --tss-wg-k: rgb(var(--tss-primary-background-color-root));
@@ -145,75 +135,112 @@ body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-
     --tss-wg-k: rgb(var(--tss-warning-background-hover-color-root));
 }
 
-/* A legend on a coloured key is printed on it: a hair of shade above the white. */
 body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
-body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
-    text-shadow: 0 -1px 0 rgba(90, 30, 0, 0.25);
+body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    border: none;
+    border-radius: var(--tss-wg-radius-key);
+    margin-bottom: var(--tss-wg-slab-wall);
+    background-color: var(--tss-wg-k);
+    background-image: linear-gradient(180deg, var(--tss-wg-slab-face-top, rgba(255, 255, 255, 0.08)) 0%, var(--tss-wg-k) 100%);
+    box-shadow:
+        inset 0 1px 0 var(--tss-wg-slab-hi),
+        0 0 0 1px var(--tss-wg-slab-edge),
+        0 var(--tss-wg-slab-wall) 0 var(--tss-wg-slab-wall-colour, var(--tss-wg-k)),
+        0 var(--tss-wg-slab-wall) 0 1px var(--tss-wg-slab-edge),
+        0 9px 14px -4px rgba(var(--tss-wg-slab-cast), 0.4);
+    filter: none;
 }
 
+/* Without derived colours the wall is the key's colour darkened by a shade laid inside it. */
+@supports not (color: oklch(from red l c h)) {
+    body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+        box-shadow:
+            inset 0 1px 0 var(--tss-wg-slab-hi),
+            inset 0 -1px 0 var(--tss-wg-slab-side),
+            0 0 0 1px var(--tss-wg-slab-edge),
+            0 var(--tss-wg-slab-wall) 0 rgba(0, 0, 0, 0.28),
+            0 var(--tss-wg-slab-wall) 0 1px var(--tss-wg-slab-edge),
+            0 9px 14px -4px rgba(var(--tss-wg-slab-cast), 0.4);
+    }
+}
+
+/* A legend on a coloured key is printed on it: a hair of shade above the white. */
+body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    text-shadow: 0 -1px 0 rgba(60, 20, 0, 0.3);
+}
+
+/* Under the pointer the key lifts a pixel and shows a pixel more wall. */
 body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
 body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
 body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
 body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
     filter: none;
-    box-shadow: var(--tss-wg-key-lift-hover);
+    transform: translateY(-1px);
+    box-shadow:
+        inset 0 1px 0 var(--tss-wg-slab-hi),
+        0 0 0 1px var(--tss-wg-slab-edge),
+        0 calc(var(--tss-wg-slab-wall) + 1px) 0 var(--tss-wg-slab-wall-colour, rgba(0, 0, 0, 0.28)),
+        0 calc(var(--tss-wg-slab-wall) + 1px) 0 1px var(--tss-wg-slab-edge),
+        0 11px 16px -4px rgba(var(--tss-wg-slab-cast), 0.42);
 }
 
-/* Held down: 1px toward the panel, the shadow tightens to contact, the bevel softens. */
+/* Held down: pushed in until a hair of the wall is left, the shadow tight under it. */
 body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
 body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
 body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
 body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active {
-    background-image: none;
-    box-shadow: var(--tss-wg-key-lift-down);
-    transform: translate(1px, 1px);
     filter: none;
+    transform: translateY(calc(var(--tss-wg-slab-wall) - 1px));
+    box-shadow:
+        inset 0 1px 0 var(--tss-wg-slab-hi),
+        0 0 0 1px var(--tss-wg-slab-edge),
+        0 1px 0 var(--tss-wg-slab-wall-colour, rgba(0, 0, 0, 0.28)),
+        0 1px 0 1px var(--tss-wg-slab-edge),
+        0 2px 4px rgba(var(--tss-wg-slab-cast), 0.3);
 }
 
-body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active::before,
-body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active::before,
-body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active::before,
-body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active::before {
-    box-shadow: inset 1px 1px 2px -1px var(--tss-wg-key-bevel-hi), inset -1px -2px 3px -1px var(--tss-wg-key-bevel-lo);
-}
-
+/* A small key is a thinner slab. */
 body.tss-theme-weniger .tss-btn.tss-small.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
 body.tss-theme-weniger .tss-btn.tss-small.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
 body.tss-theme-weniger .tss-btn.tss-small.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
 body.tss-theme-weniger .tss-btn.tss-small.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
-    border-radius: 3px;
-}
-
-body.tss-theme-weniger .tss-btn.tss-small.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link)::before,
-body.tss-theme-weniger .tss-btn.tss-small.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link)::before,
-body.tss-theme-weniger .tss-btn.tss-small.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link)::before,
-body.tss-theme-weniger .tss-btn.tss-small.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link)::before {
-    inset: 1px 3px 3px 1px;
-    border-radius: calc(var(--tss-wg-radius-small) + 2px);
+    --tss-wg-slab-wall: 3px;
+    border-radius: var(--tss-wg-radius-small);
 }
 
 /* --------------------------------------------------------------------------
    The default button: a ghost that rises into a plastic key
    --------------------------------------------------------------------------
    At rest it is a legend on the panel, so a toolbar does not become a
-   keyboard; under the pointer the same socketed key appears with a grey
-   plastic cap. The border stays 3px at rest (transparent) so nothing shifts. */
+   keyboard; under the pointer the same slab appears in grey plastic, and
+   held down it goes in like the others. It reserves no margin for the wall:
+   a ghost sits in toolbars and rows, where 4px under every command would
+   move the row, so its wall is drawn into the space below it. */
 
 body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link),
 body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link) {
     --tss-wg-k: var(--tss-wg-key-plastic);
-    border: 3px solid transparent;
-    border-width: 2px 4px 4px 2px;
-    border-radius: calc(var(--tss-wg-radius-key) + 3px);
-    background-clip: padding-box;
+    border: 1px solid transparent;
 }
 
 body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover,
 body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover {
     background-color: var(--tss-wg-k);
-    background-image: none;
-    border-color: var(--tss-wg-socket);
-    box-shadow: inset 2px 2px 1px var(--tss-wg-key-bevel-hi), inset -2px -3px 5px -1px var(--tss-wg-key-bevel-lo), var(--tss-wg-key-lift);
+    background-image: linear-gradient(180deg, var(--tss-wg-slab-face-top, rgba(255, 255, 255, 0.08)) 0%, var(--tss-wg-k) 100%);
+    border-color: transparent;
+    box-shadow:
+        inset 0 1px 0 var(--tss-wg-slab-hi),
+        0 0 0 1px var(--tss-wg-slab-edge),
+        0 3px 0 var(--tss-wg-slab-wall-colour, rgba(0, 0, 0, 0.28)),
+        0 3px 0 1px var(--tss-wg-slab-edge),
+        0 7px 12px -4px rgba(var(--tss-wg-slab-cast), 0.38);
 }
 
 body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover,
@@ -225,28 +252,16 @@ body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-
 body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):active:hover,
 body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):active {
     background-color: var(--tss-wg-k);
-    background-image: none;
-    border-color: var(--tss-wg-socket);
-    box-shadow: inset 1px 1px 2px -1px var(--tss-wg-key-bevel-hi), inset -1px -2px 3px -1px var(--tss-wg-key-bevel-lo), var(--tss-wg-key-lift-down);
-    transform: translate(1px, 1px);
+    background-image: linear-gradient(180deg, var(--tss-wg-slab-face-top, rgba(255, 255, 255, 0.08)) 0%, var(--tss-wg-k) 100%);
+    border-color: transparent;
+    box-shadow:
+        inset 0 1px 0 var(--tss-wg-slab-hi),
+        0 0 0 1px var(--tss-wg-slab-edge),
+        0 1px 0 var(--tss-wg-slab-wall-colour, rgba(0, 0, 0, 0.28)),
+        0 1px 0 1px var(--tss-wg-slab-edge),
+        0 2px 4px rgba(var(--tss-wg-slab-cast), 0.3);
+    transform: translateY(2px);
     color: rgb(var(--tss-default-foreground-color-root));
-}
-
-/* The bevel in the cap's own colour: lighter and darker in OKLCH rather than white and black over it. */
-@supports (color: oklch(from red l c h)) {
-
-    body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
-    body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
-    body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
-    body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
-    body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover,
-    body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover,
-    body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):active,
-    body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):active:hover,
-    body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):active {
-        --tss-wg-key-bevel-hi: oklch(from var(--tss-wg-k) calc(l + 0.16) calc(c * 0.9) h / 0.85);
-        --tss-wg-key-bevel-lo: oklch(from var(--tss-wg-k) calc(l - 0.2) c h / 0.6);
-    }
 }
 
 /* --------------------------------------------------------------------------
