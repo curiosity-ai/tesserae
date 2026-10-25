@@ -1,7 +1,140 @@
 /* ==========================================================================
-   Weniger theme - toolagentselector
+   Weniger theme - Tool / Agent Selector
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   The trigger is a plastic key; while its popup is open it stays down. The
+   count of chosen tools is a small orange lamp-key on its corner. The popup
+   floats off the device as a plastic panel, its search box the usual well
+   (tss.searchbox.css), section titles printed legends. A row rises into a
+   key under the pointer or the keyboard; its check box is the theme's
+   square push key, latched orange with a white tick when chosen, and its
+   icon a small key of its own.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-toolagent-trigger {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    font-weight: 500;
+    transition: box-shadow var(--tss-wg-quick) var(--tss-wg-ease), transform var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-toolagent-trigger:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-toolagent-trigger:active,
+body.tss-theme-weniger .tss-toolagent-trigger.tss-toolagent-trigger-active {
+    border-color: var(--tss-wg-key-edge);
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+body.tss-theme-weniger .tss-toolagent-trigger:active {
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-toolagent-trigger:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+}
+
+body.tss-theme-weniger .tss-toolagent-trigger-chevron {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-toolagent-badge {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: var(--tss-wg-orange);
+    background-image: var(--tss-wg-sheen);
+    color: var(--tss-wg-on-orange);
+    box-shadow: 0 0 0 2px rgb(var(--tss-default-background-color-root)), 0 0 6px rgba(250, 112, 48, 0.45);
+    font-variant-numeric: tabular-nums;
+    line-height: 14px;
+}
+
+/* The popup: a plastic panel lifted off the device. */
+body.tss-theme-weniger .tss-toolagent-popup {
+    border: none;
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+body.tss-theme-weniger .tss-toolagent-section-title {
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+}
+
+body.tss-theme-weniger .tss-toolagent-section + .tss-toolagent-section {
+    border-top: 1px solid var(--tss-wg-groove);
+    padding-top: 4px;
+}
+
+body.tss-theme-weniger .tss-toolagent-item {
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-key);
+}
+
+body.tss-theme-weniger .tss-toolagent-item:hover,
+body.tss-theme-weniger .tss-toolagent-item.tss-toolagent-item-highlight {
+    border-color: var(--tss-wg-key-edge);
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-toolagent-item:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+/* The check box: the square push key, latched orange when chosen. */
+body.tss-theme-weniger .tss-toolagent-item-checkmark {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-toolagent-item-input:checked ~ .tss-toolagent-item-checkmark {
+    border-color: var(--tss-wg-orange-lo);
+    background-color: var(--tss-wg-orange);
+    background-image: var(--tss-wg-sheen-pressed);
+    box-shadow: inset 0 1px 2px rgba(90, 30, 0, 0.35), 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-toolagent-item-input:checked ~ .tss-toolagent-item-checkmark {
+    border-color: rgba(0, 0, 0, 0.55);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+body.tss-theme-weniger .tss-toolagent-item-input:checked ~ .tss-toolagent-item-checkmark:after {
+    border-color: var(--tss-wg-on-orange);
+}
+
+body.tss-theme-weniger .tss-toolagent-item-input:focus-visible ~ .tss-toolagent-item-checkmark {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+}
+
+body.tss-theme-weniger .tss-toolagent-item-icon {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-key-hover);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-toolagent-item-icon {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-toolagent-trigger {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-toolagent-trigger:active {
+        transform: none;
+    }
+}

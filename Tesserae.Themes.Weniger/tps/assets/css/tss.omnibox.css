@@ -70,6 +70,12 @@ body.tss-theme-weniger .tss-omnibox-chat-input {
     caret-color: var(--tss-wg-orange);
 }
 
+/* The well carries the focus ring; the inputs inside it draw none of their own. */
+body.tss-theme-weniger .tss-omnibox-search-input:focus-visible,
+body.tss-theme-weniger .tss-omnibox-chat-input:focus-visible {
+    outline: none;
+}
+
 body.tss-theme-weniger .tss-omnibox-search-input::placeholder,
 body.tss-theme-weniger .tss-omnibox-chat-input::placeholder {
     color: rgb(var(--tss-secondary-foreground-color-root)) !important;

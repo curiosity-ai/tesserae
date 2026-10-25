@@ -34,8 +34,8 @@ body.tss-theme-weniger .tss-textbreadcrumb:hover {
 }
 
 body.tss-theme-weniger .tss-textbreadcrumb-sep {
-    padding-left: 2px;
-    padding-right: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
     color: rgba(var(--tss-secondary-foreground-color-root), 0.7);
 }
 
