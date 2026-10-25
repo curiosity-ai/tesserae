@@ -26,6 +26,14 @@ body.tss-theme-weniger .tss-btn.tss-small {
     border-radius: var(--tss-wg-radius-small);
 }
 
+/* The legend sits in the middle of the key. Tesserae pads a button 16px left and 20px right, which puts the
+   label 2px left of centre; on a slab with a lit face that reads as off. Same 36px in total, so no key changes
+   width. Icon-only keys keep their own square padding. */
+body.tss-theme-weniger .tss-btn:not(.tss-btn-only-icon):not(.tss-small) {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
 /* Focus is the theme's orange halo (an outline), so the key keeps its own shadow. */
 body.tss-theme-weniger .tss-btn:focus {
     box-shadow: none;
