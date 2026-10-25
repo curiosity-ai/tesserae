@@ -1,1 +1,52 @@
-/* Rechenwerk theme - textbreadcrumb */
+/* ==========================================================================
+   Rechenwerk theme - TextBreadcrumbs
+   --------------------------------------------------------------------------
+   The same path as Breadcrumb, set as type: tracked capitals, the levels
+   above in the muted grey and the last one in ink at weight 600, separated
+   by a square in the signal colour that scales with the type. A crumb under
+   the pointer sits in a square block of the hover tint (the base rounds it).
+   The separator nudges sideways in a snap, not a glide.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-textbreadcrumb-container {
+    font-weight: 500;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-textbreadcrumb {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-textbreadcrumb:hover {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-textbreadcrumb-wrap:last-child .tss-textbreadcrumb {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 600;
+}
+
+/* The separator: a square block, 0.4em, in the signal colour. */
+body.tss-theme-rechenwerk .tss-textbreadcrumb-sep i::before {
+    content: "";
+    display: inline-block;
+    width: 0.4em;
+    height: 0.4em;
+    vertical-align: middle;
+    background: var(--tss-rw-signal);
+    transition: transform 120ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-textbreadcrumb-wrap,
+body.tss-theme-rechenwerk .tss-textbreadcrumb-wrap:hover,
+body.tss-theme-rechenwerk .tss-textbreadcrumb-wrap:hover .sep i {
+    transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-textbreadcrumb-sep i::before {
+        transition: none;
+    }
+}

@@ -1,1 +1,121 @@
-/* Rechenwerk theme - message */
+/* ==========================================================================
+   Rechenwerk theme - Message
+   --------------------------------------------------------------------------
+   A notice cut from the sleeve. The icon sits in a solid square block:
+   ink on an empty state, the status colour on a kind (Autobahn blue for
+   info, green for success, red for an error, terminal yellow for a
+   warning). The title is in tracked capitals, the text in plain sentence
+   case. A kind is a framed panel on a hard shadow; a warning also carries
+   a strip of the Radio-Aktivitaet hazard down its left edge, so it never
+   rests on the yellow alone. The note under an empty state is a ruled
+   strip with a blue edge.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-message {
+    --tss-rw-message-block: rgb(var(--tss-default-foreground-color-root));
+    --tss-rw-message-on-block: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-message-info {
+    --tss-rw-message-block: var(--tss-chart-series-4, var(--tss-rw-blue));
+    --tss-rw-message-on-block: rgb(250, 246, 238);
+}
+
+body.tss-theme-rechenwerk .tss-message-success {
+    --tss-rw-message-block: rgb(var(--tss-success-background-color-root));
+    --tss-rw-message-on-block: rgb(var(--tss-success-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-message-warning {
+    --tss-rw-message-block: var(--tss-rw-yellow);
+    --tss-rw-message-on-block: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-message-error {
+    --tss-rw-message-block: rgb(var(--tss-danger-background-color-root));
+    --tss-rw-message-on-block: rgb(var(--tss-danger-foreground-color-root));
+}
+
+/* The icon block, in every mode and kind (the base's dark rules are .tss-dark-mode .tss-message-x .tss-message-icon). */
+body.tss-theme-rechenwerk .tss-message .tss-message-icon,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-message .tss-message-icon {
+    border-radius: 0;
+    background: var(--tss-rw-message-block);
+    color: var(--tss-rw-message-on-block);
+    box-shadow: var(--tss-rw-shadow-sm);
+}
+
+body.tss-theme-rechenwerk .tss-message-icon i {
+    margin-top: 0;
+    color: var(--tss-rw-message-on-block);
+}
+
+body.tss-theme-rechenwerk .tss-message-horizontal .tss-message-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-message .tss-message-title,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-message .tss-message-title {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-message-horizontal .tss-message-title {
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+body.tss-theme-rechenwerk .tss-message .tss-message-text,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-message .tss-message-text {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The kinds: a framed panel on a hard shadow. */
+body.tss-theme-rechenwerk .tss-message-info,
+body.tss-theme-rechenwerk .tss-message-success,
+body.tss-theme-rechenwerk .tss-message-warning,
+body.tss-theme-rechenwerk .tss-message-error,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-message-info,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-message-success,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-message-warning,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-message-error {
+    border-radius: 0;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-rw-shadow);
+}
+
+/* A warning also wears the hazard down its left edge. */
+body.tss-theme-rechenwerk .tss-message-warning,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-message-warning {
+    background: var(--tss-rw-hazard) left top / 10px 100% no-repeat, rgb(var(--tss-secondary-background-color-root));
+    padding-left: 42px;
+}
+
+body.tss-theme-rechenwerk .tss-message-warning.tss-message-horizontal,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-message-warning.tss-message-horizontal {
+    padding-left: 30px;
+}
+
+/* The note: a ruled strip with an Autobahn-blue edge. */
+body.tss-theme-rechenwerk .tss-message-note,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-message-note {
+    border-radius: 0;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-left: 8px solid var(--tss-chart-series-4, var(--tss-rw-blue));
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-message-note i,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-message-note i {
+    color: var(--tss-chart-series-4, var(--tss-rw-blue));
+}
+
+body.tss-theme-rechenwerk .tss-message-illustration {
+    opacity: 1;
+}

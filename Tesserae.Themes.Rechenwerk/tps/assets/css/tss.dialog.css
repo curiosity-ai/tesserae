@@ -5,18 +5,20 @@
    the hard shadow, the same band when it has a title. What it adds is the
    shape of an alert: square, the question set in the content at reading
    size, and the answers (keys, see tss.button.css) on the ruled strip at
-   the bottom, right-aligned.
+   the bottom, right-aligned. A dialog with no title still carries the top
+   edge of the band, an 8px strip, so it reads as the same object.
    ========================================================================== */
 
 body.tss-theme-rechenwerk .tss-modal.tss-dialog {
     border-radius: 0;
+    box-shadow: inset 0 8px 0 0 var(--tss-rw-bar-background), var(--tss-rw-frame-shadow);
 }
 
 body.tss-theme-rechenwerk .tss-dialog .tss-modal-header {
-    padding: 12px 12px 0 12px;
+    padding: 20px 12px 0 12px;
 }
 
-body.tss-theme-rechenwerk .tss-dialog .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) {
+body.tss-theme-rechenwerk .tss-dialog .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) {
     padding: 0 12px 0 32px;
 }
 

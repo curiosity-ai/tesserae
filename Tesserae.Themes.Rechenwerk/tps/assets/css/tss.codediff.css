@@ -1,1 +1,210 @@
-/* Rechenwerk theme - codediff */
+/* ==========================================================================
+   Rechenwerk theme - CodeDiff (diff2html)
+   --------------------------------------------------------------------------
+   A diff is a printout from the machine: Space Mono, square corners, a
+   change told by a tint of the sleeve colours, green for a line added and
+   red for one taken away, the changed words in a stronger block of the same
+   colour, and the "+" / "-" the gutter prints kept. Each file is a plate in
+   the 2px ink rule on a hard shadow, and its header is a sleeve band: the
+   black bar with the file name in cream (on the terminal the yellow bar with
+   black type). diff2html draws from its --d2h-* variables, so every one is
+   restated, its dark-scheme twins too, as mixes of the tokens: the tints
+   follow paper and screen with no rule of their own.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-codediff {
+    --rw-d2h-ins: color-mix(in srgb, var(--tss-rw-green) 16%, rgb(var(--tss-secondary-background-color-root)));
+    --rw-d2h-ins-strong: color-mix(in srgb, var(--tss-rw-green) 42%, rgb(var(--tss-secondary-background-color-root)));
+    --rw-d2h-del: color-mix(in srgb, var(--tss-rw-red) 14%, rgb(var(--tss-secondary-background-color-root)));
+    --rw-d2h-del-strong: color-mix(in srgb, var(--tss-rw-red) 38%, rgb(var(--tss-secondary-background-color-root)));
+
+    --d2h-bg-color: rgb(var(--tss-secondary-background-color-root));
+    --d2h-border-color: rgb(var(--tss-default-border-color-root));
+    --d2h-dim-color: var(--tss-rw-muted);
+    --d2h-line-border-color: rgb(var(--tss-default-separator-color-root));
+    --d2h-file-header-bg-color: var(--tss-rw-bar-background);
+    --d2h-file-header-border-color: rgb(var(--tss-default-border-color-root));
+    --d2h-empty-placeholder-bg-color: rgb(var(--tss-default-background-hover-color-root));
+    --d2h-empty-placeholder-border-color: rgb(var(--tss-default-separator-color-root));
+    --d2h-selected-color: rgba(244, 194, 13, 0.35);
+    --d2h-ins-bg-color: var(--rw-d2h-ins);
+    --d2h-ins-border-color: var(--rw-d2h-ins-strong);
+    --d2h-ins-highlight-bg-color: var(--rw-d2h-ins-strong);
+    --d2h-ins-label-color: var(--tss-rw-green);
+    --d2h-del-bg-color: var(--rw-d2h-del);
+    --d2h-del-border-color: var(--rw-d2h-del-strong);
+    --d2h-del-highlight-bg-color: var(--rw-d2h-del-strong);
+    --d2h-del-label-color: var(--tss-rw-red);
+    --d2h-change-del-color: var(--rw-d2h-del);
+    --d2h-change-ins-color: var(--rw-d2h-ins);
+    --d2h-info-bg-color: rgb(var(--tss-default-background-hover-color-root));
+    --d2h-info-border-color: rgb(var(--tss-default-separator-color-root));
+    --d2h-change-label-color: var(--tss-rw-yellow);
+    --d2h-moved-label-color: var(--tss-rw-blue);
+
+    --d2h-dark-color: rgb(var(--tss-default-foreground-color-root));
+    --d2h-dark-bg-color: rgb(var(--tss-secondary-background-color-root));
+    --d2h-dark-border-color: rgb(var(--tss-default-border-color-root));
+    --d2h-dark-dim-color: var(--tss-rw-muted);
+    --d2h-dark-line-border-color: rgb(var(--tss-default-separator-color-root));
+    --d2h-dark-file-header-bg-color: var(--tss-rw-bar-background);
+    --d2h-dark-file-header-border-color: rgb(var(--tss-default-border-color-root));
+    --d2h-dark-empty-placeholder-bg-color: rgb(var(--tss-default-background-hover-color-root));
+    --d2h-dark-empty-placeholder-border-color: rgb(var(--tss-default-separator-color-root));
+    --d2h-dark-selected-color: rgba(244, 194, 13, 0.35);
+    --d2h-dark-ins-bg-color: var(--rw-d2h-ins);
+    --d2h-dark-ins-border-color: var(--rw-d2h-ins-strong);
+    --d2h-dark-ins-highlight-bg-color: var(--rw-d2h-ins-strong);
+    --d2h-dark-ins-label-color: var(--tss-rw-green);
+    --d2h-dark-del-bg-color: var(--rw-d2h-del);
+    --d2h-dark-del-border-color: var(--rw-d2h-del-strong);
+    --d2h-dark-del-highlight-bg-color: var(--rw-d2h-del-strong);
+    --d2h-dark-del-label-color: var(--tss-rw-red);
+    --d2h-dark-change-del-color: var(--rw-d2h-del);
+    --d2h-dark-change-ins-color: var(--rw-d2h-ins);
+    --d2h-dark-info-bg-color: rgb(var(--tss-default-background-hover-color-root));
+    --d2h-dark-info-border-color: rgb(var(--tss-default-separator-color-root));
+    --d2h-dark-change-label-color: var(--tss-rw-yellow);
+    --d2h-dark-moved-label-color: var(--tss-rw-blue);
+}
+
+/* On the black screen the tints need more of the colour to be seen. */
+body.tss-theme-rechenwerk.tss-dark-mode .tss-codediff {
+    --rw-d2h-ins: color-mix(in srgb, var(--tss-rw-green) 26%, rgb(var(--tss-secondary-background-color-root)));
+    --rw-d2h-ins-strong: color-mix(in srgb, var(--tss-rw-green) 60%, rgb(var(--tss-secondary-background-color-root)));
+    --rw-d2h-del: color-mix(in srgb, var(--tss-rw-red) 24%, rgb(var(--tss-secondary-background-color-root)));
+    --rw-d2h-del-strong: color-mix(in srgb, var(--tss-rw-red) 55%, rgb(var(--tss-secondary-background-color-root)));
+}
+
+body.tss-theme-rechenwerk .tss-codediff .d2h-wrapper {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-codediff .d2h-file-wrapper {
+    margin-right: 4px;
+    margin-bottom: 18px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 4px 4px 0 0 var(--tss-rw-key-shadow-color);
+}
+
+/* The file header: a sleeve band. */
+body.tss-theme-rechenwerk .tss-codediff .d2h-file-header {
+    border-bottom: 2px solid rgb(var(--tss-default-border-color-root));
+    background: var(--tss-rw-bar-background);
+    color: var(--tss-rw-bar-foreground);
+    font-family: var(--tss-monospace-font-family);
+}
+
+body.tss-theme-rechenwerk .tss-codediff .d2h-file-name-wrapper,
+body.tss-theme-rechenwerk .tss-codediff .d2h-file-name {
+    color: var(--tss-rw-bar-foreground);
+    font-family: var(--tss-monospace-font-family);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+body.tss-theme-rechenwerk .tss-codediff .d2h-file-header .d2h-icon {
+    fill: var(--tss-rw-bar-marker);
+}
+
+body.tss-theme-rechenwerk .tss-codediff .d2h-icon {
+    fill: currentColor;
+}
+
+body.tss-theme-rechenwerk .tss-codediff .d2h-tag {
+    padding: 1px 5px;
+    border: 1px solid var(--tss-rw-bar-foreground);
+    border-radius: 0;
+    background: transparent;
+    color: var(--tss-rw-bar-foreground);
+    font-family: var(--tss-sansserif-font-family);
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-codediff .d2h-file-collapse {
+    border: 1px solid var(--tss-rw-bar-foreground);
+    border-radius: 0;
+    color: var(--tss-rw-bar-foreground);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-codediff .d2h-file-collapse-input {
+    accent-color: var(--tss-rw-bar-marker);
+}
+
+body.tss-theme-rechenwerk .tss-codediff .d2h-diff-table,
+body.tss-theme-rechenwerk .tss-codediff .d2h-code-line,
+body.tss-theme-rechenwerk .tss-codediff .d2h-code-side-line,
+body.tss-theme-rechenwerk .tss-codediff .d2h-code-linenumber,
+body.tss-theme-rechenwerk .tss-codediff .d2h-code-side-linenumber {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 12.5px;
+}
+
+body.tss-theme-rechenwerk .tss-codediff .d2h-code-linenumber,
+body.tss-theme-rechenwerk .tss-codediff .d2h-code-side-linenumber {
+    border-color: rgb(var(--tss-default-separator-color-root));
+    color: var(--tss-rw-muted);
+}
+
+/* The "@@ hunk" row: a quiet band in the muted grey. */
+body.tss-theme-rechenwerk .tss-codediff .d2h-info {
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-codediff .d2h-code-line ins,
+body.tss-theme-rechenwerk .tss-codediff .d2h-code-side-line ins,
+body.tss-theme-rechenwerk .tss-codediff .d2h-code-line del,
+body.tss-theme-rechenwerk .tss-codediff .d2h-code-side-line del {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-codediff .d2h-lines-added,
+body.tss-theme-rechenwerk .tss-codediff .d2h-lines-deleted {
+    border-radius: 0;
+    font-family: var(--tss-rw-dots);
+    font-weight: 800;
+}
+
+body.tss-theme-rechenwerk .tss-codediff .d2h-lines-added {
+    border-color: var(--tss-rw-green);
+    color: var(--tss-rw-green);
+}
+
+body.tss-theme-rechenwerk .tss-codediff .d2h-lines-deleted {
+    border-color: var(--tss-rw-red);
+    color: var(--tss-rw-red);
+}
+
+/* The file list: a ruled plate like the files. */
+body.tss-theme-rechenwerk .tss-codediff .d2h-file-list-wrapper {
+    margin-right: 4px;
+    margin-bottom: 18px;
+}
+
+body.tss-theme-rechenwerk .tss-codediff .d2h-file-list-header {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-codediff .d2h-file-list {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-codediff .d2h-file-list a,
+body.tss-theme-rechenwerk .tss-codediff .d2h-file-list-line {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-monospace-font-family);
+    font-size: 12.5px;
+}

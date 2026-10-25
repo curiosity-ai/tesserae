@@ -1,1 +1,49 @@
-/* Rechenwerk theme - inlinepagination */
+/* ==========================================================================
+   Rechenwerk theme - InlinePagination
+   --------------------------------------------------------------------------
+   The compact "< 3 of 7 >" stepper is a little calculator display: a square
+   box in a 2px ink rule, the count in the dot-matrix face, and the two
+   chevrons as square keys at its ends that fill yellow under the pointer.
+   The height stays the base's 28px, so it still sits in a toolbar row.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-inlinepagination {
+    padding: 0;
+    border: var(--tss-rw-rule);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-inlinepagination-button {
+    width: 24px;
+    height: 24px;
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-inlinepagination-button:hover:not(:disabled) {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-inlinepagination-button:active:not(:disabled) {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-inlinepagination-button:focus-visible {
+    outline: 2px solid var(--tss-rw-signal);
+    outline-offset: -2px;
+}
+
+body.tss-theme-rechenwerk .tss-inlinepagination-button:disabled {
+    opacity: 1;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-inlinepagination-label {
+    font-family: var(--tss-rw-dots);
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 24px;
+}

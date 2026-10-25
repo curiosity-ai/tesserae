@@ -1,1 +1,114 @@
-/* Rechenwerk theme - actionbutton */
+/* ==========================================================================
+   Rechenwerk theme - ActionButton
+   --------------------------------------------------------------------------
+   Two calculator keys welded side by side: the label and the action icon
+   share one 2px frame, split by the same rule, and are built like the keys
+   in tss.button.css. The plain one is a ghost: no frame at rest, the frame
+   and the weld appear under the pointer, a half takes the hover tint, and
+   pressed it fills yellow. A toned one (primary, warning, danger) is a solid
+   key in the sleeve colours, standing on the 3px key shadow, and the whole
+   pair travels into it when either half is pressed. Labels are tracked
+   capitals; a small caption under a label stays in sentence case.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-actionbutton-container {
+    border: 2px solid transparent;
+    border-radius: 0;
+    transition: transform 60ms steps(1), box-shadow 60ms steps(1);
+}
+
+body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-actionbutton-displaybutton,
+body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-actionbutton-actionbtn {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-actionbutton-actionbtn {
+    border-left: 2px solid transparent;
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-actionbutton-container .tss-textblock.tss-fontsize-small {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+/* The ghost: frame and weld under the pointer, a half tinted, yellow when pressed. */
+body.tss-theme-rechenwerk .tss-actionbutton-container:not(:has(> .tss-btn-primary, > .tss-btn-danger, > .tss-btn-warning)):hover {
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-actionbutton-container:not(:has(> .tss-btn-primary, > .tss-btn-danger, > .tss-btn-warning)):hover > .tss-actionbutton-actionbtn {
+    border-left-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-actionbutton-displaybutton:not(.tss-btn-primary):not(.tss-btn-danger):not(.tss-btn-warning):hover,
+body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-actionbutton-actionbtn:not(.tss-btn-primary):not(.tss-btn-danger):not(.tss-btn-warning):hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-actionbutton-displaybutton:not(.tss-btn-primary):not(.tss-btn-danger):not(.tss-btn-warning):active,
+body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-actionbutton-actionbtn:not(.tss-btn-primary):not(.tss-btn-danger):not(.tss-btn-warning):active {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-actionbutton-displaybutton:not(.tss-btn-primary):not(.tss-btn-danger):not(.tss-btn-warning):active .tss-fontcolor-default,
+body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-actionbutton-displaybutton:not(.tss-btn-primary):not(.tss-btn-danger):not(.tss-btn-warning):active i,
+body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-actionbutton-actionbtn:not(.tss-btn-primary):not(.tss-btn-danger):not(.tss-btn-warning):active i {
+    color: rgb(10, 10, 10);
+}
+
+/* The solid keys: a black frame and weld, the key shadow, and the press. */
+body.tss-theme-rechenwerk .tss-actionbutton-container:has(> .tss-btn-primary, > .tss-btn-danger, > .tss-btn-warning) {
+    border-color: rgb(17, 17, 17);
+    box-shadow: var(--tss-rw-btn-shadow);
+    margin-right: 3px;
+    margin-bottom: 3px;
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-actionbutton-container:has(> .tss-btn-primary, > .tss-btn-danger, > .tss-btn-warning) {
+    border-color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-actionbutton-actionbtn.tss-btn-primary,
+body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-actionbutton-actionbtn.tss-btn-danger,
+body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-actionbutton-actionbtn.tss-btn-warning {
+    border-left-color: rgb(17, 17, 17);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-actionbutton-container > .tss-actionbutton-actionbtn.tss-btn-primary,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-actionbutton-container > .tss-actionbutton-actionbtn.tss-btn-danger,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-actionbutton-container > .tss-actionbutton-actionbtn.tss-btn-warning {
+    border-left-color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-actionbutton-container:has(> .tss-btn-primary, > .tss-btn-danger, > .tss-btn-warning):active {
+    transform: var(--tss-rw-btn-travel);
+    box-shadow: none;
+}
+
+/* The icons follow the half's type colour. */
+body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-btn-primary i,
+body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-btn-danger i,
+body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-btn-warning i {
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-actionbutton-container:focus-visible,
+body.tss-theme-rechenwerk .tss-actionbutton-container:has(:focus-visible) {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 3px;
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-actionbutton-container:focus-visible,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-actionbutton-container:has(:focus-visible) {
+    outline-color: var(--tss-rw-yellow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-actionbutton-container {
+        transition: none;
+    }
+}

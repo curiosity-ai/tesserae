@@ -1,1 +1,138 @@
-/* Rechenwerk theme - expander */
+/* ==========================================================================
+   Rechenwerk theme - Accordion and Expander
+   --------------------------------------------------------------------------
+   An accordion is the track listing on the back of a sleeve: a column of
+   bands sharing their 2px ink rules, each title in tracked capitals with
+   its track number in front, on the dot-matrix display ("01", "02", ...).
+   The disclosure chevron sits in a small square key at the edge. An open
+   section is the sleeve band: its header turns into the title bar (black
+   with cream type on paper, yellow with black type on the terminal) and the
+   key flips; the content below it sits on the surface under a 2px rule. A
+   closed header under the pointer takes the hover tint. The chevron turns
+   in a snap, not a sweep, and not at all under reduced motion.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-accordion {
+    gap: 0;
+    counter-reset: rw-track;
+}
+
+body.tss-theme-rechenwerk .tss-accordion > .tss-expander {
+    counter-increment: rw-track;
+}
+
+body.tss-theme-rechenwerk .tss-accordion > .tss-expander + .tss-expander {
+    margin-top: -2px;
+}
+
+body.tss-theme-rechenwerk .tss-expander {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-expander-header {
+    gap: 12px;
+    min-height: 44px;
+    box-sizing: border-box;
+    padding: 8px 14px;
+    transition: background-color 80ms steps(2), color 80ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-expander-header:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-expander-header:focus-visible {
+    outline: 2px solid var(--tss-rw-signal);
+    outline-offset: -4px;
+}
+
+body.tss-theme-rechenwerk .tss-expander-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+/* The track number, on the display. */
+body.tss-theme-rechenwerk .tss-accordion > .tss-expander > .tss-expander-header .tss-expander-title::before {
+    content: counter(rw-track, decimal-leading-zero);
+    display: inline-block;
+    min-width: 2ch;
+    margin-right: 12px;
+    font-family: var(--tss-rw-dots);
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--tss-rw-signal);
+    vertical-align: -1px;
+}
+
+/* The chevron in a square key. */
+body.tss-theme-rechenwerk .tss-expander-chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    width: 22px;
+    height: 22px;
+    border: 2px solid currentColor;
+    font-size: 11px;
+    line-height: 1;
+    transform: none;
+    transition: transform 80ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-expander.tss-expanded .tss-expander-chevron {
+    transform: rotate(180deg);
+}
+
+/* Open: the header is the sleeve band. */
+body.tss-theme-rechenwerk .tss-expander.tss-expanded > .tss-expander-header,
+body.tss-theme-rechenwerk .tss-expander.tss-expanded > .tss-expander-header:hover {
+    background: var(--tss-rw-bar-background);
+    color: var(--tss-rw-bar-foreground);
+}
+
+body.tss-theme-rechenwerk .tss-expander.tss-expanded > .tss-expander-header .tss-expander-title,
+body.tss-theme-rechenwerk .tss-expander.tss-expanded > .tss-expander-header .tss-expander-chevron,
+body.tss-theme-rechenwerk .tss-expander.tss-expanded > .tss-expander-header .tss-textblock {
+    color: var(--tss-rw-bar-foreground);
+}
+
+body.tss-theme-rechenwerk .tss-expander.tss-expanded > .tss-expander-header .tss-expander-chevron {
+    background: var(--tss-rw-bar-foreground);
+    border-color: var(--tss-rw-bar-foreground);
+    color: var(--tss-rw-bar-background);
+}
+
+body.tss-theme-rechenwerk .tss-accordion > .tss-expander.tss-expanded > .tss-expander-header .tss-expander-title::before {
+    color: var(--tss-rw-bar-marker);
+}
+
+body.tss-theme-rechenwerk .tss-expander-content {
+    border-top: 2px solid rgb(var(--tss-default-border-color-root));
+    padding: 14px 16px;
+}
+
+/* The option icon is a square tile; a colour the host gave it is kept. */
+body.tss-theme-rechenwerk .tss-expander-icon {
+    width: 28px;
+    height: 28px;
+    box-sizing: border-box;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-expander.tss-expanded > .tss-expander-header .tss-expander-icon {
+    border-color: var(--tss-rw-bar-foreground);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-expander-header,
+    body.tss-theme-rechenwerk .tss-expander-chevron {
+        transition: none;
+    }
+}

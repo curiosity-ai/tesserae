@@ -66,8 +66,8 @@ body.tss-theme-rechenwerk .tss-colorpalette-custom {
    sample's soft grey one.
    -------------------------------------------------------------------------- */
 
-body.tss-theme-rechenwerk .tss-stack[style*="background: var(--tss-colors-"],
-body.tss-theme-rechenwerk .tss-stack[style*="background: var(--tss-gradient-"] {
+body.tss-theme-rechenwerk .tss-stack.tss-stack-horizontal[style*="background: var(--tss-colors-"],
+body.tss-theme-rechenwerk .tss-stack.tss-stack-horizontal[style*="background: var(--tss-gradient-"] {
     box-sizing: border-box;
     border: 2px solid rgb(var(--tss-default-border-color-root));
 }

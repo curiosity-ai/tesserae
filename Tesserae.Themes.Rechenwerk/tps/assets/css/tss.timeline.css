@@ -1,1 +1,71 @@
-/* Rechenwerk theme - timeline */
+/* ==========================================================================
+   Rechenwerk theme - Timeline
+   --------------------------------------------------------------------------
+   A railway timetable drawn as a circuit: a 2px ink spine, a square station
+   on it for each event (filled with the colour the caller gave the event,
+   framed in ink), and a 2px ink lead from the station to its entry. Each
+   entry is a panel of the sleeve: a 2px ink frame on the surface colour,
+   standing on a hard shadow.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-timeline-owner {
+    background: transparent linear-gradient(rgb(var(--tss-default-border-color-root)), rgb(var(--tss-default-border-color-root))) no-repeat center / 2px 100%;
+}
+
+body.tss-theme-rechenwerk .tss-timeline-owner.tss-left {
+    background: transparent linear-gradient(rgb(var(--tss-default-border-color-root)), rgb(var(--tss-default-border-color-root))) no-repeat 20px 0 / 2px 100%;
+}
+
+/* The station. */
+body.tss-theme-rechenwerk .tss-timeline-container::after {
+    width: 14px;
+    height: 14px;
+    right: -7px;
+    top: 25px;
+    border-radius: 0;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    background-color: var(--tss-timeline-circle-color, rgb(var(--tss-default-background-color-root)));
+}
+
+body.tss-theme-rechenwerk .tss-timeline-container.tss-right::after {
+    left: -7px;
+}
+
+body.tss-theme-rechenwerk .tss-timeline-owner.tss-left > .tss-timeline > .tss-timeline-container.tss-left::after,
+body.tss-theme-rechenwerk .tss-timeline-owner.tss-left > .tss-timeline > .tss-timeline-container.tss-right::after {
+    left: 14px;
+}
+
+/* The lead from the station to the entry. */
+body.tss-theme-rechenwerk .tss-timeline-container::before {
+    content: "";
+    position: absolute;
+    top: 31px;
+    height: 2px;
+    width: 40px;
+    background: rgb(var(--tss-default-border-color-root));
+    z-index: 1;
+}
+
+body.tss-theme-rechenwerk .tss-timeline-container.tss-left::before {
+    right: 0;
+}
+
+body.tss-theme-rechenwerk .tss-timeline-container.tss-right::before {
+    left: 0;
+}
+
+body.tss-theme-rechenwerk .tss-timeline-owner.tss-left > .tss-timeline > .tss-timeline-container.tss-left::before,
+body.tss-theme-rechenwerk .tss-timeline-owner.tss-left > .tss-timeline > .tss-timeline-container.tss-right::before {
+    left: 21px;
+    right: auto;
+    width: 27px;
+}
+
+body.tss-theme-rechenwerk .tss-timeline-container .tss-timeline-content {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    -webkit-box-shadow: 4px 4px 0 0 rgb(var(--tss-default-border-color-root));
+    box-shadow: 4px 4px 0 0 rgb(var(--tss-default-border-color-root));
+}

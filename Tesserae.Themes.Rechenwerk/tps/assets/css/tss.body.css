@@ -6,12 +6,11 @@
    the screen's raster come from tss.common.css; this file restates the
    ground with background-color only, never the background shorthand, so it
    never clears the raster that tss.common.css lays on the dark body. Text
-   is Jost; the base line height is opened a touch, as geometric type wants.
+   is Jost; sizes and line height stay Tesserae's, so nothing reflows.
    ========================================================================== */
 
 body.tss-theme-rechenwerk {
     background-color: rgb(var(--tss-default-background-color-root));
     color: rgb(var(--tss-default-foreground-color-root));
     font-family: var(--tss-sansserif-font-family);
-    line-height: 1.45;
 }

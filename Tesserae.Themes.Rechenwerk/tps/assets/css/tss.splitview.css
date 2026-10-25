@@ -1,1 +1,86 @@
-/* Rechenwerk theme - splitview */
+/* ==========================================================================
+   Rechenwerk theme - SplitView and HorizontalSplitView
+   --------------------------------------------------------------------------
+   The seam between two panes is a 2px ink rule, the line that cuts the
+   sleeve into fields. In its middle sits a grip you can see: a short slab
+   of ridges, like the knurled thumb-wheel of a calculator, so the seam says
+   it can be moved. Under the pointer and while it is dragged, rule and grip
+   turn to the signal colour (red on paper, yellow on the screen) at once,
+   with no slide or glow. A pane lifted over its neighbour (the panel style)
+   stands on the card's hard shadow instead of a blur.
+   ========================================================================== */
+
+/* The rule. */
+body.tss-theme-rechenwerk .tss-splitview.tss-splitview-vertical > .tss-splitter:before {
+    left: calc(50% - 1px);
+    width: 2px;
+    background: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-splitview.tss-splitview-horizontal > .tss-splitter:before {
+    top: calc(50% - 1px);
+    height: 2px;
+    background: rgb(var(--tss-default-border-color-root));
+}
+
+/* The grip: ridges across the direction of travel, framed by the rule colour. */
+body.tss-theme-rechenwerk .tss-splitview.tss-splitview-vertical > .tss-splitter:after {
+    top: calc(50% - 16px);
+    left: 1px;
+    width: 6px;
+    height: 32px;
+    border-radius: 0;
+    background: repeating-linear-gradient(to bottom, rgb(var(--tss-default-border-color-root)) 0 2px, rgb(var(--tss-default-background-color-root)) 2px 4px);
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-border-color-root));
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-splitview.tss-splitview-horizontal > .tss-splitter:after {
+    left: calc(50% - 16px);
+    top: 1px;
+    width: 32px;
+    height: 6px;
+    border-radius: 0;
+    background: repeating-linear-gradient(to right, rgb(var(--tss-default-border-color-root)) 0 2px, rgb(var(--tss-default-background-color-root)) 2px 4px);
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-border-color-root));
+    transition: none;
+}
+
+/* Pointed at or dragged: the signal colour, same geometry (the base grows the grip; a key does not grow). */
+body.tss-theme-rechenwerk .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:before,
+body.tss-theme-rechenwerk .tss-splitview.tss-splitview-vertical > .tss-splitter:active:before {
+    left: calc(50% - 1px);
+    width: 2px;
+    background: var(--tss-rw-signal) !important;
+}
+
+body.tss-theme-rechenwerk .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:before,
+body.tss-theme-rechenwerk .tss-splitview.tss-splitview-horizontal > .tss-splitter:active:before {
+    top: calc(50% - 1px);
+    height: 2px;
+    background: var(--tss-rw-signal) !important;
+}
+
+body.tss-theme-rechenwerk .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:after,
+body.tss-theme-rechenwerk .tss-splitview.tss-splitview-vertical > .tss-splitter:active:after {
+    top: calc(50% - 16px);
+    left: 1px;
+    height: 32px;
+    background: repeating-linear-gradient(to bottom, var(--tss-rw-signal) 0 2px, rgb(var(--tss-default-background-color-root)) 2px 4px) !important;
+    box-shadow: inset 0 0 0 1px var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:after,
+body.tss-theme-rechenwerk .tss-splitview.tss-splitview-horizontal > .tss-splitter:active:after {
+    left: calc(50% - 16px);
+    top: 1px;
+    width: 32px;
+    background: repeating-linear-gradient(to right, var(--tss-rw-signal) 0 2px, rgb(var(--tss-default-background-color-root)) 2px 4px) !important;
+    box-shadow: inset 0 0 0 1px var(--tss-rw-signal);
+}
+
+/* A pane lifted over its neighbour is a card over the page: the hard shadow, not the blur. */
+body.tss-theme-rechenwerk .tss-splitview-panel-style.tss-split-left > *:first-child,
+body.tss-theme-rechenwerk .tss-splitview-panel-style.tss-split-right > *:last-child {
+    box-shadow: var(--tss-rw-card-shadow);
+}

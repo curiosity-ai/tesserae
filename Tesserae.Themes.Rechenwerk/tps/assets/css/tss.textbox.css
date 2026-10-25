@@ -112,3 +112,18 @@ body.tss-theme-rechenwerk .tss-textblock table tbody tr:hover {
     background-color: rgb(244, 194, 13);
     color: rgb(10, 10, 10);
 }
+
+/* --------------------------------------------------------------------------
+   Native date and time fields: numerals in Space Mono, and on the terminal
+   the browser's own picker and indicator drawn for a dark ground.
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-textbox:is([type=date], [type=time], [type=datetime-local], [type=month], [type=week]) {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 13px;
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-textbox,
+body.tss-theme-rechenwerk .tss-sidebar .tss-textbox {
+    color-scheme: dark;
+}

@@ -263,8 +263,23 @@ body.tss-theme-rechenwerk .tss-omnibox-container.tss-omnibox-rounded-full .tss-o
     font-size: 11.5px;
 }
 
-body.tss-theme-rechenwerk .tss-omnibox-inline-chip i {
+body.tss-theme-rechenwerk .tss-omnibox-inline-chip :is(i, .tss-textblock, .tss-fontcolor-default) {
     color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-inline-chip .tss-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-rechenwerk .tss-omnibox-inline-chip .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    height: 18px;
+    min-height: 0;
+    padding: 0 4px;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: 10.5px;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-inline-chip .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    text-decoration: underline;
 }
 
 body.tss-theme-rechenwerk .tss-omnibox-inline-chip-close {
@@ -433,15 +448,24 @@ body.tss-theme-rechenwerk .tippy-content .tss-textblock.tss-omnibox-help-header 
     opacity: 1;
 }
 
-body.tss-theme-rechenwerk .tss-omnibox-help-trigger {
+/* The category headers of the suggestion list. */
+body.tss-theme-rechenwerk .tippy-box:has(> .tippy-content .tss-omnibox-search-history-entry) .tippy-content > .tss-stack > .tss-textblock {
+    color: var(--tss-rw-muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-help-trigger,
+body.tss-theme-rechenwerk .tippy-box .tss-btn:not(.tss-disabled) .tss-textblock.tss-omnibox-help-trigger {
     color: var(--tss-rw-signal);
     font-weight: 700;
 }
 
-body.tss-theme-rechenwerk .tss-omnibox-help-example {
+body.tss-theme-rechenwerk .tss-omnibox-help-example,
+body.tss-theme-rechenwerk .tippy-box .tss-btn:not(.tss-disabled) .tss-textblock.tss-omnibox-help-example {
     color: var(--tss-rw-muted);
-    font-family: var(--tss-monospace-font-family);
-    font-size: 12px;
     opacity: 1;
 }
 

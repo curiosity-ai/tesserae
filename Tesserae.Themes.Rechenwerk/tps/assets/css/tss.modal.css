@@ -9,7 +9,10 @@
    With a title, the header is the sleeve band of rule 9: black with cream
    tracked capitals and a red square in front on paper, the Computerwelt
    yellow with black type and a black square on the terminal. A large title
-   is set in the condensed display face instead. The close button is a
+   is set in the condensed display face instead. A header of the host's
+   own (a result row, a toolbar) keeps the surface and is ruled off the
+   content instead, since its parts bring colours of their own that a black
+   or yellow band would swallow. The close button is a
    square key drawn in the band's type colour that inverts under the pointer.
    A footer is a strip ruled off the content, like a card's. The modal does
    not zoom in: it snaps into place from its shadow in a few frames.
@@ -59,15 +62,21 @@ body.tss-theme-rechenwerk .tss-modal-header {
     background: transparent;
 }
 
-body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) {
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) {
     min-height: 44px;
     padding-left: 32px;
     background: var(--tss-rw-bar-background);
     color: var(--tss-rw-bar-foreground);
 }
 
+/* A header of the host's own: ruled off, not banded. */
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(:empty)):not(:has(> .tss-modal-header-content > .tss-textblock:only-child)) {
+    min-height: 44px;
+    border-bottom: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
 /* The square in front of the title. */
-body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(:empty))::before {
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child)::before {
     content: "";
     position: absolute;
     left: 12px;
@@ -79,7 +88,7 @@ body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(
 }
 
 /* Left-hand commands come before the square, so the square follows them. */
-body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-left-header-commands:not(:empty)):has(> .tss-modal-header-content:not(:empty)) {
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-left-header-commands:not(:empty)):has(> .tss-modal-header-content > .tss-textblock:only-child) {
     padding-left: 12px;
 }
 
@@ -87,13 +96,8 @@ body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-left-header-command
     display: none;
 }
 
-body.tss-theme-rechenwerk .tss-modal-header-content .tss-textblock,
-body.tss-theme-rechenwerk .tss-modal-header-content .tss-fontcolor-default,
-body.tss-theme-rechenwerk .tss-modal-header-content i {
+body.tss-theme-rechenwerk .tss-modal-header-content > .tss-textblock:only-child {
     color: var(--tss-rw-bar-foreground);
-}
-
-body.tss-theme-rechenwerk .tss-modal-header-content .tss-textblock {
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.16em;
@@ -101,11 +105,11 @@ body.tss-theme-rechenwerk .tss-modal-header-content .tss-textblock {
 }
 
 /* A title asked for large is a headline: the condensed display face. */
-body.tss-theme-rechenwerk .tss-modal-header-content .tss-textblock.tss-fontsize-mediumplus,
-body.tss-theme-rechenwerk .tss-modal-header-content .tss-textblock.tss-fontsize-large,
-body.tss-theme-rechenwerk .tss-modal-header-content .tss-textblock.tss-fontsize-xlarge,
-body.tss-theme-rechenwerk .tss-modal-header-content .tss-textblock.tss-fontsize-xxlarge,
-body.tss-theme-rechenwerk .tss-modal-header-content .tss-textblock.tss-fontsize-mega {
+body.tss-theme-rechenwerk .tss-modal-header-content > .tss-textblock.tss-fontsize-mediumplus:only-child,
+body.tss-theme-rechenwerk .tss-modal-header-content > .tss-textblock.tss-fontsize-large:only-child,
+body.tss-theme-rechenwerk .tss-modal-header-content > .tss-textblock.tss-fontsize-xlarge:only-child,
+body.tss-theme-rechenwerk .tss-modal-header-content > .tss-textblock.tss-fontsize-xxlarge:only-child,
+body.tss-theme-rechenwerk .tss-modal-header-content > .tss-textblock.tss-fontsize-mega:only-child {
     font-family: var(--tss-rw-display);
     font-size: 24px;
     font-weight: 800;
@@ -183,28 +187,28 @@ body.tss-theme-rechenwerk .tss-modal-header-commands > .tss-modal-button i {
 }
 
 /* On the band everything is drawn in the band's type colour, and inverts to it. */
-body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) > .tss-modal-header-commands > .tss-btn,
-body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) > .tss-modal-header-commands > button,
-body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) > .tss-modal-left-header-commands > .tss-btn,
-body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) > .tss-modal-left-header-commands > button {
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-header-commands > .tss-btn,
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-header-commands > button,
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-left-header-commands > button {
     background-color: transparent;
     color: var(--tss-rw-bar-foreground);
 }
 
-body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) > .tss-modal-header-commands > .tss-btn:hover,
-body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) > .tss-modal-header-commands > button:hover,
-body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) > .tss-modal-left-header-commands > .tss-btn:hover,
-body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) > .tss-modal-left-header-commands > button:hover {
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-header-commands > .tss-btn:hover,
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-header-commands > button:hover,
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-left-header-commands > .tss-btn:hover,
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-left-header-commands > button:hover {
     border-color: var(--tss-rw-bar-foreground);
 }
 
-body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) > .tss-modal-header-commands > .tss-modal-button {
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-header-commands > .tss-modal-button {
     border-color: var(--tss-rw-bar-foreground);
 }
 
-body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) > .tss-modal-header-commands > .tss-modal-button:hover,
-body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) > .tss-modal-header-commands > .tss-btn:active,
-body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) > .tss-modal-header-commands > button:active {
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-header-commands > .tss-modal-button:hover,
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-header-commands > button:active {
     background-color: var(--tss-rw-bar-foreground);
     border-color: var(--tss-rw-bar-foreground);
     color: var(--tss-rw-bar-background);

@@ -1,1 +1,142 @@
-/* Rechenwerk theme - drawer */
+/* ==========================================================================
+   Rechenwerk theme - Drawer
+   --------------------------------------------------------------------------
+   A bottom sheet is a sleeve pulled up from the edge of the screen: square
+   top corners, the 2px ink frame on its three open sides, and the hard
+   shadow thrown to the right like every floating panel's. The grab handle
+   is a short solid slab, not a pill. The header is the sleeve band of rule
+   9 with the title in tracked capitals and the close key at its end; the
+   footer is a strip ruled off the content. It still slides, but in hard
+   steps (the 250ms is Drawer.DRAWER_TRANSITION_TIME, so it is kept).
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-drawer-container {
+    transition: background-color 0.25s steps(3);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-drawer-container.tss-drawer-open {
+    background-image: var(--tss-rw-scanlines);
+}
+
+body.tss-theme-rechenwerk .tss-drawer {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-bottom: none;
+    border-radius: 0;
+    box-shadow: 6px 0 0 0 var(--tss-rw-key-shadow-color);
+    transition: transform 0.25s steps(5);
+}
+
+body.tss-theme-rechenwerk .tss-drawer.tss-drawer-dragging {
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-drawer-handle {
+    padding: 6px 0;
+}
+
+body.tss-theme-rechenwerk .tss-drawer-handle-bar {
+    width: 40px;
+    height: 6px;
+    border-radius: 0;
+    background-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   The band
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-drawer-header {
+    position: relative;
+    min-height: 44px;
+    padding: 0 7px 0 32px;
+    background: var(--tss-rw-bar-background);
+    color: var(--tss-rw-bar-foreground);
+}
+
+body.tss-theme-rechenwerk .tss-drawer-header::before {
+    content: "";
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    margin-top: -5px;
+    background: var(--tss-rw-bar-marker);
+}
+
+body.tss-theme-rechenwerk .tss-drawer-header:has(> .tss-drawer-title:empty)::before {
+    display: none;
+}
+
+body.tss-theme-rechenwerk .tss-drawer-title .tss-textblock,
+body.tss-theme-rechenwerk .tss-drawer-title .tss-fontcolor-default,
+body.tss-theme-rechenwerk .tss-drawer-title i {
+    color: var(--tss-rw-bar-foreground);
+}
+
+body.tss-theme-rechenwerk .tss-drawer-title .tss-textblock {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-drawer-close {
+    width: 30px;
+    height: 30px;
+    border: 2px solid var(--tss-rw-bar-foreground);
+    border-radius: 0;
+    background-color: transparent;
+    color: var(--tss-rw-bar-foreground);
+    font-size: 12px;
+}
+
+body.tss-theme-rechenwerk .tss-drawer-close:hover,
+body.tss-theme-rechenwerk .tss-drawer-close:active {
+    background-color: var(--tss-rw-bar-foreground);
+    color: var(--tss-rw-bar-background);
+}
+
+body.tss-theme-rechenwerk .tss-drawer-close:focus-visible {
+    outline: 2px solid var(--tss-rw-bar-foreground);
+    outline-offset: 2px;
+}
+
+body.tss-theme-rechenwerk .tss-drawer-close i {
+    color: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   Body and footer
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-drawer-content {
+    padding-top: 14px;
+}
+
+body.tss-theme-rechenwerk .tss-drawer-content.tss-drawer-content-no-padding {
+    padding: 0;
+}
+
+body.tss-theme-rechenwerk .tss-drawer-footer {
+    padding: 10px 16px 14px 16px;
+    border-top: 2px solid rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+/* The sheet is the frame of a modal shown in it, so the modal draws none of its own. */
+body.tss-theme-rechenwerk .tss-drawer-content > .tss-modal.tss-modal-in-drawer,
+body.tss-theme-rechenwerk .tss-drawer-content .tss-modal.tss-embedded {
+    background: transparent;
+    box-shadow: none;
+    animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-drawer,
+    body.tss-theme-rechenwerk .tss-drawer-container {
+        transition: none;
+    }
+}

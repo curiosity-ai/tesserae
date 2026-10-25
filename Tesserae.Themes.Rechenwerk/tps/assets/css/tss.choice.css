@@ -11,14 +11,21 @@
    dashed rule.
    ========================================================================== */
 
+/* The group's header is the field's label: tracked capitals, like every label of a field. */
+body.tss-theme-rechenwerk .tss-choice-group > .tss-textblock:first-child {
+    margin-bottom: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
 body.tss-theme-rechenwerk .tss-option-container {
     color: rgb(var(--tss-default-foreground-color-root));
 }
 
 body.tss-theme-rechenwerk .tss-option-container .tss-option-mark {
     box-sizing: border-box;
-    height: 20px;
-    width: 20px;
     border: 2px solid rgb(var(--tss-default-border-color-root));
     border-radius: 50%;
     background-color: rgb(var(--tss-secondary-background-color-root));
@@ -89,11 +96,7 @@ body.tss-theme-rechenwerk .tss-option-container.tss-disabled input:checked ~ .ts
     background-color: rgb(var(--tss-disabled-foreground-color-root));
 }
 
-/* Larger text, larger socket: Tesserae's per-size sizes for the socket stay, the lamp follows them. */
-body.tss-theme-rechenwerk .tss-option-container.tss-fontsize-small .tss-option-mark {
-    height: 20px;
-    width: 20px;
-}
+/* .Rounded() on the group cannot square the socket: the round socket is what says "one of these". */
 
 @media (prefers-reduced-motion: reduce) {
     body.tss-theme-rechenwerk .tss-option-container .tss-option-mark {

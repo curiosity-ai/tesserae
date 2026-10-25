@@ -1,1 +1,46 @@
-/* Rechenwerk theme - mermaid */
+/* ==========================================================================
+   Rechenwerk theme - Mermaid diagrams in Markdown
+   --------------------------------------------------------------------------
+   Pele draws the diagram from --pele-* variables, which Tesserae's own
+   tss.mermaid.css points at the tokens, so Jost, Space Mono and the sleeve
+   series (--tss-chart-series-N: red, ink, yellow, blue...) already follow.
+   What the theme adds: a diagram is framed like a code block, a square plate
+   in the 2px ink rule standing on a hard shadow in the signal colour. Nodes
+   are the raised surface in an ink rule, edges are ink, corners are square,
+   titles are heavy, and the accent is the signal. It stays on the page's
+   ground rather than the terminal's black, so the ink series stays visible.
+   Dark mode swaps ink and paper through the tokens.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-mermaid {
+    --pele-bg: rgb(var(--tss-default-background-color-root));
+    --pele-surface: rgb(var(--tss-secondary-background-color-root));
+    --pele-surface-alt: rgb(var(--tss-default-background-hover-color-root));
+    --pele-line: rgb(var(--tss-default-foreground-color-root));
+    --pele-border: rgb(var(--tss-default-border-color-root));
+    --pele-muted: var(--tss-rw-muted);
+    --pele-accent: var(--tss-rw-signal);
+    --pele-critical: var(--tss-rw-red);
+    --pele-error: var(--tss-rw-red);
+    --pele-radius: 0px;
+    --pele-title-weight: 700;
+    --pele-heading-weight: 600;
+    margin-right: 4px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    box-shadow: 4px 4px 0 0 var(--tss-rw-signal);
+}
+
+/* A diagram that could not be drawn stays the source: the terminal block with a hazard edge. */
+body.tss-theme-rechenwerk .tss-markdown pre.tss-mermaid-source {
+    border-left: 6px solid var(--tss-rw-yellow);
+}
+
+body.tss-theme-rechenwerk .tss-mermaid > pre.tss-mermaid-source {
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-mermaid.tss-mermaid-failed {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+    box-shadow: 4px 4px 0 0 rgb(var(--tss-invalid-border-color-root));
+}

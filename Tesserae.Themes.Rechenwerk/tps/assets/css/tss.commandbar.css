@@ -1,1 +1,89 @@
-/* Rechenwerk theme - commandbar */
+/* ==========================================================================
+   Rechenwerk theme - CommandBar
+   --------------------------------------------------------------------------
+   The control strip of a synthesizer: one bar framed in a 2px ink rule on
+   the surface colour, square, holding a row of ghost keys. A key has no
+   frame at rest; under the pointer its frame appears on the hover tint, and
+   pressed it fills yellow, as in tss.button.css. Labels are tracked
+   capitals. The primary command is a solid key in the signal colour,
+   standing on the 3px key shadow and travelling into it when pressed.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-commandbar {
+    border: var(--tss-rw-rule);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    padding: 6px 8px;
+}
+
+body.tss-theme-rechenwerk .tss-commandbar-item {
+    border: 2px solid transparent;
+    border-radius: 0;
+    padding: 5px 10px;
+    font-family: var(--tss-sansserif-font-family);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: transform 60ms steps(1), box-shadow 60ms steps(1);
+}
+
+body.tss-theme-rechenwerk .tss-commandbar-item:not(:disabled):not(.tss-disabled):hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-commandbar-item:not(:disabled):not(.tss-disabled):active {
+    background: rgb(244, 194, 13);
+    border-color: rgb(17, 17, 17);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-commandbar-item:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 2px;
+}
+
+body.tss-theme-rechenwerk .tss-commandbar-item-icon {
+    font-size: 14px;
+}
+
+/* The primary command: a solid key. */
+body.tss-theme-rechenwerk .tss-commandbar-item.tss-commandbar-item-primary:not(:disabled):not(.tss-disabled) {
+    background: rgb(var(--tss-primary-background-color-root));
+    border-color: rgb(17, 17, 17);
+    color: rgb(var(--tss-primary-foreground-color-root));
+    box-shadow: var(--tss-rw-btn-shadow);
+    margin-right: 3px;
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-commandbar-item.tss-commandbar-item-primary:not(:disabled):not(.tss-disabled) {
+    border-color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-commandbar-item.tss-commandbar-item-primary:not(:disabled):not(.tss-disabled):hover {
+    background: rgb(var(--tss-primary-background-hover-color-root));
+    color: rgb(var(--tss-primary-foreground-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-commandbar-item.tss-commandbar-item-primary:not(:disabled):not(.tss-disabled):active {
+    transform: var(--tss-rw-btn-travel);
+    box-shadow: none;
+}
+
+/* Disabled: a dashed outline, nothing to press. */
+body.tss-theme-rechenwerk .tss-commandbar-item.tss-disabled,
+body.tss-theme-rechenwerk .tss-commandbar-item:disabled {
+    opacity: 1;
+    background: transparent;
+    border: 2px dashed rgb(var(--tss-disabled-foreground-color-root));
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-commandbar-item {
+        transition: none;
+    }
+}
