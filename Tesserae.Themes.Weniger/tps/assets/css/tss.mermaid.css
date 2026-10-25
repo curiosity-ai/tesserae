@@ -1,7 +1,69 @@
 /* ==========================================================================
-   Weniger theme - mermaid
+   Weniger theme - Mermaid diagrams
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A diagram is drawn on the same terminal screen as a code block: black
+   glass in the plastic bezel, the same on both editions. Pele draws from
+   its --pele-* variables, restated here for the screen: lines and type in
+   the green phosphor (the type a paler tint of it, for long labels),
+   nodes a hair lighter than the glass with a phosphor edge, the accent the
+   signal orange, failures the record red. The series run through the
+   colours that read on black glass: orange, phosphor, amber, LCD green,
+   red, a cool steel, sand, grey.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-mermaid {
+    --pele-bg: rgb(16, 19, 16);
+    --pele-fg: rgb(206, 236, 200);
+    --pele-muted: rgba(170, 222, 168, 0.72);
+    --pele-line: rgba(110, 236, 120, 0.7);
+    --pele-surface: rgb(26, 32, 26);
+    --pele-surface-alt: rgb(34, 42, 34);
+    --pele-border: rgba(110, 236, 120, 0.55);
+    --pele-accent: var(--tss-wg-orange);
+    --pele-critical: rgb(232, 70, 58);
+    --pele-error: rgb(232, 70, 58);
+    --pele-radius: 6px;
+    --pele-series-1: rgb(236, 88, 26);
+    --pele-series-2: rgb(110, 236, 120);
+    --pele-series-3: rgb(240, 172, 36);
+    --pele-series-4: rgb(176, 190, 160);
+    --pele-series-5: rgb(220, 60, 50);
+    --pele-series-6: rgb(120, 168, 196);
+    --pele-series-7: rgb(214, 196, 150);
+    --pele-series-8: rgb(150, 150, 146);
+
+    margin: 22px 6px;
+    padding: 18px;
+    color: rgb(206, 236, 200);
+    background: var(--tss-wg-crt-bg);
+    border: none;
+    border-radius: var(--tss-wg-radius-key);
+    box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.7),
+        inset 0 3px 8px rgba(0, 0, 0, 0.65),
+        0 0 0 5px rgb(var(--tss-secondary-background-color-root)),
+        0 0 0 6px var(--tss-wg-key-edge),
+        0 2px 4px 6px rgba(60, 54, 46, 0.12);
+    scrollbar-color: rgba(110, 236, 120, 0.35) transparent;
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-mermaid {
+    box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.8),
+        inset 0 3px 8px rgba(0, 0, 0, 0.7),
+        0 0 0 5px rgb(var(--tss-secondary-background-color-root)),
+        0 0 0 6px var(--tss-wg-key-edge),
+        0 2px 5px 6px rgba(0, 0, 0, 0.35);
+}
+
+body.tss-theme-weniger .tss-mermaid > pre.tss-mermaid-source {
+    color: var(--tss-wg-crt-ink);
+}
+
+body.tss-theme-weniger .tss-mermaid.tss-mermaid-failed {
+    box-shadow:
+        inset 0 0 0 1px rgba(232, 70, 58, 0.8),
+        inset 0 3px 8px rgba(0, 0, 0, 0.65),
+        0 0 0 5px rgb(var(--tss-secondary-background-color-root)),
+        0 0 0 6px var(--tss-wg-key-edge);
+}

@@ -1,7 +1,290 @@
 /* ==========================================================================
-   Weniger theme - toolcall
+   Weniger theme - Tool call
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A tool call is a strip key on the transcript: light plastic, a 1px
+   moulded edge, standing proud; its icon a small key of its own, its name
+   in the mono face like the legend on a function key. The header rises
+   under the pointer; expanded, the strip opens into a small panel ruled
+   off by a groove. The ToolsUsed summary is the same key with its icon on
+   a turned-aluminium disc, and Inline() opens it into a plastic panel of
+   rows parted by grooves.
+
+   What a call answered (ToolCallInspect's response) reads off a small
+   terminal screen: green type on black glass, inset behind a bezel, the way
+   a device shows its log. Labels are printed legends, an error label in
+   the record-key red with its word kept.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-toolcall {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-toolcall.tss-expanded {
+    background: var(--tss-wg-plastic);
+}
+
+body.tss-theme-weniger .tss-toolcall > .tss-toolcall-header {
+    border-radius: 7px;
+}
+
+body.tss-theme-weniger .tss-toolcall.tss-expanded > .tss-toolcall-header {
+    border-radius: 7px 7px 0 0;
+}
+
+body.tss-theme-weniger .tss-toolcall-header,
+body.tss-theme-weniger .tss-toolsused-header {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-toolcall-header {
+    padding: 5px 9px;
+}
+
+body.tss-theme-weniger .tss-toolcall-header:hover {
+    background: var(--tss-wg-key-hover);
+}
+
+body.tss-theme-weniger .tss-toolcall-header.tss-toolcall-not-expandable:hover {
+    background: transparent;
+}
+
+body.tss-theme-weniger .tss-toolcall-header:focus-visible,
+body.tss-theme-weniger .tss-toolsused-header:focus-visible,
+body.tss-theme-weniger .tss-toolcall-action:focus-visible,
+body.tss-theme-weniger .tss-toolcall-secondary-action:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 1px;
+}
+
+/* The icons: a small key, and for the summary a turned-metal disc. */
+body.tss-theme-weniger .tss-toolcall-icon,
+body.tss-theme-weniger .tss-toolsused-list-icon,
+body.tss-theme-weniger .tss-toolsused-modal-detail-icon {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-key-hover);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-toolcall-icon,
+body.tss-theme-weniger.tss-dark-mode .tss-toolsused-list-icon,
+body.tss-theme-weniger.tss-dark-mode .tss-toolsused-modal-detail-icon {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+body.tss-theme-weniger .tss-toolsused-icon {
+    background: var(--tss-wg-alu-knob);
+    box-shadow: var(--tss-wg-knob-shadow);
+    color: rgb(40, 40, 38);
+}
+
+body.tss-theme-weniger .tss-toolcall-text,
+body.tss-theme-weniger .tss-toolsused-list-text,
+body.tss-theme-weniger .tss-toolsused-modal-detail-title {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-toolcall-chevron,
+body.tss-theme-weniger .tss-toolsused-chevron,
+body.tss-theme-weniger .tss-toolsused-list-chevron {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    transition: transform 160ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-toolcall-content {
+    border-top: 1px solid var(--tss-wg-groove);
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   Actions: ghost keys beside the chip, small keys inside it
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-toolcall-action {
+    border: 1px solid transparent;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-toolcall-action:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-toolcall-secondary-action {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 500;
+    transition: box-shadow var(--tss-wg-quick) var(--tss-wg-ease), transform var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-toolcall-secondary-action:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-toolcall-secondary-action:active,
+body.tss-theme-weniger .tss-toolcall-action:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+/* --------------------------------------------------------------------------
+   ToolsUsed: the summary key, and its inline panel of rows
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-toolsused-header {
+    padding: 5px 12px 5px 6px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    transition: box-shadow var(--tss-wg-quick) var(--tss-wg-ease), transform var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-toolsused-header:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-toolsused-header:active,
+body.tss-theme-weniger .tss-toolsused-inline.tss-expanded .tss-toolsused-header {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+body.tss-theme-weniger .tss-toolsused-header:active {
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-toolsused-inline-list {
+    border: none;
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-panel-shadow);
+}
+
+body.tss-theme-weniger .tss-toolsused-inline-list > .tss-toolcall {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-toolsused-inline-list > .tss-toolcall > .tss-toolcall-header,
+body.tss-theme-weniger .tss-toolsused-inline-list > .tss-toolcall.tss-expanded > .tss-toolcall-header {
+    padding: 8px 12px;
+    border-radius: 0;
+}
+
+body.tss-theme-weniger .tss-toolsused-inline-list > .tss-toolcall:first-child > .tss-toolcall-header {
+    border-radius: var(--tss-wg-radius-key) var(--tss-wg-radius-key) 0 0;
+}
+
+body.tss-theme-weniger .tss-toolsused-inline-list > .tss-toolcall + .tss-toolcall {
+    border-top: 1px solid var(--tss-wg-groove);
+}
+
+/* --------------------------------------------------------------------------
+   The ToolsUsed popup: rows that rise into keys
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-toolsused-back {
+    border: 1px solid transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-toolsused-back:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-toolsused-list-row {
+    margin: 0 8px 2px;
+    border: 1px solid transparent;
+    border-bottom-color: var(--tss-wg-groove);
+    border-radius: var(--tss-wg-radius-key);
+}
+
+body.tss-theme-weniger .tss-toolsused-list-row:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-toolsused-modal-slider {
+    transition: transform 220ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-toolsused-empty,
+body.tss-theme-weniger .tss-toolcallinspect-empty {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   ToolCallInspect: legends, and the response on a terminal screen
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-toolcallinspect-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-toolcallinspect-label-error {
+    color: var(--tss-wg-red);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-toolcallinspect-label-error,
+body.tss-theme-weniger.tss-dark-mode .tss-toolcallinspect-error {
+    color: rgb(255, 120, 108);
+}
+
+body.tss-theme-weniger .tss-toolcallinspect-error {
+    color: var(--tss-wg-red);
+}
+
+body.tss-theme-weniger .tss-toolcallinspect-response {
+    margin-top: 2px;
+    padding: 10px 12px;
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    border-radius: 6px;
+    background: var(--tss-wg-crt-bg);
+    box-shadow: 0 0 0 3px rgba(var(--tss-dark-border-color-root), 0.35), var(--tss-wg-lcd-well);
+    color: var(--tss-wg-crt-ink);
+    text-shadow: 0 0 4px rgba(110, 236, 120, 0.35);
+    scrollbar-color: rgba(110, 236, 120, 0.4) transparent;
+}
+
+body.tss-theme-weniger .tss-toolcallinspect-response * {
+    color: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-toolcall-chevron,
+    body.tss-theme-weniger .tss-toolsused-chevron,
+    body.tss-theme-weniger .tss-toolsused-header,
+    body.tss-theme-weniger .tss-toolcall-secondary-action,
+    body.tss-theme-weniger .tss-toolsused-modal-slider {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-toolsused-header:active,
+    body.tss-theme-weniger .tss-toolcall-secondary-action:active,
+    body.tss-theme-weniger .tss-toolcall-action:active {
+        transform: none;
+    }
+}

@@ -1,7 +1,99 @@
 /* ==========================================================================
-   Weniger theme - contributionbar
+   Weniger theme - ContributionBar
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A stacked bar is a level meter with several scales lit side by side: the
+   bar is a groove cut into the panel (a recessed well, the empty remainder
+   showing its floor), each segment keeps the colour the app or the palette
+   gave it (an inline style) with a moulded sheen over it and a hairline
+   seam where it meets the next. The legend's swatches are small lamps.
+   The collapse toggle is a ghost key that rises under the pointer.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-contribution-bar {
+    background: rgb(var(--tss-progress-background-color-root));
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-contribution-bar {
+    background: rgb(22, 22, 21);
+}
+
+body.tss-theme-weniger .tss-contribution-segment {
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.14) 0%, rgba(255, 255, 255, 0.14) 100%);
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.16);
+}
+
+body.tss-theme-weniger .tss-contribution-segment:last-child {
+    box-shadow: none;
+}
+
+/* The legend: lamps with their names printed beside them. */
+body.tss-theme-weniger .tss-contribution-legend-dot {
+    width: 8px;
+    height: 8px;
+    background-image: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 60%);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.14), 0 0 0 2px rgba(60, 54, 46, 0.06);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-contribution-legend-dot {
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+body.tss-theme-weniger .tss-contribution-legend-item {
+    font-size: 12px;
+}
+
+body.tss-theme-weniger .tss-contribution-legend-value {
+    font-variant-numeric: tabular-nums;
+}
+
+/* The toggle: a small round ghost key. */
+body.tss-theme-weniger .tss-contribution-toggle {
+    width: 22px;
+    height: 22px;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    transition: background var(--tss-wg-quick) var(--tss-wg-ease), box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-contribution-toggle:hover {
+    color: rgb(var(--tss-default-foreground-color-root));
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-contribution-toggle:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-contribution-toggle:focus-visible {
+    outline: none;
+    box-shadow: var(--tss-wg-focus);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-contribution-toggle {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-contribution-toggle:active {
+        transform: none;
+    }
+}
+
+/* The breakdown popover sits on the tooltip's own surface (graphite on the light edition, light on the
+   charcoal one), so its legend takes the tooltip's foreground rather than the page's. */
+body.tss-theme-weniger .tss-contribution-popover .tss-contribution-legend-item {
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-contribution-popover .tss-contribution-legend-label {
+    color: rgba(var(--tss-tooltip-foreground-color-root), 0.72);
+}
+
+body.tss-theme-weniger .tss-contribution-popover .tss-contribution-bar {
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+}

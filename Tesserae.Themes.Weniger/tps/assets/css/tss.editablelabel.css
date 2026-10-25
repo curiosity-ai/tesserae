@@ -1,7 +1,89 @@
 /* ==========================================================================
-   Weniger theme - editablelabel
+   Weniger theme - EditableLabel
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   At rest it is plain type on the panel. Under the pointer it rises into a
+   light plastic key (like a ghost button) and the pencil appears, saying it
+   can be pressed. Editing swaps it for the theme's field: the recessed well
+   of tss.textbox.css, its edge turning orange with the orange ring while it
+   holds the caret. The cancel cross is the record-key red, a small ghost
+   key of its own.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-editablelabel-displaybox {
+    padding: 0 6px;
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-key);
+    transition: background-color 120ms linear, box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-editablelabel-displaybox:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-editablelabel-edit-icon {
+    margin-left: 12px;
+    font-size: 12px;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-editablelabel-textbox {
+    min-height: 32px;
+    padding: 0 10px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    color: rgb(var(--tss-default-foreground-color-root));
+    caret-color: var(--tss-wg-orange);
+    transition: box-shadow 140ms var(--tss-wg-ease), border-color 140ms linear;
+}
+
+body.tss-theme-weniger .tss-editablelabel-textbox:hover {
+    border-color: rgba(var(--tss-dark-border-color-root), 0.7);
+}
+
+body.tss-theme-weniger .tss-editablelabel-textbox:focus,
+body.tss-theme-weniger .tss-editablelabel-textbox:focus-visible {
+    outline: none;
+    border-color: var(--tss-wg-orange);
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(236, 88, 26, 0.24);
+}
+
+body.tss-theme-weniger .tss-editablelabel-cancel-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 0 6px;
+    padding: 0;
+    width: 28px;
+    height: 28px;
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-key);
+    font-size: 12px;
+    color: var(--tss-wg-red);
+    cursor: pointer;
+}
+
+body.tss-theme-weniger .tss-editablelabel-cancel-icon:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-editablelabel-cancel-icon:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-editablelabel-cancel-icon {
+    color: rgb(240, 96, 86);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-editablelabel-displaybox,
+    body.tss-theme-weniger .tss-editablelabel-textbox {
+        transition: none;
+    }
+}

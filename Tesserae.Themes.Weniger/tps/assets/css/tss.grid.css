@@ -1,7 +1,8 @@
 /* ==========================================================================
-   Weniger theme - grid
+   Weniger theme - Grid
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A grid is the drawing the case was laid out on, never moulded into it: it
+   draws no ground, groove or shadow, and its cells take their look from the
+   parts put in them. Its padding and its min-height floor are layout, which
+   the theme must not move. Nothing to restate.
    ========================================================================== */

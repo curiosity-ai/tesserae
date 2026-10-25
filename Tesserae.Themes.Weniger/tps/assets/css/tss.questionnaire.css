@@ -1,7 +1,108 @@
 /* ==========================================================================
-   Weniger theme - questionnaire
+   Weniger theme - Questionnaire
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A question put by the device: a small plastic panel with its groove, the
+   question printed in the ink, the answers a row of keys under it (8px
+   moulded keys, not pills). Answering latches the chosen key down and
+   lights an orange lamp at its leading edge; the other keys go flat and
+   faded, as a key does when its row is locked. The answer receipt is a
+   pressed-in plate carrying the reply.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-questionnaire {
+    gap: 12px;
+    padding: 14px 16px;
+    border: none;
+    border-radius: 12px;
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-panel-shadow);
+    outline: 1px solid var(--tss-wg-groove);
+    outline-offset: -5px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-questionnaire-question {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-questionnaire-options {
+    gap: 8px;
+}
+
+body.tss-theme-weniger .tss-questionnaire-option {
+    position: relative;
+    min-height: 30px;
+    padding: 6px 14px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 600;
+    transition: transform var(--tss-wg-quick) var(--tss-wg-ease), box-shadow var(--tss-wg-quick) var(--tss-wg-ease), opacity 120ms linear;
+}
+
+body.tss-theme-weniger .tss-questionnaire-option:hover:not(:disabled) {
+    border-color: var(--tss-wg-key-edge);
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-questionnaire-option:active:not(:disabled) {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-questionnaire-option:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+}
+
+/* Answered: the others locked flat. */
+body.tss-theme-weniger .tss-questionnaire-answered .tss-questionnaire-option,
+body.tss-theme-weniger .tss-questionnaire-option:disabled {
+    opacity: 1;
+    background: rgb(var(--tss-disabled-background-color-root));
+    box-shadow: none;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+/* The chosen key: latched down, its lamp lit. */
+body.tss-theme-weniger .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+    padding-left: 24px;
+    border-color: var(--tss-wg-key-edge);
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    color: rgb(var(--tss-default-foreground-color-root));
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    border-radius: 50%;
+    background: var(--tss-wg-orange-hi);
+    box-shadow: var(--tss-wg-led-orange-glow);
+}
+
+/* The receipt: a plate pressed into the panel. */
+body.tss-theme-weniger .tss-questionnaire-answered-badge {
+    padding: 5px 10px;
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-questionnaire-option {
+        transition: none;
+        transform: none !important;
+    }
+}

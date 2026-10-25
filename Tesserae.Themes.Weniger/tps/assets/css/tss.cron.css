@@ -1,7 +1,92 @@
 /* ==========================================================================
-   Weniger theme - cron
+   Weniger theme - CronEditor
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   The cron editor is the programme panel of a timer switch: a small
+   plastic strip standing proud of the panel, its schedule read off a
+   little grey-green LCD line (the times in 7-segment figures, the words in
+   the display's monospace) with the on / off key beside it. Opened, the
+   strip becomes the panel the settings are set on: the frequency and time
+   are small recessed wells inline in the sentence, the days a row of the
+   theme's square push keys (check boxes), the custom expression a well in
+   monospace.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-cron-editor {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-cron-desc,
+body.tss-theme-weniger .tss-cron-desc:hover {
+    border-bottom: none;
+}
+
+/* The LCD line. */
+body.tss-theme-weniger .tss-cron-desc > .tss-btn:not(.tss-btn-only-icon) .tss-textblock {
+    padding: 3px 8px 2px;
+    border-radius: 4px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 40%),
+        var(--tss-wg-lcd-bg);
+    box-shadow: var(--tss-wg-lcd-well);
+    color: var(--tss-wg-lcd-ink);
+    font-family: var(--tss-wg-lcd);
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+/* The key that opens it stays a ghost on the strip; it does not need to rise round the display. */
+body.tss-theme-weniger .tss-cron-desc > .tss-btn:not(.tss-btn-only-icon) .tss-stack {
+    gap: 6px;
+}
+
+/* Opened: the strip is the panel. */
+body.tss-theme-weniger .tss-cron-open {
+    padding: 4px 8px 8px;
+    border-radius: inherit;
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-cron-label,
+body.tss-theme-weniger .tss-cron-label .tss-textblock {
+    font-size: 13px;
+}
+
+/* The inline settings: small wells in the sentence. */
+body.tss-theme-weniger .tss-cron-inline-dropdown.tss-dropdown-container,
+body.tss-theme-weniger .tss-cron-inline-dropdown.tss-dropdown-container:hover {
+    padding: 2px 8px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-cron-inline-dropdown.tss-dropdown-container:hover {
+    border-color: rgba(var(--tss-dark-border-color-root), 0.7);
+}
+
+body.tss-theme-weniger .tss-cron-inline-dropdown .tss-dropdown-item-on-box,
+body.tss-theme-weniger .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-fontcolor-default,
+body.tss-theme-weniger .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-btn {
+    color: rgb(var(--tss-default-foreground-color-root)) !important;
+    font-weight: 600;
+}
+
+body.tss-theme-weniger .tss-cron-inline-dropdown .tss-dropdown-icon {
+    color: rgb(var(--tss-secondary-foreground-color-root)) !important;
+}
+
+body.tss-theme-weniger .tss-cron-days {
+    gap: 14px;
+    padding: 2px 4px;
+}
+
+body.tss-theme-weniger .tss-cron-custom-input .tss-textbox {
+    font-size: 13px;
+}

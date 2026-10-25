@@ -1,7 +1,133 @@
 /* ==========================================================================
-   Weniger theme - timehistogrampicker
+   Weniger theme - TimeHistogramPicker
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A level meter with a range selector under it. The histogram reads off a
+   grey-green LCD window set into the panel behind its bezel: the buckets
+   inside the chosen range are dark liquid-crystal bars, the ones outside it
+   only faintly drawn, the way unlit segments show on a display. Under the
+   window runs the slider's groove, filled signal orange between the two
+   ends of the range; each end is a brushed-aluminium cap with a grip line
+   cut across it (the slider's thumb, made tall). The axis under it is
+   printed small and muted on the case, with figures that line up.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-time-histogram-picker-bars {
+    gap: 2px;
+    padding: 10px var(--tss-time-histogram-picker-horizontal-inset) 0;
+    border-bottom: none;
+    border-radius: 6px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 38%),
+        var(--tss-wg-lcd-bg);
+    box-shadow: var(--tss-wg-lcd-well);
+    overflow: hidden;
+}
+
+body.tss-theme-weniger .tss-time-histogram-picker-bar {
+    border-radius: 1px 1px 0 0;
+    background: rgba(34, 40, 32, 0.16);
+    opacity: 1;
+}
+
+body.tss-theme-weniger .tss-time-histogram-picker-bar.tss-selected {
+    background: var(--tss-wg-lcd-ink);
+    opacity: 0.86;
+}
+
+/* The groove. */
+body.tss-theme-weniger .tss-time-histogram-picker-track::before {
+    top: 11px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-time-histogram-picker-selection {
+    top: 11px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: var(--tss-wg-orange);
+    background-image: var(--tss-wg-sheen-pressed);
+    box-shadow: inset 0 1px 2px rgba(90, 30, 0, 0.35);
+}
+
+/* The end caps: brushed aluminium with a grip line. */
+body.tss-theme-weniger .tss-time-histogram-picker-thumb {
+    top: 2px;
+    width: 14px;
+    height: 24px;
+    margin-left: -7px;
+    border: none;
+    border-radius: 4px;
+    background: var(--tss-wg-alu);
+    box-shadow: var(--tss-wg-knob-shadow);
+    transition: box-shadow 120ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-time-histogram-picker-thumb::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 7px;
+    bottom: 7px;
+    width: 2px;
+    margin-left: -1px;
+    border-radius: 1px;
+    background: rgba(60, 54, 46, 0.32);
+    box-shadow: 1px 0 0 rgba(255, 255, 255, 0.55);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-time-histogram-picker-thumb::after {
+    background: rgba(0, 0, 0, 0.45);
+    box-shadow: 1px 0 0 rgba(255, 255, 255, 0.12);
+}
+
+body.tss-theme-weniger .tss-time-histogram-picker-thumb:hover {
+    box-shadow: var(--tss-wg-knob-shadow), 0 0 0 3px rgba(236, 88, 26, 0.16);
+}
+
+body.tss-theme-weniger .tss-time-histogram-picker-thumb:focus,
+body.tss-theme-weniger .tss-time-histogram-picker-thumb:focus-visible {
+    outline: none;
+    box-shadow: var(--tss-wg-knob-shadow), 0 0 0 3px rgba(236, 88, 26, 0.45);
+}
+
+body.tss-theme-weniger .tss-time-histogram-picker-axis {
+    padding-top: 4px;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-size: 11px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-weniger .tss-time-histogram-picker-empty {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: 6px;
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-size: 12px;
+}
+
+/* Disabled: the display dimmed, the groove empty of colour, the caps flat. */
+body.tss-theme-weniger .tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-thumb {
+    box-shadow: 0 0 0 1px var(--tss-wg-key-edge);
+}
+
+body.tss-theme-weniger .tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-selection {
+    background: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-bar.tss-selected {
+    background: rgba(34, 40, 32, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-time-histogram-picker-thumb,
+    body.tss-theme-weniger .tss-time-histogram-picker-bar {
+        transition: none;
+    }
+}

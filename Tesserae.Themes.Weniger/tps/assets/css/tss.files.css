@@ -1,7 +1,101 @@
 /* ==========================================================================
-   Weniger theme - files
+   Weniger theme - FileSelector and FileDropArea
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   The file selector is a text box (the recessed well) with its browse key.
+
+   The drop area is the speaker grille of a radio cut into the panel: a
+   recessed well perforated with round holes, the perforation fading out
+   towards the middle so the message sits on clean plastic (perforation is
+   never behind text). Dragging a file over it lights it like a lamp: the
+   edge turns orange, an orange halo comes up round the well, and the holes
+   glow orange from behind. The icon does not bounce; it lights with them.
+   The overlay a FileDropArea wrapper raises over its content while a file
+   is dragged in is the same lit edge over a veil of the page colour.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-filedroparea {
+    position: relative;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: 12px;
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    transition: border-color 140ms linear, box-shadow 160ms var(--tss-wg-ease);
+}
+
+/* The grille: round holes, clean in the middle where the message is. */
+body.tss-theme-weniger .tss-filedroparea::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border-radius: 7px;
+    background: var(--tss-wg-grille-dots);
+    -webkit-mask-image: radial-gradient(ellipse 60% 62% at 50% 50%, transparent 55%, #000 100%);
+    mask-image: radial-gradient(ellipse 60% 62% at 50% 50%, transparent 55%, #000 100%);
+    pointer-events: none;
+    transition: opacity 160ms linear;
+}
+
+body.tss-theme-weniger .tss-filedroparea > * {
+    position: relative;
+}
+
+body.tss-theme-weniger .tss-filedroparea:hover {
+    border-color: rgba(var(--tss-dark-border-color-root), 0.7);
+}
+
+body.tss-theme-weniger .tss-filedroparea-message,
+body.tss-theme-weniger .tss-filedroparea-message .tss-textblock {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-filedroparea-icon {
+    color: rgb(var(--tss-dark-border-color-root));
+    -webkit-text-stroke: 0;
+    transition: color 140ms linear;
+}
+
+/* A file over it: the grille lights up. */
+body.tss-theme-weniger .tss-filedroparea.tss-dropping {
+    border-color: var(--tss-wg-orange);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(236, 88, 26, 0.24);
+}
+
+body.tss-theme-weniger .tss-filedroparea.tss-dropping::before {
+    background: radial-gradient(circle, rgba(250, 112, 48, 0.9) 1.3px, transparent 1.8px) 0 0 / 6px 6px;
+    filter: drop-shadow(0 0 2px rgba(250, 112, 48, 0.6));
+}
+
+body.tss-theme-weniger .tss-filedroparea.tss-dropping .tss-filedroparea-icon {
+    animation: none;
+    -webkit-text-stroke: 0;
+    color: var(--tss-wg-orange);
+}
+
+body.tss-theme-weniger .tss-filedroparea.tss-dropping .tss-filedroparea-message,
+body.tss-theme-weniger .tss-filedroparea.tss-dropping .tss-filedroparea-message .tss-textblock {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-filedroparea:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+}
+
+/* The wrapper's overlay while a file is dragged over its content. */
+body.tss-theme-weniger .tss-filedroparea-overlay,
+body.tss-theme-weniger.tss-dark-mode .tss-filedroparea-overlay {
+    border: 1px solid var(--tss-wg-orange);
+    border-radius: 12px;
+    background: rgba(var(--tss-default-background-color-root), 0.86);
+    box-shadow: 0 0 0 3px rgba(236, 88, 26, 0.24);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-filedroparea,
+    body.tss-theme-weniger .tss-filedroparea::before,
+    body.tss-theme-weniger .tss-filedroparea-icon {
+        transition: none;
+    }
+}

@@ -1,7 +1,333 @@
 /* ==========================================================================
-   Weniger theme - ai
+   Weniger theme - AI variants
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   Tesserae marks what a model made with a purple-to-blue gradient. A device
+   of this school has no rainbow on it, so here "AI" is an amber lamp: the
+   warm, slightly yellower sibling of the signal orange, lit from inside.
+   A filled AI control is an amber key that glows a little, as a lit
+   push-button does, with dark type on it; a generated surface is the same
+   plastic with a warm cast, an amber hairline in its groove and a soft
+   halo round it; AI type and glyphs are printed in a deep amber (a light
+   amber on the charcoal edition). Spinners, bars and the skeleton's sweep
+   take the amber; nothing moves that did not move already, and what moves
+   stops under reduced motion.
+
+   Every --tss-ai-* token is redefined below, so the base stylesheet's
+   overrides pick the amber up on their own; the rules that follow restate
+   only what the tokens cannot reach (literal purples, the key's sheen,
+   the halo, the well of a field).
    ========================================================================== */
+
+body.tss-theme-weniger {
+    --tss-ai-from: rgb(252, 190, 92);
+    --tss-ai-to: rgb(234, 128, 32);
+    --tss-ai-accent: rgb(164, 84, 0);
+    --tss-ai-lamp: rgb(255, 178, 72);
+    --tss-ai-halo: rgba(250, 160, 50, 0.45);
+
+    --tss-ai-gradient: linear-gradient(180deg, rgb(252, 190, 92) 0%, rgb(244, 156, 54) 55%, rgb(234, 128, 32) 100%);
+    --tss-ai-gradient-hover: linear-gradient(180deg, rgb(255, 200, 108) 0%, rgb(248, 166, 64) 55%, rgb(238, 136, 38) 100%);
+    --tss-ai-gradient-text: linear-gradient(100deg, rgb(170, 90, 0), rgb(150, 66, 6));
+
+    --tss-ai-surface: linear-gradient(160deg, rgba(250, 170, 60, 0.13), rgba(236, 120, 30, 0.06));
+    --tss-ai-surface-strong: linear-gradient(160deg, rgba(250, 170, 60, 0.22), rgba(236, 120, 30, 0.12));
+
+    --tss-ai-border-color: rgba(214, 128, 24, 0.5);
+    --tss-ai-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 1px 1px rgba(120, 60, 0, 0.22), 0 0 10px -1px rgba(250, 160, 50, 0.5);
+    --tss-ai-shadow-hover: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 1px 1px rgba(120, 60, 0, 0.24), 0 0 14px 0 rgba(250, 160, 50, 0.6);
+
+    --tss-ai-arc: conic-gradient(from 0deg, rgb(252, 190, 92) 0deg, rgb(234, 128, 32) 250deg, rgba(234, 128, 32, 0) 330deg, rgba(252, 190, 92, 0) 360deg);
+    --tss-ai-on-fill: rgb(58, 28, 0);
+}
+
+body.tss-theme-weniger.tss-dark-mode {
+    --tss-ai-from: rgb(250, 182, 80);
+    --tss-ai-to: rgb(230, 120, 28);
+    --tss-ai-accent: rgb(255, 192, 104);
+    --tss-ai-halo: rgba(250, 160, 50, 0.4);
+
+    --tss-ai-gradient: linear-gradient(180deg, rgb(250, 182, 80) 0%, rgb(240, 150, 50) 55%, rgb(230, 120, 28) 100%);
+    --tss-ai-gradient-hover: linear-gradient(180deg, rgb(255, 196, 100) 0%, rgb(246, 162, 60) 55%, rgb(236, 130, 36) 100%);
+    --tss-ai-gradient-text: linear-gradient(100deg, rgb(255, 204, 120), rgb(255, 160, 80));
+
+    --tss-ai-surface: linear-gradient(160deg, rgba(250, 170, 60, 0.13), rgba(236, 120, 30, 0.07));
+    --tss-ai-surface-strong: linear-gradient(160deg, rgba(250, 170, 60, 0.22), rgba(236, 120, 30, 0.13));
+
+    --tss-ai-border-color: rgba(250, 170, 60, 0.45);
+    --tss-ai-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 1px 1px rgba(0, 0, 0, 0.5), 0 0 10px -1px rgba(250, 160, 50, 0.45);
+    --tss-ai-shadow-hover: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 1px 1px rgba(0, 0, 0, 0.55), 0 0 14px 0 rgba(250, 160, 50, 0.55);
+
+    --tss-ai-arc: conic-gradient(from 0deg, rgb(255, 200, 110) 0deg, rgb(240, 140, 40) 250deg, rgba(240, 140, 40, 0) 330deg, rgba(255, 200, 110, 0) 360deg);
+}
+
+/* --------------------------------------------------------------------------
+   Generated prose: a warm panel with an amber edge
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-textblock.tss-ai-surface {
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-ai-surface), var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-raised);
+}
+
+/* --------------------------------------------------------------------------
+   Button: the amber key, lit
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-btn.tss-ai:not(.tss-disabled):not(.tss-ai-subtle) {
+    background-color: transparent;
+    background-image: var(--tss-ai-gradient);
+    border: 1px solid rgba(120, 56, 0, 0.35);
+    color: var(--tss-ai-on-fill);
+    box-shadow: var(--tss-ai-shadow);
+    text-shadow: 0 1px 0 rgba(255, 230, 190, 0.45);
+    filter: none;
+}
+
+body.tss-theme-weniger .tss-btn.tss-ai:not(.tss-disabled):not(.tss-ai-subtle):hover {
+    background-image: var(--tss-ai-gradient-hover);
+    color: var(--tss-ai-on-fill);
+    box-shadow: var(--tss-ai-shadow-hover);
+}
+
+body.tss-theme-weniger .tss-btn.tss-ai:not(.tss-disabled):not(.tss-ai-subtle) .tss-fontcolor-default,
+body.tss-theme-weniger .tss-btn.tss-ai:not(.tss-disabled):not(.tss-ai-subtle) > i {
+    color: var(--tss-ai-on-fill);
+}
+
+body.tss-theme-weniger .tss-btn.tss-ai:not(.tss-disabled):active {
+    background-image: var(--tss-wg-sheen-pressed), var(--tss-ai-gradient);
+    box-shadow: inset 0 2px 4px rgba(90, 40, 0, 0.3), 0 0 6px -1px var(--tss-ai-halo);
+    transform: var(--tss-wg-press);
+    filter: none;
+}
+
+/* The quiet form: a plastic key with a warm cast and the amber legend. */
+body.tss-theme-weniger .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled) {
+    background-color: transparent;
+    background-image: var(--tss-ai-surface), var(--tss-wg-key);
+    border: 1px solid var(--tss-ai-border-color);
+    color: var(--tss-ai-accent);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):hover {
+    background-image: var(--tss-ai-surface-strong), var(--tss-wg-key-hover);
+    color: var(--tss-ai-accent);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-weniger .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled) > i,
+body.tss-theme-weniger .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):hover .tss-fontcolor-default {
+    color: var(--tss-ai-accent);
+}
+
+body.tss-theme-weniger .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):active {
+    background-image: var(--tss-ai-surface-strong), var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    filter: none;
+}
+
+/* --------------------------------------------------------------------------
+   Card: the plastic with a warm cast, an amber groove, a soft halo and a
+   lit amber lamp in its corner
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-card-container.tss-ai > .tss-card {
+    position: relative;
+    outline-color: var(--tss-ai-border-color);
+}
+
+body.tss-theme-weniger .tss-card-container.tss-ai > .tss-card:not(.tss-has-layout),
+body.tss-theme-weniger .tss-card-container.tss-ai > .tss-card:not(.tss-has-layout).tss-card-hover:hover {
+    border: none;
+    background: var(--tss-ai-surface), var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-panel-shadow), 0 0 0 1px var(--tss-ai-border-color), 0 0 18px -4px var(--tss-ai-halo);
+}
+
+body.tss-theme-weniger .tss-card-container.tss-ai > .tss-card.tss-has-layout {
+    background: var(--tss-ai-surface), var(--tss-wg-plastic) !important;
+    box-shadow: var(--tss-wg-panel-shadow), 0 0 0 1px var(--tss-ai-border-color), 0 0 18px -4px var(--tss-ai-halo) !important;
+    filter: none;
+}
+
+body.tss-theme-weniger .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-content,
+body.tss-theme-weniger .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-header,
+body.tss-theme-weniger .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-footer {
+    background: transparent;
+}
+
+body.tss-theme-weniger .tss-card-container.tss-ai > .tss-card::after {
+    content: "";
+    position: absolute;
+    top: 11px;
+    right: 11px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tss-ai-lamp);
+    box-shadow: 0 0 2px 0 rgba(255, 190, 90, 0.95), 0 0 7px 1px rgba(250, 160, 50, 0.55);
+    pointer-events: none;
+}
+
+body.tss-theme-weniger .tss-card-container.tss-small.tss-ai > .tss-card::after {
+    display: none;
+}
+
+/* --------------------------------------------------------------------------
+   InlineLabel and Badge
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-inlinelabel.tss-ai {
+    border-color: var(--tss-ai-border-color);
+    background: var(--tss-ai-surface), var(--tss-wg-key);
+    color: var(--tss-ai-accent);
+}
+
+body.tss-theme-weniger .tss-inlinelabel.tss-ai.tss-inlinelabel-interactive:hover,
+body.tss-theme-weniger .tss-inlinelabel.tss-ai.tss-inlinelabel-interactive:focus-visible {
+    background: var(--tss-ai-surface-strong), var(--tss-wg-key-hover);
+}
+
+body.tss-theme-weniger .tss-omniresult-footer .tss-inlinelabel.tss-ai {
+    background: none;
+}
+
+body.tss-theme-weniger .tss-token.tss-token-ai:not(.tss-token-outline) {
+    border: 1px solid rgba(120, 56, 0, 0.3);
+    background: var(--tss-ai-gradient);
+    color: var(--tss-ai-on-fill);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 6px -1px var(--tss-ai-halo);
+}
+
+body.tss-theme-weniger .tss-token.tss-token-ai:not(.tss-token-outline) .tss-token-icon,
+body.tss-theme-weniger .tss-token.tss-token-ai:not(.tss-token-outline) .tss-token-remove,
+body.tss-theme-weniger .tss-token.tss-token-ai:not(.tss-token-outline) .tss-token-text {
+    color: var(--tss-ai-on-fill);
+}
+
+body.tss-theme-weniger .tss-token.tss-token-ai.tss-token-outline {
+    border-color: var(--tss-ai-border-color);
+    background: var(--tss-ai-surface), var(--tss-wg-key);
+    color: var(--tss-ai-accent);
+}
+
+body.tss-theme-weniger .tss-token.tss-token-ai.tss-token-outline .tss-token-icon,
+body.tss-theme-weniger .tss-token.tss-token-ai.tss-token-outline .tss-token-remove,
+body.tss-theme-weniger .tss-token.tss-token-ai.tss-token-outline .tss-token-text {
+    color: var(--tss-ai-accent);
+}
+
+/* --------------------------------------------------------------------------
+   Waiting on a model: skeleton, spinner, progress
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-skeleton.tss-ai,
+body.tss-theme-weniger .tss-inlinelabel.tss-ai .tss-inlinelabel-skeleton {
+    background: var(--tss-ai-surface-strong), var(--tss-wg-well-fill);
+}
+
+body.tss-theme-weniger .tss-skeleton.tss-ai.tss-skeleton-animated::after,
+body.tss-theme-weniger .tss-inlinelabel.tss-ai .tss-inlinelabel-skeleton.tss-skeleton-animated::after {
+    background: linear-gradient(90deg, transparent, rgba(255, 190, 90, 0.4), rgba(250, 150, 50, 0.25), transparent);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-skeleton.tss-ai.tss-skeleton-animated::after {
+    background: linear-gradient(90deg, transparent, rgba(255, 190, 90, 0.22), rgba(250, 150, 50, 0.14), transparent);
+}
+
+body.tss-theme-weniger .tss-spinner.tss-ai.tss-spinner-progress {
+    background: conic-gradient(from 0deg, var(--tss-ai-from), var(--tss-ai-to) calc(var(--tss-spinner-progress, 0) * 1%), var(--tss-progress-background-color) 0);
+}
+
+body.tss-theme-weniger .tss-progressindicator.tss-ai > .tss-progressindicator-bar {
+    background: var(--tss-ai-gradient);
+    box-shadow: 0 0 6px var(--tss-ai-halo);
+}
+
+body.tss-theme-weniger .tss-progressindicator.tss-ai > .tss-progressindicator-bar-indeterminate {
+    background: linear-gradient(to right, transparent 0%, var(--tss-ai-from) 35%, var(--tss-ai-to) 65%, transparent 100%);
+}
+
+/* --------------------------------------------------------------------------
+   IconToggle and SegmentedPivot: a warm well, the chosen segment the lit
+   amber key
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-icon-toggle.tss-ai,
+body.tss-theme-weniger .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-weniger .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar {
+    background: var(--tss-ai-surface), var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar {
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover,
+body.tss-theme-weniger .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab:not(.tss-segmentedpivot-selected):hover {
+    background-color: rgba(250, 160, 50, 0.16);
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):active,
+body.tss-theme-weniger .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab:not(.tss-segmentedpivot-selected):active {
+    background-color: rgba(250, 160, 50, 0.26);
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-weniger .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-weniger .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-weniger.tss-dark-mode .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    background: var(--tss-ai-gradient);
+    color: var(--tss-ai-on-fill);
+    box-shadow: var(--tss-ai-shadow);
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected > i,
+body.tss-theme-weniger .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-weniger .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected * {
+    color: var(--tss-ai-on-fill);
+}
+
+/* The theme's own pilot lamp on a chosen segment would be orange on amber: the amber key is lamp enough. */
+body.tss-theme-weniger .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected::before,
+body.tss-theme-weniger .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected::after,
+body.tss-theme-weniger .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected::before,
+body.tss-theme-weniger .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected::after {
+    display: none;
+}
+
+/* --------------------------------------------------------------------------
+   TextBox: the well, with an amber edge and a warm floor
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-textbox.tss-ai {
+    border-color: var(--tss-ai-border-color);
+    background: var(--tss-ai-surface), var(--tss-wg-well-fill);
+}
+
+body.tss-theme-weniger .tss-textbox.tss-ai:hover {
+    border-color: var(--tss-ai-to);
+}
+
+body.tss-theme-weniger .tss-textbox.tss-ai:focus,
+body.tss-theme-weniger.tss-dark-mode .tss-textbox.tss-ai:focus {
+    border-color: var(--tss-ai-to);
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(250, 160, 50, 0.28);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-btn.tss-ai:not(.tss-disabled):active {
+        transform: none;
+    }
+
+    body.tss-theme-weniger .tss-skeleton.tss-ai.tss-skeleton-animated::after,
+    body.tss-theme-weniger .tss-inlinelabel.tss-ai .tss-inlinelabel-skeleton.tss-skeleton-animated::after {
+        animation: none;
+    }
+}

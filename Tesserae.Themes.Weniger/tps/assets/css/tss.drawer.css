@@ -1,7 +1,131 @@
 /* ==========================================================================
-   Weniger theme - drawer
+   Weniger theme - Drawer
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A bottom sheet is a tray pulled up out of the front of the device: the
+   plastic body with 14px corners at its top, an aluminium lip along the
+   top edge, and the grab handle a short recessed slot you could put a
+   finger in. It slides on the base stylesheet's settling curve over a soft
+   warm dim. The header is the quiet one of the modal (title in the
+   grotesque, a small round close key); a groove rules off the footer.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-drawer-container.tss-drawer-open {
+    background-color: rgba(60, 54, 46, 0.3);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-drawer-container.tss-drawer-open {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Plastic in the padding box, the aluminium lip in the top border under it. */
+body.tss-theme-weniger .tss-drawer {
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-top: 4px solid transparent;
+    border-top-left-radius: var(--tss-wg-radius-panel);
+    border-top-right-radius: var(--tss-wg-radius-panel);
+    background: var(--tss-wg-plastic) padding-box, var(--tss-wg-alu) border-box;
+    box-shadow: 0 0 0 1px rgba(60, 54, 46, 0.12), 0 -6px 18px -6px rgba(60, 54, 46, 0.3);
+    transition: transform 0.25s var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-drawer {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55), 0 -6px 18px -6px rgba(0, 0, 0, 0.7);
+}
+
+body.tss-theme-weniger .tss-drawer.tss-drawer-dragging {
+    transition: none;
+}
+
+/* The handle: a slot recessed into the plastic. */
+body.tss-theme-weniger .tss-drawer-handle {
+    padding: 8px 0 6px 0;
+}
+
+body.tss-theme-weniger .tss-drawer-handle-bar {
+    width: 44px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-drawer-header {
+    min-height: 44px;
+    padding: 0 14px 0 20px;
+}
+
+body.tss-theme-weniger .tss-drawer-title > .tss-textblock {
+    font-size: 15px;
+    font-weight: 600;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The close button: a small round key, centred in its 40px hit area. */
+body.tss-theme-weniger .tss-drawer-close {
+    width: 28px;
+    height: 28px;
+    margin: 6px;
+    padding: 0;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: 50%;
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--tss-wg-quick) var(--tss-wg-ease), box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-drawer-close > i {
+    font-size: 11px;
+    line-height: 1;
+}
+
+body.tss-theme-weniger .tss-drawer-close:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-drawer-close:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-drawer-close:focus-visible {
+    outline: none;
+    box-shadow: var(--tss-wg-raised), var(--tss-wg-focus);
+}
+
+body.tss-theme-weniger .tss-drawer-content {
+    padding: 6px 20px 18px 20px;
+}
+
+body.tss-theme-weniger .tss-drawer-content.tss-drawer-content-no-padding {
+    padding: 0;
+}
+
+body.tss-theme-weniger .tss-drawer-footer {
+    padding: 10px 20px 16px 20px;
+    border-top: 0;
+    background: linear-gradient(var(--tss-wg-groove), var(--tss-wg-groove)) center top / calc(100% - 2 * var(--tss-wg-groove-inset)) 1px no-repeat;
+}
+
+/* A modal shown in a sheet: the sheet is its body, so the modal's own shell, groove and shadow go. */
+body.tss-theme-weniger .tss-drawer-content > .tss-modal.tss-modal-in-drawer,
+body.tss-theme-weniger .tss-drawer-content .tss-modal.tss-embedded {
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-drawer,
+    body.tss-theme-weniger .tss-drawer-close {
+        transition: none;
+        transform: none;
+    }
+}

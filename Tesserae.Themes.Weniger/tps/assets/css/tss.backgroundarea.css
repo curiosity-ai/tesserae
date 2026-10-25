@@ -1,7 +1,13 @@
 /* ==========================================================================
-   Weniger theme - backgroundarea
+   Weniger theme - BackgroundArea
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A background area is more of the table, not a slab laid on it: Tesserae
+   fills it with the raised surface colour, which in this theme is the
+   plastic of a panel, so the devices (cards) put in it would lose their
+   edge. Here it is the page ground, so a card stands on it exactly as it
+   stands on the page.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-background-area {
+    background: rgb(var(--tss-default-background-color-root));
+}

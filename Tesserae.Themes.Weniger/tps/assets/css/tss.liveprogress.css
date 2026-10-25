@@ -1,7 +1,33 @@
 /* ==========================================================================
-   Weniger theme - liveprogress
+   Weniger theme - LiveProgress
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   The one line of progress text that rewrites itself in place is the line
+   of a small LCD: dark liquid-crystal type on the grey-green glass, behind
+   a recessed bezel, the same window the metric reads off. The type is the
+   monospaced face rather than segment letters, so any text stays legible
+   at 11px. No transition and no animation: the line is rewritten many
+   times a second and must not replay anything (Tesserae's own rule).
    ========================================================================== */
+
+body.tss-theme-weniger .tss-liveprogress {
+    box-sizing: border-box;
+    padding: 1px 7px;
+    border-radius: var(--tss-wg-radius-small);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 45%),
+        var(--tss-wg-lcd-bg);
+    box-shadow: var(--tss-wg-lcd-well);
+    font-family: var(--tss-monospace-font-family);
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.01em;
+    color: var(--tss-wg-lcd-ink);
+}
+
+body.tss-theme-weniger .tss-liveprogress * {
+    color: var(--tss-wg-lcd-ink);
+}
+
+body.tss-theme-weniger .tss-liveprogress-empty {
+    display: none;
+}

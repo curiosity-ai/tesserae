@@ -1,7 +1,44 @@
 /* ==========================================================================
-   Weniger theme - label
+   Weniger theme - Label
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A field label is the legend printed on the case beside a control, like
+   "photo 1" or "mono stereo" under a key: small, a little letter-spaced,
+   in the quiet grey of the printing, so the control it names is what the
+   eye lands on. It keeps the case it was written in. A primary label keeps
+   its orange (the one voice). A required field is marked by a small orange
+   dot after the legend, a lamp rather than an asterisk.
+
+   The required mark is Tesserae's .tss-required, shared by Label,
+   TextBlock and the input containers; it is restyled here because the
+   label is where it is drawn most.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-label > label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    line-height: 1.35;
+}
+
+body.tss-theme-weniger .tss-label > label.tss-fontcolor-default {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-label.tss-disabled > label,
+body.tss-theme-weniger .tss-label > label.tss-disabled {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+/* The required lamp: a 5px orange dot set just after the legend's last letter. */
+body.tss-theme-weniger .tss-required::after {
+    content: "";
+    top: 50%;
+    right: -10px;
+    width: 5px;
+    height: 5px;
+    margin-top: -3px;
+    border-radius: 50%;
+    background: var(--tss-wg-orange);
+    box-shadow: 0 0 0 1px rgba(206, 68, 14, 0.35), 0 0 4px rgba(250, 112, 48, 0.45);
+    font-size: 0;
+}

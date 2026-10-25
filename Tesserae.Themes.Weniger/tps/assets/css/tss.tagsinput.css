@@ -1,7 +1,83 @@
 /* ==========================================================================
-   Weniger theme - tagsinput
+   Weniger theme - TagsInput
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   The field is the text box's recessed well, grown to hold its tags; it
+   lights the same orange ring round the well while the entry has focus.
+   Each tag is a small moulded chip set into the well: a key-grey slug with
+   a 5px corner, standing on its own small shadow, the remove cross a tiny
+   round key on its end that rises under the pointer.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-tagsinput {
+    min-height: 36px;
+    gap: 5px;
+    padding: 4px 6px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 14px;
+    transition: box-shadow 140ms var(--tss-wg-ease), border-color 140ms linear;
+}
+
+body.tss-theme-weniger .tss-tagsinput:hover {
+    border-color: rgba(var(--tss-dark-border-color-root), 0.7);
+}
+
+body.tss-theme-weniger .tss-tagsinput:focus-within {
+    border-color: var(--tss-wg-orange);
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(236, 88, 26, 0.24);
+}
+
+body.tss-theme-weniger .tss-tagsinput-chip {
+    gap: 3px;
+    padding: 2px 3px 2px 8px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+}
+
+body.tss-theme-weniger .tss-tagsinput-chip-remove {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    transition: background-color 90ms linear, box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-tagsinput-chip-remove:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-knob-shadow);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-tagsinput-chip-remove:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+body.tss-theme-weniger .tss-tagsinput-entry {
+    padding: 2px 6px;
+}
+
+/* The well carries the focus ring; the bare entry inside it draws none of its own. */
+body.tss-theme-weniger .tss-tagsinput-entry:focus,
+body.tss-theme-weniger .tss-tagsinput-entry:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-tagsinput-entry::placeholder {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-tagsinput,
+    body.tss-theme-weniger .tss-tagsinput-chip-remove {
+        transition: none;
+    }
+}

@@ -1,7 +1,115 @@
 /* ==========================================================================
-   Weniger theme - splitview
+   Weniger theme - SplitView and HorizontalSplitView
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   The seam between two panes is a groove moulded into the case: a dark
+   hairline with a catch of light beside it. In its middle sits a small
+   ribbed grip of brushed aluminium, like the grip on a slide control, that
+   grows a little under the pointer. While it is being dragged the grip and
+   the groove light up orange, the one moment the seam matters. A pane
+   lifted over its neighbour (the "panel style") floats on the theme's
+   floating shadow.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-splitview > .tss-splitter {
+    --tss-wg-split-shade: rgba(60, 54, 46, 0.2);
+    --tss-wg-split-light: rgba(255, 255, 255, 0.75);
+    --tss-wg-split-ribs: repeating-linear-gradient(180deg, rgba(60, 54, 46, 0.3) 0 1px, rgba(255, 255, 255, 0.55) 1px 2px, transparent 2px 4px);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-splitview > .tss-splitter {
+    --tss-wg-split-shade: rgba(0, 0, 0, 0.6);
+    --tss-wg-split-light: rgba(255, 255, 255, 0.07);
+    --tss-wg-split-ribs: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0 1px, rgba(255, 255, 255, 0.18) 1px 2px, transparent 2px 4px);
+}
+
+body.tss-theme-weniger .tss-splitview.tss-splitview-horizontal > .tss-splitter {
+    --tss-wg-split-ribs: repeating-linear-gradient(90deg, rgba(60, 54, 46, 0.3) 0 1px, rgba(255, 255, 255, 0.55) 1px 2px, transparent 2px 4px);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-splitview.tss-splitview-horizontal > .tss-splitter {
+    --tss-wg-split-ribs: repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.45) 0 1px, rgba(255, 255, 255, 0.18) 1px 2px, transparent 2px 4px);
+}
+
+/* The groove. */
+body.tss-theme-weniger .tss-splitview.tss-splitview-vertical > .tss-splitter:before,
+body.tss-theme-weniger .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:before {
+    left: calc(50% - 1px);
+    width: 1px;
+    background: var(--tss-wg-split-shade) !important;
+    box-shadow: 1px 0 0 var(--tss-wg-split-light);
+}
+
+body.tss-theme-weniger .tss-splitview.tss-splitview-horizontal > .tss-splitter:before,
+body.tss-theme-weniger .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:before {
+    top: calc(50% - 1px);
+    height: 1px;
+    background: var(--tss-wg-split-shade) !important;
+    box-shadow: 0 1px 0 var(--tss-wg-split-light);
+}
+
+/* The ribbed grip. */
+body.tss-theme-weniger .tss-splitview.tss-splitview-vertical > .tss-splitter:after {
+    top: calc(50% - 14px);
+    left: calc(50% - 3px);
+    width: 6px;
+    height: 28px;
+    border-radius: 3px;
+    background: var(--tss-wg-split-ribs) 0 4px / 100% calc(100% - 8px) no-repeat, var(--tss-wg-alu);
+    box-shadow: inset 0 0 0 1px var(--tss-wg-key-edge);
+    transition: top 140ms var(--tss-wg-ease), height 140ms var(--tss-wg-ease), background-color 120ms linear;
+}
+
+body.tss-theme-weniger .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:after {
+    top: calc(50% - 20px);
+    left: calc(50% - 3px);
+    width: 6px;
+    height: 40px;
+    background: var(--tss-wg-split-ribs) 0 4px / 100% calc(100% - 8px) no-repeat, var(--tss-wg-alu) !important;
+}
+
+body.tss-theme-weniger .tss-splitview.tss-splitview-horizontal > .tss-splitter:after {
+    left: calc(50% - 14px);
+    top: calc(50% - 3px);
+    width: 28px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--tss-wg-split-ribs) 4px 0 / calc(100% - 8px) 100% no-repeat, var(--tss-wg-alu);
+    box-shadow: inset 0 0 0 1px var(--tss-wg-key-edge);
+    transition: left 140ms var(--tss-wg-ease), width 140ms var(--tss-wg-ease), background-color 120ms linear;
+}
+
+body.tss-theme-weniger .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:after {
+    left: calc(50% - 20px);
+    top: calc(50% - 3px);
+    width: 40px;
+    height: 6px;
+    background: var(--tss-wg-split-ribs) 4px 0 / calc(100% - 8px) 100% no-repeat, var(--tss-wg-alu) !important;
+}
+
+/* Dragging: the seam lights orange. */
+body.tss-theme-weniger .tss-splitview.tss-splitview-vertical > .tss-splitter:active:before,
+body.tss-theme-weniger .tss-splitview.tss-splitview-horizontal > .tss-splitter:active:before {
+    background: var(--tss-wg-orange) !important;
+    box-shadow: 0 0 6px rgba(236, 88, 26, 0.45);
+}
+
+body.tss-theme-weniger .tss-splitview.tss-splitview-vertical > .tss-splitter:active:after {
+    background: var(--tss-wg-split-ribs) 0 4px / 100% calc(100% - 8px) no-repeat, var(--tss-wg-orange-key) !important;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.22);
+}
+
+body.tss-theme-weniger .tss-splitview.tss-splitview-horizontal > .tss-splitter:active:after {
+    background: var(--tss-wg-split-ribs) 4px 0 / calc(100% - 8px) 100% no-repeat, var(--tss-wg-orange-key) !important;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.22);
+}
+
+body.tss-theme-weniger .tss-splitview-panel-style.tss-split-left > *:first-child,
+body.tss-theme-weniger .tss-splitview-panel-style.tss-split-right > *:last-child {
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-splitview > .tss-splitter:after {
+        transition: none !important;
+    }
+}

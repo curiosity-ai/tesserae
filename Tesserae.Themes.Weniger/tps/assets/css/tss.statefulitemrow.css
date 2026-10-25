@@ -1,7 +1,85 @@
 /* ==========================================================================
-   Weniger theme - statefulitemrow
+   Weniger theme - StatefulItemRow
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A row in a list on the plastic. A tone is a pilot lamp, not a paint job:
+   a lit 6px lamp at the row's leading edge in the tone's colour (orange
+   for primary, the green LED for success, amber, the record-key red),
+   over a faint wash of the same colour so the row still stands out in a
+   long list. The words on the row (Added, Removing) stay the sign; the
+   lamp only makes the odd one catch the eye. A clickable row rises a
+   touch towards the light under the pointer, like a ghost key.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-statefulitemrow {
+    position: relative;
+    border-radius: var(--tss-wg-radius-key);
+}
+
+body.tss-theme-weniger .tss-statefulitemrow-primary,
+body.tss-theme-weniger .tss-statefulitemrow-success,
+body.tss-theme-weniger .tss-statefulitemrow-warning,
+body.tss-theme-weniger .tss-statefulitemrow-danger {
+    --tss-statefulitemrow-surface: color-mix(in srgb, var(--tss-statefulitemrow-accent) 7%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tss-statefulitemrow-accent) 14%, transparent);
+}
+
+body.tss-theme-weniger .tss-statefulitemrow-primary { --tss-statefulitemrow-accent: var(--tss-wg-orange); --tss-wg-row-lamp-glow: var(--tss-wg-led-orange-glow); }
+body.tss-theme-weniger .tss-statefulitemrow-success { --tss-statefulitemrow-accent: var(--tss-wg-led); --tss-wg-row-lamp-glow: var(--tss-wg-led-glow); }
+body.tss-theme-weniger .tss-statefulitemrow-warning { --tss-statefulitemrow-accent: rgb(var(--tss-warning-background-color-root)); --tss-wg-row-lamp-glow: 0 0 2px 0 rgba(240, 172, 36, 0.95), 0 0 7px 1px rgba(240, 172, 36, 0.5); }
+body.tss-theme-weniger .tss-statefulitemrow-danger  { --tss-statefulitemrow-accent: var(--tss-wg-red); --tss-wg-row-lamp-glow: 0 0 2px 0 rgba(230, 60, 50, 0.95), 0 0 7px 1px rgba(230, 60, 50, 0.45); }
+
+/* The success wash comes off the darker success green: the LED itself is too bright to wash with. */
+body.tss-theme-weniger .tss-statefulitemrow-success {
+    --tss-statefulitemrow-surface: color-mix(in srgb, rgb(var(--tss-success-background-color-root)) 8%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, rgb(var(--tss-success-background-color-root)) 16%, transparent);
+}
+
+/* The pilot lamp at the leading edge. */
+body.tss-theme-weniger .tss-statefulitemrow-primary::before,
+body.tss-theme-weniger .tss-statefulitemrow-success::before,
+body.tss-theme-weniger .tss-statefulitemrow-warning::before,
+body.tss-theme-weniger .tss-statefulitemrow-danger::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    border-radius: 50%;
+    background: var(--tss-statefulitemrow-accent);
+    box-shadow: var(--tss-wg-row-lamp-glow);
+}
+
+body.tss-theme-weniger .tss-statefulitemrow-muted {
+    opacity: 0.55;
+}
+
+body.tss-theme-weniger .tss-statefulitemrow-interactive {
+    transition: background-color 120ms linear, box-shadow 160ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-statefulitemrow-interactive:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-statefulitemrow-interactive:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+body.tss-theme-weniger .tss-statefulitemrow-interactive:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 1px;
+}
+
+body.tss-theme-weniger .tss-statefulitemrow-struck .tss-statefulitemrow-title {
+    text-decoration-color: color-mix(in srgb, var(--tss-wg-red) 70%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-statefulitemrow-interactive {
+        transition: none;
+    }
+}

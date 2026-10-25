@@ -1,7 +1,234 @@
 /* ==========================================================================
-   Weniger theme - conversation
+   Weniger theme - Conversation
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A thread of small devices on a groove. Each comment is a plastic panel
+   with the hairline groove; its header is a strip ruled off by a groove,
+   the author set in the text face. The rail between them is a slot cut in
+   the table (a 2px well), and an event sits on it as a small round key; a
+   toned event is a key moulded in its colour (orange for primary, the
+   record-key red for danger, green, amber with dark type, ink for info) and
+   the AI tone is the amber lamp of tss.ai.css. The comment a link points
+   at is lit by the orange ring of focus.
+
+   Reactions are small keys: the ones you pressed stay down, their count in
+   the darker orange. The composer is a plastic panel whose tabs are keys
+   on a strip (the chosen one held down); the field inside is a well.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-conversation-item::before {
+    width: 3px;
+    left: 19.5px;
+    border-radius: 2px;
+    background: rgba(var(--tss-dark-border-color-root), 0.28);
+    box-shadow: inset 1px 0 1px rgba(60, 54, 46, 0.2), 1px 0 0 rgba(255, 255, 255, 0.7);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-conversation-item::before {
+    background: rgba(0, 0, 0, 0.45);
+    box-shadow: inset 1px 0 1px rgba(0, 0, 0, 0.5), 1px 0 0 rgba(255, 255, 255, 0.06);
+}
+
+/* --------------------------------------------------------------------------
+   Comment: a panel with the groove
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-conversation-comment {
+    border: none;
+    border-radius: var(--tss-wg-radius-panel);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-panel-shadow);
+    outline: 1px solid var(--tss-wg-groove);
+    outline-offset: calc(-1 * var(--tss-wg-groove-inset) + 2px);
+}
+
+body.tss-theme-weniger .tss-conversation-comment-header {
+    padding: 6px 10px 6px 14px;
+    border-bottom: 1px solid var(--tss-wg-groove);
+    border-radius: var(--tss-wg-radius-panel) var(--tss-wg-radius-panel) 0 0;
+    background: transparent;
+}
+
+body.tss-theme-weniger .tss-conversation-comment-author,
+body.tss-theme-weniger .tss-conversation-event-actor {
+    font-weight: 600;
+}
+
+body.tss-theme-weniger .tss-conversation-comment-attachment {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-conversation-comment-highlighted {
+    box-shadow: var(--tss-wg-panel-shadow), 0 0 0 2px var(--tss-wg-orange), 0 0 0 5px rgba(236, 88, 26, 0.2);
+}
+
+body.tss-theme-weniger .tss-conversation-comment-highlighted > .tss-conversation-comment-header {
+    border-bottom-color: var(--tss-wg-groove);
+    background: rgba(236, 88, 26, 0.06);
+}
+
+/* --------------------------------------------------------------------------
+   Reactions: small keys, the pressed ones stay down
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-conversation-reaction {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-variant-numeric: tabular-nums;
+    transition: box-shadow var(--tss-wg-quick) var(--tss-wg-ease), transform var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-conversation-reaction:hover {
+    border-color: var(--tss-wg-key-edge);
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-conversation-reaction:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-conversation-reaction-active,
+body.tss-theme-weniger .tss-conversation-reaction-active:hover {
+    border-color: rgba(236, 88, 26, 0.55);
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    color: rgb(var(--tss-link-color-root));
+}
+
+body.tss-theme-weniger .tss-conversation-reaction:focus-visible,
+body.tss-theme-weniger .tss-conversation-composer-tab:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 1px;
+}
+
+body.tss-theme-weniger .tss-conversation-reaction-picker {
+    border-radius: var(--tss-wg-radius-small);
+}
+
+/* --------------------------------------------------------------------------
+   Events: round keys on the rail
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-conversation-event-icon {
+    border: 1px solid var(--tss-wg-key-edge);
+    background: var(--tss-wg-key);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    box-shadow: 0 0 0 3px rgb(var(--tss-default-background-color-root)), var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-conversation-event-icon:is(.tss-conversation-tone-primary, .tss-conversation-tone-success, .tss-conversation-tone-warning, .tss-conversation-tone-danger, .tss-conversation-tone-info) {
+    border-color: rgba(0, 0, 0, 0.22);
+    background-image: var(--tss-wg-sheen);
+}
+
+body.tss-theme-weniger .tss-conversation-tone-primary {
+    background-color: var(--tss-wg-orange);
+    color: var(--tss-wg-on-orange);
+}
+
+body.tss-theme-weniger .tss-conversation-tone-danger {
+    background-color: var(--tss-wg-red);
+    color: var(--tss-wg-on-orange);
+}
+
+body.tss-theme-weniger .tss-conversation-tone-info {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* AI: the amber lamp, warm and quiet. */
+body.tss-theme-weniger .tss-conversation-event-icon.tss-conversation-tone-ai {
+    border-color: rgba(150, 70, 0, 0.45);
+    background: radial-gradient(circle at 50% 38%, rgb(255, 214, 140) 0%, rgb(250, 160, 60) 45%, rgb(222, 112, 24) 100%);
+    color: rgb(70, 30, 0);
+    box-shadow: 0 0 0 3px rgb(var(--tss-default-background-color-root)), 0 0 8px 1px rgba(250, 150, 50, 0.45);
+}
+
+body.tss-theme-weniger .tss-conversation-event,
+body.tss-theme-weniger .tss-conversation-event-detail {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   Composer
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-conversation-footer {
+    border-top: 1px solid var(--tss-wg-groove);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-conversation-footer {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+body.tss-theme-weniger .tss-conversation-composer-box {
+    border: none;
+    border-radius: var(--tss-wg-radius-panel);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-panel-shadow);
+}
+
+body.tss-theme-weniger .tss-conversation-composer-tabs {
+    gap: 6px;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--tss-wg-groove);
+    border-radius: var(--tss-wg-radius-panel) var(--tss-wg-radius-panel) 0 0;
+    background: transparent;
+}
+
+body.tss-theme-weniger .tss-conversation-composer-tab {
+    margin-bottom: 0;
+    padding: 4px 14px;
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-small);
+    font-weight: 500;
+    transition: box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-conversation-composer-tab:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-conversation-composer-tab-active,
+body.tss-theme-weniger .tss-conversation-composer-tab-active:hover {
+    border-color: var(--tss-wg-key-edge);
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 600;
+}
+
+body.tss-theme-weniger .tss-conversation-composer-preview {
+    border-bottom: 1px solid var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger .tss-conversation-composer-hint {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-weniger .tss-conversation-composer-footer {
+    padding-left: 12px;
+    padding-right: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-conversation-reaction,
+    body.tss-theme-weniger .tss-conversation-composer-tab {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-conversation-reaction:active {
+        transform: none;
+    }
+}

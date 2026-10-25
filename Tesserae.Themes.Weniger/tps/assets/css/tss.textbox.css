@@ -106,3 +106,35 @@ body.tss-theme-weniger .tss-textblock table td {
 body.tss-theme-weniger .tss-textblock table tbody tr:hover {
     background-color: rgba(var(--tss-default-background-hover-color-root), 0.6);
 }
+
+/* --------------------------------------------------------------------------
+   Native pickers: the browser's own calendar and clock popups follow the
+   mode, its checks and ticks are orange, and a colour field's swatch is a
+   small rounded chip set into the well.
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-textbox {
+    accent-color: var(--tss-wg-orange);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-textbox {
+    color-scheme: dark;
+}
+
+body.tss-theme-weniger .tss-textbox[type="color"] {
+    padding: 4px;
+}
+
+body.tss-theme-weniger .tss-textbox[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+body.tss-theme-weniger .tss-textbox[type="color"]::-webkit-color-swatch {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger .tss-textbox[type="color"]::-moz-color-swatch {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+}

@@ -1,7 +1,148 @@
 /* ==========================================================================
-   Weniger theme - pivot
+   Weniger theme - Pivot
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   The band selector of a radio. The tab titles are printed legends standing
+   on the panel, and the strip ends in a hairline groove; the chosen band is
+   marked by a short lit orange bar beneath its legend, the tuning lamp,
+   which slides along under the strip to the next band. A legend under the
+   pointer rises into a flat key, so it reads as something to press; the
+   chosen one stays flat, the lamp is its mark. A tab with unsaved changes
+   carries a small orange lamp in place of its close glyph.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-pivot-titlebar-wrapper {
+    background: transparent;
+    box-shadow: inset 0 -1px 0 var(--tss-wg-groove), 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-pivot-titlebar-wrapper {
+    box-shadow: inset 0 -1px 0 var(--tss-wg-groove), 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Tesserae's strip is blue type on the secondary background: here the legends are ink on the panel. */
+body.tss-theme-weniger .tss-pivot-titlebar {
+    color: rgb(var(--tss-default-foreground-color-root));
+    padding-bottom: 6px;
+}
+
+body.tss-theme-weniger .tss-pivot-titlebar > * {
+    background: transparent;
+}
+
+body.tss-theme-weniger .tss-pivot-titlebar > .tss-btn.tss-pivot-tab {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-weight: 500;
+}
+
+body.tss-theme-weniger .tss-pivot-titlebar > .tss-btn.tss-pivot-tab .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-weniger .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:not(.tss-disabled):hover {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The chosen band: ink, a touch heavier, no key behind it. */
+body.tss-theme-weniger .tss-pivot-titlebar > .tss-btn.tss-pivot-tab.tss-pivot-selected-title,
+body.tss-theme-weniger .tss-pivot-titlebar > .tss-btn.tss-pivot-tab.tss-pivot-selected-title:hover,
+body.tss-theme-weniger .tss-pivot-titlebar > .tss-btn.tss-pivot-tab.tss-pivot-selected-title:active {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    transform: none;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-pivot-titlebar > .tss-pivot-selected-title > span,
+body.tss-theme-weniger .tss-pivot-titlebar > .tss-pivot-selected-title > div {
+    font-weight: 600;
+}
+
+/* The tuning lamp: the line Tesserae slides is now a carrier; the lamp is a short lit bar inside it. */
+body.tss-theme-weniger .tss-pivot-line {
+    height: 6px;
+    bottom: 1px;
+    background: transparent;
+    border-radius: 0;
+    overflow: visible;
+    transition: left 220ms var(--tss-wg-ease), width 220ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-pivot-line::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    top: 1px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, var(--tss-wg-orange-hi) 0%, var(--tss-wg-orange) 100%);
+    box-shadow: 0 0 2px 0 rgba(250, 112, 48, 0.9), 0 0 6px 0 rgba(250, 112, 48, 0.45);
+}
+
+body.tss-theme-weniger .tss-pivot-line.tss-pivot-line-instant {
+    transition: none;
+}
+
+/* Scroll arrows and the "..." are small ghost keys at the end of the strip. */
+body.tss-theme-weniger .tss-pivot-titlebar-more,
+body.tss-theme-weniger .tss-pivot-titlebar-scroll-left,
+body.tss-theme-weniger .tss-pivot-titlebar-scroll-right {
+    border-radius: var(--tss-wg-radius-small);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    margin-bottom: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   Close glyph and the unsaved lamp
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-pivot-tab-close {
+    border-radius: 4px;
+}
+
+body.tss-theme-weniger .tss-pivot-tab-close:hover {
+    color: var(--tss-wg-red);
+}
+
+body.tss-theme-weniger .tss-pivot-tab-close:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+}
+
+body.tss-theme-weniger .tss-pivot-tab-needs-saving .tss-pivot-tab-close::after,
+body.tss-theme-weniger .tss-pivot-tab-needs-saving::after,
+body.tss-theme-weniger .tss-pivot-tab-mark {
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle at 40% 35%, rgb(255, 170, 120) 0, var(--tss-wg-orange) 60%);
+    box-shadow: var(--tss-wg-led-orange-glow);
+}
+
+/* --------------------------------------------------------------------------
+   Drag to reorder: the lifted tab is a key off the panel
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-pivot-tab-ghost {
+    opacity: 0.4;
+}
+
+body.tss-theme-weniger .tss-pivot-tab-drag,
+body.tss-theme-weniger .tss-pivot-tab-fallback {
+    background: var(--tss-wg-key-hover);
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    box-shadow: var(--tss-wg-float-shadow);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-pivot-titlebar:focus-visible,
+body.tss-theme-weniger .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-pivot-line {
+        transition: none;
+    }
+}

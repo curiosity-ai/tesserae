@@ -1,7 +1,76 @@
 /* ==========================================================================
-   Weniger theme - mobile
+   Weniger theme - Mobile
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   Applied while the body also carries tss-mobile. A phone gets the same
+   devices, only narrower. The fixed navbar is the top plate of the case: a
+   brushed strip (the sidebar's metal) ruled off by a groove with a soft
+   shadow under it. Its drawer is that plate slid out over the page on the
+   floating shadow, settling rather than sliding fast, and standing still
+   under reduced motion. The backdrop behind it is the page dimmed. The
+   drawer's close control and the burger are small keys; the thin phone
+   scrollbar is a rounded graphite thumb.
    ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Navbar and drawer
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger.tss-mobile .tss-navbar {
+    box-shadow: inset 0 -1px 0 var(--tss-wg-groove), 0 1px 0 rgba(255, 255, 255, 0.5), 0 6px 14px -8px rgba(60, 54, 46, 0.4) !important;
+}
+
+body.tss-theme-weniger.tss-dark-mode.tss-mobile .tss-navbar {
+    box-shadow: inset 0 -1px 0 var(--tss-wg-groove), 0 1px 0 rgba(255, 255, 255, 0.05), 0 6px 14px -8px rgba(0, 0, 0, 0.8) !important;
+}
+
+body.tss-theme-weniger.tss-mobile .tss-navbar .tss-navbar-drawer {
+    transition: transform 240ms var(--tss-wg-ease), box-shadow 240ms var(--tss-wg-ease);
+    box-shadow: none;
+}
+
+body.tss-theme-weniger.tss-mobile .tss-navbar .tss-navbar-drawer:not(.tss-collapse) {
+    box-shadow: var(--tss-wg-float-shadow) !important;
+}
+
+body.tss-theme-weniger .tss-mobile-backdrop {
+    background: var(--tss-overlay-dark);
+}
+
+body.tss-theme-weniger.tss-mobile .tss-navbar-mobile-header {
+    border-bottom: none;
+    box-shadow: inset 0 -1px 0 var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger.tss-mobile .tss-navbar .tss-navbar-drawer .tss-sidebar-footer {
+    border-top: none;
+    box-shadow: inset 0 1px 0 var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger.tss-mobile .tss-navbar-mobile-close {
+    border-radius: var(--tss-wg-radius-key) !important;
+}
+
+body.tss-theme-weniger.tss-mobile .tss-navbar-burger {
+    border-radius: var(--tss-wg-radius-key);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger.tss-mobile .tss-navbar .tss-navbar-drawer,
+    body.tss-theme-weniger .tss-mobile-backdrop {
+        transition: none;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Touch controls
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger.tss-mobile .tss-pagination .tss-btn {
+    border-radius: var(--tss-wg-radius-small);
+}
+
+/* The thin phone scrollbar: a rounded graphite thumb, no track. */
+body.tss-theme-weniger.tss-mobile ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.32);
+}

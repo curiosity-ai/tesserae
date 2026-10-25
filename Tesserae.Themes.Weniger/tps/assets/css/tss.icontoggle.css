@@ -1,7 +1,151 @@
 /* ==========================================================================
-   Weniger theme - icontoggle
+   Weniger theme - IconToggle
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   The row of transport keys on a tape deck: square plastic keys moulded
+   side by side into one welded strip that stands proud of the panel, a
+   hairline seam between each key. Exactly one is latched down: it sits in
+   its seat with the light gone off its cap and the shadow turned inward,
+   and a small orange lamp glows in its corner. Under the pointer a key
+   brightens; held, it goes down. A disabled key is flat and faded.
+   Vertical() turns the strip on its end, the seams running across.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-icon-toggle {
+    --tss-icon-toggle-radius: var(--tss-wg-radius-key);
+    --tss-icon-toggle-inset: 0px;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid var(--tss-wg-key-edge);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-icon-toggle-compact {
+    --tss-icon-toggle-radius: var(--tss-wg-radius-small);
+    --tss-icon-toggle-inset: 0px;
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-icon-toggle-large {
+    --tss-icon-toggle-radius: 10px;
+    --tss-icon-toggle-inset: 0px;
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-rounded-sm {
+    --tss-icon-toggle-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-rounded-md {
+    --tss-icon-toggle-radius: var(--tss-wg-radius-key);
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-rounded-full {
+    --tss-icon-toggle-radius: var(--tss-border-radius-full);
+}
+
+/* The keys: square, the strip's outline clips the two at the ends. */
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item {
+    position: relative;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    transition: background-color 90ms linear, box-shadow var(--tss-wg-quick) var(--tss-wg-ease), color 90ms linear;
+}
+
+/* The seams between keys. */
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item + .tss-btn.tss-icon-toggle-item {
+    border-left: 1px solid var(--tss-wg-key-edge);
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-icon-toggle-vertical > .tss-btn.tss-icon-toggle-item + .tss-btn.tss-icon-toggle-item {
+    border-left: none;
+    border-top: 1px solid var(--tss-wg-key-edge);
+}
+
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover,
+body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):not(:hover) {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+/* Latched down, with its lamp lit. */
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--tss-wg-orange-hi);
+    box-shadow: var(--tss-wg-led-orange-glow);
+    pointer-events: none;
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-icon-toggle-large > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected::after {
+    top: 4px;
+    right: 4px;
+    width: 5px;
+    height: 5px;
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-rounded-full > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected::after {
+    display: none;
+}
+
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: -3px;
+}
+
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-disabled,
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-disabled:not(.tss-btn-link):not(.tss-btn-nobg) {
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    background: rgb(var(--tss-disabled-background-color-root));
+    box-shadow: none;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-disabled:first-child {
+    border-left: none;
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-icon-toggle-vertical > .tss-btn.tss-icon-toggle-item.tss-disabled {
+    border-left: none;
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-icon-toggle-disabled {
+    box-shadow: none;
+    background: rgb(var(--tss-disabled-background-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item {
+        transition: none;
+    }
+}

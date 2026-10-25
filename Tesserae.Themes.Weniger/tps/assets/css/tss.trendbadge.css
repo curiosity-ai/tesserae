@@ -1,7 +1,48 @@
 /* ==========================================================================
-   Weniger theme - trendbadge
+   Weniger theme - TrendBadge
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   The size of a change is a small moulded chip (5px corners, not a pill)
+   with the arrow and the figure printed on it in the text face, figures
+   lined up. Good news takes the green of the LED's housing, bad news the
+   record red; neutral is a plain plastic chip. The arrow keeps the sign,
+   so the hue is never the only cue.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-trendbadge {
+    border-radius: var(--tss-wg-radius-small);
+    padding: 2px 7px 2px 4px;
+    font-family: var(--tss-sansserif-font-family);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
+    background: var(--tss-wg-key);
+    box-shadow: inset 0 0 0 1px var(--tss-wg-key-edge), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-trendbadge {
+    box-shadow: inset 0 0 0 1px var(--tss-wg-key-edge), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+body.tss-theme-weniger .tss-trendbadge-good {
+    background: rgba(28, 128, 76, 0.13);
+    box-shadow: inset 0 0 0 1px rgba(28, 128, 76, 0.28);
+    color: rgb(20, 100, 58);
+}
+
+body.tss-theme-weniger .tss-trendbadge-bad {
+    background: rgba(204, 46, 40, 0.11);
+    box-shadow: inset 0 0 0 1px rgba(204, 46, 40, 0.26);
+    color: rgb(164, 32, 28);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-trendbadge-good {
+    background: rgba(52, 226, 142, 0.12);
+    box-shadow: inset 0 0 0 1px rgba(52, 226, 142, 0.28);
+    color: rgb(110, 228, 166);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-trendbadge-bad {
+    background: rgba(238, 88, 76, 0.14);
+    box-shadow: inset 0 0 0 1px rgba(238, 88, 76, 0.32);
+    color: rgb(255, 140, 128);
+}

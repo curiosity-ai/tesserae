@@ -1,7 +1,15 @@
 /* ==========================================================================
-   Weniger theme - textblock
+   Weniger theme - TextBlock
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   Text is the theme's Hanken Grotesk on the plastic, in the ink and muted
+   tokens, so a TextBlock needs almost nothing of its own: the size, weight
+   and colour helpers already resolve to the theme's roots. The one thing
+   restated is the glow: on a device a glowing word is a lit legend, so it
+   is a tight, low halo rather than a wide bloom that would blur the type.
+   (Tables inside a TextBlock are drawn by tss.textbox.css, which owns them
+   in Tesserae.)
    ========================================================================== */
+
+body.tss-theme-weniger .tss-text-glow {
+    text-shadow: 0 0 4px color-mix(in srgb, var(--tss-text-glow-color, currentColor) 55%, transparent), 0 0 10px color-mix(in srgb, var(--tss-text-glow-color, currentColor) 25%, transparent);
+}

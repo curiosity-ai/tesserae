@@ -1,7 +1,41 @@
 /* ==========================================================================
-   Weniger theme - dialog
+   Weniger theme - Dialog
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A dialog is the small sibling of the modal (see tss.modal.css): the same
+   device body, groove and float shadow, but no header strip when it has no
+   title, so a question does not sit under an empty band. The face is
+   padded clear of the groove; the answers are keys along the foot (their
+   look is tss.button.css), ruled off by a groove like a control strip.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-modal.tss-dialog {
+    border-radius: var(--tss-wg-radius-panel);
+}
+
+body.tss-theme-weniger .tss-dialog .tss-modal-header {
+    min-height: 0;
+    padding: 14px 14px 0 20px;
+}
+
+body.tss-theme-weniger .tss-dialog .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) {
+    min-height: 48px;
+    padding: 4px 14px 4px 20px;
+}
+
+body.tss-theme-weniger .tss-dialog .tss-modal-content {
+    padding: 12px 20px 14px 20px;
+}
+
+body.tss-theme-weniger .tss-dialog .tss-modal-footer {
+    padding: 0 14px 0 20px;
+}
+
+body.tss-theme-weniger .tss-dialog .tss-modal-footer:has(> :not(:empty)) {
+    padding-top: 10px;
+    padding-bottom: 12px;
+}
+
+/* The answers stand a little apart, as keys on a strip do. */
+body.tss-theme-weniger .tss-dialog .tss-modal-footer-content > .tss-stack-horizontal {
+    gap: 4px;
+}

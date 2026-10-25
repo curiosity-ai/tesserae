@@ -1,7 +1,100 @@
 /* ==========================================================================
-   Weniger theme - autocompletebox
+   Weniger theme - AutoCompleteBox
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   The field is the text box's recessed well (tss.textbox.css). The
+   suggestions are the dropdown's floating plastic panel, the row the
+   keyboard or the pointer is on a soft pressed key, the matched letters in
+   the heavier weight. The check indicator at the end of the well is a pilot
+   lamp beside its word: green for a valid answer, amber for a warning, red
+   for an invalid one (the icon and the word stay, so the colour is never
+   the only sign); an invalid answer turns the well's edge red.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-autocompletebox-list {
+    padding: 6px;
+    border: none;
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-float-shadow);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-autocompletebox-item {
+    padding: 6px 10px;
+    border-radius: var(--tss-wg-radius-small);
+    transition: background-color 90ms linear, box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-autocompletebox-item:hover,
+body.tss-theme-weniger .tss-autocompletebox-item.tss-autocompletebox-item-highlight {
+    background: var(--tss-wg-row-pressed);
+    box-shadow: var(--tss-wg-row-pressed-shadow);
+}
+
+body.tss-theme-weniger .tss-autocompletebox-match {
+    font-weight: 700;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The check: a lamp before the icon, lit in the verdict's colour. */
+body.tss-theme-weniger .tss-autocompletebox-status {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+body.tss-theme-weniger .tss-autocompletebox-status-valid::before,
+body.tss-theme-weniger .tss-autocompletebox-status-warning::before,
+body.tss-theme-weniger .tss-autocompletebox-status-invalid::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 6px;
+    height: 6px;
+    margin-right: 2px;
+    border-radius: 50%;
+}
+
+body.tss-theme-weniger .tss-autocompletebox-status-valid::before {
+    background: var(--tss-wg-led);
+    box-shadow: var(--tss-wg-led-glow);
+}
+
+body.tss-theme-weniger .tss-autocompletebox-status-warning::before {
+    background: rgb(var(--tss-warning-background-color-root));
+    box-shadow: 0 0 2px 0 rgba(240, 172, 36, 0.95), 0 0 6px 1px rgba(240, 172, 36, 0.5);
+}
+
+body.tss-theme-weniger .tss-autocompletebox-status-invalid::before {
+    background: var(--tss-wg-red);
+    box-shadow: 0 0 2px 0 rgba(204, 46, 40, 0.9), 0 0 6px 1px rgba(204, 46, 40, 0.45);
+}
+
+body.tss-theme-weniger .tss-autocompletebox-status-valid {
+    color: rgb(var(--tss-success-background-color-root));
+}
+
+/* Amber type is unreadable on the light well: the word stays in ink, the lamp and icon carry the amber. */
+body.tss-theme-weniger .tss-autocompletebox-status-warning {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-autocompletebox-status-warning .tss-autocompletebox-status-icon {
+    color: rgb(var(--tss-warning-border-color-root));
+}
+
+body.tss-theme-weniger .tss-autocompletebox-status-invalid {
+    color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-weniger .tss-textbox-container.tss-autocompletebox-invalid .tss-textbox {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-weniger .tss-textbox-container.tss-autocompletebox-invalid .tss-textbox:focus {
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(var(--tss-invalid-border-color-root), 0.24);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-autocompletebox-item {
+        transition: none;
+    }
+}

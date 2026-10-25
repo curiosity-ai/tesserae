@@ -1,7 +1,60 @@
 /* ==========================================================================
-   Weniger theme - spinner
+   Weniger theme - Spinner
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A spinner is a dial turning on its own: a small turned-aluminium knob
+   standing on the panel, with one tick on its rim in the spinner's colour
+   (signal orange by default, the tone's colour for success, warning and
+   danger). It turns at an even, unhurried pace - a part being wound, not a
+   loading wheel. Under reduced motion it turns much more slowly rather
+   than stopping, so it still says "working".
+   A spinner with a fixed progress keeps Tesserae's lit sweep, on a darker
+   groove; the AI variant keeps its own gradient ring (tss.ai.css). The
+   label is printed in the muted text colour, not in orange.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-spinner:not(.tss-spinner-progress):not(.tss-ai) {
+    position: relative;
+    border: none;
+    background: var(--tss-wg-alu-knob);
+    box-shadow: 0 0 0 1px rgba(60, 54, 46, 0.24), 0 1px 2px rgba(60, 54, 46, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    animation-duration: 1.6s;
+    animation-timing-function: linear;
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-spinner:not(.tss-spinner-progress):not(.tss-ai) {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+/* The tick: from the rim towards the centre, a third of the way in. */
+body.tss-theme-weniger .tss-spinner:not(.tss-spinner-progress):not(.tss-ai)::after {
+    content: "";
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    width: max(2px, 14%);
+    height: 32%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+    background: var(--tss-spinner-color);
+}
+
+/* Fixed progress: the lit sweep in a darker groove. */
+body.tss-theme-weniger .tss-spinner.tss-spinner-progress:not(.tss-ai) {
+    background: conic-gradient(var(--tss-spinner-color) calc(var(--tss-spinner-progress, 0) * 1%), rgba(60, 54, 46, 0.2) 0);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-spinner.tss-spinner-progress:not(.tss-ai) {
+    background: conic-gradient(var(--tss-spinner-color) calc(var(--tss-spinner-progress, 0) * 1%), rgba(0, 0, 0, 0.5) 0);
+}
+
+body.tss-theme-weniger .tss-spinner-container:not(.tss-ai-label) .tss-spinner-label {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-size: 12px;
+    letter-spacing: 0.02em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-spinner:not(.tss-spinner-progress) {
+        animation-duration: 6s;
+    }
+}

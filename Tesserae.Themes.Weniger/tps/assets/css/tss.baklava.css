@@ -1,7 +1,336 @@
 /* ==========================================================================
-   Weniger theme - baklava
+   Weniger theme - Baklava nodes and controls (the NodeView editor)
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A node is a small device module: a body of top-lit plastic with the 8px
+   corner, a 1px moulded edge and the panel shadow, its title a moulded
+   plate ruled off by a groove. Pointed at, it lifts a little; selected, its
+   edge lights orange with a soft halo; dragged, it floats on the floating
+   shadow. A group node's plate is a shade darker. Ports are round jacks: a
+   dark socket in a turned aluminium ring; a jack in use lights orange.
+   Connections are patch cables: a 3px ink wire with round ends, orange while
+   a new one is being plugged, red where it would not fit.
+
+   The controls on a node follow the theme: fields are recessed wells,
+   buttons are keys, a checkbox latches orange, a slider fills with orange
+   in a well, and the menus are lifted plastic with a pressed-key row.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-nodeview .baklava-editor {
+    font-family: var(--tss-sansserif-font-family);
+    font-size: 13.5px;
+}
+
+/* The canvas: a quiet dot grid, like the perforation of a back panel. */
+body.tss-theme-weniger .tss-nodeview .baklava-editor .background {
+    background-image: radial-gradient(circle, var(--baklava-editor-background-pattern-black) 1.2px, transparent 1.6px);
+}
+
+/* --------------------------------------------------------------------------
+   Nodes
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-nodeview .baklava-node {
+    background: var(--tss-wg-plastic);
+    border: 1px solid var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-panel-shadow);
+    transition: border-color 120ms linear, box-shadow 140ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-node:hover {
+    border-color: rgba(var(--tss-dark-border-color-root), 0.7);
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-node.--selected {
+    border-color: var(--tss-wg-orange);
+    box-shadow: var(--tss-wg-panel-shadow), 0 0 0 3px rgba(236, 88, 26, 0.24);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-node.--dragging {
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-node.--selected.--dragging {
+    box-shadow: var(--tss-wg-float-shadow), 0 0 0 3px rgba(236, 88, 26, 0.24);
+}
+
+/* The title plate. */
+body.tss-theme-weniger .tss-nodeview .baklava-node > .__title {
+    align-items: center;
+    padding: 0.45em 0.8em;
+    background: var(--tss-wg-key);
+    box-shadow: inset 0 -1px 0 var(--tss-wg-groove), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+    letter-spacing: 0.005em;
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-nodeview .baklava-node > .__title {
+    box-shadow: inset 0 -1px 0 var(--tss-wg-groove), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-node[data-node-type^=__baklava_] > .__title {
+    background: var(--tss-wg-key-pressed);
+}
+
+/* The node's menu opens inside its title; it is a menu, not a legend, so it takes the text voice back. */
+body.tss-theme-weniger .tss-nodeview .baklava-node > .__title .baklava-context-menu {
+    font-weight: 400;
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-node .__resize-handle::after {
+    border-bottom-right-radius: var(--tss-wg-radius-key);
+}
+
+/* A palette entry is a key in a list, not a module: a plain plastic key with its glyph. */
+body.tss-theme-weniger .tss-nodeview .baklava-node.--palette {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key) !important;
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-node.--palette:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-node.--palette > .__title,
+body.tss-theme-weniger .tss-nodeview .baklava-node.--palette .__title {
+    background: transparent;
+    box-shadow: none;
+    font-weight: 500;
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-dragged-node .baklava-node {
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+/* --------------------------------------------------------------------------
+   Ports: round jacks
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-nodeview .baklava-node-interface .__port {
+    width: 12px;
+    height: 12px;
+    top: calc(50% - 6px);
+    background: radial-gradient(circle, rgb(18, 18, 17) 0 2.6px, rgb(48, 48, 46) 3px, transparent 3.4px), var(--tss-wg-alu-knob);
+    box-shadow: var(--tss-wg-knob-shadow);
+    transition: box-shadow 120ms linear;
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-node-interface .__port:hover {
+    box-shadow: var(--tss-wg-knob-shadow), 0 0 0 3px rgba(236, 88, 26, 0.28);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-node-interface .__port.--selected {
+    outline: none;
+    background: radial-gradient(circle, var(--tss-wg-orange-hi) 0 2.6px, rgb(48, 48, 46) 3px, transparent 3.4px), var(--tss-wg-alu-knob);
+    box-shadow: var(--tss-wg-knob-shadow), var(--tss-wg-led-orange-glow);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-node-interface .__tooltip {
+    border-radius: var(--tss-wg-radius-small);
+    box-shadow: var(--tss-wg-float-shadow);
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Connections: patch cables
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-nodeview .baklava-connection {
+    stroke-width: 3px;
+    stroke-linecap: round;
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-connection.--temporary {
+    stroke: var(--tss-wg-orange);
+    stroke-width: 3px;
+    stroke-dasharray: none;
+    animation: none;
+    transform: none;
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-connection.--allowed {
+    stroke: var(--tss-wg-orange);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-connection.--forbidden {
+    stroke: rgb(var(--tss-invalid-border-color-root));
+    stroke-dasharray: 2 5;
+}
+
+/* --------------------------------------------------------------------------
+   Controls on a node
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-nodeview .baklava-input,
+body.tss-theme-weniger .tss-nodeview .baklava-num-input,
+body.tss-theme-weniger .tss-nodeview .baklava-select > .__selected,
+body.tss-theme-weniger .tss-nodeview .baklava-slider {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-num-input > .__button,
+body.tss-theme-weniger .tss-nodeview .baklava-num-input > .__content,
+body.tss-theme-weniger .tss-nodeview .baklava-select > .__selected:hover,
+body.tss-theme-weniger .tss-nodeview .baklava-input:hover,
+body.tss-theme-weniger .tss-nodeview .baklava-input:active {
+    background-color: transparent;
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-num-input > .__button:hover {
+    background: rgba(var(--tss-default-foreground-color-root), 0.06);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-num-input > .__button path,
+body.tss-theme-weniger .tss-nodeview .baklava-select > .__selected > .__icon path {
+    stroke: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-input:focus-visible,
+body.tss-theme-weniger .tss-nodeview .baklava-select.--open > .__selected {
+    outline: none;
+    border-color: var(--tss-wg-orange);
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(236, 88, 26, 0.24);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-input.--invalid {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(var(--tss-invalid-border-color-root), 0.2);
+}
+
+/* The slider fills its well with orange; the reading stays legible over both. */
+body.tss-theme-weniger .tss-nodeview .baklava-slider > .__slider {
+    background: var(--tss-wg-orange-key);
+    border-radius: var(--tss-wg-radius-small) 0 0 var(--tss-wg-radius-small);
+    opacity: 0.85;
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-slider > .__content {
+    position: relative;
+    z-index: 1;
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-button {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 600;
+    transition: transform var(--tss-wg-quick) var(--tss-wg-ease), box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-button:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-button:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-checkbox .__checkmark-container {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-checkbox.--checked .__checkmark-container {
+    border-color: rgba(0, 0, 0, 0.2);
+    background: var(--tss-wg-orange-key);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 1px rgba(60, 30, 10, 0.2);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-checkbox .__checkmark {
+    stroke: var(--tss-wg-on-orange);
+}
+
+/* --------------------------------------------------------------------------
+   Menus: lifted plastic, the row under the pointer a risen key
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-nodeview .baklava-context-menu,
+body.tss-theme-weniger .tss-nodeview .baklava-select > .__dropdown {
+    padding: 4px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-float-shadow);
+    filter: none;
+    font-size: 13.5px;
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-context-menu > .item,
+body.tss-theme-weniger .tss-nodeview .baklava-select > .__dropdown > .item {
+    border-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-context-menu > .item:not(.--header):not(.--active):not(.--disabled):hover,
+body.tss-theme-weniger .tss-nodeview .baklava-select > .__dropdown > .item:not(.--header):not(.--active):hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-context-menu > .item.--active,
+body.tss-theme-weniger .tss-nodeview .baklava-select > .__dropdown > .item.--active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed), inset 3px 0 0 var(--tss-wg-orange);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-context-menu > .item.--disabled {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-context-menu > .item.--header,
+body.tss-theme-weniger .tss-nodeview .baklava-select > .__dropdown > .item.--header {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-context-menu > .divider {
+    background-color: var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-icon.--clickable:hover {
+    color: var(--tss-wg-orange);
+}
+
+/* The sidebar is a plate slid in from the edge. */
+body.tss-theme-weniger .tss-nodeview .baklava-sidebar {
+    background: var(--tss-wg-plastic);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-sidebar.--open {
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-sidebar .__resizer {
+    background: var(--tss-wg-groove);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-nodeview .baklava-node,
+    body.tss-theme-weniger .tss-nodeview .baklava-button,
+    body.tss-theme-weniger .tss-nodeview .baklava-node-interface .__port {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-nodeview .baklava-button:active {
+        transform: none;
+    }
+}

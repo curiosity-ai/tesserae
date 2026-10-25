@@ -1,7 +1,40 @@
 /* ==========================================================================
-   Weniger theme - popover
+   Weniger theme - Popover
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A popover is a small panel lifted off the device and held beside its
+   anchor. The Tippy box stays transparent (the content placed in it, a
+   menu or a card, is the moulded part), but a card put in it is lifted,
+   so it stands on the float shadow rather than the resting one. The arrow
+   is a nub of the same plastic. Text in it is the page's ink, not the
+   tooltip's (which would be pale type on pale plastic).
    ========================================================================== */
+
+body.tss-theme-weniger .tippy-box[data-theme~='tss-popover'] {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    color: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-weniger .tippy-box[data-theme~='tss-popover'] .tss-popover {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tippy-box[data-theme~='tss-popover'] .tippy-content .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tippy-box[data-theme~='tss-popover'] .tss-popover > .tss-card-container > .tss-card {
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+/* Keys in a popover are the page's keys (the tooltip's own button rule does not reach in here). */
+body.tss-theme-weniger .tippy-box[data-theme~='tss-popover'] .tippy-content .tss-btn-default:not(.tss-disabled) {
+    color: rgb(var(--tss-default-foreground-color-root));
+    background-color: transparent;
+    border-color: transparent;
+}

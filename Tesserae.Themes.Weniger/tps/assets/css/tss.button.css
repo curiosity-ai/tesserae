@@ -167,6 +167,106 @@ body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-lin
 }
 
 /* --------------------------------------------------------------------------
+   Shading in the key's own colour
+   --------------------------------------------------------------------------
+   The light and shade layers above are white and black at low alpha, which
+   works over any colour but greys it: white over orange is a pastel, black
+   over orange a brown. Where the browser can derive colours from a colour
+   (relative colour syntax), the rim, the dish and the lip shadow are instead
+   the key's own colour made lighter or darker in OKLCH, the same hue and
+   chroma, so an orange key is shaded in oranges and a green one in greens.
+   --tss-wg-k is the key's colour; the layers above stay as the fallback.
+   -------------------------------------------------------------------------- */
+
+@supports (color: oklch(from red l c h)) {
+
+    body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+        --tss-wg-k: rgb(var(--tss-primary-background-color-root));
+    }
+
+    body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+        --tss-wg-k: rgb(var(--tss-primary-background-hover-color-root));
+    }
+
+    body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+        --tss-wg-k: rgb(var(--tss-danger-background-color-root));
+    }
+
+    body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+        --tss-wg-k: rgb(var(--tss-danger-background-hover-color-root));
+    }
+
+    body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+        --tss-wg-k: rgb(var(--tss-success-background-color-root));
+    }
+
+    body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+        --tss-wg-k: rgb(var(--tss-success-background-hover-color-root));
+    }
+
+    body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+        --tss-wg-k: rgb(var(--tss-warning-background-color-root));
+    }
+
+    body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+        --tss-wg-k: rgb(var(--tss-warning-background-hover-color-root));
+    }
+
+    body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link) {
+        --tss-wg-k: var(--tss-wg-key-plastic);
+    }
+
+    body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover,
+    body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover {
+        background-image:
+            radial-gradient(130% 170% at 50% 105%, oklch(from var(--tss-wg-k) calc(l + 0.06) c h) 0%, var(--tss-wg-k) 42%, oklch(from var(--tss-wg-k) calc(l - 0.07) c h) 100%),
+            linear-gradient(180deg, oklch(from var(--tss-wg-k) calc(l + 0.11) c h) 0%, var(--tss-wg-k) 48%, oklch(from var(--tss-wg-k) calc(l - 0.12) c h) 100%);
+        box-shadow:
+            inset 0 2px 3px -1px oklch(from var(--tss-wg-k) calc(l - 0.4) c h / 0.45),
+            inset 0 -1px 1px oklch(from var(--tss-wg-k) calc(l + 0.14) c h / 0.6),
+            0 0 0 1px oklch(from var(--tss-wg-k) calc(l - 0.28) c h / 0.55),
+            0 1px 1px rgba(40, 30, 20, 0.18),
+            0 3px 6px -2px rgba(40, 30, 20, 0.26);
+    }
+
+    body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+    body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+    body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+    body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+    body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):active,
+    body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):active:hover,
+    body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):active {
+        background-image:
+            radial-gradient(130% 170% at 50% 105%, var(--tss-wg-k) 0%, oklch(from var(--tss-wg-k) calc(l - 0.04) c h) 42%, oklch(from var(--tss-wg-k) calc(l - 0.13) c h) 100%),
+            linear-gradient(180deg, oklch(from var(--tss-wg-k) calc(l + 0.08) c h) 0%, var(--tss-wg-k) 48%, oklch(from var(--tss-wg-k) calc(l - 0.12) c h) 100%);
+        box-shadow:
+            inset 0 3px 5px -1px oklch(from var(--tss-wg-k) calc(l - 0.45) c h / 0.6),
+            inset 0 -1px 1px oklch(from var(--tss-wg-k) calc(l + 0.1) c h / 0.5),
+            0 0 0 1px oklch(from var(--tss-wg-k) calc(l - 0.28) c h / 0.55),
+            0 0 1px rgba(40, 30, 20, 0.2);
+    }
+
+    body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover,
+    body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover {
+        box-shadow:
+            inset 0 2px 3px -1px oklch(from var(--tss-wg-k) calc(l - 0.4) c h / 0.6),
+            inset 0 -1px 1px oklch(from var(--tss-wg-k) calc(l + 0.12) c h / 0.45),
+            0 0 0 1px rgba(0, 0, 0, 0.6),
+            0 1px 1px rgba(0, 0, 0, 0.5),
+            0 3px 7px -2px rgba(0, 0, 0, 0.6);
+    }
+}
+
+/* --------------------------------------------------------------------------
    Link buttons: type, the darker orange, underlined under the pointer
    -------------------------------------------------------------------------- */
 

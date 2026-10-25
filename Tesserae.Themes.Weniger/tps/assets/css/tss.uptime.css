@@ -1,7 +1,163 @@
 /* ==========================================================================
-   Weniger theme - uptime
+   Weniger theme - Uptime
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   Ninety days of status are a row of indicator lamps set in a recessed
+   strip, like the channel lamps along the front of an amplifier. A day
+   that ran clean is a green lamp lit quietly (no glow, or ninety of them
+   would hum); a day with trouble glows - amber for minor, record red for
+   major - so the eye finds it; maintenance is a muted blue; a day with no
+   data or still to come is an unlit lamp. The month cards are plastic
+   panels with the groove; their day cells are the same lamps. The status
+   tooltip stays a dark graphite tag in both editions (Tesserae paints its
+   text white), with the theme's rounding and floating shadow.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-uptime-bars {
+    --tss-wg-up-on: rgb(38, 166, 104);
+    --tss-wg-up-minor: rgb(240, 172, 36);
+    --tss-wg-up-major: rgb(214, 52, 44);
+    --tss-wg-up-maint: rgb(84, 126, 170);
+    padding: 5px;
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-uptime-month-grid {
+    --tss-wg-up-on: rgb(38, 166, 104);
+    --tss-wg-up-minor: rgb(240, 172, 36);
+    --tss-wg-up-major: rgb(214, 52, 44);
+    --tss-wg-up-maint: rgb(84, 126, 170);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-uptime-bars,
+body.tss-theme-weniger.tss-dark-mode .tss-uptime-month-grid {
+    --tss-wg-up-on: rgb(46, 190, 118);
+    --tss-wg-up-maint: rgb(108, 150, 196);
+}
+
+/* Every lamp: a moulded lens, lit from above. */
+body.tss-theme-weniger .tss-uptime-bars span,
+body.tss-theme-weniger .tss-uptime-month-day {
+    border-radius: 3px;
+    background-color: var(--tss-wg-led-off);
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.06) 45%, rgba(0, 0, 0, 0.06) 100%);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+    transition: transform var(--tss-wg-quick) var(--tss-wg-ease), box-shadow 120ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-uptime-bars span,
+body.tss-theme-weniger.tss-dark-mode .tss-uptime-month-day {
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 45%, rgba(0, 0, 0, 0.12) 100%);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+}
+
+body.tss-theme-weniger .tss-uptime-bars-compact span {
+    border-radius: 2px;
+}
+
+body.tss-theme-weniger .tss-uptime-bars span.operational,
+body.tss-theme-weniger .tss-uptime-month-day.operational {
+    background-color: var(--tss-wg-up-on);
+}
+
+body.tss-theme-weniger .tss-uptime-bars span.minor,
+body.tss-theme-weniger .tss-uptime-month-day.minor {
+    background-color: var(--tss-wg-up-minor);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(240, 172, 36, 0.55);
+}
+
+body.tss-theme-weniger .tss-uptime-bars span.major,
+body.tss-theme-weniger .tss-uptime-month-day.major {
+    background-color: var(--tss-wg-up-major);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(214, 52, 44, 0.55);
+}
+
+body.tss-theme-weniger .tss-uptime-bars span.maintenance,
+body.tss-theme-weniger .tss-uptime-month-day.maintenance {
+    background-color: var(--tss-wg-up-maint);
+}
+
+body.tss-theme-weniger .tss-uptime-bars span.none,
+body.tss-theme-weniger .tss-uptime-bars span.future,
+body.tss-theme-weniger .tss-uptime-month-day.future {
+    background-color: var(--tss-wg-led-off);
+}
+
+body.tss-theme-weniger .tss-uptime-bars span.future,
+body.tss-theme-weniger .tss-uptime-month-day.future {
+    opacity: 0.55;
+}
+
+body.tss-theme-weniger .tss-uptime-bars span:hover,
+body.tss-theme-weniger .tss-uptime-bars span:focus-visible {
+    transform: translateY(-1px);
+}
+
+body.tss-theme-weniger .tss-uptime-bars span:focus-visible,
+body.tss-theme-weniger .tss-uptime-month-day:focus-visible {
+    box-shadow: 0 0 0 2px rgba(236, 88, 26, 0.85);
+}
+
+body.tss-theme-weniger .tss-uptime-month-day:hover {
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 0 1.5px rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The month card: a plastic panel with the groove. */
+body.tss-theme-weniger .tss-uptime-month-card {
+    border: none;
+    border-radius: var(--tss-wg-radius-panel);
+    padding: 16px 18px;
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-panel-shadow);
+    outline: 1px solid var(--tss-wg-groove);
+    outline-offset: calc(-1 * var(--tss-wg-groove-inset));
+}
+
+body.tss-theme-weniger .tss-uptime-month-header {
+    font-size: 13px;
+}
+
+body.tss-theme-weniger .tss-uptime-month-header span {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-size: 12px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+}
+
+/* The status tooltip: a graphite tag in both editions. */
+body.tss-theme-weniger .tippy-box[data-theme~='uptime'] {
+    background: rgb(40, 40, 38);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: var(--tss-wg-radius-key);
+    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.3), 0 14px 30px -12px rgba(0, 0, 0, 0.45);
+}
+
+body.tss-theme-weniger .tippy-box[data-theme~='uptime'][data-placement^='top'] > .tippy-arrow::before {
+    border-top-color: rgb(40, 40, 38);
+}
+
+body.tss-theme-weniger .tippy-box[data-theme~='uptime'][data-placement^='bottom'] > .tippy-arrow::before {
+    border-bottom-color: rgb(40, 40, 38);
+}
+
+body.tss-theme-weniger .tippy-box[data-theme~='uptime'][data-placement^='left'] > .tippy-arrow::before {
+    border-left-color: rgb(40, 40, 38);
+}
+
+body.tss-theme-weniger .tippy-box[data-theme~='uptime'][data-placement^='right'] > .tippy-arrow::before {
+    border-right-color: rgb(40, 40, 38);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-uptime-bars span,
+    body.tss-theme-weniger .tss-uptime-month-day {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-uptime-bars span:hover,
+    body.tss-theme-weniger .tss-uptime-bars span:focus-visible {
+        transform: none;
+    }
+}

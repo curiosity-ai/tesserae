@@ -1,7 +1,93 @@
 /* ==========================================================================
-   Weniger theme - detailslist
+   Weniger theme - DetailsList
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A details list is the printed spec sheet set into a device's panel: the
+   column headers are the small grey legends printed over each column, the
+   header strip ruled off from the rows by a groove, the rows divided by
+   hairline grooves rather than lines, and figures set in tabular numerals
+   so a column of sizes and dates lines up like a printed table.
+
+   The row under the pointer rises a little towards the light (a brighter
+   face and the soft shadow of a key) and settles back when the pointer
+   leaves. The current sort is the one lit thing in the header: its arrow is
+   orange, as the indicator beside the selected function on a hi-fi.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-detailslist-header {
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: inset 0 -1px 0 var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger .tss-detailslist-column-header,
+body.tss-theme-weniger .tss-detailslist-column-header > .tss-textblock {
+    align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-detailslist-column-header > i {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-detailslist-column-header.tss-cursor-pointer {
+    transition: color 120ms linear;
+}
+
+body.tss-theme-weniger .tss-detailslist-column-header.tss-cursor-pointer:hover,
+body.tss-theme-weniger .tss-detailslist-column-header.tss-cursor-pointer:hover > .tss-textblock {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The current sort: the arrow is the lit indicator. */
+body.tss-theme-weniger .tss-detailslist-column-header-sorting-icon,
+body.tss-theme-weniger .tss-detailslist-column-header > i.tss-detailslist-column-header-sorting-icon {
+    color: var(--tss-wg-orange);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-detailslist-column-header > i.tss-detailslist-column-header-sorting-icon {
+    color: var(--tss-wg-orange-hi);
+}
+
+body.tss-theme-weniger .tss-detailslist-list-item {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Rows: hairline grooves between them, none above the first (the header's groove is there). */
+body.tss-theme-weniger .tss-detailslist-list-item-container {
+    position: relative;
+    border-top-color: var(--tss-wg-groove);
+    transition: background-color 120ms linear, box-shadow 140ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-detailslist-list-items-container > .tss-detailslist-list-item-container:first-child {
+    border-top-color: transparent;
+}
+
+body.tss-theme-weniger .tss-detailslist-list-item-container:last-of-type {
+    border-bottom-color: var(--tss-wg-groove);
+}
+
+/* Under the pointer the row lifts: a brighter face on a soft key shadow, the grooves beside it hidden. */
+body.tss-theme-weniger .tss-detailslist-list-item-container:hover {
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-top-color: transparent;
+    border-radius: var(--tss-wg-radius-key);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-detailslist-list-item-container:hover + .tss-detailslist-list-item-container {
+    border-top-color: transparent;
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-detailslist-list-item-container:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-detailslist-list-item-container {
+        transition: none;
+    }
+}

@@ -1,7 +1,192 @@
 /* ==========================================================================
-   Weniger theme - stepper
+   Weniger theme - Stepper
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   The steps are a row of round push keys joined by a groove cut into the
+   panel, like the programme keys of a washing machine. A step still to
+   come is a key at rest with its number printed on it; the current step is
+   the orange key; a finished step is latched down (pressed in, the light
+   gone off it) with a green lamp lit on its shoulder. Under the pointer a
+   key rises. The step's page sits on a plastic panel of its own; Back and
+   Next are keys, Next the orange one, as the action that moves things on.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-stepper-header {
+    gap: 6px;
+    align-items: center;
+}
+
+body.tss-theme-weniger .tss-stepper-step {
+    padding: 6px 4px;
+    border-radius: var(--tss-wg-radius-key);
+}
+
+body.tss-theme-weniger .tss-stepper-step:hover {
+    background: transparent;
+}
+
+/* The groove that joins one key to the next. */
+body.tss-theme-weniger .tss-stepper-step + .tss-stepper-step::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 28px;
+    height: 4px;
+    margin-right: 4px;
+    border-radius: 2px;
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-stepper-step.tss-stepper-complete + .tss-stepper-step::before {
+    background-color: rgba(52, 226, 142, 0.35);
+    background-image: none;
+}
+
+body.tss-theme-weniger .tss-stepper-circle {
+    position: relative;
+    box-sizing: border-box;
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--tss-wg-key-edge);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    transition: box-shadow var(--tss-wg-quick) var(--tss-wg-ease), transform var(--tss-wg-quick) var(--tss-wg-ease), background-color 120ms linear;
+}
+
+body.tss-theme-weniger .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-circle {
+    border: 1px solid var(--tss-wg-key-edge);
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-stepper-step:active .tss-stepper-circle {
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-stepper-label {
+    font-size: 13px;
+}
+
+body.tss-theme-weniger .tss-stepper-description {
+    font-size: 11px;
+    letter-spacing: 0.02em;
+}
+
+/* Current: the orange key. */
+body.tss-theme-weniger .tss-stepper-active .tss-stepper-circle {
+    border-color: rgba(0, 0, 0, 0.2);
+    background-color: var(--tss-wg-orange);
+    background-image: var(--tss-wg-sheen);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 1px 1px rgba(60, 30, 10, 0.2), 0 2px 5px -1px rgba(60, 30, 10, 0.24);
+    color: var(--tss-wg-on-orange);
+    text-shadow: 0 -1px 0 rgba(90, 30, 0, 0.28);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-stepper-active .tss-stepper-circle {
+    border-color: rgba(0, 0, 0, 0.55);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 1px 1px rgba(0, 0, 0, 0.5), 0 2px 6px -1px rgba(0, 0, 0, 0.55);
+}
+
+/* Done: latched down, the green lamp lit. */
+body.tss-theme-weniger .tss-stepper-complete .tss-stepper-circle {
+    border-color: var(--tss-wg-key-edge);
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-stepper-complete .tss-stepper-circle::after {
+    content: "";
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tss-wg-led);
+    box-shadow: var(--tss-wg-led-glow);
+}
+
+/* The step's page. */
+body.tss-theme-weniger .tss-stepper-content {
+    padding: 14px 16px;
+    border: none;
+    border-radius: 12px;
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-panel-shadow);
+    outline: 1px solid var(--tss-wg-groove);
+    outline-offset: -5px;
+}
+
+/* Back and Next: keys. */
+body.tss-theme-weniger .tss-stepper-footer {
+    gap: 10px;
+}
+
+body.tss-theme-weniger .tss-stepper-nav {
+    min-height: 32px;
+    padding: 6px 16px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    transition: transform var(--tss-wg-quick) var(--tss-wg-ease), box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-stepper-nav:not(:disabled):hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-stepper-nav:not(:disabled):active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-stepper-nav:last-child:not(:disabled) {
+    border-color: rgba(0, 0, 0, 0.2);
+    background-color: var(--tss-wg-orange);
+    background-image: var(--tss-wg-sheen);
+    color: var(--tss-wg-on-orange);
+    text-shadow: 0 -1px 0 rgba(90, 30, 0, 0.28);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 1px rgba(60, 30, 10, 0.2), 0 2px 5px -1px rgba(60, 30, 10, 0.24);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-stepper-nav:last-child:not(:disabled) {
+    border-color: rgba(0, 0, 0, 0.55);
+}
+
+body.tss-theme-weniger .tss-stepper-nav:last-child:not(:disabled):active {
+    background-image: var(--tss-wg-sheen-pressed);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+body.tss-theme-weniger .tss-stepper-nav:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+}
+
+body.tss-theme-weniger .tss-stepper-nav:disabled,
+body.tss-theme-weniger .tss-stepper-nav.tss-disabled {
+    opacity: 1;
+    background: rgb(var(--tss-disabled-background-color-root));
+    box-shadow: none;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-stepper-circle,
+    body.tss-theme-weniger .tss-stepper-nav {
+        transition: none;
+        transform: none !important;
+    }
+}

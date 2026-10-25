@@ -1,7 +1,89 @@
 /* ==========================================================================
-   Weniger theme - toast
+   Weniger theme - Toast
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A toast is a small module clipped onto the front of the page: a plastic
+   body with the float shadow and the groove, and at its leading edge a
+   status lamp: green for done, amber for a warning, red for an error,
+   blue for information, orange (breathing slowly) while something is being
+   saved. The banner it carries (tss.banner.css) gives up its own tint and
+   frame here so the module reads as one part; the icon keeps its tone, so
+   the status has its sign and its word as well as its colour. A banner
+   pinned edge to edge is a strip, not a module: no corners, no lamp shell.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-toast-container {
+    background: var(--tss-wg-plastic);
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-radius: var(--tss-wg-radius-panel);
+    box-shadow: var(--tss-wg-float-shadow);
+    outline: 1px solid var(--tss-wg-groove);
+    outline-offset: calc(-1 * var(--tss-wg-groove-inset));
+    transition: opacity 180ms var(--tss-wg-ease), transform 180ms var(--tss-wg-ease), margin 180ms var(--tss-wg-ease), top 180ms var(--tss-wg-ease), bottom 180ms var(--tss-wg-ease);
+}
+
+/* The banner inside (tss.banner.css: lamp, icon well, ink title) is the module's face, not a second
+   panel: its own plastic, shadow and groove give way to the toast's. */
+body.tss-theme-weniger .tss-toast-container > .tss-banner {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    outline: none;
+    padding: 14px 14px 14px 18px;
+}
+
+/* Information is the blue lamp and the ink, not the orange of the primary key the toast builds it from. */
+body.tss-theme-weniger .tss-toast-information > .tss-toast-container > .tss-banner-primary {
+    --tss-wg-bn-ink: rgb(var(--tss-default-foreground-color-root));
+    --tss-wg-bn-lamp: rgb(72, 156, 255);
+    --tss-wg-bn-glow: 0 0 2px 0 rgba(72, 156, 255, 0.95), 0 0 7px 1px rgba(72, 156, 255, 0.55);
+}
+
+/* Saving: the orange lamp of something in progress, breathing; the disk icon in the ink. */
+body.tss-theme-weniger .tss-toast > .tss-toast-container.tss-saving-toast > .tss-banner-primary {
+    --tss-wg-bn-ink: rgb(var(--tss-default-foreground-color-root));
+    --tss-wg-bn-lamp: var(--tss-wg-orange-hi);
+    --tss-wg-bn-glow: var(--tss-wg-led-orange-glow);
+}
+
+body.tss-theme-weniger .tss-toast > .tss-toast-container.tss-saving-toast > .tss-banner-primary::before {
+    animation: tss-wg-lamp-breathe 1.6s ease-in-out infinite;
+}
+
+@keyframes tss-wg-lamp-breathe {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.45;
+    }
+}
+
+body.tss-theme-weniger .tss-toast .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root)) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Pinned edge to edge: a strip of plastic, its rule a groove
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-toast-fullwidth.tss-toast > .tss-toast-container {
+    border-radius: 0;
+    outline: none;
+    border-bottom: 1px solid var(--tss-wg-key-edge);
+}
+
+body.tss-theme-weniger .tss-toast-fullwidth.tss-toast-fullwidth-bottom.tss-toast > .tss-toast-container {
+    border-bottom: none;
+    border-top: 1px solid var(--tss-wg-key-edge);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-toast-container {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-toast > .tss-toast-container.tss-saving-toast > .tss-banner-primary::before {
+        animation: none;
+    }
+}

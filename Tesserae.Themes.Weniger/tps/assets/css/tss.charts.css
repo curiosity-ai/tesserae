@@ -1,7 +1,121 @@
 /* ==========================================================================
-   Weniger theme - charts
+   Weniger theme - Charts
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A chart is read off a meter window: the plot sits in a shallow recessed
+   screen set into the panel, its gridlines hairlines, its axes and labels
+   small grey print like the scale of a tuning dial. Tesserae's charts have
+   no stylesheet of their own; a series without an explicit colour reads
+   --tss-chart-series-N (ChartBase.DefaultPalette), so the palette is set
+   here: a restrained device palette led by the orange - orange, graphite,
+   warm grey, the green of the LED, a muted blue, ochre, a pale grey-blue
+   and the record red. The charcoal edition lifts each one so it reads on
+   the dark glass. A series an app coloured itself keeps its colour.
    ========================================================================== */
+
+body.tss-theme-weniger {
+    --tss-chart-series-1: rgb(236, 88, 26);
+    --tss-chart-series-2: rgb(70, 70, 68);
+    --tss-chart-series-3: rgb(166, 158, 146);
+    --tss-chart-series-4: rgb(32, 158, 98);
+    --tss-chart-series-5: rgb(74, 114, 156);
+    --tss-chart-series-6: rgb(196, 146, 38);
+    --tss-chart-series-7: rgb(146, 168, 186);
+    --tss-chart-series-8: rgb(204, 46, 40);
+}
+
+body.tss-theme-weniger.tss-dark-mode {
+    --tss-chart-series-1: rgb(250, 112, 48);
+    --tss-chart-series-2: rgb(172, 170, 164);
+    --tss-chart-series-3: rgb(128, 121, 111);
+    --tss-chart-series-4: rgb(60, 208, 136);
+    --tss-chart-series-5: rgb(112, 154, 200);
+    --tss-chart-series-6: rgb(226, 178, 70);
+    --tss-chart-series-7: rgb(170, 190, 208);
+    --tss-chart-series-8: rgb(238, 88, 76);
+}
+
+/* The meter window. The chart measures its own border box, so it takes no padding: the window is drawn
+   on a pseudo-element a little larger than the plot, behind it (the chart is its own stacking context). */
+body.tss-theme-weniger .tss-chart {
+    isolation: isolate;
+    font-family: var(--tss-sansserif-font-family);
+}
+
+body.tss-theme-weniger .tss-chart::before {
+    content: "";
+    position: absolute;
+    inset: -6px -8px;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: var(--tss-wg-radius-key);
+    background: linear-gradient(180deg, rgba(60, 54, 46, 0.035) 0%, rgba(255, 255, 255, 0.25) 100%);
+    box-shadow: inset 0 1px 3px rgba(60, 54, 46, 0.12), inset 0 0 0 1px rgba(60, 54, 46, 0.09), 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-chart::before {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.1) 100%);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Gridlines: hairlines, the colour of the groove. */
+body.tss-theme-weniger .tss-chart line[stroke*="neutral-500-alpha"] {
+    stroke: rgba(60, 54, 46, 0.12);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-chart line[stroke*="neutral-500-alpha"] {
+    stroke: rgba(236, 234, 229, 0.08);
+}
+
+/* Axes, the crosshair and every label: printed scale, small and grey. */
+body.tss-theme-weniger .tss-chart line[stroke="var(--tss-default-foreground-color)"] {
+    stroke: rgb(var(--tss-secondary-foreground-color-root));
+    stroke-opacity: 0.6;
+}
+
+body.tss-theme-weniger .tss-chart text {
+    fill: rgb(var(--tss-secondary-foreground-color-root));
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Legend and tooltip text stay ink: they name things rather than measure them. */
+body.tss-theme-weniger .tss-chart text[font-size="11"] {
+    fill: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The tooltip box drawn into the SVG: a small plastic tag. */
+body.tss-theme-weniger .tss-chart rect[fill="var(--tss-default-background-color)"] {
+    fill: rgb(var(--tss-secondary-background-color-root));
+    stroke: var(--tss-wg-key-edge);
+    rx: 6px;
+    filter: drop-shadow(0 3px 6px rgba(60, 54, 46, 0.22));
+}
+
+body.tss-theme-weniger .tss-chart rect[fill="var(--tss-default-background-color)"] ~ text {
+    fill: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Legend swatches: small rounded keys rather than flat squares. */
+body.tss-theme-weniger .tss-chart rect[rx="2"] {
+    rx: 3px;
+}
+
+/* Lines are drawn with a round pen. */
+body.tss-theme-weniger .tss-chart path[stroke^="var(--tss-chart-series"] {
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+/* HeatMap: its default scale colour (the toolkit blue) becomes the orange scale; cells sit in the window as
+   small rounded tiles. A scale or colour an app chose keeps its own. */
+body.tss-theme-weniger .tss-chart rect[fill="var(--tss-colors-blue-600)"] {
+    fill: var(--tss-chart-series-1);
+}
+
+body.tss-theme-weniger .tss-chart stop[stop-color="var(--tss-colors-blue-600)"] {
+    stop-color: var(--tss-chart-series-1);
+}
+
+body.tss-theme-weniger .tss-chart rect[fill-opacity] {
+    rx: 3px;
+}

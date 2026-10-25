@@ -1,7 +1,321 @@
 /* ==========================================================================
-   Weniger theme - dropdown
+   Weniger theme - Dropdown
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   Closed, a dropdown is a field: the recessed well of the text box, with
+   the chevron printed muted at its right end. The keyboard lights the same
+   orange ring round the well that a focused text box carries; invalid is
+   the red edge, the message in small red type under it.
+
+   Open, the list is a separate moulded part lifted off the device: a
+   plastic panel on the float shadow, 8px corners like a key. The row under
+   the pointer or the keyboard is a soft pressed key (a shallow inset, the
+   light gone off it). The chosen row of a single select carries an orange
+   pilot lamp at its leading edge; a multi select puts a small square push
+   key on every row, latched orange with a white tick when chosen (the check
+   box's key). Group headers are printed legends, dividers are grooves, and
+   the search field is a well set into the top of the panel.
+
+   The row tokens below are shared with the Picker and the AutoCompleteBox
+   lists, which use the same panel.
    ========================================================================== */
+
+body.tss-theme-weniger {
+    --tss-wg-row-pressed: var(--tss-wg-key-pressed);
+    --tss-wg-row-pressed-shadow: inset 0 1px 2px rgba(60, 54, 46, 0.16), inset 0 0 0 1px rgba(60, 54, 46, 0.07);
+}
+
+body.tss-theme-weniger.tss-dark-mode {
+    --tss-wg-row-pressed-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(0, 0, 0, 0.32);
+}
+
+/* --------------------------------------------------------------------------
+   The closed box: a well
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-dropdown-container {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: box-shadow 140ms var(--tss-wg-ease), border-color 140ms linear;
+}
+
+body.tss-theme-weniger .tss-dropdown-container:hover {
+    border-color: rgba(var(--tss-dark-border-color-root), 0.7);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-dropdown {
+    padding: 5px 10px;
+}
+
+body.tss-theme-weniger .tss-dropdown.tss-dropdown-noarrow {
+    padding: 0;
+}
+
+body.tss-theme-weniger .tss-dropdown-container.tss-dropdown-nobg,
+body.tss-theme-weniger .tss-dropdown-container.tss-dropdown-nobg:hover {
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-dropdown-container.tss-noborder,
+body.tss-theme-weniger .tss-dropdown-container.tss-noborder:hover {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-dropdown-container > .tss-dropdown-icon {
+    right: 10px;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-dropdown-container:has(> .tss-dropdown:focus-visible) {
+    border-color: var(--tss-wg-orange);
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(236, 88, 26, 0.24);
+}
+
+/* The well carries the ring; the inner box draws no outline of its own. */
+body.tss-theme-weniger .tss-dropdown-container > .tss-dropdown:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-weniger .tss-dropdown-container.tss-disabled {
+    border-color: var(--tss-wg-key-edge);
+    background: rgb(var(--tss-disabled-background-color-root));
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-dropdown-container.tss-disabled .tss-dropdown-item-on-box,
+body.tss-theme-weniger .tss-dropdown-container.tss-disabled > .tss-dropdown-icon {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+/* Invalid: the well's own edge turns red (not a second border on the inner box). */
+body.tss-theme-weniger .tss-dropdown-container.tss-invalid,
+body.tss-theme-weniger .tss-dropdown-container.tss-invalid:hover {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-weniger .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border: none;
+}
+
+body.tss-theme-weniger .tss-dropdown-container.tss-invalid:has(> .tss-dropdown:focus-visible) {
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(var(--tss-invalid-border-color-root), 0.24);
+}
+
+body.tss-theme-weniger .tss-dropdown-error {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-weniger .tss-dropdown-container.tss-has-validation {
+    margin-bottom: 18px;
+}
+
+body.tss-theme-weniger .tss-dropdown-container.tss-has-validation > .tss-dropdown-error {
+    top: calc(100% + 4px);
+}
+
+/* --------------------------------------------------------------------------
+   The open list: a plastic panel lifted off the device
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-dropdown-popup {
+    border: none;
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-float-shadow);
+    margin-top: 6px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+body.tss-theme-weniger .tss-dropdown-item,
+body.tss-theme-weniger .tss-dropdown-popup .tss-dropdown-item {
+    background: transparent;
+    border: 1px solid transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: background-color 90ms linear, box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-dropdown-popup .tss-dropdown-item {
+    margin: 0 6px;
+    width: calc(100% - 12px);
+    border-radius: var(--tss-wg-radius-small);
+}
+
+/* The row under the pointer or the keyboard: a soft pressed key. */
+body.tss-theme-weniger .tss-dropdown-item:hover,
+body.tss-theme-weniger .tss-dropdown-item:focus,
+body.tss-theme-weniger .tss-dropdown-item.tss-dropdown-item-focus,
+body.tss-theme-weniger .tss-dropdown-popup .tss-dropdown-item:hover {
+    border-color: transparent;
+    background: var(--tss-wg-row-pressed);
+    box-shadow: var(--tss-wg-row-pressed-shadow);
+    outline: none;
+}
+
+/* The keyboard's row also carries the orange edge, so it can be told from the pointer's. */
+body.tss-theme-weniger .tss-dropdown-popup:not(.tss-no-focus) > .tss-dropdown-items > .tss-dropdown-item.tss-dropdown-item-focus,
+body.tss-theme-weniger .tss-dropdown-popup:not(.tss-no-focus) .tss-dropdown-item:focus-visible {
+    box-shadow: var(--tss-wg-row-pressed-shadow), inset 0 0 0 1px rgba(236, 88, 26, 0.7);
+}
+
+body.tss-theme-weniger .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item:focus:not(:hover),
+body.tss-theme-weniger .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item.tss-dropdown-item-focus:not(:hover) {
+    border-color: transparent;
+}
+
+body.tss-theme-weniger .tss-dropdown-item.tss-disabled,
+body.tss-theme-weniger .tss-dropdown-item.tss-disabled:hover {
+    background: transparent;
+    box-shadow: none;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+/* Single select: the chosen row's pilot lamp at its leading edge. */
+body.tss-theme-weniger .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item {
+    padding-left: 22px;
+}
+
+body.tss-theme-weniger .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+body.tss-theme-weniger .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected::before {
+    content: "";
+    position: absolute;
+    left: 9px;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    border-radius: 50%;
+    background: var(--tss-wg-orange-hi);
+    box-shadow: var(--tss-wg-led-orange-glow);
+}
+
+/* Multi select: a small square push key on every row, latched orange when chosen. */
+body.tss-theme-weniger .tss-dropdown-multi > .tss-dropdown-item:before {
+    left: 8px;
+    width: 18px;
+    height: 18px;
+    box-sizing: border-box;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-dropdown-multi > .tss-dropdown-item:after {
+    left: 14px;
+    width: 5px;
+    height: 10px;
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.3);
+    border-width: 0 2px 2px 0;
+    transform: translateY(calc(-50% - 1.5px)) rotate(45deg);
+}
+
+body.tss-theme-weniger .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before,
+body.tss-theme-weniger .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before {
+    background-color: var(--tss-wg-orange);
+    background-image: var(--tss-wg-sheen-pressed);
+    border-color: var(--tss-wg-orange-lo);
+    box-shadow: inset 0 1px 2px rgba(90, 30, 0, 0.35);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before,
+body.tss-theme-weniger.tss-dark-mode .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before {
+    border-color: rgba(0, 0, 0, 0.55);
+}
+
+body.tss-theme-weniger .tss-dropdown-multi > .tss-dropdown-item.tss-selected:after {
+    border-color: var(--tss-wg-on-orange);
+}
+
+body.tss-theme-weniger .tss-dropdown-multi > .tss-dropdown-item.tss-disabled:before {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss-selected:before {
+    background: rgb(var(--tss-disabled-foreground-color-root));
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+/* Group headers: printed legends. Dividers: grooves. */
+body.tss-theme-weniger .tss-dropdown-header {
+    background: transparent;
+    min-height: 28px;
+    padding: 8px 14px 2px;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+/* A header's caption is a Button: strip it back to the printed legend. */
+body.tss-theme-weniger .tss-dropdown-header .tss-btn,
+body.tss-theme-weniger .tss-dropdown-header .tss-btn:hover,
+body.tss-theme-weniger .tss-dropdown-header .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover {
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    color: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: default;
+}
+
+body.tss-theme-weniger .tss-dropdown-divider {
+    height: 1px;
+    margin: 5px 12px;
+    width: calc(100% - 24px);
+    background: var(--tss-wg-groove);
+}
+
+/* Search matches: a faint orange wash, the text keeps its colour. */
+body.tss-theme-weniger .tss-dropdown-popup mark {
+    background: rgba(236, 88, 26, 0.2);
+    color: inherit;
+    border-radius: 2px;
+}
+
+/* The search field: a well set into the top of the panel. */
+body.tss-theme-weniger .tss-dropdown-popup .tss-dropdown-searchbox {
+    margin: 0 6px 2px;
+    width: calc(100% - 12px);
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border: 1px solid var(--tss-wg-orange);
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(236, 88, 26, 0.2);
+}
+
+body.tss-theme-weniger .tss-dropdown-popup .tss-dropdown-searchbox.tss-dropdown-searchbox-busy > .tss-searchbox-icon::after {
+    border-color: var(--tss-wg-orange) rgba(var(--tss-default-foreground-color-root), 0.18) rgba(var(--tss-default-foreground-color-root), 0.18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-dropdown-container,
+    body.tss-theme-weniger .tss-dropdown-item {
+        transition: none;
+    }
+}

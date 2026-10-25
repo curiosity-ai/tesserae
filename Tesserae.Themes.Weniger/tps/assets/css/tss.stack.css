@@ -1,7 +1,13 @@
 /* ==========================================================================
-   Weniger theme - stack
+   Weniger theme - Stack
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A stack is pure layout and draws nothing: no ground, groove or shadow.
+   Only an invalid stack (a group of fields that failed validation) shows
+   anything, and it says so the way an invalid field does: its edge turns
+   the invalid red, with the key's soft corner.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-stack.tss-invalid {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+    border-radius: var(--tss-wg-radius-key);
+}

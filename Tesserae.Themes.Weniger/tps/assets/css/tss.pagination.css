@@ -1,7 +1,125 @@
 /* ==========================================================================
-   Weniger theme - pagination
+   Weniger theme - Pagination
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A row of small round push keys, the station keys of a pocket radio: each
+   page number is a round plastic key standing proud of the panel, rising
+   under the pointer and going in when pressed. The current page is the
+   orange key. The chevrons are ghost keys that rise when pointed at, so the
+   numbers are what the row reads as. The count beside the keys ("81-100 of
+   1000") reads off a tiny LCD window, the way a tape counter does.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-pagination-footer {
+    border-top: 1px solid var(--tss-wg-groove);
+    background: transparent;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-pagination-footer {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-weniger .tss-pagination-buttons {
+    gap: 6px;
+}
+
+/* A round key; a slot wider than it is tall (four-digit pages) stays a rounded capsule. */
+body.tss-theme-weniger .tss-pagination-button {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: 9999px;
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 500;
+    font-size: 13px;
+    transition: transform var(--tss-wg-quick) var(--tss-wg-ease), box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-pagination-button:hover:not(:disabled):not(.tss-disabled) {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-pagination-button:active:not(:disabled):not(.tss-disabled) {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-pagination-button:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+}
+
+/* The current page: the orange key, latched. */
+body.tss-theme-weniger .tss-pagination-button.tss-active,
+body.tss-theme-weniger .tss-pagination-button.tss-active:hover:not(:disabled) {
+    background-color: var(--tss-wg-orange);
+    background-image: var(--tss-wg-sheen);
+    border-color: rgba(0, 0, 0, 0.2);
+    color: var(--tss-wg-on-orange);
+    font-weight: 600;
+    text-shadow: 0 -1px 0 rgba(90, 30, 0, 0.28);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 1px rgba(60, 30, 10, 0.2), 0 2px 5px -1px rgba(60, 30, 10, 0.24);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-pagination-button.tss-active,
+body.tss-theme-weniger.tss-dark-mode .tss-pagination-button.tss-active:hover:not(:disabled) {
+    border-color: rgba(0, 0, 0, 0.55);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), inset 0 -1px 0 rgba(0, 0, 0, 0.15), 0 1px 1px rgba(0, 0, 0, 0.5), 0 2px 6px -1px rgba(0, 0, 0, 0.55);
+}
+
+/* The chevrons: flat until pointed at. */
+body.tss-theme-weniger .tss-pagination-button.tss-pagination-nav {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-pagination-button.tss-pagination-nav:hover:not(:disabled):not(.tss-disabled) {
+    border-color: var(--tss-wg-key-edge);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Disabled: a key with nothing behind it. */
+body.tss-theme-weniger .tss-pagination-button.tss-disabled,
+body.tss-theme-weniger .tss-pagination-button:disabled {
+    box-shadow: none;
+    opacity: 0.4;
+}
+
+body.tss-theme-weniger .tss-pagination-ellipsis {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    letter-spacing: 0.1em;
+}
+
+/* The counter window. */
+body.tss-theme-weniger .tss-pagination-status {
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: 24px;
+    padding: 0 8px;
+    border-radius: 5px;
+    background: var(--tss-wg-lcd-bg);
+    box-shadow: var(--tss-wg-lcd-well);
+    color: var(--tss-wg-lcd-ink);
+    font-family: var(--tss-wg-lcd);
+    font-size: 12px;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-weniger .tss-pagination-status:empty {
+    display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-pagination-button {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-pagination-button:active {
+        transform: none !important;
+    }
+}

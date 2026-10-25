@@ -1,7 +1,30 @@
 /* ==========================================================================
-   Weniger theme - body
+   Weniger theme - Body
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   The page is the table the devices stand on: the light warm grey around
+   the radios and calculators in a product photograph (charcoal in the dark
+   edition), slightly darker than the plastic of the panels so they read as
+   objects resting on it. A very soft top light falls across it. Text is
+   Hanken Grotesk in the near-black ink; sizes and line height stay
+   Tesserae's, so nothing reflows. Type is rendered with greyscale
+   smoothing, the way printed legends look on a case.
    ========================================================================== */
+
+body.tss-theme-weniger {
+    background-color: rgb(var(--tss-default-background-color-root));
+    background-image: radial-gradient(ellipse 120% 70% at 50% -10%, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0) 70%);
+    background-attachment: fixed;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-sansserif-font-family);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body.tss-theme-weniger.tss-dark-mode {
+    background-image: radial-gradient(ellipse 120% 70% at 50% -10%, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0) 70%);
+}
+
+/* Selected text is lit by the one accent, faintly. */
+body.tss-theme-weniger ::selection {
+    background: rgba(236, 88, 26, 0.24);
+}

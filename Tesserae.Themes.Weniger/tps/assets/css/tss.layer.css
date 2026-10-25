@@ -1,7 +1,24 @@
 /* ==========================================================================
-   Weniger theme - layer
+   Weniger theme - Layer
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A bare layer's content is a part lifted off the device and held over the
+   page: top-lit plastic on the float shadow, with the moulded edge of a key
+   (8px) rather than a hard frame, so whatever a layer is placed over reads
+   as something standing in front of it. The transparent variant (the host
+   a modal, a panel or a toast draws its own body in) stays invisible.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-layer-content {
+    background: var(--tss-wg-plastic);
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+body.tss-theme-weniger .tss-layer-content.tss-layer-content-transparent {
+    background: transparent;
+    border-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+}

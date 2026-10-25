@@ -1,7 +1,340 @@
 /* ==========================================================================
-   Weniger theme - plan
+   Weniger theme - Plan
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A plan is the front panel of a machine running a programme: a plastic
+   panel with the groove, its steps down a slot cut in the face, each step's
+   status a lamp lens set into the slot (unlit while pending, the orange
+   lamp while running, the green LED once done, the record-key red when it
+   failed, amber when called off), the glyph kept inside the lens so the
+   state is never told by colour alone. The status badge is a printed
+   legend beside a pilot lamp, which breathes slowly while the plan runs.
+
+   The running step is set into a shallow well, its progress a lit orange
+   filament in a groove; the footer is a strip ruled off by a groove with
+   the overall percentage on a small LCD window and the start/stop control
+   a plastic key. Motion is slow and stops under reduced motion.
    ========================================================================== */
+
+@keyframes tss-wg-plan-breathe {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+}
+
+body.tss-theme-weniger .tss-plan {
+    --plan-accent: var(--tss-wg-orange);
+    --plan-lamp: var(--tss-wg-led-off);
+    --plan-lamp-glow: none;
+    border: none;
+    border-radius: var(--tss-wg-radius-panel);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-panel-shadow);
+    outline: 1px solid var(--tss-wg-groove);
+    outline-offset: calc(-1 * var(--tss-wg-groove-inset));
+}
+
+body.tss-theme-weniger .tss-plan-running {
+    --plan-accent: var(--tss-wg-orange);
+    --plan-lamp: var(--tss-wg-orange-hi);
+    --plan-lamp-glow: var(--tss-wg-led-orange-glow);
+}
+
+body.tss-theme-weniger .tss-plan-completed {
+    --plan-accent: rgb(var(--tss-success-background-color-root));
+    --plan-lamp: var(--tss-wg-led);
+    --plan-lamp-glow: var(--tss-wg-led-glow);
+}
+
+body.tss-theme-weniger .tss-plan-failed {
+    --plan-accent: var(--tss-wg-red);
+    --plan-lamp: rgb(240, 70, 60);
+    --plan-lamp-glow: 0 0 2px 0 rgba(240, 70, 60, 0.95), 0 0 7px 1px rgba(240, 70, 60, 0.5);
+}
+
+body.tss-theme-weniger .tss-plan-canceled {
+    --plan-accent: rgb(var(--tss-warning-background-color-root));
+    --plan-lamp: rgb(240, 180, 40);
+    --plan-lamp-glow: 0 0 2px 0 rgba(240, 180, 40, 0.9), 0 0 6px 1px rgba(240, 180, 40, 0.45);
+}
+
+/* ---------- Header ---------- */
+
+body.tss-theme-weniger .tss-plan-title {
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+/* The status: a legend beside a pilot lamp. */
+body.tss-theme-weniger .tss-plan-status-badge,
+body.tss-theme-weniger.tss-dark-mode .tss-plan-status-badge {
+    padding: 3px 10px 3px 8px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+}
+
+body.tss-theme-weniger .tss-plan-status-badge .tss-plan-badge-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--plan-lamp);
+    box-shadow: var(--plan-lamp-glow);
+}
+
+body.tss-theme-weniger .tss-plan-running .tss-plan-status-badge .tss-plan-badge-dot {
+    animation: tss-wg-plan-breathe 2.4s ease-in-out infinite;
+}
+
+body.tss-theme-weniger .tss-plan-cmd {
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-key);
+    color: rgb(var(--tss-link-color-root));
+}
+
+body.tss-theme-weniger .tss-plan-cmd:hover,
+body.tss-theme-weniger.tss-dark-mode .tss-plan-cmd:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-plan-cmd:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+body.tss-theme-weniger .tss-plan-cmd:focus-visible,
+body.tss-theme-weniger .tss-plan-step-toggle:focus-visible,
+body.tss-theme-weniger .tss-plan .tss-plan-startstop:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+}
+
+/* ---------- Steps: lamps in a slot ---------- */
+
+body.tss-theme-weniger .tss-plan-step.is-pending   { --seg-color: rgba(var(--tss-dark-border-color-root), 0.35); }
+body.tss-theme-weniger .tss-plan-step.is-completed { --seg-color: rgba(52, 190, 120, 0.75); }
+body.tss-theme-weniger .tss-plan-step.is-running   { --seg-color: rgba(236, 88, 26, 0.7); }
+body.tss-theme-weniger .tss-plan-step.is-failed    { --seg-color: rgba(204, 46, 40, 0.75); }
+body.tss-theme-weniger .tss-plan-step.is-canceled  { --seg-color: rgba(220, 160, 30, 0.75); }
+
+body.tss-theme-weniger .tss-plan-step:not(:last-child) .tss-plan-step-rail::after {
+    width: 3px;
+    border-radius: 2px;
+    box-shadow: inset 1px 0 1px rgba(0, 0, 0, 0.18);
+}
+
+/* The lens: a round socket, the glyph in it lit in its state's colour. */
+body.tss-theme-weniger .tss-plan-step-icon {
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--tss-wg-key-edge);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well), 0 0 0 3px var(--tss-wg-surface);
+}
+
+body.tss-theme-weniger .tss-plan-step-icon .tss-icon {
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+}
+
+body.tss-theme-weniger .is-pending .tss-plan-step-icon {
+    color: rgba(var(--tss-secondary-foreground-color-root), 0.55);
+}
+
+body.tss-theme-weniger .is-running .tss-plan-step-icon {
+    border-color: rgba(236, 88, 26, 0.6);
+    background: radial-gradient(circle at 50% 40%, rgba(250, 112, 48, 0.22) 0%, rgba(250, 112, 48, 0.06) 70%), var(--tss-wg-well-fill);
+    color: var(--tss-wg-orange);
+    box-shadow: var(--tss-wg-well), 0 0 0 3px var(--tss-wg-surface), 0 0 8px 2px rgba(250, 112, 48, 0.35);
+}
+
+body.tss-theme-weniger .is-completed .tss-plan-step-icon {
+    color: rgb(var(--tss-success-background-color-root));
+    text-shadow: 0 0 5px rgba(52, 226, 142, 0.45);
+}
+
+body.tss-theme-weniger .is-failed .tss-plan-step-icon {
+    border-color: rgba(204, 46, 40, 0.55);
+    color: var(--tss-wg-red);
+    text-shadow: 0 0 5px rgba(240, 70, 60, 0.4);
+}
+
+body.tss-theme-weniger.tss-dark-mode .is-failed .tss-plan-step-icon {
+    color: rgb(255, 110, 98);
+}
+
+body.tss-theme-weniger .is-canceled .tss-plan-step-icon {
+    color: rgb(var(--tss-warning-background-color-root));
+}
+
+body.tss-theme-weniger .is-running .tss-plan-step-icon .tss-icon,
+body.tss-theme-weniger .tss-plan-substep.is-running .tss-plan-substep-icon .tss-icon {
+    animation-duration: 1.6s;
+}
+
+body.tss-theme-weniger .tss-plan-step-toggle {
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger .tss-plan-step-toggle:hover,
+body.tss-theme-weniger.tss-dark-mode .tss-plan-step-toggle:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .is-failed .tss-plan-step-stage {
+    color: var(--tss-wg-red);
+}
+
+body.tss-theme-weniger.tss-dark-mode .is-failed .tss-plan-step-stage {
+    color: rgb(255, 120, 108);
+}
+
+/* The running step: set into a shallow well. */
+body.tss-theme-weniger .tss-plan-step.is-running .tss-plan-step-body,
+body.tss-theme-weniger.tss-dark-mode .tss-plan-step.is-running .tss-plan-step-body {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+}
+
+/* ---------- Substeps ---------- */
+
+body.tss-theme-weniger .tss-plan-substep + .tss-plan-substep {
+    border-top: 1px solid var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger .tss-plan-substep.is-pending .tss-plan-substep-icon {
+    color: rgba(var(--tss-secondary-foreground-color-root), 0.55);
+}
+
+body.tss-theme-weniger .tss-plan-substep.is-running .tss-plan-substep-icon {
+    color: var(--tss-wg-orange);
+}
+
+body.tss-theme-weniger .tss-plan-substep.is-completed .tss-plan-substep-icon {
+    color: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-weniger .tss-plan-substep.is-failed .tss-plan-substep-icon {
+    color: var(--tss-wg-red);
+}
+
+body.tss-theme-weniger .tss-plan-substep.is-canceled .tss-plan-substep-icon {
+    color: rgb(var(--tss-warning-background-color-root));
+}
+
+body.tss-theme-weniger .tss-plan-substep-title {
+    font-weight: 500;
+}
+
+/* ---------- Bars: a lit filament in a groove ---------- */
+
+body.tss-theme-weniger .tss-plan-step-progress,
+body.tss-theme-weniger .tss-plan-progress {
+    height: 7px;
+    border-radius: 4px;
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-plan-step-progress-bar {
+    background: var(--tss-wg-orange);
+    background-image: var(--tss-wg-sheen);
+    box-shadow: 0 0 5px rgba(250, 112, 48, 0.5);
+}
+
+body.tss-theme-weniger .tss-plan-progress-bar {
+    background: var(--plan-accent);
+    background-image: var(--tss-wg-sheen);
+}
+
+body.tss-theme-weniger .tss-plan-step-progress.is-indeterminate .tss-plan-step-progress-bar,
+body.tss-theme-weniger .tss-plan-progress.is-indeterminate .tss-plan-progress-bar {
+    animation-duration: 2.2s;
+    animation-timing-function: ease-in-out;
+}
+
+/* ---------- Footer: a strip with an LCD ---------- */
+
+body.tss-theme-weniger .tss-plan-footer,
+body.tss-theme-weniger.tss-dark-mode .tss-plan-footer {
+    margin: 0 7px 7px;
+    padding: 10px 12px 12px;
+    border-top: 1px solid var(--tss-wg-groove);
+    border-radius: 0 0 8px 8px;
+    background: transparent;
+}
+
+body.tss-theme-weniger .tss-plan-count {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-weniger .tss-plan-pct {
+    width: auto;
+    min-width: 44px;
+    box-sizing: border-box;
+    padding: 4px 7px 3px;
+    border-radius: 5px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 38%), var(--tss-wg-lcd-bg);
+    box-shadow: var(--tss-wg-lcd-well);
+    color: var(--tss-wg-lcd-ink);
+    font-family: var(--tss-wg-lcd);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+body.tss-theme-weniger .tss-plan .tss-plan-startstop {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: box-shadow var(--tss-wg-quick) var(--tss-wg-ease), transform var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-plan .tss-plan-startstop:hover,
+body.tss-theme-weniger.tss-dark-mode .tss-plan .tss-plan-startstop:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-plan .tss-plan-startstop:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-plan-timestamps {
+    letter-spacing: 0.02em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-plan-running .tss-plan-status-badge .tss-plan-badge-dot,
+    body.tss-theme-weniger .is-running .tss-plan-step-icon .tss-icon,
+    body.tss-theme-weniger .tss-plan-substep.is-running .tss-plan-substep-icon .tss-icon,
+    body.tss-theme-weniger .tss-plan-step-progress.is-indeterminate .tss-plan-step-progress-bar,
+    body.tss-theme-weniger .tss-plan-progress.is-indeterminate .tss-plan-progress-bar {
+        animation: none !important;
+    }
+
+    body.tss-theme-weniger .tss-plan .tss-plan-startstop {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-plan .tss-plan-startstop:active {
+        transform: none;
+    }
+}

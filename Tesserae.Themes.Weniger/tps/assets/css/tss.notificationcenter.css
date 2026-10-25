@@ -1,7 +1,93 @@
 /* ==========================================================================
-   Weniger theme - notificationcenter
+   Weniger theme - NotificationCenter
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   The bell is a round key standing on the panel (flat until the pointer
+   reaches it, then it rises; held, it goes down), and the unread count is
+   a small red lamp with its figure lit on it, set at the key's shoulder in
+   a ring of the panel's plastic. In the panel, every notification is a
+   module card; an unread one carries a lit lamp of its tone beside the
+   title (orange for info, the LED green, amber, the record red) instead of
+   Tesserae's blue tint, so read and unread differ by a lamp going out.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-notif-bell {
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: background var(--tss-wg-quick) var(--tss-wg-ease), box-shadow var(--tss-wg-quick) var(--tss-wg-ease), transform var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-notif-bell:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-notif-bell:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-notif-bell:focus-visible {
+    outline: none;
+    box-shadow: var(--tss-wg-focus);
+}
+
+body.tss-theme-weniger .tss-notif-bell > i {
+    font-size: 17px;
+}
+
+/* The count: a red lamp. */
+body.tss-theme-weniger .tss-notif-badge {
+    top: 0;
+    right: 0;
+    border-radius: 8px;
+    background: radial-gradient(circle at 50% 30%, rgb(244, 92, 80) 0%, rgb(204, 46, 40) 70%);
+    color: rgb(255, 255, 255);
+    font-size: 10px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    box-shadow: 0 0 0 2px rgb(var(--tss-secondary-background-color-root)), 0 0 6px 1px rgba(238, 70, 58, 0.45);
+}
+
+/* Item lamps. */
+body.tss-theme-weniger .tss-notif-dot {
+    width: 6px;
+    height: 6px;
+}
+
+body.tss-theme-weniger .tss-notif-dot.tss-notif-info {
+    background: var(--tss-wg-orange-hi);
+    box-shadow: var(--tss-wg-led-orange-glow);
+}
+
+body.tss-theme-weniger .tss-notif-dot.tss-notif-success {
+    background: var(--tss-wg-led);
+    box-shadow: var(--tss-wg-led-glow);
+}
+
+body.tss-theme-weniger .tss-notif-dot.tss-notif-warning {
+    background: rgb(250, 184, 48);
+    box-shadow: 0 0 2px 0 rgba(250, 184, 48, 0.95), 0 0 7px 1px rgba(250, 184, 48, 0.5);
+}
+
+body.tss-theme-weniger .tss-notif-dot.tss-notif-danger {
+    background: rgb(238, 70, 58);
+    box-shadow: 0 0 2px 0 rgba(238, 70, 58, 0.95), 0 0 7px 1px rgba(238, 70, 58, 0.5);
+}
+
+/* Unread: no tint, the lamp says it. */
+body.tss-theme-weniger .tss-notif-unread {
+    background: transparent !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-notif-bell {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-notif-bell:active {
+        transform: none;
+    }
+}

@@ -147,3 +147,422 @@ body.tss-theme-weniger .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-i
     background: var(--tss-wg-key-hover);
     box-shadow: var(--tss-wg-raised);
 }
+
+/* --------------------------------------------------------------------------
+   Rows: the flat colour under a key, for the fade that hides a long name
+   under a badge or the commands (Tesserae paints it with background-color:
+   inherit, which a gradient fill alone leaves transparent).
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-sidebar {
+    --tss-wg-sidebar-key-flat: rgb(247, 246, 243);
+    --tss-wg-sidebar-key-pressed-flat: rgb(231, 229, 224);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar {
+    --tss-wg-sidebar-key-flat: rgb(72, 72, 70);
+    --tss-wg-sidebar-key-pressed-flat: rgb(41, 41, 40);
+}
+
+body.tss-theme-weniger .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-weniger .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-weniger .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-weniger .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    background-color: var(--tss-wg-sidebar-key-flat);
+}
+
+body.tss-theme-weniger .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-weniger .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-weniger .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled) {
+    background-color: var(--tss-wg-sidebar-key-pressed-flat);
+}
+
+/* The fade itself takes the key's moulding too, so it disappears into the row instead of showing as a band. */
+body.tss-theme-weniger .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > .tss-sidebar-btn::after,
+body.tss-theme-weniger .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > a > .tss-sidebar-btn::after,
+body.tss-theme-weniger .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-sidebar-btn::after,
+body.tss-theme-weniger .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-sidebar-btn::after,
+body.tss-theme-weniger .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):not(.tss-sidebar-commands-always-open):hover > .tss-sidebar-btn::after,
+body.tss-theme-weniger .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-badge:not(.tss-sidebar-selected):not(.tss-sidebar-commands-always-open):hover > a > .tss-sidebar-btn::after {
+    background-image: inherit;
+}
+
+/* A row's icon under the pointer, when the icon is a control of its own: a small key inside the key. */
+body.tss-theme-weniger .tss-sidebar-btn-has-icon-click.tss-btn > i:hover,
+body.tss-theme-weniger .tss-sidebar-btn-has-icon-click.tss-btn > .tss-btn-with-image > .tss-image:hover {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    border-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: -2px;
+}
+
+/* .Rounded() rows and boxes: a key's 8px, not a pill (the theme keeps pills for knobs and lamps). */
+body.tss-theme-weniger .tss-sidebar-btn-rounded > .tss-btn,
+body.tss-theme-weniger .tss-sidebar-btn-rounded > a > .tss-btn,
+body.tss-theme-weniger .tss-sidebar .tss-sidebar-btn.tss-btn.tss-rounded-full,
+body.tss-theme-weniger .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-rounded.tss-sidebar-btn.tss-btn,
+body.tss-theme-weniger .tss-sidebar-searchbox.tss-sidebar-searchbox-rounded .tss-searchbox-container,
+body.tss-theme-weniger .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon.tss-sidebar-searchbox-rounded {
+    border-radius: var(--tss-wg-radius-key) !important;
+}
+
+/* An outlined row (the one that pairs with the search box) is a key at rest. */
+body.tss-theme-weniger .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-weniger .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    background: var(--tss-wg-key);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined:hover,
+body.tss-theme-weniger .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-weniger .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    background: none;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+/* A row standing in for a search box reads as a field: the recessed well. */
+body.tss-theme-weniger .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-searchbox > .tss-btn.tss-sidebar-btn-searchbox-button,
+body.tss-theme-weniger .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-searchbox > a > .tss-btn.tss-sidebar-btn-searchbox-button {
+    background: var(--tss-wg-well-fill);
+    border: 1px solid var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-well);
+}
+
+/* --------------------------------------------------------------------------
+   Groups: a printed chevron, and a groove bracketing the open group's pages
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn {
+    border-radius: var(--tss-wg-radius-small);
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+body.tss-theme-weniger .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: rgba(var(--tss-secondary-foreground-color-root), 0.65);
+    transition: transform 150ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page) .tss-sidebar-nav-children {
+    background: linear-gradient(var(--tss-wg-groove), var(--tss-wg-groove)) 19px 6px / 1px calc(100% - 10px) no-repeat;
+}
+
+/* A group being dragged to a new place: a key lifted off the plate. */
+body.tss-theme-weniger .tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn,
+body.tss-theme-weniger .tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-btn {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+/* --------------------------------------------------------------------------
+   Commands and badges
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-weniger .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-weniger .tss-sidebar-commands-line .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-sidebar-commands-line .tss-btn,
+body.tss-theme-weniger .tss-sidebar-commands-line-extra .tss-btn,
+body.tss-theme-weniger .tss-sidebar-menu > .tss-sidebar-commands-line > a > .tss-sidebar-command.tss-btn {
+    border-radius: var(--tss-wg-radius-key);
+}
+
+/* A count is a small chip, its figures tabular; a coloured one keeps its colour with the sheen. */
+body.tss-theme-weniger .tss-sidebar-badges > .tss-btn {
+    border-radius: var(--tss-wg-radius-small);
+    font-variant-numeric: tabular-nums;
+    background-image: var(--tss-wg-sheen);
+}
+
+body.tss-theme-weniger .tss-sidebar-badges > .tss-btn.tss-btn-default:not(.tss-sidebar-badge-transparent-icon):not([style*="background"]) {
+    background: var(--tss-wg-key);
+    border: 1px solid var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-sidebar-badges > .tss-btn.tss-sidebar-badge-transparent-icon {
+    background-image: none;
+}
+
+/* The tooltip a collapsed rail shows for a row. */
+body.tss-theme-weniger .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    border-radius: var(--tss-wg-radius-key);
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+/* --------------------------------------------------------------------------
+   Identity rows (brand, profile) and the section header
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-sidebar-identity-subtitle {
+    letter-spacing: 0.01em;
+}
+
+/* The divider the brand and the profile draw is a groove across the plate, with its lit lower lip. */
+body.tss-theme-weniger .tss-sidebar .tss-sidebar-header .tss-sidebar-identity-separated {
+    border-bottom-color: var(--tss-wg-groove);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+body.tss-theme-weniger .tss-sidebar .tss-sidebar-footer .tss-sidebar-identity-separated {
+    border-top-color: var(--tss-wg-groove);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar .tss-sidebar-header .tss-sidebar-identity-separated {
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar .tss-sidebar-footer .tss-sidebar-identity-separated {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* The identity row's commands stand at rest as small ghost keys. */
+body.tss-theme-weniger .tss-sidebar-identity > .tss-sidebar-commands > .tss-sidebar-command.tss-btn,
+body.tss-theme-weniger .tss-sidebar-identity > .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn {
+    border-radius: var(--tss-wg-radius-small);
+}
+
+/* A logo set in the plate as a small badge plate of its own. */
+body.tss-theme-weniger .tss-sidebar-brand-logo > img {
+    border-radius: var(--tss-wg-radius-small);
+}
+
+/* The section header is the model name printed on the lid: set tight, with a fine engraved rule under it. */
+body.tss-theme-weniger .tss-sidebar-section-header {
+    box-shadow: inset 0 -1px 0 var(--tss-wg-groove), 0 1px 0 rgba(255, 255, 255, 0.55);
+    margin-bottom: 6px;
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar-section-header {
+    box-shadow: inset 0 -1px 0 var(--tss-wg-groove), 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-weniger .tss-sidebar-section-header .tss-sidebar-identity-title {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+body.tss-theme-weniger .tss-sidebar-section-header-closed > .tss-sidebar-brand-logo {
+    border-radius: 50%;
+    background: var(--tss-wg-alu-knob);
+    box-shadow: var(--tss-wg-knob-shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.tss-theme-weniger .tss-sidebar-section-header-closed > .tss-sidebar-brand-logo > .tss-icon {
+    font-size: 18px;
+    color: rgb(36, 36, 34);
+}
+
+/* --------------------------------------------------------------------------
+   Status card: a small instrument panel set into the plate
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-sidebar-status-card {
+    border: 0;
+    border-radius: 12px;
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-panel-shadow);
+    outline: 1px solid var(--tss-wg-groove);
+    outline-offset: -4px;
+}
+
+body.tss-theme-weniger .tss-sidebar-status-card.tss-sidebar-status-clickable:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-sidebar-status-card.tss-sidebar-status-clickable:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+body.tss-theme-weniger .tss-sidebar-status-caption {
+    letter-spacing: 0.02em;
+}
+
+/* The dot is an LED: dark when there is no state, lit green, amber or red when there is. */
+body.tss-theme-weniger .tss-sidebar-status-dot {
+    background: var(--tss-wg-led-off);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+body.tss-theme-weniger .tss-sidebar-status-success .tss-sidebar-status-dot {
+    background: radial-gradient(circle at 40% 35%, rgb(190, 255, 220) 0, var(--tss-wg-led) 65%);
+    box-shadow: var(--tss-wg-led-glow);
+}
+
+body.tss-theme-weniger .tss-sidebar-status-warning .tss-sidebar-status-dot {
+    background: radial-gradient(circle at 40% 35%, rgb(255, 222, 140) 0, rgb(240, 172, 36) 65%);
+    box-shadow: 0 0 2px 0 rgba(240, 172, 36, 0.95), 0 0 6px 1px rgba(240, 172, 36, 0.5);
+}
+
+body.tss-theme-weniger .tss-sidebar-status-danger .tss-sidebar-status-dot {
+    background: radial-gradient(circle at 40% 35%, rgb(255, 140, 130) 0, var(--tss-wg-red) 65%);
+    box-shadow: 0 0 2px 0 rgba(230, 60, 50, 0.95), 0 0 6px 1px rgba(230, 60, 50, 0.5);
+}
+
+/* --------------------------------------------------------------------------
+   The segmented pivot on the rail: the transport keys, stacked when collapsed
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab {
+    margin-left: 0 !important;
+    margin-bottom: 0;
+    margin-top: -1px;
+    padding: 4px;
+    border-radius: 0 !important;
+}
+
+body.tss-theme-weniger .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab:first-child {
+    margin-top: 0;
+    border-radius: 6px 6px 0 0 !important;
+}
+
+body.tss-theme-weniger .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab:last-child {
+    border-radius: 0 0 6px 6px !important;
+}
+
+/* No room for a lamp beside a glyph on the rail: the latched key says it, and its glyph turns orange. */
+body.tss-theme-weniger .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab::before {
+    display: none;
+}
+
+body.tss-theme-weniger .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab.tss-segmentedpivot-selected i {
+    color: var(--tss-wg-orange);
+}
+
+/* --------------------------------------------------------------------------
+   Shift: the child sidebar slides in on the same plate
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-sidebar-shift-panel-child > .tss-sidebar,
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar-shift-panel-child > .tss-sidebar {
+    background: transparent;
+    box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-sidebar-shift-track,
+    body.tss-theme-weniger .tss-sidebar-nav-children,
+    body.tss-theme-weniger .tss-sidebar-nav-arrow.tss-btn:after {
+        transition: none;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Page mode: a group's pages open as a plate sliding over the rail
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel {
+    background: var(--tss-wg-sidebar-plate);
+    border-radius: var(--tss-wg-radius-panel) 0 0 var(--tss-wg-radius-panel);
+    box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.6), -1px 0 0 var(--tss-wg-key-edge), -8px 0 24px -6px rgba(60, 54, 46, 0.35);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel {
+    box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.05), -1px 0 0 rgba(0, 0, 0, 0.6), -8px 0 24px -6px rgba(0, 0, 0, 0.7);
+}
+
+body.tss-theme-weniger .tss-sidebar-nav-overlay-title {
+    border-bottom-color: var(--tss-wg-groove);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar-nav-overlay-title {
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-weniger .tss-sidebar-nav-overlay-title > .tss-btn.tss-sidebar-nav-overlay-back:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-sidebar-nav-overlay-label {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+/* The bar over the content while the sidebar is a page: a moulded strip with a groove at its foot. */
+body.tss-theme-weniger .tss-sidebar-page-bar {
+    background: var(--tss-wg-plastic);
+    border-bottom: 1px solid var(--tss-wg-groove);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar-page-bar {
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-weniger .tss-sidebar-page-bar .tss-btn.tss-sidebar-page-bar-back:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-sidebar-page-bar-title {
+    font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   Navbar mode: the brushed plate laid across the top, brushed along its length
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-sidebar.tss-navbar {
+    --tss-wg-sidebar-plate: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0 1px, transparent 1px 3px), repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.022) 0 1px, transparent 1px 5px), linear-gradient(180deg, rgb(232, 232, 229) 0%, rgb(220, 220, 217) 100%);
+    background: var(--tss-wg-sidebar-plate);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 0 rgba(60, 54, 46, 0.18), 0 1px 0 rgba(255, 255, 255, 0.6), 0 3px 8px -4px rgba(60, 54, 46, 0.25);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar.tss-navbar {
+    --tss-wg-sidebar-plate: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 3px), repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0 1px, transparent 1px 5px), linear-gradient(180deg, rgb(46, 46, 45) 0%, rgb(38, 38, 37) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.6), 0 3px 8px -4px rgba(0, 0, 0, 0.6);
+}
+
+body.tss-theme-weniger .tss-navbar-burger {
+    border-radius: var(--tss-wg-radius-key);
+}
+
+body.tss-theme-weniger .tss-navbar-burger:hover {
+    background: var(--tss-wg-key-hover);
+    border-radius: var(--tss-wg-radius-key);
+    box-shadow: var(--tss-wg-raised);
+}
+
+/* The drawer the burger opens is a plate lifted off the device. */
+body.tss-theme-weniger .tss-navbar-drawer {
+    --tss-wg-drawer-plate: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.18) 0 1px, transparent 1px 3px), linear-gradient(180deg, rgb(230, 230, 227) 0%, rgb(222, 222, 219) 100%);
+    background: var(--tss-wg-drawer-plate);
+    border-radius: 0 0 var(--tss-wg-radius-panel) var(--tss-wg-radius-panel);
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-navbar-drawer {
+    --tss-wg-drawer-plate: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.022) 0 1px, transparent 1px 3px), linear-gradient(180deg, rgb(44, 44, 43) 0%, rgb(38, 38, 37) 100%);
+}

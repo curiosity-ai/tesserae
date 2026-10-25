@@ -1,7 +1,169 @@
 /* ==========================================================================
-   Weniger theme - banner
+   Weniger theme - Banner
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A notice strip is a plastic strip set on the panel, with the groove, and
+   at its leading edge a status lamp: unlit for the neutral tone, orange for
+   primary (attention), the green LED for success, amber for a warning, the
+   record red for danger. The icon sits in a small recessed well in the
+   tone's colour; the title is ink and the message the muted grey on every
+   tone, so amber or green type never has to be read on the plastic - the
+   lamp, the icon and the words carry the status. The badge is a small chip,
+   the action a key, the dismiss a ghost key that rises under the pointer.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-banner {
+    --tss-banner-title-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-banner-text-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-wg-bn-ink: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-wg-bn-lamp: var(--tss-wg-led-off);
+    --tss-wg-bn-glow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
+    position: relative;
+    border: none;
+    border-radius: var(--tss-wg-radius-panel);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-panel-shadow);
+    outline: 1px solid var(--tss-wg-groove);
+    outline-offset: calc(-1 * var(--tss-wg-groove-inset));
+    padding: 12px 16px 12px 14px;
+}
+
+body.tss-theme-weniger .tss-banner-primary {
+    --tss-wg-bn-ink: var(--tss-wg-orange-lo);
+    --tss-wg-bn-lamp: var(--tss-wg-orange-hi);
+    --tss-wg-bn-glow: var(--tss-wg-led-orange-glow);
+}
+
+body.tss-theme-weniger .tss-banner-success {
+    --tss-wg-bn-ink: rgb(28, 128, 76);
+    --tss-wg-bn-lamp: var(--tss-wg-led);
+    --tss-wg-bn-glow: var(--tss-wg-led-glow);
+}
+
+body.tss-theme-weniger .tss-banner-warning {
+    --tss-wg-bn-ink: rgb(176, 118, 8);
+    --tss-wg-bn-lamp: rgb(250, 184, 48);
+    --tss-wg-bn-glow: 0 0 2px 0 rgba(250, 184, 48, 0.95), 0 0 7px 1px rgba(250, 184, 48, 0.5);
+}
+
+body.tss-theme-weniger .tss-banner-danger {
+    --tss-wg-bn-ink: var(--tss-wg-red);
+    --tss-wg-bn-lamp: rgb(238, 70, 58);
+    --tss-wg-bn-glow: 0 0 2px 0 rgba(238, 70, 58, 0.95), 0 0 7px 1px rgba(238, 70, 58, 0.5);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-banner-primary {
+    --tss-wg-bn-ink: var(--tss-wg-orange-hi);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-banner-success {
+    --tss-wg-bn-ink: rgb(70, 214, 142);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-banner-warning {
+    --tss-wg-bn-ink: rgb(240, 172, 36);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-banner-danger {
+    --tss-wg-bn-ink: rgb(246, 104, 92);
+}
+
+/* The lamp: the strip is a flex row, so the lamp is its first item. */
+body.tss-theme-weniger .tss-banner::before {
+    content: "";
+    flex: 0 0 6px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tss-wg-bn-lamp);
+    box-shadow: var(--tss-wg-bn-glow);
+}
+
+body.tss-theme-weniger .tss-banner-compact {
+    padding: 7px 12px 7px 12px;
+}
+
+/* Flat: pinned edge to edge, so no rounding, no groove; hairlines above and below. */
+body.tss-theme-weniger .tss-banner-flat {
+    border-radius: 0;
+    outline: none;
+    box-shadow: inset 0 1px 0 var(--tss-wg-groove), inset 0 -1px 0 var(--tss-wg-groove);
+}
+
+/* The icon: a small recessed well in the tone's colour. */
+body.tss-theme-weniger .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-weniger.tss-dark-mode .tss-icontile.tss-banner-icon-tile {
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    color: var(--tss-wg-bn-ink);
+}
+
+body.tss-theme-weniger .tss-banner-title {
+    font-weight: 600;
+}
+
+body.tss-theme-weniger .tss-banner-badge-pill.tss-badge {
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-key);
+    box-shadow: inset 0 0 0 1px var(--tss-wg-key-edge);
+    color: var(--tss-wg-bn-ink);
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-weniger .tss-banner-time-text {
+    letter-spacing: 0.02em;
+}
+
+/* Warning has no button tone of its own: an amber key with dark type. */
+body.tss-theme-weniger .tss-btn.tss-banner-action-warning {
+    background-color: rgb(var(--tss-warning-background-color-root));
+    background-image: var(--tss-wg-sheen);
+    border-color: rgb(var(--tss-warning-border-color-root));
+    color: rgb(36, 36, 34);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-btn.tss-banner-action-warning:hover {
+    background-color: rgb(var(--tss-warning-background-hover-color-root));
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-btn.tss-banner-action-warning:active {
+    background-image: var(--tss-wg-sheen-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+/* Dismiss: a small round ghost key. */
+body.tss-theme-weniger .tss-btn.tss-banner-dismiss-button {
+    border-radius: 50%;
+    border: 1px solid transparent;
+    opacity: 1;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-btn.tss-banner-dismiss-button:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-banner-dismiss-button:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+/* Inside a toast the toast is the body: no second shadow, the groove follows its corners. */
+body.tss-theme-weniger .tss-toast-container > .tss-banner {
+    box-shadow: none;
+    border-radius: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-btn.tss-banner-action-warning:active,
+    body.tss-theme-weniger .tss-btn.tss-banner-dismiss-button:active {
+        transform: none;
+    }
+}

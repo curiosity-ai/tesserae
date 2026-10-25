@@ -1,7 +1,48 @@
 /* ==========================================================================
-   Weniger theme - progressring
+   Weniger theme - ProgressRing
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A progress ring is the scale of a round meter dial: the track is the
+   groove of the dial cut into the panel (a darker, recessed grey), the
+   needle's sweep is the lit orange scale with round ends, and the reading
+   in the middle is set in the 7-segment LCD figures, like the readout of a
+   clock radio. Indeterminate keeps Tesserae's even rotation, slowed down
+   under reduced motion.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-progressring {
+    --tss-progressring-track-color: rgba(60, 54, 46, 0.16);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-progressring {
+    --tss-progressring-track-color: rgba(0, 0, 0, 0.5);
+}
+
+body.tss-theme-weniger .tss-progressring-track {
+    filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.85));
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-progressring-track {
+    filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.06));
+}
+
+body.tss-theme-weniger .tss-progressring-fill {
+    stroke-linecap: round;
+    transition: stroke-dashoffset 180ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-progressring-label {
+    font-family: var(--tss-wg-lcd);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-progressring-fill {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-progressring-indeterminate svg circle.tss-progressring-fill {
+        animation-duration: 6s;
+    }
+}

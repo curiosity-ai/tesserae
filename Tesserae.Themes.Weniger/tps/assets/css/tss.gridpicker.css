@@ -1,7 +1,53 @@
 /* ==========================================================================
-   Weniger theme - gridpicker
+   Weniger theme - GridPicker
    --------------------------------------------------------------------------
-   STUB: not styled yet. The component draws from the tokens in
-   tss.common.css (plastic surface, orange accent, Hanken Grotesk) and
-   Tesserae's own stylesheet. See the design rules in README.md.
+   A grid picker is a matrix of small keys, like the programme pins of a
+   timer or the keys of a calculator. A cell the app colours keeps its
+   colour as the key's moulding (background-color) with the theme's sheen
+   laid over it, a 5px corner and a hairline edge, so a heatmap reads as a
+   bank of lit keys; the plain cells are ghost keys that rise under the
+   pointer. The row and column captions are printed legends: small, muted,
+   figures lined up.
    ========================================================================== */
+
+body.tss-theme-weniger .tss-gridpicker-button {
+    border-radius: var(--tss-wg-radius-small);
+}
+
+/* A coloured cell: the colour stays, the sheen makes it a key; under the pointer the toolkit's filter lightens it. */
+body.tss-theme-weniger .tss-gridpicker-button.tss-btn-filter-effects,
+body.tss-theme-weniger .tss-gridpicker-button.tss-btn-filter-effects:hover {
+    border: 1px solid var(--tss-wg-key-edge);
+    background-image: var(--tss-wg-sheen) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 1px 1px rgba(60, 54, 46, 0.12);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-gridpicker-button.tss-btn-filter-effects,
+body.tss-theme-weniger.tss-dark-mode .tss-gridpicker-button.tss-btn-filter-effects:hover {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+body.tss-theme-weniger .tss-gridpicker-button.tss-btn-filter-effects:active {
+    background-image: var(--tss-wg-sheen-pressed) !important;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-gridpicker-column-title,
+body.tss-theme-weniger .tss-gridpicker-row-title {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-size: 11px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-weniger .tss-gridpicker-row-title {
+    padding-right: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-gridpicker-button:active {
+        transform: none !important;
+    }
+}
