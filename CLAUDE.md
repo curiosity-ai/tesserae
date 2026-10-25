@@ -174,6 +174,15 @@ What makes it work, and what to keep when touching it:
   group with `"load": false`, derived variables restated with their roots) and is picked in the gallery's Theme nav
   (`localStorage["tss-sample-theme"] = "stratus"`). Its tokens are `--tss-str-*` in its `tss.common.css`; a component
   stylesheet there reads those rather than hex values. It ships no components of its own.
+- **A skeuomorphic theme: `Tesserae.Themes.Weniger`** ([Tesserae.Themes.Weniger/](Tesserae.Themes.Weniger/)), after
+  the West German industrial design of the 1950s to 80s (*Weniger, aber besser*; an homage, named after the motto
+  rather than any manufacturer). Warm light-grey plastic with a hairline groove inside every panel (a negative
+  `outline-offset`), brushed and turned aluminium for knobs, toggle thumbs, slider caps and the sidebar plate, keys that
+  stand proud and press in, recessed wells for fields, signal orange as the one accent, green and orange LED lamps, and
+  metrics on a grey-green LCD in 7-segment figures. Dark mode is the charcoal edition. Root class `tss-theme-weniger`,
+  tokens `--tss-wg-*` in its `tss.common.css` (materials, depths, lamps, LCD), Hanken Grotesk / DSEG7 and DSEG14 /
+  JetBrains Mono bundled (OFL). Its README lists the design rules every stylesheet follows. Picked in the gallery's
+  Theme nav (`localStorage["tss-sample-theme"] = "weniger"`).
 - **The package also carries components**: the website's signature elements rebuilt in C#
   (`Tesserae.Themes.Curiosity/src/Components/`): `PixelIntro`, `FlowField`, `PixelGlyph`, `DashMosaic`. They
   draw with `BrandColors` directly so they work without the theme active, run their animation loops only while
@@ -569,9 +578,10 @@ mode swaps the colour tokens. The matrix today is:
 | Default   | yes   | yes  |
 | Curiosity | yes   | yes  |
 | Stratus   | yes   | yes  |
+| Weniger   | yes   | yes  |
 
 - The gallery opens in Curiosity. Pick the theme before load by setting
-  `localStorage["tss-sample-theme"]` to `"default"` or `"curiosity"` (`_themeKey` in
+  `localStorage["tss-sample-theme"]` to `"default"`, `"curiosity"`, `"stratus"`, `"retroos"` or `"weniger"` (`_themeKey` in
   [App.cs](Tesserae.Tests/src/App.cs)), or click the Theme nav at the foot of the sidebar.
 - Dark mode is the sun/moon command in the sidebar (`Theme.Dark()` / `Theme.Light()`); it puts
   `tss-dark-mode` on `body`.

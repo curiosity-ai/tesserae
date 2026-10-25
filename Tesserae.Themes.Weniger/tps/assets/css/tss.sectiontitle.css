@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Weniger theme - SectionTitle
+   --------------------------------------------------------------------------
+   A page title is the model name on the case: a clean grotesque, tight and
+   dark. Its icon sits on a small turned-aluminium knob standing on the
+   page, the one bit of metal in the heading. The subtitle is the muted
+   line of small print under it.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-sectiontitle-title {
+    font-weight: 700;
+    letter-spacing: -0.012em;
+}
+
+body.tss-theme-weniger .tss-sectiontitle-icon {
+    width: 34px;
+    height: 34px;
+    line-height: 34px !important;
+    flex: 0 0 34px;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    border-radius: 50%;
+    background: var(--tss-wg-alu-knob);
+    box-shadow: var(--tss-wg-knob-shadow);
+    color: rgb(52, 52, 50);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-sectiontitle-icon {
+    color: rgb(24, 24, 23);
+}
+
+body.tss-theme-weniger .tss-sectiontitle-subtitle {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}

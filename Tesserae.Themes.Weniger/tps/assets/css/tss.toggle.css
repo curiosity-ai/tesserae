@@ -1,0 +1,127 @@
+/* ==========================================================================
+   Weniger theme - Toggle
+   --------------------------------------------------------------------------
+   A toggle is a slide switch with a pilot lamp. The track is a slot
+   recessed into the panel; the thumb is a turned-aluminium knob riding in
+   it. Off, the knob sits left and a small lamp at the far end of the slot
+   is dark. On, the knob slides right, the slot fills with signal orange and
+   the lamp at the near end lights. The thumb is sized from the track
+   (height minus 4px, square), so every TextSize variant keeps the same
+   proportions; only the travel differs (12px tiny, 20px default, 22px for
+   the larger sizes, which all grow 1:1 in width and height).
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-toggle-container .tss-toggle-text {
+    margin-left: 8px;
+}
+
+body.tss-theme-weniger .tss-toggle-container .tss-toggle-mark,
+body.tss-theme-weniger .tss-toggle-container:hover .tss-toggle-mark {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-border-radius-full);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    transition: background-color 160ms linear, border-color 160ms linear;
+}
+
+/* The knob. */
+body.tss-theme-weniger .tss-toggle-container .tss-toggle-mark:after,
+body.tss-theme-weniger .tss-toggle-container:hover .tss-toggle-mark:after {
+    top: 2px;
+    left: 2px;
+    height: calc(100% - 4px);
+    width: auto;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--tss-wg-alu-knob);
+    box-shadow: var(--tss-wg-knob-shadow);
+    transition: transform 180ms var(--tss-wg-ease);
+    z-index: 1;
+}
+
+/* The pilot lamp, at the end of the slot the knob is not covering. */
+body.tss-theme-weniger .tss-toggle-container .tss-toggle-mark:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 7px;
+    width: 5px;
+    height: 5px;
+    margin-top: -2.5px;
+    border-radius: 50%;
+    background: var(--tss-wg-led-off);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+body.tss-theme-weniger .tss-toggle-container.tss-fontsize-tiny .tss-toggle-mark:before {
+    display: none;
+}
+
+/* On: orange slot, knob right, lamp lit at the near end. */
+body.tss-theme-weniger .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-weniger .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-wg-orange);
+    background-image: var(--tss-wg-sheen-pressed);
+    border-color: var(--tss-wg-orange-lo);
+    box-shadow: inset 0 1px 3px rgba(90, 30, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-weniger.tss-dark-mode .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    border-color: rgba(0, 0, 0, 0.55);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+body.tss-theme-weniger .tss-toggle-container input:checked ~ .tss-toggle-mark:before {
+    right: auto;
+    left: 7px;
+    background: rgb(255, 244, 222);
+    box-shadow: 0 0 2px 0 rgba(255, 244, 222, 0.95), 0 0 6px 1px rgba(255, 220, 160, 0.8);
+}
+
+body.tss-theme-weniger .tss-toggle-container input:checked ~ .tss-toggle-mark:after,
+body.tss-theme-weniger .tss-toggle-container:hover input:checked ~ .tss-toggle-mark:after {
+    left: 2px;
+    background: var(--tss-wg-alu-knob);
+    transform: translateX(22px);
+}
+
+body.tss-theme-weniger .tss-toggle-container.tss-fontsize-small input:checked ~ .tss-toggle-mark:after,
+body.tss-theme-weniger .tss-toggle-container.tss-fontsize-xsmall input:checked ~ .tss-toggle-mark:after,
+body.tss-theme-weniger .tss-toggle-container:not([class*="tss-fontsize-"]) input:checked ~ .tss-toggle-mark:after {
+    transform: translateX(20px);
+}
+
+body.tss-theme-weniger .tss-toggle-container.tss-fontsize-tiny input:checked ~ .tss-toggle-mark:after {
+    transform: translateX(12px);
+}
+
+body.tss-theme-weniger .tss-toggle-container input:focus-visible ~ .tss-toggle-mark {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+}
+
+/* Disabled: the slot greyed, the knob dulled, the lamp out. */
+body.tss-theme-weniger .tss-toggle-container.tss-disabled .tss-toggle-mark,
+body.tss-theme-weniger .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-toggle-container.tss-disabled .tss-toggle-mark:after {
+    opacity: 0.55;
+}
+
+body.tss-theme-weniger .tss-toggle-container.tss-disabled .tss-toggle-mark:before,
+body.tss-theme-weniger .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark:before {
+    background: var(--tss-wg-led-off);
+    box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-toggle-container .tss-toggle-mark,
+    body.tss-theme-weniger .tss-toggle-container .tss-toggle-mark:after {
+        transition: none;
+    }
+}

@@ -136,6 +136,14 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
   following the pointer), `PixelGlyph` (the animated 4 by 4 glyphs, `PixelGlyphKind` plus
   custom cells, palettes and a compact frame notation) and `DashMosaic` (the animated dash
   tiles, four schemes). The package README has the API.
+- **Tesserae.Themes.Weniger** — `WenigerTheme.Instance`, root class `tss-theme-weniger`. A
+  skeuomorphic theme after West German industrial design of the 1950s to 80s ("less, but
+  better"): warm light-grey plastic panels with an inset hairline groove, brushed and turned
+  aluminium for knobs, thumbs, slider caps and the sidebar plate, keys that stand proud and press
+  in, recessed wells for fields, signal orange as the one accent, LED lamps for state, and metrics
+  on a grey-green LCD in 7-segment figures. Dark mode is the charcoal edition. Hanken Grotesk,
+  DSEG7/DSEG14 and JetBrains Mono are bundled (OFL). Its tokens are `--tss-wg-*` in its
+  `tss.common.css`; the package README states the design rules.
 
 ## Related
 

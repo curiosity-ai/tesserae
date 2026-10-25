@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tesserae.Themes.Stratus", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tesserae.Themes.RetroOS", "Tesserae.Themes.RetroOS\Tesserae.Themes.RetroOS.csproj", "{5B3C7E21-8A4F-4D6E-9C12-7F0A3E5D8B64}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tesserae.Themes.Weniger", "Tesserae.Themes.Weniger\Tesserae.Themes.Weniger.csproj", "{3D9A6C24-5E81-4F07-B2A3-9C4E1F7B6D58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{5B3C7E21-8A4F-4D6E-9C12-7F0A3E5D8B64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B3C7E21-8A4F-4D6E-9C12-7F0A3E5D8B64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B3C7E21-8A4F-4D6E-9C12-7F0A3E5D8B64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D9A6C24-5E81-4F07-B2A3-9C4E1F7B6D58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D9A6C24-5E81-4F07-B2A3-9C4E1F7B6D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D9A6C24-5E81-4F07-B2A3-9C4E1F7B6D58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D9A6C24-5E81-4F07-B2A3-9C4E1F7B6D58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,149 @@
+/* ==========================================================================
+   Weniger theme - Sidebar
+   --------------------------------------------------------------------------
+   The sidebar is the brushed-aluminium top plate of a hi-fi: a satin metal
+   panel with fine vertical brushing, edged by a groove where it meets the
+   plastic of the page, and in the charcoal edition the same plate
+   anodised dark. Section labels are the small lowercase legends printed on
+   the plate ("layout", "inputs"), widely spaced and muted.
+
+   Entries are keys flush with the plate: under the pointer one rises into a
+   plastic key, and the current entry is latched down into its seat (the
+   pressed key, inset shadow) with a lit orange pilot lamp at its leading
+   edge. The brand is set tight and dark, like the model name on the lid.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-sidebar {
+    --tss-wg-sidebar-plate: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.18) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.02) 0 1px, transparent 1px 5px), repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0 2px, transparent 2px 11px), linear-gradient(90deg, rgb(226, 226, 223) 0%, rgb(219, 219, 216) 100%);
+    background: var(--tss-wg-sidebar-plate);
+    box-shadow: inset -1px 0 0 rgba(60, 54, 46, 0.16), inset -2px 0 0 rgba(255, 255, 255, 0.6);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar {
+    --tss-wg-sidebar-plate: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.022) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.08) 0 1px, transparent 1px 5px), repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.015) 0 2px, transparent 2px 11px), linear-gradient(90deg, rgb(42, 42, 41) 0%, rgb(37, 37, 36) 100%);
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.6), inset -2px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+/* The model name on the lid. */
+body.tss-theme-weniger .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge,
+body.tss-theme-weniger .tss-sidebar-identity-title {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+/* Section legends: small, lowercase, spaced, muted, with a groove running out to the edge. */
+body.tss-theme-weniger .tss-sidebar-separator-with-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-sidebar-separator-with-text::after {
+    content: "";
+    flex: 1 1 auto;
+    height: 1px;
+    background: var(--tss-wg-groove);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar-separator-with-text::after {
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-weniger .tss-sidebar .tss-sidebar-btn.tss-btn {
+    border-radius: var(--tss-wg-radius-key);
+}
+
+/* Under the pointer an entry rises into a key, also while the pointer is on the row's commands. */
+body.tss-theme-weniger .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-weniger .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-weniger .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-weniger .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The current entry: latched down, with the pilot lamp lit at its leading edge. */
+body.tss-theme-weniger .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-weniger .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-weniger .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-weniger .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-weniger .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-weniger .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-weniger .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-weniger .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    background:
+        radial-gradient(circle at 6px 50%, rgb(255, 150, 90) 0, var(--tss-wg-orange) 2px, rgba(236, 88, 26, 0.35) 3px, rgba(236, 88, 26, 0) 6px),
+        var(--tss-wg-key-pressed);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-pressed);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 600;
+    transform: none;
+}
+
+body.tss-theme-weniger .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn i,
+body.tss-theme-weniger .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn .tss-fontcolor-default {
+    color: var(--tss-wg-orange);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn i {
+    color: var(--tss-wg-orange-hi);
+}
+
+/* A nav header that holds the current entry: no key, just its lamp. */
+body.tss-theme-weniger .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+body.tss-theme-weniger .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled) {
+    background: radial-gradient(circle at 6px 50%, var(--tss-wg-orange) 0 2px, rgba(236, 88, 26, 0) 3px);
+    border-color: transparent;
+    box-shadow: none;
+}
+
+/* Row commands are small keys of their own. */
+body.tss-theme-weniger .tss-sidebar .tss-sidebar-command.tss-btn {
+    border-radius: var(--tss-wg-radius-small);
+}
+
+/* The search field at the top of the plate is a recessed well, like every field. */
+body.tss-theme-weniger .tss-sidebar .tss-searchbox-container {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-sidebar .tss-searchbox-container:focus-within {
+    border-color: var(--tss-wg-orange);
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(236, 88, 26, 0.24);
+}
+
+body.tss-theme-weniger .tss-sidebar .tss-searchbox {
+    background: transparent;
+}
+
+/* The collapsed rail: icon keys, rising under the pointer. */
+body.tss-theme-weniger .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon {
+    border-radius: var(--tss-wg-radius-key);
+}
+
+body.tss-theme-weniger .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised);
+}
