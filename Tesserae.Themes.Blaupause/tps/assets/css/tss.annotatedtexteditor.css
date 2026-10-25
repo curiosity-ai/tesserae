@@ -47,3 +47,9 @@ body.tss-theme-blaupause.tss-dark-mode .tss-annotated-text-hover-tag {
     box-shadow: none;
     font-family: var(--tss-bp-mono);
 }
+
+/* On the blueprint an entity keeps its type colour as its outline only: the pastel fills an app passes are
+   light-mode colours, and the white lettering drawn over them would vanish. */
+body.tss-theme-blaupause.tss-dark-mode .tss-annotated-text-entity {
+    background-color: rgba(232, 242, 252, 0.08) !important;
+}

@@ -64,6 +64,7 @@
                 "tps/assets/css/tss.commandbar.css",
                 "tps/assets/css/tss.commandpalette.css",
                 "tps/assets/css/tss.sidebar.css",
+                "tps/assets/css/tss.mobile.css",
                 "tps/assets/css/tss.sidenav.css",
                 "tps/assets/css/tss.splitview.css",
                 "tps/assets/css/tss.toggle.css",

@@ -579,6 +579,15 @@ body.tss-theme-blaupause {
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* Native controls (date and time pickers, colour inputs) draw their glyphs for the paper they sit on. */
+body.tss-theme-blaupause {
+    color-scheme: light;
+}
+
+body.tss-theme-blaupause.tss-dark-mode {
+    color-scheme: dark;
+}
+
 /* The highlighter: selected text is marked in yellow, read in the drawing's own blue. */
 body.tss-theme-blaupause ::selection {
     background: rgba(255, 214, 46, 0.55);

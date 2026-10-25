@@ -104,3 +104,11 @@ body.tss-theme-glas .tss-token-remove:hover {
 body.tss-theme-glas.tss-dark-mode .tss-token-remove:hover {
     background: rgba(255, 255, 255, 0.14);
 }
+
+/* The tone's own fill, restated: the glass default above is more specific than Tesserae's tone classes. */
+body.tss-theme-glas .tss-token-primary:not(.tss-token-outline) { background-color: rgb(var(--tss-primary-background-color-root)); }
+body.tss-theme-glas .tss-token-success:not(.tss-token-outline) { background-color: rgb(var(--tss-success-background-color-root)); }
+body.tss-theme-glas .tss-token-warning:not(.tss-token-outline) { background-color: rgb(var(--tss-warning-background-color-root)); }
+body.tss-theme-glas .tss-token-danger:not(.tss-token-outline) { background-color: rgb(var(--tss-danger-background-color-root)); }
+body.tss-theme-glas .tss-token-outline { background-color: transparent; }
+body.tss-theme-glas .tss-token-tinted { background-color: color-mix(in srgb, var(--tss-token-tint) 18%, transparent); }
