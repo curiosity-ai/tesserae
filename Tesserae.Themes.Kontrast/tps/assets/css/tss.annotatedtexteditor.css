@@ -9,12 +9,6 @@ body.tss-theme-kontrast .tss-annotated-text-container {
     border-color: var(--tss-kt-line);
 }
 
-/* Entity washes are given per type by the application, as pale tints; behind white type in dark mode they
-   would leave the words at 1.5:1. The wash is darkened in place (its hue kept) so the text stays readable. */
-body.tss-theme-kontrast.tss-dark-mode .tss-annotated-text-entity {
-    filter: brightness(0.32) saturate(1.6);
-}
-
 body.tss-theme-kontrast .tss-annotated-text-container:focus-within {
     border-color: var(--tss-kt-focus-outer);
     outline: var(--tss-kt-ring-width) solid var(--tss-kt-focus-outer);

@@ -219,7 +219,9 @@ What makes it work, and what to keep when touching it:
   - **`Tesserae.Themes.Graustufe`** (`graustufe`): an e-paper display; a 16-level grey ramp and nothing else (the
     colour palette, AI tokens and inline colours are mapped onto it), dithered edges instead of shadows, and **no
     motion**. It is the stress test for components that wait on `transitionend`/`animationend`: Tippy unmounts a
-    hidden popup on `transitionend`, so the theme keeps a 1ms `visibility` transition on `.tippy-box`.
+    hidden popup on `transitionend`, which never fires without a transition. Core now covers that for every
+    consumer (`tippy.unmount.js`, a default Tippy plugin that unmounts a popup still mounted after its hide
+    duration); the theme also keeps a 1ms `visibility` transition on `.tippy-box` so cleanup is immediate.
 - **The package also carries components**: the website's signature elements rebuilt in C#
   (`Tesserae.Themes.Curiosity/src/Components/`): `PixelIntro`, `FlowField`, `PixelGlyph`, `DashMosaic`. They
   draw with `BrandColors` directly so they work without the theme active, run their animation loops only while

@@ -52,4 +52,5 @@ body.tss-theme-blaupause.tss-dark-mode .tss-annotated-text-hover-tag {
    light-mode colours, and the white lettering drawn over them would vanish. */
 body.tss-theme-blaupause.tss-dark-mode .tss-annotated-text-entity {
     background-color: rgba(232, 242, 252, 0.08) !important;
+    background-image: none;
 }

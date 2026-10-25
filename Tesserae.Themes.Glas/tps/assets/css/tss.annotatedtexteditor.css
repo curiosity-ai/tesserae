@@ -35,10 +35,6 @@ body.tss-theme-glas .tss-annotated-text-entity {
     border-radius: 4px;
 }
 
-body.tss-theme-glas.tss-dark-mode .tss-annotated-text-entity {
-    opacity: 0.42;
-}
-
 body.tss-theme-glas .tss-annotated-text-hover-tag {
     border-radius: 8px;
     box-shadow: var(--tss-gl-rim), 0 6px 16px -8px rgba(40, 38, 100, 0.45);
