@@ -62,6 +62,13 @@ body.tss-theme-weniger .tss-toolagent-popup {
     box-shadow: var(--tss-wg-float-shadow);
 }
 
+/* The search well sits inside the panel with an even margin all round (a 100% width plus the margin ran
+   it off the panel's right edge). */
+body.tss-theme-weniger .tss-toolagent-popup .tss-searchbox-container {
+    width: auto;
+    margin: 10px 10px 6px;
+}
+
 body.tss-theme-weniger .tss-toolagent-section-title {
     letter-spacing: 0.06em;
     text-transform: lowercase;

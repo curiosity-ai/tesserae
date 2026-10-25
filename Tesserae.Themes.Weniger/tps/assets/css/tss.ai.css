@@ -319,6 +319,7 @@ body.tss-theme-weniger .tss-textbox.tss-ai:focus,
 body.tss-theme-weniger.tss-dark-mode .tss-textbox.tss-ai:focus {
     border-color: var(--tss-ai-to);
     box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(250, 160, 50, 0.28);
+    outline: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
