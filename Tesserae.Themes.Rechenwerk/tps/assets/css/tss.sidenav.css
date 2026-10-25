@@ -56,6 +56,8 @@ body.tss-theme-rechenwerk .tss-sidenav {
     color: rgb(240, 234, 218);
     background: rgb(0, 0, 0);
     border-right: 2px solid rgb(56, 54, 49);
+    padding-left: 4px;
+    padding-right: 4px;
 }
 
 body.tss-theme-rechenwerk .tss-sidenav.tss-sidenav-secondary {
@@ -90,11 +92,17 @@ body.tss-theme-rechenwerk .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:focus
     outline-offset: -2px;
 }
 
+/* Labels in tiny capitals, tracked only a little: the rail is 72px and "Configure" has to fit. */
 body.tss-theme-rechenwerk .tss-sidenav-btn-label {
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
 }
 
 /* The current section: the yellow tile. */

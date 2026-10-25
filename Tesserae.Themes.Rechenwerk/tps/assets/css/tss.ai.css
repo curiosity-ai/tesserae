@@ -1,1 +1,353 @@
-/* Rechenwerk theme - ai */
+/* ==========================================================================
+   Rechenwerk theme - AI variants
+   --------------------------------------------------------------------------
+   Tesserae says "a model made this" with a soft purple-to-blue glow. The
+   machine says it in its own language instead, with nothing blurred:
+
+   - the stripes: red and yellow in hard steps, the gradient token itself
+     (a progress bar, the selected segment's edge, the lamp in a title bar);
+   - the raster: a tinted surface is the CRT's scanlines laid over the
+     surface it already had, and generated words are clipped to that raster;
+   - the hard yellow shadow: whatever the model touched stands on a 4px
+     terminal-yellow shadow (in both modes), never on a glow.
+
+   A filled AI key is a black key with cream type and the red and yellow
+   stripes at its leading edge; it presses into its yellow shadow. Anything
+   that moves (the spinner, the skeleton's sweep) moves in steps, and stands
+   still under reduced motion.
+
+   Every token is restated under the theme's class, so the rules in
+   Tesserae's tss.ai.css follow them; the rest of this file restates only the
+   shapes a token cannot carry.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk {
+    --tss-ai-from: rgb(215, 38, 30);
+    --tss-ai-to: rgb(244, 194, 13);
+    --tss-ai-accent: rgb(184, 28, 22);
+    --tss-ai-ink: rgb(17, 17, 17);
+    --tss-ai-gradient: repeating-linear-gradient(-45deg, rgb(215, 38, 30) 0 6px, rgb(244, 194, 13) 6px 12px);
+    --tss-ai-gradient-hover: repeating-linear-gradient(-45deg, rgb(244, 194, 13) 0 6px, rgb(215, 38, 30) 6px 12px);
+    --tss-ai-gradient-text: repeating-linear-gradient(to bottom, rgb(184, 28, 22) 0 2px, rgba(184, 28, 22, 0.72) 2px 3px);
+    --tss-ai-surface: repeating-linear-gradient(to bottom, rgba(215, 38, 30, 0.07) 0 1px, transparent 1px 3px);
+    --tss-ai-surface-strong: repeating-linear-gradient(to bottom, rgba(215, 38, 30, 0.13) 0 1px, rgba(244, 194, 13, 0.08) 1px 3px);
+    --tss-ai-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-ai-shadow: 4px 4px 0 0 rgb(244, 194, 13);
+    --tss-ai-shadow-hover: 6px 6px 0 0 rgb(244, 194, 13);
+    --tss-ai-arc: conic-gradient(from 0deg, rgb(215, 38, 30) 0deg 90deg, rgb(244, 194, 13) 90deg 180deg, rgb(215, 38, 30) 180deg 270deg, transparent 270deg 360deg);
+    --tss-ai-on-fill: rgb(238, 232, 218);
+    /* The leading edge of a filled AI key: two hard stripes, then the black of the key. */
+    --tss-rw-ai-key: linear-gradient(90deg, rgb(215, 38, 30) 0 3px, rgb(244, 194, 13) 3px 6px, rgb(17, 17, 17) 6px);
+    --tss-rw-ai-key-hover: linear-gradient(90deg, rgb(244, 194, 13) 0 3px, rgb(215, 38, 30) 3px 6px, rgb(17, 17, 17) 6px);
+    --tss-rw-ai-edge: linear-gradient(90deg, rgb(215, 38, 30) 0 3px, rgb(244, 194, 13) 3px 6px, transparent 6px);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode {
+    --tss-ai-accent: rgb(244, 194, 13);
+    --tss-ai-gradient-text: repeating-linear-gradient(to bottom, rgb(244, 194, 13) 0 2px, rgba(244, 194, 13, 0.7) 2px 3px);
+    --tss-ai-surface: repeating-linear-gradient(to bottom, rgba(244, 194, 13, 0.08) 0 1px, transparent 1px 3px);
+    --tss-ai-surface-strong: repeating-linear-gradient(to bottom, rgba(244, 194, 13, 0.15) 0 1px, rgba(215, 38, 30, 0.08) 1px 3px);
+    --tss-ai-border-color: rgb(var(--tss-default-border-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   Words and glyphs
+   -------------------------------------------------------------------------- */
+
+/* A glyph is too small for the raster: it takes the accent, solid. */
+body.tss-theme-rechenwerk i.tss-icon.tss-ai {
+    background: none;
+    color: var(--tss-ai-accent);
+    -webkit-text-fill-color: currentColor;
+}
+
+/* Generated prose: a ruled panel on the raster, the two stripes down its leading edge. */
+body.tss-theme-rechenwerk .tss-textblock.tss-ai-surface {
+    padding: 10px 12px 10px 18px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: var(--tss-rw-ai-edge), var(--tss-ai-surface), rgb(var(--tss-secondary-background-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   Keys
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-btn.tss-ai:not(.tss-disabled),
+body.tss-theme-rechenwerk .tss-btn.tss-ai.tss-btn-default:not(.tss-disabled),
+body.tss-theme-rechenwerk .tss-btn.tss-ai:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk .tss-btn.tss-ai.tss-btn-default:not(.tss-disabled):hover {
+    padding-left: 18px;
+    border: 2px solid rgb(17, 17, 17);
+    background-color: rgb(17, 17, 17);
+    background-image: var(--tss-rw-ai-key);
+    color: var(--tss-ai-on-fill);
+    box-shadow: 3px 3px 0 0 rgb(244, 194, 13);
+    filter: none;
+    margin-right: 3px;
+    margin-bottom: 3px;
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-btn.tss-ai:not(.tss-disabled),
+body.tss-theme-rechenwerk.tss-dark-mode .tss-btn.tss-ai:not(.tss-disabled):hover {
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-ai:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk .tss-btn.tss-ai.tss-btn-default:not(.tss-disabled):hover {
+    background-image: var(--tss-rw-ai-key-hover);
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-ai:not(.tss-disabled) :is(.tss-fontcolor-default, i),
+body.tss-theme-rechenwerk .tss-btn.tss-ai:not(.tss-disabled):hover :is(.tss-fontcolor-default, i) {
+    color: var(--tss-ai-on-fill);
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-ai:not(.tss-disabled):active,
+body.tss-theme-rechenwerk .tss-btn.tss-ai.tss-btn-default:not(.tss-disabled):active {
+    background-image: var(--tss-rw-ai-key-hover);
+    filter: none;
+    transform: var(--tss-rw-btn-travel);
+    box-shadow: none;
+}
+
+/* The quiet key: the raster and a 2px rule, the accent as type, the stripes at its edge. */
+body.tss-theme-rechenwerk .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled),
+body.tss-theme-rechenwerk .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):hover {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: var(--tss-rw-ai-edge), var(--tss-ai-surface);
+    color: var(--tss-ai-accent);
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):hover {
+    background-image: var(--tss-rw-ai-edge), var(--tss-ai-surface-strong);
+    box-shadow: 3px 3px 0 0 rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled) :is(.tss-fontcolor-default, i),
+body.tss-theme-rechenwerk .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):hover :is(.tss-fontcolor-default, i) {
+    color: var(--tss-ai-accent);
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):active {
+    background-image: var(--tss-rw-ai-edge), var(--tss-ai-surface-strong);
+    filter: none;
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Card: the raster, the rule, the yellow shadow; its title bar keeps the bar
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-card-container.tss-ai > .tss-card:not(.tss-has-layout) {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    background: var(--tss-ai-surface), rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-card-container.tss-ai > .tss-card:not(.tss-has-layout).tss-card-hover:hover {
+    background: var(--tss-ai-surface-strong), rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-card-container.tss-ai > .tss-card.tss-has-layout {
+    box-shadow: var(--tss-ai-shadow) !important;
+    filter: none;
+}
+
+body.tss-theme-rechenwerk .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-content {
+    background: var(--tss-ai-surface), rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-header {
+    background: var(--tss-rw-bar-background);
+    border-color: transparent;
+}
+
+/* The bar's square becomes the two stripes. */
+body.tss-theme-rechenwerk .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-header::before {
+    width: 12px;
+    background: linear-gradient(90deg, rgb(215, 38, 30) 0 6px, rgb(244, 194, 13) 6px 12px);
+    box-shadow: 0 0 0 1px var(--tss-rw-bar-background);
+}
+
+body.tss-theme-rechenwerk .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-header .tss-textblock.tss-ai,
+body.tss-theme-rechenwerk .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-header .tss-ai-text {
+    background: none;
+    color: var(--tss-rw-bar-foreground);
+    -webkit-text-fill-color: currentColor;
+}
+
+body.tss-theme-rechenwerk .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-header i.tss-icon.tss-ai {
+    color: rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-header i.tss-icon.tss-ai {
+    color: rgb(215, 38, 30);
+}
+
+body.tss-theme-rechenwerk .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-footer {
+    background: rgb(var(--tss-default-background-color-root));
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   Labels, badges
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-inlinelabel.tss-ai {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: var(--tss-ai-surface), rgb(var(--tss-secondary-background-color-root));
+    color: var(--tss-ai-accent);
+}
+
+body.tss-theme-rechenwerk .tss-inlinelabel.tss-ai.tss-inlinelabel-interactive:hover,
+body.tss-theme-rechenwerk .tss-inlinelabel.tss-ai.tss-inlinelabel-interactive:focus-visible {
+    background: var(--tss-ai-surface-strong), rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-footer .tss-inlinelabel.tss-ai {
+    background: none;
+}
+
+/* A badge is a small black key with the stripes at its edge. */
+body.tss-theme-rechenwerk .tss-token.tss-token-ai {
+    padding-left: 10px;
+    border-color: rgb(17, 17, 17);
+    border-radius: 0;
+    background: var(--tss-rw-ai-key);
+    color: var(--tss-ai-on-fill);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-token.tss-token-ai {
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-token.tss-token-ai.tss-token-outline {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: var(--tss-rw-ai-edge), var(--tss-ai-surface), rgb(var(--tss-secondary-background-color-root));
+    color: var(--tss-ai-accent);
+}
+
+/* --------------------------------------------------------------------------
+   Waiting on a model: skeleton, spinner, progress
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-skeleton.tss-ai,
+body.tss-theme-rechenwerk .tss-inlinelabel.tss-ai .tss-inlinelabel-skeleton {
+    background: var(--tss-ai-surface-strong), rgb(var(--tss-progress-background-color-root));
+}
+
+/* The sweep is a hard yellow block that jumps along, not a glow that glides. */
+body.tss-theme-rechenwerk .tss-skeleton.tss-ai.tss-skeleton-animated::after,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-skeleton.tss-ai.tss-skeleton-animated::after,
+body.tss-theme-rechenwerk .tss-inlinelabel.tss-ai .tss-inlinelabel-skeleton.tss-skeleton-animated::after {
+    background: linear-gradient(90deg, transparent 0 35%, rgba(244, 194, 13, 0.55) 35% 50%, rgba(215, 38, 30, 0.35) 50% 65%, transparent 65%);
+    animation-timing-function: steps(8, end);
+}
+
+body.tss-theme-rechenwerk .tss-spinner.tss-ai:not(.tss-spinner-progress) {
+    animation-timing-function: steps(8, end);
+}
+
+body.tss-theme-rechenwerk .tss-spinner.tss-ai.tss-spinner-progress {
+    background: conic-gradient(from 0deg, rgb(215, 38, 30) 0 calc(var(--tss-spinner-progress, 0) * 0.5%), rgb(244, 194, 13) 0 calc(var(--tss-spinner-progress, 0) * 1%), rgb(var(--tss-progress-background-color-root)) 0);
+}
+
+body.tss-theme-rechenwerk .tss-progressindicator.tss-ai > .tss-progressindicator-bar {
+    background: var(--tss-ai-gradient);
+}
+
+/* --------------------------------------------------------------------------
+   IconToggle and SegmentedPivot: the selected segment is the black AI key
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-icon-toggle.tss-ai {
+    border-radius: 0;
+    background: var(--tss-ai-surface-strong), rgb(var(--tss-secondary-background-color-root));
+    box-shadow: inset 0 0 0 2px rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover,
+body.tss-theme-rechenwerk .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab:hover {
+    background-color: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-rechenwerk .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-rechenwerk .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    border-radius: 0;
+    background: var(--tss-rw-ai-key);
+    color: var(--tss-ai-on-fill);
+    box-shadow: none;
+}
+
+/* A segment is too narrow for the stripes at its side: on the toggle they run along its foot. */
+body.tss-theme-rechenwerk .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-rechenwerk .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    background: linear-gradient(to top, rgb(215, 38, 30) 0 3px, rgb(244, 194, 13) 3px 6px, rgb(17, 17, 17) 6px);
+}
+
+body.tss-theme-rechenwerk .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected :is(i, .tss-fontcolor-default),
+body.tss-theme-rechenwerk.tss-dark-mode .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected :is(i, .tss-fontcolor-default) {
+    color: var(--tss-ai-on-fill);
+}
+
+body.tss-theme-rechenwerk .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    padding-left: 18px;
+}
+
+body.tss-theme-rechenwerk .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-rechenwerk .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar {
+    border-radius: 0;
+    background: var(--tss-ai-surface-strong), rgb(var(--tss-secondary-background-color-root));
+    box-shadow: inset 0 0 0 2px rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar {
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab {
+    border-radius: 0;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   TextBox: the field on the raster, stripes at its edge, a yellow shadow on focus
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-textbox.tss-ai,
+body.tss-theme-rechenwerk .tss-textbox.tss-ai:hover {
+    padding-left: 18px;
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: var(--tss-rw-ai-edge), var(--tss-ai-surface), rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-textbox.tss-ai:focus,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-textbox.tss-ai:focus {
+    border-color: rgb(var(--tss-default-border-color-root));
+    box-shadow: var(--tss-ai-shadow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-skeleton.tss-ai.tss-skeleton-animated::after,
+    body.tss-theme-rechenwerk .tss-inlinelabel.tss-ai .tss-inlinelabel-skeleton.tss-skeleton-animated::after,
+    body.tss-theme-rechenwerk .tss-spinner.tss-ai {
+        animation: none;
+    }
+
+    body.tss-theme-rechenwerk .tss-btn.tss-ai:not(.tss-disabled):active,
+    body.tss-theme-rechenwerk .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):active {
+        transform: none;
+    }
+}

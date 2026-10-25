@@ -536,11 +536,6 @@ body.tss-theme-rechenwerk .tss-navbar-burger:hover {
     border-radius: 0;
 }
 
-body.tss-theme-rechenwerk .tss-navbar-burger:hover {
-    background: rgb(244, 194, 13);
-    color: rgb(10, 10, 10);
-}
-
 /* The drawer is a floating terminal panel: 2px frame, hard yellow shadow, square. */
 body.tss-theme-rechenwerk .tss-navbar-drawer {
     border: 2px solid rgb(var(--tss-default-border-color-root));

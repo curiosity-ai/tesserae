@@ -1,1 +1,185 @@
-/* Rechenwerk theme - contextcard */
+/* ==========================================================================
+   Rechenwerk theme - ContextCard
+   --------------------------------------------------------------------------
+   A piece of context is a small sleeve card: a 2px ink rule round the
+   surface colour, standing on a hard shadow. One that opens something lifts
+   under the pointer, its shadow growing as it moves up and left, and goes
+   down into it when pressed (the motion of tss.card.css, at token size).
+
+   The icon sits in a square plate with an ink rule; the plate keeps the
+   colour the app gave it, because that colour says what kind of thing it is.
+   The label is weight 600, the second line in sentence case and the muted
+   grey (Space Mono for a path or a size). The badge at the end is a small
+   ruled tag in tracked capitals. The remove button is a square ink key on
+   the card's corner that turns red under the pointer.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-contextcard {
+    margin: 0 4px 4px 0;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: 4px 4px 0 0 rgb(var(--tss-default-border-color-root));
+    transition: transform 90ms steps(2), box-shadow 90ms steps(2);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-contextcard {
+    box-shadow: 4px 4px 0 0 rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-contextcard-clickable:hover,
+body.tss-theme-rechenwerk .tss-contextcard-menu-open {
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 6px 6px 0 0 rgb(var(--tss-default-border-color-root));
+    transform: translate(-2px, -2px);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-contextcard-clickable:hover,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-contextcard-menu-open {
+    box-shadow: 6px 6px 0 0 rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-contextcard-clickable:active {
+    box-shadow: none;
+    transform: translate(4px, 4px);
+}
+
+body.tss-theme-rechenwerk .tss-contextcard-clickable:focus-visible {
+    outline: 2px solid var(--tss-rw-signal);
+    outline-offset: 3px;
+}
+
+/* The icon's plate: square, ruled, in the colour the app gave it. */
+body.tss-theme-rechenwerk .tss-contextcard-icon {
+    box-sizing: border-box;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: var(--tss-rw-signal);
+    color: var(--tss-rw-on-signal);
+}
+
+body.tss-theme-rechenwerk .tss-contextcard-icon-nobackground,
+body.tss-theme-rechenwerk .tss-contextcard-icon-image {
+    border-color: transparent;
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-contextcard-icon-image {
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-contextcard-label {
+    font-weight: 600;
+}
+
+body.tss-theme-rechenwerk .tss-contextcard-label-extension {
+    opacity: 1;
+    color: var(--tss-rw-muted);
+    font-weight: 500;
+}
+
+body.tss-theme-rechenwerk .tss-contextcard-sublabel {
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-contextcard-mono .tss-contextcard-sublabel {
+    font-size: 11px;
+}
+
+body.tss-theme-rechenwerk .tss-contextcard-badge {
+    padding: 1px 6px;
+    border: 1px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-contextcard-badge-custom {
+    padding: 0;
+    border: none;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+body.tss-theme-rechenwerk .tss-contextcard-chevron {
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: transform 120ms steps(2);
+}
+
+/* The remove key on the corner. */
+body.tss-theme-rechenwerk .tss-contextcard-remove,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-contextcard-remove {
+    top: -9px;
+    right: -9px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    transition: opacity 120ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-contextcard-remove:hover,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-contextcard-remove:hover,
+body.tss-theme-rechenwerk .tss-contextcard-remove:active,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-contextcard-remove:active {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-danger-background-color-root));
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-contextcard-remove:focus-visible {
+    outline: 2px solid var(--tss-rw-signal);
+    outline-offset: 1px;
+}
+
+/* Compact: one line, the same rule on a 2px shadow. */
+body.tss-theme-rechenwerk .tss-contextcard-compact {
+    margin: 0 2px 2px 0;
+    border-radius: 0;
+    box-shadow: 2px 2px 0 0 rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-contextcard-compact {
+    box-shadow: 2px 2px 0 0 rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-contextcard-compact.tss-contextcard-clickable:hover,
+body.tss-theme-rechenwerk .tss-contextcard-compact.tss-contextcard-menu-open {
+    box-shadow: 4px 4px 0 0 rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-contextcard-compact.tss-contextcard-clickable:hover,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-contextcard-compact.tss-contextcard-menu-open {
+    box-shadow: 4px 4px 0 0 rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-contextcard-compact .tss-contextcard-icon {
+    border-width: 1px;
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-contextcard-compact .tss-contextcard-remove {
+    top: -8px;
+    right: -8px;
+    width: 16px;
+    height: 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-contextcard,
+    body.tss-theme-rechenwerk .tss-contextcard-chevron,
+    body.tss-theme-rechenwerk .tss-contextcard-remove {
+        transition: none;
+    }
+
+    body.tss-theme-rechenwerk .tss-contextcard-clickable:hover,
+    body.tss-theme-rechenwerk .tss-contextcard-clickable:active,
+    body.tss-theme-rechenwerk .tss-contextcard-menu-open {
+        transform: none;
+    }
+}
