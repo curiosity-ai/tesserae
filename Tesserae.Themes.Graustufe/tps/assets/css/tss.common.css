@@ -975,3 +975,34 @@ body.tss-theme-graustufe [style*="--tss-token-tint"],
 body.tss-theme-graustufe svg {
     filter: var(--tss-gs-panel);
 }
+
+/* --------------------------------------------------------------------------
+   Coloured text
+   --------------------------------------------------------------------------
+   A tone given to text (TextBlock.Primary(), .Success()...) was a hue; here
+   it is a grey dark enough to read on the paper: primary and danger ink,
+   success and warning a dark grey, secondary the muted grey.
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-graustufe .tss-fontcolor-primary,
+body.tss-theme-graustufe .tss-fontcolor-danger,
+body.tss-theme-graustufe .tss-fontcolor-invalid {
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-fontcolor-success,
+body.tss-theme-graustufe .tss-fontcolor-warning {
+    color: var(--tss-gs-4);
+}
+
+body.tss-theme-graustufe .tss-fontcolor-secondary {
+    color: var(--tss-gs-6);
+}
+
+/* Something an app filled with the primary colour (ink here) gets the primary foreground for its text. */
+body.tss-theme-graustufe [style*="background-color: var(--tss-primary-background-color)"],
+body.tss-theme-graustufe [style*="background: var(--tss-primary-background-color)"],
+body.tss-theme-graustufe [style*="background-color: var(--tss-primary-background-color)"] .tss-fontcolor-default,
+body.tss-theme-graustufe [style*="background: var(--tss-primary-background-color)"] .tss-fontcolor-default {
+    color: var(--tss-primary-foreground-color);
+}
