@@ -64,7 +64,10 @@
     display: inline-flex
 }
 
+    /* The selected value is drawn by a Button inside the box, which a theme's button rules colour for a
+       page, not for the chip: it takes the chip's colour like the rest of the label. */
     .tss-cron-inline-dropdown .tss-dropdown-item-on-box,
+    .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-btn,
     .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-fontcolor-default {
         color: inherit !important;
         font-size: var(--tss-font-size-small);
