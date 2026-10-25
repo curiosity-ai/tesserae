@@ -91,9 +91,16 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
 3. CSS files named after the Tesserae stylesheet they restyle (`tss.button.css`,
    `tss.dropdown.css`, …) plus a `tss.common.css` that redefines the `--tss-*`
    variables. A few things a component would otherwise write inline read a variable a theme can
-   set instead: chart series without an explicit colour (`--tss-chart-series-1` … `-8`), the
-   focused MarkHighlighter match (`--tss-mark-focus-color`), and an initials-only Avatar, which
-   is drawn by `.tss-avatar.tss-avatar-generated` from `--tss-avatar-hue`.
+   set instead: chart series without an explicit colour (`--tss-chart-series-1` … `-8`),
+   MarkHighlighter matches (`--tss-mark-color` / `--tss-mark-text-color`, the system Mark
+   colours when unset) and the focused one (`--tss-mark-focus-color`), and an initials-only
+   Avatar, which is drawn by `.tss-avatar.tss-avatar-generated` from `--tss-avatar-hue`.
+   The focus ring that text boxes, search boxes and buttons draw is
+   `var(--tss-ring-offset-shadow), var(--tss-ring-shadow)`, built on `body` from
+   `--tss-ring-color`, `--tss-ring-offset-color` and `--tss-ring-offset-width`: setting
+   those under the root class recolours it, or set the two shadows themselves.
+   A surface filled with a quiet neutral (an empty rating star, an empty calendar day,
+   a drawer handle, a hovered icon button) reads `--tss-subtle-fill-color`, not the border colour.
    `AI(strongEffect: true)` adds `tss-ai-strong` beside `tss-ai`: redefine the `--tss-ai-*`
    variables under it for a louder AI form (the default theme has no rule for it).
    Scope every selector under the root class: `body.tss-theme-mine .tss-btn`

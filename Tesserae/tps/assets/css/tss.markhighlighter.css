@@ -3,13 +3,24 @@
    the browser's default mark styling via the Mark/MarkText system colors; the
    focused name mirrors the inline danger background the element backend applies.
    A browser without ::highlight() support drops these rules, and MarkHighlighter
-   falls back to mark elements there, so nothing is lost. */
+   falls back to mark elements there, so nothing is lost.
+
+   Both are tokens a theme can set, unset by default, the way --tss-mark-focus-color
+   already is (MarkHighlighter reads that one for the element backend's inline focus
+   colour): --tss-mark-color and --tss-mark-text-color for a match, falling back to the
+   system colours, so a theme no longer has to restate the ::highlight() rules - and the
+   element backend's mark elements read the same two. */
 
 ::highlight(tss-marked) {
-    background-color: Mark;
-    color: MarkText;
+    background-color: var(--tss-mark-color, Mark);
+    color: var(--tss-mark-text-color, MarkText);
 }
 
 ::highlight(tss-marked-focused) {
-    background-color: var(--tss-danger-background-color);
+    background-color: var(--tss-mark-focus-color, var(--tss-danger-background-color));
+}
+
+mark[data-marked] {
+    background-color: var(--tss-mark-color, Mark);
+    color: var(--tss-mark-text-color, MarkText);
 }
