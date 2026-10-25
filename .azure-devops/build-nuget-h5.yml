@@ -68,6 +68,12 @@ steps:
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.RetroOS/'
 
 - task: CmdLine@2
+  displayName: 'restore Rechenwerk theme project'
+  inputs:
+    script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Themes.Rechenwerk\Tesserae.Themes.Rechenwerk.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Rechenwerk/'
+
+- task: CmdLine@2
   displayName: 'restore tests project'
   inputs:
     script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Tests\Tesserae.Tests.csproj'
@@ -179,6 +185,20 @@ steps:
   inputs:
     command: 'push'
     packagesToPush: '**/*/Tesserae.Themes.RetroOS.$(themePackageVersion).nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-curiosity-org'
+
+- task: CmdLine@2
+  displayName: 'Build Tesserae.Themes.Rechenwerk'
+  inputs:
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Themes.Rechenwerk\Tesserae.Themes.Rechenwerk.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion) /p:ThemeVersion=$(themePackageVersion)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Rechenwerk/'
+
+- task: NuGetCommand@2
+  displayName: 'push Tesserae.Themes.Rechenwerk to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*/Tesserae.Themes.Rechenwerk.$(themePackageVersion).nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity-org'
 

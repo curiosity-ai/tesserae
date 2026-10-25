@@ -174,6 +174,15 @@ What makes it work, and what to keep when touching it:
   group with `"load": false`, derived variables restated with their roots) and is picked in the gallery's Theme nav
   (`localStorage["tss-sample-theme"] = "stratus"`). Its tokens are `--tss-str-*` in its `tss.common.css`; a component
   stylesheet there reads those rather than hex values. It ships no components of its own.
+- **A fourth theme: `Tesserae.Themes.Rechenwerk`** ([Tesserae.Themes.Rechenwerk/](Tesserae.Themes.Rechenwerk/)), after
+  Kraftwerk's record sleeves (an homage, not named after the band: *Rechenwerk* is German for a computer's arithmetic
+  unit). Light is *Die Mensch-Maschine* (cream, ink, signal red), dark is *Computerwelt* (black screen with a faint
+  raster, cream type, terminal yellow). Root class `tss-theme-rechenwerk`, tokens `--tss-rw-*` in its `tss.common.css`
+  (`--tss-rw-signal` is the mode's accent, red or yellow), Jost / Big Shoulders Display / Doto / Space Mono bundled.
+  Two things it does that the others do not: the **sidebar is a dark island in both modes** (the dark token block is
+  also applied to `.tss-sidebar`, so a component inside the sidebar draws itself for black without a rule of its
+  own), and selection is the same solid yellow block with black type in both modes. Its README lists the design
+  rules every stylesheet follows. Picked in the gallery's Theme nav (`localStorage["tss-sample-theme"] = "rechenwerk"`).
 - **The package also carries components**: the website's signature elements rebuilt in C#
   (`Tesserae.Themes.Curiosity/src/Components/`): `PixelIntro`, `FlowField`, `PixelGlyph`, `DashMosaic`. They
   draw with `BrandColors` directly so they work without the theme active, run their animation loops only while
@@ -198,7 +207,7 @@ until then and when it fails to draw. To update, replace that file with the new
 onto Tesserae tokens (and `--tss-chart-series-N`), so a theme's fonts, radius, colours and series
 already follow; each theme package also has a small `tss.mermaid.css` that matches the diagram frame
 and lines to its code blocks (RetroOS: ink frame with hard shadow, Stratus: filled surface, Curiosity:
-ink lines and the Signal accent).
+ink lines and the Signal accent, Rechenwerk: the black terminal frame in both modes).
 
 ## Installing Transpose
 
@@ -569,9 +578,11 @@ mode swaps the colour tokens. The matrix today is:
 | Default   | yes   | yes  |
 | Curiosity | yes   | yes  |
 | Stratus   | yes   | yes  |
+| RetroOS   | yes   | yes  |
+| Rechenwerk | yes  | yes  |
 
 - The gallery opens in Curiosity. Pick the theme before load by setting
-  `localStorage["tss-sample-theme"]` to `"default"` or `"curiosity"` (`_themeKey` in
+  `localStorage["tss-sample-theme"]` to `"default"`, `"curiosity"`, `"stratus"`, `"retroos"` or `"rechenwerk"` (`_themeKey` in
   [App.cs](Tesserae.Tests/src/App.cs)), or click the Theme nav at the foot of the sidebar.
 - Dark mode is the sun/moon command in the sidebar (`Theme.Dark()` / `Theme.Light()`); it puts
   `tss-dark-mode` on `body`.

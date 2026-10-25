@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Rechenwerk theme - SectionStack
+   --------------------------------------------------------------------------
+   The stack is the sleeve's ground: the page colour, no tint, so text set
+   straight on it reads. Each section is a panel on it, framed in a 2px rule
+   and standing on the same hard shadow as a card. Sections arrive with a
+   short mechanical step rather than a glide.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-sectionstack-secondary {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-sectionstack-secondary {
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-sectionstack-item {
+    transform: translate3d(0, 12px, 0);
+    transition: transform 160ms steps(3), opacity 160ms steps(3);
+}
+
+body.tss-theme-rechenwerk .tss-sectionstack-item.ismounted,
+body.tss-theme-rechenwerk .tss-sectionstack-item.tss-ismounted {
+    transform: none;
+}
+
+body.tss-theme-rechenwerk .tss-sectionstack-card {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-rw-card-shadow);
+    margin-right: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-sectionstack-item {
+        transition: none;
+        transform: none;
+    }
+}
