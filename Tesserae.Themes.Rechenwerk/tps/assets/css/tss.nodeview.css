@@ -1,1 +1,132 @@
-/* Rechenwerk theme - nodeview */
+/* ==========================================================================
+   Rechenwerk theme - NodeView (the Baklava node editor)
+   --------------------------------------------------------------------------
+   A node graph is a circuit diagram on the sleeve: Baklava draws from its
+   --baklava-* variables, so each is restated in the theme's tokens and
+   follows the mode. The canvas is the page with a faint ruled grid, nodes
+   are cards with sleeve-band titles (see tss.baklava.css), ports are
+   squares and connections are ink wires; whatever is picked out (a selected
+   node, a port being wired, a highlighted control) is the signal colour.
+   The toolbar and the node palette are the page ruled off from the canvas
+   by the 2px ink rule, the palette's section titles tracked capitals and
+   its entries framed keys.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-nodeview,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-nodeview {
+    --baklava-control-color-primary: var(--tss-rw-signal);
+    --baklava-control-color-error: rgb(var(--tss-invalid-border-color-root));
+    --baklava-control-color-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-control-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-control-color-hover: rgb(var(--tss-default-background-hover-color-root));
+    --baklava-control-color-active: rgb(244, 194, 13);
+    --baklava-control-color-disabled-foreground: rgb(var(--tss-disabled-foreground-color-root));
+    --baklava-control-border-radius: 0px;
+    --baklava-sidebar-color-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-sidebar-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-color-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-node-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-color-hover: rgb(var(--tss-default-border-color-root));
+    --baklava-node-color-selected: var(--tss-rw-signal);
+    --baklava-node-color-resize-handle: rgb(var(--tss-default-border-color-root));
+    --baklava-node-title-color-background: var(--tss-rw-bar-background);
+    --baklava-node-title-color-foreground: var(--tss-rw-bar-foreground);
+    --baklava-group-node-title-color-background: var(--tss-rw-blue);
+    --baklava-group-node-title-color-foreground: rgb(250, 246, 238);
+    --baklava-node-interface-port-color: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-interface-port-tooltip-color-foreground: var(--tss-rw-bar-foreground);
+    --baklava-node-interface-port-tooltip-color-background: var(--tss-rw-bar-background);
+    --baklava-node-border-radius: 0px;
+    --baklava-color-connection-default: rgb(var(--tss-default-foreground-color-root));
+    --baklava-color-connection-allowed: var(--tss-rw-green);
+    --baklava-color-connection-forbidden: rgb(var(--tss-invalid-border-color-root));
+    --baklava-editor-background-pattern-default: rgb(var(--tss-default-background-color-root));
+    --baklava-editor-background-pattern-line: rgba(var(--tss-default-foreground-color-root), 0.07);
+    --baklava-editor-background-pattern-black: rgba(var(--tss-default-foreground-color-root), 0.14);
+    --baklava-context-menu-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-context-menu-shadow: none;
+    --baklava-toolbar-background: rgb(var(--tss-default-background-color-root));
+    --baklava-toolbar-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-palette-background: rgb(var(--tss-default-background-color-root));
+    --baklava-node-palette-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-selectionbox-color-border: var(--tss-rw-signal);
+    --baklava-selectionbox-color-background: rgba(var(--tss-default-foreground-color-root), 0.06);
+    --baklava-visual-transition: 60ms steps(1);
+}
+
+/* --------------------------------------------------------------------------
+   Toolbar and node palette
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-toolbar {
+    border-bottom: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-toolbar-button {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-toolbar-button:not(:disabled):hover {
+    background: transparent;
+    box-shadow: inset 0 0 0 2px rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-toolbar-button:disabled {
+    opacity: 1 !important;
+    filter: none !important;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node-palette {
+    border-right: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node-palette section h1 {
+    font-family: var(--tss-sansserif-font-family);
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    color: var(--tss-rw-signal) !important;
+}
+
+/* A palette entry is a key to drag from, not a node: framed, standing on a small hard shadow, its name in
+   sentence case, the glyph the base puts before it in ink. */
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node-palette section .baklava-node.--palette {
+    box-sizing: border-box;
+    width: calc(100% - 3px) !important;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0 !important;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 3px 3px 0 0 var(--tss-rw-key-shadow-color);
+    transition: transform 60ms steps(1), box-shadow 60ms steps(1);
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node-palette section .baklava-node.--palette:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node-palette section .baklava-node.--palette:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node.--palette > .__title {
+    border-radius: 0;
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: var(--tss-font-size-small);
+    font-weight: 500;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node.--palette > .__title::before {
+    display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-nodeview .baklava-node-palette section .baklava-node.--palette {
+        transition: none;
+    }
+}

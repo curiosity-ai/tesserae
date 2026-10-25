@@ -1,1 +1,164 @@
-/* Rechenwerk theme - toolagentselector */
+/* ==========================================================================
+   Rechenwerk theme - Tool / Agent Selector
+   --------------------------------------------------------------------------
+   The trigger is a ghost key in tracked capitals that frames under the
+   pointer and fills yellow while its popup is open. The count is a square
+   signal tag in dot-matrix numerals. The popup floats on the 2px frame and
+   the 6px hard shadow; section titles are tracked capitals, rows are in
+   sentence case and the row under the pointer or the keyboard is the yellow
+   cursor block. The checkbox is a 2px ink square with a signal fill and a
+   square tick; each tool's icon sits on a square ink plate.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-toolagent-trigger {
+    border: 2px solid transparent;
+    border-radius: 0;
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-trigger:hover {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-trigger:focus-visible {
+    outline: 2px solid var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-trigger:active,
+body.tss-theme-rechenwerk .tss-toolagent-trigger.tss-toolagent-trigger-active {
+    border-color: rgb(17, 17, 17);
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-trigger-chevron,
+body.tss-theme-rechenwerk .tss-toolagent-trigger i {
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-badge {
+    border-radius: 0;
+    background: var(--tss-rw-signal);
+    color: var(--tss-rw-on-signal);
+    font-family: var(--tss-rw-dots);
+    font-size: 11px;
+    font-weight: 800;
+    box-shadow: 0 0 0 2px rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-popup {
+    border: none;
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-rw-frame-shadow);
+}
+
+/* The search field keeps room inside the popup for its own focus shadow. */
+body.tss-theme-rechenwerk .tss-toolagent-popup .tss-searchbox-container {
+    width: calc(100% - 22px);
+    margin: 10px 12px 6px 10px;
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-section-title {
+    padding: 10px 12px 4px;
+    color: var(--tss-rw-muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-list {
+    padding: 0 0 4px;
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-item {
+    border-radius: 0;
+    padding: 8px 12px;
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-item:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-item.tss-toolagent-item-highlight,
+body.tss-theme-rechenwerk .tss-toolagent-item.tss-toolagent-item-highlight:hover {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-item.tss-toolagent-item-highlight :is(.tss-toolagent-item-title, .tss-toolagent-item-description) {
+    color: rgb(10, 10, 10);
+}
+
+/* The checkbox: a 2px ink square, the signal colour when ticked. */
+body.tss-theme-rechenwerk .tss-toolagent-item-checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-item-input:checked ~ .tss-toolagent-item-checkmark {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-item-input:checked ~ .tss-toolagent-item-checkmark:after {
+    width: 4px;
+    height: 9px;
+    border-color: var(--tss-rw-on-signal);
+    border-width: 0 3px 3px 0;
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-item.tss-toolagent-item-highlight .tss-toolagent-item-checkmark {
+    border-color: rgb(10, 10, 10);
+    background: rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-item.tss-toolagent-item-highlight .tss-toolagent-item-input:checked ~ .tss-toolagent-item-checkmark {
+    background: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-item.tss-toolagent-item-highlight .tss-toolagent-item-input:checked ~ .tss-toolagent-item-checkmark:after {
+    border-color: rgb(244, 194, 13);
+}
+
+/* The tool's icon on a square ink plate. */
+body.tss-theme-rechenwerk .tss-toolagent-item-icon {
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-item-icon i {
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-item.tss-toolagent-item-highlight .tss-toolagent-item-icon {
+    background: rgb(10, 10, 10);
+    color: rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-item-title {
+    font-weight: 600;
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-item-description,
+body.tss-theme-rechenwerk .tss-toolagent-empty {
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-toolagent-empty {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 12px;
+}

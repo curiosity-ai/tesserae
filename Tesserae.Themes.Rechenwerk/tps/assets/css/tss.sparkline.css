@@ -5,7 +5,7 @@
    flat screen tint under the line instead of a fade, and the last point a
    square block rather than a dot. The colour an app picked from Tesserae's
    palette for good or bad news is turned into the sleeve's own green, red,
-   blue or orange, so a growth line is the green of the sleeves, not the
+   blue, orange or warm grey, so a growth line is the green of the sleeves, not the
    toolkit's. The reference line is a dotted ink rule.
    ========================================================================== */
 
@@ -31,47 +31,17 @@ body.tss-theme-rechenwerk .tss-sparkline-end {
     border-radius: 0;
 }
 
-/* Tesserae's palette, turned into the sleeve colours. */
-body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-colors-green-600)"],
-body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-colors-green-500)"],
-body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-success-background-color)"] {
-    stroke: var(--tss-rw-green);
-}
-
-body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-colors-green-600)"],
-body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-colors-green-500)"],
-body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-success-background-color)"] {
-    stop-color: var(--tss-rw-green);
-}
-
-body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-colors-red-600)"],
-body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-colors-red-500)"],
-body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-danger-background-color)"] {
-    stroke: var(--tss-rw-red);
-}
-
-body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-colors-red-600)"],
-body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-colors-red-500)"],
-body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-danger-background-color)"] {
-    stop-color: var(--tss-rw-red);
-}
-
-body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-colors-blue-600)"],
-body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-colors-blue-500)"] {
-    stroke: var(--tss-chart-series-4);
-}
-
-body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-colors-blue-600)"],
-body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-colors-blue-500)"] {
-    stop-color: var(--tss-chart-series-4);
-}
-
-body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-colors-orange-600)"],
-body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-colors-orange-500)"] {
-    stroke: var(--tss-chart-series-6);
-}
-
-body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-colors-orange-600)"],
-body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-colors-orange-500)"] {
-    stop-color: var(--tss-chart-series-6);
+/* Tesserae's palette, turned into the sleeve colours. The line, the tint under it and the end marker all read
+   these variables where they are drawn, so restating them on the sparkline recolours all three. */
+body.tss-theme-rechenwerk .tss-sparkline {
+    --tss-colors-green-500: var(--tss-rw-green);
+    --tss-colors-green-600: var(--tss-rw-green);
+    --tss-colors-red-500: var(--tss-rw-red);
+    --tss-colors-red-600: var(--tss-rw-red);
+    --tss-colors-blue-500: var(--tss-chart-series-4);
+    --tss-colors-blue-600: var(--tss-chart-series-4);
+    --tss-colors-orange-500: var(--tss-chart-series-6);
+    --tss-colors-orange-600: var(--tss-chart-series-6);
+    --tss-colors-neutral-500: var(--tss-chart-series-5);
+    --tss-colors-neutral-600: var(--tss-chart-series-5);
 }

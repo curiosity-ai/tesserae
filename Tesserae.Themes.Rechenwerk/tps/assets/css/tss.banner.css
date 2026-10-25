@@ -117,15 +117,34 @@ body.tss-theme-rechenwerk .tss-banner-badge-pill.tss-badge * {
     color: var(--tss-rw-banner-on-accent);
 }
 
-/* Warning has no button tone of its own: a yellow key with black type on the ink shadow. */
-body.tss-theme-rechenwerk .tss-btn.tss-banner-action-warning {
-    background: var(--tss-rw-yellow);
+/* Warning has no button tone of its own: the banner makes its action a warning key, yellow with black type
+   on the key's hard shadow, pressing in like every other solid key. It is a default (ghost) button underneath,
+   whose transparent rules are as specific as these, hence the extra class. */
+body.tss-theme-rechenwerk .tss-banner .tss-btn.tss-banner-action-warning:not(.tss-disabled),
+body.tss-theme-rechenwerk.tss-dark-mode .tss-banner .tss-btn.tss-banner-action-warning:not(.tss-disabled) {
+    background-color: var(--tss-rw-yellow);
+    border-color: rgb(10, 10, 10);
     color: rgb(10, 10, 10);
-    border-color: rgb(var(--tss-default-border-color-root));
+    box-shadow: var(--tss-rw-btn-shadow);
+    margin-right: 3px;
+    margin-bottom: 3px;
 }
 
-body.tss-theme-rechenwerk .tss-btn.tss-banner-action-warning * {
-    color: rgb(10, 10, 10);
+body.tss-theme-rechenwerk .tss-banner .tss-btn.tss-banner-action-warning:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-banner .tss-btn.tss-banner-action-warning:not(.tss-disabled):hover {
+    background-color: rgb(10, 10, 10);
+    border-color: rgb(10, 10, 10);
+    color: var(--tss-rw-yellow);
+    box-shadow: var(--tss-rw-btn-shadow);
+}
+
+body.tss-theme-rechenwerk .tss-banner .tss-btn.tss-banner-action-warning:not(.tss-disabled):active {
+    transform: var(--tss-rw-btn-travel);
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-banner .tss-btn.tss-banner-action-warning:not(.tss-disabled) * {
+    color: inherit;
 }
 
 body.tss-theme-rechenwerk .tss-btn.tss-banner-dismiss-button {

@@ -93,7 +93,7 @@ body.tss-theme-rechenwerk .tss-picker-selection {
     min-height: 26px;
     margin: 0 6px 6px 0;
     padding-left: 8px;
-    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border: 2px solid rgb(var(--tss-default-foreground-color-root));
     border-radius: 0;
     background: rgb(var(--tss-default-foreground-color-root));
     color: rgb(var(--tss-default-background-color-root));
@@ -124,30 +124,30 @@ body.tss-theme-rechenwerk .tss-picker-selections-inline > .tss-picker-selection 
     margin: 0 6px 0 0;
 }
 
-body.tss-theme-rechenwerk .tss-picker-remove,
-body.tss-theme-rechenwerk .tss-picker-remove.tss-btn {
+/* The remove key. It is a link Button with an inline ink colour on its icon, so both are overridden. */
+body.tss-theme-rechenwerk .tss-picker-selection > .tss-btn.tss-picker-remove,
+body.tss-theme-rechenwerk .tss-picker-selection > .tss-btn.tss-btn-link.tss-picker-remove:not(.tss-disabled) {
     align-self: stretch;
     min-height: 0;
-    margin-left: 8px;
+    margin: 0 0 0 8px;
     padding: 0 7px;
     border: none;
     border-left: 2px solid rgb(var(--tss-default-background-color-root));
     border-radius: 0;
     background: transparent;
-    color: inherit;
+    color: rgb(var(--tss-default-background-color-root));
+    text-decoration: none;
     box-shadow: none;
-    margin-right: 0;
-    margin-bottom: 0;
 }
 
-body.tss-theme-rechenwerk .tss-picker-remove:hover,
-body.tss-theme-rechenwerk .tss-picker-remove.tss-btn:hover {
+body.tss-theme-rechenwerk .tss-picker-selection > .tss-btn.tss-picker-remove:hover,
+body.tss-theme-rechenwerk .tss-picker-selection > .tss-btn.tss-btn-link.tss-picker-remove:not(.tss-disabled):hover {
     border: none;
     border-left: 2px solid rgb(var(--tss-default-background-color-root));
     background: var(--tss-rw-signal);
     color: var(--tss-rw-on-signal);
 }
 
-body.tss-theme-rechenwerk .tss-picker-remove:hover :is(i, .tss-fontcolor-default) {
-    color: inherit;
+body.tss-theme-rechenwerk .tss-picker-selection > .tss-btn.tss-picker-remove > i {
+    color: inherit !important;
 }

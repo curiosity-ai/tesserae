@@ -1,1 +1,109 @@
-/* Rechenwerk theme - carousel */
+/* ==========================================================================
+   Rechenwerk theme - Carousel
+   --------------------------------------------------------------------------
+   A slide projector. The viewport is framed in the 2px ink rule; a slide
+   change advances like a film strip, in steps rather than a glide. The
+   previous and next buttons are square calculator keys on their 3px hard
+   shadow that press in; a key with nowhere to go is dashed and grey. The
+   indicators are square dots, the current one a solid block in the signal
+   colour (red on paper, yellow on the terminal).
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-carousel-viewport {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-carousel-track {
+    transition: transform 240ms steps(6);
+}
+
+body.tss-theme-rechenwerk .tss-carousel-nav {
+    box-sizing: border-box;
+    width: 34px;
+    height: 34px;
+    border: 2px solid rgb(17, 17, 17);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-rw-btn-shadow);
+    transition: transform 60ms steps(1), box-shadow 60ms steps(1);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-carousel-nav {
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-carousel-nav > * {
+    height: 30px;
+    line-height: 30px;
+}
+
+body.tss-theme-rechenwerk .tss-carousel-nav:not(:disabled):not(.tss-disabled):hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-carousel-nav:not(:disabled):not(.tss-disabled):active {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+    box-shadow: none;
+    transform: var(--tss-rw-btn-travel);
+}
+
+body.tss-theme-rechenwerk .tss-carousel-nav:not(:disabled):not(.tss-disabled):active i {
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-carousel-nav:focus-visible {
+    outline: 2px solid var(--tss-rw-signal);
+    outline-offset: 3px;
+}
+
+body.tss-theme-rechenwerk .tss-carousel-nav:disabled,
+body.tss-theme-rechenwerk .tss-carousel-nav.tss-disabled {
+    opacity: 1;
+    border: 2px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-carousel-nav:disabled i,
+body.tss-theme-rechenwerk .tss-carousel-nav.tss-disabled i {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-carousel-indicators {
+    gap: 8px;
+}
+
+body.tss-theme-rechenwerk .tss-carousel-indicator {
+    box-sizing: border-box;
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-carousel-indicator:hover {
+    background: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-carousel-indicator.tss-active {
+    width: 28px;
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-carousel-indicator:focus-visible {
+    outline: 2px solid var(--tss-rw-signal);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-carousel-track,
+    body.tss-theme-rechenwerk .tss-carousel-nav {
+        transition: none;
+    }
+}

@@ -1,1 +1,89 @@
-/* Rechenwerk theme - tooltip */
+/* ==========================================================================
+   Rechenwerk theme - Tooltip (Tippy)
+   --------------------------------------------------------------------------
+   A tooltip is a printed label stuck on the machine: square, 12px, the ink
+   block with cream type on paper and the terminal yellow with black type on
+   the screen (the tokens set both). It stands on a 3px hard shadow in the
+   other sleeve colour, red on paper and phosphor on the screen, so it reads
+   as a piece of the sleeve rather than a grey bubble. Text stays in sentence
+   case: a tooltip can be a sentence. The arrow is the solid triangle in the
+   tooltip's colour. It appears in two hard frames, no scale or drift.
+
+   Only plain tooltips (no data-theme) are styled here: popovers, menus and
+   the sidebar's and tree's flyouts are Tippy boxes too and draw themselves.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tippy-box:not([data-theme]),
+body.tss-theme-rechenwerk .tippy-box[data-theme=""] {
+    border-radius: 0;
+    box-shadow: 3px 3px 0 0 var(--tss-rw-signal);
+    font-family: var(--tss-sansserif-font-family);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0.01em;
+    transition-timing-function: steps(2, end);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tippy-box:not([data-theme]),
+body.tss-theme-rechenwerk.tss-dark-mode .tippy-box[data-theme=""] {
+    box-shadow: 3px 3px 0 0 rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tippy-box:not([data-theme]) > .tippy-content,
+body.tss-theme-rechenwerk .tippy-box[data-theme=""] > .tippy-content {
+    padding: 6px 9px;
+}
+
+body.tss-theme-rechenwerk .tippy-box:not([data-theme]) > .tippy-content > div {
+    border-radius: 0;
+}
+
+/* No movement: a label is there or it is not. */
+body.tss-theme-rechenwerk .tippy-box:not([data-theme])[data-state=hidden] {
+    transform: none;
+}
+
+body.tss-theme-rechenwerk .tippy-box:not([data-theme]) .tippy-content .tss-fontcolor-default,
+body.tss-theme-rechenwerk .tippy-box:not([data-theme]) .tippy-content .tss-fontcolor-primary,
+body.tss-theme-rechenwerk .tippy-box:not([data-theme]) .tippy-content i {
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}
+
+/* A key inside a label (an interactive tooltip, a walkthrough step) is drawn in the label's inverse,
+   so it neither disappears into the label nor turns into a second label. */
+body.tss-theme-rechenwerk .tippy-box:not([data-theme]) .tippy-content .tss-btn.tss-btn-default:not(.tss-disabled) {
+    border: 2px solid rgb(var(--tss-tooltip-foreground-color-root));
+    background-color: transparent;
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tippy-box:not([data-theme]) .tippy-content .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background-color: rgb(var(--tss-tooltip-foreground-color-root));
+    border-color: rgb(var(--tss-tooltip-foreground-color-root));
+    color: rgb(var(--tss-tooltip-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tippy-box:not([data-theme]) .tippy-content .tss-btn.tss-btn-default:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-rechenwerk .tippy-box:not([data-theme]) .tippy-content .tss-btn.tss-btn-default:not(.tss-disabled):hover i {
+    color: inherit;
+}
+
+/* On the yellow label of the terminal a yellow primary key would vanish: it turns black there. */
+body.tss-theme-rechenwerk.tss-dark-mode .tippy-box:not([data-theme]) .tippy-content .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    background-color: rgb(10, 10, 10);
+    border-color: rgb(10, 10, 10);
+    color: rgb(244, 194, 13);
+    box-shadow: 3px 3px 0 0 rgb(240, 234, 218);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tippy-box:not([data-theme]) .tippy-content .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) :is(i, .tss-fontcolor-default) {
+    color: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tippy-box:not([data-theme]),
+    body.tss-theme-rechenwerk .tippy-box[data-theme=""] {
+        transition-duration: 0ms !important;
+    }
+}

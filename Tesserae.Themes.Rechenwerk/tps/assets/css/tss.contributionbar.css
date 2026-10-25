@@ -5,8 +5,26 @@
    ink rule, each segment a solid block in the colour the app gave it and
    cut from the next by an ink line. The legend's swatches are square chips
    with the same ink edge, the labels in tracked capitals and the figures in
-   Space Mono. The toggle is a square ghost key.
+   Space Mono. The toggle is a square ghost key. The toolkit palette the
+   segments are painted from is restated here in the sleeve colours.
    ========================================================================== */
+
+/* Segments and legend chips read these where they are drawn (inline styles), so restating them on the
+   bar recolours every segment that came from Tesserae's palette. */
+body.tss-theme-rechenwerk .tss-contribution,
+body.tss-theme-rechenwerk .tss-contribution-popover {
+    --tss-colors-blue-400: rgb(96, 136, 200);
+    --tss-colors-blue-500: var(--tss-chart-series-4);
+    --tss-colors-blue-600: var(--tss-chart-series-4);
+    --tss-colors-teal-500: var(--tss-chart-series-7);
+    --tss-colors-green-500: var(--tss-rw-green);
+    --tss-colors-green-600: var(--tss-rw-green);
+    --tss-colors-orange-500: var(--tss-chart-series-6);
+    --tss-colors-purple-500: var(--tss-chart-series-8);
+    --tss-colors-magenta-500: rgb(196, 40, 112);
+    --tss-colors-red-500: var(--tss-rw-red);
+    --tss-colors-neutral-500: var(--tss-chart-series-5);
+}
 
 body.tss-theme-rechenwerk .tss-contribution-bar {
     height: 14px;

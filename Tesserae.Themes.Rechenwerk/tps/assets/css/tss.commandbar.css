@@ -13,7 +13,7 @@ body.tss-theme-rechenwerk .tss-commandbar {
     border: var(--tss-rw-rule);
     border-radius: 0;
     background: rgb(var(--tss-secondary-background-color-root));
-    padding: 6px 8px;
+    padding: 7px 10px 9px;
 }
 
 body.tss-theme-rechenwerk .tss-commandbar-item {

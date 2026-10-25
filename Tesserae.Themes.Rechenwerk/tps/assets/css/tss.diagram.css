@@ -1,1 +1,85 @@
-/* Rechenwerk theme - diagram */
+/* ==========================================================================
+   Rechenwerk theme - Diagram
+   --------------------------------------------------------------------------
+   A circuit plan on drafting paper: the canvas framed in the 2px ink rule
+   over a grid of faint ink dots, the edges drawn in ink, the nodes framed
+   boxes in the 2px rule standing on a 3px hard shadow, like the keys. The
+   variants keep their sleeve colours (primary red on paper and yellow on
+   the terminal, danger red, success green, warning yellow) inside the same
+   ink frame. A node pressed goes into its shadow; dragged, it lifts.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-diagram {
+    --tss-diagram-dot-color: rgba(var(--tss-default-foreground-color-root), 0.3);
+    --tss-diagram-line-color: rgb(var(--tss-default-foreground-color-root));
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: radial-gradient(circle, rgba(var(--tss-default-foreground-color-root), 0.3) 1px, transparent 1.5px);
+}
+
+body.tss-theme-rechenwerk .tss-diagram.tss-diagram-no-dots {
+    background-image: none;
+}
+
+body.tss-theme-rechenwerk .tss-diagram-node {
+    border: 2px solid rgb(17, 17, 17);
+    border-radius: 0;
+    box-shadow: var(--tss-rw-btn-shadow);
+    font-weight: 600;
+    transition: transform 60ms steps(1), box-shadow 60ms steps(1);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-diagram-node {
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-diagram-node.tss-diagram-node-icon-only {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-diagram-node:hover {
+    box-shadow: var(--tss-rw-btn-shadow);
+}
+
+body.tss-theme-rechenwerk .tss-diagram-node:active {
+    transform: var(--tss-rw-btn-travel);
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-diagram-node.tss-diagram-node-dragging {
+    transform: translate(-3px, -3px);
+    box-shadow: 6px 6px 0 0 var(--tss-rw-key-shadow-color);
+}
+
+body.tss-theme-rechenwerk .tss-diagram-node-default {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-diagram-node-secondary {
+    background-color: rgb(var(--tss-default-background-hover-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-diagram-node-primary,
+body.tss-theme-rechenwerk .tss-diagram-node-success,
+body.tss-theme-rechenwerk .tss-diagram-node-danger,
+body.tss-theme-rechenwerk .tss-diagram-node-warning {
+    border-color: rgb(17, 17, 17);
+}
+
+body.tss-theme-rechenwerk .tss-diagram-node-primary i,
+body.tss-theme-rechenwerk .tss-diagram-node-primary .tss-fontcolor-default {
+    color: var(--tss-primary-foreground-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-diagram-node {
+        transition: none;
+    }
+
+    body.tss-theme-rechenwerk .tss-diagram-node:active,
+    body.tss-theme-rechenwerk .tss-diagram-node.tss-diagram-node-dragging {
+        transform: none;
+    }
+}

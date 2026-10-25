@@ -29,6 +29,14 @@ body.tss-theme-rechenwerk .tss-statefulitemrow-danger {
     box-shadow: inset 6px 0 0 0 var(--tss-statefulitemrow-accent);
 }
 
+/* The black screen swallows a faint wash: more of the colour there. */
+body.tss-theme-rechenwerk.tss-dark-mode .tss-statefulitemrow-primary,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-statefulitemrow-success,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-statefulitemrow-warning,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-statefulitemrow-danger {
+    --tss-statefulitemrow-surface: color-mix(in srgb, var(--tss-statefulitemrow-accent) 20%, rgb(var(--tss-default-background-color-root)));
+}
+
 body.tss-theme-rechenwerk .tss-statefulitemrow-title {
     font-weight: 600;
     color: rgb(var(--tss-default-foreground-color-root));

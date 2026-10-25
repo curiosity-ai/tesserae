@@ -114,6 +114,11 @@ body.tss-theme-rechenwerk .tss-markdown code {
     font-weight: 400;
 }
 
+/* On the black screen the terminal's black needs an edge to be told from the page. */
+body.tss-theme-rechenwerk.tss-dark-mode .tss-markdown code {
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-separator-color-root));
+}
+
 body.tss-theme-rechenwerk .tss-markdown pre {
     padding: 16px 18px;
     border: 2px solid rgb(var(--tss-default-border-color-root));
@@ -127,11 +132,9 @@ body.tss-theme-rechenwerk .tss-markdown pre {
     line-height: 1.55;
 }
 
-body.tss-theme-rechenwerk.tss-dark-mode .tss-markdown pre {
-    border-color: rgb(var(--tss-default-border-color-root));
-}
-
-body.tss-theme-rechenwerk .tss-markdown pre code {
+body.tss-theme-rechenwerk .tss-markdown pre code,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-markdown pre code {
+    box-shadow: none;
     padding: 0;
     margin: 0;
     background-color: transparent;

@@ -17,7 +17,8 @@
 @font-face {
     font-family: "Rechenwerk Digits";
     font-style: normal;
-    font-weight: 100 900;
+    /* One weight only: whatever the badge asks for, its digits come out with the heaviest dots. */
+    font-weight: 900;
     font-display: swap;
     src: url("../fonts/rechenwerk/doto-latin-wght-normal.woff2") format("woff2-variations"), url("../fonts/rechenwerk/doto-latin-wght-normal.woff2") format("woff2");
     unicode-range: U+0030-0039;

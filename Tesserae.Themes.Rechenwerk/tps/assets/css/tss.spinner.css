@@ -21,13 +21,13 @@ body.tss-theme-rechenwerk .tss-spinner {
     border-radius: 50%;
     background: conic-gradient(
         var(--tss-spinner-color) 0 45deg,
-        color-mix(in srgb, var(--tss-spinner-color) 78%, transparent) 45deg 90deg,
-        color-mix(in srgb, var(--tss-spinner-color) 60%, transparent) 90deg 135deg,
-        color-mix(in srgb, var(--tss-spinner-color) 45%, transparent) 135deg 180deg,
-        color-mix(in srgb, var(--tss-spinner-color) 32%, transparent) 180deg 225deg,
-        color-mix(in srgb, var(--tss-spinner-color) 22%, transparent) 225deg 270deg,
-        color-mix(in srgb, var(--tss-spinner-color) 14%, transparent) 270deg 315deg,
-        color-mix(in srgb, var(--tss-spinner-color) 8%, transparent) 315deg 360deg);
+        color-mix(in srgb, var(--tss-spinner-color) 80%, transparent) 45deg 90deg,
+        color-mix(in srgb, var(--tss-spinner-color) 65%, transparent) 90deg 135deg,
+        color-mix(in srgb, var(--tss-spinner-color) 52%, transparent) 135deg 180deg,
+        color-mix(in srgb, var(--tss-spinner-color) 42%, transparent) 180deg 225deg,
+        color-mix(in srgb, var(--tss-spinner-color) 34%, transparent) 225deg 270deg,
+        color-mix(in srgb, var(--tss-spinner-color) 28%, transparent) 270deg 315deg,
+        color-mix(in srgb, var(--tss-spinner-color) 22%, transparent) 315deg 360deg);
     /* A ring, cut into eight blocks by thin gaps. */
     -webkit-mask:
         radial-gradient(farthest-side, #0000 calc(100% - var(--tss-rw-spinner-ring)), #000 0),

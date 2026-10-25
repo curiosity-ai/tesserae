@@ -1,1 +1,299 @@
-/* Rechenwerk theme - omniresult */
+/* ==========================================================================
+   Rechenwerk theme - OmniResult
+   --------------------------------------------------------------------------
+   A result row is a line of the terminal's listing: square, ruled off from
+   the next with a 1px separator, the hover a quiet tint. A selected row is
+   the terminal's cursor, the yellow block with black type, and everything in
+   it follows. The title is ink in weight 600; the identifier before it is a
+   Space Mono number. What matched is marked like a highlighter on a print-
+   out, a yellow block behind black type, and the badge that names the match
+   is a small ruled tag in tracked capitals. A visited row says so in the
+   signal colour, not a purple. The pulse that played on "viewed" is a single
+   stepped blink, and nothing moves under reduced motion.
+
+   The modal that opens a result is a sheet with square corners; its "Open
+   in ..." is a solid signal key, its other buttons ghost keys.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-omniresult {
+    border-radius: 0;
+    border-bottom: 1px solid rgb(var(--tss-default-separator-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-omniresult:hover,
+body.tss-theme-rechenwerk .tss-omniresult.tss-omniresult-active,
+body.tss-theme-rechenwerk .tss-omniresult.tss-omniresult-menu-open {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+/* The keyboard's row: an inset ink frame plus a signal bar on the left edge. */
+body.tss-theme-rechenwerk .tss-omniresult:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 2px rgb(var(--tss-default-border-color-root)), inset 6px 0 0 0 var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-omniresult.tss-omniresult-selected,
+body.tss-theme-rechenwerk .tss-omniresult.tss-omniresult-selected:hover {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-omniresult.tss-omniresult-selected :is(.tss-omniresult-title, .tss-omniresult-body, .tss-omniresult-id-value, .tss-omniresult-id-chevron, .tss-omniresult-footer, .tss-omniresult-footer .tss-textblock, .tss-omniresult-footer-more, .tss-omniresult-menu-button, .tss-fontcolor-default, .tss-fontcolor-secondary) {
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-omniresult.tss-omniresult-selected .tss-omniresult-footer * {
+    color: rgb(10, 10, 10);
+    opacity: 1;
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-select,
+body.tss-theme-rechenwerk .tss-omniresult-icon-holder {
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-icon-badge img,
+body.tss-theme-rechenwerk .tss-omniresult-icon-badge svg {
+    border-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Title, identifier, badge, excerpt
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-omniresult-title,
+body.tss-theme-rechenwerk .tss-omniresult-modal-title-text {
+    font-weight: 600;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-id-value {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-id-chevron {
+    color: var(--tss-rw-muted);
+}
+
+/* Visited: the title takes the signal colour, the way a ticked line on a printout is marked. */
+body.tss-theme-rechenwerk .tss-omniresult-viewed .tss-omniresult-title,
+body.tss-theme-rechenwerk .tss-omniresult-viewed .tss-omniresult-id-value,
+body.tss-theme-rechenwerk .tss-omniresult-viewed .tss-omniresult-id-chevron,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-omniresult-viewed .tss-omniresult-title,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-omniresult-viewed .tss-omniresult-id-value,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-omniresult-viewed .tss-omniresult-id-chevron {
+    color: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-viewed-flash {
+    animation: none;
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-viewed-flash::after {
+    border-radius: 0;
+    background: rgb(244, 194, 13);
+    mix-blend-mode: multiply;
+    animation: tss-rw-omniresult-blink 480ms steps(1, end);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-omniresult-viewed-flash::after {
+    mix-blend-mode: screen;
+    background: rgba(244, 194, 13, 0.35);
+}
+
+@keyframes tss-rw-omniresult-blink {
+    0% {
+        opacity: 0.6;
+    }
+
+    33% {
+        opacity: 0;
+    }
+
+    66% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-body {
+    color: var(--tss-rw-muted);
+}
+
+/* What matched: a highlighter block on the term, a ruled tag naming the match. */
+body.tss-theme-rechenwerk .tss-omniresult-highlight,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-omniresult-highlight {
+    padding: 0 2px;
+    border-radius: 0;
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-omniresult.tss-omniresult-selected .tss-omniresult-highlight {
+    background: rgb(10, 10, 10);
+    color: rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-badge-pill,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-omniresult-badge-pill {
+    padding: 1px 6px;
+    border: 2px solid currentColor;
+    border-radius: 0;
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-omniresult.tss-omniresult-selected .tss-omniresult-badge-pill {
+    color: rgb(10, 10, 10);
+}
+
+/* --------------------------------------------------------------------------
+   Footer, overflow, commands
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-omniresult-source .tss-inlinelabel-mark-color {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-footer-more-glyph {
+    border: 1px solid currentColor;
+    border-radius: 0;
+    font-family: var(--tss-monospace-font-family);
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-footer-more:hover .tss-omniresult-footer-more-glyph,
+body.tss-theme-rechenwerk .tss-omniresult-footer-more:focus-visible .tss-omniresult-footer-more-glyph,
+body.tss-theme-rechenwerk .tss-omniresult-footer-more[aria-expanded="true"] .tss-omniresult-footer-more-glyph {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-footer-more:focus-visible .tss-omniresult-footer-more-glyph {
+    outline: 2px solid var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tippy-box > .tippy-content > .tss-omniresult-footer.tss-omniresult-footer-popup {
+    border: none;
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-rw-frame-shadow);
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-menu-button {
+    border: 2px solid transparent;
+    border-radius: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-menu-button:hover {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   The modal
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-modal.tss-omniresult-modal {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-modal.tss-omniresult-modal > .tss-modal-header {
+    border-bottom: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-modal.tss-omniresult-modal > .tss-modal-footer:has(.tss-omniresult-modal-shortcuts) {
+    border-top: 2px solid rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-modal-shortcut-label {
+    font-size: 11px;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-modal-button {
+    border: 2px solid transparent;
+    border-radius: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-modal-button:hover:not(:disabled) {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-background-hover-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-modal-button:active:not(:disabled) {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-modal-button:disabled {
+    opacity: 1;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+/* "Open in ...": a solid signal key with its arrow welded on. */
+body.tss-theme-rechenwerk .tss-omniresult-modal-open {
+    border: 2px solid rgb(17, 17, 17);
+    border-radius: 0;
+    background: var(--tss-rw-signal);
+    color: var(--tss-rw-on-signal);
+    box-shadow: var(--tss-rw-btn-shadow);
+    overflow: visible;
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-omniresult-modal-open {
+    border-color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-modal-open-primary,
+body.tss-theme-rechenwerk .tss-omniresult-modal-open-more {
+    height: 28px;
+    border-radius: 0;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-modal-open-more {
+    border-left: 2px solid rgb(17, 17, 17);
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-modal-open-primary:hover,
+body.tss-theme-rechenwerk .tss-omniresult-modal-open-more:hover {
+    background: rgb(17, 17, 17);
+    color: rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-modal-open:active {
+    transform: var(--tss-rw-btn-travel);
+    box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-omniresult-viewed-flash::after {
+        display: none;
+        animation: none;
+    }
+}

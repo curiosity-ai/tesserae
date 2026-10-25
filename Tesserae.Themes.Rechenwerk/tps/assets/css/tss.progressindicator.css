@@ -6,7 +6,7 @@
    screen) with a hard ink edge where it stops. Indeterminate fills the
    whole track with the signal colour and the thin hazard stripes marching
    across it in whole steps, the conveyor belt of Radio-Aktivitaet; under
-   reduced motion the stripes stand still.
+   reduced motion the stripes stand still. An AI bar keeps its gradient.
    ========================================================================== */
 
 @keyframes tss-rw-progress-march {
@@ -23,7 +23,6 @@ body.tss-theme-rechenwerk .tss-progressindicator {
 }
 
 body.tss-theme-rechenwerk .tss-progressindicator > .tss-progressindicator-bar {
-    background: var(--tss-rw-signal);
     border-radius: 0;
     box-shadow: 2px 0 0 0 rgb(var(--tss-default-border-color-root));
     transition: width 120ms steps(3);
@@ -37,6 +36,15 @@ body.tss-theme-rechenwerk .tss-progressindicator > .tss-progressindicator-bar-in
     transition: none;
     background: var(--tss-rw-hazard-thin), var(--tss-rw-signal);
     animation: tss-rw-progress-march 480ms steps(4, end) infinite;
+}
+
+body.tss-theme-rechenwerk .tss-progressindicator:not(.tss-ai) > .tss-progressindicator-bar {
+    background: var(--tss-rw-signal);
+}
+
+/* AI(): the gradient stays the AI's own; the indeterminate one gets the same marching stripes over it. */
+body.tss-theme-rechenwerk .tss-progressindicator.tss-ai > .tss-progressindicator-bar-indeterminate {
+    background: var(--tss-rw-hazard-thin), var(--tss-ai-gradient);
 }
 
 @media (prefers-reduced-motion: reduce) {

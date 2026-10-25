@@ -24,7 +24,10 @@ body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-actionbutton-action
 
 body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-actionbutton-actionbtn {
     border-left: 2px solid transparent;
-    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-actionbutton-container > .tss-actionbutton-actionbtn:not(.tss-btn-primary):not(.tss-btn-danger):not(.tss-btn-warning) {
+    color: rgb(var(--tss-default-foreground-color-root));
 }
 
 body.tss-theme-rechenwerk .tss-actionbutton-container .tss-textblock.tss-fontsize-small {

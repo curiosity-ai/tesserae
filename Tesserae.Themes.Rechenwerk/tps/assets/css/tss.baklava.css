@@ -1,1 +1,269 @@
-/* Rechenwerk theme - baklava */
+/* ==========================================================================
+   Rechenwerk theme - Baklava nodes and controls
+   --------------------------------------------------------------------------
+   A node is a card cut from the sleeve: a 2px ink rule, a hard 5px shadow
+   and a title bar that is a sleeve band (black with cream capitals and a red
+   square on paper; yellow with black on the terminal). A group node's band
+   is the Autobahn blue. Selected, the node's rule turns to the signal colour
+   and it lifts onto the bigger shadow; dragged, it stays lifted. Ports are
+   small squares, filled in the signal colour while a wire is being drawn
+   from them; wires are 2px ink, the one being drawn in the signal colour,
+   a forbidden one dashed red. The controls inside a node are the theme's
+   own: framed fields, keys that press in, a square checkbox, a slider that
+   fills with the signal colour, and menus that float on the frame and hard
+   shadow with the item under the keyboard a yellow block.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-editor {
+    font-family: var(--tss-sansserif-font-family);
+}
+
+/* --------------------------------------------------------------------------
+   Nodes
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node:not(.--palette) {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-rw-card-shadow);
+    transition: box-shadow 60ms steps(1), border-color 60ms steps(1);
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node:not(.--palette):hover {
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node.--selected:not(.--palette) {
+    border-color: var(--tss-rw-signal);
+    box-shadow: var(--tss-rw-card-shadow-lifted);
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node.--dragging:not(.--palette) {
+    box-shadow: var(--tss-rw-card-shadow-lifted);
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node > .__title {
+    align-items: center;
+    padding: 0.45em 0.75em;
+    border-radius: 0;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+/* The band's square in front of the title. */
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node > .__title::before {
+    content: "";
+    flex: 0 0 10px;
+    width: 10px;
+    height: 10px;
+    margin-right: 8px;
+    background: var(--tss-rw-bar-marker);
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node[data-node-type^=__baklava_] > .__title::before {
+    background: rgb(250, 246, 238);
+}
+
+/* The title's own input while it is renamed sits on the band: keep it a framed field. */
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node > .__title .baklava-input {
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node > .__title .baklava-icon {
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node .__resize-handle::after {
+    border-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Ports and wires
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node-interface .__port {
+    box-sizing: border-box;
+    border-radius: 0;
+    border: 2px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node-interface .__port:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node-interface .__port.--selected {
+    border-color: var(--tss-rw-signal);
+    background: var(--tss-rw-signal);
+    outline: 2px solid var(--tss-rw-signal);
+    outline-offset: 2px;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node-interface .__tooltip {
+    border-radius: 0;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    box-shadow: 3px 3px 0 0 var(--tss-rw-key-shadow-color);
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-connection {
+    stroke-width: 2px;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-connection.--temporary {
+    stroke: var(--tss-rw-signal);
+    stroke-dasharray: 6 4;
+    animation: none;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-connection.--allowed {
+    stroke: var(--tss-rw-green);
+    stroke-dasharray: none;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-connection.--forbidden {
+    stroke: rgb(var(--tss-invalid-border-color-root));
+    stroke-dasharray: 2 4;
+}
+
+/* --------------------------------------------------------------------------
+   Controls
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-input,
+body.tss-theme-rechenwerk .tss-nodeview .baklava-select > .__selected,
+body.tss-theme-rechenwerk .tss-nodeview .baklava-num-input,
+body.tss-theme-rechenwerk .tss-nodeview .baklava-slider {
+    box-sizing: border-box;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-input:focus-visible {
+    outline: none;
+    box-shadow: 3px 3px 0 0 var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-input.--invalid {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-num-input > .__button,
+body.tss-theme-rechenwerk .tss-nodeview .baklava-num-input > .__content {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-num-input > .__content > .__value,
+body.tss-theme-rechenwerk .tss-nodeview .baklava-slider > .__content > .__value {
+    font-family: var(--tss-rw-dots);
+    font-weight: 700;
+}
+
+/* A key: framed, on a hard shadow, tracked capitals; it presses in. */
+body.tss-theme-rechenwerk .tss-nodeview .baklava-button {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    box-shadow: 2px 2px 0 0 var(--tss-rw-key-shadow-color);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-button:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-checkbox .__checkmark-container {
+    box-sizing: border-box;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-checkbox.--checked .__checkmark-container {
+    background: rgb(244, 194, 13);
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-checkbox .__checkmark {
+    stroke: rgb(10, 10, 10);
+    stroke-width: 3px;
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-slider > .__slider {
+    background-color: var(--tss-rw-signal);
+}
+
+/* Over the signal fill the label is the type drawn on the signal colour. */
+body.tss-theme-rechenwerk .tss-nodeview .baklava-slider {
+    mix-blend-mode: normal;
+}
+
+/* --------------------------------------------------------------------------
+   Menus and dropdowns
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-context-menu,
+body.tss-theme-rechenwerk .tss-nodeview .baklava-select > .__dropdown {
+    border: none;
+    border-radius: 0;
+    box-shadow: var(--tss-rw-frame-shadow);
+    filter: none;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-context-menu > .item,
+body.tss-theme-rechenwerk .tss-nodeview .baklava-select > .__dropdown > .item {
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-context-menu > .item:not(.--header):not(.--active):not(.--disabled):hover,
+body.tss-theme-rechenwerk .tss-nodeview .baklava-select > .__dropdown > .item:not(.--header):not(.--active):hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-context-menu > .item.--active,
+body.tss-theme-rechenwerk .tss-nodeview .baklava-select > .__dropdown > .item.--active {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-context-menu > .item.--disabled {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-select > .__dropdown > .item.--header {
+    color: var(--tss-rw-muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-context-menu > .divider {
+    background: rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-icon.--clickable:hover {
+    color: var(--tss-rw-signal);
+}
+
+/* The sidebar docks to the edge like a panel: ruled off, no soft shadow. */
+body.tss-theme-rechenwerk .tss-nodeview .baklava-sidebar {
+    border-left: 2px solid rgb(var(--tss-default-border-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-nodeview .baklava-sidebar.--open {
+    box-shadow: -5px 0 0 0 var(--tss-rw-key-shadow-color);
+}

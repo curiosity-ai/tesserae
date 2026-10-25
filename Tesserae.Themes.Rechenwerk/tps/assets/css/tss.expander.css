@@ -62,11 +62,12 @@ body.tss-theme-rechenwerk .tss-accordion > .tss-expander > .tss-expander-header 
     min-width: 2ch;
     margin-right: 12px;
     font-family: var(--tss-rw-dots);
-    font-size: 15px;
-    font-weight: 800;
-    letter-spacing: 0.04em;
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: 0.02em;
     color: var(--tss-rw-signal);
-    vertical-align: -1px;
+    line-height: 1;
+    vertical-align: -2px;
 }
 
 /* The chevron in a square key. */
