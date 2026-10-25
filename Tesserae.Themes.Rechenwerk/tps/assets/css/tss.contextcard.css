@@ -33,6 +33,7 @@ body.tss-theme-rechenwerk .tss-contextcard-menu-open {
     background: rgb(var(--tss-secondary-background-color-root));
     box-shadow: 6px 6px 0 0 rgb(var(--tss-default-border-color-root));
     transform: translate(-2px, -2px);
+    z-index: 2;
 }
 
 body.tss-theme-rechenwerk.tss-dark-mode .tss-contextcard-clickable:hover,
