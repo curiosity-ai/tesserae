@@ -501,6 +501,13 @@ body.tss-theme-weniger :focus-visible {
     outline-offset: 2px;
 }
 
+/* A text field shows focus as its own orange halo (tss.textbox.css): no outline on top of it. Checkboxes,
+   radios and range inputs keep the outline, which is their only focus mark. */
+body.tss-theme-weniger input:not([type=checkbox]):not([type=radio]):not([type=range]):focus-visible,
+body.tss-theme-weniger textarea:focus-visible {
+    outline: none;
+}
+
 body.tss-theme-weniger a {
     color: rgb(var(--tss-link-color-root));
     text-underline-offset: 3px;
