@@ -128,6 +128,12 @@ steps:
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Graustufe/'
 
 - task: CmdLine@2
+  displayName: 'restore Kristall theme project'
+  inputs:
+    script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Themes.Kristall\Tesserae.Themes.Kristall.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Kristall/'
+
+- task: CmdLine@2
   displayName: 'restore tests project'
   inputs:
     script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Tests\Tesserae.Tests.csproj'
@@ -379,6 +385,20 @@ steps:
   inputs:
     command: 'push'
     packagesToPush: '**/*/Tesserae.Themes.Graustufe.$(themePackageVersion).nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-curiosity-org'
+
+- task: CmdLine@2
+  displayName: 'Build Tesserae.Themes.Kristall'
+  inputs:
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Themes.Kristall\Tesserae.Themes.Kristall.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion) /p:ThemeVersion=$(themePackageVersion)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Kristall/'
+
+- task: NuGetCommand@2
+  displayName: 'push Tesserae.Themes.Kristall to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*/Tesserae.Themes.Kristall.$(themePackageVersion).nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity-org'
 

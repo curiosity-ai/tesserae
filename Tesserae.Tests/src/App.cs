@@ -20,6 +20,7 @@ using Tesserae.Themes.Kontrast;
 using Tesserae.Themes.Memphis;
 using Tesserae.Themes.Washi;
 using Tesserae.Themes.Graustufe;
+using Tesserae.Themes.Kristall;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 
@@ -43,6 +44,7 @@ namespace Tesserae.Tests
         private const string _memphisThemeId   = "memphis";
         private const string _washiThemeId     = "washi";
         private const string _graustufeThemeId = "graustufe";
+        private const string _kristallThemeId = "kristall";
 
         // The custom theme a Theme nav entry stands for; null is the default look.
         private static ICustomTheme CustomThemeFor(string themeId)
@@ -62,6 +64,7 @@ namespace Tesserae.Tests
                 case _memphisThemeId:   return MemphisTheme.Instance;
                 case _washiThemeId:     return WashiTheme.Instance;
                 case _graustufeThemeId: return GraustufeTheme.Instance;
+                case _kristallThemeId: return KristallTheme.Instance;
                 default:                 return null;
             }
         }
@@ -252,6 +255,7 @@ namespace Tesserae.Tests
             var memphisThemeButton   = new SidebarButton("THEME_MEMPHIS", UIcons.Triangle, "Memphis Theme");
             var washiThemeButton     = new SidebarButton("THEME_WASHI", UIcons.Stamp, "Washi Theme");
             var graustufeThemeButton = new SidebarButton("THEME_GRAUSTUFE", UIcons.BookAlt, "Graustufe Theme");
+            var kristallThemeButton  = new SidebarButton("THEME_KRISTALL", UIcons.Gem, "Kristall Theme");
 
             void MarkTheme(string themeId)
             {
@@ -269,6 +273,7 @@ namespace Tesserae.Tests
                 memphisThemeButton.IsSelected   = themeId == _memphisThemeId;
                 washiThemeButton.IsSelected     = themeId == _washiThemeId;
                 graustufeThemeButton.IsSelected = themeId == _graustufeThemeId;
+                kristallThemeButton.IsSelected = themeId == _kristallThemeId;
             }
 
             void SelectTheme(string themeId)
@@ -292,6 +297,7 @@ namespace Tesserae.Tests
             memphisThemeButton.OnClick(() => SelectTheme(_memphisThemeId));
             washiThemeButton.OnClick(() => SelectTheme(_washiThemeId));
             graustufeThemeButton.OnClick(() => SelectTheme(_graustufeThemeId));
+            kristallThemeButton.OnClick(() => SelectTheme(_kristallThemeId));
 
             themeNav.OnClick(() => themeNav.Toggle());
             themeNav.Add(defaultThemeButton);
@@ -308,6 +314,7 @@ namespace Tesserae.Tests
             themeNav.Add(memphisThemeButton);
             themeNav.Add(washiThemeButton);
             themeNav.Add(graustufeThemeButton);
+            themeNav.Add(kristallThemeButton);
             MarkTheme(initialThemeId);
 
             sidebar.AddFooter(themeNav);

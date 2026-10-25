@@ -23,5 +23,6 @@
     <ProjectReference Include="..\Tesserae.Themes.Memphis\Tesserae.Themes.Memphis.csproj" />
     <ProjectReference Include="..\Tesserae.Themes.Washi\Tesserae.Themes.Washi.csproj" />
     <ProjectReference Include="..\Tesserae.Themes.Graustufe\Tesserae.Themes.Graustufe.csproj" />
+    <ProjectReference Include="..\Tesserae.Themes.Kristall\Tesserae.Themes.Kristall.csproj" />
   </ItemGroup>
 </Project>

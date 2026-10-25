@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tesserae.Themes.Washi", "Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tesserae.Themes.Graustufe", "Tesserae.Themes.Graustufe\Tesserae.Themes.Graustufe.csproj", "{F7C54516-9154-4C26-9D7A-37E5360BE5AA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tesserae.Themes.Kristall", "Tesserae.Themes.Kristall\Tesserae.Themes.Kristall.csproj", "{A7B94E62-B1BA-454D-9103-644707568B15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,10 @@ Global
 		{F7C54516-9154-4C26-9D7A-37E5360BE5AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7C54516-9154-4C26-9D7A-37E5360BE5AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7C54516-9154-4C26-9D7A-37E5360BE5AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7B94E62-B1BA-454D-9103-644707568B15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7B94E62-B1BA-454D-9103-644707568B15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7B94E62-B1BA-454D-9103-644707568B15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7B94E62-B1BA-454D-9103-644707568B15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
