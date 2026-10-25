@@ -1,0 +1,85 @@
+/* ==========================================================================
+   Weniger theme - CommandBar
+   --------------------------------------------------------------------------
+   A moulded toolbar plate: a strip of plastic with the panel's groove set in
+   from its edge, carrying a row of flat keys. The keys lie flush with the
+   plate at rest, so a toolbar does not become a keyboard, and rise into
+   plastic keys under the pointer; pressed, they go in. The primary command
+   is the orange key, standing proud all the time.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-commandbar {
+    padding: 7px 9px;
+    border: 0;
+    border-radius: var(--tss-wg-radius-panel);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-panel-shadow);
+    outline: 1px solid var(--tss-wg-groove);
+    outline-offset: -4px;
+}
+
+body.tss-theme-weniger .tss-commandbar-item {
+    border-radius: var(--tss-wg-radius-key);
+    font-weight: 500;
+    transition: transform var(--tss-wg-quick) var(--tss-wg-ease), box-shadow var(--tss-wg-quick) var(--tss-wg-ease), background-color 120ms linear;
+}
+
+body.tss-theme-weniger .tss-commandbar-item:not(.tss-commandbar-item-primary):not(:disabled):not(.tss-disabled):hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-commandbar-item:not(.tss-commandbar-item-primary):not(:disabled):not(.tss-disabled):active {
+    background: var(--tss-wg-key-pressed);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+/* The orange key. */
+body.tss-theme-weniger .tss-commandbar-item.tss-commandbar-item-primary {
+    background-color: var(--tss-wg-orange);
+    background-image: var(--tss-wg-sheen);
+    border-color: rgba(0, 0, 0, 0.2);
+    color: var(--tss-wg-on-orange);
+    font-weight: 600;
+    text-shadow: 0 -1px 0 rgba(90, 30, 0, 0.28);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 1px rgba(60, 30, 10, 0.2), 0 2px 5px -1px rgba(60, 30, 10, 0.24);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-commandbar-item.tss-commandbar-item-primary {
+    border-color: rgba(0, 0, 0, 0.55);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), inset 0 -1px 0 rgba(0, 0, 0, 0.15), 0 1px 1px rgba(0, 0, 0, 0.5), 0 2px 6px -1px rgba(0, 0, 0, 0.55);
+}
+
+body.tss-theme-weniger .tss-commandbar-item.tss-commandbar-item-primary:not(:disabled):hover {
+    background-color: var(--tss-wg-orange-hi);
+}
+
+body.tss-theme-weniger .tss-commandbar-item.tss-commandbar-item-primary:not(:disabled):active {
+    background-image: var(--tss-wg-sheen-pressed);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(0, 0, 0, 0.2);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-commandbar-item:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+}
+
+body.tss-theme-weniger .tss-commandbar-item.tss-disabled,
+body.tss-theme-weniger .tss-commandbar-item:disabled {
+    box-shadow: none;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-commandbar-item {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-commandbar-item:active {
+        transform: none !important;
+    }
+}

@@ -1,0 +1,61 @@
+/* ==========================================================================
+   Weniger theme - ProgressIndicator
+   --------------------------------------------------------------------------
+   A progress bar is the scale of a tuning window: a narrow groove cut into
+   the panel (the slider's well) and, inside it, an orange scale lit up to
+   where the work has got to, shaded at the top of the groove like the
+   slider's lit track. Indeterminate is a short lit segment travelling
+   gently along the groove and back out, no sweep of colour across the
+   whole bar. The AI variant keeps its own gradient (tss.ai.css); it only
+   gets the groove. Under reduced motion the segment stands still.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-progressindicator {
+    height: 6px;
+    border-radius: 3px;
+    background: rgb(var(--tss-progress-background-color-root));
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-progressindicator {
+    background: rgb(22, 22, 21);
+}
+
+body.tss-theme-weniger .tss-progressindicator > .tss-progressindicator-bar {
+    border-radius: 3px;
+}
+
+body.tss-theme-weniger .tss-progressindicator:not(.tss-ai) > .tss-progressindicator-bar {
+    background-color: var(--tss-wg-orange);
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(255, 255, 255, 0.14) 100%);
+}
+
+/* Indeterminate: a short lit segment that travels the groove. */
+body.tss-theme-weniger .tss-progressindicator > .tss-progressindicator-bar-indeterminate {
+    border-radius: 3px;
+    width: 28% !important;
+    min-width: 0;
+    animation: 1.8s var(--tss-wg-ease) 0s infinite normal none running tss-wg-progress-travel;
+}
+
+body.tss-theme-weniger .tss-progressindicator:not(.tss-ai) > .tss-progressindicator-bar-indeterminate {
+    background-color: var(--tss-wg-orange);
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(255, 255, 255, 0.14) 100%);
+}
+
+@keyframes tss-wg-progress-travel {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(360%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-progressindicator > .tss-progressindicator-bar-indeterminate {
+        animation: none;
+        transform: translateX(130%);
+    }
+}

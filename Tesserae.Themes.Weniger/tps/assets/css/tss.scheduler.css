@@ -1,0 +1,273 @@
+/* ==========================================================================
+   Weniger theme - Scheduler
+   --------------------------------------------------------------------------
+   The scheduler is the face of a clock-calendar: a plastic body with its
+   controls along the top, and below them the grid recessed into the face
+   (a shade darker than the plastic, a soft shadow under the lip), ruled by
+   hairlines. The day and hour legends round the grid are small grey type
+   in tabular figures, printed on the flat plastic of the header strips.
+
+   Appointments are rounded blocks of coloured plastic standing on the
+   grid: their own colour as a tint, a solid edge in it, a sheen and a key's
+   shadow. A selected one is pressed in and ringed in orange. Today is the
+   one lit column: its date is an orange lamp-key and an orange strip runs
+   under its heading. The now line is the red of a record key.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-scheduler {
+    --tss-scheduler-radius: var(--tss-wg-radius-small);
+    --tss-scheduler-line-color: var(--tss-wg-groove);
+    --tss-scheduler-minor-line-color: rgba(var(--tss-default-separator-color-root), 0.45);
+    --tss-scheduler-offhours-color: color-mix(in srgb, rgb(var(--tss-default-foreground-color-root)) 5%, rgb(var(--tss-default-background-color-root)));
+    --tss-scheduler-work-color: rgb(var(--tss-default-background-color-root));
+    --tss-scheduler-today-color: var(--tss-wg-orange);
+    --tss-scheduler-now-color: var(--tss-wg-red);
+    --tss-scheduler-selection-color: var(--tss-wg-orange);
+    --tss-scheduler-item-tint: 22%;
+    --tss-wg-sched-strip: rgb(var(--tss-secondary-background-color-root));
+    background: var(--tss-wg-plastic);
+    border-color: var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-panel);
+    box-shadow: var(--tss-wg-panel-shadow);
+}
+
+body.tss-theme-weniger .tss-scheduler:focus-visible {
+    box-shadow: var(--tss-wg-panel-shadow), 0 0 0 3px rgba(236, 88, 26, 0.3);
+}
+
+body.tss-theme-weniger .tss-scheduler-toolbar {
+    padding: 10px 12px;
+    border-bottom: none;
+}
+
+body.tss-theme-weniger .tss-scheduler-title {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.005em;
+}
+
+/* The grid, recessed into the face. */
+body.tss-theme-weniger .tss-scheduler-body {
+    margin: 0 8px 8px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: var(--tss-wg-well);
+    overflow: hidden;
+}
+
+/* Header strips and gutters: the flat plastic the legends are printed on. */
+body.tss-theme-weniger .tss-scheduler-tg-header,
+body.tss-theme-weniger .tss-scheduler-tg-corner,
+body.tss-theme-weniger .tss-scheduler-tg-gutter,
+body.tss-theme-weniger .tss-scheduler-tg-allday-caption,
+body.tss-theme-weniger .tss-scheduler-month-head,
+body.tss-theme-weniger .tss-scheduler-tl-corner,
+body.tss-theme-weniger .tss-scheduler-tl-header,
+body.tss-theme-weniger .tss-scheduler-tl-laneheader {
+    background: var(--tss-wg-sched-strip);
+}
+
+body.tss-theme-weniger .tss-scheduler-tg-header,
+body.tss-theme-weniger .tss-scheduler-month-head,
+body.tss-theme-weniger .tss-scheduler-tl-header,
+body.tss-theme-weniger .tss-scheduler-tl-corner {
+    border-bottom-color: var(--tss-wg-key-edge);
+}
+
+body.tss-theme-weniger .tss-scheduler-tl-corner,
+body.tss-theme-weniger .tss-scheduler-tl-laneheader {
+    border-right-color: var(--tss-wg-key-edge);
+}
+
+/* Legends: small, grey, sentence case, tabular figures. */
+body.tss-theme-weniger .tss-scheduler-tg-dayname,
+body.tss-theme-weniger .tss-scheduler-month-weekday,
+body.tss-theme-weniger .tss-scheduler-tl-corner {
+    text-transform: lowercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+}
+
+body.tss-theme-weniger .tss-scheduler-tg-hour,
+body.tss-theme-weniger .tss-scheduler-tl-hour,
+body.tss-theme-weniger .tss-scheduler-item-time,
+body.tss-theme-weniger .tss-scheduler-chip-time,
+body.tss-theme-weniger .tss-scheduler-agenda-time,
+body.tss-theme-weniger .tss-scheduler-tg-daynum,
+body.tss-theme-weniger .tss-scheduler-month-date,
+body.tss-theme-weniger .tss-scheduler-agenda-daynum {
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-weniger .tss-scheduler-tg-hour,
+body.tss-theme-weniger .tss-scheduler-tl-hour {
+    font-size: 10.5px;
+    letter-spacing: 0.02em;
+}
+
+/* Today: an orange lamp-key for the date, an orange strip under the heading. */
+body.tss-theme-weniger .tss-scheduler-today > .tss-scheduler-tg-daynum,
+body.tss-theme-weniger .tss-scheduler-today > .tss-scheduler-tl-daylabel > .tss-scheduler-tg-daynum,
+body.tss-theme-weniger .tss-scheduler-month-cell.tss-scheduler-today > .tss-scheduler-month-date {
+    background-color: var(--tss-wg-orange);
+    background-image: var(--tss-wg-sheen);
+    color: var(--tss-wg-on-orange);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(236, 88, 26, 0.45);
+    text-shadow: 0 -1px 0 rgba(90, 30, 0, 0.28);
+}
+
+body.tss-theme-weniger .tss-scheduler-today > .tss-scheduler-tg-dayname,
+body.tss-theme-weniger .tss-scheduler-today > .tss-scheduler-tl-daylabel > .tss-scheduler-tg-dayname,
+body.tss-theme-weniger .tss-scheduler-agenda-day.tss-scheduler-today .tss-scheduler-agenda-dayname {
+    color: rgb(var(--tss-link-color-root));
+    font-weight: 600;
+}
+
+body.tss-theme-weniger .tss-scheduler-agenda-day.tss-scheduler-today .tss-scheduler-agenda-daynum {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-scheduler-tg-dayheader.tss-scheduler-today {
+    box-shadow: inset 0 -2px 0 var(--tss-wg-orange);
+}
+
+body.tss-theme-weniger .tss-scheduler-agenda-day.tss-scheduler-today > .tss-scheduler-agenda-date {
+    box-shadow: inset 3px 0 0 var(--tss-wg-orange);
+}
+
+body.tss-theme-weniger .tss-scheduler-tg-col.tss-scheduler-today,
+body.tss-theme-weniger .tss-scheduler-tg-allday-cell.tss-scheduler-today {
+    background-color: color-mix(in srgb, var(--tss-wg-orange) 4%, var(--tss-scheduler-offhours-color));
+}
+
+body.tss-theme-weniger .tss-scheduler-tg-col.tss-scheduler-today > .tss-scheduler-tg-work {
+    background-color: color-mix(in srgb, var(--tss-wg-orange) 3%, var(--tss-scheduler-work-color));
+}
+
+body.tss-theme-weniger .tss-scheduler-tg-daynum,
+body.tss-theme-weniger .tss-scheduler-month-date {
+    border-radius: 999px;
+}
+
+body.tss-theme-weniger .tss-scheduler-clickable:hover .tss-scheduler-tg-daynum,
+body.tss-theme-weniger .tss-scheduler-month-date:hover {
+    background-image: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised);
+}
+
+/* Appointments: rounded blocks of coloured plastic. */
+body.tss-theme-weniger .tss-scheduler-event,
+body.tss-theme-weniger .tss-scheduler-chip.tss-scheduler-banner,
+body.tss-theme-weniger .tss-scheduler-bar {
+    background-image: var(--tss-wg-sheen);
+    border: 1px solid color-mix(in srgb, var(--tss-scheduler-item) 45%, transparent);
+    border-left: 3px solid var(--tss-scheduler-item);
+    border-radius: var(--tss-wg-radius-small);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 1px 1px rgba(60, 54, 46, 0.14), 0 2px 4px -1px rgba(60, 54, 46, 0.16);
+    transition: box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-scheduler-event,
+body.tss-theme-weniger.tss-dark-mode .tss-scheduler-chip.tss-scheduler-banner,
+body.tss-theme-weniger.tss-dark-mode .tss-scheduler-bar {
+    --tss-scheduler-item-tint: 30%;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 1px 1px rgba(0, 0, 0, 0.45), 0 2px 5px -1px rgba(0, 0, 0, 0.5);
+}
+
+body.tss-theme-weniger .tss-scheduler-event:hover,
+body.tss-theme-weniger .tss-scheduler-chip.tss-scheduler-banner:hover,
+body.tss-theme-weniger .tss-scheduler-bar:hover {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 1px 1px rgba(60, 54, 46, 0.16), 0 4px 8px -2px rgba(60, 54, 46, 0.24);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-scheduler-event:hover,
+body.tss-theme-weniger.tss-dark-mode .tss-scheduler-chip.tss-scheduler-banner:hover,
+body.tss-theme-weniger.tss-dark-mode .tss-scheduler-bar:hover {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 1px rgba(0, 0, 0, 0.5), 0 4px 9px -2px rgba(0, 0, 0, 0.6);
+}
+
+body.tss-theme-weniger .tss-scheduler-event.tss-scheduler-continues-before {
+    border-top: 2px dotted var(--tss-scheduler-item);
+}
+
+body.tss-theme-weniger .tss-scheduler-event.tss-scheduler-continues-after {
+    border-bottom: 2px dotted var(--tss-scheduler-item);
+}
+
+body.tss-theme-weniger .tss-scheduler-chip.tss-scheduler-continues-before,
+body.tss-theme-weniger .tss-scheduler-bar.tss-scheduler-continues-before {
+    border-left-style: dotted;
+}
+
+/* Selected: pressed in, with the orange ring of a lit selector. */
+body.tss-theme-weniger .tss-scheduler-item.tss-scheduler-selected,
+body.tss-theme-weniger .tss-scheduler-item:focus-visible,
+body.tss-theme-weniger.tss-dark-mode .tss-scheduler-item.tss-scheduler-selected,
+body.tss-theme-weniger.tss-dark-mode .tss-scheduler-item:focus-visible {
+    background-image: var(--tss-wg-sheen-pressed);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 0 2px var(--tss-wg-orange), 0 0 0 5px rgba(236, 88, 26, 0.18);
+}
+
+body.tss-theme-weniger .tss-scheduler-chip:not(.tss-scheduler-banner) {
+    border-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger .tss-scheduler-chip:not(.tss-scheduler-banner).tss-scheduler-selected {
+    background-image: none;
+}
+
+body.tss-theme-weniger .tss-scheduler-agenda-row {
+    border-radius: var(--tss-wg-radius-key);
+}
+
+body.tss-theme-weniger .tss-scheduler-agenda-row:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-scheduler-agenda-row.tss-scheduler-selected {
+    background: color-mix(in srgb, var(--tss-scheduler-item) 14%, transparent);
+    box-shadow: var(--tss-wg-pressed), 0 0 0 2px var(--tss-wg-orange);
+}
+
+body.tss-theme-weniger .tss-scheduler-agenda-bar {
+    border-radius: 3px;
+}
+
+body.tss-theme-weniger .tss-scheduler-chip-dot,
+body.tss-theme-weniger .tss-scheduler-resource-chip {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+body.tss-theme-weniger .tss-scheduler-month-more {
+    border-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger .tss-scheduler-month-more:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised);
+}
+
+/* The now line: the record key's red, with a lit lamp at its head. */
+body.tss-theme-weniger .tss-scheduler-now::before {
+    box-shadow: 0 0 0 2px rgb(var(--tss-default-background-color-root)), 0 0 6px 1px rgba(204, 46, 40, 0.5);
+}
+
+/* The preview of a move or create: an orange-edged empty seat. */
+body.tss-theme-weniger .tss-scheduler-ghost {
+    border: 2px dashed var(--tss-wg-orange);
+    border-radius: var(--tss-wg-radius-small);
+    background: rgba(236, 88, 26, 0.12);
+}
+
+body.tss-theme-weniger .tss-scheduler-drop-target {
+    background: rgba(236, 88, 26, 0.1) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-scheduler-event,
+    body.tss-theme-weniger .tss-scheduler-chip,
+    body.tss-theme-weniger .tss-scheduler-bar {
+        transition: none;
+    }
+}

@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Weniger theme - PixelAvatar
+   --------------------------------------------------------------------------
+   The cat is pixel art with its own colours, which are the avatar, so the
+   artwork is left alone. The theme only tunes what is drawn around it: the
+   hairline halo is the theme's ink at a soft alpha (warm, not slate), and
+   the laptop it holds is moulded in the devices' warm greys rather than the
+   default slate, so it looks like a piece of the same range.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-pixelavatar {
+    --tss-pxav-outline: rgba(var(--tss-default-foreground-color-root), 0.42);
+    --tss-pxav-prop: rgb(150, 147, 141);
+    --tss-pxav-prop-lit: rgb(214, 212, 206);
+    --tss-pxav-prop-shadow: rgb(54, 52, 48);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-pixelavatar {
+    --tss-pxav-outline: rgba(var(--tss-default-foreground-color-root), 0.4);
+    --tss-pxav-prop: rgb(112, 110, 106);
+    --tss-pxav-prop-lit: rgb(178, 176, 170);
+    --tss-pxav-prop-shadow: rgb(150, 147, 141);
+}
+
+/* The badge (a cat dressed as a round profile picture) is a porthole like Avatar: a turned ring drawn
+   over the edge of the glass, masked to a 2px annulus so the sprite the component places is untouched. */
+body.tss-theme-weniger .tss-pixelavatar-badge {
+    box-shadow: var(--tss-wg-knob-shadow);
+}
+
+body.tss-theme-weniger .tss-pixelavatar-badge::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: 50%;
+    pointer-events: none;
+    background: var(--tss-wg-alu-knob);
+    -webkit-mask: radial-gradient(circle closest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2px));
+    mask: radial-gradient(circle closest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2px));
+}

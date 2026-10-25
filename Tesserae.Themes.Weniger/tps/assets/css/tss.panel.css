@@ -1,0 +1,182 @@
+/* ==========================================================================
+   Weniger theme - Panel
+   --------------------------------------------------------------------------
+   A side panel is a tray pulled out of the side of the device. Its body is
+   the same top-lit plastic as a modal; along the edge that faces the page
+   runs a strip of aluminium, the lip of the tray, so the panel reads as a
+   part that slid out rather than a sheet laid on top. It slides in on a
+   short, settling curve (no fade, no overshoot) over the same warm dim as
+   a modal. The top row is a quiet header (title in the grotesque, the
+   close button a small round key), and a groove rules off the footer.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-panel-container {
+    background-color: rgba(60, 54, 46, 0.26);
+    backdrop-filter: blur(2px) saturate(0.85);
+    -webkit-backdrop-filter: blur(2px) saturate(0.85);
+}
+
+body.tss-theme-weniger .tss-panel-container.tss-dark {
+    background-color: rgba(30, 27, 24, 0.5);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-panel-container {
+    background-color: rgba(0, 0, 0, 0.42);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-panel-container.tss-dark {
+    background-color: rgba(0, 0, 0, 0.62);
+}
+
+body.tss-theme-weniger .tss-panel-container.tss-panel-modeless {
+    background-color: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+/* The tray: plastic in the padding box, the aluminium lip in the border on the side facing the page
+   (the last layer of --tss-wg-alu is its metal, drawn in the border box under the plastic). */
+body.tss-theme-weniger .tss-panel {
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-left: 5px solid transparent;
+    background: var(--tss-wg-plastic) padding-box, var(--tss-wg-alu) border-box;
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+body.tss-theme-weniger .tss-panel.tss-panelSide-near {
+    border-left: 0;
+    border-right: 5px solid transparent;
+}
+
+/* A hairline where the lip meets the tray, as the groove of the device. */
+body.tss-theme-weniger .tss-panel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 1px;
+    background: var(--tss-wg-groove);
+    pointer-events: none;
+}
+
+body.tss-theme-weniger .tss-panel.tss-panelSide-near::before {
+    left: auto;
+    right: 0;
+}
+
+body.tss-theme-weniger .tss-panel-near-animate {
+    animation: tss-wg-tray-near 220ms var(--tss-wg-ease) both;
+}
+
+body.tss-theme-weniger .tss-panel-far-animate {
+    animation: tss-wg-tray-far 220ms var(--tss-wg-ease) both;
+}
+
+@keyframes tss-wg-tray-near {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes tss-wg-tray-far {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Header row
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-panel-command {
+    flex-shrink: 0;
+    height: 52px;
+    padding-right: 12px;
+    background: linear-gradient(var(--tss-wg-groove), var(--tss-wg-groove)) center bottom / calc(100% - 2 * var(--tss-wg-groove-inset)) 1px no-repeat;
+}
+
+body.tss-theme-weniger .tss-panel-title {
+    padding-left: 20px;
+    align-items: center;
+}
+
+body.tss-theme-weniger .tss-panel-title > .tss-textblock {
+    font-size: 15px;
+    font-weight: 600;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The close button: a small round key. */
+body.tss-theme-weniger .tss-panel-command-button {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    padding: 0;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: 50%;
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--tss-wg-quick) var(--tss-wg-ease), box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-panel-command-button > i {
+    font-size: 11px;
+    line-height: 1;
+}
+
+body.tss-theme-weniger .tss-panel-command-button:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-panel-command-button:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    color: rgb(var(--tss-default-foreground-color-root));
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-panel-command-button:focus-visible {
+    box-shadow: var(--tss-wg-raised), var(--tss-wg-focus);
+}
+
+/* --------------------------------------------------------------------------
+   Face and footer
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-panel-inner {
+    padding: 16px 20px;
+}
+
+body.tss-theme-weniger .tss-panel-footer:not(:empty) {
+    margin: 12px -20px -16px -20px;
+    padding: 10px 20px 12px 20px;
+    background: linear-gradient(var(--tss-wg-groove), var(--tss-wg-groove)) center top / calc(100% - 2 * var(--tss-wg-groove-inset)) 1px no-repeat;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-panel-near-animate,
+    body.tss-theme-weniger .tss-panel-far-animate {
+        animation: none;
+    }
+
+    body.tss-theme-weniger .tss-panel-command-button {
+        transition: none;
+        transform: none !important;
+    }
+}

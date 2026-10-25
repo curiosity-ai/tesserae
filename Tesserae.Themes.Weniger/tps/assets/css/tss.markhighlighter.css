@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Weniger theme - MarkHighlighter
+   --------------------------------------------------------------------------
+   A found match is a soft amber wash under the type, like a passage picked
+   out with a highlighter on a printed manual; the type keeps its ink (stated, since a highlight does not
+   inherit the element's colour). The
+   focused match is the signal orange, stronger, so the one you are on is
+   the one that speaks. Both are translucent, so they sit on the light and
+   the charcoal edition alike. --tss-mark-focus-color is what MarkHighlighter
+   paints its focused <mark> with on the element backend.
+   ========================================================================== */
+
+body.tss-theme-weniger {
+    --tss-mark-focus-color: rgba(236, 88, 26, 0.42);
+}
+
+body.tss-theme-weniger ::highlight(tss-marked) {
+    background-color: rgba(246, 168, 48, 0.36);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger ::highlight(tss-marked-focused) {
+    background-color: rgba(236, 88, 26, 0.42);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger mark {
+    border-radius: 2px;
+    background-color: rgba(246, 168, 48, 0.36);
+    color: inherit;
+}

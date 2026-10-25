@@ -1,0 +1,77 @@
+/* ==========================================================================
+   Weniger theme - CardPivot
+   --------------------------------------------------------------------------
+   A bank of large keys moulded in one plastic strip, the way a receiver
+   carries its row of programme keys: each card is a key face divided from
+   its neighbour by a groove. Under the pointer a key rises a little
+   brighter; the chosen one is latched down into the strip (the pressed fill,
+   the light gone) with a lit orange lamp along its foot, the same tuning
+   lamp the Pivot carries.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-cardpivot-titlebar {
+    background: var(--tss-wg-key);
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-panel);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-cardpivot-tab {
+    position: relative;
+    background: transparent;
+    border-right: 1px solid var(--tss-wg-groove);
+    border-bottom: 0;
+    padding: 6px 12px 9px;
+    box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.55);
+    transition: background-color 120ms linear, box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-cardpivot-tab {
+    box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-weniger .tss-cardpivot-tab:last-child {
+    border-right: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-cardpivot-tab:hover {
+    background: var(--tss-wg-key-hover);
+}
+
+body.tss-theme-weniger .tss-cardpivot-tab.tss-cardpivot-selected,
+body.tss-theme-weniger .tss-cardpivot-tab.tss-cardpivot-selected:hover {
+    background: var(--tss-wg-key-pressed);
+    border-bottom: 0;
+    box-shadow: inset 0 2px 4px rgba(60, 54, 46, 0.18), inset 0 1px 1px rgba(60, 54, 46, 0.12);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-cardpivot-tab.tss-cardpivot-selected,
+body.tss-theme-weniger.tss-dark-mode .tss-cardpivot-tab.tss-cardpivot-selected:hover {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+/* The lamp at the foot of the chosen key. */
+body.tss-theme-weniger .tss-cardpivot-tab.tss-cardpivot-selected::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 3px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, var(--tss-wg-orange-hi) 0%, var(--tss-wg-orange) 100%);
+    box-shadow: 0 0 2px 0 rgba(250, 112, 48, 0.9), 0 0 6px 0 rgba(250, 112, 48, 0.45);
+    pointer-events: none;
+}
+
+body.tss-theme-weniger .tss-cardpivot-tab:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: -3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-cardpivot-tab {
+        transition: none;
+    }
+}

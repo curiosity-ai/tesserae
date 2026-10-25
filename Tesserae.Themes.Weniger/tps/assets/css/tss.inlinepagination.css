@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Weniger theme - InlinePagination
+   --------------------------------------------------------------------------
+   The "< 3 of 7 >" stepper is a little counter module set into the panel: a
+   recessed slot holding two small step keys either side of the reading,
+   which is printed in tabular figures. The keys are flat until pointed at,
+   then rise; pressed they go in.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-inlinepagination {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-inlinepagination-button {
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-small);
+    transition: transform var(--tss-wg-quick) var(--tss-wg-ease), box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-inlinepagination-button:hover:not(:disabled) {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-inlinepagination-button:active:not(:disabled) {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-inlinepagination-button:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 0;
+}
+
+body.tss-theme-weniger .tss-inlinepagination-label {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-inlinepagination-button {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-inlinepagination-button:active {
+        transform: none !important;
+    }
+}

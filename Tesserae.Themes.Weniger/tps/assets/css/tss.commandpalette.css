@@ -1,0 +1,234 @@
+/* ==========================================================================
+   Weniger theme - Command Palette
+   --------------------------------------------------------------------------
+   The palette is a control unit lifted out of the device and held up in
+   front of the page: a plastic body in a 14px shell with the groove and
+   the float shadow, over the same soft warm dim as a modal. The query is
+   typed into a recessed well (the OmniBox's, see tss.omnibox.css) with the
+   search glyph engraved: muted ink with a hairline of light under it.
+   Rows are soft keys: flat at rest, rising under the pointer; the active
+   row is held down, inset, with the orange pilot lamp lit at its leading
+   edge. Section titles are printed legends (small grey lowercase), the
+   icon of a row sits in a little well, and a shortcut is a tiny
+   calculator key with its legend in the mono face.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-commandpalette-overlay {
+    background: rgba(60, 54, 46, 0.26);
+    backdrop-filter: blur(2px) saturate(0.85);
+    -webkit-backdrop-filter: blur(2px) saturate(0.85);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-commandpalette-overlay {
+    background: rgba(0, 0, 0, 0.42);
+}
+
+body.tss-theme-weniger .tss-commandpalette-animator {
+    background: var(--tss-wg-plastic);
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 0;
+    border-radius: var(--tss-wg-radius-panel);
+    box-shadow: var(--tss-wg-float-shadow);
+    outline: 1px solid var(--tss-wg-groove);
+    outline-offset: calc(-1 * var(--tss-wg-groove-inset));
+}
+
+/* --------------------------------------------------------------------------
+   The query row: a well, the magnifier engraved
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-commandpalette-search-container {
+    padding: 14px 14px 12px 14px;
+    border-bottom: 0;
+    background: linear-gradient(var(--tss-wg-groove), var(--tss-wg-groove)) center bottom / calc(100% - 2 * var(--tss-wg-groove-inset)) 1px no-repeat;
+}
+
+body.tss-theme-weniger .tss-omnibox-container.tss-commandpalette-search {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-omnibox-container.tss-commandpalette-search:focus-within {
+    border-color: rgb(var(--tss-highlight-color-root));
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(236, 88, 26, 0.24);
+}
+
+body.tss-theme-weniger .tss-commandpalette-search .tss-omnibox-search-input {
+    font-size: 15px;
+}
+
+body.tss-theme-weniger .tss-commandpalette-search .tss-omnibox-search-trigger-btn i {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-commandpalette-search .tss-omnibox-search-trigger-btn i {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8);
+}
+
+body.tss-theme-weniger .tss-commandpalette-breadcrumbs,
+body.tss-theme-weniger .tss-commandpalette-path {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-commandpalette-back {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The close button: a ghost key beside the well, rising under the pointer. */
+body.tss-theme-weniger .tss-commandpalette-close {
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-key);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    transition: transform var(--tss-wg-quick) var(--tss-wg-ease), box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-commandpalette-close:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-commandpalette-close:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+/* --------------------------------------------------------------------------
+   Rows: soft keys, the active one held down with its lamp lit
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-commandpalette-results {
+    padding: 8px 12px 12px 12px;
+    gap: 2px;
+}
+
+body.tss-theme-weniger .tss-commandpalette-section {
+    padding: 10px 12px 4px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-commandpalette-item {
+    position: relative;
+    padding: 7px 12px 7px 16px;
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-key);
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: background-color var(--tss-wg-quick) linear, box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-commandpalette-item:not(.tss-disabled):hover,
+body.tss-theme-weniger .tss-commandpalette-result:not(.tss-disabled):hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-commandpalette-item.tss-active,
+body.tss-theme-weniger .tss-commandpalette-item.tss-active:hover,
+body.tss-theme-weniger .tss-commandpalette-result.tss-active,
+body.tss-theme-weniger .tss-commandpalette-result.tss-active:hover {
+    background: var(--tss-wg-key-pressed);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-pressed);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The pilot lamp of the active row. */
+body.tss-theme-weniger .tss-commandpalette-item.tss-active::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    width: 5px;
+    height: 5px;
+    margin-top: -2.5px;
+    border-radius: 50%;
+    background: var(--tss-wg-orange-hi);
+    box-shadow: var(--tss-wg-led-orange-glow);
+}
+
+body.tss-theme-weniger .tss-commandpalette-item.tss-active .tss-commandpalette-subtitle,
+body.tss-theme-weniger .tss-commandpalette-item.tss-active .tss-commandpalette-submenu {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-commandpalette-item.tss-disabled {
+    opacity: 1;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-commandpalette-result {
+    padding: 4px 8px 4px 16px;
+}
+
+/* The icon sits in a small recessed well. */
+body.tss-theme-weniger .tss-commandpalette-icon {
+    border-radius: 6px;
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-commandpalette-item:hover .tss-commandpalette-icon,
+body.tss-theme-weniger .tss-commandpalette-item.tss-active .tss-commandpalette-icon {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-commandpalette-title {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+body.tss-theme-weniger .tss-commandpalette-item.tss-active .tss-commandpalette-title {
+    font-weight: 600;
+}
+
+body.tss-theme-weniger .tss-commandpalette-subtitle {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+/* A shortcut: a tiny calculator key. */
+body.tss-theme-weniger .tss-commandpalette-shortcut,
+body.tss-theme-weniger .tss-commandpalette-item.tss-active .tss-commandpalette-shortcut {
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-monospace-font-family);
+    font-size: 10.5px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+body.tss-theme-weniger .tss-commandpalette-submenu {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-commandpalette-empty {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-commandpalette-item,
+    body.tss-theme-weniger .tss-commandpalette-close {
+        transition: none;
+        transform: none !important;
+    }
+}

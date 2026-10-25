@@ -1,0 +1,177 @@
+/* ==========================================================================
+   Weniger theme - ContextCard
+   --------------------------------------------------------------------------
+   A context card is a small device standing on the table: a plastic panel
+   with the hairline groove set in from its edge, the label printed on its
+   face. Its icon is a round key moulded in the card's colour (the app's
+   colour is kept; the key's sheen and edge are laid over it), so a grid of
+   them reads as a shelf of little units, each with its one control. A
+   clickable card lifts towards the light under the pointer and goes down
+   when pressed; while its menu is open it stays down.
+
+   The compact card is a key rather than a device: 8px corners, no groove.
+   The badge is a small recessed window, and the remove button a round key
+   that turns record-key red under the pointer.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-contextcard {
+    gap: 12px;
+    padding: 9px 14px 9px 10px;
+    border: none;
+    border-radius: var(--tss-wg-radius-panel);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-panel-shadow);
+    outline: 1px solid var(--tss-wg-groove);
+    outline-offset: -4px;
+    transition: box-shadow 160ms var(--tss-wg-ease), transform 160ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-contextcard-clickable:hover {
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-float-shadow);
+    transform: translateY(-1px);
+}
+
+body.tss-theme-weniger .tss-contextcard-clickable:active,
+body.tss-theme-weniger .tss-contextcard-menu-open,
+body.tss-theme-weniger .tss-contextcard-menu-open:hover {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: none;
+}
+
+body.tss-theme-weniger .tss-contextcard-clickable:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+}
+
+/* The icon: a round key in the card's colour. */
+body.tss-theme-weniger .tss-contextcard-icon {
+    position: relative;
+    isolation: isolate;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: 50%;
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-contextcard-icon::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.12) 55%, rgba(0, 0, 0, 0.06) 100%);
+    pointer-events: none;
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-contextcard-icon::after {
+    background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 55%, rgba(0, 0, 0, 0.2) 100%);
+}
+
+/* No background asked for: the bare glyph on the face, no key round it. */
+body.tss-theme-weniger .tss-contextcard-icon-nobackground {
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-contextcard-icon-nobackground::after {
+    display: none;
+}
+
+/* A thumbnail is a little window: rounded square, inset. */
+body.tss-theme-weniger .tss-contextcard-icon-image {
+    border-radius: var(--tss-wg-radius-key);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-contextcard-icon-image::after {
+    display: none;
+}
+
+body.tss-theme-weniger .tss-contextcard-label {
+    letter-spacing: 0.005em;
+}
+
+body.tss-theme-weniger .tss-contextcard-sublabel {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-contextcard-badge:not(.tss-contextcard-badge-custom) {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-weniger .tss-contextcard-chevron {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    transition: transform 160ms var(--tss-wg-ease);
+}
+
+/* The remove button: a small round key, red under the pointer. */
+body.tss-theme-weniger .tss-contextcard-remove,
+body.tss-theme-weniger.tss-dark-mode .tss-contextcard-remove {
+    border: 1px solid var(--tss-wg-key-edge);
+    background: var(--tss-wg-key);
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-contextcard-remove:hover,
+body.tss-theme-weniger.tss-dark-mode .tss-contextcard-remove:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+    background: var(--tss-wg-red);
+    background-image: var(--tss-wg-sheen);
+    color: var(--tss-wg-on-orange);
+}
+
+body.tss-theme-weniger .tss-contextcard-remove:active,
+body.tss-theme-weniger.tss-dark-mode .tss-contextcard-remove:active {
+    background: var(--tss-wg-red);
+    background-image: var(--tss-wg-sheen-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    color: var(--tss-wg-on-orange);
+}
+
+/* Compact: a key, not a device. */
+body.tss-theme-weniger .tss-contextcard-compact {
+    gap: 8px;
+    padding: 4px 10px 4px 5px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    outline: none;
+}
+
+body.tss-theme-weniger .tss-contextcard-compact.tss-contextcard-clickable:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+    transform: none;
+}
+
+body.tss-theme-weniger .tss-contextcard-compact.tss-contextcard-clickable:active,
+body.tss-theme-weniger .tss-contextcard-compact.tss-contextcard-menu-open {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+body.tss-theme-weniger .tss-contextcard-compact .tss-contextcard-icon {
+    width: 22px;
+    height: 22px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-contextcard,
+    body.tss-theme-weniger .tss-contextcard-chevron {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-contextcard-clickable:hover {
+        transform: none;
+    }
+}

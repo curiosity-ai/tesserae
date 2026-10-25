@@ -1,0 +1,152 @@
+/* ==========================================================================
+   Weniger theme - Slider
+   --------------------------------------------------------------------------
+   A slider is a fader. The track is a narrow groove cut into the panel;
+   the part of it behind the cap is lit signal orange, like the scale of a
+   tuning window; the cap is a brushed-aluminium block with a dark index
+   line across its middle, standing on the groove with a soft shadow. Under
+   the pointer nothing changes colour: a fader does not light up when you
+   reach for it, the cap just catches the light. Disabled is a grey groove
+   and a dull cap.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-slider-container {
+    /* The index line drawn over the cap's metal, centred on the long axis. */
+    --tss-wg-slider-index: linear-gradient(90deg, transparent calc(50% - 1px), rgba(30, 30, 28, 0.55) calc(50% - 1px), rgba(30, 30, 28, 0.55) 50%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.6) calc(50% + 1px), transparent calc(50% + 1px));
+    --tss-wg-slider-index-vertical: linear-gradient(180deg, transparent calc(50% - 1px), rgba(30, 30, 28, 0.55) calc(50% - 1px), rgba(30, 30, 28, 0.55) 50%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.6) calc(50% + 1px), transparent calc(50% + 1px));
+}
+
+/* The groove. */
+body.tss-theme-weniger .tss-slider-fake-background,
+body.tss-theme-weniger .tss-slider-container input:hover ~ .tss-slider-fake-background {
+    top: 5px;
+    height: 6px;
+    border-radius: 3px;
+    background: rgb(var(--tss-progress-background-color-root));
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-slider-fake-background,
+body.tss-theme-weniger.tss-dark-mode .tss-slider-container input:hover ~ .tss-slider-fake-background {
+    background: rgb(22, 22, 21);
+}
+
+/* The lit scale behind the cap. */
+body.tss-theme-weniger .tss-slider-fake-progress,
+body.tss-theme-weniger .tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    top: 5px;
+    height: 6px;
+    border-radius: 3px 0 0 3px;
+    background-color: var(--tss-wg-orange);
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(255, 255, 255, 0.12) 100%);
+}
+
+body.tss-theme-weniger .tss-slider-container.tss-vertical .tss-slider-fake-background {
+    top: 0;
+    left: 9px;
+    width: 6px;
+    height: 100%;
+}
+
+body.tss-theme-weniger .tss-slider-container.tss-vertical .tss-slider-fake-progress {
+    top: auto;
+    left: 9px;
+    width: 6px;
+    border-radius: 0 0 3px 3px;
+}
+
+body.tss-theme-weniger .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress,
+body.tss-theme-weniger .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-progress {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+    background-image: none;
+}
+
+body.tss-theme-weniger .tss-slider-container input.tss-disabled ~ .tss-slider-fake-background {
+    background: rgb(var(--tss-disabled-background-color-root));
+}
+
+/* The input itself is only the cap: no colour of its own. */
+body.tss-theme-weniger .tss-slider,
+body.tss-theme-weniger .tss-slider:hover {
+    background-color: transparent;
+}
+
+/* The cap. */
+body.tss-theme-weniger .tss-slider::-webkit-slider-thumb {
+    width: 14px;
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid rgba(60, 54, 46, 0.35);
+    background: var(--tss-wg-slider-index), var(--tss-wg-alu);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 1px 1px rgba(60, 54, 46, 0.3), 0 3px 6px -1px rgba(60, 54, 46, 0.35);
+    cursor: grab;
+}
+
+body.tss-theme-weniger .tss-slider::-moz-range-thumb {
+    width: 14px;
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid rgba(60, 54, 46, 0.35);
+    background: var(--tss-wg-slider-index), var(--tss-wg-alu);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 1px 1px rgba(60, 54, 46, 0.3), 0 3px 6px -1px rgba(60, 54, 46, 0.35);
+    cursor: grab;
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-slider::-webkit-slider-thumb {
+    border-color: rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 1px rgba(0, 0, 0, 0.5), 0 3px 6px -1px rgba(0, 0, 0, 0.6);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-slider::-moz-range-thumb {
+    border-color: rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 1px rgba(0, 0, 0, 0.5), 0 3px 6px -1px rgba(0, 0, 0, 0.6);
+}
+
+body.tss-theme-weniger .tss-slider:hover::-webkit-slider-thumb {
+    border-color: rgba(60, 54, 46, 0.5);
+}
+
+body.tss-theme-weniger .tss-slider:hover::-moz-range-thumb {
+    border-color: rgba(60, 54, 46, 0.5);
+}
+
+body.tss-theme-weniger .tss-slider:active::-webkit-slider-thumb {
+    cursor: grabbing;
+}
+
+body.tss-theme-weniger .tss-slider:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+}
+
+body.tss-theme-weniger .tss-slider:focus-visible {
+    outline: none;
+}
+
+/* Across a vertical groove the cap lies on its side. */
+body.tss-theme-weniger .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb {
+    width: 24px;
+    height: 14px;
+    background: var(--tss-wg-slider-index-vertical), var(--tss-wg-alu);
+}
+
+body.tss-theme-weniger .tss-slider-container.tss-vertical .tss-slider::-moz-range-thumb {
+    width: 24px;
+    height: 14px;
+    background: var(--tss-wg-slider-index-vertical), var(--tss-wg-alu);
+}
+
+body.tss-theme-weniger .tss-slider::-moz-range-progress {
+    height: 6px;
+    background-color: var(--tss-wg-orange);
+}
+
+body.tss-theme-weniger .tss-slider.tss-disabled::-webkit-slider-thumb {
+    opacity: 0.6;
+    cursor: default;
+}
+
+body.tss-theme-weniger .tss-slider.tss-disabled::-moz-range-thumb {
+    opacity: 0.6;
+    cursor: default;
+}

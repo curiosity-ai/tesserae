@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Weniger theme - ListItemText
+   --------------------------------------------------------------------------
+   A list entry: the title in the ink at semibold, the second line in the
+   muted printing. The leading icon is a small square key moulded in the
+   plastic (key fill, 1px edge, standing on its soft shadow), so a column
+   of entries reads like a row of preset keys down the side of a device.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-listitemtext-title {
+    letter-spacing: 0.005em;
+}
+
+body.tss-theme-weniger .tss-listitemtext-subtitle {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-listitemtext-icon {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}

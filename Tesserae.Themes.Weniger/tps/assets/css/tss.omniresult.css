@@ -1,0 +1,253 @@
+/* ==========================================================================
+   Weniger theme - OmniResult
+   --------------------------------------------------------------------------
+   A result row is a strip of the panel it lies on, parted from the next by
+   a groove. Under the pointer it rises into a wide plastic key; held, or
+   with its menu open, it is the key going down; selected, it stays down
+   with an orange lamp lit at its leading edge. What matched is marked in
+   the orange of the one voice, the badge naming the match a small moulded
+   chip. A visited row has its title printed in the muted ink rather than
+   the purple of a web link, and the "just viewed" pulse is a warm glow,
+   still under reduced motion.
+
+   Opened, a result is a sheet: a plastic panel with its header and footer
+   ruled off by grooves, ghost keys for the tools and an orange key, in two
+   parts, for "Open in ...".
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-omniresult {
+    border-radius: var(--tss-wg-radius-key);
+    border: 1px solid transparent;
+    border-bottom-color: var(--tss-wg-groove);
+    transition: background-color 120ms linear, box-shadow 140ms var(--tss-wg-ease), border-color 120ms linear;
+}
+
+body.tss-theme-weniger .tss-omniresult:hover,
+body.tss-theme-weniger .tss-omniresult.tss-omniresult-active {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-omniresult.tss-omniresult-menu-open,
+body.tss-theme-weniger .tss-omniresult:not(.tss-omniresult-text-selectable):active {
+    background: var(--tss-wg-key-pressed);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+body.tss-theme-weniger .tss-omniresult.tss-omniresult-text-selectable:hover {
+    background: transparent;
+    border-color: transparent;
+    border-bottom-color: var(--tss-wg-groove);
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-omniresult:focus-visible {
+    box-shadow: var(--tss-wg-focus);
+}
+
+/* Selected: the key held down, its lamp lit. */
+body.tss-theme-weniger .tss-omniresult.tss-omniresult-selected,
+body.tss-theme-weniger .tss-omniresult.tss-omniresult-selected:hover {
+    background: var(--tss-wg-key-pressed);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+body.tss-theme-weniger .tss-omniresult.tss-omniresult-selected::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 20px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--tss-wg-orange-hi);
+    box-shadow: var(--tss-wg-led-orange-glow);
+    pointer-events: none;
+}
+
+body.tss-theme-weniger .tss-omniresult-title {
+    letter-spacing: 0.005em;
+}
+
+body.tss-theme-weniger .tss-omniresult-body {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+/* Visited: the title in the muted ink, as a legend that has been read. */
+body.tss-theme-weniger .tss-omniresult-viewed .tss-omniresult-title,
+body.tss-theme-weniger .tss-omniresult-viewed .tss-omniresult-id-value,
+body.tss-theme-weniger .tss-omniresult-viewed .tss-omniresult-id-chevron,
+body.tss-theme-weniger.tss-dark-mode .tss-omniresult-viewed .tss-omniresult-title,
+body.tss-theme-weniger.tss-dark-mode .tss-omniresult-viewed .tss-omniresult-id-value,
+body.tss-theme-weniger.tss-dark-mode .tss-omniresult-viewed .tss-omniresult-id-chevron {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-omniresult-viewed-flash {
+    animation: none;
+}
+
+body.tss-theme-weniger .tss-omniresult-viewed-flash::after {
+    background: rgba(236, 88, 26, 0.14);
+}
+
+/* What matched: the orange, said the same way on the badge and in the excerpt. */
+body.tss-theme-weniger .tss-omniresult-badge > .tss-token.tss-badge.tss-token-pill.tss-omniresult-badge-pill,
+body.tss-theme-weniger.tss-dark-mode .tss-omniresult-badge > .tss-token.tss-badge.tss-token-pill.tss-omniresult-badge-pill {
+    border: 1px solid rgba(236, 88, 26, 0.35);
+    border-radius: var(--tss-wg-radius-small);
+    background: rgba(236, 88, 26, 0.1);
+    box-shadow: none;
+    color: rgb(var(--tss-link-color-root));
+    font-size: 11px;
+}
+
+body.tss-theme-weniger .tss-omniresult-highlight,
+body.tss-theme-weniger.tss-dark-mode .tss-omniresult-highlight {
+    border-radius: 3px;
+    background: rgba(236, 88, 26, 0.13);
+    color: rgb(var(--tss-link-color-root));
+    box-shadow: inset 0 -1px 0 rgba(236, 88, 26, 0.45);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-omniresult-badge > .tss-token.tss-badge.tss-token-pill.tss-omniresult-badge-pill,
+body.tss-theme-weniger.tss-dark-mode .tss-omniresult-highlight {
+    background: rgba(236, 88, 26, 0.18);
+}
+
+body.tss-theme-weniger .tss-omniresult-source .tss-inlinelabel-mark-color {
+    border-radius: 2px;
+}
+
+/* The [...] glyph: a small key. */
+body.tss-theme-weniger .tss-omniresult-footer-more-glyph {
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger .tss-omniresult-footer-more:hover .tss-omniresult-footer-more-glyph,
+body.tss-theme-weniger .tss-omniresult-footer-more:focus-visible .tss-omniresult-footer-more-glyph,
+body.tss-theme-weniger .tss-omniresult-footer-more[aria-expanded="true"] .tss-omniresult-footer-more-glyph {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-omniresult-footer-more:focus-visible .tss-omniresult-footer-more-glyph {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+}
+
+body.tss-theme-weniger .tippy-box > .tippy-content > .tss-omniresult-footer.tss-omniresult-footer-popup {
+    border: none;
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-plastic);
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+/* The row's menu button: a ghost key. */
+body.tss-theme-weniger .tss-omniresult-menu-button {
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger .tss-omniresult-menu-button:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+/* --------------------------------------------------------------------------
+   The sheet
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-modal.tss-omniresult-modal {
+    border-radius: var(--tss-wg-radius-panel);
+}
+
+body.tss-theme-weniger .tss-modal.tss-omniresult-modal.tss-omniresult-modal-full {
+    border-radius: 0;
+}
+
+body.tss-theme-weniger .tss-modal.tss-omniresult-modal > .tss-modal-header {
+    border-bottom: 1px solid var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger .tss-modal.tss-omniresult-modal > .tss-modal-footer:has(.tss-omniresult-modal-shortcuts) {
+    border-top: 1px solid var(--tss-wg-groove);
+    background: transparent;
+}
+
+body.tss-theme-weniger .tss-omniresult-modal-shortcut-label {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-size: 12px;
+}
+
+body.tss-theme-weniger .tss-omniresult-modal-button {
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-key);
+    transition: box-shadow var(--tss-wg-quick) var(--tss-wg-ease), transform var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-omniresult-modal-button:hover:not(:disabled) {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-omniresult-modal-button:active:not(:disabled) {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-modal.tss-omniresult-modal .tss-modal-header-commands > .tss-omniresult-modal-button {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+}
+
+/* "Open in ...": the orange key, in two parts parted by a moulded seam. */
+body.tss-theme-weniger .tss-omniresult-modal-open {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-orange-key);
+    color: var(--tss-wg-on-orange);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 1px 1px rgba(60, 30, 10, 0.2), 0 2px 5px -1px rgba(60, 30, 10, 0.24);
+    text-shadow: 0 -1px 0 rgba(90, 30, 0, 0.28);
+}
+
+body.tss-theme-weniger .tss-omniresult-modal-open-more {
+    border-left: 1px solid rgba(90, 30, 0, 0.3);
+    box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.22);
+}
+
+body.tss-theme-weniger .tss-omniresult-modal-open-primary:hover,
+body.tss-theme-weniger .tss-omniresult-modal-open-more:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.tss-theme-weniger .tss-omniresult-modal-open-primary:active,
+body.tss-theme-weniger .tss-omniresult-modal-open-more:active {
+    background: var(--tss-wg-sheen-pressed);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-omniresult,
+    body.tss-theme-weniger .tss-omniresult-modal-button {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-omniresult-viewed-flash::after {
+        animation: none;
+    }
+
+    body.tss-theme-weniger .tss-omniresult-modal-button:active:not(:disabled) {
+        transform: none;
+    }
+}

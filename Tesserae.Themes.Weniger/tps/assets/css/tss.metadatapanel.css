@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Weniger theme - MetadataPanel
+   --------------------------------------------------------------------------
+   The facts column reads like the label panel on the side of a device: each
+   section's title is a small printed legend (grey, a little spacing, in its
+   own case), the values under it are set in the grotesque, and sections are
+   ruled off by hairline grooves. Links and an editable heading take the
+   theme's link orange under the pointer; an empty section is a muted line.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-metadata-section {
+    border-bottom-color: var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger .tss-metadata-section-title {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-metadata-section-title-editable:hover {
+    color: rgb(var(--tss-link-color-root));
+}
+
+body.tss-theme-weniger .tss-metadata-section-empty {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-style: normal;
+}
+
+body.tss-theme-weniger .tss-metadata-person-name,
+body.tss-theme-weniger .tss-metadata-item-title,
+body.tss-theme-weniger .tss-metadata-item-link {
+    font-weight: 600;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-metadata-item-link:hover {
+    color: rgb(var(--tss-link-color-root));
+}
+
+body.tss-theme-weniger .tss-metadata-item-link:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.75);
+    outline-offset: 2px;
+    border-radius: 3px;
+}
+
+body.tss-theme-weniger .tss-metadata-item-subtitle {
+    font-variant-numeric: tabular-nums;
+}
+
+/* The gear beside a title is a small ghost key, rising under the pointer like the others. */
+body.tss-theme-weniger .tss-metadata-section-edit .tss-btn {
+    border-radius: var(--tss-wg-radius-small);
+}

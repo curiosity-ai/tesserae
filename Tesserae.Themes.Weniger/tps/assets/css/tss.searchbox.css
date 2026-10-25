@@ -1,0 +1,196 @@
+/* ==========================================================================
+   Weniger theme - SearchBox
+   --------------------------------------------------------------------------
+   A search box is the same recessed well as every field (tss.textbox.css),
+   with the magnifier engraved into its floor: a muted glyph with a catch of
+   light along its lower edge, the way a legend cut into plastic reads. The
+   caret lights the orange ring. The clear and cancel buttons are small
+   ghost keys that rise under the pointer. A search that did not answer is a
+   red edge, with the warning glyph kept. The progress bar is a thin orange
+   filament lit along the foot of the well. Underlined is a single groove
+   ruled under the text, no well.
+
+   SearchableList rows that do not match fade back into the plastic.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-searchbox-container {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    padding: 0 6px 0 10px;
+    transition: box-shadow 140ms var(--tss-wg-ease), border-color 140ms linear;
+}
+
+body.tss-theme-weniger .tss-searchbox-container:hover {
+    border-color: rgba(var(--tss-dark-border-color-root), 0.7);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-searchbox-container:focus-within {
+    border-color: var(--tss-wg-orange);
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(236, 88, 26, 0.24);
+}
+
+body.tss-theme-weniger .tss-searchbox {
+    font-size: 14px;
+    color: rgb(var(--tss-default-foreground-color-root));
+    caret-color: var(--tss-wg-orange);
+}
+
+/* The well carries the focus ring; the input inside it draws none of its own. */
+body.tss-theme-weniger .tss-searchbox:focus,
+body.tss-theme-weniger .tss-searchbox:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-weniger .tss-searchbox::placeholder {
+    color: rgb(var(--tss-secondary-foreground-color-root)) !important;
+    opacity: 0.8;
+}
+
+body.tss-theme-weniger .tss-searchbox:hover::placeholder,
+body.tss-theme-weniger .tss-searchbox:focus::placeholder {
+    opacity: 0.9;
+}
+
+/* The engraved magnifier: muted, a hair of light under it where the cut catches it. */
+body.tss-theme-weniger .tss-searchbox-icon {
+    width: 22px;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-searchbox-icon {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.7), 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+body.tss-theme-weniger .tss-searchbox-container:focus-within > .tss-searchbox-icon {
+    width: 0;
+}
+
+/* Disabled: a well with nothing in it. */
+body.tss-theme-weniger .tss-searchbox-container.tss-disabled,
+body.tss-theme-weniger .tss-searchbox-container.tss-disabled:hover {
+    border-color: var(--tss-wg-key-edge);
+    background: rgb(var(--tss-disabled-background-color-root));
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-searchbox-container.tss-disabled .tss-searchbox,
+body.tss-theme-weniger .tss-searchbox-container.tss-disabled .tss-searchbox-icon {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    text-shadow: none;
+}
+
+/* Underlined: a groove ruled under the text, no well. */
+body.tss-theme-weniger .tss-searchbox-container.tss-underlined,
+body.tss-theme-weniger .tss-searchbox-container.tss-underlined:hover {
+    border-radius: 0;
+    border-width: 0 0 1px;
+    border-color: rgba(var(--tss-dark-border-color-root), 0.6);
+    background: transparent;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-searchbox-container.tss-underlined,
+body.tss-theme-weniger.tss-dark-mode .tss-searchbox-container.tss-underlined:hover {
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+body.tss-theme-weniger .tss-searchbox-container.tss-underlined:focus-within {
+    border-color: var(--tss-wg-orange);
+    box-shadow: none;
+}
+
+/* Clear and cancel: small ghost keys that rise under the pointer. */
+body.tss-theme-weniger .tss-searchbox-clear,
+body.tss-theme-weniger .tss-searchbox-cancel {
+    width: 26px;
+    height: 26px;
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-small);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    transition: box-shadow var(--tss-wg-quick) var(--tss-wg-ease), transform var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-searchbox-cancel {
+    width: 100%;
+    height: 100%;
+}
+
+body.tss-theme-weniger .tss-searchbox-clear:hover,
+body.tss-theme-weniger .tss-searchbox-cancel:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-searchbox-clear:active,
+body.tss-theme-weniger .tss-searchbox-cancel:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-searchbox-clear:focus-visible,
+body.tss-theme-weniger .tss-searchbox-cancel:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: -2px;
+}
+
+/* A search that did not answer: the red edge of the record key, the warning glyph kept. */
+body.tss-theme-weniger .tss-searchbox-failed-icon {
+    color: var(--tss-wg-red);
+}
+
+body.tss-theme-weniger .tss-searchbox-container.tss-searchbox-failed,
+body.tss-theme-weniger .tss-searchbox-container.tss-searchbox-failed:hover {
+    border-color: var(--tss-wg-red);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-searchbox-container.tss-searchbox-failed:focus-within {
+    border-color: var(--tss-wg-red);
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(204, 46, 40, 0.22);
+}
+
+/* Progress: an orange filament lit along the foot of the well. */
+body.tss-theme-weniger .tss-searchbox-progress {
+    left: 6px;
+    right: 6px;
+    bottom: 2px;
+    border-radius: 2px;
+}
+
+body.tss-theme-weniger .tss-searchbox-container.tss-underlined > .tss-searchbox-progress {
+    left: 0;
+    right: 0;
+    bottom: -1px;
+}
+
+body.tss-theme-weniger .tss-searchbox-progress-bar {
+    border-radius: 2px;
+    background: var(--tss-wg-orange);
+    box-shadow: 0 0 4px rgba(250, 112, 48, 0.6);
+}
+
+body.tss-theme-weniger .tss-searchable-list-no-match {
+    opacity: 0.38;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-searchbox-container,
+    body.tss-theme-weniger .tss-searchbox-clear,
+    body.tss-theme-weniger .tss-searchbox-cancel,
+    body.tss-theme-weniger .tss-searchbox-icon {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-searchbox-clear:active,
+    body.tss-theme-weniger .tss-searchbox-cancel:active {
+        transform: none;
+    }
+}

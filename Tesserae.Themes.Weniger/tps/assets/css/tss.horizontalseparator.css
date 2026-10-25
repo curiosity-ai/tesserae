@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Weniger theme - HorizontalSeparator
+   --------------------------------------------------------------------------
+   A separator is the groove moulded across a panel where two sections of
+   the face meet: a 1px shade line with a 1px catch of light under it, so
+   it reads as cut in rather than drawn on. Its label is a printed legend
+   in the gap, small, muted and a little letter-spaced; a primary one is
+   printed in the orange.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-horizontalseparator-container::before,
+body.tss-theme-weniger .tss-horizontalseparator-container::after {
+    height: 2px;
+    background: linear-gradient(180deg, rgba(60, 54, 46, 0.2) 0 1px, rgba(255, 255, 255, 0.85) 1px 2px);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-horizontalseparator-container::before,
+body.tss-theme-weniger.tss-dark-mode .tss-horizontalseparator-container::after {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0 1px, rgba(255, 255, 255, 0.07) 1px 2px);
+}
+
+body.tss-theme-weniger .tss-horizontalseparator {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-horizontalseparator.tss-primary {
+    color: rgb(var(--tss-link-color-root));
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-horizontalseparator.tss-primary {
+    color: var(--tss-wg-orange-hi);
+}

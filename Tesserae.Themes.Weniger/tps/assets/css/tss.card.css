@@ -1,0 +1,123 @@
+/* ==========================================================================
+   Weniger theme - Card
+   --------------------------------------------------------------------------
+   A card is the body of a small device: a soft rounded square of top-lit
+   plastic resting on the table, with a hairline groove set in from its
+   edge where the face meets the shell (drawn with a negative outline
+   offset, so it follows the corner radius). A header is the strip at the
+   top of the face, ruled off by a groove of its own; a footer is the same
+   at the foot. A hoverable card lifts a little towards the light and goes
+   back down when pressed.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-card-container {
+    padding: 2px 2px 8px 2px;
+}
+
+body.tss-theme-weniger .tss-card {
+    height: calc(100% - 4px);
+    width: calc(100% - 4px);
+    background: var(--tss-wg-plastic);
+    border-radius: var(--tss-wg-radius-panel);
+    box-shadow: var(--tss-wg-panel-shadow);
+    outline: 1px solid var(--tss-wg-groove);
+    outline-offset: calc(-1 * var(--tss-wg-groove-inset));
+    padding: 18px;
+}
+
+body.tss-theme-weniger .tss-card.tss-card-hover {
+    transition: transform 160ms var(--tss-wg-ease), box-shadow 160ms var(--tss-wg-ease), opacity 300ms linear;
+}
+
+body.tss-theme-weniger .tss-card.tss-card-hover:hover {
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-float-shadow);
+    transform: translateY(-1px);
+}
+
+body.tss-theme-weniger .tss-card.tss-card-hover:active {
+    box-shadow: var(--tss-wg-panel-shadow);
+    transform: translateY(0);
+}
+
+/* A small card is a key-sized part: tighter corners, no groove. */
+body.tss-theme-weniger .tss-card-container.tss-small > .tss-card {
+    border-radius: var(--tss-wg-radius-key);
+    outline: none;
+    padding: 4px 10px;
+}
+
+/* --------------------------------------------------------------------------
+   With a layout (header, content, footer) the card itself is the body
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-card.tss-has-layout {
+    background: var(--tss-wg-plastic) !important;
+    box-shadow: var(--tss-wg-panel-shadow) !important;
+}
+
+body.tss-theme-weniger .tss-card-header {
+    min-height: 42px;
+    padding: 8px 14px 8px 18px;
+    margin-bottom: 0;
+    border: none;
+    border-radius: var(--tss-wg-radius-panel) var(--tss-wg-radius-panel) 0 0;
+    background: transparent;
+    box-shadow: inset 0 -1px 0 var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger .tss-card-header:empty {
+    display: none;
+}
+
+body.tss-theme-weniger .tss-card-title,
+body.tss-theme-weniger .tss-card-title .tss-textblock {
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: 0.005em;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger i.tss-card-title-icon {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-card-content {
+    padding: 18px;
+    background: transparent;
+    border: none;
+    border-radius: 0 0 var(--tss-wg-radius-panel) var(--tss-wg-radius-panel);
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-card-footer {
+    padding: 8px 14px 10px 18px;
+    margin-top: 0;
+    border: none;
+    border-radius: 0 0 var(--tss-wg-radius-panel) var(--tss-wg-radius-panel);
+    background: transparent;
+    box-shadow: inset 0 1px 0 var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger .tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-header {
+    min-height: 30px;
+    padding: 4px 10px;
+    margin-bottom: 0;
+}
+
+body.tss-theme-weniger .tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-content {
+    padding: 4px 10px;
+}
+
+body.tss-theme-weniger .tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-footer {
+    padding: 4px 10px;
+    margin-top: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-card,
+    body.tss-theme-weniger .tss-card.tss-card-hover {
+        transition: none;
+        transform: none !important;
+    }
+}

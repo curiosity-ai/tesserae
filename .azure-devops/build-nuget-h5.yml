@@ -72,6 +72,10 @@ steps:
   inputs:
     script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Themes.Rechenwerk\Tesserae.Themes.Rechenwerk.csproj'
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Rechenwerk/'
+  displayName: 'restore Weniger theme project'
+  inputs:
+    script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Themes.Weniger\Tesserae.Themes.Weniger.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Weniger/'
 
 - task: CmdLine@2
   displayName: 'restore tests project'
@@ -199,6 +203,16 @@ steps:
   inputs:
     command: 'push'
     packagesToPush: '**/*/Tesserae.Themes.Rechenwerk.$(themePackageVersion).nupkg'
+  displayName: 'Build Tesserae.Themes.Weniger'
+  inputs:
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Themes.Weniger\Tesserae.Themes.Weniger.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion) /p:ThemeVersion=$(themePackageVersion)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Weniger/'
+
+- task: NuGetCommand@2
+  displayName: 'push Tesserae.Themes.Weniger to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*/Tesserae.Themes.Weniger.$(themePackageVersion).nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity-org'
 

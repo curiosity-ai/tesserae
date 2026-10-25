@@ -1,0 +1,112 @@
+/* ==========================================================================
+   Weniger theme - ColorPalette
+   --------------------------------------------------------------------------
+   A palette is a row of coloured keys, like the colour-coded selector keys
+   on a hi-fi: each swatch is a rounded key moulded in its colour (the colour
+   is the content, so it stays; the sheen and the edge make it a key), lit
+   along the top and standing proud. Under the pointer it rises; the chosen
+   one is held down, the light gone off it, with an orange pilot lamp lit
+   just under it, so the choice reads with the colours turned to grey. The
+   custom key keeps its colour wheel and wears a dark "+" legend plate.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-colorpalette {
+    gap: 10px;
+    padding: 4px 4px 10px 4px;
+}
+
+body.tss-theme-weniger .tss-colorpalette-swatch {
+    position: relative;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.22);
+    border-radius: var(--tss-wg-radius-key);
+    background-image: var(--tss-wg-sheen);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 1px rgba(60, 54, 46, 0.2), 0 2px 5px -1px rgba(60, 54, 46, 0.24);
+    transition: transform var(--tss-wg-quick) var(--tss-wg-ease), box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-colorpalette-swatch {
+    border-color: rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.15), 0 1px 1px rgba(0, 0, 0, 0.5), 0 2px 6px -1px rgba(0, 0, 0, 0.55);
+}
+
+body.tss-theme-weniger .tss-colorpalette-swatch:hover {
+    transform: translateY(-1px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 1px rgba(60, 54, 46, 0.22), 0 4px 9px -2px rgba(60, 54, 46, 0.32);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-colorpalette-swatch:hover {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.34), inset 0 -1px 0 rgba(0, 0, 0, 0.15), 0 1px 1px rgba(0, 0, 0, 0.55), 0 4px 10px -2px rgba(0, 0, 0, 0.65);
+}
+
+body.tss-theme-weniger .tss-colorpalette-swatch:active,
+body.tss-theme-weniger .tss-colorpalette-swatch.tss-selected,
+body.tss-theme-weniger .tss-colorpalette-swatch.tss-selected:hover,
+body.tss-theme-weniger.tss-dark-mode .tss-colorpalette-swatch:active,
+body.tss-theme-weniger.tss-dark-mode .tss-colorpalette-swatch.tss-selected,
+body.tss-theme-weniger.tss-dark-mode .tss-colorpalette-swatch.tss-selected:hover {
+    background-image: var(--tss-wg-sheen-pressed);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(0, 0, 0, 0.22);
+    transform: var(--tss-wg-press);
+}
+
+/* The pilot lamp under the chosen key. */
+body.tss-theme-weniger .tss-colorpalette-swatch.tss-selected::after {
+    content: "";
+    position: absolute;
+    left: calc(50% - 3px);
+    bottom: -10px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tss-wg-orange-hi);
+    box-shadow: var(--tss-wg-led-orange-glow);
+    pointer-events: none;
+}
+
+body.tss-theme-weniger .tss-colorpalette-swatch:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+}
+
+body.tss-theme-weniger .tss-colorpalette-custom {
+    color: rgb(255, 255, 255);
+    font-family: var(--tss-sansserif-font-family);
+    font-weight: 700;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.7), 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-colorpalette-swatch {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-colorpalette-swatch,
+    body.tss-theme-weniger .tss-colorpalette-swatch:hover,
+    body.tss-theme-weniger .tss-colorpalette-swatch.tss-selected {
+        transform: none !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Colour samples (Colors, Theme Colors, Gradients, Theme Builder)
+   --------------------------------------------------------------------------
+   A sample that paints a theme colour or gradient inline is a swatch, and
+   the colour is the demonstration, so it stays. The theme moulds the chip:
+   key corners, a 1px edge so a pale chip on the pale page keeps its shape,
+   and the key's soft shadow instead of the sample's flat grey one.
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-stack.tss-stack-horizontal[style*="background: var(--tss-colors-"],
+body.tss-theme-weniger .tss-stack.tss-stack-horizontal[style*="background: var(--tss-gradient-"] {
+    box-sizing: border-box;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger [style*="box-shadow: lightgrey"] {
+    box-sizing: border-box;
+    border: 1px solid var(--tss-wg-key-edge) !important;
+    border-radius: var(--tss-wg-radius-key) !important;
+    box-shadow: var(--tss-wg-raised) !important;
+}

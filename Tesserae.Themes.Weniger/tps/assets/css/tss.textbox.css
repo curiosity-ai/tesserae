@@ -1,0 +1,140 @@
+/* ==========================================================================
+   Weniger theme - TextBox
+   --------------------------------------------------------------------------
+   The model for every field in the theme. A field is a recessed well cut
+   into the plastic: the floor a shade darker at the top where the lip
+   shades it, an inner shadow under the top edge, a 1px moulded edge, and a
+   catch of light along the bottom lip. Writing in it lights an orange ring
+   round the well (the indicator ring of a selector). Invalid is a red edge
+   and ring, with the message in small red type. Disabled is a well with
+   nothing in it: flat, faded, no shadow.
+
+   Tables inside a TextBlock (this stylesheet owns them in Tesserae) are a
+   panel of their own: a rounded plastic frame, a header row of small muted
+   captions on a key-grey strip, grooves between rows.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-textbox {
+    height: 36px;
+    padding: 0 12px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    font-size: 14px;
+    transition: box-shadow 140ms var(--tss-wg-ease), border-color 140ms linear;
+}
+
+body.tss-theme-weniger .tss-textbox::placeholder {
+    color: rgb(var(--tss-secondary-foreground-color-root)) !important;
+    opacity: 0.8;
+}
+
+body.tss-theme-weniger .tss-textbox:hover {
+    border-color: rgba(var(--tss-dark-border-color-root), 0.7);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-textbox:focus {
+    border-color: var(--tss-wg-orange);
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(236, 88, 26, 0.24);
+}
+
+body.tss-theme-weniger .tss-textbox.tss-disabled {
+    border-color: var(--tss-wg-key-edge);
+    background: rgb(var(--tss-disabled-background-color-root));
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-textbox-container.tss-invalid .tss-textbox {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-weniger .tss-textbox-container.tss-invalid .tss-textbox:focus {
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(var(--tss-invalid-border-color-root), 0.24);
+}
+
+body.tss-theme-weniger .tss-textbox-error {
+    margin-top: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgb(var(--tss-invalid-border-color-root));
+}
+
+/* NoBorder: the field sits in a host that draws the well (a tag picker, a search bar). */
+body.tss-theme-weniger .tss-textbox.tss-textbox-noborder,
+body.tss-theme-weniger .tss-textbox.tss-textbox-noborder:hover,
+body.tss-theme-weniger .tss-textbox.tss-textbox-noborder:focus {
+    border: 1px solid transparent;
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-textbox-container.tss-rounded-full .tss-textbox {
+    border-radius: var(--tss-border-radius-full);
+}
+
+/* --------------------------------------------------------------------------
+   Tables in a TextBlock
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-textblock table {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    box-shadow: var(--tss-wg-raised);
+    background: var(--tss-wg-plastic);
+}
+
+body.tss-theme-weniger .tss-textblock table thead {
+    background: var(--tss-wg-key);
+}
+
+body.tss-theme-weniger .tss-textblock table th {
+    padding: 9px 16px;
+    border-bottom: 1px solid var(--tss-wg-groove);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-size: 12px;
+    font-weight: 600;
+}
+
+body.tss-theme-weniger .tss-textblock table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger .tss-textblock table tbody tr:hover {
+    background-color: rgba(var(--tss-default-background-hover-color-root), 0.6);
+}
+
+/* --------------------------------------------------------------------------
+   Native pickers: the browser's own calendar and clock popups follow the
+   mode, its checks and ticks are orange, and a colour field's swatch is a
+   small rounded chip set into the well.
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-textbox {
+    accent-color: var(--tss-wg-orange);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-textbox {
+    color-scheme: dark;
+}
+
+body.tss-theme-weniger .tss-textbox[type="color"] {
+    padding: 4px;
+}
+
+body.tss-theme-weniger .tss-textbox[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+body.tss-theme-weniger .tss-textbox[type="color"]::-webkit-color-swatch {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger .tss-textbox[type="color"]::-moz-color-swatch {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+}

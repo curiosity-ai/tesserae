@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Weniger theme - TextArea
+   --------------------------------------------------------------------------
+   A text area is the TextBox's recessed well (tss.textbox.css styles
+   .tss-textbox, which a text area also is), drawn taller: the same floor,
+   edge, orange ring on focus and red edge when invalid, with the padding
+   and line spacing of a multi-line field so the first line does not sit on
+   the lip. The theme's text box fixes its height at 36px; a text area takes
+   its height back from Tesserae's own rules (filling its container, or
+   following its content under AutoResize).
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-textarea-container > .tss-textbox.tss-textarea {
+    height: 100%;
+    min-height: 36px;
+    padding: 8px 12px;
+    line-height: 1.45;
+    resize: none;
+}
+
+body.tss-theme-weniger .tss-textarea-container > .tss-textbox.tss-textarea.tss-textarea-autoresize {
+    height: auto;
+}

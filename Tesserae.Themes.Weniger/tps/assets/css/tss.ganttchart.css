@@ -1,0 +1,104 @@
+/* ==========================================================================
+   Weniger theme - GanttChart
+   --------------------------------------------------------------------------
+   A Gantt chart is a row of tracks cut into the panel: the timeline is a
+   recessed well, its column rules hairline grooves, and every bar is a
+   small rounded plastic part lying in it - the colour of the bar (or the
+   one the app gave it) moulded under the sheen, with a darker edge, rising
+   a little under the pointer when it can be clicked. The label column and
+   the header are the panel's plastic, printed with small grey legends,
+   divided from the well by the groove. The named bar colours are tuned to
+   the theme's chart palette; a colour an app passed keeps its value.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-gantt {
+    --tss-gantt-border: 1px solid var(--tss-wg-groove);
+    --tss-gantt-bar-height: 18px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-gantt-header-label,
+body.tss-theme-weniger .tss-gantt-header-track {
+    background: var(--tss-wg-plastic);
+}
+
+body.tss-theme-weniger .tss-gantt-header-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-gantt-column-label,
+body.tss-theme-weniger .tss-gantt-tick-label {
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-weniger .tss-gantt-row-label {
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-weniger .tss-gantt-line {
+    border-left: 1px solid var(--tss-wg-groove);
+}
+
+/* The named colours, tuned to the device palette. */
+body.tss-theme-weniger .tss-gantt-bar-blue    { --tss-gantt-bar-color: var(--tss-chart-series-5); }
+body.tss-theme-weniger .tss-gantt-bar-green   { --tss-gantt-bar-color: var(--tss-chart-series-4); }
+body.tss-theme-weniger .tss-gantt-bar-orange  { --tss-gantt-bar-color: var(--tss-chart-series-1); }
+body.tss-theme-weniger .tss-gantt-bar-red     { --tss-gantt-bar-color: var(--tss-chart-series-8); }
+body.tss-theme-weniger .tss-gantt-bar-yellow  { --tss-gantt-bar-color: var(--tss-chart-series-6); }
+body.tss-theme-weniger .tss-gantt-bar-neutral { --tss-gantt-bar-color: var(--tss-chart-series-3); }
+
+/* A bar: a moulded part lying in the track. */
+body.tss-theme-weniger .tss-gantt-bar {
+    border-radius: var(--tss-wg-radius-small);
+    border: 1px solid color-mix(in srgb, var(--tss-gantt-bar-color) 75%, black);
+    background-color: color-mix(in srgb, var(--tss-gantt-bar-color) 42%, rgb(var(--tss-secondary-background-color-root)));
+    background-image: var(--tss-wg-sheen);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 1px 2px rgba(60, 54, 46, 0.22);
+    transition: background-color 120ms var(--tss-wg-ease), box-shadow 120ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-gantt-bar {
+    background-color: color-mix(in srgb, var(--tss-gantt-bar-color) 48%, rgb(var(--tss-secondary-background-color-root)));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+body.tss-theme-weniger .tss-gantt-bar:hover {
+    background-color: color-mix(in srgb, var(--tss-gantt-bar-color) 56%, rgb(var(--tss-secondary-background-color-root)));
+}
+
+body.tss-theme-weniger .tss-gantt-bar-clickable:hover {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 2px 5px -1px rgba(60, 54, 46, 0.32);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-gantt-bar-clickable:hover {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 2px 5px -1px rgba(0, 0, 0, 0.6);
+}
+
+body.tss-theme-weniger .tss-gantt-bar-striped {
+    background-image: repeating-linear-gradient(-45deg, transparent 0 4px, color-mix(in srgb, var(--tss-gantt-bar-color) 45%, transparent) 4px 8px), var(--tss-wg-sheen);
+}
+
+body.tss-theme-weniger .tss-gantt-bar-text {
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-weniger .tss-gantt-bar-text-inside {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-gantt-bar {
+        transition: none;
+    }
+}

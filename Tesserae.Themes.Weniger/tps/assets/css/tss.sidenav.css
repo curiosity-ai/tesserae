@@ -1,0 +1,110 @@
+/* ==========================================================================
+   Weniger theme - Sidenav
+   --------------------------------------------------------------------------
+   The icon rail is the narrow aluminium strip at the side of a device,
+   brushed like the sidebar's plate and a shade darker, with a groove where
+   it meets what is beside it. Each destination is a square key with its
+   legend under the glyph: flush at rest, rising under the pointer, and the
+   current one latched down (the pressed fill) with an orange pilot lamp lit
+   at its leading edge and its glyph in orange. A notification dot is an
+   LED set into the key's corner: orange, or red / amber for the states.
+   The brand cell at the top is a raised key of its own.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-sidenav {
+    background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.16) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.022) 0 1px, transparent 1px 5px), linear-gradient(90deg, rgb(216, 216, 213) 0%, rgb(210, 210, 207) 100%);
+    border-right: 0;
+    box-shadow: inset -1px 0 0 rgba(60, 54, 46, 0.18), inset -2px 0 0 rgba(255, 255, 255, 0.5);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-sidenav {
+    background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.022) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.08) 0 1px, transparent 1px 5px), linear-gradient(90deg, rgb(36, 36, 35) 0%, rgb(32, 32, 31) 100%);
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.6), inset -2px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-weniger .tss-sidenav-footer {
+    border-top: 1px solid var(--tss-wg-groove);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-sidenav-footer {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-weniger .tss-sidenav-btn-label {
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-weniger .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn {
+    border-radius: var(--tss-wg-radius-key);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:not(.tss-disabled):hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The current destination: latched, lamp lit. */
+body.tss-theme-weniger .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn,
+body.tss-theme-weniger .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:hover {
+    background:
+        radial-gradient(circle at 5px 50%, rgb(255, 150, 90) 0, var(--tss-wg-orange) 2px, rgba(236, 88, 26, 0.35) 3px, rgba(236, 88, 26, 0) 6px),
+        var(--tss-wg-key-pressed);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-pressed);
+    color: rgb(var(--tss-default-foreground-color-root));
+    transform: none;
+}
+
+body.tss-theme-weniger .tss-sidenav-btn-wrap.tss-sidenav-selected .tss-sidenav-btn-icon {
+    color: var(--tss-wg-orange);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-sidenav-btn-wrap.tss-sidenav-selected .tss-sidenav-btn-icon {
+    color: var(--tss-wg-orange-hi);
+}
+
+body.tss-theme-weniger .tss-sidenav-btn-wrap.tss-sidenav-selected .tss-sidenav-btn-label {
+    font-weight: 600;
+}
+
+body.tss-theme-weniger .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 1px;
+}
+
+/* The dot is an LED. */
+body.tss-theme-weniger .tss-sidenav-btn-dot {
+    width: 7px;
+    height: 7px;
+    top: 7px;
+    right: 13px;
+    background: radial-gradient(circle at 40% 35%, rgb(255, 170, 120) 0, var(--tss-wg-orange) 65%);
+    box-shadow: var(--tss-wg-led-orange-glow);
+}
+
+body.tss-theme-weniger .tss-sidenav-btn-dot.tss-sidenav-btn-dot-danger {
+    background: radial-gradient(circle at 40% 35%, rgb(255, 140, 130) 0, var(--tss-wg-red) 65%);
+    box-shadow: 0 0 2px 0 rgba(230, 60, 50, 0.95), 0 0 6px 1px rgba(230, 60, 50, 0.5);
+}
+
+body.tss-theme-weniger .tss-sidenav-btn-dot.tss-sidenav-btn-dot-warning {
+    background: radial-gradient(circle at 40% 35%, rgb(255, 222, 140) 0, rgb(240, 172, 36) 65%);
+    box-shadow: 0 0 2px 0 rgba(240, 172, 36, 0.95), 0 0 6px 1px rgba(240, 172, 36, 0.5);
+}
+
+/* The brand cell: a raised key. */
+body.tss-theme-weniger .tss-sidenav-btn-wrap.tss-sidenav-btn-brand > .tss-btn.tss-sidenav-btn {
+    background: var(--tss-wg-key);
+    border: 1px solid var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-sidenav-btn-wrap.tss-sidenav-btn-brand > .tss-btn.tss-sidenav-btn:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}

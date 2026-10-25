@@ -1,0 +1,112 @@
+/* ==========================================================================
+   Weniger theme - ActivityCalendar
+   --------------------------------------------------------------------------
+   A year of days is a perforated grille: every day is a round hole punched
+   in the panel, and a day with activity lights up behind its hole, brighter
+   the more happened - signal orange by default, or the colour the app
+   picked. An empty day is a dark recessed hole; a day still to come is an
+   empty ring. The wall-calendar month keeps rounded squares (the figures
+   need the room), moulded the same way. The legend's swatches are the same
+   holes; the summary is printed on the case, its separators the groove;
+   the shared tooltip is a floating graphite tag.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-activitycalendar {
+    --tss-activitycalendar-empty-color: rgb(var(--tss-progress-background-color-root));
+    --tss-activitycalendar-radius: 50%;
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-activitycalendar {
+    --tss-activitycalendar-empty-color: rgb(30, 30, 29);
+}
+
+body.tss-theme-weniger .tss-activitycalendar-daynumbers {
+    --tss-activitycalendar-radius: var(--tss-wg-radius-small);
+}
+
+/* The hole. */
+body.tss-theme-weniger .tss-activitycalendar-day {
+    box-shadow: inset 0 1px 2px rgba(60, 54, 46, 0.3), 0 1px 0 rgba(255, 255, 255, 0.7);
+    transition: box-shadow 120ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-activitycalendar-day {
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.7), 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Lit from behind: a lens with a catch of light. */
+body.tss-theme-weniger .tss-activitycalendar-day[data-level]:not([data-level="0"]) {
+    background-image: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 65%);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1), 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-activitycalendar-day[data-level]:not([data-level="0"]) {
+    background-image: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 65%);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+/* The brightest days glow a little, like a lamp at full. */
+body.tss-theme-weniger .tss-activitycalendar-day.tss-activitycalendar-strong[data-level="4"] {
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 4px color-mix(in srgb, var(--tss-activitycalendar-color) 55%, transparent);
+}
+
+body.tss-theme-weniger .tss-activitycalendar-day.tss-activitycalendar-future {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-wg-key-edge);
+}
+
+body.tss-theme-weniger .tss-activitycalendar-grid .tss-activitycalendar-day:not(.tss-activitycalendar-future):hover,
+body.tss-theme-weniger .tss-activitycalendar-day.tss-activitycalendar-active {
+    box-shadow: 0 0 0 1.5px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-activitycalendar-day.tss-activitycalendar-selected {
+    box-shadow: 0 0 0 2px rgb(var(--tss-secondary-background-color-root)), 0 0 0 3.5px var(--tss-activitycalendar-color);
+}
+
+body.tss-theme-weniger .tss-activitycalendar-grid:focus-visible {
+    outline: none;
+}
+
+/* The wall calendar's figures. */
+body.tss-theme-weniger .tss-activitycalendar-daynumbers .tss-activitycalendar-day {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+body.tss-theme-weniger .tss-activitycalendar-daynumbers .tss-activitycalendar-day.tss-activitycalendar-strong {
+    color: var(--tss-wg-on-orange);
+    font-weight: 600;
+}
+
+/* Printed legends. */
+body.tss-theme-weniger .tss-activitycalendar-month,
+body.tss-theme-weniger .tss-activitycalendar-weekday,
+body.tss-theme-weniger .tss-activitycalendar-legend {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+}
+
+body.tss-theme-weniger .tss-activitycalendar-summary-caption {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+}
+
+body.tss-theme-weniger .tss-activitycalendar-summary-item::before {
+    border-left-color: var(--tss-wg-groove);
+}
+
+/* The tooltip: a floating tag. */
+body.tss-theme-weniger .tss-activitycalendar-tooltip {
+    border-radius: var(--tss-wg-radius-key);
+    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.3), 0 14px 30px -12px rgba(0, 0, 0, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-activitycalendar-day {
+        transition: none;
+    }
+}

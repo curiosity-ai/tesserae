@@ -1,0 +1,109 @@
+/* ==========================================================================
+   Weniger theme - ChoiceGroup
+   --------------------------------------------------------------------------
+   A radio button is a round push key, like the mono / stereo keys on the
+   front of a receiver. At rest it stands proud of the panel, light-grey
+   plastic with a moulded edge and an unlit lamp set in its face; chosen, it
+   is latched down (the shadow turned inward, the light gone off its cap) and
+   its lamp glows orange. Pressing another key releases the first, the way
+   interlocked keys do. The lamp is sized from the key, so every TextSize
+   variant keeps the same proportions. Disabled is a flat key, lamp dark.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-option-container {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-option-container .tss-option-mark {
+    box-sizing: border-box;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: 50%;
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    transition: box-shadow var(--tss-wg-quick) var(--tss-wg-ease), background-color 120ms linear, transform var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+/* The lamp in the key's face: always there, unlit until the key is chosen. Centred, a third of the key. */
+body.tss-theme-weniger .tss-option-container .tss-option-mark:after,
+body.tss-theme-weniger .tss-option-container[class*="tss-fontsize-"] .tss-option-mark:after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 34%;
+    height: 34%;
+    min-width: 4px;
+    min-height: 4px;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 50%;
+    background: var(--tss-wg-led-off);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.25);
+    transition: background-color 120ms linear, box-shadow 160ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-option-container:hover input:not(:checked) ~ .tss-option-mark {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-option-container:not(.tss-disabled):active input:not(:checked) ~ .tss-option-mark {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+/* Chosen: latched down, the lamp lit. */
+body.tss-theme-weniger .tss-option-container input:checked ~ .tss-option-mark,
+body.tss-theme-weniger .tss-option-container:hover input:checked ~ .tss-option-mark {
+    border-color: var(--tss-wg-key-edge);
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-option-container input:checked ~ .tss-option-mark:after,
+body.tss-theme-weniger .tss-option-container:hover input:checked ~ .tss-option-mark:after {
+    border: 0;
+    background: var(--tss-wg-orange-hi);
+    box-shadow: var(--tss-wg-led-orange-glow);
+}
+
+body.tss-theme-weniger .tss-option-container input:focus-visible ~ .tss-option-mark {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+}
+
+/* Disabled: a flat key, nothing to press; a chosen one keeps a dim lamp so the choice still reads. */
+body.tss-theme-weniger .tss-option-container.tss-disabled {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-option-container.tss-disabled .tss-option-mark,
+body.tss-theme-weniger .tss-option-container.tss-disabled:hover input ~ .tss-option-mark,
+body.tss-theme-weniger .tss-option-container.tss-disabled input:checked ~ .tss-option-mark {
+    border-color: var(--tss-wg-key-edge);
+    background: rgb(var(--tss-disabled-background-color-root));
+    box-shadow: none;
+    transform: none;
+}
+
+body.tss-theme-weniger .tss-option-container.tss-disabled input:checked ~ .tss-option-mark:after {
+    background: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-option-container .tss-option-mark,
+    body.tss-theme-weniger .tss-option-container .tss-option-mark:after {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-option-container .tss-option-mark {
+        transform: none !important;
+    }
+}

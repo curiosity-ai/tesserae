@@ -1,0 +1,94 @@
+/* ==========================================================================
+   Weniger theme - CheckBox
+   --------------------------------------------------------------------------
+   A check box is a small square push key. At rest it stands proud of the
+   panel, light-grey plastic with a moulded edge; checked, it is latched
+   down: the key turns orange, sits in its seat with the shadow turned
+   inward, and carries a white tick. Under the pointer an unchecked key
+   shows a faint tick, the way a legend shows through before it is lit.
+   Disabled is a flat key with the legend faded.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-checkbox-container .tss-checkbox-mark {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    transition: box-shadow var(--tss-wg-quick) var(--tss-wg-ease), background-color 120ms linear, transform var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-checkbox-container .tss-checkbox-text {
+    margin-left: 8px;
+}
+
+body.tss-theme-weniger .tss-checkbox-container:hover input:not(:checked) ~ .tss-checkbox-mark {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-checkbox-container:active input:not(:checked) ~ .tss-checkbox-mark {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+/* The tick: a little heavier than Tesserae's hairline, so it reads as a printed legend. */
+body.tss-theme-weniger .tss-checkbox-container .tss-checkbox-mark:after {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.3);
+    border-width: 0 2px 2px 0;
+}
+
+/* At the default size the tick is redrawn for the 2px stroke; the sized variants keep Tesserae's geometry. */
+body.tss-theme-weniger .tss-checkbox-container.tss-fontsize-small .tss-checkbox-mark:after,
+body.tss-theme-weniger .tss-checkbox-container:not([class*="tss-fontsize-"]) .tss-checkbox-mark:after {
+    left: 6px;
+    top: 2px;
+    width: 6px;
+    height: 11px;
+}
+
+/* Latched down: orange, seated, white tick. */
+body.tss-theme-weniger .tss-checkbox-container input:checked ~ .tss-checkbox-mark,
+body.tss-theme-weniger .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+    background-color: var(--tss-wg-orange);
+    background-image: var(--tss-wg-sheen-pressed);
+    border-color: var(--tss-wg-orange-lo);
+    box-shadow: inset 0 1px 2px rgba(90, 30, 0, 0.35), 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-checkbox-container input:checked ~ .tss-checkbox-mark,
+body.tss-theme-weniger.tss-dark-mode .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+    border-color: rgba(0, 0, 0, 0.55);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+body.tss-theme-weniger .tss-checkbox-container input:checked ~ .tss-checkbox-mark:after {
+    border-color: var(--tss-wg-on-orange);
+}
+
+body.tss-theme-weniger .tss-checkbox-container input:focus-visible ~ .tss-checkbox-mark {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+}
+
+/* Disabled: a flat key, nothing to press. */
+body.tss-theme-weniger .tss-checkbox-container.tss-disabled .tss-checkbox-mark,
+body.tss-theme-weniger .tss-checkbox-container.tss-disabled:hover input ~ .tss-checkbox-mark {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: none;
+    transform: none;
+}
+
+body.tss-theme-weniger .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark {
+    background: rgb(var(--tss-disabled-foreground-color-root));
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-checkbox-container .tss-checkbox-mark {
+        transition: none;
+        transform: none !important;
+    }
+}

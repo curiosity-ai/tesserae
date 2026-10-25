@@ -1,0 +1,145 @@
+/* ==========================================================================
+   Weniger theme - SegmentedPivot
+   --------------------------------------------------------------------------
+   The transport keys of a tape deck: a row of square keys welded side by
+   side in one strip, seated in a recessed slot of the case. Every key has
+   its pilot lamp at the leading edge, dark until the key is chosen; the
+   chosen key is latched down (the pressed fill, the light gone, 1px lower)
+   and its lamp lit orange. Under the pointer a key brightens, the way a key
+   catches the light as a finger comes to it.
+
+   The AI variant (tss.ai.css) keeps its own tint, so the keys here leave a
+   pivot marked .tss-ai alone.
+   ========================================================================== */
+
+/* The slot the strip sits in. */
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) > .tss-segmentedpivot-titlebar,
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) > .tss-segmentedpivot-wrapper > .tss-segmentedpivot-titlebar {
+    background: var(--tss-wg-well-fill);
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: 10px;
+    box-shadow: var(--tss-wg-well);
+    padding: 3px;
+}
+
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0 0 2px;
+}
+
+/* The welded keys: square, touching, a shared edge between them. */
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab {
+    position: relative;
+    padding: 6px 14px 6px 24px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: 0;
+    margin-left: -1px;
+    background: var(--tss-wg-key);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 1px 1px rgba(60, 54, 46, 0.14);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 500;
+    transition: background-color 120ms linear, box-shadow var(--tss-wg-quick) var(--tss-wg-ease), transform var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 1px 1px rgba(0, 0, 0, 0.45);
+}
+
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:first-child {
+    margin-left: 0;
+    border-radius: 6px 0 0 6px;
+}
+
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:last-child {
+    border-radius: 0 6px 6px 0;
+}
+
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:only-child {
+    border-radius: 6px;
+}
+
+/* The key's lamp, dark at rest. */
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab::before {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    width: 5px;
+    height: 5px;
+    margin-top: -2.5px;
+    border-radius: 50%;
+    background: var(--tss-wg-led-off);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:hover {
+    background: var(--tss-wg-key-hover);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:active {
+    background: var(--tss-wg-key-pressed);
+}
+
+/* Chosen: latched down, lamp lit. */
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected:hover {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: inset 0 2px 4px rgba(60, 54, 46, 0.24), inset 0 1px 1px rgba(60, 54, 46, 0.16);
+    transform: var(--tss-wg-press);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 600;
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-weniger.tss-dark-mode .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected:hover {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(0, 0, 0, 0.45);
+}
+
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected::before {
+    background: radial-gradient(circle at 40% 35%, rgb(255, 170, 120) 0, var(--tss-wg-orange) 60%);
+    box-shadow: var(--tss-wg-led-orange-glow);
+}
+
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:focus-visible,
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: -2px;
+    z-index: 1;
+}
+
+/* The chevrons and the "..." sit in the slot beside the keys. */
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-more,
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-scroll-left,
+body.tss-theme-weniger .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-scroll-right {
+    border-radius: var(--tss-wg-radius-small);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-segmentedpivot-content > .tss-background-area {
+    border-radius: var(--tss-wg-radius-panel);
+}
+
+/* The AI variant keeps its gradient pill; only the shape follows the theme. */
+body.tss-theme-weniger .tss-segmentedpivot.tss-ai .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-weniger .tss-segmentedpivot.tss-ai > .tss-segmentedpivot-titlebar {
+    border-radius: 10px;
+}
+
+body.tss-theme-weniger .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab {
+    border-radius: var(--tss-wg-radius-key);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-segmentedpivot .tss-segmentedpivot-tab {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-segmentedpivot .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+        transform: none;
+    }
+}

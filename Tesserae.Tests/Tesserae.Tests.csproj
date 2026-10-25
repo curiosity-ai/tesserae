@@ -14,5 +14,6 @@
     <ProjectReference Include="..\Tesserae.Themes.Stratus\Tesserae.Themes.Stratus.csproj" />
     <ProjectReference Include="..\Tesserae.Themes.RetroOS\Tesserae.Themes.RetroOS.csproj" />
     <ProjectReference Include="..\Tesserae.Themes.Rechenwerk\Tesserae.Themes.Rechenwerk.csproj" />
+    <ProjectReference Include="..\Tesserae.Themes.Weniger\Tesserae.Themes.Weniger.csproj" />
   </ItemGroup>
 </Project>

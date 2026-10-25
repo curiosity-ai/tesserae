@@ -1,0 +1,62 @@
+/* ==========================================================================
+   Weniger theme - Nav
+   --------------------------------------------------------------------------
+   The tree of links reads like the sidebar: each link is a flat key on the
+   panel that rises under the pointer (no underline), and the current one is
+   latched down with its orange pilot lamp lit at the leading edge, in place
+   of Tesserae's 4px accent bar. The expand arrow is a small printed chevron.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-nav-link > .tss-nav-link-header {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-key);
+    margin: 1px 0;
+    transition: background-color 120ms linear, box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header {
+    border: 1px solid transparent;
+}
+
+body.tss-theme-weniger .tss-nav-link > .tss-nav-link-header:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+    text-decoration: none;
+}
+
+body.tss-theme-weniger .tss-nav-link > .tss-nav-link-header.tss-selected,
+body.tss-theme-weniger .tss-nav-link > .tss-nav-link-header.tss-selected:hover,
+body.tss-theme-weniger .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header.tss-selected {
+    background:
+        radial-gradient(circle at 6px 50%, rgb(255, 150, 90) 0, var(--tss-wg-orange) 2px, rgba(236, 88, 26, 0.35) 3px, rgba(236, 88, 26, 0) 6px),
+        var(--tss-wg-key-pressed);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-pressed);
+    font-weight: 600;
+}
+
+/* With the lamp on the right for a right-hand nav. */
+body.tss-theme-weniger .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header.tss-selected {
+    background:
+        radial-gradient(circle at calc(100% - 6px) 50%, rgb(255, 150, 90) 0, var(--tss-wg-orange) 2px, rgba(236, 88, 26, 0.35) 3px, rgba(236, 88, 26, 0) 6px),
+        var(--tss-wg-key-pressed);
+}
+
+body.tss-theme-weniger .tss-nav-link-button:after {
+    border-color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-nav-link > .tss-nav-link-container {
+    margin-left: 12px;
+    border-left: 1px solid var(--tss-wg-groove);
+    padding-left: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-nav-link > .tss-nav-link-header,
+    body.tss-theme-weniger .tss-nav-link-button:after {
+        transition: none;
+    }
+}

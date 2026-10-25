@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Weniger theme - IconTile
+   --------------------------------------------------------------------------
+   A tile is a rounded plastic key with a legend on it: the 8px key corner,
+   a 1px moulded edge, lit along the top and standing on the key shadow. A
+   tinted tile keeps its tint (the host chose it to mean something) as the
+   colour of the plastic, with the theme's sheen laid over it so it reads as
+   the same moulded key; an untinted one is the light-grey key. Tiles do not
+   respond to the pointer: the row they lead does.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-icontile {
+    background: var(--tss-wg-sheen), var(--tss-icontile-background, rgb(var(--tss-secondary-background-color-root)));
+    box-shadow: inset 0 0 0 1px var(--tss-wg-key-edge), var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-icontile {
+    background: var(--tss-wg-sheen), var(--tss-icontile-background-dark, rgb(var(--tss-secondary-background-color-root)));
+}
+
+body.tss-theme-weniger .tss-icontile.tss-icontile-plain,
+body.tss-theme-weniger.tss-dark-mode .tss-icontile.tss-icontile-plain {
+    background: var(--tss-wg-key);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* A photo on a tile is a print behind the key's window: no sheen over it. */
+body.tss-theme-weniger .tss-icontile:has(> img) {
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-weniger .tss-icontile-text {
+    font-family: var(--tss-sansserif-font-family);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
