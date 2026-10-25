@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Washi theme - ProgressIndicator
+   --------------------------------------------------------------------------
+   A slot of pale wash with vermilion laid into it, flat, with the pores of
+   the seal paste. Indeterminate progress is a short stroke travelling the
+   slot.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-progressindicator:not(.tss-ai) {
+    height: 6px;
+    border-radius: 1px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.1);
+}
+
+body.tss-theme-washi .tss-progressindicator:not(.tss-ai) > .tss-progressindicator-bar {
+    border-radius: 1px;
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+}
+
+body.tss-theme-washi .tss-progressindicator:not(.tss-ai) > .tss-progressindicator-bar-indeterminate {
+    background: linear-gradient(to right, transparent 0%, var(--tss-wa-shu) 50%, transparent 100%);
+}

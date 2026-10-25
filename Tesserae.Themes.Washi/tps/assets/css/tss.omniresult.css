@@ -1,0 +1,65 @@
+/* ==========================================================================
+   Washi theme - OmniResult
+   --------------------------------------------------------------------------
+   Search results are entries in a ledger: rows ruled by hairlines, a wash
+   under the pointer, the selected one a pale vermilion wash. What matched
+   is marked in tea-gold (--tss-highlight-color), like a reader's
+   highlighter on a printed page. The preview modal is a sheet with cut
+   corners, its open button a vermilion block.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-omniresult {
+    border-radius: var(--tss-wa-radius-small);
+    border-bottom-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-omniresult:hover,
+body.tss-theme-washi .tss-omniresult.tss-omniresult-active,
+body.tss-theme-washi .tss-omniresult.tss-omniresult-menu-open {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-omniresult.tss-omniresult-selected {
+    background: var(--tss-wa-shu-wash);
+}
+
+body.tss-theme-washi .tss-omniresult:focus-visible {
+    box-shadow: inset 0 0 0 1.5px var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-omniresult-highlight {
+    border-radius: 1px;
+}
+
+body.tss-theme-washi .tss-omniresult-badge-pill {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-omniresult-viewed-flash::after {
+    background: color-mix(in srgb, var(--tss-wa-kin) 24%, transparent);
+}
+
+body.tss-theme-washi .tippy-box > .tippy-content > .tss-omniresult-footer.tss-omniresult-footer-popup {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-modal.tss-omniresult-modal {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-modal.tss-omniresult-modal > .tss-modal-footer:has(.tss-omniresult-modal-shortcuts) {
+    border-top-color: var(--tss-wa-line);
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-omniresult-modal-open {
+    border-radius: var(--tss-wa-radius);
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+}
+
+body.tss-theme-washi .tss-omniresult-menu-button:hover {
+    background: var(--tss-wa-wash-strong);
+}

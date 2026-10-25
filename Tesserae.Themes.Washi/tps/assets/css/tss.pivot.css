@@ -1,0 +1,103 @@
+/* ==========================================================================
+   Washi theme - Pivot
+   --------------------------------------------------------------------------
+   Tabs are words on the paper, in diluted ink, above a fine rule. The
+   current one is in full ink, and a vermilion brush stroke is drawn under
+   it, heavy where it starts and thinning out; the stroke travels when the
+   tab changes.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-pivot-titlebar-wrapper {
+    background: transparent;
+    box-shadow: inset 0 -1px 0 var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-pivot-titlebar {
+    color: rgb(var(--tss-default-foreground-color-root));
+    padding-bottom: 6px;
+}
+
+body.tss-theme-washi .tss-pivot-titlebar > * {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-pivot-titlebar > .tss-btn.tss-pivot-tab {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-washi .tss-pivot-titlebar > .tss-btn.tss-pivot-tab .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-washi .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:not(.tss-disabled):hover {
+    color: rgb(var(--tss-default-foreground-color-root));
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-pivot-titlebar > .tss-btn.tss-pivot-tab.tss-pivot-selected-title,
+body.tss-theme-washi .tss-pivot-titlebar > .tss-btn.tss-pivot-tab.tss-pivot-selected-title:hover,
+body.tss-theme-washi .tss-pivot-titlebar > .tss-btn.tss-pivot-tab.tss-pivot-selected-title:active {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-pivot-titlebar > .tss-pivot-selected-title > span,
+body.tss-theme-washi .tss-pivot-titlebar > .tss-pivot-selected-title > div {
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-pivot-line {
+    height: 4px;
+    background: var(--tss-wa-shu);
+    border-radius: 0;
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    transition: left 260ms var(--tss-wa-ease), width 260ms var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-pivot-line.tss-pivot-line-instant {
+    transition: none;
+}
+
+body.tss-theme-washi .tss-pivot-titlebar-more,
+body.tss-theme-washi .tss-pivot-titlebar-scroll-left,
+body.tss-theme-washi .tss-pivot-titlebar-scroll-right {
+    border-radius: var(--tss-wa-radius-small);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-pivot-tab-close {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-pivot-tab-close:hover {
+    color: var(--tss-wa-enji);
+}
+
+body.tss-theme-washi .tss-pivot-tab-close:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-pivot-tab-needs-saving .tss-pivot-tab-close::after,
+body.tss-theme-washi .tss-pivot-tab-needs-saving::after,
+body.tss-theme-washi .tss-pivot-tab-mark {
+    border-radius: 1px;
+    background: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-pivot-tab-drag,
+body.tss-theme-washi .tss-pivot-tab-fallback {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-washi .tss-pivot-line {
+        transition: none;
+    }
+}

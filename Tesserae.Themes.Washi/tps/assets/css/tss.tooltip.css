@@ -1,0 +1,59 @@
+/* ==========================================================================
+   Washi theme - Tooltip
+   --------------------------------------------------------------------------
+   A tooltip is a narrow slip, a tanzaku: ink with paper-coloured type on
+   paper, rice paper with lacquer-coloured type on lacquer. Small corners,
+   no spring on the way in.
+   ========================================================================== */
+
+body.tss-theme-washi .tippy-box:not([data-theme]) {
+    background: rgb(var(--tss-tooltip-background-color-root));
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+    border-radius: var(--tss-wa-radius-small);
+    box-shadow: 0 2px 6px -2px rgba(40, 28, 16, 0.3), 0 10px 22px -12px rgba(40, 28, 16, 0.45);
+    font-size: 12px;
+    line-height: 17px;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-washi.tss-dark-mode .tippy-box:not([data-theme]) {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 10px 22px -10px rgba(0, 0, 0, 0.8);
+}
+
+body.tss-theme-washi .tippy-box:not([data-theme]) > .tippy-content {
+    padding: 5px 10px;
+}
+
+body.tss-theme-washi .tippy-box:not([data-theme]) > .tippy-arrow {
+    color: rgb(var(--tss-tooltip-background-color-root));
+}
+
+body.tss-theme-washi .tippy-box[data-inertia][data-state=visible] {
+    transition-timing-function: var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tippy-box:not([data-theme]) .tippy-content .tss-fontcolor-default {
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}
+
+/* A default button inside the slip is drawn in the slip's own colours. */
+body.tss-theme-washi .tippy-box:not([data-theme]) .tippy-content .tss-btn-default:not(.tss-disabled) {
+    background: transparent;
+    border-color: rgba(var(--tss-tooltip-foreground-color-root), 0.3);
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}
+
+body.tss-theme-washi .tippy-box:not([data-theme]) .tippy-content .tss-btn-default:not(.tss-disabled) .tss-fontcolor-default {
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}
+
+body.tss-theme-washi .tippy-box:not([data-theme]) .tippy-content .tss-btn-default:not(.tss-disabled):hover {
+    background: rgba(var(--tss-tooltip-foreground-color-root), 0.12);
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-washi .tippy-box {
+        transition-duration: 0ms !important;
+    }
+}

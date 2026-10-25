@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Washi theme - IconTile
+   --------------------------------------------------------------------------
+   A tile is a small square of paper or of an app's tint, its corners cut.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-icontile {
+    --tss-icontile-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-icontile.tss-icontile-plain,
+body.tss-theme-washi.tss-dark-mode .tss-icontile.tss-icontile-plain {
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-icontile-text {
+    font-family: var(--tss-wa-serif);
+    font-weight: 600;
+    text-transform: none;
+}

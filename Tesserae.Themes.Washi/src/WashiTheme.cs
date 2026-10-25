@@ -1,7 +1,13 @@
 namespace Tesserae.Themes.Washi
 {
     /// <summary>
-    /// A Japanese paper-and-ink Tesserae custom theme: rice-paper texture, sumi-ink black, a vermilion seal-stamp accent and generous whitespace.
+    /// A Japanese paper-and-ink Tesserae custom theme. Light mode is a sheet of kozo washi (warm off-white with a faint
+    /// fibrous grain), sumi ink for type and lines, and one accent: vermilion, the red of a seal stamp, pressed onto
+    /// selections and primary actions as a small square hanko with an uneven edge. Lines are drawn as tapering brush
+    /// strokes, the sidebar is a shoji panel with a fine kumiko lattice, sheets lift on soft warm shadows, and the
+    /// traditional dyes (indigo, moss, tea-gold, crimson) carry meaning sparingly. Dark mode is urushi lacquerware:
+    /// black-brown lacquer with a sheen, rice-paper type, a brighter vermilion and gold (kintsugi) for focus.
+    /// Headings in Shippori Mincho, text in Zen Kaku Gothic New, code in IBM Plex Mono (all OFL, bundled).
     ///
     /// <para>
     /// Activate it through <see cref="UI.Theme.SetCustomTheme(ICustomTheme)"/>:

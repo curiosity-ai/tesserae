@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Washi theme - NodeView
+   --------------------------------------------------------------------------
+   The node editor is drawn on the page: a fine lattice of diluted ink for
+   the grid, nodes as sheets with a hairline edge and a Mincho title band,
+   connections in ink, the selected node and the primary control in
+   vermilion. Every value reads the mode's tokens, so one rule serves paper
+   and lacquer.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-nodeview {
+    --baklava-control-color-primary: var(--tss-wa-shu);
+    --baklava-control-color-error: var(--tss-wa-enji);
+    --baklava-control-color-background: rgb(var(--tss-default-background-color-root));
+    --baklava-control-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-control-color-hover: rgb(var(--tss-default-background-hover-color-root));
+    --baklava-control-color-active: rgb(var(--tss-default-background-active-color-root));
+    --baklava-control-color-disabled-foreground: rgb(var(--tss-disabled-foreground-color-root));
+    --baklava-control-border-radius: 2px;
+    --baklava-sidebar-color-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-sidebar-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-color-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-node-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-color-hover: rgba(var(--tss-primary-background-color-root), 0.12);
+    --baklava-node-title-color-background: rgb(var(--tss-default-background-hover-color-root));
+    --baklava-node-title-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-group-node-title-color-background: color-mix(in srgb, var(--tss-wa-koke) 22%, rgb(var(--tss-secondary-background-color-root)));
+    --baklava-group-node-title-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-interface-port-color: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-border-radius: 3px;
+    --baklava-color-connection-default: rgba(var(--tss-default-foreground-color-root), 0.6);
+    --baklava-color-connection-allowed: var(--tss-wa-koke);
+    --baklava-color-connection-forbidden: var(--tss-wa-enji);
+    --baklava-editor-background-pattern-default: rgb(var(--tss-default-background-color-root));
+    --baklava-editor-background-pattern-line: rgba(var(--tss-default-foreground-color-root), 0.07);
+    --baklava-editor-background-pattern-black: rgba(var(--tss-default-foreground-color-root), 0.12);
+    --baklava-context-menu-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-context-menu-shadow: var(--tss-wa-float);
+    --baklava-toolbar-background: rgba(var(--tss-secondary-background-color-root), 0.9);
+    --baklava-toolbar-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-palette-background: rgba(var(--tss-secondary-background-color-root), 0.9);
+    --baklava-node-palette-foreground: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-nodeview .baklava-node {
+    box-shadow: var(--tss-wa-lift);
+}
+
+body.tss-theme-washi .tss-nodeview .baklava-node > .__title {
+    font-family: var(--tss-wa-serif);
+    font-weight: 500;
+}

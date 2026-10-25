@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Washi theme - Expander (Accordion)
+   --------------------------------------------------------------------------
+   A folded sheet: paper with a hairline edge, the header a line of type
+   that takes a wash under the pointer, the fold between header and
+   content a fine line.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-expander {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-expander-header:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-expander-title {
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-expander-chevron {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-expander-content {
+    border-top-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-expander-icon {
+    border-radius: var(--tss-wa-radius);
+}

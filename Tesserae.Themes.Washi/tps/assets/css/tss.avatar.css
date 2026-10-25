@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Washi theme - Avatar
+   --------------------------------------------------------------------------
+   An avatar is a round paper token with the initials in Mincho. A generated
+   one is dyed: the hue the toolkit picks is kept but muted towards the
+   traditional dyes, so a row of them reads as a set of dyed papers rather
+   than as bright gradients. Presence is a small dot of dye ringed in paper.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-avatar {
+    background: var(--tss-wa-wash-strong);
+    box-shadow: inset 0 0 0 1px var(--tss-wa-line);
+    font-family: var(--tss-wa-serif);
+    font-weight: 600;
+}
+
+body.tss-theme-washi .tss-avatar.tss-avatar-generated {
+    background: linear-gradient(160deg, hsl(var(--tss-avatar-hue), 32%, 46%), hsl(calc(var(--tss-avatar-hue) + 24), 38%, 36%));
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-avatar.tss-avatar-generated > .tss-avatar-initials {
+    color: rgb(255, 250, 242);
+}
+
+body.tss-theme-washi .tss-avatar-presence {
+    border-color: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-presence-online { background: var(--tss-wa-koke); }
+body.tss-theme-washi .tss-presence-away { background: var(--tss-wa-kincha); }
+body.tss-theme-washi .tss-presence-busy { background: var(--tss-wa-shu); }
+
+body.tss-theme-washi .tss-persona-name {
+    font-weight: 500;
+}

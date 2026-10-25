@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Washi theme - CardPivot
+   --------------------------------------------------------------------------
+   A row of paper cards side by side, divided by fine lines; the chosen one
+   carries a vermilion brush stroke along its foot.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-cardpivot-titlebar {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+    overflow: hidden;
+}
+
+body.tss-theme-washi .tss-cardpivot-tab {
+    position: relative;
+    background: transparent;
+    border-right-color: var(--tss-wa-line);
+    border-bottom-color: transparent;
+}
+
+body.tss-theme-washi .tss-cardpivot-tab:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-cardpivot-tab.tss-cardpivot-selected {
+    border-bottom-color: transparent;
+}
+
+body.tss-theme-washi .tss-cardpivot-tab.tss-cardpivot-selected::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 0;
+    height: 4px;
+    background: var(--tss-wa-shu);
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+}

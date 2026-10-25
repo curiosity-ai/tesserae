@@ -1,0 +1,75 @@
+/* ==========================================================================
+   Washi theme - OmniBox
+   --------------------------------------------------------------------------
+   The omnibox is a field: smooth paper, a hairline, the thread on focus.
+   The buttons along its edge are divided from the words by fine lines; the
+   query's recognised words sit on a pale indigo wash, its operators in
+   indigo type, as a scholar's marks in the margin.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-omnibox-container {
+    --tss-omnibox-radius: var(--tss-wa-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-field-edge);
+    box-shadow: none;
+    transition: border-color var(--tss-wa-quick) var(--tss-wa-ease), box-shadow var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover {
+    border-color: var(--tss-wa-field-edge-hover);
+}
+
+body.tss-theme-washi .tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover .tss-omnibox-search-container {
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-omnibox-container:focus-within {
+    border-color: var(--tss-wa-thread);
+    box-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+}
+
+body.tss-theme-washi .tss-omnibox-container:focus-within .tss-omnibox-search-container {
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn,
+body.tss-theme-washi .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-help-btn {
+    background: transparent;
+    border-right-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-btn {
+    border-left-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-omnibox-search-input::placeholder {
+    color: rgb(var(--tss-secondary-foreground-color-root)) !important;
+}
+
+body.tss-theme-washi .tss-omnibox-search-token-word,
+body.tss-theme-washi.tss-dark-mode .tss-omnibox-search-token-word {
+    color: color-mix(in srgb, var(--tss-wa-ai) 75%, rgb(var(--tss-default-foreground-color-root)));
+    background: color-mix(in srgb, var(--tss-wa-ai) 12%, transparent);
+    outline-color: color-mix(in srgb, var(--tss-wa-ai) 30%, transparent);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-omnibox-search-token-operator-and,
+body.tss-theme-washi .tss-omnibox-search-token-operator-or,
+body.tss-theme-washi .tss-omnibox-search-token-operator-not,
+body.tss-theme-washi .tss-omnibox-search-token-paren,
+body.tss-theme-washi.tss-dark-mode .tss-omnibox-search-token-operator-and,
+body.tss-theme-washi.tss-dark-mode .tss-omnibox-search-token-operator-or,
+body.tss-theme-washi.tss-dark-mode .tss-omnibox-search-token-operator-not,
+body.tss-theme-washi.tss-dark-mode .tss-omnibox-search-token-paren {
+    color: var(--tss-wa-ai);
+}
+
+body.tss-theme-washi .tss-omnibox-container.tss-omnibox-rounded-full {
+    --tss-omnibox-radius: 999px;
+}

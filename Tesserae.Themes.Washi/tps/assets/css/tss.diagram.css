@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Washi theme - Diagram
+   --------------------------------------------------------------------------
+   Nodes are paper slips with an ink edge on the page's dotted ground; they
+   lift a hair under the pointer and while dragged.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-diagram {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-diagram-node {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.35);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-diagram-node:hover,
+body.tss-theme-washi .tss-diagram-node.tss-diagram-node-dragging {
+    box-shadow: var(--tss-wa-lift-hover);
+}
+
+body.tss-theme-washi .tss-diagram-node.tss-diagram-node-icon-only {
+    border-radius: 50%;
+}

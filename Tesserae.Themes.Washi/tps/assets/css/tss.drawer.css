@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Washi theme - Drawer
+   --------------------------------------------------------------------------
+   A drawer is a sheet drawn up from the foot of the page, with a short ink
+   stroke for a handle.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-drawer {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: var(--tss-wa-grain);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    box-shadow: 0 -1px 0 var(--tss-wa-line), 0 -18px 40px -18px rgba(60, 40, 20, 0.35);
+}
+
+body.tss-theme-washi.tss-dark-mode .tss-drawer {
+    background-image: var(--tss-wa-sheen), var(--tss-wa-grain);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5), 0 -18px 40px -18px rgba(0, 0, 0, 0.85);
+}
+
+body.tss-theme-washi .tss-drawer-handle-bar {
+    width: 44px;
+    height: 4px;
+    border-radius: 0;
+    background: rgba(var(--tss-default-foreground-color-root), 0.4);
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-drawer-close {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-drawer-close:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-drawer-footer {
+    border-top-color: var(--tss-wa-line);
+}

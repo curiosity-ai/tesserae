@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Washi theme - Tree
+   --------------------------------------------------------------------------
+   Branches hang from fine vertical lines of diluted ink. A row takes a wash
+   under the pointer; the chosen one a deeper wash with its words in ink and
+   its glyph in vermilion.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-tree-item-content {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-tree-item-content:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-tree-item-content.tss-selected {
+    background: var(--tss-wa-wash-strong);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-tree-item-content.tss-selected .tss-tree-icon {
+    color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-tree-item:focus-visible > .tss-tree-item-content {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-tree-chevron {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-tree-chevron:hover,
+body.tss-theme-washi .tss-tree-checkbox:hover {
+    color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-tree-children {
+    border-left-color: var(--tss-wa-line);
+}

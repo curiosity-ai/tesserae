@@ -1,0 +1,21 @@
+/* ==========================================================================
+   Washi theme - EditableLabel
+   --------------------------------------------------------------------------
+   Words that can be rewritten: a pale wash under the pointer, and while
+   editing, the same slip of paper as a text field.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-editablelabel-displaybox {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-editablelabel-displaybox:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-editablelabel-textbox {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-thread);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+}

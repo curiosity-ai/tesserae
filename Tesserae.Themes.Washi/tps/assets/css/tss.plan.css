@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Washi theme - Plan
+   --------------------------------------------------------------------------
+   A plan's state is told in the dyes: indigo while it runs, moss when
+   done, crimson when it failed, tea-gold when it was set aside, each with
+   a pale wash of itself.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-plan-running   { --plan-accent: var(--tss-wa-ai);     --plan-accent-soft: color-mix(in srgb, var(--tss-wa-ai) 12%, transparent); }
+body.tss-theme-washi .tss-plan-completed { --plan-accent: var(--tss-wa-koke);   --plan-accent-soft: color-mix(in srgb, var(--tss-wa-koke) 14%, transparent); }
+body.tss-theme-washi .tss-plan-failed    { --plan-accent: var(--tss-wa-enji);   --plan-accent-soft: color-mix(in srgb, var(--tss-wa-enji) 12%, transparent); }
+body.tss-theme-washi .tss-plan-canceled  { --plan-accent: var(--tss-wa-kincha); --plan-accent-soft: color-mix(in srgb, var(--tss-wa-kincha) 16%, transparent); }
+
+body.tss-theme-washi .tss-plan-step.is-running .tss-plan-step-body,
+body.tss-theme-washi.tss-dark-mode .tss-plan-step.is-running .tss-plan-step-body {
+    background: color-mix(in srgb, var(--tss-wa-ai) 7%, rgb(var(--tss-secondary-background-color-root)));
+    border-radius: var(--tss-wa-radius);
+}

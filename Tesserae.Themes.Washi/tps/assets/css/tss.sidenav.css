@@ -1,0 +1,48 @@
+/* ==========================================================================
+   Washi theme - Sidenav
+   --------------------------------------------------------------------------
+   The narrow rail is the same shoji panel as the sidebar. The current entry
+   is a sheet laid on it with its glyph in vermilion; a notification dot is
+   a tiny square seal.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-sidenav {
+    background-color: rgb(var(--tss-sidebar-background-color-root));
+    background-image: var(--tss-wa-grain);
+    border-right-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-sidenav-footer {
+    border-top-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-washi .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn,
+body.tss-theme-washi .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:hover {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: transparent;
+    box-shadow: var(--tss-wa-lift);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-sidenav-btn-wrap.tss-sidenav-selected .tss-sidenav-btn-icon {
+    color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-sidenav-btn-dot {
+    border-radius: 1px;
+    background: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-sidenav-btn-wrap.tss-sidenav-btn-brand > .tss-btn.tss-sidenav-btn {
+    border-radius: var(--tss-wa-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+}

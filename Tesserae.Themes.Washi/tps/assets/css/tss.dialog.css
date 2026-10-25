@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Washi theme - Dialog
+   --------------------------------------------------------------------------
+   A dialog is a small modal sheet: the same paper, the same cut corners,
+   a little more air round the words.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-dialog {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-dialog .tss-modal-header {
+    padding: 16px 18px 0 18px;
+}
+
+body.tss-theme-washi .tss-dialog .tss-modal-content {
+    padding: 2px 18px 4px 18px;
+    line-height: 1.6;
+}
+
+body.tss-theme-washi .tss-dialog .tss-modal-footer {
+    padding: 4px 18px 10px 18px;
+}

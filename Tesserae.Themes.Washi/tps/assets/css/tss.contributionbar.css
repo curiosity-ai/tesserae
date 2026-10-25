@@ -1,0 +1,58 @@
+/* ==========================================================================
+   Washi theme - ContributionBar
+   --------------------------------------------------------------------------
+   A strip of paper divided into dyed lengths: the rail is a pale wash, the
+   corners cut, the parts read the chart dyes unless an app chose its own.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-contribution-bar {
+    border-radius: 1px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.08);
+}
+
+body.tss-theme-washi .tss-contribution-toggle {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+/* The toolkit's default palette (ContributionBar.DefaultPalette) names Tesserae's bright 500 colours
+   rather than --tss-chart-series-N, so each of those is mapped onto the nearest dye here. A colour an
+   app picks outside that palette is left alone. */
+body.tss-theme-washi .tss-contribution-segment[style*="--tss-colors-blue-500)"],
+body.tss-theme-washi .tss-contribution-legend-dot[style*="--tss-colors-blue-500)"] {
+    background-color: var(--tss-chart-series-2) !important;
+}
+
+body.tss-theme-washi .tss-contribution-segment[style*="--tss-colors-teal-500)"],
+body.tss-theme-washi .tss-contribution-legend-dot[style*="--tss-colors-teal-500)"] {
+    background-color: var(--tss-chart-series-7) !important;
+}
+
+body.tss-theme-washi .tss-contribution-segment[style*="--tss-colors-green-500)"],
+body.tss-theme-washi .tss-contribution-legend-dot[style*="--tss-colors-green-500)"] {
+    background-color: var(--tss-chart-series-3) !important;
+}
+
+body.tss-theme-washi .tss-contribution-segment[style*="--tss-colors-orange-500)"],
+body.tss-theme-washi .tss-contribution-legend-dot[style*="--tss-colors-orange-500)"] {
+    background-color: var(--tss-chart-series-4) !important;
+}
+
+body.tss-theme-washi .tss-contribution-segment[style*="--tss-colors-purple-500)"],
+body.tss-theme-washi .tss-contribution-legend-dot[style*="--tss-colors-purple-500)"] {
+    background-color: var(--tss-chart-series-5) !important;
+}
+
+body.tss-theme-washi .tss-contribution-segment[style*="--tss-colors-magenta-500)"],
+body.tss-theme-washi .tss-contribution-legend-dot[style*="--tss-colors-magenta-500)"] {
+    background-color: var(--tss-chart-series-8) !important;
+}
+
+body.tss-theme-washi .tss-contribution-segment[style*="--tss-colors-red-500)"],
+body.tss-theme-washi .tss-contribution-legend-dot[style*="--tss-colors-red-500)"] {
+    background-color: var(--tss-chart-series-1) !important;
+}
+
+body.tss-theme-washi .tss-contribution-segment[style*="--tss-colors-blue-400)"],
+body.tss-theme-washi .tss-contribution-legend-dot[style*="--tss-colors-blue-400)"] {
+    background-color: var(--tss-chart-series-6) !important;
+}

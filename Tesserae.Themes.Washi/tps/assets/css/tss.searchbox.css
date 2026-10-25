@@ -1,0 +1,62 @@
+/* ==========================================================================
+   Washi theme - SearchBox
+   --------------------------------------------------------------------------
+   The same slip of paper as a text field, the magnifier in diluted ink.
+   The underlined variant is a single brush-thin ink line under the words,
+   drawn in the thread colour on focus. Progress runs along the bottom edge
+   as a vermilion line.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-searchbox-container {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-field-edge);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+    transition: border-color var(--tss-wa-quick) var(--tss-wa-ease), box-shadow var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-searchbox-container:hover {
+    border-color: var(--tss-wa-field-edge-hover);
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-searchbox-container:focus-within {
+    border-color: var(--tss-wa-thread);
+    box-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+}
+
+body.tss-theme-washi .tss-searchbox::placeholder {
+    color: rgb(var(--tss-secondary-foreground-color-root)) !important;
+    opacity: 0.75;
+}
+
+body.tss-theme-washi .tss-searchbox-icon {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-searchbox-container.tss-disabled {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-searchbox-container.tss-underlined {
+    background: transparent;
+    border-color: var(--tss-wa-line-strong);
+    border-radius: 0;
+    border-width: 0 0 1px;
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-searchbox-container.tss-underlined:focus-within {
+    border-color: var(--tss-wa-thread);
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-searchbox-progress-bar {
+    background: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-searchbox-clear,
+body.tss-theme-washi .tss-searchbox-cancel {
+    border-radius: var(--tss-wa-radius-small);
+}

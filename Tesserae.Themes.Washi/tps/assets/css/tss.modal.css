@@ -1,0 +1,121 @@
+/* ==========================================================================
+   Washi theme - Modal
+   --------------------------------------------------------------------------
+   A modal is a fresh sheet laid over the page, fibres and all, its corners
+   cut almost square, lifted on a wide soft shadow. The page behind is
+   veiled in paper (or in lacquer, in dark mode). A title is set in Mincho
+   with a brush stroke drawn under it; the close button is a quiet glyph.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-modal-container {
+    background-color: var(--tss-overlay-light);
+}
+
+body.tss-theme-washi .tss-modal-container.tss-dark {
+    background-color: var(--tss-overlay-dark);
+}
+
+body.tss-theme-washi .tss-modal-container.tss-modal-modeless {
+    background-color: transparent;
+}
+
+body.tss-theme-washi .tss-modal {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: var(--tss-wa-grain);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi.tss-dark-mode .tss-modal {
+    background-image: var(--tss-wa-sheen), var(--tss-wa-grain);
+}
+
+body.tss-theme-washi .tss-modal.tss-embedded {
+    box-shadow: var(--tss-wa-lift);
+}
+
+body.tss-theme-washi .tss-modal-header,
+body.tss-theme-washi .tss-modal-footer {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-modal-header {
+    padding-left: 18px;
+    padding-right: 10px;
+}
+
+body.tss-theme-washi .tss-modal-content {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+body.tss-theme-washi .tss-modal-footer {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+body.tss-theme-washi .tss-modal-header-content:not(:empty) {
+    padding-top: 12px;
+    padding-bottom: 10px;
+}
+
+body.tss-theme-washi .tss-modal-header-content > .tss-textblock {
+    font-family: var(--tss-wa-serif);
+    font-weight: 500;
+}
+
+/* A title on its own gets the brush stroke under it. */
+body.tss-theme-washi .tss-modal-header-content:has(> .tss-textblock:only-child) {
+    position: relative;
+}
+
+body.tss-theme-washi .tss-modal-header-content:has(> .tss-textblock:only-child)::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 3px;
+    width: min(140px, 60%);
+    height: 3px;
+    background: var(--tss-wa-shu);
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-modal-header-commands > .tss-btn,
+body.tss-theme-washi .tss-modal-header-commands > button,
+body.tss-theme-washi .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-washi .tss-modal-left-header-commands > button {
+    border-radius: var(--tss-wa-radius);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-modal-header-commands > .tss-btn:hover,
+body.tss-theme-washi .tss-modal-header-commands > button:hover,
+body.tss-theme-washi .tss-modal-left-header-commands > .tss-btn:hover,
+body.tss-theme-washi .tss-modal-left-header-commands > button:hover {
+    background: var(--tss-wa-wash);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-washi .tss-modal-header-commands > button:active,
+body.tss-theme-washi .tss-modal-left-header-commands > .tss-btn:active,
+body.tss-theme-washi .tss-modal-left-header-commands > button:active {
+    background: var(--tss-wa-wash-strong);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-modal-header-commands > .tss-modal-button:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: -2px;
+}
+
+body.tss-theme-washi .tss-modal-footer-commands:not(:empty),
+body.tss-theme-washi .tss-modal-left-footer-commands:not(:empty) {
+    padding-top: 10px;
+    padding-bottom: 12px;
+}
+
+body.tss-theme-washi .tss-modal-animate {
+    animation-timing-function: var(--tss-wa-ease);
+}

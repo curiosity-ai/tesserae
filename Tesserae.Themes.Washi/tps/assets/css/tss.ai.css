@@ -1,0 +1,38 @@
+/* ==========================================================================
+   Washi theme - AI variants
+   --------------------------------------------------------------------------
+   "A model did this" is said in wisteria running into indigo, two dyes
+   that sit beside vermilion without competing with it, quiet enough for
+   paper. Only the tokens change: Tesserae's own rules draw the rest.
+   ========================================================================== */
+
+body.tss-theme-washi {
+    --tss-ai-from: rgb(132, 108, 170);
+    --tss-ai-to: rgb(44, 78, 128);
+    --tss-ai-accent: rgb(100, 82, 148);
+    --tss-ai-gradient: linear-gradient(115deg, rgb(132, 108, 170), rgb(44, 78, 128));
+    --tss-ai-gradient-hover: linear-gradient(115deg, rgb(144, 120, 182), rgb(54, 90, 142));
+    --tss-ai-gradient-text: linear-gradient(100deg, rgb(100, 76, 140), rgb(34, 64, 110));
+    --tss-ai-surface: linear-gradient(135deg, rgba(132, 108, 170, 0.09), rgba(44, 78, 128, 0.06));
+    --tss-ai-surface-strong: linear-gradient(135deg, rgba(132, 108, 170, 0.16), rgba(44, 78, 128, 0.11));
+    --tss-ai-border-color: rgba(110, 90, 156, 0.3);
+    --tss-ai-shadow: 0 0 0 1px rgba(92, 72, 44, 0.05), 0 8px 20px -12px rgba(80, 60, 120, 0.35);
+    --tss-ai-shadow-hover: 0 0 0 1px rgba(92, 72, 44, 0.07), 0 12px 26px -12px rgba(80, 60, 120, 0.45);
+    --tss-ai-arc: conic-gradient(from 0deg, rgb(132, 108, 170) 0deg, rgb(44, 78, 128) 250deg, rgba(44, 78, 128, 0) 330deg, rgba(132, 108, 170, 0) 360deg);
+    --tss-ai-on-fill: rgb(255, 250, 242);
+}
+
+body.tss-theme-washi.tss-dark-mode {
+    --tss-ai-from: rgb(150, 128, 192);
+    --tss-ai-to: rgb(78, 116, 170);
+    --tss-ai-accent: rgb(186, 168, 224);
+    --tss-ai-gradient: linear-gradient(115deg, rgb(150, 128, 192), rgb(78, 116, 170));
+    --tss-ai-gradient-hover: linear-gradient(115deg, rgb(164, 142, 206), rgb(92, 130, 184));
+    --tss-ai-gradient-text: linear-gradient(100deg, rgb(196, 178, 232), rgb(150, 184, 228));
+    --tss-ai-surface: linear-gradient(135deg, rgba(150, 128, 192, 0.14), rgba(78, 116, 170, 0.1));
+    --tss-ai-surface-strong: linear-gradient(135deg, rgba(150, 128, 192, 0.24), rgba(78, 116, 170, 0.16));
+    --tss-ai-border-color: rgba(170, 150, 210, 0.36);
+    --tss-ai-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45), 0 8px 20px -10px rgba(0, 0, 0, 0.7);
+    --tss-ai-shadow-hover: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 12px 26px -10px rgba(0, 0, 0, 0.8);
+    --tss-ai-arc: conic-gradient(from 0deg, rgb(186, 168, 224) 0deg, rgb(130, 166, 214) 250deg, rgba(130, 166, 214, 0) 330deg, rgba(186, 168, 224, 0) 360deg);
+}

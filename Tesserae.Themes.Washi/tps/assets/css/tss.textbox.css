@@ -1,0 +1,84 @@
+/* ==========================================================================
+   Washi theme - TextBox
+   --------------------------------------------------------------------------
+   A field is a slip of smooth paper set into the page: a hairline round it
+   that darkens under the pointer, and on focus the line becomes the thread
+   (indigo on paper, gold on lacquer) with a soft halo of the same. Invalid
+   is the crimson line and a small crimson message. Disabled is blank paper.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-textbox:not(.tss-ai) {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-field-edge);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+    transition: border-color var(--tss-wa-quick) var(--tss-wa-ease), box-shadow var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-textbox:not(.tss-ai):hover {
+    border-color: var(--tss-wa-field-edge-hover);
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-textbox:not(.tss-ai):focus {
+    border-color: var(--tss-wa-thread);
+    box-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+}
+
+body.tss-theme-washi .tss-textbox::placeholder {
+    color: rgb(var(--tss-secondary-foreground-color-root)) !important;
+    opacity: 0.75;
+}
+
+body.tss-theme-washi .tss-textbox.tss-disabled {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border-color: var(--tss-wa-line);
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-textbox-container.tss-invalid .tss-textbox {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-washi .tss-textbox-container.tss-invalid .tss-textbox:focus {
+    box-shadow: 0 0 0 3px rgba(var(--tss-invalid-border-color-root), 0.16);
+}
+
+body.tss-theme-washi .tss-textbox-error {
+    color: rgb(var(--tss-invalid-border-color-root));
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-washi .tss-textbox.tss-textbox-noborder,
+body.tss-theme-washi .tss-textbox.tss-textbox-noborder:hover,
+body.tss-theme-washi .tss-textbox.tss-textbox-noborder:focus {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+/* Tables written in a text block: ruled like a ledger, a strong ink rule under the head. */
+body.tss-theme-washi .tss-textblock table {
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-textblock table thead {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-textblock table th {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-weight: 500;
+    border-bottom: 1px solid var(--tss-wa-line-strong);
+}
+
+body.tss-theme-washi .tss-textblock table td {
+    border-bottom: 1px solid var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-textblock table tbody tr:hover {
+    background: var(--tss-wa-wash);
+}

@@ -1,0 +1,14 @@
+/* ==========================================================================
+   Washi theme - TextBreadcrumbs
+   --------------------------------------------------------------------------
+   A crumb takes a pale wash under the pointer, its corners cut.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-textbreadcrumb {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-textbreadcrumb:hover {
+    background: var(--tss-wa-wash-strong);
+    border-color: transparent;
+}

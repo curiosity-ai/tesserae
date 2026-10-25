@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Washi theme - SectionTitle
+   --------------------------------------------------------------------------
+   A page title is set in Mincho, and its icon is a seal: the glyph cut out
+   of a small square of vermilion paste pressed beside the name, the way a
+   painter signs a scroll. The subtitle is the diluted-ink line under it.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-sectiontitle-title {
+    font-family: var(--tss-wa-serif);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-washi .tss-sectiontitle-icon {
+    position: relative;
+    isolation: isolate;
+    width: 32px;
+    height: 32px;
+    line-height: 32px !important;
+    flex: 0 0 32px;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: var(--tss-wa-on-shu);
+}
+
+body.tss-theme-washi .tss-sectiontitle-icon::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+    -webkit-mask: var(--tss-wa-hanko) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-hanko) center / 100% 100% no-repeat;
+    transform: rotate(-2deg);
+}
+
+body.tss-theme-washi .tss-sectiontitle-subtitle {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}

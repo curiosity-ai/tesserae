@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Washi theme - ModalStack
+   --------------------------------------------------------------------------
+   Stacked sheets; a tab of the sheet below takes a pale wash under the
+   pointer, the trail of steps is type with a wash.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-modalstack-tab:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-modalstack-trail-step {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-modalstack-trail-step:hover {
+    background: var(--tss-wa-wash);
+}

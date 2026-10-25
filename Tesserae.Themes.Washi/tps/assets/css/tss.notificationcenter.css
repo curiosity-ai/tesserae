@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Washi theme - NotificationCenter
+   --------------------------------------------------------------------------
+   The bell is a quiet glyph; its count a small vermilion seal. Each
+   notification's kind is a small square of dye; an unread one sits on a
+   pale indigo wash.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-notif-bell {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-notif-bell:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-notif-bell:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-notif-badge {
+    border-radius: var(--tss-wa-radius-small);
+    background: var(--tss-wa-shu);
+    color: var(--tss-wa-on-shu);
+}
+
+body.tss-theme-washi .tss-notif-dot {
+    border-radius: 1px;
+}
+
+body.tss-theme-washi .tss-notif-dot.tss-notif-info { background: var(--tss-wa-ai); }
+
+body.tss-theme-washi .tss-notif-unread {
+    background: color-mix(in srgb, var(--tss-wa-ai) 7%, transparent) !important;
+}

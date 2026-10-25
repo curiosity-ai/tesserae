@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Washi theme - CronEditor
+   --------------------------------------------------------------------------
+   The editor is a sheet with a hairline. The sentence that describes the
+   schedule is underlined with a dotted ink line, solid under the pointer;
+   its inline choices are small ink tabs with paper-coloured words, like
+   the stamped blanks of a printed form.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-cron-editor {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-cron-desc {
+    border-bottom: 1px dotted rgba(var(--tss-default-foreground-color-root), 0.6);
+}
+
+body.tss-theme-washi .tss-cron-open {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-cron-inline-dropdown.tss-dropdown-container,
+body.tss-theme-washi .tss-cron-inline-dropdown.tss-dropdown-container:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    border: none;
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-cron-inline-dropdown.tss-dropdown-container:hover {
+    background: rgba(var(--tss-default-foreground-color-root), 0.82);
+}
+
+body.tss-theme-washi .tss-cron-inline-dropdown .tss-dropdown-item-on-box,
+body.tss-theme-washi .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-fontcolor-default,
+body.tss-theme-washi .tss-cron-inline-dropdown .tss-dropdown-icon {
+    color: rgb(var(--tss-default-background-color-root)) !important;
+}

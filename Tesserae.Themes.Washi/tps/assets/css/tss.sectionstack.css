@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Washi theme - SectionStack
+   --------------------------------------------------------------------------
+   Sections are sheets laid down the page with generous space between them,
+   a calm vertical rhythm. The secondary variant leaves the page ground
+   showing, so every section card keeps its edge.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-sectionstack-secondary {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-sectionstack-item {
+    margin-bottom: 22px !important;
+}
+
+body.tss-theme-washi .tss-sectionstack .tss-sectionstack-item:last-child {
+    margin-bottom: 0 !important;
+}
+
+body.tss-theme-washi .tss-sectionstack-card {
+    padding: 20px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-lift);
+}

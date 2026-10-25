@@ -1,0 +1,89 @@
+/* ==========================================================================
+   Washi theme - Charts
+   --------------------------------------------------------------------------
+   A chart is drawn straight onto the paper: gridlines are the faintest
+   ruling, axes and labels small diluted ink, lines drawn with a round
+   brush. A series without an explicit colour reads --tss-chart-series-N
+   (ChartBase.DefaultPalette), so the palette is set here from the
+   traditional dyes: vermilion (shu), indigo (ai), moss (koke), tea-gold
+   (kincha), wisteria (fuji), diluted ink (usuzumi), pale indigo (asagi)
+   and crimson (enji). On lacquer each dye is lifted so it reads on the
+   dark ground. A series an app coloured itself keeps its colour.
+   ========================================================================== */
+
+body.tss-theme-washi {
+    --tss-chart-series-1: rgb(200, 60, 38);
+    --tss-chart-series-2: rgb(38, 72, 118);
+    --tss-chart-series-3: rgb(104, 126, 70);
+    --tss-chart-series-4: rgb(196, 146, 52);
+    --tss-chart-series-5: rgb(132, 108, 170);
+    --tss-chart-series-6: rgb(118, 110, 100);
+    --tss-chart-series-7: rgb(64, 132, 148);
+    --tss-chart-series-8: rgb(150, 34, 50);
+}
+
+body.tss-theme-washi.tss-dark-mode {
+    --tss-chart-series-1: rgb(232, 96, 66);
+    --tss-chart-series-2: rgb(130, 164, 212);
+    --tss-chart-series-3: rgb(150, 176, 106);
+    --tss-chart-series-4: rgb(216, 174, 92);
+    --tss-chart-series-5: rgb(176, 156, 214);
+    --tss-chart-series-6: rgb(176, 164, 148);
+    --tss-chart-series-7: rgb(110, 178, 190);
+    --tss-chart-series-8: rgb(214, 92, 104);
+}
+
+body.tss-theme-washi .tss-chart {
+    font-family: var(--tss-sansserif-font-family);
+}
+
+/* Gridlines: the faintest ruling. */
+body.tss-theme-washi .tss-chart line[stroke*="neutral-500-alpha"] {
+    stroke: rgba(var(--tss-default-foreground-color-root), 0.08);
+}
+
+/* Axes, the crosshair and every label: small diluted ink. */
+body.tss-theme-washi .tss-chart line[stroke="var(--tss-default-foreground-color)"] {
+    stroke: rgb(var(--tss-secondary-foreground-color-root));
+    stroke-opacity: 0.55;
+}
+
+body.tss-theme-washi .tss-chart text {
+    fill: rgb(var(--tss-secondary-foreground-color-root));
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-washi .tss-chart text[font-size="11"] {
+    fill: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The tooltip drawn into the SVG: a small slip of paper. */
+body.tss-theme-washi .tss-chart rect[fill="var(--tss-default-background-color)"] {
+    fill: rgb(var(--tss-secondary-background-color-root));
+    stroke: var(--tss-wa-line);
+    rx: 3px;
+    filter: drop-shadow(0 4px 8px rgba(60, 40, 20, 0.18));
+}
+
+body.tss-theme-washi .tss-chart rect[fill="var(--tss-default-background-color)"] ~ text {
+    fill: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-chart path[stroke^="var(--tss-chart-series"] {
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+/* HeatMap: the toolkit blue becomes indigo, like a cloth dyed deeper with each dip. */
+body.tss-theme-washi .tss-chart rect[fill="var(--tss-colors-blue-600)"] {
+    fill: var(--tss-chart-series-2);
+}
+
+body.tss-theme-washi .tss-chart stop[stop-color="var(--tss-colors-blue-600)"] {
+    stop-color: var(--tss-chart-series-2);
+}
+
+body.tss-theme-washi .tss-chart rect[fill-opacity] {
+    rx: 1px;
+}

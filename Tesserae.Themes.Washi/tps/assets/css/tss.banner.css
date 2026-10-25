@@ -1,0 +1,67 @@
+/* ==========================================================================
+   Washi theme - Banner
+   --------------------------------------------------------------------------
+   A notice is a sheet of paper with a hairline edge, barely tinted with
+   its dye, and a brush stroke of the dye drawn down its leading edge.
+   Information is indigo (Tesserae's Primary banner is the informational
+   one, and vermilion is kept for the seal), success moss, warning
+   tea-gold, danger crimson. The icon sits on a small square of the dye's
+   wash; the title is in the dye, deepened with ink.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-banner {
+    --tss-banner-surface: color-mix(in srgb, var(--tss-banner-accent) 5%, rgb(var(--tss-secondary-background-color-root)));
+    --tss-banner-border-color: var(--tss-wa-line);
+    position: relative;
+    border-radius: var(--tss-wa-radius);
+    padding-left: 18px;
+}
+
+body.tss-theme-washi .tss-banner::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 9px;
+    bottom: 9px;
+    width: 4px;
+    background: var(--tss-banner-accent);
+    -webkit-mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+    pointer-events: none;
+}
+
+body.tss-theme-washi .tss-banner-primary {
+    --tss-banner-accent: var(--tss-wa-ai);
+}
+
+body.tss-theme-washi:not(.tss-dark-mode) .tss-banner-warning {
+    --tss-banner-title-color: color-mix(in srgb, var(--tss-warning-border-color) 80%, var(--tss-default-foreground-color));
+    --tss-banner-text-color: color-mix(in srgb, var(--tss-warning-border-color) 55%, var(--tss-default-foreground-color));
+}
+
+body.tss-theme-washi .tss-banner-flat {
+    border-radius: 0;
+}
+
+body.tss-theme-washi .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-washi.tss-dark-mode .tss-icontile.tss-banner-icon-tile {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-banner-title {
+    font-family: var(--tss-wa-serif);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-washi .tss-banner-badge-pill.tss-badge {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-btn.tss-banner-dismiss-button {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-toast-container > .tss-banner {
+    border: none;
+}

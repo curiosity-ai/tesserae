@@ -1,0 +1,72 @@
+/* ==========================================================================
+   Washi theme - Uptime
+   --------------------------------------------------------------------------
+   Days are small slips of dye laid in a row: moss when all was well,
+   tea-gold for a minor fault, vermilion for a major one, indigo for
+   maintenance, a pale wash for no data and the future. The month card is
+   a sheet; the tooltip the ink tanzaku every tooltip is.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-uptime-bars span {
+    border-radius: 1px;
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-uptime-bars span.operational,
+body.tss-theme-washi .tss-uptime-month-day.operational { background: var(--tss-wa-koke); }
+
+body.tss-theme-washi .tss-uptime-bars span.minor,
+body.tss-theme-washi .tss-uptime-month-day.minor { background: var(--tss-wa-kincha); }
+
+body.tss-theme-washi .tss-uptime-bars span.major,
+body.tss-theme-washi .tss-uptime-month-day.major { background: var(--tss-wa-shu); }
+
+body.tss-theme-washi .tss-uptime-bars span.maintenance,
+body.tss-theme-washi .tss-uptime-month-day.maintenance { background: var(--tss-wa-ai); }
+
+body.tss-theme-washi .tss-uptime-bars span.none,
+body.tss-theme-washi .tss-uptime-month-day {
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-uptime-bars span.future,
+body.tss-theme-washi .tss-uptime-month-day.future {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-uptime-month-day {
+    border-radius: 1px;
+}
+
+body.tss-theme-washi .tss-uptime-month-empty {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-uptime-month-card {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-uptime-month-header span {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tippy-box[data-theme~='uptime'] {
+    background: rgb(var(--tss-tooltip-background-color-root));
+    border: none;
+    border-radius: var(--tss-wa-radius-small);
+    box-shadow: 0 10px 22px -12px rgba(40, 28, 16, 0.5);
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}
+
+body.tss-theme-washi .tippy-box[data-theme~='uptime'] .tss-textblock,
+body.tss-theme-washi .tippy-box[data-theme~='uptime'] .tss-fontweight-semibold {
+    color: rgb(var(--tss-tooltip-foreground-color-root)) !important;
+}
+
+body.tss-theme-washi .tippy-box[data-theme~='uptime'][data-placement^='top'] > .tippy-arrow::before { border-top-color: rgb(var(--tss-tooltip-background-color-root)); }
+body.tss-theme-washi .tippy-box[data-theme~='uptime'][data-placement^='bottom'] > .tippy-arrow::before { border-bottom-color: rgb(var(--tss-tooltip-background-color-root)); }
+body.tss-theme-washi .tippy-box[data-theme~='uptime'][data-placement^='left'] > .tippy-arrow::before { border-left-color: rgb(var(--tss-tooltip-background-color-root)); }
+body.tss-theme-washi .tippy-box[data-theme~='uptime'][data-placement^='right'] > .tippy-arrow::before { border-right-color: rgb(var(--tss-tooltip-background-color-root)); }

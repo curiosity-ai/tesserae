@@ -1,0 +1,22 @@
+/* ==========================================================================
+   Washi theme - GanttChart
+   --------------------------------------------------------------------------
+   Bars are slips of the chart dyes (--tss-chart-series-N): the toolkit's
+   named colours are mapped onto the nearest traditional dye, so a plan
+   reads as one set of papers.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-gantt-bar {
+    --tss-gantt-bar-color: var(--tss-chart-series-2);
+    border-radius: 2px;
+}
+
+body.tss-theme-washi .tss-gantt-bar-blue    { --tss-gantt-bar-color: var(--tss-chart-series-2); }
+body.tss-theme-washi .tss-gantt-bar-green   { --tss-gantt-bar-color: var(--tss-chart-series-3); }
+body.tss-theme-washi .tss-gantt-bar-purple  { --tss-gantt-bar-color: var(--tss-chart-series-5); }
+body.tss-theme-washi .tss-gantt-bar-orange  { --tss-gantt-bar-color: var(--tss-chart-series-1); }
+body.tss-theme-washi .tss-gantt-bar-red     { --tss-gantt-bar-color: var(--tss-chart-series-8); }
+body.tss-theme-washi .tss-gantt-bar-teal    { --tss-gantt-bar-color: var(--tss-chart-series-7); }
+body.tss-theme-washi .tss-gantt-bar-magenta { --tss-gantt-bar-color: var(--tss-chart-series-8); }
+body.tss-theme-washi .tss-gantt-bar-yellow  { --tss-gantt-bar-color: var(--tss-chart-series-4); }
+body.tss-theme-washi .tss-gantt-bar-neutral { --tss-gantt-bar-color: var(--tss-chart-series-6); }

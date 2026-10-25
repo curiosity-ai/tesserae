@@ -1,0 +1,102 @@
+/* ==========================================================================
+   Washi theme - ContextCard
+   --------------------------------------------------------------------------
+   A context card is a small sheet laid on the page: smooth paper, a
+   hairline edge, no shadow at rest. A clickable one lifts off the page by
+   a hair under the pointer, and its chevron turns vermilion. Its icon
+   sits on a small square of wash (or of the app's own tint); the label is
+   ink at a calm weight, the sublabel diluted ink.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-contextcard {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    transition: box-shadow 180ms var(--tss-wa-ease), transform 180ms var(--tss-wa-ease), border-color 180ms var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-contextcard-clickable:hover {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.18);
+    box-shadow: var(--tss-wa-lift-hover);
+    transform: translateY(-1px);
+}
+
+body.tss-theme-washi .tss-contextcard-clickable:active,
+body.tss-theme-washi .tss-contextcard-menu-open,
+body.tss-theme-washi .tss-contextcard-menu-open:hover {
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: inset 0 0 0 1px var(--tss-wa-line);
+    transform: none;
+}
+
+body.tss-theme-washi .tss-contextcard-clickable:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: 2px;
+}
+
+body.tss-theme-washi .tss-contextcard-icon {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-contextcard-icon:not(.tss-contextcard-icon-nobackground):not(.tss-contextcard-icon-image):not([style*="background"]) {
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+}
+
+body.tss-theme-washi .tss-contextcard-label {
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-washi .tss-contextcard-sublabel {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextcard-badge:not(.tss-contextcard-badge-custom) {
+    background: rgb(var(--tss-default-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-washi .tss-contextcard-chevron {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    transition: transform 180ms var(--tss-wa-ease), color 180ms var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-contextcard-clickable:hover .tss-contextcard-chevron {
+    color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-contextcard-remove,
+body.tss-theme-washi.tss-dark-mode .tss-contextcard-remove {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-washi .tss-contextcard-remove:hover,
+body.tss-theme-washi.tss-dark-mode .tss-contextcard-remove:hover {
+    background: var(--tss-wa-enji);
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextcard-compact {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-contextcard-compact .tss-contextcard-icon {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-washi .tss-contextcard,
+    body.tss-theme-washi .tss-contextcard-chevron {
+        transition: none;
+    }
+
+    body.tss-theme-washi .tss-contextcard-clickable:hover {
+        transform: none;
+    }
+}

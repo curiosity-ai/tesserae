@@ -1,0 +1,16 @@
+/* ==========================================================================
+   Washi theme - ProgressRing
+   --------------------------------------------------------------------------
+   An enso being drawn: a vermilion stroke over a faint ring of diluted
+   ink (an app's own track colour is kept); the figure in the middle is set
+   in Mincho.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-progressring-track {
+    stroke: var(--tss-progressring-track-color, rgba(var(--tss-default-foreground-color-root), 0.1));
+}
+
+body.tss-theme-washi .tss-progressring-label {
+    font-family: var(--tss-wa-serif);
+    font-variant-numeric: lining-nums tabular-nums;
+}

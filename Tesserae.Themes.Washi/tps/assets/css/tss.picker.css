@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Washi theme - Picker
+   --------------------------------------------------------------------------
+   The suggestions are a lifted sheet; a row under the pointer takes a pale
+   wash (Tesserae fills it with the primary, which here would be a block of
+   vermilion behind every passing row).
+   ========================================================================== */
+
+body.tss-theme-washi .tss-layer-picker-suggestions {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-picker-suggestions > .tss-picker-label {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-family: var(--tss-wa-serif);
+    letter-spacing: 0.04em;
+}
+
+body.tss-theme-washi .tss-picker-suggestions > .tss-picker-suggestion {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-picker-suggestions > .tss-picker-suggestion:hover {
+    background: var(--tss-wa-wash-strong);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-picker-selection:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-picker-remove {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-picker-remove:hover {
+    border-color: var(--tss-wa-line);
+    background: var(--tss-wa-wash);
+}

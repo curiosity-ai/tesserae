@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Washi theme - Chat
+   --------------------------------------------------------------------------
+   A conversation written on the page. The assistant's words are set
+   straight on the paper; the person's are on a small slip of wash with
+   cut corners, one corner folded towards them.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-chatarea {
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-chatmessage-bubble {
+    color: rgb(var(--tss-default-foreground-color-root));
+    line-height: 1.6;
+}
+
+body.tss-theme-washi .tss-chat-right .tss-chatmessage-bubble {
+    background: var(--tss-wa-wash-strong);
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-radius: 6px 6px 1px 6px;
+}
+
+body.tss-theme-washi .tss-chatmessage-references,
+body.tss-theme-washi .tss-chat-right .tss-chatmessage-references {
+    border-top-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-chatarea-scrollbtn {
+    box-shadow: var(--tss-wa-float);
+}
