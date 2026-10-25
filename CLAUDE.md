@@ -207,7 +207,7 @@ until then and when it fails to draw. To update, replace that file with the new
 onto Tesserae tokens (and `--tss-chart-series-N`), so a theme's fonts, radius, colours and series
 already follow; each theme package also has a small `tss.mermaid.css` that matches the diagram frame
 and lines to its code blocks (RetroOS: ink frame with hard shadow, Stratus: filled surface, Curiosity:
-ink lines and the Signal accent, Rechenwerk: the black terminal frame in both modes).
+ink lines and the Signal accent, Rechenwerk: the code-block frame with its hard signal-colour shadow).
 
 ## Installing Transpose
 
