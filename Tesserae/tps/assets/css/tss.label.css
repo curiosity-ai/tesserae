@@ -44,6 +44,15 @@
         overflow: hidden; /* 2020-06-19 DWR: This is necessary for inline labels that have an OverflowSet for their content - without it, if the content is too big to fit then it introduces a scrollbar instead of having the arrow-down-to-see-more functionality of the OverflowSet */
     }
 
+    /* A checkbox, radio or toggle draws its keyboard ring outside its mark, and the mark sits on the very
+       edge of the content box the rule above clips - so the ring was cut off on every side but the right.
+       The padding moves the clip edge out by the ring's reach and the negative margin takes the same room
+       back, so the margin box, and with it the layout and the truncation inside, is exactly what it was. */
+    .tss-label.tss-inline > :has(> .tss-checkbox-container, > .tss-option-container, > .tss-toggle-container, > .tss-choice-group) {
+        padding: 4px;
+        margin: -4px;
+    }
+
     .tss-label.tss-inline > label {
         flex-shrink: 0;
         flex-grow: 0;

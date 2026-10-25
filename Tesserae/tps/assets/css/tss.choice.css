@@ -43,6 +43,12 @@
         border: 1px solid var(--tss-default-foreground-color);
     }
 
+    /* The focus lands on the hidden 0x0 radio, so the keyboard ring is drawn on the mark beside it. */
+    .tss-option-container input:focus-visible ~ .tss-option-mark {
+        outline: 2px solid var(--tss-primary-border-color);
+        outline-offset: 2px;
+    }
+
     .tss-option-container .tss-option-text {
         min-width: 0;
         margin-left: 9px;

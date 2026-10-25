@@ -49,6 +49,12 @@
         box-sizing: content-box;
     }
 
+    /* The focus lands on the hidden 0x0 checkbox, so the keyboard ring is drawn on the switch beside it. */
+    .tss-toggle-container input:focus-visible ~ .tss-toggle-mark {
+        outline: 2px solid var(--tss-primary-border-color);
+        outline-offset: 2px;
+    }
+
     .tss-toggle-container:hover .tss-toggle-mark {
         background-color: var(--tss-default-background-hover-color);
         border-color: var(--tss-default-foreground-hover-color);
