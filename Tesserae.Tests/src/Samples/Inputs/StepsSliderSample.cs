@@ -16,6 +16,7 @@ namespace Tesserae.Tests.Samples
             var percentValue = new SettableObservable<int>(50);
 
             var sizeSlider = new StepsSlider<string>("XS", "S", "M", "L", "XL")
+               .SetValue(sizeValue.Value)
                .OnChange(v =>
                 {
                     sizeValue.Value = v;
@@ -23,6 +24,7 @@ namespace Tesserae.Tests.Samples
                 });
 
             var percentSlider = new StepsSlider<int>(0, 25, 50, 75, 100)
+               .SetValue(percentValue.Value)
                .OnChange(v => percentValue.Value = v);
 
             _content = SectionStack().Secondary()

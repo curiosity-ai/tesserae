@@ -64,9 +64,9 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Rounded Stacks"),
                     TextBlock("Rounding is visible when the stack has a background or border."),
                     HStack().Children(
-                        VStack().Children(TextBlock("Small")).P(16).Rounded(BorderRadius.Small).Background(Theme.Colors.Blue200).W(100).AlignItemsCenter(),
-                        VStack().Children(TextBlock("Medium")).P(16).Rounded(BorderRadius.Medium).Background(Theme.Colors.Blue200).W(100).AlignItemsCenter(),
-                        VStack().Children(TextBlock("Full")).P(16).Rounded(BorderRadius.Full).Background(Theme.Colors.Blue200).W(100).AlignItemsCenter()
+                        VStack().Children(TextBlock("Small")).P(16).Rounded(BorderRadius.Small).Background("color-mix(in srgb, var(--tss-primary-background-color) 22%, transparent)").W(100).AlignItemsCenter(),
+                        VStack().Children(TextBlock("Medium")).P(16).Rounded(BorderRadius.Medium).Background("color-mix(in srgb, var(--tss-primary-background-color) 22%, transparent)").W(100).AlignItemsCenter(),
+                        VStack().Children(TextBlock("Full")).P(16).Rounded(BorderRadius.Full).Background("color-mix(in srgb, var(--tss-primary-background-color) 22%, transparent)").W(100).AlignItemsCenter()
                     )
                 )).SetTitle("Usage")))
                .SeeAlso(typeof(GridSample), typeof(SplitViewSample), typeof(MasonrySample), typeof(SectionStackSample), typeof(KeyedObservableStackSample), typeof(HorizontalSeparatorSample));

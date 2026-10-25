@@ -21,12 +21,12 @@ namespace Tesserae.Tests.Samples
             var box = VStack()
                .WidthStretch().HeightStretch()
                .JustifyContent(ItemJustify.Center).AlignItemsCenter()
-               .Children(TextBlock("Tap · Double-tap · Long-press · Drag · Pinch · Rotate").Bold())
+               .Children(TextBlock("Tap · Double-tap · Long-press · Drag · Pinch · Rotate").Bold().Foreground(Theme.Primary.Foreground))
                .Background(Theme.Primary.Background)
                .Style(s =>
                 {
-                    s.color        = "white";
-                    s.borderRadius = "12px";
+                    s.color        = Theme.Primary.Foreground;
+                    s.borderRadius = "var(--tss-border-radius-xl)";
                     s.cursor       = "grab";
                     s.userSelect   = "none";
                     s.maxWidth     = "260px";
@@ -75,7 +75,7 @@ namespace Tesserae.Tests.Samples
                .Style(s =>
                 {
                     s.border          = "1px dashed var(--tss-colors-neutral-500-alpha)";
-                    s.borderRadius     = "8px";
+                    s.borderRadius     = "var(--tss-border-radius-lg)";
                     s.overflow         = "hidden";
                     s.alignItems       = "center";
                     s.justifyContent   = "center";

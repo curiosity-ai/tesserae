@@ -54,10 +54,11 @@ namespace Tesserae.Tests.Samples
                     string color = "";
                     switch (state)
                     {
-                        case 0: color = "#c7c5c5"; break;
-                        case 1: color = "#a3cfa5"; break;
-                        case 2: color = "#76cc79"; break;
-                        case 3: color = "#1fcc24"; break;
+                        //From the theme's own surface to its success colour, so the ramp reads in either mode
+                        case 0: color = Theme.Default.BackgroundActive; break;
+                        case 1: color = "color-mix(in srgb, var(--tss-success-background-color) 35%, var(--tss-default-background-active-color))"; break;
+                        case 2: color = "color-mix(in srgb, var(--tss-success-background-color) 65%, var(--tss-default-background-active-color))"; break;
+                        case 3: color = Theme.Success.Background; break;
                     }
                     btn.Background(color);
                 },
