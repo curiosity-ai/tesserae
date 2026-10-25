@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Memphis theme - Tree
+   --------------------------------------------------------------------------
+   Rows are pills: sunflower-pale under the pointer, and the chosen row is
+   a bubblegum pill with a black line and bold ink type. Partially chosen
+   rows are hatched. The chevron and the checks are ink.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-tree-item-content {
+    border: var(--tss-mp-bw) solid transparent;
+    border-radius: 999px;
+}
+
+body.tss-theme-memphis .tss-tree-item-content:hover {
+    background-color: var(--tss-mp-yellow-pale);
+}
+
+body.tss-theme-memphis .tss-tree-item-content.tss-selected,
+body.tss-theme-memphis .tss-tree-item-content.tss-selected:hover {
+    background-color: rgb(var(--tss-mp-pink-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-tree-item-content.tss-selected i,
+body.tss-theme-memphis .tss-tree-item-content.tss-selected .tss-fontcolor-default {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-tree-selection-multiple .tss-tree-item-content.tss-selected .tss-tree-checkbox,
+body.tss-theme-memphis .tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected .tss-tree-checkbox {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected {
+    background-color: var(--tss-mp-pink-pale);
+    background-image: var(--tss-mp-pattern-hatch-soft);
+    background-size: 10px 10px;
+}
+
+body.tss-theme-memphis .tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected .tss-tree-checkbox {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-tree-item:focus-visible > .tss-tree-item-content {
+    outline: 3px solid var(--tss-mp-focus);
+    outline-offset: 0;
+}
+
+body.tss-theme-memphis .tss-tree-chevron:hover,
+body.tss-theme-memphis .tss-tree-checkbox:hover {
+    background: rgb(var(--tss-mp-yellow-root));
+    color: var(--tss-mp-on-accent);
+    border-radius: 50%;
+}

@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Blaupause theme - Avatar
+   --------------------------------------------------------------------------
+   An avatar is a drawn circle with the initials lettered in it. A generated
+   avatar keeps its hue, but as the circle's line and the lettering, not a
+   filled gradient. Presence is a small square mark.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-avatar {
+    background: var(--tss-bp-sheet);
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+    color: var(--tss-bp-text);
+    letter-spacing: 0.04em;
+}
+
+body.tss-theme-blaupause .tss-avatar.tss-avatar-generated {
+    background: hsl(var(--tss-avatar-hue), 60%, 96%);
+    box-shadow: inset 0 0 0 1px hsl(var(--tss-avatar-hue), 55%, 40%);
+}
+
+body.tss-theme-blaupause .tss-avatar.tss-avatar-generated > .tss-avatar-initials {
+    color: hsl(var(--tss-avatar-hue), 60%, 30%);
+}
+
+body.tss-theme-blaupause.tss-dark-mode .tss-avatar.tss-avatar-generated {
+    background: var(--tss-bp-sheet);
+    box-shadow: inset 0 0 0 1px hsl(var(--tss-avatar-hue), 80%, 78%);
+}
+
+body.tss-theme-blaupause.tss-dark-mode .tss-avatar.tss-avatar-generated > .tss-avatar-initials {
+    color: hsl(var(--tss-avatar-hue), 85%, 85%);
+}
+
+body.tss-theme-blaupause .tss-avatar-presence {
+    border-radius: 0;
+    border-color: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-presence-offline {
+    background: var(--tss-bp-sheet);
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+}

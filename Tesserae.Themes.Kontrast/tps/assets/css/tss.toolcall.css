@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Kontrast theme - ToolCall
+   --------------------------------------------------------------------------
+   Edges drawn in the border tokens go to 2px; colours, focus and states come from the theme's tokens and global rules.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-toolcall {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-toolcall-secondary-action {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-toolcall-content {
+    border-top-width: var(--tss-kt-border);
+    border-top-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-toolsused-header {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-toolsused-inline-list {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-toolsused-inline-list > .tss-toolcall + .tss-toolcall {
+    border-top-width: var(--tss-kt-border);
+    border-top-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-toolsused-list-row {
+    border-bottom-width: var(--tss-kt-border);
+    border-bottom-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-toolcallinspect-response {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}

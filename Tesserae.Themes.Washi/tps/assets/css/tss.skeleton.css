@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Washi theme - Skeleton
+   --------------------------------------------------------------------------
+   A placeholder is a pale wash of ink, a light passing over it.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-skeleton:not(.tss-ai) {
+    background: var(--tss-wa-wash-strong);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-skeleton.tss-skeleton-circle:not(.tss-ai) {
+    border-radius: 50%;
+}
+
+body.tss-theme-washi.tss-dark-mode .tss-skeleton-animated:not(.tss-ai)::after {
+    background: linear-gradient(90deg, transparent, rgba(255, 236, 210, 0.07), transparent);
+}

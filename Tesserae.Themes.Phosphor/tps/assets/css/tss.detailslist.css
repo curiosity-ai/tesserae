@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Phosphor theme - DetailsList
+   --------------------------------------------------------------------------
+   A details list is a report listing: the column heads in capitals over a
+   double rule, rows on faint dashed rules, the row under the pointer lit
+   faintly (on paper, a green bar).
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-detailslist-header {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-bottom: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-detailslist-column-header,
+body.tss-theme-phosphor .tss-detailslist-column-header .tss-textblock,
+body.tss-theme-phosphor .tss-detailslist-column-header .tss-btn {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-detailslist-list-item-container {
+    border-top: 1px dashed var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-detailslist-list-item-container:last-of-type {
+    border-bottom: 1px dashed var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-detailslist-list-item-container:hover {
+    background: var(--tss-ph-tint);
+}

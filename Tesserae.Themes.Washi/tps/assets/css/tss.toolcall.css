@@ -1,0 +1,67 @@
+/* ==========================================================================
+   Washi theme - ToolCall
+   --------------------------------------------------------------------------
+   A tool call is a folded slip: paper, a hairline, cut corners; its header
+   takes a wash under the pointer, its glyph sits on a small square of
+   wash. The tools-used pill is a slip too, not a capsule.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-toolcall,
+body.tss-theme-washi .tss-toolsused-inline-list {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-toolcall > .tss-toolcall-header {
+    border-radius: 2px;
+}
+
+body.tss-theme-washi .tss-toolcall.tss-expanded > .tss-toolcall-header {
+    border-radius: 2px 2px 0 0;
+}
+
+body.tss-theme-washi .tss-toolcall > .tss-toolcall-content {
+    border-radius: 0 0 2px 2px;
+}
+
+body.tss-theme-washi .tss-toolcall-header:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-toolcall-header.tss-toolcall-not-expandable:hover {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-toolcall-content {
+    background: transparent;
+    border-top-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-toolcall-icon,
+body.tss-theme-washi .tss-toolsused-modal-detail-icon,
+body.tss-theme-washi .tss-toolsused-list-icon {
+    border-radius: var(--tss-wa-radius-small);
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-toolcall-secondary-action {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-toolsused-header {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-toolsused-header:hover,
+body.tss-theme-washi .tss-toolsused-list-row:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-toolsused-icon {
+    border-radius: var(--tss-wa-radius-small);
+    background: var(--tss-wa-wash-strong);
+}

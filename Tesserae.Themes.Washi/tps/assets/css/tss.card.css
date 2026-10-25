@@ -1,0 +1,59 @@
+/* ==========================================================================
+   Washi theme - Card
+   --------------------------------------------------------------------------
+   A card is a sheet laid on the page: a lighter, smoother paper than the
+   ground, its edge a hairline, lifted by the softest warm shadow, the
+   corners cut almost square. A card with a header and footer keeps them
+   on the page above and below the sheet, the title set in Mincho like the
+   caption of a scroll. A hoverable card lifts a little further.
+   ========================================================================== */
+
+body.tss-theme-washi :not(.tss-ai) > .tss-card {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-lift);
+}
+
+body.tss-theme-washi :not(.tss-ai) > .tss-card.tss-card-hover:hover {
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-wa-lift-hover);
+}
+
+body.tss-theme-washi :not(.tss-ai) > .tss-card.tss-card-hover:active {
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-wa-lift);
+}
+
+body.tss-theme-washi :not(.tss-ai) > .tss-card > .tss-card-header,
+body.tss-theme-washi :not(.tss-ai) > .tss-card > .tss-card-footer {
+    background: transparent;
+    border-color: transparent;
+    border-radius: 0;
+}
+
+body.tss-theme-washi .tss-card-header {
+    padding-left: 2px;
+}
+
+body.tss-theme-washi :not(.tss-ai) > .tss-card > .tss-card-content {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: none;
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-lift);
+}
+
+body.tss-theme-washi :not(.tss-ai) > .tss-card.tss-has-layout > .tss-card-content {
+    box-shadow: var(--tss-wa-lift);
+}
+
+body.tss-theme-washi .tss-card-title {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-wa-serif);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-washi i.tss-card-title-icon {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}

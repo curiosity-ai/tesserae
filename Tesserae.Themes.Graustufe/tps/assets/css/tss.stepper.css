@@ -1,0 +1,60 @@
+/* ==========================================================================
+   Graustufe theme - Stepper
+   --------------------------------------------------------------------------
+   Steps are numbered rings: an empty ring for a step to come, a 2px ink
+   ring for the current one, a solid ink disc with paper figures for a step
+   done. Labels in the sans; the body a ruled box.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-stepper-step {
+    border-radius: 0;
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-stepper-step:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-stepper-circle {
+    border: 1px solid var(--tss-gs-8);
+    color: var(--tss-gs-6);
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-circle {
+    border: 1px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-stepper-active .tss-stepper-circle {
+    border: 2px solid var(--tss-gs-0);
+    color: var(--tss-gs-0);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-stepper-active .tss-stepper-label {
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-stepper-complete .tss-stepper-circle {
+    border-color: var(--tss-gs-0);
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-stepper-description {
+    color: var(--tss-gs-6);
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+}
+
+body.tss-theme-graustufe .tss-stepper-content {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-stepper-nav {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+}

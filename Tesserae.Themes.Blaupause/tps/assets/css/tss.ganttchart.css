@@ -1,0 +1,38 @@
+/* ==========================================================================
+   Blaupause theme - GanttChart
+   --------------------------------------------------------------------------
+   A schedule chart: ruled box, header on the fine grid over a double rule,
+   dashed time lines, task bars as square outlined blocks with a wash of
+   their colour (the striped variant hatched).
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-gantt {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-gantt {
+    --tss-gantt-border: 1px solid var(--tss-bp-line-faint);
+    border: var(--tss-bp-rule);
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-gantt-header-label,
+body.tss-theme-blaupause .tss-gantt-header-track {
+    background: var(--tss-bp-grid-small), var(--tss-bp-sheet);
+    border-bottom: 3px double var(--tss-bp-line);
+    font-family: var(--tss-bp-mono);
+}
+
+body.tss-theme-blaupause .tss-gantt-line {
+    border-left-color: var(--tss-bp-line-faint);
+}
+
+body.tss-theme-blaupause .tss-gantt-row-label {
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-gantt-bar {
+    border-radius: 0;
+    border-color: var(--tss-gantt-bar-color);
+}

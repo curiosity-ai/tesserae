@@ -1,0 +1,61 @@
+/* ==========================================================================
+   Phosphor theme - ChoiceGroup
+   --------------------------------------------------------------------------
+   A radio is "( )": one of the few round things in the theme, because the
+   terminal's own radio is drawn in parentheses. A 1px ring; chosen, a solid
+   dot of the cursor colour sits in it, "(•)". Under the pointer the dot is
+   a ghost. Disabled is a dotted ring.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-option-container .tss-option-mark {
+    border: 1px solid var(--tss-ph-rule-hi);
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-option-container .tss-option-mark:after,
+body.tss-theme-phosphor .tss-option-container[class*="tss-fontsize-"] .tss-option-mark:after {
+    inset: 3px;
+    left: 3px;
+    top: 3px;
+    width: auto;
+    height: auto;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(var(--tss-ph-cursor-root), 0.28);
+}
+
+body.tss-theme-phosphor .tss-option-container:hover .tss-option-mark,
+body.tss-theme-phosphor .tss-option-container input:checked ~ .tss-option-mark,
+body.tss-theme-phosphor .tss-option-container:hover input:checked ~ .tss-option-mark {
+    border-color: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-option-container input:checked ~ .tss-option-mark {
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-option-container input:checked ~ .tss-option-mark:after,
+body.tss-theme-phosphor .tss-option-container:hover input:checked ~ .tss-option-mark:after {
+    background: var(--tss-ph-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-option-container input:focus-visible ~ .tss-option-mark {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 2px;
+}
+
+body.tss-theme-phosphor .tss-option-container.tss-disabled .tss-option-mark,
+body.tss-theme-phosphor .tss-option-container.tss-disabled input:checked ~ .tss-option-mark {
+    border: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-option-container.tss-disabled input:checked ~ .tss-option-mark:after {
+    background: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-option-container.tss-disabled {
+    text-shadow: none;
+}

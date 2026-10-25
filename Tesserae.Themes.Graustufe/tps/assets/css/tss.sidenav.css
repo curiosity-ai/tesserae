@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Graustufe theme - Sidenav
+   --------------------------------------------------------------------------
+   The icon rail: the sidebar's plate and its 1px ink rule; a button gets
+   an ink frame under the pointer and is inverted when it is the current
+   one.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-sidenav {
+    background: var(--tss-gs-14);
+    border-right: var(--tss-gs-rule);
+}
+
+body.tss-theme-graustufe .tss-sidenav-footer {
+    border-top: var(--tss-gs-rule-faint);
+}
+
+body.tss-theme-graustufe .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn {
+    border-radius: 0;
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover {
+    background: transparent;
+    border-color: var(--tss-gs-0);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn,
+body.tss-theme-graustufe .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn.tss-sidenav-selected {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}

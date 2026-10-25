@@ -1,0 +1,38 @@
+/* ==========================================================================
+   Blaupause theme - Picker
+   --------------------------------------------------------------------------
+   Suggestions are a sheet laid over the drawing; the one under the pointer
+   is washed, not filled. Chosen items are ruled cells.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-layer-picker-suggestions {
+    border-radius: 0;
+    border: var(--tss-bp-rule-strong);
+    background: var(--tss-bp-sheet);
+    box-shadow: var(--tss-bp-lift);
+}
+
+body.tss-theme-blaupause .tss-picker-suggestions > .tss-picker-suggestion:hover {
+    background: var(--tss-bp-wash);
+    color: var(--tss-bp-text);
+    box-shadow: inset 3px 0 0 var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-picker-selection {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-picker-selection:hover {
+    background: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-picker-remove:hover {
+    border-color: var(--tss-bp-red);
+    background: var(--tss-bp-red-soft);
+    color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-picker-container .tss-btn {
+    text-transform: none;
+    letter-spacing: 0.01em;
+}

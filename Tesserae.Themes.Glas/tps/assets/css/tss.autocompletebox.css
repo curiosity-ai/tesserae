@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Glas theme - AutoCompleteBox
+   --------------------------------------------------------------------------
+   The suggestion list floats as thick glass under the field; the
+   highlighted suggestion is a tinted pill.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-autocompletebox-list {
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    background: var(--tss-gl-pane-thick);
+    box-shadow: var(--tss-gl-surface-float);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+    padding: 4px;
+}
+
+body.tss-theme-glas .tss-autocompletebox-item {
+    border-radius: 10px;
+}
+
+body.tss-theme-glas .tss-autocompletebox-item.tss-autocompletebox-item-highlight {
+    background: rgba(var(--tss-gl-accent-rgb), 0.12);
+}

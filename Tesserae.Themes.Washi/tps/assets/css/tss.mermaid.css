@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Washi theme - Mermaid diagrams
+   --------------------------------------------------------------------------
+   A diagram is a drawing on a sheet laid on the page, framed like a code
+   block: smooth paper, a hairline edge. Lines are diluted ink, nodes a
+   pale wash with an ink edge, the accent vermilion; the series follow the
+   chart dyes (--tss-chart-series-N).
+   ========================================================================== */
+
+body.tss-theme-washi .tss-mermaid {
+    --pele-bg: rgb(var(--tss-secondary-background-color-root));
+    --pele-line: rgba(var(--tss-default-foreground-color-root), 0.6);
+    --pele-surface: rgb(var(--tss-default-background-color-root));
+    --pele-surface-alt: rgb(var(--tss-default-background-hover-color-root));
+    --pele-border: rgba(var(--tss-default-foreground-color-root), 0.55);
+    --pele-accent: var(--tss-wa-shu);
+    --pele-critical: var(--tss-wa-enji);
+    --pele-error: var(--tss-wa-enji);
+    --pele-radius: 3px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}

@@ -60,6 +60,14 @@
 .tss-detailslist-column-header-sorting-icon {
     padding-left: 5px;
 }
+
+/* The interactive column headers and the rows are reached from the keyboard (the rows one at a time, as a
+   roving Tab stop). Drawn inside the box: the list clips at its edges and the rows sit edge to edge. */
+.tss-detailslist-column-header-interactive:focus-visible,
+.tss-detailslist-list-item-container:focus-visible {
+    outline: 2px solid var(--tss-primary-border-color);
+    outline-offset: -2px;
+}
 .tss-detailslist-list-item {
     display: inline-block;
     padding: var(--tss-detailslist-default-padding);

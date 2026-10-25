@@ -1,0 +1,9 @@
+/* ==========================================================================
+   Blaupause theme - MetadataPanel
+   --------------------------------------------------------------------------
+   Sections divided by fine lines, like the rows of a title block.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-metadata-section {
+    border-bottom-color: var(--tss-bp-line-faint);
+}

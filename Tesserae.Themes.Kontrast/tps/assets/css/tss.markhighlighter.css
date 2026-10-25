@@ -1,0 +1,22 @@
+/* ==========================================================================
+   Kontrast theme - MarkHighlighter
+   --------------------------------------------------------------------------
+   Matches are the signal block with black type (14.7:1); the focused match
+   is reversed (ink block, paper type) so it is told from the others by more
+   than a hue. The element backend's <mark>s get the same pair.
+   ========================================================================== */
+
+body.tss-theme-kontrast ::highlight(tss-marked) {
+    background-color: rgb(255, 212, 0);
+    color: #000000;
+}
+
+body.tss-theme-kontrast ::highlight(tss-marked-focused) {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-kontrast mark {
+    background: var(--tss-kt-signal);
+    color: var(--tss-kt-on-signal);
+}

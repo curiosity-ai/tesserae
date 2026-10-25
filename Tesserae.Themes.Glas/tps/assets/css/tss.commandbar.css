@@ -1,0 +1,37 @@
+/* ==========================================================================
+   Glas theme - CommandBar
+   --------------------------------------------------------------------------
+   A command bar is a capsule of clear glass holding ghost commands; the
+   primary command is the accent lozenge.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-commandbar {
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    background: rgba(255, 255, 255, 0.42);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge), 0 6px 18px -12px rgba(60, 58, 130, 0.4);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-commandbar {
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge), 0 6px 18px -12px rgba(0, 0, 0, 0.6);
+}
+
+body.tss-theme-glas .tss-commandbar-item {
+    border-radius: 10px;
+}
+
+body.tss-theme-glas .tss-commandbar-item:hover {
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: var(--tss-gl-rim);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-commandbar-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.tss-theme-glas .tss-commandbar-item-primary,
+body.tss-theme-glas .tss-commandbar-item-primary:hover {
+    background: var(--tss-gl-lozenge-shine), rgb(var(--tss-primary-background-color-root));
+    box-shadow: var(--tss-gl-lozenge-rim), 0 4px 12px -5px rgba(var(--tss-gl-accent-rgb), 0.7);
+}

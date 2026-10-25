@@ -1,0 +1,15 @@
+/* ==========================================================================
+   Zeitung theme - questionnaire
+   --------------------------------------------------------------------------
+   Square corners: type is set in rectangles.
+   ========================================================================== */
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-questionnaire,
+body.tss-theme-zeitung .tss-questionnaire-option,
+body.tss-theme-zeitung .tss-questionnaire-answered-badge {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

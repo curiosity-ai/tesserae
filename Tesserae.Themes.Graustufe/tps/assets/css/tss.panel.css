@@ -1,0 +1,85 @@
+/* ==========================================================================
+   Graustufe theme - Panel
+   --------------------------------------------------------------------------
+   A side panel is a page laid over the edge of the book: paper, a 1px ink
+   rule on its inner edge and a dithered band beyond it (no blur, no slide).
+   The page behind is screened with the 25% dither, like a modal's.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-panel-container {
+    background: var(--tss-gs-bayer-25);
+}
+
+body.tss-theme-graustufe .tss-panel-container.tss-dark {
+    background: var(--tss-gs-bayer-50);
+}
+
+body.tss-theme-graustufe .tss-panel-container.tss-panel-modeless,
+body.tss-theme-graustufe .tss-panel-modeless {
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-panel {
+    background-color: var(--tss-gs-15);
+    box-shadow: none;
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-panel.tss-panelSide-far {
+    border-left: var(--tss-gs-rule);
+    box-shadow: -6px 0 0 0 var(--tss-gs-15), -6px 0 0 0 transparent;
+}
+
+body.tss-theme-graustufe .tss-panel.tss-panelSide-near {
+    border-right: var(--tss-gs-rule);
+}
+
+/* The dithered band along the open edge: a pseudo-element outside the panel, so it takes no room. */
+body.tss-theme-graustufe .tss-panel.tss-panelSide-far::before,
+body.tss-theme-graustufe .tss-panel.tss-panelSide-near::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    pointer-events: none;
+    background: var(--tss-gs-dither);
+}
+
+body.tss-theme-graustufe .tss-panel.tss-panelSide-far::before {
+    left: -7px;
+}
+
+body.tss-theme-graustufe .tss-panel.tss-panelSide-near::before {
+    right: -7px;
+}
+
+body.tss-theme-graustufe .tss-panel.tss-panelSide-far {
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-panel-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-panel-command-button {
+    color: var(--tss-gs-0);
+    border: 1px solid transparent;
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-panel-command-button:hover {
+    background: transparent;
+    border-color: var(--tss-gs-0);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-panel-command-button:active {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-panel-footer {
+    border-top: var(--tss-gs-rule-faint);
+}

@@ -1,0 +1,17 @@
+/* ==========================================================================
+   Glas theme - Layer
+   --------------------------------------------------------------------------
+   A layer's content box (the plain surface a Layer draws when nothing more
+   specific does) is thick glass: it blurs and saturates what is behind it.
+   Layers mount on the body, so nothing above them can become their backdrop
+   root and turn the blur into a smear of their own tint.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-layer-content:not(.tss-layer-content-transparent) {
+    background: var(--tss-gl-pane-thick);
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    box-shadow: var(--tss-gl-surface-float);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+}

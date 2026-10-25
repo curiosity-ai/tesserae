@@ -1,0 +1,307 @@
+/* ==========================================================================
+   Glas theme - Button
+   --------------------------------------------------------------------------
+   A button is a pill of glass. The default button is Tesserae's ghost and
+   stays clear at rest, so a toolbar is not a row of bubbles; under the
+   pointer it condenses into a pane of clear frosted glass with its rim lit.
+   A coloured button (primary, danger, success, warning) is a tinted glass
+   lozenge: the colour, a gloss across its upper half, a lit rim, and a
+   glow of its own colour on the field below it. Pressed, a pill squeezes
+   a little, like a drop under a fingertip. Disabled is frosted and dim.
+
+   The shape rules are written through :where(), so a component that gives
+   its own buttons a shape (a pivot tab, a calendar day, a sidebar row) keeps
+   it: the theme only outranks Tesserae's bare .tss-btn.
+   ========================================================================== */
+
+body.tss-theme-glas :where(.tss-btn) {
+    border-radius: var(--tss-border-radius-full);
+    font-weight: 600;
+    letter-spacing: 0.005em;
+    transition: transform var(--tss-gl-quick) var(--tss-gl-ease), box-shadow var(--tss-gl-quick) ease, background-color 140ms linear, color 140ms linear, border-color 140ms linear;
+}
+
+/* The label sits in the middle of the pill (Tesserae pads 16px left, 20px right). */
+body.tss-theme-glas :where(.tss-btn:not(.tss-btn-only-icon):not(.tss-small):not(.tss-btn-link)) {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+/* Focus is the theme's accent halo (an outline, so the pill keeps its own shadow). */
+body.tss-theme-glas .tss-btn:focus {
+    box-shadow: none;
+}
+
+body.tss-theme-glas .tss-btn:focus-visible {
+    outline: 2px solid rgba(var(--tss-gl-accent-rgb), 0.8);
+    outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   The ghost: clear at rest, frosted glass under the pointer
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-glas .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):hover {
+    background-color: rgba(255, 255, 255, 0.55);
+    border-color: transparent;
+    box-shadow: var(--tss-gl-rim), 0 4px 14px -6px rgba(60, 58, 130, 0.28);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):active {
+    background-color: rgba(255, 255, 255, 0.38);
+    border-color: transparent;
+    box-shadow: inset 0 1px 3px rgba(60, 58, 130, 0.18), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    transform: scale(0.97);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: var(--tss-gl-rim), 0 4px 14px -6px rgba(0, 0, 0, 0.6);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):active {
+    background-color: rgba(255, 255, 255, 0.06);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* The ghost fades out the fill it had when it was clicked as the spinner comes in. */
+body.tss-theme-glas .tss-btn.tss-btn-default.tss-btn-spinning,
+body.tss-theme-glas .tss-btn.tss-btn-default.tss-btn-spin-resolved {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-default.tss-btn-spinning,
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-default.tss-btn-spin-resolved {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   Lozenges: the coloured buttons are tinted glass
+   --------------------------------------------------------------------------
+   --tss-gl-k is the lozenge's colour as an r, g, b triplet. The gloss and the
+   rim are white over it; the glow below is the same colour, so the button
+   lights the field it floats over.
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-glas .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-gl-k: var(--tss-primary-background-color-root);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    --tss-gl-k: var(--tss-primary-background-hover-color-root);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-gl-k: var(--tss-danger-background-color-root);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    --tss-gl-k: var(--tss-danger-background-hover-color-root);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-gl-k: var(--tss-success-background-color-root);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    --tss-gl-k: var(--tss-success-background-hover-color-root);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-gl-k: var(--tss-warning-background-color-root);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    --tss-gl-k: var(--tss-warning-background-hover-color-root);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-glas .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-glas .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-glas .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    border-color: transparent;
+    background-color: rgba(var(--tss-gl-k), 0.94);
+    background-image: linear-gradient(115deg, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0.32) 48%, rgba(255, 255, 255, 0) 58%), var(--tss-gl-lozenge-shine);
+    background-size: 260% 100%, 100% 100%;
+    background-position: 115% 0, 0 0;
+    background-repeat: no-repeat;
+    box-shadow: var(--tss-gl-lozenge-rim), 0 0 0 1px rgba(var(--tss-gl-k), 0.35), 0 6px 18px -6px rgba(var(--tss-gl-k), 0.7);
+    filter: none;
+    transition: transform var(--tss-gl-quick) var(--tss-gl-ease), box-shadow var(--tss-gl-quick) ease, background-color 140ms linear, background-position 700ms cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+
+/* Under the pointer a streak of light runs across the lozenge, the way light slides over a curved drop. */
+body.tss-theme-glas .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-glas .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-glas .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-glas .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    background-position: -15% 0, 0 0;
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-glas .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-glas .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    text-shadow: 0 1px 1px rgba(10, 0, 60, 0.28);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    text-shadow: none;
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-glas .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-glas .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-glas .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    filter: none;
+    transform: translateY(-1px);
+    box-shadow: var(--tss-gl-lozenge-rim), 0 0 0 1px rgba(var(--tss-gl-k), 0.4), 0 10px 24px -6px rgba(var(--tss-gl-k), 0.75);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-glas .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-glas .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-glas .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active {
+    --tss-gl-k: var(--tss-primary-background-active-color-root);
+    filter: none;
+    transform: scale(0.97);
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(var(--tss-gl-k), 0.4), 0 3px 10px -4px rgba(var(--tss-gl-k), 0.6);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active {
+    --tss-gl-k: var(--tss-danger-background-active-color-root);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active {
+    --tss-gl-k: var(--tss-success-background-active-color-root);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active {
+    --tss-gl-k: var(--tss-warning-background-active-color-root);
+}
+
+/* A spinner resolving to a colour keeps the lozenge's gloss over it. */
+body.tss-theme-glas .tss-btn.tss-btn-spin-resolved:not(.tss-btn-default) {
+    background-image: var(--tss-gl-lozenge-shine);
+}
+
+/* --------------------------------------------------------------------------
+   Disabled: frosted and dim, no glow
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-glas .tss-btn.tss-disabled:not(.tss-btn-link) {
+    background-color: rgba(255, 255, 255, 0.28);
+    border-color: rgba(84, 86, 150, 0.14);
+    background-image: none;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+    text-shadow: none;
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-disabled:not(.tss-btn-link) {
+    background-color: rgba(255, 255, 255, 0.04);
+    border-color: rgba(200, 204, 255, 0.1);
+    box-shadow: none;
+}
+
+/* A ghost that is disabled stays clear, only its legend fades. */
+body.tss-theme-glas .tss-btn.tss-btn-default.tss-disabled:not(.tss-btn-link),
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-default.tss-disabled:not(.tss-btn-link) {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Tone without a fill (.NoBackground()): the colour is the legend, and a
+   glass of the same tint condenses under the pointer. (Tesserae fills these
+   with the tone itself on hover, which would hide the legend.)
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-glas .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-glas .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-gl-accent-ink);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-glas .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-glas .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-glas .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: var(--tss-gl-rim);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover {
+    background-color: rgba(255, 255, 255, 0.09);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-glas .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-glas .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-glas .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default {
+    color: var(--tss-danger-background-color);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-glas .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-glas .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-glas .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default {
+    color: var(--tss-success-background-color);
+}
+
+/* Amber type on pale glass is too faint to read: a toned-down amber. */
+body.tss-theme-glas .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-glas .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-glas .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-glas .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-glas .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-glas .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default {
+    color: rgb(170, 96, 0);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover .tss-fontcolor-default {
+    color: var(--tss-warning-background-color);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-gl-accent-ink);
+}
+
+/* --------------------------------------------------------------------------
+   Links: accent ink, and a faint tinted glass under the pointer
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-glas .tss-btn.tss-btn-link {
+    border-radius: var(--tss-gl-radius-chip);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled),
+body.tss-theme-glas .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-glas .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):hover,
+body.tss-theme-glas .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):hover .tss-fontcolor-default {
+    color: var(--tss-gl-accent-ink);
+}
+
+body.tss-theme-glas .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled),
+body.tss-theme-glas .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled) .tss-fontcolor-default {
+    color: rgb(170, 96, 0);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled),
+body.tss-theme-glas.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-warning-background-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-glas .tss-btn,
+    body.tss-theme-glas .tss-btn:hover,
+    body.tss-theme-glas .tss-btn:active {
+        transform: none !important;
+        transition: none !important;
+    }
+}

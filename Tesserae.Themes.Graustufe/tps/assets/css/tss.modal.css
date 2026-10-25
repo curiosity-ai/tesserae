@@ -1,0 +1,66 @@
+/* ==========================================================================
+   Graustufe theme - Modal
+   --------------------------------------------------------------------------
+   The page behind a modal is screened with a 25% ordered dither (50% for
+   the dark overlay), the way a 1-bit panel greys out what is not active;
+   no blur, no translucency. The modal is a leaf on top: paper, a 1px ink
+   frame and the 5px dithered drop edge, square. Its title is set in the
+   book face. It appears at once, with no zoom.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-modal-container {
+    background: var(--tss-gs-bayer-25);
+}
+
+body.tss-theme-graustufe .tss-modal-container.tss-dark {
+    background: var(--tss-gs-bayer-50);
+}
+
+body.tss-theme-graustufe .tss-modal {
+    background-color: var(--tss-gs-15);
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge-lg);
+}
+
+body.tss-theme-graustufe .tss-modal-header,
+body.tss-theme-graustufe .tss-modal-footer {
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-modal-header-content {
+    font-family: var(--tss-gs-text);
+}
+
+body.tss-theme-graustufe .tss-modal-header-content .tss-textblock.tss-fontsize-large,
+body.tss-theme-graustufe .tss-modal-header-content .tss-textblock.tss-fontsize-mediumplus,
+body.tss-theme-graustufe .tss-modal-header-content .tss-textblock.tss-fontsize-medium {
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-modal-header-commands > .tss-btn,
+body.tss-theme-graustufe .tss-modal-header-commands > button,
+body.tss-theme-graustufe .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-graustufe .tss-modal-left-header-commands > button {
+    color: var(--tss-gs-0);
+    border-radius: 0;
+    border: 1px solid transparent;
+}
+
+body.tss-theme-graustufe .tss-modal-header-commands > .tss-btn:hover,
+body.tss-theme-graustufe .tss-modal-header-commands > button:hover,
+body.tss-theme-graustufe .tss-modal-left-header-commands > .tss-btn:hover,
+body.tss-theme-graustufe .tss-modal-left-header-commands > button:hover {
+    background: transparent;
+    border-color: var(--tss-gs-0);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-graustufe .tss-modal-header-commands > button:active,
+body.tss-theme-graustufe .tss-modal-left-header-commands > .tss-btn:active,
+body.tss-theme-graustufe .tss-modal-left-header-commands > button:active {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}

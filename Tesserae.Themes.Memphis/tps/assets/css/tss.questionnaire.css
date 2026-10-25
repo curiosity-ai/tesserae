@@ -1,0 +1,28 @@
+/* ==========================================================================
+   Memphis theme - Questionnaire
+   --------------------------------------------------------------------------
+   Answer options are pills with a 2px black line; sunflower under the
+   pointer; the chosen answer is bubblegum with bold ink type and a small
+   hard shadow.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-questionnaire-option {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 600;
+}
+
+body.tss-theme-memphis .tss-questionnaire-option:hover:not(:disabled) {
+    background: rgb(var(--tss-mp-yellow-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+    background: rgb(var(--tss-mp-pink-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+    font-weight: 800;
+}

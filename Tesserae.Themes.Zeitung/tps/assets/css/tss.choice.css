@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Zeitung theme - ChoiceGroup
+   --------------------------------------------------------------------------
+   A radio button is one of the few round marks the paper allows: an ink
+   ring, and when it is chosen a solid spot-red dot in it, the selection
+   mark. Under the pointer an unchosen ring shows a grey dot.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-option-container .tss-option-mark {
+    border-color: var(--tss-zt-ink);
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-option-container .tss-option-mark:after {
+    border-color: var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-option-container input:checked ~ .tss-option-mark,
+body.tss-theme-zeitung .tss-option-container:hover input:checked ~ .tss-option-mark {
+    border-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-option-container input:checked ~ .tss-option-mark:after,
+body.tss-theme-zeitung .tss-option-container:hover input:checked ~ .tss-option-mark:after {
+    border-color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-option-container input:focus-visible ~ .tss-option-mark {
+    outline: 2px solid var(--tss-zt-red);
+    outline-offset: 2px;
+}
+
+body.tss-theme-zeitung .tss-option-container.tss-disabled .tss-option-mark {
+    border-style: dotted;
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-zeitung .tss-option-container.tss-disabled input:checked ~ .tss-option-mark:after {
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+}

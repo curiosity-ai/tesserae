@@ -1,0 +1,12 @@
+/* ==========================================================================
+   Glas theme - StatefulItemRow
+   --------------------------------------------------------------------------
+   A plain row is clear. A toned row is a strip of glass tinted with its
+   tone (its surface mixes into the theme's translucent background, so the
+   tint stays glass), with rounded ends and a lit rim.
+   ========================================================================== */
+
+body.tss-theme-glas :is(.tss-statefulitemrow-primary, .tss-statefulitemrow-success, .tss-statefulitemrow-warning, .tss-statefulitemrow-danger).tss-statefulitemrow {
+    border-radius: var(--tss-gl-radius-ctrl);
+    box-shadow: var(--tss-gl-rim);
+}

@@ -1,0 +1,17 @@
+/* ==========================================================================
+   Graustufe theme - MarkHighlighter
+   --------------------------------------------------------------------------
+   A found word is marked the way a reader highlights on e-paper: a light
+   grey block under ink type; the focused match is inverted.
+   ========================================================================== */
+
+body.tss-theme-graustufe ::highlight(tss-marked),
+body.tss-theme-graustufe mark {
+    background-color: var(--tss-gs-11);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe ::highlight(tss-marked-focused) {
+    background-color: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}

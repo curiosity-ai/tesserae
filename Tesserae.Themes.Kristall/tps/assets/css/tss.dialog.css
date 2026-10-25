@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Kristall theme - Dialog
+   --------------------------------------------------------------------------
+   A dialog is an alert sheet: the modal's frosted pane with its large
+   radius, its title semibold, the message in secondary grey, and the
+   buttons at the trailing end of the footer as capsules.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-dialog {
+    border-radius: var(--tss-kr-r-sheet);
+}
+
+body.tss-theme-kristall .tss-dialog .tss-modal-header {
+    padding: 14px 14px 0 18px;
+}
+
+body.tss-theme-kristall .tss-dialog .tss-modal-content {
+    padding: 0 18px;
+}
+
+body.tss-theme-kristall .tss-dialog .tss-modal-footer {
+    padding: 4px 14px 12px 18px;
+}

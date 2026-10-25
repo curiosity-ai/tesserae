@@ -1,0 +1,75 @@
+/* ==========================================================================
+   Kristall theme - Menu
+   --------------------------------------------------------------------------
+   The menu is the desktop's menu: frosted rounded panel, 1px inner stroke,
+   soft shadow; rows with a 5px radius that turn solid accent with white
+   type under the pointer or the keyboard (a destructive row turns red).
+   Headers are small grey captions in their own case, dividers hairlines.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-menu {
+    border: 0;
+    border-radius: var(--tss-kr-r-pop);
+    background: var(--tss-kr-popover);
+    -webkit-backdrop-filter: var(--tss-kr-blur);
+    backdrop-filter: var(--tss-kr-blur);
+    box-shadow: var(--tss-kr-rim), var(--tss-kr-shadow-pop);
+    padding: 5px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-kristall .tss-menu-item {
+    border: 0;
+    border-radius: var(--tss-kr-r-small);
+    padding: 3px 10px;
+    min-height: 26px;
+}
+
+body.tss-theme-kristall .tss-menu-item:hover,
+body.tss-theme-kristall .tss-menu-item:focus,
+body.tss-theme-kristall .tss-menu-item.tss-menu-item-open,
+body.tss-theme-kristall .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):hover,
+body.tss-theme-kristall .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):focus,
+body.tss-theme-kristall .tss-menu-item.tss-menu-item-success:not(.tss-disabled):hover,
+body.tss-theme-kristall .tss-menu-item.tss-menu-item-success:not(.tss-disabled):focus,
+body.tss-theme-kristall .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):hover,
+body.tss-theme-kristall .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):focus {
+    background: var(--tss-kr-accent);
+    color: var(--tss-kr-on-accent);
+}
+
+body.tss-theme-kristall .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):hover,
+body.tss-theme-kristall .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus {
+    background: rgb(var(--tss-danger-background-color-root));
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+body.tss-theme-kristall .tss-menu-item:hover .tss-menu-item-icon,
+body.tss-theme-kristall .tss-menu-item:focus .tss-menu-item-icon,
+body.tss-theme-kristall .tss-menu-item:hover .tss-fontcolor-default,
+body.tss-theme-kristall .tss-menu-item:hover .tss-fontcolor-secondary {
+    color: inherit;
+}
+
+body.tss-theme-kristall .tss-menu-item.tss-disabled {
+    color: var(--tss-kr-label-3);
+}
+
+body.tss-theme-kristall .tss-menu-item-icon {
+    color: var(--tss-kr-label-2);
+}
+
+body.tss-theme-kristall .tss-menu-header {
+    padding: 5px 10px 2px;
+    color: var(--tss-kr-label-2);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.005em;
+}
+
+body.tss-theme-kristall .tss-menu-divider {
+    height: 1px;
+    margin: 5px 9px;
+    background: var(--tss-kr-separator);
+}

@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Graustufe theme - Toast
+   --------------------------------------------------------------------------
+   A slip laid on the corner of the page: paper, ink frame, the 5px dithered
+   edge, square; its title in the book face. It is there at once and gone at
+   once (the timeout still runs; nothing fades).
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-toast-container {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge-lg);
+}
+
+body.tss-theme-graustufe .tss-toast-fullwidth.tss-toast > .tss-toast-container {
+    border-image: none;
+    border: 0;
+    border-bottom: var(--tss-gs-rule);
+}
+
+body.tss-theme-graustufe .tss-toast-fullwidth.tss-toast-fullwidth-bottom.tss-toast > .tss-toast-container {
+    border-bottom: 0;
+    border-top: var(--tss-gs-rule);
+}

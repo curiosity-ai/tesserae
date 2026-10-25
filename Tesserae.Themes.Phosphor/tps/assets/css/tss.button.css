@@ -1,0 +1,223 @@
+/* ==========================================================================
+   Phosphor theme - Button
+   --------------------------------------------------------------------------
+   A button is a field on a form screen. Its label sits between brackets,
+   "[ OK ]"; a solid button (primary, danger, success, warning) is the same
+   field in inverse video, a lit block with the type knocked out of it. A
+   ghost button (the default) has no frame; under the pointer it inverts,
+   the way a menu bar highlights the choice under the cursor. Pressed, the
+   block dims a step. Focus from the keyboard is the cursor block too.
+
+   On paper the block is inked solid and the type is the paper showing
+   through. Nothing is rounded, nothing casts a shadow, nothing glows that
+   is dark.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-btn {
+    border-radius: 0;
+    box-shadow: none;
+    font-family: var(--tss-ph-mono);
+    font-weight: 500;
+    letter-spacing: 0;
+    transition: background-color var(--tss-ph-step) steps(1), color var(--tss-ph-step) steps(1), border-color var(--tss-ph-step) steps(1);
+}
+
+body.tss-theme-phosphor .tss-btn:hover,
+body.tss-theme-phosphor .tss-btn:focus {
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-btn > i + span:not(:empty) {
+    margin-left: 8px;
+}
+
+/* The brackets: on every button that has a label and stands as a button of its own (not a link, not a bare
+   ghost inside other chrome such as the sidebar). They are drawn in the label's own colour, a step dimmer. */
+body.tss-theme-phosphor .tss-btn:not(.tss-btn-only-icon, .tss-btn-link, .tss-btn-nobg):not(:is(.tss-sidebar, .tss-dropdown-popup, .tss-dropdown-item-on-box, .tss-contextmenu-item, .tss-menu, .tss-pivot-titlebar, .tss-commandbar, .tss-pagination, .tss-breadcrumb, .tss-searchbox-container, .tippy-content, .tss-icon-toggle, .tss-segmentedpivot, .tss-tree, .tss-picker-container, .tss-layer-picker-suggestions, .tss-detailslist-header, .tss-gridpicker, .tss-carousel-controls, .tss-actionbutton-container) *) > span:not(:empty):not(:has(*))::before {
+    content: "[ ";
+    white-space: pre;
+    opacity: 0.6;
+}
+
+body.tss-theme-phosphor .tss-btn:not(.tss-btn-only-icon, .tss-btn-link, .tss-btn-nobg):not(:is(.tss-sidebar, .tss-dropdown-popup, .tss-dropdown-item-on-box, .tss-contextmenu-item, .tss-menu, .tss-pivot-titlebar, .tss-commandbar, .tss-pagination, .tss-breadcrumb, .tss-searchbox-container, .tippy-content, .tss-icon-toggle, .tss-segmentedpivot, .tss-tree, .tss-picker-container, .tss-layer-picker-suggestions, .tss-detailslist-header, .tss-gridpicker, .tss-carousel-controls, .tss-actionbutton-container) *) > span:not(:empty):not(:has(*))::after {
+    content: " ]";
+    white-space: pre;
+    opacity: 0.6;
+}
+
+/* With an icon in front, the bracket opens before the icon: the icon is part of the label. */
+body.tss-theme-phosphor .tss-btn:not(.tss-btn-only-icon, .tss-btn-link, .tss-btn-nobg):not(:is(.tss-sidebar, .tss-dropdown-popup, .tss-dropdown-item-on-box, .tss-contextmenu-item, .tss-menu, .tss-pivot-titlebar, .tss-commandbar, .tss-pagination, .tss-breadcrumb, .tss-searchbox-container, .tippy-content, .tss-icon-toggle, .tss-segmentedpivot, .tss-tree, .tss-picker-container, .tss-layer-picker-suggestions, .tss-detailslist-header, .tss-gridpicker, .tss-carousel-controls, .tss-actionbutton-container) *) > i:first-child + span:not(:empty):not(:has(*))::before {
+    content: none;
+}
+
+body.tss-theme-phosphor .tss-btn:not(.tss-btn-only-icon, .tss-btn-link, .tss-btn-nobg):not(:is(.tss-sidebar, .tss-dropdown-popup, .tss-dropdown-item-on-box, .tss-contextmenu-item, .tss-menu, .tss-pivot-titlebar, .tss-commandbar, .tss-pagination, .tss-breadcrumb, .tss-searchbox-container, .tippy-content, .tss-icon-toggle, .tss-segmentedpivot, .tss-tree, .tss-picker-container, .tss-layer-picker-suggestions, .tss-detailslist-header, .tss-gridpicker, .tss-carousel-controls, .tss-actionbutton-container) *):has(> i:first-child + span:not(:empty))::before {
+    content: "[";
+    white-space: pre;
+    margin-right: 8px;
+    opacity: 0.6;
+}
+
+/* --------------------------------------------------------------------------
+   Ghost (default): no frame; inverse video under the pointer
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled) {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled):focus-visible {
+    background-color: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+    outline: none;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled):focus-visible .tss-fontcolor-default,
+body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled):hover > i,
+body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled):focus-visible > i {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-default:not(.tss-disabled):active {
+    background-color: rgba(var(--tss-ph-cursor-root), 0.78);
+}
+
+/* --------------------------------------------------------------------------
+   Solid: inverse video. The block, the knocked-out type, no glow on the type
+   (dark type does not glow) but a faint bloom round the lit block.
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-phosphor .tss-btn:is(.tss-btn-primary, .tss-btn-danger, .tss-btn-success, .tss-btn-warning):not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    text-shadow: none;
+    border-width: 1px;
+}
+
+body.tss-theme-phosphor.tss-dark-mode .tss-btn:is(.tss-btn-primary, .tss-btn-danger, .tss-btn-success, .tss-btn-warning):not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    box-shadow: 0 0 10px -1px rgba(var(--tss-ph-hot-root), 0.35);
+}
+
+body.tss-theme-phosphor.tss-dark-mode .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    box-shadow: 0 0 10px -1px rgba(var(--tss-ph-red-root), 0.4);
+}
+
+body.tss-theme-phosphor.tss-dark-mode .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    box-shadow: 0 0 10px -1px rgba(var(--tss-ph-amber-root), 0.4);
+}
+
+/* Keyboard focus on a solid block: a second frame, one cell out, in the block's own colour. */
+body.tss-theme-phosphor .tss-btn:is(.tss-btn-primary, .tss-btn-danger, .tss-btn-success, .tss-btn-warning):not(.tss-disabled):focus-visible {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 3px;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-phosphor .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) .tss-fontcolor-default {
+    color: rgb(var(--tss-warning-foreground-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   No background: coloured type, a frame of its colour under the pointer
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg:not(.tss-disabled) {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg:not(.tss-disabled):hover {
+    background-color: var(--tss-ph-tint);
+    border-color: currentColor;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg.tss-btn-primary:not(.tss-disabled),
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg.tss-btn-primary:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg.tss-btn-danger:not(.tss-disabled),
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg.tss-btn-danger:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-ph-red);
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg.tss-btn-warning:not(.tss-disabled),
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg.tss-btn-warning:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-ph-amber);
+}
+
+/* --------------------------------------------------------------------------
+   Link: underlined type in the link colour; under the pointer, inverse
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-phosphor .tss-btn.tss-btn-link:not(.tss-disabled) {
+    background: transparent;
+    border-color: transparent;
+    color: rgb(var(--tss-link-color-root));
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-link:not(.tss-disabled) .tss-fontcolor-default {
+    color: rgb(var(--tss-link-color-root));
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-link:not(.tss-disabled):hover,
+body.tss-theme-phosphor .tss-btn.tss-btn-link:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-phosphor .tss-btn.tss-btn-link:not(.tss-disabled):focus-visible {
+    background: rgb(var(--tss-link-color-root));
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+    text-decoration-color: transparent;
+    outline: none;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-link:not(.tss-disabled):hover .tss-fontcolor-default {
+    background: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   Disabled: a dotted frame, dim type, nothing lit
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-phosphor .tss-btn.tss-disabled {
+    background-color: transparent;
+    border: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    text-shadow: none;
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-link.tss-disabled,
+body.tss-theme-phosphor .tss-btn.tss-btn-nobg.tss-disabled,
+body.tss-theme-phosphor .tss-btn.tss-btn-only-icon.tss-disabled {
+    border-color: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   Spinner: square caps, like a line drawn in characters
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-phosphor .tss-btn .tss-btn-spin-ring > svg {
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-spin-resolved.tss-btn-spin-success:not(.tss-btn-default) {
+    background-color: rgb(var(--tss-success-background-color-root));
+    color: rgb(var(--tss-success-foreground-color-root));
+}
+
+body.tss-theme-phosphor .tss-btn.tss-btn-spin-resolved.tss-btn-spin-error:not(.tss-btn-default) {
+    background-color: rgb(var(--tss-danger-background-color-root));
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-phosphor .tss-btn {
+        transition: none;
+    }
+}

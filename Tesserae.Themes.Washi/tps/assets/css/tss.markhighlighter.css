@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Washi theme - MarkHighlighter
+   --------------------------------------------------------------------------
+   A match is marked the way a reader marks a printed page: a wash of
+   tea-gold behind the words, the ink left as it is. The focused match is
+   stamped in vermilion. Inline <mark> elements (the fallback backend) get
+   the same.
+   ========================================================================== */
+
+body.tss-theme-washi ::highlight(tss-marked) {
+    background-color: rgba(var(--tss-warning-background-color-root), 0.34);
+    color: inherit;
+}
+
+body.tss-theme-washi ::highlight(tss-marked-focused) {
+    background-color: rgb(var(--tss-primary-background-color-root));
+    color: rgb(var(--tss-primary-foreground-color-root));
+}
+
+body.tss-theme-washi mark {
+    background-color: rgba(var(--tss-warning-background-color-root), 0.34);
+    color: inherit;
+    border-radius: 1px;
+}

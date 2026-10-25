@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Phosphor theme - Picker
+   --------------------------------------------------------------------------
+   The suggestions are a window (a double-line frame); the suggestion under
+   the keyboard is the cursor block. Picked items are square framed cells.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-layer-picker-suggestions {
+    border-radius: 0;
+    border: var(--tss-ph-double);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+}
+
+body.tss-theme-phosphor .tss-picker-suggestions > .tss-picker-label {
+    font-size: 11px;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-picker-suggestions > .tss-picker-suggestion:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-picker-suggestions > .tss-picker-suggestion.tss-selected,
+body.tss-theme-phosphor .tss-picker-suggestions > .tss-picker-suggestion.tss-selected * {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-picker-selection {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-picker-remove {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-picker-remove:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}

@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Zeitung theme - Tooltip
+   --------------------------------------------------------------------------
+   A tooltip is a caption reversed out of black: a square slug of ink with
+   paper-coloured type in the serif, set small, and a hard arrow. In the
+   night edition the slug is the paper colour with ink type.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tippy-box:not([data-theme]) {
+    border-radius: 0;
+    box-shadow: none;
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+body.tss-theme-zeitung .tippy-box:not([data-theme]) > .tippy-content {
+    padding: 4px 8px 5px 8px;
+}
+
+body.tss-theme-zeitung .tippy-box > .tippy-content > div {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tippy-box:not([data-theme]) .tippy-content .tss-fontcolor-default {
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}

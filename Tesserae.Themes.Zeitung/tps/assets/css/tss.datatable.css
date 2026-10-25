@@ -1,0 +1,44 @@
+/* ==========================================================================
+   Zeitung theme - DataTable
+   --------------------------------------------------------------------------
+   The stock table: no box, the thick-and-thin rule over the head, column
+   heads in condensed tracked capitals on a line of ink, hairline rows, a
+   closing rule of ink, lining tabular figures throughout. An accented row
+   keeps its accent as a rule down its leading edge.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-datatable {
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid var(--tss-zt-ink);
+    background: var(--tss-zt-band) top / 100% var(--tss-zt-band-h) no-repeat;
+    padding-top: var(--tss-zt-band-h);
+    font-variant-numeric: lining-nums tabular-nums;
+}
+
+body.tss-theme-zeitung .tss-datatable-header {
+    background: transparent;
+    box-shadow: inset 0 -1px 0 var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-datatable-heading {
+    font-family: var(--tss-zt-head);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: var(--tss-zt-caps);
+    text-transform: uppercase;
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-datatable-row + .tss-datatable-row,
+body.tss-theme-zeitung .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top-color: var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top-color: transparent;
+}
+
+body.tss-theme-zeitung .tss-datatable-row:hover {
+    background: var(--tss-zt-tint);
+}

@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Kontrast theme - OmniBox
+   --------------------------------------------------------------------------
+   Edges drawn in the border tokens go to 2px; colours, focus and states come from the theme's tokens and global rules.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-omnibox-container {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn {
+    border-right-width: var(--tss-kt-border);
+    border-right-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-help-btn {
+    border-right-width: var(--tss-kt-border);
+    border-right-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-btn {
+    border-left-width: var(--tss-kt-border);
+    border-left-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-omnibox-inline-chips {
+    border-right-width: var(--tss-kt-border);
+    border-right-color: var(--tss-kt-line);
+}

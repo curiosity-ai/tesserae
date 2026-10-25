@@ -1,0 +1,124 @@
+/* ==========================================================================
+   Memphis theme - Slider
+   --------------------------------------------------------------------------
+   A slider is a striped rail: a 10px track with a 2px black line, hatched
+   where it is empty, filled bubblegum up to the cap. The cap is a
+   sunflower disc with a black line on a small hard shadow. Disabled is a
+   dashed rail and a grey cap.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-slider-fake-background,
+body.tss-theme-memphis .tss-slider-container input:hover ~ .tss-slider-fake-background {
+    top: 3px;
+    height: 10px;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 999px;
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: var(--tss-mp-pattern-hatch-soft);
+    background-size: 10px 10px;
+}
+
+body.tss-theme-memphis .tss-slider-fake-progress,
+body.tss-theme-memphis .tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    top: 3px;
+    height: 10px;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-right: none;
+    border-radius: 999px 0 0 999px;
+    background-color: rgb(var(--tss-mp-pink-root));
+}
+
+body.tss-theme-memphis .tss-slider-container.tss-vertical .tss-slider-fake-background {
+    top: 0;
+    left: 7px;
+    width: 10px;
+    height: 100%;
+}
+
+body.tss-theme-memphis .tss-slider-container.tss-vertical .tss-slider-fake-progress {
+    top: auto;
+    left: 7px;
+    width: 10px;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-top: none;
+    border-radius: 0 0 999px 999px;
+}
+
+body.tss-theme-memphis .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress,
+body.tss-theme-memphis .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-progress {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-slider-container input.tss-disabled ~ .tss-slider-fake-background,
+body.tss-theme-memphis .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-background {
+    border-style: dashed;
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    background-color: rgb(var(--tss-disabled-background-color-root));
+}
+
+body.tss-theme-memphis .tss-slider::-webkit-slider-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    background: rgb(var(--tss-mp-yellow-root));
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+    transition: transform 160ms var(--tss-mp-pop);
+}
+
+body.tss-theme-memphis .tss-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    background: rgb(var(--tss-mp-yellow-root));
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-slider:hover::-webkit-slider-thumb {
+    border-color: var(--tss-mp-line);
+    transform: scale(1.12);
+}
+
+body.tss-theme-memphis .tss-slider:hover::-moz-range-thumb {
+    border-color: var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-slider:active::-webkit-slider-thumb {
+    box-shadow: none;
+    transform: translate(1px, 1px);
+}
+
+body.tss-theme-memphis .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb {
+    width: 22px;
+    height: 22px;
+}
+
+body.tss-theme-memphis .tss-slider:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-memphis .tss-slider:focus-visible::-webkit-slider-thumb {
+    outline: 3px solid var(--tss-mp-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-memphis .tss-slider.tss-disabled::-webkit-slider-thumb {
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    background: rgb(var(--tss-disabled-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-slider.tss-disabled::-moz-range-thumb {
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    background: rgb(var(--tss-disabled-background-color-root));
+    box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-memphis .tss-slider::-webkit-slider-thumb {
+        transition: none;
+        transform: none !important;
+    }
+}

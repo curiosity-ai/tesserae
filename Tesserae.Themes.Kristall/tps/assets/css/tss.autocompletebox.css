@@ -1,0 +1,24 @@
+/* Kristall theme - AutoCompleteBox: the field is a TextBox; the list is a menu (frosted panel, accent highlight). */
+
+body.tss-theme-kristall .tss-autocompletebox-list {
+    border: 0;
+    border-radius: var(--tss-kr-r-pop);
+    background: var(--tss-kr-popover);
+    -webkit-backdrop-filter: var(--tss-kr-blur);
+    backdrop-filter: var(--tss-kr-blur);
+    box-shadow: var(--tss-kr-rim), var(--tss-kr-shadow-pop);
+    padding: 5px;
+}
+
+body.tss-theme-kristall .tss-autocompletebox-item {
+    border-radius: var(--tss-kr-r-small);
+    padding: 3px 10px;
+}
+
+body.tss-theme-kristall .tss-autocompletebox-item:hover,
+body.tss-theme-kristall .tss-autocompletebox-item.tss-active,
+body.tss-theme-kristall .tss-autocompletebox-item.tss-selected,
+body.tss-theme-kristall .tss-autocompletebox-item[aria-selected="true"] {
+    background: var(--tss-kr-accent);
+    color: var(--tss-kr-on-accent);
+}

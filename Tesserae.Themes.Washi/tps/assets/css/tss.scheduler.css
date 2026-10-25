@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Washi theme - Scheduler
+   --------------------------------------------------------------------------
+   A calendar ruled on paper: hairline lines of diluted ink, off-hours a
+   faint wash, today's date stamped with a round vermilion seal, "now" a
+   fine vermilion line. Appointments without a colour of their own are
+   indigo slips; an app's own colours are kept.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-scheduler {
+    --tss-scheduler-radius: var(--tss-wa-radius-small);
+    --tss-scheduler-line-color: var(--tss-wa-line);
+    --tss-scheduler-minor-line-color: rgba(var(--tss-default-foreground-color-root), 0.05);
+    --tss-scheduler-work-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-scheduler-today-color: var(--tss-wa-shu);
+    --tss-scheduler-now-color: var(--tss-wa-shu);
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-scheduler-tg-header,
+body.tss-theme-washi .tss-scheduler-tg-corner,
+body.tss-theme-washi .tss-scheduler-tg-gutter,
+body.tss-theme-washi .tss-scheduler-tg-allday-caption {
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-scheduler-tg-header {
+    border-bottom-color: var(--tss-wa-line-strong);
+}
+
+body.tss-theme-washi .tss-scheduler-tg-daynum {
+    font-family: var(--tss-wa-serif);
+}
+
+body.tss-theme-washi .tss-scheduler-ghost {
+    border-color: var(--tss-wa-thread);
+    background: var(--tss-wa-thread-halo);
+}
+
+body.tss-theme-washi .tss-scheduler-drop-target {
+    background: var(--tss-wa-thread-halo) !important;
+}
+
+body.tss-theme-washi .tss-scheduler:focus-visible {
+    box-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+}
+
+body.tss-theme-washi .tss-scheduler-item {
+    --tss-scheduler-item: var(--tss-scheduler-item-color, var(--tss-wa-ai));
+}

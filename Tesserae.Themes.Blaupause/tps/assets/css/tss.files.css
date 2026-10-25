@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Blaupause theme - FileSelector and DropArea
+   --------------------------------------------------------------------------
+   A drop area is a dashed hidden-line box on the fine grid; while a file
+   is held over it, it is hatched and inked.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-filedroparea,
+body.tss-theme-blaupause .tss-filedroparea-overlay {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-filedroparea {
+    border: 1px dashed var(--tss-bp-line-strong);
+    background: var(--tss-bp-grid-small), var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-filedroparea.tss-dropping {
+    background: var(--tss-bp-hatch), var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-filedroparea-message,
+body.tss-theme-blaupause .tss-filedroparea-icon {
+    color: var(--tss-bp-muted);
+}
+
+body.tss-theme-blaupause .tss-filedroparea-overlay,
+body.tss-theme-blaupause.tss-dark-mode .tss-filedroparea-overlay {
+    border: 1px dashed var(--tss-bp-line-strong);
+    background: var(--tss-bp-hatch), var(--tss-overlay-light);
+}

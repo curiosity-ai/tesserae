@@ -1,0 +1,14 @@
+/* ==========================================================================
+   Blaupause theme - StatefulItemRow
+   --------------------------------------------------------------------------
+   Rows wash in ink under the pointer; a struck row is struck through in red
+   pencil.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-statefulitemrow-interactive:hover {
+    background: color-mix(in srgb, var(--tss-bp-ink) 7%, var(--tss-statefulitemrow-surface));
+}
+
+body.tss-theme-blaupause .tss-statefulitemrow-struck .tss-statefulitemrow-title {
+    text-decoration-color: var(--tss-bp-red);
+}

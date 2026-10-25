@@ -193,6 +193,35 @@ What makes it work, and what to keep when touching it:
   tokens `--tss-wg-*` in its `tss.common.css` (materials, depths, lamps, LCD), Hanken Grotesk / DSEG7 and DSEG14 /
   JetBrains Mono bundled (OFL). Its README lists the design rules every stylesheet follows. Picked in the gallery's
   Theme nav (`localStorage["tss-sample-theme"] = "weniger"`).
+- **Nine more themes, one package each, same mechanics** (root class `tss-theme-<id>`, tokens `--tss-<short>-*` in
+  the package's `tss.common.css`, a README with the design rules every stylesheet follows, all fonts OFL and bundled),
+  picked in the gallery's Theme nav by id (`localStorage["tss-sample-theme"] = "<id>"`):
+  - **`Tesserae.Themes.Zeitung`** (`zeitung`): a broadsheet newspaper; morning edition on newsprint, night edition on
+    dark stock, one spot red. Typography carries it: a serif with real small caps and old-style figures (a renamed
+    subset of Source Serif 4, since "Source" is a Reserved Font Name), double rules instead of shadows.
+  - **`Tesserae.Themes.Blaupause`** (`blaupause`): engineering drawings; cyanotype blueprint in dark, whiteprint in
+    light, drafting grid, no shadows, registration ticks, dimension-line separators, red-pencil focus.
+  - **`Tesserae.Themes.Phosphor`** (`phosphor`): a character terminal; green phosphor CRT with glow and scanlines in
+    dark, green-bar line-printer paper in light, box-drawing frames, inverse-video cursor for focus and selection.
+  - **`Tesserae.Themes.Glas`** (`glas`): refractive liquid glass over a colour field. Overlays blur and, in Chromium,
+    refract through an inline SVG displacement filter. Blur only where content passes behind, never nested (a nested
+    `backdrop-filter` blurs nothing), and never on a container that holds a fixed-position pane.
+  - **`Tesserae.Themes.Kristall`** (`kristall`): after the translucent macOS desktop look; wallpaper, frosted source-list
+    sidebar, glass menus and toasts, sheet modals, system-blue capsule buttons, segmented controls. Blur only on
+    body-mounted layers; `prefers-reduced-transparency` makes everything opaque.
+  - **`Tesserae.Themes.Kontrast`** (`kontrast`): accessibility first, drawn like a wayfinding sign system; 7:1 text,
+    a two-tone focus ring that is never removed, state never shown by colour alone, `forced-colors` and
+    `prefers-contrast` handled. It doubles as a test instrument for focus and contrast bugs in components.
+  - **`Tesserae.Themes.Memphis`** (`memphis`): after the 1980s Memphis movement; six bright fills, thick outlines,
+    hard offset shadows in a second colour, inline-SVG confetti and squiggles that frame content, never sit under it.
+  - **`Tesserae.Themes.Washi`** (`washi`): Japanese paper and ink; vermilion seal stamp for what is chosen, tapered
+    brush-stroke rules, a shoji lattice sidebar; dark mode is urushi lacquer with gold focus.
+  - **`Tesserae.Themes.Graustufe`** (`graustufe`): an e-paper display; a 16-level grey ramp and nothing else (the
+    colour palette, AI tokens and inline colours are mapped onto it), dithered edges instead of shadows, and **no
+    motion**. It is the stress test for components that wait on `transitionend`/`animationend`: Tippy unmounts a
+    hidden popup on `transitionend`, which never fires without a transition. Core now covers that for every
+    consumer (`tippy.unmount.js`, a default Tippy plugin that unmounts a popup still mounted after its hide
+    duration); the theme also keeps a 1ms `visibility` transition on `.tippy-box` so cleanup is immediate.
 - **The package also carries components**: the website's signature elements rebuilt in C#
   (`Tesserae.Themes.Curiosity/src/Components/`): `PixelIntro`, `FlowField`, `PixelGlyph`, `DashMosaic`. They
   draw with `BrandColors` directly so they work without the theme active, run their animation loops only while
@@ -591,9 +620,18 @@ mode swaps the colour tokens. The matrix today is:
 | RetroOS   | yes   | yes  |
 | Rechenwerk | yes  | yes  |
 | Weniger   | yes   | yes  |
+| Zeitung   | yes   | yes  |
+| Blaupause | yes   | yes  |
+| Phosphor  | yes   | yes  |
+| Glas      | yes   | yes  |
+| Kristall  | yes   | yes  |
+| Kontrast  | yes   | yes  |
+| Memphis   | yes   | yes  |
+| Washi     | yes   | yes  |
+| Graustufe | yes   | yes  |
 
 - The gallery opens in Curiosity. Pick the theme before load by setting
-  `localStorage["tss-sample-theme"]` to `"default"`, `"curiosity"`, `"stratus"`, `"retroos"`, `"rechenwerk"` or `"weniger"` (`_themeKey` in
+  `localStorage["tss-sample-theme"]` to `"default"`, `"curiosity"`, `"stratus"`, `"retroos"`, `"rechenwerk"`, `"weniger"`, `"zeitung"`, `"blaupause"`, `"phosphor"`, `"glas"`, `"kristall"`, `"kontrast"`, `"memphis"`, `"washi"` or `"graustufe"` (`_themeKey` in
   [App.cs](Tesserae.Tests/src/App.cs)), or click the Theme nav at the foot of the sidebar.
 - Dark mode is the sun/moon command in the sidebar (`Theme.Dark()` / `Theme.Light()`); it puts
   `tss-dark-mode` on `body`.

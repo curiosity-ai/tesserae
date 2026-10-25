@@ -1,0 +1,157 @@
+/* ==========================================================================
+   Zeitung theme - Button
+   --------------------------------------------------------------------------
+   A button is a line of type, not a lozenge. Its label is set in the
+   serif's real small caps, lightly tracked, the way a newspaper sets a
+   standing head or a section index. A ghost (Tesserae's default) button is
+   bare type at rest and is ruled round with a hairline of ink under the
+   pointer; a solid button is a block of colour with square corners: the
+   spot red for the primary action, black-letter ink tones for the rest.
+   Pressed, a solid block turns to ink; a ghost one takes a wash of ink.
+   A link button is a word in the text, underlined with a red hairline.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-btn {
+    border-radius: 0;
+    box-shadow: none;
+    font-weight: 600;
+    transition: background-color var(--tss-zt-quick) var(--tss-zt-ease), color var(--tss-zt-quick) var(--tss-zt-ease), box-shadow var(--tss-zt-quick) var(--tss-zt-ease);
+}
+
+/* The label: all small caps, tracked, with lining figures so a count in a label stands on the line. */
+body.tss-theme-zeitung .tss-btn:where(:not(.tss-btn-link):not(.tss-sidebar-btn):not(.tss-sidebar-nav-button):not(.tss-btn-only-icon)) > span {
+    font-variant-caps: all-small-caps;
+    font-variant-numeric: lining-nums;
+    letter-spacing: var(--tss-zt-sc);
+    font-size: 1.12em;
+    line-height: 1;
+}
+
+body.tss-theme-zeitung .tss-btn:focus {
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-btn:focus-visible {
+    outline: 2px solid var(--tss-zt-red);
+    outline-offset: 2px;
+}
+
+/* Ghost buttons: bare type; a hairline frame under the pointer, a wash of ink when pressed. */
+body.tss-theme-zeitung .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-ai):not(.tss-btn-link) {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-zeitung .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-ai):not(.tss-btn-link):not(.tss-btn-nohover):not(.tss-sidebar-btn):not(.tss-sidebar-nav-button):hover {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-ai):not(.tss-btn-link):active,
+body.tss-theme-zeitung .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-ai):not(.tss-btn-link):not(.tss-btn-nohover):active:hover {
+    background-color: var(--tss-zt-tint-strong);
+    border-color: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-ai):not(.tss-btn-link):hover {
+    background-color: var(--tss-zt-tint);
+}
+
+/* Solid buttons: square blocks of colour, a 1px edge of the same tone a shade deeper. */
+body.tss-theme-zeitung .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-zeitung .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-zeitung .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-zeitung .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    filter: none;
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-zeitung .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-zeitung .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-zeitung .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    filter: none;
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.28);
+}
+
+/* Pressed, a solid block is inked over. */
+body.tss-theme-zeitung .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-zeitung .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-zeitung .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active {
+    filter: none;
+    background-color: var(--tss-zt-ink);
+    border-color: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active .tss-fontcolor-default,
+body.tss-theme-zeitung .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active .tss-fontcolor-default,
+body.tss-theme-zeitung .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active .tss-fontcolor-default {
+    color: var(--tss-zt-paper);
+}
+
+/* Without a background, a toned button is coloured type. */
+body.tss-theme-zeitung .tss-btn.tss-btn-primary.tss-btn-nobg,
+body.tss-theme-zeitung .tss-btn.tss-btn-primary.tss-btn-nobg .tss-fontcolor-default {
+    color: var(--tss-zt-red-ink);
+}
+
+/* A link button: a word in the copy, red hairline underneath when it has somewhere to go or is hovered. */
+body.tss-theme-zeitung .tss-btn.tss-btn-link,
+body.tss-theme-zeitung .tss-btn.tss-btn-link .tss-fontcolor-default {
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-btn.tss-btn-link:not(.tss-disabled) > span {
+    text-decoration: underline;
+    text-decoration-color: var(--tss-zt-red);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+}
+
+body.tss-theme-zeitung .tss-btn.tss-btn-link:not(.tss-disabled):hover,
+body.tss-theme-zeitung .tss-btn.tss-btn-link:not(.tss-disabled):hover .tss-fontcolor-default {
+    color: var(--tss-zt-red-ink);
+}
+
+body.tss-theme-zeitung .tss-btn.tss-btn-link:not(.tss-disabled):hover > span {
+    text-decoration-thickness: 2px;
+}
+
+/* Where a button stands for content rather than a command - an entry of the index column, the value a
+   dropdown shows, an option in its list - it is set as plain serif. */
+body.tss-theme-zeitung .tss-sidebar .tss-btn > span,
+body.tss-theme-zeitung .tss-dropdown .tss-btn > span,
+body.tss-theme-zeitung .tss-dropdown-popup .tss-btn > span {
+    font-variant-caps: normal;
+    letter-spacing: normal;
+    font-size: inherit;
+}
+
+/* Disabled: struck back to grey type in a dotted rule, the way a cancelled listing is set. */
+body.tss-theme-zeitung .tss-btn.tss-disabled:not(.tss-btn-link):not(.tss-btn-nobg):not(.tss-sidebar-btn):not(.tss-dropdown-item-on-box) {
+    background-color: transparent;
+    border: 1px dotted rgb(var(--tss-disabled-foreground-color-root));
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+/* A split button: the two halves share one frame, ruled apart. */
+body.tss-theme-zeitung .tss-btn-and-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-btn-and-icon .tss-btn.tss-btn-and-icon-icon {
+    border-left: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+body.tss-theme-zeitung .tss-btn.tss-btn-spin-resolved.tss-btn-spin-success:not(.tss-btn-default) {
+    background-color: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-zeitung .tss-btn.tss-btn-spin-resolved.tss-btn-spin-error:not(.tss-btn-default) {
+    background-color: rgb(var(--tss-danger-background-color-root));
+}

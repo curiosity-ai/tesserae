@@ -1,0 +1,15 @@
+/* ==========================================================================
+   Zeitung theme - Sparkline
+   --------------------------------------------------------------------------
+   A sparkline is the little line beside a share price: the reference a
+   dotted hairline of ink, the last point a small square.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-sparkline-reference {
+    stroke: var(--tss-zt-ink);
+    opacity: 0.45;
+}
+
+body.tss-theme-zeitung .tss-sparkline-end {
+    border-radius: 0;
+}

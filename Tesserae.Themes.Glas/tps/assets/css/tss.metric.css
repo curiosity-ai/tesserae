@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Glas theme - Metric
+   --------------------------------------------------------------------------
+   A metric's number is set large and tight, in the accent's ink when it
+   leads; a clickable metric condenses into a pane of clear glass under the
+   pointer. A filled value is a capsule of tinted glass.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-metric-value {
+    font-weight: 750;
+    letter-spacing: -0.025em;
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-glas .tss-metric-value-filled .tss-metric-value {
+    border-radius: 10px;
+    box-shadow: var(--tss-gl-rim);
+}
+
+body.tss-theme-glas .tss-metric-clickable {
+    border-radius: var(--tss-gl-radius-ctrl);
+}
+
+body.tss-theme-glas .tss-metric-clickable:hover {
+    background: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.45), var(--tss-gl-rim);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-metric-clickable:hover {
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.06);
+}

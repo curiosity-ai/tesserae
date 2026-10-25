@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Phosphor theme - Plan
+   --------------------------------------------------------------------------
+   A plan is a job listing: a single-line box with its state as a bar along
+   the top in the state's colour (dim pending, lit running, green done, red
+   failed, amber cancelled).
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-plan {
+    border: var(--tss-ph-single);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: inset 0 3px 0 0 var(--plan-accent);
+    --plan-accent: var(--tss-ph-dim);
+    --plan-accent-soft: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-plan-pending   { --plan-accent: var(--tss-ph-dim); --plan-accent-soft: var(--tss-ph-tint); }
+body.tss-theme-phosphor .tss-plan-running   { --plan-accent: var(--tss-ph-cursor); --plan-accent-soft: var(--tss-ph-tint); }
+body.tss-theme-phosphor .tss-plan-completed { --plan-accent: rgb(var(--tss-success-background-color-root)); --plan-accent-soft: var(--tss-ph-tint); }
+body.tss-theme-phosphor .tss-plan-failed    { --plan-accent: var(--tss-ph-red); --plan-accent-soft: rgba(var(--tss-ph-red-root), 0.12); }
+body.tss-theme-phosphor .tss-plan-canceled  { --plan-accent: var(--tss-ph-amber); --plan-accent-soft: rgba(var(--tss-ph-amber-root), 0.12); }
+
+body.tss-theme-phosphor .tss-plan-title {
+    color: var(--tss-ph-hot);
+}

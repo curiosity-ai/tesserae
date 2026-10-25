@@ -1,0 +1,145 @@
+/* ==========================================================================
+   Zeitung theme - Modal
+   --------------------------------------------------------------------------
+   A modal is a page laid on top of the paper: the same newsprint, squared,
+   framed in a hairline of ink with the thick-and-thin rule across its head,
+   and only the faintest lift so the eye can tell the layers apart. The page
+   behind is washed back with the paper's own colour (ink in the night
+   edition), like a sheet seen through another. The title is a headline in
+   the condensed gothic over a hairline; commands are ghost buttons framed in
+   ink under the pointer. It arrives by fading in, a few pixels up.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-modal-container {
+    background-color: rgba(241, 237, 227, 0.74);
+    backdrop-filter: grayscale(0.6);
+    -webkit-backdrop-filter: grayscale(0.6);
+}
+
+body.tss-theme-zeitung .tss-modal-container.tss-dark {
+    background-color: rgba(24, 22, 20, 0.45);
+}
+
+body.tss-theme-zeitung.tss-dark-mode .tss-modal-container {
+    background-color: rgba(18, 17, 15, 0.72);
+}
+
+body.tss-theme-zeitung.tss-dark-mode .tss-modal-container.tss-dark {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+body.tss-theme-zeitung .tss-modal-container.tss-modal-modeless {
+    background-color: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+body.tss-theme-zeitung .tss-modal {
+    background: var(--tss-zt-band) top / 100% var(--tss-zt-band-h) no-repeat, var(--tss-zt-paper);
+    padding-top: var(--tss-zt-band-h);
+    color: var(--tss-zt-ink);
+    border-radius: 0;
+    box-shadow: var(--tss-zt-float);
+}
+
+body.tss-theme-zeitung .tss-modal.tss-embedded {
+    box-shadow: var(--tss-zt-frame);
+}
+
+body.tss-theme-zeitung .tss-modal-animate {
+    animation: tss-zt-modal-in 160ms var(--tss-zt-ease) both;
+}
+
+@keyframes tss-zt-modal-in {
+    0% {
+        transform: translateY(6px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+body.tss-theme-zeitung .tss-modal-header,
+body.tss-theme-zeitung .tss-modal-footer {
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-modal-header {
+    padding: 2px 14px 0 20px;
+}
+
+body.tss-theme-zeitung .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) {
+    box-shadow: inset 0 -1px 0 var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-modal-header-content {
+    align-items: center;
+}
+
+body.tss-theme-zeitung .tss-modal-header-content:not(:empty) {
+    padding: 10px 0 8px 0;
+}
+
+body.tss-theme-zeitung .tss-modal-header-content > .tss-textblock {
+    font-family: var(--tss-zt-head);
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: 0;
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-modal-header-commands > .tss-btn,
+body.tss-theme-zeitung .tss-modal-header-commands > button,
+body.tss-theme-zeitung .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-zeitung .tss-modal-left-header-commands > button {
+    border-radius: 0;
+    color: var(--tss-zt-ink);
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-modal-header-commands > .tss-btn:hover,
+body.tss-theme-zeitung .tss-modal-header-commands > button:hover,
+body.tss-theme-zeitung .tss-modal-left-header-commands > .tss-btn:hover,
+body.tss-theme-zeitung .tss-modal-left-header-commands > button:hover {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-zeitung .tss-modal-header-commands > button:active,
+body.tss-theme-zeitung .tss-modal-left-header-commands > .tss-btn:active,
+body.tss-theme-zeitung .tss-modal-left-header-commands > button:active {
+    background: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-modal-header-commands > .tss-modal-button:hover,
+body.tss-theme-zeitung .tss-modal-header-commands > button.tss-modal-button:hover {
+    color: var(--tss-zt-red-ink);
+    box-shadow: inset 0 0 0 1px var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-modal-content {
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-modal-footer:has(> :not(:empty)) {
+    box-shadow: inset 0 1px 0 var(--tss-zt-hair);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-modal,
+body.tss-theme-zeitung .tss-modal-header-commands > .tss-btn,
+body.tss-theme-zeitung .tss-modal-header-commands > button,
+body.tss-theme-zeitung .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-zeitung .tss-modal-left-header-commands > button {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

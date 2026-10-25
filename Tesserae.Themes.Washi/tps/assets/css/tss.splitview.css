@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Washi theme - SplitView
+   --------------------------------------------------------------------------
+   The divider is a fine frame line, like the edge between two shoji
+   panels; under the pointer it darkens to ink and its grip lengthens.
+   A panel-styled side lifts like a sheet.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-splitview.tss-splitview-horizontal > .tss-splitter:before,
+body.tss-theme-washi .tss-splitview.tss-splitview-vertical > .tss-splitter:before {
+    background: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:before,
+body.tss-theme-washi .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:before {
+    background: var(--tss-wa-line-strong) !important;
+}
+
+body.tss-theme-washi .tss-splitview.tss-splitview-horizontal > .tss-splitter:after,
+body.tss-theme-washi .tss-splitview.tss-splitview-vertical > .tss-splitter:after {
+    background: rgba(var(--tss-default-foreground-color-root), 0.22);
+    border-radius: 2px;
+}
+
+body.tss-theme-washi .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:after,
+body.tss-theme-washi .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:after {
+    background: var(--tss-wa-shu) !important;
+}
+
+body.tss-theme-washi .tss-splitview-panel-style.tss-split-left > *:first-child,
+body.tss-theme-washi .tss-splitview-panel-style.tss-split-right > *:last-child {
+    box-shadow: var(--tss-wa-float);
+}

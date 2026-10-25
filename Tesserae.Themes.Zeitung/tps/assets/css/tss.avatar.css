@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Zeitung theme - Avatar
+   --------------------------------------------------------------------------
+   An avatar is the portrait beside a byline: it stays round (the one shape
+   the paper keeps round), framed in a hairline of ink, and a generated one
+   is printed as a duotone of ink and paper rather than a gradient, its
+   initials in the serif's small caps. The presence dot is a small square.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-avatar {
+    box-shadow: 0 0 0 1px var(--tss-zt-ink);
+    background: var(--tss-zt-tint-strong);
+}
+
+body.tss-theme-zeitung .tss-avatar.tss-avatar-generated {
+    background: var(--tss-zt-halftone-light), linear-gradient(135deg, hsl(var(--tss-avatar-hue), 22%, 42%), hsl(calc(var(--tss-avatar-hue) + 30), 28%, 28%));
+}
+
+body.tss-theme-zeitung .tss-avatar-initials {
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.04em;
+    font-weight: 700;
+    font-size: 1.15em;
+}
+
+body.tss-theme-zeitung .tss-avatar-presence {
+    border-radius: 0;
+    border-color: var(--tss-zt-paper);
+}

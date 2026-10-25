@@ -1,0 +1,43 @@
+/* ==========================================================================
+   Phosphor theme - AI variants
+   --------------------------------------------------------------------------
+   "A model did this" keeps its own voice, translated into the terminal's
+   palette: on the screen a violet-to-blue-white phosphor (the two the
+   green screen does not use for anything else), on paper a violet-to-blue
+   ink. No soft shadows; a filled AI surface carries dark type on the
+   screen, paper-coloured type on the printout.
+   ========================================================================== */
+
+body.tss-theme-phosphor {
+    --tss-ai-from: rgb(112, 60, 150);
+    --tss-ai-to: rgb(40, 82, 160);
+    --tss-ai-accent: rgb(112, 60, 150);
+    --tss-ai-gradient: linear-gradient(115deg, var(--tss-ai-from), var(--tss-ai-to));
+    --tss-ai-gradient-hover: linear-gradient(115deg, rgb(90, 44, 126), rgb(28, 64, 134));
+    --tss-ai-gradient-text: linear-gradient(100deg, rgb(98, 50, 136), rgb(32, 70, 146));
+    --tss-ai-surface: linear-gradient(135deg, rgba(112, 60, 150, 0.08), rgba(40, 82, 160, 0.06));
+    --tss-ai-surface-strong: linear-gradient(135deg, rgba(112, 60, 150, 0.15), rgba(40, 82, 160, 0.11));
+    --tss-ai-border-color: rgba(112, 60, 150, 0.45);
+    --tss-ai-shadow: none;
+    --tss-ai-shadow-hover: none;
+    --tss-ai-arc: conic-gradient(from 0deg, rgb(112, 60, 150) 0deg, rgb(40, 82, 160) 250deg, rgba(40, 82, 160, 0) 330deg, rgba(112, 60, 150, 0) 360deg);
+    --tss-ai-on-fill: rgb(252, 252, 245);
+}
+
+body.tss-theme-phosphor.tss-dark-mode {
+    --tss-ai-from: rgb(200, 140, 255);
+    --tss-ai-to: rgb(110, 210, 255);
+    --tss-ai-accent: rgb(200, 140, 255);
+    --tss-ai-gradient: linear-gradient(115deg, var(--tss-ai-from), var(--tss-ai-to));
+    --tss-ai-gradient-hover: linear-gradient(115deg, rgb(218, 172, 255), rgb(150, 226, 255));
+    --tss-ai-gradient-text: linear-gradient(100deg, rgb(210, 160, 255), rgb(130, 220, 255));
+    --tss-ai-surface: linear-gradient(135deg, rgba(200, 140, 255, 0.1), rgba(110, 210, 255, 0.07));
+    --tss-ai-surface-strong: linear-gradient(135deg, rgba(200, 140, 255, 0.18), rgba(110, 210, 255, 0.12));
+    --tss-ai-border-color: rgba(200, 140, 255, 0.5);
+    --tss-ai-arc: conic-gradient(from 0deg, rgb(200, 140, 255) 0deg, rgb(110, 210, 255) 250deg, rgba(110, 210, 255, 0) 330deg, rgba(200, 140, 255, 0) 360deg);
+    --tss-ai-on-fill: rgb(6, 4, 14);
+}
+
+body.tss-theme-phosphor .tss-btn.tss-ai:not(.tss-disabled):not(.tss-ai-subtle) {
+    text-shadow: none;
+}

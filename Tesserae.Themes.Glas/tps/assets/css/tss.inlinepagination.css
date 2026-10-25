@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Glas theme - InlinePagination
+   --------------------------------------------------------------------------
+   A small capsule of glass holding the arrows and the count.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-inlinepagination {
+    border: none;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.45);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-inlinepagination {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+body.tss-theme-glas .tss-inlinepagination-button {
+    border-radius: 999px;
+}
+
+body.tss-theme-glas .tss-inlinepagination-button:hover:not(:disabled) {
+    background: rgba(var(--tss-gl-accent-rgb), 0.12);
+    color: var(--tss-gl-accent-ink);
+}

@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Phosphor theme - Drawer
+   --------------------------------------------------------------------------
+   A drawer is a pane that slides up over the screen: square, a double rule
+   along its open edge, the title in capitals, the handle a short dashed
+   line.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-drawer {
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-top: var(--tss-ph-double);
+    box-shadow: var(--tss-ph-window-shadow);
+}
+
+body.tss-theme-phosphor .tss-drawer-handle-bar {
+    border-radius: 0;
+    background: repeating-linear-gradient(90deg, var(--tss-ph-rule) 0 4px, transparent 4px 6px);
+}
+
+body.tss-theme-phosphor .tss-drawer-title {
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-drawer-close {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-drawer-close:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}

@@ -1,0 +1,10 @@
+/* ==========================================================================
+   Kontrast theme - MetadataPanel
+   --------------------------------------------------------------------------
+   Edges drawn in the border tokens go to 2px; colours, focus and states come from the theme's tokens and global rules.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-metadata-section {
+    border-bottom-width: var(--tss-kt-border);
+    border-bottom-color: var(--tss-kt-line);
+}

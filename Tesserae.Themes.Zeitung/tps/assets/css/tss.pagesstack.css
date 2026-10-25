@@ -1,0 +1,14 @@
+/* ==========================================================================
+   Zeitung theme - pagesstack
+   --------------------------------------------------------------------------
+   Square corners: type is set in rectangles.
+   ========================================================================== */
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-pagesstack-page,
+body.tss-theme-zeitung .tss-pagesstack-more {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

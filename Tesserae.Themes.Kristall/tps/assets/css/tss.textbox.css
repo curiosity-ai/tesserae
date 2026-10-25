@@ -1,0 +1,81 @@
+/* ==========================================================================
+   Kristall theme - TextBox
+   --------------------------------------------------------------------------
+   A text field is the desktop's: a white well (a faint lift of glass in the
+   dark appearance) with an 8px radius, a hairline edge a shade darker along
+   the top, and no shadow. Focused, the accent halo hugs it, 3.5px of
+   translucent blue outside the edge, and the edge itself turns accent.
+   Invalid is the same halo in red. Placeholder text is tertiary grey.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-textbox {
+    border: 0;
+    border-radius: 8px;
+    background: var(--tss-kr-field);
+    box-shadow: inset 0 0 0 0.5px var(--tss-kr-hairline), inset 0 0.5px 0 rgba(0, 0, 0, 0.06), 0 0.5px 0 rgba(255, 255, 255, 0.5);
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: box-shadow 140ms var(--tss-kr-ease);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-textbox {
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.14), inset 0 0.5px 0 rgba(0, 0, 0, 0.3);
+}
+
+body.tss-theme-kristall .tss-textbox::placeholder {
+    color: var(--tss-kr-label-3) !important;
+    opacity: 1;
+}
+
+body.tss-theme-kristall .tss-textbox:hover {
+    border-color: transparent;
+    box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.24), inset 0 0.5px 0 rgba(0, 0, 0, 0.06);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-textbox:hover {
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.22), inset 0 0.5px 0 rgba(0, 0, 0, 0.3);
+}
+
+body.tss-theme-kristall .tss-textbox:focus,
+body.tss-theme-kristall.tss-dark-mode .tss-textbox:focus {
+    border-color: transparent;
+    box-shadow: inset 0 0 0 1px rgba(var(--tss-kr-accent-rgb), 0.8), var(--tss-kr-focus);
+}
+
+body.tss-theme-kristall .tss-textbox-container.tss-invalid .tss-textbox {
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-kristall .tss-textbox-container.tss-invalid .tss-textbox:focus {
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-invalid-border-color-root)), 0 0 0 3.5px rgba(var(--tss-invalid-border-color-root), 0.3);
+}
+
+body.tss-theme-kristall .tss-textbox.tss-disabled {
+    background: var(--tss-kr-fill-4);
+    box-shadow: inset 0 0 0 0.5px var(--tss-kr-separator);
+    color: var(--tss-kr-label-3);
+}
+
+body.tss-theme-kristall .tss-textbox-error {
+    font-size: 11px;
+    color: rgb(var(--tss-invalid-border-color-root));
+    padding-top: 3px;
+}
+
+body.tss-theme-kristall .tss-textbox.tss-textbox-noborder,
+body.tss-theme-kristall .tss-textbox.tss-textbox-noborder:hover,
+body.tss-theme-kristall .tss-textbox.tss-textbox-noborder:focus {
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-kristall .tss-textbox-container.tss-rounded-full .tss-textbox {
+    padding: 0 14px;
+}
+
+/* Tables in a text block: a list view with hairline rows. */
+body.tss-theme-kristall .tss-textblock table {
+    border: 0;
+    border-radius: var(--tss-kr-r-box);
+    box-shadow: var(--tss-kr-shadow-box);
+    background: var(--tss-kr-box);
+}

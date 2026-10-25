@@ -1,0 +1,219 @@
+/* ==========================================================================
+   Blaupause theme - Charts
+   --------------------------------------------------------------------------
+   A chart is a graph drafted on the sheet: its plot framed by a fine ruled
+   border with registration ticks, gridlines as dashed construction lines,
+   axes in full ink, figures in monospace. Lines are drawn with a technical
+   pen (square ends, mitred corners, 1.5px); points are drawn hollow; bars
+   are outlined in their series colour over a light wash of it, like a
+   coloured-pencil fill inside an inked outline. Tesserae's charts have no
+   stylesheet of their own; a series without an explicit colour reads
+   --tss-chart-series-N (set in tss.common.css: inks and coloured pencils on
+   paper, chalk and pencils on the blueprint). A series an app coloured
+   itself keeps its colour.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-chart {
+    isolation: isolate;
+    font-family: var(--tss-bp-mono);
+}
+
+body.tss-theme-blaupause .tss-chart::before {
+    content: "";
+    position: absolute;
+    inset: -6px -8px;
+    z-index: -1;
+    pointer-events: none;
+    border: 1px solid var(--tss-bp-line-faint);
+    --tss-bp-tick: var(--tss-bp-line);
+    --tss-bp-tick-len: 7px;
+    --tss-bp-tick-w: 1px;
+    background:
+        linear-gradient(var(--tss-bp-tick), var(--tss-bp-tick)) left top / var(--tss-bp-tick-len) var(--tss-bp-tick-w) no-repeat border-box,
+        linear-gradient(var(--tss-bp-tick), var(--tss-bp-tick)) left top / var(--tss-bp-tick-w) var(--tss-bp-tick-len) no-repeat border-box,
+        linear-gradient(var(--tss-bp-tick), var(--tss-bp-tick)) right top / var(--tss-bp-tick-len) var(--tss-bp-tick-w) no-repeat border-box,
+        linear-gradient(var(--tss-bp-tick), var(--tss-bp-tick)) right top / var(--tss-bp-tick-w) var(--tss-bp-tick-len) no-repeat border-box,
+        linear-gradient(var(--tss-bp-tick), var(--tss-bp-tick)) left bottom / var(--tss-bp-tick-len) var(--tss-bp-tick-w) no-repeat border-box,
+        linear-gradient(var(--tss-bp-tick), var(--tss-bp-tick)) left bottom / var(--tss-bp-tick-w) var(--tss-bp-tick-len) no-repeat border-box,
+        linear-gradient(var(--tss-bp-tick), var(--tss-bp-tick)) right bottom / var(--tss-bp-tick-len) var(--tss-bp-tick-w) no-repeat border-box,
+        linear-gradient(var(--tss-bp-tick), var(--tss-bp-tick)) right bottom / var(--tss-bp-tick-w) var(--tss-bp-tick-len) no-repeat border-box;
+}
+
+/* Gridlines: dashed construction lines. */
+body.tss-theme-blaupause .tss-chart line[stroke*="neutral-500-alpha"] {
+    stroke: var(--tss-bp-line-faint);
+    stroke-dasharray: 3 3;
+}
+
+/* Axes and the crosshair: full ink. */
+body.tss-theme-blaupause .tss-chart line[stroke="var(--tss-default-foreground-color)"] {
+    stroke: var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-chart text {
+    fill: var(--tss-bp-muted);
+    font-family: var(--tss-bp-mono);
+    font-variant-numeric: tabular-nums;
+}
+
+/* Legend and tooltip lettering stays ink: it names things rather than measures them. */
+body.tss-theme-blaupause .tss-chart text[font-size="11"] {
+    fill: var(--tss-bp-text);
+    font-family: var(--tss-bp-letter);
+    letter-spacing: 0.04em;
+}
+
+/* The tooltip box drawn into the SVG: a ruled label with the sheet's lift. */
+body.tss-theme-blaupause .tss-chart rect[fill="var(--tss-default-background-color)"] {
+    fill: var(--tss-bp-sheet);
+    stroke: var(--tss-bp-line-strong);
+    rx: 0;
+}
+
+body.tss-theme-blaupause .tss-chart rect[fill="var(--tss-default-background-color)"] ~ text {
+    fill: var(--tss-bp-text);
+}
+
+/* Square swatches, square bars. */
+body.tss-theme-blaupause .tss-chart rect[rx] {
+    rx: 0;
+}
+
+/* Lines: a technical pen. */
+body.tss-theme-blaupause .tss-chart path[stroke^="var(--tss-chart-series"] {
+    stroke-linejoin: miter;
+    stroke-linecap: butt;
+}
+
+body.tss-theme-blaupause .tss-chart path[stroke^="var(--tss-chart-series"][stroke-width="2"] {
+    stroke-width: 1.5;
+}
+
+/* Pie and donut slices are cut apart by the sheet. */
+body.tss-theme-blaupause .tss-chart path[stroke="var(--tss-default-background-color)"] {
+    stroke: var(--tss-bp-sheet);
+    stroke-width: 2;
+}
+
+/* HeatMap: the default scale (the toolkit blue) is drawn in the drawing's ink. */
+body.tss-theme-blaupause .tss-chart rect[fill="var(--tss-colors-blue-600)"] {
+    fill: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-chart stop[stop-color="var(--tss-colors-blue-600)"] {
+    stop-color: var(--tss-bp-ink);
+}
+
+/* Bars: an inked outline in the series colour over a light wash of it. Legend swatches (rx="2") stay solid. */
+body.tss-theme-blaupause .tss-chart rect[fill^="var(--tss-chart-series-1,"]:not([rx="2"]),
+body.tss-theme-blaupause .tss-chart rect[fill^="var(--tss-chart-series-1)"]:not([rx="2"]) {
+    fill-opacity: 0.3;
+    stroke: var(--tss-chart-series-1);
+    stroke-width: 1.25;
+}
+
+body.tss-theme-blaupause .tss-chart rect[fill^="var(--tss-chart-series-2,"]:not([rx="2"]),
+body.tss-theme-blaupause .tss-chart rect[fill^="var(--tss-chart-series-2)"]:not([rx="2"]) {
+    fill-opacity: 0.3;
+    stroke: var(--tss-chart-series-2);
+    stroke-width: 1.25;
+}
+
+body.tss-theme-blaupause .tss-chart rect[fill^="var(--tss-chart-series-3,"]:not([rx="2"]),
+body.tss-theme-blaupause .tss-chart rect[fill^="var(--tss-chart-series-3)"]:not([rx="2"]) {
+    fill-opacity: 0.3;
+    stroke: var(--tss-chart-series-3);
+    stroke-width: 1.25;
+}
+
+body.tss-theme-blaupause .tss-chart rect[fill^="var(--tss-chart-series-4,"]:not([rx="2"]),
+body.tss-theme-blaupause .tss-chart rect[fill^="var(--tss-chart-series-4)"]:not([rx="2"]) {
+    fill-opacity: 0.3;
+    stroke: var(--tss-chart-series-4);
+    stroke-width: 1.25;
+}
+
+body.tss-theme-blaupause .tss-chart rect[fill^="var(--tss-chart-series-5,"]:not([rx="2"]),
+body.tss-theme-blaupause .tss-chart rect[fill^="var(--tss-chart-series-5)"]:not([rx="2"]) {
+    fill-opacity: 0.3;
+    stroke: var(--tss-chart-series-5);
+    stroke-width: 1.25;
+}
+
+body.tss-theme-blaupause .tss-chart rect[fill^="var(--tss-chart-series-6,"]:not([rx="2"]),
+body.tss-theme-blaupause .tss-chart rect[fill^="var(--tss-chart-series-6)"]:not([rx="2"]) {
+    fill-opacity: 0.3;
+    stroke: var(--tss-chart-series-6);
+    stroke-width: 1.25;
+}
+
+body.tss-theme-blaupause .tss-chart rect[fill^="var(--tss-chart-series-7,"]:not([rx="2"]),
+body.tss-theme-blaupause .tss-chart rect[fill^="var(--tss-chart-series-7)"]:not([rx="2"]) {
+    fill-opacity: 0.3;
+    stroke: var(--tss-chart-series-7);
+    stroke-width: 1.25;
+}
+
+body.tss-theme-blaupause .tss-chart rect[fill^="var(--tss-chart-series-8,"]:not([rx="2"]),
+body.tss-theme-blaupause .tss-chart rect[fill^="var(--tss-chart-series-8)"]:not([rx="2"]) {
+    fill-opacity: 0.3;
+    stroke: var(--tss-chart-series-8);
+    stroke-width: 1.25;
+}
+
+/* Points are drawn hollow, a small circle from the template. */
+body.tss-theme-blaupause .tss-chart circle[fill^="var(--tss-chart-series-1,"],
+body.tss-theme-blaupause .tss-chart circle[fill^="var(--tss-chart-series-1)"] {
+    fill: var(--tss-bp-sheet);
+    stroke: var(--tss-chart-series-1);
+    stroke-width: 1.5;
+}
+
+body.tss-theme-blaupause .tss-chart circle[fill^="var(--tss-chart-series-2,"],
+body.tss-theme-blaupause .tss-chart circle[fill^="var(--tss-chart-series-2)"] {
+    fill: var(--tss-bp-sheet);
+    stroke: var(--tss-chart-series-2);
+    stroke-width: 1.5;
+}
+
+body.tss-theme-blaupause .tss-chart circle[fill^="var(--tss-chart-series-3,"],
+body.tss-theme-blaupause .tss-chart circle[fill^="var(--tss-chart-series-3)"] {
+    fill: var(--tss-bp-sheet);
+    stroke: var(--tss-chart-series-3);
+    stroke-width: 1.5;
+}
+
+body.tss-theme-blaupause .tss-chart circle[fill^="var(--tss-chart-series-4,"],
+body.tss-theme-blaupause .tss-chart circle[fill^="var(--tss-chart-series-4)"] {
+    fill: var(--tss-bp-sheet);
+    stroke: var(--tss-chart-series-4);
+    stroke-width: 1.5;
+}
+
+body.tss-theme-blaupause .tss-chart circle[fill^="var(--tss-chart-series-5,"],
+body.tss-theme-blaupause .tss-chart circle[fill^="var(--tss-chart-series-5)"] {
+    fill: var(--tss-bp-sheet);
+    stroke: var(--tss-chart-series-5);
+    stroke-width: 1.5;
+}
+
+body.tss-theme-blaupause .tss-chart circle[fill^="var(--tss-chart-series-6,"],
+body.tss-theme-blaupause .tss-chart circle[fill^="var(--tss-chart-series-6)"] {
+    fill: var(--tss-bp-sheet);
+    stroke: var(--tss-chart-series-6);
+    stroke-width: 1.5;
+}
+
+body.tss-theme-blaupause .tss-chart circle[fill^="var(--tss-chart-series-7,"],
+body.tss-theme-blaupause .tss-chart circle[fill^="var(--tss-chart-series-7)"] {
+    fill: var(--tss-bp-sheet);
+    stroke: var(--tss-chart-series-7);
+    stroke-width: 1.5;
+}
+
+body.tss-theme-blaupause .tss-chart circle[fill^="var(--tss-chart-series-8,"],
+body.tss-theme-blaupause .tss-chart circle[fill^="var(--tss-chart-series-8)"] {
+    fill: var(--tss-bp-sheet);
+    stroke: var(--tss-chart-series-8);
+    stroke-width: 1.5;
+}

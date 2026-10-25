@@ -91,9 +91,16 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
 3. CSS files named after the Tesserae stylesheet they restyle (`tss.button.css`,
    `tss.dropdown.css`, …) plus a `tss.common.css` that redefines the `--tss-*`
    variables. A few things a component would otherwise write inline read a variable a theme can
-   set instead: chart series without an explicit colour (`--tss-chart-series-1` … `-8`), the
-   focused MarkHighlighter match (`--tss-mark-focus-color`), and an initials-only Avatar, which
-   is drawn by `.tss-avatar.tss-avatar-generated` from `--tss-avatar-hue`.
+   set instead: chart series without an explicit colour (`--tss-chart-series-1` … `-8`),
+   MarkHighlighter matches (`--tss-mark-color` / `--tss-mark-text-color`, the system Mark
+   colours when unset) and the focused one (`--tss-mark-focus-color`), and an initials-only
+   Avatar, which is drawn by `.tss-avatar.tss-avatar-generated` from `--tss-avatar-hue`.
+   The focus ring that text boxes, search boxes and buttons draw is
+   `var(--tss-ring-offset-shadow), var(--tss-ring-shadow)`, built on `body` from
+   `--tss-ring-color`, `--tss-ring-offset-color` and `--tss-ring-offset-width`: setting
+   those under the root class recolours it, or set the two shadows themselves.
+   A surface filled with a quiet neutral (an empty rating star, an empty calendar day,
+   a drawer handle, a hovered icon button) reads `--tss-subtle-fill-color`, not the border colour.
    `AI(strongEffect: true)` adds `tss-ai-strong` beside `tss-ai`: redefine the `--tss-ai-*`
    variables under it for a louder AI form (the default theme has no rule for it).
    Scope every selector under the root class: `body.tss-theme-mine .tss-btn`
@@ -162,6 +169,33 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
   on a grey-green LCD in 7-segment figures. Dark mode is the charcoal edition. Hanken Grotesk,
   DSEG7/DSEG14 and JetBrains Mono are bundled (OFL). Its tokens are `--tss-wg-*` in its
   `tss.common.css`; the package README states the design rules.
+
+Nine more follow the same pattern: an `Instance`, a root class `tss-theme-<id>`, tokens in the package's
+`tss.common.css`, bundled OFL fonts, and a README with the design rules.
+
+- **Tesserae.Themes.Zeitung** — `ZeitungTheme.Instance`, `tss-theme-zeitung`. A broadsheet newspaper:
+  newsprint (night edition: dark stock), one spot red, a serif with real small caps and old-style figures,
+  double rules instead of shadows, small-caps buttons, market-listing tables, drop caps in Markdown.
+- **Tesserae.Themes.Blaupause** — `BlaupauseTheme.Instance`, `tss-theme-blaupause`. Engineering drawings:
+  cyanotype blueprint (dark) and whiteprint (light) with a drafting grid, no shadows, registration ticks,
+  dimension-line separators, graduated sliders, red-pencil focus, highlighter selection.
+- **Tesserae.Themes.Phosphor** — `PhosphorTheme.Instance`, `tss-theme-phosphor`. A character terminal: green
+  phosphor CRT with glow and scanlines (dark), green-bar line-printer paper (light), box-drawing frames,
+  inverse-video focus and selection, `[ OK ]` buttons.
+- **Tesserae.Themes.Glas** — `GlasTheme.Instance`, `tss-theme-glas`. Refractive liquid glass over a colour
+  field; overlays blur and, in Chromium, refract the page; glossy tinted controls.
+- **Tesserae.Themes.Kristall** — `KristallTheme.Instance`, `tss-theme-kristall`. After the translucent macOS
+  desktop look: wallpaper, frosted sidebar, glass menus, sheet modals, capsule buttons, segmented controls;
+  opaque under `prefers-reduced-transparency`.
+- **Tesserae.Themes.Kontrast** — `KontrastTheme.Instance`, `tss-theme-kontrast`. Accessibility first: 7:1 text,
+  a two-tone focus ring that is never removed, state shown by shape as well as colour, larger targets,
+  `forced-colors` and `prefers-contrast` handled.
+- **Tesserae.Themes.Memphis** — `MemphisTheme.Instance`, `tss-theme-memphis`. After the 1980s Memphis movement:
+  six bright fills, thick outlines, hard offset shadows in a second colour, confetti and squiggle patterns.
+- **Tesserae.Themes.Washi** — `WashiTheme.Instance`, `tss-theme-washi`. Japanese paper and ink: a vermilion seal
+  stamp for what is chosen, brush-stroke rules, a shoji lattice sidebar; dark mode is urushi lacquer.
+- **Tesserae.Themes.Graustufe** — `GraustufeTheme.Instance`, `tss-theme-graustufe`. An e-paper display: greys
+  only (every colour, including inline ones, is mapped onto a 16-level ramp), dithered edges, and no motion.
 
 ## Related
 

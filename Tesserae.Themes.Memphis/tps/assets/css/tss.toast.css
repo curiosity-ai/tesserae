@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Memphis theme - Toast
+   --------------------------------------------------------------------------
+   A toast is a banner (tss.banner.css) dropped onto the page: a 2px black
+   line, the striped band of its tone down its edge, on a hard shadow of the
+   tone. It pops in with a little overshoot.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-toast-container {
+    border-radius: var(--tss-mp-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-mp-off) var(--tss-mp-off) 0 0 var(--tss-mp-line);
+    overflow: visible;
+}
+
+body.tss-theme-memphis.tss-dark-mode .tss-toast-container {
+    box-shadow: var(--tss-mp-off) var(--tss-mp-off) 0 0 rgb(var(--tss-mp-pink-root));
+}
+
+body.tss-theme-memphis .tss-toast-container > .tss-banner {
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-toast .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-toast-fullwidth.tss-toast > .tss-toast-container {
+    border-radius: 0;
+    box-shadow: 0 var(--tss-mp-off-sm) 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-toast-fullwidth.tss-toast-fullwidth-bottom.tss-toast > .tss-toast-container {
+    box-shadow: 0 calc(-1 * var(--tss-mp-off-sm)) 0 0 var(--tss-mp-line);
+}

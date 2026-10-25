@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Kristall theme - Panel
+   --------------------------------------------------------------------------
+   A panel is an inspector sliding in over the window: the sheet's frosted
+   material, a hairline at its inner edge and a deep shadow cast across the
+   content. Its command bar is a unified title bar with frosted circles
+   under the pointer.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-panel-container {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-panel-container {
+    background-color: rgba(0, 0, 0, 0.28);
+}
+
+body.tss-theme-kristall .tss-panel-container.tss-dark {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+body.tss-theme-kristall .tss-panel {
+    background: var(--tss-kr-sheet);
+    -webkit-backdrop-filter: var(--tss-kr-blur);
+    backdrop-filter: var(--tss-kr-blur);
+    box-shadow: 0 0 0 0.5px var(--tss-kr-hairline), 0 0 60px -6px rgba(0, 0, 0, 0.3);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-panel {
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 0 60px -6px rgba(0, 0, 0, 0.7);
+}
+
+body.tss-theme-kristall .tss-panel-command {
+    background: transparent;
+}
+
+body.tss-theme-kristall .tss-panel-command-button {
+    width: 32px;
+    height: 32px;
+    margin: 6px 2px;
+    border-radius: var(--tss-kr-r-pill);
+    font-size: 15px;
+    color: var(--tss-kr-label-2);
+}
+
+body.tss-theme-kristall .tss-panel-command-button:hover,
+body.tss-theme-kristall .tss-panel-command-button:active {
+    background-color: var(--tss-kr-fill-3);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-kristall .tss-panel-title,
+body.tss-theme-kristall .tss-panel-title .tss-textblock {
+    font-weight: 600;
+}

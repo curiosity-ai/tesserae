@@ -1,0 +1,93 @@
+/* ==========================================================================
+   Kristall theme - CommandPalette
+   --------------------------------------------------------------------------
+   The palette is the desktop's launcher search: a wide frosted panel with
+   an 18px radius and a 1px inner stroke of light floating over the window
+   (no dark scrim, just a faint dim), the query in large type, results in
+   rows with a 8px radius where the chosen one is the solid accent. Section
+   names are small grey captions in their own case.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-commandpalette-overlay {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-commandpalette-overlay {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+body.tss-theme-kristall .tss-commandpalette-animator {
+    border: 0;
+    border-radius: var(--tss-kr-r-sheet);
+    background: var(--tss-kr-popover);
+    -webkit-backdrop-filter: var(--tss-kr-blur);
+    backdrop-filter: var(--tss-kr-blur);
+    box-shadow: var(--tss-kr-rim), var(--tss-kr-shadow-sheet);
+}
+
+body.tss-theme-kristall .tss-commandpalette-search-container {
+    border-bottom: 0.5px solid var(--tss-kr-separator);
+}
+
+body.tss-theme-kristall .tss-commandpalette-search-container .tss-omnibox-container,
+body.tss-theme-kristall .tss-commandpalette-search-container .tss-omnibox-search-container,
+body.tss-theme-kristall .tss-commandpalette-search-container .tss-omnibox-container:focus-within .tss-omnibox-search-container,
+body.tss-theme-kristall .tss-commandpalette-search-container .tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover .tss-omnibox-search-container {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-kristall .tss-commandpalette-search-container input {
+    font-size: 18px;
+    letter-spacing: -0.012em;
+}
+
+body.tss-theme-kristall .tss-commandpalette-section {
+    padding: 8px 12px 3px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.005em;
+    color: var(--tss-kr-label-2);
+}
+
+body.tss-theme-kristall .tss-commandpalette-item {
+    border-radius: 8px;
+    padding: 6px 10px;
+}
+
+body.tss-theme-kristall .tss-commandpalette-item:hover {
+    background: var(--tss-kr-fill-4);
+}
+
+body.tss-theme-kristall .tss-commandpalette-item.tss-active {
+    background: var(--tss-kr-accent);
+    color: var(--tss-kr-on-accent);
+}
+
+body.tss-theme-kristall .tss-commandpalette-icon {
+    border-radius: 7px;
+    background: var(--tss-kr-fill-3);
+}
+
+body.tss-theme-kristall .tss-commandpalette-item.tss-active .tss-commandpalette-icon {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+body.tss-theme-kristall .tss-commandpalette-result.tss-active,
+body.tss-theme-kristall .tss-commandpalette-result:hover {
+    background: var(--tss-kr-selection);
+}
+
+body.tss-theme-kristall .tss-commandpalette-result.tss-active {
+    box-shadow: none;
+}
+
+body.tss-theme-kristall .tss-commandpalette-close {
+    border-radius: var(--tss-kr-r-pill);
+}
+
+body.tss-theme-kristall .tss-commandpalette-close:hover {
+    background: var(--tss-kr-fill-3);
+}

@@ -1,0 +1,62 @@
+/* ==========================================================================
+   Blaupause theme - ContextCards
+   --------------------------------------------------------------------------
+   A stack of context cards is a ruled register; its header a ruled cell
+   with a monospace count, the 'more' cell dashed like something not drawn
+   yet.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-contextcards-icon,
+body.tss-theme-blaupause .tss-contextcards-list,
+body.tss-theme-blaupause .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-contextcards-header,
+body.tss-theme-blaupause .tss-contextcards-list {
+    border-color: var(--tss-bp-line);
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-contextcards-header:hover {
+    background: var(--tss-bp-sheet);
+    background-image: linear-gradient(var(--tss-bp-wash), var(--tss-bp-wash));
+}
+
+body.tss-theme-blaupause .tss-contextcards-icon {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+    color: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-contextcards-list > .tss-contextcard {
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-contextcards-list > .tss-contextcard + .tss-contextcard {
+    border-top-color: var(--tss-bp-line-faint);
+}
+
+body.tss-theme-blaupause .tss-contextcards-compact .tss-contextcards-list {
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard {
+    border-color: var(--tss-bp-line);
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove:hover {
+    background: var(--tss-bp-red-soft);
+    color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-contextcards-more {
+    border-color: var(--tss-bp-line);
+    font-family: var(--tss-bp-mono);
+}
+
+body.tss-theme-blaupause .tss-contextcards-more:hover {
+    border-color: var(--tss-bp-line-strong);
+}

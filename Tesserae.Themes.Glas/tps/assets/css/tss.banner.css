@@ -1,0 +1,44 @@
+/* ==========================================================================
+   Glas theme - Banner
+   --------------------------------------------------------------------------
+   A banner is a strip of glass tinted with its tone: the tint, a lit rim, a
+   hairline of the tone round it. Its icon tile is a bead of the tone.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-banner {
+    --tss-banner-surface: color-mix(in srgb, var(--tss-banner-accent) 9%, rgba(255, 255, 255, 0.5));
+    --tss-banner-border-color: color-mix(in srgb, var(--tss-banner-accent) 26%, transparent);
+    border-radius: var(--tss-gl-radius-card);
+    box-shadow: var(--tss-gl-rim), 0 6px 18px -12px color-mix(in srgb, var(--tss-banner-accent) 60%, transparent);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-banner {
+    --tss-banner-surface: color-mix(in srgb, var(--tss-banner-accent) 14%, rgba(22, 22, 50, 0.5));
+}
+
+body.tss-theme-glas .tss-banner-warning {
+    --tss-banner-title-color: rgb(140, 78, 0);
+    --tss-banner-text-color: rgb(120, 70, 4);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-banner-warning {
+    --tss-banner-title-color: rgb(255, 214, 140);
+    --tss-banner-text-color: rgb(250, 200, 120);
+}
+
+body.tss-theme-glas .tss-banner-flat {
+    border-radius: 0;
+}
+
+body.tss-theme-glas .tss-icontile.tss-banner-icon-tile {
+    border-radius: 10px;
+}
+
+body.tss-theme-glas .tss-btn.tss-banner-dismiss-button {
+    border-radius: 999px;
+}
+
+body.tss-theme-glas .tss-toast-container > .tss-banner {
+    background: color-mix(in srgb, var(--tss-banner-accent) 8%, transparent);
+    box-shadow: none;
+}

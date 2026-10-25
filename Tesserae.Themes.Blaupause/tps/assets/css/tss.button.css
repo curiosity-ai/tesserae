@@ -1,0 +1,228 @@
+/* ==========================================================================
+   Blaupause theme - Button
+   --------------------------------------------------------------------------
+   A button is a lettered box on the drawing. Square, framed in a 1px line,
+   labelled in technical capitals. A solid key (primary, danger, success,
+   warning) is a filled region (the drawing's poche) with a second frame
+   drawn 2px outside it, the way a title block is double-ruled. A ghost key
+   (the default) is lettering alone until the pointer finds it, when its box
+   is drawn in and washed; pressed, it is hatched. A disabled key is drawn
+   in the dashed hidden-line style. Focus is a red-pencil frame.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-btn {
+    border-radius: 0;
+    box-shadow: none;
+    font-family: var(--tss-bp-letter);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 12px;
+    transition: background-color var(--tss-bp-quick) linear, border-color var(--tss-bp-quick) linear, color var(--tss-bp-quick) linear, outline-color var(--tss-bp-quick) linear;
+}
+
+/* A button's own text size wins over the 12px capitals when it was asked for. */
+body.tss-theme-blaupause .tss-btn.tss-fontsize-medium,
+body.tss-theme-blaupause .tss-btn.tss-fontsize-mediumplus,
+body.tss-theme-blaupause .tss-btn.tss-fontsize-large {
+    font-size: 14px;
+}
+
+body.tss-theme-blaupause .tss-btn:hover,
+body.tss-theme-blaupause .tss-btn:focus {
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-btn:focus-visible {
+    outline: 2px solid var(--tss-bp-red);
+    outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   Solid keys: a filled box, double-ruled
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-blaupause .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-blaupause .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-blaupause .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-blaupause .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    outline: 1px solid var(--tss-bp-line);
+    outline-offset: 2px;
+    filter: none;
+}
+
+body.tss-theme-blaupause .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-blaupause .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-blaupause .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-blaupause .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    outline-color: var(--tss-bp-line-strong);
+    filter: none;
+    box-shadow: none;
+}
+
+/* Pressed: the region is hatched over, the drafter's section fill. */
+body.tss-theme-blaupause .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-blaupause .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-blaupause .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-blaupause .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active {
+    background-image: repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.22) 0 1px, transparent 1px 5px);
+    outline-offset: 1px;
+    filter: none;
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause.tss-dark-mode .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-blaupause.tss-dark-mode .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-blaupause.tss-dark-mode .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-blaupause.tss-dark-mode .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active {
+    background-image: repeating-linear-gradient(-45deg, rgba(16, 50, 104, 0.22) 0 1px, transparent 1px 5px);
+}
+
+body.tss-theme-blaupause .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    outline-color: rgba(var(--tss-bp-red-root), 0.7);
+}
+
+body.tss-theme-blaupause .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    outline-color: var(--tss-bp-red);
+}
+
+/* Focus on a solid key: the red pencil replaces the outer frame rather than adding a third line. */
+body.tss-theme-blaupause .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):focus-visible,
+body.tss-theme-blaupause .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):focus-visible,
+body.tss-theme-blaupause .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):focus-visible,
+body.tss-theme-blaupause .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):focus-visible {
+    outline: 2px solid var(--tss-bp-red);
+    outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Ghost keys: the default (no background) and nobg variants
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-blaupause .tss-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg:not(.tss-disabled) {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-blaupause .tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg:not(.tss-disabled):hover {
+    background-color: var(--tss-bp-wash);
+    border-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-btn.tss-btn-default:not(.tss-disabled):active,
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg:not(.tss-disabled):active {
+    background-color: var(--tss-bp-wash);
+    background-image: var(--tss-bp-hatch);
+    border-color: var(--tss-bp-line-strong);
+}
+
+/* A coloured ghost keeps its colour as lettering, and only a wash of it under the pointer. */
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-primary:not(.tss-disabled),
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-primary:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-primary:not(.tss-disabled):hover,
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-primary:not(.tss-disabled):hover .tss-fontcolor-default {
+    color: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-danger:not(.tss-disabled),
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-danger:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-danger:not(.tss-disabled):hover,
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-danger:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-danger:not(.tss-disabled):active,
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-danger:not(.tss-disabled):active .tss-fontcolor-default {
+    color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-danger:not(.tss-disabled):hover {
+    background-color: var(--tss-bp-red-soft);
+    border-color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-success:not(.tss-disabled),
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-success:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-success:not(.tss-disabled):hover,
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-success:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-success:not(.tss-disabled):active,
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-success:not(.tss-disabled):active .tss-fontcolor-default {
+    color: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-success:not(.tss-disabled):hover {
+    background-color: rgba(var(--tss-success-background-color-root), 0.12);
+    border-color: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-warning:not(.tss-disabled),
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-warning:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-warning:not(.tss-disabled):hover,
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-warning:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-warning:not(.tss-disabled):active,
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-warning:not(.tss-disabled):active .tss-fontcolor-default {
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-btn.tss-btn-nobg.tss-btn-warning:not(.tss-disabled):hover {
+    background-color: var(--tss-bp-yellow-wash);
+    border-color: var(--tss-bp-line);
+}
+
+/* --------------------------------------------------------------------------
+   Link keys: lettering in sentence case, underlined in ink
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-blaupause .tss-btn.tss-btn-link:not(.tss-disabled) {
+    text-transform: none;
+    letter-spacing: 0.01em;
+    font-size: 13px;
+    font-weight: 500;
+    border-color: transparent;
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-btn.tss-btn-link:not(.tss-disabled):hover {
+    background: var(--tss-bp-yellow-wash);
+}
+
+/* --------------------------------------------------------------------------
+   Disabled: drawn in the dashed hidden-line style
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-blaupause .tss-btn.tss-disabled {
+    background-color: transparent;
+    border: var(--tss-bp-hidden);
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+    outline: none;
+}
+
+body.tss-theme-blaupause .tss-btn.tss-disabled.tss-btn-link,
+body.tss-theme-blaupause .tss-btn.tss-disabled.tss-btn-only-icon.tss-btn-default {
+    border-color: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   Split button: two boxes sharing a line
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-blaupause .tss-btn-and-icon > .tss-btn.tss-btn-and-icon-icon {
+    border-left-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   The spinner is drawn with a pen: square ends
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-blaupause .tss-btn .tss-btn-spin-ring > svg {
+    stroke-width: 2;
+    stroke-linecap: butt;
+    stroke-linejoin: miter;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-blaupause .tss-btn {
+        transition: none;
+    }
+}

@@ -1,0 +1,12 @@
+/* ==========================================================================
+   Phosphor theme - Layer
+   --------------------------------------------------------------------------
+   A plain layer is a single-line box on the surface.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-layer-content:not(.tss-layer-content-transparent) {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+}

@@ -1,0 +1,16 @@
+/* ==========================================================================
+   Kontrast theme - AnnotatedTextEditor
+   --------------------------------------------------------------------------
+   Edges drawn in the border tokens go to 2px; colours, focus and states come from the theme's tokens and global rules.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-annotated-text-container {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-annotated-text-container:focus-within {
+    border-color: var(--tss-kt-focus-outer);
+    outline: var(--tss-kt-ring-width) solid var(--tss-kt-focus-outer);
+    outline-offset: calc(-1 * var(--tss-kt-ring-width));
+}

@@ -1,0 +1,126 @@
+/* ==========================================================================
+   Zeitung theme - TextBox
+   --------------------------------------------------------------------------
+   The model for every field in the theme: the box on a coupon you fill in
+   and cut out. A pale panel of the surface colour, framed by a grey
+   hairline, standing on a line of ink, the rule you write on. Writing in it
+   turns that line into 2px of spot red and draws the frame in ink. Invalid
+   is the red line with the message in small italic red under it. Disabled
+   is the frame dotted and the type grey. Square corners, always.
+
+   Tables in a TextBlock (this stylesheet owns them in Tesserae) are market
+   listings: see the end of this file.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-textbox {
+    border: 1px solid var(--tss-zt-rule);
+    border-bottom-color: var(--tss-zt-ink);
+    border-radius: 0;
+    background: var(--tss-zt-surface);
+    box-shadow: none;
+    transition: box-shadow var(--tss-zt-quick) var(--tss-zt-ease), border-color var(--tss-zt-quick) linear;
+}
+
+body.tss-theme-zeitung .tss-textbox::placeholder {
+    color: var(--tss-zt-muted) !important;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+body.tss-theme-zeitung .tss-textbox:hover {
+    border-color: var(--tss-zt-ink);
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-textbox:focus {
+    border-color: var(--tss-zt-ink);
+    border-bottom-color: var(--tss-zt-red);
+    box-shadow: inset 0 -1px 0 var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-textbox.tss-disabled,
+body.tss-theme-zeitung .tss-textbox:disabled {
+    border: 1px dotted rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-textbox-container.tss-invalid .tss-textbox {
+    border-bottom-color: rgb(var(--tss-invalid-border-color-root));
+    box-shadow: inset 0 -1px 0 rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-zeitung .tss-textbox-error {
+    font-style: italic;
+    color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-zeitung .tss-textbox.tss-textbox-noborder,
+body.tss-theme-zeitung .tss-textbox.tss-textbox-noborder:hover,
+body.tss-theme-zeitung .tss-textbox.tss-textbox-noborder:focus {
+    border: 1px solid transparent;
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-textbox-container.tss-rounded-full .tss-textbox {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-textbox {
+    accent-color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung.tss-dark-mode .tss-textbox {
+    color-scheme: dark;
+}
+
+body.tss-theme-zeitung .tss-textbox[type="color"]::-webkit-color-swatch {
+    border: 1px solid var(--tss-zt-ink);
+    border-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Tables in a TextBlock: a market listing
+   --------------------------------------------------------------------------
+   Thick-and-thin rule over the head, column heads in tracked condensed
+   capitals, a hairline under each row, figures lining and tabular so a
+   column of numbers reads down its decimal places.
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-zeitung .tss-textblock table {
+    border: none;
+    border-radius: 0;
+    border-collapse: collapse;
+    box-shadow: none;
+    background: var(--tss-zt-band) top / 100% var(--tss-zt-band-h) no-repeat;
+    padding-top: var(--tss-zt-band-h);
+    font-variant-numeric: lining-nums tabular-nums;
+    border-bottom: 1px solid var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-textblock table thead {
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-textblock table th {
+    padding: 12px 14px 6px 14px;
+    border-bottom: 1px solid var(--tss-zt-ink);
+    font-family: var(--tss-zt-head);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: var(--tss-zt-caps);
+    text-transform: uppercase;
+    color: var(--tss-zt-ink);
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-textblock table td {
+    padding: 6px 14px;
+    border-bottom: 1px solid var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-textblock table tbody tr:hover {
+    background-color: var(--tss-zt-tint);
+}

@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Blaupause theme - Mermaid diagrams
+   --------------------------------------------------------------------------
+   A diagram is drafted on the board: the frame a ruled box with
+   registration ticks over the drafting grid, nodes square boxes of sheet
+   colour with an ink line, connectors in ink, labels in the lettering face
+   and figures in monospace. The accent is the ink itself; critical paths
+   and failures are in red pencil. Series follow the chart palette.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-mermaid {
+    --pele-bg: transparent;
+    --pele-fg: var(--tss-bp-text);
+    --pele-muted: var(--tss-bp-muted);
+    --pele-line: var(--tss-bp-line-strong);
+    --pele-surface: var(--tss-bp-sheet);
+    --pele-surface-alt: var(--tss-bp-paper);
+    --pele-border: var(--tss-bp-line-strong);
+    --pele-accent: var(--tss-bp-ink);
+    --pele-critical: var(--tss-bp-red);
+    --pele-error: var(--tss-bp-red);
+    --pele-radius: 0px;
+    --pele-font: var(--tss-bp-letter);
+    --pele-font-mono: var(--tss-bp-mono);
+    --pele-series-1: var(--tss-chart-series-1);
+    --pele-series-2: var(--tss-chart-series-2);
+    --pele-series-3: var(--tss-chart-series-3);
+    --pele-series-4: var(--tss-chart-series-4);
+    --pele-series-5: var(--tss-chart-series-5);
+    --pele-series-6: var(--tss-chart-series-6);
+    --pele-series-7: var(--tss-chart-series-7);
+    --pele-series-8: var(--tss-chart-series-8);
+
+    color: var(--tss-bp-text);
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background: var(--tss-bp-ticks), var(--tss-bp-grid);
+}
+
+body.tss-theme-blaupause .tss-markdown pre.tss-mermaid-source {
+    border-left: 3px solid var(--tss-bp-yellow);
+}
+
+body.tss-theme-blaupause .tss-mermaid > pre.tss-mermaid-source {
+    color: var(--tss-bp-muted);
+    font-family: var(--tss-bp-mono);
+}
+
+body.tss-theme-blaupause .tss-mermaid.tss-mermaid-failed {
+    border-color: var(--tss-bp-red);
+    border-style: dashed;
+}

@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Graustufe theme - Metric
+   --------------------------------------------------------------------------
+   A number set like a figure in a book: the value large in the book face
+   with lining figures, the caption a small italic over it, the icon a
+   square ruled stamp.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-metric-title {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tss-metric-value {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+    font-variant-numeric: lining-nums tabular-nums;
+    letter-spacing: -0.01em;
+}
+
+body.tss-theme-graustufe .tss-metric-icon > .tss-icontile,
+body.tss-theme-graustufe .tss-metric-compact .tss-metric-icon > .tss-icontile {
+    --tss-icontile-radius: 0px;
+}
+
+body.tss-theme-graustufe .tss-metric-value-filled .tss-metric-value {
+    border-radius: 0;
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}

@@ -1,0 +1,71 @@
+/* ==========================================================================
+   Zeitung theme - CodeDiff
+   --------------------------------------------------------------------------
+   A diff is a corrected proof set in the typewriter face: diff2html draws
+   from --d2h-* variables, so they are restated here from the paper's
+   tokens, in both editions. Insertions are a wash of the green ink with a
+   stronger wash on the changed words, deletions the same in red, changes
+   ochre; the file header is a hairline-ruled band on the paper; the frame
+   squares off. In the night edition the same washes are lifted for the dark
+   stock and the type stays ink-white, so nothing reads light on light.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-codediff {
+    --d2h-bg-color: var(--tss-zt-paper);
+    --d2h-border-color: var(--tss-zt-rule);
+    --d2h-dim-color: var(--tss-zt-muted);
+    --d2h-line-border-color: var(--tss-zt-hair);
+    --d2h-file-header-bg-color: var(--tss-zt-surface);
+    --d2h-file-header-border-color: var(--tss-zt-rule);
+    --d2h-empty-placeholder-bg-color: var(--tss-zt-tint);
+    --d2h-empty-placeholder-border-color: var(--tss-zt-hair);
+    --d2h-selected-color: var(--tss-zt-tint-strong);
+    --d2h-info-bg-color: var(--tss-zt-tint);
+    --d2h-info-border-color: var(--tss-zt-hair);
+    --d2h-ins-bg-color: rgba(34, 98, 62, 0.11);
+    --d2h-ins-border-color: rgba(34, 98, 62, 0.35);
+    --d2h-ins-highlight-bg-color: rgba(34, 98, 62, 0.28);
+    --d2h-ins-label-color: rgb(var(--tss-success-background-color-root));
+    --d2h-del-bg-color: rgba(160, 24, 30, 0.09);
+    --d2h-del-border-color: rgba(160, 24, 30, 0.32);
+    --d2h-del-highlight-bg-color: rgba(160, 24, 30, 0.24);
+    --d2h-del-label-color: rgb(var(--tss-danger-background-color-root));
+    --d2h-change-del-color: rgba(196, 138, 26, 0.16);
+    --d2h-change-ins-color: rgba(34, 98, 62, 0.16);
+    --d2h-change-label-color: rgb(var(--tss-warning-border-color-root));
+    --d2h-moved-label-color: var(--tss-chart-series-4);
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung.tss-dark-mode .tss-codediff {
+    --d2h-ins-bg-color: rgba(96, 176, 126, 0.14);
+    --d2h-ins-border-color: rgba(96, 176, 126, 0.4);
+    --d2h-ins-highlight-bg-color: rgba(96, 176, 126, 0.34);
+    --d2h-del-bg-color: rgba(236, 70, 62, 0.13);
+    --d2h-del-border-color: rgba(236, 70, 62, 0.4);
+    --d2h-del-highlight-bg-color: rgba(236, 70, 62, 0.32);
+    --d2h-change-del-color: rgba(224, 170, 64, 0.16);
+    --d2h-change-ins-color: rgba(96, 176, 126, 0.18);
+    --d2h-change-label-color: rgb(var(--tss-warning-background-color-root));
+}
+
+body.tss-theme-zeitung .tss-codediff .d2h-file-wrapper {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-codediff .d2h-tag {
+    border-radius: 0;
+    font-family: var(--tss-zt-head);
+    letter-spacing: var(--tss-zt-caps);
+}
+
+body.tss-theme-zeitung .tss-codediff .d2h-file-name {
+    font-family: var(--tss-zt-mono);
+}
+
+body.tss-theme-zeitung .tss-codediff .d2h-code-line,
+body.tss-theme-zeitung .tss-codediff .d2h-code-side-line,
+body.tss-theme-zeitung .tss-codediff .d2h-code-linenumber,
+body.tss-theme-zeitung .tss-codediff .d2h-code-side-linenumber {
+    color: var(--tss-zt-ink);
+}

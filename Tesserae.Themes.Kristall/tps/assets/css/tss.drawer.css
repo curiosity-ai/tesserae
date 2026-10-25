@@ -1,0 +1,26 @@
+/* Kristall theme - Drawer: a sheet rising from the bottom edge; frosted, 18px top corners, a capsule grab handle. */
+
+body.tss-theme-kristall .tss-drawer {
+    background: var(--tss-kr-sheet);
+    -webkit-backdrop-filter: var(--tss-kr-blur);
+    backdrop-filter: var(--tss-kr-blur);
+    border-radius: var(--tss-kr-r-sheet) var(--tss-kr-r-sheet) 0 0;
+    box-shadow: var(--tss-kr-rim), var(--tss-kr-shadow-sheet);
+}
+
+body.tss-theme-kristall .tss-drawer-handle-bar {
+    background: var(--tss-kr-label-4);
+    border-radius: 3px;
+}
+
+body.tss-theme-kristall .tss-drawer-title {
+    font-weight: 600;
+}
+
+body.tss-theme-kristall .tss-drawer-close {
+    border-radius: var(--tss-kr-r-pill);
+}
+
+body.tss-theme-kristall .tss-drawer-close:hover {
+    background: var(--tss-kr-fill-3);
+}

@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Zeitung theme - Drawer
+   --------------------------------------------------------------------------
+   A drawer is a supplement pulled up from the foot of the page: newsprint,
+   square, an ink rule along its top edge and the thick-and-thin rule under
+   its handle; the title a headline, the close mark a square ghost button.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-drawer-container.tss-drawer-open {
+    background-color: rgba(241, 237, 227, 0.6);
+}
+
+body.tss-theme-zeitung.tss-dark-mode .tss-drawer-container.tss-drawer-open {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+body.tss-theme-zeitung .tss-drawer {
+    background: var(--tss-zt-paper);
+    border-radius: 0;
+    box-shadow: 0 -1px 0 var(--tss-zt-ink), 0 -16px 36px -22px rgba(0, 0, 0, 0.4);
+}
+
+body.tss-theme-zeitung .tss-drawer-handle-bar {
+    border-radius: 0;
+    background: var(--tss-zt-ink);
+    height: 3px;
+}
+
+body.tss-theme-zeitung .tss-drawer-header {
+    box-shadow: inset 0 -1px 0 var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-drawer-title > .tss-textblock {
+    font-family: var(--tss-zt-head);
+    font-size: 20px;
+    font-weight: 600;
+}
+
+body.tss-theme-zeitung .tss-drawer-close {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-drawer-close:hover {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+}

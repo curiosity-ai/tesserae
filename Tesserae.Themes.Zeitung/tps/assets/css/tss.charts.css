@@ -1,0 +1,64 @@
+/* ==========================================================================
+   Zeitung theme - Charts
+   --------------------------------------------------------------------------
+   A chart is a printed graphic from the business pages: no frame, gridlines
+   as dotted hairlines, the axes ruled in ink, every label in the serif with
+   lining tabular figures. Series come from --tss-chart-series-N
+   (tss.common.css): ink first, then the spot red, then the muted inks of a
+   colour supplement. The tooltip drawn into the SVG is a paper slip framed
+   in ink, square. Lines are drawn with a mitred pen. A series an app
+   coloured itself keeps its colour.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-chart {
+    font-family: var(--tss-zt-serif);
+}
+
+body.tss-theme-zeitung .tss-chart line[stroke*="neutral-500-alpha"] {
+    stroke: var(--tss-zt-ink);
+    stroke-opacity: 0.22;
+    stroke-dasharray: 1 3;
+}
+
+body.tss-theme-zeitung .tss-chart line[stroke="var(--tss-default-foreground-color)"] {
+    stroke: var(--tss-zt-ink);
+    stroke-opacity: 1;
+}
+
+body.tss-theme-zeitung .tss-chart text {
+    font-family: var(--tss-zt-serif);
+    fill: var(--tss-zt-muted);
+    font-variant-numeric: lining-nums tabular-nums;
+}
+
+body.tss-theme-zeitung .tss-chart text[font-size="11"] {
+    fill: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-chart rect[fill="var(--tss-default-background-color)"] {
+    fill: var(--tss-zt-paper);
+    stroke: var(--tss-zt-ink);
+    rx: 0;
+}
+
+body.tss-theme-zeitung .tss-chart rect[fill="var(--tss-default-background-color)"] ~ text {
+    fill: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-chart rect[rx="2"],
+body.tss-theme-zeitung .tss-chart rect[fill-opacity] {
+    rx: 0;
+}
+
+body.tss-theme-zeitung .tss-chart path[stroke^="var(--tss-chart-series"] {
+    stroke-linejoin: miter;
+    stroke-linecap: butt;
+}
+
+body.tss-theme-zeitung .tss-chart rect[fill="var(--tss-colors-blue-600)"] {
+    fill: var(--tss-chart-series-1);
+}
+
+body.tss-theme-zeitung .tss-chart stop[stop-color="var(--tss-colors-blue-600)"] {
+    stop-color: var(--tss-chart-series-1);
+}

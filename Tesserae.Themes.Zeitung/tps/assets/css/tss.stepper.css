@@ -1,0 +1,107 @@
+/* ==========================================================================
+   Zeitung theme - Stepper
+   --------------------------------------------------------------------------
+   Steps are numbered items in a printed form: the number in a square box of
+   lining figures, joined by a hairline. The current step's box is ink with
+   paper figures and its label bold; a done step is ticked in ink. The
+   content is a boxed article; the navigation buttons are square.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-stepper-step {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-stepper-step:hover {
+    background: var(--tss-zt-tint);
+}
+
+body.tss-theme-zeitung .tss-stepper-circle {
+    border-radius: 0;
+    border: 1px solid var(--tss-zt-ink);
+    color: var(--tss-zt-ink);
+    background: transparent;
+    font-variant-numeric: lining-nums;
+    font-weight: 700;
+}
+
+body.tss-theme-zeitung .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-circle {
+    border: 1px solid var(--tss-zt-ink);
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-stepper-active .tss-stepper-circle {
+    background: var(--tss-zt-ink);
+    border-color: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-stepper-complete .tss-stepper-circle {
+    border-color: var(--tss-zt-ink);
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-stepper-active .tss-stepper-label {
+    font-weight: 700;
+}
+
+body.tss-theme-zeitung .tss-stepper-description {
+    font-style: italic;
+    color: var(--tss-zt-muted);
+}
+
+body.tss-theme-zeitung .tss-stepper-step + .tss-stepper-step::before {
+    background: var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-stepper-step.tss-stepper-complete + .tss-stepper-step::before {
+    background: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-stepper-content {
+    border-radius: 0;
+    border: 1px solid var(--tss-zt-ink);
+    background: var(--tss-zt-band) top / 100% var(--tss-zt-band-h) no-repeat, var(--tss-zt-paper);
+    padding-top: calc(var(--tss-zt-band-h) + 12px);
+}
+
+body.tss-theme-zeitung .tss-stepper-nav {
+    border-radius: 0;
+    border-color: var(--tss-zt-ink);
+    background: transparent;
+    font-variant-caps: all-small-caps;
+    letter-spacing: var(--tss-zt-sc);
+    font-weight: 600;
+}
+
+body.tss-theme-zeitung .tss-stepper-nav:not(:disabled):hover {
+    background: var(--tss-zt-tint);
+}
+
+body.tss-theme-zeitung .tss-stepper-nav:last-child:not(:disabled) {
+    background: var(--tss-zt-red);
+    border-color: var(--tss-zt-red);
+    color: var(--tss-zt-on-red);
+}
+
+body.tss-theme-zeitung .tss-stepper-nav:last-child:not(:disabled):active,
+body.tss-theme-zeitung .tss-stepper-nav:not(:disabled):active {
+    background: var(--tss-zt-ink);
+    border-color: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-stepper-nav:disabled,
+body.tss-theme-zeitung .tss-stepper-nav.tss-disabled {
+    border-style: dotted;
+    background: transparent;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-stepper-step,
+body.tss-theme-zeitung .tss-stepper-content,
+body.tss-theme-zeitung .tss-stepper-nav {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

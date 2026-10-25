@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Glas theme - Expander (Accordion)
+   --------------------------------------------------------------------------
+   An expander is a pane of clear glass; its header condenses a little under
+   the pointer, and the opened content is ruled off by a hairline of light.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-expander {
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    background: var(--tss-gl-pane-inner);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge), 0 6px 18px -12px rgba(60, 58, 130, 0.35);
+    overflow: hidden;
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-expander {
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge), 0 6px 18px -12px rgba(0, 0, 0, 0.6);
+}
+
+body.tss-theme-glas .tss-expander-header:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-expander-header:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+body.tss-theme-glas .tss-expander-content {
+    border-top: 1px solid var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-expander-icon {
+    border-radius: 10px;
+}

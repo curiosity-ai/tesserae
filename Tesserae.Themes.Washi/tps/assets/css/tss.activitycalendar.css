@@ -1,0 +1,21 @@
+/* ==========================================================================
+   Washi theme - ActivityCalendar
+   --------------------------------------------------------------------------
+   Days are small squares of cloth dyed in indigo, each dip deeper for a
+   busier day, the way aizome deepens; an empty day is the paper's own
+   faint wash. An app that picks its own colour keeps it.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-activitycalendar {
+    --tss-activitycalendar-color: var(--tss-wa-ai);
+    --tss-activitycalendar-empty-color: rgba(var(--tss-default-foreground-color-root), 0.08);
+    --tss-activitycalendar-radius: 1px;
+}
+
+body.tss-theme-washi .tss-activitycalendar-summary-item::before {
+    border-left-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-activitycalendar-tooltip {
+    border-radius: var(--tss-wa-radius-small);
+}

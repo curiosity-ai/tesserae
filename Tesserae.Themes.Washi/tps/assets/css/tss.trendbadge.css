@@ -1,0 +1,13 @@
+/* ==========================================================================
+   Washi theme - TrendBadge
+   --------------------------------------------------------------------------
+   A small slip washed in moss (good) or crimson (bad), its figures in the
+   text face rather than a monospace.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-trendbadge {
+    border-radius: var(--tss-wa-radius-small);
+    font-family: var(--tss-sansserif-font-family);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+}

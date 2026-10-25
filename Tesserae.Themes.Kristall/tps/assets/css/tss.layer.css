@@ -1,0 +1,10 @@
+/* Kristall theme - Layer: a raw layer's surface is a frosted pane with a hairline edge. */
+
+body.tss-theme-kristall .tss-layer-content:not(.tss-layer-content-transparent) {
+    background: var(--tss-kr-popover);
+    -webkit-backdrop-filter: var(--tss-kr-blur);
+    backdrop-filter: var(--tss-kr-blur);
+    border: 0;
+    border-radius: var(--tss-kr-r-pop);
+    box-shadow: var(--tss-kr-rim), var(--tss-kr-shadow-pop);
+}

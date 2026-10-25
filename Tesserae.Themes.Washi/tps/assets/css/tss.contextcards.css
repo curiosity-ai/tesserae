@@ -1,0 +1,95 @@
+/* ==========================================================================
+   Washi theme - ContextCards
+   --------------------------------------------------------------------------
+   The header is a paper slip with a hairline; the list a ruled sheet; the
+   compact list a row of slips. The "more" link is a dashed paper edge.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-contextcards-header {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-header:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-header:focus-visible,
+body.tss-theme-washi .tss-contextcards-more:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-contextcards-icon {
+    border-radius: var(--tss-wa-radius-small);
+    background: var(--tss-wa-wash-strong);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-chevron {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-list {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-contextcards-list > .tss-contextcard {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+}
+
+body.tss-theme-washi .tss-contextcards-list > .tss-contextcard + .tss-contextcard {
+    border-top: 1px solid var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-contextcards-list > .tss-contextcard.tss-contextcard-clickable:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove {
+    background: transparent;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove:hover {
+    background: var(--tss-wa-enji);
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-compact .tss-contextcards-list {
+    background: transparent;
+    border: none;
+}
+
+body.tss-theme-washi .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard {
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard + .tss-contextcard {
+    border-top: 1px solid var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove,
+body.tss-theme-washi.tss-dark-mode .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-more {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.25);
+    border-radius: var(--tss-wa-radius);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextcards-more:hover {
+    border-color: var(--tss-wa-shu);
+    color: rgb(var(--tss-default-foreground-color-root));
+}

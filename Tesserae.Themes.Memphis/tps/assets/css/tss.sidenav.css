@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Memphis theme - Sidenav
+   --------------------------------------------------------------------------
+   The icon rail is the sidebar's laminate (peach, speckled, a thick black
+   edge). Its buttons are rounded tiles: sunflower under the pointer, and
+   the current one bubblegum with a black line and a small hard shadow.
+   The notification dot is a tomato disc with a line.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-sidenav {
+    background-color: rgb(var(--tss-sidebar-background-color-root));
+    background-image: var(--tss-mp-pattern-bacterio-soft);
+    background-size: 120px 120px;
+    border-right: var(--tss-mp-bw-bold) solid var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-sidenav-footer {
+    border-top: var(--tss-mp-bw) solid var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn {
+    border: var(--tss-mp-bw) solid transparent;
+    border-radius: var(--tss-mp-radius);
+    transform: none;
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover {
+    background: rgb(var(--tss-mp-yellow-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+    transform: none;
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn,
+body.tss-theme-memphis .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:hover {
+    background: rgb(var(--tss-mp-pink-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn i,
+body.tss-theme-memphis .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover i {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-sidenav-btn-label {
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-sidenav-btn-dot {
+    background: rgb(var(--tss-mp-tomato-root));
+    box-shadow: 0 0 0 1.5px var(--tss-mp-line);
+}

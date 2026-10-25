@@ -1,0 +1,50 @@
+/* ==========================================================================
+   Zeitung theme - TagsInput
+   --------------------------------------------------------------------------
+   The field is a coupon field; each tag is a small hairline-boxed tag set
+   in the serif's small caps, its remove mark a square that turns red.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-tagsinput {
+    border: 1px solid var(--tss-zt-rule);
+    border-bottom-color: var(--tss-zt-ink);
+    border-radius: 0;
+    background: var(--tss-zt-surface);
+}
+
+body.tss-theme-zeitung .tss-tagsinput:hover {
+    border-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-tagsinput:focus-within {
+    border-color: var(--tss-zt-ink);
+    border-bottom-color: var(--tss-zt-red);
+    box-shadow: inset 0 -1px 0 var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-tagsinput-chip {
+    border-radius: 0;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+    font-size: 13px;
+    font-variant-caps: all-small-caps;
+    letter-spacing: var(--tss-zt-sc);
+}
+
+body.tss-theme-zeitung .tss-tagsinput-chip-remove {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-tagsinput-chip-remove:hover {
+    background: var(--tss-zt-red);
+    color: var(--tss-zt-on-red);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-tagsinput,
+body.tss-theme-zeitung .tss-tagsinput-chip {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

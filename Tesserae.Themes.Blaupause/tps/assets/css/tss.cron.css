@@ -1,0 +1,44 @@
+/* ==========================================================================
+   Blaupause theme - CronEditor
+   --------------------------------------------------------------------------
+   The schedule sentence is lettered on the sheet; its inline choices are
+   ruled cells in ink rather than dark chips.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-cron-editor,
+body.tss-theme-blaupause .tss-cron-inline-dropdown.tss-dropdown-container {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-cron-editor {
+    border-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-cron-open {
+    background-color: var(--tss-bp-sheet);
+    box-shadow: var(--tss-bp-lift);
+}
+
+body.tss-theme-blaupause .tss-cron-inline-dropdown.tss-dropdown-container {
+    background-color: var(--tss-bp-ink);
+    color: var(--tss-bp-on-ink);
+    border-color: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-cron-inline-dropdown.tss-dropdown-container:hover {
+    background-color: rgb(var(--tss-primary-background-hover-color-root));
+}
+
+body.tss-theme-blaupause .tss-cron-inline-dropdown .tss-dropdown-item-on-box,
+body.tss-theme-blaupause .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-fontcolor-default {
+    color: var(--tss-bp-on-ink) !important;
+    font-family: var(--tss-bp-mono);
+}
+
+body.tss-theme-blaupause .tss-cron-editor .tss-btn {
+    text-transform: none;
+    letter-spacing: 0.01em;
+    font-size: 13px;
+    font-weight: 500;
+}

@@ -1,0 +1,28 @@
+/* ==========================================================================
+   Graustufe theme - TrendBadge
+   --------------------------------------------------------------------------
+   A small ruled figure with its arrow: up is inverted (ink, paper type),
+   down is paper with a dashed rule, flat is plain. The arrow says which;
+   the fill says whether it is good.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-trendbadge {
+    border-radius: 0;
+    font-family: var(--tss-gs-mono);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-trendbadge-good {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-trendbadge-bad {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    box-shadow: none;
+    outline: 1px dashed var(--tss-gs-0);
+    outline-offset: -1px;
+}

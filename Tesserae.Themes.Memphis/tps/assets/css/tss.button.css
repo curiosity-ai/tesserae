@@ -1,0 +1,285 @@
+/* ==========================================================================
+   Memphis theme - Button
+   --------------------------------------------------------------------------
+   A button is a chunky pill cut from coloured laminate: a 2px black line,
+   a flat accent face with ink type, and a hard offset shadow in a second
+   colour, like a Memphis lamp standing on its coloured plinth. Under the
+   pointer it lifts a pixel up and to the left; held down it is pressed
+   into its shadow until the shadow is gone.
+
+   Every tone has its own pair: primary is bubblegum on cobalt, success
+   mint on lilac, warning sunflower on tomato, danger tomato on ink (on
+   sunflower at night). The face colours are the theme's bright accents,
+   not Tesserae's AA text roots, so the label is always ink on a bright
+   colour.
+
+   The default button is Tesserae's ghost and stays one at rest, so a
+   toolbar is not a wall of pills; under the pointer it becomes a sunflower
+   pill with the line and shadow. A link is cobalt type with a wavy
+   underline. Disabled is a dashed outline with nothing behind it. An
+   icon-only button is a circle.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-btn {
+    --tss-mp-btn-face: transparent;
+    --tss-mp-btn-ink: rgb(var(--tss-default-foreground-color-root));
+    --tss-mp-btn-cast: var(--tss-mp-cast);
+    --tss-mp-btn-off: var(--tss-mp-off-sm);
+    border: var(--tss-mp-bw) solid transparent;
+    border-radius: 999px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: transform var(--tss-mp-quick) var(--tss-mp-ease), box-shadow var(--tss-mp-quick) var(--tss-mp-ease), background-color 120ms linear, color 120ms linear, border-color 120ms linear;
+}
+
+/* Tesserae pads a button 16px left and 20px right; a pill wants its label in the middle. */
+body.tss-theme-memphis .tss-btn:not(.tss-btn-only-icon):not(.tss-small):not(.tss-btn-link) {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+body.tss-theme-memphis .tss-btn:focus {
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-btn:focus-visible {
+    outline: 3px solid var(--tss-mp-focus);
+    outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   Solid buttons: face, line, a hard shadow that the button presses into
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-memphis .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-mp-btn-face: rgb(var(--tss-mp-pink-root));
+    --tss-mp-btn-cast: rgb(var(--tss-mp-cobalt-root));
+}
+
+body.tss-theme-memphis .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-mp-btn-face: rgb(var(--tss-mp-mint-root));
+    --tss-mp-btn-cast: rgb(var(--tss-mp-lilac-root));
+}
+
+body.tss-theme-memphis .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-mp-btn-face: rgb(var(--tss-mp-yellow-root));
+    --tss-mp-btn-cast: rgb(var(--tss-mp-tomato-root));
+}
+
+body.tss-theme-memphis .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-mp-btn-face: rgb(var(--tss-mp-tomato-root));
+    --tss-mp-btn-cast: rgb(22, 18, 20);
+}
+
+body.tss-theme-memphis.tss-dark-mode .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-mp-btn-cast: rgb(var(--tss-mp-mint-root));
+}
+
+body.tss-theme-memphis.tss-dark-mode .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-mp-btn-cast: rgb(var(--tss-mp-yellow-root));
+}
+
+body.tss-theme-memphis .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-memphis .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-memphis .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-memphis .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    background: var(--tss-mp-btn-face);
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+    box-shadow: var(--tss-mp-btn-off) var(--tss-mp-btn-off) 0 0 var(--tss-mp-btn-cast);
+    filter: none;
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) .tss-fontcolor-default,
+body.tss-theme-memphis .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) .tss-fontcolor-default,
+body.tss-theme-memphis .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) .tss-fontcolor-default,
+body.tss-theme-memphis .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) .tss-fontcolor-default,
+body.tss-theme-memphis .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-memphis .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-memphis .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-memphis .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-memphis .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover .tss-fontcolor-default,
+body.tss-theme-memphis .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover .tss-fontcolor-default,
+body.tss-theme-memphis .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover .tss-fontcolor-default,
+body.tss-theme-memphis .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover .tss-fontcolor-default {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-memphis .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-memphis .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-memphis .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    background: var(--tss-mp-btn-face);
+    border-color: var(--tss-mp-line);
+    filter: none;
+    transform: translate(-1px, -1px);
+    box-shadow: calc(var(--tss-mp-btn-off) + 1px) calc(var(--tss-mp-btn-off) + 1px) 0 0 var(--tss-mp-btn-cast);
+}
+
+body.tss-theme-memphis .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-memphis .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-memphis .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-memphis .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active {
+    background: var(--tss-mp-btn-face);
+    transform: translate(var(--tss-mp-btn-off), var(--tss-mp-btn-off));
+    box-shadow: 0 0 0 0 var(--tss-mp-btn-cast);
+}
+
+body.tss-theme-memphis .tss-btn.tss-small {
+    --tss-mp-btn-off: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   The default button: a ghost that pops into a sunflower pill
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-memphis .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link) {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover,
+body.tss-theme-memphis .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover {
+    background: rgb(var(--tss-mp-yellow-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+    transform: translate(-1px, -1px);
+    box-shadow: var(--tss-mp-btn-off) var(--tss-mp-btn-off) 0 0 var(--tss-mp-cast);
+}
+
+body.tss-theme-memphis .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover .tss-fontcolor-default,
+body.tss-theme-memphis .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover i,
+body.tss-theme-memphis .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover .tss-fontcolor-default,
+body.tss-theme-memphis .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover i {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):active,
+body.tss-theme-memphis .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):active:hover,
+body.tss-theme-memphis .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):active {
+    background: rgb(var(--tss-mp-yellow-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+    transform: translate(var(--tss-mp-btn-off), var(--tss-mp-btn-off));
+    box-shadow: 0 0 0 0 var(--tss-mp-cast);
+}
+
+body.tss-theme-memphis .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):active .tss-fontcolor-default,
+body.tss-theme-memphis .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):active i {
+    color: var(--tss-mp-on-accent);
+}
+
+/* A tone on a ghost (an icon button set Primary / Danger with no background) keeps its tone in the glyph at
+   rest, in the AA-safe text roots. */
+body.tss-theme-memphis .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):not(:hover),
+body.tss-theme-memphis .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):not(:hover) .tss-fontcolor-default {
+    color: rgb(var(--tss-primary-background-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   Link buttons: cobalt type, a squiggle under it on hover
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-memphis .tss-btn.tss-btn-link:not(.tss-disabled) {
+    border-color: transparent;
+    box-shadow: none;
+    transform: none;
+    font-weight: 600;
+}
+
+body.tss-theme-memphis .tss-btn.tss-btn-link:not(.tss-disabled):hover > span,
+body.tss-theme-memphis .tss-btn.tss-btn-link[href]:not(.tss-disabled):hover > span {
+    text-decoration: underline wavy;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 4px;
+}
+
+/* A toned link answers with a tint of an accent rather than a wash of its text tone. */
+body.tss-theme-memphis .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover {
+    background: var(--tss-mp-yellow-pale);
+}
+
+body.tss-theme-memphis .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled),
+body.tss-theme-memphis .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-memphis .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):not(:hover),
+body.tss-theme-memphis .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):not(:hover) .tss-fontcolor-default {
+    color: rgb(150, 98, 0);
+}
+
+body.tss-theme-memphis.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled),
+body.tss-theme-memphis.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-memphis.tss-dark-mode .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):not(:hover),
+body.tss-theme-memphis.tss-dark-mode .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):not(:hover) .tss-fontcolor-default {
+    color: rgb(var(--tss-mp-yellow-root));
+}
+
+/* --------------------------------------------------------------------------
+   Disabled: a dashed outline with nothing behind it
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-memphis .tss-btn.tss-disabled:not(.tss-btn-link):not(.tss-btn-nobg) {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border: var(--tss-mp-bw) dashed rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Shapes: an icon-only button is a circle
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-memphis .tss-btn.tss-btn-only-icon {
+    border-radius: 50%;
+}
+
+/* --------------------------------------------------------------------------
+   Split button: two pills welded into one, the line between them
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-memphis .tss-btn-and-icon {
+    border-radius: 999px;
+}
+
+body.tss-theme-memphis .tss-btn-and-icon .tss-btn {
+    transform: none !important;
+}
+
+body.tss-theme-memphis .tss-btn-and-icon > .tss-btn:first-child:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+body.tss-theme-memphis .tss-btn-and-icon > .tss-btn.tss-btn-and-icon-icon {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-left: calc(-1 * var(--tss-mp-bw));
+}
+
+/* --------------------------------------------------------------------------
+   The spinner: an outcome fills the button with its colour
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-memphis .tss-btn.tss-btn-spin-resolved.tss-btn-spin-success:not(.tss-btn-default) {
+    --tss-mp-btn-face: rgb(var(--tss-mp-mint-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-btn.tss-btn-spin-resolved.tss-btn-spin-error:not(.tss-btn-default) {
+    --tss-mp-btn-face: rgb(var(--tss-mp-tomato-root));
+    color: var(--tss-mp-on-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-memphis .tss-btn {
+        transition: none;
+    }
+
+    body.tss-theme-memphis .tss-btn:hover,
+    body.tss-theme-memphis .tss-btn:active {
+        transform: none !important;
+    }
+}

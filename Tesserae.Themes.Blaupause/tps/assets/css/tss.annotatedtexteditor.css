@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Blaupause theme - AnnotatedTextEditor
+   --------------------------------------------------------------------------
+   A ruled field like a text box; annotated entities are boxed words swiped
+   with the highlighter, their tag a ruled label in ink.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-annotated-text-container,
+body.tss-theme-blaupause .tss-annotated-text-entity,
+body.tss-theme-blaupause .tss-annotated-text-hover-tag {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-annotated-text-container {
+    box-shadow: none;
+    border-color: var(--tss-bp-line);
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-annotated-text-container:hover {
+    border-color: var(--tss-bp-line-strong);
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-annotated-text-container:focus-within {
+    border-color: var(--tss-bp-line-strong);
+    box-shadow: inset 0 -2px 0 var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-annotated-text-container.tss-disabled {
+    border: var(--tss-bp-hidden);
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-annotated-text-entity,
+body.tss-theme-blaupause.tss-dark-mode .tss-annotated-text-entity {
+    outline-color: var(--tss-bp-line-strong);
+    background-color: var(--tss-bp-yellow-wash);
+}
+
+body.tss-theme-blaupause .tss-annotated-text-hover-tag,
+body.tss-theme-blaupause.tss-dark-mode .tss-annotated-text-hover-tag {
+    border-color: var(--tss-bp-ink);
+    background: var(--tss-bp-ink);
+    color: var(--tss-bp-on-ink);
+    box-shadow: none;
+    font-family: var(--tss-bp-mono);
+}
+
+/* On the blueprint an entity keeps its type colour as its outline only: the pastel fills an app passes are
+   light-mode colours, and the white lettering drawn over them would vanish. */
+body.tss-theme-blaupause.tss-dark-mode .tss-annotated-text-entity {
+    background-color: rgba(232, 242, 252, 0.08) !important;
+    background-image: none;
+}

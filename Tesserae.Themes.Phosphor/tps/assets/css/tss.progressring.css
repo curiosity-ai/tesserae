@@ -1,0 +1,14 @@
+/* ==========================================================================
+   Phosphor theme - ProgressRing
+   --------------------------------------------------------------------------
+   A ring is drawn with a square pen, in the cursor colour, blooming on the
+   screen; its value reads in the terminal face.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-progressring svg circle {
+    stroke-linecap: butt;
+}
+
+body.tss-theme-phosphor.tss-dark-mode .tss-progressring svg {
+    filter: drop-shadow(0 0 2px rgba(var(--tss-ph-hot-root), 0.35));
+}

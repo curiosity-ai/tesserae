@@ -1,0 +1,62 @@
+/* ==========================================================================
+   Kontrast theme - Questionnaire
+   --------------------------------------------------------------------------
+   Options are 36px keys with a 2px ink edge. Once answered, the chosen
+   option is the accent plate, bold, with a tick before it; the others stay
+   readable (struck through, not faded to 55%).
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-questionnaire {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+}
+
+body.tss-theme-kontrast .tss-questionnaire-question {
+    color: var(--tss-kt-ink);
+    font-weight: 700;
+}
+
+body.tss-theme-kontrast .tss-questionnaire-option {
+    min-height: 36px;
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+    font-size: var(--tss-font-size-small);
+    font-weight: 600;
+    transition: none;
+}
+
+body.tss-theme-kontrast .tss-questionnaire-option:hover:not(:disabled) {
+    background: var(--tss-kt-hover);
+    border-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-questionnaire-option:disabled,
+body.tss-theme-kontrast .tss-questionnaire-answered .tss-questionnaire-option {
+    opacity: 1;
+    color: var(--tss-kt-disabled);
+    border-style: dashed;
+    border-color: var(--tss-kt-disabled);
+    text-decoration: line-through;
+}
+
+body.tss-theme-kontrast .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+    background: var(--tss-kt-accent);
+    border: var(--tss-kt-border) solid var(--tss-kt-accent);
+    color: var(--tss-kt-on-accent);
+    font-weight: 750;
+    text-decoration: none;
+}
+
+body.tss-theme-kontrast .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected::before {
+    content: "\2713\00A0";
+    font-weight: 800;
+}
+
+body.tss-theme-kontrast .tss-questionnaire-answered-badge {
+    background: var(--tss-kt-surface);
+    color: var(--tss-kt-ink);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+}

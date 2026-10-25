@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Glas theme - PagesStack
+   --------------------------------------------------------------------------
+   The pages are sheets of frosted glass fanned over each other, each with a
+   lit edge; the "+N" badge a small glass chip.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-pagesstack-page {
+    border-color: rgba(255, 255, 255, 0.7);
+    border-radius: 6px;
+    background: rgba(250, 250, 255, 0.9);
+    box-shadow: -2px 0 8px rgba(40, 38, 100, 0.16);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-pagesstack-page {
+    border-color: rgba(255, 255, 255, 0.14);
+    background: rgb(44, 44, 80);
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.4);
+}
+
+body.tss-theme-glas .tss-pagesstack-more {
+    border-radius: 999px;
+    background: var(--tss-gl-pane-thick);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}

@@ -1,0 +1,51 @@
+/* ==========================================================================
+   Phosphor theme - GanttChart
+   --------------------------------------------------------------------------
+   A Gantt chart is a printed schedule: a single-line frame, a header strip
+   ruled off by a double line, dotted day lines, and bars as square runs of
+   cells in the chart palette (a faint fill with a solid edge).
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-gantt {
+    --tss-gantt-border: 1px solid var(--tss-ph-faint);
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-gantt-header-track {
+    background: transparent;
+    border-bottom: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-gantt-header-label,
+body.tss-theme-phosphor .tss-gantt-column-label {
+    font-size: 11px;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-gantt-row-label {
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-gantt-line {
+    border-left: 1px dotted var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-gantt-bar {
+    border-radius: 0;
+    border-color: var(--tss-gantt-bar-color);
+    background: color-mix(in srgb, var(--tss-gantt-bar-color) 28%, transparent);
+}
+
+body.tss-theme-phosphor .tss-gantt-bar-blue    { --tss-gantt-bar-color: var(--tss-chart-series-4); }
+body.tss-theme-phosphor .tss-gantt-bar-green   { --tss-gantt-bar-color: var(--tss-chart-series-1); }
+body.tss-theme-phosphor .tss-gantt-bar-purple  { --tss-gantt-bar-color: var(--tss-chart-series-8); }
+body.tss-theme-phosphor .tss-gantt-bar-orange  { --tss-gantt-bar-color: var(--tss-chart-series-2); }
+body.tss-theme-phosphor .tss-gantt-bar-red     { --tss-gantt-bar-color: var(--tss-ph-red); }
+body.tss-theme-phosphor .tss-gantt-bar-teal    { --tss-gantt-bar-color: var(--tss-chart-series-5); }
+body.tss-theme-phosphor .tss-gantt-bar-magenta { --tss-gantt-bar-color: var(--tss-chart-series-8); }
+body.tss-theme-phosphor .tss-gantt-bar-yellow  { --tss-gantt-bar-color: var(--tss-ph-amber); }
+body.tss-theme-phosphor .tss-gantt-bar-neutral { --tss-gantt-bar-color: var(--tss-ph-dim); }

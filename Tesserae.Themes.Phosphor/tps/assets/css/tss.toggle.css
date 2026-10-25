@@ -1,0 +1,74 @@
+/* ==========================================================================
+   Phosphor theme - Toggle
+   --------------------------------------------------------------------------
+   A switch is a two-cell field with a block cursor in it. Off: a 1px frame
+   with a dim block at the left. On: the frame fills with the cursor colour
+   (inverse video) and the block, now dark, jumps to the right cell. The
+   jump is a snap, not a slide (stepped), and nothing moves under reduced
+   motion.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-toggle-container {
+    font-weight: var(--tss-font-weight-regular);
+}
+
+body.tss-theme-phosphor .tss-toggle-container .tss-toggle-mark,
+body.tss-theme-phosphor .tss-toggle-container[class*="tss-fontsize-"] .tss-toggle-mark {
+    border-radius: 0;
+    background: transparent;
+    border: 1px solid var(--tss-ph-rule-hi);
+}
+
+body.tss-theme-phosphor .tss-toggle-container .tss-toggle-mark:after,
+body.tss-theme-phosphor .tss-toggle-container[class*="tss-fontsize-"] .tss-toggle-mark:after {
+    border-radius: 0;
+    background: var(--tss-ph-dim);
+    transition: transform 120ms steps(2, jump-none);
+}
+
+body.tss-theme-phosphor .tss-toggle-container:hover .tss-toggle-mark {
+    background: var(--tss-ph-tint);
+    border-color: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-toggle-container:hover .tss-toggle-mark:after {
+    background: var(--tss-ph-ink);
+}
+
+body.tss-theme-phosphor .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-phosphor .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-toggle-container input:checked ~ .tss-toggle-mark:after,
+body.tss-theme-phosphor .tss-toggle-container:hover input:checked ~ .tss-toggle-mark:after {
+    background: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-toggle-container input:focus-visible ~ .tss-toggle-mark {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 2px;
+}
+
+body.tss-theme-phosphor .tss-toggle-container.tss-disabled .tss-toggle-mark,
+body.tss-theme-phosphor .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    background: transparent;
+    border: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-toggle-container.tss-disabled .tss-toggle-mark:after {
+    background: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-phosphor .tss-toggle-container.tss-disabled {
+    text-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-phosphor .tss-toggle-container .tss-toggle-mark:after {
+        transition: none;
+    }
+}

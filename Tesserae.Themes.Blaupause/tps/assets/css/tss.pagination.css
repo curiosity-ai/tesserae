@@ -1,0 +1,58 @@
+/* ==========================================================================
+   Blaupause theme - Pagination
+   --------------------------------------------------------------------------
+   Page numbers are sheet numbers: monospace figures in ruled square cells,
+   the current sheet filled with ink.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-pagination-footer {
+    border-top: var(--tss-bp-rule);
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-pagination-button {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background: var(--tss-bp-sheet);
+    color: var(--tss-bp-text);
+    font-family: var(--tss-bp-mono);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-blaupause .tss-pagination-button:hover:not(:disabled) {
+    background: var(--tss-bp-sheet);
+    background-image: linear-gradient(var(--tss-bp-wash), var(--tss-bp-wash));
+    border-color: var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-pagination-button.tss-active {
+    background: var(--tss-bp-ink);
+    color: var(--tss-bp-on-ink);
+    border-color: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-pagination-button:focus-visible {
+    outline-color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-pagination-nav {
+    border-color: transparent;
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-pagination-button.tss-disabled,
+body.tss-theme-blaupause .tss-pagination-button:disabled {
+    opacity: 1;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    border-style: dashed;
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-blaupause .tss-pagination-nav:disabled {
+    border-color: transparent;
+}
+
+body.tss-theme-blaupause .tss-pagination-status {
+    font-family: var(--tss-bp-mono);
+    font-size: 12px;
+}

@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Blaupause theme - Timeline
+   --------------------------------------------------------------------------
+   A centre line drawn as a dashed-dot axis, events hung off it in ruled
+   boxes, each marked on the axis by a drawn circle with its centre mark.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-timeline-owner {
+    background: transparent repeating-linear-gradient(180deg, var(--tss-bp-line) 0 10px, transparent 10px 13px, var(--tss-bp-line) 13px 15px, transparent 15px 18px) no-repeat center / 1px 100%;
+}
+
+body.tss-theme-blaupause .tss-timeline-owner.tss-left {
+    background: transparent repeating-linear-gradient(180deg, var(--tss-bp-line) 0 10px, transparent 10px 13px, var(--tss-bp-line) 13px 15px, transparent 15px 18px) no-repeat 20px 0 / 1px 100%;
+}
+
+body.tss-theme-blaupause .tss-timeline-container::after {
+    background:
+        linear-gradient(var(--tss-timeline-circle-color, var(--tss-bp-line-strong)), var(--tss-timeline-circle-color, var(--tss-bp-line-strong))) center / 100% 1px no-repeat,
+        linear-gradient(var(--tss-timeline-circle-color, var(--tss-bp-line-strong)), var(--tss-timeline-circle-color, var(--tss-bp-line-strong))) center / 1px 100% no-repeat,
+        var(--tss-bp-sheet);
+    border: 1px solid var(--tss-timeline-circle-color, var(--tss-bp-line-strong));
+}
+
+body.tss-theme-blaupause .tss-timeline-container .tss-timeline-content {
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-bp-rule);
+    background: var(--tss-bp-ticks), var(--tss-bp-sheet);
+}

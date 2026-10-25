@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Kontrast theme - ActionCard
+   --------------------------------------------------------------------------
+   Edges drawn in the border tokens go to 2px; colours, focus and states come from the theme's tokens and global rules.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-actioncard-card {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-actioncard-identity {
+    border-right-width: var(--tss-kt-border);
+    border-right-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-actioncard-action {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-actioncard-skeleton-line {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-actioncard-stacked .tss-actioncard-identity {
+    border-bottom-width: var(--tss-kt-border);
+    border-bottom-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-actioncard-group {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-actioncard-group > .tss-actioncard + .tss-actioncard {
+    border-top-width: var(--tss-kt-border);
+    border-top-color: var(--tss-kt-line);
+}

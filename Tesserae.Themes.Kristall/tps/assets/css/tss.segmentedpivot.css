@@ -1,0 +1,62 @@
+/* ==========================================================================
+   Kristall theme - SegmentedPivot
+   --------------------------------------------------------------------------
+   The segmented control itself: a track in the system fill, 9px radius,
+   2px inset, and the chosen segment a white pill with a hairline and a
+   small shadow (a lighter glass pill in the dark appearance). No inner
+   shadow in the track, no hover fill louder than a whisper.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-kristall .tss-segmentedpivot-titlebar {
+    border-radius: 9px;
+    background: var(--tss-kr-fill-3);
+    padding: 2px;
+    box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.04);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-kristall.tss-dark-mode .tss-segmentedpivot-titlebar {
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.05);
+}
+
+body.tss-theme-kristall .tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+}
+
+body.tss-theme-kristall .tss-segmentedpivot-tab {
+    padding: 4px 14px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: background-color 0.18s, box-shadow 0.18s, color 0.18s;
+}
+
+body.tss-theme-kristall .tss-segmentedpivot-tab:hover {
+    background-color: var(--tss-kr-fill-4);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-kristall .tss-segmentedpivot-tab:active {
+    background-color: var(--tss-kr-fill-3);
+}
+
+body.tss-theme-kristall .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    background: rgb(255, 255, 255);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 600;
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    background: rgba(255, 255, 255, 0.24);
+    box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.18), 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+body.tss-theme-kristall .tss-segmentedpivot-tab:focus-visible,
+body.tss-theme-kristall .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
+    box-shadow: var(--tss-kr-focus);
+}

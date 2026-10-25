@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Zeitung theme - Spinner
+   --------------------------------------------------------------------------
+   The spinner keeps its ring (it is a dot that moves): an ink arc on a
+   hairline track. Its label is set in italic, like a caption.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-spinner:not(.tss-ai) {
+    --tss-spinner-color: var(--tss-zt-ink);
+    border-color: var(--tss-spinner-color) var(--tss-zt-hair) var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-spinner-success { --tss-spinner-color: rgb(var(--tss-success-background-color-root)); }
+body.tss-theme-zeitung .tss-spinner-danger { --tss-spinner-color: rgb(var(--tss-danger-background-color-root)); }
+body.tss-theme-zeitung .tss-spinner-warning { --tss-spinner-color: rgb(var(--tss-warning-background-color-root)); }
+
+body.tss-theme-zeitung .tss-spinner-label {
+    color: var(--tss-zt-ink);
+    font-style: italic;
+}

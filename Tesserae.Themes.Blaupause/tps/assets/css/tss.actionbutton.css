@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Blaupause theme - ActionButton
+   --------------------------------------------------------------------------
+   Two ruled cells sharing a line: the label and its action. Square.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-actionbutton-container,
+body.tss-theme-blaupause .tss-actionbutton-container > .tss-actionbutton-actionbtn,
+body.tss-theme-blaupause .tss-actionbutton-container > .tss-actionbutton-displaybutton {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-actionbutton-container > .tss-actionbutton-actionbtn:hover,
+body.tss-theme-blaupause .tss-actionbutton-container > .tss-actionbutton-displaybutton:hover {
+    background: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-actionbutton-container:hover {
+    border-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-actionbutton-container > .tss-btn-primary + .tss-actionbutton-actionbtn,
+body.tss-theme-blaupause .tss-actionbutton-container > .tss-btn-danger + .tss-actionbutton-actionbtn {
+    box-shadow: inset 1px 0 0 var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-actionbutton-container > .tss-btn-primary:hover,
+body.tss-theme-blaupause .tss-actionbutton-container > .tss-btn-danger:hover,
+body.tss-theme-blaupause .tss-actionbutton-container > .tss-btn-warning:hover {
+    background-image: none;
+}

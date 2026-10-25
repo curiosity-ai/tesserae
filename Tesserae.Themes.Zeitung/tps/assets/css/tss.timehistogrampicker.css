@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Zeitung theme - TimeHistogramPicker
+   --------------------------------------------------------------------------
+   A histogram from the business pages: unselected bars a light halftone,
+   the chosen range solid ink, the track a hairline with the selected run in
+   ink and square paper thumbs framed in ink (red under the pointer). Axis
+   labels in lining figures.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-time-histogram-picker-bar {
+    background: var(--tss-zt-halftone), var(--tss-zt-tint);
+}
+
+body.tss-theme-zeitung .tss-time-histogram-picker-bar.tss-selected {
+    background: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-time-histogram-picker-track::before {
+    background: var(--tss-zt-rule);
+}
+
+body.tss-theme-zeitung .tss-time-histogram-picker-selection {
+    background: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-time-histogram-picker-thumb {
+    background: var(--tss-zt-paper);
+    border-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-time-histogram-picker-thumb:hover,
+body.tss-theme-zeitung .tss-time-histogram-picker-thumb:focus {
+    border-color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-time-histogram-picker-axis,
+body.tss-theme-zeitung .tss-time-histogram-picker-tooltip {
+    font-variant-numeric: lining-nums tabular-nums;
+}
+
+body.tss-theme-zeitung .tss-time-histogram-picker-empty {
+    font-style: italic;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-time-histogram-picker-bar,
+body.tss-theme-zeitung .tss-time-histogram-picker-track::before,
+body.tss-theme-zeitung .tss-time-histogram-picker-selection,
+body.tss-theme-zeitung .tss-time-histogram-picker-thumb,
+body.tss-theme-zeitung .tss-time-histogram-picker-empty {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

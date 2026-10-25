@@ -1,0 +1,363 @@
+/* ==========================================================================
+   Washi theme - Sidebar
+   --------------------------------------------------------------------------
+   The sidebar is a shoji panel: the same paper a shade deeper, with the
+   kumiko lattice drawn across it in lines so fine they are felt more than
+   seen, and a single frame line along its edge. Section legends are small
+   Mincho captions with a brush stroke running out to the edge. An entry
+   is type on the paper; under the pointer a pale ink wash comes up behind
+   it. The current entry is a sheet laid on the panel, its glyph in
+   vermilion, and a small square seal is pressed into the margin beside it.
+   On lacquer the lattice is drawn in gold, the panel is the darkest
+   lacquer, and the seal is the brighter vermilion.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-sidebar {
+    background-color: rgb(var(--tss-sidebar-background-color-root));
+    background-image: var(--tss-wa-lattice), var(--tss-wa-grain);
+    background-size: 62px 100%, 100% 124px, auto, auto;
+    background-position: 11px 0, 0 30px, 0 0, 0 0;
+    box-shadow: inset -1px 0 0 var(--tss-wa-line);
+}
+
+body.tss-theme-washi.tss-dark-mode .tss-sidebar {
+    background-image: var(--tss-wa-lattice), var(--tss-wa-sheen), var(--tss-wa-grain);
+    background-size: 62px 100%, 100% 124px, auto, auto, auto;
+    background-position: 11px 0, 0 30px, 0 0, 0 0, 0 0;
+    box-shadow: inset -1px 0 0 rgba(212, 176, 100, 0.16);
+}
+
+/* The name at the top of the panel, in Mincho. */
+body.tss-theme-washi .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge,
+body.tss-theme-washi .tss-sidebar-identity-title {
+    font-family: var(--tss-wa-serif);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+/* Section legends: a small Mincho caption, and a brush stroke drawn out to the edge. */
+body.tss-theme-washi .tss-sidebar-separator-with-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+    margin-bottom: 6px;
+    font-family: var(--tss-wa-serif);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-sidebar-separator-with-text::after {
+    content: "";
+    flex: 1 1 auto;
+    height: 3px;
+    margin-right: 4px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.22);
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-sidebar .tss-sidebar-btn.tss-btn {
+    border-radius: var(--tss-wa-radius);
+    transition: background-color var(--tss-wa-quick) var(--tss-wa-ease), color var(--tss-wa-quick) var(--tss-wa-ease), box-shadow var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+/* Hover: a pale wash of ink, also while the pointer is on the row's commands. */
+body.tss-theme-washi .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    background-color: rgb(var(--tss-default-background-hover-color-root));
+    border-color: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The current entry: a sheet laid on the panel, its glyph in vermilion. */
+body.tss-theme-washi .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-washi .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-washi .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-washi .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: transparent;
+    box-shadow: var(--tss-wa-lift);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn > i,
+body.tss-theme-washi .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn > i {
+    color: var(--tss-wa-shu);
+}
+
+/* The seal, pressed into the margin beside the current entry. */
+body.tss-theme-washi .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-open.tss-sidebar-selected:not(.tss-sidebar-nav-header)::before {
+    content: "";
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    margin-top: -3.5px;
+    background: var(--tss-wa-shu);
+    -webkit-mask: var(--tss-wa-hanko) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-hanko) center / 100% 100% no-repeat;
+    pointer-events: none;
+}
+
+/* A nav header that holds the current entry stays plain: the entry itself carries the seal. */
+body.tss-theme-washi .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
+body.tss-theme-washi .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open:hover > .tss-btn:not(.tss-disabled) {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+/* The fade under a row's commands takes the row's own paper, so it disappears into it. */
+body.tss-theme-washi .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > .tss-sidebar-btn::after,
+body.tss-theme-washi .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-has-commands:not(.tss-sidebar-commands-always-open):not(.tss-sidebar-selected):hover > a > .tss-sidebar-btn::after {
+    background-image: none;
+}
+
+body.tss-theme-washi .tss-sidebar .tss-sidebar-command.tss-btn {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-washi .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-washi .tss-sidebar-commands-line .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: var(--tss-wa-wash-strong);
+    border-color: transparent;
+}
+
+body.tss-theme-washi .tss-sidebar-commands-line .tss-btn,
+body.tss-theme-washi .tss-sidebar-commands-line-extra .tss-btn,
+body.tss-theme-washi .tss-sidebar-menu > .tss-sidebar-commands-line > a > .tss-sidebar-command.tss-btn {
+    border-radius: var(--tss-wa-radius);
+}
+
+/* The search field at the top of the panel: a field like every other, a line under the words. */
+body.tss-theme-washi .tss-sidebar .tss-searchbox-container {
+    border: 1px solid transparent;
+    border-bottom-color: var(--tss-wa-line-strong);
+    border-radius: var(--tss-wa-radius) var(--tss-wa-radius) 0 0;
+    background: rgba(var(--tss-secondary-background-color-root), 0.6);
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-sidebar .tss-searchbox-container:focus-within {
+    border-bottom-color: var(--tss-wa-thread);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 0 1px 0 0 var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-sidebar .tss-searchbox {
+    background: transparent;
+}
+
+/* The collapsed rail: glyphs on the panel, a wash under the pointer. */
+body.tss-theme-washi .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-washi .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: -2px;
+}
+
+/* .Rounded() rows and boxes: cut paper, not a pill. */
+body.tss-theme-washi .tss-sidebar-btn-rounded > .tss-btn,
+body.tss-theme-washi .tss-sidebar-btn-rounded > a > .tss-btn,
+body.tss-theme-washi .tss-sidebar .tss-sidebar-btn.tss-btn.tss-rounded-full,
+body.tss-theme-washi .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-rounded.tss-sidebar-btn.tss-btn,
+body.tss-theme-washi .tss-sidebar-searchbox.tss-sidebar-searchbox-rounded .tss-searchbox-container,
+body.tss-theme-washi .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon.tss-sidebar-searchbox-rounded {
+    border-radius: var(--tss-wa-radius) !important;
+}
+
+/* An outlined row (the one that pairs with the search box) is a sheet at rest. */
+body.tss-theme-washi .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-washi .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined:hover,
+body.tss-theme-washi .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined:hover {
+    border-color: var(--tss-wa-line-strong);
+}
+
+body.tss-theme-washi .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-washi .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    background: none;
+    border-color: transparent;
+}
+
+body.tss-theme-washi .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-searchbox > .tss-btn.tss-sidebar-btn-searchbox-button,
+body.tss-theme-washi .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-searchbox > a > .tss-btn.tss-sidebar-btn-searchbox-button {
+    background: rgba(var(--tss-secondary-background-color-root), 0.6);
+    border: 1px solid transparent;
+    border-bottom-color: var(--tss-wa-line-strong);
+    border-radius: var(--tss-wa-radius) var(--tss-wa-radius) 0 0;
+    box-shadow: none;
+}
+
+/* Nav groups: a quiet chevron, and the children hung from a fine vertical line. */
+body.tss-theme-washi .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn {
+    border-radius: var(--tss-wa-radius-small);
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+body.tss-theme-washi .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: rgba(var(--tss-secondary-foreground-color-root), 0.7);
+    transition: transform 160ms var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page) .tss-sidebar-nav-children {
+    background: linear-gradient(var(--tss-wa-line), var(--tss-wa-line)) 19px 6px / 1px calc(100% - 10px) no-repeat;
+}
+
+body.tss-theme-washi .tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn,
+body.tss-theme-washi .tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-btn {
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-color: var(--tss-wa-line);
+    box-shadow: var(--tss-wa-float);
+}
+
+/* A count is a small paper slip, figures tabular. */
+body.tss-theme-washi .tss-sidebar-badges > .tss-btn {
+    border-radius: var(--tss-wa-radius-small);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-washi .tss-sidebar-badges > .tss-btn.tss-btn-default:not(.tss-sidebar-badge-transparent-icon):not([style*="background"]) {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    box-shadow: none;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+/* Identity: brand and profile, divided from the list by a frame line. */
+body.tss-theme-washi .tss-sidebar .tss-sidebar-header .tss-sidebar-identity-separated {
+    border-bottom-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-sidebar .tss-sidebar-footer .tss-sidebar-identity-separated {
+    border-top-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-sidebar-identity > .tss-sidebar-commands > .tss-sidebar-command.tss-btn,
+body.tss-theme-washi .tss-sidebar-identity > .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-sidebar-brand-logo > img {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-sidebar-section-header {
+    box-shadow: inset 0 -1px 0 var(--tss-wa-line);
+    margin-bottom: 6px;
+}
+
+body.tss-theme-washi .tss-sidebar-section-header .tss-sidebar-identity-title {
+    font-family: var(--tss-wa-serif);
+    font-weight: 600;
+}
+
+/* The collapsed brand is a seal: the logo glyph cut out of a vermilion square. */
+body.tss-theme-washi .tss-sidebar-section-header-closed > .tss-sidebar-brand-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--tss-wa-shu);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-sidebar-section-header-closed > .tss-sidebar-brand-logo > .tss-icon {
+    font-size: 18px;
+    color: var(--tss-wa-on-shu);
+}
+
+/* Status card: a slip of paper pinned to the panel, its state a small dot of dye. */
+body.tss-theme-washi .tss-sidebar-status-card {
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-sidebar-status-card.tss-sidebar-status-clickable:hover {
+    box-shadow: var(--tss-wa-lift);
+}
+
+body.tss-theme-washi .tss-sidebar-status-dot {
+    background: rgba(var(--tss-default-foreground-color-root), 0.2);
+}
+
+body.tss-theme-washi .tss-sidebar-status-success .tss-sidebar-status-dot {
+    background: var(--tss-wa-koke);
+}
+
+body.tss-theme-washi .tss-sidebar-status-warning .tss-sidebar-status-dot {
+    background: var(--tss-wa-kincha);
+}
+
+body.tss-theme-washi .tss-sidebar-status-danger .tss-sidebar-status-dot {
+    background: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab.tss-segmentedpivot-selected i {
+    color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-sidebar-shift-panel-child > .tss-sidebar,
+body.tss-theme-washi.tss-dark-mode .tss-sidebar-shift-panel-child > .tss-sidebar {
+    background: transparent;
+    box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-washi .tss-sidebar .tss-sidebar-btn.tss-btn,
+    body.tss-theme-washi .tss-sidebar-nav-arrow.tss-btn:after {
+        transition: none;
+    }
+}

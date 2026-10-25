@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Glas theme - ChoiceGroup
+   --------------------------------------------------------------------------
+   A radio is a round well of clear glass; chosen, its rim turns to the
+   accent and a bead of accent glass (gloss and all) sits in the middle.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-option-container .tss-option-mark {
+    background: var(--tss-gl-well);
+    border: 1px solid var(--tss-gl-edge-strong);
+    box-shadow: var(--tss-gl-field-shade);
+    transition: border-color 140ms linear, box-shadow 180ms ease;
+}
+
+body.tss-theme-glas .tss-option-container:hover .tss-option-mark {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.6);
+}
+
+body.tss-theme-glas .tss-option-container .tss-option-mark:after {
+    left: 50%;
+    top: 50%;
+    width: 56%;
+    height: 56%;
+    border: none;
+    transform: translate(-50%, -50%);
+    background: rgba(var(--tss-gl-accent-rgb), 0.3);
+}
+
+body.tss-theme-glas .tss-option-container input:checked ~ .tss-option-mark,
+body.tss-theme-glas .tss-option-container:hover input:checked ~ .tss-option-mark {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.9);
+    box-shadow: var(--tss-gl-field-shade), 0 0 0 3px rgba(var(--tss-gl-accent-rgb), 0.14);
+}
+
+body.tss-theme-glas .tss-option-container input:checked ~ .tss-option-mark:after,
+body.tss-theme-glas .tss-option-container:hover input:checked ~ .tss-option-mark:after {
+    background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.85) 0 18%, rgba(255, 255, 255, 0) 45%), rgb(var(--tss-primary-background-color-root));
+    box-shadow: 0 1px 3px rgba(var(--tss-gl-accent-rgb), 0.6);
+}
+
+body.tss-theme-glas .tss-option-container input:focus-visible ~ .tss-option-mark {
+    outline: 2px solid rgba(var(--tss-gl-accent-rgb), 0.75);
+    outline-offset: 2px;
+}
+
+body.tss-theme-glas .tss-option-container.tss-disabled .tss-option-mark {
+    background: var(--tss-disabled-background-color);
+    border-color: rgba(var(--tss-disabled-foreground-color-root), 0.4);
+    box-shadow: none;
+}
+
+body.tss-theme-glas .tss-option-container.tss-disabled input:checked ~ .tss-option-mark:after {
+    background: rgba(var(--tss-disabled-foreground-color-root), 0.7);
+    box-shadow: none;
+}

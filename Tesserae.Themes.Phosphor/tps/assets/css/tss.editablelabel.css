@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Phosphor theme - EditableLabel
+   --------------------------------------------------------------------------
+   An editable label is text you can step into: under the pointer it lights
+   faintly; editing, it becomes a prompt line like any field.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-editablelabel-displaybox {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-editablelabel-displaybox:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-editablelabel-textbox {
+    border: 0;
+    border-bottom: 1px solid var(--tss-ph-cursor);
+    border-radius: 0;
+    background: var(--tss-ph-field-focus);
+    caret-color: var(--tss-ph-cursor);
+    caret-shape: block;
+}
+
+body.tss-theme-phosphor .tss-editablelabel-cancel-icon {
+    color: var(--tss-ph-red);
+}

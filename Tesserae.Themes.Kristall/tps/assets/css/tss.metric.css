@@ -1,0 +1,18 @@
+/* Kristall theme - Metric: a widget's number; the value in tight semibold with tabular figures, the title a small grey caption. */
+
+body.tss-theme-kristall .tss-metric-value,
+body.tss-theme-kristall .tss-metric-value .tss-textblock {
+    font-weight: 600;
+    letter-spacing: -0.024em;
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-kristall .tss-metric-title,
+body.tss-theme-kristall .tss-metric-title .tss-textblock {
+    color: var(--tss-kr-label-2);
+    font-weight: 500;
+}
+
+body.tss-theme-kristall .tss-metric-icon > .tss-icontile {
+    --tss-icontile-radius: 10px;
+}

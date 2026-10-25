@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Kontrast theme - Timeline
+   --------------------------------------------------------------------------
+   A 3px ink spine, 18px stops with a 3px edge in their tone on a paper
+   fill, and entries as panels with a 2px edge.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-timeline-owner {
+    background: transparent linear-gradient(var(--tss-kt-ink), var(--tss-kt-ink)) no-repeat center/3px 100%;
+}
+
+body.tss-theme-kontrast .tss-timeline-owner.tss-left {
+    background: transparent linear-gradient(var(--tss-kt-ink), var(--tss-kt-ink)) no-repeat 20px 0px/3px 100%;
+}
+
+body.tss-theme-kontrast .tss-timeline-container::after {
+    width: 18px;
+    height: 18px;
+    right: -9px;
+    border: 3px solid var(--tss-timeline-circle-color, var(--tss-kt-ink));
+    background: var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tss-timeline-container.tss-right::after {
+    left: -9px;
+}
+
+body.tss-theme-kontrast .tss-timeline-container .tss-timeline-content {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    box-shadow: none;
+}

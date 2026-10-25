@@ -1,0 +1,430 @@
+/* ==========================================================================
+   Kristall theme - Sidebar
+   --------------------------------------------------------------------------
+   The sidebar is a source list on vibrancy: a frosted strip through which
+   the desktop wallpaper glows. It paints the wallpaper itself, fixed to the
+   viewport so it lines up with the body's, under the frosted tint; the
+   wallpaper is a soft field with no detail to smear, so a real
+   backdrop-filter would buy nothing and would make the rail a containing
+   block for every fixed-position popup inside it.
+
+   Rows are 28px with the icon in the accent colour, the way the desktop
+   tints a sidebar's symbols. Under the pointer a row turns into a frosted
+   pill; the current row is the selection pill, a rounded wash of the
+   accent with its icon and name in the accent. Section headers are small
+   grey semibold captions in their own case, no rule, no capitals.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-sidebar {
+    /* The fills a row takes. Near-opaque on purpose: Tesserae fades a long name out under a row's commands
+       with a scrim of the row's own background-color, which a faint wash would paint twice and not cover. */
+    --tss-kr-row-hover: rgba(255, 255, 255, 0.72);
+    --tss-kr-row-selected: rgba(var(--tss-kr-accent-rgb), 0.16);
+    --tss-kr-row-ink: var(--tss-kr-accent);
+    background-color: rgb(var(--tss-sidebar-background-color-root));
+    background-image: linear-gradient(var(--tss-kr-sidebar), var(--tss-kr-sidebar)), var(--tss-kr-wallpaper);
+    background-attachment: fixed;
+    background-size: cover;
+    box-shadow: inset -0.5px 0 0 rgba(0, 0, 0, 0.16), inset -1.5px 0 0 rgba(255, 255, 255, 0.35);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-sidebar {
+    --tss-kr-row-hover: rgba(78, 78, 86, 0.82);
+    --tss-kr-row-selected: rgba(var(--tss-kr-accent-rgb), 0.3);
+    --tss-kr-row-ink: rgb(110, 180, 255);
+    box-shadow: inset -0.5px 0 0 rgba(0, 0, 0, 0.7), inset -1.5px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+/* The app's name at the top: a title, semibold and tight, not a poster. */
+body.tss-theme-kristall .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.024em;
+    padding-left: 6px;
+    line-height: 39px;
+}
+
+body.tss-theme-kristall .tss-sidebar-identity-title {
+    font-weight: 650;
+    letter-spacing: -0.012em;
+}
+
+/* Section headers: grey, semibold, 11px, in their own case. */
+body.tss-theme-kristall .tss-sidebar-separator-with-text {
+    margin-top: 14px;
+    margin-bottom: 3px;
+    margin-left: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--tss-kr-label-2);
+}
+
+/* Rows. */
+body.tss-theme-kristall .tss-sidebar .tss-sidebar-btn.tss-btn {
+    border-radius: 7px;
+    border-color: transparent;
+    font-weight: 500;
+    transition: background-color 120ms linear, color 120ms linear;
+}
+
+body.tss-theme-kristall .tss-sidebar .tss-sidebar-btn.tss-btn > i {
+    color: var(--tss-kr-row-ink);
+    font-size: 14px;
+}
+
+body.tss-theme-kristall .tss-sidebar .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background-color: var(--tss-kr-row-hover);
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-kristall .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kristall .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kristall .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kristall .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kristall .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kristall .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    background-color: var(--tss-kr-row-hover);
+    border-color: transparent;
+    box-shadow: none;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The selection pill. */
+body.tss-theme-kristall .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-kristall .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kristall .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kristall .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-kristall .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-kristall .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-kristall .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kristall .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kristall.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-kristall.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kristall.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kristall.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-kristall.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-kristall.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-kristall.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kristall.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    background: var(--tss-kr-row-selected);
+    border-color: transparent;
+    box-shadow: none;
+    color: var(--tss-kr-row-ink);
+    font-weight: 600;
+}
+
+body.tss-theme-kristall .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn .tss-fontcolor-default,
+body.tss-theme-kristall .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn .tss-fontcolor-default {
+    color: var(--tss-kr-row-ink);
+}
+
+/* A group holding the current row: no pill of its own. */
+body.tss-theme-kristall .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+body.tss-theme-kristall .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled),
+body.tss-theme-kristall .tss-sidebar-nav.tss-sidebar-selected > .tss-btn:not(.tss-disabled),
+body.tss-theme-kristall .tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn:not(.tss-disabled) {
+    background: transparent;
+    border-color: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-kristall .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible {
+    outline: 3px solid var(--tss-kr-focus-ring);
+    outline-offset: -3px;
+}
+
+/* Row commands: small borderless glyphs that get a frosted capsule under the pointer. */
+body.tss-theme-kristall .tss-sidebar .tss-sidebar-command.tss-btn {
+    border-radius: var(--tss-kr-r-small);
+    color: var(--tss-kr-label-2);
+}
+
+body.tss-theme-kristall .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-kristall .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-kristall .tss-sidebar-commands-line .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: var(--tss-kr-fill-2);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-kristall .tss-sidebar-commands-line .tss-btn,
+body.tss-theme-kristall .tss-sidebar-commands-line-extra .tss-btn {
+    border-radius: 7px;
+}
+
+body.tss-theme-kristall .tss-sidebar-btn-has-icon-click.tss-btn > i:hover,
+body.tss-theme-kristall .tss-sidebar-btn-has-icon-click.tss-btn > .tss-btn-with-image > .tss-image:hover {
+    background: var(--tss-kr-fill-2);
+    border-radius: var(--tss-kr-r-small);
+}
+
+/* The search field at the top is the desktop's: a capsule in a quiet fill, a magnifier, no edge. */
+body.tss-theme-kristall .tss-sidebar .tss-searchbox-container {
+    border: 0;
+    border-radius: var(--tss-kr-r-pill);
+    background: var(--tss-kr-fill-3);
+    box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.05);
+    height: 30px;
+    margin-top: 4px;
+    margin-bottom: 2px;
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-sidebar .tss-searchbox-container {
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.06);
+}
+
+body.tss-theme-kristall .tss-sidebar .tss-searchbox-container:focus-within {
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: inset 0 0 0 0.5px var(--tss-kr-hairline), var(--tss-kr-focus);
+}
+
+body.tss-theme-kristall .tss-sidebar .tss-searchbox {
+    background: transparent;
+    padding-left: 12px;
+}
+
+body.tss-theme-kristall .tss-sidebar .tss-searchbox::placeholder {
+    color: var(--tss-kr-label-2);
+}
+
+/* The collapsed rail. */
+body.tss-theme-kristall .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon {
+    border-radius: 8px;
+    color: var(--tss-kr-row-ink);
+}
+
+body.tss-theme-kristall .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon:hover {
+    background: var(--tss-kr-row-hover);
+}
+
+body.tss-theme-kristall .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn.tss-btn {
+    border-radius: 8px;
+}
+
+/* .Rounded() rows and boxes keep their capsule: the desktop has plenty. */
+body.tss-theme-kristall .tss-sidebar-searchbox.tss-sidebar-searchbox-rounded .tss-searchbox-container {
+    height: 36px;
+}
+
+/* An outlined row (the one that pairs with the search box) is a push button at rest. */
+body.tss-theme-kristall .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-kristall .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    background: var(--tss-kr-control);
+    border-color: transparent;
+    box-shadow: var(--tss-kr-shadow-control);
+}
+
+body.tss-theme-kristall .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-kristall .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    background: none;
+    box-shadow: none;
+}
+
+/* A row standing in for a search box reads as the capsule field. */
+body.tss-theme-kristall .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-searchbox > .tss-btn.tss-sidebar-btn-searchbox-button,
+body.tss-theme-kristall .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-searchbox > a > .tss-btn.tss-sidebar-btn-searchbox-button {
+    background: var(--tss-kr-fill-3);
+    border: 0;
+    border-radius: var(--tss-kr-r-pill);
+    box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Groups: a disclosure chevron, and the pages indented under it
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-kristall .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn {
+    border-radius: var(--tss-kr-r-small);
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+body.tss-theme-kristall .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: var(--tss-kr-label-3);
+    transition: transform 180ms var(--tss-kr-ease);
+}
+
+body.tss-theme-kristall .tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: var(--tss-kr-label-2);
+}
+
+body.tss-theme-kristall .tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn,
+body.tss-theme-kristall .tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-btn {
+    background: var(--tss-kr-row-selected);
+    color: var(--tss-kr-row-ink);
+}
+
+/* --------------------------------------------------------------------------
+   Badges: the desktop's count, a grey capsule with tabular figures
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-kristall .tss-sidebar-badges > .tss-btn {
+    border-radius: var(--tss-kr-r-pill);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+}
+
+body.tss-theme-kristall .tss-sidebar-badges > .tss-btn.tss-btn-default:not(.tss-sidebar-badge-transparent-icon):not([style*="background"]) {
+    background: var(--tss-kr-fill-2);
+    border-color: transparent;
+    box-shadow: none;
+    color: var(--tss-kr-label-2);
+}
+
+/* The tooltip a collapsed rail shows for a row: a help tag. */
+body.tss-theme-kristall .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    border-radius: 7px;
+    box-shadow: var(--tss-kr-shadow-pop);
+}
+
+/* --------------------------------------------------------------------------
+   Identity rows, section header, status card
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-kristall .tss-sidebar .tss-sidebar-header .tss-sidebar-identity-separated {
+    border-bottom-color: var(--tss-kr-separator);
+}
+
+body.tss-theme-kristall .tss-sidebar .tss-sidebar-footer .tss-sidebar-identity-separated {
+    border-top-color: var(--tss-kr-separator);
+}
+
+body.tss-theme-kristall .tss-sidebar-identity > .tss-sidebar-commands > .tss-sidebar-command.tss-btn,
+body.tss-theme-kristall .tss-sidebar-identity > .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn {
+    border-radius: var(--tss-kr-r-small);
+}
+
+body.tss-theme-kristall .tss-sidebar-brand-logo > img {
+    border-radius: 7px;
+}
+
+body.tss-theme-kristall .tss-sidebar-section-header {
+    box-shadow: inset 0 -0.5px 0 var(--tss-kr-separator);
+    margin-bottom: 6px;
+}
+
+body.tss-theme-kristall .tss-sidebar-section-header-closed > .tss-sidebar-brand-logo {
+    border-radius: 9px;
+    background: var(--tss-kr-accent-face);
+    box-shadow: var(--tss-kr-shadow-control);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.tss-theme-kristall .tss-sidebar-section-header-closed > .tss-sidebar-brand-logo > .tss-icon {
+    font-size: 16px;
+    color: var(--tss-kr-on-accent);
+}
+
+body.tss-theme-kristall .tss-sidebar-status-card {
+    border: 0;
+    border-radius: var(--tss-kr-r-box);
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: var(--tss-kr-shadow-box);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-sidebar-status-card {
+    background: rgba(255, 255, 255, 0.07);
+}
+
+body.tss-theme-kristall .tss-sidebar-status-card.tss-sidebar-status-clickable:hover {
+    background: var(--tss-kr-row-hover);
+}
+
+body.tss-theme-kristall .tss-sidebar-status-dot {
+    background: var(--tss-kr-gray);
+}
+
+body.tss-theme-kristall .tss-sidebar-status-success .tss-sidebar-status-dot {
+    background: var(--tss-kr-green);
+}
+
+body.tss-theme-kristall .tss-sidebar-status-warning .tss-sidebar-status-dot {
+    background: var(--tss-kr-orange);
+}
+
+body.tss-theme-kristall .tss-sidebar-status-danger .tss-sidebar-status-dot {
+    background: var(--tss-kr-red);
+}
+
+/* The segmented pivot on the collapsed rail, stacked. */
+body.tss-theme-kristall .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab {
+    margin-left: 0 !important;
+    border-radius: 7px !important;
+}
+
+/* --------------------------------------------------------------------------
+   Shift and page modes: the child panel slides in on the same material
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-kristall .tss-sidebar-shift-panel-child > .tss-sidebar,
+body.tss-theme-kristall.tss-dark-mode .tss-sidebar-shift-panel-child > .tss-sidebar {
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-kristall .tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel {
+    background-color: rgb(var(--tss-sidebar-background-color-root));
+    background-image: linear-gradient(var(--tss-kr-sidebar), var(--tss-kr-sidebar)), var(--tss-kr-wallpaper);
+    background-attachment: fixed;
+    background-size: cover;
+    box-shadow: -0.5px 0 0 var(--tss-kr-hairline), -10px 0 30px -10px rgba(0, 0, 0, 0.3);
+}
+
+body.tss-theme-kristall .tss-sidebar-nav-overlay-title {
+    border-bottom-color: var(--tss-kr-separator);
+}
+
+body.tss-theme-kristall .tss-sidebar-nav-overlay-title > .tss-btn.tss-sidebar-nav-overlay-back:hover,
+body.tss-theme-kristall .tss-sidebar-page-bar .tss-btn.tss-sidebar-page-bar-back:hover {
+    background: var(--tss-kr-fill-3);
+}
+
+body.tss-theme-kristall .tss-sidebar-nav-overlay-label,
+body.tss-theme-kristall .tss-sidebar-page-bar-title {
+    font-weight: 600;
+}
+
+/* The bar over the content while the sidebar is a page: a unified title bar. */
+body.tss-theme-kristall .tss-sidebar-page-bar {
+    background: var(--tss-kr-bar);
+    -webkit-backdrop-filter: var(--tss-kr-blur);
+    backdrop-filter: var(--tss-kr-blur);
+    border-bottom: 0.5px solid var(--tss-kr-separator);
+}
+
+/* --------------------------------------------------------------------------
+   Navbar mode: the strip across the top is a unified title bar
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-kristall .tss-sidebar.tss-navbar {
+    box-shadow: inset 0 -0.5px 0 var(--tss-kr-hairline);
+}
+
+body.tss-theme-kristall .tss-navbar-burger {
+    border-radius: var(--tss-kr-r-control);
+}
+
+body.tss-theme-kristall .tss-navbar-burger:hover {
+    background: var(--tss-kr-fill-3);
+    border-radius: var(--tss-kr-r-control);
+}
+
+body.tss-theme-kristall .tss-navbar-drawer {
+    background: var(--tss-kr-popover);
+    -webkit-backdrop-filter: var(--tss-kr-blur);
+    backdrop-filter: var(--tss-kr-blur);
+    border-radius: 0 0 var(--tss-kr-r-pop) var(--tss-kr-r-pop);
+    box-shadow: var(--tss-kr-rim), var(--tss-kr-shadow-pop);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-kristall .tss-sidebar-shift-track,
+    body.tss-theme-kristall .tss-sidebar-nav-children,
+    body.tss-theme-kristall .tss-sidebar-nav-arrow.tss-btn:after {
+        transition: none;
+    }
+}

@@ -1,0 +1,39 @@
+/* ==========================================================================
+   Washi theme - AnnotatedTextEditor
+   --------------------------------------------------------------------------
+   The editor is a field like any other. An annotated span is marked the
+   way a reader marks a printed page: a pale indigo wash with a fine indigo
+   edge; the hover tag is a small slip of the same.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-annotated-text-entity,
+body.tss-theme-washi.tss-dark-mode .tss-annotated-text-entity {
+    border-radius: 1px;
+    outline-color: color-mix(in srgb, var(--tss-wa-ai) 55%, transparent);
+    background-color: color-mix(in srgb, var(--tss-wa-ai) 14%, transparent);
+}
+
+body.tss-theme-washi .tss-annotated-text-hover-tag,
+body.tss-theme-washi.tss-dark-mode .tss-annotated-text-hover-tag {
+    border-radius: var(--tss-wa-radius-small);
+    border-color: color-mix(in srgb, var(--tss-wa-ai) 40%, transparent);
+    background: color-mix(in srgb, var(--tss-wa-ai) 8%, rgb(var(--tss-secondary-background-color-root)));
+    color: color-mix(in srgb, var(--tss-wa-ai) 70%, rgb(var(--tss-default-foreground-color-root)));
+    box-shadow: var(--tss-wa-lift);
+}
+
+body.tss-theme-washi .tss-annotated-text-container {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-field-edge);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-annotated-text-container:hover {
+    border-color: var(--tss-wa-field-edge-hover);
+}
+
+body.tss-theme-washi .tss-annotated-text-container:focus-within {
+    border-color: var(--tss-wa-thread);
+    box-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+}

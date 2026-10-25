@@ -1,0 +1,47 @@
+/* ==========================================================================
+   Phosphor theme - Panel
+   --------------------------------------------------------------------------
+   A side panel is a pane split off the screen: a solid surface with a
+   double rule along its open edge, and a title row ruled off underneath,
+   the title in capitals. Its close command inverts under the pointer.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-panel {
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+}
+
+body.tss-theme-phosphor .tss-panel.tss-panelSide-far {
+    border-left: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-panel.tss-panelSide-near {
+    border-right: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-panel-command {
+    border-bottom: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-panel-title .tss-textblock {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-panel-command-button {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-panel-command-button:hover,
+body.tss-theme-phosphor .tss-panel-command-button:active {
+    background: var(--tss-ph-cursor) !important;
+    color: var(--tss-ph-on-cursor) !important;
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-panel-footer {
+    border-top: var(--tss-ph-single);
+}

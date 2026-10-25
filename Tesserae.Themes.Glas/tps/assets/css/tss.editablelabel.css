@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Glas theme - EditableLabel
+   --------------------------------------------------------------------------
+   At rest the text is on the glass and condenses into a faint pane under
+   the pointer; editing, it is the theme's well.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-editablelabel-displaybox {
+    border-radius: 8px;
+}
+
+body.tss-theme-glas .tss-editablelabel-displaybox:hover {
+    background-color: rgba(255, 255, 255, 0.45);
+    box-shadow: var(--tss-gl-rim);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-editablelabel-displaybox:hover {
+    background-color: rgba(255, 255, 255, 0.07);
+}
+
+body.tss-theme-glas .tss-editablelabel-textbox {
+    border: 1px solid rgba(var(--tss-gl-accent-rgb), 0.9);
+    border-radius: 10px;
+    background: var(--tss-gl-well);
+    box-shadow: var(--tss-gl-field-shade), 0 0 0 4px rgba(var(--tss-gl-accent-rgb), 0.18);
+}

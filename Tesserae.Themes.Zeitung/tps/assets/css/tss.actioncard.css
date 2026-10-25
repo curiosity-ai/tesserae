@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Zeitung theme - actioncard
+   --------------------------------------------------------------------------
+   Square corners: type is set in rectangles.
+   ========================================================================== */
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-actioncard-card,
+body.tss-theme-zeitung .tss-actioncard-icon,
+body.tss-theme-zeitung .tss-actioncard-action,
+body.tss-theme-zeitung .tss-actioncard-action-icon,
+body.tss-theme-zeitung .tss-actioncard-more,
+body.tss-theme-zeitung .tss-actioncard-skeleton-line,
+body.tss-theme-zeitung .tss-actioncard-stacked .tss-actioncard-icon,
+body.tss-theme-zeitung .tss-actioncard-compact .tss-actioncard-identity,
+body.tss-theme-zeitung .tss-actioncard-compact .tss-actioncard-icon,
+body.tss-theme-zeitung .tss-actioncard-group,
+body.tss-theme-zeitung .tss-actioncard-group .tss-actioncard-icon {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

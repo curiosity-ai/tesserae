@@ -1,0 +1,48 @@
+/* ==========================================================================
+   Kristall theme - Sidenav
+   --------------------------------------------------------------------------
+   The icon rail is the same vibrant material as the sidebar, a shade
+   denser so the two read as two strips side by side; its entries are
+   rounded tiles that take the frosted hover and the accent selection pill.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-sidenav {
+    background-color: rgb(var(--tss-sidebar-background-color-root));
+    background-image: linear-gradient(var(--tss-kr-sidebar), var(--tss-kr-sidebar)), linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25)), var(--tss-kr-wallpaper);
+    background-attachment: fixed;
+    background-size: cover;
+    box-shadow: inset -0.5px 0 0 var(--tss-kr-hairline);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-sidenav {
+    background-image: linear-gradient(var(--tss-kr-sidebar), var(--tss-kr-sidebar)), linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), var(--tss-kr-wallpaper);
+}
+
+body.tss-theme-kristall .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn {
+    border-color: transparent;
+}
+
+body.tss-theme-kristall .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.tss-theme-kristall .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn,
+body.tss-theme-kristall .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:hover {
+    background: rgba(var(--tss-kr-accent-rgb), 0.16);
+    border-color: transparent;
+    color: var(--tss-kr-accent);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn {
+    background: rgba(var(--tss-kr-accent-rgb), 0.3);
+    color: rgb(110, 180, 255);
+}
+
+body.tss-theme-kristall .tss-sidenav-btn-wrap.tss-sidenav-btn-brand > .tss-btn.tss-sidenav-btn {
+    background: var(--tss-kr-control);
+    box-shadow: var(--tss-kr-shadow-control);
+}

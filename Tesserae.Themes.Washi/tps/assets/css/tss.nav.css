@@ -1,0 +1,49 @@
+/* ==========================================================================
+   Washi theme - Nav
+   --------------------------------------------------------------------------
+   Entries are type on the paper with a wash under the pointer; the current
+   one is marked by a vermilion brush stroke down its edge.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-nav-link > .tss-nav-link-header {
+    position: relative;
+    background: transparent;
+    border-left-color: transparent;
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-nav-link > .tss-nav-link-header:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-nav-link > .tss-nav-link-header.tss-selected {
+    background: var(--tss-wa-wash-strong);
+    border-left-color: transparent;
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-nav-link > .tss-nav-link-header.tss-selected::before {
+    content: "";
+    position: absolute;
+    left: -4px;
+    top: 5px;
+    bottom: 5px;
+    width: 4px;
+    background: var(--tss-wa-shu);
+    -webkit-mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header,
+body.tss-theme-washi .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header.tss-selected {
+    border-right-color: transparent;
+}
+
+body.tss-theme-washi .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header.tss-selected::before {
+    left: auto;
+    right: -4px;
+}
+
+body.tss-theme-washi .tss-nav-link-button:after {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.5);
+}

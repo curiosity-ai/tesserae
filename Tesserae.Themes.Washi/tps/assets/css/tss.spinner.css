@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Washi theme - Spinner
+   --------------------------------------------------------------------------
+   A circle being drawn with the brush (an enso): a vermilion arc over a
+   faint ring of diluted ink.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-spinner:not(.tss-ai) {
+    border-color: var(--tss-spinner-color, var(--tss-wa-shu)) rgba(var(--tss-default-foreground-color-root), 0.1) rgba(var(--tss-default-foreground-color-root), 0.1);
+}
+
+body.tss-theme-washi .tss-spinner.tss-spinner-progress:not(.tss-ai) {
+    background: conic-gradient(var(--tss-spinner-color, var(--tss-wa-shu)) calc(var(--tss-spinner-progress, 0) * 1%), rgba(var(--tss-default-foreground-color-root), 0.1) 0);
+}
+
+body.tss-theme-washi .tss-spinner-label {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    letter-spacing: 0.02em;
+}

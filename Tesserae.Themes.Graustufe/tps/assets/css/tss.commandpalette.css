@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Graustufe theme - CommandPalette
+   --------------------------------------------------------------------------
+   The page behind is screened with the 25% dither; the palette is a leaf
+   with the 5px dithered edge, square. The highlighted row is inverted.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-commandpalette-overlay {
+    background: var(--tss-gs-bayer-25);
+}
+
+body.tss-theme-graustufe .tss-commandpalette-animator {
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    box-shadow: none;
+    border-image: var(--tss-gs-edge-lg);
+}
+
+body.tss-theme-graustufe .tss-commandpalette-back,
+body.tss-theme-graustufe .tss-commandpalette-close,
+body.tss-theme-graustufe .tss-commandpalette-item,
+body.tss-theme-graustufe .tss-commandpalette-result,
+body.tss-theme-graustufe .tss-commandpalette-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-commandpalette-item {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-commandpalette-item:hover,
+body.tss-theme-graustufe .tss-commandpalette-result:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-commandpalette-item.tss-active,
+body.tss-theme-graustufe .tss-commandpalette-result.tss-active {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-commandpalette-item.tss-active *,
+body.tss-theme-graustufe .tss-commandpalette-result.tss-active * {
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-commandpalette-section {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+}

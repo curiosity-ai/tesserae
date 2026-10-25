@@ -1,0 +1,69 @@
+/* ==========================================================================
+   Blaupause theme - CommandPalette
+   --------------------------------------------------------------------------
+   The palette is a sheet laid over the drawing: square, inked round,
+   lifted by its repeated outline, the page behind washed back with paper.
+   The active command is filled with ink; results under the pointer are
+   washed and boxed in ink. Shortcuts are ruled key cells in monospace.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-commandpalette-animator,
+body.tss-theme-blaupause .tss-commandpalette-close,
+body.tss-theme-blaupause .tss-commandpalette-item,
+body.tss-theme-blaupause .tss-commandpalette-icon,
+body.tss-theme-blaupause .tss-commandpalette-shortcut {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-commandpalette-overlay {
+    background: var(--tss-overlay-light);
+}
+
+body.tss-theme-blaupause .tss-commandpalette-animator {
+    background: var(--tss-bp-sheet);
+    border: var(--tss-bp-rule-strong);
+    box-shadow: var(--tss-bp-lift);
+}
+
+body.tss-theme-blaupause .tss-commandpalette-search-container {
+    border-bottom: 3px double var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-commandpalette-close:hover,
+body.tss-theme-blaupause .tss-commandpalette-item:hover {
+    background: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-commandpalette-item.tss-active {
+    background: var(--tss-bp-ink);
+    color: var(--tss-bp-on-ink);
+}
+
+body.tss-theme-blaupause .tss-commandpalette-result.tss-active,
+body.tss-theme-blaupause .tss-commandpalette-result:hover {
+    background: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-commandpalette-result.tss-active {
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line-strong), inset 4px 0 0 var(--tss-bp-yellow);
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-commandpalette-icon {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-commandpalette-shortcut {
+    border-color: var(--tss-bp-line);
+    border-bottom-width: 2px;
+    background: var(--tss-bp-sheet);
+    font-family: var(--tss-bp-mono);
+}
+
+body.tss-theme-blaupause .tss-commandpalette-item.tss-active .tss-commandpalette-shortcut {
+    background: transparent;
+    border-color: var(--tss-bp-on-ink);
+    color: var(--tss-bp-on-ink);
+}

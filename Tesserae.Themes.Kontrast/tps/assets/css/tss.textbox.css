@@ -1,0 +1,138 @@
+/* ==========================================================================
+   Kontrast theme - TextBox
+   --------------------------------------------------------------------------
+   A field is a white (black, in dark) box with a 2px ink edge, 40px tall,
+   text at 15px. Focused, it draws the focus ring inside its own edge, so a
+   container that clips (an inline label, a scroller) never cuts it: a 3px
+   outer band (ink in light, yellow in dark) and a 3px yellow band inside it.
+   Invalid is a thick danger edge plus a bar at the leading edge, and the
+   message under it is bold and starts with a warning sign, so the state is
+   never only red. Disabled is hatched with a dashed edge; its text stays
+   readable. Placeholders are italic and at 7:1, so they can be read but not
+   mistaken for a value.
+   ========================================================================== */
+
+body.tss-theme-kontrast {
+    --tss-kt-field-height: 40px;
+}
+
+body.tss-theme-kontrast .tss-textbox:not(.tss-textarea):not(.tss-textbox-h100) {
+    height: var(--tss-kt-field-height);
+}
+
+body.tss-theme-kontrast .tss-textbox {
+    border: var(--tss-kt-border) solid var(--tss-kt-edge);
+    border-radius: var(--tss-kt-radius);
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+    box-shadow: none;
+    font-size: var(--tss-font-size-small);
+}
+
+body.tss-theme-kontrast .tss-textbox::placeholder {
+    color: var(--tss-kt-muted) !important;
+    opacity: 1;
+}
+
+body.tss-theme-kontrast .tss-textbox:focus::placeholder,
+body.tss-theme-kontrast .tss-textbox:hover::placeholder {
+    opacity: 1;
+}
+
+body.tss-theme-kontrast .tss-textbox:hover {
+    border-color: var(--tss-kt-edge);
+    box-shadow: inset 0 -2px 0 0 var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-textbox:focus,
+body.tss-theme-kontrast .tss-textbox.tss-textbox:focus-visible {
+    border-color: var(--tss-kt-focus-outer);
+    outline: var(--tss-kt-ring-width) solid var(--tss-kt-focus-outer) !important;
+    outline-offset: calc(-1 * var(--tss-kt-ring-width)) !important;
+    box-shadow: inset 0 0 0 calc(var(--tss-kt-ring-width) + var(--tss-kt-ring-gap)) var(--tss-kt-signal) !important;
+}
+
+body.tss-theme-kontrast .tss-textbox.tss-disabled,
+body.tss-theme-kontrast .tss-textbox:disabled {
+    background: var(--tss-kt-surface) var(--tss-kt-hatch);
+    border: var(--tss-kt-border) dashed var(--tss-kt-disabled);
+    color: var(--tss-kt-disabled);
+    cursor: not-allowed;
+}
+
+body.tss-theme-kontrast .tss-textbox[readonly]:not(.tss-disabled) {
+    background: var(--tss-kt-surface);
+    border-style: dotted;
+}
+
+/* Invalid: thick danger edge, a bar at the leading edge, and the message bold behind a warning sign. */
+body.tss-theme-kontrast .tss-textbox-container.tss-invalid .tss-textbox,
+body.tss-theme-kontrast .tss-invalid > .tss-textbox {
+    border: var(--tss-kt-border-strong) solid var(--tss-kt-danger);
+    box-shadow: inset var(--tss-kt-bar) 0 0 0 var(--tss-kt-danger);
+    padding-left: 18px;
+}
+
+body.tss-theme-kontrast .tss-textbox-error {
+    color: var(--tss-kt-danger);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+body.tss-theme-kontrast .tss-textbox-error:not(:empty)::before {
+    content: "\26A0\FE0E\00A0";
+    font-weight: 700;
+}
+
+/* An input set inside a host that draws the edge stays edgeless; the host carries the focus. */
+body.tss-theme-kontrast .tss-textbox.tss-textbox-noborder,
+body.tss-theme-kontrast .tss-textbox.tss-textbox-noborder:hover,
+body.tss-theme-kontrast .tss-textbox.tss-textbox-noborder:focus {
+    border: var(--tss-kt-border) solid transparent;
+    box-shadow: none !important;
+    outline: none !important;
+    background: transparent;
+}
+
+body.tss-theme-kontrast .tss-textbox-spinner {
+    height: var(--tss-kt-field-height);
+}
+
+/* Tables written in a TextBlock (markdown-ish content): 2px rules, ink header rule. */
+body.tss-theme-kontrast .tss-textblock table {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    box-shadow: none;
+}
+
+body.tss-theme-kontrast .tss-textblock table th {
+    color: var(--tss-kt-ink);
+    font-weight: 750;
+    border-bottom: var(--tss-kt-border-strong) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-textblock table td {
+    border-bottom: var(--tss-kt-border) solid var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-textblock table tbody tr:hover {
+    background: var(--tss-kt-hover);
+    color: var(--tss-kt-ink);
+}
+
+@media (forced-colors: active) {
+    body.tss-theme-kontrast .tss-textbox {
+        border-color: FieldText;
+    }
+
+    body.tss-theme-kontrast .tss-textbox:focus {
+        outline: 3px solid Highlight !important;
+        box-shadow: none !important;
+    }
+
+    body.tss-theme-kontrast .tss-textbox-container.tss-invalid .tss-textbox {
+        border-style: double;
+        border-width: 4px;
+    }
+}

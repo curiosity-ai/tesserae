@@ -1065,6 +1065,8 @@ namespace Tesserae
                         {
                             onBox.classList.add("tss-dropdown-fit-content");
                         }
+
+                        KeepOutOfTabOrder(onBox);
                         InnerElement.appendChild(onBox);
                     }
                 }
@@ -1087,6 +1089,23 @@ namespace Tesserae
             // 2020-06-30 DWR: This may or may not be visible right now, it doesn't matter - we just need to ensure that we add it back in after clearing InnerElement
             // - Note: Put it at the end of the list because there is a styling rule for selections within InnerElement that sayas to add a comma before the item if it's not the first one and that styling will see the no-items element as the first item otherwise :(
             InnerElement.appendChild(_noItemsSpan);
+        }
+
+        // The copy of a selected option in the box is a picture of the selection, and the box itself is the one
+        // Tab stop: the option's own content is often a Button (Item(string) builds one), and that button kept
+        // its place in the tab order, so every closed dropdown took two Tabs - the second onto a control the
+        // box clips, ring and all. Only taken out of the tab order, not hidden: its text is what a screen
+        // reader announces as the combobox's value. A custom selection render is left as it was built.
+        private static void KeepOutOfTabOrder(HTMLElement onBox)
+        {
+            onBox.tabIndex = -1;
+
+            var focusable = onBox.querySelectorAll("a[href], button, input, select, textarea, [tabindex]");
+
+            for (uint i = 0; i < focusable.length; i++)
+            {
+                ((HTMLElement)focusable[i]).tabIndex = -1;
+            }
         }
 
         private void OnPopupKeyDown(Event e)

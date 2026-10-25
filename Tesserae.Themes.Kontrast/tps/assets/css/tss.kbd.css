@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Kontrast theme - KeyboardShortcut
+   --------------------------------------------------------------------------
+   A key is a paper key cap with a 2px ink edge and a 4px foot, its legend
+   bold ink at 12px (never 11px grey).
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-kbd-key {
+    min-width: 24px;
+    height: 24px;
+    font-family: var(--tss-monospace-font-family);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--tss-kt-ink);
+    background: var(--tss-kt-paper);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-bottom-width: 4px;
+    border-radius: var(--tss-kt-radius);
+}
+
+body.tss-theme-kontrast .tss-kbd-separator {
+    font-size: 12px;
+    color: var(--tss-kt-ink);
+    font-weight: 700;
+}
+
+body.tss-theme-kontrast .tss-shortcut-guide-section-title {
+    font-weight: 750;
+    border-bottom: var(--tss-kt-border) solid var(--tss-kt-ink);
+}

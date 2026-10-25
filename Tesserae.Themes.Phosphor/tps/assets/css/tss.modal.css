@@ -1,0 +1,132 @@
+/* ==========================================================================
+   Phosphor theme - Modal
+   --------------------------------------------------------------------------
+   A modal is a TUI window: a double-line frame set a few cells in from the
+   edge of a solid surface, its title written into the top line,
+   "╔═[ SAMPLE MODAL ]═══════[x]╗", and the close command sitting on the
+   same line at the right. The frame is drawn by a pseudo-element on the
+   modal (not a border) so that the header can lie across it: the header
+   is transparent and only the title and the commands carry the surface
+   colour, which cuts the line where they stand. On the screen the window
+   blooms faintly; on paper it is offset by a carbon shadow. The overlay
+   behind is the glass dimmed (or the paper washed out).
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-modal {
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+    padding: 0 8px 10px;
+}
+
+body.tss-theme-phosphor .tss-modal::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: var(--tss-ph-double);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* With a title, the top line runs through the middle of the 44px header row. */
+body.tss-theme-phosphor .tss-modal:has(> .tss-modal-header > .tss-modal-header-content:not(:empty))::before,
+body.tss-theme-phosphor .tss-modal:has(> .tss-modal-header > .tss-modal-header-commands:not(:empty))::before {
+    top: 20px;
+}
+
+body.tss-theme-phosphor .tss-modal.tss-embedded {
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-modal-header,
+body.tss-theme-phosphor .tss-modal-footer {
+    background: transparent;
+    position: relative;
+    z-index: 1;
+}
+
+body.tss-theme-phosphor .tss-modal-header {
+    padding-left: 14px;
+    padding-right: 14px;
+    min-height: 40px;
+    align-items: flex-start;
+}
+
+body.tss-theme-phosphor .tss-modal-header-content:not(:empty) {
+    flex-grow: 0;
+    max-width: calc(100% - 60px);
+    margin-top: 11px;
+    padding: 0 8px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    align-items: center;
+}
+
+body.tss-theme-phosphor .tss-modal-header-content > .tss-textblock {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-modal-header-content:not(:empty)::before {
+    content: "[ ";
+    white-space: pre;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-modal-header-content:not(:empty)::after {
+    content: " ]";
+    white-space: pre;
+    color: var(--tss-ph-dim);
+}
+
+/* An empty title still pushes the commands to the right. */
+body.tss-theme-phosphor .tss-modal-header-content:empty {
+    flex-grow: 1;
+}
+
+body.tss-theme-phosphor .tss-modal-header-content:not(:empty) + .tss-modal-header-commands {
+    margin-left: auto;
+}
+
+body.tss-theme-phosphor .tss-modal-header-commands:not(:empty),
+body.tss-theme-phosphor .tss-modal-left-header-commands:not(:empty) {
+    margin-top: 4px;
+    padding: 0 4px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    height: 32px;
+    align-items: center;
+}
+
+body.tss-theme-phosphor .tss-modal-left-header-commands > button,
+body.tss-theme-phosphor .tss-modal-header-commands > button,
+body.tss-theme-phosphor .tss-modal-button {
+    border-radius: 0;
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-modal-left-header-commands > button:hover,
+body.tss-theme-phosphor .tss-modal-header-commands > button:hover,
+body.tss-theme-phosphor .tss-modal-left-header-commands > button:active,
+body.tss-theme-phosphor .tss-modal-header-commands > button:active {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-modal-content {
+    position: relative;
+    z-index: 1;
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+body.tss-theme-phosphor .tss-modal-footer {
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+body.tss-theme-phosphor .tss-modal-footer-content > .tss-textblock {
+    color: var(--tss-ph-dim);
+}

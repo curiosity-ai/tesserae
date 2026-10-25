@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Washi theme - InlineLabel
+   --------------------------------------------------------------------------
+   A small fact on a slip of paper: a hairline edge, cut corners.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-inlinelabel:not(.tss-ai) {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-inlinelabel-interactive:hover,
+body.tss-theme-washi .tss-inlinelabel-interactive:focus-visible {
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-inlinelabel-interactive:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-omniresult-footer .tss-inlinelabel {
+    background: none;
+}

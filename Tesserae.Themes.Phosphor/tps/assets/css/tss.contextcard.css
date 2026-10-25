@@ -1,0 +1,82 @@
+/* ==========================================================================
+   Phosphor theme - ContextCard
+   --------------------------------------------------------------------------
+   A context card is a one-line entry in a file-manager pane: a single-line
+   box, the icon in a framed cell, the label bright and the sub-label dim.
+   Under the pointer the box lights up and the icon cell turns into the
+   cursor block, so a grid of cards reads like a menu being scanned.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-contextcard {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-contextcard-clickable:hover,
+body.tss-theme-phosphor .tss-contextcard-menu-open {
+    background: var(--tss-ph-tint);
+    border-color: var(--tss-ph-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-contextcard-icon {
+    border-radius: 0;
+    background: transparent;
+    color: var(--tss-ph-ink);
+    border: 1px solid var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-contextcard-icon.tss-contextcard-icon-nobackground,
+body.tss-theme-phosphor .tss-contextcard-icon.tss-contextcard-icon-image {
+    border-color: transparent;
+}
+
+body.tss-theme-phosphor .tss-contextcard-clickable:hover .tss-contextcard-icon:not(.tss-contextcard-icon-image) {
+    background: var(--tss-ph-cursor) !important;
+    border-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor) !important;
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-contextcard-clickable:hover .tss-contextcard-icon:not(.tss-contextcard-icon-image) i {
+    color: var(--tss-ph-on-cursor) !important;
+}
+
+body.tss-theme-phosphor .tss-contextcard-label {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-contextcard-sublabel {
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-contextcard-badge {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-contextcard-chevron {
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-contextcard-clickable:hover .tss-contextcard-chevron {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-contextcard-remove,
+body.tss-theme-phosphor.tss-dark-mode .tss-contextcard-remove {
+    border-radius: 0;
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-contextcard-remove:hover,
+body.tss-theme-phosphor.tss-dark-mode .tss-contextcard-remove:hover {
+    background: var(--tss-ph-red);
+}
+
+body.tss-theme-phosphor .tss-contextcard-empty {
+    border-style: dashed;
+}

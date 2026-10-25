@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Washi theme - InlinePagination
+   --------------------------------------------------------------------------
+   A small paper slip with a hairline, its arrows taking a wash.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-inlinepagination {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-washi .tss-inlinepagination-button {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-inlinepagination-button:hover:not(:disabled) {
+    background: var(--tss-wa-wash-strong);
+}

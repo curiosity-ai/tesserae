@@ -1,0 +1,17 @@
+/* ==========================================================================
+   Zeitung theme - omnibox
+   --------------------------------------------------------------------------
+   Square corners: type is set in rectangles.
+   ========================================================================== */
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-omnibox-container,
+body.tss-theme-zeitung .tss-omnibox-search-container,
+body.tss-theme-zeitung .tss-omnibox-search-token-word,
+body.tss-theme-zeitung .tss-omnibox-container .tss-omnibox-search-container .tss-btn.tss-omnibox-ask-ai-btn,
+body.tss-theme-zeitung .tss-omnibox-container .tss-omnibox-footer .tss-btn.tss-omnibox-ask-ai-btn {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

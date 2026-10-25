@@ -1,0 +1,48 @@
+/* ==========================================================================
+   Zeitung theme - NotificationCenter
+   --------------------------------------------------------------------------
+   The bell is a square ghost button; its count a small square of spot red
+   with lining figures. Each notice's dot is a small square of its tone; an
+   unread notice has a wash of ink and the spot-red rule at its edge.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-notif-bell {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-notif-bell:hover {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-notif-bell:focus-visible {
+    outline-color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-notif-badge {
+    border-radius: 0;
+    background: var(--tss-zt-red);
+    color: var(--tss-zt-on-red);
+    font-variant-numeric: lining-nums tabular-nums;
+}
+
+body.tss-theme-zeitung .tss-notif-dot {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-notif-dot.tss-notif-info {
+    background: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-notif-unread {
+    background: var(--tss-zt-tint) !important;
+    box-shadow: inset 3px 0 0 var(--tss-zt-red);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-notif-badge {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

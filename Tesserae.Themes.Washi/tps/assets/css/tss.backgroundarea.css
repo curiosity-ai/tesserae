@@ -1,0 +1,11 @@
+/* ==========================================================================
+   Washi theme - BackgroundArea
+   --------------------------------------------------------------------------
+   A background area is more of the same sheet, not a second one laid on
+   it: Tesserae fills it with the raised surface colour, which here is a
+   sheet, so the cards put in it would lose their edge.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-background-area {
+    background: transparent;
+}

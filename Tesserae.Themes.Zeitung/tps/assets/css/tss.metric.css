@@ -1,0 +1,67 @@
+/* ==========================================================================
+   Zeitung theme - Metric
+   --------------------------------------------------------------------------
+   A metric is a figure from the markets column: its title a kicker in
+   condensed tracked capitals, the value set big in the condensed gothic
+   with lining tabular figures, the change beside it as a small signed
+   figure. The icon sits in a square plate. A filled value is a square block;
+   a clickable metric is ruled round in ink under the pointer.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-metric {
+    font-variant-numeric: lining-nums tabular-nums;
+}
+
+body.tss-theme-zeitung .tss-metric-icon > .tss-icontile,
+body.tss-theme-zeitung .tss-metric-compact .tss-metric-icon > .tss-icontile {
+    --tss-icontile-radius: 0px;
+}
+
+body.tss-theme-zeitung .tss-metric-title,
+body.tss-theme-zeitung .tss-metric-title .tss-textblock {
+    font-family: var(--tss-zt-head);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: var(--tss-zt-caps);
+    text-transform: uppercase;
+    color: var(--tss-zt-ink);
+    line-height: 1.25;
+}
+
+body.tss-theme-zeitung .tss-metric-value,
+body.tss-theme-zeitung .tss-metric-value .tss-textblock {
+    font-family: var(--tss-zt-head);
+    font-weight: 600;
+    font-variant-numeric: lining-nums tabular-nums;
+    letter-spacing: 0;
+    line-height: 1.05;
+}
+
+body.tss-theme-zeitung .tss-metric-change {
+    font-variant-numeric: lining-nums tabular-nums;
+}
+
+body.tss-theme-zeitung .tss-metric-value-filled .tss-metric-value {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-metric-clickable {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-metric-clickable:hover {
+    background: transparent;
+    box-shadow: 0 0 0 6px var(--tss-zt-paper), 0 0 0 7px var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-metric-clickable:focus-visible {
+    outline-color: var(--tss-zt-red);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-metric-clickable {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

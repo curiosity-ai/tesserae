@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Washi theme - Body
+   --------------------------------------------------------------------------
+   The page is the sheet: warm kozo paper with its grain and a few long
+   fibres caught in it (--tss-wa-grain), fixed so the paper does not slide
+   under the words as they scroll. On lacquer the grain is all but gone and
+   a sheen runs across the surface from the top left, the way light lies on
+   a polished tray. Type is Zen Kaku Gothic New in sumi ink; sizes stay
+   Tesserae's, with a little more line height for a calmer rhythm.
+   ========================================================================== */
+
+body.tss-theme-washi {
+    background-color: rgb(var(--tss-default-background-color-root));
+    background-image: var(--tss-wa-grain);
+    background-attachment: fixed;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-sansserif-font-family);
+    line-height: 1.5;
+}
+
+body.tss-theme-washi.tss-dark-mode {
+    background-image: var(--tss-wa-sheen), var(--tss-wa-grain);
+}
+
+/* Native controls (a date field's calendar glyph, a number field's spinner) follow the mode. */
+body.tss-theme-washi {
+    color-scheme: light;
+}
+
+body.tss-theme-washi.tss-dark-mode {
+    color-scheme: dark;
+}

@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Phosphor theme - Nav
+   --------------------------------------------------------------------------
+   A nav is a menu tree: rows light faintly under the pointer, the selected
+   row is the cursor block.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-nav-link > .tss-nav-link-header {
+    background: transparent;
+    border-left-color: transparent;
+}
+
+body.tss-theme-phosphor .tss-nav-link > .tss-nav-link-header:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-nav-link > .tss-nav-link-header.tss-selected,
+body.tss-theme-phosphor .tss-nav-link > .tss-nav-link-header.tss-selected:hover {
+    background: var(--tss-ph-cursor);
+    border-left-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-nav-link > .tss-nav-link-header.tss-selected * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header {
+    border-right-color: transparent;
+}

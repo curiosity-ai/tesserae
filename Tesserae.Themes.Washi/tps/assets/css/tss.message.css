@@ -1,0 +1,63 @@
+/* ==========================================================================
+   Washi theme - Message
+   --------------------------------------------------------------------------
+   An empty state or a notice: a quiet sheet, its icon in a circle of pale
+   wash, the title in Mincho. The tinted kinds use the dyes, faintly:
+   indigo for information, moss, tea-gold and crimson.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-message-icon {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-message-title {
+    font-family: var(--tss-wa-serif);
+    font-weight: 600;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-message-text {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-message-info,
+body.tss-theme-washi .tss-message-success,
+body.tss-theme-washi .tss-message-warning,
+body.tss-theme-washi .tss-message-error,
+body.tss-theme-washi .tss-message-note {
+    --tss-wa-dye: var(--tss-wa-ai);
+    border-radius: var(--tss-wa-radius);
+    border: 1px solid color-mix(in srgb, var(--tss-wa-dye) 22%, transparent);
+    background: color-mix(in srgb, var(--tss-wa-dye) 6%, rgb(var(--tss-secondary-background-color-root)));
+    color: color-mix(in srgb, var(--tss-wa-dye) 60%, rgb(var(--tss-default-foreground-color-root)));
+}
+
+body.tss-theme-washi .tss-message-success { --tss-wa-dye: var(--tss-wa-koke); }
+body.tss-theme-washi .tss-message-warning { --tss-wa-dye: rgb(var(--tss-warning-border-color-root)); }
+body.tss-theme-washi.tss-dark-mode .tss-message-warning { --tss-wa-dye: var(--tss-wa-kincha); }
+body.tss-theme-washi .tss-message-error { --tss-wa-dye: var(--tss-wa-enji); }
+
+body.tss-theme-washi .tss-message-info .tss-message-icon,
+body.tss-theme-washi .tss-message-success .tss-message-icon,
+body.tss-theme-washi .tss-message-warning .tss-message-icon,
+body.tss-theme-washi .tss-message-error .tss-message-icon {
+    color: var(--tss-wa-dye);
+    background: color-mix(in srgb, var(--tss-wa-dye) 14%, transparent);
+}
+
+body.tss-theme-washi .tss-message-info .tss-message-title,
+body.tss-theme-washi .tss-message-success .tss-message-title,
+body.tss-theme-washi .tss-message-warning .tss-message-title,
+body.tss-theme-washi .tss-message-error .tss-message-title {
+    color: color-mix(in srgb, var(--tss-wa-dye) 80%, rgb(var(--tss-default-foreground-color-root)));
+}
+
+body.tss-theme-washi .tss-message-info .tss-message-text,
+body.tss-theme-washi .tss-message-success .tss-message-text,
+body.tss-theme-washi .tss-message-warning .tss-message-text,
+body.tss-theme-washi .tss-message-error .tss-message-text,
+body.tss-theme-washi .tss-message-note i,
+body.tss-theme-washi.tss-dark-mode .tss-message-note i {
+    color: color-mix(in srgb, var(--tss-wa-dye) 55%, rgb(var(--tss-default-foreground-color-root)));
+}

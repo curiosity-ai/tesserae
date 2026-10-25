@@ -1,0 +1,86 @@
+/* ==========================================================================
+   Kristall theme - Badge
+   --------------------------------------------------------------------------
+   Badges, tags and chips are the desktop's small capsules: 11px semibold
+   type on a tint of their colour (a coloured badge is a translucent wash
+   with the colour as its type, not a block of paint), tags with a hairline
+   edge, all fully rounded.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-token {
+    border-radius: var(--tss-kr-r-pill);
+    padding: 2px 8px;
+    font-weight: 500;
+}
+
+body.tss-theme-kristall :where(.tss-token:not(.tss-token-ai):not(.tss-token-tinted):not(.tss-tag)) {
+    background: var(--tss-kr-fill-3);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-kristall .tss-badge {
+    font-weight: 600;
+}
+
+body.tss-theme-kristall .tss-tag {
+    background: var(--tss-kr-box);
+    border: 0;
+    box-shadow: inset 0 0 0 0.5px var(--tss-kr-hairline);
+}
+
+body.tss-theme-kristall .tss-token-filled {
+    background: var(--tss-kr-fill-3);
+}
+
+body.tss-theme-kristall .tss-token-outline {
+    background: transparent;
+    border-color: var(--tss-kr-hairline);
+}
+
+body.tss-theme-kristall .tss-token-primary {
+    background: rgba(var(--tss-kr-accent-rgb), 0.14);
+    color: var(--tss-kr-accent);
+}
+
+body.tss-theme-kristall .tss-token-success {
+    background: rgba(var(--tss-success-background-color-root), 0.16);
+    color: rgb(var(--tss-success-border-color-root));
+}
+
+body.tss-theme-kristall .tss-token-warning {
+    background: rgba(var(--tss-warning-background-color-root), 0.2);
+    color: rgb(178, 98, 0);
+}
+
+body.tss-theme-kristall .tss-token-danger {
+    background: rgba(var(--tss-danger-background-color-root), 0.14);
+    color: rgb(var(--tss-danger-border-color-root));
+}
+
+body.tss-theme-kristall .tss-token-info {
+    background: rgba(var(--tss-link-color-root), 0.14);
+    color: rgb(var(--tss-link-color-root));
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-token-primary { color: rgb(100, 176, 255); }
+body.tss-theme-kristall.tss-dark-mode .tss-token-success { color: var(--tss-kr-green); }
+body.tss-theme-kristall.tss-dark-mode .tss-token-warning { color: var(--tss-kr-orange); }
+body.tss-theme-kristall.tss-dark-mode .tss-token-danger { color: rgb(255, 120, 110); }
+
+body.tss-theme-kristall .tss-token-outline.tss-token-primary,
+body.tss-theme-kristall .tss-token-outline.tss-token-success,
+body.tss-theme-kristall .tss-token-outline.tss-token-warning,
+body.tss-theme-kristall .tss-token-outline.tss-token-danger,
+body.tss-theme-kristall .tss-token-outline.tss-token-info {
+    background: transparent;
+}
+
+body.tss-theme-kristall .tss-token-remove {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+}
+
+body.tss-theme-kristall .tss-token-remove:hover {
+    background: var(--tss-kr-fill-2);
+}

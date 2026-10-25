@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Phosphor theme - ProgressIndicator
+   --------------------------------------------------------------------------
+   A progress bar is a row of character cells, "▮▮▮▮▮▯▯▯": the track is a
+   run of faint cells, the bar the same cells lit. No rounding; the
+   indeterminate sweep keeps the toolkit's motion (and its reduced-motion
+   rule).
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-progressindicator {
+    height: 10px;
+    border-radius: 0;
+    background: repeating-linear-gradient(90deg, rgba(var(--tss-ph-ink-root), 0.14) 0 6px, transparent 6px 8px);
+}
+
+body.tss-theme-phosphor .tss-progressindicator > .tss-progressindicator-bar,
+body.tss-theme-phosphor .tss-progressindicator > .tss-progressindicator-bar-indeterminate {
+    border-radius: 0;
+    background: repeating-linear-gradient(90deg, var(--tss-ph-cursor) 0 6px, transparent 6px 8px);
+    filter: drop-shadow(0 0 3px rgba(var(--tss-ph-hot-root), 0.35));
+}
+
+body.tss-theme-phosphor:not(.tss-dark-mode) .tss-progressindicator > .tss-progressindicator-bar,
+body.tss-theme-phosphor:not(.tss-dark-mode) .tss-progressindicator > .tss-progressindicator-bar-indeterminate {
+    filter: none;
+}

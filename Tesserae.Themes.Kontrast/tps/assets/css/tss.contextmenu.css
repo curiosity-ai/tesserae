@@ -1,0 +1,131 @@
+/* ==========================================================================
+   Kontrast theme - ContextMenu
+   --------------------------------------------------------------------------
+   A floating plate like every popup: 2px ink edge, a hard offset slab. Rows
+   are 36px. The row under the keyboard carries the focus ring inside its
+   own edge (the popup scrolls, so an outside ring would be clipped); the row
+   under the pointer takes a fill and an ink edge. A row with a submenu shows
+   its chevron in ink; a disabled row is struck through, never only faded.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-contextmenu-popup {
+    background: var(--tss-kt-paper);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    box-shadow: 6px 6px 0 0 rgba(var(--tss-default-foreground-color-root), 0.9);
+    padding: 4px;
+}
+
+body.tss-theme-kontrast.tss-dark-mode .tss-contextmenu-popup {
+    box-shadow: 6px 6px 0 0 rgba(var(--tss-default-foreground-color-root), 0.35);
+}
+
+body.tss-theme-kontrast .tss-contextmenu-item {
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+    border: var(--tss-kt-border) solid transparent;
+    border-radius: var(--tss-kt-radius-sm);
+    min-height: 36px;
+    gap: 12px;
+}
+
+body.tss-theme-kontrast .tss-contextmenu-item:hover {
+    background: var(--tss-kt-hover);
+    border-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-contextmenu-item:focus,
+body.tss-theme-kontrast .tss-contextmenu-item.tss-selected {
+    background: var(--tss-kt-hover);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-contextmenu-item:focus-visible,
+body.tss-theme-kontrast .tss-contextmenu-popup:not(.tss-no-focus) .tss-contextmenu-item:focus {
+    outline: var(--tss-kt-ring-width) solid var(--tss-kt-focus-outer) !important;
+    outline-offset: calc(-1 * var(--tss-kt-ring-width)) !important;
+    box-shadow: inset 0 0 0 calc(var(--tss-kt-ring-width) + var(--tss-kt-ring-gap)) var(--tss-kt-focus-inner) !important;
+}
+
+body.tss-theme-kontrast .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:focus {
+    border-color: transparent;
+}
+
+body.tss-theme-kontrast .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:focus:hover {
+    border-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-contextmenu-item.tss-disabled {
+    color: var(--tss-kt-disabled);
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+}
+
+body.tss-theme-kontrast .tss-contextmenu-item.tss-disabled:hover {
+    background: var(--tss-kt-paper);
+    border-color: transparent;
+}
+
+body.tss-theme-kontrast .tss-contextmenu-header {
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+    font-weight: 750;
+    font-size: var(--tss-font-size-xsmall);
+    letter-spacing: 0.02em;
+    border-bottom: var(--tss-kt-border) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-contextmenu-divider {
+    height: var(--tss-kt-border);
+    background: var(--tss-kt-line);
+    margin: 4px 0;
+}
+
+body.tss-theme-kontrast .tss-contextmenu-item.tss-contextmenu-item-separator:hover,
+body.tss-theme-kontrast .tss-contextmenu-item.tss-contextmenu-item-separator:focus {
+    background: var(--tss-kt-paper);
+    border-color: transparent;
+}
+
+/* The closed box (ContextMenu used as a picker). */
+body.tss-theme-kontrast .tss-contextmenu {
+    border: var(--tss-kt-border) solid var(--tss-kt-edge);
+    border-radius: var(--tss-kt-radius);
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+    height: 40px;
+}
+
+body.tss-theme-kontrast .tss-contextmenu:after {
+    border-left: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-top: var(--tss-kt-border) solid var(--tss-kt-ink);
+    top: 13px;
+}
+
+body.tss-theme-kontrast .tss-contextmenu.tss-disabled {
+    background: var(--tss-kt-surface) var(--tss-kt-hatch);
+    border: var(--tss-kt-border) dashed var(--tss-kt-disabled);
+}
+
+body.tss-theme-kontrast .tss-contextmenu-container.tss-invalid .tss-contextmenu {
+    border: var(--tss-kt-border-strong) solid var(--tss-kt-danger);
+}
+
+body.tss-theme-kontrast .tss-contextmenu-error {
+    color: var(--tss-kt-danger);
+    font-weight: 700;
+    font-size: var(--tss-font-size-xsmall);
+}
+
+@media (forced-colors: active) {
+    body.tss-theme-kontrast .tss-contextmenu-popup {
+        border-color: CanvasText;
+    }
+
+    body.tss-theme-kontrast .tss-contextmenu-item:focus,
+    body.tss-theme-kontrast .tss-contextmenu-item:hover {
+        forced-color-adjust: none;
+        background: Highlight;
+        color: HighlightText;
+    }
+}

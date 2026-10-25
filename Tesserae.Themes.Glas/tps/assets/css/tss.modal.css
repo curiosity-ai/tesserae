@@ -1,0 +1,141 @@
+/* ==========================================================================
+   Glas theme - Modal
+   --------------------------------------------------------------------------
+   A modal is the thickest glass in the theme: a large pane, radius 22px,
+   that blurs, saturates and (where the engine can) refracts the page behind
+   it, with the rim lit along its top-left edge and a deep soft shadow.
+
+   The page around it is veiled, not greyed: Tesserae's container drains
+   the colour out with backdrop-filter: saturate(0), but a backdrop-filter
+   on the container would make it the modal's backdrop root, and the modal
+   would then blur nothing but the veil. So the container carries no filter;
+   the veil's own blur is drawn on its ::before, a sibling of the modal
+   rather than an ancestor, and the modal blurs the page and the veil
+   together.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-modal-container {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background-color: var(--tss-overlay-light);
+}
+
+body.tss-theme-glas .tss-modal-container.tss-dark {
+    background-color: var(--tss-overlay-dark);
+}
+
+body.tss-theme-glas .tss-modal-container:not(.tss-modal-modeless)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    -webkit-backdrop-filter: blur(3px) saturate(120%);
+    backdrop-filter: blur(3px) saturate(120%);
+    pointer-events: none;
+}
+
+body.tss-theme-glas .tss-modal {
+    background: var(--tss-gl-pane-thick);
+    border-radius: var(--tss-gl-radius-pane);
+    box-shadow: var(--tss-gl-surface-float);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+}
+
+body.tss-theme-glas .tss-modal-header,
+body.tss-theme-glas .tss-modal-footer {
+    background: transparent;
+}
+
+body.tss-theme-glas .tss-modal-header {
+    padding: 4px 14px 0 20px;
+}
+
+body.tss-theme-glas .tss-modal-content {
+    padding: 0 20px;
+}
+
+body.tss-theme-glas .tss-modal-footer {
+    padding: 4px 14px 6px 20px;
+}
+
+body.tss-theme-glas .tss-modal-header-content .tss-textblock,
+body.tss-theme-glas .tss-modal-header-content {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+/* The close and the other header commands are round glass buttons. */
+body.tss-theme-glas .tss-modal-header-commands > .tss-btn,
+body.tss-theme-glas .tss-modal-header-commands > button,
+body.tss-theme-glas .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-glas .tss-modal-left-header-commands > button {
+    border-radius: 999px;
+    min-width: 32px;
+}
+
+body.tss-theme-glas .tss-modal-header-commands > .tss-btn:hover,
+body.tss-theme-glas .tss-modal-header-commands > button:hover,
+body.tss-theme-glas .tss-modal-left-header-commands > .tss-btn:hover,
+body.tss-theme-glas .tss-modal-left-header-commands > button:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: var(--tss-gl-rim), 0 2px 8px -4px rgba(60, 58, 130, 0.3);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-modal-header-commands > .tss-btn:hover,
+body.tss-theme-glas.tss-dark-mode .tss-modal-header-commands > button:hover,
+body.tss-theme-glas.tss-dark-mode .tss-modal-left-header-commands > .tss-btn:hover,
+body.tss-theme-glas.tss-dark-mode .tss-modal-left-header-commands > button:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    box-shadow: var(--tss-gl-rim);
+}
+
+body.tss-theme-glas .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-glas .tss-modal-header-commands > button:active,
+body.tss-theme-glas .tss-modal-left-header-commands > .tss-btn:active,
+body.tss-theme-glas .tss-modal-left-header-commands > button:active {
+    background-color: rgba(var(--tss-gl-accent-rgb), 0.14);
+    color: var(--tss-gl-accent-ink);
+}
+
+/* An embedded modal sits in the page: a pane, not an overlay. */
+body.tss-theme-glas .tss-modal.tss-embedded {
+    background: var(--tss-gl-pane);
+    box-shadow: var(--tss-gl-surface);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+@keyframes tss-gl-modal-in {
+    0% {
+        transform: scale(0.92) translateY(8px);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.012);
+        opacity: 1;
+    }
+
+    100% {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+body.tss-theme-glas .tss-modal-animate {
+    animation: 0.32s cubic-bezier(0.22, 1, 0.36, 1) 0s 1 normal none running tss-gl-modal-in;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-glas .tss-modal-animate {
+        animation: none;
+    }
+}
+
+/* Refraction, where url() backdrop filters render (Chromium): the page behind the pane is warped by
+   a soft displacement field as well as blurred. Firefox and Safari keep the plain blur above. */
+@supports (backdrop-filter: url("#a")) and (not (-moz-appearance: none)) and (not (font: -apple-system-body)) {
+    body.tss-theme-glas .tss-modal:not(.tss-embedded) {
+        backdrop-filter: var(--tss-gl-refract);
+    }
+}

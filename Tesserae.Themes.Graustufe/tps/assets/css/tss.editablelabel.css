@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Graustufe theme - EditableLabel
+   --------------------------------------------------------------------------
+   At rest it is text; under the pointer it takes the wash and shows its
+   pencil; editing, it becomes a field (paper, ink frame, square).
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-editablelabel-displaybox:hover {
+    background: var(--tss-gs-13);
+    box-shadow: inset 0 -1px 0 var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-editablelabel-textbox {
+    border: var(--tss-gs-rule);
+    border-radius: var(--tss-gs-radius);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-editablelabel-cancel-icon {
+    color: var(--tss-gs-0);
+}

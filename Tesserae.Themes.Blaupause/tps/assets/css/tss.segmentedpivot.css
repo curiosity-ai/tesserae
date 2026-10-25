@@ -1,0 +1,53 @@
+/* ==========================================================================
+   Blaupause theme - SegmentedPivot
+   --------------------------------------------------------------------------
+   A ruled strip of cells; the chosen cell is filled with ink and lettered
+   in paper. No inset shadow: the strip is drawn, not moulded.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-blaupause .tss-segmentedpivot-titlebar {
+    border-radius: 0;
+    background: var(--tss-bp-sheet);
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar {
+    box-shadow: none;
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-segmentedpivot-tab {
+    border-radius: 0;
+    color: var(--tss-bp-muted);
+}
+
+body.tss-theme-blaupause .tss-segmentedpivot-tab:hover {
+    background-color: var(--tss-bp-wash);
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-segmentedpivot-tab:active {
+    background-image: var(--tss-bp-hatch);
+}
+
+body.tss-theme-blaupause .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    background-color: var(--tss-bp-ink);
+    color: var(--tss-bp-on-ink);
+    box-shadow: none;
+}
+
+body.tss-theme-blaupause .tss-segmentedpivot-tab.tss-segmentedpivot-selected *:not(.tss-token):not(.tss-token *) {
+    color: var(--tss-bp-on-ink);
+}
+
+body.tss-theme-blaupause .tss-segmentedpivot-tab:focus-visible,
+body.tss-theme-blaupause .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
+    box-shadow: none;
+    outline: 2px solid var(--tss-bp-red);
+    outline-offset: 1px;
+}
+
+body.tss-theme-blaupause .tss-segmentedpivot-content > .tss-background-area {
+    border-radius: 0;
+}

@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Zeitung theme - fonts
+   --------------------------------------------------------------------------
+   Four faces, a newspaper's whole case of type, all under the SIL Open Font
+   License 1.1 (the license texts sit beside the files) and served from the
+   package rather than a font host:
+
+     Zeitung Serif        the text: Source Serif 4, variable in weight
+                          (200-900) and optical size (8-60), roman and
+                          italic, subset to Latin with its OpenType features
+                          kept (real small caps smcp/c2sc, old-style and
+                          lining figures onum/lnum, tabular tnum, fractions,
+                          superiors). Renamed because the subset is a
+                          modified version and "Source" is a Reserved Font
+                          Name.
+     Oswald               headlines and kickers: a condensed grotesque in the
+                          line of the old gothic wood types, variable 200-700
+     UnifrakturMaguntia   the masthead: a blackletter nameplate, used for one
+                          line of the page and nowhere else
+     Courier Prime        code and wire copy: the typewriter of the newsroom
+   ========================================================================== */
+
+@font-face { font-family: "Zeitung Serif"; font-style: normal; font-weight: 200 900; font-display: swap; src: url("../fonts/zeitung/zeitung-serif-roman.woff2") format("woff2-variations"), url("../fonts/zeitung/zeitung-serif-roman.woff2") format("woff2"); }
+@font-face { font-family: "Zeitung Serif"; font-style: italic; font-weight: 200 900; font-display: swap; src: url("../fonts/zeitung/zeitung-serif-italic.woff2") format("woff2-variations"), url("../fonts/zeitung/zeitung-serif-italic.woff2") format("woff2"); }
+
+@font-face { font-family: "Zeitung Headline"; font-style: normal; font-weight: 200 700; font-display: swap; src: url("../fonts/zeitung/oswald-latin-wght-normal.woff2") format("woff2-variations"), url("../fonts/zeitung/oswald-latin-wght-normal.woff2") format("woff2"); }
+
+@font-face { font-family: "Zeitung Masthead"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/zeitung/unifrakturmaguntia-latin-400-normal.woff2") format("woff2"); }
+
+@font-face { font-family: "Courier Prime"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/zeitung/courier-prime-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Courier Prime"; font-style: normal; font-weight: 700; font-display: swap; src: url("../fonts/zeitung/courier-prime-latin-700-normal.woff2") format("woff2"); }

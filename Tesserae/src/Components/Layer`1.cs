@@ -130,6 +130,44 @@ namespace Tesserae
             }
         }
 
+        private HTMLElement _focusBeforeShow;
+
+        /// <summary>
+        /// Remembers the element that has the focus as the layer opens, so <see cref="RestoreFocus"/> can hand
+        /// it back when the layer closes. Call it before the layer moves the focus into itself; an element
+        /// inside <paramref name="layerRoot"/> (a layer shown again while still open) is not remembered.
+        /// </summary>
+        protected void RememberFocus(HTMLElement layerRoot)
+        {
+            var active = document.activeElement as HTMLElement;
+
+            if (active is null || active == document.body || (layerRoot is object && layerRoot.contains(active))) return;
+
+            _focusBeforeShow = active;
+        }
+
+        /// <summary>
+        /// Puts the focus back on the element <see cref="RememberFocus"/> saw, if it is still in the document
+        /// and the focus is still inside the closing layer (or nowhere): a layer whose close handler moved the
+        /// focus on purpose - another dialog, the next field - keeps that. Call it before the layer leaves the
+        /// document, while <paramref name="layerRoot"/> still contains the focus; otherwise the browser has
+        /// already dropped it on the body, which is where a keyboard user is lost.
+        /// </summary>
+        protected void RestoreFocus(HTMLElement layerRoot)
+        {
+            var target = _focusBeforeShow;
+            _focusBeforeShow = null;
+
+            if (target is null || !target.isConnected) return;
+
+            var active = document.activeElement as HTMLElement;
+
+            if (active is null || active == document.body || (layerRoot is object && layerRoot.contains(active)))
+            {
+                target.focus();
+            }
+        }
+
         /// <summary>
         /// Renders the component.
         /// </summary>

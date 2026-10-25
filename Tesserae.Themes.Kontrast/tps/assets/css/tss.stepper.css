@@ -1,0 +1,83 @@
+/* ==========================================================================
+   Kontrast theme - Stepper
+   --------------------------------------------------------------------------
+   Steps are numbered discs with a 2px edge. The current step's disc is
+   filled with the accent and its label bold with a 4px underline; a done
+   step's disc is filled solid (its check mark tells it apart), an upcoming
+   one stays hollow. Three states, three shapes.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-stepper-step {
+    border-radius: var(--tss-kt-radius);
+    border: var(--tss-kt-border) solid transparent;
+    min-height: 40px;
+}
+
+body.tss-theme-kontrast .tss-stepper-step:hover {
+    background: var(--tss-kt-hover);
+    border-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-stepper-circle {
+    width: 28px;
+    height: 28px;
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    color: var(--tss-kt-ink);
+    background: var(--tss-kt-paper);
+    font-weight: 750;
+}
+
+body.tss-theme-kontrast .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-circle {
+    border: var(--tss-kt-border-strong) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-stepper-active .tss-stepper-circle {
+    background: var(--tss-kt-accent);
+    border-color: var(--tss-kt-accent);
+    color: var(--tss-kt-on-accent);
+    box-shadow: 0 0 0 2px var(--tss-kt-paper), 0 0 0 4px var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-stepper-active .tss-stepper-label {
+    font-weight: 750;
+    text-decoration: underline;
+    text-decoration-thickness: 4px;
+    text-underline-offset: 5px;
+}
+
+body.tss-theme-kontrast .tss-stepper-complete .tss-stepper-circle {
+    background: var(--tss-success-background-color);
+    border-color: var(--tss-success-background-color);
+    color: var(--tss-success-foreground-color);
+}
+
+body.tss-theme-kontrast .tss-stepper-description {
+    color: var(--tss-kt-muted);
+}
+
+body.tss-theme-kontrast .tss-stepper-content {
+    border: var(--tss-kt-border) solid var(--tss-kt-line);
+    border-radius: var(--tss-kt-radius);
+}
+
+body.tss-theme-kontrast .tss-stepper-nav {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    font-weight: 700;
+    min-height: 40px;
+    color: var(--tss-kt-ink);
+    background: var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tss-stepper-nav:hover {
+    background: var(--tss-kt-hover);
+}
+
+body.tss-theme-kontrast .tss-stepper-nav:disabled,
+body.tss-theme-kontrast .tss-stepper-nav.tss-disabled {
+    opacity: 1;
+    color: var(--tss-kt-disabled);
+    border-style: dashed;
+    border-color: var(--tss-kt-disabled);
+    background: var(--tss-kt-surface) var(--tss-kt-hatch);
+}

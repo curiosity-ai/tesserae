@@ -1,0 +1,39 @@
+/* ==========================================================================
+   Zeitung theme - EditableLabel
+   --------------------------------------------------------------------------
+   An editable label is a line of copy with a proof-reader's pencil: under
+   the pointer it is ruled round with a dotted hairline, and in editing it
+   becomes a coupon field (surface panel on a line of ink, red while
+   writing).
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-editablelabel-displaybox {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-editablelabel-displaybox:hover {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-rule);
+    outline: 1px dotted var(--tss-zt-ink);
+    outline-offset: -1px;
+}
+
+body.tss-theme-zeitung .tss-editablelabel-textbox {
+    border: 1px solid var(--tss-zt-ink);
+    border-radius: 0;
+    background: var(--tss-zt-surface);
+    box-shadow: inset 0 -1px 0 var(--tss-zt-red);
+    border-bottom-color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-editablelabel-cancel-icon {
+    color: var(--tss-zt-red);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-editablelabel-textbox {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

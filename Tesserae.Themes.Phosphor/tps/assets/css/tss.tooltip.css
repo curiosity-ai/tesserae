@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Phosphor theme - Tooltip
+   --------------------------------------------------------------------------
+   A tooltip is a status line flashed at the pointer: inverse video, square,
+   no arrow-softness (the arrow stays, drawn in the block's colour). On paper
+   it is a strip of solid ink with the paper showing through as type.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tippy-box {
+    border-radius: 0;
+    box-shadow: var(--tss-ph-box-glow);
+    font-family: var(--tss-ph-mono);
+    font-size: 12px;
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tippy-box > .tippy-content > div {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tippy-content .tss-btn-default:not(.tss-disabled) {
+    border-radius: 0;
+}

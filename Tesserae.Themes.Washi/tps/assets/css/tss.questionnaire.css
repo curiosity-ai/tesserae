@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Washi theme - Questionnaire
+   --------------------------------------------------------------------------
+   Options are paper slips with a hairline; under the pointer the edge
+   darkens to ink. The chosen answer is stamped in vermilion, and the
+   answered badge is a pale vermilion wash.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-questionnaire-option {
+    border-radius: var(--tss-wa-radius);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-questionnaire-option:hover:not(:disabled) {
+    background: var(--tss-wa-wash);
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.5);
+}
+
+body.tss-theme-washi .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+    border-color: transparent;
+    color: var(--tss-wa-on-shu);
+}
+
+body.tss-theme-washi .tss-questionnaire-answered-badge {
+    border-radius: var(--tss-wa-radius-small);
+    background: var(--tss-wa-shu-wash);
+    color: color-mix(in srgb, var(--tss-wa-shu) 75%, rgb(var(--tss-default-foreground-color-root)));
+}

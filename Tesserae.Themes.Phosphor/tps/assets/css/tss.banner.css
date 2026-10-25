@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Phosphor theme - Banner
+   --------------------------------------------------------------------------
+   A banner is a status notice across the screen: square, the accent as a
+   1px frame and a double bar on the left, the surface barely tinted with
+   it. Its badge is a square inverse cell.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-banner {
+    --tss-banner-surface: color-mix(in srgb, var(--tss-banner-accent) 6%, transparent);
+    --tss-banner-border-color: color-mix(in srgb, var(--tss-banner-accent) 55%, transparent);
+    border-radius: 0;
+    border-left: 4px double var(--tss-banner-accent);
+}
+
+body.tss-theme-phosphor .tss-banner.tss-banner-flat {
+    border-left: 0;
+}
+
+body.tss-theme-phosphor .tss-banner-warning {
+    --tss-banner-accent: var(--tss-ph-amber);
+}
+
+body.tss-theme-phosphor .tss-banner-danger {
+    --tss-banner-accent: var(--tss-ph-red);
+}
+
+body.tss-theme-phosphor .tss-banner .tss-icontile,
+body.tss-theme-phosphor .tss-banner-compact .tss-banner-icon > .tss-icontile {
+    --tss-icontile-radius: 0;
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-banner-badge-pill.tss-badge {
+    border-radius: 0;
+}

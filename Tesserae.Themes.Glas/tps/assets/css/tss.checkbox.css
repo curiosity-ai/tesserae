@@ -1,0 +1,53 @@
+/* ==========================================================================
+   Glas theme - CheckBox
+   --------------------------------------------------------------------------
+   An unchecked box is a small well of clear glass, radius 6px, its edge a
+   hairline. Checked, it fills with the accent lozenge (colour, gloss, lit
+   rim, a glow of its colour) and a white tick, drawn a little heavier than
+   Tesserae's hairline so it reads through the gloss.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-checkbox-container .tss-checkbox-mark {
+    border-radius: 6px;
+    background: var(--tss-gl-well);
+    border: 1px solid var(--tss-gl-edge-strong);
+    box-shadow: var(--tss-gl-field-shade);
+    transition: background-color 140ms linear, border-color 140ms linear, box-shadow 180ms ease;
+}
+
+body.tss-theme-glas .tss-checkbox-container:hover .tss-checkbox-mark {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.6);
+}
+
+body.tss-theme-glas .tss-checkbox-container .tss-checkbox-mark:after {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.45);
+    border-width: 0 2px 2px 0;
+}
+
+body.tss-theme-glas .tss-checkbox-container input:checked ~ .tss-checkbox-mark,
+body.tss-theme-glas .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+    background: var(--tss-gl-lozenge-shine), rgb(var(--tss-primary-background-color-root));
+    border-color: transparent;
+    box-shadow: var(--tss-gl-lozenge-rim), 0 3px 8px -3px rgba(var(--tss-gl-accent-rgb), 0.75);
+}
+
+body.tss-theme-glas .tss-checkbox-container input:checked ~ .tss-checkbox-mark:after {
+    border-color: rgb(255, 255, 255);
+}
+
+body.tss-theme-glas .tss-checkbox-container input:focus-visible ~ .tss-checkbox-mark {
+    outline: 2px solid rgba(var(--tss-gl-accent-rgb), 0.75);
+    outline-offset: 2px;
+}
+
+body.tss-theme-glas .tss-checkbox-container.tss-disabled .tss-checkbox-mark {
+    background: var(--tss-disabled-background-color);
+    border-color: rgba(var(--tss-disabled-foreground-color-root), 0.4);
+    box-shadow: none;
+}
+
+body.tss-theme-glas .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark {
+    background: rgba(var(--tss-disabled-foreground-color-root), 0.6);
+    border-color: transparent;
+    box-shadow: none;
+}

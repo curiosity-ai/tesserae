@@ -1,0 +1,50 @@
+/* ==========================================================================
+   Glas theme - Questionnaire
+   --------------------------------------------------------------------------
+   The question is a pane of clear glass; its answers glass pills; the chosen
+   answer the accent lozenge (Tesserae reaches for a fixed blue there).
+   ========================================================================== */
+
+body.tss-theme-glas .tss-questionnaire {
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    background: var(--tss-gl-pane-inner);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-questionnaire-question,
+body.tss-theme-glas .tss-questionnaire-option {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-glas .tss-questionnaire-option {
+    border: none;
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+    font-weight: 600;
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-questionnaire-option {
+    background: rgba(255, 255, 255, 0.07);
+}
+
+body.tss-theme-glas .tss-questionnaire-option:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.75);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px rgba(var(--tss-gl-accent-rgb), 0.45);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-questionnaire-option:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.13);
+}
+
+body.tss-theme-glas .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+    color: rgb(255, 255, 255);
+    background: var(--tss-gl-lozenge-shine), rgb(var(--tss-primary-background-color-root));
+    box-shadow: var(--tss-gl-lozenge-rim), 0 4px 12px -5px rgba(var(--tss-gl-accent-rgb), 0.7);
+}
+
+body.tss-theme-glas .tss-questionnaire-answered-badge {
+    border-radius: 999px;
+    background: rgba(var(--tss-gl-accent-rgb), 0.12);
+    color: var(--tss-gl-accent-ink);
+}

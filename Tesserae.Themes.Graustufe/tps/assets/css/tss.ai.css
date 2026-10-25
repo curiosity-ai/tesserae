@@ -1,0 +1,37 @@
+/* ==========================================================================
+   Graustufe theme - AI tone
+   --------------------------------------------------------------------------
+   Tesserae marks what a model made with a purple-to-blue gradient. A grey
+   panel marks it with a texture: the --tss-ai-* tokens are restated in
+   tss.common.css so that fills are solid ink with paper type, surfaces
+   carry a sparse 1-bit ordered dither (--tss-gs-bayer-12 / -25), borders
+   are ink, and gradient text is plain ink. The Sparkles glyph says the
+   rest. Here: AI surfaces get an ink rule, and every AI part is square.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-textblock.tss-ai-surface {
+    border-radius: 0;
+    border-color: var(--tss-gs-0);
+    border-left-width: 3px;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-ai:not(.tss-disabled) {
+    border-image: var(--tss-gs-edge-sm);
+}
+
+body.tss-theme-graustufe .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled) {
+    border-image: none;
+    border-color: var(--tss-gs-0);
+    color: var(--tss-gs-0);
+}
+
+/* Square corners and no blurred shadows (generated from Tesserae's tss.ai.css). */
+body.tss-theme-graustufe .tss-textblock.tss-ai-surface {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):hover {
+    box-shadow: none;
+}
+

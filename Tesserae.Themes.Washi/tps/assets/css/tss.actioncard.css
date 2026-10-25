@@ -1,0 +1,57 @@
+/* ==========================================================================
+   Washi theme - ActionCard
+   --------------------------------------------------------------------------
+   An object on the left, what to do with it on the right: a sheet with a
+   hairline frame, the identity column on the page's own paper divided by a
+   fine line, the actions small slips that take a wash under the pointer.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-actioncard-card,
+body.tss-theme-washi .tss-actioncard-group {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-actioncard-identity {
+    background: rgb(var(--tss-default-background-color-root));
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-actioncard-icon {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-actioncard-icon:not(.tss-actioncard-icon-nobackground):not(.tss-actioncard-icon-image):not([style*="background"]) {
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+}
+
+body.tss-theme-washi .tss-actioncard-action {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-actioncard-action:hover {
+    background: var(--tss-wa-wash);
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.3);
+}
+
+body.tss-theme-washi .tss-actioncard-action-icon {
+    border-radius: var(--tss-wa-radius-small);
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-actioncard-more {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-actioncard-skeleton-line {
+    border-radius: var(--tss-wa-radius-small);
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-actioncard-group > .tss-actioncard + .tss-actioncard {
+    border-top-color: var(--tss-wa-line);
+}

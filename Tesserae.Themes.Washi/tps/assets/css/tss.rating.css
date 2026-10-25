@@ -1,0 +1,17 @@
+/* ==========================================================================
+   Washi theme - Rating
+   --------------------------------------------------------------------------
+   Empty stars are pale ink; filled ones gold leaf (kin).
+   ========================================================================== */
+
+body.tss-theme-washi .tss-rating-star {
+    color: rgba(var(--tss-default-foreground-color-root), 0.18);
+}
+
+body.tss-theme-washi .tss-rating-star.tss-rating-star-filled {
+    color: var(--tss-rating-color, var(--tss-wa-kin));
+}
+
+body.tss-theme-washi .tss-rating-star:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}

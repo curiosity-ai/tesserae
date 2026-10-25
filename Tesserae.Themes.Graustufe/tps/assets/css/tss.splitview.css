@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Graustufe theme - SplitView
+   --------------------------------------------------------------------------
+   The splitter is a 1px ink rule; under the pointer it thickens to 3px.
+   A panel-style pane is set off by a rule and the dithered band, not a
+   shadow.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-splitview.tss-splitview-horizontal > .tss-splitter:before,
+body.tss-theme-graustufe .tss-splitview.tss-splitview-vertical > .tss-splitter:before {
+    background: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:before,
+body.tss-theme-graustufe .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:before {
+    background: var(--tss-gs-0) !important;
+}
+
+body.tss-theme-graustufe .tss-splitview.tss-splitview-horizontal > .tss-splitter:after,
+body.tss-theme-graustufe .tss-splitview.tss-splitview-vertical > .tss-splitter:after {
+    background: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:after,
+body.tss-theme-graustufe .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:after {
+    background: var(--tss-gs-0) !important;
+}
+
+body.tss-theme-graustufe .tss-splitview-panel-style.tss-split-left > *:first-child {
+    box-shadow: 1px 0 0 var(--tss-gs-0), 5px 0 0 var(--tss-gs-11);
+}
+
+body.tss-theme-graustufe .tss-splitview-panel-style.tss-split-right > *:last-child {
+    box-shadow: -1px 0 0 var(--tss-gs-0), -5px 0 0 var(--tss-gs-11);
+}

@@ -1,0 +1,107 @@
+/* ==========================================================================
+   Graustufe theme - SearchBox
+   --------------------------------------------------------------------------
+   The field's frame (see tss.textbox.css): paper inside a 1px ink rule,
+   3px when focused. The underlined variant is a single rule, 2px when
+   focused. A search in progress is a still bar along the foot: a filled ink
+   bar for a known fraction, a 50% dither for "working" (no sweep).
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-searchbox {
+    font-family: var(--tss-gs-ui);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-searchbox::placeholder {
+    color: var(--tss-gs-8);
+    opacity: 1;
+    font-style: italic;
+}
+
+body.tss-theme-graustufe .tss-searchbox-container {
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-radius: var(--tss-gs-radius);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-searchbox-container:hover {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-searchbox-container:focus-within {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-searchbox-container.tss-disabled {
+    background: var(--tss-gs-14);
+    border-color: var(--tss-gs-10);
+    color: var(--tss-gs-9);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-searchbox-container.tss-underlined,
+body.tss-theme-graustufe .tss-searchbox-container.tss-underlined:hover {
+    background: transparent;
+    border-color: var(--tss-gs-0);
+    border-width: 0 0 1px;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-searchbox-container.tss-underlined:focus-within {
+    border-color: var(--tss-gs-0);
+    border-width: 0 0 2px;
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-searchbox-icon,
+body.tss-theme-graustufe .tss-searchbox-clear,
+body.tss-theme-graustufe .tss-searchbox-cancel,
+body.tss-theme-graustufe .tss-searchbox-failed-icon {
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-searchbox-clear,
+body.tss-theme-graustufe .tss-searchbox-cancel {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-searchbox-clear:hover,
+body.tss-theme-graustufe .tss-searchbox-cancel:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-searchbox-clear:focus-visible,
+body.tss-theme-graustufe .tss-searchbox-cancel:focus-visible {
+    outline: 2px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-searchbox-container.tss-searchbox-failed:focus-within,
+body.tss-theme-graustufe .tss-searchbox-container.tss-searchbox-failed {
+    border-color: var(--tss-gs-0);
+    border-style: dashed;
+}
+
+body.tss-theme-graustufe .tss-searchbox-progress {
+    height: 3px;
+}
+
+body.tss-theme-graustufe .tss-searchbox-progress-bar {
+    background: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-searchbox-progress.tss-searchbox-progress-indeterminate > .tss-searchbox-progress-bar {
+    left: 0;
+    width: 100%;
+    background: var(--tss-gs-dither);
+}
+
+body.tss-theme-graustufe .tss-searchable-list-no-match {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    color: var(--tss-gs-6);
+}

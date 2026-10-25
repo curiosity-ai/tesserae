@@ -1,0 +1,16 @@
+/* ==========================================================================
+   Washi theme - StatefulItemRow
+   --------------------------------------------------------------------------
+   A row washed in a tone says what is happening to it. A primary tone here
+   is information ("changed"), so it is washed in indigo, as Banner's is;
+   vermilion stays the colour of action and selection. Success is moss,
+   danger crimson.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-statefulitemrow-primary {
+    --tss-statefulitemrow-accent: var(--tss-wa-ai);
+}
+
+body.tss-theme-washi .tss-statefulitemrow-interactive:hover {
+    background: color-mix(in srgb, rgb(var(--tss-default-foreground-color-root)) 5%, var(--tss-statefulitemrow-surface));
+}

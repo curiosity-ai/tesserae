@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Zeitung theme - ContributionBar
+   --------------------------------------------------------------------------
+   A stacked share bar from the results page: square, its segments in the
+   chart inks, the legend keyed by small squares with lining figures.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-contribution-bar {
+    border-radius: 0;
+    background: var(--tss-zt-halftone-light);
+}
+
+body.tss-theme-zeitung .tss-contribution-legend-dot {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-contribution-legend-value {
+    font-variant-numeric: lining-nums tabular-nums;
+}
+
+body.tss-theme-zeitung .tss-contribution-toggle {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-contribution-toggle:hover {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-contribution-bar {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

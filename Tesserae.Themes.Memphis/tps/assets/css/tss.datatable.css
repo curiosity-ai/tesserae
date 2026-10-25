@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Memphis theme - DataTable
+   --------------------------------------------------------------------------
+   The same price list as DetailsList, framed: a 2px black line round the
+   table on a hard mint shadow, a sunflower header band with bold ink
+   headings, soft rules between rows and a sunflower-pale row under the
+   pointer. A row's state edge is a thick band of its tone.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-datatable {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-mp-mint-root));
+    margin-right: var(--tss-mp-off-sm);
+    margin-bottom: var(--tss-mp-off-sm);
+}
+
+body.tss-theme-memphis .tss-datatable-header {
+    background: rgb(var(--tss-mp-yellow-root));
+    border-bottom: var(--tss-mp-bw) solid var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-datatable-heading {
+    color: var(--tss-mp-on-accent);
+    font-weight: 800;
+}
+
+body.tss-theme-memphis .tss-datatable-row + .tss-datatable-row,
+body.tss-theme-memphis .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top: 1px solid rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-memphis .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top-color: transparent;
+}
+
+body.tss-theme-memphis .tss-datatable-row:hover {
+    background: var(--tss-mp-yellow-pale);
+}

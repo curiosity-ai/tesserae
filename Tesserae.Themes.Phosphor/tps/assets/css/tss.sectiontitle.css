@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Phosphor theme - SectionTitle
+   --------------------------------------------------------------------------
+   A page title is a screen heading in the bitmap face, bright and blooming,
+   with its subtitle in the dim phosphor below.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-sectiontitle-title {
+    font-family: var(--tss-ph-display);
+    font-weight: 400;
+    font-size: 30px;
+    letter-spacing: 0.02em;
+    color: var(--tss-ph-hot);
+    text-shadow: var(--tss-ph-glow-hot);
+}
+
+body.tss-theme-phosphor .tss-sectiontitle-subtitle,
+body.tss-theme-phosphor .tss-sectiontitle-subtitle .tss-textblock {
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-sectiontitle-icon {
+    color: var(--tss-ph-hot);
+}

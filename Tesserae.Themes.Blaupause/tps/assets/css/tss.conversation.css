@@ -1,0 +1,105 @@
+/* ==========================================================================
+   Blaupause theme - Conversation
+   --------------------------------------------------------------------------
+   A conversation is a revision history: events hang off a fine vertical
+   line, each comment a ruled box with a lettered title strip, event
+   markers drawn circles. Reactions are ruled cells; the composer is a
+   ruled field with drawn tabs.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-conversation-comment,
+body.tss-theme-blaupause .tss-conversation-comment-header,
+body.tss-theme-blaupause .tss-conversation-comment-attachment,
+body.tss-theme-blaupause .tss-conversation-composer-box,
+body.tss-theme-blaupause .tss-conversation-composer-tabs,
+body.tss-theme-blaupause .tss-conversation-composer-tab {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-conversation-item::before {
+    width: 1px;
+    background: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-conversation-comment {
+    border-color: var(--tss-bp-line);
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-conversation-comment-header {
+    background: var(--tss-bp-grid-small), var(--tss-bp-sheet);
+    border-bottom-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-conversation-comment-attachment {
+    border-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-conversation-comment-highlighted {
+    border-color: var(--tss-bp-ink);
+    box-shadow: 0 0 0 1px var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-conversation-comment-highlighted > .tss-conversation-comment-header {
+    border-bottom-color: var(--tss-bp-ink);
+    background: var(--tss-bp-yellow-wash);
+}
+
+body.tss-theme-blaupause .tss-conversation-reaction {
+    border-radius: 0;
+    border-color: var(--tss-bp-line);
+    background: transparent;
+    font-family: var(--tss-bp-mono);
+}
+
+body.tss-theme-blaupause .tss-conversation-reaction:hover,
+body.tss-theme-blaupause .tss-conversation-reaction-active {
+    border-color: var(--tss-bp-line-strong);
+    background: var(--tss-bp-wash);
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-conversation-reaction-picker {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-conversation-event-icon {
+    background: var(--tss-bp-sheet);
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line), 0 0 0 3px var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-conversation-footer {
+    border-top: 3px double var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-conversation-composer-box {
+    border-color: var(--tss-bp-line);
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-conversation-composer-box:focus-within {
+    border-color: var(--tss-bp-line-strong);
+    box-shadow: inset 0 -2px 0 var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-conversation-composer-tabs {
+    background: var(--tss-bp-grid-small), var(--tss-bp-sheet);
+    border-bottom-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-conversation-composer-tab {
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-size: 11px;
+}
+
+body.tss-theme-blaupause .tss-conversation-composer-tab-active {
+    border-color: var(--tss-bp-line);
+    border-bottom-color: var(--tss-bp-sheet);
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-conversation-composer-preview {
+    border-bottom-color: var(--tss-bp-line);
+}

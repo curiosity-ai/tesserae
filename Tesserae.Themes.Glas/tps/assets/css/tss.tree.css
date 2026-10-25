@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Glas theme - Tree
+   --------------------------------------------------------------------------
+   Rows are clear and condense into a faint pane under the pointer; the
+   chosen row is the accent lozenge of the sidebar. Branches hang from a
+   hairline of light.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-tree-item-content {
+    border-radius: 8px;
+}
+
+body.tss-theme-glas .tss-tree-item-content:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: var(--tss-gl-rim);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-tree-item-content:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+body.tss-theme-glas .tss-tree-item-content.tss-selected,
+body.tss-theme-glas .tss-tree-item-content.tss-selected:hover {
+    color: var(--tss-gl-accent-ink);
+    background: linear-gradient(180deg, rgba(var(--tss-gl-accent-rgb), 0.18) 0%, rgba(var(--tss-gl-accent-rgb), 0.11) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 0 0 1px rgba(var(--tss-gl-accent-rgb), 0.22);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-tree-item-content.tss-selected,
+body.tss-theme-glas.tss-dark-mode .tss-tree-item-content.tss-selected:hover {
+    background: linear-gradient(180deg, rgba(var(--tss-gl-accent-rgb), 0.32) 0%, rgba(var(--tss-gl-accent-rgb), 0.2) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 0 0 1px rgba(var(--tss-gl-accent-rgb), 0.35);
+}
+
+body.tss-theme-glas .tss-tree-chevron:hover,
+body.tss-theme-glas .tss-tree-checkbox:hover,
+body.tss-theme-glas .tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected,
+body.tss-theme-glas .tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected .tss-tree-checkbox {
+    color: var(--tss-gl-accent-ink);
+}
+
+body.tss-theme-glas .tss-tree-children {
+    border-left-color: var(--tss-gl-edge-strong);
+}
+
+body.tss-theme-glas .tss-tree-menu > a > .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success) {
+    background: transparent;
+    border-color: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-glas .tss-tree-menu > a > .tss-tree-command.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success):hover {
+    color: rgb(var(--tss-default-foreground-color-root));
+    background: rgba(var(--tss-gl-accent-rgb), 0.12);
+}

@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Memphis theme - Dialog
+   --------------------------------------------------------------------------
+   A dialog is a modal (tss.modal.css) cut smaller: the same 3px line and
+   hard bubblegum shadow, the same header strip, with the padding tightened
+   so the strip runs edge to edge.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-modal.tss-dialog {
+    border-radius: var(--tss-mp-radius-panel);
+}
+
+body.tss-theme-memphis .tss-dialog .tss-modal-header {
+    padding: 10px 12px 4px 12px;
+}
+
+body.tss-theme-memphis .tss-dialog .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) {
+    padding: 6px 12px;
+}
+
+body.tss-theme-memphis .tss-dialog .tss-modal-content {
+    padding: 0 16px;
+}
+
+body.tss-theme-memphis .tss-dialog .tss-modal-footer {
+    padding: 0 12px;
+}
+
+body.tss-theme-memphis .tss-dialog .tss-modal-footer:has(> :not(:empty)) {
+    padding: 4px 12px;
+}

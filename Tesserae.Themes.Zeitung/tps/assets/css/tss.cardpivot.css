@@ -1,0 +1,38 @@
+/* ==========================================================================
+   Zeitung theme - CardPivot
+   --------------------------------------------------------------------------
+   Card tabs are a row of boxed index entries: one ink frame divided by
+   hairline column rules. The open one carries a 3px spot-red rule along its
+   foot and its label in bold.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-cardpivot-titlebar {
+    border-radius: 0;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-cardpivot-tab {
+    background: transparent;
+    border-right: 1px solid var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-cardpivot-tab:last-child {
+    border-right: none;
+}
+
+body.tss-theme-zeitung .tss-cardpivot-tab:hover {
+    background: var(--tss-zt-tint);
+}
+
+body.tss-theme-zeitung .tss-cardpivot-tab.tss-cardpivot-selected,
+body.tss-theme-zeitung .tss-cardpivot-tab.tss-cardpivot-selected:hover {
+    background: transparent;
+    border-bottom: 3px solid var(--tss-zt-red);
+    font-weight: 700;
+}
+
+body.tss-theme-zeitung .tss-cardpivot-tab:focus-visible {
+    outline: 2px solid var(--tss-zt-red);
+    outline-offset: -2px;
+}

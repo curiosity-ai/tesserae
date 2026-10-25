@@ -1,0 +1,112 @@
+/* ==========================================================================
+   Memphis theme - ActionButton
+   --------------------------------------------------------------------------
+   An action button is two buttons welded into one pill: the label and the
+   action glyph share a 2px black line, with a black line between them.
+   The default one is a ghost that pops into sunflower under the pointer,
+   like a default Button; a toned one is the bright accent with ink type,
+   on the hard shadow its Button tone uses.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-actionbutton-container {
+    --tss-mp-ab-face: transparent;
+    --tss-mp-ab-cast: transparent;
+    border: var(--tss-mp-bw) solid transparent;
+    border-radius: 999px;
+    overflow: hidden;
+    transition: box-shadow var(--tss-mp-quick) var(--tss-mp-ease), transform var(--tss-mp-quick) var(--tss-mp-ease);
+}
+
+body.tss-theme-memphis .tss-actionbutton-container:hover {
+    border-color: var(--tss-mp-line);
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 var(--tss-mp-cast);
+}
+
+body.tss-theme-memphis .tss-actionbutton-container:has(> .tss-btn-primary) { --tss-mp-ab-face: rgb(var(--tss-mp-pink-root)); --tss-mp-ab-cast: rgb(var(--tss-mp-cobalt-root)); }
+body.tss-theme-memphis .tss-actionbutton-container:has(> .tss-btn-warning) { --tss-mp-ab-face: rgb(var(--tss-mp-yellow-root)); --tss-mp-ab-cast: rgb(var(--tss-mp-tomato-root)); }
+body.tss-theme-memphis .tss-actionbutton-container:has(> .tss-btn-danger) { --tss-mp-ab-face: rgb(var(--tss-mp-tomato-root)); --tss-mp-ab-cast: var(--tss-mp-cast); }
+body.tss-theme-memphis .tss-actionbutton-container:has(> .tss-btn-success) { --tss-mp-ab-face: rgb(var(--tss-mp-mint-root)); --tss-mp-ab-cast: rgb(var(--tss-mp-lilac-root)); }
+
+body.tss-theme-memphis.tss-dark-mode .tss-actionbutton-container:has(> .tss-btn-primary) { --tss-mp-ab-cast: rgb(var(--tss-mp-mint-root)); }
+body.tss-theme-memphis.tss-dark-mode .tss-actionbutton-container:has(> .tss-btn-danger) { --tss-mp-ab-cast: rgb(var(--tss-mp-yellow-root)); }
+
+body.tss-theme-memphis .tss-actionbutton-container:has(> .tss-btn-primary),
+body.tss-theme-memphis .tss-actionbutton-container:has(> .tss-btn-warning),
+body.tss-theme-memphis .tss-actionbutton-container:has(> .tss-btn-danger),
+body.tss-theme-memphis .tss-actionbutton-container:has(> .tss-btn-success) {
+    border-color: var(--tss-mp-line);
+    background: var(--tss-mp-ab-face);
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 var(--tss-mp-ab-cast);
+}
+
+body.tss-theme-memphis .tss-actionbutton-container:has(> .tss-btn-primary):hover,
+body.tss-theme-memphis .tss-actionbutton-container:has(> .tss-btn-warning):hover,
+body.tss-theme-memphis .tss-actionbutton-container:has(> .tss-btn-danger):hover,
+body.tss-theme-memphis .tss-actionbutton-container:has(> .tss-btn-success):hover {
+    transform: translate(-1px, -1px);
+    box-shadow: calc(var(--tss-mp-off-sm) + 1px) calc(var(--tss-mp-off-sm) + 1px) 0 0 var(--tss-mp-ab-cast);
+}
+
+body.tss-theme-memphis .tss-actionbutton-container > .tss-actionbutton-displaybutton,
+body.tss-theme-memphis .tss-actionbutton-container > .tss-actionbutton-actionbtn,
+body.tss-theme-memphis .tss-actionbutton-container > .tss-btn-primary,
+body.tss-theme-memphis .tss-actionbutton-container > .tss-btn-warning,
+body.tss-theme-memphis .tss-actionbutton-container > .tss-btn-danger,
+body.tss-theme-memphis .tss-actionbutton-container > .tss-btn-success {
+    background: transparent;
+    border-color: transparent;
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-actionbutton-container > .tss-actionbutton-displaybutton,
+body.tss-theme-memphis .tss-actionbutton-container > .tss-actionbutton-actionbtn {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-actionbutton-container > .tss-btn-primary,
+body.tss-theme-memphis .tss-actionbutton-container > .tss-btn-warning,
+body.tss-theme-memphis .tss-actionbutton-container > .tss-btn-danger,
+body.tss-theme-memphis .tss-actionbutton-container > .tss-btn-success,
+body.tss-theme-memphis .tss-actionbutton-container > * .tss-fontcolor-default,
+body.tss-theme-memphis .tss-actionbutton-container:hover > .tss-actionbutton-displaybutton,
+body.tss-theme-memphis .tss-actionbutton-container:hover > .tss-actionbutton-actionbtn {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-actionbutton-container:not(:has(> .tss-btn-primary, > .tss-btn-warning, > .tss-btn-danger, > .tss-btn-success)) > * .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-actionbutton-container:not(:has(> .tss-btn-primary, > .tss-btn-warning, > .tss-btn-danger, > .tss-btn-success)):hover {
+    background: rgb(var(--tss-mp-yellow-root));
+}
+
+body.tss-theme-memphis .tss-actionbutton-container:not(:has(> .tss-btn-primary, > .tss-btn-warning, > .tss-btn-danger, > .tss-btn-success)):hover > * .tss-fontcolor-default {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-actionbutton-container > .tss-actionbutton-actionbtn {
+    border-left: var(--tss-mp-bw) solid transparent;
+    border-radius: 0;
+}
+
+body.tss-theme-memphis .tss-actionbutton-container:hover > .tss-actionbutton-actionbtn,
+body.tss-theme-memphis .tss-actionbutton-container:has(> .tss-btn-primary, > .tss-btn-warning, > .tss-btn-danger, > .tss-btn-success) > .tss-actionbutton-actionbtn {
+    border-left-color: var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-actionbutton-container > .tss-actionbutton-displaybutton:hover,
+body.tss-theme-memphis .tss-actionbutton-container > .tss-actionbutton-actionbtn:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+body.tss-theme-memphis .tss-actionbutton-container > .tss-actionbutton-displaybutton:active,
+body.tss-theme-memphis .tss-actionbutton-container > .tss-actionbutton-actionbtn:active {
+    background: rgba(0, 0, 0, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-memphis .tss-actionbutton-container:hover {
+        transform: none !important;
+    }
+}

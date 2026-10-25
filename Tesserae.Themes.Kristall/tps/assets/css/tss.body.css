@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Kristall theme - Body
+   --------------------------------------------------------------------------
+   The body is the desktop and the window at once: the wallpaper (a soft,
+   static field of colour) is painted first and fixed to the viewport, and
+   the window's content pane is a near-solid veil laid over it, so the
+   content reads as a window with a faint breath of the desktop's colour in
+   it. Anything translucent drawn on top (the sidebar, a toolbar, a sheet,
+   a menu) lets more of the wallpaper through. Text is Inter at the
+   desktop's 13px; sizes and line height stay Tesserae's, so nothing reflows.
+   ========================================================================== */
+
+body.tss-theme-kristall {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: linear-gradient(var(--tss-kr-window), var(--tss-kr-window)), var(--tss-kr-wallpaper);
+    background-attachment: fixed;
+    background-size: cover;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-sansserif-font-family);
+}

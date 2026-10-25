@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Washi theme - CommandBar
+   --------------------------------------------------------------------------
+   A strip of paper with a hairline edge; its commands are type with a wash
+   under the pointer, the primary one a vermilion block.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-commandbar {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-commandbar-item {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-commandbar-item:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-commandbar-item-primary {
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+}
+
+body.tss-theme-washi .tss-commandbar-item-primary:hover {
+    background-color: rgb(var(--tss-primary-background-hover-color-root));
+}

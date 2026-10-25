@@ -1,0 +1,100 @@
+/* ==========================================================================
+   Kontrast theme - CheckBox
+   --------------------------------------------------------------------------
+   A 22px square with a 2px ink edge. Checked is told by its shape first: a
+   heavy 3px tick, on an accent fill. Under the pointer the edge thickens
+   (the default hover "ghost tick" is gone: a preview that looks like the
+   checked state is a lie about state). Keyboard focus lands on a hidden
+   input, so the ring is drawn on the box from the container. Disabled is
+   dashed and hatched, its label still readable.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-checkbox-container {
+    min-height: 24px;
+    height: auto;
+    align-items: center;
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-checkbox-container .tss-checkbox-mark {
+    height: 22px;
+    width: 22px;
+    border: var(--tss-kt-border) solid var(--tss-kt-edge);
+    border-radius: var(--tss-kt-radius-sm);
+    background: var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tss-checkbox-container .tss-checkbox-text {
+    margin-left: 10px;
+}
+
+body.tss-theme-kontrast .tss-checkbox-container:hover .tss-checkbox-mark {
+    box-shadow: inset 0 0 0 1px var(--tss-kt-edge);
+    background: var(--tss-kt-hover);
+}
+
+/* No preview tick on hover. */
+body.tss-theme-kontrast .tss-checkbox-container:hover input:not(:checked) ~ .tss-checkbox-mark:after {
+    display: none;
+}
+
+body.tss-theme-kontrast .tss-checkbox-container input:checked ~ .tss-checkbox-mark,
+body.tss-theme-kontrast .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+    background: var(--tss-kt-accent);
+    border-color: var(--tss-kt-accent);
+}
+
+/* The tick, drawn in proportion so it fits every size the font-size classes give the box. */
+body.tss-theme-kontrast.tss-theme-kontrast .tss-checkbox-container .tss-checkbox-mark:after {
+    left: 33%;
+    top: 10%;
+    width: 32%;
+    height: 60%;
+    border: solid var(--tss-kt-on-accent);
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+/* Focus lands on the hidden input, so the ring is drawn on the mark: outside it where there is room, and
+   inside its edge as well (an ink or yellow edge with the other colour as an inner band), because an inline
+   label clips anything drawn outside its content box. */
+body.tss-theme-kontrast .tss-checkbox-container:has(input:focus-visible) .tss-checkbox-mark {
+    border-color: var(--tss-kt-focus-outer);
+    outline: var(--tss-kt-ring-width) solid var(--tss-kt-focus-outer);
+    outline-offset: 2px;
+    box-shadow: inset 0 0 0 3px var(--tss-kt-focus-inner), 0 0 0 2px var(--tss-kt-focus-inner);
+}
+
+body.tss-theme-kontrast .tss-checkbox-container.tss-disabled {
+    color: var(--tss-kt-disabled);
+}
+
+body.tss-theme-kontrast .tss-checkbox-container.tss-disabled .tss-checkbox-mark {
+    background: var(--tss-kt-surface) var(--tss-kt-hatch);
+    border: var(--tss-kt-border) dashed var(--tss-kt-disabled);
+}
+
+body.tss-theme-kontrast .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark {
+    background: var(--tss-kt-disabled);
+    border: var(--tss-kt-border) dashed var(--tss-kt-disabled);
+}
+
+body.tss-theme-kontrast .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark:after {
+    border-color: var(--tss-kt-paper);
+}
+
+@media (forced-colors: active) {
+    body.tss-theme-kontrast .tss-checkbox-container .tss-checkbox-mark {
+        border-color: CanvasText;
+    }
+
+    body.tss-theme-kontrast .tss-checkbox-container input:checked ~ .tss-checkbox-mark {
+        forced-color-adjust: none;
+        background: Highlight;
+        border-color: Highlight;
+    }
+
+    body.tss-theme-kontrast.tss-theme-kontrast .tss-checkbox-container input:checked ~ .tss-checkbox-mark:after {
+        border-color: HighlightText;
+    }
+}

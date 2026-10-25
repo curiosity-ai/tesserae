@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Blaupause theme - CommandBar
+   --------------------------------------------------------------------------
+   A ruled strip of commands. Items box in under the pointer; the primary
+   item is the one filled region.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-commandbar {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-commandbar-item {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-commandbar-item:hover {
+    background: var(--tss-bp-wash);
+    border-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-commandbar-item-primary {
+    background: var(--tss-bp-ink);
+    color: var(--tss-bp-on-ink);
+}
+
+body.tss-theme-blaupause .tss-commandbar-item-primary:hover {
+    background: rgb(var(--tss-primary-background-hover-color-root));
+    border-color: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-commandbar-item.tss-disabled,
+body.tss-theme-blaupause .tss-commandbar-item:disabled {
+    opacity: 1;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    border: var(--tss-bp-hidden);
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+}

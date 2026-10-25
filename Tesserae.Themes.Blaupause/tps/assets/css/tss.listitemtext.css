@@ -1,0 +1,17 @@
+/* ==========================================================================
+   Blaupause theme - ListItemText
+   --------------------------------------------------------------------------
+   The icon is a symbol in a ruled square cell, not a filled tile.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-listitemtext-icon {
+    border-radius: 0;
+    background: transparent;
+    border: var(--tss-bp-rule);
+    box-sizing: border-box;
+    color: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-listitemtext-subtitle {
+    color: var(--tss-bp-muted);
+}

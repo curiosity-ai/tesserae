@@ -1,0 +1,49 @@
+/* ==========================================================================
+   Blaupause theme - Metric
+   --------------------------------------------------------------------------
+   A metric is a measurement on the drawing: its title lettered in small
+   tracked capitals, its value in monospace figures, set large, the way a
+   dimension is written. A clickable metric boxes in under the pointer.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-metric-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-bp-caps);
+    text-transform: uppercase;
+    color: var(--tss-bp-muted);
+}
+
+body.tss-theme-blaupause .tss-metric-value,
+body.tss-theme-blaupause .tss-metric-value .tss-textblock[class],
+body.tss-theme-blaupause .tss-cardpivot-tab .tss-textblock.tss-fontweight-bold[class] {
+    font-family: var(--tss-bp-mono);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-blaupause .tss-metric-change {
+    font-family: var(--tss-bp-mono);
+}
+
+body.tss-theme-blaupause .tss-metric-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-metric-value-filled .tss-metric-value {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-metric-clickable {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-metric-clickable:hover {
+    background: var(--tss-bp-wash);
+    box-shadow: 0 0 0 6px var(--tss-bp-wash), 0 0 0 7px var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-metric-clickable:focus-visible {
+    outline-color: var(--tss-bp-red);
+}

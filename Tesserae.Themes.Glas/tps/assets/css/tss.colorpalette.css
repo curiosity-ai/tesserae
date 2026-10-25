@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Glas theme - ColorPalette
+   --------------------------------------------------------------------------
+   A swatch is a bead of its colour with a lit crown; the chosen one is
+   ringed in clear glass and the accent.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-colorpalette-swatch {
+    background-image: radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.55) 0 14%, rgba(255, 255, 255, 0) 45%);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25), 0 0 0 1px rgba(40, 38, 100, 0.16), 0 2px 5px -2px rgba(40, 38, 100, 0.4);
+}
+
+body.tss-theme-glas .tss-colorpalette-swatch:hover {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25), 0 0 0 2px rgba(var(--tss-gl-accent-rgb), 0.7);
+}
+
+body.tss-theme-glas .tss-colorpalette-swatch.tss-selected {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25), 0 0 0 2px rgba(255, 255, 255, 0.9), 0 0 0 4px rgb(var(--tss-gl-accent-rgb));
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-colorpalette-swatch.tss-selected {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25), 0 0 0 2px rgb(22, 22, 46), 0 0 0 4px rgb(var(--tss-gl-accent-rgb));
+}

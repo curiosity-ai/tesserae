@@ -1,0 +1,10 @@
+/* ==========================================================================
+   Washi theme - Popover
+   --------------------------------------------------------------------------
+   The popover's own content draws its sheet; its arrow takes the sheet's
+   paper so the two read as one piece.
+   ========================================================================== */
+
+body.tss-theme-washi .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    color: rgb(var(--tss-secondary-background-color-root));
+}

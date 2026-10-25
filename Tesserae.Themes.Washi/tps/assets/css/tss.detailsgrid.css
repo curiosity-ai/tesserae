@@ -1,0 +1,10 @@
+/* ==========================================================================
+   Washi theme - DetailsGrid
+   --------------------------------------------------------------------------
+   Label/value rows ruled like a ledger, inside a hairline frame.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-detailsgrid:not(.tss-detailsgrid-borderless):not(.tss-detailsgrid-stacked) {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}

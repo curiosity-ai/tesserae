@@ -13,25 +13,25 @@ namespace Tesserae.Tests.Samples
         public HorizontalSplitViewSample()
         {
             var basicSplit = HorizontalSplitView()
-               .Top(Stack().S().Background(Theme.Colors.Neutral100).Children(TextBlock("Top Pane").Bold().AlignCenter()))
-               .Bottom(Stack().S().Background(Theme.Colors.Neutral200).Children(TextBlock("Bottom Pane").Bold().AlignCenter()))
+               .Top(Stack().S().Background(Theme.Secondary.Background).Children(TextBlock("Top Pane").Bold().AlignCenter()))
+               .Bottom(Stack().S().Background(Theme.Default.BackgroundHover).Children(TextBlock("Bottom Pane").Bold().AlignCenter()))
                .WS().H(300);
 
             var resizableSplit = HorizontalSplitView()
-               .Top(Stack().S().Background(Theme.Colors.Neutral100).Children(TextBlock("Editor").Bold().AlignCenter()))
-               .Bottom(Stack().S().Background(Theme.Colors.Neutral200).Children(TextBlock("Preview").Bold().AlignCenter()))
+               .Top(Stack().S().Background(Theme.Secondary.Background).Children(TextBlock("Editor").Bold().AlignCenter()))
+               .Bottom(Stack().S().Background(Theme.Default.BackgroundHover).Children(TextBlock("Preview").Bold().AlignCenter()))
                .Resizable(height => Toast().Information($"Top pane resized to {height}px"))
                .WS().H(300);
 
             var topSmaller = HorizontalSplitView()
-               .Top(Stack().S().Background(Theme.Colors.Blue100).Children(TextBlock("Fixed Header (80px)").Bold().AlignCenter()))
-               .Bottom(Stack().S().Background(Theme.Colors.Neutral200).Children(TextBlock("Grows to fill").Bold().AlignCenter()))
+               .Top(Stack().S().Background("color-mix(in srgb, var(--tss-primary-background-color) 18%, transparent)").Children(TextBlock("Fixed Header (80px)").Bold().AlignCenter()))
+               .Bottom(Stack().S().Background(Theme.Default.BackgroundHover).Children(TextBlock("Grows to fill").Bold().AlignCenter()))
                .TopIsSmaller(80.px())
                .WS().H(200);
 
             var bottomSmaller = HorizontalSplitView()
-               .Top(Stack().S().Background(Theme.Colors.Neutral200).Children(TextBlock("Grows to fill").Bold().AlignCenter()))
-               .Bottom(Stack().S().Background(Theme.Colors.Blue100).Children(TextBlock("Fixed Footer (80px)").Bold().AlignCenter()))
+               .Top(Stack().S().Background(Theme.Default.BackgroundHover).Children(TextBlock("Grows to fill").Bold().AlignCenter()))
+               .Bottom(Stack().S().Background("color-mix(in srgb, var(--tss-primary-background-color) 18%, transparent)").Children(TextBlock("Fixed Footer (80px)").Bold().AlignCenter()))
                .BottomIsSmaller(80.px())
                .WS().H(200);
 

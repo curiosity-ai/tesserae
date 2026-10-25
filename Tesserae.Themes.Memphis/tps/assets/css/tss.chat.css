@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Memphis theme - Chat
+   --------------------------------------------------------------------------
+   The user's message is a speech bubble cut from sunflower laminate: a 2px
+   black line, a square tail corner and a small hard shadow. Replies stay
+   type on the page so a long answer reads calmly.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-chatmessage-bubble {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-chat-right .tss-chatmessage-bubble {
+    background-color: rgb(var(--tss-mp-yellow-root));
+    color: var(--tss-mp-on-accent);
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-mp-pink-root));
+    margin-right: var(--tss-mp-off-sm);
+    margin-bottom: var(--tss-mp-off-sm);
+}
+
+body.tss-theme-memphis .tss-chat-right .tss-chatmessage-bubble .tss-fontcolor-default,
+body.tss-theme-memphis .tss-chat-right .tss-chatmessage-bubble a {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-chat-right .tss-chatmessage-references {
+    border-top-color: var(--tss-mp-line);
+}

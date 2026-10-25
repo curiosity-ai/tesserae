@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Blaupause theme - ModalStack
+   --------------------------------------------------------------------------
+   Stacked sheets: tabs and trail steps square, washed under the pointer,
+   the red pencil for focus.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-modalstack-trail-step {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-modalstack-tab:hover,
+body.tss-theme-blaupause .tss-modalstack-trail-step:hover {
+    background: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-modalstack-tab:focus-visible {
+    outline-color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-modalstack-trail-step {
+    font-family: var(--tss-bp-mono);
+    font-size: 11px;
+}

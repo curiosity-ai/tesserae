@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Kristall theme - CardPivot
+   --------------------------------------------------------------------------
+   A strip of cards that act as tabs: a grouped box divided by hairlines;
+   the chosen card takes the accent selection wash and a 2px accent rule at
+   its foot.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-cardpivot-titlebar {
+    border: 0;
+    border-radius: var(--tss-kr-r-box);
+    background: var(--tss-kr-box);
+    box-shadow: var(--tss-kr-shadow-box);
+}
+
+body.tss-theme-kristall .tss-cardpivot-tab {
+    background: transparent;
+    border-right: 0.5px solid var(--tss-kr-separator);
+    border-bottom: 2px solid transparent;
+    padding: 6px 12px 4px;
+}
+
+body.tss-theme-kristall .tss-cardpivot-tab:last-child {
+    border-right: 0;
+}
+
+body.tss-theme-kristall .tss-cardpivot-tab:hover {
+    background: var(--tss-kr-fill-4);
+}
+
+body.tss-theme-kristall .tss-cardpivot-tab.tss-cardpivot-selected {
+    background: var(--tss-kr-selection);
+    border-bottom: 2px solid var(--tss-kr-accent);
+}

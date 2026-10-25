@@ -1,0 +1,37 @@
+/* ==========================================================================
+   Graustufe theme - Nav
+   --------------------------------------------------------------------------
+   A table of contents: rows in the sans, a 4px ink bar at the leading edge
+   of the current row (which is also bold); hover takes the wash.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-nav {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-nav-link > .tss-nav-link-header {
+    background: transparent;
+    border-left-color: transparent;
+}
+
+body.tss-theme-graustufe .tss-nav-link > .tss-nav-link-header:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-nav-link > .tss-nav-link-header.tss-selected {
+    background: var(--tss-gs-13);
+    border-left-color: var(--tss-gs-0);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header {
+    border-right-color: transparent;
+}
+
+body.tss-theme-graustufe .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header.tss-selected {
+    border-right-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-nav-link-button:after {
+    border-color: var(--tss-gs-0);
+}

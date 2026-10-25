@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Kristall theme - fonts
+   --------------------------------------------------------------------------
+   Two voices, both under the SIL Open Font License 1.1 (the license texts
+   sit beside the files), served from the package rather than a font host:
+
+     Inter            the text: a neo-grotesque drawn for screens, with the
+                      tight, even rhythm of a desktop system face. Variable,
+                      100 to 900 in one file, upright and italic, Latin.
+     JetBrains Mono   code, Latin.
+
+   Only the Latin subset ships, to keep the payload lean; anything outside it
+   falls through to the generic sans in --tss-sansserif-font-family.
+   ========================================================================== */
+
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("../fonts/kristall/inter-latin-wght-normal.woff2") format("woff2-variations"), url("../fonts/kristall/inter-latin-wght-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Inter"; font-style: italic; font-weight: 100 900; font-display: swap; src: url("../fonts/kristall/inter-latin-wght-italic.woff2") format("woff2-variations"), url("../fonts/kristall/inter-latin-wght-italic.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("../fonts/kristall/jetbrains-mono-latin-wght-normal.woff2") format("woff2-variations"), url("../fonts/kristall/jetbrains-mono-latin-wght-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }

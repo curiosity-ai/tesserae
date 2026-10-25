@@ -1,0 +1,63 @@
+/* ==========================================================================
+   Memphis theme - Uptime
+   --------------------------------------------------------------------------
+   Status bars and month tiles take the theme's accents: mint for
+   operational, sunflower for minor, tomato for major, cobalt for
+   maintenance, a pale step for no data. Month cards are framed panels with
+   a black line and a hard shadow; the tooltip is the theme's ink sticker.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-uptime-bars span,
+body.tss-theme-memphis .tss-uptime-bars span.none,
+body.tss-theme-memphis .tss-uptime-month-day,
+body.tss-theme-memphis .tss-uptime-bars span.future,
+body.tss-theme-memphis .tss-uptime-month-day.future {
+    background: rgb(var(--tss-progress-background-color-root));
+}
+
+body.tss-theme-memphis .tss-uptime-bars span.operational,
+body.tss-theme-memphis .tss-uptime-month-day.operational { background: rgb(var(--tss-mp-mint-root)); }
+body.tss-theme-memphis .tss-uptime-bars span.minor,
+body.tss-theme-memphis .tss-uptime-month-day.minor { background: rgb(var(--tss-mp-yellow-root)); }
+body.tss-theme-memphis .tss-uptime-bars span.major,
+body.tss-theme-memphis .tss-uptime-month-day.major { background: rgb(var(--tss-mp-tomato-root)); }
+body.tss-theme-memphis .tss-uptime-bars span.maintenance,
+body.tss-theme-memphis .tss-uptime-month-day.maintenance { background: rgb(var(--tss-mp-cobalt-root)); }
+
+body.tss-theme-memphis .tss-uptime-bars span {
+    box-shadow: inset 0 0 0 1px rgba(var(--tss-mp-line-root), 0.35);
+}
+
+body.tss-theme-memphis .tss-uptime-bars span:hover {
+    box-shadow: 0 0 0 2px var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-uptime-month-card {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-mp-lilac-root));
+}
+
+body.tss-theme-memphis .tss-uptime-month-header {
+    font-weight: 800;
+}
+
+body.tss-theme-memphis .tss-uptime-month-header span {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-uptime-month-empty {
+    background: transparent;
+}
+
+body.tss-theme-memphis .tippy-box[data-theme~='uptime'] {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    background: rgb(var(--tss-tooltip-background-color-root));
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+    box-shadow: 3px 3px 0 0 rgb(var(--tss-mp-yellow-root));
+}
+
+body.tss-theme-memphis .tippy-box[data-theme~='uptime'] .tss-textblock {
+    color: rgb(var(--tss-tooltip-foreground-color-root)) !important;
+}

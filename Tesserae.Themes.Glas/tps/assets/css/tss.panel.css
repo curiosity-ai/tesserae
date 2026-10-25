@@ -1,0 +1,90 @@
+/* ==========================================================================
+   Glas theme - Panel
+   --------------------------------------------------------------------------
+   A panel is a tall slab of thick glass sliding in from the side, held off
+   the window's edges like the sidebar, with the page veiled behind it (the
+   veil's blur on the container's ::before: see tss.modal.css for why the
+   container itself carries no filter).
+   ========================================================================== */
+
+body.tss-theme-glas .tss-panel-container {
+    background-color: var(--tss-overlay-light);
+}
+
+body.tss-theme-glas .tss-panel-container.tss-dark {
+    background-color: var(--tss-overlay-dark);
+}
+
+body.tss-theme-glas .tss-panel-container:not(.tss-panel-modeless)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    -webkit-backdrop-filter: blur(3px) saturate(120%);
+    backdrop-filter: blur(3px) saturate(120%);
+    pointer-events: none;
+}
+
+body.tss-theme-glas .tss-panel {
+    top: 10px;
+    bottom: 10px;
+    background: var(--tss-gl-pane-thick);
+    border-radius: var(--tss-gl-radius-pane);
+    box-shadow: var(--tss-gl-surface-float);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+}
+
+body.tss-theme-glas .tss-panel.tss-panelSide-far {
+    right: 10px;
+}
+
+body.tss-theme-glas .tss-panel.tss-panelSide-near {
+    left: 10px;
+}
+
+body.tss-theme-glas .tss-panel.tss-panelSize-fullwidth {
+    width: calc(100% - 20px);
+}
+
+body.tss-theme-glas .tss-panel-title {
+    font-weight: 700;
+    padding-left: 22px;
+}
+
+body.tss-theme-glas .tss-panel-inner {
+    padding: 16px 22px 20px;
+}
+
+body.tss-theme-glas .tss-panel-command-button {
+    width: 36px;
+    height: 36px;
+    margin-right: 8px;
+    border-radius: 999px;
+    font-size: var(--tss-font-size-medium);
+}
+
+body.tss-theme-glas .tss-panel-command-button:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: var(--tss-gl-rim), 0 2px 8px -4px rgba(60, 58, 130, 0.3);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-panel-command-button:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    box-shadow: var(--tss-gl-rim);
+}
+
+body.tss-theme-glas .tss-panel-command-button:active {
+    background-color: rgba(var(--tss-gl-accent-rgb), 0.14);
+    color: var(--tss-gl-accent-ink);
+}
+
+body.tss-theme-glas .tss-panel-footer {
+    padding-top: 10px;
+    box-shadow: inset 0 1px 0 var(--tss-gl-edge);
+}
+
+@supports (backdrop-filter: url("#a")) and (not (-moz-appearance: none)) and (not (font: -apple-system-body)) {
+    body.tss-theme-glas .tss-panel {
+        backdrop-filter: var(--tss-gl-refract);
+    }
+}

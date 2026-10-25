@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Memphis theme - Layer
+   --------------------------------------------------------------------------
+   A bare layer is a panel lifted over the page: a 2px black line and a hard
+   shadow. A transparent one draws nothing.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-layer-content {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    box-shadow: var(--tss-mp-off) var(--tss-mp-off) 0 0 var(--tss-mp-pop-cast);
+}
+
+body.tss-theme-memphis .tss-layer-content.tss-layer-content-transparent {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}

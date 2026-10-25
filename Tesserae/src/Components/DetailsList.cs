@@ -31,6 +31,14 @@ namespace Tesserae
 
         private Func<Task<TDetailsListItem[]>> _getNextItemPage = null;
 
+        // The sortable column headers, by sorting key, for aria-sort; and the key SortedBy pre-sorted on.
+        private readonly Dictionary<string, HTMLElement> _sortableHeaders = new Dictionary<string, HTMLElement>();
+        private string _sortedByKey;
+
+        // The one row in the tab order (roving tabindex): the list is a single Tab stop, and the arrow keys
+        // move between its rows.
+        private HTMLElement _tabStopRow;
+
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
@@ -167,6 +175,7 @@ namespace Tesserae
             }
 
             SortListItems(columnSortingKey);
+            _sortedByKey = columnSortingKey;
 
             return this;
         }
@@ -196,6 +205,10 @@ namespace Tesserae
 
             _listItemsContainer = Div(Att("tss-detailslist-list-items-container").WithRole("rowgroup"));
             _listContainer.appendChild(_listItemsContainer);
+
+            // One listener for every row, present and future: rows come and go with sorting and paging.
+            _listItemsContainer.addEventListener("keydown", e => OnRowKeyDown(e.As<KeyboardEvent>()));
+            _listItemsContainer.addEventListener("focusin", e => OnRowFocusIn(e));
 
             if (_columns.All(detailsListColumn => detailsListColumn.Width.Unit == Unit.Pixels))
             {
@@ -245,6 +258,7 @@ namespace Tesserae
 
                                 v.Reset();
                                 _listItemsContainer.appendChild(vElement);
+                                UpdateRowTabStop();
                             }
                             // if there are no new items, don't add the visibility sensor again, to not trigger repeated updates
 
@@ -260,9 +274,13 @@ namespace Tesserae
                     _listItemsContainer.RemoveChildElements();
                     _listItemsContainer.AppendChildren(_componentCache.GetAllRenderedComponentsFromCache().ToArray());
                 }
+
+                UpdateRowTabStop();
             }
             else if (_emptyListMessageGenerator is object)
             {
+                _tabStopRow = null;
+
                 //We render the message so that it fits the whole area from the _listItemsContainer, if it has a pre-defined height, otherwise, we set a min height of 64 px
                 var emptyMessage = _emptyListMessageGenerator().Render();
 
@@ -306,11 +324,35 @@ namespace Tesserae
             if (column.EnableColumnSorting)
             {
                 columnHeader.addEventListener("click", () => SortList(column.SortingKey, columnHtmlElement));
+
+                if (!string.IsNullOrWhiteSpace(column.SortingKey))
+                {
+                    _sortableHeaders[column.SortingKey] = columnHeader;
+                    columnHeader.setAttribute("aria-sort", column.SortingKey == _sortedByKey ? "ascending" : "none");
+                }
             }
 
             if (column.EnableOnColumnClickEvent)
             {
                 columnHeader.addEventListener("click", column.OnColumnClick);
+            }
+
+            // A header that does something on click is reached with Tab and pressed with Enter or Space, the way
+            // a button is; the click it raises runs exactly what the pointer's click does.
+            if (column.EnableOnColumnClickEvent || column.EnableColumnSorting)
+            {
+                columnHeader.tabIndex = 0;
+                columnHeader.classList.add("tss-detailslist-column-header-interactive");
+
+                columnHeader.addEventListener("keydown", e =>
+                {
+                    var ke = e.As<KeyboardEvent>();
+
+                    if (ke.target != columnHeader || (ke.key != "Enter" && ke.key != " ")) return;
+
+                    ke.preventDefault();
+                    columnHeader.click();
+                });
             }
 
             columnHeader.appendChild(columnHtmlElement);
@@ -338,6 +380,7 @@ namespace Tesserae
             var (detailsListItemNumber, detailsListItem) = detailsListItemAndKey;
 
             var detailsListItemContainer = Div(Att("tss-detailslist-list-item-container").WithRole("row"));
+            detailsListItemContainer.tabIndex = -1; //Roving: UpdateRowTabStop gives one row 0
             var gridCellHtmlElements     = detailsListItem.Render(_columns, CreateGridCell).ToArray();
 
             if (detailsListItem.EnableOnListItemClickEvent)
@@ -382,12 +425,104 @@ namespace Tesserae
 
                 _listItemsContainer.classList.remove("tss-fade");
                 _previousColumnSortingKey = columnSortingKey;
+
+                UpdateAriaSort(columnSortingKey);
             }, 0100);
 
             /* The above magic number is the length of the fade out transition added to the _detailsListItemContainer
              * minus a completely arbitrary amount. Can we access this programmatically? Loop over the item opacity?
              * Could possibly do with adding a fade in transition as well to make the appearance of the newly ordered
              * list items smoother. - MB 16/02/2020 */
+        }
+
+        private void UpdateAriaSort(string columnSortingKey)
+        {
+            foreach (var header in _sortableHeaders)
+            {
+                var direction = header.Key == columnSortingKey ? (_currentSortingIcon == UIcons.ArrowUp ? "ascending" : "descending") : "none";
+                header.Value.setAttribute("aria-sort", direction);
+            }
+        }
+
+        private List<HTMLElement> Rows()
+        {
+            var rows     = new List<HTMLElement>();
+            var children = _listItemsContainer.children;
+
+            for (uint i = 0; i < children.length; i++)
+            {
+                var child = (HTMLElement)children[i];
+                if (child.classList.contains("tss-detailslist-list-item-container")) rows.Add(child);
+            }
+
+            return rows;
+        }
+
+        // Keeps the row the keyboard was last on as the list's Tab stop (rows are reused, so it survives a sort),
+        // or the first row when that one is gone.
+        private void UpdateRowTabStop()
+        {
+            if (_tabStopRow is object && _tabStopRow.parentElement == _listItemsContainer) return;
+
+            var rows = Rows();
+            _tabStopRow = rows.FirstOrDefault();
+
+            if (_tabStopRow is object) _tabStopRow.tabIndex = 0;
+        }
+
+        private void MoveRowTabStop(HTMLElement row)
+        {
+            if (row is null || row == _tabStopRow) return;
+
+            if (_tabStopRow is object) _tabStopRow.tabIndex = -1;
+
+            _tabStopRow  = row;
+            row.tabIndex = 0;
+        }
+
+        // A click (or a Tab into something inside a row) makes that row the one the keyboard continues from.
+        private void OnRowFocusIn(Event e)
+        {
+            var target = e.target as HTMLElement;
+            var row    = target?.closest(".tss-detailslist-list-item-container") as HTMLElement;
+
+            if (row is object && row.parentElement == _listItemsContainer) MoveRowTabStop(row);
+        }
+
+        private void OnRowKeyDown(KeyboardEvent e)
+        {
+            if (e.ctrlKey || e.altKey || e.metaKey) return;
+
+            var row = e.target as HTMLElement;
+
+            // Only keys pressed on a row itself: a field or button inside a cell keeps its own keys.
+            if (row is null || row.parentElement != _listItemsContainer || !row.classList.contains("tss-detailslist-list-item-container")) return;
+
+            var rows  = Rows();
+            var index = rows.IndexOf(row);
+            HTMLElement next = null;
+
+            switch (e.key)
+            {
+                case "ArrowDown": next = index + 1 < rows.Count ? rows[index + 1] : null; break;
+                case "ArrowUp":   next = index > 0 ? rows[index - 1] : null; break;
+                case "Home":      next = rows.FirstOrDefault(); break;
+                case "End":       next = rows.LastOrDefault(); break;
+                case "Enter":
+                case " ":
+                    e.preventDefault();
+                    row.click(); //Runs the row's click handler, when it has one
+                    return;
+                default: return;
+            }
+
+            e.preventDefault();
+
+            if (next is object)
+            {
+                MoveRowTabStop(next);
+                next.focus();
+            }
         }
 
         private void SortListItems(string columnSortingKey) => _componentCache.SortComponents((detailsListItem, detailsListItemOther) => detailsListItem.CompareTo(detailsListItemOther, columnSortingKey));

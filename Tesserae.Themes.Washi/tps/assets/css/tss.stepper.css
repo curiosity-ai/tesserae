@@ -1,0 +1,59 @@
+/* ==========================================================================
+   Washi theme - Stepper
+   --------------------------------------------------------------------------
+   Steps are numbered circles drawn in diluted ink. The current one is
+   a round vermilion seal, its number cut out in paper (a plain disc: the
+   seal's pores would break up a numeral this small); a
+   finished one is drawn in moss.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-stepper-step {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-stepper-step:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-stepper-circle {
+    position: relative;
+    isolation: isolate;
+    border-width: 1px;
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.4);
+    font-family: var(--tss-wa-serif);
+    font-weight: 600;
+}
+
+body.tss-theme-washi .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-circle {
+    border: 1px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-stepper-active .tss-stepper-circle {
+    border-color: transparent;
+    color: var(--tss-wa-on-shu);
+}
+
+body.tss-theme-washi .tss-stepper-active .tss-stepper-circle::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    z-index: -1;
+    border-radius: 50%;
+    background-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-stepper-complete .tss-stepper-circle {
+    border-color: var(--tss-wa-koke);
+    color: var(--tss-wa-koke);
+}
+
+body.tss-theme-washi .tss-stepper-label {
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-stepper-content,
+body.tss-theme-washi .tss-stepper-nav {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}

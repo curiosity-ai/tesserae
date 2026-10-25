@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Blaupause theme - NotificationCenter
+   --------------------------------------------------------------------------
+   The bell's count is a red-pencil balloon; unread entries are swiped with
+   the highlighter and their tone dots are square marks.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-notif-bell:hover {
+    background: var(--tss-bp-wash);
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-notif-badge {
+    background: var(--tss-bp-red);
+    color: var(--tss-bp-sheet);
+    font-family: var(--tss-bp-mono);
+}
+
+body.tss-theme-blaupause .tss-notif-dot {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-notif-dot.tss-notif-info {
+    background: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-notif-dot.tss-notif-danger {
+    background: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-notif-unread {
+    background: var(--tss-bp-yellow-wash) !important;
+}

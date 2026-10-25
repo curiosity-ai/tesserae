@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Washi theme - Metric
+   --------------------------------------------------------------------------
+   A figure that matters is set in Mincho, like the numerals in a printed
+   ledger; its title is a small caption in diluted ink.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-metric-value,
+body.tss-theme-washi .tss-metric-value .tss-textblock {
+    font-family: var(--tss-wa-serif);
+    font-variant-numeric: lining-nums tabular-nums;
+}
+
+body.tss-theme-washi .tss-metric-title {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    letter-spacing: 0.04em;
+}
+
+body.tss-theme-washi .tss-metric-value-filled .tss-metric-value {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-metric-clickable {
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-metric-clickable:hover {
+    background: var(--tss-wa-wash);
+    box-shadow: 0 0 0 6px var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-metric-clickable:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}

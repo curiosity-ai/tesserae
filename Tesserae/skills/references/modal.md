@@ -33,6 +33,15 @@ into scope with `using static Tesserae.UI;`.
   is only ever the dialog). See `drawer.md`.
 - `.WithPixelAvatar(avatar | key + design, anchor)` — perch an animated pixel cat on one of the modal's own edges and get the modal back to go on configuring. See `pixel-avatar.md`.
 
+## Keyboard and focus
+
+- The close button is named "Close". The modal box takes the focus when it opens (`tabindex=-1`:
+  focusable from code, not a Tab stop), and Tab / Shift+Tab cycle through its controls only.
+- On close (Escape, the close button, light dismiss, `Hide()`) the focus returns to the element
+  that had it when the modal opened - usually the button that opened it - unless an `OnHide`
+  handler moved it elsewhere. `Dialog` and `ModalStack` behave the same (the stack restores once
+  its last sheet closes).
+
 ## Example
 
 ```csharp

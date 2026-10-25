@@ -1,0 +1,98 @@
+/* ==========================================================================
+   Memphis theme - Banner
+   --------------------------------------------------------------------------
+   A banner is a strip of laminate: a 2px black line, a pale tint of its
+   tone, and a thick band of the bright tone down its leading edge, dotted
+   like a Memphis print. The title is bold ink, the text ink; the icon sits
+   in a disc of the tone with a black line. The neutral banner is lilac.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-banner {
+    --tss-mp-banner-fill: rgb(var(--tss-mp-lilac-root));
+    --tss-mp-banner-pale: var(--tss-mp-lilac-pale);
+    --tss-banner-title-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-banner-text-color: rgb(var(--tss-default-foreground-color-root));
+    position: relative;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    background: var(--tss-mp-banner-pale);
+    padding-left: 26px;
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis.tss-dark-mode .tss-banner {
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 var(--tss-mp-banner-fill);
+}
+
+body.tss-theme-memphis .tss-banner::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 12px;
+    border-right: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: calc(var(--tss-mp-radius) - 2px) 0 0 calc(var(--tss-mp-radius) - 2px);
+    background-color: var(--tss-mp-banner-fill);
+    background-image: radial-gradient(circle, rgba(var(--tss-mp-line-root), 0.85) 1.6px, transparent 2.1px);
+    background-size: 6px 7px;
+    background-position: 0 2px;
+}
+
+body.tss-theme-memphis .tss-banner-primary { --tss-mp-banner-fill: rgb(var(--tss-mp-pink-root)); --tss-mp-banner-pale: var(--tss-mp-pink-pale); }
+body.tss-theme-memphis .tss-banner-success { --tss-mp-banner-fill: rgb(var(--tss-mp-mint-root)); --tss-mp-banner-pale: var(--tss-mp-mint-pale); }
+body.tss-theme-memphis .tss-banner-warning { --tss-mp-banner-fill: rgb(var(--tss-mp-yellow-root)); --tss-mp-banner-pale: var(--tss-mp-yellow-pale); }
+body.tss-theme-memphis .tss-banner-danger  { --tss-mp-banner-fill: rgb(var(--tss-mp-tomato-root)); --tss-mp-banner-pale: var(--tss-mp-tomato-pale); }
+
+body.tss-theme-memphis .tss-banner-primary,
+body.tss-theme-memphis .tss-banner-success,
+body.tss-theme-memphis .tss-banner-warning,
+body.tss-theme-memphis .tss-banner-danger {
+    --tss-banner-title-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-banner-text-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-banner-flat {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-banner-flat::before {
+    border-radius: 0;
+}
+
+body.tss-theme-memphis .tss-banner-compact {
+    padding-left: 22px;
+}
+
+body.tss-theme-memphis .tss-banner-compact::before {
+    width: 10px;
+}
+
+body.tss-theme-memphis .tss-banner-title {
+    font-weight: 800;
+}
+
+body.tss-theme-memphis .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-memphis.tss-dark-mode .tss-icontile.tss-banner-icon-tile {
+    background: var(--tss-mp-banner-fill);
+    color: var(--tss-mp-on-accent);
+    border-radius: 50%;
+}
+
+body.tss-theme-memphis .tss-banner-badge-pill.tss-badge {
+    background: var(--tss-mp-banner-fill);
+    color: var(--tss-mp-on-accent);
+    border-color: var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-btn.tss-banner-dismiss-button:hover {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-toast-container > .tss-banner {
+    box-shadow: none;
+}

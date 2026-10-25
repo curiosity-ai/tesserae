@@ -80,6 +80,60 @@ steps:
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Weniger/'
 
 - task: CmdLine@2
+  displayName: 'restore Zeitung theme project'
+  inputs:
+    script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Themes.Zeitung\Tesserae.Themes.Zeitung.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Zeitung/'
+
+- task: CmdLine@2
+  displayName: 'restore Blaupause theme project'
+  inputs:
+    script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Themes.Blaupause\Tesserae.Themes.Blaupause.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Blaupause/'
+
+- task: CmdLine@2
+  displayName: 'restore Phosphor theme project'
+  inputs:
+    script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Themes.Phosphor\Tesserae.Themes.Phosphor.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Phosphor/'
+
+- task: CmdLine@2
+  displayName: 'restore Glas theme project'
+  inputs:
+    script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Themes.Glas\Tesserae.Themes.Glas.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Glas/'
+
+- task: CmdLine@2
+  displayName: 'restore Kontrast theme project'
+  inputs:
+    script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Themes.Kontrast\Tesserae.Themes.Kontrast.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Kontrast/'
+
+- task: CmdLine@2
+  displayName: 'restore Memphis theme project'
+  inputs:
+    script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Themes.Memphis\Tesserae.Themes.Memphis.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Memphis/'
+
+- task: CmdLine@2
+  displayName: 'restore Washi theme project'
+  inputs:
+    script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Themes.Washi\Tesserae.Themes.Washi.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Washi/'
+
+- task: CmdLine@2
+  displayName: 'restore Graustufe theme project'
+  inputs:
+    script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Themes.Graustufe\Tesserae.Themes.Graustufe.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Graustufe/'
+
+- task: CmdLine@2
+  displayName: 'restore Kristall theme project'
+  inputs:
+    script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Themes.Kristall\Tesserae.Themes.Kristall.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Kristall/'
+
+- task: CmdLine@2
   displayName: 'restore tests project'
   inputs:
     script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Tests\Tesserae.Tests.csproj'
@@ -219,6 +273,132 @@ steps:
   inputs:
     command: 'push'
     packagesToPush: '**/*/Tesserae.Themes.Weniger.$(themePackageVersion).nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-curiosity-org'
+
+- task: CmdLine@2
+  displayName: 'Build Tesserae.Themes.Zeitung'
+  inputs:
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Themes.Zeitung\Tesserae.Themes.Zeitung.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion) /p:ThemeVersion=$(themePackageVersion)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Zeitung/'
+
+- task: NuGetCommand@2
+  displayName: 'push Tesserae.Themes.Zeitung to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*/Tesserae.Themes.Zeitung.$(themePackageVersion).nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-curiosity-org'
+
+- task: CmdLine@2
+  displayName: 'Build Tesserae.Themes.Blaupause'
+  inputs:
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Themes.Blaupause\Tesserae.Themes.Blaupause.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion) /p:ThemeVersion=$(themePackageVersion)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Blaupause/'
+
+- task: NuGetCommand@2
+  displayName: 'push Tesserae.Themes.Blaupause to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*/Tesserae.Themes.Blaupause.$(themePackageVersion).nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-curiosity-org'
+
+- task: CmdLine@2
+  displayName: 'Build Tesserae.Themes.Phosphor'
+  inputs:
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Themes.Phosphor\Tesserae.Themes.Phosphor.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion) /p:ThemeVersion=$(themePackageVersion)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Phosphor/'
+
+- task: NuGetCommand@2
+  displayName: 'push Tesserae.Themes.Phosphor to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*/Tesserae.Themes.Phosphor.$(themePackageVersion).nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-curiosity-org'
+
+- task: CmdLine@2
+  displayName: 'Build Tesserae.Themes.Glas'
+  inputs:
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Themes.Glas\Tesserae.Themes.Glas.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion) /p:ThemeVersion=$(themePackageVersion)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Glas/'
+
+- task: NuGetCommand@2
+  displayName: 'push Tesserae.Themes.Glas to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*/Tesserae.Themes.Glas.$(themePackageVersion).nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-curiosity-org'
+
+- task: CmdLine@2
+  displayName: 'Build Tesserae.Themes.Kontrast'
+  inputs:
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Themes.Kontrast\Tesserae.Themes.Kontrast.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion) /p:ThemeVersion=$(themePackageVersion)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Kontrast/'
+
+- task: NuGetCommand@2
+  displayName: 'push Tesserae.Themes.Kontrast to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*/Tesserae.Themes.Kontrast.$(themePackageVersion).nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-curiosity-org'
+
+- task: CmdLine@2
+  displayName: 'Build Tesserae.Themes.Memphis'
+  inputs:
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Themes.Memphis\Tesserae.Themes.Memphis.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion) /p:ThemeVersion=$(themePackageVersion)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Memphis/'
+
+- task: NuGetCommand@2
+  displayName: 'push Tesserae.Themes.Memphis to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*/Tesserae.Themes.Memphis.$(themePackageVersion).nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-curiosity-org'
+
+- task: CmdLine@2
+  displayName: 'Build Tesserae.Themes.Washi'
+  inputs:
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Themes.Washi\Tesserae.Themes.Washi.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion) /p:ThemeVersion=$(themePackageVersion)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Washi/'
+
+- task: NuGetCommand@2
+  displayName: 'push Tesserae.Themes.Washi to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*/Tesserae.Themes.Washi.$(themePackageVersion).nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-curiosity-org'
+
+- task: CmdLine@2
+  displayName: 'Build Tesserae.Themes.Graustufe'
+  inputs:
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Themes.Graustufe\Tesserae.Themes.Graustufe.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion) /p:ThemeVersion=$(themePackageVersion)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Graustufe/'
+
+- task: NuGetCommand@2
+  displayName: 'push Tesserae.Themes.Graustufe to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*/Tesserae.Themes.Graustufe.$(themePackageVersion).nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-curiosity-org'
+
+- task: CmdLine@2
+  displayName: 'Build Tesserae.Themes.Kristall'
+  inputs:
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Themes.Kristall\Tesserae.Themes.Kristall.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion) /p:ThemeVersion=$(themePackageVersion)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Themes.Kristall/'
+
+- task: NuGetCommand@2
+  displayName: 'push Tesserae.Themes.Kristall to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*/Tesserae.Themes.Kristall.$(themePackageVersion).nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity-org'
 

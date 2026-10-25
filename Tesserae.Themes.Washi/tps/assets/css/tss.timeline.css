@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Washi theme - Timeline
+   --------------------------------------------------------------------------
+   A timeline is a vertical stroke of diluted ink with paper notes hung
+   from it, each pinned by a small ink ring.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-timeline-owner {
+    background: transparent linear-gradient(var(--tss-wa-line-strong), var(--tss-wa-line-strong)) no-repeat center / 1px 100%;
+}
+
+body.tss-theme-washi .tss-timeline-owner.tss-left {
+    background: transparent linear-gradient(var(--tss-wa-line-strong), var(--tss-wa-line-strong)) no-repeat 20px 0 / 1px 100%;
+}
+
+body.tss-theme-washi .tss-timeline-container::after {
+    background: rgb(var(--tss-default-background-color-root));
+    border-width: 1.5px;
+    border-color: var(--tss-timeline-circle-color, rgb(var(--tss-default-foreground-color-root)));
+}
+
+body.tss-theme-washi .tss-timeline-container .tss-timeline-content {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+}

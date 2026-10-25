@@ -1,0 +1,21 @@
+/* ==========================================================================
+   Memphis theme - TextArea
+   --------------------------------------------------------------------------
+   A text area is the same slab as a TextBox (tss.textbox.css draws it,
+   since a TextArea carries the tss-textbox class too), with room to write
+   and a little more padding at the top.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-textarea.tss-textbox {
+    height: auto;
+    padding: 8px 12px;
+    line-height: 1.5;
+}
+
+body.tss-theme-memphis .tss-textarea-container > .tss-textarea.tss-textbox {
+    height: 100%;
+}
+
+body.tss-theme-memphis .tss-textarea-container > .tss-textarea.tss-textbox.tss-textarea-autoresize {
+    height: auto;
+}

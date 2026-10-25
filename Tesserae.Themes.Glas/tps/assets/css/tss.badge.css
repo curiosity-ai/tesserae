@@ -1,0 +1,114 @@
+/* ==========================================================================
+   Glas theme - Badge, Tag, Chip
+   --------------------------------------------------------------------------
+   A token is a small capsule of glass: a clear tint, a lit rim, a hairline
+   edge. A toned token (primary, success, warning, danger, info) is a tiny
+   lozenge of its colour with the gloss. The outline style is the edge
+   alone, in the tone; the tinted style a wash of the tint, its rim lit.
+   ========================================================================== */
+
+body.tss-theme-glas :where(.tss-token) {
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+    border-color: transparent;
+}
+
+body.tss-theme-glas.tss-dark-mode :where(.tss-token) {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.tss-theme-glas :where(.tss-tag) {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+body.tss-theme-glas.tss-dark-mode :where(.tss-tag) {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+body.tss-theme-glas .tss-chip,
+body.tss-theme-glas .tss-token-pill {
+    border-radius: 999px;
+}
+
+body.tss-theme-glas :where(.tss-token-outline) {
+    background: transparent;
+    box-shadow: 0 0 0 1px var(--tss-gl-edge-strong);
+}
+
+body.tss-theme-glas :where(.tss-token-filled) {
+    background: rgba(84, 86, 150, 0.1);
+}
+
+body.tss-theme-glas.tss-dark-mode :where(.tss-token-filled) {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.tss-theme-glas .tss-token-primary:not(.tss-token-outline),
+body.tss-theme-glas .tss-token-success:not(.tss-token-outline),
+body.tss-theme-glas .tss-token-warning:not(.tss-token-outline),
+body.tss-theme-glas .tss-token-danger:not(.tss-token-outline),
+body.tss-theme-glas .tss-token-info:not(.tss-token-outline) {
+    background-image: var(--tss-gl-lozenge-shine);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.14), 0 2px 6px -3px rgba(40, 38, 100, 0.4);
+}
+
+body.tss-theme-glas .tss-token-info:not(.tss-token-outline) {
+    background-color: rgb(var(--tss-gl-accent-rgb));
+}
+
+body.tss-theme-glas .tss-token-outline.tss-token-primary {
+    color: var(--tss-gl-accent-ink);
+    box-shadow: 0 0 0 1px rgba(var(--tss-gl-accent-rgb), 0.6);
+    border-color: transparent;
+}
+
+body.tss-theme-glas .tss-token-outline.tss-token-success {
+    box-shadow: 0 0 0 1px rgba(var(--tss-success-background-color-root), 0.65);
+    border-color: transparent;
+}
+
+body.tss-theme-glas .tss-token-outline.tss-token-danger {
+    box-shadow: 0 0 0 1px rgba(var(--tss-danger-background-color-root), 0.65);
+    border-color: transparent;
+}
+
+body.tss-theme-glas .tss-token-outline.tss-token-warning {
+    color: rgb(170, 96, 0);
+    box-shadow: 0 0 0 1px rgba(var(--tss-warning-background-color-root), 0.8);
+    border-color: transparent;
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-token-outline.tss-token-warning {
+    color: var(--tss-warning-background-color);
+}
+
+body.tss-theme-glas .tss-token-outline.tss-token-info {
+    color: var(--tss-gl-accent-ink);
+    box-shadow: 0 0 0 1px rgba(var(--tss-gl-accent-rgb), 0.5);
+    border-color: transparent;
+}
+
+body.tss-theme-glas .tss-token-tinted {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 0 0 1px color-mix(in srgb, var(--tss-token-tint) 24%, transparent);
+}
+
+body.tss-theme-glas .tss-token-remove {
+    border-radius: 999px;
+}
+
+body.tss-theme-glas .tss-token-remove:hover {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-token-remove:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+/* The tone's own fill, restated: the glass default above is more specific than Tesserae's tone classes. */
+body.tss-theme-glas .tss-token-primary:not(.tss-token-outline) { background-color: rgb(var(--tss-primary-background-color-root)); }
+body.tss-theme-glas .tss-token-success:not(.tss-token-outline) { background-color: rgb(var(--tss-success-background-color-root)); }
+body.tss-theme-glas .tss-token-warning:not(.tss-token-outline) { background-color: rgb(var(--tss-warning-background-color-root)); }
+body.tss-theme-glas .tss-token-danger:not(.tss-token-outline) { background-color: rgb(var(--tss-danger-background-color-root)); }
+body.tss-theme-glas .tss-token-outline { background-color: transparent; }
+body.tss-theme-glas .tss-token-tinted { background-color: color-mix(in srgb, var(--tss-token-tint) 18%, transparent); }

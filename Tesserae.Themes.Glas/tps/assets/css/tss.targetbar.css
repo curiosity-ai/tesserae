@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Glas theme - TargetBar
+   --------------------------------------------------------------------------
+   A capsule well with a glossy fill of its colour and a bright target tick.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-targetbar-track {
+    background: rgba(84, 86, 150, 0.12);
+    box-shadow: inset 0 1px 2px rgba(60, 58, 130, 0.18);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-targetbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+body.tss-theme-glas .tss-targetbar-fill {
+    background-image: var(--tss-gl-lozenge-shine);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+body.tss-theme-glas .tss-targetbar-marker {
+    background: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7);
+}

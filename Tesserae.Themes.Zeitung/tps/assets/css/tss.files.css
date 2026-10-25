@@ -1,0 +1,48 @@
+/* ==========================================================================
+   Zeitung theme - File selector and drop area
+   --------------------------------------------------------------------------
+   The drop area is the dotted cut-here box of a coupon: a dashed ink rule
+   round a square, the message in italic. While a file is held over it the
+   rule turns solid spot red and the box takes a wash of ink.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-filedroparea,
+body.tss-theme-zeitung .tss-filedroparea-overlay {
+    border: 1px dashed var(--tss-zt-ink);
+    border-radius: 0;
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-filedroparea:hover,
+body.tss-theme-zeitung .tss-filedroparea.tss-dropping {
+    background: var(--tss-zt-tint);
+}
+
+body.tss-theme-zeitung .tss-filedroparea.tss-dropping,
+body.tss-theme-zeitung .tss-filedroparea-wrapper.tss-dropping .tss-filedroparea-overlay {
+    border: 1px solid var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-filedroparea-message {
+    font-style: italic;
+    color: var(--tss-zt-muted);
+}
+
+body.tss-theme-zeitung .tss-filedroparea-icon {
+    color: var(--tss-zt-ink);
+    -webkit-text-stroke: 0;
+}
+
+body.tss-theme-zeitung .tss-filedroparea-overlay,
+body.tss-theme-zeitung.tss-dark-mode .tss-filedroparea-overlay {
+    background: rgba(var(--tss-default-background-color-root), 0.85);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-filedroparea,
+body.tss-theme-zeitung .tss-filedroparea-overlay {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

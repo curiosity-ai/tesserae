@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Memphis theme - ProgressRing
+   --------------------------------------------------------------------------
+   A ring is a fat bubblegum arc on a pale track, its figure in bold ink.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-progressring-track {
+    stroke: var(--tss-progressring-track-color, rgba(var(--tss-mp-line-root), 0.14));
+}
+
+body.tss-theme-memphis .tss-progressring-fill {
+    stroke: rgb(var(--tss-mp-pink-root));
+}
+
+body.tss-theme-memphis .tss-progressring-label {
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}

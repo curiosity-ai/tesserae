@@ -1,0 +1,21 @@
+/* ==========================================================================
+   Graustufe theme - Mermaid (diagrams drawn by Pele)
+   --------------------------------------------------------------------------
+   Tesserae's tss.mermaid.css already maps the diagram onto the theme's
+   tokens and series greys. Here the frame matches the code blocks: paper,
+   a 1px ink rule, square, the small dithered drop edge.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-mermaid,
+body.tss-theme-graustufe .tss-markdown .tss-mermaid {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    border-image: var(--tss-gs-edge-sm);
+    --pele-radius: 0px;
+    --pele-font: var(--tss-gs-ui);
+    --pele-font-mono: var(--tss-gs-mono);
+    --pele-line: var(--tss-gs-0);
+    --pele-border: var(--tss-gs-0);
+    --pele-accent: var(--tss-gs-0);
+}

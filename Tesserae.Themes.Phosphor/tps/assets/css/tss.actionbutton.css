@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Phosphor theme - ActionButton
+   --------------------------------------------------------------------------
+   A split button is two fields welded together: square, each half
+   inverting under the pointer on its own.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-actionbutton-container,
+body.tss-theme-phosphor .tss-actionbutton-container > .tss-actionbutton-actionbtn,
+body.tss-theme-phosphor .tss-actionbutton-container > .tss-actionbutton-displaybutton {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-actionbutton-container > .tss-actionbutton-actionbtn:hover,
+body.tss-theme-phosphor .tss-actionbutton-container > .tss-actionbutton-displaybutton:not(.tss-btn-primary):not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-success):hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-actionbutton-container > .tss-actionbutton-actionbtn:hover * {
+    color: var(--tss-ph-on-cursor);
+}

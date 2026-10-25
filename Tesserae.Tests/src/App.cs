@@ -12,6 +12,15 @@ using Tesserae.Themes.Stratus;
 using Tesserae.Themes.RetroOS;
 using Tesserae.Themes.Rechenwerk;
 using Tesserae.Themes.Weniger;
+using Tesserae.Themes.Zeitung;
+using Tesserae.Themes.Blaupause;
+using Tesserae.Themes.Phosphor;
+using Tesserae.Themes.Glas;
+using Tesserae.Themes.Kontrast;
+using Tesserae.Themes.Memphis;
+using Tesserae.Themes.Washi;
+using Tesserae.Themes.Graustufe;
+using Tesserae.Themes.Kristall;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
 
@@ -27,6 +36,15 @@ namespace Tesserae.Tests
         private const string _retroOSThemeId      = "retroos";
         private const string _rechenwerkThemeId   = "rechenwerk";
         private const string _wenigerThemeId      = "weniger";
+        private const string _zeitungThemeId   = "zeitung";
+        private const string _blaupauseThemeId = "blaupause";
+        private const string _phosphorThemeId  = "phosphor";
+        private const string _glasThemeId      = "glas";
+        private const string _kontrastThemeId  = "kontrast";
+        private const string _memphisThemeId   = "memphis";
+        private const string _washiThemeId     = "washi";
+        private const string _graustufeThemeId = "graustufe";
+        private const string _kristallThemeId = "kristall";
 
         // The custom theme a Theme nav entry stands for; null is the default look.
         private static ICustomTheme CustomThemeFor(string themeId)
@@ -38,6 +56,15 @@ namespace Tesserae.Tests
                 case _retroOSThemeId:    return RetroOSTheme.Instance;
                 case _rechenwerkThemeId: return RechenwerkTheme.Instance;
                 case _wenigerThemeId:    return WenigerTheme.Instance;
+                case _zeitungThemeId:   return ZeitungTheme.Instance;
+                case _blaupauseThemeId: return BlaupauseTheme.Instance;
+                case _phosphorThemeId:  return PhosphorTheme.Instance;
+                case _glasThemeId:      return GlasTheme.Instance;
+                case _kontrastThemeId:  return KontrastTheme.Instance;
+                case _memphisThemeId:   return MemphisTheme.Instance;
+                case _washiThemeId:     return WashiTheme.Instance;
+                case _graustufeThemeId: return GraustufeTheme.Instance;
+                case _kristallThemeId: return KristallTheme.Instance;
                 default:                 return null;
             }
         }
@@ -74,7 +101,7 @@ namespace Tesserae.Tests
             // The page is kept invisible until the theme's stylesheet has arrived, so the first paint is
             // already themed instead of flashing the default look for a frame.
             var savedThemeId   = localStorage.getItem(_themeKey);
-            var initialThemeId = savedThemeId == _defaultThemeId || savedThemeId == _stratusThemeId || savedThemeId == _retroOSThemeId || savedThemeId == _rechenwerkThemeId || savedThemeId == _wenigerThemeId ? savedThemeId : _curiosityThemeId;
+            var initialThemeId = savedThemeId == _defaultThemeId || CustomThemeFor(savedThemeId) is object ? savedThemeId : _curiosityThemeId;
 
             if (initialThemeId != _defaultThemeId)
             {
@@ -220,6 +247,15 @@ namespace Tesserae.Tests
             var retroOSThemeButton    = new SidebarButton("THEME_RETROOS", UIcons.ComputerClassic, "RetroOS Theme");
             var rechenwerkThemeButton = new SidebarButton("THEME_RECHENWERK", UIcons.Calculator, "Rechenwerk Theme");
             var wenigerThemeButton    = new SidebarButton("THEME_WENIGER", UIcons.Radio, "Weniger Theme");
+            var zeitungThemeButton   = new SidebarButton("THEME_ZEITUNG", UIcons.Newspaper, "Zeitung Theme");
+            var blaupauseThemeButton = new SidebarButton("THEME_BLAUPAUSE", UIcons.DraftingCompass, "Blaupause Theme");
+            var phosphorThemeButton  = new SidebarButton("THEME_PHOSPHOR", UIcons.TvRetro, "Phosphor Theme");
+            var glasThemeButton      = new SidebarButton("THEME_GLAS", UIcons.Glass, "Glas Theme");
+            var kontrastThemeButton  = new SidebarButton("THEME_KONTRAST", UIcons.Contrast, "Kontrast Theme");
+            var memphisThemeButton   = new SidebarButton("THEME_MEMPHIS", UIcons.Triangle, "Memphis Theme");
+            var washiThemeButton     = new SidebarButton("THEME_WASHI", UIcons.Stamp, "Washi Theme");
+            var graustufeThemeButton = new SidebarButton("THEME_GRAUSTUFE", UIcons.BookAlt, "Graustufe Theme");
+            var kristallThemeButton  = new SidebarButton("THEME_KRISTALL", UIcons.Gem, "Kristall Theme");
 
             void MarkTheme(string themeId)
             {
@@ -229,6 +265,15 @@ namespace Tesserae.Tests
                 retroOSThemeButton.IsSelected   = themeId == _retroOSThemeId;
                 rechenwerkThemeButton.IsSelected = themeId == _rechenwerkThemeId;
                 wenigerThemeButton.IsSelected    = themeId == _wenigerThemeId;
+                zeitungThemeButton.IsSelected   = themeId == _zeitungThemeId;
+                blaupauseThemeButton.IsSelected = themeId == _blaupauseThemeId;
+                phosphorThemeButton.IsSelected  = themeId == _phosphorThemeId;
+                glasThemeButton.IsSelected      = themeId == _glasThemeId;
+                kontrastThemeButton.IsSelected  = themeId == _kontrastThemeId;
+                memphisThemeButton.IsSelected   = themeId == _memphisThemeId;
+                washiThemeButton.IsSelected     = themeId == _washiThemeId;
+                graustufeThemeButton.IsSelected = themeId == _graustufeThemeId;
+                kristallThemeButton.IsSelected = themeId == _kristallThemeId;
             }
 
             void SelectTheme(string themeId)
@@ -244,6 +289,15 @@ namespace Tesserae.Tests
             retroOSThemeButton.OnClick(() => SelectTheme(_retroOSThemeId));
             rechenwerkThemeButton.OnClick(() => SelectTheme(_rechenwerkThemeId));
             wenigerThemeButton.OnClick(() => SelectTheme(_wenigerThemeId));
+            zeitungThemeButton.OnClick(() => SelectTheme(_zeitungThemeId));
+            blaupauseThemeButton.OnClick(() => SelectTheme(_blaupauseThemeId));
+            phosphorThemeButton.OnClick(() => SelectTheme(_phosphorThemeId));
+            glasThemeButton.OnClick(() => SelectTheme(_glasThemeId));
+            kontrastThemeButton.OnClick(() => SelectTheme(_kontrastThemeId));
+            memphisThemeButton.OnClick(() => SelectTheme(_memphisThemeId));
+            washiThemeButton.OnClick(() => SelectTheme(_washiThemeId));
+            graustufeThemeButton.OnClick(() => SelectTheme(_graustufeThemeId));
+            kristallThemeButton.OnClick(() => SelectTheme(_kristallThemeId));
 
             themeNav.OnClick(() => themeNav.Toggle());
             themeNav.Add(defaultThemeButton);
@@ -252,6 +306,15 @@ namespace Tesserae.Tests
             themeNav.Add(retroOSThemeButton);
             themeNav.Add(rechenwerkThemeButton);
             themeNav.Add(wenigerThemeButton);
+            themeNav.Add(zeitungThemeButton);
+            themeNav.Add(blaupauseThemeButton);
+            themeNav.Add(phosphorThemeButton);
+            themeNav.Add(glasThemeButton);
+            themeNav.Add(kontrastThemeButton);
+            themeNav.Add(memphisThemeButton);
+            themeNav.Add(washiThemeButton);
+            themeNav.Add(graustufeThemeButton);
+            themeNav.Add(kristallThemeButton);
             MarkTheme(initialThemeId);
 
             sidebar.AddFooter(themeNav);

@@ -1,0 +1,38 @@
+/* ==========================================================================
+   Washi theme - DataTable
+   --------------------------------------------------------------------------
+   A ruled sheet: hairline frame, the heading row small diluted ink above a
+   firm rule (sentence case, not tracked capitals), the rows divided by the
+   faintest ruling.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-datatable {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-datatable-header {
+    background: transparent;
+    box-shadow: inset 0 -1px 0 var(--tss-wa-line-strong);
+}
+
+body.tss-theme-washi .tss-datatable-row + .tss-datatable-row,
+body.tss-theme-washi .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top-color: transparent;
+}
+
+body.tss-theme-washi .tss-datatable-row:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-datatable-heading {
+    text-transform: none;
+    letter-spacing: 0.04em;
+    font-size: 12px;
+    font-weight: 500;
+}

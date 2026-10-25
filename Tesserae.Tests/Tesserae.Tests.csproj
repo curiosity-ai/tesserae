@@ -15,5 +15,14 @@
     <ProjectReference Include="..\Tesserae.Themes.RetroOS\Tesserae.Themes.RetroOS.csproj" />
     <ProjectReference Include="..\Tesserae.Themes.Rechenwerk\Tesserae.Themes.Rechenwerk.csproj" />
     <ProjectReference Include="..\Tesserae.Themes.Weniger\Tesserae.Themes.Weniger.csproj" />
+    <ProjectReference Include="..\Tesserae.Themes.Zeitung\Tesserae.Themes.Zeitung.csproj" />
+    <ProjectReference Include="..\Tesserae.Themes.Blaupause\Tesserae.Themes.Blaupause.csproj" />
+    <ProjectReference Include="..\Tesserae.Themes.Phosphor\Tesserae.Themes.Phosphor.csproj" />
+    <ProjectReference Include="..\Tesserae.Themes.Glas\Tesserae.Themes.Glas.csproj" />
+    <ProjectReference Include="..\Tesserae.Themes.Kontrast\Tesserae.Themes.Kontrast.csproj" />
+    <ProjectReference Include="..\Tesserae.Themes.Memphis\Tesserae.Themes.Memphis.csproj" />
+    <ProjectReference Include="..\Tesserae.Themes.Washi\Tesserae.Themes.Washi.csproj" />
+    <ProjectReference Include="..\Tesserae.Themes.Graustufe\Tesserae.Themes.Graustufe.csproj" />
+    <ProjectReference Include="..\Tesserae.Themes.Kristall\Tesserae.Themes.Kristall.csproj" />
   </ItemGroup>
 </Project>

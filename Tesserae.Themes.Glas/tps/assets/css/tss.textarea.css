@@ -1,0 +1,12 @@
+/* ==========================================================================
+   Glas theme - TextArea
+   --------------------------------------------------------------------------
+   A text area is the TextBox's well (tss.textbox.css), with a little more
+   room around the text.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-textarea.tss-textbox,
+body.tss-theme-glas textarea.tss-textarea {
+    padding: 10px 14px;
+    line-height: 1.5;
+}

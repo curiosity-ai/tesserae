@@ -1,0 +1,59 @@
+/* ==========================================================================
+   Blaupause theme - Menu
+   --------------------------------------------------------------------------
+   A sheet laid over the drawing (see tss.dropdown.css). Toned items keep
+   their colour as lettering: the red pencil for danger.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-menu {
+    border: var(--tss-bp-rule-strong);
+    border-radius: 0;
+    background-color: var(--tss-bp-sheet);
+    box-shadow: var(--tss-bp-lift);
+}
+
+body.tss-theme-blaupause .tss-menu-item {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-menu-item:hover,
+body.tss-theme-blaupause .tss-menu-item:focus,
+body.tss-theme-blaupause .tss-menu-item.tss-menu-item-open {
+    background-color: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-menu-item:focus-visible {
+    border-color: var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-menu-item.tss-menu-item-danger:not(.tss-disabled) {
+    color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):hover,
+body.tss-theme-blaupause .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus {
+    background-color: var(--tss-bp-red-soft);
+}
+
+body.tss-theme-blaupause .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) {
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):hover,
+body.tss-theme-blaupause .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):focus {
+    background-color: var(--tss-bp-yellow-wash);
+}
+
+body.tss-theme-blaupause .tss-menu-item.tss-menu-item-primary:not(.tss-disabled) {
+    color: var(--tss-bp-ink);
+    font-weight: 600;
+}
+
+body.tss-theme-blaupause .tss-menu-header {
+    color: var(--tss-bp-muted);
+    letter-spacing: var(--tss-bp-caps);
+}
+
+body.tss-theme-blaupause .tss-menu-divider {
+    background: repeating-linear-gradient(90deg, var(--tss-bp-line) 0 4px, transparent 4px 7px);
+}

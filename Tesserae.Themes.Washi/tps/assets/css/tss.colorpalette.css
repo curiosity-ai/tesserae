@@ -1,0 +1,22 @@
+/* ==========================================================================
+   Washi theme - ColorPalette
+   --------------------------------------------------------------------------
+   Swatches are drops of dye; the chosen one is ringed in ink, a fine
+   paper gap between, focus the thread.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-colorpalette-swatch {
+    box-shadow: 0 0 0 1px var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-colorpalette-swatch:hover {
+    box-shadow: 0 0 0 1.5px rgba(var(--tss-default-foreground-color-root), 0.5);
+}
+
+body.tss-theme-washi .tss-colorpalette-swatch.tss-selected {
+    box-shadow: 0 0 0 2px rgb(var(--tss-secondary-background-color-root)), 0 0 0 3.5px rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-colorpalette-swatch:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}

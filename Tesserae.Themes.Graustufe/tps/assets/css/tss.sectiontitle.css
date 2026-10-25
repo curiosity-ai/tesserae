@@ -1,0 +1,17 @@
+/* ==========================================================================
+   Graustufe theme - SectionTitle
+   --------------------------------------------------------------------------
+   A chapter head: the title in the book face, bold; the subtitle its
+   italic, muted.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-sectiontitle-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+body.tss-theme-graustufe .tss-sectiontitle-subtitle {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+}

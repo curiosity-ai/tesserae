@@ -1,0 +1,95 @@
+/* ==========================================================================
+   Glas theme - SearchBox
+   --------------------------------------------------------------------------
+   A search field is a pill-shaped well (see tss.textbox.css for the well).
+   The underlined variant keeps no box: a hairline of light under it,
+   turning to the accent when focused.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-searchbox-container {
+    background: var(--tss-gl-well);
+    border: 1px solid var(--tss-gl-edge-strong);
+    border-radius: 999px;
+    box-shadow: var(--tss-gl-field-shade);
+    padding: 0 6px 0 10px;
+    transition: border-color 140ms linear, box-shadow 180ms ease;
+}
+
+body.tss-theme-glas .tss-searchbox::placeholder {
+    color: rgb(var(--tss-secondary-foreground-color-root)) !important;
+    opacity: 0.8;
+}
+
+body.tss-theme-glas .tss-searchbox-container:hover {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.45);
+    box-shadow: var(--tss-gl-field-shade-hover);
+}
+
+body.tss-theme-glas .tss-searchbox-container:focus-within {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.9);
+    box-shadow: var(--tss-gl-field-shade), 0 0 0 4px rgba(var(--tss-gl-accent-rgb), 0.2);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-searchbox-container:focus-within {
+    box-shadow: var(--tss-gl-field-shade), 0 0 0 4px rgba(var(--tss-gl-accent-rgb), 0.3);
+}
+
+body.tss-theme-glas .tss-searchbox-container.tss-disabled {
+    background: var(--tss-disabled-background-color);
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-glas .tss-searchbox-container:focus-within > .tss-searchbox-icon {
+    color: var(--tss-gl-accent-ink);
+}
+
+/* Underlined: no box, a rule of light that the accent takes over when focused. */
+body.tss-theme-glas .tss-searchbox-container.tss-underlined {
+    background: transparent;
+    border-radius: 0;
+    border-width: 0 0 1px;
+    border-color: var(--tss-gl-edge-strong);
+    box-shadow: none;
+    padding-left: 4px;
+}
+
+body.tss-theme-glas .tss-searchbox-container.tss-underlined:hover {
+    box-shadow: none;
+}
+
+body.tss-theme-glas .tss-searchbox-container.tss-underlined:focus-within {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.9);
+    border-width: 0 0 2px;
+    box-shadow: 0 6px 10px -8px rgba(var(--tss-gl-accent-rgb), 0.6);
+}
+
+/* The sidebar's search is a pill well on the slab. */
+body.tss-theme-glas .tss-sidebar .tss-searchbox-container.tss-underlined {
+    background: var(--tss-gl-well);
+    border: 1px solid var(--tss-gl-edge);
+    border-radius: 999px;
+    box-shadow: var(--tss-gl-field-shade);
+    padding: 0 10px;
+}
+
+body.tss-theme-glas .tss-sidebar .tss-searchbox-container.tss-underlined:focus-within {
+    border: 1px solid rgba(var(--tss-gl-accent-rgb), 0.9);
+    padding-bottom: 1px;
+    box-shadow: var(--tss-gl-field-shade), 0 0 0 4px rgba(var(--tss-gl-accent-rgb), 0.2);
+}
+
+body.tss-theme-glas .tss-searchbox-container.tss-searchbox-failed,
+body.tss-theme-glas .tss-searchbox-container.tss-searchbox-failed:hover,
+body.tss-theme-glas .tss-searchbox-container.tss-searchbox-failed:focus-within {
+    border-color: rgb(var(--tss-danger-background-color-root));
+}
+
+body.tss-theme-glas .tss-searchbox-clear,
+body.tss-theme-glas .tss-searchbox-cancel {
+    border-radius: 999px;
+}
+
+body.tss-theme-glas .tss-searchbox-progress-bar {
+    background: linear-gradient(90deg, rgba(var(--tss-gl-accent-rgb), 0.4), rgb(var(--tss-gl-accent-rgb)));
+}

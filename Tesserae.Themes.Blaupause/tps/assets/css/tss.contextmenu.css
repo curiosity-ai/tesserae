@@ -1,0 +1,82 @@
+/* ==========================================================================
+   Blaupause theme - ContextMenu
+   --------------------------------------------------------------------------
+   The same sheet as a dropdown's list (tss.dropdown.css): square, inked
+   round, lifted by its own outline repeated down and to the right. Rows
+   wash under the pointer and box in ink when focused; headers are tracked
+   capitals, dividers dashed.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-contextmenu {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-contextmenu.tss-disabled {
+    border: var(--tss-bp-hidden);
+    background: transparent;
+}
+
+body.tss-theme-blaupause .tss-contextmenu:after {
+    border-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-contextmenu-container.tss-invalid .tss-contextmenu {
+    border-color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-contextmenu-popup {
+    border-radius: 0;
+    border: var(--tss-bp-rule-strong);
+    background: var(--tss-bp-sheet);
+    box-shadow: var(--tss-bp-lift);
+}
+
+body.tss-theme-blaupause .tss-contextmenu-item {
+    background: transparent;
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-contextmenu-item:hover,
+body.tss-theme-blaupause .tss-contextmenu-item.tss-selected {
+    background-color: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-contextmenu-item:focus {
+    border-color: var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:focus {
+    border-color: transparent;
+}
+
+body.tss-theme-blaupause .tss-contextmenu-item.tss-contextmenu-item-separator:hover,
+body.tss-theme-blaupause .tss-contextmenu-item.tss-contextmenu-item-separator:focus {
+    background-color: transparent;
+}
+
+body.tss-theme-blaupause .tss-contextmenu-header {
+    background: transparent;
+    color: var(--tss-bp-muted);
+    font-size: 10.5px;
+    letter-spacing: var(--tss-bp-caps);
+    text-transform: uppercase;
+}
+
+body.tss-theme-blaupause .tss-contextmenu-divider {
+    background: repeating-linear-gradient(90deg, var(--tss-bp-line) 0 4px, transparent 4px 7px);
+}
+
+/* Commands inside a menu row read as entries, not keys: no capitals. */
+body.tss-theme-blaupause .tss-contextmenu-item > .tss-btn,
+body.tss-theme-blaupause .tss-contextmenu-popup .tss-btn {
+    text-transform: none;
+    letter-spacing: 0.01em;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+body.tss-theme-blaupause .tss-contextmenu-with-side-panel > .tss-contextmenu-side-panel {
+    border-left: var(--tss-bp-rule);
+}

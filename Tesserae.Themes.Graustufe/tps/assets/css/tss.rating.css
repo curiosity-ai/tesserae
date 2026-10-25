@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Graustufe theme - Rating
+   --------------------------------------------------------------------------
+   Stars printed in ink: a filled star solid ink, an empty one the faint
+   grey outline.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-rating {
+    --tss-rating-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-rating-star {
+    color: var(--tss-gs-10);
+}
+
+body.tss-theme-graustufe .tss-rating-star.tss-rating-star-filled {
+    color: var(--tss-gs-0);
+}

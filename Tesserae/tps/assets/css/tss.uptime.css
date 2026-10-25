@@ -1,4 +1,9 @@
-/* UptimeBars Component */
+/* UptimeBars Component
+   A day with no data and a day still to come are quiet neutral fills (--tss-subtle-fill-color, the
+   future one fainter) and the month card is the page's own surface - tokens, so dark mode and a theme
+   carry them. They were light-theme hex values (a white card, #dfe4ea cells) that dark mode never
+   changed. The tooltip keeps its own dark surface in both modes (below): it reads on either page, and
+   theme packages restyle it on the understanding that its text is white. */
 .tss-uptime-row {
   display: flex;
   flex-direction: column;
@@ -15,7 +20,7 @@
 .tss-uptime-bars span {
   height: 26px;
   border-radius: 6px;
-  background: #dfe4ea;
+  background: var(--tss-subtle-fill-color);
   cursor: pointer;
   transition: transform 0.12s ease;
 }
@@ -53,11 +58,11 @@
 }
 
 .tss-uptime-bars span.none {
-  background: #dfe4ea;
+  background: var(--tss-subtle-fill-color);
 }
 
 .tss-uptime-bars span.future {
-  background: #e9edf1;
+  background: color-mix(in srgb, var(--tss-subtle-fill-color) 55%, transparent);
   cursor: default;
   pointer-events: none;
 }
@@ -68,7 +73,7 @@
   border: 1px solid var(--tss-default-border-color, #dcdde1);
   border-radius: 14px;
   padding: 14px 16px;
-  background: #ffffff;
+  background: var(--tss-default-background-color);
   position: relative;
   z-index: 0;
   overflow: visible;
@@ -83,7 +88,7 @@
 }
 
 .tss-uptime-month-header span {
-  color: var(--tss-secondary-text-color, #718096);
+  color: var(--tss-secondary-foreground-color);
   font-size: 0.85rem;
 }
 
@@ -98,7 +103,7 @@
   width: 100%;
   height: 12px;
   border-radius: 4px;
-  background: #dfe4ea;
+  background: var(--tss-subtle-fill-color);
 }
 
 .tss-uptime-month-day {
@@ -122,7 +127,7 @@
 }
 
 .tss-uptime-month-day.future {
-  background: #e9edf1;
+  background: color-mix(in srgb, var(--tss-subtle-fill-color) 55%, transparent);
   cursor: default;
   pointer-events: none;
 }
@@ -144,16 +149,17 @@
   text-align: left;
 }
 
-/* This box keeps a dark surface of its own in both themes, so the text on it is light in both - the
-   tooltip's own foreground would be dark here in the light theme. The class names below were
+/* The text takes the box's colour rather than one of its own: the box is dark with white text here, and a
+   theme that gives tooltips its own surface (often a light one in dark mode) gives the box the matching
+   colour, which a fixed white on the text used to override. The class names below were
    .tss-text-block / .tss-font-weight-semibold, which nothing renders (they are .tss-textblock and
    .tss-fontweight-semibold), so this leant on whatever the base tooltip rules happened to give. */
 .tippy-box[data-theme~='uptime'] .tss-textblock {
-  color: #fff !important;
+  color: inherit !important;
 }
 
 .tippy-box[data-theme~='uptime'] .tss-fontweight-semibold {
-  color: #fff !important;
+  color: inherit !important;
   font-weight: 600 !important;
 }
 

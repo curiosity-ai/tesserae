@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Glas theme - Skeleton
+   --------------------------------------------------------------------------
+   A placeholder is a sliver of frosted glass with light running across it.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-skeleton {
+    background: rgba(84, 86, 150, 0.1);
+    border-radius: 8px;
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-skeleton {
+    background: rgba(255, 255, 255, 0.07);
+}
+
+body.tss-theme-glas .tss-skeleton-circle {
+    border-radius: 50%;
+}
+
+body.tss-theme-glas .tss-skeleton-animated::after {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-skeleton-animated::after {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+}

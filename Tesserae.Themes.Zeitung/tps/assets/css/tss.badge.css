@@ -1,0 +1,91 @@
+/* ==========================================================================
+   Zeitung theme - Badge (tokens: badge, tag, chip)
+   --------------------------------------------------------------------------
+   A badge is a tag set in the margin of a column: the serif's real small
+   caps, tracked, with lining figures, in a square box. A filled badge is a
+   block of its tone (ink for the default and for info, the spot red for
+   primary); an outlined one and a tag are a hairline box; a chip is a tag
+   with a hairline divider before its remove mark. Pills are squared off:
+   type is set in rectangles. A tinted badge keeps the caller's colour.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-token {
+    border-radius: 0;
+    padding: 1px 7px 2px 7px;
+    font-size: 13px;
+    font-variant-caps: all-small-caps;
+    font-variant-numeric: lining-nums tabular-nums;
+    letter-spacing: var(--tss-zt-sc);
+    line-height: 1.2;
+}
+
+body.tss-theme-zeitung .tss-badge {
+    font-weight: 600;
+}
+
+body.tss-theme-zeitung .tss-token-filled,
+body.tss-theme-zeitung .tss-token:not(.tss-tag):not(.tss-token-outline):not(.tss-token-primary):not(.tss-token-success):not(.tss-token-warning):not(.tss-token-danger):not(.tss-token-info):not(.tss-token-tinted):not([class*="tss-token-ai"]) {
+    background: var(--tss-zt-tint-strong);
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-tag,
+body.tss-theme-zeitung .tss-token-outline {
+    background: transparent;
+    border-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-chip,
+body.tss-theme-zeitung .tss-token-pill {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-token-info {
+    background: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-token-outline.tss-token-info {
+    background: transparent;
+    color: var(--tss-zt-ink);
+    border-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-token-outline.tss-token-primary {
+    color: var(--tss-zt-red-ink);
+    border-color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-token-outline.tss-token-warning {
+    color: rgb(var(--tss-warning-border-color-root));
+}
+
+body.tss-theme-zeitung.tss-dark-mode .tss-token-outline.tss-token-warning {
+    color: rgb(var(--tss-warning-background-color-root));
+}
+
+body.tss-theme-zeitung .tss-token-remove {
+    margin-left: 2px;
+    padding-left: 5px;
+    border-left: 1px solid currentColor;
+    opacity: 0.85;
+}
+
+body.tss-theme-zeitung .tss-token-remove:hover {
+    opacity: 1;
+    color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-token-dot {
+    border-radius: 0;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-token,
+body.tss-theme-zeitung .tss-chip,
+body.tss-theme-zeitung .tss-token-pill {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

@@ -1,0 +1,12 @@
+/* ==========================================================================
+   Blaupause theme - OverflowSet
+   --------------------------------------------------------------------------
+   The items of an overflow set are path names, lettered in their own case.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-overflowset .tss-btn {
+    text-transform: none;
+    letter-spacing: 0.01em;
+    font-size: 13px;
+    font-weight: 500;
+}

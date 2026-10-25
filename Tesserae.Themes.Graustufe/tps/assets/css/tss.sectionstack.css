@@ -1,0 +1,17 @@
+/* ==========================================================================
+   Graustufe theme - SectionStack
+   --------------------------------------------------------------------------
+   Sections are leaves too (see tss.card.css): paper, an ink frame and the
+   dithered edge. They are there at once, not slid in.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-sectionstack-secondary {
+    background: var(--tss-gs-14);
+}
+
+body.tss-theme-graustufe .tss-sectionstack-card {
+    background: var(--tss-gs-15);
+    border-radius: 0;
+    box-shadow: none;
+    border-image: var(--tss-gs-edge);
+}

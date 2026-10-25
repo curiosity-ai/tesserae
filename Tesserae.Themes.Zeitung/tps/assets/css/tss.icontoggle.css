@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Zeitung theme - IconToggle
+   --------------------------------------------------------------------------
+   An icon toggle is a row of square type slugs in one ink frame: the chosen
+   one is reversed out, paper glyph on ink; under the pointer a slug takes a
+   wash of ink. Square corners at every size and rounding option.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-icon-toggle:not(.tss-ai),
+body.tss-theme-zeitung .tss-icon-toggle.tss-icon-toggle-compact:not(.tss-ai),
+body.tss-theme-zeitung .tss-icon-toggle.tss-icon-toggle-large:not(.tss-ai),
+body.tss-theme-zeitung .tss-icon-toggle.tss-rounded-sm:not(.tss-ai),
+body.tss-theme-zeitung .tss-icon-toggle.tss-rounded-md:not(.tss-ai),
+body.tss-theme-zeitung .tss-icon-toggle.tss-rounded-full:not(.tss-ai) {
+    --tss-icon-toggle-radius: 0px;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item {
+    border-radius: 0;
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    background-color: var(--tss-zt-tint-strong);
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-zeitung .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-zeitung.tss-dark-mode .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-zeitung.tss-dark-mode .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    background: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-icon-toggle-item-selected > i,
+body.tss-theme-zeitung .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-icon-toggle-item-selected > span {
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-icon-toggle:not(.tss-ai) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item:focus-visible {
+    outline: 2px solid var(--tss-zt-red);
+    outline-offset: 1px;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-icon-toggle,
+body.tss-theme-zeitung .tss-icon-toggle > .tss-btn.tss-icon-toggle-item {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

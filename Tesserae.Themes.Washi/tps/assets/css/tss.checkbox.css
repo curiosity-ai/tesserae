@@ -1,0 +1,87 @@
+/* ==========================================================================
+   Washi theme - CheckBox
+   --------------------------------------------------------------------------
+   An empty box is a small square ruled in diluted ink on the paper. Checked,
+   a vermilion seal is pressed into it: a square of paste with an uneven
+   edge and the pores of the paper showing through (--tss-wa-hanko), the
+   tick cut out of it in the colour of the paper. Under the pointer an
+   unchecked box shows a faint pencilled tick.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-checkbox-container .tss-checkbox-mark {
+    border: 1px solid rgba(var(--tss-default-foreground-color-root), 0.5);
+    border-radius: var(--tss-wa-radius-small);
+    background: rgb(var(--tss-secondary-background-color-root));
+    transition: border-color var(--tss-wa-quick) var(--tss-wa-ease), background-color var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-checkbox-container .tss-checkbox-text {
+    margin-left: 9px;
+}
+
+body.tss-theme-washi .tss-checkbox-container:hover input:not(:checked) ~ .tss-checkbox-mark {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-checkbox-container .tss-checkbox-mark:after {
+    z-index: 1;
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.25);
+    border-width: 0 1.5px 1.5px 0;
+}
+
+/* The seal. */
+body.tss-theme-washi .tss-checkbox-container .tss-checkbox-mark::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+    -webkit-mask: var(--tss-wa-hanko) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-hanko) center / 100% 100% no-repeat;
+    opacity: 0;
+    transform: scale(1.12) rotate(-3deg);
+    transition: opacity 140ms var(--tss-wa-ease), transform 140ms var(--tss-wa-ease);
+    pointer-events: none;
+}
+
+body.tss-theme-washi .tss-checkbox-container input:checked ~ .tss-checkbox-mark,
+body.tss-theme-washi .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-washi .tss-checkbox-container input:checked ~ .tss-checkbox-mark::before {
+    opacity: 1;
+    transform: rotate(-3deg);
+}
+
+body.tss-theme-washi .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark::before {
+    background-color: rgb(var(--tss-primary-background-hover-color-root));
+}
+
+body.tss-theme-washi .tss-checkbox-container input:checked ~ .tss-checkbox-mark:after {
+    border-color: var(--tss-wa-on-shu);
+    border-width: 0 2px 2px 0;
+}
+
+body.tss-theme-washi .tss-checkbox-container input:focus-visible ~ .tss-checkbox-mark {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: 3px;
+}
+
+body.tss-theme-washi .tss-checkbox-container.tss-disabled .tss-checkbox-mark,
+body.tss-theme-washi .tss-checkbox-container.tss-disabled:hover input ~ .tss-checkbox-mark {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark::before {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-washi .tss-checkbox-container .tss-checkbox-mark,
+    body.tss-theme-washi .tss-checkbox-container .tss-checkbox-mark::before {
+        transition: none;
+    }
+}

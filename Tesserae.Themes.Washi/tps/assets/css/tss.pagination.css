@@ -1,0 +1,38 @@
+/* ==========================================================================
+   Washi theme - Pagination
+   --------------------------------------------------------------------------
+   Page numbers are small paper keys with a hairline; the current page is
+   stamped in vermilion. Numbers are tabular.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-pagination-footer {
+    background: transparent;
+    border-top-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-pagination-button {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-washi .tss-pagination-button:hover:not(:disabled) {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-washi .tss-pagination-button.tss-active {
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+    border-color: transparent;
+    color: var(--tss-wa-on-shu);
+}
+
+body.tss-theme-washi .tss-pagination-nav {
+    background: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-washi .tss-pagination-button:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}

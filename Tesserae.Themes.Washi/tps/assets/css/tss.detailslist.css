@@ -1,0 +1,44 @@
+/* ==========================================================================
+   Washi theme - DetailsList
+   --------------------------------------------------------------------------
+   A ledger: column headings in small diluted ink above a firm ink rule,
+   rows divided by the faintest ruling, a pale wash under the pointer.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-detailslist-header {
+    background: transparent;
+    box-shadow: inset 0 -1px 0 var(--tss-wa-line-strong);
+}
+
+body.tss-theme-washi .tss-detailslist-column-header,
+body.tss-theme-washi .tss-detailslist-column-header > .tss-textblock {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-weight: 500;
+    letter-spacing: 0.03em;
+}
+
+body.tss-theme-washi .tss-detailslist-column-header.tss-cursor-pointer:hover,
+body.tss-theme-washi .tss-detailslist-column-header.tss-cursor-pointer:hover > .tss-textblock {
+    color: rgb(var(--tss-default-foreground-color-root));
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-detailslist-column-header-sorting-icon {
+    color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-detailslist-list-item-container {
+    border-top-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-detailslist-list-items-container > .tss-detailslist-list-item-container:first-child {
+    border-top-color: transparent;
+}
+
+body.tss-theme-washi .tss-detailslist-list-item-container:last-of-type {
+    border-bottom-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-detailslist-list-item-container:hover {
+    background: var(--tss-wa-wash);
+}

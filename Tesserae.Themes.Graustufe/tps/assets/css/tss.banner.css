@@ -1,0 +1,110 @@
+/* ==========================================================================
+   Graustufe theme - Banner (and every Toast, which holds one)
+   --------------------------------------------------------------------------
+   A notice printed in the margin of the page: paper, a 1px ink frame, ink
+   type, the title in the book face. Its tone is a band down the leading
+   edge, drawn in the panel's only means, a pattern: info a solid ink bar,
+   success a 50% dither, warning a hatch, danger a solid bar and the icon
+   tile inverted. The icon and the word carry the meaning too.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-banner {
+    --tss-banner-accent: var(--tss-gs-0);
+    --tss-banner-title-color: var(--tss-gs-0);
+    --tss-banner-text-color: var(--tss-gs-0);
+    --tss-banner-surface: var(--tss-gs-15);
+    --tss-banner-border-color: var(--tss-gs-0);
+    --tss-gs-banner-band: none;
+    position: relative;
+    border-radius: 0;
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-banner-primary,
+body.tss-theme-graustufe .tss-banner-success,
+body.tss-theme-graustufe .tss-banner-warning,
+body.tss-theme-graustufe .tss-banner-danger {
+    --tss-banner-accent: var(--tss-gs-0);
+    --tss-banner-title-color: var(--tss-gs-0);
+    --tss-banner-text-color: var(--tss-gs-0);
+    padding-left: 22px;
+}
+
+body.tss-theme-graustufe .tss-banner-primary { --tss-gs-banner-band: linear-gradient(var(--tss-gs-0), var(--tss-gs-0)); }
+body.tss-theme-graustufe .tss-banner-success { --tss-gs-banner-band: var(--tss-gs-dither); }
+body.tss-theme-graustufe .tss-banner-warning { --tss-gs-banner-band: var(--tss-gs-hatch); }
+body.tss-theme-graustufe .tss-banner-danger { --tss-gs-banner-band: linear-gradient(var(--tss-gs-0), var(--tss-gs-0)); }
+
+body.tss-theme-graustufe .tss-banner-primary::before,
+body.tss-theme-graustufe .tss-banner-success::before,
+body.tss-theme-graustufe .tss-banner-warning::before,
+body.tss-theme-graustufe .tss-banner-danger::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    background: var(--tss-gs-banner-band);
+    border-right: var(--tss-gs-rule);
+    pointer-events: none;
+}
+
+body.tss-theme-graustufe .tss-banner-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-banner-text {
+    font-family: var(--tss-gs-text);
+}
+
+body.tss-theme-graustufe .tss-banner-time-text {
+    font-family: var(--tss-gs-ui);
+    opacity: 1;
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-graustufe.tss-dark-mode .tss-icontile.tss-banner-icon-tile {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-banner-danger .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-graustufe.tss-dark-mode .tss-banner-danger .tss-icontile.tss-banner-icon-tile {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-banner-compact .tss-banner-icon > .tss-icontile {
+    --tss-icontile-radius: 0px;
+}
+
+body.tss-theme-graustufe .tss-banner-badge-pill.tss-badge {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-banner-action-warning {
+    background: var(--tss-gs-12);
+    color: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-btn.tss-banner-dismiss-button {
+    color: var(--tss-gs-0);
+    opacity: 1;
+}
+
+body.tss-theme-graustufe .tss-btn.tss-banner-dismiss-button:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-toast-container > .tss-banner {
+    border: none;
+}

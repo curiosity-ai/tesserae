@@ -1,0 +1,163 @@
+/* ==========================================================================
+   Memphis theme - Modal
+   --------------------------------------------------------------------------
+   The page behind a modal is screened with a halftone of dots. The modal is
+   the biggest panel in the room: a 3px black line, a 6px corner and an
+   8px bubblegum shadow (mint at night). A modal with a title wears a
+   header strip: sunflower laid with confetti, a 3px rule under it, and the
+   title in the display face on a cream label so the pattern never runs
+   under the words. The close button is a white circle that turns tomato
+   under the pointer. It pops in with a short overshoot.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-modal-container,
+body.tss-theme-memphis .tss-panel-container {
+    background-color: var(--tss-overlay-light);
+    background-image: radial-gradient(circle, rgba(var(--tss-mp-line-root), 0.16) 1.4px, transparent 1.8px);
+    background-size: 9px 9px;
+    backdrop-filter: none;
+}
+
+body.tss-theme-memphis .tss-modal-container.tss-dark,
+body.tss-theme-memphis .tss-panel-container.tss-dark {
+    background-color: var(--tss-overlay-dark);
+}
+
+body.tss-theme-memphis .tss-modal-container.tss-modal-modeless,
+body.tss-theme-memphis .tss-panel-container.tss-panel-modeless {
+    background: none;
+}
+
+body.tss-theme-memphis .tss-modal {
+    --tss-mp-modal-cast: rgb(var(--tss-mp-pink-root));
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    border: var(--tss-mp-bw-bold) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius-panel);
+    box-shadow: var(--tss-mp-off-lg) var(--tss-mp-off-lg) 0 0 var(--tss-mp-modal-cast);
+}
+
+body.tss-theme-memphis.tss-dark-mode .tss-modal {
+    --tss-mp-modal-cast: rgb(var(--tss-mp-mint-root));
+}
+
+body.tss-theme-memphis .tss-modal.tss-embedded {
+    box-shadow: var(--tss-mp-off) var(--tss-mp-off) 0 0 var(--tss-mp-modal-cast);
+    max-width: calc(100% - 10px);
+    max-height: calc(100% - 10px);
+}
+
+body.tss-theme-memphis .tss-modal-animate {
+    animation: tss-mp-modal-pop 280ms var(--tss-mp-pop) both;
+}
+
+@keyframes tss-mp-modal-pop {
+    0% {
+        transform: scale(0.85) rotate(-2deg);
+        opacity: 0;
+    }
+
+    100% {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+body.tss-theme-memphis .tss-modal-header,
+body.tss-theme-memphis .tss-modal-footer {
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+/* The header strip: only when there is a title. */
+body.tss-theme-memphis .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) {
+    background-color: rgb(var(--tss-mp-yellow-root));
+    background-image: var(--tss-mp-pattern-confetti-bold);
+    background-size: 240px 240px;
+    background-position: -40px -20px;
+    border-bottom: var(--tss-mp-bw-bold) solid var(--tss-mp-line);
+    padding-top: 6px;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+}
+
+body.tss-theme-memphis .tss-modal-header-content > .tss-textblock {
+    padding: 2px 12px;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 999px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-mp-display);
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 0.01em;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+body.tss-theme-memphis .tss-modal-header-commands > .tss-btn,
+body.tss-theme-memphis .tss-modal-header-commands > button,
+body.tss-theme-memphis .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-memphis .tss-modal-left-header-commands > button {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 50%;
+    min-width: 32px;
+    width: 32px;
+    padding: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+    transform: none;
+}
+
+body.tss-theme-memphis .tss-modal-header-commands > .tss-btn:hover,
+body.tss-theme-memphis .tss-modal-header-commands > button:hover,
+body.tss-theme-memphis .tss-modal-left-header-commands > .tss-btn:hover,
+body.tss-theme-memphis .tss-modal-left-header-commands > button:hover {
+    background: rgb(var(--tss-mp-mint-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+    transform: none;
+}
+
+body.tss-theme-memphis .tss-modal-header-commands > button.tss-modal-button:hover,
+body.tss-theme-memphis .tss-modal-header-commands > .tss-btn.tss-modal-button:hover {
+    background: rgb(var(--tss-mp-tomato-root));
+}
+
+body.tss-theme-memphis .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-memphis .tss-modal-header-commands > button:active,
+body.tss-theme-memphis .tss-modal-left-header-commands > .tss-btn:active,
+body.tss-theme-memphis .tss-modal-left-header-commands > button:active {
+    color: var(--tss-mp-on-accent);
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-modal-header-commands > .tss-btn i,
+body.tss-theme-memphis .tss-modal-header-commands > button i,
+body.tss-theme-memphis .tss-modal-left-header-commands > .tss-btn i,
+body.tss-theme-memphis .tss-modal-left-header-commands > button i {
+    color: inherit;
+}
+
+body.tss-theme-memphis .tss-modal-footer:has(> :not(:empty)) {
+    border-top: var(--tss-mp-bw) solid var(--tss-mp-line);
+    margin-top: 12px;
+    background-color: rgb(var(--tss-default-background-color-root));
+    background-image: var(--tss-mp-pattern-hatch-soft);
+    background-size: 10px 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-memphis .tss-modal-animate {
+        animation: none;
+    }
+}
+
+/* The modal takes focus by script when it opens; its own 3px line already marks it, so no ring round the frame. */
+body.tss-theme-memphis .tss-modal:focus-visible,
+body.tss-theme-memphis .tss-modal:focus {
+    outline: none;
+}

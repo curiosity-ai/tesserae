@@ -1,0 +1,13 @@
+/* ==========================================================================
+   Graustufe theme - TextArea
+   --------------------------------------------------------------------------
+   The text box's frame (tss.textbox.css), and the book face inside: a long
+   text is something to read, so it is set like one.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-textarea {
+    font-family: var(--tss-gs-text);
+    line-height: 1.5;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}

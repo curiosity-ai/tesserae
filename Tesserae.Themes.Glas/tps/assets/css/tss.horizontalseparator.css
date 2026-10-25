@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Glas theme - HorizontalSeparator
+   --------------------------------------------------------------------------
+   A separator is a hairline of light that fades out at both ends, the way
+   an edge of glass catches light only along part of its length.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-horizontalseparator-container::before {
+    background: linear-gradient(90deg, rgba(84, 86, 150, 0) 0%, var(--tss-gl-edge-strong) 100%);
+}
+
+body.tss-theme-glas .tss-horizontalseparator-container::after {
+    background: linear-gradient(90deg, var(--tss-gl-edge-strong) 0%, rgba(84, 86, 150, 0) 100%);
+}
+
+body.tss-theme-glas .tss-horizontalseparator-container.tss-left::after {
+    background: linear-gradient(90deg, var(--tss-gl-edge-strong) 0%, rgba(84, 86, 150, 0) 100%);
+}
+
+body.tss-theme-glas .tss-horizontalseparator-container.tss-right::before {
+    background: linear-gradient(90deg, rgba(84, 86, 150, 0) 0%, var(--tss-gl-edge-strong) 100%);
+}
+
+body.tss-theme-glas .tss-horizontalseparator {
+    font-weight: 600;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-glas .tss-horizontalseparator.tss-primary {
+    color: var(--tss-gl-accent-ink);
+}

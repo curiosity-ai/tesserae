@@ -1,0 +1,54 @@
+/* ==========================================================================
+   Glas theme - Plan
+   --------------------------------------------------------------------------
+   A plan is a pane of glass; its progress a glowing capsule, the running
+   step a faint accent tint, step icons beads of clear glass.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-plan {
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    background: var(--tss-gl-pane-inner);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge), 0 10px 24px -14px rgba(60, 58, 130, 0.4);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-plan {
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge), 0 10px 24px -14px rgba(0, 0, 0, 0.6);
+}
+
+body.tss-theme-glas .tss-plan-step-icon {
+    background: rgb(var(--tss-default-background-color-root));
+    border-radius: 999px;
+}
+
+body.tss-theme-glas .tss-plan-step.is-running .tss-plan-step-body {
+    background: rgba(var(--tss-gl-accent-rgb), 0.08);
+    border-radius: 10px;
+}
+
+body.tss-theme-glas .tss-plan-progress-bar,
+body.tss-theme-glas .tss-plan-step-progress-bar {
+    background-image: var(--tss-gl-lozenge-shine);
+    box-shadow: 0 0 8px rgba(var(--tss-gl-accent-rgb), 0.45);
+}
+
+body.tss-theme-glas .tss-plan .tss-plan-startstop {
+    border: none;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-plan .tss-plan-startstop {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.tss-theme-glas .tss-plan-cmd:hover,
+body.tss-theme-glas .tss-plan-step-toggle:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-plan-cmd:hover,
+body.tss-theme-glas.tss-dark-mode .tss-plan-step-toggle:hover {
+    background: rgba(255, 255, 255, 0.08);
+}

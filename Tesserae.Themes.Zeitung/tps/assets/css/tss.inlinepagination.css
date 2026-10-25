@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Zeitung theme - InlinePagination
+   --------------------------------------------------------------------------
+   "3 of 12" in lining figures between two square ghost arrows, framed in ink
+   under the pointer.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-inlinepagination-label {
+    font-variant-numeric: lining-nums tabular-nums;
+}
+
+body.tss-theme-zeitung .tss-inlinepagination-button {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-inlinepagination-button:hover:not(:disabled) {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-inlinepagination-button:active:not(:disabled) {
+    background: var(--tss-zt-tint-strong);
+}

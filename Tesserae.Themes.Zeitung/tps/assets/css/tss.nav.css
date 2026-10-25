@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Zeitung theme - Nav
+   --------------------------------------------------------------------------
+   A nav tree is the table of contents: entries in the serif, the open one
+   set bold with a spot-red rule down its leading edge; under the pointer a
+   wash of ink. No boxes.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-nav-link > .tss-nav-link-header {
+    background: transparent;
+    border-left-color: transparent;
+}
+
+body.tss-theme-zeitung .tss-nav-link > .tss-nav-link-header:hover {
+    background: var(--tss-zt-tint);
+}
+
+body.tss-theme-zeitung .tss-nav-link > .tss-nav-link-header.tss-selected,
+body.tss-theme-zeitung .tss-nav-link > .tss-nav-link-header.tss-selected:hover {
+    background: transparent;
+    border-left-color: var(--tss-zt-red);
+    font-weight: 700;
+}
+
+body.tss-theme-zeitung .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header {
+    border-right-color: transparent;
+}
+
+body.tss-theme-zeitung .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header.tss-selected {
+    border-right-color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-nav-link-button:after {
+    border-color: var(--tss-zt-muted);
+}

@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Kontrast theme - SplitView
+   --------------------------------------------------------------------------
+   The divider is a 2px rule; its grip is a 4px ink bar under the pointer.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-splitview.tss-splitview-horizontal > .tss-splitter:before {
+    height: var(--tss-kt-border);
+    background: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-splitview.tss-splitview-vertical > .tss-splitter:before,
+body.tss-theme-kontrast .tss-splitview:not(.tss-splitview-horizontal) > .tss-splitter:before {
+    width: var(--tss-kt-border);
+    background: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-splitview > .tss-splitter:after {
+    background: var(--tss-kt-ink) !important;
+}
+
+body.tss-theme-kontrast .tss-splitview > .tss-splitter:hover:before {
+    background: var(--tss-kt-ink);
+}

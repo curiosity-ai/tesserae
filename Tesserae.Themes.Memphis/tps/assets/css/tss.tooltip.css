@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Memphis theme - Tooltip
+   --------------------------------------------------------------------------
+   A tooltip is a little ink sticker (a cream one at night) with a black
+   line and a small hard sunflower shadow, its type bold and cream. The
+   arrow is in the sticker's colour.
+   ========================================================================== */
+
+body.tss-theme-memphis .tippy-box:not([data-theme]) {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    background-color: rgb(var(--tss-tooltip-background-color-root));
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+    box-shadow: 3px 3px 0 0 rgb(var(--tss-mp-yellow-root));
+    font-weight: 600;
+}
+
+body.tss-theme-memphis.tss-dark-mode .tippy-box:not([data-theme]) {
+    box-shadow: 3px 3px 0 0 rgb(var(--tss-mp-pink-root));
+}
+
+body.tss-theme-memphis .tippy-box:not([data-theme]) > .tippy-arrow {
+    color: rgb(var(--tss-tooltip-background-color-root));
+}
+
+body.tss-theme-memphis .tippy-box:not([data-theme]) .tippy-content .tss-fontcolor-default {
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}
+
+body.tss-theme-memphis .tippy-box:not([data-theme]) .tippy-content .tss-btn-default:not(.tss-disabled),
+body.tss-theme-memphis .tippy-box:not([data-theme]) .tippy-content .tss-btn-default:not(.tss-disabled) .tss-fontcolor-default {
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}

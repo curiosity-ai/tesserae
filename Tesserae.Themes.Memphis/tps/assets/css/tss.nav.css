@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Memphis theme - Nav
+   --------------------------------------------------------------------------
+   Links are ink on the page; under the pointer a row goes sunflower-pale
+   (no underline), and the current link is a bubblegum-pale row with a
+   thick bubblegum bar and a black rule at its leading edge, in bold type.
+   The chevron is drawn with a 2px pen.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-nav-link > .tss-nav-link-header {
+    background: transparent;
+    border-left-color: transparent;
+    border-radius: 0 999px 999px 0;
+}
+
+body.tss-theme-memphis .tss-nav-link > .tss-nav-link-header:hover {
+    background: var(--tss-mp-yellow-pale);
+    text-decoration: none;
+}
+
+body.tss-theme-memphis .tss-nav-link > .tss-nav-link-header.tss-selected {
+    background: var(--tss-mp-pink-pale);
+    border-left-color: rgb(var(--tss-mp-pink-root));
+    box-shadow: inset 2px 0 0 var(--tss-mp-line);
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header {
+    border-right-color: transparent;
+    border-radius: 999px 0 0 999px;
+}
+
+body.tss-theme-memphis .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header.tss-selected {
+    border-right-color: rgb(var(--tss-mp-pink-root));
+    box-shadow: inset -2px 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-nav-link-button:after,
+body.tss-theme-memphis .tss-nav-link > .tss-nav-link-header:hover > .tss-nav-link-button:after {
+    border: solid var(--tss-mp-line);
+    border-width: 0 2px 2px 0;
+}

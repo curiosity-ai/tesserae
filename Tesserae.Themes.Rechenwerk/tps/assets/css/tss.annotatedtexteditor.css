@@ -96,8 +96,3 @@ body.tss-theme-rechenwerk .tss-annotated-text-default-label {
     text-transform: uppercase;
 }
 
-/* On the terminal the app's washes are pastel, which would put cream type on a light ground: the
-   mark is dimmed under the type so the colour still reads and the text stays legible. */
-body.tss-theme-rechenwerk.tss-dark-mode .tss-annotated-text-entity {
-    opacity: 0.45;
-}

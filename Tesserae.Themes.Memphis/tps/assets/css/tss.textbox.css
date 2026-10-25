@@ -1,0 +1,137 @@
+/* ==========================================================================
+   Memphis theme - TextBox
+   --------------------------------------------------------------------------
+   The model for every field in the theme. A field is a plain white slab
+   (plum at night) with a 2px black line (cream at night) and a 6px corner,
+   flat at rest so a form stays calm. Writing in it lifts it onto a hard
+   cobalt shadow (sunflower at night): the field steps forward like a key.
+   Invalid is a red line and a red shadow, with the message in bold red.
+   Disabled is a dashed line round a flat, faded slab.
+
+   Tables inside a TextBlock (this stylesheet owns them in Tesserae) get the
+   black line, a sunflower header row and bold captions.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-textbox {
+    height: 36px;
+    padding: 0 12px;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: none;
+    font-size: 14px;
+    accent-color: rgb(var(--tss-mp-pink-root));
+    transition: box-shadow var(--tss-mp-quick) var(--tss-mp-ease), transform var(--tss-mp-quick) var(--tss-mp-ease), border-color 120ms linear;
+}
+
+body.tss-theme-memphis.tss-dark-mode .tss-textbox {
+    color-scheme: dark;
+}
+
+body.tss-theme-memphis .tss-textbox::placeholder {
+    color: rgb(var(--tss-secondary-foreground-color-root)) !important;
+    opacity: 0.85;
+}
+
+body.tss-theme-memphis .tss-textbox:hover {
+    border-color: var(--tss-mp-line);
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-textbox:focus {
+    border-color: var(--tss-mp-line);
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 var(--tss-mp-focus);
+}
+
+body.tss-theme-memphis .tss-textbox.tss-disabled {
+    border: var(--tss-mp-bw) dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: rgb(var(--tss-disabled-background-color-root));
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-textbox-container.tss-invalid .tss-textbox {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-memphis .tss-textbox-container.tss-invalid .tss-textbox:focus,
+body.tss-theme-memphis .tss-textbox-container.tss-invalid .tss-textbox:hover {
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-memphis .tss-textbox-error {
+    margin-top: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgb(var(--tss-invalid-border-color-root));
+}
+
+/* NoBorder: the field sits in a host that draws the slab (a tag picker, a search bar). */
+body.tss-theme-memphis .tss-textbox.tss-textbox-noborder,
+body.tss-theme-memphis .tss-textbox.tss-textbox-noborder:hover,
+body.tss-theme-memphis .tss-textbox.tss-textbox-noborder:focus {
+    border: var(--tss-mp-bw) solid transparent;
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-textbox-container.tss-rounded-full .tss-textbox {
+    border-radius: 999px;
+}
+
+body.tss-theme-memphis .tss-textbox[type="color"] {
+    padding: 4px;
+}
+
+body.tss-theme-memphis .tss-textbox[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+body.tss-theme-memphis .tss-textbox[type="color"]::-webkit-color-swatch {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius-small);
+}
+
+body.tss-theme-memphis .tss-textbox[type="color"]::-moz-color-swatch {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius-small);
+}
+
+/* --------------------------------------------------------------------------
+   Tables in a TextBlock
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-memphis .tss-textblock table {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-mp-mint-root));
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-memphis .tss-textblock table thead {
+    background: rgb(var(--tss-mp-yellow-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-textblock table th {
+    padding: 9px 16px;
+    border-bottom: var(--tss-mp-bw) solid var(--tss-mp-line);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+body.tss-theme-memphis .tss-textblock table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-memphis .tss-textblock table tbody tr:hover {
+    background-color: var(--tss-mp-yellow-pale);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-memphis .tss-textbox {
+        transition: none;
+    }
+}

@@ -1,0 +1,106 @@
+/* ==========================================================================
+   Glas theme - TextBox
+   --------------------------------------------------------------------------
+   A field is a shallow well pressed into the glass: a clearer, brighter
+   fill than the pane around it (darker, in the smoked edition), a hairline
+   edge, a soft shade along its top inner edge and a line of light along
+   its bottom. Focused, the edge turns to the accent and a halo of the
+   accent glows round it. Invalid is the same in rose. Disabled is flat
+   frost with no shade.
+   ========================================================================== */
+
+body.tss-theme-glas {
+    --tss-gl-field-shade: inset 0 1px 2px rgba(60, 58, 130, 0.12), 0 1px 0 rgba(255, 255, 255, 0.7);
+    --tss-gl-field-shade-hover: inset 0 1px 2px rgba(60, 58, 130, 0.14), 0 1px 0 rgba(255, 255, 255, 0.8), 0 0 0 3px rgba(255, 255, 255, 0.35);
+}
+
+body.tss-theme-glas.tss-dark-mode {
+    --tss-gl-field-shade: inset 0 1px 3px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(255, 255, 255, 0.06);
+    --tss-gl-field-shade-hover: inset 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 0 3px rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-glas .tss-textbox {
+    background: var(--tss-gl-well);
+    border: 1px solid var(--tss-gl-edge-strong);
+    border-radius: var(--tss-gl-radius-ctrl);
+    box-shadow: var(--tss-gl-field-shade);
+    padding: 0 14px;
+    transition: border-color 140ms linear, box-shadow 180ms ease, background-color 140ms linear;
+}
+
+body.tss-theme-glas .tss-textbox::placeholder {
+    color: rgb(var(--tss-secondary-foreground-color-root)) !important;
+    opacity: 0.8;
+}
+
+body.tss-theme-glas .tss-textbox:hover {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.45);
+    box-shadow: var(--tss-gl-field-shade-hover);
+}
+
+body.tss-theme-glas .tss-textbox:focus {
+    border-color: rgba(var(--tss-gl-accent-rgb), 0.9);
+    box-shadow: var(--tss-gl-field-shade), 0 0 0 4px rgba(var(--tss-gl-accent-rgb), 0.2);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-textbox:focus {
+    box-shadow: var(--tss-gl-field-shade), 0 0 0 4px rgba(var(--tss-gl-accent-rgb), 0.3);
+}
+
+body.tss-theme-glas .tss-textbox.tss-disabled {
+    background: var(--tss-disabled-background-color);
+    border-color: transparent;
+    box-shadow: none;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-glas .tss-textbox-container.tss-invalid .tss-textbox {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+    box-shadow: var(--tss-gl-field-shade), 0 0 0 4px rgba(var(--tss-invalid-border-color-root), 0.16);
+}
+
+body.tss-theme-glas .tss-textbox-error {
+    color: rgb(var(--tss-invalid-border-color-root));
+    font-weight: 600;
+    padding-left: 4px;
+}
+
+body.tss-theme-glas .tss-textbox.tss-textbox-noborder,
+body.tss-theme-glas .tss-textbox.tss-textbox-noborder:hover,
+body.tss-theme-glas .tss-textbox.tss-textbox-noborder:focus {
+    background: transparent;
+    border: 1px solid transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-glas .tss-textbox-container.tss-rounded-full .tss-textbox {
+    border-radius: 999px;
+    padding: 0 16px;
+}
+
+/* Tables in a text block are a pane of their own. */
+body.tss-theme-glas .tss-textblock table {
+    border: none;
+    border-radius: var(--tss-gl-radius-ctrl);
+    background: var(--tss-gl-pane-inner);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-textblock table thead {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-textblock table thead {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-glas .tss-textblock table th {
+    border-bottom: 1px solid var(--tss-gl-edge-strong);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-glas .tss-textblock table td {
+    border-bottom: 1px solid var(--tss-gl-edge);
+}

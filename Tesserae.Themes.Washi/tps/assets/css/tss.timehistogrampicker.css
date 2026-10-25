@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Washi theme - TimeHistogramPicker
+   --------------------------------------------------------------------------
+   The histogram is drawn in ink: bars outside the range are a pale wash,
+   bars inside it diluted ink, so a dense day reads as a darker stroke. The
+   range itself is a vermilion line on a faint rail, held by two paper tabs
+   with an ink edge.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-time-histogram-picker-bars {
+    border-bottom-color: var(--tss-wa-line-strong);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-bar {
+    border-radius: 1px 1px 0 0;
+    background: rgba(var(--tss-default-foreground-color-root), 0.14);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-bar.tss-selected {
+    background: rgba(var(--tss-default-foreground-color-root), 0.62);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-track::before {
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.14);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-selection {
+    height: 4px;
+    border-radius: 0;
+    background: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-thumb {
+    width: 12px;
+    height: 22px;
+    border-radius: var(--tss-wa-radius-small);
+    border: 1.5px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 0 1px 3px rgba(60, 40, 20, 0.18);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-thumb:hover {
+    border-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-thumb:focus {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-time-histogram-picker-empty {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.25);
+    border-radius: var(--tss-wa-radius);
+}

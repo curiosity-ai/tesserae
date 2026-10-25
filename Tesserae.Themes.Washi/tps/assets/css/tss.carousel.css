@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Washi theme - Carousel
+   --------------------------------------------------------------------------
+   Slides sit in a sheet with a hairline frame; the arrows are paper discs
+   with an ink edge; the dots are small squares of wash, the current one
+   stamped in vermilion.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-carousel-viewport {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-carousel-nav {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-field-edge);
+}
+
+body.tss-theme-washi .tss-carousel-nav:hover {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-carousel-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 1px;
+    border-color: transparent;
+    background: rgba(var(--tss-default-foreground-color-root), 0.18);
+}
+
+body.tss-theme-washi .tss-carousel-indicator.tss-active {
+    background: var(--tss-wa-shu);
+    border-color: transparent;
+}

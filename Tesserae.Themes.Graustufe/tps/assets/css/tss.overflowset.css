@@ -1,0 +1,9 @@
+/* ==========================================================================
+   Graustufe theme - OverflowSet
+   --------------------------------------------------------------------------
+   The separators between the items in ink.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-overflowset-separator {
+    color: var(--tss-gs-0);
+}

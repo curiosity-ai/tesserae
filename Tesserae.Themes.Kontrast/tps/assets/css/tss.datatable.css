@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Kontrast theme - DataTable
+   --------------------------------------------------------------------------
+   A 2px frame, a header band in bold ink over a 3px rule, rows ruled at
+   2px; a row's state edge is 6px, wide enough to see as a shape.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-datatable {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    background: var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tss-datatable-header {
+    background: var(--tss-kt-surface);
+    border-bottom: var(--tss-kt-border-strong) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-datatable-row + .tss-datatable-row,
+body.tss-theme-kontrast .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top: var(--tss-kt-border) solid var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top: none;
+}
+
+body.tss-theme-kontrast .tss-datatable-row:hover {
+    background: var(--tss-kt-hover);
+}
+
+body.tss-theme-kontrast .tss-datatable-heading {
+    color: var(--tss-kt-ink);
+    font-weight: 750;
+    letter-spacing: 0.04em;
+}
+
+body.tss-theme-kontrast .tss-datatable-accented::before {
+    width: var(--tss-kt-bar);
+}

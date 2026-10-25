@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Phosphor theme - TextArea
+   --------------------------------------------------------------------------
+   A multi-line field is an editing pane rather than a prompt line: a
+   single-line box with the prompt in its first row, the same wash, and the
+   frame lit in the cursor colour while it has the cursor.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-textbox.tss-textarea {
+    padding: 7px 10px 7px 26px;
+    border: var(--tss-ph-single);
+    background: var(--tss-ph-prompt) 10px 11px / 8px 12px no-repeat, var(--tss-ph-field);
+    line-height: 1.45;
+}
+
+body.tss-theme-phosphor .tss-textbox.tss-textarea:hover {
+    border-color: var(--tss-ph-rule-hi);
+}
+
+body.tss-theme-phosphor .tss-textbox.tss-textarea:focus {
+    border-color: var(--tss-ph-cursor);
+    background: var(--tss-ph-prompt-hot) 10px 11px / 8px 12px no-repeat, var(--tss-ph-field-focus);
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-textbox.tss-textarea.tss-disabled {
+    border: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-textbox-container.tss-invalid .tss-textbox.tss-textarea {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+}

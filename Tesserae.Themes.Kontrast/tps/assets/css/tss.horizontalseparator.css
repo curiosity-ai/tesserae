@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Kontrast theme - HorizontalSeparator
+   --------------------------------------------------------------------------
+   A 2px rule; its label bold.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-horizontalseparator-container {
+    font-size: var(--tss-font-size-small);
+}
+
+body.tss-theme-kontrast .tss-horizontalseparator-container::before,
+body.tss-theme-kontrast .tss-horizontalseparator-container::after {
+    height: var(--tss-kt-border);
+    background: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-horizontalseparator {
+    color: var(--tss-kt-ink);
+    font-weight: 700;
+}
+
+body.tss-theme-kontrast .tss-horizontalseparator.tss-primary {
+    color: var(--tss-kt-ink);
+}

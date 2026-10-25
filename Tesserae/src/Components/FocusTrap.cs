@@ -73,15 +73,21 @@ namespace Tesserae
 
                 if (ke.key == "Tab")
                 {
-                    var focusableElements = _root.querySelectorAll("a[href], button:not(:disabled), textarea:not(:disabled), input:not(:disabled), select:not(:disabled), [tabindex]:not([tabindex='-1'])");
-                    if (focusableElements.length == 0) return;
+                    var tabbable = Tabbable();
+                    if (tabbable.Count == 0) return;
 
-                    var firstElement = (HTMLElement)focusableElements[0];
-                    var lastElement = (HTMLElement)focusableElements[focusableElements.length - 1];
+                    var firstElement = tabbable[0];
+                    var lastElement  = tabbable[tabbable.Count - 1];
+                    var active       = document.activeElement as HTMLElement;
+
+                    // The focus is on the surface itself (focused programmatically as it opened, tabindex -1)
+                    // or on something the browser can tab to but this list leaves out: the browser's own next
+                    // stop could be outside the trap, so the trap picks one inside.
+                    var outsideList = active is null || !tabbable.Contains(active);
 
                     if (ke.shiftKey)
                     {
-                        if (document.activeElement == firstElement)
+                        if (active == firstElement || outsideList)
                         {
                             lastElement.focus();
                             ke.preventDefault();
@@ -89,7 +95,7 @@ namespace Tesserae
                     }
                     else
                     {
-                        if (document.activeElement == lastElement)
+                        if (active == lastElement || outsideList)
                         {
                             firstElement.focus();
                             ke.preventDefault();
@@ -97,6 +103,29 @@ namespace Tesserae
                     }
                 }
             });
+        }
+
+        // What Tab can actually reach inside the trap: no tabindex -1 (an inert copy, a roving row that is not
+        // the current one), nothing disabled, nothing without a box (display: none) or hidden from sight.
+        private System.Collections.Generic.List<HTMLElement> Tabbable()
+        {
+            var candidates = _root.querySelectorAll("a[href], button, textarea, input, select, iframe, summary, [contenteditable], [tabindex]");
+            var result     = new System.Collections.Generic.List<HTMLElement>();
+
+            for (uint i = 0; i < candidates.length; i++)
+            {
+                var element = (HTMLElement)candidates[i];
+
+                if (element.tabIndex < 0) continue;
+                if (element.hasAttribute("disabled")) continue;
+                if (element.closest("[inert]") is object) continue;
+                if (element.getClientRects().As<DOMRectList>().length == 0) continue;
+                if (window.getComputedStyle(element).visibility == "hidden") continue;
+
+                result.Add(element);
+            }
+
+            return result;
         }
 
         /// <summary>

@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Washi theme - Keyboard shortcut
+   --------------------------------------------------------------------------
+   A key is a small paper tab with a slightly heavier lower edge, the
+   legend in diluted ink.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-kbd-key {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-field-edge);
+    border-bottom-width: 2px;
+    border-radius: var(--tss-wa-radius-small);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-shortcut-guide-section-title {
+    font-family: var(--tss-wa-serif);
+    font-weight: 600;
+}
+
+body.tss-theme-washi .tss-shortcut-guide-row {
+    border-bottom-color: var(--tss-wa-line);
+}

@@ -1,0 +1,71 @@
+/* ==========================================================================
+   Graustufe theme - Toggle
+   --------------------------------------------------------------------------
+   A square slide switch, the kind printed in an e-reader's settings page:
+   an ink-ruled track with a square block in it. Off, the block sits left,
+   ink on paper; on, the track is solid ink and the block sits right, in
+   paper. It jumps; it does not slide.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-toggle-container {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-toggle-container .tss-toggle-mark {
+    border-radius: 0;
+    background-color: var(--tss-gs-15);
+    border: 1px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toggle-container .tss-toggle-mark:after {
+    border-radius: 0;
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toggle-container:hover .tss-toggle-mark {
+    background-color: var(--tss-gs-15);
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toggle-container:hover .tss-toggle-mark:after {
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-graustufe .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toggle-container input:checked ~ .tss-toggle-mark:after {
+    background-color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-toggle-container input:focus-visible ~ .tss-toggle-mark {
+    outline: var(--tss-gs-focus);
+    outline-offset: var(--tss-gs-focus-offset);
+}
+
+body.tss-theme-graustufe .tss-toggle-container.tss-disabled {
+    color: var(--tss-gs-9);
+}
+
+body.tss-theme-graustufe .tss-toggle-container.tss-disabled .tss-toggle-mark {
+    background-color: var(--tss-gs-14);
+    border: 1px dashed var(--tss-gs-9);
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-toggle-container.tss-disabled .tss-toggle-mark:after {
+    background-color: var(--tss-gs-9);
+}
+
+body.tss-theme-graustufe .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-gs-10);
+    border-color: var(--tss-gs-10);
+}
+
+body.tss-theme-graustufe .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark:after {
+    background-color: var(--tss-gs-14);
+}

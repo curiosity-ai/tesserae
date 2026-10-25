@@ -1,0 +1,106 @@
+/* ==========================================================================
+   Kontrast theme - Modal
+   --------------------------------------------------------------------------
+   A modal is a board set in front of a dimmed page: a 3px ink edge and the
+   hard offset slab, a header ruled off with 2px, and its close/commands as
+   40px ghost buttons that take an edge under the pointer. The scrim is a
+   strong dim (the page behind must not compete). No zoom on open.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-modal-container {
+    background-color: var(--tss-overlay-light);
+    backdrop-filter: none;
+}
+
+body.tss-theme-kontrast .tss-modal-container.tss-dark {
+    background-color: var(--tss-overlay-dark);
+}
+
+body.tss-theme-kontrast .tss-modal {
+    background: var(--tss-kt-paper);
+    border: var(--tss-kt-border-strong) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    box-shadow: 8px 8px 0 0 rgba(var(--tss-default-foreground-color-root), 0.9);
+}
+
+body.tss-theme-kontrast.tss-dark-mode .tss-modal {
+    box-shadow: 8px 8px 0 0 rgba(var(--tss-default-foreground-color-root), 0.35);
+}
+
+body.tss-theme-kontrast .tss-modal.tss-embedded {
+    box-shadow: none;
+    border-width: var(--tss-kt-border);
+}
+
+body.tss-theme-kontrast .tss-modal-animate {
+    animation: none;
+}
+
+body.tss-theme-kontrast .tss-modal-header,
+body.tss-theme-kontrast .tss-modal-footer {
+    background: var(--tss-kt-paper);
+    padding-left: 16px;
+    padding-right: 12px;
+}
+
+body.tss-theme-kontrast .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) {
+    border-bottom: var(--tss-kt-border) solid var(--tss-kt-ink);
+    margin-bottom: 8px;
+}
+
+body.tss-theme-kontrast .tss-modal-footer:has(> .tss-modal-footer-commands:not(:empty)),
+body.tss-theme-kontrast .tss-modal-footer:has(> .tss-modal-footer-content:not(:empty)) {
+    border-top: var(--tss-kt-border) solid var(--tss-kt-line);
+    margin-top: 8px;
+}
+
+body.tss-theme-kontrast .tss-modal-header-content {
+    font-weight: 750;
+    font-size: var(--tss-font-size-medium);
+}
+
+body.tss-theme-kontrast .tss-modal-content {
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+body.tss-theme-kontrast .tss-modal-header-commands > .tss-btn,
+body.tss-theme-kontrast .tss-modal-header-commands > button,
+body.tss-theme-kontrast .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-kontrast .tss-modal-left-header-commands > button {
+    color: var(--tss-kt-ink);
+    min-width: 40px;
+    height: 40px;
+    border: var(--tss-kt-border) solid transparent;
+    border-radius: var(--tss-kt-radius);
+}
+
+body.tss-theme-kontrast .tss-modal-header-commands > .tss-btn:hover,
+body.tss-theme-kontrast .tss-modal-header-commands > button:hover,
+body.tss-theme-kontrast .tss-modal-left-header-commands > .tss-btn:hover,
+body.tss-theme-kontrast .tss-modal-left-header-commands > button:hover {
+    background: var(--tss-kt-hover);
+    border-color: var(--tss-kt-ink);
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-kontrast .tss-modal-header-commands > button:active,
+body.tss-theme-kontrast .tss-modal-left-header-commands > .tss-btn:active,
+body.tss-theme-kontrast .tss-modal-left-header-commands > button:active {
+    background: var(--tss-kt-pressed);
+    color: var(--tss-kt-ink);
+}
+
+/* The modal itself takes focus when it opens; that is not a control, so no ring on the board. */
+body.tss-theme-kontrast .tss-modal:focus-visible,
+body.tss-theme-kontrast .tss-modal-content:focus-visible {
+    outline: none !important;
+    box-shadow: 8px 8px 0 0 rgba(var(--tss-default-foreground-color-root), 0.9) !important;
+}
+
+@media (forced-colors: active) {
+    body.tss-theme-kontrast .tss-modal {
+        border-color: CanvasText;
+    }
+}

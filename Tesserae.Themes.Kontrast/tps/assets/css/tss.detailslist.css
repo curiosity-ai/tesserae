@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Kontrast theme - DetailsList
+   --------------------------------------------------------------------------
+   A timetable: the header row is bold ink over a 3px ink rule, rows are
+   ruled with 2px lines, and the row under the pointer takes a fill and an
+   ink bar at its leading edge (so it is not only a shade). Rows and cells
+   sit in a scroller, so a focused control inside draws its ring inside.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-detailslist-header {
+    background: var(--tss-kt-paper);
+    box-shadow: inset 0 calc(-1 * var(--tss-kt-border-strong)) 0 0 var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-detailslist-column-header {
+    font-weight: 750;
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-detailslist-column-header .tss-btn,
+body.tss-theme-kontrast .tss-detailslist-column-header .tss-textblock {
+    font-weight: 750;
+}
+
+body.tss-theme-kontrast .tss-detailslist-list-item-container {
+    border-top: var(--tss-kt-border) solid var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-detailslist-list-item-container:last-of-type {
+    border-bottom: var(--tss-kt-border) solid var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-detailslist-list-item-container:hover {
+    background: var(--tss-kt-hover);
+    box-shadow: inset var(--tss-kt-bar) 0 0 0 var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-detailslist :focus-visible {
+    outline-offset: calc(-1 * var(--tss-kt-ring-width)) !important;
+    box-shadow: inset 0 0 0 calc(var(--tss-kt-ring-width) + var(--tss-kt-ring-gap)) var(--tss-kt-focus-inner) !important;
+}

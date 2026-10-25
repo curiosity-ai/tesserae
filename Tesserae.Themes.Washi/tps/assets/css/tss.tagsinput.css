@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Washi theme - TagsInput
+   --------------------------------------------------------------------------
+   A field like any other, its tags small slips of paper with a hairline.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-tagsinput {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-field-edge);
+    border-radius: var(--tss-wa-radius);
+    transition: border-color var(--tss-wa-quick) var(--tss-wa-ease), box-shadow var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-tagsinput:hover {
+    border-color: var(--tss-wa-field-edge-hover);
+}
+
+body.tss-theme-washi .tss-tagsinput:focus-within {
+    border-color: var(--tss-wa-thread);
+    box-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+}
+
+body.tss-theme-washi .tss-tagsinput-chip {
+    background: rgb(var(--tss-default-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-tagsinput-chip-remove {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-tagsinput-chip-remove:hover {
+    background: var(--tss-wa-wash-strong);
+    color: var(--tss-wa-enji);
+}

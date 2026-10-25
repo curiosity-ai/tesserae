@@ -1,0 +1,22 @@
+/* ==========================================================================
+   Phosphor theme - StatefulItemRow
+   --------------------------------------------------------------------------
+   A row with a state is a line of a job listing: square, a faint wash of
+   its tone and a double bar of the tone at its leading edge.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-statefulitemrow {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-statefulitemrow-warning { --tss-statefulitemrow-accent: var(--tss-ph-amber); }
+body.tss-theme-phosphor .tss-statefulitemrow-danger { --tss-statefulitemrow-accent: var(--tss-ph-red); }
+
+body.tss-theme-phosphor :is(.tss-statefulitemrow-primary, .tss-statefulitemrow-success, .tss-statefulitemrow-warning, .tss-statefulitemrow-danger) {
+    --tss-statefulitemrow-surface: color-mix(in srgb, var(--tss-statefulitemrow-accent) 8%, transparent);
+    box-shadow: inset 4px 0 0 -1px var(--tss-statefulitemrow-accent);
+}
+
+body.tss-theme-phosphor .tss-statefulitemrow-interactive:hover {
+    background: var(--tss-ph-tint);
+}

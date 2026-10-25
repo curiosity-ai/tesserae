@@ -1,0 +1,89 @@
+/* ==========================================================================
+   Blaupause theme - Scheduler
+   --------------------------------------------------------------------------
+   A calendar is a ruled chart: hour and day lines in the drafting grid's
+   colours, out-of-hours bands hatched, today's date boxed in ink, the
+   current time a red-pencil line. Events keep their own colour as a ruled
+   block with a heavier leading edge.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-scheduler,
+body.tss-theme-blaupause .tss-scheduler-event,
+body.tss-theme-blaupause .tss-scheduler-chip,
+body.tss-theme-blaupause .tss-scheduler-bar,
+body.tss-theme-blaupause .tss-scheduler-resize-end::after,
+body.tss-theme-blaupause .tss-scheduler-ghost,
+body.tss-theme-blaupause .tss-scheduler-tg-daynum,
+body.tss-theme-blaupause .tss-scheduler-month-date,
+body.tss-theme-blaupause .tss-scheduler-month-more,
+body.tss-theme-blaupause .tss-scheduler-agenda-row,
+body.tss-theme-blaupause .tss-scheduler-agenda-bar {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-scheduler {
+    --tss-scheduler-radius: 0;
+    --tss-scheduler-line-color: var(--tss-bp-line-faint);
+    --tss-scheduler-minor-line-color: var(--tss-bp-grid-coarse);
+    --tss-scheduler-offhours-color: transparent;
+    --tss-scheduler-today-color: var(--tss-bp-ink);
+    --tss-scheduler-now-color: var(--tss-bp-red);
+    --tss-scheduler-selection-color: var(--tss-bp-red);
+    border-color: var(--tss-bp-line);
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-scheduler-toolbar {
+    border-bottom: 3px double var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-scheduler-tg-col,
+body.tss-theme-blaupause .tss-scheduler-month-cell.tss-scheduler-other-month {
+    background-color: transparent;
+}
+
+body.tss-theme-blaupause .tss-scheduler-month-cell.tss-scheduler-other-month {
+    background-image: var(--tss-bp-hatch);
+    background-size: auto;
+    opacity: 1;
+}
+
+body.tss-theme-blaupause .tss-scheduler-tg-daynum,
+body.tss-theme-blaupause .tss-scheduler-month-date {
+    font-family: var(--tss-bp-mono);
+    font-weight: 500;
+}
+
+body.tss-theme-blaupause .tss-scheduler-today > .tss-scheduler-tg-daynum,
+body.tss-theme-blaupause .tss-scheduler-today > .tss-scheduler-tl-daylabel > .tss-scheduler-tg-daynum,
+body.tss-theme-blaupause .tss-scheduler-month-cell.tss-scheduler-today > .tss-scheduler-month-date {
+    color: var(--tss-bp-on-ink);
+}
+
+body.tss-theme-blaupause .tss-scheduler-ghost {
+    border-color: var(--tss-bp-ink);
+    background: var(--tss-bp-hatch);
+}
+
+body.tss-theme-blaupause .tss-scheduler-drop-target {
+    background: var(--tss-bp-yellow-wash) !important;
+}
+
+body.tss-theme-blaupause .tss-scheduler-now::before {
+    border-radius: 0;
+    width: 8px;
+    height: 8px;
+    transform: rotate(45deg);
+}
+
+body.tss-theme-blaupause .tss-scheduler-month-date:hover,
+body.tss-theme-blaupause .tss-scheduler-month-more:hover,
+body.tss-theme-blaupause .tss-scheduler-agenda-row:hover {
+    background: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-scheduler-tg-header,
+body.tss-theme-blaupause .tss-scheduler-month-head {
+    border-bottom-color: var(--tss-bp-line);
+}

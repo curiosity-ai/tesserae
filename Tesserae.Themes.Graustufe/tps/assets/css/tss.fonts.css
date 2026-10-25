@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Graustufe theme - fonts
+   --------------------------------------------------------------------------
+   Three voices, all under the SIL Open Font License 1.1 (the license texts
+   sit beside the files), served from the package rather than a font host:
+
+     Literata                     the reading face: a book serif drawn for
+                                  long reading on screens and e-paper
+     Atkinson Hyperlegible Next   chrome: buttons, fields, tabs, menus,
+                                  labels; a sans whose letters are built
+                                  to be told apart
+     Atkinson Hyperlegible Mono   code, and figures in tables
+
+   All three are variable (one file for every weight), Latin subset.
+   ========================================================================== */
+
+@font-face { font-family: "Literata"; font-style: normal; font-weight: 200 900; font-display: swap; src: url("../fonts/graustufe/literata-latin-wght-normal.woff2") format("woff2-variations"), url("../fonts/graustufe/literata-latin-wght-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Literata"; font-style: italic; font-weight: 200 900; font-display: swap; src: url("../fonts/graustufe/literata-latin-wght-italic.woff2") format("woff2-variations"), url("../fonts/graustufe/literata-latin-wght-italic.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Atkinson Hyperlegible Next"; font-style: normal; font-weight: 200 800; font-display: swap; src: url("../fonts/graustufe/atkinson-hyperlegible-next-latin-wght-normal.woff2") format("woff2-variations"), url("../fonts/graustufe/atkinson-hyperlegible-next-latin-wght-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Atkinson Hyperlegible Mono"; font-style: normal; font-weight: 200 800; font-display: swap; src: url("../fonts/graustufe/atkinson-hyperlegible-mono-latin-wght-normal.woff2") format("woff2-variations"), url("../fonts/graustufe/atkinson-hyperlegible-mono-latin-wght-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }

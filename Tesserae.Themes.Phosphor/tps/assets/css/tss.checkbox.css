@@ -1,0 +1,69 @@
+/* ==========================================================================
+   Phosphor theme - CheckBox
+   --------------------------------------------------------------------------
+   A checkbox is a character cell, "[ ]": a square 1px frame. Checked, a
+   solid block fills the cell, "[■]", in the cursor colour (glowing on the
+   screen, inked on paper). Under the pointer an unchecked cell shows the
+   block as a ghost, so the user sees what a click will do. Disabled is a
+   dotted frame in the dim colour.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-checkbox-container .tss-checkbox-mark {
+    border-radius: 0;
+    background: transparent;
+    border: 1px solid var(--tss-ph-rule-hi);
+    transition: none;
+}
+
+body.tss-theme-phosphor .tss-checkbox-container .tss-checkbox-mark:after,
+body.tss-theme-phosphor .tss-checkbox-container[class*="tss-fontsize-"] .tss-checkbox-mark:after {
+    inset: 3px;
+    left: 3px;
+    top: 3px;
+    width: auto;
+    height: auto;
+    border: 0;
+    transform: none;
+    background: rgba(var(--tss-ph-cursor-root), 0.28);
+}
+
+body.tss-theme-phosphor .tss-checkbox-container input:checked ~ .tss-checkbox-mark,
+body.tss-theme-phosphor .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+    background: transparent;
+    border-color: var(--tss-ph-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-checkbox-container input:checked ~ .tss-checkbox-mark:after {
+    background: var(--tss-ph-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-checkbox-container:hover .tss-checkbox-mark {
+    border-color: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-checkbox-container input:focus-visible ~ .tss-checkbox-mark {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: 2px;
+}
+
+body.tss-theme-phosphor .tss-checkbox-container.tss-disabled .tss-checkbox-mark,
+body.tss-theme-phosphor .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark {
+    background: transparent;
+    border: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark:after {
+    background: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-checkbox-container.tss-disabled {
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-checkbox-container .tss-checkbox-text {
+    margin-left: 8px;
+}

@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Phosphor theme - Carousel
+   --------------------------------------------------------------------------
+   A carousel is a paged screen: the viewport a single-line box, the arrows
+   square cells that invert under the pointer, the page indicators square
+   lamps with the current one lit.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-carousel-viewport {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-carousel-nav {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-carousel-nav:not(.tss-disabled):hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-carousel-indicator {
+    border-radius: 0;
+    background: transparent;
+    border-color: var(--tss-ph-rule);
+}
+
+body.tss-theme-phosphor .tss-carousel-indicator.tss-active {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+}

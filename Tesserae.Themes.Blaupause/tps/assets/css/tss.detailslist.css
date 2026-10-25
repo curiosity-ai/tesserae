@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Blaupause theme - DetailsList
+   --------------------------------------------------------------------------
+   A table is a drawing's schedule: column heads lettered in tracked
+   capitals over a double rule, rows divided by fine lines, the row under
+   the pointer washed.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-detailslist-header {
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-detailslist-column-header {
+    border-bottom: 3px double var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-detailslist-column-header .tss-btn,
+body.tss-theme-blaupause .tss-detailslist-column-header .tss-textblock {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-bp-caps);
+    text-transform: uppercase;
+}
+
+body.tss-theme-blaupause .tss-detailslist-list-item-container {
+    border-top-color: var(--tss-bp-line-faint);
+}
+
+body.tss-theme-blaupause .tss-detailslist-list-item-container:last-of-type {
+    border-bottom-color: var(--tss-bp-line-faint);
+}
+
+body.tss-theme-blaupause .tss-detailslist-list-item-container:hover {
+    background-color: var(--tss-bp-wash);
+}
+
+/* Cells hold content: buttons inside rows keep their own case. */
+body.tss-theme-blaupause .tss-detailslist-list-item .tss-btn {
+    text-transform: none;
+    letter-spacing: 0.01em;
+}

@@ -1,0 +1,15 @@
+/* ==========================================================================
+   Zeitung theme - OverflowSet
+   --------------------------------------------------------------------------
+   A row of commands that folds into a menu: ghost buttons on the line,
+   divided by muted separators, the "more" mark a square ghost button.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-overflowset-separator {
+    color: var(--tss-zt-muted);
+}
+
+body.tss-theme-zeitung .tss-overflowset-opencolapsed,
+body.tss-theme-zeitung .tss-overflowset-opencolapsed:hover {
+    border-radius: 0;
+}

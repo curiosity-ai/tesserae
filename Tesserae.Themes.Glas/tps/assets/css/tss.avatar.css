@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Glas theme - Avatar
+   --------------------------------------------------------------------------
+   An avatar is a round lens: a lit rim round its edge and a soft shadow.
+   The presence dot is a bead of its colour ringed in clear glass.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-avatar {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45), 0 0 0 1px rgba(84, 86, 150, 0.14), 0 2px 8px -3px rgba(60, 58, 130, 0.35);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-avatar {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.3), 0 2px 8px -3px rgba(0, 0, 0, 0.6);
+}
+
+body.tss-theme-glas .tss-avatar:not(.tss-avatar-generated):not(:has(.tss-avatar-image)) {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4));
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-avatar:not(.tss-avatar-generated):not(:has(.tss-avatar-image)) {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06));
+}
+
+body.tss-theme-glas .tss-avatar-presence {
+    border-color: rgb(250, 250, 255);
+    box-shadow: 0 1px 3px rgba(40, 38, 100, 0.35);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-avatar-presence {
+    border-color: rgb(30, 30, 58);
+}
+
+body.tss-theme-glas .tss-presence-online {
+    box-shadow: 0 0 6px rgba(var(--tss-success-background-color-root), 0.7);
+}

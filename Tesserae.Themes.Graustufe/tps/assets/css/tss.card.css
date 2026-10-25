@@ -1,0 +1,51 @@
+/* ==========================================================================
+   Graustufe theme - Card
+   --------------------------------------------------------------------------
+   A card is a leaf laid on the page: the paper colour, a 1px ink frame and
+   a 3px dithered drop edge (border-image: var(--tss-gs-edge), which takes no
+   layout). A card with a title has a running head: a band one step darker
+   than the paper with the title in the book face, ruled off from the body.
+   A hoverable card is a thicker leaf under the pointer: its edge doubles.
+   Cards appear at once; Tesserae's slide-in is a transition, and there are
+   none here.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-card {
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    box-shadow: none;
+    border-image: var(--tss-gs-edge);
+}
+
+body.tss-theme-graustufe .tss-card.tss-card-hover:hover,
+body.tss-theme-graustufe .tss-card.tss-card-hover:active {
+    background: var(--tss-gs-15);
+    box-shadow: none;
+    border-image: var(--tss-gs-edge-lg);
+}
+
+/* With a header or footer the card itself is transparent and its parts draw the frame. The edge goes on the
+   whole card, so it runs under the header, body and footer together. */
+body.tss-theme-graustufe .tss-card.tss-has-layout {
+    border-image: var(--tss-gs-edge) !important;
+}
+
+body.tss-theme-graustufe .tss-card-header,
+body.tss-theme-graustufe .tss-card-footer {
+    background: var(--tss-gs-14);
+    border-color: var(--tss-gs-0);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-card-content {
+    background: var(--tss-gs-15);
+    border-color: var(--tss-gs-0);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-card-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+    color: var(--tss-gs-0);
+}

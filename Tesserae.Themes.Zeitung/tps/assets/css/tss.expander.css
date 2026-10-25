@@ -1,0 +1,58 @@
+/* ==========================================================================
+   Zeitung theme - Expander / Accordion
+   --------------------------------------------------------------------------
+   An accordion is a run of folded briefs: no box, each section hanging
+   under a hairline of ink, its title the serif bold, the chevron muted.
+   Open, the content sits under a dotted rule. Under the pointer the head
+   takes a wash of ink. The icon plate is square.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-expander {
+    border: none;
+    border-top: 1px solid var(--tss-zt-ink);
+    border-radius: 0;
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-accordion > .tss-expander:last-child,
+body.tss-theme-zeitung .tss-expander:only-child {
+    border-bottom: 1px solid var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-expander-header:hover {
+    background: var(--tss-zt-tint);
+}
+
+body.tss-theme-zeitung .tss-expander-title {
+    font-weight: 700;
+}
+
+body.tss-theme-zeitung .tss-expander.tss-expanded .tss-expander-title {
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-expander-chevron {
+    color: var(--tss-zt-muted);
+}
+
+body.tss-theme-zeitung .tss-expander.tss-expanded .tss-expander-chevron {
+    color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-expander-content {
+    border-top: 1px dotted var(--tss-zt-rule);
+    line-height: var(--tss-zt-leading);
+}
+
+body.tss-theme-zeitung .tss-expander-icon {
+    border-radius: 0;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-expander,
+body.tss-theme-zeitung .tss-expander-icon {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

@@ -1,0 +1,119 @@
+/* ==========================================================================
+   Kontrast theme - Toggle
+   --------------------------------------------------------------------------
+   The one pill in the theme. Off: a paper track with a 2px ink edge, a
+   hollow ring of a thumb at the left. On: the track fills with the accent,
+   the thumb turns solid and moves right, and a bar (the power-on sign) is
+   drawn in the empty half. On and off differ in position, fill, the thumb's
+   shape and the sign, never only in colour.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-toggle-container {
+    min-height: 24px;
+    height: auto;
+    align-items: center;
+    color: var(--tss-kt-ink);
+    font-weight: 700;
+}
+
+body.tss-theme-kontrast .tss-toggle-container .tss-toggle-text {
+    margin-left: 10px;
+    font-weight: 400;
+    min-height: 0;
+}
+
+body.tss-theme-kontrast .tss-toggle-container .tss-toggle-mark {
+    border: var(--tss-kt-border) solid var(--tss-kt-edge);
+    background: var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tss-toggle-container .tss-toggle-mark:after {
+    background: var(--tss-kt-paper);
+    box-shadow: inset 0 0 0 3px var(--tss-kt-ink);
+    transition: none;
+}
+
+body.tss-theme-kontrast .tss-toggle-container:hover .tss-toggle-mark {
+    background: var(--tss-kt-hover);
+    border-color: var(--tss-kt-edge);
+    box-shadow: inset 0 0 0 1px var(--tss-kt-edge);
+}
+
+body.tss-theme-kontrast .tss-toggle-container:hover .tss-toggle-mark:after {
+    background: var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-kontrast .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background: var(--tss-kt-accent);
+    border-color: var(--tss-kt-accent);
+}
+
+body.tss-theme-kontrast .tss-toggle-container input:checked ~ .tss-toggle-mark:after,
+body.tss-theme-kontrast .tss-toggle-container:hover input:checked ~ .tss-toggle-mark:after {
+    background: var(--tss-kt-on-accent);
+    box-shadow: none;
+}
+
+/* The on sign: a short bar in the half the thumb left. */
+body.tss-theme-kontrast .tss-toggle-container input:checked ~ .tss-toggle-mark::before {
+    content: "";
+    position: absolute;
+    top: 25%;
+    bottom: 25%;
+    left: 28%;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--tss-kt-on-accent);
+}
+
+/* Focus lands on the hidden input, so the ring is drawn on the mark: outside it where there is room, and
+   inside its edge as well (an ink or yellow edge with the other colour as an inner band), because an inline
+   label clips anything drawn outside its content box. */
+body.tss-theme-kontrast .tss-toggle-container:has(input:focus-visible) .tss-toggle-mark {
+    border-color: var(--tss-kt-focus-outer);
+    outline: var(--tss-kt-ring-width) solid var(--tss-kt-focus-outer);
+    outline-offset: 2px;
+    box-shadow: inset 0 0 0 3px var(--tss-kt-focus-inner), 0 0 0 2px var(--tss-kt-focus-inner);
+}
+
+body.tss-theme-kontrast .tss-toggle-container.tss-disabled {
+    color: var(--tss-kt-disabled);
+}
+
+body.tss-theme-kontrast .tss-toggle-container.tss-disabled .tss-toggle-mark,
+body.tss-theme-kontrast .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    background: var(--tss-kt-surface) var(--tss-kt-hatch);
+    border: var(--tss-kt-border) dashed var(--tss-kt-disabled);
+}
+
+body.tss-theme-kontrast .tss-toggle-container.tss-disabled .tss-toggle-mark:after {
+    background: var(--tss-kt-surface);
+    box-shadow: inset 0 0 0 3px var(--tss-kt-disabled);
+}
+
+body.tss-theme-kontrast .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark:after {
+    background: var(--tss-kt-disabled);
+    box-shadow: none;
+}
+
+body.tss-theme-kontrast .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark::before {
+    background: var(--tss-kt-disabled);
+}
+
+@media (forced-colors: active) {
+    body.tss-theme-kontrast .tss-toggle-container .tss-toggle-mark {
+        border-color: CanvasText;
+    }
+
+    body.tss-theme-kontrast .tss-toggle-container input:checked ~ .tss-toggle-mark {
+        forced-color-adjust: none;
+        background: Highlight;
+        border-color: Highlight;
+    }
+
+    body.tss-theme-kontrast .tss-toggle-container input:checked ~ .tss-toggle-mark:after,
+    body.tss-theme-kontrast .tss-toggle-container input:checked ~ .tss-toggle-mark::before {
+        background: HighlightText;
+    }
+}

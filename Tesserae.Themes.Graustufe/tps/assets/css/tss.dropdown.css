@@ -1,0 +1,183 @@
+/* ==========================================================================
+   Graustufe theme - Dropdown
+   --------------------------------------------------------------------------
+   The closed box is a field (see tss.textbox.css): paper, a 1px ink frame,
+   3px when focused. The open list is a leaf over the page: paper, the ink
+   frame and the 3px dithered edge, square. A row under the pointer takes
+   the wash; the row the keyboard is on gets an ink frame; a chosen row is
+   inverted, ink with paper type (in a multi-select, its box is solid ink
+   with a paper tick). Group headers are small italic captions in the book
+   face; dividers are 1px rules.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-dropdown {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-dropdown-container {
+    border: var(--tss-gs-rule);
+    border-radius: var(--tss-gs-radius);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-dropdown-container:hover {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    box-shadow: 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-dropdown-container:has(> .tss-dropdown:focus-visible),
+body.tss-theme-graustufe .tss-dropdown-container:focus-within {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-dropdown:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-graustufe .tss-dropdown-container.tss-dropdown-nobg,
+body.tss-theme-graustufe .tss-dropdown-container.tss-dropdown-nobg:hover {
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-dropdown-container.tss-noborder,
+body.tss-theme-graustufe .tss-dropdown-container.tss-noborder:hover {
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-graustufe .tss-dropdown-container.tss-disabled {
+    background: var(--tss-gs-14);
+    border-color: var(--tss-gs-10);
+    color: var(--tss-gs-9);
+}
+
+body.tss-theme-graustufe .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border: 0;
+    box-shadow: inset 4px 0 0 var(--tss-gs-0);
+    padding-left: 12px;
+}
+
+body.tss-theme-graustufe .tss-dropdown-error {
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    font-weight: 600;
+}
+
+body.tss-theme-graustufe .tss-dropdown-item-on-box {
+    color: var(--tss-gs-0);
+}
+
+/* --------------------------------------------------------------------------
+   The open list
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-graustufe .tss-dropdown-popup {
+    background: var(--tss-gs-15);
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge);
+}
+
+body.tss-theme-graustufe .tss-dropdown-item {
+    font-family: var(--tss-gs-ui);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-dropdown-popup .tss-dropdown-item {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-dropdown-item:hover {
+    background-color: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-dropdown-item:focus,
+body.tss-theme-graustufe .tss-dropdown-item.tss-dropdown-item-focus {
+    border: 1px solid var(--tss-gs-0);
+    background-color: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item:focus,
+body.tss-theme-graustufe .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item.tss-dropdown-item-focus {
+    border-color: transparent;
+}
+
+body.tss-theme-graustufe :not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected,
+body.tss-theme-graustufe :not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected:hover {
+    background-color: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe :not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected * {
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-dropdown-header {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-6);
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    font-weight: 600;
+}
+
+body.tss-theme-graustufe .tss-dropdown-divider {
+    background-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-dropdown-item.tss-disabled {
+    color: var(--tss-gs-9);
+}
+
+body.tss-theme-graustufe .tss-dropdown-item.tss-disabled:hover {
+    background-color: var(--tss-gs-15);
+}
+
+/* Multi-select: square ink boxes. */
+body.tss-theme-graustufe .tss-dropdown-multi > .tss-dropdown-item:before {
+    border-radius: 0;
+    background-color: var(--tss-gs-15);
+    border: 1px solid var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before,
+body.tss-theme-graustufe .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before {
+    background-color: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-dropdown-multi > .tss-dropdown-item:after {
+    border-color: var(--tss-gs-9);
+    border-width: 0 2px 2px 0;
+}
+
+body.tss-theme-graustufe .tss-dropdown-multi > .tss-dropdown-item.tss-selected:after {
+    border-color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-dropdown-multi > .tss-dropdown-item.tss-disabled:before {
+    background-color: var(--tss-gs-14);
+    border: 1px dashed var(--tss-gs-9);
+}
+
+/* The search field at the head of the list. */
+body.tss-theme-graustufe .tss-dropdown-popup .tss-dropdown-searchbox {
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border: var(--tss-gs-rule);
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+/* Searching: a still dotted ring instead of a turning one. */
+body.tss-theme-graustufe .tss-dropdown-popup .tss-dropdown-searchbox.tss-dropdown-searchbox-busy > .tss-searchbox-icon::after {
+    border: 2px dotted var(--tss-gs-0);
+}

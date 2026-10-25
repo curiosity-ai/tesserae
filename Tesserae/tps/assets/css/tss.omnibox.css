@@ -675,7 +675,7 @@
 }
 
 .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled):hover {
-    background: var(--tss-default-border-color);
+    background: var(--tss-subtle-fill-color);
     color: var(--tss-default-foreground-color);
 }
 
@@ -766,7 +766,7 @@
 }
 
 .tss-btn.tss-omnibox-model-selector-btn:hover {
-    background: var(--tss-default-border-color);
+    background: var(--tss-subtle-fill-color);
 }
 
 .tss-btn.tss-omnibox-model-selector-btn.tss-omnibox-model-selector-locked {
@@ -788,7 +788,7 @@
 
 .tss-omnibox-model-selector-divider {
     height: 1px;
-    background: var(--tss-default-border-color);
+    background: var(--tss-default-separator-color);
     margin: 6px 4px;
 }
 

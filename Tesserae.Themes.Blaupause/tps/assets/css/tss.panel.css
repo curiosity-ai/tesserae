@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Blaupause theme - Panel
+   --------------------------------------------------------------------------
+   A panel is a strip of sheet slid in from the edge: one ink line along its
+   free edge, a fine double line beside it (the sheet's border), no shadow.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-panel {
+    background: var(--tss-bp-sheet);
+    box-shadow: -1px 0 0 var(--tss-bp-line-strong), -5px 0 0 var(--tss-bp-paper), -6px 0 0 var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-panel-container.tss-panelSide-far .tss-panel,
+body.tss-theme-blaupause .tss-panel.tss-panelSide-near {
+    box-shadow: 1px 0 0 var(--tss-bp-line-strong), 5px 0 0 var(--tss-bp-paper), 6px 0 0 var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-panel-command-button {
+    border-radius: 0;
+    border: 1px solid transparent;
+}
+
+body.tss-theme-blaupause .tss-panel-command-button:hover {
+    background-color: var(--tss-bp-wash);
+    border-color: var(--tss-bp-line);
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-panel-command-button:active {
+    background-image: var(--tss-bp-hatch);
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-panel-footer {
+    border-top: 3px double var(--tss-bp-line);
+}

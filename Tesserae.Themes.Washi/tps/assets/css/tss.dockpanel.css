@@ -1,0 +1,87 @@
+/* ==========================================================================
+   Washi theme - DockPanel
+   --------------------------------------------------------------------------
+   A workspace laid out like a room of shoji: the canvas is the paper's
+   ground, each pane a sheet with a hairline frame, the gaps between them
+   the frame's own width. The active tab carries a vermilion brush stroke;
+   splitters and drop previews are drawn in the thread colour.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-dockpanel {
+    --tss-dockpanel-surface: rgb(var(--tss-secondary-background-color-root));
+    --tss-dockpanel-canvas: rgb(var(--tss-default-background-color-root));
+    --tss-dockpanel-radius: var(--tss-wa-radius);
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-dockpanel-slot,
+body.tss-theme-washi .tss-dockpanel-document {
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-dockpanel-header {
+    border-bottom-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-dockpanel-tab {
+    position: relative;
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-washi .tss-dockpanel-tab:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-dockpanel-tab.tss-dockpanel-tab-active {
+    border-bottom-color: transparent;
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-dockpanel-tab.tss-dockpanel-tab-active::after {
+    content: "";
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: 0;
+    height: 3px;
+    background: var(--tss-wa-shu);
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    pointer-events: none;
+}
+
+body.tss-theme-washi .tss-dockpanel-splitter:hover::after,
+body.tss-theme-washi .tss-dockpanel-splitter-active::after {
+    background: var(--tss-wa-thread-halo);
+}
+
+body.tss-theme-washi .tss-dockpanel-button:hover,
+body.tss-theme-washi .tss-dockpanel-restore:hover {
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-btn.tss-dockpanel-toggle.tss-dockpanel-toggle-on {
+    background: var(--tss-wa-shu-wash);
+}
+
+body.tss-theme-washi .tss-dockpanel-rail-tab {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-dockpanel-flyout > .tss-dockpanel-slot {
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-dockpanel-preview {
+    background: var(--tss-wa-thread-halo);
+    border-color: var(--tss-wa-thread);
+    border-width: 1.5px;
+}
+
+body.tss-theme-washi .tss-dockpanel-guide {
+    border-radius: var(--tss-wa-radius-small);
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-field-edge);
+    box-shadow: var(--tss-wa-lift);
+}

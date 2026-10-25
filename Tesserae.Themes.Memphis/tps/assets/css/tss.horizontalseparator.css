@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Memphis theme - HorizontalSeparator
+   --------------------------------------------------------------------------
+   A separator is a zig-zag rule; its label sits between the two halves in
+   bold ink. The primary one is bubblegum.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-horizontalseparator-container::before,
+body.tss-theme-memphis .tss-horizontalseparator-container::after {
+    height: 6px;
+    background: var(--tss-mp-pattern-zigzag-soft) left center / 12px 6px repeat-x;
+}
+
+body.tss-theme-memphis .tss-horizontalseparator {
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-horizontalseparator.tss-primary {
+    color: rgb(var(--tss-primary-background-color-root));
+}

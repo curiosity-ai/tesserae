@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Blaupause theme - fonts
+   --------------------------------------------------------------------------
+   Three hands, all under the SIL Open Font License 1.1 (the license texts
+   sit beside the files), served from the package rather than a font host:
+
+     Saira               the lettering: a squared technical sans, the hand
+                         a draughtsman lettered notes and labels in with a
+                         template. Capitals for chrome, sentence case for
+                         what the user reads. Variable, 100 to 900.
+     Saira Stencil One   the title block: stencil capitals for page titles
+                         and section headings only, never body text
+     IBM Plex Mono       measurements: numbers, codes, dimensions, code
+
+   Latin (and Latin Extended for Saira's upright). Anything else falls back
+   to the system stack.
+   ========================================================================== */
+
+@font-face { font-family: "Blaupause Saira"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("../fonts/blaupause/saira-latin-ext-wght-normal.woff2") format("woff2-variations"), url("../fonts/blaupause/saira-latin-ext-wght-normal.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Blaupause Saira"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("../fonts/blaupause/saira-latin-wght-normal.woff2") format("woff2-variations"), url("../fonts/blaupause/saira-latin-wght-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Blaupause Saira"; font-style: italic; font-weight: 100 900; font-display: swap; src: url("../fonts/blaupause/saira-latin-wght-italic.woff2") format("woff2-variations"), url("../fonts/blaupause/saira-latin-wght-italic.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+@font-face { font-family: "Blaupause Stencil"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/blaupause/saira-stencil-one-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+@font-face { font-family: "Blaupause Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/blaupause/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Blaupause Mono"; font-style: normal; font-weight: 500 900; font-display: swap; src: url("../fonts/blaupause/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }

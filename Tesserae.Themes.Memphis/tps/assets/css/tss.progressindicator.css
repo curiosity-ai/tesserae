@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Memphis theme - ProgressIndicator
+   --------------------------------------------------------------------------
+   A progress bar is a candy-striped rail: a 12px pill with a 2px black
+   line, hatched where it is empty, filled with diagonal bubblegum and
+   sunflower stripes that march along while it is working.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-progressindicator {
+    height: 14px;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 999px;
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: var(--tss-mp-pattern-hatch-soft);
+    background-size: 10px 10px;
+}
+
+body.tss-theme-memphis .tss-progressindicator > .tss-progressindicator-bar {
+    border-radius: 999px;
+    border-right: var(--tss-mp-bw) solid var(--tss-mp-line);
+    background: repeating-linear-gradient(-45deg, rgb(var(--tss-mp-pink-root)) 0 8px, rgb(var(--tss-mp-yellow-root)) 8px 16px);
+    background-size: 22.6px 22.6px;
+    animation: tss-mp-candy 900ms linear infinite;
+}
+
+body.tss-theme-memphis .tss-progressindicator > .tss-progressindicator-bar-indeterminate {
+    border-radius: 999px;
+    border-left: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-right: var(--tss-mp-bw) solid var(--tss-mp-line);
+    background: repeating-linear-gradient(-45deg, rgb(var(--tss-mp-mint-root)) 0 8px, rgb(var(--tss-mp-cobalt-root)) 8px 16px);
+}
+
+@keyframes tss-mp-candy {
+    from { background-position: 0 0; }
+    to { background-position: 22.6px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-memphis .tss-progressindicator > .tss-progressindicator-bar {
+        animation: none;
+    }
+}

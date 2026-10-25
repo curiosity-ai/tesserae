@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Graustufe theme - Drawer
+   --------------------------------------------------------------------------
+   A leaf that comes up from the foot of the page: paper, a 1px ink rule
+   along its top, square corners, and the page behind screened with the 50%
+   dither. It is there at once; it does not rise.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-drawer-container.tss-drawer-open {
+    background: var(--tss-gs-bayer-25);
+}
+
+body.tss-theme-graustufe .tss-drawer {
+    background-color: var(--tss-gs-15);
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-bottom: 0;
+}
+
+body.tss-theme-graustufe .tss-drawer-handle-bar {
+    border-radius: 0;
+    background: var(--tss-gs-0);
+    height: 3px;
+}
+
+body.tss-theme-graustufe .tss-drawer-title {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-drawer-close {
+    color: var(--tss-gs-0);
+    border: 1px solid transparent;
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-drawer-close:hover {
+    background: transparent;
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-drawer-footer {
+    border-top: var(--tss-gs-rule);
+}

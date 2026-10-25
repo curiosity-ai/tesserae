@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Graustufe theme - TagsInput
+   --------------------------------------------------------------------------
+   A field (paper, 1px ink frame, 3px when focused) holding square tags:
+   each tag a 1px ink box with its name in the sans and an x that inverts
+   under the pointer.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-tagsinput {
+    border: var(--tss-gs-rule);
+    border-radius: var(--tss-gs-radius);
+    background: var(--tss-gs-15);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-tagsinput:focus-within {
+    border-color: var(--tss-gs-0);
+    box-shadow: 0 0 0 2px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-tagsinput-chip {
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-tagsinput-chip-remove {
+    border-radius: 0;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-tagsinput-chip-remove:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-tagsinput-entry {
+    font-family: var(--tss-gs-ui);
+}

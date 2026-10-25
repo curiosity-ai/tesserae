@@ -1,0 +1,121 @@
+/* ==========================================================================
+   Memphis theme - Context Menu
+   --------------------------------------------------------------------------
+   The popup is the floating panel (see tss.dropdown.css): white with a 2px
+   black line on a hard mint shadow. Rows turn sunflower under the pointer;
+   the highlighted row (keyboard, or its submenu open) is sunflower with a
+   black line. Headers are small bold capitals, dividers a soft zig-zag. The
+   trigger (the select-like box) is a field.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-contextmenu {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-contextmenu:after {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    border-width: 2px 0 0 2px;
+}
+
+body.tss-theme-memphis .tss-contextmenu.tss-disabled {
+    border-style: dashed;
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    background: rgb(var(--tss-disabled-background-color-root));
+}
+
+body.tss-theme-memphis .tss-contextmenu-container.tss-invalid .tss-contextmenu {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-memphis .tss-contextmenu-popup {
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    box-shadow: var(--tss-mp-off) var(--tss-mp-off) 0 0 var(--tss-mp-pop-cast);
+    padding: 5px;
+}
+
+body.tss-theme-memphis .tss-contextmenu-item {
+    background: transparent;
+    border: var(--tss-mp-bw) solid transparent;
+    border-radius: var(--tss-mp-radius-small);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):hover {
+    background: rgb(var(--tss-mp-yellow-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-contextmenu-item.tss-selected:not(.tss-disabled),
+body.tss-theme-memphis .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):focus,
+body.tss-theme-memphis .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):active {
+    background: rgb(var(--tss-mp-yellow-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-contextmenu-item:focus-visible,
+body.tss-theme-memphis .tss-contextmenu-header:focus-visible,
+body.tss-theme-memphis .tss-contextmenu-divider:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-memphis .tss-contextmenu-item:not(.tss-disabled):hover i,
+body.tss-theme-memphis .tss-contextmenu-item:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-memphis .tss-contextmenu-item.tss-selected:not(.tss-disabled) i,
+body.tss-theme-memphis .tss-contextmenu-item.tss-selected:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:not(.tss-selected):not(:hover):focus {
+    background: transparent;
+    border-color: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-contextmenu-item.tss-disabled,
+body.tss-theme-memphis .tss-contextmenu-item.tss-disabled i {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-contextmenu-item.tss-contextmenu-item-separator,
+body.tss-theme-memphis .tss-contextmenu-item.tss-contextmenu-item-separator:hover,
+body.tss-theme-memphis .tss-contextmenu-item.tss-contextmenu-item-separator:focus {
+    background: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-memphis .tss-contextmenu-item > .tss-btn {
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-contextmenu-header {
+    background: transparent;
+    min-height: 26px;
+    padding: 6px 9px 2px 9px;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 18px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-contextmenu-divider {
+    width: auto;
+    height: 6px;
+    background: var(--tss-mp-pattern-zigzag-soft) left center / 12px 6px repeat-x;
+    margin: 5px 4px;
+}
+
+body.tss-theme-memphis .tss-contextmenu-with-side-panel > .tss-contextmenu-side-panel {
+    border-left: var(--tss-mp-bw) solid var(--tss-mp-line);
+    margin-left: 5px;
+}

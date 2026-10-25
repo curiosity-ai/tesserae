@@ -1,0 +1,77 @@
+/* ==========================================================================
+   Blaupause theme - Stepper
+   --------------------------------------------------------------------------
+   Steps are numbered like the balloons that call out parts on a drawing:
+   a drawn circle round a monospace figure. The current step's balloon is
+   filled with ink; a finished one is ruled in green.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-stepper-step {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-stepper-step:hover {
+    background: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-stepper-circle {
+    border: 1px solid var(--tss-bp-line);
+    font-family: var(--tss-bp-mono);
+    font-weight: 500;
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-circle {
+    border: 1px solid var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-stepper-active .tss-stepper-circle {
+    background: var(--tss-bp-ink);
+    border-color: var(--tss-bp-ink);
+    color: var(--tss-bp-on-ink);
+}
+
+body.tss-theme-blaupause .tss-stepper-complete .tss-stepper-circle {
+    border-color: rgb(var(--tss-success-background-color-root));
+    color: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-blaupause .tss-stepper-label {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-blaupause .tss-stepper-description {
+    color: var(--tss-bp-muted);
+}
+
+body.tss-theme-blaupause .tss-stepper-content {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background: var(--tss-bp-ticks), var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-stepper-nav {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background: var(--tss-bp-sheet);
+    color: var(--tss-bp-text);
+    font-family: var(--tss-bp-letter);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+body.tss-theme-blaupause .tss-stepper-nav:hover:not(:disabled) {
+    border-color: var(--tss-bp-line-strong);
+    background-image: linear-gradient(var(--tss-bp-wash), var(--tss-bp-wash));
+}
+
+body.tss-theme-blaupause .tss-stepper-nav:disabled,
+body.tss-theme-blaupause .tss-stepper-nav.tss-disabled {
+    opacity: 1;
+    border-style: dashed;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}

@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Phosphor theme - ColorPalette
+   --------------------------------------------------------------------------
+   Swatches are square cells; the chosen one is framed by the cursor colour.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-colorpalette-swatch {
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-colorpalette-swatch:hover {
+    box-shadow: 0 0 0 1px var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-colorpalette-swatch.tss-selected,
+body.tss-theme-phosphor .tss-colorpalette-swatch[aria-checked="true"] {
+    box-shadow: 0 0 0 2px rgb(var(--tss-secondary-background-color-root)), 0 0 0 3px var(--tss-ph-cursor);
+}

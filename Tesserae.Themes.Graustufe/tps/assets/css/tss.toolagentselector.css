@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Graustufe theme - ToolAgentSelector
+   --------------------------------------------------------------------------
+   The trigger is a ruled key; the picker a leaf with the dithered edge; a
+   chosen agent's box is solid ink with a paper tick; the count an inverted
+   stamp.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-toolagent-trigger.tss-toolagent-trigger-active {
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-toolagent-popup {
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge);
+}
+
+body.tss-theme-graustufe .tss-toolagent-badge {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-toolagent-section-title {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+}
+
+/* Square corners and no blurred shadows (generated from Tesserae's tss.toolagentselector.css: every rule that rounds a corner
+   or casts a soft shadow, restated flat). */
+body.tss-theme-graustufe .tss-toolagent-trigger,
+body.tss-theme-graustufe .tss-toolagent-popup,
+body.tss-theme-graustufe .tss-toolagent-item,
+body.tss-theme-graustufe .tss-toolagent-item-checkmark,
+body.tss-theme-graustufe .tss-toolagent-item-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-toolagent-popup {
+    box-shadow: none;
+}
+

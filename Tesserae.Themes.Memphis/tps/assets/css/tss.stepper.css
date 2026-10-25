@@ -1,0 +1,74 @@
+/* ==========================================================================
+   Memphis theme - Stepper
+   --------------------------------------------------------------------------
+   Steps are numbered discs with a 2px black line: white ahead, bubblegum
+   with a hard shadow for the current step, mint for a finished one. The
+   content sits in a framed panel and the nav buttons are pills.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-stepper-step {
+    border-radius: 999px;
+    border: var(--tss-mp-bw) solid transparent;
+}
+
+body.tss-theme-memphis .tss-stepper-step:hover {
+    background: var(--tss-mp-yellow-pale);
+}
+
+body.tss-theme-memphis .tss-stepper-circle,
+body.tss-theme-memphis .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-circle {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 800;
+}
+
+body.tss-theme-memphis .tss-stepper-active .tss-stepper-circle {
+    border-color: var(--tss-mp-line);
+    background: rgb(var(--tss-mp-pink-root));
+    color: var(--tss-mp-on-accent);
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-stepper-complete .tss-stepper-circle {
+    border-color: var(--tss-mp-line);
+    background: rgb(var(--tss-mp-mint-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-stepper-label {
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-stepper-content {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-memphis .tss-stepper-nav {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 999px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: inherit;
+    font-weight: 700;
+    padding: 6px 16px;
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-stepper-nav:not(:disabled):not(.tss-disabled):hover {
+    background: rgb(var(--tss-mp-yellow-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-stepper-nav:not(:disabled):not(.tss-disabled):active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-stepper-nav:disabled,
+body.tss-theme-memphis .tss-stepper-nav.tss-disabled {
+    border-style: dashed;
+    box-shadow: none;
+}

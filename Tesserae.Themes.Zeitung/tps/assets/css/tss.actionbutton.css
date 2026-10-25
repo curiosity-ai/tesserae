@@ -1,0 +1,50 @@
+/* ==========================================================================
+   Zeitung theme - ActionButton
+   --------------------------------------------------------------------------
+   An action button is a label with a command set beside it: square, the two
+   halves divided by a hairline rule. A toned one is a solid block of its
+   colour with the divider in paper; a plain one is framed in ink under the
+   pointer.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-actionbutton-container {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-actionbutton-container > .tss-actionbutton-actionbtn,
+body.tss-theme-zeitung .tss-actionbutton-container > .tss-actionbutton-displaybutton {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-actionbutton-container:not(:has(> .tss-btn-primary, > .tss-btn-danger, > .tss-btn-warning, > .tss-btn-success)):hover {
+    border-color: var(--tss-zt-ink);
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-actionbutton-container > .tss-actionbutton-actionbtn {
+    box-shadow: inset 1px 0 0 var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-actionbutton-container:has(> .tss-btn-primary, > .tss-btn-danger, > .tss-btn-warning, > .tss-btn-success) > .tss-actionbutton-actionbtn {
+    box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.4);
+}
+
+body.tss-theme-zeitung .tss-actionbutton-container > .tss-actionbutton-actionbtn:hover,
+body.tss-theme-zeitung .tss-actionbutton-container > .tss-actionbutton-displaybutton:hover {
+    background: var(--tss-zt-tint);
+}
+
+body.tss-theme-zeitung .tss-actionbutton-container > .tss-btn-primary:hover,
+body.tss-theme-zeitung .tss-actionbutton-container > .tss-btn-danger:hover,
+body.tss-theme-zeitung .tss-actionbutton-container > .tss-btn-success:hover,
+body.tss-theme-zeitung .tss-actionbutton-container > .tss-btn-warning:hover {
+    filter: none;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-actionbutton-container > .tss-actionbutton-displaybutton {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

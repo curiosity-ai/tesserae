@@ -1,0 +1,59 @@
+/* ==========================================================================
+   Washi theme - Badge / Tag / Chip
+   --------------------------------------------------------------------------
+   A badge is a small paper slip, its corners cut. Filled tones are flat
+   blocks of dye; an outlined one is drawn in a fine line of its dye; a
+   tinted one is a pale wash. Info is indigo. A chip keeps its round ends,
+   a tag is a slip with a hairline.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-token {
+    border-radius: var(--tss-wa-radius-small);
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-washi .tss-badge {
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-token.tss-chip,
+body.tss-theme-washi .tss-token.tss-token-pill {
+    border-radius: 999px;
+}
+
+body.tss-theme-washi .tss-token:not(.tss-token-primary):not(.tss-token-success):not(.tss-token-warning):not(.tss-token-danger):not(.tss-token-info):not(.tss-token-tinted):not(.tss-token-outline) {
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-tag:not(.tss-token-primary):not(.tss-token-success):not(.tss-token-warning):not(.tss-token-danger):not(.tss-token-info):not(.tss-token-tinted) {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-field-edge);
+}
+
+body.tss-theme-washi .tss-token-outline {
+    border-color: var(--tss-wa-field-edge);
+}
+
+body.tss-theme-washi .tss-token-primary:not(.tss-token-outline) {
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+}
+
+body.tss-theme-washi .tss-token-info:not(.tss-token-outline) {
+    background: var(--tss-wa-ai);
+    color: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-token-outline.tss-token-info {
+    color: var(--tss-wa-ai);
+    border-color: var(--tss-wa-ai);
+}
+
+body.tss-theme-washi:not(.tss-dark-mode) .tss-token-outline.tss-token-warning {
+    color: rgb(var(--tss-warning-border-color-root));
+    border-color: rgb(var(--tss-warning-border-color-root));
+}
+
+body.tss-theme-washi .tss-token-remove {
+    border-radius: var(--tss-wa-radius-small);
+}

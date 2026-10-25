@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Washi theme - Breadcrumb
+   --------------------------------------------------------------------------
+   A path of words in diluted ink, the current place in full ink, divided by
+   a quiet chevron.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-breadcrumb .tss-btn {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-weight: 400;
+}
+
+body.tss-theme-washi .tss-breadcrumb .tss-btn:last-child,
+body.tss-theme-washi .tss-breadcrumb .tss-btn:hover {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-breadcrumb-chevron {
+    color: rgba(var(--tss-default-foreground-color-root), 0.35);
+}

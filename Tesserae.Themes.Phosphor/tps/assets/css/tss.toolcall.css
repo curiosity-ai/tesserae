@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Phosphor theme - ToolCall
+   --------------------------------------------------------------------------
+   A tool call is a line in a job log: a single-line box, square, its
+   header row lighting under the pointer, the icon in a framed cell, the
+   body ruled off by a dashed line.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-toolcall,
+body.tss-theme-phosphor .tss-toolcall > .tss-toolcall-header,
+body.tss-theme-phosphor .tss-toolcall.tss-expanded > .tss-toolcall-header,
+body.tss-theme-phosphor .tss-toolcall > .tss-toolcall-content {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-toolcall {
+    border: var(--tss-ph-single);
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-toolcall-header:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-toolcall-icon {
+    border-radius: 0;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-toolcall.tss-expanded > .tss-toolcall-content {
+    border-top: 1px dashed var(--tss-ph-faint);
+}

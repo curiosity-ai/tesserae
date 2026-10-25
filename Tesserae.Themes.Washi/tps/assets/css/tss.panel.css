@@ -1,0 +1,53 @@
+/* ==========================================================================
+   Washi theme - Panel
+   --------------------------------------------------------------------------
+   A panel is a tall sheet slid in from the edge, like a fusuma panel drawn
+   across the room: paper with its grain, a frame line along the edge it
+   slides from, the page behind veiled.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-panel-container {
+    background-color: var(--tss-overlay-light);
+}
+
+body.tss-theme-washi .tss-panel-container.tss-dark {
+    background-color: var(--tss-overlay-dark);
+}
+
+body.tss-theme-washi .tss-panel {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: var(--tss-wa-grain);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi.tss-dark-mode .tss-panel {
+    background-image: var(--tss-wa-sheen), var(--tss-wa-grain);
+}
+
+body.tss-theme-washi .tss-panel-title {
+    font-family: var(--tss-wa-serif);
+}
+
+body.tss-theme-washi .tss-panel-command-button {
+    border-radius: var(--tss-wa-radius);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-panel-command-button:hover {
+    background: var(--tss-wa-wash);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-panel-command-button:active {
+    background: var(--tss-wa-wash-strong);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-panel-command-button:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: -2px;
+}
+
+body.tss-theme-washi .tss-panel-footer {
+    border-top: 1px solid var(--tss-wa-line);
+}

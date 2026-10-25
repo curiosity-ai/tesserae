@@ -1,0 +1,53 @@
+/* ==========================================================================
+   Kontrast theme - Conversation
+   --------------------------------------------------------------------------
+   Comment cards and the rail at 2px; an active reaction is bold with an ink edge (not only a tint); the composer's active tab is joined to the editor with a 3px top bar.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-conversation-reaction-active {
+    border-color: var(--tss-kt-ink);
+    border-width: var(--tss-kt-border);
+    background: var(--tss-kt-surface);
+    color: var(--tss-kt-ink);
+    font-weight: 750;
+}
+
+body.tss-theme-kontrast .tss-conversation-composer-tab-active {
+    font-weight: 750;
+    box-shadow: inset 0 3px 0 0 var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-conversation-comment {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-conversation-comment-header {
+    border-bottom-width: var(--tss-kt-border);
+    border-bottom-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-conversation-comment-attachment {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-conversation-reaction {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-conversation-composer-box {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-conversation-composer-tabs {
+    border-bottom-width: var(--tss-kt-border);
+    border-bottom-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-conversation-composer-preview {
+    border-bottom-width: var(--tss-kt-border);
+    border-bottom-color: var(--tss-kt-line);
+}

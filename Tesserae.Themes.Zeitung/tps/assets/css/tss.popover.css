@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Zeitung theme - Popover
+   --------------------------------------------------------------------------
+   A popover's content brings its own chrome; when that is a card it is the
+   boxed article of tss.card.css, given the floating frame so it reads above
+   the page. The arrow takes the paper colour.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tippy-box[data-theme~='tss-popover'] .tss-popover > .tss-card-container > .tss-card {
+    box-shadow: 0 14px 32px -18px rgba(30, 24, 16, 0.4);
+}
+
+body.tss-theme-zeitung .tippy-box[data-theme~='tss-popover'] .tippy-content .tss-fontcolor-default {
+    color: var(--tss-zt-ink);
+}

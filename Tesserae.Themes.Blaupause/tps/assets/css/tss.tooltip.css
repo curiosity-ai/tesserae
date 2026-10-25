@@ -1,0 +1,21 @@
+/* ==========================================================================
+   Blaupause theme - Tooltip
+   --------------------------------------------------------------------------
+   A tooltip is a note on a leader: a small square label in solid ink with
+   paper lettering (on the blueprint: chalk with blue lettering), no shadow.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tippy-box {
+    border-radius: 0;
+    box-shadow: none;
+    font-family: var(--tss-bp-letter);
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-blaupause .tippy-box > .tippy-content > div {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tippy-box[data-theme~='tss-popover'] {
+    box-shadow: none;
+}

@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Zeitung theme - TextBreadcrumbs
+   --------------------------------------------------------------------------
+   The same folio line set as running text: muted serif steps, underlined in
+   ink under the pointer, the current one in bold ink.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-textbreadcrumb {
+    color: var(--tss-zt-muted);
+}
+
+body.tss-theme-zeitung .tss-textbreadcrumb:hover {
+    color: var(--tss-zt-ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-zeitung .tss-textbreadcrumb-wrap:last-child .tss-textbreadcrumb {
+    color: var(--tss-zt-ink);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+body.tss-theme-zeitung .tss-textbreadcrumb-sep {
+    color: var(--tss-zt-muted);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-textbreadcrumb {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

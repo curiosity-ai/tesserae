@@ -1,0 +1,57 @@
+/* ==========================================================================
+   Kristall theme - CommandBar
+   --------------------------------------------------------------------------
+   A command bar is a unified toolbar: a frosted strip of the bar material
+   with rounded ends, a hairline edge and a light inner stroke. Its items
+   are borderless toolbar buttons that get a glass capsule under the
+   pointer; a primary item is a blue capsule.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-commandbar {
+    border: 0;
+    border-radius: var(--tss-kr-r-pop);
+    padding: 5px 6px;
+    background: var(--tss-kr-bar);
+    box-shadow: var(--tss-kr-rim), 0 0 0 0.5px var(--tss-kr-hairline), 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-commandbar {
+    box-shadow: var(--tss-kr-rim), 0 0 0 0.5px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+body.tss-theme-kristall .tss-commandbar-item {
+    border: 0;
+    border-radius: var(--tss-kr-r-pill);
+    padding: 5px 12px;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 500;
+}
+
+body.tss-theme-kristall .tss-commandbar-item:hover {
+    background: var(--tss-kr-fill-3);
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4);
+}
+
+body.tss-theme-kristall .tss-commandbar-item:active {
+    background: var(--tss-kr-fill);
+}
+
+body.tss-theme-kristall .tss-commandbar-item-icon {
+    color: var(--tss-kr-accent);
+}
+
+body.tss-theme-kristall .tss-commandbar-item-primary {
+    background: var(--tss-kr-accent-face);
+    color: var(--tss-kr-on-accent);
+    font-weight: 600;
+    box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.3), 0 0 0 0.5px rgba(0, 0, 0, 0.12), 0 0.5px 2px rgba(0, 0, 0, 0.14);
+}
+
+body.tss-theme-kristall .tss-commandbar-item-primary .tss-commandbar-item-icon {
+    color: inherit;
+}
+
+body.tss-theme-kristall .tss-commandbar-item-primary:hover {
+    background: var(--tss-kr-accent-face);
+    filter: brightness(1.04);
+}

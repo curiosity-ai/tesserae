@@ -1,0 +1,63 @@
+/* ==========================================================================
+   Memphis theme - Expander, Accordion
+   --------------------------------------------------------------------------
+   An expander is a laminate drawer: a 2px black line, a white face, its
+   chevron in an ink circle. Under the pointer the header goes
+   sunflower-pale; open, the header turns mint with a black rule under it,
+   the drawer steps forward onto a hard shadow, and the chevron flips with
+   a little overshoot.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-expander {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+    transition: box-shadow var(--tss-mp-quick) var(--tss-mp-ease);
+}
+
+body.tss-theme-memphis .tss-accordion {
+    padding-right: var(--tss-mp-off-sm);
+    padding-bottom: var(--tss-mp-off-sm);
+}
+
+body.tss-theme-memphis .tss-expander.tss-expanded {
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-mp-pink-root));
+}
+
+body.tss-theme-memphis .tss-expander-header:hover {
+    background: var(--tss-mp-yellow-pale);
+}
+
+body.tss-theme-memphis .tss-expander.tss-expanded > .tss-expander-header {
+    background: rgb(var(--tss-mp-mint-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-expander.tss-expanded > .tss-expander-header .tss-fontcolor-default,
+body.tss-theme-memphis .tss-expander.tss-expanded > .tss-expander-header i {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-expander-title {
+    font-weight: 800;
+}
+
+body.tss-theme-memphis .tss-expander-chevron {
+    transition: transform 260ms var(--tss-mp-pop);
+}
+
+body.tss-theme-memphis .tss-expander-content {
+    border-top: var(--tss-mp-bw) solid var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-expander-icon {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 50%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-memphis .tss-expander,
+    body.tss-theme-memphis .tss-expander-chevron {
+        transition: none;
+    }
+}

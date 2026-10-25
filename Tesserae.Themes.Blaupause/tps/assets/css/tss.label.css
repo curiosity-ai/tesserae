@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Blaupause theme - Label
+   --------------------------------------------------------------------------
+   A field's caption is lettered like a note on a drawing: small technical
+   capitals, tracked, in the drawing's ink. The required mark is the red
+   pencil.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-label > label {
+    font-size: var(--tss-bp-label-size);
+    font-weight: 600;
+    letter-spacing: var(--tss-bp-caps);
+    text-transform: uppercase;
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-label > label.tss-required::after,
+body.tss-theme-blaupause .tss-required::after {
+    color: var(--tss-bp-red);
+}

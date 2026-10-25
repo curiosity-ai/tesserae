@@ -1,0 +1,51 @@
+/* ==========================================================================
+   Zeitung theme - Picker
+   --------------------------------------------------------------------------
+   The suggestion slip is newsprint in an ink frame; a suggestion under the
+   pointer is reversed out of ink. Picked items are small hairline-boxed
+   tags whose remove mark is a square ghost button.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-layer-picker-suggestions {
+    background: var(--tss-zt-paper);
+    border-radius: 0;
+    box-shadow: var(--tss-zt-float);
+}
+
+body.tss-theme-zeitung .tss-picker-suggestions > .tss-picker-label {
+    font-family: var(--tss-zt-head);
+    font-size: 11.5px;
+    letter-spacing: var(--tss-zt-caps);
+    text-transform: uppercase;
+    color: var(--tss-zt-red-ink);
+}
+
+body.tss-theme-zeitung .tss-picker-suggestions > .tss-picker-suggestion:hover {
+    background: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-picker-selection {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-picker-selection:hover {
+    background: var(--tss-zt-tint);
+}
+
+body.tss-theme-zeitung .tss-picker-remove {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-picker-remove:hover {
+    background: transparent;
+    border-color: var(--tss-zt-ink);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-layer-picker-suggestions {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

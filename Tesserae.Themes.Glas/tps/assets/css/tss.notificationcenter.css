@@ -1,0 +1,28 @@
+/* ==========================================================================
+   Glas theme - NotificationCenter
+   --------------------------------------------------------------------------
+   The bell is a round glass button; its count a small rose lozenge; an
+   unread row a faint accent tint.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-notif-bell:hover {
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: var(--tss-gl-rim);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-notif-bell:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.tss-theme-glas .tss-notif-badge {
+    background: var(--tss-gl-lozenge-shine), rgb(var(--tss-danger-background-color-root));
+    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.85), 0 2px 6px -1px rgba(var(--tss-danger-background-color-root), 0.6);
+}
+
+body.tss-theme-glas .tss-notif-unread {
+    background: rgba(var(--tss-gl-accent-rgb), 0.08) !important;
+}
+
+body.tss-theme-glas .tss-notif-dot {
+    box-shadow: 0 0 6px currentColor;
+}

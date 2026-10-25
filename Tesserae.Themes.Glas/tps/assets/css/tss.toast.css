@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Glas theme - Toast
+   --------------------------------------------------------------------------
+   A toast is a lozenge of thick glass floating in from the edge: it blurs
+   the page under it, its rim lit, a soft deep shadow. The banner inside
+   brings the tone (tss.banner.css).
+   ========================================================================== */
+
+body.tss-theme-glas .tss-toast-container {
+    border-radius: var(--tss-gl-radius-card);
+    background: var(--tss-gl-pane-thick);
+    box-shadow: var(--tss-gl-surface-float);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+}
+
+body.tss-theme-glas .tss-toast-container:hover {
+    box-shadow: var(--tss-gl-rim), var(--tss-gl-glow), var(--tss-gl-shadow-float), 0 0 0 4px rgba(255, 255, 255, 0.2);
+}
+
+body.tss-theme-glas .tss-toast-fullwidth.tss-toast > .tss-toast-container {
+    border-radius: 0;
+}
+
+@supports (backdrop-filter: url("#a")) and (not (-moz-appearance: none)) and (not (font: -apple-system-body)) {
+    body.tss-theme-glas .tss-toast-container {
+        backdrop-filter: var(--tss-gl-refract);
+    }
+}

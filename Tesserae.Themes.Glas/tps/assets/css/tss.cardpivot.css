@@ -1,0 +1,47 @@
+/* ==========================================================================
+   Glas theme - CardPivot
+   --------------------------------------------------------------------------
+   The cards are one pane of glass divided by hairlines of light; the chosen
+   card is lit from below by a glowing capsule of the accent and its glass
+   is a shade clearer.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-cardpivot-titlebar {
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    background: var(--tss-gl-pane-inner);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge), 0 6px 18px -10px rgba(60, 58, 130, 0.3);
+}
+
+body.tss-theme-glas .tss-cardpivot-tab {
+    position: relative;
+    background: transparent;
+    border-right: 1px solid var(--tss-gl-edge);
+    border-bottom: none;
+    padding: 6px 14px 9px;
+}
+
+body.tss-theme-glas .tss-cardpivot-tab:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-cardpivot-tab:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.tss-theme-glas .tss-cardpivot-tab.tss-cardpivot-selected {
+    border-bottom: none;
+    background: linear-gradient(180deg, rgba(var(--tss-gl-accent-rgb), 0) 40%, rgba(var(--tss-gl-accent-rgb), 0.1) 100%);
+}
+
+body.tss-theme-glas .tss-cardpivot-tab.tss-cardpivot-selected::after {
+    content: "";
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    bottom: 3px;
+    height: 3px;
+    border-radius: 3px;
+    background: rgb(var(--tss-gl-accent-rgb));
+    box-shadow: 0 0 10px rgba(var(--tss-gl-accent-rgb), 0.6);
+}

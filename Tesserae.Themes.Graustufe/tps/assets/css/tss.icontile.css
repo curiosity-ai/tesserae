@@ -1,0 +1,17 @@
+/* ==========================================================================
+   Graustufe theme - IconTile
+   --------------------------------------------------------------------------
+   A square stamp: an ink-ruled tile with the glyph in ink. A tile given a
+   colour of its own keeps it (the theme's palette is greys already).
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-icontile {
+    --tss-icontile-radius: 0px;
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-icontile.tss-icontile-plain,
+body.tss-theme-graustufe.tss-dark-mode .tss-icontile.tss-icontile-plain {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+}

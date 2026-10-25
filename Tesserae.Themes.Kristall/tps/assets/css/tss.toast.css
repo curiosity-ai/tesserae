@@ -1,0 +1,43 @@
+/* ==========================================================================
+   Kristall theme - Toast
+   --------------------------------------------------------------------------
+   A toast is a notification banner: a frosted glass card with an 18px
+   radius, a 1px inner stroke of light and a soft deep shadow, sliding in
+   at the top right. The Banner inside lays down its tone as a faint wash;
+   here it gives up its own surface and edge so the glass shows through.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-toast-container {
+    border-radius: var(--tss-kr-r-sheet);
+    background: var(--tss-kr-popover);
+    -webkit-backdrop-filter: var(--tss-kr-blur);
+    backdrop-filter: var(--tss-kr-blur);
+    box-shadow: var(--tss-kr-rim), var(--tss-kr-shadow-toast);
+}
+
+body.tss-theme-kristall .tss-toast-container > .tss-banner {
+    border: 0;
+    border-radius: var(--tss-kr-r-sheet);
+    background: color-mix(in srgb, var(--tss-banner-accent) 6%, transparent);
+    padding: 12px 14px;
+}
+
+body.tss-theme-kristall .tss-toast-topright > .tss-toast-container,
+body.tss-theme-kristall .tss-toast-topleft > .tss-toast-container,
+body.tss-theme-kristall .tss-toast-topcenter > .tss-toast-container {
+    margin-top: 12px;
+}
+
+body.tss-theme-kristall .tss-toast-topright > .tss-toast-container {
+    margin-right: 12px;
+}
+
+body.tss-theme-kristall .tss-toast-fullwidth.tss-toast > .tss-toast-container {
+    border-radius: 0;
+    border-bottom: 0.5px solid var(--tss-kr-hairline);
+    box-shadow: none !important;
+}
+
+body.tss-theme-kristall .tss-toast-fullwidth.tss-toast > .tss-toast-container > .tss-banner {
+    border-radius: 0;
+}

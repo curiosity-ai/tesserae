@@ -1,0 +1,44 @@
+/* ==========================================================================
+   Zeitung theme - Keyboard shortcut
+   --------------------------------------------------------------------------
+   A key is a typewriter cap: the typewriter face in a square box with a
+   heavier rule at its foot, on the paper. The shortcut guide is a two-column
+   listing ruled with hairlines, its section heads set as kickers.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-kbd-key {
+    font-family: var(--tss-zt-mono);
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--tss-zt-ink);
+    background: var(--tss-zt-paper);
+    border: 1px solid var(--tss-zt-ink);
+    border-bottom-width: 2px;
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-kbd-separator {
+    color: var(--tss-zt-muted);
+}
+
+body.tss-theme-zeitung .tss-shortcut-guide-section-title {
+    font-family: var(--tss-zt-head);
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: var(--tss-zt-caps);
+    text-transform: uppercase;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-shortcut-guide-row {
+    border-bottom-color: var(--tss-zt-hair);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-kbd-key {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

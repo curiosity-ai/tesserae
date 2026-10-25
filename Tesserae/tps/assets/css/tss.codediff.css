@@ -10,3 +10,63 @@
 .tss-codediff {
     position: relative;
 }
+
+/* diff2html draws from its --d2h-* variables: a light set, and a --d2h-dark-* set it reads under
+   .d2h-dark-color-scheme (or .d2h-auto-color-scheme when the OS is dark). Its defaults are GitHub's
+   light and dark palettes, so a diff stayed white in a dark page. Both sets are mapped here onto the
+   Tesserae tokens, with the same values, so the diff follows the page's mode - and a theme's colours -
+   whichever scheme diff2html was asked for. The washes are tints of the success, danger and warning
+   tones mixed into the page colour, which read on either background. They are opaque because diff2html
+   lays the absolutely positioned line-number cell over a row that is already washed, and a translucent
+   wash doubled up there. Declared on the component so the tokens resolve where the
+   diff is, under the body's mode and theme. */
+.tss-codediff {
+    --d2h-bg-color: var(--tss-default-background-color);
+    --d2h-dark-bg-color: var(--tss-default-background-color);
+    --d2h-border-color: var(--tss-default-border-color);
+    --d2h-dark-border-color: var(--tss-default-border-color);
+    --d2h-dim-color: var(--tss-secondary-foreground-color);
+    --d2h-dark-dim-color: var(--tss-secondary-foreground-color);
+    --d2h-line-border-color: var(--tss-default-separator-color);
+    --d2h-dark-line-border-color: var(--tss-default-separator-color);
+    --d2h-file-header-bg-color: var(--tss-secondary-background-color);
+    --d2h-dark-file-header-bg-color: var(--tss-secondary-background-color);
+    --d2h-file-header-border-color: var(--tss-default-border-color);
+    --d2h-dark-file-header-border-color: var(--tss-default-border-color);
+    --d2h-empty-placeholder-bg-color: var(--tss-secondary-background-color);
+    --d2h-dark-empty-placeholder-bg-color: var(--tss-secondary-background-color);
+    --d2h-empty-placeholder-border-color: var(--tss-default-separator-color);
+    --d2h-dark-empty-placeholder-border-color: var(--tss-default-separator-color);
+    --d2h-selected-color: color-mix(in srgb, var(--tss-highlight-color) 20%, var(--tss-default-background-color));
+    --d2h-dark-selected-color: color-mix(in srgb, var(--tss-highlight-color) 20%, var(--tss-default-background-color));
+    --d2h-ins-bg-color: color-mix(in srgb, var(--tss-success-background-color) 12%, var(--tss-default-background-color));
+    --d2h-dark-ins-bg-color: color-mix(in srgb, var(--tss-success-background-color) 12%, var(--tss-default-background-color));
+    --d2h-ins-border-color: rgba(var(--tss-success-background-color-root), 0.4);
+    --d2h-dark-ins-border-color: rgba(var(--tss-success-background-color-root), 0.4);
+    --d2h-ins-highlight-bg-color: color-mix(in srgb, var(--tss-success-background-color) 35%, var(--tss-default-background-color));
+    --d2h-dark-ins-highlight-bg-color: color-mix(in srgb, var(--tss-success-background-color) 35%, var(--tss-default-background-color));
+    --d2h-ins-label-color: var(--tss-success-background-color);
+    --d2h-dark-ins-label-color: var(--tss-success-background-color);
+    --d2h-del-bg-color: color-mix(in srgb, var(--tss-danger-background-color) 10%, var(--tss-default-background-color));
+    --d2h-dark-del-bg-color: color-mix(in srgb, var(--tss-danger-background-color) 10%, var(--tss-default-background-color));
+    --d2h-del-border-color: rgba(var(--tss-danger-background-color-root), 0.4);
+    --d2h-dark-del-border-color: rgba(var(--tss-danger-background-color-root), 0.4);
+    --d2h-del-highlight-bg-color: color-mix(in srgb, var(--tss-danger-background-color) 32%, var(--tss-default-background-color));
+    --d2h-dark-del-highlight-bg-color: color-mix(in srgb, var(--tss-danger-background-color) 32%, var(--tss-default-background-color));
+    --d2h-del-label-color: var(--tss-danger-background-color);
+    --d2h-dark-del-label-color: var(--tss-danger-background-color);
+    --d2h-change-del-color: color-mix(in srgb, var(--tss-warning-background-color) 16%, var(--tss-default-background-color));
+    --d2h-dark-change-del-color: color-mix(in srgb, var(--tss-warning-background-color) 16%, var(--tss-default-background-color));
+    --d2h-change-ins-color: color-mix(in srgb, var(--tss-success-background-color) 20%, var(--tss-default-background-color));
+    --d2h-dark-change-ins-color: color-mix(in srgb, var(--tss-success-background-color) 20%, var(--tss-default-background-color));
+    --d2h-change-label-color: var(--tss-warning-background-color);
+    --d2h-dark-change-label-color: var(--tss-warning-background-color);
+    --d2h-info-bg-color: color-mix(in srgb, var(--tss-highlight-color) 8%, var(--tss-default-background-color));
+    --d2h-dark-info-bg-color: color-mix(in srgb, var(--tss-highlight-color) 8%, var(--tss-default-background-color));
+    --d2h-info-border-color: rgba(var(--tss-highlight-color-root), 0.3);
+    --d2h-dark-info-border-color: rgba(var(--tss-highlight-color-root), 0.3);
+    --d2h-moved-label-color: var(--tss-link-color);
+    --d2h-dark-moved-label-color: var(--tss-link-color);
+    --d2h-color: var(--tss-default-foreground-color);
+    --d2h-dark-color: var(--tss-default-foreground-color);
+}

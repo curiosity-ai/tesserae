@@ -1,0 +1,124 @@
+/* ==========================================================================
+   Phosphor theme - TextBox
+   --------------------------------------------------------------------------
+   The model for every field in the theme: a prompt line. A ">" stands in
+   front, the field is the faintest wash over an underline, and the type is
+   the terminal's own. With the cursor in it the prompt lights up, the
+   underline doubles in the cursor colour and the caret is a block
+   (caret-shape: block, blinking at the system's rate; it stops where the
+   system says motion should). Invalid is the red underline and a message
+   prefixed "!". Disabled is a dotted underline in the dim colour.
+
+   Tables inside a TextBlock (this stylesheet owns them in Tesserae) are
+   ruled like a printout: a frame, a header row in capitals, faint rules.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-textbox {
+    padding: 0 10px 0 26px;
+    border: 0;
+    border-bottom: 1px solid var(--tss-ph-rule);
+    border-radius: 0;
+    background: var(--tss-ph-prompt) 10px 50% / 8px 12px no-repeat, var(--tss-ph-field);
+    box-shadow: none;
+    caret-color: var(--tss-ph-cursor);
+    caret-shape: block;
+    transition: none;
+}
+
+body.tss-theme-phosphor .tss-textbox::placeholder {
+    color: var(--tss-ph-dim) !important;
+    opacity: 0.8;
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-textbox:hover {
+    border-bottom-color: var(--tss-ph-rule-hi);
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-textbox:focus {
+    border-bottom-color: var(--tss-ph-cursor);
+    background: var(--tss-ph-prompt-hot) 10px 50% / 8px 12px no-repeat, var(--tss-ph-field-focus);
+    box-shadow: inset 0 -1px 0 0 var(--tss-ph-cursor), 0 4px 10px -8px rgba(var(--tss-ph-hot-root), 0.6);
+    outline: none;
+}
+
+body.tss-theme-phosphor:not(.tss-dark-mode) .tss-textbox:focus {
+    box-shadow: inset 0 -1px 0 0 var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-textbox.tss-disabled {
+    border-bottom: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: var(--tss-ph-prompt) 10px 50% / 8px 12px no-repeat, transparent;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    text-shadow: none;
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-textbox-container.tss-invalid .tss-textbox {
+    border-bottom-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-phosphor .tss-textbox-container.tss-invalid .tss-textbox:focus {
+    box-shadow: inset 0 -1px 0 0 rgb(var(--tss-invalid-border-color-root));
+    caret-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-phosphor .tss-textbox-error {
+    margin-top: 3px;
+    font-size: 11px;
+    color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-phosphor .tss-textbox-error:not(:empty)::before {
+    content: "! ";
+    font-weight: 600;
+}
+
+/* A field set inside a box that draws its own edge (a tag picker, a search bar) keeps no prompt and no line. */
+body.tss-theme-phosphor .tss-textbox.tss-textbox-noborder,
+body.tss-theme-phosphor .tss-textbox.tss-textbox-noborder:hover,
+body.tss-theme-phosphor .tss-textbox.tss-textbox-noborder:focus {
+    border: 0;
+    padding-left: 8px;
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-textbox-container.tss-rounded-md .tss-textbox,
+body.tss-theme-phosphor .tss-textbox-container.tss-rounded-full .tss-textbox {
+    border-radius: 0;
+    padding-left: 26px;
+}
+
+/* --------------------------------------------------------------------------
+   Tables in a TextBlock: a ruled printout
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-phosphor .tss-textblock table {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-textblock table th {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    border-bottom: var(--tss-ph-double);
+    background: transparent;
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-textblock table td {
+    border-color: var(--tss-ph-faint);
+}
+
+/* A colour input shows its swatch, not a prompt. */
+body.tss-theme-phosphor .tss-textbox[type="color"],
+body.tss-theme-phosphor .tss-textbox[type="color"]:focus {
+    padding: 2px;
+    background: transparent;
+}

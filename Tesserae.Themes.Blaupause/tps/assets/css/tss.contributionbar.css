@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Blaupause theme - ContributionBar
+   --------------------------------------------------------------------------
+   A ruled bar divided into its parts by paper-coloured cuts; the legend's
+   swatches are small squares.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-contribution-bar {
+    border-radius: 0;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-contribution-segment {
+    box-shadow: inset -1px 0 0 var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-contribution-toggle {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-contribution-toggle:hover {
+    background: var(--tss-bp-wash);
+}
+
+body.tss-theme-blaupause .tss-contribution-legend-dot {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-contribution-legend-value {
+    font-family: var(--tss-bp-mono);
+}

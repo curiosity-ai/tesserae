@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Memphis theme - Popover
+   --------------------------------------------------------------------------
+   A popover's content brings its own chrome (a menu, a card), which the
+   theme draws as the floating panel; the arrow takes the panel's colour.
+   A bare popover body gets the panel itself.
+   ========================================================================== */
+
+body.tss-theme-memphis .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    color: var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tippy-box[data-theme~='tss-popover'] .tippy-content .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tippy-box[data-theme~='tss-popover'] .tss-popover > .tss-card-container > .tss-card {
+    box-shadow: var(--tss-mp-off) var(--tss-mp-off) 0 0 var(--tss-mp-pop-cast);
+}

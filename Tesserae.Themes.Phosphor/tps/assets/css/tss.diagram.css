@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Phosphor theme - Diagram
+   --------------------------------------------------------------------------
+   A diagram is a flow chart drawn in boxes on a dotted plotting grid: the
+   canvas a single-line frame, nodes square boxes (round nodes stay round),
+   a toned node an inverse block.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-diagram {
+    --tss-diagram-dot-color: rgba(var(--tss-ph-ink-root), 0.22);
+    --tss-diagram-line-color: var(--tss-ph-rule-hi);
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background-color: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-diagram-node {
+    border-radius: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-diagram-node:hover {
+    box-shadow: var(--tss-ph-box-glow);
+    border-color: var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-diagram-node-default,
+body.tss-theme-phosphor .tss-diagram-node-secondary {
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor :is(.tss-diagram-node-primary, .tss-diagram-node-success, .tss-diagram-node-danger, .tss-diagram-node-warning) {
+    text-shadow: none;
+}

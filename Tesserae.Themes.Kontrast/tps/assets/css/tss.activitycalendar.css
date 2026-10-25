@@ -1,0 +1,22 @@
+/* ==========================================================================
+   Kontrast theme - ActivityCalendar
+   --------------------------------------------------------------------------
+   Day cells keep their scale but gain a 1px line edge so an empty day is still a cell; the selected day is ringed paper-then-ink.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-activitycalendar-day {
+    box-shadow: inset 0 0 0 1px rgba(var(--tss-default-foreground-color-root), 0.35);
+}
+
+body.tss-theme-kontrast .tss-activitycalendar-day.tss-activitycalendar-active {
+    box-shadow: 0 0 0 2px var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-activitycalendar-day.tss-activitycalendar-selected {
+    box-shadow: 0 0 0 2px var(--tss-kt-paper), 0 0 0 4px var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-activitycalendar-summary-item::before {
+    border-left-width: var(--tss-kt-border);
+    border-left-color: var(--tss-kt-line);
+}

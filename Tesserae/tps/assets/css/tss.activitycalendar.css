@@ -1,7 +1,7 @@
 /* ActivityCalendar */
 .tss-activitycalendar {
     --tss-activitycalendar-color: var(--tss-primary-background-color);
-    --tss-activitycalendar-empty-color: var(--tss-default-border-color);
+    --tss-activitycalendar-empty-color: var(--tss-subtle-fill-color);
     --tss-activitycalendar-cell-size: 18px;
     --tss-activitycalendar-min-cell-size: 8px;
     --tss-activitycalendar-gap: 3px;

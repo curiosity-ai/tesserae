@@ -41,7 +41,7 @@
 
 .tss-questionnaire-option:hover:not(:disabled) {
     background: var(--tss-default-background-hover-color);
-    border-color: var(--tss-colors-primary-400, #60a5fa);
+    border-color: var(--tss-primary-background-color);
 }
 
 .tss-questionnaire-option:disabled {
@@ -54,9 +54,9 @@
 }
 
 .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
-    background: var(--tss-colors-primary-500, #3b82f6);
-    border-color: var(--tss-colors-primary-500, #3b82f6);
-    color: #ffffff;
+    background: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-border-color);
+    color: var(--tss-primary-foreground-color);
     opacity: 1;
     font-weight: var(--tss-font-weight-semibold, 600);
 }
@@ -66,8 +66,10 @@
     margin-top: 4px;
     padding: 4px 10px;
     border-radius: 6px;
-    background: var(--tss-colors-primary-50, #eff6ff);
-    color: var(--tss-colors-primary-700, #1d4ed8);
+    /* A tint of the primary under the page's own text colour: a darker shade of the primary as the
+       text would be a light shade in dark mode, and the primary itself is under 4.5:1 on its own tint. */
+    background: color-mix(in srgb, var(--tss-primary-background-color) 12%, var(--tss-default-background-color));
+    color: var(--tss-default-foreground-color);
     font-size: 13px;
     font-weight: var(--tss-font-weight-semibold, 600);
     white-space: pre-wrap;

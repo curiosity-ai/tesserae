@@ -1,0 +1,69 @@
+/* ==========================================================================
+   Glas theme - Drawer
+   --------------------------------------------------------------------------
+   A drawer is a sheet of thick glass sliding up from the foot of the
+   window, its top corners 22px, a small pill of light for a handle. The
+   page behind is veiled (the veil's blur on the container's ::before, so
+   the container does not become the sheet's backdrop root).
+   ========================================================================== */
+
+body.tss-theme-glas .tss-drawer-container.tss-drawer-open::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    -webkit-backdrop-filter: blur(3px) saturate(120%);
+    backdrop-filter: blur(3px) saturate(120%);
+    pointer-events: none;
+}
+
+body.tss-theme-glas .tss-drawer {
+    background: var(--tss-gl-pane-thick);
+    border-top-left-radius: var(--tss-gl-radius-pane);
+    border-top-right-radius: var(--tss-gl-radius-pane);
+    box-shadow: var(--tss-gl-rim), 0 -10px 40px -10px rgba(40, 38, 110, 0.35);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-drawer {
+    box-shadow: var(--tss-gl-rim), 0 -10px 40px -10px rgba(0, 0, 0, 0.7);
+}
+
+body.tss-theme-glas .tss-drawer-handle-bar {
+    width: 40px;
+    height: 5px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.22);
+}
+
+body.tss-theme-glas .tss-drawer-title {
+    font-weight: 700;
+}
+
+body.tss-theme-glas .tss-drawer-close {
+    border-radius: 999px;
+    width: 36px;
+    height: 36px;
+}
+
+body.tss-theme-glas .tss-drawer-close:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: var(--tss-gl-rim);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-drawer-close:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+body.tss-theme-glas .tss-drawer-footer {
+    border-top: 1px solid var(--tss-gl-edge);
+}
+
+/* A modal in a sheet: the sheet is its glass. */
+body.tss-theme-glas .tss-drawer-content > .tss-modal.tss-modal-in-drawer,
+body.tss-theme-glas .tss-drawer-content .tss-modal.tss-embedded {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}

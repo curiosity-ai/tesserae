@@ -1,0 +1,49 @@
+/* ==========================================================================
+   Phosphor theme - Message
+   --------------------------------------------------------------------------
+   A message is a notice printed in the stream: square, a 1px frame and a
+   double bar down its left edge in the message's colour (info the bright
+   phosphor or ink, success green, warning amber, error red), the title in
+   that colour, the text in the ordinary one. The icon sits in a framed
+   cell rather than a soft disc.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-message-icon {
+    border-radius: 0;
+    background: transparent;
+    border: 1px solid var(--tss-ph-faint);
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-message-note {
+    border-radius: 0;
+    background: var(--tss-ph-field);
+    border: var(--tss-ph-single);
+    color: var(--tss-ph-ink);
+}
+
+body.tss-theme-phosphor .tss-message-info { --tss-ph-msg: var(--tss-ph-hot); }
+body.tss-theme-phosphor .tss-message-success { --tss-ph-msg: rgb(var(--tss-success-background-color-root)); }
+body.tss-theme-phosphor .tss-message-warning { --tss-ph-msg: var(--tss-ph-amber); }
+body.tss-theme-phosphor .tss-message-error { --tss-ph-msg: var(--tss-ph-red); }
+
+body.tss-theme-phosphor :is(.tss-message-info, .tss-message-success, .tss-message-warning, .tss-message-error) {
+    border-radius: 0;
+    background: transparent;
+    border: 1px solid color-mix(in srgb, var(--tss-ph-msg) 55%, transparent);
+    border-left: 4px double var(--tss-ph-msg);
+}
+
+body.tss-theme-phosphor :is(.tss-message-info, .tss-message-success, .tss-message-warning, .tss-message-error) .tss-message-icon {
+    color: var(--tss-ph-msg);
+    background: transparent;
+    border-color: color-mix(in srgb, var(--tss-ph-msg) 55%, transparent);
+}
+
+body.tss-theme-phosphor :is(.tss-message-info, .tss-message-success, .tss-message-warning, .tss-message-error) .tss-message-title {
+    color: var(--tss-ph-msg);
+}
+
+body.tss-theme-phosphor :is(.tss-message-info, .tss-message-success, .tss-message-warning, .tss-message-error) .tss-message-text {
+    color: var(--tss-ph-ink);
+}

@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Graustufe theme - DetailsGrid
+   --------------------------------------------------------------------------
+   A ruled record: an ink frame, hairlines between the rows, the labels in
+   the sans in the muted grey, the values in the book face.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-detailsgrid {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-detailsgrid-borderless,
+body.tss-theme-graustufe .tss-detailsgrid-stacked,
+body.tss-theme-graustufe .tss-detailsgrid-stacked.tss-detailsgrid-multicolumn {
+    border: none;
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-detailsgrid-row {
+    border-bottom-color: var(--tss-gs-11);
+}
+
+body.tss-theme-graustufe .tss-detailsgrid-label {
+    font-family: var(--tss-gs-ui);
+    font-weight: 600;
+    color: var(--tss-gs-6);
+}

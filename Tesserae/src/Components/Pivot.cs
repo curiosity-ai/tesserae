@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using static Transpose.Core.dom;
 using static Tesserae.UI;
+using static TNT.T;
 
 namespace Tesserae
 {
@@ -69,9 +70,19 @@ namespace Tesserae
         /// </summary>
         public Pivot()
         {
-            _scrollLeftBtn  = Button().SetIcon(UIcons.AngleLeft).NoMinSize().HS().NoPadding().NoMargin().Class("tss-pivot-titlebar-scroll-left").OnClick(() => ScrollByAmount(-_scroller.clientWidth * ScrollButtonStep));
-            _scrollRightBtn = Button().SetIcon(UIcons.AngleRight).NoMinSize().HS().NoPadding().NoMargin().Class("tss-pivot-titlebar-scroll-right").OnClick(() => ScrollByAmount(_scroller.clientWidth * ScrollButtonStep));
-            _moreBtn        = Button().SetIcon(UIcons.MenuDots).NoMinSize().HS().NoPadding().NoMargin().Class("tss-pivot-titlebar-more").OnClick(() => ShowAllTabs());
+            // Icon-only, so each is named. They fill the titlebar's height by align-self: stretch in tss.pivot.css
+            // (height: 100% did not resolve against the content-sized titlebar and left them icon-sized), and
+            // the stylesheet gives them a minimum width a pointer can hit.
+            //
+            // The scroll arrows are for the pointer only and never Tab stops: the keyboard moves along the tabs
+            // with the arrow keys, which scrolls the strip by focusing the next tab. The overflow menu is a Tab
+            // stop only while some tab is out of view (UpdateMoreVisibility).
+            _scrollLeftBtn  = Button().SetIcon(UIcons.AngleLeft).NoMinSize().NoPadding().NoMargin().Class("tss-pivot-titlebar-scroll-left").AriaLabel("Scroll tabs left".t()).OnClick(() => ScrollByAmount(-_scroller.clientWidth * ScrollButtonStep));
+            _scrollRightBtn = Button().SetIcon(UIcons.AngleRight).NoMinSize().NoPadding().NoMargin().Class("tss-pivot-titlebar-scroll-right").AriaLabel("Scroll tabs right".t()).OnClick(() => ScrollByAmount(_scroller.clientWidth * ScrollButtonStep));
+            _moreBtn        = Button().SetIcon(UIcons.MenuDots).NoMinSize().NoPadding().NoMargin().Class("tss-pivot-titlebar-more").AriaLabel("All tabs".t()).OnClick(() => ShowAllTabs());
+            _moreBtn.Render().setAttribute("aria-haspopup", "menu");
+            _scrollLeftBtn.Render().tabIndex  = -1;
+            _scrollRightBtn.Render().tabIndex = -1;
 
             _renderedTabs = Div(Att("tss-pivot-titlebar", role: "tablist"));
             _line         = Div(Att("tss-pivot-line"));
@@ -471,7 +482,13 @@ namespace Tesserae
 
         private void UpdateMoreVisibility()
         {
-            _moreBtn.Render().style.display = _orderedTabs.Count > 0 ? "" : "none";
+            var more = _moreBtn.Render();
+            more.style.display = _orderedTabs.Count > 0 ? "" : "none";
+
+            // With every tab in view the menu only repeats the strip: still there for the pointer, but not one
+            // more Tab stop after every tab list on the page.
+            var overflows = _scroller.scrollWidth - 1 > _scroller.clientWidth;
+            more.tabIndex = overflows ? 0 : -1;
         }
 
         private void UpdateTitlebarVisibility()

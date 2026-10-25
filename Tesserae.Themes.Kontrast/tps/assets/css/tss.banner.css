@@ -1,0 +1,131 @@
+/* ==========================================================================
+   Kontrast theme - Banner
+   --------------------------------------------------------------------------
+   A notice board: paper, a 2px ink edge, and an 8px bar at its leading edge
+   in the tone; all text in ink (title bold), so nothing has to be read in a
+   tinted colour. The tone is carried by the bar and the icon tile, and
+   warning's bar is black-and-yellow caution stripes, which read without
+   colour vision at all. The icon tile is solid in the tone with its glyph
+   in the paired colour. Dismiss is a 32px ghost that takes an edge.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-banner {
+    --tss-kt-banner-bar: var(--tss-kt-ink);
+    --tss-kt-banner-on-bar: var(--tss-kt-paper);
+    --tss-banner-title-color: var(--tss-kt-ink);
+    --tss-banner-text-color: var(--tss-kt-ink);
+    --tss-banner-surface: var(--tss-kt-paper);
+    --tss-banner-border-color: var(--tss-kt-ink);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    background: var(--tss-kt-paper);
+    box-shadow: inset 8px 0 0 0 var(--tss-kt-banner-bar);
+    padding-left: 22px;
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-banner-primary {
+    --tss-kt-banner-bar: var(--tss-kt-accent);
+    --tss-kt-banner-on-bar: var(--tss-kt-on-accent);
+}
+
+body.tss-theme-kontrast .tss-banner-success {
+    --tss-kt-banner-bar: var(--tss-success-background-color);
+    --tss-kt-banner-on-bar: var(--tss-success-foreground-color);
+}
+
+body.tss-theme-kontrast .tss-banner-danger {
+    --tss-kt-banner-bar: var(--tss-danger-background-color);
+    --tss-kt-banner-on-bar: var(--tss-danger-foreground-color);
+}
+
+body.tss-theme-kontrast .tss-banner-warning {
+    --tss-kt-banner-bar: var(--tss-kt-signal);
+    --tss-kt-banner-on-bar: var(--tss-kt-on-signal);
+    box-shadow: none;
+    background:
+        repeating-linear-gradient(135deg, #000 0 6px, var(--tss-kt-signal) 6px 12px) left top / 8px 100% no-repeat,
+        var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tss-banner-primary,
+body.tss-theme-kontrast .tss-banner-success,
+body.tss-theme-kontrast .tss-banner-warning,
+body.tss-theme-kontrast .tss-banner-danger {
+    --tss-banner-title-color: var(--tss-kt-ink);
+    --tss-banner-text-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-banner-flat {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+}
+
+body.tss-theme-kontrast .tss-banner-compact {
+    padding-left: 18px;
+}
+
+body.tss-theme-kontrast .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-kontrast.tss-dark-mode .tss-icontile.tss-banner-icon-tile {
+    background: var(--tss-kt-banner-bar);
+    color: var(--tss-kt-banner-on-bar);
+    box-shadow: inset 0 0 0 var(--tss-kt-border) var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-banner:not(.tss-banner-primary):not(.tss-banner-success):not(.tss-banner-warning):not(.tss-banner-danger) .tss-icontile.tss-banner-icon-tile {
+    background: var(--tss-kt-surface);
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-banner-title {
+    font-weight: 750;
+    line-height: 1.3;
+}
+
+body.tss-theme-kontrast .tss-banner-text {
+    line-height: 1.5;
+}
+
+body.tss-theme-kontrast .tss-banner-time-text {
+    opacity: 1;
+    color: var(--tss-kt-muted);
+}
+
+body.tss-theme-kontrast .tss-banner-badge-pill.tss-badge {
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+    border-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-banner-action-warning {
+    background: var(--tss-kt-signal);
+    color: var(--tss-kt-on-signal);
+    border-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-btn.tss-banner-dismiss-button {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    opacity: 1;
+    color: var(--tss-kt-ink);
+    border-color: transparent;
+}
+
+body.tss-theme-kontrast .tss-btn.tss-banner-dismiss-button:hover {
+    background: var(--tss-kt-hover);
+    border-color: var(--tss-kt-ink);
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-toast-container > .tss-banner {
+    border: none;
+}
+
+@media (forced-colors: active) {
+    body.tss-theme-kontrast .tss-banner {
+        border-left: 8px solid CanvasText;
+    }
+}

@@ -1,0 +1,662 @@
+/* ==========================================================================
+   Washi theme - tokens
+   --------------------------------------------------------------------------
+   Japanese paper and ink. The light mode is a sheet of kozo washi: a warm
+   off-white with a faint fibrous grain and a few long fibres caught in it,
+   sumi ink for type and lines, and one colour that speaks, vermilion
+   (shu-iro), the red of a seal stamp. Traditional dyes appear sparingly
+   for meaning: indigo (ai-iro) for links and information, moss (koke-iro)
+   for success, tea-gold (kincha) for warning, a deep crimson (enji) for
+   danger. Dark mode is lacquerware (urushi): a black-brown lacquer with a
+   soft sheen, rice-paper cream type, the vermilion a little brighter, and
+   gold (kin, as in kintsugi) for focus and the lines that matter.
+
+   Everything is scoped under body.tss-theme-washi, the class WashiTheme
+   adds to the body while it is active. A derived variable
+   (--tss-x-color: rgb(var(--tss-x-color-root))) is resolved where it is
+   declared, so both are restated, light and dark.
+
+   The tokens a component file can use (they follow the mode unless marked
+   fixed):
+
+   Colour
+     --tss-wa-ink / --tss-wa-ink-soft     sumi ink, and diluted ink (usuzumi)
+     --tss-wa-paper / --tss-wa-sheet      the ground, and a sheet laid on it
+     --tss-wa-shu / -shu-deep             vermilion, and its pressed tone
+     --tss-wa-on-shu                      type on vermilion
+     --tss-wa-ai / --tss-wa-koke          indigo, moss
+     --tss-wa-kincha / --tss-wa-enji      tea-gold, crimson
+     --tss-wa-kin                         gold leaf: focus and accent lines (dark mode's thread)
+     --tss-wa-thread                      the focus colour of the mode (indigo on paper, gold on lacquer)
+     --tss-wa-line                        a hairline drawn in ink, thin enough to be calm
+     --tss-wa-line-strong                 an ink line that must be read (a rule under a header)
+     --tss-wa-wash                        a pale ink wash, for hover and quiet fills
+     --tss-wa-wash-strong                 a second wash, for pressed and selected
+     --tss-wa-shu-wash                    a pale vermilion wash, for the selected row
+     --tss-wa-thread-halo                 the soft halo round a focused field
+     --tss-wa-field-edge (-hover)         the hairline round a field, at rest and under the pointer
+
+   Materials
+     --tss-wa-grain                       the paper's fibre and grain (background-image layers)
+     --tss-wa-sheen                       the lacquer's sheen (dark), nothing on paper
+     --tss-wa-pores                       a fine pale grain over a stamped colour (vermilion keys, seals)
+     --tss-wa-lattice                     shoji kumiko: fine lattice lines (two images: size 62px 100%, 100% 124px)
+     --tss-wa-stroke                      an SVG mask: a brush stroke, heavy at the start, tapering out
+     --tss-wa-stroke-v                    the same stroke drawn vertically
+     --tss-wa-hanko                       an SVG mask: a square seal with a pressed, uneven edge
+     --tss-wa-hanko-round                 an SVG mask: a round seal
+
+   Depth
+     --tss-wa-lift                        paper lifted off paper: a very soft warm shadow
+     --tss-wa-float                       a sheet held above the page (menus, modals, toasts)
+     --tss-wa-focus                       the focus thread as a box-shadow
+
+   Type
+     --tss-wa-serif                       Shippori Mincho, for headings and numbers that matter
+     --tss-wa-sans                        Zen Kaku Gothic New, for everything else
+
+   Shape and motion
+     --tss-wa-radius        3px           a sheet, a field, a key: paper is cut, not moulded
+     --tss-wa-radius-small  2px           a chip, a tag
+     --tss-wa-ease                        ink settling (no bounce)
+     --tss-wa-quick                       120ms
+   ========================================================================== */
+
+body.tss-theme-washi {
+    /* Fixed: the seal, the dyes and the gold do not change with the mode. */
+    --tss-wa-kin: rgb(196, 160, 86);
+    --tss-wa-kin-bright: rgb(222, 188, 112);
+
+    --tss-wa-ink: rgb(var(--tss-default-foreground-color-root));
+    --tss-wa-ink-soft: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-wa-paper: rgb(var(--tss-default-background-color-root));
+    --tss-wa-sheet: rgb(var(--tss-secondary-background-color-root));
+    --tss-wa-shu: rgb(var(--tss-primary-background-color-root));
+    --tss-wa-shu-deep: rgb(var(--tss-primary-background-active-color-root));
+    --tss-wa-on-shu: rgb(var(--tss-primary-foreground-color-root));
+    --tss-wa-ai: rgb(38, 72, 118);
+    --tss-wa-koke: rgb(var(--tss-success-background-color-root));
+    --tss-wa-kincha: rgb(var(--tss-warning-background-color-root));
+    --tss-wa-enji: rgb(var(--tss-danger-background-color-root));
+    --tss-wa-thread: rgb(38, 72, 118);
+    --tss-wa-line: rgba(var(--tss-default-foreground-color-root), 0.13);
+    --tss-wa-line-strong: rgba(var(--tss-default-foreground-color-root), 0.55);
+    --tss-wa-wash: rgba(var(--tss-default-foreground-color-root), 0.045);
+    --tss-wa-wash-strong: rgba(var(--tss-default-foreground-color-root), 0.085);
+    --tss-wa-shu-wash: rgba(var(--tss-primary-background-color-root), 0.08);
+    --tss-wa-thread-halo: rgba(38, 72, 118, 0.14);
+    --tss-wa-field-edge: rgba(var(--tss-default-foreground-color-root), 0.2);
+    --tss-wa-field-edge-hover: rgba(var(--tss-default-foreground-color-root), 0.42);
+    --tss-ring-offset-shadow: 0 0 0 0 transparent;
+    --tss-ring-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+    /* The gallery's landing page tints each category; on paper they are all ink. */
+    --tss-landing-group-color: rgb(var(--tss-default-foreground-color-root));
+
+    /* Kozo paper: a fractal grain, and a tile of long fibres caught in the sheet. */
+    --tss-wa-grain:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='560' fill='none'%3E%3Cg stroke='%23826a48' stroke-linecap='round' stroke-opacity='0.1' stroke-width='0.6'%3E%3Cpath d='M-20 84C110 62 250 118 580 66'/%3E%3Cpath d='M30 312C170 276 300 338 590 286'/%3E%3Cpath d='M-12 452C92 470 214 406 336 446'/%3E%3Cpath d='M206 -10C236 122 180 262 232 388'/%3E%3Cpath d='M418 150C392 260 446 390 398 570'/%3E%3Cpath d='M70 180C120 196 150 170 214 188' stroke-width='0.45'/%3E%3Cpath d='M330 520C380 500 460 530 520 506' stroke-width='0.45'/%3E%3C/g%3E%3Cg stroke='%23ffffff' stroke-linecap='round' stroke-opacity='0.4' stroke-width='0.8'%3E%3Cpath d='M-10 222C140 200 270 246 400 214'/%3E%3Cpath d='M300 30C330 120 300 170 342 236'/%3E%3Cpath d='M120 380C210 360 300 400 470 372'/%3E%3C/g%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.33 0 0 0 0 0.2 0 0 0 0.11 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    /* The pores of seal paste pressed onto paper: a fine grain laid over a stamped colour (no fibres). */
+    --tss-wa-pores: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 0.96 0 0 0 0 0.9 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+    --tss-wa-sheen: none;
+    --tss-wa-lattice-ink: rgba(var(--tss-default-foreground-color-root), 0.065);
+    /* Two images (vertical, then horizontal bars): size them 62px 100% and 100% 124px, the proportion of a shoji's kumiko. */
+    --tss-wa-lattice: linear-gradient(90deg, var(--tss-wa-lattice-ink) 1px, transparent 1px), linear-gradient(180deg, var(--tss-wa-lattice-ink) 1px, transparent 1px);
+
+    /* A brush stroke: pressed in at the start, thinning to a dry tail. Used as a mask over a colour. */
+    --tss-wa-stroke: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 6' preserveAspectRatio='none'%3E%3Cpath d='M0 3.4C4 1.6 12 1 30 1.1C80 1.4 140 2.2 200 2.9C150 3.6 90 4.6 40 5C16 5.2 4 4.8 0 3.4Z'/%3E%3C/svg%3E");
+    --tss-wa-stroke-v: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 200' preserveAspectRatio='none'%3E%3Cpath d='M3.4 0C1.6 4 1 12 1.1 30C1.4 80 2.2 140 2.9 200C3.6 150 4.6 90 5 40C5.2 16 4.8 4 3.4 0Z'/%3E%3C/svg%3E");
+    /* A seal: a square of vermilion paste pressed onto paper, its edge not quite straight, a few pores where the paste did not take. */
+    --tss-wa-hanko: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cfilter id='r' x='-10%25' y='-10%25' width='120%25' height='120%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.11' numOctaves='2' seed='7' result='t'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='t' scale='2.6' xChannelSelector='R' yChannelSelector='G' result='d'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' seed='3' result='g'/%3E%3CfeColorMatrix in='g' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 0 0 0 2.35' result='s'/%3E%3CfeComposite in='d' in2='s' operator='in'/%3E%3C/filter%3E%3Crect x='2.5' y='2.5' width='35' height='35' rx='2.5' filter='url(%23r)'/%3E%3C/svg%3E");
+    --tss-wa-hanko-round: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cfilter id='r' x='-10%25' y='-10%25' width='120%25' height='120%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.11' numOctaves='2' seed='4' result='t'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='t' scale='2.4' xChannelSelector='R' yChannelSelector='G' result='d'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' seed='9' result='g'/%3E%3CfeColorMatrix in='g' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 0 0 0 2.35' result='s'/%3E%3CfeComposite in='d' in2='s' operator='in'/%3E%3C/filter%3E%3Ccircle cx='20' cy='20' r='17.5' filter='url(%23r)'/%3E%3C/svg%3E");
+
+    /* Depth: sheets of paper, lifted. Warm, wide and very faint. */
+    --tss-wa-lift: 0 0 0 1px rgba(92, 72, 44, 0.07), 0 1px 1px rgba(92, 72, 44, 0.05), 0 8px 22px -12px rgba(92, 72, 44, 0.2);
+    --tss-wa-lift-hover: 0 0 0 1px rgba(92, 72, 44, 0.1), 0 2px 3px rgba(92, 72, 44, 0.06), 0 14px 30px -14px rgba(92, 72, 44, 0.3);
+    --tss-wa-float: 0 0 0 1px rgba(92, 72, 44, 0.1), 0 3px 8px -2px rgba(92, 72, 44, 0.1), 0 22px 48px -18px rgba(92, 72, 44, 0.34);
+    --tss-wa-focus: 0 0 0 1px rgb(var(--tss-default-background-color-root)), 0 0 0 2.5px var(--tss-wa-thread);
+
+    --tss-wa-serif: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif", Georgia, serif;
+    --tss-wa-sans: "Zen Kaku Gothic New", "Hiragino Sans", "Noto Sans", "Helvetica Neue", Arial, ui-sans-serif, system-ui, sans-serif;
+
+    --tss-wa-radius: 3px;
+    --tss-wa-radius-small: 2px;
+    --tss-wa-ease: cubic-bezier(0.25, 0.6, 0.3, 1);
+    --tss-wa-quick: 120ms;
+
+    --tss-sansserif-font-family: var(--tss-wa-sans);
+    --tss-monospace-font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --tss-font-weight-regular: 400;
+    --tss-font-weight-semibold: 500;
+    --tss-font-weight-bold: 700;
+
+    --tss-primary-shadow: none;
+    --tss-shadow-sm: none;
+    --tss-shadow-sm-hover: none;
+    --tss-shadow: var(--tss-wa-lift);
+    --tss-shadow-hover: var(--tss-wa-lift-hover);
+    --tss-shadow-md: var(--tss-wa-lift);
+    --tss-shadow-md-hover: var(--tss-wa-lift-hover);
+    --tss-shadow-lg: var(--tss-wa-float);
+    --tss-shadow-lg-hover: var(--tss-wa-float);
+    --tss-shadow-xl: var(--tss-wa-float);
+    --tss-shadow-xl-hover: var(--tss-wa-float);
+    --tss-box-shadow: var(--tss-wa-float);
+    --tss-box-shadow-darker: var(--tss-wa-float);
+    --tss-card-shadow: var(--tss-wa-lift);
+    --tss-toast-shadow: var(--tss-wa-float);
+
+    --tss-border-radius-sm: 2px;
+    --tss-border-radius-md: 3px;
+    --tss-border-radius-lg: 4px;
+    --tss-border-radius-xl: 6px;
+    --tss-border-radius-full: 9999px;
+
+    --tss-ring-offset-width: 1px;
+    --tss-ring-opacity: 0.9;
+    --tss-scrollbar-track-color: transparent;
+    --tss-scrollbar-track-hidden-color: transparent;
+    --tss-overlay-light: rgba(247, 243, 234, 0.72);
+    --tss-overlay-dark: rgba(40, 30, 20, 0.32);
+
+    --tss-default-background-color-root: 246, 242, 233;
+    --tss-default-foreground-color-root: 34, 31, 28;
+    --tss-secondary-background-color-root: 251, 249, 243;
+    --tss-secondary-foreground-color-root: 108, 100, 90;
+    --tss-sidebar-background-color-root: 240, 234, 221;
+    --tss-disabled-background-color-root: 236, 231, 220;
+    --tss-disabled-foreground-color-root: 160, 151, 139;
+    --tss-default-border-color-root: 220, 211, 195;
+    --tss-dark-border-color-root: 150, 140, 125;
+    --tss-default-separator-color-root: 226, 218, 203;
+    --tss-invalid-border-color-root: 168, 42, 50;
+    --tss-default-background-hover-color-root: 237, 231, 218;
+    --tss-default-foreground-hover-color-root: 22, 20, 18;
+    --tss-default-background-active-color-root: 229, 221, 205;
+    --tss-default-foreground-active-color-root: 22, 20, 18;
+    --tss-progress-background-color-root: 228, 220, 205;
+    --tss-link-color-root: 38, 72, 118;
+    --tss-highlight-color-root: 164, 118, 36;
+    --tss-tooltip-background-color-root: 38, 34, 31;
+    --tss-tooltip-foreground-color-root: 246, 242, 233;
+    --tss-primary-background-color-root: 200, 60, 38;
+    --tss-primary-foreground-color-root: 255, 250, 242;
+    --tss-primary-border-color-root: 168, 46, 28;
+    --tss-primary-background-hover-color-root: 214, 72, 48;
+    --tss-primary-foreground-hover-color-root: 255, 250, 242;
+    --tss-primary-background-active-color-root: 172, 48, 30;
+    --tss-primary-foreground-active-color-root: 255, 250, 242;
+    --tss-warning-background-color-root: 196, 146, 52;
+    --tss-warning-foreground-color-root: 34, 31, 28;
+    --tss-warning-border-color-root: 164, 118, 36;
+    --tss-warning-background-hover-color-root: 208, 160, 68;
+    --tss-warning-foreground-hover-color-root: 34, 31, 28;
+    --tss-warning-background-active-color-root: 178, 130, 42;
+    --tss-warning-foreground-active-color-root: 34, 31, 28;
+    --tss-danger-background-color-root: 150, 34, 50;
+    --tss-danger-foreground-color-root: 255, 250, 242;
+    --tss-danger-border-color-root: 122, 24, 38;
+    --tss-danger-background-hover-color-root: 166, 44, 60;
+    --tss-danger-foreground-hover-color-root: 255, 250, 242;
+    --tss-danger-background-active-color-root: 128, 26, 40;
+    --tss-danger-foreground-active-color-root: 255, 250, 242;
+    --tss-success-background-color-root: 92, 116, 64;
+    --tss-success-foreground-color-root: 255, 250, 242;
+    --tss-success-border-color-root: 72, 94, 48;
+    --tss-success-background-hover-color-root: 104, 130, 74;
+    --tss-success-foreground-hover-color-root: 255, 250, 242;
+    --tss-success-background-active-color-root: 78, 100, 54;
+    --tss-success-foreground-active-color-root: 255, 250, 242;
+    --tss-slider-color-root: 196, 186, 170;
+    --tss-slider-active-color-root: 200, 60, 38;
+    --tss-slider-disabled-color-root: 222, 214, 200;
+    --tss-primary-shadow-color-root: 200, 60, 38;
+
+    /* Tesserae's neutral scale, warmed: paper to ink (lacquer to rice paper in dark mode). */
+    --tss-colors-neutral-0-root: 255, 253, 248;
+    --tss-colors-neutral-0: rgb(var(--tss-colors-neutral-0-root));
+    --tss-colors-neutral-100-root: 249, 246, 239;
+    --tss-colors-neutral-100: rgb(var(--tss-colors-neutral-100-root));
+    --tss-colors-neutral-200-root: 241, 236, 226;
+    --tss-colors-neutral-200: rgb(var(--tss-colors-neutral-200-root));
+    --tss-colors-neutral-300-root: 226, 219, 205;
+    --tss-colors-neutral-300: rgb(var(--tss-colors-neutral-300-root));
+    --tss-colors-neutral-400-root: 190, 181, 166;
+    --tss-colors-neutral-400: rgb(var(--tss-colors-neutral-400-root));
+    --tss-colors-neutral-500-root: 150, 141, 128;
+    --tss-colors-neutral-500: rgb(var(--tss-colors-neutral-500-root));
+    --tss-colors-neutral-600-root: 128, 119, 107;
+    --tss-colors-neutral-600: rgb(var(--tss-colors-neutral-600-root));
+    --tss-colors-neutral-700-root: 108, 100, 90;
+    --tss-colors-neutral-700: rgb(var(--tss-colors-neutral-700-root));
+    --tss-colors-neutral-800-root: 82, 76, 68;
+    --tss-colors-neutral-800: rgb(var(--tss-colors-neutral-800-root));
+    --tss-colors-neutral-900-root: 60, 55, 49;
+    --tss-colors-neutral-900: rgb(var(--tss-colors-neutral-900-root));
+    --tss-colors-neutral-1000-root: 42, 38, 34;
+    --tss-colors-neutral-1000: rgb(var(--tss-colors-neutral-1000-root));
+    --tss-colors-neutral-1100-root: 30, 27, 24;
+    --tss-colors-neutral-1100: rgb(var(--tss-colors-neutral-1100-root));
+
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+    --tss-scrollbar-thumb-color: rgba(var(--tss-default-foreground-color-root), 0.3);
+    --tss-scrollbar-thumb-hidden-color: rgba(var(--tss-default-foreground-color-root), 0.1);
+    --tss-simplebar-thumb-color: rgba(var(--tss-default-foreground-color-root), 0.3);
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
+    --tss-ring-color: var(--tss-wa-thread);
+}
+
+/* Lacquerware: black-brown urushi with a sheen, rice-paper type, a brighter vermilion, gold thread. */
+body.tss-theme-washi.tss-dark-mode {
+    --tss-wa-ink: rgb(var(--tss-default-foreground-color-root));
+    --tss-wa-ink-soft: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-wa-paper: rgb(var(--tss-default-background-color-root));
+    --tss-wa-sheet: rgb(var(--tss-secondary-background-color-root));
+    --tss-wa-shu: rgb(var(--tss-primary-background-color-root));
+    --tss-wa-shu-deep: rgb(var(--tss-primary-background-active-color-root));
+    --tss-wa-on-shu: rgb(var(--tss-primary-foreground-color-root));
+    --tss-wa-ai: rgb(136, 168, 212);
+    --tss-wa-koke: rgb(var(--tss-success-background-color-root));
+    --tss-wa-kincha: rgb(var(--tss-warning-background-color-root));
+    --tss-wa-enji: rgb(var(--tss-danger-background-color-root));
+    --tss-wa-thread: rgb(212, 176, 100);
+    --tss-wa-line: rgba(var(--tss-default-foreground-color-root), 0.12);
+    --tss-wa-line-strong: rgba(var(--tss-default-foreground-color-root), 0.5);
+    --tss-wa-wash: rgba(var(--tss-default-foreground-color-root), 0.05);
+    --tss-wa-wash-strong: rgba(var(--tss-default-foreground-color-root), 0.095);
+    --tss-wa-shu-wash: rgba(var(--tss-primary-background-color-root), 0.13);
+    --tss-wa-thread-halo: rgba(212, 176, 100, 0.2);
+    --tss-wa-field-edge: rgba(var(--tss-default-foreground-color-root), 0.18);
+    --tss-wa-field-edge-hover: rgba(var(--tss-default-foreground-color-root), 0.38);
+    --tss-ring-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+    --tss-landing-group-color: rgb(var(--tss-default-foreground-color-root));
+
+    /* Lacquer has no fibre: only the faintest grain under the polish, and a sheen across it. */
+    --tss-wa-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.9 0 0 0 0 0.7 0 0 0 0 0.5 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --tss-wa-sheen: linear-gradient(160deg, rgba(255, 226, 190, 0.055) 0%, rgba(255, 226, 190, 0.012) 28%, rgba(255, 226, 190, 0) 46%, rgba(120, 30, 14, 0) 70%, rgba(120, 30, 14, 0.07) 100%);
+    --tss-wa-lattice-ink: rgba(212, 176, 100, 0.04);
+
+    --tss-wa-lift: 0 0 0 1px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 230, 200, 0.045), 0 10px 24px -12px rgba(0, 0, 0, 0.7);
+    --tss-wa-lift-hover: 0 0 0 1px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 230, 200, 0.06), 0 16px 32px -14px rgba(0, 0, 0, 0.8);
+    --tss-wa-float: 0 0 0 1px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 230, 200, 0.06), 0 24px 52px -18px rgba(0, 0, 0, 0.85);
+
+    --tss-shadow: var(--tss-wa-lift);
+    --tss-shadow-hover: var(--tss-wa-lift-hover);
+    --tss-shadow-md: var(--tss-wa-lift);
+    --tss-shadow-md-hover: var(--tss-wa-lift-hover);
+    --tss-shadow-lg: var(--tss-wa-float);
+    --tss-shadow-lg-hover: var(--tss-wa-float);
+    --tss-shadow-xl: var(--tss-wa-float);
+    --tss-shadow-xl-hover: var(--tss-wa-float);
+    --tss-box-shadow: var(--tss-wa-float);
+    --tss-box-shadow-darker: var(--tss-wa-float);
+    --tss-card-shadow: var(--tss-wa-lift);
+    --tss-toast-shadow: var(--tss-wa-float);
+    --tss-wa-focus: 0 0 0 1px rgb(var(--tss-default-background-color-root)), 0 0 0 2.5px var(--tss-wa-thread);
+    --tss-overlay-light: rgba(26, 20, 17, 0.72);
+    --tss-overlay-dark: rgba(0, 0, 0, 0.55);
+
+    --tss-default-background-color-root: 27, 21, 18;
+    --tss-default-foreground-color-root: 238, 229, 212;
+    --tss-secondary-background-color-root: 37, 29, 25;
+    --tss-secondary-foreground-color-root: 172, 158, 138;
+    --tss-sidebar-background-color-root: 21, 16, 13;
+    --tss-disabled-background-color-root: 40, 33, 29;
+    --tss-disabled-foreground-color-root: 112, 100, 88;
+    --tss-default-border-color-root: 68, 56, 47;
+    --tss-dark-border-color-root: 118, 102, 86;
+    --tss-default-separator-color-root: 56, 46, 39;
+    --tss-invalid-border-color-root: 232, 104, 104;
+    --tss-default-background-hover-color-root: 46, 37, 32;
+    --tss-default-foreground-hover-color-root: 248, 241, 228;
+    --tss-default-background-active-color-root: 56, 45, 38;
+    --tss-default-foreground-active-color-root: 248, 241, 228;
+    --tss-progress-background-color-root: 56, 46, 39;
+    --tss-link-color-root: 140, 172, 216;
+    --tss-highlight-color-root: 212, 176, 100;
+    --tss-tooltip-background-color-root: 238, 229, 212;
+    --tss-tooltip-foreground-color-root: 27, 21, 18;
+    --tss-primary-background-color-root: 226, 84, 56;
+    --tss-primary-foreground-color-root: 30, 20, 16;
+    --tss-primary-border-color-root: 176, 56, 34;
+    --tss-primary-background-hover-color-root: 238, 100, 70;
+    --tss-primary-foreground-hover-color-root: 30, 20, 16;
+    --tss-primary-background-active-color-root: 200, 68, 44;
+    --tss-primary-foreground-active-color-root: 30, 20, 16;
+    --tss-warning-background-color-root: 212, 168, 82;
+    --tss-warning-foreground-color-root: 27, 21, 18;
+    --tss-warning-border-color-root: 160, 122, 50;
+    --tss-warning-background-hover-color-root: 224, 182, 98;
+    --tss-warning-foreground-hover-color-root: 27, 21, 18;
+    --tss-warning-background-active-color-root: 192, 150, 68;
+    --tss-warning-foreground-active-color-root: 27, 21, 18;
+    --tss-danger-background-color-root: 196, 62, 76;
+    --tss-danger-foreground-color-root: 255, 248, 238;
+    --tss-danger-border-color-root: 140, 36, 50;
+    --tss-danger-background-hover-color-root: 210, 76, 90;
+    --tss-danger-foreground-hover-color-root: 255, 248, 238;
+    --tss-danger-background-active-color-root: 172, 50, 64;
+    --tss-danger-foreground-active-color-root: 255, 248, 238;
+    --tss-success-background-color-root: 146, 170, 104;
+    --tss-success-foreground-color-root: 27, 21, 18;
+    --tss-success-border-color-root: 104, 126, 70;
+    --tss-success-background-hover-color-root: 160, 184, 118;
+    --tss-success-foreground-hover-color-root: 27, 21, 18;
+    --tss-success-background-active-color-root: 128, 152, 88;
+    --tss-success-foreground-active-color-root: 27, 21, 18;
+    --tss-slider-color-root: 92, 78, 66;
+    --tss-slider-active-color-root: 226, 84, 56;
+    --tss-slider-disabled-color-root: 56, 46, 39;
+    --tss-primary-shadow-color-root: 226, 84, 56;
+
+    /* Tesserae's neutral scale, warmed: paper to ink (lacquer to rice paper in dark mode). */
+    --tss-colors-neutral-0-root: 27, 21, 18;
+    --tss-colors-neutral-0: rgb(var(--tss-colors-neutral-0-root));
+    --tss-colors-neutral-100-root: 33, 26, 22;
+    --tss-colors-neutral-100: rgb(var(--tss-colors-neutral-100-root));
+    --tss-colors-neutral-200-root: 40, 32, 27;
+    --tss-colors-neutral-200: rgb(var(--tss-colors-neutral-200-root));
+    --tss-colors-neutral-300-root: 52, 42, 36;
+    --tss-colors-neutral-300: rgb(var(--tss-colors-neutral-300-root));
+    --tss-colors-neutral-400-root: 78, 66, 57;
+    --tss-colors-neutral-400: rgb(var(--tss-colors-neutral-400-root));
+    --tss-colors-neutral-500-root: 102, 89, 78;
+    --tss-colors-neutral-500: rgb(var(--tss-colors-neutral-500-root));
+    --tss-colors-neutral-600-root: 128, 114, 100;
+    --tss-colors-neutral-600: rgb(var(--tss-colors-neutral-600-root));
+    --tss-colors-neutral-700-root: 152, 138, 122;
+    --tss-colors-neutral-700: rgb(var(--tss-colors-neutral-700-root));
+    --tss-colors-neutral-800-root: 172, 158, 140;
+    --tss-colors-neutral-800: rgb(var(--tss-colors-neutral-800-root));
+    --tss-colors-neutral-900-root: 194, 182, 164;
+    --tss-colors-neutral-900: rgb(var(--tss-colors-neutral-900-root));
+    --tss-colors-neutral-1000-root: 210, 200, 183;
+    --tss-colors-neutral-1000: rgb(var(--tss-colors-neutral-1000-root));
+    --tss-colors-neutral-1100-root: 228, 220, 205;
+    --tss-colors-neutral-1100: rgb(var(--tss-colors-neutral-1100-root));
+
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+    --tss-scrollbar-thumb-color: rgba(var(--tss-default-foreground-color-root), 0.3);
+    --tss-scrollbar-thumb-hidden-color: rgba(var(--tss-default-foreground-color-root), 0.1);
+    --tss-simplebar-thumb-color: rgba(var(--tss-default-foreground-color-root), 0.3);
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
+    --tss-ring-color: var(--tss-wa-thread);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   Base: type, headings, selection, focus
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-washi {
+    font-family: var(--tss-sansserif-font-family);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-kerning: normal;
+}
+
+/* Headings are set in Mincho: anything Tesserae draws at 20px and up that is not an icon. */
+body.tss-theme-washi .tss-fontsize-mediumplus:not(i),
+body.tss-theme-washi .tss-fontsize-large:not(i),
+body.tss-theme-washi .tss-fontsize-xlarge:not(i),
+body.tss-theme-washi .tss-fontsize-xxlarge:not(i),
+body.tss-theme-washi .tss-fontsize-mega:not(i) {
+    font-family: var(--tss-wa-serif);
+    letter-spacing: 0.005em;
+}
+
+body.tss-theme-washi .tss-fontsize-large.tss-fontweight-bold:not(i),
+body.tss-theme-washi .tss-fontsize-xlarge.tss-fontweight-bold:not(i),
+body.tss-theme-washi .tss-fontsize-xxlarge.tss-fontweight-bold:not(i),
+body.tss-theme-washi .tss-fontsize-mega.tss-fontweight-bold:not(i) {
+    font-weight: 600;
+}
+
+/* A selection is a vermilion wash, as if the seal paste had been thinned and brushed over the words. */
+body.tss-theme-washi ::selection {
+    background: rgba(200, 60, 38, 0.2);
+}
+
+body.tss-theme-washi.tss-dark-mode ::selection {
+    background: rgba(212, 176, 100, 0.3);
+}
+
+/* Focus is a thread: indigo on paper, gold on lacquer. */
+body.tss-theme-washi :focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: 2px;
+}
+
+body.tss-theme-washi input:not([type=checkbox]):not([type=radio]):not([type=range]):focus-visible,
+body.tss-theme-washi textarea:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-washi a {
+    color: rgb(var(--tss-link-color-root));
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-washi .tss-fontcolor-primary {
+    color: var(--tss-wa-shu);
+}
+
+/* --------------------------------------------------------------------------
+   Scrollbars: a hairline of ink
+   --------------------------------------------------------------------------
+   No track: a thin thumb like a line drawn with the tip of the brush, a
+   ghost at rest, diluted ink while the pointer is over the scroller, full
+   ink (gold on lacquer) under the pointer and while dragged. CSS only, on
+   purpose (see the repository's "Scrollbars are CSS only"): no script
+   watches scrolling or draws a bar.
+
+   Chromium 121+ stops drawing ::-webkit-scrollbar once scrollbar-color or
+   scrollbar-width is set, so the standard properties sit under
+   @supports not selector(::-webkit-scrollbar), which is Firefox alone.
+   -------------------------------------------------------------------------- */
+
+html:has(> body.tss-theme-washi),
+body.tss-theme-washi {
+    --tss-wa-sb-rest: rgba(34, 31, 28, 0.12);
+    --tss-wa-sb-near: rgba(34, 31, 28, 0.34);
+    --tss-wa-sb-hot: rgba(34, 31, 28, 0.82);
+}
+
+html:has(> body.tss-theme-washi.tss-dark-mode),
+body.tss-theme-washi.tss-dark-mode {
+    --tss-wa-sb-rest: rgba(238, 229, 212, 0.1);
+    --tss-wa-sb-near: rgba(238, 229, 212, 0.3);
+    --tss-wa-sb-hot: rgb(212, 176, 100);
+}
+
+@supports selector(::-webkit-scrollbar) {
+
+    html:has(> body.tss-theme-washi)::-webkit-scrollbar,
+    body.tss-theme-washi::-webkit-scrollbar,
+    body.tss-theme-washi ::-webkit-scrollbar {
+        width: 9px;
+        height: 9px;
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-washi)::-webkit-scrollbar-corner,
+    body.tss-theme-washi::-webkit-scrollbar-corner,
+    body.tss-theme-washi ::-webkit-scrollbar-corner,
+    html:has(> body.tss-theme-washi)::-webkit-scrollbar-track,
+    body.tss-theme-washi::-webkit-scrollbar-track,
+    body.tss-theme-washi ::-webkit-scrollbar-track,
+    body.tss-theme-washi *:hover::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-washi)::-webkit-scrollbar-thumb,
+    body.tss-theme-washi::-webkit-scrollbar-thumb,
+    body.tss-theme-washi ::-webkit-scrollbar-thumb {
+        background: var(--tss-wa-sb-rest);
+        background-clip: padding-box;
+        border: 3px solid transparent;
+        border-radius: 9px;
+        min-height: 32px;
+        min-width: 32px;
+    }
+
+    html:has(> body.tss-theme-washi):hover::-webkit-scrollbar-thumb,
+    body.tss-theme-washi:hover::-webkit-scrollbar-thumb,
+    body.tss-theme-washi *:hover::-webkit-scrollbar-thumb {
+        background: var(--tss-wa-sb-near);
+        background-clip: padding-box;
+    }
+
+    html:has(> body.tss-theme-washi)::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-washi::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-washi ::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-washi *:hover::-webkit-scrollbar-thumb:hover,
+    html:has(> body.tss-theme-washi)::-webkit-scrollbar-thumb:active,
+    body.tss-theme-washi::-webkit-scrollbar-thumb:active,
+    body.tss-theme-washi ::-webkit-scrollbar-thumb:active,
+    body.tss-theme-washi *:hover::-webkit-scrollbar-thumb:active {
+        background: var(--tss-wa-sb-hot);
+        background-clip: padding-box;
+        border-width: 2px;
+    }
+
+    html:has(> body.tss-theme-washi)::-webkit-scrollbar-button,
+    body.tss-theme-washi::-webkit-scrollbar-button,
+    body.tss-theme-washi ::-webkit-scrollbar-button {
+        display: none;
+    }
+}
+
+/* Firefox: no thumb part to hover, so it stops at diluted ink on the scroller. */
+@supports not selector(::-webkit-scrollbar) {
+    html:has(> body.tss-theme-washi),
+    body.tss-theme-washi,
+    body.tss-theme-washi * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--tss-wa-sb-rest) transparent;
+    }
+
+    html:has(> body.tss-theme-washi):hover,
+    body.tss-theme-washi *:hover {
+        scrollbar-color: var(--tss-wa-sb-near) transparent;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   The gallery's landing page: the rule after each category name is a brush
+   stroke rather than a hairline (it is the only div beside the name).
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-washi .tss-landing-group + div {
+    height: 4px !important;
+    background: rgba(var(--tss-default-foreground-color-root), 0.4) !important;
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-landing-group {
+    font-weight: 500;
+}

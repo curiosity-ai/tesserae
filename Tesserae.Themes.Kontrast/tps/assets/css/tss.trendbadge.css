@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Kontrast theme - TrendBadge
+   --------------------------------------------------------------------------
+   The arrow already says up or down; the badge is a plate with a 2px edge
+   in the good / bad tone and its text at 7:1 (the status ink), not a tint.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-trendbadge {
+    border: var(--tss-kt-border) solid var(--tss-kt-line);
+    border-radius: var(--tss-kt-radius-sm);
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+    font-weight: 700;
+}
+
+body.tss-theme-kontrast .tss-trendbadge-good {
+    border-color: var(--tss-kt-success);
+    color: var(--tss-kt-success);
+    background: var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tss-trendbadge-bad {
+    border-color: var(--tss-kt-danger);
+    color: var(--tss-kt-danger);
+    background: var(--tss-kt-paper);
+}

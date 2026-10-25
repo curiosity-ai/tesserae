@@ -44,6 +44,12 @@ submenus, with arrow-key navigation and Esc to dismiss.
   ArrowRight or Enter open a submenu and focus its first row, ArrowLeft or Escape close one level
   and return to the row that opened it; Escape at the top level closes the menu. Rows built from a
   component are focusable like text rows, and Enter or Space on one clicks the component.
+- **Opened from the keyboard** (Enter or Space on the trigger, which then matches `:focus-visible`),
+  `ShowFor` / `ShowAt` move the focus to the first row, as the WAI-ARIA menu button pattern does;
+  opened with the pointer the focus stays put until an arrow key. A text field being typed in never
+  counts, so a menu shown under one does not take the caret.
+- When the menu closes (Escape, an item chosen, a click outside) the focus goes back to whatever had
+  it when the menu opened, if the focus is not already somewhere else on purpose.
 
 ## Example
 

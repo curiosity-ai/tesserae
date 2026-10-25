@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Washi theme - FileSelector / FileDropArea
+   --------------------------------------------------------------------------
+   The drop area is a sheet marked out with a dashed ink line, like the
+   space left on a form for a seal; it takes a wash while a file is held
+   over it.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-filedroparea {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1.5px dashed rgba(var(--tss-default-foreground-color-root), 0.3);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-filedroparea.tss-dropping {
+    background: var(--tss-wa-shu-wash);
+    border-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-filedroparea-overlay,
+body.tss-theme-washi.tss-dark-mode .tss-filedroparea-overlay {
+    background: rgba(var(--tss-default-background-color-root), 0.85);
+    border: 1.5px dashed var(--tss-wa-shu);
+    border-radius: var(--tss-wa-radius);
+}

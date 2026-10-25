@@ -1,0 +1,58 @@
+/* ==========================================================================
+   Glas theme - DockPanel
+   --------------------------------------------------------------------------
+   The workspace is a pane of glass; the document and the docked panes are
+   clearer panes inside it, divided by hairlines of light; a flyout from an
+   auto-hide rail is thick glass with a deep shadow.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-dockpanel {
+    --tss-dockpanel-surface: rgba(255, 255, 255, 0.42);
+    --tss-dockpanel-canvas: rgba(255, 255, 255, 0.16);
+    --tss-dockpanel-radius: 12px;
+    border: none;
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-dockpanel {
+    --tss-dockpanel-surface: rgba(30, 30, 62, 0.55);
+    --tss-dockpanel-canvas: rgba(255, 255, 255, 0.025);
+}
+
+body.tss-theme-glas .tss-dockpanel-document {
+    border-color: var(--tss-gl-edge);
+    box-shadow: var(--tss-gl-rim);
+}
+
+body.tss-theme-glas .tss-dockpanel-tab {
+    border-radius: 8px 8px 0 0;
+}
+
+body.tss-theme-glas .tss-dockpanel-rail-tab {
+    border-color: var(--tss-gl-edge);
+    border-radius: 8px;
+}
+
+body.tss-theme-glas .tss-dockpanel-flyout > .tss-dockpanel-slot {
+    background: var(--tss-gl-pane-thick);
+    box-shadow: var(--tss-gl-surface-float);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+}
+
+body.tss-theme-glas .tss-dockpanel-drag-ghost {
+    border-radius: 10px;
+    background: var(--tss-gl-pane-thick);
+    box-shadow: var(--tss-gl-surface-float);
+}
+
+body.tss-theme-glas .tss-dockpanel-preview {
+    border-radius: 12px;
+    border-width: 1.5px;
+    box-shadow: 0 0 16px rgba(var(--tss-gl-accent-rgb), 0.35);
+}
+
+body.tss-theme-glas .tss-dockpanel-splitter-active::after {
+    background: rgba(var(--tss-gl-accent-rgb), 0.6);
+    box-shadow: 0 0 8px rgba(var(--tss-gl-accent-rgb), 0.5);
+}

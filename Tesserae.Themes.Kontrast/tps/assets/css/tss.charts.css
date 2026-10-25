@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Kontrast theme - Charts
+   --------------------------------------------------------------------------
+   Tesserae's charts have no stylesheet of their own; a series without an
+   explicit colour reads --tss-chart-series-N (set in tss.common.css: eight
+   hues that each hold 3:1 on the page, ink first). Here the chart's own
+   furniture is made legible: axes are 2px ink, gridlines visible, every
+   label ink at full weight, lines drawn 3px with a round pen, and line
+   series after the first carry a dash pattern, so two series can be told
+   apart without telling their colours apart. The in-plot tooltip is a
+   paper tag with a 2px ink edge.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-chart {
+    font-family: var(--tss-sansserif-font-family);
+}
+
+body.tss-theme-kontrast .tss-chart line[stroke*="neutral-500-alpha"] {
+    stroke: rgba(var(--tss-default-foreground-color-root), 0.28);
+}
+
+body.tss-theme-kontrast .tss-chart line[stroke="var(--tss-default-foreground-color)"] {
+    stroke: var(--tss-kt-ink);
+    stroke-width: 2px;
+}
+
+body.tss-theme-kontrast .tss-chart text {
+    fill: var(--tss-kt-ink);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+}
+
+body.tss-theme-kontrast .tss-chart rect[fill="var(--tss-default-background-color)"] {
+    fill: var(--tss-kt-paper);
+    stroke: var(--tss-kt-ink);
+    stroke-width: 2px;
+}
+
+body.tss-theme-kontrast .tss-chart path[stroke*="chart-series"] {
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+body.tss-theme-kontrast .tss-chart path[fill="none"][stroke*="chart-series"] {
+    stroke-width: 3px;
+}
+
+body.tss-theme-kontrast .tss-chart path[fill="none"][stroke*="chart-series-2"] { stroke-dasharray: 10 5; }
+body.tss-theme-kontrast .tss-chart path[fill="none"][stroke*="chart-series-3"] { stroke-dasharray: 2 5; }
+body.tss-theme-kontrast .tss-chart path[fill="none"][stroke*="chart-series-4"] { stroke-dasharray: 12 4 2 4; }
+body.tss-theme-kontrast .tss-chart path[fill="none"][stroke*="chart-series-5"] { stroke-dasharray: 6 6; }
+body.tss-theme-kontrast .tss-chart path[fill="none"][stroke*="chart-series-6"] { stroke-dasharray: 16 4 2 4 2 4; }
+
+/* Bars and slices are separated by a paper gap, so adjacent fills never merge. */
+body.tss-theme-kontrast .tss-chart rect[fill*="chart-series"],
+body.tss-theme-kontrast .tss-chart path[fill*="chart-series"] {
+    stroke: var(--tss-kt-paper);
+    stroke-width: 1.5px;
+}
+
+/* HeatMap: the toolkit blue scale becomes ink (yellow in dark). */
+body.tss-theme-kontrast .tss-chart rect[fill="var(--tss-colors-blue-600)"] {
+    fill: var(--tss-kt-accent);
+}
+
+body.tss-theme-kontrast .tss-chart stop[stop-color="var(--tss-colors-blue-600)"] {
+    stop-color: var(--tss-kt-accent);
+}

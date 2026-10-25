@@ -1,0 +1,60 @@
+/* ==========================================================================
+   Blaupause theme - CodeDiff
+   --------------------------------------------------------------------------
+   A diff is a revision table: a ruled box, its header lettered in capitals
+   on the fine grid, figures in monospace. Additions keep their green and
+   deletions are struck in red pencil, both as light washes.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-codediff .d2h-file-wrapper {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-codediff .d2h-file-header {
+    background: var(--tss-bp-grid-small), var(--tss-bp-sheet);
+    border-bottom: 3px double var(--tss-bp-line);
+    font-family: var(--tss-bp-letter);
+}
+
+body.tss-theme-blaupause .tss-codediff .d2h-file-name {
+    color: var(--tss-bp-text);
+    font-family: var(--tss-bp-mono);
+}
+
+body.tss-theme-blaupause .tss-codediff .d2h-tag {
+    border-radius: 0;
+    background: transparent;
+    border-color: var(--tss-bp-line);
+    color: var(--tss-bp-text);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+body.tss-theme-blaupause .tss-codediff .d2h-file-collapse {
+    border-radius: 0;
+    border-color: var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-codediff .d2h-code-line,
+body.tss-theme-blaupause .tss-codediff .d2h-code-side-line,
+body.tss-theme-blaupause .tss-codediff .d2h-code-linenumber,
+body.tss-theme-blaupause .tss-codediff .d2h-code-side-linenumber {
+    font-family: var(--tss-bp-mono);
+}
+
+body.tss-theme-blaupause .tss-codediff .d2h-code-line del,
+body.tss-theme-blaupause .tss-codediff .d2h-code-side-line del {
+    text-decoration: line-through;
+    text-decoration-color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-codediff .d2h-lines-deleted {
+    color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-codediff .d2h-file-list-wrapper {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+}

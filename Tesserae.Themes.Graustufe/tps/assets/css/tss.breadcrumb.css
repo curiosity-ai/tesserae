@@ -1,0 +1,13 @@
+/* ==========================================================================
+   Graustufe theme - Breadcrumb
+   --------------------------------------------------------------------------
+   A running path in the sans; the chevrons in ink, the last crumb bold.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-breadcrumb {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-breadcrumb-chevron {
+    color: var(--tss-gs-0);
+}

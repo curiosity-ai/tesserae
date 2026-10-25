@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Kontrast theme - Toast
+   --------------------------------------------------------------------------
+   A banner floated over the page: the floating plate (2px ink edge, hard
+   offset slab), no slide or fade.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-toast-container {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    box-shadow: 6px 6px 0 0 rgba(var(--tss-default-foreground-color-root), 0.9);
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+    transition: none;
+}
+
+body.tss-theme-kontrast.tss-dark-mode .tss-toast-container {
+    box-shadow: 6px 6px 0 0 rgba(var(--tss-default-foreground-color-root), 0.35);
+}
+
+body.tss-theme-kontrast .tss-toast .tss-fontcolor-default {
+    color: var(--tss-kt-ink);
+}

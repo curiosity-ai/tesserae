@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Blaupause theme - AutoCompleteBox
+   --------------------------------------------------------------------------
+   The list is a sheet laid over the drawing; the highlighted row is washed
+   and marked in ink at its edge; the matched letters are set heavier.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-autocompletebox-list {
+    border: var(--tss-bp-rule-strong);
+    border-radius: 0;
+    background-color: var(--tss-bp-sheet);
+    box-shadow: var(--tss-bp-lift);
+}
+
+body.tss-theme-blaupause .tss-autocompletebox-item.tss-autocompletebox-item-highlight {
+    background-color: var(--tss-bp-wash);
+    box-shadow: inset 3px 0 0 var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-autocompletebox-match {
+    font-weight: 700;
+    background: var(--tss-bp-yellow-wash);
+}
+
+body.tss-theme-blaupause .tss-autocompletebox-status-invalid {
+    color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-autocompletebox-status-warning {
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-textbox-container.tss-autocompletebox-invalid .tss-textbox {
+    border-color: var(--tss-bp-red);
+}

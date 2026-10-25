@@ -1,0 +1,66 @@
+/* ==========================================================================
+   Washi theme - Toggle
+   --------------------------------------------------------------------------
+   A toggle is a slot cut in the paper with a drop of ink in it. Off, the
+   slot is ruled in diluted ink and the drop sits at the start. On, the slot
+   is filled with vermilion and the drop turns to paper and slides across.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-toggle-container .tss-toggle-text {
+    margin-left: 8px;
+}
+
+body.tss-theme-washi .tss-toggle-container .tss-toggle-mark,
+body.tss-theme-washi .tss-toggle-container:hover .tss-toggle-mark {
+    border: 1px solid rgba(var(--tss-default-foreground-color-root), 0.45);
+    background: rgb(var(--tss-secondary-background-color-root));
+    transition: background-color 160ms var(--tss-wa-ease), border-color 160ms var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-toggle-container:hover .tss-toggle-mark {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-toggle-container .tss-toggle-mark:after,
+body.tss-theme-washi .tss-toggle-container:hover .tss-toggle-mark:after {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    transition: transform 200ms var(--tss-wa-ease), background-color 160ms var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-washi .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-wa-shu);
+    background-image: var(--tss-wa-pores);
+    border-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background-color: rgb(var(--tss-primary-background-hover-color-root));
+}
+
+body.tss-theme-washi .tss-toggle-container input:checked ~ .tss-toggle-mark:after,
+body.tss-theme-washi .tss-toggle-container:hover input:checked ~ .tss-toggle-mark:after {
+    background-color: var(--tss-wa-on-shu);
+}
+
+body.tss-theme-washi .tss-toggle-container input:focus-visible ~ .tss-toggle-mark {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: 3px;
+}
+
+body.tss-theme-washi .tss-toggle-container.tss-disabled .tss-toggle-mark,
+body.tss-theme-washi .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-toggle-container.tss-disabled .tss-toggle-mark:after {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-washi .tss-toggle-container .tss-toggle-mark,
+    body.tss-theme-washi .tss-toggle-container .tss-toggle-mark:after {
+        transition: none;
+    }
+}

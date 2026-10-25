@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Phosphor theme - Conversation
+   --------------------------------------------------------------------------
+   A comment thread is a mail reader: each comment a single-line box whose
+   header row (author, time) is ruled off underneath, the thread hanging
+   off a single vertical line. A highlighted comment is framed in the
+   cursor colour.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-conversation-comment {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-conversation-comment-header {
+    border-radius: 0;
+    background: var(--tss-ph-field);
+    border-bottom: 1px dashed var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-conversation-comment-author {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-conversation-comment-avatar,
+body.tss-theme-phosphor .tss-conversation-comment-attachment,
+body.tss-theme-phosphor .tss-conversation-reaction {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-conversation-comment-highlighted {
+    border-color: var(--tss-ph-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+}

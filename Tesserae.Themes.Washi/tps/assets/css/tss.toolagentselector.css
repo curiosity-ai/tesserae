@@ -1,0 +1,61 @@
+/* ==========================================================================
+   Washi theme - ToolAgentSelector
+   --------------------------------------------------------------------------
+   The trigger is a paper key with a hairline; the list a lifted sheet; a
+   chosen tool's box is stamped with the vermilion seal, and the count is
+   a small vermilion slip.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-toolagent-trigger {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-field-edge);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-toolagent-trigger:hover {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-field-edge-hover);
+}
+
+body.tss-theme-washi .tss-toolagent-trigger.tss-toolagent-trigger-active {
+    border-color: var(--tss-wa-shu);
+    background: var(--tss-wa-shu-wash);
+}
+
+body.tss-theme-washi .tss-toolagent-trigger:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-toolagent-badge {
+    border-radius: var(--tss-wa-radius-small);
+    background: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-toolagent-popup {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: none;
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-toolagent-item {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-toolagent-item:hover,
+body.tss-theme-washi .tss-toolagent-item.tss-toolagent-item-highlight {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-toolagent-item-checkmark {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.5);
+    border-radius: var(--tss-wa-radius-small);
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-toolagent-item-input:checked ~ .tss-toolagent-item-checkmark {
+    border-color: transparent;
+    background-color: var(--tss-wa-shu);
+    -webkit-mask: var(--tss-wa-hanko) center / 120% 120% no-repeat;
+    mask: var(--tss-wa-hanko) center / 120% 120% no-repeat;
+}

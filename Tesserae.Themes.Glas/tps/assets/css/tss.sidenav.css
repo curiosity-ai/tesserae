@@ -1,0 +1,58 @@
+/* ==========================================================================
+   Glas theme - Sidenav
+   --------------------------------------------------------------------------
+   The icon rail is a narrow slab of glass; its buttons condense into small
+   glass squares under the pointer, the current one is a tile of the accent's
+   tinted glass, and its dot glows.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-sidenav {
+    background: var(--tss-gl-pane);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-sidenav.tss-sidenav-secondary {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-sidenav.tss-sidenav-secondary {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+body.tss-theme-glas .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn {
+    border-radius: 12px;
+}
+
+body.tss-theme-glas .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover {
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: var(--tss-gl-rim);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover {
+    background: rgba(255, 255, 255, 0.09);
+}
+
+body.tss-theme-glas .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn,
+body.tss-theme-glas .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:hover {
+    color: var(--tss-gl-accent-ink);
+    background: linear-gradient(180deg, rgba(var(--tss-gl-accent-rgb), 0.2) 0%, rgba(var(--tss-gl-accent-rgb), 0.12) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 0 0 1px rgba(var(--tss-gl-accent-rgb), 0.26);
+}
+
+body.tss-theme-glas .tss-sidenav-btn-dot {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85), 0 0 6px currentColor;
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-sidenav-btn-dot {
+    box-shadow: 0 0 0 2px rgb(30, 30, 58);
+}
+
+body.tss-theme-glas .tss-sidenav-btn-wrap.tss-sidenav-btn-brand > .tss-btn.tss-sidenav-btn {
+    border: none;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-sidenav-btn-wrap.tss-sidenav-btn-brand > .tss-btn.tss-sidenav-btn {
+    background: rgba(255, 255, 255, 0.08);
+}

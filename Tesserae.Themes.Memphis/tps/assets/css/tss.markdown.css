@@ -1,0 +1,136 @@
+/* ==========================================================================
+   Memphis theme - Markdown
+   --------------------------------------------------------------------------
+   Prose stays calm: ink on the page, comfortable line height. Headings are
+   the display face (h1 to h3) with a short squiggle under the h1 and h2;
+   links are cobalt (mint at night) with a wavy underline on hover; inline
+   code is a mono chip with a black line on a sunflower-pale ground; a code
+   block is a framed panel with a hard lilac shadow; a quote is a pale
+   bubblegum slab with a thick bar; a rule is a zig-zag; tables get the
+   sunflower header band.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-markdown {
+    line-height: 1.6;
+}
+
+body.tss-theme-memphis .tss-markdown h1,
+body.tss-theme-memphis .tss-markdown h2,
+body.tss-theme-memphis .tss-markdown h3 {
+    font-family: var(--tss-mp-display);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+}
+
+body.tss-theme-memphis .tss-markdown h1,
+body.tss-theme-memphis .tss-markdown h2 {
+    padding-bottom: 12px;
+    border-bottom: none;
+    background: var(--tss-mp-pattern-squiggle) left bottom / 48px 12px no-repeat;
+}
+
+body.tss-theme-memphis .tss-markdown h4,
+body.tss-theme-memphis .tss-markdown h5,
+body.tss-theme-memphis .tss-markdown h6 {
+    font-weight: 800;
+}
+
+body.tss-theme-memphis .tss-markdown a {
+    color: rgb(var(--tss-link-color-root));
+    font-weight: 600;
+}
+
+body.tss-theme-memphis .tss-markdown a:hover {
+    text-decoration: underline wavy;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 4px;
+}
+
+body.tss-theme-memphis .tss-markdown code {
+    padding: 0.1em 0.35em;
+    font-weight: 500;
+    background-color: var(--tss-mp-yellow-pale);
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 1.5px solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius-small);
+}
+
+body.tss-theme-memphis .tss-markdown pre {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-mp-lilac-root));
+    margin-right: var(--tss-mp-off-sm);
+}
+
+body.tss-theme-memphis .tss-markdown pre code {
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+}
+
+body.tss-theme-memphis .tss-markdown blockquote {
+    padding: 8px 16px;
+    border-left: 8px solid rgb(var(--tss-mp-pink-root));
+    border-radius: 0 var(--tss-mp-radius) var(--tss-mp-radius) 0;
+    background: var(--tss-mp-pink-pale);
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: inset 2px 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-markdown hr {
+    height: 8px;
+    background: var(--tss-mp-pattern-zigzag) left center / 12px 6px repeat-x;
+    opacity: 0.8;
+}
+
+body.tss-theme-memphis .tss-markdown table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    overflow: hidden;
+}
+
+body.tss-theme-memphis .tss-markdown table th {
+    background: rgb(var(--tss-mp-yellow-root));
+    color: var(--tss-mp-on-accent);
+    font-weight: 800;
+    border-bottom: var(--tss-mp-bw) solid var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-markdown table th,
+body.tss-theme-memphis .tss-markdown table td {
+    border: none;
+    border-right: 1px solid rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-memphis .tss-markdown table th:last-child,
+body.tss-theme-memphis .tss-markdown table td:last-child {
+    border-right: none;
+}
+
+body.tss-theme-memphis .tss-markdown table tr {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    border-top: none;
+}
+
+body.tss-theme-memphis .tss-markdown table tr:nth-child(2n) {
+    background-color: var(--tss-mp-yellow-pale);
+}
+
+body.tss-theme-memphis .tss-markdown table tbody tr td {
+    border-top: 1px solid rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-memphis .tss-markdown kbd {
+    border: 1.5px solid var(--tss-mp-line);
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+    font-family: var(--tss-monospace-font-family);
+}
+
+body.tss-theme-memphis .tss-markdown input[type="checkbox"] {
+    accent-color: rgb(var(--tss-mp-pink-root));
+}

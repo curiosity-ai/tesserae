@@ -1,0 +1,51 @@
+/* ==========================================================================
+   Kontrast theme - Carousel
+   --------------------------------------------------------------------------
+   A 2px-edged viewport; the nav buttons are 40px discs with an ink edge;
+   the indicators are 14px with a 2px edge, and the current one is filled
+   and wider (a bar, not a dot), so it is found by shape.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-carousel-viewport {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+}
+
+body.tss-theme-kontrast .tss-carousel-nav {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+    min-width: 40px;
+    min-height: 40px;
+}
+
+body.tss-theme-kontrast .tss-carousel-nav:hover {
+    background: var(--tss-kt-hover);
+}
+
+body.tss-theme-kontrast .tss-carousel-nav.tss-disabled {
+    opacity: 1;
+    border-style: dashed;
+    border-color: var(--tss-kt-disabled);
+    color: var(--tss-kt-disabled);
+    background: var(--tss-kt-surface) var(--tss-kt-hatch);
+}
+
+body.tss-theme-kontrast .tss-carousel-indicators {
+    gap: 8px;
+    align-items: center;
+}
+
+body.tss-theme-kontrast .tss-carousel-indicator {
+    width: 14px;
+    height: 14px;
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    background: var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tss-carousel-indicator.tss-active {
+    width: 32px;
+    border-radius: 7px;
+    background: var(--tss-kt-accent);
+    border-color: var(--tss-kt-ink);
+}

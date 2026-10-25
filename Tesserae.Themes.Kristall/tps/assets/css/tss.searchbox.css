@@ -1,0 +1,92 @@
+/* ==========================================================================
+   Kristall theme - SearchBox
+   --------------------------------------------------------------------------
+   The desktop's search field: a capsule in a quiet system fill with a
+   magnifier at its leading end and no edge, that turns to a white field
+   with the accent halo when it has focus. The underlined variant keeps its
+   hairline and draws the accent under it on focus.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-searchbox-container {
+    border: 0;
+    border-radius: var(--tss-kr-r-pill);
+    background: var(--tss-kr-fill-3);
+    box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.04);
+    padding: 0 6px 0 10px;
+    transition: background-color 140ms linear, box-shadow 140ms var(--tss-kr-ease);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-searchbox-container {
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.06);
+}
+
+body.tss-theme-kristall .tss-searchbox-container:hover {
+    border-color: transparent;
+    background: var(--tss-kr-fill-2);
+}
+
+body.tss-theme-kristall .tss-searchbox-container:focus-within,
+body.tss-theme-kristall.tss-dark-mode .tss-searchbox-container:focus-within {
+    background: var(--tss-kr-field);
+    box-shadow: inset 0 0 0 1px rgba(var(--tss-kr-accent-rgb), 0.8), var(--tss-kr-focus);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-searchbox-container:focus-within {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.tss-theme-kristall .tss-searchbox::placeholder {
+    color: var(--tss-kr-label-2) !important;
+    opacity: 1;
+}
+
+body.tss-theme-kristall .tss-searchbox-icon {
+    color: var(--tss-kr-label-2);
+    font-size: 14px;
+}
+
+/* The desktop keeps its magnifier while you type. */
+body.tss-theme-kristall .tss-searchbox-container:not(.tss-noicon):focus-within > .tss-searchbox-icon {
+    width: 20px;
+}
+
+body.tss-theme-kristall .tss-searchbox-clear,
+body.tss-theme-kristall .tss-searchbox-cancel {
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+}
+
+body.tss-theme-kristall .tss-searchbox-clear:hover,
+body.tss-theme-kristall .tss-searchbox-cancel:hover {
+    background: var(--tss-kr-fill-2);
+}
+
+body.tss-theme-kristall .tss-searchbox-container.tss-disabled {
+    background: var(--tss-kr-fill-4);
+    color: var(--tss-kr-label-3);
+}
+
+body.tss-theme-kristall .tss-searchbox-container.tss-searchbox-failed,
+body.tss-theme-kristall .tss-searchbox-container.tss-searchbox-failed:hover,
+body.tss-theme-kristall .tss-searchbox-container.tss-searchbox-failed:focus-within {
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-danger-background-color-root));
+}
+
+body.tss-theme-kristall .tss-searchbox-progress-bar {
+    background: var(--tss-kr-accent);
+}
+
+/* Underlined: a plain line, the accent on focus. */
+body.tss-theme-kristall .tss-searchbox-container.tss-underlined {
+    border-radius: 0;
+    background: transparent;
+    box-shadow: inset 0 -0.5px 0 var(--tss-kr-hairline);
+    padding-left: 4px;
+}
+
+body.tss-theme-kristall .tss-searchbox-container.tss-underlined:focus-within,
+body.tss-theme-kristall.tss-dark-mode .tss-searchbox-container.tss-underlined:focus-within {
+    background: transparent;
+    box-shadow: inset 0 -2px 0 var(--tss-kr-accent);
+}

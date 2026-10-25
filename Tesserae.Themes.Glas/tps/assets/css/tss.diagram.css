@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Glas theme - Diagram
+   --------------------------------------------------------------------------
+   The canvas is a pane of clear glass with a fine dot grid; nodes are glass
+   capsules with a lit rim, the coloured ones lozenges of their colour.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-diagram {
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-diagram {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+body.tss-theme-glas .tss-diagram-node {
+    border-color: transparent;
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge), 0 4px 12px -6px rgba(60, 58, 130, 0.35);
+}
+
+body.tss-theme-glas .tss-diagram-node-default {
+    background-color: rgba(255, 255, 255, 0.75);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-diagram-node-default {
+    background-color: rgba(40, 40, 76, 0.85);
+}
+
+body.tss-theme-glas :is(.tss-diagram-node-primary, .tss-diagram-node-success, .tss-diagram-node-danger, .tss-diagram-node-warning) {
+    background-image: var(--tss-gl-lozenge-shine);
+}

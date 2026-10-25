@@ -1,0 +1,54 @@
+/* ==========================================================================
+   Washi theme - Menu
+   --------------------------------------------------------------------------
+   The same lifted sheet as a context menu. Toned items keep their dye as
+   type and take a wash of it under the pointer; headers are small Mincho
+   captions rather than tracked capitals.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-menu {
+    padding: 4px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: none;
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-menu-item {
+    border-radius: var(--tss-wa-radius-small);
+    transition: background-color var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-menu-item:hover,
+body.tss-theme-washi .tss-menu-item:focus,
+body.tss-theme-washi .tss-menu-item.tss-menu-item-open {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-menu-item:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: -2px;
+}
+
+body.tss-theme-washi .tss-menu-item-icon {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi:not(.tss-dark-mode) .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) {
+    color: rgb(var(--tss-warning-border-color-root));
+}
+
+body.tss-theme-washi .tss-menu-header {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-family: var(--tss-wa-serif);
+    font-size: 11.5px;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0.06em;
+}
+
+body.tss-theme-washi .tss-menu-divider {
+    background: var(--tss-wa-line);
+    margin-left: 6px;
+    margin-right: 6px;
+}

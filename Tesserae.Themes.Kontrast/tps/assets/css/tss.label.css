@@ -1,0 +1,16 @@
+/* ==========================================================================
+   Kontrast theme - Label
+   --------------------------------------------------------------------------
+   A field's label is bold ink, above or beside the field, never grey. The
+   required mark is a bold asterisk (the word "required" is in the field's
+   accessible name, the mark is for the eye).
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-label > label {
+    font-weight: 700;
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-label + .tss-label {
+    margin-top: 8px;
+}

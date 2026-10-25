@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Graustufe theme - GanttChart
+   --------------------------------------------------------------------------
+   A ruled schedule: ink frame, hairline grid, bars in the series greys
+   with an ink outline, labels in the sans.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-gantt {
+    --tss-gantt-border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-gantt-header-label,
+body.tss-theme-graustufe .tss-gantt-header-track {
+    background: var(--tss-gs-14);
+    font-family: var(--tss-gs-ui);
+}
+
+/* Square corners and no blurred shadows (generated from Tesserae's tss.ganttchart.css: every rule that rounds a corner
+   or casts a soft shadow, restated flat). */
+body.tss-theme-graustufe .tss-gantt {
+    border-radius: 0;
+}
+

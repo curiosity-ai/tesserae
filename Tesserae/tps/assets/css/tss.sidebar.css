@@ -735,6 +735,15 @@
     transition: 0.3s opacity ease-in-out, 0.2s transform ease-in-out, 0s visibility;
 }
 
+/* The footer does not shrink, so a nav opened there kept all of its height and took it from the middle:
+   fifteen entries left a few rows of the list on a laptop screen, and on a short window none, with the
+   footer running off the bottom and the sidebar's own commands with it. Opened in the footer, the list
+   scrolls past a share of the window instead (it already clips, so this costs no focus ring). */
+.tss-sidebar-footer .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-children {
+    max-height: 40vh;
+    overflow-y: auto;
+}
+
 .tss-sidebar-nav > .tss-sidebar-nav-children > :first-child {
         margin-top: 4px;
     }

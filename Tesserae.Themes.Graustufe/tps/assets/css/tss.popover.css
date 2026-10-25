@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Graustufe theme - Popover
+   --------------------------------------------------------------------------
+   The popover's own content is the chrome: a leaf of paper with an ink
+   frame and the 3px dithered edge.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-popover {
+    color: var(--tss-gs-0);
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    box-shadow: none;
+    border-image: var(--tss-gs-edge);
+}
+
+body.tss-theme-graustufe .tippy-box[data-theme~='tss-popover'] {
+    background: transparent;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    color: var(--tss-gs-0);
+}

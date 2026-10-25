@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Zeitung theme - ListItemText
+   --------------------------------------------------------------------------
+   A list item is a brief: a bold serif head, an italic standfirst under it,
+   and the icon in a square plate ruled in a hairline.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-listitemtext-title {
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    line-height: 1.25;
+}
+
+body.tss-theme-zeitung .tss-listitemtext-subtitle {
+    font-style: italic;
+    color: var(--tss-zt-muted);
+    line-height: 1.35;
+}
+
+body.tss-theme-zeitung .tss-listitemtext-icon {
+    border-radius: 0;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-zt-ink);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-listitemtext-icon {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

@@ -1,0 +1,111 @@
+/* ==========================================================================
+   Washi theme - Markdown
+   --------------------------------------------------------------------------
+   Rendered prose is set like a printed page: headings in Mincho with an
+   ink rule that fades out to the right, a horizontal rule that is a brush
+   stroke, quotations hung from a vertical stroke of diluted ink. Code is
+   IBM Plex Mono on a sheet with a hairline frame; inline code a pale wash.
+   Tables are ruled like a ledger.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-markdown {
+    line-height: 1.65;
+}
+
+body.tss-theme-washi .tss-markdown h1,
+body.tss-theme-washi .tss-markdown h2,
+body.tss-theme-washi .tss-markdown h3,
+body.tss-theme-washi .tss-markdown h4 {
+    font-family: var(--tss-wa-serif);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.3;
+}
+
+body.tss-theme-washi .tss-markdown h5,
+body.tss-theme-washi .tss-markdown h6 {
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-markdown h1,
+body.tss-theme-washi .tss-markdown h2 {
+    border-bottom: none;
+    background: linear-gradient(90deg, var(--tss-wa-line-strong) 0%, rgba(var(--tss-default-foreground-color-root), 0.12) 55%, transparent 100%) left bottom / 100% 1px no-repeat;
+}
+
+body.tss-theme-washi .tss-markdown hr {
+    height: 5px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.3);
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-markdown blockquote {
+    position: relative;
+    border-left: none;
+    padding-left: 18px;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-markdown blockquote::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    bottom: 2px;
+    width: 4px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.35);
+    -webkit-mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-markdown code {
+    padding: 0.1em 0.35em;
+    font-weight: 400;
+    font-size: 0.92em;
+    color: rgb(var(--tss-default-foreground-color-root));
+    background: var(--tss-wa-wash-strong);
+    border: none;
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-markdown pre {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    line-height: 1.55;
+}
+
+body.tss-theme-washi .tss-markdown pre code {
+    background: transparent;
+    padding: 0;
+}
+
+body.tss-theme-washi .tss-markdown kbd {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-field-edge);
+    border-bottom-width: 2px;
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-markdown table th,
+body.tss-theme-washi .tss-markdown table td {
+    border: none;
+    border-bottom: 1px solid var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-markdown table th {
+    font-weight: 500;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    border-bottom: 1px solid var(--tss-wa-line-strong);
+}
+
+body.tss-theme-washi .tss-markdown table tr,
+body.tss-theme-washi .tss-markdown table tr:nth-child(2n) {
+    background: transparent;
+    border-top: none;
+}
+
+body.tss-theme-washi .tss-markdown table tbody tr:hover {
+    background: var(--tss-wa-wash);
+}

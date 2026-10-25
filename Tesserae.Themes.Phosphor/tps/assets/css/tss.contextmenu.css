@@ -1,0 +1,94 @@
+/* ==========================================================================
+   Phosphor theme - ContextMenu
+   --------------------------------------------------------------------------
+   A pop-up menu is a window on the screen: a double-line frame, square,
+   the bloom of a lit tube behind it (on paper, an offset carbon). Rows
+   light faintly under the pointer; the keyboard row is the cursor, an
+   inverse-video block. Section headers are dim capitals; dividers are a
+   single rule.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-contextmenu {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-contextmenu-popup {
+    border-radius: 0;
+    border: var(--tss-ph-double);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+    padding: 3px;
+}
+
+body.tss-theme-phosphor .tss-contextmenu-item {
+    border-radius: 0;
+    border: 0;
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-contextmenu-item:hover,
+body.tss-theme-phosphor .tss-contextmenu-item.tss-selected {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-contextmenu-item:focus,
+body.tss-theme-phosphor .tss-contextmenu-item:focus:hover {
+    border: 0;
+    outline: none;
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-contextmenu-item:focus *,
+body.tss-theme-phosphor .tss-contextmenu-item:focus .tss-btn {
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:focus {
+    background: transparent;
+    color: inherit;
+}
+
+body.tss-theme-phosphor .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:focus * {
+    color: inherit;
+}
+
+body.tss-theme-phosphor .tss-contextmenu-item.tss-contextmenu-item-separator,
+body.tss-theme-phosphor .tss-contextmenu-item.tss-contextmenu-item-separator:focus {
+    background: transparent;
+}
+
+/* Items are usually buttons: plain rows here, no brackets, no inverse on their own. */
+body.tss-theme-phosphor .tss-contextmenu-item .tss-btn,
+body.tss-theme-phosphor .tss-contextmenu-item .tss-btn:hover {
+    background: transparent;
+    border-color: transparent;
+    color: inherit;
+    text-shadow: inherit;
+}
+
+body.tss-theme-phosphor .tss-contextmenu-item .tss-btn > span:not(:empty)::before,
+body.tss-theme-phosphor .tss-contextmenu-item .tss-btn > span:not(:empty)::after,
+body.tss-theme-phosphor .tss-contextmenu-item .tss-btn::before {
+    content: none;
+}
+
+body.tss-theme-phosphor .tss-contextmenu-header {
+    background: transparent;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-contextmenu-divider {
+    background: var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-contextmenu-with-side-panel > .tss-contextmenu-side-panel {
+    border-left: var(--tss-ph-single);
+}

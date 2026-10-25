@@ -1,0 +1,82 @@
+/* ==========================================================================
+   Phosphor theme - Card
+   --------------------------------------------------------------------------
+   A card is a window on a text screen. A plain card is a single-line box;
+   a card with a title is a double-line window, and its title is set into
+   the top border, "╔═[ Overview ]══════╗", the way a TUI labels a frame.
+   No shadow, no rounding. A hoverable card brightens its frame and lights
+   faintly under the pointer.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-card {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    box-shadow: none;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-card.tss-card-hover:hover {
+    border-color: var(--tss-ph-rule-hi);
+    background-color: var(--tss-ph-tint);
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+/* The titled window. */
+body.tss-theme-phosphor .tss-card.tss-has-layout > .tss-card-content {
+    border-radius: 0;
+    border: var(--tss-ph-double);
+    background: rgb(var(--tss-secondary-background-color-root));
+    padding-top: 20px;
+}
+
+body.tss-theme-phosphor .tss-card.tss-has-layout > .tss-card-header {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    padding: 0 0 0 14px;
+    margin-bottom: -0.78em;
+    z-index: 3;
+    min-height: 0;
+}
+
+/* The title sits in the border: a label on the surface's own colour, between brackets. */
+body.tss-theme-phosphor .tss-card.tss-has-layout > .tss-card-header > .tss-card-title {
+    width: auto;
+    flex: 0 1 auto;
+    min-width: 0;
+    padding: 0 6px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+body.tss-theme-phosphor .tss-card.tss-has-layout > .tss-card-header > .tss-card-title > .tss-textblock {
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-card.tss-has-layout > .tss-card-header > .tss-card-title::before {
+    content: "[";
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-card.tss-has-layout > .tss-card-header > .tss-card-title::after {
+    content: "]";
+    color: var(--tss-ph-dim);
+}
+
+/* The footer is the window's last rows, inside the same double frame. */
+body.tss-theme-phosphor .tss-card.tss-has-layout > .tss-card-footer {
+    border: var(--tss-ph-double);
+    border-top: 0;
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-card-title {
+    color: inherit;
+}

@@ -147,6 +147,14 @@
     outline-color: rgba(var(--tss-colors-blue-500-root), 0.6);
 }
 
+/* A fill the application passes (set inline, tss-annotated-text-entity-colored) is one colour for both
+   modes, and the usual one is a pale tint chosen for light mode: in dark mode the textarea's light type
+   sat on it at 1.5:1. The page colour is laid over the fill, so its hue still tells the types apart and
+   the text stays readable whatever colour was passed. */
+.tss-dark-mode .tss-annotated-text-entity.tss-annotated-text-entity-colored {
+    background-image: linear-gradient(rgba(var(--tss-default-background-color-root), 0.75), rgba(var(--tss-default-background-color-root), 0.75));
+}
+
 /* Floating hover tag, appended to <body> and positioned with position: fixed
    so it can escape the container's overflow: hidden clipping. The tag itself
    sets container chrome (padding, border, bg, shadow, max-width) and a base

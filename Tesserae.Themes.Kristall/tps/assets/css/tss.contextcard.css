@@ -1,0 +1,18 @@
+/* Kristall theme - ContextCard: a file chip as the desktop draws a document in a list; white, hairline, 10px radius, a rounded-square icon. */
+
+body.tss-theme-kristall .tss-contextcard {
+    border: 0;
+    border-radius: var(--tss-kr-r-box);
+    background: var(--tss-kr-box);
+    box-shadow: var(--tss-kr-shadow-box);
+}
+
+body.tss-theme-kristall .tss-contextcard-clickable:hover,
+body.tss-theme-kristall .tss-contextcard-menu-open {
+    background: var(--tss-kr-box);
+    box-shadow: var(--tss-kr-shadow-card);
+}
+
+body.tss-theme-kristall .tss-contextcard-icon {
+    border-radius: 8px;
+}

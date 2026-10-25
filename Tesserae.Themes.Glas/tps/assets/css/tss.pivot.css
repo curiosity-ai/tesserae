@@ -1,0 +1,69 @@
+/* ==========================================================================
+   Glas theme - Pivot
+   --------------------------------------------------------------------------
+   Tabs are written on the glass, with no strip of their own behind them;
+   a hairline of light runs under the row. The current tab is marked by a
+   short capsule of the accent, glowing on the glass, which slides between
+   tabs. Under the pointer a tab condenses into a faint pill.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-pivot-titlebar-wrapper {
+    background: transparent;
+    box-shadow: inset 0 -1px 0 var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-pivot-titlebar {
+    color: var(--tss-gl-accent-ink);
+}
+
+body.tss-theme-glas .tss-pivot-titlebar > * {
+    background: transparent;
+}
+
+body.tss-theme-glas .tss-pivot-titlebar > .tss-btn {
+    border-radius: 10px;
+}
+
+body.tss-theme-glas .tss-pivot-titlebar > .tss-btn:not(.tss-pivot-selected-title) {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-glas .tss-pivot-titlebar > .tss-pivot-selected-title,
+body.tss-theme-glas .tss-pivot-titlebar > .tss-pivot-selected-title .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-glas .tss-pivot-titlebar > .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background-color: rgba(255, 255, 255, 0.45);
+    box-shadow: var(--tss-gl-rim);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-pivot-titlebar > .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+body.tss-theme-glas .tss-pivot-line {
+    height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, rgba(var(--tss-gl-accent-rgb), 0.7), rgb(var(--tss-gl-accent-rgb)), rgba(var(--tss-gl-accent-rgb), 0.7));
+    box-shadow: 0 0 10px rgba(var(--tss-gl-accent-rgb), 0.55), 0 1px 3px rgba(var(--tss-gl-accent-rgb), 0.4);
+}
+
+body.tss-theme-glas .tss-pivot-tab-mark,
+body.tss-theme-glas .tss-pivot-tab-needs-saving .tss-pivot-tab-close::after {
+    background: rgb(var(--tss-gl-accent-rgb));
+    box-shadow: 0 0 6px rgba(var(--tss-gl-accent-rgb), 0.7);
+}
+
+body.tss-theme-glas .tss-pivot-tab-close {
+    border-radius: 999px;
+}
+
+body.tss-theme-glas .tss-pivot-tab-fallback {
+    background: var(--tss-gl-pane-thick);
+    border-radius: var(--tss-gl-radius-ctrl);
+    box-shadow: var(--tss-gl-surface-float);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+}

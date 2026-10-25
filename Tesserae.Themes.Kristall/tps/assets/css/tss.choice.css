@@ -1,0 +1,72 @@
+/* ==========================================================================
+   Kristall theme - ChoiceGroup
+   --------------------------------------------------------------------------
+   The native radio button: a 16px disc with the push button's face and
+   hairline edge; chosen, it fills with the accent and shows a white dot in
+   the middle. No ghost dot under the pointer.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-option-container .tss-option-mark {
+    border: 0;
+    background: var(--tss-kr-control);
+    box-shadow: var(--tss-kr-shadow-control);
+    transition: background-color 120ms linear;
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-option-container .tss-option-mark {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.11));
+}
+
+body.tss-theme-kristall .tss-option-container:not([class*="tss-fontsize-"]) .tss-option-mark,
+body.tss-theme-kristall .tss-option-container.tss-fontsize-small .tss-option-mark {
+    width: 16px;
+    height: 16px;
+    margin-left: 2px;
+}
+
+body.tss-theme-kristall .tss-option-container:not([class*="tss-fontsize-"]) .tss-option-mark:after,
+body.tss-theme-kristall .tss-option-container.tss-fontsize-small .tss-option-mark:after {
+    left: 5px;
+    top: 5px;
+    width: 6px;
+    height: 6px;
+    border-width: 3px;
+}
+
+body.tss-theme-kristall .tss-option-container .tss-option-text {
+    margin-left: 7px;
+}
+
+body.tss-theme-kristall .tss-option-container:hover input:not(:checked) ~ .tss-option-mark:after {
+    display: none;
+}
+
+body.tss-theme-kristall .tss-option-container input:checked ~ .tss-option-mark,
+body.tss-theme-kristall .tss-option-container:hover input:checked ~ .tss-option-mark,
+body.tss-theme-kristall.tss-dark-mode .tss-option-container input:checked ~ .tss-option-mark {
+    background: var(--tss-kr-accent-face);
+    box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.3), 0 0 0 0.5px rgba(0, 0, 0, 0.14), 0 0.5px 1.5px rgba(0, 0, 0, 0.16);
+}
+
+body.tss-theme-kristall .tss-option-container input:checked ~ .tss-option-mark:after,
+body.tss-theme-kristall .tss-option-container:hover input:checked ~ .tss-option-mark:after {
+    border-color: var(--tss-kr-on-accent);
+}
+
+body.tss-theme-kristall .tss-option-container input:focus-visible ~ .tss-option-mark {
+    box-shadow: var(--tss-kr-shadow-control), var(--tss-kr-focus);
+}
+
+body.tss-theme-kristall .tss-option-container.tss-disabled .tss-option-mark,
+body.tss-theme-kristall.tss-dark-mode .tss-option-container.tss-disabled .tss-option-mark {
+    background: var(--tss-kr-fill-4);
+    box-shadow: inset 0 0 0 0.5px var(--tss-kr-hairline);
+}
+
+body.tss-theme-kristall .tss-option-container.tss-disabled input:checked ~ .tss-option-mark {
+    background: var(--tss-kr-fill);
+}
+
+body.tss-theme-kristall .tss-option-container.tss-disabled {
+    color: var(--tss-kr-label-3);
+}

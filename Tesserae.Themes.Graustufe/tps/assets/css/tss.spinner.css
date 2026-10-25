@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Graustufe theme - Spinner
+   --------------------------------------------------------------------------
+   Nothing turns on e-paper. The spinner is a still ring of ink dots (a
+   dotted circle), the sign an e-reader prints for "working"; a spinner that
+   shows progress keeps its arc, solid ink over a grey track. Its label is
+   set in italic.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-spinner {
+    --tss-spinner-color: var(--tss-gs-0);
+    border-style: dotted;
+    border-color: var(--tss-gs-0);
+    border-width: max(2px, calc(var(--tss-spinner-size) * 0.55));
+    animation: none;
+}
+
+body.tss-theme-graustufe .tss-spinner.tss-spinner-progress {
+    border: none;
+    background: conic-gradient(var(--tss-gs-0) calc(var(--tss-spinner-progress, 0) * 1%), var(--tss-gs-12) 0);
+}
+
+body.tss-theme-graustufe .tss-spinner-success,
+body.tss-theme-graustufe .tss-spinner-danger,
+body.tss-theme-graustufe .tss-spinner-warning {
+    --tss-spinner-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-spinner-label {
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+}

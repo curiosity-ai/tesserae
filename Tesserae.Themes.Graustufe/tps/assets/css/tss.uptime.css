@@ -1,0 +1,70 @@
+/* ==========================================================================
+   Graustufe theme - Uptime
+   --------------------------------------------------------------------------
+   Status bars and calendar days as a 1-bit legend: operational a mid grey,
+   maintenance light grey in an ink frame, a minor incident hatched, a major
+   one solid ink; no data a pale grey, the future an empty dashed cell.
+   Square cells, ruled cards, an inverted tooltip.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-uptime-bars span,
+body.tss-theme-graustufe .tss-uptime-bars-compact span,
+body.tss-theme-graustufe .tss-uptime-month-day,
+body.tss-theme-graustufe .tss-uptime-month-empty {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-uptime-bars span.none,
+body.tss-theme-graustufe .tss-uptime-bars span,
+body.tss-theme-graustufe .tss-uptime-month-day {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-uptime-bars span.operational,
+body.tss-theme-graustufe .tss-uptime-month-day.operational {
+    background: var(--tss-gs-8);
+}
+
+body.tss-theme-graustufe .tss-uptime-bars span.maintenance,
+body.tss-theme-graustufe .tss-uptime-month-day.maintenance {
+    background: var(--tss-gs-12);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-uptime-bars span.minor,
+body.tss-theme-graustufe .tss-uptime-month-day.minor {
+    background: var(--tss-gs-hatch), var(--tss-gs-15);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-uptime-bars span.major,
+body.tss-theme-graustufe .tss-uptime-month-day.major {
+    background: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-uptime-bars span.future,
+body.tss-theme-graustufe .tss-uptime-month-day.future {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-gs-11);
+}
+
+body.tss-theme-graustufe .tss-uptime-month-empty {
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-uptime-month-card {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    border-image: var(--tss-gs-edge);
+}
+
+body.tss-theme-graustufe .tss-uptime-month-header span {
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tippy-box[data-theme~='uptime'] {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    border: 0;
+}

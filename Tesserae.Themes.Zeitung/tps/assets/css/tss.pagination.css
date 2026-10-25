@@ -1,0 +1,47 @@
+/* ==========================================================================
+   Zeitung theme - Pagination
+   --------------------------------------------------------------------------
+   Page numbers are the folios at the foot of a page: lining figures in
+   square hairline boxes; the current page reversed out of ink. The footer
+   is ruled off with a hairline of ink; the status reads in italic.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-pagination-footer {
+    border-top-color: var(--tss-zt-ink);
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-pagination-button {
+    border-radius: 0;
+    border-color: var(--tss-zt-rule);
+    background: transparent;
+    font-variant-numeric: lining-nums tabular-nums;
+}
+
+body.tss-theme-zeitung .tss-pagination-button:hover:not(:disabled):not(.tss-disabled) {
+    background: transparent;
+    border-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-pagination-button.tss-active,
+body.tss-theme-zeitung .tss-pagination-button.tss-active:hover:not(:disabled) {
+    background: var(--tss-zt-ink);
+    border-color: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+    font-weight: 700;
+}
+
+body.tss-theme-zeitung .tss-pagination-button.tss-pagination-nav {
+    border-color: transparent;
+}
+
+body.tss-theme-zeitung .tss-pagination-button:focus-visible {
+    outline: 2px solid var(--tss-zt-red);
+    outline-offset: 2px;
+}
+
+body.tss-theme-zeitung .tss-pagination-status {
+    font-style: italic;
+    color: var(--tss-zt-muted);
+    font-variant-numeric: lining-nums;
+}

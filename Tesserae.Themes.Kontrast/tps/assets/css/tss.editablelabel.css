@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Kontrast theme - EditableLabel
+   --------------------------------------------------------------------------
+   At rest the text shows a dotted 2px underline, so it is findable as
+   editable without hovering; the pencil is always shown on hover and focus.
+   Editing, it is a field like any other.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-editablelabel-displaybox {
+    height: 36px;
+    border-radius: var(--tss-kt-radius-sm);
+    padding: 0 4px;
+}
+
+body.tss-theme-kontrast .tss-editablelabel-textspan {
+    text-decoration: underline dotted 2px;
+    text-underline-offset: 5px;
+}
+
+body.tss-theme-kontrast .tss-editablelabel-displaybox:hover {
+    background: var(--tss-kt-hover);
+    box-shadow: inset 0 0 0 var(--tss-kt-border) var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-editablelabel-displaybox:hover .tss-editablelabel-edit-icon,
+body.tss-theme-kontrast .tss-editablelabel-displaybox:focus-within .tss-editablelabel-edit-icon {
+    visibility: visible;
+}
+
+body.tss-theme-kontrast .tss-editablelabel-textbox {
+    min-height: 36px;
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-editablelabel-textbox:focus {
+    outline: var(--tss-kt-ring-width) solid var(--tss-kt-focus-outer) !important;
+    outline-offset: calc(-1 * var(--tss-kt-ring-width)) !important;
+    box-shadow: inset 0 0 0 calc(var(--tss-kt-ring-width) + var(--tss-kt-ring-gap)) var(--tss-kt-signal) !important;
+}
+
+body.tss-theme-kontrast .tss-editablelabel-cancel-icon {
+    color: var(--tss-kt-danger);
+}

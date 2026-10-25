@@ -1,0 +1,118 @@
+/* ==========================================================================
+   Washi theme - ContextMenu
+   --------------------------------------------------------------------------
+   A menu is a sheet held just above the page: smooth paper, a hairline
+   edge, the soft shadow of a lifted page. Rows are type; under the pointer
+   a pale ink wash comes up, and the chosen row is marked with a short
+   vermilion stroke at its leading edge. Headers are small Mincho captions,
+   dividers a fine line.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-contextmenu {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-field-edge);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-contextmenu:after {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.55);
+}
+
+body.tss-theme-washi .tss-contextmenu.tss-disabled {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-contextmenu-container.tss-invalid .tss-contextmenu {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-washi .tss-contextmenu-popup {
+    padding: 4px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: none;
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-contextmenu-item {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--tss-wa-radius-small);
+    min-height: 34px;
+    transition: background-color var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-contextmenu-item i {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-contextmenu-item.tss-selected:not(.tss-disabled),
+body.tss-theme-washi .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):focus,
+body.tss-theme-washi .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):active {
+    background: var(--tss-wa-wash-strong);
+    border-color: transparent;
+}
+
+body.tss-theme-washi .tss-contextmenu-item.tss-selected:not(.tss-disabled)::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 9px;
+    bottom: 9px;
+    width: 3px;
+    background: var(--tss-wa-shu);
+    -webkit-mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke-v) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-contextmenu-item:focus-visible,
+body.tss-theme-washi .tss-contextmenu-header:focus-visible,
+body.tss-theme-washi .tss-contextmenu-divider:focus-visible {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: -2px;
+}
+
+body.tss-theme-washi .tss-contextmenu-item:not(.tss-disabled):hover i,
+body.tss-theme-washi .tss-contextmenu-item.tss-selected:not(.tss-disabled) i {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:not(.tss-selected):not(:hover):focus {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-contextmenu-item.tss-disabled,
+body.tss-theme-washi .tss-contextmenu-item.tss-disabled i {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-contextmenu-item.tss-contextmenu-item-separator,
+body.tss-theme-washi .tss-contextmenu-item.tss-contextmenu-item-separator:hover,
+body.tss-theme-washi .tss-contextmenu-item.tss-contextmenu-item-separator:focus {
+    background: transparent;
+}
+
+body.tss-theme-washi .tss-contextmenu-header {
+    background: transparent;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-family: var(--tss-wa-serif);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+}
+
+body.tss-theme-washi .tss-contextmenu-divider {
+    background: var(--tss-wa-line);
+    margin: 4px 6px;
+    width: auto;
+}
+
+body.tss-theme-washi .tss-contextmenu-with-side-panel > .tss-contextmenu-side-panel {
+    border-color: var(--tss-wa-line);
+}

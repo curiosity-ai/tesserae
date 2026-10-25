@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Phosphor theme - Popover
+   --------------------------------------------------------------------------
+   A popover's content brings its own chrome; the arrow is drawn in the
+   window's surface colour so it joins the frame.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tippy-box[data-theme~='tss-popover'] {
+    box-shadow: none;
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    color: var(--tss-ph-rule-hi);
+}
+
+body.tss-theme-phosphor .tss-popover {
+    border-radius: 0;
+}

@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Glas theme - Carousel
+   --------------------------------------------------------------------------
+   The viewport is a pane of glass; the arrows are round glass beads that
+   blur what is under them; the indicators are dots, the current one a
+   glowing capsule of the accent.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-carousel-viewport {
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-carousel-nav {
+    border: none;
+    background: var(--tss-gl-pane-thick);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge), 0 4px 12px -4px rgba(40, 38, 100, 0.35);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+}
+
+body.tss-theme-glas .tss-carousel-indicator {
+    border: none;
+    background: rgba(var(--tss-default-foreground-color-root), 0.2);
+    transition: width 220ms var(--tss-gl-ease), background-color 160ms linear;
+}
+
+body.tss-theme-glas .tss-carousel-indicator.tss-active {
+    background: rgb(var(--tss-gl-accent-rgb));
+    box-shadow: 0 0 6px rgba(var(--tss-gl-accent-rgb), 0.6);
+}

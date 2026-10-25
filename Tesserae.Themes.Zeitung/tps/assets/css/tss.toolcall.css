@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Zeitung theme - toolcall
+   --------------------------------------------------------------------------
+   Square corners: type is set in rectangles.
+   ========================================================================== */
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-toolcall,
+body.tss-theme-zeitung .tss-toolcall > .tss-toolcall-header,
+body.tss-theme-zeitung .tss-toolcall.tss-expanded > .tss-toolcall-header,
+body.tss-theme-zeitung .tss-toolcall > .tss-toolcall-content,
+body.tss-theme-zeitung .tss-toolcall-icon,
+body.tss-theme-zeitung .tss-toolcall-secondary-action,
+body.tss-theme-zeitung .tss-toolsused-header,
+body.tss-theme-zeitung .tss-toolsused-inline-list,
+body.tss-theme-zeitung .tss-toolsused-modal-detail-icon,
+body.tss-theme-zeitung .tss-toolsused-list-icon,
+body.tss-theme-zeitung .tss-toolcallinspect-response {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

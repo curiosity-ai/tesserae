@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Glas theme - InlineLabel
+   --------------------------------------------------------------------------
+   An inline label is a chip of clear glass with a lit rim; a pressable one
+   brightens under the pointer.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-inlinelabel {
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.45);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-inlinelabel {
+    background: rgba(255, 255, 255, 0.07);
+}
+
+body.tss-theme-glas .tss-inlinelabel-interactive:hover,
+body.tss-theme-glas .tss-inlinelabel-interactive:focus-visible {
+    background: rgba(255, 255, 255, 0.75);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-inlinelabel-interactive:hover,
+body.tss-theme-glas.tss-dark-mode .tss-inlinelabel-interactive:focus-visible {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+body.tss-theme-glas .tss-inlinelabel-interactive:focus-visible {
+    outline: 2px solid rgba(var(--tss-gl-accent-rgb), 0.8);
+}
+
+body.tss-theme-glas .tss-inlinelabel-loading {
+    background: none;
+    box-shadow: none;
+}
+
+body.tss-theme-glas .tss-omniresult-footer .tss-inlinelabel {
+    background: none;
+    box-shadow: none;
+}

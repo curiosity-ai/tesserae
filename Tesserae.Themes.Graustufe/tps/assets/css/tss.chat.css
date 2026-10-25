@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Graustufe theme - Chat
+   --------------------------------------------------------------------------
+   A conversation set like a play in a book: the model's turns are plain
+   text in the book face; your turns are inverted slips (ink with paper
+   type), square, so the two voices differ by shape rather than by tint.
+   The scroll-down button is a square ruled key.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-chatarea {
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-chatmessage-bubble {
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-chat-right .tss-chatmessage-bubble {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-chat-right .tss-chatmessage-bubble .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-chat-right .tss-chatmessage-bubble .tss-chatmessage-content {
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-chatmessage-references,
+body.tss-theme-graustufe .tss-chat-right .tss-chatmessage-references {
+    border-top-color: var(--tss-gs-8);
+}
+
+body.tss-theme-graustufe .tss-chatarea-scrollbtn {
+    border-radius: 0;
+    box-shadow: none;
+    border: var(--tss-gs-rule);
+    border-image: var(--tss-gs-edge-sm);
+    background: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-chatmessage-remove,
+body.tss-theme-graustufe.tss-dark-mode .tss-chatmessage-remove {
+    border-radius: 0;
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-chatmessage-remove:hover,
+body.tss-theme-graustufe.tss-dark-mode .tss-chatmessage-remove:hover,
+body.tss-theme-graustufe .tss-chatmessage-remove:active,
+body.tss-theme-graustufe.tss-dark-mode .tss-chatmessage-remove:active {
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    outline: 1px solid var(--tss-gs-0);
+}

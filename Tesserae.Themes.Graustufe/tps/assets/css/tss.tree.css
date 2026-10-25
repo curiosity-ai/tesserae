@@ -1,0 +1,38 @@
+/* ==========================================================================
+   Graustufe theme - Tree
+   --------------------------------------------------------------------------
+   An outline: rows in the sans, the row under the pointer washed, the
+   selected row inverted. Chevrons and checkboxes in ink.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-tree {
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-tree-item-content {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-tree-item-content:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-tree-item-content.tss-selected,
+body.tss-theme-graustufe .tss-tree-item-content.tss-selected:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-tree-item-content.tss-selected * {
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-tree-item:focus-visible > .tss-tree-item-content {
+    outline: var(--tss-gs-focus);
+}
+
+body.tss-theme-graustufe .tss-tree-chevron:hover,
+body.tss-theme-graustufe .tss-tree-checkbox:hover {
+    color: var(--tss-gs-0);
+    background: var(--tss-gs-12);
+}

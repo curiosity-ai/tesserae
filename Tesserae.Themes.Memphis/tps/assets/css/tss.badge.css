@@ -1,0 +1,124 @@
+/* ==========================================================================
+   Memphis theme - Badge, Tag, Chip
+   --------------------------------------------------------------------------
+   Tokens are cut-out stickers: every one has a black line round it. A
+   badge is a pill, a tag a small rectangle, a chip a pill. Toned tokens
+   are filled with the bright accents (bubblegum, mint, sunflower, tomato,
+   cobalt) with ink type; an outlined token keeps the line in its tone and
+   its type in the AA text tone. A dot is a little disc with a line.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-token {
+    border: 1.5px solid var(--tss-mp-line);
+    font-weight: 600;
+}
+
+body.tss-theme-memphis .tss-badge {
+    border-radius: 999px;
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-tag {
+    border-radius: var(--tss-mp-radius-small);
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-token-filled {
+    background: var(--tss-mp-lilac-pale);
+}
+
+body.tss-theme-memphis .tss-token-primary {
+    background: rgb(var(--tss-mp-pink-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-token-success {
+    background: rgb(var(--tss-mp-mint-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-token-warning {
+    background: rgb(var(--tss-mp-yellow-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-token-danger {
+    background: rgb(var(--tss-mp-tomato-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-token-info {
+    background: rgb(var(--tss-mp-cobalt-root));
+    color: var(--tss-mp-on-cobalt);
+}
+
+body.tss-theme-memphis .tss-token-outline {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-token-outline.tss-token-primary {
+    color: rgb(var(--tss-primary-background-color-root));
+    border-color: rgb(var(--tss-mp-pink-root));
+    background: transparent;
+}
+
+body.tss-theme-memphis .tss-token-outline.tss-token-success {
+    color: rgb(var(--tss-success-background-color-root));
+    border-color: rgb(var(--tss-mp-mint-root));
+    background: transparent;
+}
+
+body.tss-theme-memphis .tss-token-outline.tss-token-warning {
+    color: rgb(150, 98, 0);
+    border-color: rgb(var(--tss-mp-yellow-root));
+    background: transparent;
+}
+
+body.tss-theme-memphis.tss-dark-mode .tss-token-outline.tss-token-warning {
+    color: rgb(var(--tss-mp-yellow-root));
+}
+
+body.tss-theme-memphis .tss-token-outline.tss-token-danger {
+    color: rgb(var(--tss-danger-background-color-root));
+    border-color: rgb(var(--tss-mp-tomato-root));
+    background: transparent;
+}
+
+body.tss-theme-memphis .tss-token-outline.tss-token-info {
+    color: rgb(var(--tss-link-color-root));
+    border-color: rgb(var(--tss-mp-cobalt-root));
+    background: transparent;
+}
+
+body.tss-theme-memphis .tss-token-outline.tss-token-primary,
+body.tss-theme-memphis .tss-token-outline.tss-token-success,
+body.tss-theme-memphis .tss-token-outline.tss-token-warning,
+body.tss-theme-memphis .tss-token-outline.tss-token-danger,
+body.tss-theme-memphis .tss-token-outline.tss-token-info {
+    border-width: 2px;
+}
+
+body.tss-theme-memphis .tss-token-tinted {
+    border-color: var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-token-dot {
+    width: 8px;
+    height: 8px;
+    box-shadow: 0 0 0 1.5px var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-token-remove:hover {
+    color: rgb(var(--tss-danger-background-color-root));
+}
+
+body.tss-theme-memphis .tss-token-primary .tss-token-remove:hover,
+body.tss-theme-memphis .tss-token-success .tss-token-remove:hover,
+body.tss-theme-memphis .tss-token-warning .tss-token-remove:hover,
+body.tss-theme-memphis .tss-token-danger .tss-token-remove:hover,
+body.tss-theme-memphis .tss-token-info .tss-token-remove:hover {
+    color: inherit;
+    opacity: 0.7;
+}

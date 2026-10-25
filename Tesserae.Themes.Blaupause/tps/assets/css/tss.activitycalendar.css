@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Blaupause theme - ActivityCalendar
+   --------------------------------------------------------------------------
+   A contribution grid is a chart of square cells drawn in ink: empty days
+   are ruled outlines, active days filled in proportion, the selected day
+   boxed in red pencil.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-activitycalendar-day,
+body.tss-theme-blaupause .tss-activitycalendar-tooltip {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-activitycalendar {
+    --tss-activitycalendar-radius: 0;
+    --tss-activitycalendar-color: var(--tss-bp-ink);
+    --tss-activitycalendar-empty-color: var(--tss-bp-line-faint);
+}
+
+body.tss-theme-blaupause .tss-activitycalendar-day {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-activitycalendar-day.tss-activitycalendar-selected {
+    box-shadow: 0 0 0 1px var(--tss-bp-sheet), 0 0 0 3px var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-activitycalendar-tooltip {
+    border-radius: 0;
+    font-family: var(--tss-bp-mono);
+}
+
+body.tss-theme-blaupause .tss-activitycalendar-summary-item::before {
+    border-left-color: var(--tss-bp-line);
+}

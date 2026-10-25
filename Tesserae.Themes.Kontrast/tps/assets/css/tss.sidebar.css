@@ -1,0 +1,341 @@
+/* ==========================================================================
+   Kontrast theme - Sidebar
+   --------------------------------------------------------------------------
+   The sidebar is the wayfinding board: paper, a 3px ink rule along its
+   inner edge, section legends set bold with a rule running out to the edge.
+   "You are here" is unmistakable without colour: the current entry is a
+   solid block (ink in light, yellow in dark), set bold, with a 6px bar at
+   its leading edge. Under the pointer an entry takes a fill and a 2px edge.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-sidebar {
+    background: var(--tss-kt-paper);
+    box-shadow: inset calc(-1 * var(--tss-kt-border-strong)) 0 0 0 var(--tss-kt-ink);
+    transition: none;
+}
+
+body.tss-theme-kontrast .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge,
+body.tss-theme-kontrast .tss-sidebar-identity-title {
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+/* Section legends: bold, ink, with a 2px rule out to the edge. */
+body.tss-theme-kontrast .tss-sidebar-separator-with-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    margin-bottom: 6px;
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: 750;
+    letter-spacing: 0.02em;
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-sidebar-separator-with-text::after {
+    content: "";
+    flex: 1 1 auto;
+    height: var(--tss-kt-border);
+    background: var(--tss-kt-ink);
+}
+
+/* Rows: ghost at rest (the default button's ink frame is for standalone buttons, not a list). */
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn.tss-btn,
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn.tss-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-kontrast .tss-sidebar-btn-open:not(.tss-sidebar-selected) > .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link),
+body.tss-theme-kontrast .tss-sidebar-btn-open:not(.tss-sidebar-selected) > a > .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link) {
+    border: var(--tss-kt-border) solid transparent;
+    border-radius: var(--tss-kt-radius);
+    background: transparent;
+    font-weight: 500;
+}
+
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-sidebar-btn-open:not(.tss-sidebar-selected) > .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):hover,
+body.tss-theme-kontrast .tss-sidebar-btn-open:not(.tss-sidebar-selected) > a > .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):hover,
+body.tss-theme-kontrast .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kontrast .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kontrast .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kontrast .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    color: var(--tss-kt-ink);
+    background: var(--tss-kt-hover);
+    border-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn.tss-btn.tss-btn-default:not(.tss-disabled):active {
+    background: var(--tss-kt-pressed);
+    box-shadow: none;
+}
+
+/* You are here: a solid block, bold, with the bar at its leading edge. */
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    color: var(--tss-kt-on-accent);
+    background: var(--tss-kt-accent);
+    border-color: var(--tss-kt-accent);
+    box-shadow: inset var(--tss-kt-bar) 0 0 0 var(--tss-kt-signal);
+    font-weight: 750;
+}
+
+body.tss-theme-kontrast.tss-dark-mode .tss-sidebar .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-kontrast.tss-dark-mode .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kontrast.tss-dark-mode .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kontrast.tss-dark-mode .tss-sidebar .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-kontrast.tss-dark-mode .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-kontrast.tss-dark-mode .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-kontrast.tss-dark-mode .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kontrast.tss-dark-mode .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    box-shadow: inset var(--tss-kt-bar) 0 0 0 var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn i,
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn i,
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn .tss-fontcolor-default,
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn .tss-fontcolor-default {
+    color: var(--tss-kt-on-accent);
+}
+
+/* The label sits clear of the bar. */
+body.tss-theme-kontrast .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-kontrast .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled) {
+    padding-left: 12px;
+}
+
+/* Commands on the selected row are drawn on the block. */
+body.tss-theme-kontrast .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands > .tss-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-kontrast .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands > a > .tss-btn.tss-btn-default:not(.tss-disabled) {
+    color: var(--tss-kt-on-accent);
+    background: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-kontrast .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands > .tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands > a > .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    color: var(--tss-kt-on-accent);
+    background: transparent;
+    border-color: var(--tss-kt-on-accent);
+}
+
+/* A nav header that holds the current entry: its label set bold with a bar, not a block, since the block
+   is the entry itself. */
+body.tss-theme-kontrast.tss-theme-kontrast .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+body.tss-theme-kontrast.tss-theme-kontrast .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled) {
+    color: var(--tss-kt-ink);
+    background: transparent;
+    border-color: transparent;
+    font-weight: 750;
+    box-shadow: inset 3px 0 0 0 var(--tss-kt-ink);
+}
+
+/* Row commands: small ghost keys that take an edge under the pointer. */
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-command.tss-btn,
+body.tss-theme-kontrast .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-kontrast .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled) {
+    border: var(--tss-kt-border) solid transparent;
+    border-radius: var(--tss-kt-radius-sm);
+    background: transparent;
+    min-height: unset;
+}
+
+body.tss-theme-kontrast .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-kontrast .tss-sidebar-commands-line .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    color: var(--tss-kt-ink);
+    background: var(--tss-kt-paper);
+    border-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-sidebar-commands-line .tss-btn,
+body.tss-theme-kontrast .tss-sidebar-commands-line .tss-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-kontrast .tss-sidebar-commands-line-extra .tss-btn {
+    border: var(--tss-kt-border) solid transparent;
+    border-radius: var(--tss-kt-radius);
+    background: transparent;
+}
+
+/* The search field at the top of the board. */
+body.tss-theme-kontrast .tss-sidebar .tss-searchbox-container {
+    background: var(--tss-kt-paper);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+}
+
+body.tss-theme-kontrast .tss-sidebar .tss-searchbox-container:focus-within {
+    outline: var(--tss-kt-ring-width) solid var(--tss-kt-focus-outer);
+    outline-offset: 0;
+    box-shadow: inset 0 0 0 var(--tss-kt-ring-gap) var(--tss-kt-focus-inner);
+}
+
+/* The collapsed rail: icon tiles, edged under the pointer. */
+body.tss-theme-kontrast .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon {
+    border: var(--tss-kt-border) solid transparent;
+    border-radius: var(--tss-kt-radius);
+}
+
+body.tss-theme-kontrast .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon:hover {
+    background: var(--tss-kt-hover);
+    border-color: var(--tss-kt-ink);
+}
+
+/* A row in a scroller: the focus ring is drawn inside its edge, so the rail never clips it. */
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible,
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-command.tss-btn:focus-visible,
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-commands-line .tss-btn:focus-visible,
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-nav-arrow.tss-btn:focus-visible {
+    outline-offset: calc(-1 * var(--tss-kt-ring-width)) !important;
+    box-shadow: inset 0 0 0 calc(var(--tss-kt-ring-width) + var(--tss-kt-ring-gap)) var(--tss-kt-focus-inner) !important;
+}
+
+/* .Rounded() rows keep the theme's corners: pills are kept for toggles. */
+body.tss-theme-kontrast .tss-sidebar-btn-rounded > .tss-btn,
+body.tss-theme-kontrast .tss-sidebar-btn-rounded > a > .tss-btn,
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn.tss-btn.tss-rounded-full,
+body.tss-theme-kontrast .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-rounded.tss-sidebar-btn.tss-btn,
+body.tss-theme-kontrast .tss-sidebar-searchbox.tss-sidebar-searchbox-rounded .tss-searchbox-container,
+body.tss-theme-kontrast .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon.tss-sidebar-searchbox-rounded {
+    border-radius: var(--tss-kt-radius) !important;
+}
+
+/* An outlined row (the one that pairs with the search box) carries the ink edge at rest. */
+body.tss-theme-kontrast .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-kontrast .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    border-color: var(--tss-kt-ink) !important;
+}
+
+/* A row standing in for a search box reads as a field. */
+body.tss-theme-kontrast .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-searchbox > .tss-btn.tss-sidebar-btn-searchbox-button,
+body.tss-theme-kontrast .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-searchbox > a > .tss-btn.tss-sidebar-btn-searchbox-button {
+    background: var(--tss-kt-paper);
+    border-color: var(--tss-kt-ink);
+    color: var(--tss-kt-muted);
+}
+
+/* Group arrows: a 2px chevron in ink, always shown (not only on hover) so the group reads as openable. */
+body.tss-theme-kontrast .tss-sidebar-nav-arrow.tss-btn:after {
+    border: solid var(--tss-kt-ink);
+    border-width: 0 2px 2px 0;
+}
+
+body.tss-theme-kontrast .tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:after {
+    border: solid var(--tss-kt-ink);
+    border-width: 0 3px 3px 0;
+}
+
+body.tss-theme-kontrast .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav-header:not(.tss-sidebar-nav-header-empty):after {
+    border: solid var(--tss-kt-ink);
+    border-width: 0 2px 2px 0;
+}
+
+body.tss-theme-kontrast .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn {
+    border-color: transparent;
+    background: transparent;
+}
+
+/* The group's children hang off a 2px rule, so their nesting is drawn, not only indented. */
+body.tss-theme-kontrast .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page) .tss-sidebar-nav-children {
+    box-shadow: inset 2px 0 0 0 var(--tss-kt-line);
+    margin-left: 14px;
+}
+
+body.tss-theme-kontrast .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-nav-children > .tss-stack-item {
+    margin-left: 14px;
+}
+
+/* Counts: a small ink chip with tabular figures. */
+body.tss-theme-kontrast .tss-sidebar-badges > .tss-btn {
+    font-variant-numeric: tabular-nums;
+    font-weight: 750;
+    border-radius: var(--tss-kt-radius-sm);
+    min-height: unset;
+}
+
+body.tss-theme-kontrast .tss-sidebar-badges > .tss-btn.tss-btn-default:not(.tss-sidebar-badge-transparent-icon):not([style*="background"]) {
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-sidebar-badges > .tss-btn.tss-sidebar-badge-transparent-icon {
+    border-color: transparent;
+    background: transparent;
+}
+
+/* The tooltip a collapsed rail shows for a row, and the rail's flyout menu: ink plates. */
+body.tss-theme-kontrast .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    border-radius: var(--tss-kt-radius);
+    box-shadow: var(--tss-kt-float-shadow);
+}
+
+body.tss-theme-kontrast .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success),
+body.tss-theme-kontrast .tss-sidebar-menu > .tss-sidebar-btn-open > a > .tss-btn:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success),
+body.tss-theme-kontrast .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command.tss-btn:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success),
+body.tss-theme-kontrast .tss-sidebar-menu > .tss-sidebar-commands-line > a > .tss-sidebar-command.tss-btn:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success) {
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+    border-color: transparent;
+}
+
+body.tss-theme-kontrast .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success):hover,
+body.tss-theme-kontrast .tss-sidebar-menu > .tss-sidebar-btn-open > a > .tss-btn.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success):hover,
+body.tss-theme-kontrast .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success):hover,
+body.tss-theme-kontrast .tss-sidebar-menu > .tss-sidebar-commands-line > a > .tss-sidebar-command:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success):hover {
+    background: var(--tss-kt-ink);
+    color: var(--tss-kt-paper);
+    border-color: var(--tss-kt-ink);
+}
+
+/* Identity row and dividers: 2px rules. */
+body.tss-theme-kontrast .tss-sidebar-identity-subtitle {
+    color: var(--tss-kt-muted);
+}
+
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-header .tss-sidebar-identity-separated {
+    border-bottom: var(--tss-kt-border) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-sidebar .tss-sidebar-footer .tss-sidebar-identity-separated {
+    border-top: var(--tss-kt-border) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-sidebar-btn-has-icon-click.tss-btn > i:hover,
+body.tss-theme-kontrast .tss-sidebar-btn-has-icon-click.tss-btn > .tss-btn-with-image > .tss-image:hover {
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+    box-shadow: inset 0 0 0 2px var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius-sm);
+}
+
+body.tss-theme-kontrast .tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn,
+body.tss-theme-kontrast .tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-btn {
+    color: var(--tss-kt-ink);
+    background: var(--tss-kt-paper) var(--tss-kt-hatch);
+    border: var(--tss-kt-border) dashed var(--tss-kt-ink);
+}
+
+@media (forced-colors: active) {
+    body.tss-theme-kontrast .tss-sidebar {
+        border-right: 3px solid CanvasText;
+    }
+
+    body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn,
+    body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn,
+    body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn.tss-sidebar-selected {
+        forced-color-adjust: none;
+        background: Highlight !important;
+        color: HighlightText !important;
+        border-color: Highlight !important;
+    }
+
+    body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn *,
+    body.tss-theme-kontrast .tss-sidebar .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn * {
+        color: HighlightText !important;
+    }
+}

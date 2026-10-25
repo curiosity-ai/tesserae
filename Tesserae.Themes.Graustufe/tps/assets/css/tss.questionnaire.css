@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Graustufe theme - Questionnaire
+   --------------------------------------------------------------------------
+   Questions in the book face; answers are square ruled options, the chosen
+   one inverted (ink, paper type).
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-questionnaire [class*="tss-questionnaire"] {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-questionnaire-option {
+    border: var(--tss-gs-rule);
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-questionnaire-option:hover {
+    border-color: var(--tss-gs-0);
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-questionnaire-option.tss-questionnaire-option-selected,
+body.tss-theme-graustufe .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+    background: var(--tss-gs-0);
+    border-color: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}

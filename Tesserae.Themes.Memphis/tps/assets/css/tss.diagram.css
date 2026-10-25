@@ -1,0 +1,14 @@
+/* ==========================================================================
+   Memphis theme - Diagram
+   --------------------------------------------------------------------------
+   The canvas is graph paper in a frame with a 2px black line; the dot grid
+   and the edges are soft ink.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-diagram {
+    --tss-diagram-dot-color: rgba(var(--tss-mp-line-root), 0.3);
+    --tss-diagram-line-color: var(--tss-mp-line);
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    background-color: rgb(var(--tss-secondary-background-color-root));
+}

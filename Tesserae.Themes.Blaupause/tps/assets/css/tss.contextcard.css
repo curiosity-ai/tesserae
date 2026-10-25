@@ -1,0 +1,99 @@
+/* ==========================================================================
+   Blaupause theme - ContextCard
+   --------------------------------------------------------------------------
+   A context card is a small boxed callout: a 1px line, the sheet inside,
+   registration ticks in the corners. Its icon is a symbol drawn in a square
+   cell of its own (outline only: the tint, if one was given, becomes the
+   cell's line and glyph colour, never a fill). The label is lettered, the
+   sub-label muted; under the pointer the box is inked in and washed.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-contextcard {
+    --tss-bp-tick-len: 7px;
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background: var(--tss-bp-ticks), var(--tss-bp-sheet);
+    transition: border-color var(--tss-bp-quick) linear, background-color var(--tss-bp-quick) linear;
+}
+
+body.tss-theme-blaupause .tss-contextcard-clickable:hover,
+body.tss-theme-blaupause .tss-contextcard-menu-open {
+    border-color: var(--tss-bp-line-strong);
+    background: var(--tss-bp-ticks), linear-gradient(var(--tss-bp-wash), var(--tss-bp-wash)), var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-contextcard-clickable:active {
+    background: var(--tss-bp-ticks), var(--tss-bp-hatch), var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-contextcard-clickable:focus-visible {
+    outline: 2px solid var(--tss-bp-red);
+    outline-offset: 2px;
+}
+
+body.tss-theme-blaupause .tss-contextcard-icon:not(.tss-contextcard-icon-image) {
+    border-radius: 0;
+    background: transparent !important;
+    border: 1px solid currentColor;
+    color: var(--tss-bp-ink);
+    box-sizing: border-box;
+}
+
+body.tss-theme-blaupause .tss-contextcard-icon.tss-contextcard-icon-nobackground {
+    border-color: transparent;
+}
+
+body.tss-theme-blaupause .tss-contextcard-icon-image {
+    border-radius: 0;
+    border: var(--tss-bp-rule);
+}
+
+body.tss-theme-blaupause .tss-contextcard-label {
+    color: var(--tss-bp-text);
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-blaupause .tss-contextcard-sublabel {
+    color: var(--tss-bp-muted);
+}
+
+body.tss-theme-blaupause .tss-contextcard-chevron {
+    color: var(--tss-bp-muted);
+}
+
+body.tss-theme-blaupause .tss-contextcard-badge {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    background: transparent;
+    color: var(--tss-bp-text);
+    font-family: var(--tss-bp-mono);
+    font-size: 11px;
+}
+
+body.tss-theme-blaupause .tss-contextcard-badge-custom {
+    border: none;
+}
+
+body.tss-theme-blaupause .tss-contextcard-remove,
+body.tss-theme-blaupause.tss-dark-mode .tss-contextcard-remove {
+    border-radius: 0;
+    background: var(--tss-bp-sheet);
+    border: var(--tss-bp-rule-strong);
+    color: var(--tss-bp-ink);
+}
+
+body.tss-theme-blaupause .tss-contextcard-remove:hover,
+body.tss-theme-blaupause.tss-dark-mode .tss-contextcard-remove:hover {
+    background: var(--tss-bp-sheet);
+    border-color: var(--tss-bp-red);
+    color: var(--tss-bp-red);
+}
+
+body.tss-theme-blaupause .tss-contextcard-compact,
+body.tss-theme-blaupause .tss-contextcard-compact .tss-contextcard-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-contextcard-compact {
+    --tss-bp-tick-len: 5px;
+}

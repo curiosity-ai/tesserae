@@ -1,0 +1,15 @@
+/* Kristall theme - Message: an empty state is quiet grey type under a large glyph in a fill disc; a toned message is a tinted grouped box. */
+
+body.tss-theme-kristall .tss-message-icon {
+    background: var(--tss-kr-fill-4);
+    color: var(--tss-kr-label-3);
+}
+
+body.tss-theme-kristall .tss-message-info,
+body.tss-theme-kristall .tss-message-success,
+body.tss-theme-kristall .tss-message-warning,
+body.tss-theme-kristall .tss-message-error {
+    border-radius: var(--tss-kr-r-box);
+    border: 0;
+    box-shadow: inset 0 0 0 0.5px var(--tss-kr-hairline);
+}

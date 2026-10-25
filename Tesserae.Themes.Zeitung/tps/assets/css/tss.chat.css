@@ -1,0 +1,13 @@
+/* ==========================================================================
+   Zeitung theme - chat
+   --------------------------------------------------------------------------
+   Square corners: type is set in rectangles.
+   ========================================================================== */
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-chat-right .tss-chatmessage-bubble {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

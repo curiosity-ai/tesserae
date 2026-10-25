@@ -1,0 +1,15 @@
+/* ==========================================================================
+   Washi theme - ListItemText
+   --------------------------------------------------------------------------
+   A title in ink at a calm weight, the subtitle in diluted ink, the icon
+   on a small square of wash.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-listitemtext-title {
+    font-weight: 500;
+}
+
+body.tss-theme-washi .tss-listitemtext-icon {
+    background: var(--tss-wa-wash-strong);
+    border-radius: var(--tss-wa-radius);
+}

@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Graustufe theme - KeyboardShortcut / ShortcutGuide
+   --------------------------------------------------------------------------
+   A key is drawn the way a manual prints one: a square box in a 1px ink
+   rule with a heavier foot, the legend in the mono.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-kbd-key {
+    font-family: var(--tss-gs-mono);
+    color: var(--tss-gs-0);
+    background: var(--tss-gs-15);
+    border: var(--tss-gs-rule);
+    border-bottom-width: 3px;
+    border-radius: 2px;
+}
+
+body.tss-theme-graustufe .tss-kbd-separator {
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tss-shortcut-guide-section-title {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-shortcut-guide-row {
+    border-bottom: var(--tss-gs-rule-faint);
+}

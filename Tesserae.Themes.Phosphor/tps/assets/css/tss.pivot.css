@@ -1,0 +1,69 @@
+/* ==========================================================================
+   Phosphor theme - Pivot
+   --------------------------------------------------------------------------
+   Tabs are the function-key bar along the bottom of a terminal screen:
+   plain labels on a strip ruled off by a double line, and the current tab
+   is the cursor, an inverse-video block. The block is the pivot's own
+   sliding indicator grown to the full height of the bar, so it still moves
+   from tab to tab, in steps rather than a glide.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-pivot-titlebar-wrapper {
+    background: transparent;
+    border-bottom: var(--tss-ph-double);
+}
+
+body.tss-theme-phosphor .tss-pivot-titlebar {
+    color: var(--tss-ph-ink);
+    font-size: 13px;
+}
+
+body.tss-theme-phosphor .tss-pivot-titlebar > * {
+    background: transparent;
+    position: relative;
+    z-index: 1;
+}
+
+body.tss-theme-phosphor .tss-pivot-titlebar > *:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-pivot-titlebar > .tss-pivot-selected-title,
+body.tss-theme-phosphor .tss-pivot-titlebar > .tss-pivot-selected-title:hover {
+    background: transparent;
+    font-weight: 500;
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-pivot-titlebar > .tss-pivot-selected-title * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-pivot-titlebar > .tss-pivot-line,
+body.tss-theme-phosphor .tss-pivot-line {
+    position: absolute;
+    top: 0;
+    height: auto;
+    z-index: 0;
+    border-radius: 0;
+    background: var(--tss-ph-cursor);
+    box-shadow: var(--tss-ph-box-glow);
+    transition: left 160ms steps(4), width 160ms steps(4);
+}
+
+body.tss-theme-phosphor .tss-pivot-tab-close:hover {
+    color: var(--tss-ph-red);
+}
+
+body.tss-theme-phosphor .tss-pivot-tab-needs-saving .tss-pivot-tab-close::after,
+body.tss-theme-phosphor .tss-pivot-tab-mark {
+    border-radius: 0;
+    background: var(--tss-ph-amber);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-phosphor .tss-pivot-line {
+        transition: none;
+    }
+}

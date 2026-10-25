@@ -1,0 +1,62 @@
+/* ==========================================================================
+   Kontrast theme - Pagination
+   --------------------------------------------------------------------------
+   Page keys are 36px squares with a 2px edge; the current page is the
+   accent plate, bold, and underlined, so it reads without colour. The
+   chevrons are ghosts that take an edge; a key that cannot be used is
+   dashed and hatched rather than faded out.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-pagination-button {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+    height: 36px;
+    font-weight: 650;
+}
+
+body.tss-theme-kontrast .tss-pagination-page {
+    width: max(36px, calc(var(--tss-pagination-digits, 1) * 1ch + 18px));
+}
+
+body.tss-theme-kontrast .tss-pagination-ellipsis {
+    height: 36px;
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-pagination-button:hover:not(:disabled) {
+    background: var(--tss-kt-hover);
+}
+
+body.tss-theme-kontrast .tss-pagination-button.tss-active {
+    background: var(--tss-kt-accent);
+    color: var(--tss-kt-on-accent);
+    border-color: var(--tss-kt-accent);
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-kontrast .tss-pagination-nav {
+    border-color: transparent;
+    background: transparent;
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-pagination-nav:hover:not(:disabled) {
+    border-color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-pagination-button.tss-disabled,
+body.tss-theme-kontrast .tss-pagination-button:disabled {
+    opacity: 1;
+    color: var(--tss-kt-disabled);
+    border: var(--tss-kt-border) dashed var(--tss-kt-disabled);
+    background: var(--tss-kt-surface) var(--tss-kt-hatch);
+}
+
+body.tss-theme-kontrast .tss-pagination-status {
+    color: var(--tss-kt-muted);
+}

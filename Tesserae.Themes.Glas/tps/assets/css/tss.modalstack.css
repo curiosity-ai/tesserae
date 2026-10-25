@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Glas theme - ModalStack
+   --------------------------------------------------------------------------
+   The sheets are the Modal's thick glass (tss.modal.css); the scrim behind
+   them is the same veil, with its own soft blur.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-modalstack-scrim {
+    -webkit-backdrop-filter: blur(3px) saturate(120%);
+    backdrop-filter: blur(3px) saturate(120%);
+}
+
+body.tss-theme-glas .tss-modalstack-tab:hover {
+    background: rgba(var(--tss-gl-accent-rgb), 0.1);
+}
+
+body.tss-theme-glas .tss-modalstack-trail-step {
+    border-radius: 999px;
+}
+
+body.tss-theme-glas .tss-modalstack-trail-step:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-modalstack-trail-step:hover {
+    background: rgba(255, 255, 255, 0.08);
+}

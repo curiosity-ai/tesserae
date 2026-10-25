@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Washi theme - TargetBar
+   --------------------------------------------------------------------------
+   A slot of pale wash with its fill laid in flat, corners cut; the target
+   is a fine ink mark.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-targetbar-track {
+    border-radius: 1px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.1);
+}
+
+body.tss-theme-washi .tss-targetbar-fill {
+    border-radius: 1px;
+}
+
+body.tss-theme-washi .tss-targetbar-marker {
+    background: rgb(var(--tss-default-foreground-color-root));
+}

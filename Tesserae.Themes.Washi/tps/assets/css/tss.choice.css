@@ -1,0 +1,64 @@
+/* ==========================================================================
+   Washi theme - ChoiceGroup
+   --------------------------------------------------------------------------
+   An option is a small circle drawn in diluted ink. The chosen one is
+   stamped with a round vermilion seal inside its ring, and its ring is
+   drawn in vermilion too.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-option-container .tss-option-mark {
+    box-sizing: border-box;
+    border: 1px solid rgba(var(--tss-default-foreground-color-root), 0.5);
+    background: rgb(var(--tss-secondary-background-color-root));
+    transition: border-color var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-option-container .tss-option-mark:after,
+body.tss-theme-washi .tss-option-container[class*="tss-fontsize-"] .tss-option-mark:after {
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 56%;
+    height: 56%;
+    border: 0;
+    border-radius: 0;
+    background-color: rgba(var(--tss-default-foreground-color-root), 0.16);
+    -webkit-mask: var(--tss-wa-hanko-round) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-hanko-round) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-option-container:hover input:not(:checked) ~ .tss-option-mark {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-option-container input:checked ~ .tss-option-mark,
+body.tss-theme-washi .tss-option-container:hover input:checked ~ .tss-option-mark {
+    border-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-option-container input:checked ~ .tss-option-mark:after,
+body.tss-theme-washi .tss-option-container:hover input:checked ~ .tss-option-mark:after {
+    background-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-option-container input:focus-visible ~ .tss-option-mark {
+    outline: 1.5px solid var(--tss-wa-thread);
+    outline-offset: 3px;
+}
+
+body.tss-theme-washi .tss-option-container.tss-disabled {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-option-container.tss-disabled .tss-option-mark,
+body.tss-theme-washi .tss-option-container.tss-disabled:hover input ~ .tss-option-mark,
+body.tss-theme-washi .tss-option-container.tss-disabled input:checked ~ .tss-option-mark {
+    border-color: var(--tss-wa-line);
+    background: rgb(var(--tss-disabled-background-color-root));
+}
+
+body.tss-theme-washi .tss-option-container.tss-disabled input:checked ~ .tss-option-mark:after {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+}

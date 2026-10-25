@@ -1,0 +1,48 @@
+/* ==========================================================================
+   Glas theme - Scheduler
+   --------------------------------------------------------------------------
+   The scheduler is a pane of clear glass. Its sticky headers and gutters are
+   where the grid scrolls behind glass, so they are real glass: a thicker
+   tint that blurs what passes under it. Today's date is an accent bead.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-scheduler {
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    background: var(--tss-gl-pane-inner);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas .tss-scheduler-tg-header,
+body.tss-theme-glas .tss-scheduler-tg-corner,
+body.tss-theme-glas .tss-scheduler-tg-allday-caption,
+body.tss-theme-glas .tss-scheduler-tg-gutter,
+body.tss-theme-glas .tss-scheduler-month-head,
+body.tss-theme-glas .tss-scheduler-tl-corner,
+body.tss-theme-glas .tss-scheduler-tl-header,
+body.tss-theme-glas .tss-scheduler-tl-laneheader {
+    background: rgba(248, 248, 255, 0.82);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    backdrop-filter: blur(14px) saturate(160%);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-scheduler-tg-header,
+body.tss-theme-glas.tss-dark-mode .tss-scheduler-tg-corner,
+body.tss-theme-glas.tss-dark-mode .tss-scheduler-tg-allday-caption,
+body.tss-theme-glas.tss-dark-mode .tss-scheduler-tg-gutter,
+body.tss-theme-glas.tss-dark-mode .tss-scheduler-month-head,
+body.tss-theme-glas.tss-dark-mode .tss-scheduler-tl-corner,
+body.tss-theme-glas.tss-dark-mode .tss-scheduler-tl-header,
+body.tss-theme-glas.tss-dark-mode .tss-scheduler-tl-laneheader {
+    background: rgba(26, 26, 54, 0.86);
+}
+
+body.tss-theme-glas .tss-scheduler-today > .tss-scheduler-tl-daylabel > .tss-scheduler-tg-daynum,
+body.tss-theme-glas .tss-scheduler-today .tss-scheduler-tg-daynum {
+    background-image: var(--tss-gl-lozenge-shine);
+    box-shadow: 0 2px 6px -2px rgba(var(--tss-gl-accent-rgb), 0.7);
+}
+
+body.tss-theme-glas .tss-scheduler-bar {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}

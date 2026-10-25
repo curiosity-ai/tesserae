@@ -1,0 +1,47 @@
+/* ==========================================================================
+   Graustufe theme - InlineLabel
+   --------------------------------------------------------------------------
+   A small fact in a ruled box: paper, 1px ink rule, square; an interactive
+   one takes the wash under the pointer and inverts when pressed. A colour
+   mark is shown in grey, like every picture on the panel.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-inlinelabel {
+    border: var(--tss-gs-rule);
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    color: var(--tss-gs-0);
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-inlinelabel-mark-color {
+    border-radius: 0;
+    filter: var(--tss-gs-panel);
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-inlinelabel-interactive:hover,
+body.tss-theme-graustufe .tss-inlinelabel-interactive:focus-visible {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-inlinelabel-interactive:active {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-inlinelabel-interactive:focus-visible {
+    outline: var(--tss-gs-focus);
+}
+
+/* Inside an OmniResult footer it is a line of facts, not a row of boxes: no frame, as in Tesserae. */
+body.tss-theme-graustufe .tss-omniresult-footer .tss-inlinelabel {
+    border-color: transparent;
+    background: transparent;
+}
+
+body.tss-theme-graustufe .tss-omniresult-footer .tss-inlinelabel-interactive:hover,
+body.tss-theme-graustufe .tss-omniresult-footer .tss-inlinelabel-interactive:focus-visible {
+    background: transparent;
+    text-decoration: underline;
+}

@@ -1,0 +1,69 @@
+/* ==========================================================================
+   Phosphor theme - Menu
+   --------------------------------------------------------------------------
+   The same window as a context menu: a double-line frame, rows that light
+   under the pointer, the keyboard row and the open submenu's row in
+   inverse video. A toned row (danger, warning, primary, success) keeps its
+   colour as type; with the cursor on it, the block takes that colour.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-menu {
+    border-radius: 0;
+    border: var(--tss-ph-double);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+}
+
+body.tss-theme-phosphor .tss-menu-item {
+    border-radius: 0;
+    border: 0;
+}
+
+body.tss-theme-phosphor .tss-menu-item:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-menu-item:focus,
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-open {
+    outline: none;
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-menu-item:focus *,
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-open * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-danger:not(.tss-disabled) { color: var(--tss-ph-red); }
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) { color: var(--tss-ph-amber); }
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-primary:not(.tss-disabled) { color: var(--tss-ph-hot); }
+
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus {
+    background: var(--tss-ph-red);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):focus {
+    background: var(--tss-ph-amber);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):focus,
+body.tss-theme-phosphor .tss-menu-item.tss-menu-item-success:not(.tss-disabled):focus {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-menu-header {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-menu-divider {
+    background: var(--tss-ph-faint);
+}

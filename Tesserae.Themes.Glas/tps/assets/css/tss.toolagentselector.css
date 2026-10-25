@@ -1,0 +1,49 @@
+/* ==========================================================================
+   Glas theme - ToolAgentSelector
+   --------------------------------------------------------------------------
+   The trigger is a glass pill; the popup a lens of thick glass with tinted
+   pill rows; the count a small accent lozenge.
+   ========================================================================== */
+
+body.tss-theme-glas .tss-toolagent-trigger {
+    border: none;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px var(--tss-gl-edge);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-toolagent-trigger {
+    background: rgba(255, 255, 255, 0.07);
+}
+
+body.tss-theme-glas .tss-toolagent-trigger:hover,
+body.tss-theme-glas .tss-toolagent-trigger.tss-toolagent-trigger-active {
+    background: rgba(255, 255, 255, 0.75);
+}
+
+body.tss-theme-glas.tss-dark-mode .tss-toolagent-trigger:hover,
+body.tss-theme-glas.tss-dark-mode .tss-toolagent-trigger.tss-toolagent-trigger-active {
+    background: rgba(255, 255, 255, 0.13);
+}
+
+body.tss-theme-glas .tss-toolagent-badge {
+    background: var(--tss-gl-lozenge-shine), rgb(var(--tss-primary-background-color-root));
+    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.85);
+}
+
+body.tss-theme-glas .tss-toolagent-popup {
+    border: none;
+    border-radius: var(--tss-gl-radius-card);
+    background: var(--tss-gl-pane-thick);
+    box-shadow: var(--tss-gl-surface-float);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+}
+
+body.tss-theme-glas .tss-toolagent-item {
+    border-radius: 10px;
+}
+
+body.tss-theme-glas .tss-toolagent-item.tss-toolagent-item-highlight {
+    background: rgba(var(--tss-gl-accent-rgb), 0.12);
+}

@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Zeitung theme - contextcards
+   --------------------------------------------------------------------------
+   Square corners: type is set in rectangles.
+   ========================================================================== */
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-contextcards-header,
+body.tss-theme-zeitung .tss-contextcards-icon,
+body.tss-theme-zeitung .tss-contextcards-list,
+body.tss-theme-zeitung .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard,
+body.tss-theme-zeitung .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-icon,
+body.tss-theme-zeitung .tss-contextcards-more {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Washi theme - HorizontalSeparator
+   --------------------------------------------------------------------------
+   A separator is a brush stroke: pressed in where it starts, tapering to a
+   dry tail. With a label, the two strokes run out from the words, the left
+   one mirrored so both start heavy at the label. The label is a small
+   Mincho caption.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-horizontalseparator-container::before,
+body.tss-theme-washi .tss-horizontalseparator-container::after {
+    height: 4px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.28);
+    -webkit-mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+    mask: var(--tss-wa-stroke) center / 100% 100% no-repeat;
+}
+
+body.tss-theme-washi .tss-horizontalseparator-container::before {
+    transform: scaleX(-1);
+}
+
+body.tss-theme-washi .tss-horizontalseparator {
+    font-family: var(--tss-wa-serif);
+    letter-spacing: 0.04em;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-horizontalseparator.tss-primary {
+    color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-horizontalseparator-container:has(> .tss-horizontalseparator.tss-primary)::before,
+body.tss-theme-washi .tss-horizontalseparator-container:has(> .tss-horizontalseparator.tss-primary)::after {
+    background: var(--tss-wa-shu);
+    opacity: 0.7;
+}

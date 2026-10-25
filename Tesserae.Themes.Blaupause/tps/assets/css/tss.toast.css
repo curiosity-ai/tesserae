@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Blaupause theme - Toast
+   --------------------------------------------------------------------------
+   A toast is a note pinned over the drawing: a square sheet inked round,
+   lifted by its repeated outline, with a tone stripe at its leading edge
+   when it carries one.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-toast-container {
+    border-radius: 0;
+    border: var(--tss-bp-rule-strong);
+    background: var(--tss-bp-sheet);
+    box-shadow: var(--tss-bp-lift);
+}
+
+body.tss-theme-blaupause .tss-toast-fullwidth.tss-toast > .tss-toast-container {
+    border: none;
+    border-bottom: var(--tss-bp-rule);
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-toast-fullwidth.tss-toast-fullwidth-bottom.tss-toast > .tss-toast-container {
+    border-bottom: none;
+    border-top: var(--tss-bp-rule);
+}

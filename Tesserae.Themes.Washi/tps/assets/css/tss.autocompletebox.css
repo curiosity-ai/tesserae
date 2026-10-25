@@ -1,0 +1,21 @@
+/* ==========================================================================
+   Washi theme - AutoCompleteBox
+   --------------------------------------------------------------------------
+   The suggestions are a lifted sheet; the highlighted one takes a wash,
+   the matched letters in ink at a firmer weight.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-autocompletebox-list {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: none;
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-autocompletebox-item.tss-autocompletebox-item-highlight {
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-autocompletebox-match {
+    font-weight: 700;
+}

@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Phosphor theme - ActionCard
+   --------------------------------------------------------------------------
+   An action card is a record on the screen: a single-line box, the
+   identity row ruled off, the icon in a framed cell, facts as a key/value
+   listing with dim keys. Its actions are rows that light under the
+   pointer.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-actioncard-card {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-actioncard-identity {
+    background: transparent;
+    border-bottom: 1px dashed var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-actioncard-icon {
+    border-radius: 0;
+    background: transparent;
+    color: var(--tss-ph-hot);
+    box-shadow: inset 0 0 0 1px var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-actioncard-label {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-actioncard-fact-key {
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-actioncard-action {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-actioncard-action:hover {
+    background: var(--tss-ph-tint);
+    border-color: var(--tss-ph-cursor);
+}

@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Kristall theme - Mermaid diagrams
+   --------------------------------------------------------------------------
+   A diagram sits in the same grouped well as a code block: the system fill
+   with a hairline, 10px radius. Nodes are white cards with a hairline (a
+   lift of glass in the dark appearance), lines the secondary grey, the
+   accent system blue, and the series run through the system palette.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-mermaid {
+    --pele-bg: transparent;
+    --pele-fg: rgb(var(--tss-default-foreground-color-root));
+    --pele-muted: rgb(var(--tss-secondary-foreground-color-root));
+    --pele-line: rgb(var(--tss-secondary-foreground-color-root));
+    --pele-surface: var(--tss-kr-box);
+    --pele-surface-alt: rgb(var(--tss-secondary-background-color-root));
+    --pele-border: var(--tss-kr-hairline);
+    --pele-accent: var(--tss-kr-accent);
+    --pele-critical: var(--tss-kr-red);
+    --pele-error: var(--tss-kr-red);
+    --pele-radius: 8px;
+    border: 0;
+    border-radius: var(--tss-kr-r-box);
+    background: var(--tss-kr-fill-4);
+    box-shadow: inset 0 0 0 0.5px var(--tss-kr-separator);
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-mermaid {
+    --pele-surface: rgb(58, 58, 62);
+    --pele-border: rgba(255, 255, 255, 0.16);
+}

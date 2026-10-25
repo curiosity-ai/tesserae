@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Graustufe theme - CronEditor
+   --------------------------------------------------------------------------
+   Square ruled fields and chips, from the theme's tokens.
+   ========================================================================== */
+
+
+/* Square corners and no blurred shadows (generated from Tesserae's tss.cron.css: every rule that rounds a corner
+   or casts a soft shadow, restated flat). */
+body.tss-theme-graustufe .tss-cron-editor,
+body.tss-theme-graustufe .tss-cron-inline-dropdown.tss-dropdown-container {
+    border-radius: 0;
+}
+
+body.tss-theme-graustufe .tss-cron-open {
+    box-shadow: none;
+}
+

@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Memphis theme - SectionTitle
+   --------------------------------------------------------------------------
+   A page title is a sign: the display face, with its icon set in a
+   sunflower disc with a black line and a hard shadow, like a knob on a
+   Memphis cabinet.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-sectiontitle-title {
+    font-family: var(--tss-mp-display);
+    font-weight: 400;
+    font-size: 24px;
+    letter-spacing: 0.01em;
+    height: 40px;
+    line-height: 40px;
+}
+
+body.tss-theme-memphis .tss-sectiontitle-icon {
+    width: 40px;
+    height: 40px;
+    line-height: 1 !important;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 50%;
+    background: rgb(var(--tss-mp-yellow-root));
+    color: var(--tss-mp-on-accent);
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-mp-pink-root));
+    font-size: 18px !important;
+}
+
+body.tss-theme-memphis .tss-sectiontitle-icon::before {
+    display: block;
+    line-height: 1;
+}
+
+body.tss-theme-memphis .tss-sectiontitle-subtitle {
+    margin-top: 4px;
+    font-size: 15px;
+}

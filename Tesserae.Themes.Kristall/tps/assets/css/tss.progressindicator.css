@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Kristall theme - ProgressIndicator
+   --------------------------------------------------------------------------
+   The desktop's progress bar: a 6px capsule track in the system fill and
+   a solid accent fill with a faint top light; indeterminate is an accent
+   sweep along the same track.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-progressindicator {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--tss-kr-fill-2);
+}
+
+body.tss-theme-kristall .tss-progressindicator > .tss-progressindicator-bar {
+    border-radius: 3px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 70%), var(--tss-kr-accent);
+}
+
+body.tss-theme-kristall .tss-progressindicator > .tss-progressindicator-bar-indeterminate {
+    border-radius: 3px;
+    background: linear-gradient(to right, transparent 0%, var(--tss-kr-accent) 50%, transparent 100%);
+}

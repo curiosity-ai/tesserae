@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Blaupause theme - TrendBadge
+   --------------------------------------------------------------------------
+   A tolerance note: monospace figures in a ruled box, green or red pencil.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-trendbadge {
+    border-radius: 0;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--tss-bp-line);
+    font-family: var(--tss-bp-mono);
+}
+
+body.tss-theme-blaupause .tss-trendbadge-good {
+    background: color-mix(in srgb, rgb(var(--tss-success-background-color-root)) 10%, transparent);
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-blaupause .tss-trendbadge-bad {
+    background: var(--tss-bp-red-soft);
+    box-shadow: inset 0 0 0 1px var(--tss-bp-red);
+    color: var(--tss-bp-red);
+}

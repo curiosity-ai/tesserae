@@ -1,0 +1,220 @@
+/* ==========================================================================
+   Memphis theme - Dropdown
+   --------------------------------------------------------------------------
+   The closed dropdown is a field (tss.textbox.css): a white slab with a 2px
+   black line, its chevron in ink; it steps onto the cobalt shadow when it
+   has focus. The popup is the theme's floating panel, shared with menus
+   and context menus: a black line, a 6px corner and a hard mint shadow
+   (bubblegum at night). Rows are sunflower under the pointer; the chosen
+   row carries a bubblegum stripe at its leading edge and bold type; a
+   multi-select row has a chunky check tile like a CheckBox.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-dropdown-container {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+    transition: box-shadow var(--tss-mp-quick) var(--tss-mp-ease);
+}
+
+body.tss-theme-memphis .tss-dropdown-container:hover {
+    color: rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-dropdown-container:has(> .tss-dropdown:focus-visible) {
+    border-color: var(--tss-mp-line);
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 var(--tss-mp-focus);
+}
+
+body.tss-theme-memphis .tss-dropdown-container > .tss-dropdown:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-memphis .tss-dropdown-container > .tss-dropdown-icon {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-dropdown-container.tss-dropdown-nobg,
+body.tss-theme-memphis .tss-dropdown-container.tss-dropdown-nobg:hover {
+    background: transparent;
+}
+
+body.tss-theme-memphis .tss-dropdown-container.tss-noborder,
+body.tss-theme-memphis .tss-dropdown-container.tss-noborder:hover {
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-dropdown-container.tss-disabled {
+    border: var(--tss-mp-bw) dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: rgb(var(--tss-disabled-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-dropdown-container.tss-disabled .tss-dropdown-item-on-box,
+body.tss-theme-memphis .tss-dropdown-container.tss-disabled > .tss-dropdown-icon {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-dropdown-container.tss-invalid,
+body.tss-theme-memphis .tss-dropdown-container.tss-invalid:hover,
+body.tss-theme-memphis .tss-dropdown-container.tss-invalid:has(> .tss-dropdown:focus-visible) {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-memphis .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border: none;
+}
+
+body.tss-theme-memphis .tss-dropdown-error {
+    font-weight: 700;
+    color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-memphis .tss-dropdown-container.tss-has-validation > .tss-dropdown-error {
+    top: calc(100% + 3px);
+}
+
+/* --------------------------------------------------------------------------
+   The popup
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-memphis .tss-dropdown-popup {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    box-shadow: var(--tss-mp-off) var(--tss-mp-off) 0 0 var(--tss-mp-pop-cast);
+}
+
+body.tss-theme-memphis {
+    --tss-mp-pop-cast: rgb(var(--tss-mp-mint-root));
+}
+
+body.tss-theme-memphis.tss-dark-mode {
+    --tss-mp-pop-cast: rgb(var(--tss-mp-pink-root));
+}
+
+body.tss-theme-memphis .tss-dropdown-item,
+body.tss-theme-memphis .tss-dropdown-popup .tss-dropdown-item {
+    background: transparent;
+    border: var(--tss-mp-bw) solid transparent;
+    border-radius: var(--tss-mp-radius-small);
+}
+
+body.tss-theme-memphis .tss-dropdown-item:hover,
+body.tss-theme-memphis .tss-dropdown-popup .tss-dropdown-item:hover {
+    background: rgb(var(--tss-mp-yellow-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-dropdown-item.tss-dropdown-item-focus,
+body.tss-theme-memphis .tss-dropdown-item:focus,
+body.tss-theme-memphis .tss-dropdown-popup:not(.tss-no-focus) > .tss-dropdown-items > .tss-dropdown-item.tss-dropdown-item-focus {
+    background: rgb(var(--tss-mp-yellow-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item:focus:not(:hover),
+body.tss-theme-memphis .tss-dropdown-popup.tss-no-focus > .tss-dropdown-item.tss-dropdown-item-focus:not(:hover) {
+    background: transparent;
+    border-color: transparent;
+    color: inherit;
+}
+
+body.tss-theme-memphis .tss-dropdown-popup .tss-dropdown-item:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-memphis .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected {
+    font-weight: 700;
+    box-shadow: inset 5px 0 0 0 rgb(var(--tss-mp-pink-root));
+    background-color: var(--tss-mp-pink-pale);
+}
+
+body.tss-theme-memphis .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected:hover {
+    background-color: rgb(var(--tss-mp-yellow-root));
+}
+
+body.tss-theme-memphis .tss-dropdown-item.tss-disabled,
+body.tss-theme-memphis .tss-dropdown-item.tss-disabled:hover {
+    background: transparent;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+/* Multi-select: a chunky check tile per row. */
+body.tss-theme-memphis .tss-dropdown-multi > .tss-dropdown-item:before {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius-small);
+    background-color: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-memphis .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before,
+body.tss-theme-memphis .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before,
+body.tss-theme-memphis.tss-dark-mode .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before,
+body.tss-theme-memphis.tss-dark-mode .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before {
+    background-color: rgb(var(--tss-mp-pink-root));
+    border-color: var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-dropdown-multi > .tss-dropdown-item:after {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.35);
+    border-width: 0 3px 3px 0;
+}
+
+body.tss-theme-memphis .tss-dropdown-multi > .tss-dropdown-item.tss-selected:after {
+    border-color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-dropdown-multi > .tss-dropdown-item.tss-disabled:before {
+    border-style: dashed;
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    background-color: rgb(var(--tss-disabled-background-color-root));
+}
+
+body.tss-theme-memphis .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss-selected:before {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-dropdown-header {
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+}
+
+body.tss-theme-memphis .tss-dropdown-divider {
+    height: 6px;
+    margin: 4px 8px;
+    width: calc(100% - 16px);
+    background: var(--tss-mp-pattern-zigzag-soft) left center / 12px 6px repeat-x;
+}
+
+body.tss-theme-memphis .tss-dropdown-popup .tss-dropdown-searchbox {
+    background: rgb(var(--tss-default-background-color-root));
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    box-shadow: 2px 2px 0 0 var(--tss-mp-focus);
+}
+
+body.tss-theme-memphis .tss-dropdown-popup .tss-dropdown-searchbox .tss-searchbox {
+    height: 28px;
+    line-height: 28px;
+}
+
+body.tss-theme-memphis .tss-dropdown-popup mark {
+    background: rgb(var(--tss-mp-yellow-root));
+    color: var(--tss-mp-on-accent);
+    border-radius: 2px;
+}

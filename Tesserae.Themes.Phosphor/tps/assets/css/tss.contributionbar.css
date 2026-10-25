@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Phosphor theme - ContributionBar
+   --------------------------------------------------------------------------
+   A contribution bar is a stacked row of cells: square, the track a run of
+   faint cells, each segment in its colour with a hairline gap between, the
+   legend's dots square lamps.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-contribution-bar {
+    border-radius: 0;
+    background: rgba(var(--tss-ph-ink-root), 0.1);
+}
+
+body.tss-theme-phosphor .tss-contribution-segment {
+    box-shadow: inset -1px 0 0 rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-contribution-legend-dot {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-contribution-toggle {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-contribution-toggle:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}

@@ -1,0 +1,66 @@
+/* ==========================================================================
+   Memphis theme - ChoiceGroup
+   --------------------------------------------------------------------------
+   A radio is a circle with a 2px black line. Chosen, it fills cobalt
+   (mint at night) with a sunflower dot in its middle, standing on a small
+   hard shadow: a target from a Memphis print. Under the pointer an unchosen
+   one goes sunflower-pale.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-option-container .tss-option-mark {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    background: rgb(var(--tss-secondary-background-color-root));
+    transition: box-shadow var(--tss-mp-quick) var(--tss-mp-ease), background-color 120ms linear;
+}
+
+body.tss-theme-memphis .tss-option-container:hover input:not(:checked) ~ .tss-option-mark {
+    background: var(--tss-mp-yellow-pale);
+}
+
+body.tss-theme-memphis .tss-option-container .tss-option-mark:after {
+    border: none;
+    background: rgba(var(--tss-default-foreground-color-root), 0.25);
+}
+
+body.tss-theme-memphis .tss-option-container:not([class*="tss-fontsize-"]) .tss-option-mark:after,
+body.tss-theme-memphis .tss-option-container.tss-fontsize-small .tss-option-mark:after {
+    left: 3px;
+    top: 3px;
+    width: 8px;
+    height: 8px;
+}
+
+body.tss-theme-memphis .tss-option-container input:checked ~ .tss-option-mark,
+body.tss-theme-memphis .tss-option-container:hover input:checked ~ .tss-option-mark {
+    border-color: var(--tss-mp-line);
+    background: rgb(var(--tss-mp-cobalt-root));
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis.tss-dark-mode .tss-option-container input:checked ~ .tss-option-mark,
+body.tss-theme-memphis.tss-dark-mode .tss-option-container:hover input:checked ~ .tss-option-mark {
+    background: rgb(var(--tss-mp-mint-root));
+}
+
+body.tss-theme-memphis .tss-option-container input:checked ~ .tss-option-mark:after,
+body.tss-theme-memphis .tss-option-container:hover input:checked ~ .tss-option-mark:after {
+    background: rgb(var(--tss-mp-yellow-root));
+    box-shadow: 0 0 0 1.5px var(--tss-mp-line);
+    border: none;
+}
+
+body.tss-theme-memphis .tss-option-container input:focus-visible ~ .tss-option-mark {
+    outline: 3px solid var(--tss-mp-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-memphis .tss-option-container.tss-disabled .tss-option-mark {
+    border: var(--tss-mp-bw) dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: rgb(var(--tss-disabled-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-option-container.tss-disabled input:checked ~ .tss-option-mark:after {
+    background: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}

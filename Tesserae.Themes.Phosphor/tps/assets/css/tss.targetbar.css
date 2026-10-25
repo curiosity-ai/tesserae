@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Phosphor theme - TargetBar
+   --------------------------------------------------------------------------
+   A target bar is a progress row of cells with a tick for the target; the
+   value reads in the bright phosphor.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-targetbar {
+    --tss-targetbar-color: var(--tss-ph-cursor);
+    --tss-targetbar-thickness: 6px;
+}
+
+body.tss-theme-phosphor .tss-targetbar-track {
+    background: repeating-linear-gradient(90deg, rgba(var(--tss-ph-ink-root), 0.14) 0 4px, transparent 4px 6px);
+}
+
+body.tss-theme-phosphor .tss-targetbar-fill {
+    background: repeating-linear-gradient(90deg, var(--tss-targetbar-color) 0 4px, transparent 4px 6px);
+}
+
+body.tss-theme-phosphor .tss-targetbar-marker {
+    background: var(--tss-ph-hot);
+    opacity: 1;
+}
+
+body.tss-theme-phosphor .tss-targetbar-value {
+    font-family: var(--tss-ph-mono);
+    color: var(--tss-ph-hot);
+}

@@ -1,0 +1,134 @@
+/* ==========================================================================
+   Kristall theme - Modal
+   --------------------------------------------------------------------------
+   A modal is a sheet: a window-sized pane of frosted material with an 18px
+   radius, a 1px inner stroke of light and a deep, soft shadow, dropping in
+   from the title area on a short ease (a few pixels of travel and a touch
+   of scale, never a bounce). The page behind dims a little and keeps its
+   colour. A modal with a title wears the window's three traffic lights at
+   the start of its header, purely decorative; the header and footer are
+   unified with the sheet, ruled off by hairlines only when they hold
+   something.
+   ========================================================================== */
+
+body.tss-theme-kristall {
+    --tss-kr-traffic-lights:
+        radial-gradient(circle at 6px 6px, rgb(255, 95, 87) 0 5.5px, rgba(0, 0, 0, 0.12) 5.6px 6px, transparent 6.2px),
+        radial-gradient(circle at 26px 6px, rgb(254, 188, 46) 0 5.5px, rgba(0, 0, 0, 0.12) 5.6px 6px, transparent 6.2px),
+        radial-gradient(circle at 46px 6px, rgb(40, 200, 64) 0 5.5px, rgba(0, 0, 0, 0.12) 5.6px 6px, transparent 6.2px);
+}
+
+body.tss-theme-kristall .tss-modal-container {
+    background-color: rgba(0, 0, 0, 0.1);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-modal-container {
+    background-color: rgba(0, 0, 0, 0.32);
+}
+
+body.tss-theme-kristall .tss-modal-container.tss-dark {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+body.tss-theme-kristall .tss-modal-container.tss-modal-modeless {
+    background-color: transparent;
+}
+
+body.tss-theme-kristall .tss-modal {
+    background: var(--tss-kr-sheet);
+    -webkit-backdrop-filter: var(--tss-kr-blur);
+    backdrop-filter: var(--tss-kr-blur);
+    border-radius: var(--tss-kr-r-sheet);
+    box-shadow: var(--tss-kr-rim), var(--tss-kr-shadow-sheet);
+}
+
+body.tss-theme-kristall .tss-modal.tss-embedded {
+    box-shadow: var(--tss-kr-shadow-box);
+    border-radius: var(--tss-kr-r-box);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--tss-kr-box);
+}
+
+body.tss-theme-kristall .tss-modal-animate {
+    animation: 0.32s cubic-bezier(0.2, 0.9, 0.25, 1) 0s 1 normal none running tss-kr-sheet-in;
+}
+
+@keyframes tss-kr-sheet-in {
+    0% {
+        transform: translateY(-28px) scale(0.98);
+        opacity: 0;
+    }
+    100% {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+body.tss-theme-kristall .tss-modal-header,
+body.tss-theme-kristall .tss-modal-footer {
+    background: transparent;
+}
+
+body.tss-theme-kristall .tss-modal-header {
+    min-height: 44px;
+    padding: 0 12px 0 16px;
+}
+
+body.tss-theme-kristall .tss-modal-footer {
+    padding: 0 16px;
+}
+
+body.tss-theme-kristall .tss-modal-content {
+    padding: 0 16px;
+}
+
+/* The traffic lights, before the title. */
+body.tss-theme-kristall .tss-modal-header:has(> .tss-modal-header-content:not(:empty))::before {
+    content: "";
+    flex: 0 0 52px;
+    height: 12px;
+    margin-right: 16px;
+    background: var(--tss-kr-traffic-lights);
+    pointer-events: none;
+}
+
+body.tss-theme-kristall .tss-modal-header-content,
+body.tss-theme-kristall .tss-modal-header-content .tss-textblock {
+    font-weight: 600;
+}
+
+/* Header commands: borderless glyphs that get a frosted circle under the pointer. */
+body.tss-theme-kristall .tss-modal-header-commands > .tss-btn,
+body.tss-theme-kristall .tss-modal-header-commands > button,
+body.tss-theme-kristall .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-kristall .tss-modal-left-header-commands > button {
+    border-radius: var(--tss-kr-r-pill);
+    color: var(--tss-kr-label-2);
+    min-width: 28px;
+    height: 28px;
+}
+
+body.tss-theme-kristall .tss-modal-header-commands > .tss-btn:hover,
+body.tss-theme-kristall .tss-modal-header-commands > button:hover,
+body.tss-theme-kristall .tss-modal-left-header-commands > .tss-btn:hover,
+body.tss-theme-kristall .tss-modal-left-header-commands > button:hover {
+    background-color: var(--tss-kr-fill-3);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-kristall .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-kristall .tss-modal-header-commands > button:active,
+body.tss-theme-kristall .tss-modal-left-header-commands > .tss-btn:active,
+body.tss-theme-kristall .tss-modal-left-header-commands > button:active {
+    background-color: var(--tss-kr-fill);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-kristall .tss-modal-animate {
+        animation: none;
+    }
+}

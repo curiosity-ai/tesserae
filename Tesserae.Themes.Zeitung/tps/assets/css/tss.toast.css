@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Zeitung theme - Toast
+   --------------------------------------------------------------------------
+   A toast is a stop-press slip: a square of newsprint framed in ink, laid on
+   the corner of the page with the faintest lift. Its banner (tss.banner.css)
+   brings the tone as a rule down its leading edge.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-toast-container {
+    border-radius: 0;
+    background: var(--tss-zt-paper);
+    box-shadow: var(--tss-zt-float);
+}
+
+/* An information toast is news, not an alarm: it prints in ink, and the spot red is left to errors. */
+body.tss-theme-zeitung .tss-toast-information > .tss-toast-container > .tss-banner-primary {
+    --tss-banner-accent: var(--tss-zt-ink);
+    --tss-banner-surface: var(--tss-zt-paper);
+}

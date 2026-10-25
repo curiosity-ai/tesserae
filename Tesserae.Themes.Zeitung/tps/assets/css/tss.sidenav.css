@@ -1,0 +1,66 @@
+/* ==========================================================================
+   Zeitung theme - Sidenav
+   --------------------------------------------------------------------------
+   The narrow rail is the paper's ear: newsprint ruled off by an ink
+   hairline, square icon slugs that are framed in ink under the pointer, and
+   the current one reversed out of ink. A notification dot is a small square
+   of spot red. The brand slug is framed in ink.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-sidenav {
+    background-color: rgb(var(--tss-sidebar-background-color-root));
+    border-right: 1px solid var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-sidenav-footer {
+    border-top-color: var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:not(.tss-disabled):hover {
+    background: transparent;
+    border-color: var(--tss-zt-ink);
+    box-shadow: none;
+}
+
+body.tss-theme-zeitung .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn,
+body.tss-theme-zeitung .tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:hover {
+    background: var(--tss-zt-ink);
+    border-color: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-sidenav-btn-wrap.tss-sidenav-selected .tss-sidenav-btn-icon,
+body.tss-theme-zeitung .tss-sidenav-btn-wrap.tss-sidenav-selected .tss-sidenav-btn-label {
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-sidenav-btn-label > span,
+body.tss-theme-zeitung .tss-sidenav-btn-label {
+    font-variant-caps: normal;
+    letter-spacing: normal;
+}
+
+body.tss-theme-zeitung .tss-sidenav-btn-dot {
+    border-radius: 0;
+    background: var(--tss-zt-red);
+    box-shadow: 0 0 0 2px rgb(var(--tss-sidebar-background-color-root));
+}
+
+body.tss-theme-zeitung .tss-sidenav-btn-wrap.tss-sidenav-btn-brand > .tss-btn.tss-sidenav-btn {
+    border-radius: 0;
+    background: transparent;
+    border-color: var(--tss-zt-ink);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn,
+body.tss-theme-zeitung .tss-sidenav-btn-wrap.tss-sidenav-btn-brand > .tss-btn.tss-sidenav-btn {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

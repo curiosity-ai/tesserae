@@ -1,0 +1,92 @@
+/* ==========================================================================
+   Kristall theme - Slider
+   --------------------------------------------------------------------------
+   The desktop slider: a thin 4px track in the system fill, filled with the
+   accent up to the thumb, and a round white knob with a hairline edge and
+   a soft shadow. The knob does not change colour under the pointer.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-slider-fake-background,
+body.tss-theme-kristall .tss-slider-container input:hover ~ .tss-slider-fake-background {
+    top: 6px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--tss-kr-fill);
+}
+
+body.tss-theme-kristall .tss-slider-fake-progress,
+body.tss-theme-kristall .tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    top: 6px;
+    height: 4px;
+    border-radius: 2px 0 0 2px;
+    background: var(--tss-kr-accent);
+}
+
+body.tss-theme-kristall .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress,
+body.tss-theme-kristall .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-progress {
+    background: var(--tss-kr-label-3);
+}
+
+body.tss-theme-kristall .tss-slider-container input.tss-disabled ~ .tss-slider-fake-background {
+    background: var(--tss-kr-fill-4);
+}
+
+body.tss-theme-kristall .tss-slider::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 0;
+    background: rgb(255, 255, 255);
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.16), 0 1px 2px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.tss-theme-kristall .tss-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 0;
+    background: rgb(255, 255, 255);
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.16), 0 1px 2px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.tss-theme-kristall .tss-slider:active::-webkit-slider-thumb {
+    background: rgb(244, 244, 246);
+}
+
+body.tss-theme-kristall .tss-slider.tss-disabled::-webkit-slider-thumb {
+    background: rgb(240, 240, 242);
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.12);
+}
+
+body.tss-theme-kristall .tss-slider:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-kristall .tss-slider:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.16), 0 1px 2px rgba(0, 0, 0, 0.2), var(--tss-kr-focus);
+}
+
+body.tss-theme-kristall .tss-slider:hover,
+body.tss-theme-kristall .tss-slider.tss-disabled {
+    background-color: transparent;
+}
+
+/* Vertical: the same 4px rail standing up. */
+body.tss-theme-kristall .tss-slider-container.tss-vertical .tss-slider-fake-background {
+    left: 10px;
+    width: 4px;
+    height: 100%;
+    top: 0;
+}
+
+body.tss-theme-kristall .tss-slider-container.tss-vertical .tss-slider-fake-progress {
+    left: 10px;
+    width: 4px;
+    top: auto;
+    border-radius: 0 0 2px 2px;
+}
+
+body.tss-theme-kristall .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+}

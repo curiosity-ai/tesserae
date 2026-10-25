@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Washi theme - Toast
+   --------------------------------------------------------------------------
+   A toast is a note slipped onto the page: a small sheet with a soft
+   shadow. What it says is a Banner (tss.banner.css), so its kind is told
+   the banner's way: a brush stroke of dye down its leading edge (indigo,
+   moss, tea-gold, crimson) as well as by its icon.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-toast-container {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-float);
+}
+
+body.tss-theme-washi .tss-toast-fullwidth.tss-toast > .tss-toast-container {
+    border-radius: 0;
+    border-bottom-color: var(--tss-wa-line);
+}
+
+body.tss-theme-washi .tss-toast-fullwidth.tss-toast-fullwidth-bottom.tss-toast > .tss-toast-container {
+    border-top-color: var(--tss-wa-line);
+}

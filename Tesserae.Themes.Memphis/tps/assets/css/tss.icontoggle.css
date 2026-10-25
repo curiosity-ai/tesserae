@@ -1,0 +1,64 @@
+/* ==========================================================================
+   Memphis theme - IconToggle
+   --------------------------------------------------------------------------
+   The same tray as a SegmentedPivot: a pill with a 2px black line, hatched
+   inside. The chosen item is a solid mint pill with a black line and a
+   small hard shadow; others are ink glyphs that go sunflower-pale under
+   the pointer.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-icon-toggle {
+    --tss-icon-toggle-radius: 999px;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: var(--tss-mp-pattern-hatch-soft);
+    background-size: 10px 10px;
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-icon-toggle > .tss-btn.tss-icon-toggle-item {
+    border: var(--tss-mp-bw) solid transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    transform: none;
+}
+
+body.tss-theme-memphis .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    background-color: var(--tss-mp-yellow-pale);
+    border-color: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+    transform: none;
+}
+
+body.tss-theme-memphis .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover i {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-memphis .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-memphis.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-memphis.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    background: rgb(var(--tss-mp-mint-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+    transform: none;
+}
+
+body.tss-theme-memphis .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected i {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):not(:hover) {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
+    outline: 3px solid var(--tss-mp-focus);
+    outline-offset: 1px;
+}
+
+body.tss-theme-memphis .tss-icon-toggle.tss-rounded-sm,
+body.tss-theme-memphis .tss-icon-toggle.tss-rounded-md {
+    --tss-icon-toggle-radius: var(--tss-mp-radius);
+}

@@ -1,0 +1,233 @@
+/* ==========================================================================
+   Phosphor theme - Dropdown
+   --------------------------------------------------------------------------
+   The closed dropdown is a field like a text box (a wash over an underline)
+   with a "▾" in place of the chevron icon's softness: the arrow is kept,
+   lit while the list is open. The list is a window: a double-line frame,
+   no rounding, the screen's bloom or the paper's offset carbon. Rows light
+   faintly under the pointer; the keyboard row is the cursor, an inverse
+   block; the chosen row of a single-select is marked "▸". A multi-select
+   draws "[ ]" cells that fill with a block, like the checkbox.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-dropdown-container {
+    border: 0;
+    border-bottom: 1px solid var(--tss-ph-rule);
+    border-radius: 0;
+    background: var(--tss-ph-field);
+}
+
+body.tss-theme-phosphor .tss-dropdown-container:hover {
+    border-bottom-color: var(--tss-ph-rule-hi);
+}
+
+body.tss-theme-phosphor .tss-dropdown-container.tss-dropdown-nobg {
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-dropdown-container:has(> .tss-dropdown[aria-expanded="true"]),
+body.tss-theme-phosphor .tss-dropdown-container:has(> .tss-dropdown:focus-visible) {
+    border-bottom-color: var(--tss-ph-cursor);
+    background: var(--tss-ph-field-focus);
+    box-shadow: inset 0 -1px 0 0 var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-dropdown-container > .tss-dropdown:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-phosphor .tss-dropdown-container:has(> .tss-dropdown[aria-expanded="true"]) > .tss-dropdown-icon {
+    color: var(--tss-ph-hot);
+}
+
+body.tss-theme-phosphor .tss-dropdown-container.tss-noborder,
+body.tss-theme-phosphor .tss-dropdown-container.tss-noborder:hover {
+    border-bottom-color: transparent;
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-dropdown-container.tss-disabled {
+    border-bottom: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-dropdown-container.tss-invalid,
+body.tss-theme-phosphor .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border-color: transparent;
+    border-bottom-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-phosphor .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border: 0;
+}
+
+body.tss-theme-phosphor .tss-dropdown-error:not(:empty)::before {
+    content: "! ";
+    font-weight: 600;
+}
+
+/* The value shown in the box is a clone of the option's button: plain text here, no brackets, no block. */
+body.tss-theme-phosphor .tss-dropdown-item-on-box .tss-btn > span:not(:empty)::before,
+body.tss-theme-phosphor .tss-dropdown-item-on-box .tss-btn > span:not(:empty)::after,
+body.tss-theme-phosphor .tss-dropdown-item-on-box .tss-btn::before,
+body.tss-theme-phosphor .tss-dropdown-popup .tss-btn > span:not(:empty)::before,
+body.tss-theme-phosphor .tss-dropdown-popup .tss-btn > span:not(:empty)::after,
+body.tss-theme-phosphor .tss-dropdown-popup .tss-btn::before {
+    content: none;
+}
+
+body.tss-theme-phosphor .tss-dropdown-item-on-box .tss-btn,
+body.tss-theme-phosphor .tss-dropdown-item-on-box .tss-btn:hover,
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item .tss-btn,
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item .tss-btn:hover {
+    background: transparent;
+    border-color: transparent;
+    color: inherit;
+    text-shadow: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   The list: a window
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-phosphor .tss-dropdown-popup {
+    border-radius: 0;
+    border: var(--tss-ph-double);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+    padding: 3px;
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item {
+    border-radius: 0;
+    border: 0;
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item:hover {
+    background: var(--tss-ph-tint);
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item:focus,
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item.tss-dropdown-item-focus,
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item.tss-dropdown-item-focus:hover {
+    border: 0;
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+    outline: none;
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item.tss-dropdown-item-focus *,
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-item:focus * {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup.tss-no-focus .tss-dropdown-item.tss-dropdown-item-focus {
+    background: transparent;
+    color: inherit;
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup.tss-no-focus .tss-dropdown-item.tss-dropdown-item-focus * {
+    color: inherit;
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup.tss-no-focus .tss-dropdown-item.tss-dropdown-item-focus:hover {
+    background: var(--tss-ph-tint);
+}
+
+/* The chosen row of a single-select: a "▸" in the margin, the label lit. */
+body.tss-theme-phosphor .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item {
+    position: relative;
+    padding-left: 22px;
+}
+
+body.tss-theme-phosphor .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected {
+    color: var(--tss-ph-hot);
+    font-weight: 500;
+}
+
+body.tss-theme-phosphor .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected::before {
+    content: "▸";
+    position: absolute;
+    left: 7px;
+    top: 50%;
+    transform: translateY(-52%);
+}
+
+body.tss-theme-phosphor .tss-dropdown-item.tss-disabled,
+body.tss-theme-phosphor .tss-dropdown-item.tss-disabled:hover {
+    background: transparent;
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-dropdown-header {
+    background: transparent;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-dropdown-divider {
+    background: var(--tss-ph-faint);
+}
+
+/* Multi-select: "[ ]" cells. */
+body.tss-theme-phosphor .tss-dropdown-multi > .tss-dropdown-item:before {
+    border-radius: 0;
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    border: 1px solid var(--tss-ph-rule-hi);
+}
+
+body.tss-theme-phosphor .tss-dropdown-multi > .tss-dropdown-item:after {
+    display: none !important;
+}
+
+body.tss-theme-phosphor .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before,
+body.tss-theme-phosphor .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before,
+body.tss-theme-phosphor .tss-dropdown-multi > .tss-dropdown-item:focus.tss-selected:before,
+body.tss-theme-phosphor .tss-dropdown-popup.tss-no-focus > .tss-dropdown-items.tss-dropdown-multi > .tss-dropdown-item.tss-selected:before {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    box-shadow: inset 0 0 0 2px rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-items.tss-dropdown-multi > .tss-dropdown-item.tss-dropdown-item-focus:before {
+    border-color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-items.tss-dropdown-multi > .tss-dropdown-item.tss-dropdown-item-focus.tss-selected:before {
+    background: var(--tss-ph-on-cursor);
+    box-shadow: inset 0 0 0 2px var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-dropdown-multi > .tss-dropdown-item.tss-disabled:before,
+body.tss-theme-phosphor .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss-selected:before {
+    background: transparent;
+    border: 1px dashed rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+/* The search line at the top of the list: a prompt. */
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-searchbox {
+    border: 0;
+    border-bottom: 1px solid var(--tss-ph-rule);
+    background: var(--tss-ph-field);
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border: 0;
+    border-bottom: 1px solid var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-dropdown-popup mark {
+    background: rgba(var(--tss-ph-amber-root), 0.3);
+    color: inherit;
+}

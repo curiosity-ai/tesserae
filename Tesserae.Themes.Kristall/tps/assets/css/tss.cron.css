@@ -1,0 +1,38 @@
+/* Kristall theme - CronEditor: the closed editor is a pop-up button face; its inline choices are accent-tinted capsules. */
+
+body.tss-theme-kristall .tss-cron-editor {
+    border: 0;
+    border-radius: 8px;
+    background: var(--tss-kr-control);
+    box-shadow: var(--tss-kr-shadow-control);
+}
+
+body.tss-theme-kristall .tss-cron-desc {
+    border-bottom: 1px dotted var(--tss-kr-label-3);
+}
+
+body.tss-theme-kristall .tss-cron-desc:hover {
+    border-bottom-color: var(--tss-kr-accent);
+    color: var(--tss-kr-accent);
+}
+
+body.tss-theme-kristall .tss-cron-open {
+    border-radius: var(--tss-kr-r-pop);
+    background: var(--tss-kr-popover);
+    -webkit-backdrop-filter: var(--tss-kr-blur);
+    backdrop-filter: var(--tss-kr-blur);
+    box-shadow: var(--tss-kr-rim), var(--tss-kr-shadow-pop);
+}
+
+body.tss-theme-kristall .tss-cron-inline-dropdown.tss-dropdown-container,
+body.tss-theme-kristall .tss-cron-inline-dropdown.tss-dropdown-container:hover {
+    background: var(--tss-kr-selection);
+    color: var(--tss-kr-accent);
+    border-radius: var(--tss-kr-r-pill);
+    box-shadow: none;
+}
+
+body.tss-theme-kristall.tss-dark-mode .tss-cron-inline-dropdown.tss-dropdown-container,
+body.tss-theme-kristall.tss-dark-mode .tss-cron-inline-dropdown.tss-dropdown-container:hover {
+    color: rgb(110, 180, 255);
+}

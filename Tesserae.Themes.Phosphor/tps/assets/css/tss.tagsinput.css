@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Phosphor theme - TagsInput
+   --------------------------------------------------------------------------
+   A tags field is a prompt line holding chips: the field's wash and
+   underline, chips as square framed cells, each with an "x" cell that
+   inverts under the pointer.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-tagsinput {
+    border: 0;
+    border-bottom: 1px solid var(--tss-ph-rule);
+    border-radius: 0;
+    background: var(--tss-ph-field);
+}
+
+body.tss-theme-phosphor .tss-tagsinput:focus-within {
+    border-bottom-color: var(--tss-ph-cursor);
+    box-shadow: inset 0 -1px 0 0 var(--tss-ph-cursor);
+    background: var(--tss-ph-field-focus);
+}
+
+body.tss-theme-phosphor .tss-tagsinput-chip {
+    border-radius: 0;
+    background: transparent;
+    border: var(--tss-ph-single);
+}
+
+body.tss-theme-phosphor .tss-tagsinput-chip-remove {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-tagsinput-chip-remove:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-tagsinput-entry {
+    caret-color: var(--tss-ph-cursor);
+    caret-shape: block;
+}

@@ -1,0 +1,112 @@
+/* ==========================================================================
+   Kontrast theme - Markdown
+   --------------------------------------------------------------------------
+   Long-form reading at 15px / 1.6 with a measure capped near 75 characters
+   for paragraphs and lists. Links are always underlined; headings are bold
+   ink with 3px rules under h1 and h2; quotes carry a 6px ink bar and stay
+   in ink (not grey); code is set in the mono on a surface with a 2px edge;
+   tables are ruled at 2px with a 3px ink header rule.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-markdown {
+    color: var(--tss-kt-ink);
+    line-height: 1.6;
+}
+
+body.tss-theme-kontrast .tss-markdown p,
+body.tss-theme-kontrast .tss-markdown li {
+    max-width: 75ch;
+}
+
+body.tss-theme-kontrast .tss-markdown a {
+    color: var(--tss-kt-link);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-kontrast .tss-markdown a:hover {
+    text-decoration-thickness: 4px;
+}
+
+body.tss-theme-kontrast .tss-markdown h1,
+body.tss-theme-kontrast .tss-markdown h2 {
+    border-bottom: var(--tss-kt-border-strong) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-markdown h1,
+body.tss-theme-kontrast .tss-markdown h2,
+body.tss-theme-kontrast .tss-markdown h3,
+body.tss-theme-kontrast .tss-markdown h4,
+body.tss-theme-kontrast .tss-markdown h5,
+body.tss-theme-kontrast .tss-markdown h6 {
+    font-weight: 800;
+    color: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-markdown hr {
+    height: var(--tss-kt-border-strong);
+    background: var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-markdown blockquote {
+    color: var(--tss-kt-ink);
+    border-left: var(--tss-kt-bar) solid var(--tss-kt-ink);
+    background: var(--tss-kt-surface);
+    padding: 8px 16px;
+    font-style: italic;
+}
+
+body.tss-theme-kontrast .tss-markdown table th,
+body.tss-theme-kontrast .tss-markdown table td {
+    border: var(--tss-kt-border) solid var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-markdown table th {
+    font-weight: 750;
+    border-bottom: var(--tss-kt-border-strong) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-markdown table tr {
+    border-top: var(--tss-kt-border) solid var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-markdown code {
+    background: var(--tss-kt-surface);
+    color: var(--tss-kt-ink);
+    border: 1px solid var(--tss-kt-line);
+    border-radius: var(--tss-kt-radius-sm);
+    font-size: 0.93em;
+}
+
+body.tss-theme-kontrast .tss-markdown pre {
+    background: var(--tss-kt-surface);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    line-height: 1.55;
+}
+
+body.tss-theme-kontrast .tss-markdown pre code {
+    border: 0;
+    background: transparent;
+}
+
+body.tss-theme-kontrast .tss-markdown kbd {
+    background: var(--tss-kt-paper);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-bottom-width: 4px;
+    border-radius: var(--tss-kt-radius);
+    color: var(--tss-kt-ink);
+    font-weight: 700;
+}
+
+body.tss-theme-kontrast .tss-markdown li > input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--tss-kt-accent);
+}
+
+body.tss-theme-kontrast .tss-markdown mark {
+    background: var(--tss-kt-signal);
+    color: var(--tss-kt-on-signal);
+}

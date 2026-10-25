@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Graustufe theme - ActionCard
+   --------------------------------------------------------------------------
+   A leaf with a dithered edge: the identity on the left (its icon a square
+   ruled stamp, its name in the book face), the actions on the right as
+   square ruled rows that invert under the pointer.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-actioncard-card {
+    border-radius: 0;
+    background: var(--tss-gs-15);
+    border-image: var(--tss-gs-edge);
+}
+
+body.tss-theme-graustufe .tss-actioncard-icon {
+    border-radius: 0;
+    box-shadow: inset 0 0 0 1px var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-actioncard-label {
+    font-family: var(--tss-gs-text);
+    font-weight: 700;
+}
+
+body.tss-theme-graustufe .tss-actioncard-title {
+    font-family: var(--tss-gs-text);
+    font-style: italic;
+    color: var(--tss-gs-6);
+}
+
+body.tss-theme-graustufe .tss-actioncard-action,
+body.tss-theme-graustufe .tss-actioncard-more,
+body.tss-theme-graustufe .tss-actioncard-action-icon {
+    border-radius: 0;
+    font-family: var(--tss-gs-ui);
+}
+
+body.tss-theme-graustufe .tss-actioncard-action {
+    border-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-actioncard-action:hover,
+body.tss-theme-graustufe .tss-actioncard-more:hover {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-actioncard-action:hover * {
+    color: var(--tss-gs-15);
+}
+
+body.tss-theme-graustufe .tss-actioncard-skeleton-line {
+    border-radius: 0;
+    background: var(--tss-gs-bayer-25), var(--tss-gs-15);
+    opacity: 0.55;
+}

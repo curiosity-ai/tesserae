@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Blaupause theme - Questionnaire
+   --------------------------------------------------------------------------
+   A questionnaire is a ruled form: options are ruled cells, the chosen one
+   filled with ink; the answered badge swiped with the highlighter.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-questionnaire,
+body.tss-theme-blaupause .tss-questionnaire-answered-badge {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-questionnaire {
+    border-color: var(--tss-bp-line);
+    background: var(--tss-bp-ticks), var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-questionnaire-option {
+    border-radius: 0;
+    border-color: var(--tss-bp-line);
+    background: var(--tss-bp-sheet);
+    color: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-questionnaire-option:hover:not(:disabled) {
+    background: var(--tss-bp-wash);
+    border-color: var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+    background: var(--tss-bp-ink);
+    border-color: var(--tss-bp-ink);
+    color: var(--tss-bp-on-ink);
+}
+
+body.tss-theme-blaupause .tss-questionnaire-answered-badge {
+    background: var(--tss-bp-yellow-wash);
+    color: var(--tss-bp-text);
+}

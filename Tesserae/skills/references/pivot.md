@@ -41,6 +41,13 @@ var pivot = Pivot()
     .Centered();
 ```
 
+## Overflow buttons
+
+The scroll arrows and the "All tabs" button beside the strip are named (`Scroll tabs left`,
+`Scroll tabs right`, `All tabs`). The arrows are for the pointer and never Tab stops - the arrow
+keys move along the tabs and scroll the strip; "All tabs" is a Tab stop only while some tab is out
+of view, and opened from the keyboard its menu takes the focus.
+
 ## The close cross, and the unsaved marker that stands in for it
 
 A `closeable: true` tab ends in its close cross, which is simply there — the tab's own

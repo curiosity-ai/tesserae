@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Phosphor theme - NotificationCenter
+   --------------------------------------------------------------------------
+   The bell is a square cell; the count is an inverse red cell; status dots
+   are square lamps; an unread row carries a lit bar at its edge.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-notif-bell {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-notif-bell:hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-notif-badge {
+    border-radius: 0;
+    background: var(--tss-ph-red);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-notif-dot {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-notif-dot.tss-notif-info { background: var(--tss-ph-cursor); }
+body.tss-theme-phosphor .tss-notif-dot.tss-notif-warning { background: var(--tss-ph-amber); }
+body.tss-theme-phosphor .tss-notif-dot.tss-notif-danger { background: var(--tss-ph-red); }
+
+body.tss-theme-phosphor .tss-notif-unread {
+    background: var(--tss-ph-tint) !important;
+    box-shadow: inset 3px 0 0 0 var(--tss-ph-cursor);
+}

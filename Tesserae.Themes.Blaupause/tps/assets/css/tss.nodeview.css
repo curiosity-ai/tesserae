@@ -1,0 +1,67 @@
+/* ==========================================================================
+   Blaupause theme - NodeView
+   --------------------------------------------------------------------------
+   A node graph is a schematic on the drafting board: nodes are square
+   boxes of sheet with an ink line and a lettered title strip, connections
+   inked wires, ports small drawn circles, the canvas the drafting grid.
+   Selection is the red pencil.
+   ========================================================================== */
+
+/* Square corners: drawn corners are square. */
+body.tss-theme-blaupause .tss-nodeview .baklava-node-palette section .baklava-node.--palette {
+    border-radius: 0;
+}
+
+body.tss-theme-blaupause .tss-nodeview,
+body.tss-theme-blaupause.tss-dark-mode .tss-nodeview {
+    --baklava-control-color-primary: var(--tss-bp-ink);
+    --baklava-control-color-error: var(--tss-bp-red);
+    --baklava-control-color-background: var(--tss-bp-sheet);
+    --baklava-control-color-foreground: var(--tss-bp-text);
+    --baklava-control-color-hover: rgb(var(--tss-default-background-hover-color-root));
+    --baklava-control-color-active: rgb(var(--tss-default-background-active-color-root));
+    --baklava-control-color-disabled-foreground: rgb(var(--tss-disabled-foreground-color-root));
+    --baklava-control-border-radius: 0;
+    --baklava-sidebar-color-background: var(--tss-bp-sheet);
+    --baklava-sidebar-color-foreground: var(--tss-bp-text);
+    --baklava-node-color-background: var(--tss-bp-sheet);
+    --baklava-node-color-foreground: var(--tss-bp-text);
+    --baklava-node-color-hover: var(--tss-bp-wash);
+    --baklava-node-color-selected: var(--tss-bp-red);
+    --baklava-node-title-color-background: var(--tss-bp-paper);
+    --baklava-node-title-color-foreground: var(--tss-bp-text);
+    --baklava-group-node-title-color-background: var(--tss-bp-paper);
+    --baklava-group-node-title-color-foreground: var(--tss-bp-text);
+    --baklava-node-interface-port-color: var(--tss-bp-ink);
+    --baklava-node-interface-port-tooltip-color-foreground: var(--tss-bp-on-ink);
+    --baklava-node-interface-port-tooltip-color-background: var(--tss-bp-ink);
+    --baklava-node-border-radius: 0;
+    --baklava-color-connection-default: var(--tss-bp-line-strong);
+    --baklava-color-connection-allowed: rgb(var(--tss-success-background-color-root));
+    --baklava-color-connection-forbidden: var(--tss-bp-red);
+    --baklava-editor-background-pattern-default: var(--tss-bp-paper);
+    --baklava-editor-background-pattern-line: var(--tss-bp-grid-coarse);
+    --baklava-editor-background-pattern-black: var(--tss-bp-grid-coarse);
+    --baklava-context-menu-background: var(--tss-bp-sheet);
+    --baklava-context-menu-shadow: var(--tss-bp-lift);
+    --baklava-toolbar-background: var(--tss-bp-sheet);
+    --baklava-toolbar-foreground: var(--tss-bp-text);
+    --baklava-node-palette-background: var(--tss-bp-sheet);
+    --baklava-node-palette-foreground: var(--tss-bp-text);
+}
+
+body.tss-theme-blaupause .tss-nodeview .baklava-node {
+    box-shadow: 0 0 0 1px var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-nodeview .baklava-node:hover {
+    box-shadow: 0 0 0 1px var(--tss-bp-line-strong);
+}
+
+body.tss-theme-blaupause .tss-nodeview .baklava-node > .__title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--tss-bp-line);
+}

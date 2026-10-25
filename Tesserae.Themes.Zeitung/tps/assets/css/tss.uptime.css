@@ -1,0 +1,87 @@
+/* ==========================================================================
+   Zeitung theme - Uptime
+   --------------------------------------------------------------------------
+   An uptime strip is the weather table's row of days: square cells,
+   operational in the green ink, incidents in ochre and red, maintenance in
+   the blue, no data a light halftone. The month card is a boxed article.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-uptime-bars span,
+body.tss-theme-zeitung .tss-uptime-bars-compact span,
+body.tss-theme-zeitung .tss-uptime-month-day,
+body.tss-theme-zeitung .tss-uptime-month-empty {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-uptime-bars span.none,
+body.tss-theme-zeitung .tss-uptime-bars span.future,
+body.tss-theme-zeitung .tss-uptime-month-day.future,
+body.tss-theme-zeitung .tss-uptime-month-day:not(.operational):not(.minor):not(.major):not(.maintenance) {
+    background: var(--tss-zt-halftone-light), var(--tss-zt-tint);
+}
+
+body.tss-theme-zeitung .tss-uptime-bars span.operational,
+body.tss-theme-zeitung .tss-uptime-month-day.operational {
+    background: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-zeitung .tss-uptime-bars span.minor,
+body.tss-theme-zeitung .tss-uptime-month-day.minor {
+    background: rgb(var(--tss-warning-background-color-root));
+}
+
+body.tss-theme-zeitung .tss-uptime-bars span.major,
+body.tss-theme-zeitung .tss-uptime-month-day.major {
+    background: rgb(var(--tss-danger-background-color-root));
+}
+
+body.tss-theme-zeitung .tss-uptime-bars span.maintenance,
+body.tss-theme-zeitung .tss-uptime-month-day.maintenance {
+    background: var(--tss-chart-series-4);
+}
+
+body.tss-theme-zeitung .tss-uptime-bars span:hover,
+body.tss-theme-zeitung .tss-uptime-bars span:focus-visible {
+    outline: 1px solid var(--tss-zt-ink);
+    outline-offset: 1px;
+}
+
+body.tss-theme-zeitung .tss-uptime-month-card {
+    border-radius: 0;
+    border-color: var(--tss-zt-ink);
+    background: var(--tss-zt-band-thin) top / 100% 4px no-repeat, var(--tss-zt-paper);
+    padding-top: 16px;
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-uptime-month-header {
+    font-family: var(--tss-zt-head);
+    font-weight: 500;
+    letter-spacing: var(--tss-zt-caps);
+    text-transform: uppercase;
+    font-size: 12.5px;
+}
+
+body.tss-theme-zeitung .tss-uptime-month-month-empty,
+body.tss-theme-zeitung .tss-uptime-month-empty {
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tippy-box[data-theme~='uptime'] {
+    background: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+    border-radius: 0;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-uptime-bars span,
+body.tss-theme-zeitung .tss-uptime-bars-compact span,
+body.tss-theme-zeitung .tss-uptime-month-card,
+body.tss-theme-zeitung .tss-uptime-month-day,
+body.tss-theme-zeitung .tss-uptime-month-empty,
+body.tss-theme-zeitung .tippy-box[data-theme~='uptime'] {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

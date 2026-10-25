@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Zeitung theme - Carousel
+   --------------------------------------------------------------------------
+   A carousel is a photo strip: the viewport a square frame of ink, the
+   arrows square ghost buttons, the position marks small squares, the
+   current one solid ink.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-carousel-viewport {
+    border-radius: 0;
+    border-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-carousel-nav {
+    border-radius: 0;
+    border-color: var(--tss-zt-ink);
+    background: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-carousel-nav:hover {
+    background: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-carousel-indicator {
+    border-radius: 0;
+    border-color: var(--tss-zt-ink);
+    background: transparent;
+}
+
+body.tss-theme-zeitung .tss-carousel-indicator.tss-active {
+    background: var(--tss-zt-ink);
+    border-color: var(--tss-zt-ink);
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-carousel-viewport {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

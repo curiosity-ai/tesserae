@@ -1,0 +1,298 @@
+/* ==========================================================================
+   Zeitung theme - Markdown
+   --------------------------------------------------------------------------
+   Markdown is an article, set the way the paper sets one:
+   - Text: the serif at 15px on a 1.55 leading, old-style figures, hyphens
+     where the language allows. Paragraphs run on: the first is set flush
+     and opens with a two-line drop cap, every following one is indented
+     by an em and a half with no space between, as in a column of print.
+   - Heads: h1 is a headline in the condensed gothic; h2 a bold serif head
+     under a hairline of ink; h3 the serif bold; h4 to h6 are kickers in
+     tracked capitals, h4 in the spot red.
+   - A blockquote is a pull quote: large italic, between a thick-and-thin
+     rule and a hairline, with a red opening quote mark hung in the margin.
+   - Tables are market listings (thick-and-thin over the head, capitals,
+     hairline rows, lining tabular figures).
+   - Code is wire copy in the typewriter face; a horizontal rule is a
+     centred dinkus of three asterisms.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-markdown {
+    font-family: var(--tss-zt-serif);
+    font-size: 15px;
+    line-height: 1.55;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    text-wrap: pretty;
+}
+
+body.tss-theme-zeitung .tss-markdown p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+body.tss-theme-zeitung .tss-markdown p + p {
+    text-indent: 1.5em;
+}
+
+body.tss-theme-zeitung .tss-markdown p:has(+ :not(p)),
+body.tss-theme-zeitung .tss-markdown p:last-child {
+    margin-bottom: 16px;
+}
+
+/* The drop cap: three lines deep, in the bold serif at its display size. */
+body.tss-theme-zeitung .tss-markdown > p:first-of-type::first-letter {
+    float: left;
+    margin: 0.06em 0.08em 0 -0.02em;
+    font-size: 4.1em;
+    line-height: 0.82;
+    font-weight: 700;
+    font-variation-settings: "opsz" 60;
+    color: var(--tss-zt-ink);
+}
+
+@supports (initial-letter: 2) {
+    body.tss-theme-zeitung .tss-markdown > p:first-of-type::first-letter {
+        float: none;
+        initial-letter: 2;
+        margin: 0 0.1em 0 0;
+        font-size: inherit;
+        line-height: inherit;
+    }
+}
+
+body.tss-theme-zeitung .tss-markdown a {
+    color: var(--tss-zt-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--tss-zt-red);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-zeitung .tss-markdown a:hover {
+    color: var(--tss-zt-red-ink);
+    text-decoration-thickness: 2px;
+}
+
+body.tss-theme-zeitung .tss-markdown h1,
+body.tss-theme-zeitung .tss-markdown h2,
+body.tss-theme-zeitung .tss-markdown h3,
+body.tss-theme-zeitung .tss-markdown h4,
+body.tss-theme-zeitung .tss-markdown h5,
+body.tss-theme-zeitung .tss-markdown h6 {
+    margin-top: 1.1em;
+    margin-bottom: 0.45em;
+    hyphens: manual;
+    text-wrap: balance;
+}
+
+body.tss-theme-zeitung .tss-markdown h1 {
+    padding-bottom: 0;
+    border-bottom: none;
+    font-family: var(--tss-zt-head);
+    font-size: 2.5em;
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.005em;
+}
+
+body.tss-theme-zeitung .tss-markdown h2 {
+    padding-top: 0.35em;
+    padding-bottom: 0;
+    border-top: 1px solid var(--tss-zt-ink);
+    border-bottom: none;
+    font-family: var(--tss-zt-serif);
+    font-size: 1.6em;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+}
+
+body.tss-theme-zeitung .tss-markdown h3 {
+    font-size: 1.25em;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+body.tss-theme-zeitung .tss-markdown h4,
+body.tss-theme-zeitung .tss-markdown h5,
+body.tss-theme-zeitung .tss-markdown h6 {
+    font-family: var(--tss-zt-head);
+    font-size: 0.85em;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+body.tss-theme-zeitung .tss-markdown h4 {
+    color: var(--tss-zt-red-ink);
+}
+
+body.tss-theme-zeitung .tss-markdown h6 {
+    color: var(--tss-zt-muted);
+}
+
+body.tss-theme-zeitung .tss-markdown strong {
+    font-weight: 700;
+}
+
+/* A rule between sections is a dinkus. */
+body.tss-theme-zeitung .tss-markdown hr {
+    height: auto;
+    margin: 20px 0;
+    overflow: visible;
+    background: none;
+    text-align: center;
+}
+
+body.tss-theme-zeitung .tss-markdown hr::before {
+    display: block;
+    content: "\2042";
+    font-size: 1.3em;
+    line-height: 1;
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-markdown hr::after {
+    display: none;
+}
+
+/* The pull quote. */
+body.tss-theme-zeitung .tss-markdown blockquote {
+    position: relative;
+    margin: 22px 0 22px 0;
+    padding: calc(12px + var(--tss-zt-band-h)) 12px 12px 36px;
+    border-left: none;
+    border-bottom: 1px solid var(--tss-zt-ink);
+    background: var(--tss-zt-band) top / 100% var(--tss-zt-band-h) no-repeat;
+    color: var(--tss-zt-ink);
+    font-size: 1.3em;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.35;
+    text-wrap: balance;
+    hyphens: manual;
+}
+
+body.tss-theme-zeitung .tss-markdown blockquote::before {
+    content: "\201C";
+    position: absolute;
+    left: 0;
+    top: calc(var(--tss-zt-band-h) + 2px);
+    font-size: 3em;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-markdown blockquote p + p {
+    text-indent: 0;
+    margin-top: 0.5em;
+}
+
+/* Market listings. */
+body.tss-theme-zeitung .tss-markdown table {
+    border-collapse: collapse;
+    padding-top: var(--tss-zt-band-h);
+    background: var(--tss-zt-band) top / 100% var(--tss-zt-band-h) no-repeat;
+    font-variant-numeric: lining-nums tabular-nums;
+    border-bottom: 1px solid var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-markdown table th {
+    font-family: var(--tss-zt-head);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: var(--tss-zt-caps);
+    text-transform: uppercase;
+    text-align: left;
+    border: none;
+    border-bottom: 1px solid var(--tss-zt-ink);
+    padding: 10px 14px 5px 14px;
+}
+
+body.tss-theme-zeitung .tss-markdown table td {
+    border: none;
+    border-bottom: 1px solid var(--tss-zt-hair);
+    padding: 5px 14px;
+    font-size: 14px;
+}
+
+body.tss-theme-zeitung .tss-markdown table tr,
+body.tss-theme-zeitung .tss-markdown table tr:nth-child(2n) {
+    background-color: transparent;
+    border-top: none;
+}
+
+body.tss-theme-zeitung .tss-markdown table tbody tr:nth-child(2n) {
+    background-color: var(--tss-zt-tint);
+}
+
+/* Wire copy. */
+body.tss-theme-zeitung .tss-markdown code {
+    padding: 0 0.2em;
+    margin: 0;
+    font-family: var(--tss-zt-mono);
+    font-size: 0.95em;
+    font-weight: 400;
+    background-color: var(--tss-zt-tint);
+    border: none;
+    border-radius: 0;
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-markdown pre {
+    padding: 12px 16px;
+    font-size: 13px;
+    line-height: 1.5;
+    background-color: var(--tss-zt-surface);
+    border: 1px solid var(--tss-zt-rule);
+    border-left: 3px solid var(--tss-zt-ink);
+    border-radius: 0;
+    hyphens: none;
+}
+
+body.tss-theme-zeitung .tss-markdown pre code {
+    background: transparent;
+    padding: 0;
+}
+
+body.tss-theme-zeitung .tss-markdown kbd {
+    font-family: var(--tss-zt-mono);
+    color: var(--tss-zt-ink);
+    background: var(--tss-zt-paper);
+    border: 1px solid var(--tss-zt-ink);
+    border-bottom-width: 2px;
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-markdown ul {
+    list-style-type: square;
+}
+
+body.tss-theme-zeitung .tss-markdown li::marker {
+    color: var(--tss-zt-red);
+}
+
+body.tss-theme-zeitung .tss-markdown ol li::marker {
+    color: var(--tss-zt-ink);
+    font-weight: 700;
+    font-variant-numeric: lining-nums;
+}
+
+body.tss-theme-zeitung .tss-markdown img {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-markdown dl dt {
+    font-variant-caps: all-small-caps;
+    letter-spacing: var(--tss-zt-sc);
+    font-style: normal;
+    font-size: 1.05em;
+}
+
+body.tss-theme-zeitung .tss-markdown li > input[type="checkbox"] {
+    accent-color: var(--tss-zt-red);
+}

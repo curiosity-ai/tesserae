@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Blaupause theme - ProgressRing
+   --------------------------------------------------------------------------
+   An arc drawn with a pen: square ends, a hairline track, monospace figure.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-progressring-track {
+    stroke: var(--tss-progressring-track-color, var(--tss-bp-line-faint));
+}
+
+body.tss-theme-blaupause .tss-progressring-fill {
+    stroke: var(--tss-bp-ink);
+    stroke-linecap: butt;
+}
+
+body.tss-theme-blaupause .tss-progressring-label {
+    font-family: var(--tss-bp-mono);
+    font-weight: 500;
+}

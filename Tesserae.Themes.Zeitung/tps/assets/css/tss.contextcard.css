@@ -1,0 +1,120 @@
+/* ==========================================================================
+   Zeitung theme - ContextCard
+   --------------------------------------------------------------------------
+   A context card is a listing: a hairline box on the paper with an ink rule
+   along its top edge, the label set bold in the serif and the second line
+   in italic, like the head and dateline of a brief. The icon sits in a
+   square plate. Under the pointer the box is ruled in ink; the chevron and
+   any count are set in lining figures and small caps. The remove mark is a
+   small square of ink that turns red.
+   ========================================================================== */
+
+body.tss-theme-zeitung {
+    /* The gallery's landing page tints each category's cards; in print they are all one ink. */
+    --tss-landing-group-color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-contextcard {
+    border: 1px solid var(--tss-zt-hair);
+    border-top-color: var(--tss-zt-ink);
+    border-radius: 0;
+    background: var(--tss-zt-paper);
+    transition: border-color var(--tss-zt-quick) var(--tss-zt-ease), background-color var(--tss-zt-quick) var(--tss-zt-ease);
+}
+
+body.tss-theme-zeitung .tss-contextcard-clickable:hover,
+body.tss-theme-zeitung .tss-contextcard-menu-open {
+    background: var(--tss-zt-paper);
+    border-color: var(--tss-zt-ink);
+    box-shadow: inset 0 2px 0 var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-contextcard-clickable:active {
+    background: var(--tss-zt-tint);
+}
+
+body.tss-theme-zeitung .tss-contextcard-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-contextcard-clickable:hover .tss-contextcard-icon:not(.tss-contextcard-icon-image) {
+    color: var(--tss-zt-red) !important;
+}
+
+body.tss-theme-zeitung .tss-contextcard-label {
+    font-weight: 700;
+    font-size: 14.5px;
+    line-height: 1.25;
+}
+
+body.tss-theme-zeitung .tss-contextcard-sublabel {
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.3;
+    color: var(--tss-zt-muted);
+}
+
+body.tss-theme-zeitung .tss-contextcard-mono .tss-contextcard-sublabel {
+    font-style: normal;
+}
+
+body.tss-theme-zeitung .tss-contextcard-badge {
+    border-radius: 0;
+    border-color: var(--tss-zt-ink);
+    background: transparent;
+    color: var(--tss-zt-ink);
+    font-variant-caps: all-small-caps;
+    font-variant-numeric: lining-nums tabular-nums;
+    letter-spacing: var(--tss-zt-sc);
+    font-size: 13px;
+    line-height: 1.2;
+}
+
+body.tss-theme-zeitung .tss-contextcard-badge-custom {
+    border: none;
+}
+
+body.tss-theme-zeitung .tss-contextcard-chevron {
+    color: var(--tss-zt-muted);
+}
+
+body.tss-theme-zeitung .tss-contextcard-remove,
+body.tss-theme-zeitung.tss-dark-mode .tss-contextcard-remove {
+    border-radius: 0;
+    background: var(--tss-zt-ink);
+    color: var(--tss-zt-paper);
+}
+
+body.tss-theme-zeitung .tss-contextcard-remove:hover,
+body.tss-theme-zeitung.tss-dark-mode .tss-contextcard-remove:hover {
+    background: var(--tss-zt-red);
+    color: var(--tss-zt-on-red);
+}
+
+body.tss-theme-zeitung .tss-contextcard-compact {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-contextcard-compact .tss-contextcard-icon {
+    border-radius: 0;
+}
+
+body.tss-theme-zeitung .tss-contextcard-compact .tss-contextcard-label {
+    font-size: 14px;
+}
+
+body.tss-theme-zeitung .tss-contextcard-compact .tss-contextcard-sublabel {
+    font-size: 12.5px;
+}
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung .tss-contextcard,
+body.tss-theme-zeitung .tss-contextcard-icon,
+body.tss-theme-zeitung .tss-contextcard-badge,
+body.tss-theme-zeitung .tss-contextcard-compact,
+body.tss-theme-zeitung .tss-contextcard-compact .tss-contextcard-icon {
+    border-radius: 0;
+}
+
+/* --- end of square corners --- */

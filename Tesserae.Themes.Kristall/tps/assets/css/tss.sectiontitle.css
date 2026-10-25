@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Kristall theme - SectionTitle
+   --------------------------------------------------------------------------
+   A page title is a settings pane's header: the pane's icon on a small
+   rounded square in the accent (white glyph, a soft top light), then the
+   title in bold Inter, tight, and the subtitle in secondary grey.
+   ========================================================================== */
+
+body.tss-theme-kristall .tss-sectiontitle-title {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    padding-left: 12px;
+}
+
+body.tss-theme-kristall .tss-sectiontitle-icon {
+    width: 32px;
+    height: 32px;
+    line-height: 32px !important;
+    flex: 0 0 32px;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    border-radius: 8px;
+    background: var(--tss-kr-accent-face);
+    box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.35), 0 0 0 0.5px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.14);
+    color: var(--tss-kr-on-accent);
+}
+
+body.tss-theme-kristall .tss-sectiontitle-subtitle {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}

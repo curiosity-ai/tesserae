@@ -1,0 +1,84 @@
+/* ==========================================================================
+   Memphis theme - Panel
+   --------------------------------------------------------------------------
+   A side panel is a tall laminate sheet slid in from the edge: a 3px black
+   line on its inner side and a hard lilac shadow cast onto the halftone
+   screen. Its title is in the display face, its command buttons are
+   circles that fill on hover, and a strip of confetti runs along its top.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-panel {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    border-left: var(--tss-mp-bw-bold) solid var(--tss-mp-line);
+    box-shadow: calc(-1 * var(--tss-mp-off-lg)) 0 0 0 rgb(var(--tss-mp-lilac-root));
+}
+
+body.tss-theme-memphis .tss-panel.tss-panelSide-near {
+    border-left: none;
+    border-right: var(--tss-mp-bw-bold) solid var(--tss-mp-line);
+    box-shadow: var(--tss-mp-off-lg) 0 0 0 rgb(var(--tss-mp-lilac-root));
+}
+
+body.tss-theme-memphis .tss-panel::before {
+    content: "";
+    display: block;
+    flex: 0 0 auto;
+    height: 14px;
+    border-bottom: var(--tss-mp-bw) solid var(--tss-mp-line);
+    background-color: rgb(var(--tss-mp-mint-root));
+    background-image: var(--tss-mp-pattern-confetti-bold);
+    background-size: 240px 240px;
+}
+
+body.tss-theme-memphis .tss-panel-command {
+    height: 52px;
+}
+
+body.tss-theme-memphis .tss-panel-title > .tss-textblock {
+    font-family: var(--tss-mp-display);
+    font-weight: 400;
+    font-size: 18px;
+}
+
+body.tss-theme-memphis .tss-panel-command-button {
+    width: 34px;
+    height: 34px;
+    margin-right: 10px;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 50%;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 14px;
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-panel-command-button > i {
+    color: inherit;
+}
+
+body.tss-theme-memphis .tss-panel-command-button:hover {
+    background: rgb(var(--tss-mp-tomato-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-panel-command-button:active {
+    color: var(--tss-mp-on-accent);
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-panel-command-button:focus-visible {
+    outline: 3px solid var(--tss-mp-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-memphis .tss-panel-footer:not(:empty) {
+    border-top: var(--tss-mp-bw) solid var(--tss-mp-line);
+    background-image: var(--tss-mp-pattern-hatch-soft);
+    background-size: 10px 10px;
+}
+
+body.tss-theme-memphis .tss-panel:focus-visible,
+body.tss-theme-memphis .tss-panel:focus {
+    outline: none;
+}

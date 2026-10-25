@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Kontrast theme - ContextCards
+   --------------------------------------------------------------------------
+   Edges drawn in the border tokens go to 2px; colours, focus and states come from the theme's tokens and global rules.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-contextcards-header {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-contextcards-list {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-contextcards-list > .tss-contextcard + .tss-contextcard {
+    border-top-width: var(--tss-kt-border);
+    border-top-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-contextcards-more {
+    border-width: var(--tss-kt-border);
+    border-color: var(--tss-kt-line);
+}

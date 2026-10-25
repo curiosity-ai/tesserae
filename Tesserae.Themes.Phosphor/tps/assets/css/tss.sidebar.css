@@ -1,0 +1,331 @@
+/* ==========================================================================
+   Phosphor theme - Sidebar
+   --------------------------------------------------------------------------
+   The sidebar is the menu of a terminal program, framed off from the work
+   area by a double rule (the box-drawing ║). Entries are plain lines of
+   text; the pointer lights a row faintly, the current entry is the cursor:
+   an inverse-video block with a "▸" in front. Section legends are dim
+   capitals with a single rule running out to the frame, "── LAYOUT ────".
+   The brand is set in the bitmap face with a blinking block cursor after
+   it, the way a prompt waits.
+
+   On paper the rail is the sheet's tractor-feed margin: a strip of
+   sprocket holes down its left edge and the perforation beside it.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-sidebar {
+    background: rgb(var(--tss-sidebar-background-color-root));
+    border-right: var(--tss-ph-double);
+}
+
+/* The tractor-feed margin, on paper only, and only while the rail is open (the collapsed rail is too narrow). */
+body.tss-theme-phosphor:not(.tss-dark-mode) .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar .tss-sidebar) {
+    padding-left: 32px;
+    background:
+        var(--tss-ph-perforation) 22px 0 / 1px 100% no-repeat,
+        radial-gradient(circle at 50% 50%, rgb(var(--tss-default-background-color-root)) 0 4.4px, rgba(var(--tss-ph-ink-root), 0.34) 4.4px 5.2px, transparent 5.5px) 0 4px / 22px 24px repeat-y,
+        linear-gradient(90deg, rgba(var(--tss-ph-ink-root), 0.035) 0 22px, transparent 22px),
+        rgb(var(--tss-sidebar-background-color-root));
+}
+
+body.tss-theme-phosphor .tss-sidebar .tss-sidebar {
+    border-right: 0;
+}
+
+/* The brand: the bitmap face, large, with the cursor waiting after it. */
+body.tss-theme-phosphor .tss-sidebar-header > .tss-textblock,
+body.tss-theme-phosphor .tss-sidebar-identity-title {
+    font-family: var(--tss-ph-display);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--tss-ph-hot);
+    text-shadow: var(--tss-ph-glow-hot);
+}
+
+body.tss-theme-phosphor .tss-sidebar-header > .tss-textblock.tss-fontsize-large,
+body.tss-theme-phosphor .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge {
+    font-size: 34px;
+    line-height: 1;
+}
+
+body.tss-theme-phosphor .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge::after {
+    content: "";
+    display: inline-block;
+    width: 0.5em;
+    height: 0.82em;
+    margin-left: 0.12em;
+    vertical-align: -0.06em;
+    background: currentColor;
+    box-shadow: var(--tss-ph-box-glow);
+    animation: tss-ph-blink var(--tss-ph-blink) step-end infinite;
+}
+
+body.tss-theme-phosphor .tss-sidebar-identity-subtitle {
+    font-size: 11px;
+    color: var(--tss-ph-dim);
+}
+
+/* Section legends: dim capitals, then a rule out to the frame. */
+body.tss-theme-phosphor .tss-sidebar-separator-with-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+    color: var(--tss-ph-dim);
+}
+
+body.tss-theme-phosphor .tss-sidebar-separator-with-text::before {
+    content: "──";
+    flex: 0 0 auto;
+    letter-spacing: 0;
+    opacity: 0.8;
+}
+
+body.tss-theme-phosphor .tss-sidebar-separator-with-text::after {
+    content: "";
+    flex: 1 1 auto;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
+}
+
+body.tss-theme-phosphor .tss-sidebar-separator:not(.tss-sidebar-separator-with-text) {
+    border-bottom: 1px solid var(--tss-ph-faint);
+}
+
+body.tss-theme-phosphor .tss-sidebar-footer {
+    border-top: var(--tss-ph-single);
+    padding-top: 6px;
+}
+
+body.tss-theme-phosphor .tss-sidebar-footer:empty {
+    border-top: 0;
+    padding-top: 0;
+}
+
+/* Entries: plain lines, no frame. */
+body.tss-theme-phosphor .tss-sidebar .tss-sidebar-btn.tss-btn,
+body.tss-theme-phosphor .tss-sidebar .tss-sidebar-nav-button.tss-btn {
+    border-radius: 0;
+    font-weight: 400;
+}
+
+/* Under the pointer a row is faintly lit, not inverted: the cursor block is kept for the current entry. */
+body.tss-theme-phosphor .tss-sidebar .tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-phosphor .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    background-color: var(--tss-ph-tint);
+    border-color: transparent;
+    color: rgb(var(--tss-default-foreground-hover-color-root));
+    text-shadow: var(--tss-ph-glow);
+}
+
+body.tss-theme-phosphor .tss-sidebar .tss-btn.tss-btn-default:not(.tss-disabled):hover > i,
+body.tss-theme-phosphor .tss-sidebar .tss-btn.tss-btn-default:not(.tss-disabled):hover .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-phosphor .tss-sidebar .tss-btn.tss-btn-default:not(.tss-disabled):active {
+    background-color: rgb(var(--tss-default-background-active-color-root));
+}
+
+body.tss-theme-phosphor .tss-sidebar .tss-btn:focus-visible {
+    outline: 1px solid var(--tss-ph-cursor);
+    outline-offset: -1px;
+}
+
+/* The current entry: the cursor. */
+body.tss-theme-phosphor .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-phosphor.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor.tss-dark-mode .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-phosphor.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-phosphor.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-phosphor.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-phosphor.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    background: var(--tss-ph-cursor);
+    border-color: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+    font-weight: 500;
+    box-shadow: var(--tss-ph-box-glow);
+}
+
+body.tss-theme-phosphor .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) i,
+body.tss-theme-phosphor .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-phosphor .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) .tss-fontcolor-secondary,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn i,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn .tss-fontcolor-default,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn .tss-fontcolor-secondary,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn i,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn .tss-fontcolor-default,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected .tss-sidebar-identity-subtitle,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands .tss-btn,
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands .tss-btn i {
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands .tss-btn:hover {
+    background: var(--tss-ph-on-cursor);
+    border-color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands .tss-btn:hover i {
+    color: var(--tss-ph-cursor);
+}
+
+/* A nav header that holds the current entry: a cursor tick on its left edge, not the block. */
+body.tss-theme-phosphor .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+body.tss-theme-phosphor .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled) {
+    background: transparent;
+    color: var(--tss-ph-hot);
+    box-shadow: inset 3px 0 0 0 var(--tss-ph-cursor);
+}
+
+body.tss-theme-phosphor .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:not(.tss-disabled) {
+    box-shadow: none;
+}
+
+/* The pill rows (.Rounded()) and the pill search box are square here. */
+body.tss-theme-phosphor .tss-sidebar-btn-rounded > .tss-btn,
+body.tss-theme-phosphor .tss-sidebar-btn-rounded > a > .tss-btn,
+body.tss-theme-phosphor .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-rounded.tss-sidebar-btn.tss-btn,
+body.tss-theme-phosphor .tss-sidebar-searchbox.tss-sidebar-searchbox-rounded .tss-searchbox-container,
+body.tss-theme-phosphor .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon.tss-sidebar-searchbox-rounded,
+body.tss-theme-phosphor .tss-sidebar-btn-light {
+    border-radius: 0;
+}
+
+/* A toned key on the rail (New document) is a solid block like any solid button. */
+body.tss-theme-phosphor .tss-sidebar .tss-sidebar-btn.tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-phosphor .tss-sidebar .tss-sidebar-btn.tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    background: rgb(var(--tss-primary-background-color-root));
+    color: rgb(var(--tss-primary-foreground-color-root));
+    text-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Groups: a text arrow, and the pages hung off a tree line
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-phosphor .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn,
+body.tss-theme-phosphor .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn:hover {
+    background: transparent;
+    border-color: transparent;
+    color: var(--tss-ph-dim);
+}
+
+/* The pages of an open group hang off a single tree line under the group's icon. */
+body.tss-theme-phosphor .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page) .tss-sidebar-nav-children {
+    border-left: 1px solid var(--tss-ph-faint);
+}
+
+/* --------------------------------------------------------------------------
+   Commands, badges, the collapsed rail's menu
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-phosphor .tss-sidebar .tss-sidebar-command.tss-btn {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-phosphor .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover i,
+body.tss-theme-phosphor .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover i {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-sidebar-badges > .tss-btn,
+body.tss-theme-phosphor .tss-sidebar-badge {
+    border-radius: 0;
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-phosphor .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    border-radius: 0;
+    border: var(--tss-ph-double);
+    background: rgb(var(--tss-sidebar-background-color-root));
+    box-shadow: var(--tss-ph-window-shadow);
+}
+
+/* --------------------------------------------------------------------------
+   The search box at the top of the rail: a prompt line
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-phosphor .tss-sidebar .tss-searchbox-container {
+    border-radius: 0;
+    background: transparent;
+}
+
+body.tss-theme-phosphor .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-phosphor .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    border: var(--tss-ph-single);
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-sidebar-btn-searchbox > .tss-btn.tss-sidebar-btn-searchbox-button,
+body.tss-theme-phosphor .tss-sidebar-btn-searchbox > a > .tss-btn.tss-sidebar-btn-searchbox-button {
+    border: 0;
+    border-bottom: var(--tss-ph-single);
+    border-radius: 0;
+    background: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   Status card, section header
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-phosphor .tss-sidebar-status-card {
+    border-radius: 0;
+    border: var(--tss-ph-single);
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-sidebar-status-dot {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-sidebar-section-header .tss-sidebar-brand-logo,
+body.tss-theme-phosphor .tss-sidebar-section-header-closed > .tss-sidebar-brand-logo {
+    border-radius: 0;
+    background: var(--tss-ph-cursor);
+    color: var(--tss-ph-on-cursor);
+    text-shadow: none;
+}
+
+body.tss-theme-phosphor .tss-sidebar-section-header .tss-sidebar-brand-logo .tss-icon,
+body.tss-theme-phosphor .tss-sidebar-section-header-closed > .tss-sidebar-brand-logo .tss-icon {
+    color: var(--tss-ph-on-cursor);
+}
+
+body.tss-theme-phosphor .tss-sidebar-identity-separated {
+    border-color: var(--tss-ph-faint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-phosphor .tss-sidebar-header > .tss-textblock::after {
+        animation: none;
+    }
+}

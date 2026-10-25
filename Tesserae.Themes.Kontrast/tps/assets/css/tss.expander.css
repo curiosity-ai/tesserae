@@ -1,0 +1,49 @@
+/* ==========================================================================
+   Kontrast theme - Expander / Accordion
+   --------------------------------------------------------------------------
+   A 2px-edged panel whose header is a 48px bar with a bold title and a
+   heavy chevron; open, the header is ruled off from the content with 2px
+   and the chevron turns. The header's focus ring is drawn inside (the panel
+   clips its corners).
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-expander {
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    background: var(--tss-kt-paper);
+}
+
+body.tss-theme-kontrast .tss-expander-header {
+    min-height: 48px;
+}
+
+body.tss-theme-kontrast .tss-expander-header:hover {
+    background: var(--tss-kt-hover);
+}
+
+body.tss-theme-kontrast .tss-expander.tss-expanded > .tss-expander-header {
+    background: var(--tss-kt-surface);
+}
+
+body.tss-theme-kontrast .tss-expander-title {
+    font-weight: 750;
+}
+
+body.tss-theme-kontrast .tss-expander-chevron {
+    transition: none;
+    -webkit-text-stroke: 0.6px currentColor;
+}
+
+body.tss-theme-kontrast .tss-expander-content {
+    border-top: var(--tss-kt-border) solid var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-expander-icon {
+    border-radius: var(--tss-kt-radius-sm);
+    box-shadow: inset 0 0 0 var(--tss-kt-border) currentColor;
+}
+
+body.tss-theme-kontrast .tss-expander-header:focus-visible {
+    outline-offset: calc(-1 * var(--tss-kt-ring-width)) !important;
+    box-shadow: inset 0 0 0 calc(var(--tss-kt-ring-width) + var(--tss-kt-ring-gap)) var(--tss-kt-focus-inner) !important;
+}

@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Washi theme - SegmentedPivot
+   --------------------------------------------------------------------------
+   A strip of paper cut into segments, like the panels of a folding screen:
+   a hairline frame on a pale wash, the chosen segment a lighter sheet laid
+   in it with the softest lift.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar,
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper {
+    background: var(--tss-wa-wash);
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: none;
+    padding: 3px;
+}
+
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab {
+    border-radius: var(--tss-wa-radius-small);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:hover {
+    background: var(--tss-wa-wash);
+}
+
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:active {
+    background: var(--tss-wa-wash-strong);
+}
+
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 0 0 0 1px var(--tss-wa-line), 0 1px 3px rgba(60, 40, 20, 0.1);
+    font-weight: 500;
+}
+
+body.tss-theme-washi.tss-dark-mode .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    background: rgb(var(--tss-default-background-hover-color-root));
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab:focus-visible,
+body.tss-theme-washi .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
+    box-shadow: 0 0 0 1px rgb(var(--tss-default-background-color-root)), 0 0 0 2.5px var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-segmentedpivot-content > .tss-background-area {
+    border-radius: var(--tss-wa-radius);
+}

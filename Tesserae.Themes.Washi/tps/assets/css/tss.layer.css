@@ -1,0 +1,12 @@
+/* ==========================================================================
+   Washi theme - Layer
+   --------------------------------------------------------------------------
+   A layer's content box is a sheet: paper, a hairline edge, cut corners.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-layer-content:not(.tss-layer-content-transparent) {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: 1px solid var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+    box-shadow: var(--tss-wa-lift);
+}

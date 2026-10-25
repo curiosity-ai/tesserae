@@ -1,0 +1,373 @@
+/* ==========================================================================
+   Memphis theme - Sidebar
+   --------------------------------------------------------------------------
+   The sidebar is a laminate panel on the side of the showroom: peach by
+   day, deep plum at night, flecked with the "bacterio" speckle and closed
+   off from the page by a thick black line. The brand is lettered in the
+   display face. Group legends are small bold captions with a zig-zag
+   running out to the edge.
+
+   Entries are type on the laminate: under the pointer one becomes a
+   sunflower pill with a black line, and the current entry is the
+   bubblegum pill standing on a hard shadow. Nothing moves when you point
+   at a row, so a long list stays calm to scan.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-sidebar {
+    --tss-mp-sidebar-hover: rgb(var(--tss-mp-yellow-root));
+    --tss-mp-sidebar-current: rgb(var(--tss-mp-pink-root));
+    --tss-mp-sidebar-current-cast: var(--tss-mp-line);
+    background-color: rgb(var(--tss-sidebar-background-color-root));
+    background-image: var(--tss-mp-pattern-bacterio-soft);
+    background-size: 120px 120px;
+    box-shadow: inset calc(-1 * var(--tss-mp-bw-bold)) 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis.tss-dark-mode .tss-sidebar {
+    --tss-mp-sidebar-current-cast: rgb(var(--tss-mp-mint-root));
+}
+
+/* The brand: the display face. */
+body.tss-theme-memphis .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge,
+body.tss-theme-memphis .tss-sidebar-identity-title,
+body.tss-theme-memphis .tss-sidebar-section-header .tss-sidebar-identity-title {
+    font-family: var(--tss-mp-display);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+}
+
+/* Group legends: bold, small, with a zig-zag out to the edge. */
+body.tss-theme-memphis .tss-sidebar-separator-with-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-sidebar-separator-with-text::after {
+    content: "";
+    flex: 1 1 auto;
+    height: 8px;
+    margin-right: 6px;
+    background-image: var(--tss-mp-pattern-zigzag);
+    background-size: 12px 6px;
+    background-repeat: repeat-x;
+    background-position: left center;
+    opacity: 0.55;
+}
+
+body.tss-theme-memphis .tss-sidebar .tss-sidebar-btn.tss-btn {
+    border-radius: 999px;
+    transform: none !important;
+}
+
+/* Rows answer the pointer with colour only: a sunflower pill with a line, nothing moves. */
+body.tss-theme-memphis .tss-sidebar .tss-btn.tss-btn-default.tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-memphis .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-memphis .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-memphis .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-memphis .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-memphis .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+    background: var(--tss-mp-sidebar-hover);
+    background-color: var(--tss-mp-sidebar-hover);
+    border-color: var(--tss-mp-line);
+    box-shadow: none;
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) i,
+body.tss-theme-memphis .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-memphis .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) i,
+body.tss-theme-memphis .tss-sidebar-btn-open:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-memphis .tss-sidebar .tss-btn.tss-btn-default.tss-sidebar-btn:not(.tss-disabled):hover i,
+body.tss-theme-memphis .tss-sidebar .tss-btn.tss-btn-default.tss-sidebar-btn:not(.tss-disabled):hover .tss-fontcolor-default {
+    color: var(--tss-mp-on-accent);
+}
+
+/* The current entry: the bubblegum pill on a hard shadow. */
+body.tss-theme-memphis .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled),
+body.tss-theme-memphis .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-memphis .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-memphis .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-sidebar-btn-open.tss-sidebar-selected:hover > .tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-memphis .tss-sidebar-btn-open.tss-sidebar-selected:hover > a > .tss-sidebar-btn:not(.tss-disabled) {
+    background: var(--tss-mp-sidebar-current);
+    background-color: var(--tss-mp-sidebar-current);
+    border-color: var(--tss-mp-line);
+    box-shadow: 3px 3px 0 0 var(--tss-mp-sidebar-current-cast);
+    color: var(--tss-mp-on-accent);
+    font-weight: 700;
+    transform: none;
+}
+
+body.tss-theme-memphis .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn i,
+body.tss-theme-memphis .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn .tss-fontcolor-default,
+body.tss-theme-memphis .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn i,
+body.tss-theme-memphis .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn .tss-fontcolor-default,
+body.tss-theme-memphis .tss-sidebar-btn.tss-sidebar-selected i {
+    color: var(--tss-mp-on-accent);
+}
+
+/* A nav header that holds the current entry: a small pink disc at its leading edge, no pill. */
+body.tss-theme-memphis .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn:not(.tss-disabled),
+body.tss-theme-memphis .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn:not(.tss-disabled) {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-sidebar .tss-sidebar-command.tss-btn {
+    border-radius: 50%;
+}
+
+body.tss-theme-memphis .tss-sidebar .tss-sidebar-btn.tss-btn:focus-visible {
+    outline: 3px solid var(--tss-mp-focus);
+    outline-offset: -3px;
+}
+
+/* The search field at the top: a white field with a black line, like every field. */
+body.tss-theme-memphis .tss-sidebar .tss-searchbox-container {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 999px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-sidebar .tss-searchbox-container:focus-within {
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-mp-cobalt-root));
+}
+
+body.tss-theme-memphis .tss-sidebar .tss-searchbox {
+    background: transparent;
+}
+
+/* The collapsed rail: icon circles, sunflower under the pointer. */
+body.tss-theme-memphis .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon {
+    border-radius: 50%;
+}
+
+body.tss-theme-memphis .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon:hover {
+    background: var(--tss-mp-sidebar-hover);
+    color: var(--tss-mp-on-accent);
+}
+
+/* .Rounded() rows and boxes are pills already. */
+body.tss-theme-memphis .tss-sidebar-btn-rounded > .tss-btn,
+body.tss-theme-memphis .tss-sidebar-btn-rounded > a > .tss-btn,
+body.tss-theme-memphis .tss-sidebar .tss-sidebar-btn.tss-btn.tss-rounded-full,
+body.tss-theme-memphis .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-rounded.tss-sidebar-btn.tss-btn,
+body.tss-theme-memphis .tss-sidebar-searchbox.tss-sidebar-searchbox-rounded .tss-searchbox-container,
+body.tss-theme-memphis .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon.tss-sidebar-searchbox-rounded {
+    border-radius: 999px !important;
+}
+
+/* An outlined row (the one that pairs with the search box) is a pill at rest. */
+body.tss-theme-memphis .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-memphis .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-mp-line);
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-memphis .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    background: none;
+    border-color: transparent;
+}
+
+body.tss-theme-memphis .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-searchbox > .tss-btn.tss-sidebar-btn-searchbox-button,
+body.tss-theme-memphis .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-btn-searchbox > a > .tss-btn.tss-sidebar-btn-searchbox-button {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Groups: the chevron, and a dotted rule bracketing an open group's pages
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-memphis .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+body.tss-theme-memphis .tss-sidebar-nav-arrow.tss-btn:after {
+    border-color: rgb(var(--tss-default-foreground-color-root));
+    transition: transform 180ms var(--tss-mp-pop);
+}
+
+body.tss-theme-memphis .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page) .tss-sidebar-nav-children {
+    background: radial-gradient(circle, var(--tss-mp-line) 1.2px, transparent 1.6px) 18px 6px / 4px 6px repeat-y;
+}
+
+body.tss-theme-memphis .tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn,
+body.tss-theme-memphis .tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-btn {
+    background: rgb(var(--tss-mp-mint-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+    box-shadow: var(--tss-mp-hard-sm);
+}
+
+/* --------------------------------------------------------------------------
+   Commands and badges
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-memphis .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-sidebar-commands-line .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: rgb(var(--tss-mp-mint-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+    box-shadow: none;
+    transform: none;
+}
+
+body.tss-theme-memphis .tss-sidebar-badges > .tss-btn {
+    border-radius: 999px;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-sidebar-badges > .tss-btn.tss-btn-default:not(.tss-sidebar-badge-transparent-icon):not([style*="background"]) {
+    background: rgb(var(--tss-mp-lilac-root));
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-mp-pink-root));
+}
+
+/* --------------------------------------------------------------------------
+   Identity rows, section header, status card
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-memphis .tss-sidebar .tss-sidebar-header .tss-sidebar-identity-separated {
+    border-bottom: var(--tss-mp-bw) solid var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-sidebar .tss-sidebar-footer .tss-sidebar-identity-separated {
+    border-top: var(--tss-mp-bw) solid var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-sidebar-brand-logo > img {
+    border-radius: 50%;
+}
+
+body.tss-theme-memphis .tss-sidebar-section-header {
+    border-bottom: var(--tss-mp-bw) solid var(--tss-mp-line);
+    margin-bottom: 6px;
+}
+
+body.tss-theme-memphis .tss-sidebar-section-header-closed > .tss-sidebar-brand-logo {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 50%;
+    background: rgb(var(--tss-mp-yellow-root));
+    box-shadow: 2px 2px 0 0 rgb(var(--tss-mp-pink-root));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.tss-theme-memphis .tss-sidebar-section-header-closed > .tss-sidebar-brand-logo > .tss-icon {
+    font-size: 18px;
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-sidebar-status-card {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius-panel);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-mp-mint-root));
+}
+
+body.tss-theme-memphis .tss-sidebar-status-card.tss-sidebar-status-clickable:hover {
+    background: var(--tss-mp-yellow-pale);
+}
+
+body.tss-theme-memphis .tss-sidebar-status-card.tss-sidebar-status-clickable:active {
+    box-shadow: none;
+    transform: translate(3px, 3px);
+}
+
+body.tss-theme-memphis .tss-sidebar-status-dot {
+    border: 1.5px solid var(--tss-mp-line);
+}
+
+/* The segmented pivot on the collapsed rail: stacked circles. */
+body.tss-theme-memphis .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab::before {
+    display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Shift, page mode, navbar
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-memphis .tss-sidebar-shift-panel-child > .tss-sidebar {
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel {
+    background-color: rgb(var(--tss-sidebar-background-color-root));
+    background-image: var(--tss-mp-pattern-bacterio-soft);
+    background-size: 120px 120px;
+    border-left: var(--tss-mp-bw-bold) solid var(--tss-mp-line);
+    box-shadow: -5px 0 0 0 rgb(var(--tss-mp-lilac-root));
+}
+
+body.tss-theme-memphis .tss-sidebar-nav-overlay-title {
+    border-bottom: var(--tss-mp-bw) solid var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-sidebar-nav-overlay-label,
+body.tss-theme-memphis .tss-sidebar-page-bar-title {
+    font-weight: 800;
+}
+
+body.tss-theme-memphis .tss-sidebar-page-bar {
+    background: rgb(var(--tss-sidebar-background-color-root));
+    border-bottom: var(--tss-mp-bw-bold) solid var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-sidebar.tss-navbar {
+    box-shadow: inset 0 calc(-1 * var(--tss-mp-bw-bold)) 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-navbar-burger {
+    border-radius: 50%;
+}
+
+body.tss-theme-memphis .tss-navbar-burger:hover {
+    background: rgb(var(--tss-mp-yellow-root));
+    color: var(--tss-mp-on-accent);
+    border-radius: 50%;
+}
+
+body.tss-theme-memphis .tss-navbar-drawer {
+    background-color: rgb(var(--tss-sidebar-background-color-root));
+    background-image: var(--tss-mp-pattern-bacterio-soft);
+    border: var(--tss-mp-bw-bold) solid var(--tss-mp-line);
+    border-top: none;
+    box-shadow: var(--tss-mp-off) var(--tss-mp-off) 0 0 rgb(var(--tss-mp-pink-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-memphis .tss-sidebar-nav-arrow.tss-btn:after {
+        transition: none;
+    }
+}

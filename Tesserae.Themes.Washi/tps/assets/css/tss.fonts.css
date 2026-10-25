@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Washi theme - fonts
+   --------------------------------------------------------------------------
+   Three voices, all under the SIL Open Font License 1.1 (the license texts
+   sit beside the files), served from the package rather than a font host,
+   Latin subsets only so the whole set stays under 100 KB:
+
+     Shippori Mincho        headings: a Mincho whose Latin has the contrast
+                            and the bracketed serifs of a brush-cut letter
+     Zen Kaku Gothic New    the text: a calm, open Gothic for every label,
+                            field and paragraph
+     IBM Plex Mono          code
+
+   Zen Kaku Gothic New ships 400, 500 and 700. Tesserae's semibold (600) is
+   mapped onto the 500 cut, so a semibold label stays quiet instead of
+   jumping to the bold.
+   ========================================================================== */
+
+@font-face { font-family: "Shippori Mincho"; font-style: normal; font-weight: 400 500; font-display: swap; src: url("../fonts/washi/shippori-mincho-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Shippori Mincho"; font-style: normal; font-weight: 600 800; font-display: swap; src: url("../fonts/washi/shippori-mincho-latin-600-normal.woff2") format("woff2"); }
+
+@font-face { font-family: "Zen Kaku Gothic New"; font-style: normal; font-weight: 100 400; font-display: swap; src: url("../fonts/washi/zen-kaku-gothic-new-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Zen Kaku Gothic New"; font-style: normal; font-weight: 500 600; font-display: swap; src: url("../fonts/washi/zen-kaku-gothic-new-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Zen Kaku Gothic New"; font-style: normal; font-weight: 700 900; font-display: swap; src: url("../fonts/washi/zen-kaku-gothic-new-latin-700-normal.woff2") format("woff2"); }
+
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("../fonts/washi/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }

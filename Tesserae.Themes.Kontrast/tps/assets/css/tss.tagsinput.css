@@ -1,0 +1,47 @@
+/* ==========================================================================
+   Kontrast theme - TagsInput
+   --------------------------------------------------------------------------
+   A field (2px ink edge, 40px floor) holding chips with a 2px edge and bold
+   12px labels; each chip's remove button is a 20px target. Focus draws the
+   field ring inside the box.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-tagsinput {
+    min-height: 40px;
+    border: var(--tss-kt-border) solid var(--tss-kt-edge);
+    border-radius: var(--tss-kt-radius);
+    background: var(--tss-kt-paper);
+    color: var(--tss-kt-ink);
+    gap: 6px;
+}
+
+body.tss-theme-kontrast .tss-tagsinput:focus-within {
+    border-color: var(--tss-kt-focus-outer);
+    outline: var(--tss-kt-ring-width) solid var(--tss-kt-focus-outer);
+    outline-offset: calc(-1 * var(--tss-kt-ring-width));
+    box-shadow: inset 0 0 0 calc(var(--tss-kt-ring-width) + var(--tss-kt-ring-gap)) var(--tss-kt-signal);
+}
+
+body.tss-theme-kontrast .tss-tagsinput-chip {
+    background: var(--tss-kt-surface);
+    color: var(--tss-kt-ink);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius-sm);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: 700;
+    line-height: 20px;
+}
+
+body.tss-theme-kontrast .tss-tagsinput-chip-remove {
+    width: 20px;
+    height: 20px;
+    border-radius: var(--tss-kt-radius-sm);
+    color: var(--tss-kt-ink);
+    border: var(--tss-kt-border) solid transparent;
+}
+
+body.tss-theme-kontrast .tss-tagsinput-chip-remove:hover {
+    background: var(--tss-kt-paper);
+    border-color: var(--tss-kt-ink);
+    color: var(--tss-kt-ink);
+}

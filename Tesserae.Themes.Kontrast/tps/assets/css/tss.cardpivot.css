@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Kontrast theme - CardPivot
+   --------------------------------------------------------------------------
+   Cards in one 2px frame, divided by 2px rules; the chosen card carries a
+   6px accent bar along its foot and a paper face (the rest sit on grey),
+   and its title is bold.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-cardpivot-titlebar {
+    background: var(--tss-kt-surface);
+    border: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-radius: var(--tss-kt-radius);
+    box-shadow: none;
+}
+
+body.tss-theme-kontrast .tss-cardpivot-tab {
+    background: var(--tss-kt-surface);
+    border-right: var(--tss-kt-border) solid var(--tss-kt-ink);
+    border-bottom: var(--tss-kt-bar) solid transparent;
+    transition: none;
+    padding: 8px 14px 4px;
+}
+
+body.tss-theme-kontrast .tss-cardpivot-tab:last-child {
+    border-right: none;
+}
+
+body.tss-theme-kontrast .tss-cardpivot-tab:hover {
+    background: var(--tss-kt-hover);
+    border-bottom-color: var(--tss-kt-line);
+}
+
+body.tss-theme-kontrast .tss-cardpivot-tab.tss-cardpivot-selected {
+    background: var(--tss-kt-paper);
+    border-bottom: var(--tss-kt-bar) solid var(--tss-kt-accent);
+}
+
+body.tss-theme-kontrast .tss-cardpivot-tab.tss-cardpivot-selected .tss-textblock:first-child {
+    font-weight: 750;
+}
+
+body.tss-theme-kontrast .tss-cardpivot-tab:focus-visible {
+    outline-offset: calc(-1 * var(--tss-kt-ring-width)) !important;
+    box-shadow: inset 0 0 0 calc(var(--tss-kt-ring-width) + var(--tss-kt-ring-gap)) var(--tss-kt-focus-inner) !important;
+}

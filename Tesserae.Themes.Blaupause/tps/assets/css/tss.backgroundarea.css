@@ -1,0 +1,10 @@
+/* ==========================================================================
+   Blaupause theme - BackgroundArea
+   --------------------------------------------------------------------------
+   A background area is the drawing board itself: paper with the drafting
+   grid.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-background-area {
+    background: var(--tss-bp-grid);
+}

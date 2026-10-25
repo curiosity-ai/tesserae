@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Graustufe theme - DetailsList
+   --------------------------------------------------------------------------
+   A printed table: column heads in the sans, semibold, over a 2px ink
+   rule; rows parted by hairlines; the row under the pointer takes the
+   wash; figures in tabular lining numerals.
+   ========================================================================== */
+
+body.tss-theme-graustufe .tss-detailslist {
+    font-variant-numeric: tabular-nums lining-nums;
+}
+
+body.tss-theme-graustufe .tss-detailslist-header {
+    background: var(--tss-gs-15);
+    border-bottom: var(--tss-gs-rule-heavy);
+}
+
+body.tss-theme-graustufe .tss-detailslist-column-header {
+    font-family: var(--tss-gs-ui);
+    font-weight: 700;
+    color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-detailslist-list-item-container {
+    border-top-color: var(--tss-gs-11);
+}
+
+body.tss-theme-graustufe .tss-detailslist-list-item-container:last-of-type {
+    border-bottom-color: var(--tss-gs-0);
+}
+
+body.tss-theme-graustufe .tss-detailslist-list-item-container:hover {
+    background: var(--tss-gs-13);
+}
+
+body.tss-theme-graustufe .tss-detailslist-list-item-container.tss-selected,
+body.tss-theme-graustufe .tss-detailslist-list-item-container.tss-detailslist-selected {
+    background: var(--tss-gs-0);
+    color: var(--tss-gs-15);
+}

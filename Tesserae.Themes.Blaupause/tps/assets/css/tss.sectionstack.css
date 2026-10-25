@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Blaupause theme - SectionStack
+   --------------------------------------------------------------------------
+   The page a section stack draws is the drawing board: the paper with its
+   fine and coarse drafting grid. A section card is a boxed detail with
+   registration ticks in its corners.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-sectionstack-secondary {
+    background: var(--tss-bp-grid);
+    background-attachment: local;
+}
+
+body.tss-theme-blaupause .tss-sectionstack-card {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    box-shadow: none;
+    background: var(--tss-bp-ticks), var(--tss-bp-sheet);
+}

@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Washi theme - Conversation
+   --------------------------------------------------------------------------
+   An issue thread as a scroll: comments are sheets with a hairline frame
+   and a quiet header band, hung from a fine vertical line of diluted ink;
+   the highlighted comment is framed in the thread colour. Reactions are
+   small paper slips, the ones you added in indigo.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-conversation-item::before {
+    width: 1px;
+    background: var(--tss-wa-line-strong);
+}
+
+body.tss-theme-washi .tss-conversation-comment {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius);
+}
+
+body.tss-theme-washi .tss-conversation-comment-header {
+    background: var(--tss-wa-wash);
+    border-bottom-color: var(--tss-wa-line);
+    border-radius: 2px 2px 0 0;
+}
+
+body.tss-theme-washi .tss-conversation-comment-attachment {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-conversation-comment-highlighted {
+    border-color: var(--tss-wa-thread);
+    box-shadow: 0 0 0 1px var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-conversation-comment-highlighted > .tss-conversation-comment-header {
+    border-bottom-color: var(--tss-wa-thread);
+    background: var(--tss-wa-thread-halo);
+}
+
+body.tss-theme-washi .tss-conversation-reaction {
+    border-color: var(--tss-wa-line);
+    border-radius: var(--tss-wa-radius-small);
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-washi .tss-conversation-reaction-picker {
+    border-radius: var(--tss-wa-radius-small);
+}
+
+body.tss-theme-washi .tss-conversation-event-icon {
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 0 0 0 3px rgb(var(--tss-default-background-color-root)), inset 0 0 0 1px var(--tss-wa-line);
+}

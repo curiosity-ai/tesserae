@@ -1,0 +1,15 @@
+/* ==========================================================================
+   Phosphor theme - GridPicker
+   --------------------------------------------------------------------------
+   The grid's cells are square character cells; titles are dim legends.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-gridpicker-button {
+    border-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-gridpicker-column-title,
+body.tss-theme-phosphor .tss-gridpicker-row-title {
+    color: var(--tss-ph-dim);
+    letter-spacing: 0.04em;
+}

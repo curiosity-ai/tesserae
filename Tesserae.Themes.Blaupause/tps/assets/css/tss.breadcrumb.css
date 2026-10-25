@@ -1,0 +1,21 @@
+/* ==========================================================================
+   Blaupause theme - Breadcrumb
+   --------------------------------------------------------------------------
+   A path is lettered in its own case (names, not chrome), its separators
+   are the muted chevrons; the current crumb is set heavier.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-breadcrumb .tss-btn {
+    text-transform: none;
+    letter-spacing: 0.01em;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+body.tss-theme-blaupause .tss-breadcrumb.tss-small .tss-btn {
+    font-size: 10px;
+}
+
+body.tss-theme-blaupause .tss-breadcrumb-chevron {
+    color: var(--tss-bp-muted);
+}

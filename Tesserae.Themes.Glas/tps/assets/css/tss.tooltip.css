@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Glas theme - Tooltip
+   --------------------------------------------------------------------------
+   A tooltip is a small lozenge of thick glass: clear frost with ink type in
+   the light edition, smoked with pale type in the dark, blurring what it
+   floats over, a lit rim and a soft shadow. Its arrow is dropped: a point
+   cannot be blurred with the bubble, and a bubble of glass reads without
+   one. Tippy mounts on the body, so the blur has the whole page behind it.
+   ========================================================================== */
+
+body.tss-theme-glas .tippy-box:not([data-theme~='tss-popover']) {
+    background: var(--tss-gl-pane-thick);
+    background-color: var(--tss-tooltip-background-color);
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+    border-radius: 10px;
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px rgba(72, 70, 140, 0.1), 0 10px 26px -10px rgba(50, 48, 120, 0.45);
+    -webkit-backdrop-filter: var(--tss-gl-blur-thick);
+    backdrop-filter: var(--tss-gl-blur-thick);
+    font-weight: 500;
+}
+
+body.tss-theme-glas.tss-dark-mode .tippy-box:not([data-theme~='tss-popover']) {
+    box-shadow: var(--tss-gl-rim), 0 0 0 1px rgba(0, 0, 0, 0.4), 0 10px 26px -10px rgba(0, 0, 0, 0.8);
+}
+
+body.tss-theme-glas .tippy-box:not([data-theme~='tss-popover']) > .tippy-arrow {
+    display: none;
+}
+
+body.tss-theme-glas .tippy-box:not([data-theme~='tss-popover']) > .tippy-content {
+    padding: 5px 10px;
+}
+
+body.tss-theme-glas .tippy-content .tss-fontcolor-default {
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}
+
+/* A button inside a tooltip is a ghost on its glass. */
+body.tss-theme-glas .tippy-content .tss-btn-default:not(.tss-disabled) {
+    background-color: transparent;
+    border-color: transparent;
+}

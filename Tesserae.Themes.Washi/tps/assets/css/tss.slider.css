@@ -1,0 +1,111 @@
+/* ==========================================================================
+   Washi theme - Slider
+   --------------------------------------------------------------------------
+   The rail is a fine line of diluted ink; the part already travelled is
+   drawn over it in vermilion. The thumb is a small paper tab with an ink
+   edge, its edge turning vermilion under the pointer.
+   ========================================================================== */
+
+body.tss-theme-washi .tss-slider-fake-background,
+body.tss-theme-washi .tss-slider-container input:hover ~ .tss-slider-fake-background {
+    top: 6px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(var(--tss-default-foreground-color-root), 0.14);
+}
+
+body.tss-theme-washi .tss-slider-fake-progress,
+body.tss-theme-washi .tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    top: 6px;
+    height: 4px;
+    border-radius: 2px 0 0 2px;
+    background-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-slider-container.tss-vertical .tss-slider-fake-background {
+    top: 0;
+    left: 10px;
+    width: 4px;
+    height: 100%;
+}
+
+body.tss-theme-washi .tss-slider-container.tss-vertical .tss-slider-fake-progress {
+    top: auto;
+    left: 10px;
+    width: 4px;
+    border-radius: 0 0 2px 2px;
+}
+
+body.tss-theme-washi .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress,
+body.tss-theme-washi .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-progress {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-washi .tss-slider-container input.tss-disabled ~ .tss-slider-fake-background {
+    background: rgb(var(--tss-disabled-background-color-root));
+}
+
+body.tss-theme-washi .tss-slider,
+body.tss-theme-washi .tss-slider:hover {
+    background-color: transparent;
+}
+
+body.tss-theme-washi .tss-slider::-webkit-slider-thumb {
+    width: 12px;
+    height: 22px;
+    border-radius: var(--tss-wa-radius-small);
+    border: 1.5px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 0 1px 3px rgba(60, 40, 20, 0.18);
+    cursor: grab;
+    transition: border-color var(--tss-wa-quick) var(--tss-wa-ease);
+}
+
+body.tss-theme-washi .tss-slider::-moz-range-thumb {
+    width: 12px;
+    height: 22px;
+    border-radius: var(--tss-wa-radius-small);
+    border: 1.5px solid rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 0 1px 3px rgba(60, 40, 20, 0.18);
+    cursor: grab;
+}
+
+body.tss-theme-washi .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb {
+    width: 22px;
+    height: 12px;
+}
+
+body.tss-theme-washi .tss-slider-container.tss-vertical .tss-slider::-moz-range-thumb {
+    width: 22px;
+    height: 12px;
+}
+
+body.tss-theme-washi .tss-slider:hover::-webkit-slider-thumb,
+body.tss-theme-washi .tss-slider:active::-webkit-slider-thumb {
+    border-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-slider:hover::-moz-range-thumb,
+body.tss-theme-washi .tss-slider:active::-moz-range-thumb {
+    border-color: var(--tss-wa-shu);
+}
+
+body.tss-theme-washi .tss-slider:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-washi .tss-slider:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px var(--tss-wa-thread-halo);
+    border-color: var(--tss-wa-thread);
+}
+
+body.tss-theme-washi .tss-slider.tss-disabled::-webkit-slider-thumb {
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-washi .tss-slider.tss-disabled::-moz-range-thumb {
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}

@@ -1,0 +1,39 @@
+/* ==========================================================================
+   Zeitung theme - MetadataPanel
+   --------------------------------------------------------------------------
+   A metadata panel is the box of facts at the side of an article: sections
+   divided by hairlines, each titled with a kicker in condensed tracked
+   capitals; names in the serif bold, secondary lines in italic.
+   ========================================================================== */
+
+body.tss-theme-zeitung .tss-metadata-section {
+    border-bottom-color: var(--tss-zt-hair);
+}
+
+body.tss-theme-zeitung .tss-metadata-section-title {
+    font-family: var(--tss-zt-head);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: var(--tss-zt-caps);
+    text-transform: uppercase;
+    color: var(--tss-zt-ink);
+}
+
+body.tss-theme-zeitung .tss-metadata-person-name,
+body.tss-theme-zeitung .tss-metadata-item-title {
+    font-weight: 700;
+}
+
+body.tss-theme-zeitung .tss-metadata-person-secondary,
+body.tss-theme-zeitung .tss-metadata-item-subtitle,
+body.tss-theme-zeitung .tss-metadata-section-empty {
+    font-style: italic;
+    color: var(--tss-zt-muted);
+}
+
+body.tss-theme-zeitung .tss-metadata-item-link {
+    color: var(--tss-zt-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--tss-zt-red);
+    text-underline-offset: 3px;
+}

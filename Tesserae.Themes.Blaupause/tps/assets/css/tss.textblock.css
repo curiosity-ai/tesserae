@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Blaupause theme - TextBlock
+   --------------------------------------------------------------------------
+   Display sizes, set bold, are titles and take the stencil hand; everything
+   else stays in the lettering face. Tables in rich text are drawn like a
+   drawing's schedule: ruled cells, capitals header over a double rule.
+   ========================================================================== */
+
+body.tss-theme-blaupause .tss-textblock.tss-fontsize-mega.tss-fontweight-bold,
+body.tss-theme-blaupause .tss-textblock.tss-fontsize-xxlarge.tss-fontweight-bold,
+body.tss-theme-blaupause .tss-textblock.tss-fontsize-xlarge.tss-fontweight-bold,
+body.tss-theme-blaupause .tss-textblock.tss-fontsize-mega.tss-fontweight-semibold,
+body.tss-theme-blaupause .tss-textblock.tss-fontsize-xxlarge.tss-fontweight-semibold,
+body.tss-theme-blaupause .tss-textblock.tss-fontsize-xlarge.tss-fontweight-semibold,
+body.tss-theme-blaupause .tss-textblock.tss-fontsize-large.tss-fontweight-bold,
+body.tss-theme-blaupause .tss-landing-group {
+    font-family: var(--tss-bp-stencil);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+}
+
+body.tss-theme-blaupause .tss-landing-group {
+    text-transform: uppercase;
+}
+
+body.tss-theme-blaupause .tss-textblock table {
+    border: var(--tss-bp-rule);
+    border-radius: 0;
+    box-shadow: none;
+    background-color: var(--tss-bp-sheet);
+}
+
+body.tss-theme-blaupause .tss-textblock table thead {
+    background-color: transparent;
+}
+
+body.tss-theme-blaupause .tss-textblock table th {
+    font-size: var(--tss-bp-label-size);
+    letter-spacing: var(--tss-bp-caps);
+    text-transform: uppercase;
+    color: var(--tss-bp-text);
+    border-bottom: 3px double var(--tss-bp-line);
+}
+
+body.tss-theme-blaupause .tss-textblock table th + th,
+body.tss-theme-blaupause .tss-textblock table td + td {
+    border-left: 1px solid var(--tss-bp-line-faint);
+}
+
+body.tss-theme-blaupause .tss-textblock table td {
+    border-bottom: 1px solid var(--tss-bp-line-faint);
+}
+
+body.tss-theme-blaupause .tss-textblock table tbody tr:hover {
+    background-color: var(--tss-bp-wash);
+}

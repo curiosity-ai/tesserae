@@ -1,0 +1,37 @@
+/* ==========================================================================
+   Kontrast theme - ColorPalette
+   --------------------------------------------------------------------------
+   Swatches are 32px with a 2px ink ring, so a pale colour is still a shape.
+   The chosen one is ringed twice (paper then ink) and carries a tick, so
+   it is found without judging colours. No zoom on hover.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-colorpalette-swatch {
+    width: 32px;
+    height: 32px;
+    box-shadow: 0 0 0 2px var(--tss-kt-ink);
+    transition: none;
+    position: relative;
+}
+
+body.tss-theme-kontrast .tss-colorpalette-swatch:hover {
+    transform: none;
+    box-shadow: 0 0 0 2px var(--tss-kt-paper), 0 0 0 4px var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-colorpalette-swatch.tss-selected {
+    box-shadow: 0 0 0 3px var(--tss-kt-paper), 0 0 0 6px var(--tss-kt-ink);
+}
+
+body.tss-theme-kontrast .tss-colorpalette-swatch.tss-selected::after {
+    content: "\2713";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 16px;
+    color: #fff;
+    text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 3px #000;
+}

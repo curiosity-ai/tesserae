@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Phosphor theme - ActivityCalendar
+   --------------------------------------------------------------------------
+   An activity calendar is a field of character cells lit to the day's
+   level: square, the scale running from a faint cell to the full phosphor
+   (or ink), the selected day framed by the cursor.
+   ========================================================================== */
+
+body.tss-theme-phosphor .tss-activitycalendar {
+    --tss-activitycalendar-color: var(--tss-ph-cursor);
+    --tss-activitycalendar-empty-color: rgba(var(--tss-ph-ink-root), 0.1);
+    --tss-activitycalendar-radius: 0;
+}
+
+body.tss-theme-phosphor .tss-activitycalendar-summary-value {
+    font-family: var(--tss-ph-display);
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--tss-ph-hot);
+    text-shadow: var(--tss-ph-glow-hot);
+}
+
+body.tss-theme-phosphor .tss-activitycalendar-summary-caption {
+    letter-spacing: var(--tss-ph-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-phosphor .tss-activitycalendar-summary-item {
+    border-color: var(--tss-ph-faint);
+}

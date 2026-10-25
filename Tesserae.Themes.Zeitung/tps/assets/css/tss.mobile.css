@@ -1,0 +1,14 @@
+/* ==========================================================================
+   Zeitung theme - mobile
+   --------------------------------------------------------------------------
+   Square corners: type is set in rectangles.
+   ========================================================================== */
+
+/* --- Square corners: every corner this component rounds with a fixed radius, squared. --- */
+
+body.tss-theme-zeitung.tss-mobile .tss-navbar .tss-navbar-drawer,
+body.tss-theme-zeitung.tss-mobile .tss-navbar-mobile-close {
+    border-radius: 0 !important;
+}
+
+/* --- end of square corners --- */

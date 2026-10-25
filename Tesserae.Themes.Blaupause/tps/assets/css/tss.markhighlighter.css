@@ -1,0 +1,16 @@
+/* ==========================================================================
+   Blaupause theme - MarkHighlighter
+   --------------------------------------------------------------------------
+   Marked text is swiped with the yellow highlighter; the focused match is
+   the red pencil.
+   ========================================================================== */
+
+body.tss-theme-blaupause ::highlight(tss-marked) {
+    background-color: rgba(255, 214, 46, 0.6);
+    color: rgb(20, 38, 86);
+}
+
+body.tss-theme-blaupause ::highlight(tss-marked-focused) {
+    background-color: rgb(var(--tss-bp-red-root));
+    color: rgb(255, 255, 255);
+}

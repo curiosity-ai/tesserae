@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Kontrast theme - Rating
+   --------------------------------------------------------------------------
+   An empty star is drawn hollow (an ink outline, no fill), a chosen one
+   solid with the same outline, so the value reads by shape whatever the
+   star colour. Stars are 28px targets; hover does not grow them.
+   ========================================================================== */
+
+body.tss-theme-kontrast .tss-rating-star {
+    font-size: 28px;
+    -webkit-text-stroke: 1.5px var(--tss-kt-ink);
+    transition: none;
+}
+
+body.tss-theme-kontrast .tss-rating-star.tss-rating-star-empty,
+body.tss-theme-kontrast .tss-rating-star:not(.tss-rating-star-filled) {
+    color: transparent;
+}
+
+body.tss-theme-kontrast .tss-rating-star.tss-rating-star-hover {
+    transform: none;
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+}
