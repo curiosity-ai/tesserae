@@ -1,4 +1,4 @@
-﻿tss-btn-nobg /* Button */
+﻿/* Button */
 button {
     font-family: inherit;
     color: var(--tss-default-foreground-color);
@@ -88,9 +88,9 @@ a {
             padding:0px 8px;
         }
 
+/* The focus ring is at the end of this file. */
 .tss-btn:focus {
     outline: none;
-    box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow);
 }
 
 .tss-btn.tss-disabled {
@@ -617,12 +617,10 @@ a {
 
     .tss-btn.tss-btn-danger.tss-btn-nobg:hover {
         color: var(--tss-danger-background-hover-color);
-        background-color: var(--tss-danger-background-hover-color);
     }
 
 .tss-btn.tss-btn-warning.tss-btn-nobg:hover {
         color: var(--tss-warning-background-hover-color);
-        background-color: var(--tss-warning-background-hover-color);
     }
 
         .tss-btn.tss-btn-danger.tss-btn-nobg:hover .tss-fontcolor-default {
@@ -635,12 +633,10 @@ a {
 
     .tss-btn.tss-btn-danger.tss-btn-nobg:active {
         color: var(--tss-danger-background-active-color);
-        background-color: var(--tss-danger-background-active-color);
     }
 
 .tss-btn.tss-btn-warning.tss-btn-nobg:active {
         color: var(--tss-warning-background-active-color);
-        background-color: var(--tss-warning-background-active-color);
     }
 
         .tss-btn.tss-btn-danger.tss-btn-nobg:active .tss-fontcolor-default {
@@ -659,7 +655,6 @@ a {
 
     .tss-btn.tss-btn-success.tss-btn-nobg:hover {
         color: var(--tss-success-background-hover-color);
-        background-color: var(--tss-success-background-hover-color);
     }
 
         .tss-btn.tss-btn-success.tss-btn-nobg:hover .tss-fontcolor-default {
@@ -669,6 +664,59 @@ a {
     .tss-btn.tss-btn-success.tss-btn-nobg:active,
     .tss-btn.tss-btn-success.tss-btn-nobg:active .tss-fontcolor-default {
         color: var(--tss-success-background-active-color);
+    }
+
+/* A toned button without a background keeps its tone for the label and borrows it, faintly, for the
+   surface under the pointer, the way the default one turns grey. The tone's own fill rules are as
+   specific as `.tss-btn-nobg` or more (`:not(.tss-disabled)` counts as a class), so the surface is
+   restated here for every state: before, a Primary/Danger/Warning/Success NoBackground() button was
+   drawn in its fill colour with its label in that same colour, and could not be read at rest or on hover.
+   The edge goes too, as on the default NoBackground() button: a tone's border is the rim of its fill. The
+   box-shadow is cleared only under the pointer (the filled tone lifts there), so the focus ring at the end
+   of this file still shows at rest. */
+.tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled),
+.tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled),
+.tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled),
+.tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled) {
+    background-color: transparent;
+    border-color: transparent;
+    filter: none;
+}
+
+    .tss-btn.tss-btn-nobg:is(.tss-btn-primary, .tss-btn-danger, .tss-btn-warning, .tss-btn-success):not(.tss-disabled):is(:hover, :active) {
+        box-shadow: none;
+    }
+
+    .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):hover {
+        background-color: color-mix(in srgb, var(--tss-primary-background-color) 12%, transparent);
+    }
+
+    .tss-btn.tss-btn-primary.tss-btn-nobg:not(.tss-disabled):active {
+        background-color: color-mix(in srgb, var(--tss-primary-background-color) 20%, transparent);
+    }
+
+    .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):hover {
+        background-color: color-mix(in srgb, var(--tss-danger-background-color) 12%, transparent);
+    }
+
+    .tss-btn.tss-btn-danger.tss-btn-nobg:not(.tss-disabled):active {
+        background-color: color-mix(in srgb, var(--tss-danger-background-color) 20%, transparent);
+    }
+
+    .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):hover {
+        background-color: color-mix(in srgb, var(--tss-warning-background-color) 12%, transparent);
+    }
+
+    .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled):active {
+        background-color: color-mix(in srgb, var(--tss-warning-background-color) 20%, transparent);
+    }
+
+    .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):hover {
+        background-color: color-mix(in srgb, var(--tss-success-background-color) 12%, transparent);
+    }
+
+    .tss-btn.tss-btn-success.tss-btn-nobg:not(.tss-disabled):active {
+        background-color: color-mix(in srgb, var(--tss-success-background-color) 20%, transparent);
     }
 
 .tss-btn.tss-btn-link {
@@ -1082,3 +1130,12 @@ a {
     .tss-savebtn-sizer .tss-btn-spin-ring * {
         animation: none !important;
     }
+
+/* Keyboard focus. The ring shows on :focus-visible only - a click focuses a button too, and a ring left on
+   whatever was clicked last reads as a selected state. It sits last so that it wins over the rules that
+   clear the box-shadow at the same weight (the default tone, NoBackground, NoBorder, Link), and stays
+   below a theme's own `body.tss-theme-x .tss-btn:focus`, which still replaces it. A toned Link() button
+   clears it at a higher weight and keeps no ring. */
+.tss-btn:not(.tss-disabled):focus-visible {
+    box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow);
+}
