@@ -1,0 +1,18 @@
+{
+    "output": "$(OutDir)/tps/",
+    "outputBy": "Module",
+    "reflection": {
+        "disabled": true,
+        "target": "file"
+    },
+    "resources": [
+        {
+            "name": "tss-theme-memphis.css",
+            "load": false,
+            "files": [
+                "tps/assets/css/tss.common.css"
+            ],
+            "output": "assets/css"
+        }
+    ]
+}

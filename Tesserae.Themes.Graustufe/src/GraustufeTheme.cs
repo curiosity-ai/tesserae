@@ -1,0 +1,35 @@
+namespace Tesserae.Themes.Graustufe
+{
+    /// <summary>
+    /// An e-paper Tesserae custom theme: pure greys, no motion at all, dithered shadows and crisp 1px rules, built for a slow refresh.
+    ///
+    /// <para>
+    /// Activate it through <see cref="UI.Theme.SetCustomTheme(ICustomTheme)"/>:
+    /// </para>
+    /// <code>
+    /// await UI.Theme.SetCustomTheme(GraustufeTheme.Instance);
+    /// </code>
+    /// <para>
+    /// Every rule is scoped under <see cref="RootClass"/> on <c>document.body</c>, light and dark.
+    /// </para>
+    /// </summary>
+    public sealed class GraustufeTheme : CustomTheme
+    {
+        /// <summary>The class this theme puts on <c>document.body</c> while it is active.</summary>
+        public const string RootClass = "tss-theme-graustufe";
+
+        /// <summary>
+        /// Where the combined stylesheet lands in the application's output: the resource group
+        /// <c>tss-theme-graustufe.css</c> in this package's <c>tps.json</c>, written to <c>assets/css</c>
+        /// and not linked from <c>index.html</c> (<c>"load": false</c>).
+        /// </summary>
+        public const string StylesheetUrl = "assets/css/tss-theme-graustufe.css";
+
+        private static GraustufeTheme _instance;
+
+        /// <summary>The one instance: a theme is a switch on the body, so there is nothing to have two of.</summary>
+        public static GraustufeTheme Instance => _instance ?? (_instance = new GraustufeTheme());
+
+        private GraustufeTheme() : base("Graustufe", RootClass, StylesheetUrl) { }
+    }
+}

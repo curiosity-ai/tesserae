@@ -1,0 +1,35 @@
+namespace Tesserae.Themes.Memphis
+{
+    /// <summary>
+    /// A 1980s Memphis-style Tesserae custom theme: squiggles and confetti patterns, clashing pastels, thick black outlines and offset solid shadows.
+    ///
+    /// <para>
+    /// Activate it through <see cref="UI.Theme.SetCustomTheme(ICustomTheme)"/>:
+    /// </para>
+    /// <code>
+    /// await UI.Theme.SetCustomTheme(MemphisTheme.Instance);
+    /// </code>
+    /// <para>
+    /// Every rule is scoped under <see cref="RootClass"/> on <c>document.body</c>, light and dark.
+    /// </para>
+    /// </summary>
+    public sealed class MemphisTheme : CustomTheme
+    {
+        /// <summary>The class this theme puts on <c>document.body</c> while it is active.</summary>
+        public const string RootClass = "tss-theme-memphis";
+
+        /// <summary>
+        /// Where the combined stylesheet lands in the application's output: the resource group
+        /// <c>tss-theme-memphis.css</c> in this package's <c>tps.json</c>, written to <c>assets/css</c>
+        /// and not linked from <c>index.html</c> (<c>"load": false</c>).
+        /// </summary>
+        public const string StylesheetUrl = "assets/css/tss-theme-memphis.css";
+
+        private static MemphisTheme _instance;
+
+        /// <summary>The one instance: a theme is a switch on the body, so there is nothing to have two of.</summary>
+        public static MemphisTheme Instance => _instance ?? (_instance = new MemphisTheme());
+
+        private MemphisTheme() : base("Memphis", RootClass, StylesheetUrl) { }
+    }
+}
