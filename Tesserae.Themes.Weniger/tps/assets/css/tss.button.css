@@ -1,11 +1,12 @@
 /* ==========================================================================
    Weniger theme - Button
    --------------------------------------------------------------------------
-   A button is a key on the front of a device. A coloured key (primary,
-   danger, success, warning) is moulded in its colour: lit along the top,
-   shaded at the foot, a darker 1px edge, standing on a soft shadow. Held
-   down it travels 1px, the light falls off it and the shadow turns inward.
-   Primary is the orange key, the one control a device lets speak.
+   A button is a key on the front of a device, and the keys on those devices
+   are concave: a raised rim, a face dished toward the middle (see "The
+   concave key" below). A coloured key (primary, danger, success, warning) is
+   moulded in its colour and stands on a soft shadow; held down it travels
+   1px and its dish deepens. Primary is the orange key, the one control a
+   device lets speak.
 
    The default button is Tesserae's ghost, and stays one at rest, so a
    toolbar does not become a keyboard; under the pointer it rises into a
@@ -36,6 +37,47 @@ body.tss-theme-weniger .tss-btn:focus-visible {
 }
 
 /* --------------------------------------------------------------------------
+   The concave key
+   --------------------------------------------------------------------------
+   The keys on the radios and calculators are dished: a raised rim lit from
+   above, and inside it a face that sinks toward the middle. In a dish the
+   light runs the other way from a dome: the upper wall faces down and sits
+   in the rim's shadow, the lower wall faces up and catches the light, and
+   the face is a dish rather than a ramp, so the shade is radial: lightest
+   low in the middle, deepest round the upper edge. A key is two layers over
+   its own colour, the rim on a 3px border ring and the dish on the face,
+   with a soft inset shadow under the rim's upper lip.
+   Held down, the whole key travels 1px and the dish deepens.
+
+   Both layers are light and shade only (white and black at low alpha), so
+   the same key works over any colour: orange, the status colours, plastic.
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger {
+    --tss-wg-key-rim: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.12) 45%, rgba(0, 0, 0, 0.1) 70%, rgba(0, 0, 0, 0.22) 100%);
+    --tss-wg-key-dish: radial-gradient(130% 170% at 50% 105%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.06) 38%, rgba(0, 0, 0, 0.03) 58%, rgba(0, 0, 0, 0.14) 100%);
+    --tss-wg-key-dish-deep: radial-gradient(130% 170% at 50% 105%, rgba(255, 255, 255, 0.12) 0%, rgba(0, 0, 0, 0.02) 40%, rgba(0, 0, 0, 0.1) 62%, rgba(0, 0, 0, 0.24) 100%);
+    --tss-wg-key-lip: inset 0 2px 3px -1px rgba(40, 20, 5, 0.3), inset 0 -1px 1px rgba(255, 255, 255, 0.28);
+    --tss-wg-key-lip-deep: inset 0 3px 5px -1px rgba(40, 20, 5, 0.42), inset 0 -1px 1px rgba(255, 255, 255, 0.2);
+    --tss-wg-key-stand: 0 0 0 1px rgba(60, 40, 20, 0.22), 0 1px 1px rgba(60, 30, 10, 0.2), 0 3px 6px -2px rgba(60, 30, 10, 0.28);
+    --tss-wg-key-stand-hover: 0 0 0 1px rgba(60, 40, 20, 0.24), 0 1px 1px rgba(60, 30, 10, 0.22), 0 5px 10px -3px rgba(60, 30, 10, 0.34);
+    --tss-wg-key-stand-down: 0 0 0 1px rgba(60, 40, 20, 0.24), 0 0 1px rgba(60, 30, 10, 0.2);
+    --tss-wg-key-plastic: rgb(241, 240, 236);
+}
+
+body.tss-theme-weniger.tss-dark-mode {
+    --tss-wg-key-rim: linear-gradient(180deg, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0.06) 45%, rgba(0, 0, 0, 0.18) 70%, rgba(0, 0, 0, 0.36) 100%);
+    --tss-wg-key-dish: radial-gradient(130% 170% at 50% 105%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 38%, rgba(0, 0, 0, 0.06) 58%, rgba(0, 0, 0, 0.26) 100%);
+    --tss-wg-key-dish-deep: radial-gradient(130% 170% at 50% 105%, rgba(255, 255, 255, 0.06) 0%, rgba(0, 0, 0, 0.06) 40%, rgba(0, 0, 0, 0.18) 62%, rgba(0, 0, 0, 0.38) 100%);
+    --tss-wg-key-lip: inset 0 2px 3px -1px rgba(0, 0, 0, 0.55), inset 0 -1px 1px rgba(255, 255, 255, 0.12);
+    --tss-wg-key-lip-deep: inset 0 3px 5px -1px rgba(0, 0, 0, 0.7), inset 0 -1px 1px rgba(255, 255, 255, 0.08);
+    --tss-wg-key-stand: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 1px 1px rgba(0, 0, 0, 0.5), 0 3px 7px -2px rgba(0, 0, 0, 0.6);
+    --tss-wg-key-stand-hover: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 1px 1px rgba(0, 0, 0, 0.55), 0 5px 11px -3px rgba(0, 0, 0, 0.7);
+    --tss-wg-key-stand-down: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.5);
+    --tss-wg-key-plastic: rgb(66, 66, 64);
+}
+
+/* --------------------------------------------------------------------------
    Coloured keys
    -------------------------------------------------------------------------- */
 
@@ -43,18 +85,12 @@ body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-
 body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
 body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
 body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
-    background-image: var(--tss-wg-sheen);
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 1px rgba(60, 30, 10, 0.2), 0 2px 5px -1px rgba(60, 30, 10, 0.24);
+    border: 3px solid transparent;
+    background-image: var(--tss-wg-key-dish), var(--tss-wg-key-rim);
+    background-origin: padding-box, border-box;
+    background-clip: padding-box, border-box;
+    box-shadow: var(--tss-wg-key-lip), var(--tss-wg-key-stand);
     filter: none;
-}
-
-body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
-body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
-body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
-body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
-    border-color: rgba(0, 0, 0, 0.55);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), inset 0 -1px 0 rgba(0, 0, 0, 0.15), 0 1px 1px rgba(0, 0, 0, 0.5), 0 2px 6px -1px rgba(0, 0, 0, 0.55);
 }
 
 /* A legend on a coloured key is pressed into it: a hair of shade above the white. */
@@ -68,43 +104,50 @@ body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-n
 body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
 body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
     filter: none;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 1px rgba(60, 30, 10, 0.22), 0 4px 9px -2px rgba(60, 30, 10, 0.3);
+    box-shadow: var(--tss-wg-key-lip), var(--tss-wg-key-stand-hover);
 }
 
-body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
-body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
-body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
-body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.34), inset 0 -1px 0 rgba(0, 0, 0, 0.15), 0 1px 1px rgba(0, 0, 0, 0.55), 0 4px 10px -2px rgba(0, 0, 0, 0.65);
-}
-
-/* Held down: 1px of travel, the light gone, the shadow turned inward. */
+/* Held down: 1px of travel, the dish deepens and the key stops standing. */
 body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
 body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
 body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
-body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
-body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
-body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
-body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
-body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active {
-    background-image: var(--tss-wg-sheen-pressed);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(0, 0, 0, 0.2);
+body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active {
+    background-image: var(--tss-wg-key-dish-deep), var(--tss-wg-key-rim);
+    box-shadow: var(--tss-wg-key-lip-deep), var(--tss-wg-key-stand-down);
     transform: var(--tss-wg-press);
     filter: none;
 }
 
+body.tss-theme-weniger .tss-btn.tss-small.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-small.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-small.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-small.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    border-width: 2px;
+}
+
 /* --------------------------------------------------------------------------
    The default button: a ghost that rises into a plastic key
-   -------------------------------------------------------------------------- */
+   --------------------------------------------------------------------------
+   At rest it is a legend on the panel, so a toolbar does not become a
+   keyboard; under the pointer the same concave key appears in light-grey
+   plastic. The border stays 3px at rest (transparent) so nothing shifts. */
 
-body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link) {
-    border: 1px solid transparent;
+body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link) {
+    border: 3px solid transparent;
+    background-origin: padding-box, border-box;
+    background-clip: padding-box, border-box;
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover,
+body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover {
+    background-color: var(--tss-wg-key-plastic);
+    background-image: var(--tss-wg-key-dish), var(--tss-wg-key-rim);
+    border-color: transparent;
+    box-shadow: var(--tss-wg-key-lip), var(--tss-wg-key-stand);
 }
 
 body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover {
-    background: var(--tss-wg-key-hover);
-    border-color: var(--tss-wg-key-edge);
-    box-shadow: var(--tss-wg-raised);
     color: rgb(var(--tss-default-foreground-color-root));
 }
 
@@ -113,25 +156,14 @@ body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-
 }
 
 body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):active,
-body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):active:hover {
-    background: var(--tss-wg-key-pressed);
-    border-color: var(--tss-wg-key-edge);
-    box-shadow: var(--tss-wg-pressed);
+body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):active:hover,
+body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):active {
+    background-color: var(--tss-wg-key-plastic);
+    background-image: var(--tss-wg-key-dish-deep), var(--tss-wg-key-rim);
+    border-color: transparent;
+    box-shadow: var(--tss-wg-key-lip-deep), var(--tss-wg-key-stand-down);
     transform: var(--tss-wg-press);
     color: rgb(var(--tss-default-foreground-color-root));
-}
-
-/* A coloured ghost (nobg) keeps its colour as the legend and rises the same way. */
-body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover {
-    background: var(--tss-wg-key-hover);
-    border-color: var(--tss-wg-key-edge);
-    box-shadow: var(--tss-wg-raised);
-}
-
-body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):active {
-    background: var(--tss-wg-key-pressed);
-    box-shadow: var(--tss-wg-pressed);
-    transform: var(--tss-wg-press);
 }
 
 /* --------------------------------------------------------------------------
