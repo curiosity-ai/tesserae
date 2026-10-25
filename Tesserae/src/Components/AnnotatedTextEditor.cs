@@ -439,7 +439,11 @@ namespace Tesserae
                     var entityText = text.Substring(entity.Start, end - entity.Start);
 
                     var span                                                                 = Span(Att("tss-annotated-text-entity"));
-                    if (!string.IsNullOrEmpty(entity.Background)) span.style.backgroundColor = entity.Background;
+                    if (!string.IsNullOrEmpty(entity.Background))
+                    {
+                        span.style.backgroundColor = entity.Background;
+                        if (!IsTransparent(entity.Background)) span.classList.add("tss-annotated-text-entity-colored"); //Lets dark mode dim a fill picked for light mode
+                    }
                     if (!string.IsNullOrEmpty(entity.Border)) span.style.outlineColor        = entity.Border;
                     span.appendChild(document.createTextNode(entityText));
 
