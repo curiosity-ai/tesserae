@@ -1,1 +1,99 @@
-/* Rechenwerk theme - mobile */
+/* ==========================================================================
+   Rechenwerk theme - Mobile
+   --------------------------------------------------------------------------
+   Applied while the body also carries tss-mobile. A phone gets the same
+   machine, only narrower. The fixed navbar is ruled off with the 2px ink
+   rule instead of a soft drop shadow; its drawer is the terminal sliding in
+   as a panel, a hard offset shadow beside it, and it snaps across in a few
+   steps rather than easing. The backdrop behind it is the screen dimmed,
+   with the raster showing through. Everything Tesserae rounds for touch
+   (the drawer's close key, the chat box, its round send key, the thin
+   scrollbar's thumb) is cut square. A card that carries a title band keeps
+   the band edge to edge: the phone's tighter side padding goes on the card's
+   content, not on the card, so the band is not inset inside its own frame.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Navbar and drawer
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk.tss-mobile .tss-navbar {
+    box-shadow: none !important;
+    border-bottom: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk.tss-mobile .tss-navbar .tss-navbar-drawer {
+    transition: transform 160ms steps(4);
+    border-right: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk.tss-mobile .tss-navbar .tss-navbar-drawer:not(.tss-collapse) {
+    box-shadow: 6px 0 0 0 var(--tss-rw-signal) !important;
+}
+
+body.tss-theme-rechenwerk .tss-mobile-backdrop {
+    background-color: rgba(10, 10, 10, 0.6);
+    background-image: var(--tss-rw-scanlines);
+    transition: opacity 120ms steps(3);
+}
+
+body.tss-theme-rechenwerk.tss-mobile .tss-navbar-mobile-header {
+    border-bottom: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk.tss-mobile .tss-navbar .tss-navbar-drawer .tss-sidebar-footer {
+    border-top: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk.tss-mobile .tss-navbar-mobile-close {
+    border-radius: 0 !important;
+    border: 2px solid rgb(var(--tss-default-border-color-root)) !important;
+}
+
+body.tss-theme-rechenwerk.tss-mobile .tss-navbar-burger {
+    border-radius: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk.tss-mobile .tss-navbar .tss-navbar-drawer,
+    body.tss-theme-rechenwerk .tss-mobile-backdrop {
+        transition: none;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Cards with a title band
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk.tss-mobile .tss-card.tss-has-layout {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+body.tss-theme-rechenwerk.tss-mobile .tss-card.tss-has-layout > .tss-card-content {
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+/* --------------------------------------------------------------------------
+   Touch controls
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk.tss-mobile .tss-pagination .tss-btn {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk.tss-mobile .tss-omnibox-container.tss-omnibox-mode-chat,
+body.tss-theme-rechenwerk.tss-mobile .tss-omnibox-container.tss-omnibox-chat-and-search {
+    --tss-omnibox-radius: 0px;
+}
+
+body.tss-theme-rechenwerk.tss-mobile .tss-omnibox-footer > .tss-btn {
+    border-radius: 0;
+}
+
+/* The thin phone scrollbar: a square ink slab, no track. */
+body.tss-theme-rechenwerk.tss-mobile ::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background: rgba(var(--tss-default-foreground-color-root), 0.6);
+}

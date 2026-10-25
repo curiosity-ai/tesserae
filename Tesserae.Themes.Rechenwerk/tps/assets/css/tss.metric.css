@@ -36,7 +36,7 @@ body.tss-theme-rechenwerk .tss-metric-title .tss-textblock {
 body.tss-theme-rechenwerk .tss-metric-value,
 body.tss-theme-rechenwerk .tss-metric-value .tss-textblock {
     font-family: var(--tss-rw-dots);
-    font-weight: 800;
+    font-weight: 900;
     font-variant-numeric: tabular-nums;
 }
 

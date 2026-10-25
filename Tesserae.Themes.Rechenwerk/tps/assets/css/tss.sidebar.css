@@ -5,11 +5,15 @@
    capitals, the dark tokens restated on .tss-sidebar (tss.common.css) so
    every component inside it draws itself for a black ground. It is edged
    with a rule in the mode's signal colour, like the red bar that runs down a
-   constructivist sleeve.
+   constructivist sleeve (along the bottom when the sidebar is a navbar).
 
    The rail reads like a track listing: entries in tracked capitals, section
    labels in red, the current entry a solid yellow block with black type (the
-   terminal's cursor), and the brand set in the condensed headline face.
+   terminal's cursor), and the brand set in the condensed headline face. A
+   group opens on a solid triangle that snaps between right and down, and
+   its pages hang off a 2px rule like the indented tracks of a side. Nothing
+   on the rail is rounded: the pill rows and the pill search box are square
+   keys, the status card a framed panel on a hard yellow shadow.
    ========================================================================== */
 
 body.tss-theme-rechenwerk .tss-sidebar {
@@ -22,17 +26,41 @@ body.tss-theme-rechenwerk.tss-dark-mode .tss-sidebar {
     box-shadow: inset -4px 0 0 0 rgb(244, 194, 13);
 }
 
+/* The collapsed rail keeps the base's 54px; the tiles (46px) sit clear of the 4px edge. */
 body.tss-theme-rechenwerk .tss-sidebar.tss-sidebar-closed {
-    padding-right: 8px;
+    padding-left: 2px;
+    padding-right: 6px;
+}
+
+/* A sidebar that holds another (SidebarShift) draws the edge once, on the outer one. */
+body.tss-theme-rechenwerk .tss-sidebar.tss-sidebar-has-shift {
+    padding-right: 4px;
+}
+
+body.tss-theme-rechenwerk .tss-sidebar .tss-sidebar,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-sidebar .tss-sidebar {
+    box-shadow: none;
+    padding-right: 12px;
 }
 
 /* The brand: the headline face, condensed, heavy, capitals. */
-body.tss-theme-rechenwerk .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge,
+body.tss-theme-rechenwerk .tss-sidebar-header > .tss-textblock,
 body.tss-theme-rechenwerk .tss-sidebar-identity-title {
     font-family: var(--tss-rw-display);
     font-weight: 800;
     letter-spacing: 0.04em;
     text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-header > .tss-textblock.tss-fontsize-large,
+body.tss-theme-rechenwerk .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge {
+    font-size: 26px;
+    line-height: 1.1;
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-identity-subtitle {
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
 }
 
 /* Section labels: small red capitals, widely spaced, with a rule running out to the edge. */
@@ -56,18 +84,41 @@ body.tss-theme-rechenwerk .tss-sidebar-separator-with-text::after {
     background: rgba(240, 64, 52, 0.45);
 }
 
-/* Entries: tracked capitals on the black. */
-body.tss-theme-rechenwerk .tss-sidebar .tss-sidebar-btn.tss-btn {
+/* A separator without a label is the same rule, in the terminal's dim grey. */
+body.tss-theme-rechenwerk .tss-sidebar-separator:not(.tss-sidebar-separator-with-text) {
+    border-bottom: 2px solid rgb(56, 54, 49);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-footer {
+    border-top: 2px solid rgb(56, 54, 49);
+    padding-top: 6px;
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-footer:empty {
+    border-top: 0;
+    padding-top: 0;
+}
+
+/* Entries: tracked capitals on the black. A group's own row is set a step heavier. */
+body.tss-theme-rechenwerk .tss-sidebar .tss-sidebar-btn.tss-btn,
+body.tss-theme-rechenwerk .tss-sidebar .tss-sidebar-nav-button.tss-btn {
     border-width: 2px;
+    border-radius: 0;
     font-size: 11.5px;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
 }
 
+body.tss-theme-rechenwerk .tss-sidebar .tss-sidebar-nav-button.tss-btn {
+    font-weight: 600;
+}
+
 body.tss-theme-rechenwerk .tss-sidebar .tss-btn.tss-btn-default:not(.tss-disabled):hover,
 body.tss-theme-rechenwerk .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
-body.tss-theme-rechenwerk .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
+body.tss-theme-rechenwerk .tss-sidebar-has-commands:not(.tss-sidebar-selected):hover > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-rechenwerk .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled),
+body.tss-theme-rechenwerk .tss-sidebar-has-commands:not(.tss-sidebar-selected):has(> .tss-sidebar-commands.tss-sidebar-command-menu-is-open) > a > .tss-btn-default.tss-sidebar-btn:not(.tss-disabled) {
     background-color: rgb(38, 37, 34);
     border-color: rgb(38, 37, 34);
     color: rgb(240, 234, 218);
@@ -77,6 +128,11 @@ body.tss-theme-rechenwerk .tss-sidebar .tss-btn.tss-btn-default:not(.tss-disable
     background-color: rgb(244, 194, 13);
     border-color: rgb(244, 194, 13);
     color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar .tss-btn:focus-visible {
+    outline: 2px solid rgb(244, 194, 13);
+    outline-offset: -2px;
 }
 
 /* The current entry: the terminal's cursor, a solid yellow block. */
@@ -102,8 +158,15 @@ body.tss-theme-rechenwerk.tss-dark-mode .tss-sidebar-btn-open.tss-sidebar-select
     font-weight: 600;
 }
 
+body.tss-theme-rechenwerk .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) i,
+body.tss-theme-rechenwerk .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-rechenwerk .tss-sidebar-btn.tss-sidebar-selected:not(.tss-disabled) .tss-fontcolor-secondary,
 body.tss-theme-rechenwerk .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn i,
 body.tss-theme-rechenwerk .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn .tss-fontcolor-default,
+body.tss-theme-rechenwerk .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn .tss-fontcolor-secondary,
+body.tss-theme-rechenwerk .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn i,
+body.tss-theme-rechenwerk .tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn .tss-fontcolor-default,
+body.tss-theme-rechenwerk .tss-sidebar-btn-open.tss-sidebar-selected .tss-sidebar-identity-subtitle,
 body.tss-theme-rechenwerk .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands .tss-btn,
 body.tss-theme-rechenwerk .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands .tss-btn i {
     color: rgb(10, 10, 10);
@@ -126,20 +189,162 @@ body.tss-theme-rechenwerk .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-n
     box-shadow: inset 4px 0 0 0 rgb(244, 194, 13);
 }
 
-/* Commands on a row: square icon keys. */
-body.tss-theme-rechenwerk .tss-sidebar .tss-sidebar-command.tss-btn {
-    border-width: 0;
+body.tss-theme-rechenwerk .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:not(.tss-disabled) {
+    box-shadow: none;
 }
 
-/* The search box at the top of the rail: a terminal prompt. */
+body.tss-theme-rechenwerk .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open:hover > .tss-sidebar-nav-button.tss-btn:not(.tss-disabled) {
+    background: rgb(38, 37, 34);
+    border-color: rgb(38, 37, 34);
+}
+
+/* The pill rows (.Rounded()) and the pill search box are square keys here. */
+body.tss-theme-rechenwerk .tss-sidebar-btn-rounded > .tss-btn,
+body.tss-theme-rechenwerk .tss-sidebar-btn-rounded > a > .tss-btn,
+body.tss-theme-rechenwerk .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-rounded.tss-sidebar-btn.tss-btn,
+body.tss-theme-rechenwerk .tss-sidebar-searchbox.tss-sidebar-searchbox-rounded .tss-searchbox-container,
+body.tss-theme-rechenwerk .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon.tss-sidebar-searchbox-rounded,
+body.tss-theme-rechenwerk .tss-sidebar-btn-light {
+    border-radius: 0 !important;
+}
+
+/* A toned key on the rail (New document) stands on the key shadow like any key, and presses in. */
+body.tss-theme-rechenwerk .tss-sidebar .tss-sidebar-btn.tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    margin-right: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   Groups: the triangle and the indented tracks
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn,
+body.tss-theme-rechenwerk .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn:hover {
+    border-radius: 0;
+    border-color: transparent;
+    background: transparent;
+}
+
+/* A solid triangle clipped from a square: right while closed, down when open, a snap between the two. */
+body.tss-theme-rechenwerk .tss-sidebar-nav-arrow.tss-btn:after,
+body.tss-theme-rechenwerk .tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:after {
+    left: 5px;
+    top: 3px;
+    width: 8px;
+    height: 10px;
+    border: 0;
+    background: rgb(240, 234, 218);
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    transform: none;
+    transition: transform 100ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
+    transform: rotate(90deg);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:hover:after {
+    background: rgb(244, 194, 13);
+}
+
+/* On a page a group opens a panel to the side: the triangle always points right. */
+body.tss-theme-rechenwerk .tss-sidebar-page:not(.tss-sidebar-searching) .tss-sidebar-nav > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after,
+body.tss-theme-rechenwerk .tss-sidebar-page:not(.tss-sidebar-searching) .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
+    transform: none;
+}
+
+/* The pages of an open group hang off a 2px rule, under the group's icon. */
+body.tss-theme-rechenwerk .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page) .tss-sidebar-nav-children {
+    margin-left: 19px;
+    border-left: 2px solid rgb(56, 54, 49);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar:not(.tss-sidebar-closed):not(.tss-sidebar-page) .tss-sidebar-nav-children > .tss-stack-item {
+    margin-left: 7px;
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-nav-children {
+    transition: opacity 120ms steps(2), transform 0s, visibility 0s linear 120ms;
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-children {
+    transition: opacity 120ms steps(2), transform 0s, visibility 0s;
+}
+
+/* The collapsed rail: a group's tile carries its state as a small yellow triangle in its corner. */
+body.tss-theme-rechenwerk .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav-header:not(.tss-sidebar-nav-header-empty):after {
+    left: auto;
+    right: 3px;
+    bottom: 3px;
+    width: 6px;
+    height: 6px;
+    border: 0;
+    background: rgb(244, 194, 13);
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    transform: none;
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-sidebar.tss-sidebar-closed .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header:after {
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   Commands and badges
+   -------------------------------------------------------------------------- */
+
+/* Commands on a row: square icon keys, framed under the pointer. */
+body.tss-theme-rechenwerk .tss-sidebar .tss-sidebar-command.tss-btn {
+    border-width: 0;
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: rgb(240, 234, 218);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-commands > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover i,
+body.tss-theme-rechenwerk .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn.tss-btn-default:not(.tss-disabled):hover i {
+    color: rgb(10, 10, 10);
+}
+
+/* Badges: square plates in tracked figures. */
+body.tss-theme-rechenwerk .tss-sidebar-badges > .tss-btn,
+body.tss-theme-rechenwerk .tss-sidebar-badge {
+    border-radius: 0;
+    letter-spacing: 0.06em;
+}
+
+/* The menu a collapsed rail opens beside a group: a square floating panel. */
+body.tss-theme-rechenwerk .tippy-box[data-theme~='tss-sidebar-tippy'] {
+    border-radius: 0;
+    box-shadow: var(--tss-rw-frame-shadow);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn,
+body.tss-theme-rechenwerk .tss-sidebar-menu > .tss-sidebar-btn-open > a > .tss-btn {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   The search box at the top of the rail: a terminal prompt
+   -------------------------------------------------------------------------- */
+
 body.tss-theme-rechenwerk .tss-sidebar .tss-searchbox-container {
     border: none;
     border-bottom: 2px solid rgb(92, 88, 78);
     background: transparent;
+    box-shadow: none;
 }
 
 body.tss-theme-rechenwerk .tss-sidebar .tss-searchbox-container:focus-within {
     border-bottom-color: rgb(244, 194, 13);
+    box-shadow: none;
 }
 
 body.tss-theme-rechenwerk .tss-sidebar .tss-searchbox {
@@ -147,13 +352,224 @@ body.tss-theme-rechenwerk .tss-sidebar .tss-searchbox {
     font-size: 12px;
 }
 
-/* The collapsed rail: icon tiles, the current one yellow. */
+/* A button dressed as the search box, and an outlined key, take the prompt's rule too. */
+body.tss-theme-rechenwerk .tss-sidebar-btn-open > .tss-btn.tss-sidebar-btn-outlined,
+body.tss-theme-rechenwerk .tss-sidebar-btn-open > a > .tss-btn.tss-sidebar-btn-outlined {
+    border-color: rgb(92, 88, 78);
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-btn-searchbox > .tss-btn.tss-sidebar-btn-searchbox-button,
+body.tss-theme-rechenwerk .tss-sidebar-btn-searchbox > a > .tss-btn.tss-sidebar-btn-searchbox-button {
+    border-color: transparent transparent rgb(92, 88, 78);
+    font-family: var(--tss-monospace-font-family);
+    font-size: 12px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: rgb(150, 144, 128);
+}
+
+/* --------------------------------------------------------------------------
+   The collapsed rail
+   -------------------------------------------------------------------------- */
+
 body.tss-theme-rechenwerk .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon {
     border-radius: 0;
 }
 
 body.tss-theme-rechenwerk .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon:hover {
     background: rgb(38, 37, 34);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar.tss-sidebar-closed .tss-sidebar-header .tss-sidebar-identity-separated {
+    border-bottom: 2px solid rgb(56, 54, 49);
+}
+
+/* --------------------------------------------------------------------------
+   Brand, profile, section header, status card
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-sidebar-identity-separated {
+    border-color: rgb(56, 54, 49);
+}
+
+/* A section header is a sleeve band on the terminal: its glyph in a solid yellow square. */
+body.tss-theme-rechenwerk .tss-sidebar-section-header .tss-sidebar-brand-logo,
+body.tss-theme-rechenwerk .tss-sidebar-section-header-closed > .tss-sidebar-brand-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-section-header .tss-sidebar-brand-logo .tss-icon,
+body.tss-theme-rechenwerk .tss-sidebar-section-header-closed > .tss-sidebar-brand-logo .tss-icon {
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-section-header .tss-sidebar-identity-title {
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* The status card: a framed panel on the terminal's hard yellow shadow. */
+body.tss-theme-rechenwerk .tss-sidebar-status-card {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    box-shadow: 4px 4px 0 0 rgb(244, 194, 13);
+    margin-right: 4px;
+    margin-bottom: 12px;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-status-card-closed {
+    border: 0;
+    box-shadow: none;
+    margin-right: 0;
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-status-title {
+    font-family: var(--tss-rw-display);
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-status-text,
+body.tss-theme-rechenwerk .tss-sidebar-status-caption {
+    color: rgb(190, 184, 168);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-status-caption {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* The status dot is a square lamp: green, yellow, red, the sleeve colours. */
+body.tss-theme-rechenwerk .tss-sidebar-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-status-success .tss-sidebar-status-dot {
+    background: rgb(52, 168, 120);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-status-warning .tss-sidebar-status-dot {
+    background: rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-status-danger .tss-sidebar-status-dot {
+    background: rgb(232, 52, 40);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-status-danger .tss-sidebar-status-text {
+    color: rgb(255, 120, 106);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-status-card.tss-sidebar-status-clickable:hover {
+    background: rgb(38, 37, 34);
+}
+
+/* --------------------------------------------------------------------------
+   Page mode: the phone layout
+   -------------------------------------------------------------------------- */
+
+/* The host frames a page with a rounded corner; a terminal has none. */
+body.tss-theme-rechenwerk :has(> .tss-sidebar.tss-sidebar-page) {
+    border-radius: 0 !important;
+}
+
+/* A group's panel comes in over the rail: a 2px rule on its leading edge and a hard shadow. */
+body.tss-theme-rechenwerk .tss-sidebar.tss-sidebar-page > .tss-sidebar-nav-children.tss-sidebar-nav-overlay-panel {
+    border-left: 2px solid rgb(var(--tss-default-border-color-root));
+    box-shadow: -6px 0 0 0 rgb(244, 194, 13);
+    animation-timing-function: steps(4);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-nav-overlay-title {
+    border-bottom: 2px solid rgb(56, 54, 49);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-nav-overlay-label {
+    font-family: var(--tss-rw-display);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+/* The bar the content carries while the sidebar is a page sits on paper: a 2px rule under it. */
+body.tss-theme-rechenwerk .tss-sidebar-page-bar {
+    border-bottom: var(--tss-rw-rule);
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-page-bar-title {
+    font-family: var(--tss-rw-display);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   Navbar mode: the terminal laid across the top
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-sidebar.tss-navbar {
+    box-shadow: inset 0 -4px 0 0 rgb(215, 38, 30);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-sidebar.tss-navbar {
+    box-shadow: inset 0 -4px 0 0 rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-navbar-burger,
+body.tss-theme-rechenwerk .tss-navbar-burger:hover {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-navbar-burger:hover {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+/* The drawer is a floating terminal panel: 2px frame, hard yellow shadow, square. */
+body.tss-theme-rechenwerk .tss-navbar-drawer {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    box-shadow: 6px 6px 0 0 rgb(244, 194, 13);
+}
+
+/* --------------------------------------------------------------------------
+   Dragging a row, and motion
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn,
+body.tss-theme-rechenwerk .tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-btn {
+    background: var(--tss-rw-hazard);
+    color: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-sidebar-shift-track {
+    transition: transform 150ms steps(5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-sidebar,
+    body.tss-theme-rechenwerk .tss-sidebar-shift-track,
+    body.tss-theme-rechenwerk .tss-sidebar-nav-children,
+    body.tss-theme-rechenwerk .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-children,
+    body.tss-theme-rechenwerk .tss-sidebar-nav-arrow.tss-btn:after {
+        transition: none;
+    }
 }
 
 /* The rail's own scrollbar is drawn for black in both modes (the island's tokens). */

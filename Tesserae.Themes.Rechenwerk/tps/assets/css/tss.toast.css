@@ -1,1 +1,186 @@
-/* Rechenwerk theme - toast */
+/* ==========================================================================
+   Rechenwerk theme - Toast
+   --------------------------------------------------------------------------
+   A toast is a floating sleeve panel: the surface colour in the 2px ink
+   frame on the 6px hard shadow, square. Its status is a solid block down
+   the left edge, the full height of the toast, holding the icon: the green
+   for success, the red for an error, the yellow with black for a warning,
+   the Autobahn blue for information. The colour is never alone: the icon
+   stays, and so does the word. The title is tracked capitals in the ink;
+   the message is sentence case. A time is a reading on the dot-matrix
+   display. Toasts stack and leave in hard steps, never easing.
+
+   The banner inside (tss.banner.css) is restyled only while it is a toast's
+   content, so a banner placed on a page keeps its own look.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-toast-container {
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-rw-frame-shadow);
+    overflow: visible;
+    transition: margin 160ms steps(4), opacity 160ms steps(4), transform 160ms steps(4);
+}
+
+body.tss-theme-rechenwerk .tss-toast .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root)) !important;
+}
+
+/* --------------------------------------------------------------------------
+   The banner as the toast's face
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner {
+    --tss-banner-title-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-banner-text-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-rw-toast-block: var(--tss-rw-blue);
+    --tss-rw-toast-on-block: rgb(250, 246, 238);
+
+    align-items: stretch;
+    gap: 14px;
+    min-height: 52px;
+    padding: 0 8px 0 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toast-success .tss-toast-container > .tss-banner {
+    --tss-rw-toast-block: rgb(var(--tss-success-background-color-root));
+    --tss-rw-toast-on-block: rgb(var(--tss-success-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toast-error .tss-toast-container > .tss-banner {
+    --tss-rw-toast-block: rgb(var(--tss-danger-background-color-root));
+    --tss-rw-toast-on-block: rgb(var(--tss-danger-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toast-warning .tss-toast-container > .tss-banner {
+    --tss-rw-toast-block: rgb(244, 194, 13);
+    --tss-rw-toast-on-block: rgb(10, 10, 10);
+}
+
+/* The status block: the icon's column, painted solid, ruled off the text. */
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner > .tss-banner-icon:has(> .tss-banner-icon-tile) {
+    justify-content: center;
+    width: 48px;
+    border-right: 2px solid rgb(var(--tss-default-border-color-root));
+    background: var(--tss-rw-toast-block);
+}
+
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner > .tss-banner-icon > .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-toast-container > .tss-banner > .tss-banner-icon > .tss-icontile.tss-banner-icon-tile {
+    --tss-icontile-size: 32px;
+    --tss-icontile-radius: 0px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+    color: var(--tss-rw-toast-on-block);
+    font-size: 17px;
+}
+
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner > .tss-banner-icon > .tss-icontile.tss-banner-icon-tile i {
+    color: var(--tss-rw-toast-on-block);
+}
+
+/* A tile the host coloured itself keeps its colour on the surface, framed like a key. */
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner > .tss-banner-icon > .tss-icontile:not(.tss-banner-icon-tile) {
+    --tss-icontile-radius: 0px;
+    align-self: center;
+    margin-left: 10px;
+    border-radius: 0;
+}
+
+/* No icon: the text keeps its distance from the frame. */
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner:not(:has(> .tss-banner-icon > *)) {
+    padding-left: 14px;
+}
+
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner > .tss-banner-icon:empty {
+    display: none;
+}
+
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner > .tss-banner-content {
+    justify-content: center;
+    gap: 3px;
+    padding: 10px 0;
+}
+
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner .tss-banner-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    line-height: 16px;
+}
+
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner .tss-banner-text {
+    font-size: 13px;
+    line-height: 18px;
+}
+
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner .tss-banner-time-text {
+    font-family: var(--tss-rw-dots);
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 16px;
+    opacity: 1;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner .tss-banner-badge-pill.tss-badge {
+    border-radius: 0;
+    background: var(--tss-rw-toast-block);
+    color: var(--tss-rw-toast-on-block);
+}
+
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner > .tss-banner-action,
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner > .tss-banner-dismiss {
+    align-self: center;
+}
+
+/* The dismiss: a square ghost key that shows its frame under the pointer. */
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner .tss-btn.tss-banner-dismiss-button {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border: 2px solid transparent;
+    border-radius: 0;
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    opacity: 1;
+}
+
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner .tss-btn.tss-banner-dismiss-button:hover {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner .tss-btn.tss-banner-dismiss-button i {
+    color: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   Pinned across the page: a strip, ruled off the page, no shadow
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-toast-fullwidth.tss-toast > .tss-toast-container {
+    box-shadow: none !important;
+    border-bottom: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toast-fullwidth.tss-toast-fullwidth-bottom.tss-toast > .tss-toast-container {
+    border-bottom: none;
+    border-top: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-toast-container {
+        transition: none;
+    }
+}

@@ -5,8 +5,8 @@
    same in both modes (the selection rule of the whole theme). The focused
    match is inverted to black with yellow type, the cursor sitting on it, and
    underlined, since the highlight API takes only colours and decorations.
-   The <mark> fallback backend gets the same look, with a hairline frame on
-   the focused one where a box is possible.
+   On the black screen the cursor is the cream phosphor instead, since a
+   black block would vanish. The <mark> fallback backend gets the same look.
    ========================================================================== */
 
 body.tss-theme-rechenwerk ::highlight(tss-marked) {
@@ -28,11 +28,28 @@ body.tss-theme-rechenwerk mark {
     border-radius: 0;
 }
 
-/* The element backend paints the focused match inline in --tss-mark-focus-color: black, so its type turns yellow. */
+/* The element backend paints the focused match inline in --tss-mark-focus-color (read off the body). */
 body.tss-theme-rechenwerk {
     --tss-mark-focus-color: rgb(10, 10, 10);
 }
 
-body.tss-theme-rechenwerk mark[style*="background"] {
+body.tss-theme-rechenwerk mark.tss-highlight-focused {
     color: rgb(244, 194, 13);
+    text-decoration: underline;
+    text-decoration-color: rgb(215, 38, 30);
+    text-decoration-thickness: 2px;
+}
+
+/* On the black screen a black cursor would vanish: there it is the cream phosphor, with black type. */
+body.tss-theme-rechenwerk.tss-dark-mode {
+    --tss-mark-focus-color: rgb(240, 234, 218);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode ::highlight(tss-marked-focused) {
+    background-color: rgb(240, 234, 218);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode mark.tss-highlight-focused {
+    color: rgb(10, 10, 10);
 }

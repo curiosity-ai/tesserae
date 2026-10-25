@@ -1,1 +1,141 @@
-/* Rechenwerk theme - files */
+/* ==========================================================================
+   Rechenwerk theme - FileSelector and FileDropArea
+   --------------------------------------------------------------------------
+   The selector is a TextBox with its folder key welded on to the right: the
+   same 2px rule, no gap, the key filling yellow when pressed. The drop area is a loading bay marked out on the floor: a dashed 2px ink rule
+   round the surface, square, the message in tracked capitals and the upload
+   arrow in the signal colour. When a file is dragged over it the bay is
+   live: the frame goes solid, the ground takes the black-and-yellow stripes
+   of Radio-Aktivitaet and the message sits on a black plate with yellow type
+   so it still reads over them. No bounce: the arrow snaps up a step and
+   stays, and under reduced motion it does not move at all.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   The selector: a field and a welded key
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-fileselector .tss-stack > .tss-btn.tss-btn-nobg:not(.tss-disabled) {
+    box-sizing: border-box;
+    align-self: flex-start;
+    min-height: 36px;
+    height: 36px;
+    margin: 4px 0 0 0;
+    padding: 0 12px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-left: none;
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-fileselector .tss-stack > .tss-btn.tss-btn-nobg:not(.tss-disabled):hover {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-fileselector .tss-stack > .tss-btn.tss-btn-nobg:not(.tss-disabled):active {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-fileselector .tss-stack > .tss-btn.tss-btn-nobg:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-rechenwerk .tss-fileselector .tss-stack > .tss-btn.tss-btn-nobg:not(.tss-disabled) > i {
+    color: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   The drop area
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-filedroparea {
+    border: 2px dashed rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: background-color 80ms steps(1);
+}
+
+body.tss-theme-rechenwerk .tss-filedroparea:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-filedroparea-message {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-filedroparea-message .tss-textblock {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-filedroparea-icon {
+    color: var(--tss-rw-signal);
+    -webkit-text-stroke: 0;
+    transition: none;
+}
+
+/* Live: hazard stripes, a solid frame, the message on a black plate. */
+body.tss-theme-rechenwerk .tss-filedroparea.tss-dropping,
+body.tss-theme-rechenwerk .tss-filedroparea-wrapper.tss-dropping .tss-filedroparea-overlay {
+    border: 2px solid rgb(17, 17, 17);
+    border-radius: 0;
+    background: var(--tss-rw-hazard);
+}
+
+body.tss-theme-rechenwerk .tss-filedroparea.tss-dropping .tss-filedroparea-message,
+body.tss-theme-rechenwerk .tss-filedroparea-wrapper.tss-dropping .tss-filedroparea-message {
+    width: auto;
+    height: auto;
+    padding: 12px 20px;
+    background: rgb(10, 10, 10);
+    color: rgb(244, 194, 13);
+    box-shadow: 4px 4px 0 0 rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-filedroparea.tss-dropping .tss-filedroparea-icon,
+body.tss-theme-rechenwerk .tss-filedroparea-wrapper.tss-dropping .tss-filedroparea-icon {
+    padding-bottom: 8px;
+    color: rgb(244, 194, 13);
+    animation: none;
+    -webkit-animation: none;
+    -webkit-text-stroke: 0;
+    transform: translateY(-4px);
+}
+
+body.tss-theme-rechenwerk .tss-filedroparea.tss-dropping :is(.tss-btn, .tss-fontcolor-default, .tss-fontcolor-primary, .tss-fontcolor-secondary) {
+    color: inherit;
+}
+
+/* A wrapped component can be small, so its plate is tighter. */
+body.tss-theme-rechenwerk .tss-filedroparea-wrapper.tss-dropping .tss-filedroparea-message {
+    padding: 6px 14px;
+    box-shadow: 3px 3px 0 0 rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-filedroparea-wrapper.tss-dropping .tss-filedroparea-icon {
+    padding-bottom: 2px;
+    font-size: 24px;
+    transform: none;
+}
+
+/* The overlay a wrapped component shows while a file is over it. */
+body.tss-theme-rechenwerk .tss-filedroparea-overlay,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-filedroparea-overlay {
+    border: 2px dashed rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-filedroparea {
+        transition: none;
+    }
+
+    body.tss-theme-rechenwerk .tss-filedroparea.tss-dropping .tss-filedroparea-icon,
+    body.tss-theme-rechenwerk .tss-filedroparea-wrapper.tss-dropping .tss-filedroparea-icon {
+        transform: none;
+    }
+}

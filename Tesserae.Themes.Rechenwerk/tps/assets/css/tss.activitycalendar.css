@@ -40,8 +40,8 @@ body.tss-theme-rechenwerk .tss-activitycalendar-legend {
 
 body.tss-theme-rechenwerk .tss-activitycalendar-summary-value {
     font-family: var(--tss-rw-dots);
-    font-size: 20px;
-    font-weight: 800;
+    font-size: 22px;
+    font-weight: 900;
     line-height: 1.1;
 }
 
@@ -93,6 +93,10 @@ body.tss-theme-rechenwerk .tss-activitycalendar-tooltip {
     border-radius: 0;
     box-shadow: 4px 4px 0 0 var(--tss-rw-signal);
     animation: none;
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-activitycalendar-tooltip {
+    box-shadow: 4px 4px 0 0 rgb(var(--tss-default-foreground-color-root));
 }
 
 body.tss-theme-rechenwerk .tss-activitycalendar-tooltip::after {

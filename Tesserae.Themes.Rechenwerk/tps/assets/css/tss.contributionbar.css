@@ -83,3 +83,16 @@ body.tss-theme-rechenwerk .tss-contribution-toggle:focus-visible {
     outline: 2px solid rgb(var(--tss-default-foreground-color-root));
     outline-offset: 1px;
 }
+
+/* In the reveal popover the legend sits on the tooltip's own surface, so it takes the tooltip's type. */
+body.tss-theme-rechenwerk .tippy-box .tss-contribution-legend-item,
+body.tss-theme-rechenwerk .tippy-box .tss-contribution-legend-label,
+body.tss-theme-rechenwerk .tippy-box .tss-contribution-legend-value {
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tippy-box .tss-contribution-legend-dot,
+body.tss-theme-rechenwerk .tippy-box .tss-contribution-bar,
+body.tss-theme-rechenwerk .tippy-box .tss-contribution-segment {
+    border-color: rgb(var(--tss-tooltip-foreground-color-root));
+}

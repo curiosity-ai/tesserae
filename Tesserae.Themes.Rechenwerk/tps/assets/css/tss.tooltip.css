@@ -3,9 +3,10 @@
    --------------------------------------------------------------------------
    A tooltip is a printed label stuck on the machine: square, 12px, the ink
    block with cream type on paper and the terminal yellow with black type on
-   the screen (the tokens set both). It stands on a 3px hard shadow in the
-   other sleeve colour, red on paper and phosphor on the screen, so it reads
-   as a piece of the sleeve rather than a grey bubble. Text stays in sentence
+   the screen (the tokens set both). Like a sticker it has a 2px margin of
+   the page colour round it, so it stays apart from a band or a key of its
+   own colour, and it stands on a hard shadow in the other sleeve colour,
+   red on paper and phosphor on the screen. Text stays in sentence
    case: a tooltip can be a sentence. The arrow is the solid triangle in the
    tooltip's colour. It appears in two hard frames, no scale or drift.
 
@@ -16,7 +17,7 @@
 body.tss-theme-rechenwerk .tippy-box:not([data-theme]),
 body.tss-theme-rechenwerk .tippy-box[data-theme=""] {
     border-radius: 0;
-    box-shadow: 3px 3px 0 0 var(--tss-rw-signal);
+    box-shadow: 0 0 0 2px var(--tss-rw-paper), 5px 5px 0 0 var(--tss-rw-signal);
     font-family: var(--tss-sansserif-font-family);
     font-size: 12px;
     font-weight: 500;
@@ -27,7 +28,7 @@ body.tss-theme-rechenwerk .tippy-box[data-theme=""] {
 
 body.tss-theme-rechenwerk.tss-dark-mode .tippy-box:not([data-theme]),
 body.tss-theme-rechenwerk.tss-dark-mode .tippy-box[data-theme=""] {
-    box-shadow: 3px 3px 0 0 rgb(var(--tss-default-foreground-color-root));
+    box-shadow: 0 0 0 2px var(--tss-rw-paper), 5px 5px 0 0 rgb(var(--tss-default-foreground-color-root));
 }
 
 body.tss-theme-rechenwerk .tippy-box:not([data-theme]) > .tippy-content,

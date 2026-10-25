@@ -1,1 +1,121 @@
-/* Rechenwerk theme - chat */
+/* ==========================================================================
+   Rechenwerk theme - Chat
+   --------------------------------------------------------------------------
+   Speech is set in square blocks, like the lyric sheet of a sleeve. The
+   assistant speaks on the surface colour inside the 2px ink rule; the person
+   typing speaks in the colours of a title bar: an ink block with paper type
+   on paper, the terminal's yellow block with black type on the screen. No
+   rounded tails: the block's hard 3px shadow says which way it faces.
+
+   The transcript sits on the page colour. The remove button is a small ink
+   key on the block's corner that turns red under the pointer; the "scroll to
+   the end" button is a square key on its shadow.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-chatarea {
+    background-color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-chatarea-scrollbtn {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-rw-btn-shadow);
+    transition: opacity 120ms steps(2);
+    transform: none;
+}
+
+body.tss-theme-rechenwerk .tss-chatarea-scrollbtn.tss-visible {
+    transform: none;
+}
+
+body.tss-theme-rechenwerk .tss-chatarea-scrollbtn:active {
+    transform: var(--tss-rw-btn-travel);
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-chatmessage-container {
+    margin-bottom: 14px;
+}
+
+/* The assistant: surface, 2px rule, a hard shadow falling to the right. */
+body.tss-theme-rechenwerk .tss-chatmessage-bubble {
+    padding: 8px 12px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: 3px 3px 0 0 rgb(var(--tss-default-border-color-root));
+    margin-right: 3px;
+}
+
+/* The person: the title-bar block (ink and paper; on the terminal, yellow and black). */
+body.tss-theme-rechenwerk .tss-chat-right .tss-chatmessage-bubble {
+    padding: 8px 14px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background-color: var(--tss-rw-bar-background);
+    color: var(--tss-rw-bar-foreground);
+    box-shadow: -3px 3px 0 0 var(--tss-rw-signal);
+    margin-right: 0;
+    margin-left: 3px;
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-chat-right .tss-chatmessage-bubble {
+    border-color: rgb(244, 194, 13);
+    box-shadow: -3px 3px 0 0 rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-chat-right .tss-chatmessage-bubble :is(.tss-textblock, .tss-fontcolor-default, .tss-fontcolor-secondary, p, li, span, i, a, strong, em) {
+    color: var(--tss-rw-bar-foreground);
+}
+
+body.tss-theme-rechenwerk .tss-chatmessage-content {
+    line-height: 1.55;
+}
+
+body.tss-theme-rechenwerk .tss-chatmessage-references,
+body.tss-theme-rechenwerk .tss-chat-right .tss-chatmessage-references {
+    border-top: 1px solid currentColor;
+}
+
+body.tss-theme-rechenwerk .tss-chatmessage-commands {
+    transition: opacity 120ms steps(2);
+}
+
+/* The remove key on the block's corner. */
+body.tss-theme-rechenwerk .tss-chatmessage-remove,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-chatmessage-remove {
+    top: -9px;
+    right: -9px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: opacity 120ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-chat-right .tss-chatmessage-remove {
+    right: auto;
+    left: -9px;
+}
+
+body.tss-theme-rechenwerk .tss-chat-right .tss-chatmessage-bubble .tss-chatmessage-remove i {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-chatmessage-remove:hover,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-chatmessage-remove:hover,
+body.tss-theme-rechenwerk .tss-chatmessage-remove:active,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-chatmessage-remove:active,
+body.tss-theme-rechenwerk .tss-chat-right .tss-chatmessage-bubble .tss-chatmessage-remove:hover i {
+    background: rgb(var(--tss-danger-background-color-root));
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-chatarea-scrollbtn,
+    body.tss-theme-rechenwerk .tss-chatmessage-commands,
+    body.tss-theme-rechenwerk .tss-chatmessage-remove {
+        transition: none;
+    }
+}

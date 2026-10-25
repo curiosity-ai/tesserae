@@ -1,1 +1,52 @@
-/* Rechenwerk theme - pagesstack */
+/* ==========================================================================
+   Rechenwerk theme - PagesStack
+   --------------------------------------------------------------------------
+   A pile of printed sheets, the kind a computer of 1981 fed out of its
+   line printer: square pages on the surface colour with a 1px ink edge and
+   no soft shadow, a blank page ruled with fine lines in the separator grey.
+   The "+N" count is a small plate in reversed colours (ink on paper, cream
+   on the terminal) with tracked figures. The fan opens in a few steps rather
+   than a glide, and not at all under reduced motion.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-pagesstack-page,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-pagesstack-page {
+    border: 1px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: none;
+    transition: transform 160ms steps(4);
+}
+
+body.tss-theme-rechenwerk .tss-pagesstack-page:hover {
+    border-color: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-pagesstack-page-clickable:focus-visible {
+    border-color: var(--tss-rw-signal);
+    box-shadow: 0 0 0 2px var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-pagesstack-lines,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-pagesstack-lines {
+    background: repeating-linear-gradient(to bottom,
+        rgb(var(--tss-default-separator-color-root)) 0 1px,
+        transparent 1px 5px);
+}
+
+body.tss-theme-rechenwerk .tss-pagesstack-more {
+    border-radius: 0;
+    padding: 2px 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-pagesstack-page,
+    body.tss-theme-rechenwerk.tss-dark-mode .tss-pagesstack-page {
+        transition: none;
+    }
+}

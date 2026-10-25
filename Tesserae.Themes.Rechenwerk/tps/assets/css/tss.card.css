@@ -121,6 +121,10 @@ body.tss-theme-rechenwerk .tss-card-container.tss-small > .tss-card.tss-has-layo
     margin-bottom: 0;
 }
 
+body.tss-theme-rechenwerk .tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-content {
+    padding: 4px 10px;
+}
+
 body.tss-theme-rechenwerk .tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-footer {
     padding-top: 4px;
     margin-top: 0;

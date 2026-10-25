@@ -67,7 +67,10 @@ body.tss-theme-rechenwerk .tss-nodeview .baklava-node[data-node-type^=__baklava_
 }
 
 /* The title's own input while it is renamed sits on the band: keep it a framed field. */
-body.tss-theme-rechenwerk .tss-nodeview .baklava-node > .__title .baklava-input {
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node > .__title .baklava-input,
+body.tss-theme-rechenwerk .tss-nodeview .baklava-node > .__title .baklava-context-menu {
+    font-size: 13px;
+    font-weight: 400;
     text-transform: none;
     letter-spacing: normal;
 }

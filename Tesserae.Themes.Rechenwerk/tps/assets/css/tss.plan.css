@@ -1,1 +1,448 @@
-/* Rechenwerk theme - plan */
+/* ==========================================================================
+   Rechenwerk theme - Plan
+   --------------------------------------------------------------------------
+   A plan is the machine's run log on a sleeve panel: a 2px ink frame on the
+   5px hard card shadow, and across its head the title bar (black with cream
+   tracked capitals and a red square on paper; yellow with black type on the
+   terminal). The state is a square block in the sleeve colours: running the
+   yellow, done the green, failed the red, waiting a ruled outline, cancelled
+   dashed and struck through. The word is always kept.
+
+   Steps are lines of the log in Space Mono, each with a square status lamp
+   on a 2px rail that takes the colour of where the run has been. The running
+   step is a ruled panel with a signal bar down its edge; its glyph turns in
+   whole steps rather than gliding. Progress bars are framed slots filled in
+   the state's colour (or the black-and-yellow stripes while the end is not
+   known), the percentage and the count on the dot-matrix display. Nothing
+   moves under reduced motion.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-plan {
+    --plan-accent: var(--tss-rw-signal);
+    --plan-accent-soft: transparent;
+    margin: 0 5px 5px 0;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-rw-card-shadow);
+    overflow: visible;
+}
+
+body.tss-theme-rechenwerk .tss-plan-pending {
+    --plan-accent: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-plan-running {
+    --plan-accent: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-plan-completed {
+    --plan-accent: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-plan-failed {
+    --plan-accent: rgb(var(--tss-danger-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-plan-canceled {
+    --plan-accent: var(--tss-rw-muted);
+}
+
+/* --------------------------------------------------------------------------
+   The title bar
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-plan-header {
+    position: relative;
+    align-items: center;
+    min-height: 40px;
+    padding: 6px 10px 6px 34px;
+    background: var(--tss-rw-bar-background);
+    color: var(--tss-rw-bar-foreground);
+}
+
+body.tss-theme-rechenwerk .tss-plan-header::before {
+    content: "";
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    margin-top: -5px;
+    background: var(--tss-rw-bar-marker);
+}
+
+body.tss-theme-rechenwerk .tss-plan-title {
+    color: var(--tss-rw-bar-foreground);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    line-height: 1.35;
+    text-transform: uppercase;
+}
+
+/* The state: a square block with the word in tracked capitals. */
+body.tss-theme-rechenwerk .tss-plan-status-badge,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-plan-status-badge {
+    padding: 2px 8px 2px 6px;
+    border: 2px solid var(--tss-rw-bar-foreground);
+    border-radius: 0;
+    background: transparent;
+    color: var(--tss-rw-bar-foreground);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+}
+
+body.tss-theme-rechenwerk .tss-plan-status-badge .tss-plan-badge-dot {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-plan-running .tss-plan-status-badge,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-plan-running .tss-plan-status-badge {
+    border-color: rgb(244, 194, 13);
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-plan-running .tss-plan-status-badge {
+    border-color: rgb(10, 10, 10);
+    background: rgb(10, 10, 10);
+    color: rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-plan-completed .tss-plan-status-badge,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-plan-completed .tss-plan-status-badge {
+    border-color: rgb(var(--tss-success-background-color-root));
+    background: rgb(var(--tss-success-background-color-root));
+    color: rgb(var(--tss-success-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-plan-failed .tss-plan-status-badge,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-plan-failed .tss-plan-status-badge {
+    border-color: rgb(var(--tss-danger-background-color-root));
+    background: rgb(var(--tss-danger-background-color-root));
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-plan-canceled .tss-plan-status-badge {
+    border-style: dashed;
+    text-decoration: line-through;
+}
+
+/* Running: the lamp blinks on and off. */
+body.tss-theme-rechenwerk .tss-plan-running .tss-plan-status-badge .tss-plan-badge-dot {
+    animation: tss-rw-plan-blink 1s steps(1, end) infinite;
+}
+
+@keyframes tss-rw-plan-blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+body.tss-theme-rechenwerk .tss-plan-cmd {
+    border: 2px solid transparent;
+    border-radius: 0;
+    color: var(--tss-rw-bar-foreground);
+    font-size: 11px;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-plan-cmd:hover,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-plan-cmd:hover {
+    border-color: var(--tss-rw-bar-foreground);
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-plan-header .tss-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-rechenwerk .tss-plan-header .tss-btn.tss-btn-default:not(.tss-disabled) :is(i, .tss-fontcolor-default) {
+    color: var(--tss-rw-bar-foreground);
+}
+
+body.tss-theme-rechenwerk .tss-plan-header .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    background: transparent;
+    border-color: var(--tss-rw-bar-foreground);
+}
+
+/* --------------------------------------------------------------------------
+   Steps: lines of the log
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-plan-steps {
+    padding: 14px 24px 8px;
+}
+
+body.tss-theme-rechenwerk .tss-plan-step.is-completed {
+    --seg-color: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-plan-step.is-running {
+    --seg-color: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-plan-step.is-failed {
+    --seg-color: rgb(var(--tss-danger-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-plan-step.is-canceled,
+body.tss-theme-rechenwerk .tss-plan-step.is-pending {
+    --seg-color: rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-plan-step:not(:last-child) .tss-plan-step-rail::after {
+    top: 28px;
+    bottom: -6px;
+}
+
+/* The status lamp: a square block in the sleeve colours with the glyph knocked out. */
+body.tss-theme-rechenwerk .tss-plan-step-icon {
+    width: 22px;
+    height: 22px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-plan-step-icon .tss-icon {
+    width: 12px;
+    height: 12px;
+    font-size: 12px;
+}
+
+body.tss-theme-rechenwerk .is-pending .tss-plan-step-icon,
+body.tss-theme-rechenwerk .is-canceled .tss-plan-step-icon {
+    border-color: rgb(var(--tss-default-separator-color-root));
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .is-canceled .tss-plan-step-icon {
+    border-style: dashed;
+}
+
+body.tss-theme-rechenwerk .is-running .tss-plan-step-icon {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .is-completed .tss-plan-step-icon {
+    background: rgb(var(--tss-success-background-color-root));
+    color: rgb(var(--tss-success-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .is-failed .tss-plan-step-icon {
+    background: rgb(var(--tss-danger-background-color-root));
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .is-running .tss-plan-step-icon .tss-icon,
+body.tss-theme-rechenwerk .tss-plan-substep.is-running .tss-plan-substep-icon .tss-icon {
+    animation: tss-plan-spin 1.2s steps(8, end) infinite;
+}
+
+body.tss-theme-rechenwerk .tss-plan-step-title {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 12.5px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .is-pending .tss-plan-step-title {
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .is-running .tss-plan-step-title {
+    font-weight: 700;
+}
+
+body.tss-theme-rechenwerk .is-canceled .tss-plan-step-title {
+    color: var(--tss-rw-muted);
+    text-decoration-color: currentColor;
+}
+
+body.tss-theme-rechenwerk .tss-plan-step-toggle {
+    border: 2px solid transparent;
+    border-radius: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: transform 120ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-plan-step-toggle:hover,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-plan-step-toggle:hover {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-plan-step-stage {
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .is-failed .tss-plan-step-stage {
+    color: rgb(var(--tss-danger-background-color-root));
+    font-weight: 600;
+}
+
+/* The running step: a ruled panel with the signal colour down its leading edge. */
+body.tss-theme-rechenwerk .tss-plan-step.is-running .tss-plan-step-body,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-plan-step.is-running .tss-plan-step-body {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-left: 6px solid var(--tss-rw-signal);
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+/* Progress: a framed slot. */
+body.tss-theme-rechenwerk .tss-plan-step-progress,
+body.tss-theme-rechenwerk .tss-plan-progress {
+    height: 10px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-plan-step-progress-bar {
+    border-radius: 0;
+    background: var(--tss-rw-signal);
+    transition: width 160ms steps(4);
+}
+
+body.tss-theme-rechenwerk .tss-plan-progress-bar {
+    border-radius: 0;
+    background: var(--plan-accent);
+    transition: width 160ms steps(4);
+}
+
+body.tss-theme-rechenwerk .tss-plan-step-progress.is-indeterminate .tss-plan-step-progress-bar,
+body.tss-theme-rechenwerk .tss-plan-progress.is-indeterminate .tss-plan-progress-bar {
+    width: 100% !important;
+    background: var(--tss-rw-hazard);
+    animation: tss-rw-plan-march 0.8s steps(4, end) infinite;
+}
+
+@keyframes tss-rw-plan-march {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 22.6px 0;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Substeps
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-plan-substeps {
+    transition: grid-template-rows 120ms steps(3), opacity 120ms steps(2), margin-top 120ms steps(3);
+}
+
+body.tss-theme-rechenwerk .tss-plan-substep + .tss-plan-substep {
+    border-top: 1px solid rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-plan-substep.is-pending .tss-plan-substep-icon,
+body.tss-theme-rechenwerk .tss-plan-substep.is-canceled .tss-plan-substep-icon {
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-plan-substep.is-running .tss-plan-substep-icon {
+    color: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-plan-substep.is-completed .tss-plan-substep-icon {
+    color: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-plan-substep.is-failed .tss-plan-substep-icon {
+    color: rgb(var(--tss-danger-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-plan-substep-title {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-plan-substep.is-pending .tss-plan-substep-title,
+body.tss-theme-rechenwerk .tss-plan-substep-message {
+    color: var(--tss-rw-muted);
+}
+
+/* --------------------------------------------------------------------------
+   The footer strip
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-plan-footer,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-plan-footer {
+    border-top: 2px solid rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-plan-summary {
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-plan-summary .tss-plan-footer-msg {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-plan-count,
+body.tss-theme-rechenwerk .tss-plan-pct {
+    font-family: var(--tss-rw-dots);
+    font-size: 15px;
+    font-weight: 800;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-plan-pct {
+    width: 48px;
+}
+
+body.tss-theme-rechenwerk .tss-plan-timestamps {
+    color: var(--tss-rw-muted);
+    font-family: var(--tss-monospace-font-family);
+}
+
+/* Start / stop: a key on its shadow that presses in. */
+body.tss-theme-rechenwerk .tss-plan .tss-plan-startstop {
+    margin-right: 3px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-rw-btn-shadow);
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-plan .tss-plan-startstop:hover,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-plan .tss-plan-startstop:hover {
+    background: var(--tss-rw-signal);
+    color: var(--tss-rw-on-signal);
+    box-shadow: var(--tss-rw-btn-shadow);
+}
+
+body.tss-theme-rechenwerk .tss-plan .tss-plan-startstop:active {
+    transform: var(--tss-rw-btn-travel);
+    box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-plan-running .tss-plan-status-badge .tss-plan-badge-dot,
+    body.tss-theme-rechenwerk .is-running .tss-plan-step-icon .tss-icon,
+    body.tss-theme-rechenwerk .tss-plan-substep.is-running .tss-plan-substep-icon .tss-icon,
+    body.tss-theme-rechenwerk .tss-plan-step-progress.is-indeterminate .tss-plan-step-progress-bar,
+    body.tss-theme-rechenwerk .tss-plan-progress.is-indeterminate .tss-plan-progress-bar {
+        animation: none !important;
+    }
+
+    body.tss-theme-rechenwerk .tss-plan-step-progress-bar,
+    body.tss-theme-rechenwerk .tss-plan-progress-bar,
+    body.tss-theme-rechenwerk .tss-plan-step-toggle,
+    body.tss-theme-rechenwerk .tss-plan-substeps {
+        transition: none;
+    }
+}

@@ -1,1 +1,121 @@
-/* Rechenwerk theme - icontoggle */
+/* ==========================================================================
+   Rechenwerk theme - IconToggle
+   --------------------------------------------------------------------------
+   A row of calculator keys welded into one block: a single 2px ink frame
+   with 2px rules between the keys, the whole block standing on the key's
+   hard shadow. The selected key is the terminal's cursor - the yellow block
+   with black type and icon - in both modes; the others are the surface, a
+   quiet tint under the pointer. Labels are chrome, so tracked capitals.
+   The block is cut square whatever .Rounded() asks for. Disabled is the
+   dashed frame, no shadow, the disabled grey.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-icon-toggle,
+body.tss-theme-rechenwerk .tss-icon-toggle.tss-rounded-sm,
+body.tss-theme-rechenwerk .tss-icon-toggle.tss-rounded-md,
+body.tss-theme-rechenwerk .tss-icon-toggle.tss-rounded-full {
+    --tss-icon-toggle-radius: 0px;
+    --tss-icon-toggle-inset: 0px;
+    gap: 0;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0 !important;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-rw-btn-shadow);
+    margin-right: 3px;
+    margin-bottom: 3px;
+}
+
+body.tss-theme-rechenwerk .tss-icon-toggle > .tss-btn.tss-icon-toggle-item,
+body.tss-theme-rechenwerk .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-disabled) {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    transition: background-color 60ms steps(1), color 60ms steps(1);
+}
+
+/* The welds: a 2px rule between neighbouring keys. */
+body.tss-theme-rechenwerk .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(:first-child),
+body.tss-theme-rechenwerk .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-disabled):not(:first-child) {
+    border-left: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-icon-toggle.tss-icon-toggle-vertical > .tss-btn.tss-icon-toggle-item:not(:first-child),
+body.tss-theme-rechenwerk .tss-icon-toggle.tss-icon-toggle-vertical > .tss-btn.tss-icon-toggle-item:not(.tss-disabled):not(:first-child) {
+    border-left: none;
+    border-top: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+/* The base sharpens unselected keys in dark mode with a dimmed colour; the theme keeps full ink. */
+body.tss-theme-rechenwerk .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):not(:hover),
+body.tss-theme-rechenwerk.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):not(:hover) {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    background-color: rgb(var(--tss-default-background-hover-color-root));
+    border-color: rgb(var(--tss-default-border-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):active {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+/* The selected key: the yellow cursor, in both modes. */
+body.tss-theme-rechenwerk .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-rechenwerk .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-icon-toggle > .tss-btn.tss-icon-toggle-item > i,
+body.tss-theme-rechenwerk .tss-icon-toggle > .tss-btn.tss-icon-toggle-item .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-icon-toggle > .tss-btn.tss-icon-toggle-item:focus-visible {
+    outline: 2px solid var(--tss-rw-signal);
+    outline-offset: -5px;
+}
+
+/* Disabled: the dashed frame, nothing to press. */
+body.tss-theme-rechenwerk .tss-icon-toggle.tss-icon-toggle-disabled {
+    opacity: 1;
+    border: 2px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-icon-toggle.tss-icon-toggle-disabled > .tss-btn.tss-icon-toggle-item,
+body.tss-theme-rechenwerk .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-disabled {
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-icon-toggle.tss-icon-toggle-disabled > .tss-btn.tss-icon-toggle-item:not(:first-child) {
+    border-left: 2px dashed rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-icon-toggle.tss-icon-toggle-disabled > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-icon-toggle.tss-icon-toggle-disabled > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected {
+    background: rgb(var(--tss-disabled-background-color-root));
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-icon-toggle > .tss-btn.tss-icon-toggle-item {
+        transition: none;
+    }
+}

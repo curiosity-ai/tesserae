@@ -5,9 +5,9 @@
    pointer. The count is a square red tag in Space Mono, edged in the page
    colour so it reads where it overlaps the bell. In the panel (its title
    band is the panel's own) every item marks its kind with a square status
-   block (blue info, green success, yellow warning, red danger), and an
-   unread item carries a solid bar in the signal colour down its left
-   edge instead of a tint.
+   block (blue info, green success, black-ringed yellow warning, red
+   danger), and an unread item carries a solid bar in the signal colour
+   down its left edge instead of a tint.
    ========================================================================== */
 
 body.tss-theme-rechenwerk .tss-notif-bell {
@@ -46,7 +46,7 @@ body.tss-theme-rechenwerk .tss-notif-dot {
 
 body.tss-theme-rechenwerk .tss-notif-dot.tss-notif-info    { background: var(--tss-chart-series-4, var(--tss-rw-blue)); }
 body.tss-theme-rechenwerk .tss-notif-dot.tss-notif-success { background: rgb(var(--tss-success-background-color-root)); }
-body.tss-theme-rechenwerk .tss-notif-dot.tss-notif-warning { background: var(--tss-rw-hazard); background-size: 10px 10px; }
+body.tss-theme-rechenwerk .tss-notif-dot.tss-notif-warning { background: var(--tss-rw-yellow); box-shadow: inset 0 0 0 1px rgb(10, 10, 10); }
 body.tss-theme-rechenwerk .tss-notif-dot.tss-notif-danger  { background: var(--tss-rw-red); }
 
 body.tss-theme-rechenwerk .tss-notif-unread {

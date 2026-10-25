@@ -1,1 +1,27 @@
-/* Rechenwerk theme - pivotselector */
+/* ==========================================================================
+   Rechenwerk theme - PivotSelector
+   --------------------------------------------------------------------------
+   A Pivot whose tab strip is folded into a dropdown. The dropdown keeps the
+   field's look from tss.dropdown.css, but it is the strip, so it reads like
+   one: the current tab's name in tracked capitals, standing on the same
+   thick signal-coloured bar (red on paper, yellow on the terminal) that
+   marks the current tab of a Pivot. The panel under it needs nothing more:
+   its content brings its own frame.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-pivotselector > .tss-stack > .tss-dropdown-container > .tss-dropdown {
+    border-bottom: 4px solid var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-pivotselector > .tss-stack > .tss-dropdown-container > .tss-dropdown > span,
+body.tss-theme-rechenwerk .tss-pivotselector > .tss-stack > .tss-dropdown-container > .tss-dropdown .tss-dropdown-item-on-box {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+/* The panel sits a step below the strip. */
+body.tss-theme-rechenwerk .tss-pivotselector-content {
+    padding-top: 4px;
+}

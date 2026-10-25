@@ -1,1 +1,314 @@
-/* Rechenwerk theme - toolcall */
+/* ==========================================================================
+   Rechenwerk theme - Tool call
+   --------------------------------------------------------------------------
+   A tool call is a line of the machine's log. The chip is square, a 2px ink
+   rule on the surface colour; the call itself is typed in Space Mono and its
+   tool sits on a small square ink plate in front, like the status lamp of a
+   console. Under the pointer the plate lights in the signal colour; opened,
+   the header is ruled off and the plate stays lit. The summary of many
+   calls ("Ran 4 commands") is a key in tracked capitals with a count plate.
+
+   What a call returned is shown as the terminal shows it: a black screen
+   with cream phosphor type and the faint raster, in both modes, framed by
+   the 2px rule. Section labels are tracked capitals; an error is a red
+   block with paper type, never only a red word.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-toolcall {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolcall > .tss-toolcall-header,
+body.tss-theme-rechenwerk .tss-toolcall.tss-expanded > .tss-toolcall-header,
+body.tss-theme-rechenwerk .tss-toolcall > .tss-toolcall-content {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-toolcall-header,
+body.tss-theme-rechenwerk .tss-toolsused-header {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolcall-header {
+    padding: 4px 8px 4px 4px;
+}
+
+body.tss-theme-rechenwerk .tss-toolcall-header:hover,
+body.tss-theme-rechenwerk .tss-toolsused-header:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolcall-header.tss-toolcall-not-expandable:hover {
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-toolcall-text {
+    font-size: 12px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The lamp: a square ink plate, lit in the signal colour under the pointer and while open. */
+body.tss-theme-rechenwerk .tss-toolcall-icon,
+body.tss-theme-rechenwerk .tss-toolsused-icon,
+body.tss-theme-rechenwerk .tss-toolsused-list-icon,
+body.tss-theme-rechenwerk .tss-toolsused-modal-detail-icon {
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolcall-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 11px;
+}
+
+body.tss-theme-rechenwerk .tss-toolcall-icon i,
+body.tss-theme-rechenwerk .tss-toolsused-icon i,
+body.tss-theme-rechenwerk .tss-toolsused-list-icon i,
+body.tss-theme-rechenwerk .tss-toolsused-modal-detail-icon i {
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-toolcall-header:not(.tss-toolcall-not-expandable):hover .tss-toolcall-icon,
+body.tss-theme-rechenwerk .tss-toolcall.tss-expanded > .tss-toolcall-header .tss-toolcall-icon,
+body.tss-theme-rechenwerk .tss-toolsused-header:hover .tss-toolsused-icon,
+body.tss-theme-rechenwerk .tss-toolsused-list-row:hover .tss-toolsused-list-icon {
+    background: var(--tss-rw-signal);
+    color: var(--tss-rw-on-signal);
+}
+
+body.tss-theme-rechenwerk .tss-toolcall-chevron,
+body.tss-theme-rechenwerk .tss-toolsused-chevron,
+body.tss-theme-rechenwerk .tss-toolsused-list-chevron {
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: transform 120ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-inline .tss-toolsused-chevron {
+    transition: transform 120ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-toolcall-content {
+    border-top: 2px solid rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   Actions
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-toolcall-actions,
+body.tss-theme-rechenwerk .tss-toolsused-actions {
+    transition: opacity 120ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-toolcall-action {
+    border: 2px solid transparent;
+    border-radius: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolcall-action:hover {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-background-hover-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolcall-action:focus-visible,
+body.tss-theme-rechenwerk .tss-toolcall-secondary-action:focus-visible,
+body.tss-theme-rechenwerk .tss-toolsused-header:focus-visible {
+    outline: 2px solid var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-toolcall-secondary-action {
+    height: 20px;
+    padding: 0 6px;
+    border: 1px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-toolcall-secondary-action:hover {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolcall-secondary-action:active {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+/* --------------------------------------------------------------------------
+   ToolsUsed: the summary key, and the list it opens
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-toolsused-header {
+    padding: 4px 10px 4px 4px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 3px 3px 0 0 rgb(var(--tss-default-border-color-root));
+    margin-right: 3px;
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-header:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-text {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-inline-list {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-inline-list > .tss-toolcall {
+    border: none;
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-inline-list > .tss-toolcall + .tss-toolcall {
+    border-top: 1px solid rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-inline-list > .tss-toolcall > .tss-toolcall-header {
+    padding: 6px 12px 6px 8px;
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-back {
+    border: 2px solid transparent;
+    border-radius: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-back:hover {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-modal-slider {
+    transition: transform 160ms steps(4);
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-modal-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-modal-detail-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-align: left;
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-list-row {
+    border-bottom: 1px solid rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-list-row:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-list-text {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 12.5px;
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-list-chevron {
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-toolsused-empty,
+body.tss-theme-rechenwerk .tss-toolcallinspect-empty {
+    color: var(--tss-rw-muted);
+    font-family: var(--tss-monospace-font-family);
+    font-size: 12px;
+    font-style: normal;
+}
+
+/* --------------------------------------------------------------------------
+   ToolCallInspect: arguments, error, and the response on a terminal screen
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-toolcallinspect-label {
+    color: var(--tss-rw-muted);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+}
+
+body.tss-theme-rechenwerk .tss-toolcallinspect-label-error {
+    align-self: flex-start;
+    padding: 1px 6px;
+    background: rgb(var(--tss-danger-background-color-root));
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toolcallinspect-label-error:not(:first-child) {
+    margin-top: 8px;
+    padding-top: 1px;
+}
+
+body.tss-theme-rechenwerk .tss-toolcallinspect-error {
+    padding: 6px 8px;
+    border-left: 4px solid rgb(var(--tss-danger-background-color-root));
+    background: rgb(var(--tss-default-background-hover-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-monospace-font-family);
+    font-size: 12px;
+}
+
+body.tss-theme-rechenwerk .tss-toolcallinspect-name {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+body.tss-theme-rechenwerk .tss-toolcallinspect-value {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 12px;
+}
+
+body.tss-theme-rechenwerk .tss-toolcallinspect-response {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background-color: rgb(10, 10, 10);
+    background-image: var(--tss-rw-scanlines);
+    color: rgb(240, 234, 218);
+    font-size: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-toolcall-chevron,
+    body.tss-theme-rechenwerk .tss-toolsused-chevron,
+    body.tss-theme-rechenwerk .tss-toolsused-modal-slider,
+    body.tss-theme-rechenwerk .tss-toolcall-actions,
+    body.tss-theme-rechenwerk .tss-toolsused-actions {
+        transition: none;
+    }
+
+    body.tss-theme-rechenwerk .tss-toolsused-header:active {
+        transform: none;
+    }
+}
