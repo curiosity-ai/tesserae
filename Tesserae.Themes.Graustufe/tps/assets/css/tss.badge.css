@@ -92,6 +92,5 @@ body.tss-theme-graustufe .tss-token-remove:hover {
 }
 
 body.tss-theme-graustufe .tss-tag {
-    background: var(--tss-gs-15);
     border-color: var(--tss-gs-0);
 }

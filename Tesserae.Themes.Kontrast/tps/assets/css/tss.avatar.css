@@ -33,3 +33,8 @@ body.tss-theme-kontrast .tss-presence-offline {
 body.tss-theme-kontrast .tss-persona-secondary {
     color: var(--tss-kt-muted);
 }
+
+/* Every avatar has a 2px ink ring, so a dark photo on a dark page (or a missing one) is still a shape. */
+body.tss-theme-kontrast .tss-avatar {
+    box-shadow: 0 0 0 2px var(--tss-kt-ink);
+}

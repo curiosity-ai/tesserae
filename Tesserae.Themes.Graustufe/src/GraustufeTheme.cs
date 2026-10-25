@@ -1,7 +1,17 @@
 namespace Tesserae.Themes.Graustufe
 {
     /// <summary>
-    /// An e-paper Tesserae custom theme: pure greys, no motion at all, dithered shadows and crisp 1px rules, built for a slow refresh.
+    /// An e-paper reader Tesserae custom theme: a 16-level grey ramp on a slightly warm paper and nothing else (the
+    /// toolkit's palette, its AI tone, pictures and inline colours are all shown as greys), crisp 1px ink rules, square
+    /// corners, shadows replaced by 1-bit dithered drop edges, selection inverted and focus a thick ink frame, text set
+    /// in Literata with Atkinson Hyperlegible Next for chrome. Dark mode is the reader's night mode, the same ramp
+    /// turned over.
+    ///
+    /// <para>
+    /// Nothing moves: every transition and animation is off while the theme is active, and spinners, indeterminate
+    /// bars and skeletons have still replacements. Tippy's popups keep a 1ms visibility transition, because Tippy
+    /// unmounts a hidden popup on <c>transitionend</c>.
+    /// </para>
     ///
     /// <para>
     /// Activate it through <see cref="UI.Theme.SetCustomTheme(ICustomTheme)"/>:

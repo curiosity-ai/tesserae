@@ -191,3 +191,9 @@ body.tss-theme-graustufe .tss-navbar {
     border-bottom: var(--tss-gs-rule);
     border-right: 0;
 }
+
+/* A closed rail keeps the brand inside its 54px: the book face's capitals are wider than the default's. */
+body.tss-theme-graustufe .tss-sidebar.tss-sidebar-closed .tss-sidebar-header > .tss-textblock.tss-fontsize-xlarge {
+    font-size: 19px;
+    letter-spacing: -0.04em;
+}

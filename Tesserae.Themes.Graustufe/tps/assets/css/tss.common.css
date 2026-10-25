@@ -21,6 +21,9 @@
    declared, so both are restated; they are declared once for both modes,
    on the body, over a ramp that the night mode turns over.
 
+   The ramp, the dithered edge images and the palette map are computed
+   (in OKLab, and pixel by pixel for the edges) and written out literally.
+
    The tokens a component file can use:
 
    The ramp (follows the mode: 0 is always the ink, 15 always the paper)
@@ -817,12 +820,15 @@ body.tss-theme-graustufe hr {
     border-top: var(--tss-gs-rule);
 }
 
-/* Pictures are shown the way the panel can show them: in grey. */
+/* Pictures (and the emoji glyphs, which are pictures too) are shown the way the panel can show them: in grey. */
 body.tss-theme-graustufe img,
 body.tss-theme-graustufe video,
 body.tss-theme-graustufe canvas,
 body.tss-theme-graustufe picture,
-body.tss-theme-graustufe iframe {
+body.tss-theme-graustufe iframe,
+body.tss-theme-graustufe .ec,
+body.tss-theme-graustufe i[class*="ec-"],
+body.tss-theme-graustufe span[class*="ec-"] {
     filter: var(--tss-gs-panel);
 }
 

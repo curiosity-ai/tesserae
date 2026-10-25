@@ -37,9 +37,12 @@ body.tss-theme-graustufe .tss-segmentedpivot-tab.tss-segmentedpivot-selected:hov
     font-weight: 700;
 }
 
+/* !important: the selected segment is inverted whatever tone a host gave its label (an AI tab's gradient
+   text, a sidebar's own colours in the night mode). */
+body.tss-theme-graustufe .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
 body.tss-theme-graustufe .tss-segmentedpivot-tab.tss-segmentedpivot-selected * {
-    color: var(--tss-gs-15);
-    -webkit-text-fill-color: var(--tss-gs-15);
+    color: var(--tss-gs-15) !important;
+    -webkit-text-fill-color: var(--tss-gs-15) !important;
 }
 
 body.tss-theme-graustufe .tss-segmentedpivot-tab:focus-visible {

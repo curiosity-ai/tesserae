@@ -1,7 +1,18 @@
 namespace Tesserae.Themes.Kontrast
 {
     /// <summary>
-    /// A high-contrast, accessibility-first Tesserae custom theme: AAA contrast, thick focus rings, underlined links, no meaning by colour alone, forced-colors aware.
+    /// An accessibility-first Tesserae custom theme, drawn like a public wayfinding system: black ink on white board in
+    /// light mode, white on black with one signal yellow in dark mode.
+    ///
+    /// <para>
+    /// Every text pair is at least 7:1 (WCAG AAA) and every control edge and state at least 3:1. Edges are 2px, never
+    /// hairlines; focus is a 6px two-tone ring (yellow and black) that shows on any background and is drawn inside a
+    /// control's edge wherever a container would clip it; links are always underlined; selected, checked, current and
+    /// invalid states change weight, shape or carry a bar, an icon or a pattern, not only a colour; disabled controls
+    /// are hatched with a dashed edge and stay readable. Text is set in Atkinson Hyperlegible Next at 15px / 1.5, code in
+    /// Atkinson Hyperlegible Mono (both bundled, SIL Open Font License). Motion is cut to quick state changes, and the
+    /// theme answers <c>prefers-reduced-motion</c>, <c>prefers-contrast: more</c> and <c>forced-colors: active</c>.
+    /// </para>
     ///
     /// <para>
     /// Activate it through <see cref="UI.Theme.SetCustomTheme(ICustomTheme)"/>:

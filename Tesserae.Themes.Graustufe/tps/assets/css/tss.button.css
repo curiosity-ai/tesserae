@@ -129,10 +129,26 @@ body.tss-theme-graustufe .tss-btn.tss-btn-warning.tss-btn-nobg:not(.tss-disabled
    Links: ink type, underlined when they go somewhere (Tesserae's own rule)
    -------------------------------------------------------------------------- */
 
-body.tss-theme-graustufe .tss-btn.tss-btn-link,
-body.tss-theme-graustufe .tss-btn.tss-btn-link .tss-fontcolor-default,
-body.tss-theme-graustufe .tss-btn.tss-btn-link:hover,
-body.tss-theme-graustufe .tss-btn.tss-btn-link:hover .tss-fontcolor-default {
+body.tss-theme-graustufe .tss-btn.tss-btn-link:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-btn-link:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-btn.tss-btn-link:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-btn.tss-btn-link:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-btn.tss-btn-link:not(.tss-disabled):active,
+body.tss-theme-graustufe .tss-btn.tss-btn-link:not(.tss-disabled):active .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled),
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled):hover,
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover,
+body.tss-theme-graustufe.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):hover,
+body.tss-theme-graustufe.tss-dark-mode .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled):active,
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-primary:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-danger:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-success:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-graustufe .tss-btn.tss-btn-link.tss-btn-warning:not(.tss-disabled) .tss-fontcolor-default {
     color: var(--tss-gs-0);
     border-image: none;
     outline: none;
