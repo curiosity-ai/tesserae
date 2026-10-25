@@ -30,6 +30,7 @@ namespace Tesserae
         private int        _currentStep = 0;
         private int        _firstDelay  = 500;
         private int        _stepDelay   = 150;
+        private bool       _dismissed;
 
         private Dictionary<int, Action> _futureSteps = new Dictionary<int, Action>();
         private Action                  _completed;
@@ -140,7 +141,7 @@ namespace Tesserae
 
             void Show()
             {
-                if (_condition() && showFor.IsMounted())
+                if (!_dismissed && _condition() && showFor.IsMounted())
                 {
                     if (stepType == StepType.NextButton)
                     {
@@ -155,7 +156,25 @@ namespace Tesserae
                         tooltip = VStack().Children(tooltip, pi.PT(8));
                     }
 
-                    hideTooltip = ShowTooltip(showFor, tooltip, animation, placement, hideOnClick: stepType != StepType.NextButton);
+                    var hideBubble = ShowTooltip(showFor, tooltip, animation, placement, hideOnClick: stepType != StepType.NextButton);
+
+                    //Escape ends the walkthrough wherever the focus is: a bubble that only its own button can close
+                    //holds the page hostage for a keyboard user who does not want the tour. Ending it is not
+                    //completing it, so OnComplete does not run.
+                    Action<Event> onKeyDown = null;
+                    onKeyDown = ev =>
+                    {
+                        if (ev.As<KeyboardEvent>().key != "Escape") return;
+                        _dismissed = true;
+                        hideTooltip();
+                    };
+                    window.addEventListener("keydown", onKeyDown);
+
+                    hideTooltip = () =>
+                    {
+                        window.removeEventListener("keydown", onKeyDown);
+                        hideBubble();
+                    };
 
                     if (stepType == StepType.NextButton)
                     {
@@ -168,14 +187,14 @@ namespace Tesserae
 
                         Func<Task> countdown = async () =>
                         {
-                            while (time < delay)
+                            while (time < delay && !_dismissed)
                             {
                                 await Task.Delay(150);
                                 time += 150;
                                 pi.Progress(time, delay);
                             }
 
-                            MoveNext();
+                            if (!_dismissed) MoveNext();
                         };
 
                         countdown().FireAndForget();

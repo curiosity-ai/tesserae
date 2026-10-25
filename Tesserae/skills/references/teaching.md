@@ -23,7 +23,8 @@ with `using static Tesserae.UI;`.
 - `StepType` — `NextButton` (wait for click), `After5seconds`, `After10seconds`.
 - `.RunNow()` — start immediately.
 - `.RunIf(Func<bool>)` — start only if the condition is true (re-checked per step).
-- `.OnComplete(Action)` — callback when the last step finishes.
+- `.OnComplete(Action)` — callback when the last step finishes. Escape dismisses
+  the walkthrough at any step; a dismissed walkthrough does not call it.
 - `.FirstDelay(ms)` / `.StepDelay(ms)` — delay before first step / between steps.
 
 ## Example
