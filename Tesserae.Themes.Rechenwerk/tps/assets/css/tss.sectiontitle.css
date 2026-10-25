@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Rechenwerk theme - SectionTitle
+   --------------------------------------------------------------------------
+   A page title is set like the name on Die Mensch-Maschine: condensed,
+   heavy, capitals, as large as the space allows. The icon sits in a solid
+   square of the signal colour (red on paper, yellow on the terminal), the
+   way the constructivist sleeves put a red block next to the type.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-sectiontitle {
+    padding-bottom: 20px;
+}
+
+body.tss-theme-rechenwerk .tss-sectiontitle-title.tss-textblock {
+    height: 40px;
+    line-height: 40px;
+    padding-left: 14px;
+    font-family: var(--tss-rw-display);
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk i.tss-sectiontitle-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    line-height: 40px !important;
+    font-size: 20px;
+    background: var(--tss-rw-signal);
+    color: var(--tss-rw-on-signal);
+}
+
+body.tss-theme-rechenwerk .tss-sectiontitle-subtitle.tss-textblock {
+    margin-top: 6px;
+    padding-left: 54px;
+    font-size: 15px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}

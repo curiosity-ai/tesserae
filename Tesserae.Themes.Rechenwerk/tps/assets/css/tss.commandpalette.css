@@ -1,0 +1,278 @@
+/* ==========================================================================
+   Rechenwerk theme - CommandPalette
+   --------------------------------------------------------------------------
+   The palette is a floating sleeve panel over a flat veil (the raster runs
+   over it on the terminal): the surface colour in the 2px ink frame on the
+   6px hard shadow, square. Its search row is a strip of the Computerwelt
+   terminal in both modes, black with cream type, the prompt and the caret
+   in the terminal yellow (the OmniBox in it brings the prompt and Space
+   Mono; the strip restates the dark tokens, the way the sidebar does, so
+   everything in it draws itself for a black ground).
+
+   Rows are sentence case. The row under the keyboard is the cursor: the
+   solid yellow block with black type, its icon tile turning black with a
+   yellow glyph. Section labels are small tracked capitals in the signal
+   colour; shortcuts are small key caps in Space Mono standing on a 1px
+   shadow. A row of the host's own (a search result) cannot be recoloured,
+   so its cursor is a yellow bar down its edge inside an ink frame.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-commandpalette-overlay {
+    background: var(--tss-overlay-light);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-commandpalette-overlay {
+    background: var(--tss-overlay-dark);
+    background-image: var(--tss-rw-scanlines);
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-animator {
+    border: none;
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-rw-frame-shadow);
+    font-family: var(--tss-sansserif-font-family);
+}
+
+/* --------------------------------------------------------------------------
+   The terminal strip
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-commandpalette-search-container {
+    --tss-rw-ink: rgb(240, 234, 218);
+    --tss-rw-paper: rgb(0, 0, 0);
+    --tss-rw-surface: rgb(0, 0, 0);
+    --tss-rw-muted: rgb(150, 144, 128);
+    --tss-rw-signal: rgb(244, 194, 13);
+    --tss-rw-on-signal: rgb(10, 10, 10);
+    --tss-default-background-color-root: 0, 0, 0;
+    --tss-default-foreground-color-root: 240, 234, 218;
+    --tss-secondary-background-color-root: 0, 0, 0;
+    --tss-secondary-foreground-color-root: 240, 234, 218;
+    --tss-default-border-color-root: 200, 194, 178;
+    --tss-default-separator-color-root: 56, 54, 49;
+    --tss-default-background-hover-color-root: 38, 37, 34;
+    --tss-default-foreground-hover-color-root: 240, 234, 218;
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+
+    min-height: 56px;
+    padding: 8px 10px 8px 6px;
+    border-bottom: 2px solid rgb(17, 17, 17);
+    background: rgb(var(--tss-default-background-color-root)) var(--tss-rw-scanlines);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-commandpalette-search-container {
+    border-bottom-color: rgb(200, 194, 178);
+}
+
+/* The OmniBox gives up its frame here: the strip is the field. */
+body.tss-theme-rechenwerk .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search,
+body.tss-theme-rechenwerk .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search:hover,
+body.tss-theme-rechenwerk .tss-commandpalette-search-container .tss-omnibox-container.tss-commandpalette-search:focus-within {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-search-container .tss-omnibox-search-input {
+    caret-color: rgb(244, 194, 13);
+    caret-shape: block;
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-search-container .tss-omnibox-search-input-container::before {
+    font-size: 18px;
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-search-container .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-trigger-btn {
+    background: transparent;
+    color: rgb(240, 234, 218);
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-search-container .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-trigger-btn:hover,
+body.tss-theme-rechenwerk .tss-commandpalette-search-container .tss-omnibox-container:focus-within:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-trigger-btn:hover {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-search-container .tss-omnibox-container:focus-within:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-trigger-btn {
+    background: transparent;
+    color: rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-breadcrumbs,
+body.tss-theme-rechenwerk .tss-commandpalette-path {
+    padding-left: 6px;
+    color: rgb(244, 194, 13);
+    font-family: var(--tss-monospace-font-family);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-back {
+    color: rgb(240, 234, 218);
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-back .tss-commandpalette-icon {
+    border: 2px solid rgb(240, 234, 218);
+    background: transparent;
+    color: rgb(240, 234, 218);
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-back:hover .tss-commandpalette-icon {
+    background: rgb(240, 234, 218);
+    color: rgb(10, 10, 10);
+}
+
+/* The close key: framed, square, inverts under the pointer. */
+body.tss-theme-rechenwerk .tss-commandpalette-close {
+    width: 34px;
+    height: 34px;
+    border: 2px solid rgb(240, 234, 218);
+    border-radius: 0;
+    background: transparent;
+    color: rgb(240, 234, 218);
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-close:hover {
+    background: rgb(240, 234, 218);
+    color: rgb(10, 10, 10);
+}
+
+/* --------------------------------------------------------------------------
+   Results
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-commandpalette-results {
+    padding: 6px 0;
+    gap: 0;
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-section {
+    padding: 12px 14px 4px 14px;
+    color: var(--tss-rw-signal);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-item {
+    gap: 12px;
+    padding: 7px 14px;
+    border-radius: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-item:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-item.tss-active {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-item.tss-disabled {
+    opacity: 1;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-item.tss-disabled:hover {
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-icon {
+    box-sizing: border-box;
+    width: 30px;
+    height: 30px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-item.tss-active .tss-commandpalette-icon {
+    border-color: rgb(10, 10, 10);
+    background: rgb(10, 10, 10);
+    color: rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-icon-placeholder,
+body.tss-theme-rechenwerk .tss-commandpalette-item.tss-active .tss-commandpalette-icon-placeholder {
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-title {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-subtitle {
+    font-size: 12px;
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-item.tss-active .tss-commandpalette-subtitle,
+body.tss-theme-rechenwerk .tss-commandpalette-item.tss-active .tss-commandpalette-submenu {
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-submenu {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 700;
+}
+
+/* Shortcuts: small key caps. */
+body.tss-theme-rechenwerk .tss-commandpalette-shortcut {
+    min-width: 20px;
+    padding: 1px 6px;
+    border: 1px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: 1px 1px 0 0 rgb(var(--tss-default-border-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-item.tss-active .tss-commandpalette-shortcut {
+    border-color: rgb(10, 10, 10);
+    background: rgb(250, 246, 238);
+    box-shadow: 1px 1px 0 0 rgb(10, 10, 10);
+    color: rgb(10, 10, 10);
+}
+
+/* A row of the host's own: the cursor is a frame and a yellow bar, its own colours stay. */
+body.tss-theme-rechenwerk .tss-commandpalette-result {
+    padding: 4px 8px;
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-result:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-result.tss-active {
+    background: rgb(var(--tss-default-background-hover-color-root));
+    box-shadow: inset 0 0 0 2px rgb(var(--tss-default-border-color-root)), inset 8px 0 0 0 rgb(244, 194, 13);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-commandpalette-empty {
+    padding: 14px 16px;
+    color: var(--tss-rw-muted);
+    font-family: var(--tss-monospace-font-family);
+    font-size: 12px;
+}

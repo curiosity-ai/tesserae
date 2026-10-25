@@ -1,0 +1,84 @@
+/* ==========================================================================
+   Rechenwerk theme - Nav
+   --------------------------------------------------------------------------
+   The link tree is a track listing, like the sidebar: links in tracked
+   capitals, a solid triangle in the margin that snaps from right to down
+   when a link opens, and nested links hanging off a 2px rule. Under the
+   pointer a row takes the hover tint (no underline); the current link is the
+   terminal's cursor, a solid yellow block with black type, with a 4px edge
+   in black on the side the nav is anchored to.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-nav-link > .tss-nav-link-header {
+    border-left-color: transparent;
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header {
+    border-right-color: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-nav-link > .tss-nav-link-header:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+    text-decoration: none;
+}
+
+body.tss-theme-rechenwerk .tss-nav-link > .tss-nav-link-header.tss-selected,
+body.tss-theme-rechenwerk .tss-nav-link > .tss-nav-link-header.tss-selected:hover {
+    background: rgb(244, 194, 13);
+    border-left-color: rgb(10, 10, 10);
+    color: rgb(10, 10, 10);
+    font-weight: 600;
+}
+
+body.tss-theme-rechenwerk .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header.tss-selected {
+    border-left-color: transparent;
+    border-right-color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-nav-link > .tss-nav-link-header.tss-selected * {
+    color: rgb(10, 10, 10);
+}
+
+/* The disclosure mark: a solid triangle, right while closed, down when open. */
+body.tss-theme-rechenwerk .tss-nav-link-button:after,
+body.tss-theme-rechenwerk .tss-nav-link > .tss-nav-link-header:hover > .tss-nav-link-button:after {
+    left: 6px;
+    top: 5px;
+    width: 8px;
+    height: 10px;
+    border: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    transform: none;
+    transition: transform 100ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-nav-link.tss-expanded > .tss-nav-link-header > .tss-nav-link-button:after {
+    transform: rotate(90deg);
+}
+
+body.tss-theme-rechenwerk .tss-nav-link > .tss-nav-link-header.tss-selected > .tss-nav-link-button:after {
+    background: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-nav-link-button:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Nested links hang off a 2px rule. */
+body.tss-theme-rechenwerk .tss-nav-link > .tss-nav-link-container {
+    margin-left: 14px;
+    border-left: 2px solid rgb(var(--tss-default-separator-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-nav-link-button:after {
+        transition: none;
+    }
+}

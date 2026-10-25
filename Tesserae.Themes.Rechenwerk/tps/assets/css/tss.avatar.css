@@ -1,0 +1,133 @@
+/* ==========================================================================
+   Rechenwerk theme - Avatar and Persona
+   --------------------------------------------------------------------------
+   A face is a cell in a grid, the way the four heads on the Computerwelt
+   screen sit in their squares: a square block framed in the 2px ink rule,
+   never a circle. A photo fills the cell edge to edge. An avatar with only
+   initials is printed on one of the four sleeve colours (red, yellow,
+   Autobahn blue, green), chosen from the hue Tesserae derives from the
+   initials, so one person always gets the same sleeve; the initials are
+   tracked capitals, black on the yellow and cream on the others. The
+   presence dot stays a round dot (a status light), ringed in the page
+   colour so it reads on any face.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-avatar {
+    box-sizing: border-box;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-sansserif-font-family);
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-avatar-image {
+    border-radius: 0;
+}
+
+/* Tracking adds space after the last letter too; the same on the left keeps the initials centred. */
+body.tss-theme-rechenwerk .tss-avatar-initials {
+    box-sizing: border-box;
+    padding-left: var(--tss-rw-tracking);
+    line-height: 1;
+}
+
+/* The sleeve: the hue counted out over the four sleeve colours (hue mod 4). Exactly one weight is 1. */
+body.tss-theme-rechenwerk .tss-avatar.tss-avatar-generated {
+    --tss-rw-avatar-band: mod(round(down, var(--tss-avatar-hue, 0), 1), 4);
+    --tss-rw-avatar-w0: max(0, 1 - var(--tss-rw-avatar-band) * var(--tss-rw-avatar-band));
+    --tss-rw-avatar-w1: max(0, 1 - (var(--tss-rw-avatar-band) - 1) * (var(--tss-rw-avatar-band) - 1));
+    --tss-rw-avatar-w2: max(0, 1 - (var(--tss-rw-avatar-band) - 2) * (var(--tss-rw-avatar-band) - 2));
+    background: var(--tss-rw-blue);
+    background: color-mix(in srgb, var(--tss-rw-red) calc(var(--tss-rw-avatar-w0) * 100%), color-mix(in srgb, var(--tss-rw-yellow) calc(var(--tss-rw-avatar-w1) * 100%), color-mix(in srgb, var(--tss-rw-blue) calc(var(--tss-rw-avatar-w2) * 100%), var(--tss-rw-green))));
+}
+
+body.tss-theme-rechenwerk .tss-avatar.tss-avatar-generated > .tss-avatar-initials {
+    color: rgb(250, 246, 238);
+    color: color-mix(in srgb, rgb(10, 10, 10) calc(var(--tss-rw-avatar-w1) * 100%), rgb(250, 246, 238));
+}
+
+body.tss-theme-rechenwerk .tss-avatar-xs {
+    font-size: 9px;
+    letter-spacing: 0.06em;
+}
+
+body.tss-theme-rechenwerk .tss-avatar-xs > .tss-avatar-initials {
+    padding-left: 0.06em;
+}
+
+body.tss-theme-rechenwerk .tss-avatar-sm {
+    font-size: 11px;
+}
+
+body.tss-theme-rechenwerk .tss-avatar-md {
+    font-size: 13px;
+}
+
+/* The two big ones speak in the headline face, like a name across a sleeve. */
+body.tss-theme-rechenwerk .tss-avatar-lg,
+body.tss-theme-rechenwerk .tss-avatar-xl {
+    font-family: var(--tss-rw-display);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+}
+
+body.tss-theme-rechenwerk .tss-avatar-lg > .tss-avatar-initials,
+body.tss-theme-rechenwerk .tss-avatar-xl > .tss-avatar-initials {
+    padding-left: 0.06em;
+}
+
+body.tss-theme-rechenwerk .tss-avatar-lg {
+    font-size: 24px;
+}
+
+body.tss-theme-rechenwerk .tss-avatar-xl {
+    font-size: 32px;
+}
+
+/* The status light: a round dot on the cell's corner, ringed in the page and then in ink. */
+body.tss-theme-rechenwerk .tss-avatar-presence {
+    right: -3px;
+    bottom: -3px;
+    box-sizing: border-box;
+    border: 2px solid rgb(var(--tss-default-background-color-root));
+    box-shadow: 0 0 0 1px rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-presence-online {
+    background: var(--tss-rw-green);
+}
+
+body.tss-theme-rechenwerk .tss-presence-away {
+    background: var(--tss-rw-yellow);
+}
+
+body.tss-theme-rechenwerk .tss-presence-busy {
+    background: var(--tss-rw-red);
+}
+
+body.tss-theme-rechenwerk .tss-presence-offline {
+    background: rgb(var(--tss-default-background-color-root));
+    border-color: rgb(var(--tss-default-background-color-root));
+    box-shadow: inset 0 0 0 2px rgb(var(--tss-default-border-color-root)), 0 0 0 1px rgb(var(--tss-default-border-color-root));
+}
+
+/* Persona: the name is the label on the cell, the rest is quieter. */
+body.tss-theme-rechenwerk .tss-persona-name {
+    font-weight: 600;
+}
+
+body.tss-theme-rechenwerk .tss-persona-secondary {
+    color: var(--tss-rw-ink);
+}
+
+body.tss-theme-rechenwerk .tss-persona-tertiary {
+    color: var(--tss-rw-muted);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}

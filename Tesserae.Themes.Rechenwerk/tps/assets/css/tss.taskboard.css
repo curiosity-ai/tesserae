@@ -1,0 +1,108 @@
+/* ==========================================================================
+   Rechenwerk theme - TaskBoard
+   --------------------------------------------------------------------------
+   Each column is a panel of the sleeve: a 2px ink frame on the 5px hard
+   shadow, its name in a title band across the top (black with cream capitals
+   and a red square on paper; yellow with black on the terminal). A card is a
+   paper slip in a 2px ink rule standing on a 3px shadow; under the pointer
+   it lifts, and picked up it lifts higher and stays lifted while it travels.
+   The slot it will land in is a dashed rule over faint stripes. TaskBoard
+   writes the column and card shape as inline styles, so radius, ground and
+   shadow are restated with !important.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-taskboard-column {
+    border-radius: 0 !important;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-background-color-root)) !important;
+    box-shadow: var(--tss-rw-card-shadow);
+    overflow: hidden;
+}
+
+/* The title band: the header stack the column carries first. */
+body.tss-theme-rechenwerk .tss-taskboard-column > .tss-stack:first-child {
+    position: relative;
+    min-height: 34px;
+    padding: 4px 8px 4px 32px !important;
+    background: var(--tss-rw-bar-background);
+    color: var(--tss-rw-bar-foreground);
+}
+
+body.tss-theme-rechenwerk .tss-taskboard-column > .tss-stack:first-child::before {
+    content: "";
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    margin-top: -5px;
+    background: var(--tss-rw-bar-marker);
+}
+
+body.tss-theme-rechenwerk .tss-taskboard-column > .tss-stack:first-child > .tss-textblock:first-child {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--tss-rw-bar-foreground);
+}
+
+body.tss-theme-rechenwerk .tss-taskboard-column > .tss-stack:first-child .tss-textblock,
+body.tss-theme-rechenwerk .tss-taskboard-column > .tss-stack:first-child i,
+body.tss-theme-rechenwerk .tss-taskboard-column > .tss-stack:first-child .tss-btn-default {
+    color: var(--tss-rw-bar-foreground);
+}
+
+/* --------------------------------------------------------------------------
+   Cards
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-taskboard-card {
+    border-radius: 0 !important;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-secondary-background-color-root)) !important;
+    box-shadow: 3px 3px 0 0 rgb(var(--tss-default-border-color-root)) !important;
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: transform 90ms steps(2), box-shadow 90ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-taskboard-column:not(.tss-taskboard-column-readonly) .tss-taskboard-card:not(.tss-taskboard-card-locked):not(.tss-taskboard-card-ghost):hover {
+    box-shadow: 5px 5px 0 0 rgb(var(--tss-default-border-color-root)) !important;
+    transform: translate(-2px, -2px);
+}
+
+/* Picked up: lifted onto the signal-coloured shadow, and the slip it leaves behind is the drop slot. */
+body.tss-theme-rechenwerk .tss-taskboard-card.sortable-chosen,
+body.tss-theme-rechenwerk .tss-taskboard-card.sortable-drag {
+    box-shadow: 8px 8px 0 0 var(--tss-rw-signal) !important;
+    transform: translate(-4px, -4px);
+    cursor: grabbing;
+}
+
+body.tss-theme-rechenwerk .tss-taskboard-card.tss-taskboard-card-ghost,
+body.tss-theme-rechenwerk .tss-taskboard-column.tss-taskboard-column-ghost {
+    border: 2px dashed rgb(var(--tss-default-border-color-root));
+    background: repeating-linear-gradient(-45deg, rgba(var(--tss-default-foreground-color-root), 0.12) 0 5px, transparent 5px 10px) !important;
+    box-shadow: none !important;
+    transform: none;
+}
+
+body.tss-theme-rechenwerk .tss-taskboard-card.tss-taskboard-card-ghost > * {
+    visibility: hidden;
+}
+
+/* A locked card cannot move: its frame is dashed, like anything that will not respond. */
+body.tss-theme-rechenwerk .tss-taskboard-card.tss-taskboard-card-locked {
+    border-style: dashed;
+    box-shadow: none !important;
+}
+
+body.tss-theme-rechenwerk .tss-taskboard-card-footer {
+    border-top: 1px solid rgb(var(--tss-default-separator-color-root)) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-taskboard-card {
+        transition: none;
+    }
+}

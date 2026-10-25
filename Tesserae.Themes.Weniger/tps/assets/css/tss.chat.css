@@ -1,0 +1,97 @@
+/* ==========================================================================
+   Weniger theme - Chat
+   --------------------------------------------------------------------------
+   A transcript is the face of a device: the chat area is a shallow well in
+   the panel, and each message a moulded tablet set on it. The assistant
+   speaks on the light plastic with the hairline groove of a panel (the
+   graphite plastic in the charcoal edition); the person typing speaks on
+   the same plastic tinted orange, with an orange edge, so the two sides
+   are told apart by colour and by side without either shouting. Both are
+   soft rounded squares, the corner nearest the speaker pulled in to 4px.
+
+   The scroll-to-bottom button is a round plastic key, and the remove
+   button a small round key that turns red under the pointer.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-chatarea {
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    border-radius: var(--tss-wg-radius-key);
+}
+
+body.tss-theme-weniger .tss-chatarea-scrollbtn {
+    border: 1px solid var(--tss-wg-key-edge);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+/* The assistant: light plastic with the groove. */
+body.tss-theme-weniger .tss-chatmessage-bubble {
+    padding: 9px 14px;
+    border-radius: var(--tss-wg-radius-key);
+    border-top-left-radius: 4px;
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-raised);
+    outline: 1px solid var(--tss-wg-groove);
+    outline-offset: -4px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The person typing: the plastic tinted orange, an orange edge. */
+body.tss-theme-weniger .tss-chat-right .tss-chatmessage-bubble {
+    padding: 9px 14px;
+    border-radius: var(--tss-wg-radius-key);
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: var(--tss-wg-radius-key);
+    background: linear-gradient(180deg, rgba(236, 88, 26, 0.07) 0%, rgba(236, 88, 26, 0.14) 100%), var(--tss-wg-key);
+    box-shadow: inset 0 0 0 1px rgba(236, 88, 26, 0.32), var(--tss-wg-raised);
+    outline: none;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-chat-right .tss-chatmessage-bubble {
+    background: linear-gradient(180deg, rgba(236, 88, 26, 0.14) 0%, rgba(236, 88, 26, 0.22) 100%), var(--tss-wg-key);
+    box-shadow: inset 0 0 0 1px rgba(250, 112, 48, 0.42), var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-chatmessage-references,
+body.tss-theme-weniger .tss-chat-right .tss-chatmessage-references {
+    border-top: 1px solid var(--tss-wg-groove);
+}
+
+/* The remove button: a small round key, red under the pointer. */
+body.tss-theme-weniger .tss-chatmessage-remove,
+body.tss-theme-weniger.tss-dark-mode .tss-chatmessage-remove {
+    border: 1px solid var(--tss-wg-key-edge);
+    background: var(--tss-wg-key);
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-chatmessage-remove:hover,
+body.tss-theme-weniger.tss-dark-mode .tss-chatmessage-remove:hover {
+    background: var(--tss-wg-red);
+    background-image: var(--tss-wg-sheen);
+    border-color: rgba(0, 0, 0, 0.2);
+    color: var(--tss-wg-on-orange);
+}
+
+body.tss-theme-weniger .tss-chatmessage-remove:active,
+body.tss-theme-weniger.tss-dark-mode .tss-chatmessage-remove:active {
+    background: var(--tss-wg-red);
+    background-image: var(--tss-wg-sheen-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    color: var(--tss-wg-on-orange);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-chatarea-scrollbtn,
+    body.tss-theme-weniger .tss-chatmessage-commands,
+    body.tss-theme-weniger .tss-chatmessage-remove {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-chatarea-scrollbtn {
+        transform: none;
+    }
+}

@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Weniger theme - OverflowSet
+   --------------------------------------------------------------------------
+   A row of commands printed on the panel with a hairline groove between
+   them, the way a device prints a row of function legends. The commands
+   keep their own look (link buttons stay orange type, ghost buttons rise
+   into keys, both from tss.button.css); the separators become short groove
+   ticks, and the "..." that opens the rest is a small key.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-overflowset .tss-btn {
+    border-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger .tss-overflowset-separator {
+    color: rgba(var(--tss-secondary-foreground-color-root), 0.7);
+}
+
+/* A separator with no glyph of its own is drawn as a groove tick. */
+body.tss-theme-weniger .tss-overflowset-separator:not([class*="fi-"]) {
+    width: 1px;
+    height: 14px;
+    background: var(--tss-wg-groove);
+    box-shadow: 1px 0 0 rgba(255, 255, 255, 0.55);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-overflowset-separator:not([class*="fi-"]) {
+    box-shadow: 1px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-weniger .tss-overflowset-opencolapsed {
+    border-radius: var(--tss-wg-radius-small);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-overflowset-opencolapsed:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}

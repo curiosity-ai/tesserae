@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Rechenwerk theme - Popover
+   --------------------------------------------------------------------------
+   A popover draws no chrome of its own: what is placed in it (a menu, a
+   card, a picker) is the floating sleeve panel, with its own 2px frame and
+   hard shadow. So the Tippy box stays transparent here and its arrow is
+   dropped: a triangle hung off a square framed panel looks like a bubble,
+   and the panel opens flush against its anchor anyway. A bare component
+   placed in a popover (no surface of its own) gets the sleeve panel from
+   the popover wrapper instead.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tippy-box[data-theme~='tss-popover'] {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    display: none;
+}
+
+body.tss-theme-rechenwerk .tippy-box[data-theme~='tss-popover'] > .tippy-content {
+    padding: 0;
+}
+
+body.tss-theme-rechenwerk .tss-popover {
+    font-family: var(--tss-sansserif-font-family);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tippy-box[data-theme~='tss-popover'] .tippy-content .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root));
+}

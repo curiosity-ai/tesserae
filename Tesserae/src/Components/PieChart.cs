@@ -20,6 +20,8 @@ namespace Tesserae
         /// </summary>
         public PieChart() : base()
         {
+            _container.classList.add("tss-piechart");
+
             // A pie's slice labels read better in a column beside it than in a row above it.
             _legendPosition = ChartLegendPosition.Right;
         }

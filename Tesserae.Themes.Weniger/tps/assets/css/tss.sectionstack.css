@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Weniger theme - SectionStack
+   --------------------------------------------------------------------------
+   A section stack is a row of devices on a table. The secondary variant
+   puts them on the table colour (the page), a shade darker than the
+   plastic, so every section card reads as a body of its own; a bare
+   section card is the same moulded panel as a Card, groove and all.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-sectionstack-secondary {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-weniger .tss-sectionstack-item {
+    margin-bottom: 18px !important;
+}
+
+body.tss-theme-weniger .tss-sectionstack .tss-sectionstack-item:last-child {
+    margin-bottom: 0 !important;
+}
+
+body.tss-theme-weniger .tss-sectionstack-card {
+    padding: 18px;
+    background: var(--tss-wg-plastic);
+    border-radius: var(--tss-wg-radius-panel);
+    box-shadow: var(--tss-wg-panel-shadow);
+    outline: 1px solid var(--tss-wg-groove);
+    outline-offset: calc(-1 * var(--tss-wg-groove-inset));
+}

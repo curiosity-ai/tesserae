@@ -1,0 +1,253 @@
+/* ==========================================================================
+   Rechenwerk theme - Modal
+   --------------------------------------------------------------------------
+   A modal is a sleeve laid on the page. The page behind is a flat veil of
+   the paper (or of the screen), never blurred; on the terminal the CRT
+   raster runs over the veil as well. The window is the surface colour in
+   the 2px ink frame on the 6px hard shadow, square.
+
+   With a title, the header is the sleeve band of rule 9: black with cream
+   tracked capitals and a red square in front on paper, the Computerwelt
+   yellow with black type and a black square on the terminal. A large title
+   is set in the condensed display face instead. A header of the host's
+   own (a result row, a toolbar) keeps the surface and is ruled off the
+   content instead, since its parts bring colours of their own that a black
+   or yellow band would swallow. The close button is a
+   square key drawn in the band's type colour that inverts under the pointer.
+   A footer is a strip ruled off the content, like a card's. The modal does
+   not zoom in: it snaps into place from its shadow in a few frames.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-modal-container {
+    backdrop-filter: none;
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-modal-container:not(.tss-modal-modeless) {
+    background-image: var(--tss-rw-scanlines);
+}
+
+body.tss-theme-rechenwerk .tss-modal {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-radius: 0;
+    box-shadow: var(--tss-rw-frame-shadow);
+    outline: none;
+}
+
+body.tss-theme-rechenwerk .tss-modal.tss-embedded {
+    box-shadow: var(--tss-rw-frame);
+}
+
+body.tss-theme-rechenwerk .tss-modal-animate {
+    animation: tss-rw-modal-snap 120ms steps(3) both;
+}
+
+@keyframes tss-rw-modal-snap {
+    0% {
+        opacity: 0;
+        transform: translate(6px, 6px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   The header: a sleeve band when it carries a title
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-modal-header {
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) {
+    min-height: 44px;
+    padding-left: 32px;
+    background: var(--tss-rw-bar-background);
+    color: var(--tss-rw-bar-foreground);
+}
+
+/* A header of the host's own: ruled off, not banded. */
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(:empty)):not(:has(> .tss-modal-header-content > .tss-textblock:only-child)) {
+    min-height: 44px;
+    border-bottom: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+/* The square in front of the title. */
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child)::before {
+    content: "";
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    margin-top: -5px;
+    background: var(--tss-rw-bar-marker);
+}
+
+/* Left-hand commands come before the square, so the square follows them. */
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-left-header-commands:not(:empty)):has(> .tss-modal-header-content > .tss-textblock:only-child) {
+    padding-left: 12px;
+}
+
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-left-header-commands:not(:empty))::before {
+    display: none;
+}
+
+body.tss-theme-rechenwerk .tss-modal-header-content > .tss-textblock:only-child {
+    color: var(--tss-rw-bar-foreground);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+/* A title asked for large is a headline: the condensed display face. */
+body.tss-theme-rechenwerk .tss-modal-header-content > .tss-textblock.tss-fontsize-mediumplus:only-child,
+body.tss-theme-rechenwerk .tss-modal-header-content > .tss-textblock.tss-fontsize-large:only-child,
+body.tss-theme-rechenwerk .tss-modal-header-content > .tss-textblock.tss-fontsize-xlarge:only-child,
+body.tss-theme-rechenwerk .tss-modal-header-content > .tss-textblock.tss-fontsize-xxlarge:only-child,
+body.tss-theme-rechenwerk .tss-modal-header-content > .tss-textblock.tss-fontsize-mega:only-child {
+    font-family: var(--tss-rw-display);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+}
+
+body.tss-theme-rechenwerk .tss-modal-header + .tss-modal-content {
+    padding-top: 0;
+}
+
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) + .tss-modal-content {
+    padding-top: 14px;
+}
+
+/* --------------------------------------------------------------------------
+   Header commands and the close key
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-modal-header-commands > .tss-btn,
+body.tss-theme-rechenwerk .tss-modal-header-commands > button,
+body.tss-theme-rechenwerk .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-rechenwerk .tss-modal-left-header-commands > button {
+    min-width: 30px;
+    height: 30px;
+    border: 2px solid transparent;
+    border-radius: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: background-color 60ms steps(1), color 60ms steps(1);
+}
+
+body.tss-theme-rechenwerk .tss-modal-header-commands > .tss-btn:hover,
+body.tss-theme-rechenwerk .tss-modal-header-commands > button:hover,
+body.tss-theme-rechenwerk .tss-modal-left-header-commands > .tss-btn:hover,
+body.tss-theme-rechenwerk .tss-modal-left-header-commands > button:hover {
+    background-color: transparent;
+    border-color: rgb(var(--tss-default-border-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-rechenwerk .tss-modal-header-commands > button:active,
+body.tss-theme-rechenwerk .tss-modal-left-header-commands > .tss-btn:active,
+body.tss-theme-rechenwerk .tss-modal-left-header-commands > button:active {
+    background-color: rgb(244, 194, 13);
+    border-color: rgb(17, 17, 17);
+    color: rgb(17, 17, 17);
+}
+
+body.tss-theme-rechenwerk .tss-modal-header-commands > .tss-btn i,
+body.tss-theme-rechenwerk .tss-modal-left-header-commands > .tss-btn i,
+body.tss-theme-rechenwerk .tss-modal-header-commands > .tss-btn .tss-fontcolor-default,
+body.tss-theme-rechenwerk .tss-modal-left-header-commands > .tss-btn .tss-fontcolor-default {
+    color: inherit;
+}
+
+/* The close key: a square framed key, inverted under the pointer. */
+body.tss-theme-rechenwerk .tss-modal-header-commands > button.tss-modal-button,
+body.tss-theme-rechenwerk .tss-modal-header-commands > .tss-btn.tss-modal-button {
+    width: 30px;
+    min-width: 30px;
+    padding: 0;
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-modal-header-commands > button.tss-modal-button:hover,
+body.tss-theme-rechenwerk .tss-modal-header-commands > .tss-btn.tss-modal-button:hover {
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-modal-header-commands > .tss-modal-button i {
+    font-size: 12px;
+    line-height: 1;
+}
+
+/* On the band everything is drawn in the band's type colour, and inverts to it. */
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-header-commands > .tss-btn,
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-header-commands > button,
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-left-header-commands > button {
+    background-color: transparent;
+    color: var(--tss-rw-bar-foreground);
+}
+
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-header-commands > .tss-btn:hover,
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-header-commands > button:hover,
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-left-header-commands > .tss-btn:hover,
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-left-header-commands > button:hover {
+    border-color: var(--tss-rw-bar-foreground);
+}
+
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-header-commands > .tss-modal-button {
+    border-color: var(--tss-rw-bar-foreground);
+}
+
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-header-commands > .tss-modal-button:hover,
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-rechenwerk .tss-modal-header:has(> .tss-modal-header-content > .tss-textblock:only-child) > .tss-modal-header-commands > button:active {
+    background-color: var(--tss-rw-bar-foreground);
+    border-color: var(--tss-rw-bar-foreground);
+    color: var(--tss-rw-bar-background);
+}
+
+/* --------------------------------------------------------------------------
+   Body and footer
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-modal-content {
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-modal-footer {
+    background: transparent;
+}
+
+/* A footer with something in it is a strip ruled off the content. */
+body.tss-theme-rechenwerk .tss-modal-footer:has(> :not(:empty)) {
+    margin-top: 12px;
+    border-top: 2px solid rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-modal-footer-content:not(:empty),
+body.tss-theme-rechenwerk .tss-modal-footer-commands:not(:empty),
+body.tss-theme-rechenwerk .tss-modal-left-footer-commands:not(:empty) {
+    padding: 8px 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-modal-animate {
+        animation: none;
+    }
+
+    body.tss-theme-rechenwerk .tss-modal-header-commands > .tss-btn,
+    body.tss-theme-rechenwerk .tss-modal-header-commands > button,
+    body.tss-theme-rechenwerk .tss-modal-left-header-commands > .tss-btn,
+    body.tss-theme-rechenwerk .tss-modal-left-header-commands > button {
+        transition: none;
+    }
+}

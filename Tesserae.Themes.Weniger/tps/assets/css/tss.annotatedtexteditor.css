@@ -1,0 +1,79 @@
+/* ==========================================================================
+   Weniger theme - AnnotatedTextEditor
+   --------------------------------------------------------------------------
+   A multi-line field, so the same recessed well as every input
+   (tss.textbox.css): a darker floor under the lip, a 1px moulded edge, the
+   orange ring while it holds the caret, the caret itself orange. Read-only
+   it is a shallow well with the light falling evenly, nothing to write in.
+
+   The annotations lie under the text the textarea paints, so an entity is
+   only a tint and an edge: the app's own colours where it gives them, and
+   by default a light key-grey chip with a moulded edge. The hover tag is a
+   small floating label, 5px corners and the float shadow, keeping the
+   entity's colours the component sets on it.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-annotated-text-container {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    transition: box-shadow 140ms var(--tss-wg-ease), border-color 140ms linear;
+}
+
+body.tss-theme-weniger .tss-annotated-text-container:hover {
+    border-color: rgba(var(--tss-dark-border-color-root), 0.7);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-annotated-text-container:focus-within {
+    border-color: var(--tss-wg-orange);
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(236, 88, 26, 0.24);
+}
+
+body.tss-theme-weniger .tss-annotated-text-container.tss-annotated-text-readonly,
+body.tss-theme-weniger .tss-annotated-text-container.tss-annotated-text-readonly:hover {
+    border-color: var(--tss-wg-key-edge);
+    background: rgba(var(--tss-default-foreground-color-root), 0.03);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+body.tss-theme-weniger .tss-annotated-text-container.tss-disabled,
+body.tss-theme-weniger .tss-annotated-text-container.tss-disabled:hover {
+    border-color: var(--tss-wg-key-edge);
+    background: rgb(var(--tss-disabled-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-annotated-text-input {
+    caret-color: var(--tss-wg-orange);
+}
+
+/* The well carries the focus ring; the textarea inside it draws none of its own. */
+body.tss-theme-weniger .tss-annotated-text-input:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-weniger .tss-annotated-text-input::placeholder {
+    color: rgb(var(--tss-secondary-foreground-color-root)) !important;
+    opacity: 0.8;
+}
+
+/* An entity without colours of its own: a light chip with a moulded edge. */
+body.tss-theme-weniger .tss-annotated-text-entity,
+body.tss-theme-weniger.tss-dark-mode .tss-annotated-text-entity {
+    border-radius: 4px;
+    background-color: rgba(var(--tss-default-foreground-color-root), 0.07);
+    outline-color: rgba(var(--tss-dark-border-color-root), 0.8);
+}
+
+body.tss-theme-weniger .tss-annotated-text-hover-tag {
+    border-radius: var(--tss-wg-radius-small);
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-annotated-text-container {
+        transition: none;
+    }
+}

@@ -117,7 +117,7 @@ namespace Tesserae
 
         private static string GetComponentSize(int itemsCount) => (100 / itemsCount).percent().ToString();
 
-        private static HTMLDivElement CreateInnerElementHtmlDivElement() => Div(Att());
+        private static HTMLDivElement CreateInnerElementHtmlDivElement() => Div(Att("tss-virtualizedlist"));
 
         private static HTMLDivElement CreateSpacingHtmlDivElement(string className) => Div(Att(className));
 

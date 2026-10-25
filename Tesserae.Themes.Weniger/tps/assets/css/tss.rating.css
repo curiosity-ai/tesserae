@@ -1,0 +1,47 @@
+/* ==========================================================================
+   Weniger theme - Rating
+   --------------------------------------------------------------------------
+   The stars are a row of indicator lamps moulded as stars. Unlit, each is a
+   shape pressed into the plastic: the dark lamp colour with a catch of
+   light under its lower edge. Lit (the rating, or the stars up to the one
+   under the pointer), it glows signal orange. Under the pointer nothing
+   grows: the lamps light up to it, which is what a row of lamps can do.
+   A colour the app sets (--tss-rating-color, or the component's own) still
+   wins, so a rating can keep a brand colour.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-rating {
+    --tss-rating-color: var(--tss-wg-orange);
+    gap: 3px;
+}
+
+body.tss-theme-weniger .tss-rating-star {
+    color: var(--tss-wg-led-off);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85), 0 -1px 0 rgba(60, 54, 46, 0.12);
+    transition: color 120ms linear, text-shadow 160ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-rating-star {
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.06), 0 -1px 0 rgba(0, 0, 0, 0.5);
+}
+
+body.tss-theme-weniger .tss-rating-star.tss-rating-star-filled,
+body.tss-theme-weniger.tss-dark-mode .tss-rating-star.tss-rating-star-filled {
+    text-shadow: 0 0 6px rgba(250, 112, 48, 0.45), 0 1px 0 rgba(90, 30, 0, 0.12);
+}
+
+body.tss-theme-weniger .tss-rating-star.tss-rating-star-hover {
+    transform: none;
+}
+
+body.tss-theme-weniger .tss-rating-star:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+    border-radius: var(--tss-wg-radius-small);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-rating-star {
+        transition: none;
+    }
+}

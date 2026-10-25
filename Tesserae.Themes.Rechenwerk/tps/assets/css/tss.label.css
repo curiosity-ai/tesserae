@@ -1,0 +1,44 @@
+/* ==========================================================================
+   Rechenwerk theme - Label
+   --------------------------------------------------------------------------
+   A field label is the caption printed on a machine's front panel: small
+   tracked capitals in ink, above or beside the control it names. A required
+   field is marked the way a panel marks a live switch: a small solid square
+   in the signal colour (red on paper, yellow on the terminal) after the
+   caption, not a floating asterisk. Disabled is the disabled grey.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-label > label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    line-height: 1.3;
+    text-transform: uppercase;
+}
+
+/* The label's own text node or a component inside it (a TextBlock) speaks the same way. */
+body.tss-theme-rechenwerk .tss-label > label .tss-textblock {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+/* Required: a 6px signal square after the caption, sitting on its cap height. */
+body.tss-theme-rechenwerk .tss-label > label.tss-required {
+    padding-right: 4px;
+}
+
+body.tss-theme-rechenwerk .tss-label > label.tss-required:after {
+    content: "";
+    top: 4px;
+    right: -6px;
+    width: 6px;
+    height: 6px;
+    background: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-label.tss-disabled > label,
+body.tss-theme-rechenwerk .tss-label > label.tss-disabled {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}

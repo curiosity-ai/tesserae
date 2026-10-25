@@ -1,0 +1,57 @@
+/* ==========================================================================
+   Weniger theme - TextBreadcrumb
+   --------------------------------------------------------------------------
+   The same quiet path as Breadcrumb, as running text: the levels above in
+   muted grey, the last one in ink, small light chevrons between them. A
+   crumb under the pointer rises into a small flat key (the key-hover fill,
+   an edge, the raised shadow) instead of Tesserae's grey block, and the
+   chevrons no longer slide.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-textbreadcrumb-container {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-textbreadcrumb {
+    border-width: 4px 8px;
+    border-radius: var(--tss-wg-radius-small);
+    font-weight: 500;
+    transition: background-color 120ms linear, box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-textbreadcrumb-wrap:last-child .tss-textbreadcrumb {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 600;
+}
+
+body.tss-theme-weniger .tss-textbreadcrumb:hover {
+    border-width: 4px 8px;
+    border-color: transparent;
+    background: var(--tss-wg-key-hover);
+    background-clip: border-box;
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-textbreadcrumb-sep {
+    padding-left: 5px;
+    padding-right: 5px;
+    color: rgba(var(--tss-secondary-foreground-color-root), 0.7);
+}
+
+body.tss-theme-weniger .tss-textbreadcrumb-sep i {
+    font-size: 0.7em;
+}
+
+body.tss-theme-weniger .tss-textbreadcrumb-wrap,
+body.tss-theme-weniger .tss-textbreadcrumb-wrap:hover,
+body.tss-theme-weniger .tss-textbreadcrumb-wrap:hover .sep i,
+body.tss-theme-weniger .tss-textbreadcrumb-sep i:before {
+    transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-textbreadcrumb {
+        transition: none;
+    }
+}

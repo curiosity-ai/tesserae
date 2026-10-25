@@ -1,0 +1,119 @@
+/* ==========================================================================
+   Weniger theme - ActionButton
+   --------------------------------------------------------------------------
+   Two keys moulded in one body: the action, and the small key at its end
+   that opens the choices, divided by a groove. A coloured ActionButton is
+   one coloured key (its colour, the sheen over it, a darker edge, standing
+   on a soft shadow), the plain one is a ghost like Tesserae's default
+   button that rises into a plastic key under the pointer. Each half goes
+   down on its own when pressed: the light falls off it and it travels 1px.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-actionbutton-container {
+    border-radius: var(--tss-wg-radius-key);
+    transition: box-shadow var(--tss-wg-quick) var(--tss-wg-ease), border-color 120ms linear;
+}
+
+body.tss-theme-weniger .tss-actionbutton-container > .tss-actionbutton-displaybutton {
+    border-radius: 7px 0 0 7px;
+    font-weight: 600;
+}
+
+body.tss-theme-weniger .tss-actionbutton-container > .tss-actionbutton-actionbtn {
+    border-radius: 0 7px 7px 0;
+    color: inherit;
+    transition: transform var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+/* --------------------------------------------------------------------------
+   The plain one: a ghost that rises into a two-part key
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-actionbutton-container:not(:has(> .tss-btn-primary, > .tss-btn-danger, > .tss-btn-warning, > .tss-btn-success)):hover {
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-actionbutton-container:not(:has(> .tss-btn-primary, > .tss-btn-danger, > .tss-btn-warning, > .tss-btn-success)):hover > .tss-actionbutton-displaybutton,
+body.tss-theme-weniger .tss-actionbutton-container:not(:has(> .tss-btn-primary, > .tss-btn-danger, > .tss-btn-warning, > .tss-btn-success)):hover > .tss-actionbutton-actionbtn {
+    background: var(--tss-wg-key-hover);
+}
+
+body.tss-theme-weniger .tss-actionbutton-container:not(:has(> .tss-btn-primary, > .tss-btn-danger, > .tss-btn-warning, > .tss-btn-success)):hover > .tss-actionbutton-actionbtn {
+    box-shadow: inset 1px 0 0 var(--tss-wg-key-edge);
+}
+
+body.tss-theme-weniger .tss-actionbutton-container:not(:has(> .tss-btn-primary, > .tss-btn-danger, > .tss-btn-warning, > .tss-btn-success)) > .tss-actionbutton-displaybutton:active,
+body.tss-theme-weniger .tss-actionbutton-container:not(:has(> .tss-btn-primary, > .tss-btn-danger, > .tss-btn-warning, > .tss-btn-success)) > .tss-actionbutton-actionbtn:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+/* --------------------------------------------------------------------------
+   Coloured: one moulded key in its colour
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-actionbutton-container:has(> .tss-btn-primary, > .tss-btn-danger, > .tss-btn-warning, > .tss-btn-success) {
+    border-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 1px rgba(60, 30, 10, 0.2), 0 2px 5px -1px rgba(60, 30, 10, 0.24);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-actionbutton-container:has(> .tss-btn-primary, > .tss-btn-danger, > .tss-btn-warning, > .tss-btn-success) {
+    border-color: rgba(0, 0, 0, 0.55);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5), 0 2px 6px -1px rgba(0, 0, 0, 0.55);
+}
+
+body.tss-theme-weniger .tss-actionbutton-container:has(> .tss-btn-primary, > .tss-btn-danger, > .tss-btn-warning, > .tss-btn-success):hover {
+    box-shadow: 0 1px 1px rgba(60, 30, 10, 0.22), 0 4px 9px -2px rgba(60, 30, 10, 0.3);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-actionbutton-container:has(> .tss-btn-primary, > .tss-btn-danger, > .tss-btn-warning, > .tss-btn-success):hover {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.55), 0 4px 10px -2px rgba(0, 0, 0, 0.65);
+}
+
+body.tss-theme-weniger .tss-actionbutton-container > .tss-btn-primary,
+body.tss-theme-weniger .tss-actionbutton-container > .tss-btn-danger,
+body.tss-theme-weniger .tss-actionbutton-container > .tss-btn-warning,
+body.tss-theme-weniger .tss-actionbutton-container > .tss-btn-success {
+    background-image: var(--tss-wg-sheen);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+body.tss-theme-weniger .tss-actionbutton-container > .tss-btn-primary,
+body.tss-theme-weniger .tss-actionbutton-container > .tss-btn-danger {
+    text-shadow: 0 -1px 0 rgba(90, 30, 0, 0.28);
+}
+
+/* The groove between the two halves. */
+body.tss-theme-weniger .tss-actionbutton-container > .tss-actionbutton-actionbtn.tss-btn-primary,
+body.tss-theme-weniger .tss-actionbutton-container > .tss-actionbutton-actionbtn.tss-btn-danger,
+body.tss-theme-weniger .tss-actionbutton-container > .tss-actionbutton-actionbtn.tss-btn-warning,
+body.tss-theme-weniger .tss-actionbutton-container > .tss-actionbutton-actionbtn.tss-btn-success {
+    box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.2), inset 2px 0 0 rgba(255, 255, 255, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.32);
+}
+
+body.tss-theme-weniger .tss-actionbutton-container > .tss-actionbutton-actionbtn.tss-btn-success {
+    color: var(--tss-success-foreground-color);
+    background-color: var(--tss-success-background-color);
+}
+
+body.tss-theme-weniger .tss-actionbutton-container > .tss-btn-primary:active,
+body.tss-theme-weniger .tss-actionbutton-container > .tss-btn-danger:active,
+body.tss-theme-weniger .tss-actionbutton-container > .tss-btn-warning:active,
+body.tss-theme-weniger .tss-actionbutton-container > .tss-btn-success:active {
+    background-image: var(--tss-wg-sheen-pressed);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+body.tss-theme-weniger .tss-actionbutton-container > .tss-actionbutton-actionbtn:focus-visible,
+body.tss-theme-weniger .tss-actionbutton-container > .tss-actionbutton-displaybutton:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-actionbutton-container,
+    body.tss-theme-weniger .tss-actionbutton-container > .tss-actionbutton-actionbtn {
+        transition: none;
+    }
+}

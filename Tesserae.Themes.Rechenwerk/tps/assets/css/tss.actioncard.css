@@ -1,0 +1,256 @@
+/* ==========================================================================
+   Rechenwerk theme - ActionCard
+   --------------------------------------------------------------------------
+   Follow-up questions about one object, drawn as a sleeve card: a 2px ink
+   frame on the hard 5px card shadow, split by a 2px rule. The left panel is
+   the object's identity on the paper colour, its icon on a square plate
+   ruled in ink (the plate keeps the colour the app gave it), the name in
+   weight 600, facts as a small ledger with Space Mono values.
+
+   On the right the questions are keys in the shape of a ToolCall row:
+   square, a 2px rule, a small ink lamp in front that lights in the signal
+   colour under the pointer, and an arrow that appears. The questions stay
+   in sentence case; the "Ask about" title above them is tracked capitals.
+   The loading lines are ruled slots with a stepped sweep. A group is one
+   frame with its cards ruled off from each other.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-actioncard {
+    padding: 0 5px 5px 0;
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-card {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-rw-card-shadow);
+    overflow: visible;
+}
+
+/* ---------- Identity ---------- */
+
+body.tss-theme-rechenwerk .tss-actioncard-identity {
+    border-right: 2px solid rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-icon {
+    box-sizing: border-box;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: var(--tss-rw-signal);
+    color: var(--tss-rw-on-signal);
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-icon-nobackground {
+    border-color: transparent;
+    background: transparent;
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-icon-image {
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-label {
+    font-weight: 600;
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-sublabel,
+body.tss-theme-rechenwerk .tss-actioncard-detail,
+body.tss-theme-rechenwerk .tss-actioncard-fact-key {
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-fact-key {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-facts {
+    padding-top: 8px;
+    border-top: 1px solid rgb(var(--tss-default-separator-color-root));
+}
+
+/* ---------- Questions ---------- */
+
+body.tss-theme-rechenwerk .tss-actioncard-title {
+    color: var(--tss-rw-muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-action {
+    padding: 4px 8px 4px 4px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-action:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-action:active {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-action:focus-visible,
+body.tss-theme-rechenwerk .tss-actioncard-more:focus-visible {
+    outline: 2px solid var(--tss-rw-signal);
+    outline-offset: 2px;
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-action-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    font-size: 11px;
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-action-icon i {
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-action:hover .tss-actioncard-action-icon,
+body.tss-theme-rechenwerk .tss-actioncard-action:focus-visible .tss-actioncard-action-icon {
+    background: var(--tss-rw-signal);
+    color: var(--tss-rw-on-signal);
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-action:active .tss-actioncard-action-icon {
+    background: rgb(10, 10, 10);
+    color: rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-action-go {
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: opacity 120ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-action:active .tss-actioncard-action-go {
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-more {
+    border: 2px solid transparent;
+    border-radius: 0;
+    color: rgb(var(--tss-link-color-root));
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-more:hover {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-background-hover-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* ---------- Loading and error ---------- */
+
+body.tss-theme-rechenwerk .tss-actioncard-skeleton-line {
+    border: 2px solid rgb(var(--tss-default-separator-color-root));
+    border-radius: 0;
+    background: linear-gradient(90deg, rgb(var(--tss-progress-background-color-root)) 0 40%, rgb(var(--tss-default-background-hover-color-root)) 40% 60%, rgb(var(--tss-progress-background-color-root)) 60%);
+    background-size: 200% 100%;
+    animation: tss-actioncard-shimmer 1.4s steps(8, end) infinite;
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-error {
+    color: rgb(var(--tss-invalid-border-color-root));
+    font-weight: 600;
+}
+
+/* ---------- Stacked: the rule moves from the side to the foot of the identity ---------- */
+
+body.tss-theme-rechenwerk .tss-actioncard-stacked .tss-actioncard-identity {
+    border-right: none;
+    border-bottom: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-stacked .tss-actioncard-icon {
+    border-radius: 0;
+}
+
+@container tss-actioncard (max-width: 520px) {
+    body.tss-theme-rechenwerk .tss-actioncard-identity {
+        border-right: none;
+        border-bottom: 2px solid rgb(var(--tss-default-border-color-root));
+    }
+
+    body.tss-theme-rechenwerk .tss-actioncard-icon {
+        border-radius: 0;
+    }
+}
+
+/* ---------- Compact: a chip and small keys on one line ---------- */
+
+body.tss-theme-rechenwerk .tss-actioncard-compact .tss-actioncard-card {
+    box-shadow: 3px 3px 0 0 rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-actioncard-compact .tss-actioncard-card {
+    box-shadow: 3px 3px 0 0 rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-compact .tss-actioncard-identity {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-compact .tss-actioncard-icon {
+    border-width: 1px;
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-compact .tss-actioncard-action {
+    padding: 3px 8px;
+}
+
+/* ---------- Group: one frame, cards ruled off ---------- */
+
+body.tss-theme-rechenwerk .tss-actioncard-group {
+    margin-right: 5px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-rw-card-shadow);
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-group > .tss-actioncard {
+    padding: 0;
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-group > .tss-actioncard + .tss-actioncard {
+    border-top: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-group > .tss-actioncard > .tss-actioncard-card {
+    border: none;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-actioncard-group .tss-actioncard-icon {
+    border-radius: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-actioncard-skeleton-line {
+        animation: none;
+    }
+
+    body.tss-theme-rechenwerk .tss-actioncard-action-go {
+        transition: none;
+    }
+}

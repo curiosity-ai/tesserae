@@ -1,0 +1,147 @@
+/* ==========================================================================
+   Weniger theme - Context Menu
+   --------------------------------------------------------------------------
+   The popup is the same lifted plastic panel as a menu (tss.menu.css): 8px
+   corners, the float shadow, a few pixels of padding, rows that are soft
+   keys rising under the pointer and held down (inset) when they are the
+   highlighted one. Headers are printed legends, small grey lowercase,
+   dividers grooves. The trigger (the select-like box) is a recessed well
+   like every field, its chevron engraved in the muted ink.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Trigger: a well
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-contextmenu {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-contextmenu:after {
+    border-color: rgb(var(--tss-secondary-foreground-color-root));
+    border-width: 1.5px 0 0 1.5px;
+}
+
+body.tss-theme-weniger .tss-contextmenu.tss-disabled {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-contextmenu-container.tss-invalid .tss-contextmenu {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(204, 46, 40, 0.18);
+}
+
+/* --------------------------------------------------------------------------
+   Popup: a lifted plastic panel
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-contextmenu-popup {
+    background: var(--tss-wg-plastic);
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-radius: var(--tss-wg-radius-key);
+    box-shadow: var(--tss-wg-float-shadow);
+    padding: 5px;
+}
+
+body.tss-theme-weniger .tss-contextmenu-item {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: background-color var(--tss-wg-quick) linear, box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-contextmenu-item i {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+/* The highlighted row (keyboard, or the one whose submenu is open) is held down. */
+body.tss-theme-weniger .tss-contextmenu-item.tss-selected:not(.tss-disabled),
+body.tss-theme-weniger .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):focus,
+body.tss-theme-weniger .tss-contextmenu-item:not(.tss-disabled):not(.tss-contextmenu-item-separator):active {
+    background: var(--tss-wg-key-pressed);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+/* The held-down row is the keyboard's mark, so the general focus ring would only double it. */
+body.tss-theme-weniger .tss-contextmenu-item:focus-visible,
+body.tss-theme-weniger .tss-contextmenu-header:focus-visible,
+body.tss-theme-weniger .tss-contextmenu-divider:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-weniger .tss-contextmenu-item:not(.tss-disabled):hover i,
+body.tss-theme-weniger .tss-contextmenu-item.tss-selected:not(.tss-disabled) i {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Focus only drawn for the keyboard: a pointer-driven popup keeps the row it is over. */
+body.tss-theme-weniger .tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:not(.tss-selected):not(:hover):focus {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-contextmenu-item.tss-disabled,
+body.tss-theme-weniger .tss-contextmenu-item.tss-disabled i {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-contextmenu-item.tss-contextmenu-item-separator,
+body.tss-theme-weniger .tss-contextmenu-item.tss-contextmenu-item-separator:hover,
+body.tss-theme-weniger .tss-contextmenu-item.tss-contextmenu-item-separator:focus {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+/* A button set into a row is part of the row's legend, not a key of its own. */
+body.tss-theme-weniger .tss-contextmenu-item > .tss-btn {
+    background: transparent;
+    box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Legends and grooves
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-contextmenu-header {
+    background: transparent;
+    min-height: 26px;
+    padding: 6px 9px 2px 9px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 18px;
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-contextmenu-divider {
+    width: auto;
+    background-color: var(--tss-wg-groove);
+    margin: 5px 4px;
+}
+
+body.tss-theme-weniger .tss-contextmenu-with-side-panel > .tss-contextmenu-side-panel {
+    border-left: 1px solid var(--tss-wg-groove);
+    margin-left: 5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-contextmenu-item {
+        transition: none;
+    }
+}

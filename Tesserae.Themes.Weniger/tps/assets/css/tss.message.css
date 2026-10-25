@@ -1,0 +1,136 @@
+/* ==========================================================================
+   Weniger theme - Message
+   --------------------------------------------------------------------------
+   An empty state (no variant) is printed straight on the panel: the icon
+   sits in a round recessed well, like the socket of a knob not yet fitted,
+   the title in ink, the text in the muted grey. A message with a variant
+   is a plastic strip resting on the panel, with the groove and a status
+   lamp near its leading corner: the green LED for success, amber for a
+   warning, the record red for an error, orange for info (attention). The
+   icon's well carries the same colour; the title and text stay ink and grey
+   so they read on every strip, and the icon, the lamp and the words each
+   say the status, never the hue alone. The note is a small recessed well
+   with an orange glyph.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-message {
+    --tss-wg-msg-accent: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-wg-msg-lamp: var(--tss-wg-led-off);
+    --tss-wg-msg-glow: none;
+}
+
+body.tss-theme-weniger .tss-message-info {
+    --tss-wg-msg-accent: rgb(var(--tss-default-foreground-color-root));
+    --tss-wg-msg-lamp: var(--tss-wg-orange-hi);
+    --tss-wg-msg-glow: var(--tss-wg-led-orange-glow);
+}
+
+body.tss-theme-weniger .tss-message-success {
+    --tss-wg-msg-accent: rgb(28, 128, 76);
+    --tss-wg-msg-lamp: var(--tss-wg-led);
+    --tss-wg-msg-glow: var(--tss-wg-led-glow);
+}
+
+body.tss-theme-weniger .tss-message-warning {
+    --tss-wg-msg-accent: rgb(176, 118, 8);
+    --tss-wg-msg-lamp: rgb(250, 184, 48);
+    --tss-wg-msg-glow: 0 0 2px 0 rgba(250, 184, 48, 0.95), 0 0 7px 1px rgba(250, 184, 48, 0.5);
+}
+
+body.tss-theme-weniger .tss-message-error {
+    --tss-wg-msg-accent: var(--tss-wg-red);
+    --tss-wg-msg-lamp: rgb(238, 70, 58);
+    --tss-wg-msg-glow: 0 0 2px 0 rgba(238, 70, 58, 0.95), 0 0 7px 1px rgba(238, 70, 58, 0.5);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-message-success {
+    --tss-wg-msg-accent: rgb(70, 214, 142);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-message-warning {
+    --tss-wg-msg-accent: rgb(240, 172, 36);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-message-error {
+    --tss-wg-msg-accent: rgb(246, 104, 92);
+}
+
+/* The icon: a round recessed well. */
+body.tss-theme-weniger .tss-message .tss-message-icon {
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    color: var(--tss-wg-msg-accent);
+    font-size: 30px;
+}
+
+body.tss-theme-weniger .tss-message-horizontal .tss-message-icon {
+    font-size: 22px;
+}
+
+body.tss-theme-weniger .tss-message .tss-message-title {
+    color: rgb(var(--tss-default-foreground-color-root));
+    letter-spacing: -0.005em;
+}
+
+body.tss-theme-weniger .tss-message .tss-message-text {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+/* A variant: a plastic strip with the groove and a status lamp. */
+body.tss-theme-weniger .tss-message-info,
+body.tss-theme-weniger .tss-message-success,
+body.tss-theme-weniger .tss-message-warning,
+body.tss-theme-weniger .tss-message-error {
+    position: relative;
+    border: none;
+    border-radius: var(--tss-wg-radius-panel);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-panel-shadow);
+    outline: 1px solid var(--tss-wg-groove);
+    outline-offset: calc(-1 * var(--tss-wg-groove-inset));
+}
+
+body.tss-theme-weniger .tss-message-info::before,
+body.tss-theme-weniger .tss-message-success::before,
+body.tss-theme-weniger .tss-message-warning::before,
+body.tss-theme-weniger .tss-message-error::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tss-wg-msg-lamp);
+    box-shadow: var(--tss-wg-msg-glow);
+}
+
+/* Horizontal: the lamp at the leading edge, centred on the strip. */
+body.tss-theme-weniger .tss-message-horizontal.tss-message-info,
+body.tss-theme-weniger .tss-message-horizontal.tss-message-success,
+body.tss-theme-weniger .tss-message-horizontal.tss-message-warning,
+body.tss-theme-weniger .tss-message-horizontal.tss-message-error {
+    padding-left: 30px;
+}
+
+body.tss-theme-weniger .tss-message-horizontal.tss-message-info::before,
+body.tss-theme-weniger .tss-message-horizontal.tss-message-success::before,
+body.tss-theme-weniger .tss-message-horizontal.tss-message-warning::before,
+body.tss-theme-weniger .tss-message-horizontal.tss-message-error::before {
+    top: calc(50% - 3px);
+    left: 14px;
+}
+
+/* The note: a small recessed well. */
+body.tss-theme-weniger .tss-message .tss-message-note {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    color: rgb(var(--tss-default-foreground-color-root));
+    padding: 12px 18px;
+}
+
+body.tss-theme-weniger .tss-message .tss-message-note i {
+    color: var(--tss-wg-orange);
+}

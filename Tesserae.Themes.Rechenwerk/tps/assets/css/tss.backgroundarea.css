@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Rechenwerk theme - BackgroundArea
+   --------------------------------------------------------------------------
+   The area is the sleeve itself: the paper on Die Mensch-Maschine, the
+   screen on Computerwelt. Tesserae fills it with the raised surface colour,
+   which here is a lighter card stock meant for panels; the ground behind
+   everything is the page colour, and on the terminal it carries the same
+   faint raster the body does, so an area reads as more of the screen and
+   not as a slab laid over it.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-background-area {
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-background-area {
+    background-color: rgb(var(--tss-default-background-color-root));
+    background-image: var(--tss-rw-scanlines);
+}

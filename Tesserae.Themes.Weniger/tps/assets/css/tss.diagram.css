@@ -1,0 +1,95 @@
+/* ==========================================================================
+   Weniger theme - Diagram
+   --------------------------------------------------------------------------
+   The canvas is a recessed tray in the panel under a fine grid of round
+   perforations; the wires are thin dark lines. Nodes are plastic modules
+   (rounded squares, not pills) standing on a key's shadow: the default one
+   light-grey plastic, a coloured one moulded in its colour with the
+   theme's sheen, the primary one the orange key. A node rises under the
+   pointer, and picked up it lifts clear with a growing shadow instead of
+   swelling. An icon-only node is a round key.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-diagram {
+    --tss-diagram-dot-color: rgba(var(--tss-default-foreground-color-root), 0.16);
+    --tss-diagram-line-color: rgba(var(--tss-default-foreground-color-root), 0.62);
+    border-color: var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background-color: rgb(var(--tss-default-background-color-root));
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-diagram-node {
+    border-radius: var(--tss-wg-radius-key);
+    font-weight: 600;
+    box-shadow: var(--tss-wg-raised);
+    transition: transform 140ms var(--tss-wg-ease), box-shadow 140ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-diagram-node:hover {
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-diagram-node:active {
+    transform: none;
+}
+
+body.tss-theme-weniger .tss-diagram-node.tss-diagram-node-dragging {
+    box-shadow: var(--tss-wg-float-shadow);
+    transform: translateY(-2px);
+}
+
+body.tss-theme-weniger .tss-diagram-node.tss-diagram-node-icon-only {
+    border-radius: 50%;
+}
+
+body.tss-theme-weniger .tss-diagram-node-default {
+    background: var(--tss-wg-key);
+    border-color: var(--tss-wg-key-edge);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-diagram-node-secondary {
+    background: var(--tss-wg-key-pressed);
+    border-color: var(--tss-wg-key-edge);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+/* A coloured node keeps its colour (also one a caller sets inline) and lays the sheen over it. */
+body.tss-theme-weniger .tss-diagram-node-primary,
+body.tss-theme-weniger .tss-diagram-node-success,
+body.tss-theme-weniger .tss-diagram-node-danger,
+body.tss-theme-weniger .tss-diagram-node-warning,
+body.tss-theme-weniger .tss-diagram-node[style*="background"] {
+    background-image: var(--tss-wg-sheen);
+    border-color: rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 1px rgba(60, 30, 10, 0.2), 0 2px 5px -1px rgba(60, 30, 10, 0.24);
+}
+
+body.tss-theme-weniger .tss-diagram-node-primary,
+body.tss-theme-weniger .tss-diagram-node-danger,
+body.tss-theme-weniger .tss-diagram-node-success {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-diagram-node-primary,
+body.tss-theme-weniger.tss-dark-mode .tss-diagram-node-success,
+body.tss-theme-weniger.tss-dark-mode .tss-diagram-node-danger,
+body.tss-theme-weniger.tss-dark-mode .tss-diagram-node-warning,
+body.tss-theme-weniger.tss-dark-mode .tss-diagram-node[style*="background"] {
+    border-color: rgba(0, 0, 0, 0.55);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), inset 0 -1px 0 rgba(0, 0, 0, 0.15), 0 1px 1px rgba(0, 0, 0, 0.5), 0 2px 6px -1px rgba(0, 0, 0, 0.55);
+}
+
+body.tss-theme-weniger .tss-diagram-node.tss-diagram-node-dragging,
+body.tss-theme-weniger.tss-dark-mode .tss-diagram-node.tss-diagram-node-dragging {
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-diagram-node,
+    body.tss-theme-weniger .tss-diagram-node.tss-diagram-node-dragging {
+        transition: none;
+        transform: none;
+    }
+}

@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Weniger theme - DateRangePicker
+   --------------------------------------------------------------------------
+   Two date fields, each the text box's recessed well (tss.textbox.css), set
+   side by side like the "from" and "to" windows of a timer, with the dash
+   between them printed small and muted on the case. The calendars that
+   open from the fields are the browser's own.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-daterange-picker {
+    gap: 6px;
+}
+
+body.tss-theme-weniger .tss-daterange-separator {
+    padding: 0 2px;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.8;
+}

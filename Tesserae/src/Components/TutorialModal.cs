@@ -39,10 +39,10 @@ namespace Tesserae
         /// <param name="imageSrc">An optional image source URL for the illustration.</param>
         public TutorialModal(string title, string helpText, string imageSrc = null)
         {
-            _footerCommands = HStack().Padding(10.px()).WS().AlignItems(ItemAlign.End);
+            _footerCommands = HStack().Class("tss-tutorial-modal-footer").Padding(10.px()).WS().AlignItems(ItemAlign.End);
             _content        = VStack().Padding("38px 32px 0px 32px");
-            _title          = TextBlock(title).Large().Bold().PaddingTop(10.px()).PaddingBottom(20.px());
-            _helpText       = TextBlock(helpText).Padding("20px 30px 0 0");
+            _title          = TextBlock(title).Class("tss-tutorial-modal-title").Large().Bold().PaddingTop(10.px()).PaddingBottom(20.px());
+            _helpText       = TextBlock(helpText).Class("tss-tutorial-modal-help").Padding("20px 30px 0 0");
             _illustration   = Raw().W(196).H(196);
 
             if (!string.IsNullOrWhiteSpace(imageSrc))
@@ -66,6 +66,8 @@ namespace Tesserae
                         _rightStack
                     )
                 );
+
+            _modal.StylingContainer.classList.add("tss-tutorial-modal");
 
             Height(500.px());
             Width(800.px());

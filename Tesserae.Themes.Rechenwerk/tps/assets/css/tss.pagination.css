@@ -1,0 +1,96 @@
+/* ==========================================================================
+   Rechenwerk theme - Pagination
+   --------------------------------------------------------------------------
+   The page numbers are the readout of a pocket calculator: each one in the
+   dot-matrix face, in its own square cell with a 2px ink rule. The current
+   page is the terminal's cursor, a solid yellow block with black figures; a
+   cell under the pointer lifts onto a small hard shadow. The chevrons are
+   ghost keys with no frame, so the numbers are what the strip reads as. The
+   count beside it is a tracked-capital caption in the muted grey. Cells
+   keep the base's fixed widths, so paging never moves a button.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-pagination-footer {
+    border-top: var(--tss-rw-rule);
+}
+
+body.tss-theme-rechenwerk .tss-pagination-button {
+    border: var(--tss-rw-rule);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: transform 60ms steps(1), box-shadow 60ms steps(1);
+}
+
+body.tss-theme-rechenwerk .tss-pagination-page,
+body.tss-theme-rechenwerk .tss-pagination-ellipsis {
+    font-family: var(--tss-rw-dots);
+    font-size: 17px;
+    font-weight: 900;
+}
+
+body.tss-theme-rechenwerk .tss-pagination-button:hover:not(:disabled):not(.tss-disabled):not(.tss-active) {
+    background: rgb(var(--tss-default-background-hover-color-root));
+    transform: translate(-1px, -1px);
+    box-shadow: 2px 2px 0 0 var(--tss-rw-key-shadow-color);
+}
+
+body.tss-theme-rechenwerk .tss-pagination-button:active:not(:disabled):not(.tss-disabled) {
+    transform: translate(1px, 1px);
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-pagination-button:focus-visible {
+    outline: 2px solid var(--tss-rw-signal);
+    outline-offset: 2px;
+}
+
+/* The current page: the yellow block. */
+body.tss-theme-rechenwerk .tss-pagination-button.tss-active,
+body.tss-theme-rechenwerk .tss-pagination-button.tss-active:hover {
+    background: rgb(244, 194, 13);
+    border-color: rgb(10, 10, 10);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-pagination-button.tss-active {
+    border-color: rgb(244, 194, 13);
+}
+
+/* The chevrons: ghost keys, a frame only under the pointer. */
+body.tss-theme-rechenwerk .tss-pagination-nav {
+    border-color: transparent;
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-pagination-nav:hover:not(:disabled):not(.tss-disabled) {
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-pagination-button.tss-disabled,
+body.tss-theme-rechenwerk .tss-pagination-button:disabled {
+    opacity: 1;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-pagination-ellipsis {
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-pagination-status {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    color: var(--tss-rw-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-pagination-button,
+    body.tss-theme-rechenwerk .tss-pagination-button:hover:not(:disabled):not(.tss-disabled):not(.tss-active),
+    body.tss-theme-rechenwerk .tss-pagination-button:active:not(:disabled):not(.tss-disabled) {
+        transition: none;
+        transform: none;
+    }
+}

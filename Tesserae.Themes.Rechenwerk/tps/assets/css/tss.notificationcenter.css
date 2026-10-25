@@ -1,0 +1,59 @@
+/* ==========================================================================
+   Rechenwerk theme - Notification center
+   --------------------------------------------------------------------------
+   The bell is a square ghost key that frames itself in ink under the
+   pointer. The count is a square red tag in Space Mono, edged in the page
+   colour so it reads where it overlaps the bell. In the panel (its title
+   band is the panel's own) every item marks its kind with a square status
+   block (blue info, green success, black-ringed yellow warning, red
+   danger), and an unread item carries a solid bar in the signal colour
+   down its left edge instead of a tint.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-notif-bell {
+    border-radius: 0;
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-notif-bell:hover {
+    background: transparent;
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-notif-bell:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 2px;
+}
+
+body.tss-theme-rechenwerk .tss-notif-badge {
+    top: -3px;
+    right: -3px;
+    border-radius: 0;
+    background: var(--tss-rw-red);
+    color: rgb(250, 246, 238);
+    box-shadow: 0 0 0 2px rgb(var(--tss-default-background-color-root));
+    font-family: var(--tss-monospace-font-family);
+    font-size: 10px;
+}
+
+body.tss-theme-rechenwerk .tss-notif-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-notif-dot.tss-notif-info    { background: var(--tss-chart-series-4, var(--tss-rw-blue)); }
+body.tss-theme-rechenwerk .tss-notif-dot.tss-notif-success { background: rgb(var(--tss-success-background-color-root)); }
+body.tss-theme-rechenwerk .tss-notif-dot.tss-notif-warning { background: var(--tss-rw-yellow); box-shadow: inset 0 0 0 1px rgb(10, 10, 10); }
+body.tss-theme-rechenwerk .tss-notif-dot.tss-notif-danger  { background: var(--tss-rw-red); }
+
+body.tss-theme-rechenwerk .tss-notif-unread {
+    background: transparent !important;
+}
+
+body.tss-theme-rechenwerk .tss-notif-unread > .tss-card,
+body.tss-theme-rechenwerk .tss-card.tss-notif-unread {
+    box-shadow: inset 6px 0 0 0 var(--tss-rw-signal), var(--tss-rw-card-shadow);
+}

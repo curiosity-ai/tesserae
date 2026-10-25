@@ -1,0 +1,412 @@
+/* ==========================================================================
+   Weniger theme - OmniBox
+   --------------------------------------------------------------------------
+   The larger device control. The search row is a recessed well like every
+   field, its end buttons ghost keys parted from the text by a groove; the
+   chat composer is a deeper well with panel corners, its footer a strip
+   with the mode selector and a round send key that lights orange once
+   there is something to send. Focus lights the orange ring round the
+   whole well. Parsed query words are small moulded chips set into the
+   well, operators printed in the darker orange; inline chips are 5px keys.
+
+   The popovers the box opens (suggestions, history, snaps, help, model
+   selector) float off the device as plastic panels; the keyboard-selected
+   row is a pressed key with an orange lamp at its leading edge.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-omnibox-container {
+    --tss-omnibox-radius: var(--tss-wg-radius-key);
+    border: 1px solid var(--tss-wg-key-edge);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+    transition: box-shadow 140ms var(--tss-wg-ease), border-color 140ms linear;
+}
+
+body.tss-theme-weniger .tss-omnibox-container.tss-omnibox-chat-and-search,
+body.tss-theme-weniger .tss-omnibox-container.tss-omnibox-mode-chat {
+    --tss-omnibox-radius: var(--tss-wg-radius-panel);
+}
+
+body.tss-theme-weniger .tss-omnibox-container.tss-omnibox-rounded-sm {
+    --tss-omnibox-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger .tss-omnibox-container.tss-omnibox-rounded-full {
+    --tss-omnibox-radius: var(--tss-border-radius-full);
+}
+
+body.tss-theme-weniger .tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-chat-and-search,
+body.tss-theme-weniger .tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-mode-chat {
+    --tss-omnibox-radius: 24px;
+}
+
+body.tss-theme-weniger .tss-omnibox-container:hover {
+    border-color: rgba(var(--tss-dark-border-color-root), 0.7);
+}
+
+body.tss-theme-weniger .tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover .tss-omnibox-search-container,
+body.tss-theme-weniger .tss-omnibox-container:focus-within .tss-omnibox-search-container {
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-omnibox-container:focus-within {
+    border-color: var(--tss-wg-orange);
+    box-shadow: var(--tss-wg-well), 0 0 0 3px rgba(236, 88, 26, 0.24);
+}
+
+body.tss-theme-weniger .tss-omnibox-container.tss-disabled,
+body.tss-theme-weniger .tss-omnibox-container.tss-disabled:hover {
+    border-color: var(--tss-wg-key-edge);
+    background: rgb(var(--tss-disabled-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-omnibox-container.tss-disabled .tss-omnibox-search-container {
+    background: transparent;
+}
+
+body.tss-theme-weniger .tss-omnibox-search-input,
+body.tss-theme-weniger .tss-omnibox-chat-input {
+    caret-color: var(--tss-wg-orange);
+}
+
+/* The well carries the focus ring; the inputs inside it draw none of their own. */
+body.tss-theme-weniger .tss-omnibox-search-input:focus-visible,
+body.tss-theme-weniger .tss-omnibox-chat-input:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-weniger .tss-omnibox-search-input::placeholder,
+body.tss-theme-weniger .tss-omnibox-chat-input::placeholder {
+    color: rgb(var(--tss-secondary-foreground-color-root)) !important;
+    opacity: 0.8;
+}
+
+/* --------------------------------------------------------------------------
+   The search row's end buttons: ghost keys parted by grooves
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn,
+body.tss-theme-weniger .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-help-btn {
+    background: transparent;
+    border-right: 1px solid var(--tss-wg-groove);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-btn {
+    border-left: 1px solid var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-danger) {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-danger) {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);
+}
+
+body.tss-theme-weniger .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-disabled):hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-disabled):hover :is(i, .tss-fontcolor-default) {
+    color: inherit;
+}
+
+body.tss-theme-weniger .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-disabled):active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: none;
+}
+
+body.tss-theme-weniger .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
+
+/* The Ask AI key follows the box's corner, a key's corner inside a key-cornered well. */
+body.tss-theme-weniger .tss-omnibox-container .tss-omnibox-search-container .tss-btn.tss-omnibox-ask-ai-btn,
+body.tss-theme-weniger .tss-omnibox-container .tss-omnibox-footer .tss-btn.tss-omnibox-ask-ai-btn {
+    border-radius: max(var(--tss-wg-radius-small), calc(var(--tss-omnibox-radius) - 3px));
+}
+
+/* --------------------------------------------------------------------------
+   Parsed query: words are small moulded chips, syntax is printed orange
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-omnibox-search-token-word,
+body.tss-theme-weniger.tss-dark-mode .tss-omnibox-search-token-word {
+    color: rgb(var(--tss-default-foreground-color-root));
+    background: var(--tss-wg-key);
+    outline: 1px solid var(--tss-wg-key-edge);
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-omnibox-search-token-word {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+body.tss-theme-weniger .tss-omnibox-search-token-operator-and,
+body.tss-theme-weniger .tss-omnibox-search-token-operator-or,
+body.tss-theme-weniger .tss-omnibox-search-token-operator-not,
+body.tss-theme-weniger .tss-omnibox-search-token-paren,
+body.tss-theme-weniger .tss-omnibox-search-token-quote,
+body.tss-theme-weniger.tss-dark-mode .tss-omnibox-search-token-operator-and,
+body.tss-theme-weniger.tss-dark-mode .tss-omnibox-search-token-operator-or,
+body.tss-theme-weniger.tss-dark-mode .tss-omnibox-search-token-operator-not,
+body.tss-theme-weniger.tss-dark-mode .tss-omnibox-search-token-paren,
+body.tss-theme-weniger.tss-dark-mode .tss-omnibox-search-token-quote {
+    color: rgb(var(--tss-link-color-root));
+    font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   Inline chips: 5px keys on a groove-parted strip
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-omnibox-inline-chips {
+    background: transparent;
+    border-right: 1px solid var(--tss-wg-groove);
+    padding-left: 6px;
+}
+
+body.tss-theme-weniger .tss-omnibox-inline-chip {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 500;
+}
+
+body.tss-theme-weniger .tss-omnibox-container.tss-omnibox-rounded-full .tss-omnibox-inline-chip {
+    border-radius: var(--tss-border-radius-full);
+}
+
+body.tss-theme-weniger .tss-omnibox-inline-chip-close {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-omnibox-inline-chip-close:hover {
+    background-color: var(--tss-wg-red);
+    color: var(--tss-wg-on-orange);
+}
+
+body.tss-theme-weniger .tss-omnibox-right-text,
+body.tss-theme-weniger .tss-omnibox-chat-counter {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-weniger .tss-omnibox-suggested-text {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    opacity: 0.85;
+}
+
+/* --------------------------------------------------------------------------
+   The chat footer: a strip under the well with the round send key
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-omnibox-footer {
+    padding-top: 2px;
+}
+
+body.tss-theme-weniger .tss-btn.tss-omnibox-chat-btn {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    padding: 0;
+    margin-right: 6px;
+    border-radius: 50%;
+    transition: background-color 160ms linear, color 160ms linear, box-shadow var(--tss-wg-quick) var(--tss-wg-ease), transform var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled) {
+    background: var(--tss-wg-key);
+    border: 1px solid var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled):hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger),
+body.tss-theme-weniger .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger):hover {
+    background: var(--tss-wg-orange-key);
+    border-color: rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 1px 1px rgba(60, 30, 10, 0.2), 0 2px 6px -1px rgba(236, 88, 26, 0.45);
+    color: var(--tss-wg-on-orange);
+}
+
+body.tss-theme-weniger .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger) i {
+    color: var(--tss-wg-on-orange);
+}
+
+body.tss-theme-weniger .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled):active {
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-btn.tss-omnibox-chat-btn.tss-disabled {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border: 1px solid var(--tss-wg-key-edge);
+    box-shadow: none;
+}
+
+/* The model selector: a small plastic key in the footer. */
+body.tss-theme-weniger .tss-btn.tss-omnibox-model-selector-btn {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 500;
+}
+
+body.tss-theme-weniger .tss-btn.tss-omnibox-model-selector-btn:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-btn.tss-omnibox-model-selector-btn.tss-omnibox-model-selector-locked,
+body.tss-theme-weniger .tss-btn.tss-omnibox-model-selector-btn.tss-omnibox-model-selector-locked:hover {
+    background: transparent;
+    box-shadow: none;
+    opacity: 1;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-omnibox-model-selector-divider {
+    background: var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger .tss-omnibox-model-selector-check {
+    color: var(--tss-wg-orange);
+}
+
+/* --------------------------------------------------------------------------
+   The popovers: plastic panels lifted off the device
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tippy-box:has(> .tippy-content .tss-omnibox-search-history-entry),
+body.tss-theme-weniger .tippy-box:has(> .tippy-content .tss-omnibox-snap-suggestion),
+body.tss-theme-weniger .tippy-box:has(> .tippy-content .tss-omnibox-help-panel),
+body.tss-theme-weniger .tippy-box:has(> .tippy-content .tss-omnibox-model-selector-popover) {
+    background: var(--tss-wg-plastic);
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-radius: var(--tss-wg-radius-key);
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+body.tss-theme-weniger .tippy-box:has(> .tippy-content .tss-omnibox-search-history-entry) > .tippy-content,
+body.tss-theme-weniger .tippy-box:has(> .tippy-content .tss-omnibox-snap-suggestion) > .tippy-content {
+    padding: 6px;
+}
+
+body.tss-theme-weniger .tippy-box:has(> .tippy-content .tss-omnibox-search-history-entry) .tss-fontcolor-default,
+body.tss-theme-weniger .tippy-box:has(> .tippy-content .tss-omnibox-snap-suggestion) .tss-fontcolor-default,
+body.tss-theme-weniger .tippy-box:has(> .tippy-content .tss-omnibox-help-panel) .tss-fontcolor-default,
+body.tss-theme-weniger .tippy-box:has(> .tippy-content .tss-omnibox-model-selector-popover) .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The category headers of the suggestion list and the help panel: printed legends. */
+body.tss-theme-weniger .tippy-box:has(> .tippy-content .tss-omnibox-search-history-entry) .tippy-content > .tss-stack > .tss-textblock,
+body.tss-theme-weniger .tippy-box:has(> .tippy-content .tss-omnibox-snap-suggestion) .tippy-content > .tss-stack > .tss-textblock,
+body.tss-theme-weniger .tippy-content .tss-textblock.tss-omnibox-help-header,
+body.tss-theme-weniger .tippy-content .tss-textblock.tss-omnibox-model-selector-header {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+    opacity: 1;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+/* Rows: flat on the panel, rising into a key under the pointer. */
+body.tss-theme-weniger .tippy-box .tss-btn.tss-omnibox-search-history-entry,
+body.tss-theme-weniger .tippy-box .tss-btn.tss-omnibox-snap-suggestion,
+body.tss-theme-weniger .tippy-box .tss-btn.tss-omnibox-help-entry,
+body.tss-theme-weniger .tippy-box .tss-btn.tss-omnibox-model-selector-row {
+    position: relative;
+    margin-bottom: 2px !important;
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-key);
+    background: transparent;
+    box-shadow: none;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tippy-box .tss-btn.tss-omnibox-search-history-entry:not(.tss-disabled):hover,
+body.tss-theme-weniger .tippy-box .tss-btn.tss-omnibox-snap-suggestion:not(.tss-disabled):hover,
+body.tss-theme-weniger .tippy-box .tss-btn.tss-omnibox-help-entry:not(.tss-disabled):hover,
+body.tss-theme-weniger .tippy-box .tss-btn.tss-omnibox-model-selector-row:hover {
+    background: var(--tss-wg-key-hover) !important;
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+/* The keyboard-selected row: the pressed key, its orange lamp lit at the leading edge. */
+body.tss-theme-weniger .tippy-box .tss-btn.tss-omnibox-suggestion-highlight,
+body.tss-theme-weniger .tippy-box .tss-btn.tss-omnibox-suggestion-highlight:not(.tss-disabled):hover,
+body.tss-theme-weniger .tss-omnibox-suggestion-highlight {
+    background: var(--tss-wg-key-pressed) !important;
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-pressed);
+    padding-left: 18px !important;
+}
+
+body.tss-theme-weniger .tss-omnibox-suggestion-highlight::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: calc(50% - 3px);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tss-wg-orange-hi);
+    box-shadow: var(--tss-wg-led-orange-glow);
+}
+
+body.tss-theme-weniger .tss-omnibox-suggestion-highlight :is(i, .tss-fontcolor-default) {
+    color: rgb(var(--tss-default-foreground-color-root)) !important;
+}
+
+body.tss-theme-weniger .tippy-box .tss-btn:is(.tss-omnibox-search-history-entry, .tss-omnibox-snap-suggestion, .tss-omnibox-help-entry, .tss-omnibox-model-selector-row) i {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+/* A mark the app paints in the primary foreground (white, for the default theme's dark popover) would
+   vanish on the plastic: it reads as the orange of a checked mark instead. */
+body.tss-theme-weniger .tippy-box .tss-btn:is(.tss-omnibox-search-history-entry, .tss-omnibox-snap-suggestion, .tss-omnibox-help-entry, .tss-omnibox-model-selector-row) i[style*="--tss-primary-foreground-color"] {
+    color: var(--tss-wg-orange) !important;
+}
+
+body.tss-theme-weniger .tss-omnibox-help-trigger {
+    color: rgb(var(--tss-link-color-root));
+}
+
+body.tss-theme-weniger .tss-omnibox-help-example {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-omnibox-container,
+    body.tss-theme-weniger .tss-btn.tss-omnibox-chat-btn {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled):active {
+        transform: none;
+    }
+}

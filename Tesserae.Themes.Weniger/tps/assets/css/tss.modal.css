@@ -1,0 +1,230 @@
+/* ==========================================================================
+   Weniger theme - Modal
+   --------------------------------------------------------------------------
+   A modal is a device lifted off the table towards you. The page behind is
+   dimmed with a soft warm shade and a touch of blur (light, so it stays
+   cheap). The modal itself is the device body: top-lit plastic in a 14px
+   shell, the hairline groove set in from its edge, standing on the float
+   shadow. Its header is quiet: the title in the grotesque with a short run
+   of speaker perforation after it, like the legend on a radio's case, and
+   a groove ruling it off from the face; the close button is a small round
+   key. A footer with something in it is ruled off by a groove of its own.
+   It arrives by settling into place (a few pixels, no zoom, no bounce).
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-modal-container {
+    background-color: rgba(60, 54, 46, 0.26);
+    backdrop-filter: blur(2px) saturate(0.85);
+    -webkit-backdrop-filter: blur(2px) saturate(0.85);
+}
+
+body.tss-theme-weniger .tss-modal-container.tss-dark {
+    background-color: rgba(30, 27, 24, 0.5);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-modal-container {
+    background-color: rgba(0, 0, 0, 0.42);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-modal-container.tss-dark {
+    background-color: rgba(0, 0, 0, 0.62);
+}
+
+body.tss-theme-weniger .tss-modal-container.tss-modal-modeless {
+    background-color: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+/* --------------------------------------------------------------------------
+   The body
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-modal {
+    background: var(--tss-wg-plastic);
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-radius: var(--tss-wg-radius-panel);
+    box-shadow: var(--tss-wg-float-shadow);
+    outline: 1px solid var(--tss-wg-groove);
+    outline-offset: calc(-1 * var(--tss-wg-groove-inset));
+}
+
+/* Shown in place on the page, it rests on the table like a card. */
+body.tss-theme-weniger .tss-modal.tss-embedded {
+    box-shadow: var(--tss-wg-panel-shadow);
+}
+
+body.tss-theme-weniger .tss-modal-animate {
+    animation: tss-wg-modal-settle 180ms var(--tss-wg-ease) both;
+}
+
+@keyframes tss-wg-modal-settle {
+    0% {
+        transform: translateY(10px) scale(0.985);
+        opacity: 0;
+    }
+
+    100% {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Header: the title, a legend of perforation, the round close key
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-modal-header {
+    min-height: 48px;
+    padding: 4px 14px 4px 20px;
+    background: transparent;
+}
+
+/* The rule stops at the groove on either side, as if moulded into the face. */
+body.tss-theme-weniger .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) {
+    background: linear-gradient(var(--tss-wg-groove), var(--tss-wg-groove)) center bottom / calc(100% - 2 * var(--tss-wg-groove-inset)) 1px no-repeat;
+}
+
+body.tss-theme-weniger .tss-modal-header-content {
+    align-items: center;
+}
+
+body.tss-theme-weniger .tss-modal-header-content:not(:empty) {
+    padding: 8px 0;
+}
+
+body.tss-theme-weniger .tss-modal-header-content > .tss-textblock {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.002em;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The legend: a short strip of round holes after a plain title, like the grille on a radio's case. */
+body.tss-theme-weniger .tss-modal-header-content:has(> .tss-textblock:only-child)::after {
+    content: "";
+    flex: 0 0 30px;
+    height: 6px;
+    margin-left: 12px;
+    background: var(--tss-wg-grille-dots);
+    opacity: 0.7;
+}
+
+body.tss-theme-weniger .tss-modal-header-commands:not(:empty),
+body.tss-theme-weniger .tss-modal-left-header-commands:not(:empty) {
+    gap: 6px;
+}
+
+body.tss-theme-weniger .tss-modal-header-commands > *:not(:first-child) {
+    margin-left: 0;
+}
+
+/* Other header commands are ghost keys: flat at rest, rising under the pointer. */
+body.tss-theme-weniger .tss-modal-header-commands > .tss-btn,
+body.tss-theme-weniger .tss-modal-header-commands > button,
+body.tss-theme-weniger .tss-modal-left-header-commands > .tss-btn,
+body.tss-theme-weniger .tss-modal-left-header-commands > button {
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-key);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    transition: transform var(--tss-wg-quick) var(--tss-wg-ease), box-shadow var(--tss-wg-quick) var(--tss-wg-ease), color 120ms linear;
+}
+
+body.tss-theme-weniger .tss-modal-header-commands > .tss-btn:hover,
+body.tss-theme-weniger .tss-modal-header-commands > button:hover,
+body.tss-theme-weniger .tss-modal-left-header-commands > .tss-btn:hover,
+body.tss-theme-weniger .tss-modal-left-header-commands > button:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-modal-header-commands > .tss-btn:active,
+body.tss-theme-weniger .tss-modal-header-commands > button:active,
+body.tss-theme-weniger .tss-modal-left-header-commands > .tss-btn:active,
+body.tss-theme-weniger .tss-modal-left-header-commands > button:active {
+    background: var(--tss-wg-key-pressed);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-pressed);
+    color: rgb(var(--tss-default-foreground-color-root));
+    transform: var(--tss-wg-press);
+}
+
+/* The close button: a small round key, standing proud even at rest. */
+body.tss-theme-weniger .tss-modal-header-commands > button.tss-modal-button,
+body.tss-theme-weniger .tss-modal-header-commands > .tss-btn.tss-modal-button {
+    width: 28px;
+    min-width: 28px;
+    height: 28px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid var(--tss-wg-key-edge);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.tss-theme-weniger .tss-modal-header-commands > button.tss-modal-button:hover,
+body.tss-theme-weniger .tss-modal-header-commands > .tss-btn.tss-modal-button:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-modal-header-commands > button.tss-modal-button:active,
+body.tss-theme-weniger .tss-modal-header-commands > .tss-btn.tss-modal-button:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-modal-header-commands > .tss-modal-button:focus-visible {
+    outline: none;
+    box-shadow: var(--tss-wg-raised), var(--tss-wg-focus);
+}
+
+body.tss-theme-weniger .tss-modal-button > i {
+    font-size: 11px;
+    line-height: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Face and footer
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-modal-content {
+    padding: 12px 20px 8px 20px;
+    background: transparent;
+}
+
+body.tss-theme-weniger .tss-modal-footer {
+    padding: 0 14px 0 20px;
+    background: transparent;
+}
+
+body.tss-theme-weniger .tss-modal-footer:has(> :not(:empty)) {
+    padding-top: 6px;
+    padding-bottom: 8px;
+    background: linear-gradient(var(--tss-wg-groove), var(--tss-wg-groove)) center top / calc(100% - 2 * var(--tss-wg-groove-inset)) 1px no-repeat;
+}
+
+body.tss-theme-weniger .tss-modal-footer-commands:not(:empty),
+body.tss-theme-weniger .tss-modal-left-footer-commands:not(:empty) {
+    gap: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-modal-animate {
+        animation: none;
+    }
+
+    body.tss-theme-weniger .tss-modal-header-commands > .tss-btn,
+    body.tss-theme-weniger .tss-modal-header-commands > button {
+        transition: none;
+        transform: none !important;
+    }
+}

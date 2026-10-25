@@ -1,0 +1,176 @@
+/* ==========================================================================
+   Weniger theme - ContextCards
+   --------------------------------------------------------------------------
+   A group of context cards behind one summary: the summary is the same
+   strip key as ToolsUsed (tss.toolcall.css), its icon a small round key in
+   the accent; expanded, the cards become rows of one plastic panel, parted
+   by grooves, each rising into a key under the pointer, with the remove
+   button a ghost key that turns red. Compact, the cards are a row of
+   small keys, and "+N more" is a key drawn with a dashed edge: something
+   behind it, not another card.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-contextcards-header {
+    padding: 5px 12px 5px 6px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: box-shadow var(--tss-wg-quick) var(--tss-wg-ease), transform var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-contextcards-header:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-contextcards-header:active,
+body.tss-theme-weniger .tss-contextcards.tss-expanded > .tss-contextcards-header {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+body.tss-theme-weniger .tss-contextcards-header:active {
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-contextcards-header:focus-visible,
+body.tss-theme-weniger .tss-contextcards-more:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 1px;
+}
+
+body.tss-theme-weniger .tss-contextcards-icon {
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    border-radius: 50%;
+    background: var(--tss-wg-orange);
+    background-image: var(--tss-wg-sheen);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    color: var(--tss-wg-on-orange);
+}
+
+body.tss-theme-weniger .tss-contextcards-chevron {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    transition: transform 160ms var(--tss-wg-ease);
+}
+
+/* Expanded: one plastic panel of rows. */
+body.tss-theme-weniger .tss-contextcards-list {
+    border: none;
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-panel-shadow);
+}
+
+body.tss-theme-weniger .tss-contextcards-list > .tss-contextcard {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    outline: none;
+    transform: none;
+}
+
+body.tss-theme-weniger .tss-contextcards-list > .tss-contextcard + .tss-contextcard {
+    border-top: 1px solid var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger .tss-contextcards-list > .tss-contextcard.tss-contextcard-clickable:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised);
+    transform: none;
+}
+
+body.tss-theme-weniger .tss-contextcards-list > .tss-contextcard.tss-contextcard-clickable:active,
+body.tss-theme-weniger .tss-contextcards-list > .tss-contextcard.tss-contextcard-menu-open {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+body.tss-theme-weniger .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove,
+body.tss-theme-weniger.tss-dark-mode .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove:hover,
+body.tss-theme-weniger.tss-dark-mode .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+    background: var(--tss-wg-red);
+    background-image: var(--tss-wg-sheen);
+    box-shadow: var(--tss-wg-raised);
+    color: var(--tss-wg-on-orange);
+}
+
+/* Compact: a row of small keys. */
+body.tss-theme-weniger .tss-contextcards-compact .tss-contextcards-list {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard + .tss-contextcard {
+    border-top: 1px solid var(--tss-wg-key-edge);
+}
+
+body.tss-theme-weniger .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard.tss-contextcard-clickable:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-icon {
+    width: 20px;
+    height: 20px;
+}
+
+body.tss-theme-weniger .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove,
+body.tss-theme-weniger.tss-dark-mode .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove {
+    border: 1px solid var(--tss-wg-key-edge);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove:hover,
+body.tss-theme-weniger.tss-dark-mode .tss-contextcards-compact > .tss-contextcards-list > .tss-contextcard .tss-contextcard-remove:hover {
+    background: var(--tss-wg-red);
+    background-image: var(--tss-wg-sheen);
+    color: var(--tss-wg-on-orange);
+}
+
+body.tss-theme-weniger .tss-contextcards-more {
+    height: 28px;
+    border: 1px dashed rgba(var(--tss-dark-border-color-root), 0.7);
+    border-radius: var(--tss-wg-radius-key);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-weight: 500;
+}
+
+body.tss-theme-weniger .tss-contextcards-more:hover {
+    border-color: var(--tss-wg-key-edge);
+    border-style: solid;
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-contextcards-header,
+    body.tss-theme-weniger .tss-contextcards-chevron {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-contextcards-header:active {
+        transform: none;
+    }
+}

@@ -100,9 +100,9 @@ namespace Tesserae
 
             _searchBox.OnSearch((_, __) => _defered.Refresh());
 
-            _searchBoxContainer           = Stack().Horizontal().WS().Children(_searchBox).AlignItems(ItemAlign.Center);
+            _searchBoxContainer           = Stack().Horizontal().Class("tss-searchable-grouped-list-search").WS().Children(_searchBox).AlignItems(ItemAlign.Center);
             _searchBoxContainerComponents = new List<IComponent> { _searchBox };
-            _stack                        = Stack().Children(_searchBoxContainer, _defered.Scroll()).WS().MaxHeight(100.percent());
+            _stack                        = Stack().Class("tss-searchable-grouped-list").Children(_searchBoxContainer, _defered.Scroll()).WS().MaxHeight(100.percent());
         }
 
         /// <summary>

@@ -1,0 +1,22 @@
+/* ==========================================================================
+   Rechenwerk theme - Layer
+   --------------------------------------------------------------------------
+   A bare layer's content is something that floats, so it is a sleeve panel
+   with no title: the surface colour inside the 2px ink frame, standing on
+   the 6px hard shadow every floating thing in the theme throws (ink on
+   paper, yellow on the terminal). The transparent variant is only the host
+   of a modal, a panel or a menu that draws its own frame, so it stays bare.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-layer-content {
+    border: none;
+    border-radius: 0;
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-rw-frame-shadow);
+}
+
+body.tss-theme-rechenwerk .tss-layer-content.tss-layer-content-transparent {
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+}

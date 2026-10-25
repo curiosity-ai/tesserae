@@ -1,0 +1,167 @@
+/* ==========================================================================
+   Rechenwerk theme - Banner
+   --------------------------------------------------------------------------
+   A notice strip: a 2px ink frame round the surface, and the icon in a
+   solid square block of the tone's colour (ink for a plain notice, the
+   signal for primary, green, red, and the terminal yellow with black type
+   for a warning). The title is in tracked capitals, the message in plain
+   sentence case and ink, so the words never depend on the tint. A warning
+   also carries the hazard stripes down its left edge. The badge is a
+   square tag in the tone, the time Space Mono, the dismiss a ghost key
+   that frames itself under the pointer. Flat drops the side rules; inside
+   a toast the toast's own frame is the frame.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-banner {
+    --tss-banner-accent: rgb(var(--tss-default-foreground-color-root));
+    --tss-rw-banner-on-accent: rgb(var(--tss-default-background-color-root));
+    --tss-banner-title-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-banner-text-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-banner-surface: rgb(var(--tss-secondary-background-color-root));
+    --tss-banner-border-color: rgb(var(--tss-default-border-color-root));
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-banner-primary {
+    --tss-banner-accent: var(--tss-rw-signal);
+    --tss-rw-banner-on-accent: var(--tss-rw-on-signal);
+}
+
+body.tss-theme-rechenwerk .tss-banner-success {
+    --tss-banner-accent: rgb(var(--tss-success-background-color-root));
+    --tss-rw-banner-on-accent: rgb(var(--tss-success-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-banner-warning {
+    --tss-banner-accent: var(--tss-rw-yellow);
+    --tss-rw-banner-on-accent: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-banner-danger {
+    --tss-banner-accent: rgb(var(--tss-danger-background-color-root));
+    --tss-rw-banner-on-accent: rgb(var(--tss-danger-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-banner-primary,
+body.tss-theme-rechenwerk .tss-banner-success,
+body.tss-theme-rechenwerk .tss-banner-warning,
+body.tss-theme-rechenwerk .tss-banner-danger {
+    --tss-banner-title-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-banner-text-color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The warning wears the hazard down its left edge. */
+body.tss-theme-rechenwerk .tss-banner-warning {
+    background: var(--tss-rw-hazard) left top / 8px 100% no-repeat, rgb(var(--tss-secondary-background-color-root));
+    padding-left: 22px;
+}
+
+body.tss-theme-rechenwerk .tss-banner-warning.tss-banner-compact {
+    padding-left: 18px;
+}
+
+body.tss-theme-rechenwerk .tss-banner-flat {
+    border-left: none;
+    border-right: none;
+}
+
+/* The icon: a solid square block of the tone. */
+body.tss-theme-rechenwerk .tss-banner-icon > .tss-icontile,
+body.tss-theme-rechenwerk .tss-banner-compact .tss-banner-icon > .tss-icontile {
+    --tss-icontile-radius: 0px;
+}
+
+body.tss-theme-rechenwerk .tss-icontile.tss-banner-icon-tile,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-icontile.tss-banner-icon-tile {
+    background: var(--tss-banner-accent);
+    color: var(--tss-rw-banner-on-accent);
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-icontile.tss-banner-icon-tile i {
+    color: var(--tss-rw-banner-on-accent);
+}
+
+body.tss-theme-rechenwerk .tss-banner-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-banner-text {
+    font-size: 13px;
+}
+
+body.tss-theme-rechenwerk .tss-banner-time-text {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+    opacity: 1;
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-banner-badge-pill.tss-badge {
+    border-radius: 0;
+    border: 2px solid var(--tss-banner-accent);
+    background: var(--tss-banner-accent);
+    color: var(--tss-rw-banner-on-accent);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-banner-badge-pill.tss-badge * {
+    color: var(--tss-rw-banner-on-accent);
+}
+
+/* Warning has no button tone of its own: the banner makes its action a warning key, yellow with black type
+   on the key's hard shadow, pressing in like every other solid key. It is a default (ghost) button underneath,
+   whose transparent rules are as specific as these, hence the extra class. */
+body.tss-theme-rechenwerk .tss-banner .tss-btn.tss-banner-action-warning:not(.tss-disabled),
+body.tss-theme-rechenwerk.tss-dark-mode .tss-banner .tss-btn.tss-banner-action-warning:not(.tss-disabled) {
+    background-color: var(--tss-rw-yellow);
+    border-color: rgb(10, 10, 10);
+    color: rgb(10, 10, 10);
+    box-shadow: var(--tss-rw-btn-shadow);
+    margin-right: 3px;
+    margin-bottom: 3px;
+}
+
+body.tss-theme-rechenwerk .tss-banner .tss-btn.tss-banner-action-warning:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-banner .tss-btn.tss-banner-action-warning:not(.tss-disabled):hover {
+    background-color: rgb(10, 10, 10);
+    border-color: rgb(10, 10, 10);
+    color: var(--tss-rw-yellow);
+    box-shadow: var(--tss-rw-btn-shadow);
+}
+
+body.tss-theme-rechenwerk .tss-banner .tss-btn.tss-banner-action-warning:not(.tss-disabled):active {
+    transform: var(--tss-rw-btn-travel);
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-banner .tss-btn.tss-banner-action-warning:not(.tss-disabled) * {
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-banner-dismiss-button {
+    border-radius: 0;
+    border: 2px solid transparent;
+    background: transparent;
+    box-shadow: none;
+    color: rgb(var(--tss-default-foreground-color-root));
+    opacity: 1;
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-banner-dismiss-button:hover {
+    background: transparent;
+    border-color: rgb(var(--tss-default-border-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toast-container > .tss-banner {
+    border: none;
+}

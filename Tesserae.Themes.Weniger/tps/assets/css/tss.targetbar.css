@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Weniger theme - TargetBar
+   --------------------------------------------------------------------------
+   A value against a target is a level meter: the track is a groove cut into
+   the panel (the slider's well), the fill is the lit scale in it - orange by
+   default, or the tone the app chose - and the target is a small metal
+   index mark standing across the groove. The caption is printed under it,
+   the value in figures that line up.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-targetbar {
+    --tss-targetbar-thickness: 6px;
+}
+
+body.tss-theme-weniger .tss-targetbar-track {
+    background: rgb(var(--tss-progress-background-color-root));
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-targetbar-track {
+    background: rgb(22, 22, 21);
+}
+
+body.tss-theme-weniger .tss-targetbar-fill {
+    background-color: var(--tss-targetbar-color);
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.16) 0%, rgba(255, 255, 255, 0.14) 100%);
+}
+
+body.tss-theme-weniger .tss-targetbar-marker {
+    top: -4px;
+    bottom: -4px;
+    width: 3px;
+    margin-left: -1.5px;
+    border-radius: 1.5px;
+    background: var(--tss-wg-alu);
+    box-shadow: 0 0 0 1px rgba(60, 54, 46, 0.4), 0 1px 2px rgba(60, 54, 46, 0.3);
+    opacity: 1;
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-targetbar-marker {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+body.tss-theme-weniger .tss-targetbar-caption {
+    font-size: 12px;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-weniger .tss-targetbar-value {
+    font-family: var(--tss-sansserif-font-family);
+    font-variant-numeric: tabular-nums;
+}

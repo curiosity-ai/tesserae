@@ -1,0 +1,239 @@
+/* ==========================================================================
+   Weniger theme - IconToggle
+   --------------------------------------------------------------------------
+   The slab button cut into keys: the same extruded plastic as a button, a
+   flat face with a line of light along its top edge, standing on its side
+   wall, but split into keys that stand side by side with a hairline between
+   them and one shadow under the whole strip. The icon is engraved in each
+   face: a dark cut with a catch of light on its lower lip.
+
+   Exactly one key is pushed in: it travels down until only a hair of its
+   wall is left, its face a touch darker, and its engraving is filled with
+   signal orange. Under the pointer a key lifts a pixel. Vertical() stacks
+   the keys as separate slabs.
+
+   Light, rim and wall are the key's own plastic made lighter or darker in
+   OKLCH where the browser can (relative colour syntax), white and black at
+   low alpha elsewhere. The keys are Tesserae buttons, so the theme's ghost
+   button would reach them too; the doubled class on every key selector is
+   what keeps this file in charge of them.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-icon-toggle {
+    --tss-icon-toggle-radius: var(--tss-wg-radius-key);
+    --tss-icon-toggle-inset: 0px;
+    --tss-icon-toggle-height: 32px;
+    --tss-icon-toggle-padding: 10px;
+    --tss-icon-toggle-icon-size: 14px;
+    --tss-wg-it-k: var(--tss-wg-key-plastic, rgb(214, 210, 205));
+    --tss-wg-it-wall: 4px;
+    --tss-wg-it-hi: rgba(255, 255, 255, 0.55);
+    --tss-wg-it-edge: rgba(0, 0, 0, 0.22);
+    --tss-wg-it-side: rgba(0, 0, 0, 0.26);
+    --tss-wg-it-face-top: rgba(255, 255, 255, 0.1);
+    --tss-wg-it-face-down: rgba(0, 0, 0, 0.05);
+    --tss-wg-it-ink: rgba(50, 46, 40, 0.8);
+    --tss-wg-it-catch: rgba(255, 255, 255, 0.75);
+    --tss-wg-it-cut: rgba(0, 0, 0, 0.22);
+    gap: 1px;
+    padding: 0;
+    margin-bottom: var(--tss-wg-it-wall);
+    border-radius: var(--tss-icon-toggle-radius);
+    background: transparent;
+    box-shadow: none;
+    filter: drop-shadow(0 6px 7px rgba(30, 24, 18, 0.26));
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle {
+    --tss-wg-it-hi: rgba(255, 255, 255, 0.2);
+    --tss-wg-it-edge: rgba(0, 0, 0, 0.6);
+    --tss-wg-it-side: rgba(0, 0, 0, 0.45);
+    --tss-wg-it-ink: rgba(0, 0, 0, 0.62);
+    --tss-wg-it-catch: rgba(255, 255, 255, 0.16);
+    --tss-wg-it-cut: rgba(0, 0, 0, 0.55);
+    filter: drop-shadow(0 6px 7px rgba(0, 0, 0, 0.5));
+}
+
+@supports (color: oklch(from red l c h)) {
+    body.tss-theme-weniger .tss-icon-toggle {
+        --tss-wg-it-hi: oklch(from var(--tss-wg-it-k) calc(l + 0.16) c h / 0.85);
+        --tss-wg-it-edge: oklch(from var(--tss-wg-it-k) calc(l - 0.28) c h / 0.5);
+        --tss-wg-it-side: oklch(from var(--tss-wg-it-k) calc(l - 0.17) c h);
+        --tss-wg-it-face-top: oklch(from var(--tss-wg-it-k) calc(l + 0.04) c h);
+        --tss-wg-it-face-down: oklch(from var(--tss-wg-it-k) calc(l - 0.04) c h);
+        --tss-wg-it-ink: oklch(from var(--tss-wg-it-k) calc(l - 0.42) c h);
+        --tss-wg-it-catch: oklch(from var(--tss-wg-it-k) calc(l + 0.12) c h / 0.9);
+        --tss-wg-it-cut: oklch(from var(--tss-wg-it-k) calc(l - 0.3) c h / 0.55);
+    }
+
+    body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle {
+        --tss-wg-it-ink: oklch(from var(--tss-wg-it-k) calc(l - 0.24) c h);
+        --tss-wg-it-catch: oklch(from var(--tss-wg-it-k) calc(l + 0.1) c h / 0.7);
+        --tss-wg-it-cut: oklch(from var(--tss-wg-it-k) calc(l - 0.3) c h / 0.8);
+    }
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-icon-toggle-compact {
+    --tss-icon-toggle-radius: var(--tss-wg-radius-small);
+    --tss-icon-toggle-height: 26px;
+    --tss-icon-toggle-padding: 8px;
+    --tss-icon-toggle-icon-size: 12px;
+    --tss-wg-it-wall: 3px;
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-icon-toggle-large {
+    --tss-icon-toggle-radius: 10px;
+    --tss-icon-toggle-height: 40px;
+    --tss-icon-toggle-padding: 14px;
+    --tss-icon-toggle-icon-size: 17px;
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-rounded-sm {
+    --tss-icon-toggle-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-rounded-md {
+    --tss-icon-toggle-radius: var(--tss-wg-radius-key);
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-rounded-full {
+    --tss-icon-toggle-radius: var(--tss-border-radius-full);
+}
+
+/* The keys: square when they carry only an icon, joined into one strip with the ends rounded. */
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item {
+    position: relative;
+    height: var(--tss-icon-toggle-height);
+    min-height: var(--tss-icon-toggle-height);
+    border: none;
+    border-radius: 0;
+    background-color: var(--tss-wg-it-k);
+    background-image: linear-gradient(180deg, var(--tss-wg-it-face-top) 0%, var(--tss-wg-it-k) 100%);
+    box-shadow:
+        inset 0 1px 0 var(--tss-wg-it-hi),
+        0 0 0 1px var(--tss-wg-it-edge),
+        0 var(--tss-wg-it-wall) 0 var(--tss-wg-it-side),
+        0 var(--tss-wg-it-wall) 0 1px var(--tss-wg-it-edge);
+    color: var(--tss-wg-it-ink);
+    transform: none;
+    transition: transform var(--tss-wg-quick) var(--tss-wg-ease), box-shadow var(--tss-wg-quick) var(--tss-wg-ease), color 90ms linear;
+}
+
+body.tss-theme-weniger .tss-icon-toggle:not(.tss-icon-toggle-vertical) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item:first-child {
+    border-radius: var(--tss-icon-toggle-radius) 0 0 var(--tss-icon-toggle-radius);
+}
+
+body.tss-theme-weniger .tss-icon-toggle:not(.tss-icon-toggle-vertical) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item:last-child {
+    border-radius: 0 var(--tss-icon-toggle-radius) var(--tss-icon-toggle-radius) 0;
+}
+
+body.tss-theme-weniger .tss-icon-toggle:not(.tss-icon-toggle-vertical) > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item:only-child {
+    border-radius: var(--tss-icon-toggle-radius);
+}
+
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-btn-only-icon {
+    min-width: var(--tss-icon-toggle-height);
+    aspect-ratio: 1;
+    padding: 0;
+}
+
+/* Vertical: separate slabs stacked with room for each wall. */
+body.tss-theme-weniger .tss-icon-toggle.tss-icon-toggle-vertical {
+    gap: calc(var(--tss-wg-it-wall) + 2px);
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-icon-toggle-vertical > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item {
+    border-radius: var(--tss-icon-toggle-radius);
+}
+
+/* The engraving: the legend is cut into the face, light on its lower lip and shade on its upper. */
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item > i,
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item > span {
+    color: inherit;
+    text-shadow: 0 1px 0 var(--tss-wg-it-catch), 0 -1px 0 var(--tss-wg-it-cut);
+}
+
+/* Under the pointer a key lifts a pixel and shows a pixel more wall. */
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover,
+body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):hover {
+    background-color: var(--tss-wg-it-k);
+    background-image: linear-gradient(180deg, var(--tss-wg-it-face-top) 0%, var(--tss-wg-it-k) 100%);
+    color: var(--tss-wg-it-ink);
+    transform: translateY(-1px);
+    box-shadow:
+        inset 0 1px 0 var(--tss-wg-it-hi),
+        0 0 0 1px var(--tss-wg-it-edge),
+        0 calc(var(--tss-wg-it-wall) + 1px) 0 var(--tss-wg-it-side),
+        0 calc(var(--tss-wg-it-wall) + 1px) 0 1px var(--tss-wg-it-edge);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item:not(.tss-icon-toggle-item-selected):not(.tss-disabled):not(:hover) {
+    color: var(--tss-wg-it-ink);
+}
+
+/* Pushed in: down until a hair of the wall is left, the face a touch darker, the engraving filled orange. */
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item:not(.tss-disabled):active,
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover {
+    background-color: var(--tss-wg-it-k);
+    background-image: linear-gradient(180deg, var(--tss-wg-it-face-down) 0%, var(--tss-wg-it-k) 100%);
+    transform: translateY(calc(var(--tss-wg-it-wall) - 1px));
+    box-shadow:
+        inset 0 1px 2px var(--tss-wg-it-cut),
+        0 0 0 1px var(--tss-wg-it-edge),
+        0 1px 0 var(--tss-wg-it-side),
+        0 1px 0 1px var(--tss-wg-it-edge);
+}
+
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-icon-toggle-item-selected {
+    color: var(--tss-wg-orange);
+}
+
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-icon-toggle-item-selected > i,
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-icon-toggle-item-selected > span {
+    text-shadow: 0 1px 0 var(--tss-wg-it-catch), 0 -1px 0 rgba(120, 36, 0, 0.35);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-icon-toggle-item-selected {
+    color: var(--tss-wg-orange-hi);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-icon-toggle-item-selected > i,
+body.tss-theme-weniger.tss-dark-mode .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-icon-toggle-item-selected > span {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5), 0 0 6px rgba(236, 88, 26, 0.45);
+}
+
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item:focus-visible {
+    z-index: 1;
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+}
+
+/* Disabled: the key stays in the strip but is down to its last hair of wall, its legend faded. */
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-disabled,
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-disabled:not(.tss-btn-link):not(.tss-btn-nobg) {
+    border: none;
+    background-image: none;
+    background-color: rgb(var(--tss-disabled-background-color-root));
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    transform: translateY(calc(var(--tss-wg-it-wall) - 1px));
+    box-shadow: 0 0 0 1px var(--tss-wg-key-edge), 0 1px 0 var(--tss-wg-key-edge);
+}
+
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-disabled > i,
+body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item.tss-disabled > span {
+    text-shadow: none;
+}
+
+body.tss-theme-weniger .tss-icon-toggle.tss-icon-toggle-disabled {
+    filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-icon-toggle > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item {
+        transition: none;
+    }
+}

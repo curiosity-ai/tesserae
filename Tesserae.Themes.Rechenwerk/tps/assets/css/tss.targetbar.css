@@ -1,0 +1,47 @@
+/* ==========================================================================
+   Rechenwerk theme - Target bar
+   --------------------------------------------------------------------------
+   A gauge on a control panel: a square track ruled in ink, the fill a solid
+   bar in the colour the app gave it (the signal colour by default), and the
+   target a heavy ink tick that overhangs the track like a mark printed on
+   the dial. The caption is in tracked capitals, the value in Space Mono.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-targetbar {
+    --tss-targetbar-color: var(--tss-rw-signal);
+    --tss-targetbar-thickness: 6px;
+}
+
+body.tss-theme-rechenwerk .tss-targetbar-track {
+    border-radius: 0;
+    background: rgb(var(--tss-progress-background-color-root));
+    box-shadow: inset 0 -1px 0 0 rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-targetbar-fill {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-targetbar-marker {
+    top: -4px;
+    bottom: -4px;
+    width: 3px;
+    margin-left: -1px;
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    opacity: 1;
+}
+
+body.tss-theme-rechenwerk .tss-targetbar-caption {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-targetbar-value {
+    font-family: var(--tss-monospace-font-family);
+    font-weight: 700;
+    letter-spacing: 0;
+}

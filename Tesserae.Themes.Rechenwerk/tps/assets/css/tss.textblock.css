@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Rechenwerk theme - TextBlock
+   --------------------------------------------------------------------------
+   Text is Jost, inherited from the body; a TextBlock only restates what the
+   sleeves change. The two largest sizes are headlines, so they are set in
+   the condensed display face, heavy, the way the poster sets its title.
+   Warning-coloured text on cream paper would be yellow on cream, so on paper
+   it is the yellow darkened to an ochre that can be read (the terminal keeps
+   the pure yellow). A glow cannot blur here: it becomes a hard, misregistered
+   second impression of the text in the signal colour, offset by 2px, as an
+   overprinted poster does.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-textblock.tss-fontsize-mega,
+body.tss-theme-rechenwerk .tss-textblock.tss-fontsize-xxlarge {
+    font-family: var(--tss-rw-display);
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    line-height: 1.05;
+}
+
+/* Yellow type on cream paper: darkened to ochre so it reads (light mode only). */
+body.tss-theme-rechenwerk:not(.tss-dark-mode) .tss-textblock.tss-fontcolor-warning {
+    color: rgb(138, 98, 0);
+}
+
+body.tss-theme-rechenwerk:not(.tss-dark-mode) .tss-sidebar .tss-textblock.tss-fontcolor-warning {
+    color: var(--tss-rw-yellow);
+}
+
+/* The glow, without the blur: a hard second impression in the signal colour. */
+body.tss-theme-rechenwerk .tss-text-glow {
+    text-shadow: 2px 2px 0 var(--tss-text-glow-color, var(--tss-rw-signal));
+}

@@ -1,0 +1,86 @@
+/* ==========================================================================
+   Rechenwerk theme - AutoCompleteBox
+   --------------------------------------------------------------------------
+   The input is the TextBox (tss.textbox.css). The suggestion list floats
+   like every list in the theme: square, on a 2px frame and a 6px offset
+   shadow. Rows are content, in sentence case; the highlighted row is the
+   terminal's cursor, the yellow block with black type, and the part of a
+   row that matches what was typed is set heavier and underlined in a 2px
+   rule, so it still reads on the cursor. The check indicator at the end of
+   the field speaks in small tracked capitals, in the status colours.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-autocompletebox-list {
+    margin-top: 4px;
+    padding: 4px 0;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: 6px 6px 0 0 var(--tss-rw-key-shadow-color);
+}
+
+body.tss-theme-rechenwerk .tss-autocompletebox-item {
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+body.tss-theme-rechenwerk .tss-autocompletebox-item:hover {
+    background-color: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-autocompletebox-item.tss-autocompletebox-item-highlight,
+body.tss-theme-rechenwerk .tss-autocompletebox-item.tss-autocompletebox-item-highlight:hover {
+    background-color: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-autocompletebox-match {
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+/* The check indicator. */
+body.tss-theme-rechenwerk .tss-autocompletebox-status {
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-autocompletebox-status-text {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-autocompletebox-status-valid {
+    color: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-autocompletebox-status-invalid {
+    color: rgb(var(--tss-invalid-border-color-root));
+}
+
+/* Yellow type on cream paper does not read: on paper the warning is drawn in ink with a yellow mark. */
+body.tss-theme-rechenwerk .tss-autocompletebox-status-warning {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-autocompletebox-status-warning .tss-autocompletebox-status-icon {
+    padding: 2px;
+    background-color: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-autocompletebox-status-warning {
+    color: rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-textbox-container.tss-autocompletebox-invalid .tss-textbox {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-textbox-container.tss-autocompletebox-invalid .tss-textbox:focus {
+    box-shadow: 4px 4px 0 0 rgb(var(--tss-invalid-border-color-root));
+}

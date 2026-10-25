@@ -1,0 +1,128 @@
+/* ==========================================================================
+   Rechenwerk theme - Toggle
+   --------------------------------------------------------------------------
+   A hardware switch from the front panel of a synthesizer: a rectangular slot
+   in a 2px ink rule with a square slab of a thumb. Off, the slot is the
+   surface and the slab is ink, parked on the left. On, the slot fills with
+   the signal colour (red on paper, yellow on the screen) and the slab, now
+   in the signal's type colour, has thrown to the right. It throws in a snap
+   - three steps, no easing - and not at all under reduced motion.
+
+   Tesserae moves the thumb by a fixed 25px whatever the size; here it is
+   positioned against the slot instead (left: 100% less its own width), so
+   the slab lands flush at every text size.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-toggle-container {
+    align-items: center;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toggle-container .tss-toggle-text {
+    margin-left: 8px;
+}
+
+body.tss-theme-rechenwerk .tss-toggle-container .tss-toggle-mark,
+body.tss-theme-rechenwerk .tss-toggle-container:hover .tss-toggle-mark,
+body.tss-theme-rechenwerk .tss-toggle-container.tss-rounded-full > .tss-toggle-mark {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    transition: background-color 120ms steps(1), box-shadow 80ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-toggle-container:not(.tss-disabled):hover .tss-toggle-mark {
+    box-shadow: 2px 2px 0 0 rgb(var(--tss-default-border-color-root));
+}
+
+/* The slab: square, inset 2px from the rule, as tall as the slot allows. */
+body.tss-theme-rechenwerk .tss-toggle-container .tss-toggle-mark:after,
+body.tss-theme-rechenwerk .tss-toggle-container:hover .tss-toggle-mark:after,
+body.tss-theme-rechenwerk .tss-toggle-container[class*="tss-fontsize-"] .tss-toggle-mark:after,
+body.tss-theme-rechenwerk .tss-toggle-container.tss-rounded-full > .tss-toggle-mark:after {
+    top: 2px;
+    bottom: 2px;
+    left: 2px;
+    height: auto;
+    width: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 0;
+    background-color: rgb(var(--tss-default-foreground-color-root));
+    transform: none;
+    transition: left 120ms steps(3), transform 120ms steps(3);
+}
+
+/* On: signal slot, the slab thrown flush right. */
+body.tss-theme-rechenwerk .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-rechenwerk .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background-color: var(--tss-rw-signal);
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toggle-container input:checked ~ .tss-toggle-mark:after,
+body.tss-theme-rechenwerk .tss-toggle-container:hover input:checked ~ .tss-toggle-mark:after {
+    left: calc(100% - 2px);
+    transform: translateX(-100%);
+    background-color: var(--tss-rw-on-signal);
+}
+
+/* On the terminal, a yellow slot inside a cream rule loses its edge: the rule goes yellow too. */
+body.tss-theme-rechenwerk.tss-dark-mode .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    border-color: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-toggle-container input:focus-visible ~ .tss-toggle-mark {
+    box-shadow: 3px 3px 0 0 var(--tss-rw-signal);
+    outline: 2px solid var(--tss-rw-ink);
+    outline-offset: 2px;
+}
+
+/* Pressed: the switch sinks into its shadow. */
+body.tss-theme-rechenwerk .tss-toggle-container:not(.tss-disabled):active .tss-toggle-mark {
+    box-shadow: none;
+    transform: translate(1px, 1px);
+}
+
+/* Disabled: a dashed slot, a grey slab. */
+body.tss-theme-rechenwerk .tss-toggle-container.tss-disabled {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    cursor: default;
+}
+
+body.tss-theme-rechenwerk .tss-toggle-container.tss-disabled .tss-toggle-mark,
+body.tss-theme-rechenwerk .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    border: 2px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    background-color: rgb(var(--tss-disabled-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-toggle-container.tss-disabled .tss-toggle-mark:after,
+body.tss-theme-rechenwerk .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark:after {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+/* .Rounded() asks for a radius; a switch on a panel is cut square, so the request is declined. */
+body.tss-theme-rechenwerk .tss-rounded-sm > .tss-toggle-mark,
+body.tss-theme-rechenwerk .tss-rounded-md > .tss-toggle-mark,
+body.tss-theme-rechenwerk .tss-rounded-full > .tss-toggle-mark {
+    border-radius: 0 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-toggle-container .tss-toggle-mark,
+    body.tss-theme-rechenwerk .tss-toggle-container .tss-toggle-mark:after,
+    body.tss-theme-rechenwerk .tss-toggle-container:hover .tss-toggle-mark:after,
+    body.tss-theme-rechenwerk .tss-toggle-container[class*="tss-fontsize-"] .tss-toggle-mark:after {
+        transition: none;
+    }
+
+    body.tss-theme-rechenwerk .tss-toggle-container:not(.tss-disabled):active .tss-toggle-mark {
+        transform: none;
+    }
+}

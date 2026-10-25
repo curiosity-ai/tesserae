@@ -1,0 +1,39 @@
+/* ==========================================================================
+   Rechenwerk theme - IconTile
+   --------------------------------------------------------------------------
+   A tile is a square cell cut from the sleeve: no rounding, framed in the
+   2px ink rule. A tile's own tint (a file type's colour, a group's hue) is
+   meaning the host chose, so it stays; the glyph and the letters are what
+   the theme draws, the letters in tracked capitals. Pointed at, the tile
+   lifts the way a card does: up and left onto a hard shadow, and down
+   again when pressed.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-icontile {
+    --tss-icontile-radius: 0px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    transition: transform 80ms steps(2), box-shadow 80ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-icontile:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 2px 2px 0 0 var(--tss-rw-key-shadow-color);
+}
+
+body.tss-theme-rechenwerk .tss-icontile:active {
+    transform: none;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-icontile-text {
+    font-family: var(--tss-sansserif-font-family);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-icontile {
+        transition: none;
+    }
+}

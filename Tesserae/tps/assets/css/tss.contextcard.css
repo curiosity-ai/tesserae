@@ -49,6 +49,16 @@
     color: var(--tss-primary-foreground-color);
 }
 
+/* The glyph sits in its own 1em box. The icon font's ::before inherits the line height and sits on the
+   baseline of the text font around it, so its height above centre depended on that font's ascent and
+   descent: 1px high under Segoe UI, 2px under a theme with a taller text face. As a block with a line
+   height of 1, the glyph is placed by the icon font's own metrics, which centre it in the em square. */
+.tss-contextcard-icon > i,
+.tss-contextcard-icon > i::before {
+    display: block;
+    line-height: 1;
+}
+
 .tss-contextcard-icon-nobackground {
     background: transparent;
     color: inherit;

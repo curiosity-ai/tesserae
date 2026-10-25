@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Rechenwerk theme - OverflowSet
+   --------------------------------------------------------------------------
+   A row of the application's own buttons that folds its tail into a "..."
+   menu. The buttons keep the look tss.button.css gives them; this file only
+   undoes what the base does to them for its own sake: it strips every
+   border with !important, which would leave a solid key without the 2px
+   frame it stands on. The "..." trigger (the empty separator before the
+   folded tail, given an icon) is a ghost key that fills yellow under the
+   pointer.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-overflowset .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-rechenwerk .tss-overflowset .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-rechenwerk .tss-overflowset .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-rechenwerk .tss-overflowset .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    border-width: 2px !important;
+}
+
+body.tss-theme-rechenwerk .tss-overflowset .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):hover,
+body.tss-theme-rechenwerk .tss-overflowset .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):hover {
+    background-color: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-overflowset-opencolapsed {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    min-height: 24px;
+    margin-left: 4px;
+    padding-left: 0;
+    border: 2px solid transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-overflowset-opencolapsed:hover {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}

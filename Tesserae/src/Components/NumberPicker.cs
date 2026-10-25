@@ -13,6 +13,7 @@
         /// </summary>
         public NumberPicker(int defaultValue = 0) : base("number", defaultValue.ToString())
         {
+            Render().classList.add("tss-numberpicker");
             InnerElement.classList.add("tss-fontsize-small");
             InnerElement.classList.add("tss-fontweight-regular");
             InnerElement.style.alignItems = "center";

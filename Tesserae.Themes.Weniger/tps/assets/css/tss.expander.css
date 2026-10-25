@@ -1,0 +1,115 @@
+/* ==========================================================================
+   Weniger theme - Accordion and Expander
+   --------------------------------------------------------------------------
+   Each expander is a long key across the panel: a strip of key plastic
+   with a 1px edge, standing on its soft shadow, rising a touch under the
+   pointer. Its chevron sits on a small turned-aluminium button (the conic
+   knob), with a dark legend; opening it turns the knob half a turn.
+
+   Open, the strip is latched down: the header takes the pressed key's
+   fill and inner shadow (the light gone off it, as a held key), and the
+   content below sits on the panel's own surface, ruled off by the groove.
+   An option icon keeps the app's colours on a small moulded tile.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-expander {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    transition: box-shadow 160ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-expander:not(.tss-expanded):hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+}
+
+body.tss-theme-weniger .tss-expander-header {
+    padding: 10px 14px;
+    transition: background-color 120ms linear, box-shadow 120ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-expander-header:hover {
+    background: transparent;
+}
+
+body.tss-theme-weniger .tss-expander-header:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: -3px;
+    border-radius: var(--tss-wg-radius-key);
+}
+
+body.tss-theme-weniger .tss-expander-title {
+    font-weight: 600;
+    letter-spacing: 0.005em;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Open: the strip latched down. */
+body.tss-theme-weniger .tss-expander.tss-expanded {
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-expander.tss-expanded {
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+body.tss-theme-weniger .tss-expander.tss-expanded > .tss-expander-header {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: inset 0 2px 3px rgba(60, 54, 46, 0.14), inset 0 1px 1px rgba(60, 54, 46, 0.1);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-expander.tss-expanded > .tss-expander-header {
+    box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(0, 0, 0, 0.35);
+}
+
+body.tss-theme-weniger .tss-expander-content {
+    border-top: 1px solid var(--tss-wg-groove);
+    padding: 12px 14px 14px;
+}
+
+/* The chevron on a turned-metal button. */
+body.tss-theme-weniger .tss-expander-chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--tss-wg-alu-knob);
+    box-shadow: var(--tss-wg-knob-shadow);
+    color: rgb(28, 28, 26);
+    font-size: 12px;
+    line-height: 1;
+    transform: none;
+    transition: transform 180ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-expander-chevron::before {
+    display: block;
+    line-height: 1;
+}
+
+body.tss-theme-weniger .tss-expander.tss-expanded .tss-expander-chevron {
+    transform: rotate(180deg);
+}
+
+body.tss-theme-weniger .tss-expander-icon {
+    border-radius: var(--tss-wg-radius-key);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(60, 54, 46, 0.1);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-expander-icon {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-expander,
+    body.tss-theme-weniger .tss-expander-header,
+    body.tss-theme-weniger .tss-expander-chevron {
+        transition: none;
+    }
+}

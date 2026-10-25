@@ -1,0 +1,212 @@
+/* ==========================================================================
+   Rechenwerk theme - Button
+   --------------------------------------------------------------------------
+   A button is a key on a pocket calculator. Square, framed in a 2px rule,
+   standing on a hard shadow of its own; pressed, it travels down into that
+   shadow and the shadow is gone. Labels are tracked capitals.
+
+   Solid keys (primary, danger, success, warning) carry the sleeve colours:
+   the poster's red (light) or the terminal's yellow (dark) for primary, red
+   for danger, green for success, yellow and black for warning. A ghost key
+   (the default, no-background and link-less variants) has no frame at rest;
+   the frame appears under the pointer and the key fills yellow when pressed.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-btn {
+    border: 2px solid transparent;
+    border-radius: 0;
+    box-shadow: none;
+    font-family: var(--tss-sansserif-font-family);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    transition: transform 60ms steps(1), box-shadow 60ms steps(1), background-color 80ms linear, color 80ms linear;
+}
+
+body.tss-theme-rechenwerk .tss-btn:hover {
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-btn:focus {
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-btn:focus-visible {
+    outline: 2px solid var(--tss-rw-ink);
+    outline-offset: 3px;
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-btn:focus-visible {
+    outline-color: var(--tss-rw-yellow);
+}
+
+body.tss-theme-rechenwerk .tss-btn > i + span:not(:empty) {
+    margin-left: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   Solid keys
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-rechenwerk .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-rechenwerk .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-rechenwerk .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    border-color: rgb(17, 17, 17);
+    box-shadow: var(--tss-rw-btn-shadow);
+    margin-right: 3px;
+    margin-bottom: 3px;
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-rechenwerk.tss-dark-mode .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-rechenwerk.tss-dark-mode .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-rechenwerk.tss-dark-mode .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    border-color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-rechenwerk .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-rechenwerk .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-rechenwerk .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    box-shadow: var(--tss-rw-btn-shadow);
+}
+
+/* Pressed: the key goes down into its shadow. */
+body.tss-theme-rechenwerk .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-rechenwerk .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-rechenwerk .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-rechenwerk .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active {
+    transform: var(--tss-rw-btn-travel);
+    box-shadow: none;
+}
+
+/* Warning is the Radio-Aktivitaet sign: yellow, black type; under the pointer, black with yellow type. */
+body.tss-theme-rechenwerk .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-rechenwerk .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) .tss-fontcolor-default {
+    color: rgb(17, 17, 17);
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-rechenwerk .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover .tss-fontcolor-default {
+    color: rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover .tss-fontcolor-default {
+    color: rgb(10, 10, 10);
+}
+
+/* --------------------------------------------------------------------------
+   Ghost keys: the default (no background) and nobg variants
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-btn.tss-btn-default:not(.tss-disabled),
+body.tss-theme-rechenwerk .tss-btn.tss-btn-nobg:not(.tss-disabled) {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-btn-default:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk .tss-btn.tss-btn-nobg:not(.tss-disabled):hover {
+    background-color: rgb(var(--tss-default-background-hover-color-root));
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-btn-default:not(.tss-disabled):active,
+body.tss-theme-rechenwerk .tss-btn.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-rechenwerk .tss-btn.tss-btn-default:not(.tss-disabled):active .tss-fontcolor-default,
+body.tss-theme-rechenwerk .tss-btn.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default {
+    background-color: rgb(244, 194, 13);
+    border-color: rgb(17, 17, 17);
+    color: rgb(17, 17, 17);
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-btn-default:not(.tss-disabled):active .tss-fontcolor-default,
+body.tss-theme-rechenwerk .tss-btn.tss-btn-nobg:not(.tss-disabled):active .tss-fontcolor-default {
+    background-color: transparent;
+}
+
+/* A coloured ghost keeps its colour as type. */
+body.tss-theme-rechenwerk .tss-btn.tss-btn-nobg.tss-btn-primary:not(.tss-disabled),
+body.tss-theme-rechenwerk .tss-btn.tss-btn-nobg.tss-btn-primary:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-btn-nobg.tss-btn-danger:not(.tss-disabled),
+body.tss-theme-rechenwerk .tss-btn.tss-btn-nobg.tss-btn-danger:not(.tss-disabled) .tss-fontcolor-default {
+    color: rgb(var(--tss-danger-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-btn-nobg.tss-btn-success:not(.tss-disabled),
+body.tss-theme-rechenwerk .tss-btn.tss-btn-nobg.tss-btn-success:not(.tss-disabled) .tss-fontcolor-default {
+    color: rgb(var(--tss-success-background-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   Link keys: underlined type, not capitals, the poster's red
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-btn.tss-btn-link:not(.tss-disabled) {
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgb(var(--tss-link-color-root));
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    border-color: transparent;
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-btn-link:not(.tss-disabled):hover {
+    background: rgb(var(--tss-highlight-color-root));
+    color: rgb(17, 17, 17);
+    text-decoration-color: rgb(17, 17, 17);
+}
+
+/* --------------------------------------------------------------------------
+   Disabled: a dashed outline, nothing to press
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-btn.tss-disabled {
+    background-color: transparent;
+    border: 2px dashed rgb(var(--tss-disabled-foreground-color-root));
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Split button: two keys welded together
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-btn-and-icon > .tss-btn.tss-btn-and-icon-icon {
+    border-left-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   The spinner keeps the key's tone; an outcome fills it with the sleeve colour
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-btn .tss-btn-spin-ring > svg {
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-btn-spin-resolved.tss-btn-spin-success:not(.tss-btn-default) {
+    background-color: rgb(var(--tss-success-background-color-root));
+    color: rgb(var(--tss-success-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-btn-spin-resolved.tss-btn-spin-error:not(.tss-btn-default) {
+    background-color: rgb(var(--tss-danger-background-color-root));
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-btn {
+        transition: none;
+    }
+}

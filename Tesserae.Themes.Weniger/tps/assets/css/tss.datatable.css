@@ -1,0 +1,71 @@
+/* ==========================================================================
+   Weniger theme - DataTable
+   --------------------------------------------------------------------------
+   A data table is a panel of its own: top-lit plastic on the panel shadow,
+   the corners of a device body. The header band is a strip of printed
+   legends (small, grey, in their own case, never tracked capitals) ruled
+   off by a groove; rows are divided by hairline grooves and their figures
+   set in tabular numerals. A row under the pointer lifts towards the light.
+   The state accent a row may carry is a lamp strip: a short rounded bar
+   inset from the edge, lit in the state's colour, rather than a raw gutter.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-datatable {
+    border-color: transparent;
+    border-radius: var(--tss-wg-radius-panel);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-panel-shadow);
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-weniger .tss-datatable-header {
+    background: transparent;
+    box-shadow: inset 0 -1px 0 var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger .tss-datatable-heading {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: none;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-datatable-row + .tss-datatable-row,
+body.tss-theme-weniger .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top-color: var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger .tss-datatable-header + .tss-datatable-body > .tss-datatable-row:first-child {
+    border-top-color: transparent;
+}
+
+body.tss-theme-weniger .tss-datatable-row {
+    transition: background-color 120ms linear;
+}
+
+body.tss-theme-weniger .tss-datatable-row:hover {
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-datatable-row:hover {
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -1px 0 var(--tss-wg-groove);
+}
+
+/* The state accent: a lamp strip inset from the left edge. */
+body.tss-theme-weniger .tss-datatable-accented::before {
+    left: 5px;
+    top: 9px;
+    bottom: 9px;
+    width: 3px;
+    border-radius: 2px;
+    box-shadow: 0 0 4px 0 color-mix(in srgb, var(--tss-datatable-accent) 55%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-datatable-row {
+        transition: none;
+    }
+}

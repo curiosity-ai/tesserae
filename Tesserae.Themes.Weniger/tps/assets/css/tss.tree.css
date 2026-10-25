@@ -1,0 +1,152 @@
+/* ==========================================================================
+   Weniger theme - Tree
+   --------------------------------------------------------------------------
+   A tree is a column of flush keys. Under the pointer a row rises into a
+   plastic key; the selected row is latched down into its seat (the pressed
+   key, inset shadow) with a lit orange pilot lamp at its leading edge, its
+   label staying in ink so it reads, its icon picking up the orange. The
+   expanders are tiny round keys standing on the row, pressed in while held.
+   Children hang under a hairline groove. The commands menu is a floating
+   plastic menu, the same as every menu in the theme.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-tree-item-content {
+    position: relative;
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-key);
+    transition: background-color 120ms linear, box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-tree-compact .tss-tree-item-content {
+    border-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger .tss-tree-item-content:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+/* The selected row: latched down, a pilot lamp lit at its leading edge. */
+body.tss-theme-weniger .tss-tree-item-content.tss-selected,
+body.tss-theme-weniger .tss-tree-item-content.tss-selected:hover {
+    background: var(--tss-wg-key-pressed);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-pressed);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 600;
+}
+
+body.tss-theme-weniger .tss-tree-item-content.tss-selected::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: calc(50% - 2.5px);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--tss-wg-orange-hi);
+    box-shadow: var(--tss-wg-led-orange-glow);
+    pointer-events: none;
+}
+
+body.tss-theme-weniger .tss-tree-item-content.tss-selected > .tss-tree-icon,
+body.tss-theme-weniger .tss-tree-item-content.tss-selected > .tss-tree-checkbox {
+    color: var(--tss-wg-orange);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-tree-item-content.tss-selected > .tss-tree-icon,
+body.tss-theme-weniger.tss-dark-mode .tss-tree-item-content.tss-selected > .tss-tree-checkbox {
+    color: var(--tss-wg-orange-hi);
+}
+
+/* In a multiple selection the checkbox carries the state, so the row's label stays in ink. */
+body.tss-theme-weniger .tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-tree-selection-multiple .tss-tree-item-content.tss-selected .tss-tree-checkbox,
+body.tss-theme-weniger .tss-tree-selection-multiple .tss-tree-item-content.tss-partially-selected .tss-tree-checkbox,
+body.tss-theme-weniger .tss-tree-checkbox:hover {
+    color: var(--tss-wg-orange);
+}
+
+body.tss-theme-weniger .tss-tree-item:focus-visible > .tss-tree-item-content {
+    outline: 2px solid rgba(236, 88, 26, 0.75);
+    outline-offset: 1px;
+}
+
+/* The expander: a tiny round key. */
+body.tss-theme-weniger .tss-tree-chevron {
+    border-radius: 50%;
+    font-size: 9px;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    transition: box-shadow var(--tss-wg-quick) var(--tss-wg-ease), transform var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-tree-chevron.tss-has-children {
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    border: 1px solid var(--tss-wg-key-edge);
+    box-sizing: border-box;
+}
+
+body.tss-theme-weniger .tss-tree-chevron.tss-has-children:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-tree-chevron.tss-has-children:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-tree-compact .tss-tree-chevron {
+    font-size: 8px;
+}
+
+body.tss-theme-weniger .tss-tree-children {
+    border-left-color: var(--tss-wg-groove);
+}
+
+/* The commands menu: floating plastic, a key under the pointer. */
+body.tss-theme-weniger .tippy-box[data-theme~='tss-tree-tippy'] {
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-float-shadow);
+    padding: 4px;
+}
+
+body.tss-theme-weniger .tss-tree-menu > .tss-tree-command,
+body.tss-theme-weniger .tss-tree-menu > a > .tss-tree-command {
+    border-radius: var(--tss-wg-radius-small);
+    height: 32px !important;
+}
+
+body.tss-theme-weniger .tss-tree-menu > .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success),
+body.tss-theme-weniger .tss-tree-menu > a > .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success) {
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-color: transparent;
+}
+
+body.tss-theme-weniger .tss-tree-menu > .tss-tree-command.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success):hover,
+body.tss-theme-weniger .tss-tree-menu > a > .tss-tree-command.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-warning):not(.tss-btn-primary):not(.tss-btn-success):hover {
+    background: var(--tss-wg-key-hover);
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-tree-item-content,
+    body.tss-theme-weniger .tss-tree-chevron {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-tree-chevron.tss-has-children:active {
+        transform: none;
+    }
+}

@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Rechenwerk theme - HorizontalSeparator
+   --------------------------------------------------------------------------
+   A section break on the poster: the 2px ink rule, with the label set in
+   the gap in small tracked capitals, like the side and track headings of a
+   sleeve's back. A primary separator draws its label and its rule in the
+   signal colour.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-horizontalseparator-container {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-horizontalseparator-container::before,
+body.tss-theme-rechenwerk .tss-horizontalseparator-container::after {
+    height: 2px;
+    background-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-horizontalseparator {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-horizontalseparator.tss-primary {
+    color: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-horizontalseparator-container:has(> .tss-horizontalseparator.tss-primary)::before,
+body.tss-theme-rechenwerk .tss-horizontalseparator-container:has(> .tss-horizontalseparator.tss-primary)::after {
+    background-color: var(--tss-rw-signal);
+}

@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Rechenwerk theme - DateRangePicker
+   --------------------------------------------------------------------------
+   Two date fields (the TextBox's square boxes, which lift on focus) joined
+   by a short 2px ink bar, the dash between two stations on a timetable.
+   The separator's own em dash is hidden behind it and stays in the text,
+   so the range still reads "from - to" to anything that reads the page.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-daterange-picker {
+    gap: 0;
+}
+
+body.tss-theme-rechenwerk .tss-daterange-separator {
+    position: relative;
+    align-self: center;
+    width: 18px;
+    padding: 0;
+    margin: 0 6px;
+    color: transparent;
+    overflow: hidden;
+    font-size: 12px;
+}
+
+body.tss-theme-rechenwerk .tss-daterange-separator::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    margin-top: -1px;
+    background: rgb(var(--tss-default-border-color-root));
+}

@@ -1,0 +1,63 @@
+/* ==========================================================================
+   Rechenwerk theme - EditableLabel
+   --------------------------------------------------------------------------
+   Plain text until pointed at; then the line answers like a ghost key: the
+   hover tint and the 2px ink frame appear, with the pencil. Editing swaps it
+   for the theme's field (tss.textbox.css): a square box in the 2px ink rule
+   on the surface colour that throws the hard signal-coloured shadow while it
+   holds the caret. The cancel key beside it is the red cross in a square.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-editablelabel-displaybox {
+    box-sizing: border-box;
+    padding-left: 6px;
+    padding-right: 6px;
+    border: 2px solid transparent;
+}
+
+body.tss-theme-rechenwerk .tss-editablelabel-displaybox:hover {
+    background-color: rgb(var(--tss-default-background-hover-color-root));
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-editablelabel-edit-icon {
+    margin-left: 12px;
+    color: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-editablelabel-textbox {
+    box-sizing: border-box;
+    padding: 0 10px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    caret-color: var(--tss-rw-signal);
+    box-shadow: none;
+    transition: box-shadow 80ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-editablelabel-textbox:focus {
+    border-color: rgb(var(--tss-default-border-color-root));
+    box-shadow: 4px 4px 0 0 var(--tss-rw-signal);
+    outline: none;
+}
+
+body.tss-theme-rechenwerk .tss-editablelabel-cancel-icon {
+    margin-left: 8px;
+    padding: 5px 7px;
+    border: 2px solid transparent;
+    border-radius: 0;
+    color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-editablelabel-cancel-icon:hover {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-editablelabel-textbox {
+        transition: none;
+    }
+}

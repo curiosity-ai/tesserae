@@ -22,6 +22,7 @@ namespace Tesserae
         public SortableStack(Stack.Orientation orientation = Stack.Orientation.Vertical)
         {
             _container = new Stack(orientation);
+            _container.Class("tss-sortablestack");
 
             var sortable = new Sortable(_container.Render(), new SortableOptions()
             {

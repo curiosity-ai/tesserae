@@ -1,0 +1,59 @@
+/* ==========================================================================
+   Rechenwerk theme - Spinner
+   --------------------------------------------------------------------------
+   A segmented dial, not a smooth arc: the ring is cut into eight blocks,
+   the leading block solid in the signal colour and the ones behind it
+   fading off, and the whole dial jumps a segment at a time (steps(8)), the
+   way a drum counter or a station clock moves. A determinate spinner fills
+   the same segments clockwise over the meter's grey. Success, warning and
+   danger tint the blocks in their status colours; the label beside it is
+   in tracked capitals. Under reduced motion the dial holds still.
+   ========================================================================== */
+
+@keyframes tss-rw-spinner-steps {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+body.tss-theme-rechenwerk .tss-spinner {
+    --tss-rw-spinner-ring: max(var(--tss-spinner-size), 3px);
+    border: none;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--tss-spinner-color) 0 45deg,
+        color-mix(in srgb, var(--tss-spinner-color) 80%, transparent) 45deg 90deg,
+        color-mix(in srgb, var(--tss-spinner-color) 65%, transparent) 90deg 135deg,
+        color-mix(in srgb, var(--tss-spinner-color) 52%, transparent) 135deg 180deg,
+        color-mix(in srgb, var(--tss-spinner-color) 42%, transparent) 180deg 225deg,
+        color-mix(in srgb, var(--tss-spinner-color) 34%, transparent) 225deg 270deg,
+        color-mix(in srgb, var(--tss-spinner-color) 28%, transparent) 270deg 315deg,
+        color-mix(in srgb, var(--tss-spinner-color) 22%, transparent) 315deg 360deg);
+    /* A ring, cut into eight blocks by thin gaps. */
+    -webkit-mask:
+        radial-gradient(farthest-side, #0000 calc(100% - var(--tss-rw-spinner-ring)), #000 0),
+        repeating-conic-gradient(from -4deg, #0000 0 8deg, #000 8deg 45deg);
+    -webkit-mask-composite: source-in;
+    mask:
+        radial-gradient(farthest-side, #0000 calc(100% - var(--tss-rw-spinner-ring)), #000 0) intersect,
+        repeating-conic-gradient(from -4deg, #0000 0 8deg, #000 8deg 45deg);
+    animation: tss-rw-spinner-steps 800ms steps(8, end) infinite;
+}
+
+body.tss-theme-rechenwerk .tss-spinner.tss-spinner-progress {
+    animation: none;
+    background: conic-gradient(var(--tss-spinner-color) calc(var(--tss-spinner-progress, 0) * 1%), rgb(var(--tss-progress-background-color-root)) 0);
+}
+
+body.tss-theme-rechenwerk .tss-spinner-label {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-spinner {
+        animation: none;
+    }
+}

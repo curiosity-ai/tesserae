@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Weniger theme - Timeline
+   --------------------------------------------------------------------------
+   The spine is a groove cut down the panel: a dark hairline with a catch of
+   light beside it. Each event hangs on it from a round lamp set in a
+   plastic bezel, lit in the colour the caller gave it (green for success,
+   orange, red) and glowing a little, or dark when it has none. Each entry
+   is a small plastic module resting on the panel.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-timeline-owner {
+    --tss-wg-spine: linear-gradient(90deg, rgba(60, 54, 46, 0.22) 0 1px, rgba(60, 54, 46, 0.1) 1px 2px, rgba(255, 255, 255, 0.85) 2px 3px);
+    background: var(--tss-wg-spine) no-repeat center / 3px 100%;
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-timeline-owner {
+    --tss-wg-spine: linear-gradient(90deg, rgba(0, 0, 0, 0.7) 0 1px, rgba(0, 0, 0, 0.4) 1px 2px, rgba(255, 255, 255, 0.07) 2px 3px);
+}
+
+body.tss-theme-weniger .tss-timeline-owner.tss-left {
+    background: var(--tss-wg-spine) no-repeat 20px 0 / 3px 100%;
+}
+
+/* The lamp: lit in the event's colour, in a plastic bezel. */
+body.tss-theme-weniger .tss-timeline-container::after {
+    width: 16px;
+    height: 16px;
+    border: 3px solid rgb(var(--tss-secondary-background-color-root));
+    background-color: var(--tss-timeline-circle-color, var(--tss-wg-led-off));
+    background-image: radial-gradient(circle at 40% 35%, rgba(255, 255, 255, 0.7) 0 1px, rgba(255, 255, 255, 0) 4px);
+    box-shadow: 0 0 0 1px var(--tss-wg-key-edge), 0 1px 2px rgba(60, 54, 46, 0.2), 0 0 7px 1px color-mix(in srgb, var(--tss-timeline-circle-color, transparent) 50%, transparent);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-timeline-container::after {
+    box-shadow: 0 0 0 1px var(--tss-wg-key-edge), 0 1px 2px rgba(0, 0, 0, 0.5), 0 0 8px 1px color-mix(in srgb, var(--tss-timeline-circle-color, transparent) 55%, transparent);
+}
+
+body.tss-theme-weniger .tss-timeline-container .tss-timeline-content {
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-plastic);
+    background-clip: border-box;
+    box-shadow: var(--tss-wg-panel-shadow);
+    font-variant-numeric: tabular-nums;
+}

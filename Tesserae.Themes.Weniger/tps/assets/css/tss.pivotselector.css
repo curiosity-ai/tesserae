@@ -1,0 +1,13 @@
+/* ==========================================================================
+   Weniger theme - PivotSelector
+   --------------------------------------------------------------------------
+   A pivot whose tabs are picked from a Dropdown (the selector is the theme's
+   recessed well with its menu, from tss.dropdown.css) and whose extra
+   commands are ordinary ghost buttons that rise into keys (tss.button.css).
+   The content area under it is plain layout, so this file has nothing of
+   its own to restate beyond keeping the selector's commands in line.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-pivotselector .tss-btn {
+    border-radius: var(--tss-wg-radius-key);
+}

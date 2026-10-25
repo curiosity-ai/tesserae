@@ -54,10 +54,10 @@ namespace Tesserae
             _renderedContentClosed = Div(Att("tss-segmentedpivot-content", role: "tabpanel"));
 
             var wrapperOpen = Div(Att("tss-segmentedpivot-wrapper tss-sidebar-segmentedpivot-wrapper-open"), _renderedTabsOpen);
-            _openContainer = Div(Att("tss-segmentedpivot"), wrapperOpen, _renderedContentOpen);
+            _openContainer = Div(Att("tss-segmentedpivot tss-sidebar-segmentedpivot"), wrapperOpen, _renderedContentOpen);
 
             var wrapperClosed = Div(Att("tss-segmentedpivot-wrapper tss-sidebar-segmentedpivot-wrapper-closed"), _renderedTabsClosed);
-            _closedContainer = Div(Att("tss-segmentedpivot"), wrapperClosed, _renderedContentClosed);
+            _closedContainer = Div(Att("tss-segmentedpivot tss-sidebar-segmentedpivot"), wrapperClosed, _renderedContentClosed);
         }
 
         public void AddGroupIdentifier(string groupIdentifier)

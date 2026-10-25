@@ -1,0 +1,101 @@
+/* ==========================================================================
+   Weniger theme - Picker
+   --------------------------------------------------------------------------
+   The input is the recessed well of the text box (tss.textbox.css). The
+   suggestions are the dropdown's floating plastic panel: a printed legend
+   for the title, rows that go down as a soft pressed key under the pointer.
+   A chosen item is a small moulded chip, the same part as a TagsInput tag:
+   a little key-grey slug standing on the panel with a 5px corner, its
+   remove button a tiny ghost key that rises under the pointer.
+   ========================================================================== */
+
+/* The layer itself is only a positioning box as tall as the page; its content is the panel. */
+body.tss-theme-weniger .tss-layer-picker-suggestions {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    margin-top: 6px;
+}
+
+body.tss-theme-weniger .tss-layer-picker-suggestions > .tss-layer-content {
+    border: none;
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-float-shadow);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-picker-suggestions {
+    padding: 6px;
+}
+
+body.tss-theme-weniger .tss-picker-suggestions > .tss-picker-label {
+    padding: 4px 8px 6px;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+body.tss-theme-weniger .tss-picker-suggestions > .tss-picker-suggestion {
+    padding: 6px 8px;
+    border-radius: var(--tss-wg-radius-small);
+    transition: background-color 90ms linear, box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-picker-suggestions > .tss-picker-suggestion:hover {
+    background: var(--tss-wg-row-pressed);
+    box-shadow: var(--tss-wg-row-pressed-shadow);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* A chosen item: a small moulded chip. */
+body.tss-theme-weniger .tss-picker-selection {
+    box-sizing: border-box;
+    min-height: 26px;
+    padding-left: 8px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 13px;
+}
+
+body.tss-theme-weniger .tss-picker-selection:hover {
+    background: var(--tss-wg-key-hover);
+}
+
+body.tss-theme-weniger .tss-picker-selections:not(.tss-picker-selections-inline) > .tss-picker-selection {
+    margin: 0 6px 6px 0;
+}
+
+body.tss-theme-weniger .tss-picker-selections-inline > .tss-picker-selection {
+    margin-right: 6px;
+}
+
+body.tss-theme-weniger .tss-picker-remove,
+body.tss-theme-weniger .tss-picker-remove.tss-btn {
+    min-height: 0;
+    margin: 0 2px 0 4px;
+    padding: 3px 5px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background: transparent;
+    box-shadow: none;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-picker-remove:hover,
+body.tss-theme-weniger .tss-picker-remove.tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover {
+    border-color: var(--tss-wg-key-edge);
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-picker-suggestions > .tss-picker-suggestion {
+        transition: none;
+    }
+}

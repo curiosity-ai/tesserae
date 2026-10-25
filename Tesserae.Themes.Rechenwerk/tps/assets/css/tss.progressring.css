@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Rechenwerk theme - Progress ring
+   --------------------------------------------------------------------------
+   A dial, not a soft arc: the fill is the signal colour and ends square
+   (butt caps) over a track in the meter's grey, and moves in steps. The
+   figure in the middle is the dot-matrix face. Indeterminate turns in eight
+   jumps, like the second hand of a station clock; under reduced motion it
+   holds still.
+   ========================================================================== */
+
+@keyframes tss-rw-ring-turn {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+body.tss-theme-rechenwerk .tss-progressring-track {
+    stroke: rgb(var(--tss-progress-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-progressring-fill {
+    stroke: var(--tss-rw-signal);
+    stroke-linecap: butt;
+    transition: stroke-dashoffset 120ms steps(3);
+}
+
+body.tss-theme-rechenwerk .tss-progressring-label {
+    font-family: var(--tss-rw-dots);
+    font-weight: 900;
+    font-size: 14px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-progressring-indeterminate .tss-progressring-fill,
+body.tss-theme-rechenwerk .tss-progressring-indeterminate svg circle.tss-progressring-fill {
+    animation: tss-rw-ring-turn 960ms steps(8, end) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-progressring-fill,
+    body.tss-theme-rechenwerk .tss-progressring-indeterminate .tss-progressring-fill,
+    body.tss-theme-rechenwerk .tss-progressring-indeterminate svg circle.tss-progressring-fill {
+        transition: none;
+        animation: none;
+    }
+}

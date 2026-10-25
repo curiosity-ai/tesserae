@@ -1,0 +1,37 @@
+/* ==========================================================================
+   Rechenwerk theme - Rating
+   --------------------------------------------------------------------------
+   Stars stay stars, cut from the sleeve: one given is solid in the signal
+   colour (the poster's red on paper, the terminal's yellow on the screen)
+   inside an ink edge; one not given is the edge alone, so the scale reads
+   without the colour. Under the pointer the stars light up to it but do not
+   grow: a state changes in one step. Rating writes its fill inline as
+   var(--tss-rating-color, ...), so the theme sets that variable; an app that
+   sets its own on the component still wins.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-rating {
+    --tss-rating-color: var(--tss-rw-signal);
+    gap: 4px;
+}
+
+body.tss-theme-rechenwerk .tss-rating-star {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgb(var(--tss-default-foreground-color-root));
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-rating-star.tss-rating-star-hover {
+    transform: none;
+}
+
+body.tss-theme-rechenwerk .tss-rating:not(.tss-rating-readonly) .tss-rating-star:hover {
+    transform: translate(-1px, -1px);
+    text-shadow: 2px 2px 0 rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-rating-star:focus-visible {
+    outline: 2px solid var(--tss-rw-ink);
+    outline-offset: 2px;
+    border-radius: 0;
+}

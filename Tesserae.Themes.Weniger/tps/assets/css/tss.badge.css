@@ -1,0 +1,191 @@
+/* ==========================================================================
+   Weniger theme - Badge, Tag, Chip
+   --------------------------------------------------------------------------
+   A badge is a small moulded chip: a 5px rounded tab of the key plastic
+   with a 1px edge, lit along its top and standing a hair proud of the
+   panel. The legend is small and semibold, in the ink.
+
+   Primary is the orange chip (the one voice), white type on the sheen.
+   The status tones do not paint the whole chip: success, warning, danger
+   and info stay grey plastic and carry a lit lamp before the word (the
+   green LED, amber, the record-key red, an ink lamp for info), so a row
+   of badges is one material with a few lights on, and the word is still
+   the sign. A badge that brings its own status dot (Dot()) has that dot
+   lit in the same way instead.
+
+   Outline is the legend printed straight on the case: no fill, a hairline
+   edge, the tone in the type (mixed towards the ink so amber and green
+   stay readable on both editions). A chip is the same 5px tab (only Pill()
+   asks for the round ends). Tinted keeps the app's colour wash; the AI
+   tone keeps its own gradient from tss.ai.css and only takes the shape.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-token {
+    --tss-wg-badge-lamp: transparent;
+    --tss-wg-badge-lamp-glow: none;
+    padding: 2px 7px;
+    border-radius: var(--tss-wg-radius-small);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.35;
+}
+
+body.tss-theme-weniger .tss-chip {
+    border-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger .tss-token-pill {
+    border-radius: 999px;
+    padding-left: 9px;
+    padding-right: 9px;
+}
+
+/* --------------------------------------------------------------------------
+   The grey chip: neutral, tag, and every status tone
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-token:not(.tss-token-outline):not(.tss-token-tinted):not(.tss-token-ai):not(.tss-token-primary) {
+    background: var(--tss-wg-key);
+    border-color: var(--tss-wg-key-edge);
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 1px 1px rgba(60, 54, 46, 0.14);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-token:not(.tss-token-outline):not(.tss-token-tinted):not(.tss-token-ai):not(.tss-token-primary) {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 1px 1px rgba(0, 0, 0, 0.45);
+}
+
+/* The orange chip. */
+body.tss-theme-weniger .tss-token-primary:not(.tss-token-outline) {
+    background-color: var(--tss-wg-orange);
+    background-image: var(--tss-wg-sheen);
+    border-color: rgba(0, 0, 0, 0.18);
+    color: var(--tss-wg-on-orange);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 1px rgba(60, 30, 10, 0.22);
+    text-shadow: 0 -1px 0 rgba(90, 30, 0, 0.22);
+}
+
+/* Lamps, per tone. */
+body.tss-theme-weniger .tss-token-success {
+    --tss-wg-badge-lamp: var(--tss-wg-led);
+    --tss-wg-badge-lamp-glow: var(--tss-wg-led-glow);
+}
+
+body.tss-theme-weniger .tss-token-warning {
+    --tss-wg-badge-lamp: rgb(244, 178, 40);
+    --tss-wg-badge-lamp-glow: 0 0 2px 0 rgba(244, 178, 40, 0.95), 0 0 6px 1px rgba(244, 178, 40, 0.5);
+}
+
+body.tss-theme-weniger .tss-token-danger {
+    --tss-wg-badge-lamp: rgb(232, 58, 48);
+    --tss-wg-badge-lamp-glow: 0 0 2px 0 rgba(232, 58, 48, 0.95), 0 0 6px 1px rgba(232, 58, 48, 0.45);
+}
+
+body.tss-theme-weniger .tss-token-info {
+    --tss-wg-badge-lamp: rgb(var(--tss-default-foreground-color-root));
+    --tss-wg-badge-lamp-glow: none;
+}
+
+body.tss-theme-weniger .tss-token-success:not(:has(.tss-token-dot))::before,
+body.tss-theme-weniger .tss-token-warning:not(:has(.tss-token-dot))::before,
+body.tss-theme-weniger .tss-token-danger:not(:has(.tss-token-dot))::before,
+body.tss-theme-weniger .tss-token-info:not(:has(.tss-token-dot))::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 6px;
+    height: 6px;
+    margin-right: -1px;
+    border-radius: 50%;
+    background: var(--tss-wg-badge-lamp);
+    box-shadow: var(--tss-wg-badge-lamp-glow);
+}
+
+/* Dot(): the badge's own status dot is a lamp too. */
+body.tss-theme-weniger .tss-token-dot {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+body.tss-theme-weniger .tss-token-success .tss-token-dot,
+body.tss-theme-weniger .tss-token-warning .tss-token-dot,
+body.tss-theme-weniger .tss-token-danger .tss-token-dot,
+body.tss-theme-weniger .tss-token-info .tss-token-dot {
+    background: var(--tss-wg-badge-lamp);
+    box-shadow: var(--tss-wg-badge-lamp-glow);
+}
+
+/* --------------------------------------------------------------------------
+   Outline: printed on the case
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-token-outline:not(.tss-token-ai) {
+    background: transparent;
+    border-color: rgba(var(--tss-dark-border-color-root), 0.6);
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-token-outline.tss-token-primary {
+    border-color: color-mix(in srgb, var(--tss-wg-orange) 75%, transparent);
+    color: rgb(var(--tss-link-color-root));
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-token-outline.tss-token-primary {
+    color: var(--tss-wg-orange-hi);
+}
+
+body.tss-theme-weniger .tss-token-outline.tss-token-success {
+    border-color: color-mix(in srgb, rgb(var(--tss-success-background-color-root)) 60%, transparent);
+    color: color-mix(in srgb, rgb(var(--tss-success-background-color-root)) 70%, var(--tss-wg-ink));
+}
+
+body.tss-theme-weniger .tss-token-outline.tss-token-warning {
+    border-color: color-mix(in srgb, rgb(var(--tss-warning-border-color-root)) 70%, transparent);
+    color: color-mix(in srgb, rgb(var(--tss-warning-border-color-root)) 60%, var(--tss-wg-ink));
+}
+
+body.tss-theme-weniger .tss-token-outline.tss-token-danger {
+    border-color: color-mix(in srgb, rgb(var(--tss-danger-background-color-root)) 60%, transparent);
+    color: color-mix(in srgb, rgb(var(--tss-danger-background-color-root)) 72%, var(--tss-wg-ink));
+}
+
+body.tss-theme-weniger .tss-token-outline.tss-token-info {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.45);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   Icons and the remove button
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-token-remove {
+    width: 16px;
+    height: 16px;
+    margin-left: 2px;
+    margin-right: -4px;
+    border-radius: 4px;
+    opacity: 0.7;
+    transition: background-color 120ms linear, opacity 120ms linear;
+}
+
+body.tss-theme-weniger .tss-token-remove:hover {
+    opacity: 1;
+    background: rgba(var(--tss-default-foreground-color-root), 0.1);
+}
+
+body.tss-theme-weniger .tss-token-primary:not(.tss-token-outline) .tss-token-remove:hover,
+body.tss-theme-weniger .tss-token-ai:not(.tss-token-outline) .tss-token-remove:hover {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+body.tss-theme-weniger .tss-token-remove:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 1px;
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-token-remove {
+        transition: none;
+    }
+}

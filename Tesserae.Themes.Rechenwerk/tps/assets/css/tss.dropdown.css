@@ -1,0 +1,425 @@
+/* ==========================================================================
+   Rechenwerk theme - Dropdown
+   --------------------------------------------------------------------------
+   Closed, a dropdown is a field like the TextBox: a 2px ink box on the
+   surface, with the chevron set off at the right in a key of its own behind
+   a 2px rule. Under the pointer it throws a small hard shadow; open or
+   focused from the keyboard, the field's 4px shadow in the signal colour and
+   the chevron key lit (red on paper, yellow on the screen).
+
+   Open, the list floats on the 2px frame and its 6px offset shadow
+   (--tss-rw-frame-shadow), square. Rows are content, so they stay in
+   sentence case even when an option is a Button; the row under the pointer
+   is the quiet hover tint, the row the keyboard is on and the chosen row are
+   the terminal's cursor: the yellow block with black type, in both modes.
+   Group headers are tracked capitals with a marker square; dividers are a
+   1px ink rule. A multi-select row carries the theme's check box.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   The closed box
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-dropdown-container {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+    transition: box-shadow 80ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-container:hover {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: 2px 2px 0 0 rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-container.tss-dropdown-nobg,
+body.tss-theme-rechenwerk .tss-dropdown-container.tss-dropdown-nobg:hover {
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-container:has(> .tss-dropdown:focus-visible),
+body.tss-theme-rechenwerk .tss-dropdown-container:has(> .tss-dropdown[aria-expanded="true"]) {
+    border-color: rgb(var(--tss-default-border-color-root));
+    box-shadow: 4px 4px 0 0 var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-container > .tss-dropdown:focus-visible {
+    outline: none;
+}
+
+/* What the box shows is content, in sentence case, even when an option's content is a Button. */
+body.tss-theme-rechenwerk .tss-dropdown-item-on-box,
+body.tss-theme-rechenwerk .tss-dropdown-item-on-box .tss-btn {
+    font-size: 13px;
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: normal;
+    text-transform: none;
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-item-on-box .tss-btn,
+body.tss-theme-rechenwerk .tss-dropdown-item-on-box .tss-btn:hover,
+body.tss-theme-rechenwerk .tss-dropdown-container:hover .tss-btn:hover {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* The chevron key: the full height of the box, behind a 2px rule. */
+body.tss-theme-rechenwerk .tss-dropdown.tss-dropdown-custom-icon {
+    margin-right: 32px;
+    width: calc(100% - 32px);
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-container > .tss-dropdown-icon {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 2px solid rgb(var(--tss-default-border-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: background-color 80ms steps(1);
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-container:has(> .tss-dropdown[aria-expanded="true"]) > .tss-dropdown-icon {
+    background-color: var(--tss-rw-signal);
+    color: var(--tss-rw-on-signal);
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-container.tss-noborder,
+body.tss-theme-rechenwerk .tss-dropdown-container.tss-noborder:hover {
+    border: 2px solid transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-container.tss-noborder > .tss-dropdown-icon {
+    border-left-color: transparent;
+}
+
+/* .Rounded() asks for a radius; a field is machine-cut, so the request is declined. */
+body.tss-theme-rechenwerk .tss-rounded-sm > .tss-dropdown,
+body.tss-theme-rechenwerk .tss-rounded-md > .tss-dropdown,
+body.tss-theme-rechenwerk .tss-rounded-full > .tss-dropdown,
+body.tss-theme-rechenwerk .tss-rounded-sm > .tss-dropdown-container,
+body.tss-theme-rechenwerk .tss-rounded-md > .tss-dropdown-container,
+body.tss-theme-rechenwerk .tss-rounded-full > .tss-dropdown-container,
+body.tss-theme-rechenwerk .tss-dropdown-container.tss-rounded-full {
+    border-radius: 0 !important;
+}
+
+/* Disabled: the dashed rule, nothing to press. */
+body.tss-theme-rechenwerk .tss-dropdown-container.tss-disabled {
+    border: 2px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-container.tss-disabled > .tss-dropdown-icon {
+    border-left: 2px dashed rgb(var(--tss-disabled-foreground-color-root));
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-container.tss-disabled .tss-dropdown-item-on-box,
+body.tss-theme-rechenwerk .tss-dropdown-container.tss-disabled .tss-dropdown-item-on-box * {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+/* Invalid: the red rule on the box (not on the inner row, which would draw a second frame). */
+body.tss-theme-rechenwerk .tss-dropdown-container.tss-invalid {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-container.tss-invalid > .tss-dropdown {
+    border: none;
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-container.tss-invalid > .tss-dropdown-icon {
+    border-left-color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-container.tss-invalid:has(> .tss-dropdown:focus-visible),
+body.tss-theme-rechenwerk .tss-dropdown-container.tss-invalid:has(> .tss-dropdown[aria-expanded="true"]) {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+    box-shadow: 4px 4px 0 0 rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-error {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-container.tss-has-validation {
+    margin-bottom: 20px;
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-container.tss-has-validation > .tss-dropdown-error {
+    left: -2px;
+    top: calc(100% + 6px);
+}
+
+/* --------------------------------------------------------------------------
+   The list
+   -------------------------------------------------------------------------- */
+
+/* A real 2px border rather than the frame token's ring, so the list lines up with the box above it. */
+body.tss-theme-rechenwerk .tss-dropdown-popup {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    margin-top: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 6px 6px 0 0 var(--tss-rw-key-shadow-color);
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-item,
+body.tss-theme-rechenwerk .tss-dropdown-popup .tss-dropdown-item {
+    margin: 0;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    padding: 4px 12px;
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 13px;
+    transition: none;
+}
+
+/* An option's own content is content: sentence case, the row's colour, no key of its own. */
+body.tss-theme-rechenwerk .tss-dropdown-item .tss-btn,
+body.tss-theme-rechenwerk .tss-dropdown-item .tss-btn:hover,
+body.tss-theme-rechenwerk .tss-dropdown-item .tss-btn:active {
+    font-size: 13px;
+    font-weight: var(--tss-font-weight-regular);
+    letter-spacing: normal;
+    text-transform: none;
+    color: inherit;
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-item .tss-btn .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-item:hover,
+body.tss-theme-rechenwerk .tss-dropdown-popup .tss-dropdown-item:hover {
+    background-color: rgb(var(--tss-default-background-hover-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The cursor: the row the keyboard is on... */
+body.tss-theme-rechenwerk .tss-dropdown-item:focus,
+body.tss-theme-rechenwerk .tss-dropdown-item.tss-dropdown-item-focus {
+    border: none;
+    outline: none;
+    background-color: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+/* ...unless the pointer is driving (the popup says so with tss-no-focus)... */
+body.tss-theme-rechenwerk .tss-dropdown-popup.tss-no-focus .tss-dropdown-item:focus,
+body.tss-theme-rechenwerk .tss-dropdown-popup.tss-no-focus .tss-dropdown-item.tss-dropdown-item-focus {
+    background-color: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-popup.tss-no-focus .tss-dropdown-item:focus:hover,
+body.tss-theme-rechenwerk .tss-dropdown-popup.tss-no-focus .tss-dropdown-item.tss-dropdown-item-focus:hover {
+    background-color: rgb(var(--tss-default-background-hover-color-root));
+}
+
+/* ...and the chosen row of a single-select, always. */
+body.tss-theme-rechenwerk .tss-dropdown-popup .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected,
+body.tss-theme-rechenwerk .tss-dropdown-popup .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected:hover {
+    background-color: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+/* The chosen row of a single-select also carries a marker square, like a title bar's. */
+body.tss-theme-rechenwerk .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item {
+    padding-left: 26px;
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-items:not(.tss-dropdown-multi) > .tss-dropdown-item.tss-selected::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    margin-top: -4px;
+    background-color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-item.tss-disabled,
+body.tss-theme-rechenwerk .tss-dropdown-item.tss-disabled:hover {
+    background: transparent;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+/* Group headers: tracked capitals with the marker square. */
+body.tss-theme-rechenwerk .tss-dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 30px;
+    padding: 8px 12px 2px 12px;
+    border: none;
+    background: transparent;
+    color: var(--tss-rw-muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-header::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 6px;
+    height: 6px;
+    background-color: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-header .tss-btn,
+body.tss-theme-rechenwerk .tss-dropdown-header .tss-btn:hover {
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    font-size: 11px;
+    color: inherit;
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-divider {
+    height: 0;
+    margin: 4px 0;
+    border: 0;
+    border-top: 1px solid rgb(var(--tss-default-border-color-root));
+    background: none;
+}
+
+/* --------------------------------------------------------------------------
+   Multi-select: the theme's check box on every row
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-dropdown-multi > .tss-dropdown-item {
+    padding-left: 38px !important;
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-multi > .tss-dropdown-item:before,
+body.tss-theme-rechenwerk .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before {
+    box-sizing: border-box;
+    left: 12px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid currentColor;
+    border-radius: 0;
+    background-color: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-multi > .tss-dropdown-item.tss-selected:before,
+body.tss-theme-rechenwerk .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:before {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background-color: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-multi > .tss-dropdown-item:hover:after {
+    display: none;
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-multi > .tss-dropdown-item.tss-selected:after,
+body.tss-theme-rechenwerk .tss-dropdown-multi > .tss-dropdown-item.tss-selected:hover:after {
+    display: block;
+    left: 17px;
+    width: 4px;
+    height: 9px;
+    border: solid var(--tss-rw-on-signal);
+    border-width: 0 2px 2px 0;
+    transform: translateY(calc(-50% - 1px)) rotate(45deg);
+}
+
+/* On the cursor row (yellow) the box is drawn in black, whatever the mode. */
+body.tss-theme-rechenwerk .tss-dropdown-multi > .tss-dropdown-item.tss-dropdown-item-focus.tss-selected:before,
+body.tss-theme-rechenwerk .tss-dropdown-multi > .tss-dropdown-item:focus.tss-selected:before {
+    border-color: rgb(10, 10, 10);
+    background-color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-multi > .tss-dropdown-item.tss-dropdown-item-focus.tss-selected:after,
+body.tss-theme-rechenwerk .tss-dropdown-multi > .tss-dropdown-item:focus.tss-selected:after {
+    border-color: rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-popup.tss-no-focus > .tss-dropdown-items.tss-dropdown-multi > .tss-dropdown-item.tss-selected:before {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background-color: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-popup.tss-no-focus > .tss-dropdown-items.tss-dropdown-multi > .tss-dropdown-item.tss-selected:after {
+    border-color: var(--tss-rw-on-signal);
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-multi > .tss-dropdown-item.tss-disabled:before,
+body.tss-theme-rechenwerk .tss-dropdown-multi > .tss-dropdown-item.tss-disabled.tss-selected:before {
+    border: 2px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background-color: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   The search band and matches
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-dropdown-popup .tss-dropdown-searchbox,
+body.tss-theme-rechenwerk .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    margin: 4px 8px 0 8px;
+    width: calc(100% - 16px);
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    box-shadow: 3px 3px 0 0 var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-popup .tss-dropdown-searchbox .tss-searchbox {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-popup mark {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-dropdown-popup .tss-dropdown-searchbox.tss-dropdown-searchbox-busy > .tss-searchbox-icon::after {
+    border-radius: 0;
+    border-width: 2px;
+    border-color: var(--tss-rw-signal) transparent;
+    animation-timing-function: steps(8);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-dropdown-container,
+    body.tss-theme-rechenwerk .tss-dropdown-container > .tss-dropdown-icon {
+        transition: none;
+    }
+}

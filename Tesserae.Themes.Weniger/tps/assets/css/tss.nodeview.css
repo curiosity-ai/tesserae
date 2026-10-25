@@ -1,0 +1,94 @@
+/* ==========================================================================
+   Weniger theme - NodeView (the Baklava node editor)
+   --------------------------------------------------------------------------
+   The editor is a patch bay: the canvas is the page ground with a faint
+   dot grid like the perforation of a back panel, every node is a small
+   device module (see tss.baklava.css), ports are round jacks and the wires
+   are patch cables in ink, turning orange while one is being plugged in.
+   Baklava draws from --baklava-* variables, so they are restated here in
+   the theme's colours, light and dark; the shapes are in tss.baklava.css.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-nodeview,
+body.tss-theme-weniger.tss-dark-mode .tss-nodeview {
+    --baklava-control-color-primary: var(--tss-wg-orange);
+    --baklava-control-color-error: rgb(var(--tss-invalid-border-color-root));
+    --baklava-control-color-background: rgb(var(--tss-default-background-color-root));
+    --baklava-control-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-control-color-hover: rgb(var(--tss-default-background-hover-color-root));
+    --baklava-control-color-active: rgb(var(--tss-default-background-active-color-root));
+    --baklava-control-color-disabled-foreground: rgb(var(--tss-disabled-foreground-color-root));
+    --baklava-control-border-radius: var(--tss-wg-radius-small);
+    --baklava-sidebar-color-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-sidebar-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-color-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-node-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-color-hover: var(--tss-wg-key-edge);
+    --baklava-node-color-selected: var(--tss-wg-orange);
+    --baklava-node-color-resize-handle: rgba(var(--tss-default-foreground-color-root), 0.4);
+    --baklava-node-title-color-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-node-title-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-group-node-title-color-background: rgb(var(--tss-default-background-active-color-root));
+    --baklava-group-node-title-color-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-interface-port-color: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-interface-port-tooltip-color-foreground: rgb(var(--tss-tooltip-foreground-color-root));
+    --baklava-node-interface-port-tooltip-color-background: rgb(var(--tss-tooltip-background-color-root));
+    --baklava-node-border-radius: var(--tss-wg-radius-key);
+    --baklava-color-connection-default: rgba(var(--tss-default-foreground-color-root), 0.78);
+    --baklava-color-connection-allowed: var(--tss-wg-orange);
+    --baklava-color-connection-forbidden: rgb(var(--tss-invalid-border-color-root));
+    --baklava-editor-background-pattern-default: rgb(var(--tss-default-background-color-root));
+    --baklava-editor-background-pattern-line: rgba(var(--tss-default-foreground-color-root), 0.05);
+    --baklava-editor-background-pattern-black: rgba(var(--tss-default-foreground-color-root), 0.18);
+    --baklava-context-menu-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-context-menu-shadow: var(--tss-wg-float-shadow);
+    --baklava-toolbar-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-toolbar-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-node-palette-background: rgb(var(--tss-secondary-background-color-root));
+    --baklava-node-palette-foreground: rgb(var(--tss-default-foreground-color-root));
+    --baklava-selectionbox-color-border: var(--tss-wg-orange);
+    --baklava-selectionbox-color-background: rgba(236, 88, 26, 0.1);
+    --baklava-visual-transition: 120ms var(--tss-wg-ease);
+}
+
+/* The toolbar is a moulded plate along the top of the bay, the palette a plate down its side. */
+body.tss-theme-weniger .tss-nodeview .baklava-toolbar {
+    background: var(--tss-wg-key);
+    box-shadow: inset 0 -1px 0 var(--tss-wg-groove), 0 2px 6px -4px rgba(0, 0, 0, 0.3);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-toolbar-button {
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-toolbar-button:hover:not([disabled]) {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-toolbar-button:active:not([disabled]) {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-toolbar-button:disabled {
+    opacity: 1 !important;
+    filter: none !important;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-node-palette {
+    background: var(--tss-wg-plastic);
+    box-shadow: inset -1px 0 0 var(--tss-wg-groove), 2px 0 6px -4px rgba(0, 0, 0, 0.3);
+}
+
+body.tss-theme-weniger .tss-nodeview .baklava-node-palette section h1 {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+    color: rgb(var(--tss-secondary-foreground-color-root)) !important;
+}

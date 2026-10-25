@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Rechenwerk theme - PixelAvatar
+   --------------------------------------------------------------------------
+   The cat is already drawn on a hard pixel grid, which is the Computerwelt
+   screen's own way of drawing a figure, so its artwork and its colours stay
+   (they are the avatar). The theme only hardens its halo: the base draws it
+   in half-alpha ink, here it is the solid ink of the page (cream on the
+   terminal), so every coat keeps a crisp edge on paper and on black, and
+   the laptop it holds is drawn in the sleeve's warm greys rather than the
+   default slate.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-pixelavatar,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-pixelavatar {
+    --tss-pxav-outline: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-pixelavatar {
+    --tss-pxav-prop: rgb(142, 135, 120);
+    --tss-pxav-prop-lit: rgb(214, 206, 188);
+    --tss-pxav-prop-shadow: rgb(40, 38, 34);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-pixelavatar {
+    --tss-pxav-prop: rgb(112, 108, 98);
+    --tss-pxav-prop-shadow: rgb(150, 144, 128);
+}
+
+body.tss-theme-rechenwerk .tss-pixelavatar-canvas {
+    image-rendering: pixelated;
+}

@@ -1,0 +1,9 @@
+/* ==========================================================================
+   Rechenwerk theme - BasicList
+   --------------------------------------------------------------------------
+   A basic list is only a scrolling, virtualised column of whatever rows it
+   is given (ItemsList, VirtualizedList and InfiniteScrollingList lay out on
+   it): it draws no edge, ground or row state of its own. The rows bring the
+   sleeve look with them and the scrollbar is the square rail from
+   tss.common.css, so there is nothing to restate here.
+   ========================================================================== */

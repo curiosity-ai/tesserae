@@ -101,6 +101,8 @@ namespace Tesserae
                     }
                 }
             );
+
+            _defered.Class("tss-itemslist");
         }
 
         /// <summary>

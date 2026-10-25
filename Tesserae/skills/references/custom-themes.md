@@ -136,6 +136,32 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
   following the pointer), `PixelGlyph` (the animated 4 by 4 glyphs, `PixelGlyphKind` plus
   custom cells, palettes and a compact frame notation) and `DashMosaic` (the animated dash
   tiles, four schemes). The package README has the API.
+- **Tesserae.Themes.Stratus** — `StratusTheme.Instance`, root class `tss-theme-stratus`. An
+  aerospace design language: deep navy accent, cool greys, filled inputs with a bottom rule,
+  3px/6px/8px radii, a tiered elevation scale, Inter and Roboto Mono, a 2px blue focus ring.
+- **Tesserae.Themes.RetroOS** — `RetroOSTheme.Instance`, root class `tss-theme-retroos`. The
+  1984 Macintosh: one bit of colour, dithered greys, pinstriped title bars, hard 1px/2px
+  shadows, inverted selection and pixel fonts; dark mode is reverse video.
+- **Tesserae.Themes.Rechenwerk** — `RechenwerkTheme.Instance`, root class
+  `tss-theme-rechenwerk`. After Kraftwerk's record sleeves: light is *Die Mensch-Maschine*
+  (cream paper, black ink, signal red), dark is *Computerwelt* (a black screen with a faint
+  raster, cream type, terminal yellow). Square corners, 2px ink rules, hard offset shadows,
+  buttons that press into their shadow like calculator keys, chrome in tracked capitals,
+  headlines in Big Shoulders Display, numbers in the dot-matrix Doto, code in Space Mono, text
+  in Jost (all bundled, OFL). Selection is a solid yellow block with black type in both modes,
+  the sidebar is a black terminal in both modes (the dark tokens restated on `.tss-sidebar`),
+  window-like surfaces carry a title band (black with a red square on paper, yellow on the
+  terminal), and warnings use black-and-yellow hazard stripes. Its tokens are `--tss-rw-*` in
+  its `tss.common.css`; the package README states the design rules.
+- **Tesserae.Themes.Weniger** — `WenigerTheme.Instance`, root class `tss-theme-weniger`. A
+  skeuomorphic theme after West German industrial design of the 1950s to 80s ("less, but
+  better"): warm light-grey plastic panels with an inset hairline groove, brushed and turned
+  aluminium for knobs, thumbs, slider caps and the sidebar plate, buttons as extruded slabs with
+  their side wall showing, pushed in when pressed (IconToggle: the slab cut into welded keys with
+  engraved icons, the chosen one pushed in and orange), recessed wells for fields, signal orange as the one accent, LED lamps for state, and metrics
+  on a grey-green LCD in 7-segment figures. Dark mode is the charcoal edition. Hanken Grotesk,
+  DSEG7/DSEG14 and JetBrains Mono are bundled (OFL). Its tokens are `--tss-wg-*` in its
+  `tss.common.css`; the package README states the design rules.
 
 ## Related
 

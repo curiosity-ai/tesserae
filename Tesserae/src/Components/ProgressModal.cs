@@ -39,6 +39,8 @@ namespace Tesserae
                    .WS()
                    .Children(_titleHost, _progressHost, _messageHost, _footerHost));
 
+            _modalHost.StylingContainer.classList.add("tss-progressmodal");
+
         }
 
         /// <summary>
@@ -73,7 +75,7 @@ namespace Tesserae
         /// </summary>
         public ProgressModal Message(string message)
         {
-            _messageHost.Content(TextBlock(message));
+            _messageHost.Content(TextBlock(message).Class("tss-progressmodal-message"));
             return this;
         }
 
@@ -91,7 +93,7 @@ namespace Tesserae
         /// </summary>
         public ProgressModal Title(string title)
         {
-            _titleHost.Content(TextBlock(title).SemiBold().Primary().PaddingTop(16.px()).PaddingBottom(8.px()));
+            _titleHost.Content(TextBlock(title).Class("tss-progressmodal-title").SemiBold().Primary().PaddingTop(16.px()).PaddingBottom(8.px()));
             return this;
         }
 

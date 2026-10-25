@@ -1,0 +1,116 @@
+/* ==========================================================================
+   Weniger theme - Metric
+   --------------------------------------------------------------------------
+   The LCD moment. A KPI's value is the readout of a pocket calculator or a
+   clock radio: 7-segment figures in dark liquid crystal on the grey-green
+   glass, set into the panel behind a recessed bezel, with a faint catch of
+   light across the top of the glass. The LCD is the same in both editions,
+   so it reads the same on the charcoal case. The title above it is the
+   legend printed on the case, small and lowercase ("revenue", like
+   "photo 1"); the change beside it is set in the text face.
+
+   A compact metric keeps the segment figures on its one line without the
+   window; a value on an app-chosen fill (ValueBackground) keeps the app's
+   colours in a rounded key-shaped badge. A clickable tile rises into a
+   plastic key under the pointer.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-metric-title,
+body.tss-theme-weniger .tss-metric-title .tss-textblock {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-metric-value,
+body.tss-theme-weniger .tss-metric-value .tss-textblock {
+    font-family: var(--tss-wg-lcd);
+    font-weight: 700;
+    font-style: normal;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-weniger .tss-metric-value .tss-fontsize-xlarge {
+    font-size: 24px;
+    line-height: 1.25;
+}
+
+/* The LCD window: only on a full tile (not compact, not on a filled badge). */
+body.tss-theme-weniger .tss-metric:not(.tss-metric-compact):not(.tss-metric-value-filled) .tss-metric-value {
+    position: relative;
+    align-self: flex-start;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 7px 12px 6px;
+    border-radius: 6px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 38%),
+        var(--tss-wg-lcd-bg);
+    box-shadow: var(--tss-wg-lcd-well);
+    overflow: hidden;
+}
+
+body.tss-theme-weniger .tss-metric:not(.tss-metric-compact):not(.tss-metric-value-filled):not(.tss-metric-value-recolored) .tss-metric-value,
+body.tss-theme-weniger .tss-metric:not(.tss-metric-compact):not(.tss-metric-value-filled):not(.tss-metric-value-recolored) .tss-metric-value * {
+    color: var(--tss-wg-lcd-ink);
+    text-shadow: 1px 1px 0 rgba(34, 40, 32, 0.12);
+}
+
+/* ValueFirst() puts the window on top; the legend then sits under it with a little air. */
+body.tss-theme-weniger .tss-metric-value-first:not(.tss-metric-compact) .tss-metric-header {
+    margin-top: 6px;
+}
+
+/* Compact: segment figures on the line, no window. */
+body.tss-theme-weniger .tss-metric-compact .tss-metric-value .tss-fontsize-xlarge {
+    font-size: 18px;
+}
+
+/* The change: the text face, figures that line up. */
+body.tss-theme-weniger .tss-metric-change,
+body.tss-theme-weniger .tss-metric-change .tss-textblock {
+    font-size: 12px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-weniger .tss-metric-icon > .tss-icontile {
+    --tss-icontile-radius: 10px;
+}
+
+body.tss-theme-weniger .tss-metric-compact .tss-metric-icon > .tss-icontile {
+    --tss-icontile-radius: var(--tss-wg-radius-key);
+}
+
+/* ValueBackground(): the app's colours, on a rounded key-shaped badge. */
+body.tss-theme-weniger .tss-metric-value-filled .tss-metric-value {
+    border-radius: var(--tss-wg-radius-small);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+body.tss-theme-weniger .tss-metric-clickable {
+    border-radius: 10px;
+    transition: background-color 120ms linear, box-shadow 160ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-metric-clickable:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: 0 0 0 6px rgb(var(--tss-secondary-background-color-root)), 0 0 0 7px var(--tss-wg-key-edge), 0 4px 10px 4px rgba(60, 54, 46, 0.14);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-metric-clickable:hover {
+    box-shadow: 0 0 0 6px rgb(var(--tss-secondary-background-color-root)), 0 0 0 7px var(--tss-wg-key-edge), 0 4px 10px 4px rgba(0, 0, 0, 0.4);
+}
+
+body.tss-theme-weniger .tss-metric-clickable:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-metric-clickable {
+        transition: none;
+    }
+}

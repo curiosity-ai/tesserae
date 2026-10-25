@@ -177,7 +177,9 @@ namespace Tesserae
 
                 if (LocksPageScroll) Layers.LockPageScroll(_renderedContent);
 
-                if (!_contentHtml.classList.contains("tss-toast"))
+                // _contentHtml is only set for a layer built from an element (a toast is one); a layer built from a
+                // component (Layer().Content(...)) has none, and is never a toast.
+                if (_contentHtml is null || !_contentHtml.classList.contains("tss-toast"))
                 {
                     Tippy.HideAll();
                 }

@@ -1,0 +1,342 @@
+/* ==========================================================================
+   Weniger theme - Button
+   --------------------------------------------------------------------------
+   A button is a key on the front of a device: a thick slab of moulded
+   plastic with its side wall showing below it (see "The extruded key"
+   below). A coloured key (primary, danger, success, warning) is moulded in
+   its colour, its wall a shade darker of the same; held down it is pushed in
+   until the wall is gone. Primary is the orange key, the one control a
+   device lets speak.
+
+   The default button is Tesserae's ghost, and stays one at rest, so a
+   toolbar does not become a keyboard; under the pointer it rises into a
+   grey plastic slab, and pressed it goes in like the others. Link
+   buttons stay type. Disabled is a key with nothing behind it: flat, no
+   shadow, the legend faded.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-btn {
+    border-radius: var(--tss-wg-radius-key);
+    font-weight: 600;
+    letter-spacing: 0.005em;
+    transition: transform var(--tss-wg-quick) var(--tss-wg-ease), box-shadow var(--tss-wg-quick) var(--tss-wg-ease), background-color 120ms linear, color 120ms linear, border-color 120ms linear;
+}
+
+body.tss-theme-weniger .tss-btn.tss-small {
+    border-radius: var(--tss-wg-radius-small);
+}
+
+/* The legend sits in the middle of the key. Tesserae pads a button 16px left and 20px right, which puts the
+   label 2px left of centre; on a slab with a lit face that reads as off. Same 36px in total, so no key changes
+   width. Icon-only keys keep their own square padding. */
+body.tss-theme-weniger .tss-btn:not(.tss-btn-only-icon):not(.tss-small) {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+/* Focus is the theme's orange halo (an outline), so the key keeps its own shadow. */
+body.tss-theme-weniger .tss-btn:focus {
+    box-shadow: none;
+}
+
+body.tss-theme-weniger .tss-btn:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   The extruded key
+   --------------------------------------------------------------------------
+   A key is a thick slab of moulded plastic, like the transport keys on a
+   tape deck: a flat face with a line of light along its top edge and a
+   hairline rim, and below it the key's side wall, the same plastic a shade
+   darker, standing 4px proud of the panel on a soft shadow. Under the
+   pointer the key lifts a pixel and the wall grows to match; held down it
+   is pushed in until only a hair of the wall is left.
+
+   --tss-wg-k is the key's colour. The light, the rim and the wall are that
+   colour made lighter or darker in OKLCH where the browser can (relative
+   colour syntax), so an orange key is shaded in oranges; elsewhere they are
+   white and black at low alpha over it.
+
+   The wall is drawn with box-shadow, so it takes no layout space of its own:
+   a margin of the same 4px below every solid key keeps it clear of what
+   follows.
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger {
+    /* The plastic of a plain key; the IconToggle's keys are made of it too. */
+    --tss-wg-key-plastic: rgb(214, 210, 205);
+
+    --tss-wg-slab-wall: 4px;
+    --tss-wg-slab-cast: 30, 24, 18;
+}
+
+body.tss-theme-weniger.tss-dark-mode {
+    --tss-wg-key-plastic: rgb(78, 77, 75);
+    --tss-wg-slab-cast: 0, 0, 0;
+}
+
+/* The key's own light, rim and wall: the fallback first, its own colour where the browser can derive it. */
+body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link) {
+    --tss-wg-slab-hi: rgba(255, 255, 255, 0.4);
+    --tss-wg-slab-edge: rgba(0, 0, 0, 0.22);
+    --tss-wg-slab-side: rgba(0, 0, 0, 0.18);
+}
+
+@supports (color: oklch(from red l c h)) {
+    body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link) {
+        --tss-wg-slab-hi: oklch(from var(--tss-wg-k) calc(l + 0.16) calc(c * 0.9) h / 0.85);
+        --tss-wg-slab-edge: oklch(from var(--tss-wg-k) calc(l - 0.28) c h / 0.55);
+        --tss-wg-slab-wall-colour: oklch(from var(--tss-wg-k) calc(l - 0.17) c h);
+        --tss-wg-slab-face-top: oklch(from var(--tss-wg-k) calc(l + 0.03) c h);
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Coloured keys
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-wg-k: rgb(var(--tss-primary-background-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    --tss-wg-k: rgb(var(--tss-primary-background-hover-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-wg-k: rgb(var(--tss-danger-background-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    --tss-wg-k: rgb(var(--tss-danger-background-hover-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-wg-k: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    --tss-wg-k: rgb(var(--tss-success-background-hover-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-wg-k: rgb(var(--tss-warning-background-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    --tss-wg-k: rgb(var(--tss-warning-background-hover-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    border: none;
+    border-radius: var(--tss-wg-radius-key);
+    margin-bottom: var(--tss-wg-slab-wall);
+    background-color: var(--tss-wg-k);
+    background-image: linear-gradient(180deg, var(--tss-wg-slab-face-top, rgba(255, 255, 255, 0.08)) 0%, var(--tss-wg-k) 100%);
+    box-shadow:
+        inset 0 1px 0 var(--tss-wg-slab-hi),
+        0 0 0 1px var(--tss-wg-slab-edge),
+        0 var(--tss-wg-slab-wall) 0 var(--tss-wg-slab-wall-colour, var(--tss-wg-k)),
+        0 var(--tss-wg-slab-wall) 0 1px var(--tss-wg-slab-edge),
+        0 9px 14px -4px rgba(var(--tss-wg-slab-cast), 0.4);
+    filter: none;
+}
+
+/* Without derived colours the wall is the key's colour darkened by a shade laid inside it. */
+@supports not (color: oklch(from red l c h)) {
+    body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+    body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+        box-shadow:
+            inset 0 1px 0 var(--tss-wg-slab-hi),
+            inset 0 -1px 0 var(--tss-wg-slab-side),
+            0 0 0 1px var(--tss-wg-slab-edge),
+            0 var(--tss-wg-slab-wall) 0 rgba(0, 0, 0, 0.28),
+            0 var(--tss-wg-slab-wall) 0 1px var(--tss-wg-slab-edge),
+            0 9px 14px -4px rgba(var(--tss-wg-slab-cast), 0.4);
+    }
+}
+
+/* A legend on a coloured key is printed on it: a hair of shade above the white. */
+body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    text-shadow: 0 -1px 0 rgba(60, 20, 0, 0.3);
+}
+
+/* Under the pointer the key lifts a pixel and shows a pixel more wall. */
+body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
+body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    filter: none;
+    transform: translateY(-1px);
+    box-shadow:
+        inset 0 1px 0 var(--tss-wg-slab-hi),
+        0 0 0 1px var(--tss-wg-slab-edge),
+        0 calc(var(--tss-wg-slab-wall) + 1px) 0 var(--tss-wg-slab-wall-colour, rgba(0, 0, 0, 0.28)),
+        0 calc(var(--tss-wg-slab-wall) + 1px) 0 1px var(--tss-wg-slab-edge),
+        0 11px 16px -4px rgba(var(--tss-wg-slab-cast), 0.42);
+}
+
+/* Held down: pushed in until a hair of the wall is left, the shadow tight under it. */
+body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active {
+    filter: none;
+    transform: translateY(calc(var(--tss-wg-slab-wall) - 1px));
+    box-shadow:
+        inset 0 1px 0 var(--tss-wg-slab-hi),
+        0 0 0 1px var(--tss-wg-slab-edge),
+        0 1px 0 var(--tss-wg-slab-wall-colour, rgba(0, 0, 0, 0.28)),
+        0 1px 0 1px var(--tss-wg-slab-edge),
+        0 2px 4px rgba(var(--tss-wg-slab-cast), 0.3);
+}
+
+/* A small key is a thinner slab. */
+body.tss-theme-weniger .tss-btn.tss-small.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-small.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-small.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-small.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-wg-slab-wall: 3px;
+    border-radius: var(--tss-wg-radius-small);
+}
+
+/* --------------------------------------------------------------------------
+   The default button: a ghost that rises into a plastic key
+   --------------------------------------------------------------------------
+   At rest it is a legend on the panel, so a toolbar does not become a
+   keyboard; under the pointer the same slab appears in grey plastic, and
+   held down it goes in like the others. It reserves no margin for the wall:
+   a ghost sits in toolbars and rows, where 4px under every command would
+   move the row, so its wall is drawn into the space below it. */
+
+body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link),
+body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link) {
+    --tss-wg-k: var(--tss-wg-key-plastic);
+    border: 1px solid transparent;
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover,
+body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover {
+    background-color: var(--tss-wg-k);
+    background-image: linear-gradient(180deg, var(--tss-wg-slab-face-top, rgba(255, 255, 255, 0.08)) 0%, var(--tss-wg-k) 100%);
+    border-color: transparent;
+    box-shadow:
+        inset 0 1px 0 var(--tss-wg-slab-hi),
+        0 0 0 1px var(--tss-wg-slab-edge),
+        0 3px 0 var(--tss-wg-slab-wall-colour, rgba(0, 0, 0, 0.28)),
+        0 3px 0 1px var(--tss-wg-slab-edge),
+        0 7px 12px -4px rgba(var(--tss-wg-slab-cast), 0.38);
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover,
+body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):active,
+body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):active:hover,
+body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):active {
+    background-color: var(--tss-wg-k);
+    background-image: linear-gradient(180deg, var(--tss-wg-slab-face-top, rgba(255, 255, 255, 0.08)) 0%, var(--tss-wg-k) 100%);
+    border-color: transparent;
+    box-shadow:
+        inset 0 1px 0 var(--tss-wg-slab-hi),
+        0 0 0 1px var(--tss-wg-slab-edge),
+        0 1px 0 var(--tss-wg-slab-wall-colour, rgba(0, 0, 0, 0.28)),
+        0 1px 0 1px var(--tss-wg-slab-edge),
+        0 2px 4px rgba(var(--tss-wg-slab-cast), 0.3);
+    transform: translateY(2px);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   Link buttons: type, the darker orange, underlined under the pointer
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-btn.tss-btn-link:not(.tss-disabled) {
+    box-shadow: none;
+    transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   Disabled: a key with nothing behind it
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-btn.tss-disabled:not(.tss-btn-link):not(.tss-btn-nobg) {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border: 1px solid var(--tss-wg-key-edge);
+    box-shadow: none;
+    text-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Split button: two keys moulded in one strip
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-btn-and-icon {
+    border-radius: var(--tss-wg-radius-key);
+    overflow: hidden;
+}
+
+body.tss-theme-weniger .tss-btn-and-icon .tss-btn {
+    border-radius: 0;
+    transform: none !important;
+}
+
+body.tss-theme-weniger .tss-btn-and-icon:hover {
+    background: var(--tss-wg-key);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-btn-and-icon .tss-btn.tss-btn-and-icon-icon {
+    box-shadow: inset 1px 0 0 var(--tss-wg-key-edge);
+}
+
+body.tss-theme-weniger .tss-btn-and-icon .tss-btn:hover {
+    background: var(--tss-wg-key-hover) !important;
+    box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   The spinner: an outcome fills the key with its colour
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-btn.tss-btn-spin-resolved.tss-btn-spin-success:not(.tss-btn-default) {
+    --tss-wg-k: rgb(var(--tss-success-background-color-root));
+    color: rgb(var(--tss-success-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-spin-resolved.tss-btn-spin-error:not(.tss-btn-default) {
+    --tss-wg-k: rgb(var(--tss-danger-background-color-root));
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-btn {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-btn:active {
+        transform: none !important;
+    }
+}

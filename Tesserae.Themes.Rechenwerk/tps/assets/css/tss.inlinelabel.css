@@ -1,0 +1,100 @@
+/* ==========================================================================
+   Rechenwerk theme - InlineLabel
+   --------------------------------------------------------------------------
+   One small fact on a square plate: a 2px ink rule on the surface colour,
+   the fact itself in sentence case (it is content, not chrome). One that can
+   be pressed is a small key: it stands on a 2px hard shadow, takes the hover
+   tint under the pointer and travels into its shadow when pressed. A colour
+   mark is a square swatch framed in ink. Inside an OmniResult footer it is a
+   line of facts again: no plate, no shadow.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-inlinelabel {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 12.5px;
+    font-weight: 500;
+}
+
+body.tss-theme-rechenwerk .tss-inlinelabel-mark-color {
+    border-radius: 0;
+    box-shadow: 0 0 0 1px rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-inlinelabel-mark-image img,
+body.tss-theme-rechenwerk .tss-inlinelabel-mark-image svg,
+body.tss-theme-rechenwerk .tss-inlinelabel-image {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-inlinelabel-text-separator {
+    opacity: 1;
+    color: var(--tss-rw-signal);
+}
+
+/* Pressable: a small key. */
+body.tss-theme-rechenwerk .tss-inlinelabel-interactive {
+    box-shadow: 2px 2px 0 0 rgb(var(--tss-default-border-color-root));
+    transition: transform 60ms steps(1), box-shadow 60ms steps(1), background 80ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-inlinelabel-interactive:hover,
+body.tss-theme-rechenwerk .tss-inlinelabel-interactive:focus-visible {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-inlinelabel-interactive:active {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-inlinelabel-interactive:focus-visible {
+    outline: 2px solid var(--tss-rw-signal);
+    outline-offset: 3px;
+}
+
+body.tss-theme-rechenwerk .tss-inlinelabel-loading,
+body.tss-theme-rechenwerk .tss-inlinelabel-loading:hover {
+    border: none;
+    background: none;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-inlinelabel-skeleton {
+    border-radius: 0;
+}
+
+/* In an OmniResult footer: a line of facts, not a row of keys. */
+body.tss-theme-rechenwerk .tss-omniresult-footer .tss-inlinelabel {
+    border: none;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    color: var(--tss-rw-muted);
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-footer .tss-inlinelabel-interactive:hover,
+body.tss-theme-rechenwerk .tss-omniresult-footer .tss-inlinelabel-interactive:focus-visible {
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-omniresult-footer .tss-inlinelabel-interactive:active {
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-inlinelabel-interactive {
+        transition: none;
+    }
+
+    body.tss-theme-rechenwerk .tss-inlinelabel-interactive:active {
+        transform: none;
+    }
+}

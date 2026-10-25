@@ -1,0 +1,152 @@
+/* ==========================================================================
+   Weniger theme - Menu
+   --------------------------------------------------------------------------
+   A menu is a small plastic panel lifted off the device (8px corners, the
+   float shadow, a little padding all round), and its rows are soft keys
+   set into it: flat at rest, rising under the pointer, and the row that is
+   highlighted (by the keyboard, or because its submenu is open) is held
+   down, inset, the way a latched key sits. Headers are printed legends,
+   small grey lowercase; dividers are grooves that stop short of the edge.
+   Danger, warning, success and primary keep their colour (in a shade that
+   reads on the plastic) and their icon and word, never only the hue.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-menu {
+    background: var(--tss-wg-plastic);
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 0;
+    border-radius: var(--tss-wg-radius-key);
+    box-shadow: var(--tss-wg-float-shadow);
+    padding: 5px;
+}
+
+body.tss-theme-weniger .tss-menu-item {
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: rgb(var(--tss-default-foreground-color-root));
+    transition: background-color var(--tss-wg-quick) linear, box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-menu-item-icon,
+body.tss-theme-weniger .tss-menu-item-submenu-icon {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+/* Under the pointer: the row rises into a key. */
+body.tss-theme-weniger .tss-menu-item:not(.tss-disabled):hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+/* Highlighted (keyboard, or its submenu open): held down. */
+body.tss-theme-weniger .tss-menu-item:not(.tss-disabled):focus,
+body.tss-theme-weniger .tss-menu-item:not(.tss-disabled):focus:hover,
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-open,
+body.tss-theme-weniger .tss-menu-item:not(.tss-disabled):active {
+    background: var(--tss-wg-key-pressed);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+/* The held-down row is the keyboard's mark, so the general focus ring would only double it. */
+body.tss-theme-weniger .tss-menu-item:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-weniger .tss-menu-item:not(.tss-disabled):hover .tss-menu-item-icon,
+body.tss-theme-weniger .tss-menu-item:not(.tss-disabled):focus .tss-menu-item-icon,
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-open .tss-menu-item-icon,
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-open .tss-menu-item-submenu-icon {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-menu-item.tss-disabled {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-menu-item.tss-disabled .tss-menu-item-icon {
+    color: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   Toned rows: the colour on the legend and the icon, the key stays plastic
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-primary:not(.tss-disabled),
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-primary:not(.tss-disabled) .tss-menu-item-icon {
+    color: rgb(var(--tss-link-color-root));
+}
+
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-danger:not(.tss-disabled),
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-danger:not(.tss-disabled) .tss-menu-item-icon {
+    color: var(--tss-wg-red);
+}
+
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-warning:not(.tss-disabled),
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) .tss-menu-item-icon {
+    color: rgb(156, 100, 0);
+}
+
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-success:not(.tss-disabled),
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-success:not(.tss-disabled) .tss-menu-item-icon {
+    color: rgb(28, 128, 76);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-menu-item.tss-menu-item-primary:not(.tss-disabled),
+body.tss-theme-weniger.tss-dark-mode .tss-menu-item.tss-menu-item-primary:not(.tss-disabled) .tss-menu-item-icon {
+    color: var(--tss-wg-orange-hi);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-menu-item.tss-menu-item-danger:not(.tss-disabled),
+body.tss-theme-weniger.tss-dark-mode .tss-menu-item.tss-menu-item-danger:not(.tss-disabled) .tss-menu-item-icon {
+    color: rgb(246, 104, 92);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-menu-item.tss-menu-item-warning:not(.tss-disabled),
+body.tss-theme-weniger.tss-dark-mode .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) .tss-menu-item-icon {
+    color: rgb(240, 172, 36);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-menu-item.tss-menu-item-success:not(.tss-disabled),
+body.tss-theme-weniger.tss-dark-mode .tss-menu-item.tss-menu-item-success:not(.tss-disabled) .tss-menu-item-icon {
+    color: rgb(70, 214, 142);
+}
+
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):hover,
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):hover,
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):hover,
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-success:not(.tss-disabled):hover {
+    background: var(--tss-wg-key-hover);
+}
+
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):focus,
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus,
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):focus,
+body.tss-theme-weniger .tss-menu-item.tss-menu-item-success:not(.tss-disabled):focus {
+    background: var(--tss-wg-key-pressed);
+}
+
+/* --------------------------------------------------------------------------
+   Legends and grooves
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-menu-header {
+    padding: 6px 15px 3px 15px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-menu-divider {
+    background-color: var(--tss-wg-groove);
+    margin: 5px 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-menu-item {
+        transition: none;
+    }
+}

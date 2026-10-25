@@ -1,0 +1,75 @@
+/* ==========================================================================
+   Rechenwerk theme - CardPivot
+   --------------------------------------------------------------------------
+   Each tab is a record sleeve stood in a rack: its own square card in a 2px
+   ink frame, standing on a hard 3px shadow, with a gap between it and the
+   next. Under the pointer a card lifts (the shadow grows); the chosen card is
+   the terminal's cursor, a solid yellow block with black type, and
+   everything inside it (a Metric's caption, value and change line) follows
+   into black so it stays readable on the yellow.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-cardpivot-titlebar {
+    gap: 12px;
+    padding: 0 5px 5px 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+}
+
+body.tss-theme-rechenwerk .tss-cardpivot-tab {
+    border: var(--tss-rw-rule);
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-rw-btn-shadow);
+    padding: 6px 14px;
+    transition: transform 80ms steps(2), box-shadow 80ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-cardpivot-tab:last-child {
+    border-right: var(--tss-rw-rule);
+}
+
+body.tss-theme-rechenwerk .tss-cardpivot-tab:hover {
+    background: rgb(var(--tss-secondary-background-color-root));
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 0 var(--tss-rw-key-shadow-color);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-cardpivot-tab:hover {
+    box-shadow: 5px 5px 0 0 rgb(240, 234, 218);
+}
+
+body.tss-theme-rechenwerk .tss-cardpivot-tab:active {
+    transform: var(--tss-rw-btn-travel);
+    box-shadow: none;
+}
+
+/* The chosen sleeve: the yellow block, black type, a black frame. */
+body.tss-theme-rechenwerk .tss-cardpivot-tab.tss-cardpivot-selected,
+body.tss-theme-rechenwerk .tss-cardpivot-tab.tss-cardpivot-selected:hover {
+    border: 2px solid rgb(10, 10, 10);
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+/* A Metric's value sits in its own black display (tss.metric.css) and keeps its lit digits. */
+body.tss-theme-rechenwerk .tss-cardpivot-tab.tss-cardpivot-selected *:not(.tss-token):not(.tss-token *):not(.tss-metric-value):not(.tss-metric-value *) {
+    color: rgb(10, 10, 10) !important;
+}
+
+body.tss-theme-rechenwerk .tss-cardpivot-tab:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-cardpivot-tab,
+    body.tss-theme-rechenwerk .tss-cardpivot-tab:hover {
+        transition: none;
+        transform: none;
+    }
+}

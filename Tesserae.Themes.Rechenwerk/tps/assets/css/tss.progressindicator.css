@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Rechenwerk theme - Progress indicator
+   --------------------------------------------------------------------------
+   The level meter on a rack unit: a 2px ink frame round a square track, the
+   fill a solid bar in the signal colour (red on paper, yellow on the
+   screen) with a hard ink edge where it stops. Indeterminate fills the
+   whole track with the signal colour and the thin hazard stripes marching
+   across it in whole steps, the conveyor belt of Radio-Aktivitaet; under
+   reduced motion the stripes stand still. An AI bar keeps its gradient.
+   ========================================================================== */
+
+@keyframes tss-rw-progress-march {
+    from { background-position: 0 0, 0 0; }
+    to   { background-position: 14.142px 0, 0 0; }
+}
+
+body.tss-theme-rechenwerk .tss-progressindicator {
+    height: 12px;
+    border-radius: 0;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    box-sizing: border-box;
+    background: rgb(var(--tss-progress-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-progressindicator > .tss-progressindicator-bar {
+    border-radius: 0;
+    box-shadow: 2px 0 0 0 rgb(var(--tss-default-border-color-root));
+    transition: width 120ms steps(3);
+}
+
+body.tss-theme-rechenwerk .tss-progressindicator > .tss-progressindicator-bar-indeterminate {
+    left: 0;
+    width: 100%;
+    min-width: 100%;
+    transform: none;
+    transition: none;
+    background: var(--tss-rw-hazard-thin), var(--tss-rw-signal);
+    animation: tss-rw-progress-march 480ms steps(4, end) infinite;
+}
+
+body.tss-theme-rechenwerk .tss-progressindicator:not(.tss-ai) > .tss-progressindicator-bar {
+    background: var(--tss-rw-signal);
+}
+
+/* AI(): the gradient stays the AI's own; the indeterminate one gets the same marching stripes over it. */
+body.tss-theme-rechenwerk .tss-progressindicator.tss-ai > .tss-progressindicator-bar-indeterminate {
+    background: var(--tss-rw-hazard-thin), var(--tss-ai-gradient);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-progressindicator > .tss-progressindicator-bar,
+    body.tss-theme-rechenwerk .tss-progressindicator > .tss-progressindicator-bar-indeterminate {
+        transition: none;
+        animation: none;
+    }
+}

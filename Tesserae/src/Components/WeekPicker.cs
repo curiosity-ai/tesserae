@@ -16,6 +16,7 @@ namespace Tesserae
         public WeekPicker((int year, int weekNumber)? week)
             : base("week", week.HasValue ? FormatWeek(week.Value) : string.Empty)
         {
+            Render().classList.add("tss-weekpicker");
         }
 
         /// <summary>

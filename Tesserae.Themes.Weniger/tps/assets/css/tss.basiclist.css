@@ -1,0 +1,9 @@
+/* ==========================================================================
+   Weniger theme - BasicList
+   --------------------------------------------------------------------------
+   A basic list is only the scrolling, virtualised column the item lists
+   (ItemsList, VirtualizedList, InfiniteScrollingList) stand on: it draws no
+   edge, ground or row state of its own. The rows bring their own parts
+   (cards, keys, list rows) and the scrollbar is the theme's slot from
+   tss.common.css, so there is nothing to restate here.
+   ========================================================================== */

@@ -1,0 +1,125 @@
+/* ==========================================================================
+   Weniger theme - ModalStack
+   --------------------------------------------------------------------------
+   A stack of devices, one in front of the other: each sheet is a modal
+   (tss.modal.css: plastic body, groove, float shadow) and the ones behind
+   show only their header strip. The scrim is the modal's warm dim. The
+   trail above the pile is a row of small keys standing on the dim: steps
+   you can go back to rise under the pointer, the sheet you are on is the
+   key held down, with its orange lamp. Sheets settle into place on the
+   theme's curve.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-modalstack-scrim {
+    background-color: rgba(60, 54, 46, 0.26);
+    backdrop-filter: blur(2px) saturate(0.85);
+    -webkit-backdrop-filter: blur(2px) saturate(0.85);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-modalstack-scrim {
+    background-color: rgba(0, 0, 0, 0.42);
+}
+
+body.tss-theme-weniger .tss-modalstack-sheets > .tss-modalstack-sheet {
+    transition: transform 180ms var(--tss-wg-ease), opacity 180ms var(--tss-wg-ease), width 180ms var(--tss-wg-ease), height 180ms var(--tss-wg-ease);
+}
+
+/* A sheet behind is a device further back on the table: its header is all that shows, and the shadow is a resting one. */
+body.tss-theme-weniger .tss-modalstack-sheet.tss-modalstack-peek {
+    box-shadow: var(--tss-wg-panel-shadow);
+}
+
+body.tss-theme-weniger .tss-modalstack-peek > .tss-modal-header {
+    background: transparent;
+}
+
+body.tss-theme-weniger .tss-modalstack-peek > .tss-modal-header .tss-modal-header-content::after {
+    display: none;
+}
+
+body.tss-theme-weniger .tss-modalstack-tab {
+    border-radius: var(--tss-wg-radius-panel);
+}
+
+body.tss-theme-weniger .tss-modalstack-tab:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-modalstack-tab:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+body.tss-theme-weniger .tss-modalstack-tab:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: -3px;
+}
+
+/* --------------------------------------------------------------------------
+   The trail: small keys on the dim
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-modalstack-trail {
+    gap: 6px;
+    line-height: 20px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-modalstack-trail-step,
+body.tss-theme-weniger .tss-modalstack-trail-current {
+    padding: 1px 8px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-modalstack-trail-step {
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    transition: transform var(--tss-wg-quick) var(--tss-wg-ease), box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-modalstack-trail-step:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-modalstack-trail-step:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-modalstack-trail-current {
+    position: relative;
+    padding-left: 18px;
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+}
+
+body.tss-theme-weniger .tss-modalstack-trail-current::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 50%;
+    width: 5px;
+    height: 5px;
+    margin-top: -2.5px;
+    border-radius: 50%;
+    background: var(--tss-wg-orange-hi);
+    box-shadow: var(--tss-wg-led-orange-glow);
+}
+
+body.tss-theme-weniger .tss-modalstack-trail-more,
+body.tss-theme-weniger .tss-modalstack-trail-separator {
+    color: rgb(var(--tss-default-foreground-color-root));
+    opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-modalstack-sheets > .tss-modalstack-sheet,
+    body.tss-theme-weniger .tss-modalstack-trail-step {
+        transition: none;
+        transform: none;
+    }
+}

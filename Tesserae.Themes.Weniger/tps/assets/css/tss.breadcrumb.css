@@ -1,0 +1,77 @@
+/* ==========================================================================
+   Weniger theme - Breadcrumb
+   --------------------------------------------------------------------------
+   A path printed quietly on the panel, like the small legends beside a
+   selector: the levels above in muted grey, the current one in ink and a
+   touch heavier, small light chevrons between them. The crumbs are type,
+   not keys, so a path does not become a row of buttons: under the pointer a
+   level turns ink and takes a hairline underline. The collapsed "..." is the
+   one part that opens something, so it alone rises into a small key.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-breadcrumb .tss-btn {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-weight: 500;
+    border-radius: var(--tss-wg-radius-small);
+}
+
+body.tss-theme-weniger .tss-breadcrumb .tss-btn .tss-fontcolor-default {
+    color: inherit;
+}
+
+body.tss-theme-weniger .tss-breadcrumb .tss-btn.tss-btn-nobg:not(.tss-disabled):hover,
+body.tss-theme-weniger .tss-breadcrumb .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-nohover):hover,
+body.tss-theme-weniger .tss-breadcrumb .tss-btn.tss-btn-nobg:not(.tss-disabled):active,
+body.tss-theme-weniger .tss-breadcrumb .tss-btn.tss-btn-default:not(.tss-disabled):active {
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-breadcrumb .tss-btn:not(.tss-disabled):hover > span {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(var(--tss-default-foreground-color-root), 0.35);
+}
+
+/* Where you are: ink, not a link. */
+body.tss-theme-weniger .tss-breadcrumb > .tss-btn:last-child,
+body.tss-theme-weniger .tss-breadcrumb .tss-btn.tss-disabled {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 600;
+}
+
+body.tss-theme-weniger .tss-breadcrumb .tss-btn.tss-disabled .tss-fontcolor-default,
+body.tss-theme-weniger .tss-breadcrumb .tss-btn.tss-disabled > span {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-breadcrumb-chevron {
+    font-size: 10px;
+    color: rgba(var(--tss-secondary-foreground-color-root), 0.7);
+}
+
+body.tss-theme-weniger .tss-breadcrumb.tss-small > .tss-breadcrumb-chevron {
+    font-size: 8px;
+}
+
+/* The collapsed levels: a small key that rises under the pointer. */
+body.tss-theme-weniger .tss-breadcrumb .tss-breadcrumb-opencolapsed,
+body.tss-theme-weniger .tss-breadcrumb-overflow .tss-btn {
+    border-radius: var(--tss-wg-radius-small);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-breadcrumb .tss-breadcrumb-opencolapsed:hover,
+body.tss-theme-weniger .tss-breadcrumb-overflow .tss-btn:hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-breadcrumb .tss-btn:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: 1px;
+}

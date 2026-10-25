@@ -1,0 +1,132 @@
+/* ==========================================================================
+   Rechenwerk theme - Menu
+   --------------------------------------------------------------------------
+   The application menu is a floating sleeve panel: the surface colour in
+   the 2px ink frame on the 6px hard shadow, square. Rows are sentence case;
+   the row under the pointer or the keyboard is the terminal's cursor, the
+   solid yellow block with black type, its icon and submenu arrow following.
+   The row whose submenu is open keeps a quieter mark, the hover tint with a
+   signal bar at its edge, so the path into the submenu reads as one line.
+
+   A header is small tracked capitals in the signal colour, a divider a 1px
+   rule. Toned rows keep their meaning in the colour of the type and icon
+   (signal for primary, red, green); warning's yellow cannot be read as type
+   on paper, so its icon sits in a small yellow block instead and the word
+   stays ink.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-menu {
+    min-width: 180px;
+    padding: 4px 0;
+    border: none;
+    border-radius: 0;
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-rw-frame-shadow);
+    font-family: var(--tss-sansserif-font-family);
+}
+
+body.tss-theme-rechenwerk .tss-menu-item {
+    gap: 10px;
+    padding: 7px 14px 7px 12px;
+    border: none;
+    border-radius: 0;
+    font-size: 13.5px;
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-menu-item:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk .tss-menu-item:not(.tss-disabled):focus,
+body.tss-theme-rechenwerk .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus,
+body.tss-theme-rechenwerk .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):focus,
+body.tss-theme-rechenwerk .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):focus,
+body.tss-theme-rechenwerk .tss-menu-item.tss-menu-item-success:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk .tss-menu-item.tss-menu-item-success:not(.tss-disabled):focus {
+    background-color: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-menu-item:not(.tss-disabled):hover :is(i, .tss-textblock, .tss-fontcolor-default),
+body.tss-theme-rechenwerk .tss-menu-item:not(.tss-disabled):focus :is(i, .tss-textblock, .tss-fontcolor-default) {
+    color: rgb(10, 10, 10) !important;
+}
+
+/* The cursor block is the focus mark; a ring round it would only repeat it. */
+body.tss-theme-rechenwerk .tss-menu-item:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-rechenwerk .tss-menu-item.tss-menu-item-open:not(:hover):not(:focus) {
+    background-color: rgb(var(--tss-default-background-hover-color-root));
+    box-shadow: inset 4px 0 0 0 var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-menu-item i,
+body.tss-theme-rechenwerk .tss-menu-item .tss-textblock {
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-menu-item-submenu-icon {
+    opacity: 1;
+}
+
+body.tss-theme-rechenwerk .tss-menu-item.tss-disabled {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   Toned rows
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-menu-item.tss-menu-item-primary:not(.tss-disabled) {
+    color: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-menu-item.tss-menu-item-danger:not(.tss-disabled) {
+    color: rgb(var(--tss-danger-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-menu-item.tss-menu-item-success:not(.tss-disabled) {
+    color: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) > .tss-menu-item-icon {
+    height: 18px;
+    width: 18px;
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+    font-size: 11px;
+}
+
+/* On the cursor block the warning icon inverts, so it is still a block. */
+body.tss-theme-rechenwerk .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):hover > .tss-menu-item-icon,
+body.tss-theme-rechenwerk .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):focus > .tss-menu-item-icon {
+    background: rgb(10, 10, 10);
+    color: rgb(244, 194, 13) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Headers and dividers
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-menu-header {
+    padding: 8px 12px 4px 12px;
+    color: var(--tss-rw-signal);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    line-height: 14px;
+}
+
+body.tss-theme-rechenwerk .tss-menu-divider {
+    height: 1px;
+    margin: 4px 0;
+    background-color: rgb(var(--tss-default-separator-color-root));
+}

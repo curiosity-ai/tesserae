@@ -1,0 +1,207 @@
+/* ==========================================================================
+   Rechenwerk theme - Slider
+   --------------------------------------------------------------------------
+   A fader on a mixing desk or a synthesizer's front panel. The track is a
+   slot cut in a 2px ink rule; the travel up to the value is filled with the
+   signal colour (red on paper, yellow on the screen). The thumb is a
+   rectangular fader cap - taller than it is wide, on the surface colour in a
+   2px ink rule - with an index line across it in the signal colour, standing
+   on a hard 2px shadow. Under the pointer the cap lifts onto a deeper shadow;
+   grabbed, it is pressed in (no shadow) and fills with the signal colour.
+   Disabled is the dashed rule and the disabled grey, with no shadow.
+
+   Tesserae draws the track with two divs behind a transparent range input
+   (the input only supplies the thumb), so the parts are set directly, and
+   the base stylesheet's hover colours are restated so the track does not
+   change colour under the pointer.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   The slot and the travel
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-slider-fake-background,
+body.tss-theme-rechenwerk .tss-slider-container input:hover ~ .tss-slider-fake-background {
+    box-sizing: border-box;
+    top: 3px;
+    height: 10px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-slider-fake-progress,
+body.tss-theme-rechenwerk .tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    box-sizing: border-box;
+    top: 3px;
+    height: 10px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-right-width: 0;
+    border-radius: 0;
+    background-color: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-slider-container.tss-vertical .tss-slider-fake-background,
+body.tss-theme-rechenwerk .tss-slider-container.tss-vertical input:hover ~ .tss-slider-fake-background {
+    top: 0;
+    left: 7px;
+    width: 10px;
+    height: 100%;
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-slider-container.tss-vertical .tss-slider-fake-progress,
+body.tss-theme-rechenwerk .tss-slider-container.tss-vertical input:hover ~ .tss-slider-fake-progress {
+    top: auto;
+    bottom: 0;
+    left: 7px;
+    width: 10px;
+    border-right-width: 2px;
+    border-top-width: 0;
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-slider-container input.tss-disabled ~ .tss-slider-fake-background,
+body.tss-theme-rechenwerk .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-background {
+    border: 2px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress,
+body.tss-theme-rechenwerk .tss-slider-container input.tss-disabled:hover ~ .tss-slider-fake-progress {
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+/* The range input itself: no track of its own. */
+body.tss-theme-rechenwerk .tss-slider,
+body.tss-theme-rechenwerk .tss-slider:hover,
+body.tss-theme-rechenwerk .tss-slider.tss-disabled {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-slider.tss-fake,
+body.tss-theme-rechenwerk .tss-slider.tss-fake:hover,
+body.tss-theme-rechenwerk .tss-slider.tss-fake:disabled {
+    background-color: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-slider:focus-visible {
+    outline: none;
+}
+
+/* --------------------------------------------------------------------------
+   The fader cap
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-slider::-webkit-slider-thumb {
+    box-sizing: border-box;
+    width: 14px;
+    height: 24px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: linear-gradient(to right, transparent calc(50% - 1px), var(--tss-rw-signal) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)), rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 2px 2px 0 0 var(--tss-rw-key-shadow-color);
+    cursor: grab;
+    transition: box-shadow 60ms steps(1), transform 60ms steps(1);
+}
+
+body.tss-theme-rechenwerk .tss-slider::-moz-range-thumb {
+    box-sizing: border-box;
+    width: 14px;
+    height: 24px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: linear-gradient(to right, transparent calc(50% - 1px), var(--tss-rw-signal) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)), rgb(var(--tss-secondary-background-color-root));
+    box-shadow: 2px 2px 0 0 var(--tss-rw-key-shadow-color);
+    cursor: grab;
+}
+
+body.tss-theme-rechenwerk .tss-slider:hover::-webkit-slider-thumb {
+    border-color: rgb(var(--tss-default-border-color-root));
+    box-shadow: 3px 3px 0 0 var(--tss-rw-key-shadow-color);
+}
+
+body.tss-theme-rechenwerk .tss-slider:hover::-moz-range-thumb {
+    border-color: rgb(var(--tss-default-border-color-root));
+    box-shadow: 3px 3px 0 0 var(--tss-rw-key-shadow-color);
+}
+
+/* The keyboard's fader: the field's signal shadow. */
+body.tss-theme-rechenwerk .tss-slider:focus-visible::-webkit-slider-thumb {
+    box-shadow: 3px 3px 0 0 var(--tss-rw-signal);
+    outline: 2px solid var(--tss-rw-ink);
+    outline-offset: 2px;
+}
+
+body.tss-theme-rechenwerk .tss-slider:focus-visible::-moz-range-thumb {
+    box-shadow: 3px 3px 0 0 var(--tss-rw-signal);
+    outline: 2px solid var(--tss-rw-ink);
+    outline-offset: 2px;
+}
+
+/* Grabbed: pressed in, lit. */
+body.tss-theme-rechenwerk .tss-slider:not(.tss-disabled):active::-webkit-slider-thumb {
+    background: linear-gradient(to right, transparent calc(50% - 1px), var(--tss-rw-on-signal) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)), var(--tss-rw-signal);
+    box-shadow: none;
+    cursor: grabbing;
+}
+
+body.tss-theme-rechenwerk .tss-slider:not(.tss-disabled):active::-moz-range-thumb {
+    background: linear-gradient(to right, transparent calc(50% - 1px), var(--tss-rw-on-signal) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)), var(--tss-rw-signal);
+    box-shadow: none;
+    cursor: grabbing;
+}
+
+body.tss-theme-rechenwerk .tss-slider::-moz-range-progress,
+body.tss-theme-rechenwerk .tss-slider:hover::-moz-range-progress {
+    height: 10px;
+    border-radius: 0;
+    background-color: var(--tss-rw-signal);
+}
+
+/* A vertical fader: the cap lies across the slot. The index line always runs across the travel. */
+body.tss-theme-rechenwerk .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb {
+    width: 24px;
+    height: 14px;
+    background: linear-gradient(to bottom, transparent calc(50% - 1px), var(--tss-rw-signal) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)), rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-slider-container.tss-vertical .tss-slider::-moz-range-thumb {
+    width: 24px;
+    height: 14px;
+    background: linear-gradient(to bottom, transparent calc(50% - 1px), var(--tss-rw-signal) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)), rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-slider-container.tss-vertical .tss-slider::-moz-range-track {
+    width: 10px;
+}
+
+/* Disabled: a dashed cap, no shadow, no index. */
+body.tss-theme-rechenwerk .tss-slider.tss-disabled::-webkit-slider-thumb,
+body.tss-theme-rechenwerk .tss-slider.tss-disabled:hover::-webkit-slider-thumb,
+body.tss-theme-rechenwerk .tss-slider-container.tss-vertical .tss-slider.tss-disabled::-webkit-slider-thumb {
+    border: 2px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: rgb(var(--tss-disabled-background-color-root));
+    box-shadow: none;
+    cursor: default;
+}
+
+body.tss-theme-rechenwerk .tss-slider.tss-disabled::-moz-range-thumb,
+body.tss-theme-rechenwerk .tss-slider.tss-disabled:hover::-moz-range-thumb,
+body.tss-theme-rechenwerk .tss-slider-container.tss-vertical .tss-slider.tss-disabled::-moz-range-thumb {
+    border: 2px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: rgb(var(--tss-disabled-background-color-root));
+    box-shadow: none;
+    cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-slider::-webkit-slider-thumb {
+        transition: none;
+    }
+}

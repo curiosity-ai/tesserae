@@ -1,0 +1,338 @@
+/* ==========================================================================
+   Weniger theme - DockPanel
+   --------------------------------------------------------------------------
+   A dock panel is a modular system, like a hi-fi stack: the panel itself is
+   a shallow tray set into the page (a recessed well), and every pane slot
+   and the document are modules standing in it, each a body of moulded
+   plastic with the panel shadow. A pane's header is a moulded plate across
+   the top of its module, a shade apart from the face and ruled off by a
+   groove. A tab group is a strip of welded transport keys, like the
+   play/stop/rewind row on a tape deck: the keys touch, separated by their
+   own edges, and the active one is held down with its orange pilot lamp
+   lit. Rail tabs and pane toggles are keys too; an open one is held down.
+   A seam between modules is a groove that lights orange while dragged.
+   Flyouts, the drag ghost and the drop guides are lifted parts on the
+   floating shadow; the landing preview is a pale orange zone.
+   ========================================================================== */
+
+body.tss-theme-weniger .tss-dockpanel {
+    --tss-dockpanel-gap: 6px;
+    --tss-dockpanel-header-height: 36px;
+    --tss-dockpanel-radius: 10px;
+    --tss-dockpanel-surface: rgb(var(--tss-secondary-background-color-root));
+    --tss-dockpanel-canvas: rgb(var(--tss-default-background-color-root));
+    --tss-dockpanel-accent: var(--tss-wg-orange);
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-panel);
+    background: var(--tss-wg-well-fill);
+    box-shadow: var(--tss-wg-well);
+}
+
+body.tss-theme-weniger .tss-dockpanel-toggle {
+    --tss-dockpanel-accent: var(--tss-wg-orange);
+}
+
+/* --------------------------------------------------------------------------
+   Modules: slots and the document
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-dockpanel-slot,
+body.tss-theme-weniger .tss-dockpanel-document {
+    border: 1px solid var(--tss-wg-key-edge);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-panel-shadow);
+}
+
+/* The header plate. */
+body.tss-theme-weniger .tss-dockpanel-header {
+    border-bottom: none;
+    background: var(--tss-wg-key);
+    box-shadow: inset 0 -1px 0 var(--tss-wg-groove), inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-dockpanel-header {
+    box-shadow: inset 0 -1px 0 var(--tss-wg-groove), inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+body.tss-theme-weniger .tss-dockpanel-caption {
+    font-weight: 600;
+    letter-spacing: 0.005em;
+}
+
+body.tss-theme-weniger .tss-dockpanel-icon {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   Tabs: a strip of welded transport keys
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-dockpanel-header-tabs {
+    padding-left: 4px;
+}
+
+body.tss-theme-weniger .tss-dockpanel-tabs {
+    align-self: center;
+    height: 26px;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tss-dockpanel-tab {
+    position: relative;
+    margin: 0;
+    padding: 0 8px 0 10px;
+    border: none;
+    border-bottom: none;
+    background: var(--tss-wg-key);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    font-weight: 500;
+    transition: background-color 120ms linear, box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-dockpanel-tab + .tss-dockpanel-tab {
+    box-shadow: inset 1px 0 0 var(--tss-wg-key-edge);
+}
+
+body.tss-theme-weniger .tss-dockpanel-tab:hover {
+    background: var(--tss-wg-key-hover);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-dockpanel-tab:active,
+body.tss-theme-weniger .tss-dockpanel-tab.tss-dockpanel-tab-active,
+body.tss-theme-weniger .tss-dockpanel-tab + .tss-dockpanel-tab.tss-dockpanel-tab-active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: inset 1px 0 0 var(--tss-wg-key-edge), inset 0 2px 3px rgba(60, 54, 46, 0.22), inset 0 1px 1px rgba(60, 54, 46, 0.14);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 600;
+}
+
+body.tss-theme-weniger.tss-dark-mode .tss-dockpanel-tab:active,
+body.tss-theme-weniger.tss-dark-mode .tss-dockpanel-tab.tss-dockpanel-tab-active,
+body.tss-theme-weniger.tss-dark-mode .tss-dockpanel-tab + .tss-dockpanel-tab.tss-dockpanel-tab-active {
+    box-shadow: inset 1px 0 0 var(--tss-wg-key-edge), inset 0 2px 4px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(0, 0, 0, 0.45);
+}
+
+/* The pilot lamp of the active key, at its leading edge. */
+body.tss-theme-weniger .tss-dockpanel-tab.tss-dockpanel-tab-active::before {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: calc(50% - 2px);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--tss-wg-orange-hi);
+    box-shadow: var(--tss-wg-led-orange-glow);
+}
+
+body.tss-theme-weniger .tss-dockpanel-tab.tss-dockpanel-tab-active .tss-dockpanel-icon {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-dockpanel-tab:focus-visible,
+body.tss-theme-weniger .tss-dockpanel-button:focus-visible,
+body.tss-theme-weniger .tss-dockpanel-rail-tab:focus-visible,
+body.tss-theme-weniger .tss-dockpanel-restore:focus-visible {
+    outline: 2px solid rgba(236, 88, 26, 0.85);
+    outline-offset: -2px;
+}
+
+/* --------------------------------------------------------------------------
+   Header buttons: ghosts that rise into small keys
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-dockpanel-button,
+body.tss-theme-weniger .tss-dockpanel-restore {
+    border: 1px solid transparent;
+    border-radius: var(--tss-wg-radius-small);
+    transition: transform var(--tss-wg-quick) var(--tss-wg-ease), box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-dockpanel-button:hover,
+body.tss-theme-weniger .tss-dockpanel-restore:hover {
+    background: var(--tss-wg-key-hover);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-dockpanel-button:active,
+body.tss-theme-weniger .tss-dockpanel-restore:active {
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    transform: var(--tss-wg-press);
+}
+
+body.tss-theme-weniger .tss-dockpanel-restore {
+    background: var(--tss-wg-key);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-raised);
+}
+
+/* --------------------------------------------------------------------------
+   Seams between modules
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-dockpanel-splitter::after {
+    border-radius: 2px;
+    transition: background-color 120ms linear, box-shadow 120ms linear;
+}
+
+body.tss-theme-weniger .tss-dockpanel-splitter-v::after {
+    left: calc(50% - 1px);
+    right: auto;
+    width: 2px;
+    top: 30%;
+    bottom: 30%;
+}
+
+body.tss-theme-weniger .tss-dockpanel-splitter-h::after {
+    top: calc(50% - 1px);
+    bottom: auto;
+    height: 2px;
+    left: 30%;
+    right: 30%;
+}
+
+body.tss-theme-weniger .tss-dockpanel-splitter:hover::after {
+    background: rgba(var(--tss-default-foreground-color-root), 0.28);
+}
+
+body.tss-theme-weniger .tss-dockpanel-splitter:active::after,
+body.tss-theme-weniger .tss-dockpanel-splitter-active::after,
+body.tss-theme-weniger .tss-dockpanel-splitter-active:hover::after {
+    top: 0;
+    bottom: 0;
+    left: calc(50% - 1px);
+    background: var(--tss-wg-orange);
+    box-shadow: 0 0 6px rgba(236, 88, 26, 0.5);
+}
+
+body.tss-theme-weniger .tss-dockpanel-splitter-h:active::after,
+body.tss-theme-weniger .tss-dockpanel-splitter-h.tss-dockpanel-splitter-active::after {
+    left: 0;
+    right: 0;
+    top: calc(50% - 1px);
+    bottom: auto;
+}
+
+/* --------------------------------------------------------------------------
+   The bar and the pane toggles
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-dockpanel-bar-title:not(:empty) + .tss-dockpanel-bar-toggles {
+    border-left: none;
+    box-shadow: inset 1px 0 0 var(--tss-wg-groove);
+}
+
+body.tss-theme-weniger .tss-btn.tss-dockpanel-toggle.tss-dockpanel-toggle-on,
+body.tss-theme-weniger .tss-btn.tss-dockpanel-toggle.tss-dockpanel-toggle-on:hover {
+    background: var(--tss-wg-key-pressed);
+    border-color: var(--tss-wg-key-edge);
+    box-shadow: var(--tss-wg-pressed);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-dockpanel-toggle.tss-dockpanel-toggle-on i {
+    color: var(--tss-wg-orange);
+}
+
+/* --------------------------------------------------------------------------
+   Rails: a column of keys on the tray's edge
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-dockpanel-rail {
+    gap: 4px;
+}
+
+body.tss-theme-weniger .tss-dockpanel-rail-tab {
+    position: relative;
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-small);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-raised);
+    color: rgb(var(--tss-secondary-foreground-color-root));
+    transition: box-shadow var(--tss-wg-quick) var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-dockpanel-rail-tab:hover {
+    border-color: var(--tss-wg-key-edge);
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tss-dockpanel-rail-tab:active,
+body.tss-theme-weniger .tss-dockpanel-rail-tab.tss-dockpanel-rail-tab-open {
+    border-color: var(--tss-wg-key-edge);
+    background: var(--tss-wg-key-pressed);
+    box-shadow: var(--tss-wg-pressed);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   Lifted parts: flyout, drag ghost, guides, landing preview
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-weniger .tss-dockpanel-flyout {
+    transition: transform 160ms var(--tss-wg-ease), opacity 160ms var(--tss-wg-ease);
+}
+
+body.tss-theme-weniger .tss-dockpanel-flyout > .tss-dockpanel-slot {
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+body.tss-theme-weniger .tss-dockpanel-drag-ghost {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-plastic);
+    box-shadow: var(--tss-wg-float-shadow), inset 3px 0 0 var(--tss-wg-orange);
+    font-family: var(--tss-sansserif-font-family);
+}
+
+body.tss-theme-weniger .tss-dockpanel-guide {
+    border: 1px solid var(--tss-wg-key-edge);
+    border-radius: var(--tss-wg-radius-key);
+    background: var(--tss-wg-key);
+    box-shadow: var(--tss-wg-float-shadow);
+}
+
+body.tss-theme-weniger .tss-dockpanel-guide::before {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.35);
+    border-radius: 3px;
+}
+
+body.tss-theme-weniger .tss-dockpanel-guide-fill {
+    background: var(--tss-wg-orange);
+    border-radius: 2px;
+}
+
+body.tss-theme-weniger .tss-dockpanel-guide-hover {
+    border-color: var(--tss-wg-orange);
+    background: var(--tss-wg-key-pressed);
+}
+
+body.tss-theme-weniger .tss-dockpanel-preview {
+    border: 2px solid var(--tss-wg-orange);
+    border-radius: var(--tss-dockpanel-radius);
+    background: rgba(236, 88, 26, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tss-dockpanel-tab,
+    body.tss-theme-weniger .tss-dockpanel-button,
+    body.tss-theme-weniger .tss-dockpanel-restore,
+    body.tss-theme-weniger .tss-dockpanel-rail-tab,
+    body.tss-theme-weniger .tss-dockpanel-flyout,
+    body.tss-theme-weniger .tss-dockpanel-preview {
+        transition: none;
+    }
+
+    body.tss-theme-weniger .tss-dockpanel-button:active,
+    body.tss-theme-weniger .tss-dockpanel-restore:active {
+        transform: none;
+    }
+}

@@ -39,7 +39,7 @@ namespace Tesserae
             _cancelEditIcon = Div(Att("tss-editablelabel-cancel-icon",                                                                  title: "Cancel edit"), I(Att(UIcons.Cross.ToCssClass())));
             _editView       = Div(Att("tss-editablelabel-editbox"),                                                                                            InnerElement, _cancelEditIcon);
 
-            _container = Div(Att("tss-editablelabel "), _labelView, _editView);
+            _container = Div(Att("tss-editablelabel tss-editablearea"), _labelView, _editView);
 
 
             AttachChange();

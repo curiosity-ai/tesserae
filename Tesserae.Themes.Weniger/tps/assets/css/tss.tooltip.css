@@ -1,0 +1,69 @@
+/* ==========================================================================
+   Weniger theme - Tooltip (Tippy)
+   --------------------------------------------------------------------------
+   A tooltip is the small moulded label clipped beside a control: a dark
+   plastic tag on the light edition (and a light one on the charcoal
+   edition, the tooltip tokens invert), lit along its top edge, with a
+   hairline edge and a short lifted shadow, 7px corners. Type is the
+   grotesque at 12px, medium weight, so it reads at a glance. It appears
+   by fading with a pixel of travel, never a spring.
+   Tippies that carry a theme of their own (popover, sidebar, tree,
+   uptime) are surfaces of other components and are drawn by their files.
+   ========================================================================== */
+
+body.tss-theme-weniger .tippy-box:not([data-theme]) {
+    background-color: rgb(var(--tss-tooltip-background-color-root));
+    background-image: var(--tss-wg-sheen);
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+    border-radius: 7px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.28), 0 2px 4px -1px rgba(0, 0, 0, 0.24), 0 8px 18px -8px rgba(0, 0, 0, 0.45);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 17px;
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-weniger.tss-dark-mode .tippy-box:not([data-theme]) {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 0 0 1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5), 0 8px 18px -8px rgba(0, 0, 0, 0.8);
+}
+
+body.tss-theme-weniger .tippy-box:not([data-theme]) > .tippy-content {
+    padding: 5px 9px;
+}
+
+body.tss-theme-weniger .tippy-box:not([data-theme]) > .tippy-arrow {
+    color: rgb(var(--tss-tooltip-background-color-root));
+}
+
+/* No spring on the way in: Tippy's inertia curve overshoots. */
+body.tss-theme-weniger .tippy-box[data-inertia][data-state=visible] {
+    transition-timing-function: var(--tss-wg-ease);
+}
+
+/* Text in a tooltip takes the label's ink; a default-toned button in it is a key of the page's plastic. */
+body.tss-theme-weniger .tippy-box:not([data-theme]) .tippy-content .tss-fontcolor-default {
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+}
+
+body.tss-theme-weniger .tippy-box:not([data-theme]) .tippy-content .tss-btn-default:not(.tss-disabled) {
+    background: var(--tss-wg-key);
+    border-color: var(--tss-wg-key-edge);
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-wg-raised);
+}
+
+body.tss-theme-weniger .tippy-box:not([data-theme]) .tippy-content .tss-btn-default:not(.tss-disabled) .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-weniger .tippy-box:not([data-theme]) .tippy-content .tss-btn-default:not(.tss-disabled):hover {
+    background: var(--tss-wg-key-hover);
+    box-shadow: var(--tss-wg-raised-hover);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-weniger .tippy-box {
+        transition-duration: 0ms !important;
+    }
+}

@@ -1,0 +1,180 @@
+/* ==========================================================================
+   Rechenwerk theme - Panel
+   --------------------------------------------------------------------------
+   A side sheet is a tall sleeve pinned to one edge of the screen. The page
+   behind is the same flat veil as a modal's (and the raster on the
+   terminal). The sheet is the surface colour with a 2px ink rule on its
+   open edge and the hard 6px shadow thrown onto the page from it.
+
+   Its command row is the sleeve band of rule 9: black with cream tracked
+   capitals and a red square on paper, yellow with black on the terminal.
+   The close button is a square key in the band's type colour that inverts
+   under the pointer. A footer is a strip ruled off the content. The sheet
+   slides in a few hard steps rather than easing.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-panel-container:not(.tss-panel-modeless) {
+    background-image: var(--tss-rw-scanlines);
+}
+
+body.tss-theme-rechenwerk .tss-panel {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-left: 2px solid rgb(var(--tss-default-border-color-root));
+    box-shadow: -6px 0 0 0 var(--tss-rw-key-shadow-color);
+}
+
+body.tss-theme-rechenwerk .tss-panel.tss-panelSide-near {
+    border-left: none;
+    border-right: 2px solid rgb(var(--tss-default-border-color-root));
+    box-shadow: 6px 0 0 0 var(--tss-rw-key-shadow-color);
+}
+
+body.tss-theme-rechenwerk .tss-panel.tss-panelSize-fullwidth {
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-panel-near-animate {
+    animation: tss-rw-panel-near 160ms steps(4) both;
+}
+
+body.tss-theme-rechenwerk .tss-panel-far-animate {
+    animation: tss-rw-panel-far 160ms steps(4) both;
+}
+
+@keyframes tss-rw-panel-near {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: none;
+    }
+}
+
+@keyframes tss-rw-panel-far {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: none;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   The band
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-panel-command {
+    position: relative;
+    flex-shrink: 0;
+    height: 44px;
+    padding: 0 7px 0 0;
+    background: var(--tss-rw-bar-background);
+    color: var(--tss-rw-bar-foreground);
+}
+
+body.tss-theme-rechenwerk .tss-panel-title {
+    position: relative;
+    align-items: center;
+    padding-left: 32px;
+}
+
+/* The square in front of the title, and none when there is no title to stand in front of. */
+body.tss-theme-rechenwerk .tss-panel-title::before {
+    content: "";
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    margin-top: -5px;
+    background: var(--tss-rw-bar-marker);
+}
+
+body.tss-theme-rechenwerk .tss-panel-title:empty::before,
+body.tss-theme-rechenwerk .tss-panel-title:has(> .tss-textblock:only-child:empty)::before {
+    display: none;
+}
+
+body.tss-theme-rechenwerk .tss-panel-title .tss-textblock,
+body.tss-theme-rechenwerk .tss-panel-title .tss-fontcolor-default,
+body.tss-theme-rechenwerk .tss-panel-title i {
+    color: var(--tss-rw-bar-foreground);
+}
+
+body.tss-theme-rechenwerk .tss-panel-title .tss-textblock {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+/* The close key. */
+body.tss-theme-rechenwerk .tss-panel-command-button {
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 2px solid var(--tss-rw-bar-foreground);
+    border-radius: 0;
+    background-color: transparent;
+    color: var(--tss-rw-bar-foreground);
+    font-size: 12px;
+    transition: background-color 60ms steps(1), color 60ms steps(1);
+}
+
+body.tss-theme-rechenwerk .tss-panel-command-button:hover,
+body.tss-theme-rechenwerk .tss-panel-command-button:active {
+    background-color: var(--tss-rw-bar-foreground);
+    color: var(--tss-rw-bar-background);
+}
+
+body.tss-theme-rechenwerk .tss-panel-command-button:focus-visible {
+    outline: 2px solid var(--tss-rw-bar-foreground);
+    outline-offset: 2px;
+}
+
+body.tss-theme-rechenwerk .tss-panel-command-button i {
+    color: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   Body and footer
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-panel-inner {
+    padding: 16px 16px 0 16px;
+}
+
+body.tss-theme-rechenwerk .tss-panel-content {
+    padding-bottom: 16px;
+}
+
+body.tss-theme-rechenwerk .tss-panel-footer:not(:empty) {
+    margin: 0 -16px;
+    padding: 10px 16px 12px 16px;
+    border-top: 2px solid rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-panel-footer .tss-btn {
+    white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-panel-near-animate,
+    body.tss-theme-rechenwerk .tss-panel-far-animate {
+        animation: none;
+    }
+
+    body.tss-theme-rechenwerk .tss-panel-command-button {
+        transition: none;
+    }
+}

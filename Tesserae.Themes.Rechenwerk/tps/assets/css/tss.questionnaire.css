@@ -1,0 +1,118 @@
+/* ==========================================================================
+   Rechenwerk theme - Questionnaire
+   --------------------------------------------------------------------------
+   A question set as a panel: a 2px ink frame on the surface colour, standing
+   on the panel's hard shadow, the question in the headline face (in its own
+   case: it is what someone asked, not chrome). The answers
+   are calculator keys: square, framed, on a 3px shadow, tracked capitals;
+   they press in. Once answered, the chosen key is the terminal's cursor (the
+   yellow block, black type) and the others fall back to dashed, disabled
+   keys, so the answer is told by fill and frame, not by a fade alone. The
+   receipt under it is a line printed on the screen, in Space Mono after a
+   signal-coloured marker.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-questionnaire {
+    gap: 12px;
+    padding: 14px 16px 16px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-rw-card-shadow);
+    margin-right: 5px;
+    margin-bottom: 5px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-questionnaire-question {
+    font-family: var(--tss-rw-display);
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-questionnaire-options {
+    gap: 10px;
+}
+
+body.tss-theme-rechenwerk .tss-questionnaire-option {
+    min-height: 32px;
+    padding: 6px 14px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-rw-btn-shadow);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    transition: transform 60ms steps(1), box-shadow 60ms steps(1), background-color 80ms linear;
+}
+
+body.tss-theme-rechenwerk .tss-questionnaire-option:hover:not(:disabled) {
+    background: rgb(var(--tss-default-background-hover-color-root));
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-questionnaire-option:active:not(:disabled) {
+    transform: var(--tss-rw-btn-travel);
+    box-shadow: none;
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-questionnaire-option:focus-visible {
+    outline: 2px solid var(--tss-rw-ink);
+    outline-offset: 3px;
+}
+
+body.tss-theme-rechenwerk .tss-questionnaire-option:disabled {
+    opacity: 1;
+}
+
+body.tss-theme-rechenwerk .tss-questionnaire-answered .tss-questionnaire-option {
+    opacity: 1;
+    border-style: dashed;
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+/* The answer: pressed and held, the cursor block. */
+body.tss-theme-rechenwerk .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+    opacity: 1;
+    border-style: solid;
+    border-color: rgb(10, 10, 10);
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+    font-weight: 600;
+    box-shadow: none;
+    transform: var(--tss-rw-btn-travel);
+}
+
+body.tss-theme-rechenwerk .tss-questionnaire-answered-badge {
+    margin-top: 2px;
+    padding: 4px 10px 4px 22px;
+    border-left: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-default-background-color-root)) linear-gradient(var(--tss-rw-signal), var(--tss-rw-signal)) no-repeat 8px 50% / 6px 6px;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-monospace-font-family);
+    font-size: 12.5px;
+    font-weight: 400;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-questionnaire-option {
+        transition: none;
+    }
+
+    body.tss-theme-rechenwerk .tss-questionnaire-option:active:not(:disabled),
+    body.tss-theme-rechenwerk .tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+        transform: none;
+    }
+}

@@ -15,6 +15,7 @@ namespace Tesserae
         public DatePicker(DateTime? date = null)
             : base("date", date.HasValue ? FormatDateTime(date.Value) : string.Empty)
         {
+            Render().classList.add("tss-datepicker");
         }
 
         /// <summary>

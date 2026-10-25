@@ -1,0 +1,173 @@
+/* ==========================================================================
+   Rechenwerk theme - Stepper
+   --------------------------------------------------------------------------
+   A track listing, or the exits of the Autobahn: numbered square stations
+   strung on a 2px line. A finished station is filled with ink, the one you
+   are on is the signal colour (red on paper, yellow on the terminal), the
+   ones ahead are an empty frame. Numbers are on the dot-matrix display,
+   titles in tracked capitals. The line between two stations is solid once
+   the first of them is done, a dashed rule while it is still ahead.
+
+   The step's content is a ruled panel; Back and Next are calculator keys
+   that press in.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-stepper-header {
+    gap: 28px;
+    row-gap: 12px;
+}
+
+body.tss-theme-rechenwerk .tss-stepper-step {
+    position: relative;
+    padding: 6px 8px;
+    border: 2px solid transparent;
+    border-radius: 0;
+    transition: background-color 80ms steps(2), border-color 80ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-stepper-step:hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+/* The line to the next station, drawn in the gap between the two. */
+body.tss-theme-rechenwerk .tss-stepper-step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: calc(100% + 2px);
+    top: 50%;
+    width: 24px;
+    margin-top: -1px;
+    border-top: 2px dashed rgb(var(--tss-default-border-color-root));
+    pointer-events: none;
+}
+
+body.tss-theme-rechenwerk .tss-stepper-step.tss-stepper-complete:not(:last-child)::after {
+    border-top-style: solid;
+}
+
+/* The station: a square, its number on the dot-matrix display. */
+body.tss-theme-rechenwerk .tss-stepper-circle,
+body.tss-theme-rechenwerk .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-circle {
+    box-sizing: border-box;
+    width: 30px;
+    height: 30px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-rw-dots);
+    font-size: 21px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+body.tss-theme-rechenwerk .tss-stepper-complete .tss-stepper-circle {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-stepper-active .tss-stepper-circle {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: var(--tss-rw-signal);
+    color: var(--tss-rw-on-signal);
+    box-shadow: 3px 3px 0 0 rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-stepper-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete) .tss-stepper-label {
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-label {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-stepper-active .tss-stepper-label {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--tss-rw-signal);
+    text-underline-offset: 4px;
+}
+
+body.tss-theme-rechenwerk .tss-stepper-description {
+    color: var(--tss-rw-muted);
+}
+
+/* --------------------------------------------------------------------------
+   The page of the current step, and the keys under it
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-stepper-content {
+    padding: 16px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-rw-card-shadow);
+    margin-right: 5px;
+}
+
+body.tss-theme-rechenwerk .tss-stepper-footer {
+    gap: 12px;
+}
+
+body.tss-theme-rechenwerk .tss-stepper-nav {
+    height: 34px;
+    padding: 0 16px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: var(--tss-rw-btn-shadow);
+    font-family: var(--tss-sansserif-font-family);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    transition: transform 60ms steps(1), box-shadow 60ms steps(1);
+}
+
+body.tss-theme-rechenwerk .tss-stepper-nav:hover:not(:disabled):not(.tss-disabled) {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-stepper-nav:active:not(:disabled):not(.tss-disabled) {
+    transform: var(--tss-rw-btn-travel);
+    box-shadow: none;
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-stepper-nav:focus-visible {
+    outline: 2px solid var(--tss-rw-ink);
+    outline-offset: 3px;
+}
+
+body.tss-theme-rechenwerk .tss-stepper-nav:disabled,
+body.tss-theme-rechenwerk .tss-stepper-nav.tss-disabled {
+    opacity: 1;
+    border-style: dashed;
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-stepper-step,
+    body.tss-theme-rechenwerk .tss-stepper-nav {
+        transition: none;
+    }
+
+    body.tss-theme-rechenwerk .tss-stepper-nav:active:not(:disabled):not(.tss-disabled) {
+        transform: none;
+    }
+}
