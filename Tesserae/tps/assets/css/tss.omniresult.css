@@ -415,7 +415,8 @@
     overflow: hidden;
     font-size: 14px;
     line-height: 20px;
-    color: var(--tss-colors-dark-neutral-600);
+    /* The secondary text colour: dark-neutral-600 was 3.9:1 on white, under the 4.5:1 body text needs. */
+    color: var(--tss-secondary-foreground-color);
 }
 
 /* What matched reads the same wherever it is said: the badge naming the match and the marks on the

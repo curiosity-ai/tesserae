@@ -32,7 +32,11 @@
     flex-wrap: wrap;
 }
 
-.tss-cron-inline-dropdown.tss-dropdown-container {
+/* The chip's surface and its text are one decision, so they are set together and at a weight above a
+   theme's plain `body.tss-theme-x .tss-dropdown-container` (and its :hover): a theme that restyled
+   dropdowns used to replace the dark surface while the label stayed pinned to the light text below,
+   which left it invisible. The label now inherits whatever colour the chip ends up with. */
+.tss-cron-row .tss-cron-inline-dropdown.tss-dropdown-container {
     background-color: var(--tss-colors-dark-neutral-700);
     color: var(--tss-colors-neutral-100);
     border-radius: var(--tss-border-radius-sm);
@@ -47,8 +51,9 @@
     border-radius: var(--tss-border-radius-sm);
 }
 
-    .tss-cron-inline-dropdown.tss-dropdown-container:hover {
+    .tss-cron-row .tss-cron-inline-dropdown.tss-dropdown-container:hover {
         background-color: var(--tss-colors-dark-neutral-600);
+        color: var(--tss-colors-neutral-100);
     }
 
 .tss-cron-inline-dropdown,
@@ -61,14 +66,14 @@
 
     .tss-cron-inline-dropdown .tss-dropdown-item-on-box,
     .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-fontcolor-default {
-        color: var(--tss-colors-neutral-100) !important;
+        color: inherit !important;
         font-size: var(--tss-font-size-small);
         background: transparent !important;
         border: none !important;
     }
 
     .tss-cron-inline-dropdown .tss-dropdown-icon {
-        color: var(--tss-colors-neutral-100) !important;
+        color: inherit !important;
     }
 
 .tss-cron-label {
