@@ -35,6 +35,7 @@ body.tss-theme-rechenwerk .tss-textbox:hover {
 body.tss-theme-rechenwerk .tss-textbox:focus {
     border-color: rgb(var(--tss-default-border-color-root));
     box-shadow: 4px 4px 0 0 var(--tss-rw-signal);
+    outline: none;
 }
 
 body.tss-theme-rechenwerk .tss-textbox.tss-disabled {

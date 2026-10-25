@@ -84,8 +84,6 @@ body.tss-theme-rechenwerk .tss-commandpalette-search-container .tss-omnibox-cont
 }
 
 body.tss-theme-rechenwerk .tss-commandpalette-search-container .tss-omnibox-search-input {
-    font-size: 15px;
-    color: rgb(240, 234, 218);
     caret-color: rgb(244, 194, 13);
     caret-shape: block;
 }

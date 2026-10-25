@@ -414,6 +414,16 @@ body.tss-theme-rechenwerk .tss-sidebar :focus-visible {
     outline-color: rgb(244, 194, 13);
 }
 
+/* Machine-made: an app's .Rounded() on a control does not round it here. The utilities stay for what is
+   meant to be round (an avatar, a dot), so only the controls they reach are squared. */
+body.tss-theme-rechenwerk .tss-btn:is(.tss-rounded-sm, .tss-rounded-md, .tss-rounded-full),
+body.tss-theme-rechenwerk .tss-textbox:is(.tss-rounded-sm, .tss-rounded-md, .tss-rounded-full),
+body.tss-theme-rechenwerk .tss-card:is(.tss-rounded-sm, .tss-rounded-md, .tss-rounded-full),
+body.tss-theme-rechenwerk :is(.tss-rounded-sm, .tss-rounded-md, .tss-rounded-full) > :is(.tss-textbox, .tss-searchbox, .tss-dropdown, .tss-checkbox-mark, .tss-card, .tss-toggle-mark, .tss-dropdown-container),
+body.tss-theme-rechenwerk :is(.tss-searchbox-container, .tss-dropdown-container, .tss-textbox-container, .tss-picker-container):is(.tss-rounded-sm, .tss-rounded-md, .tss-rounded-full) {
+    border-radius: 0 !important;
+}
+
 body.tss-theme-rechenwerk a {
     color: rgb(var(--tss-link-color-root));
     text-decoration-thickness: 2px;
