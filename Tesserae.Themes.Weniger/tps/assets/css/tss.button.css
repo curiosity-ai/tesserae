@@ -1,16 +1,16 @@
 /* ==========================================================================
    Weniger theme - Button
    --------------------------------------------------------------------------
-   A button is a key on the front of a device, and the keys on those devices
-   are concave: a raised rim, a face dished toward the middle (see "The
-   concave key" below). A coloured key (primary, danger, success, warning) is
-   moulded in its colour and stands on a soft shadow; held down it travels
-   1px and its dish deepens. Primary is the orange key, the one control a
-   device lets speak.
+   A button is a key on the front of a device: a flat cap in a dark socket,
+   standing off the panel on a broad soft shadow (see "The socketed key"
+   below). A coloured key (primary, danger, success, warning) has its cap
+   moulded in its colour; held down it travels toward the panel and its
+   shadow tightens. Primary is the orange key, the one control a device lets
+   speak.
 
    The default button is Tesserae's ghost, and stays one at rest, so a
    toolbar does not become a keyboard; under the pointer it rises into a
-   light-grey plastic key, and pressed it goes in like the others. Link
+   grey plastic key in its socket, and pressed it goes in like the others. Link
    buttons stay type. Disabled is a key with nothing behind it: flat, no
    shadow, the legend faded.
    ========================================================================== */
@@ -37,44 +37,44 @@ body.tss-theme-weniger .tss-btn:focus-visible {
 }
 
 /* --------------------------------------------------------------------------
-   The concave key
+   The socketed key
    --------------------------------------------------------------------------
-   The keys on the radios and calculators are dished: a raised rim lit from
-   above, and inside it a face that sinks toward the middle. In a dish the
-   light runs the other way from a dome: the upper wall faces down and sits
-   in the rim's shadow, the lower wall faces up and catches the light, and
-   the face is a dish rather than a ramp, so the shade is radial: lightest
-   low in the middle, deepest round the upper edge. A key is two layers over
-   its own colour, the rim on a 3px border ring and the dish on the face,
-   with a soft inset shadow under the rim's upper lip.
-   Held down, the whole key travels 1px and the dish deepens.
+   A key is a flat cap set in a near-black socket, the way the keys of a
+   pocket synthesizer or a calculator sit in the housing: the socket is the
+   key's border, deeper at the bottom and the right because the cap sits up
+   and to the left in it, and the cap is the padding box in one solid
+   colour. The cap's edges are rounded off, so they catch the light along
+   the top and the left and roll into shade along the bottom and the right
+   (inset shadows inside the socket). The whole key, socket and cap, stands
+   off the panel and throws a broad soft shadow down and to the right.
 
-   Both layers are light and shade only (white and black at low alpha), so
-   the same key works over any colour: orange, the status colours, plastic.
+   Held down, the key goes 1px toward the panel: its shadow tightens to a
+   contact shadow and the cap's bevel softens.
+
+   --tss-wg-k is the cap's colour. Where the browser can derive colours from
+   a colour (relative colour syntax), the bevel's light and shade are that
+   colour made lighter or darker in OKLCH, so an orange cap is shaded in
+   oranges; elsewhere they are white and black at low alpha.
    -------------------------------------------------------------------------- */
 
 body.tss-theme-weniger {
-    --tss-wg-key-rim: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.12) 45%, rgba(0, 0, 0, 0.1) 70%, rgba(0, 0, 0, 0.22) 100%);
-    --tss-wg-key-dish: radial-gradient(130% 170% at 50% 105%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.06) 38%, rgba(0, 0, 0, 0.03) 58%, rgba(0, 0, 0, 0.14) 100%);
-    --tss-wg-key-dish-deep: radial-gradient(130% 170% at 50% 105%, rgba(255, 255, 255, 0.12) 0%, rgba(0, 0, 0, 0.02) 40%, rgba(0, 0, 0, 0.1) 62%, rgba(0, 0, 0, 0.24) 100%);
-    --tss-wg-key-lip: inset 0 2px 3px -1px rgba(40, 20, 5, 0.3), inset 0 -1px 1px rgba(255, 255, 255, 0.28);
-    --tss-wg-key-lip-deep: inset 0 3px 5px -1px rgba(40, 20, 5, 0.42), inset 0 -1px 1px rgba(255, 255, 255, 0.2);
-    --tss-wg-key-stand: 0 0 0 1px rgba(60, 40, 20, 0.22), 0 1px 1px rgba(60, 30, 10, 0.2), 0 3px 6px -2px rgba(60, 30, 10, 0.28);
-    --tss-wg-key-stand-hover: 0 0 0 1px rgba(60, 40, 20, 0.24), 0 1px 1px rgba(60, 30, 10, 0.22), 0 5px 10px -3px rgba(60, 30, 10, 0.34);
-    --tss-wg-key-stand-down: 0 0 0 1px rgba(60, 40, 20, 0.24), 0 0 1px rgba(60, 30, 10, 0.2);
-    --tss-wg-key-plastic: rgb(241, 240, 236);
+    --tss-wg-socket: rgb(22, 21, 20);
+    --tss-wg-key-plastic: rgb(214, 210, 205);
+    --tss-wg-key-bevel-hi: rgba(255, 255, 255, 0.55);
+    --tss-wg-key-bevel-lo: rgba(0, 0, 0, 0.22);
+    --tss-wg-key-lift: 2px 3px 3px rgba(30, 24, 18, 0.3), 5px 9px 12px -2px rgba(30, 24, 18, 0.34), 10px 18px 24px -6px rgba(30, 24, 18, 0.3);
+    --tss-wg-key-lift-hover: 2px 4px 4px rgba(30, 24, 18, 0.3), 7px 12px 15px -2px rgba(30, 24, 18, 0.36), 13px 22px 28px -6px rgba(30, 24, 18, 0.32);
+    --tss-wg-key-lift-down: 1px 2px 3px rgba(30, 24, 18, 0.34);
 }
 
 body.tss-theme-weniger.tss-dark-mode {
-    --tss-wg-key-rim: linear-gradient(180deg, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0.06) 45%, rgba(0, 0, 0, 0.18) 70%, rgba(0, 0, 0, 0.36) 100%);
-    --tss-wg-key-dish: radial-gradient(130% 170% at 50% 105%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 38%, rgba(0, 0, 0, 0.06) 58%, rgba(0, 0, 0, 0.26) 100%);
-    --tss-wg-key-dish-deep: radial-gradient(130% 170% at 50% 105%, rgba(255, 255, 255, 0.06) 0%, rgba(0, 0, 0, 0.06) 40%, rgba(0, 0, 0, 0.18) 62%, rgba(0, 0, 0, 0.38) 100%);
-    --tss-wg-key-lip: inset 0 2px 3px -1px rgba(0, 0, 0, 0.55), inset 0 -1px 1px rgba(255, 255, 255, 0.12);
-    --tss-wg-key-lip-deep: inset 0 3px 5px -1px rgba(0, 0, 0, 0.7), inset 0 -1px 1px rgba(255, 255, 255, 0.08);
-    --tss-wg-key-stand: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 1px 1px rgba(0, 0, 0, 0.5), 0 3px 7px -2px rgba(0, 0, 0, 0.6);
-    --tss-wg-key-stand-hover: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 1px 1px rgba(0, 0, 0, 0.55), 0 5px 11px -3px rgba(0, 0, 0, 0.7);
-    --tss-wg-key-stand-down: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.5);
-    --tss-wg-key-plastic: rgb(66, 66, 64);
+    --tss-wg-socket: rgb(10, 10, 10);
+    --tss-wg-key-plastic: rgb(78, 77, 75);
+    --tss-wg-key-bevel-hi: rgba(255, 255, 255, 0.22);
+    --tss-wg-key-bevel-lo: rgba(0, 0, 0, 0.4);
+    --tss-wg-key-lift: 2px 3px 3px rgba(0, 0, 0, 0.5), 5px 9px 12px -2px rgba(0, 0, 0, 0.6), 10px 18px 24px -6px rgba(0, 0, 0, 0.55);
+    --tss-wg-key-lift-hover: 2px 4px 4px rgba(0, 0, 0, 0.5), 7px 12px 15px -2px rgba(0, 0, 0, 0.62), 13px 22px 28px -6px rgba(0, 0, 0, 0.58);
+    --tss-wg-key-lift-down: 1px 2px 3px rgba(0, 0, 0, 0.6);
 }
 
 /* --------------------------------------------------------------------------
@@ -85,18 +85,52 @@ body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-
 body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
 body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
 body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
-    border: 3px solid transparent;
-    background-image: var(--tss-wg-key-dish), var(--tss-wg-key-rim);
-    background-origin: padding-box, border-box;
-    background-clip: padding-box, border-box;
-    box-shadow: var(--tss-wg-key-lip), var(--tss-wg-key-stand);
+    border: 3px solid var(--tss-wg-socket);
+    border-width: 2px 4px 4px 2px;
+    border-radius: calc(var(--tss-wg-radius-key) + 3px);
+    background-color: var(--tss-wg-k);
+    background-image: none;
+    background-clip: padding-box;
+    box-shadow: inset 2px 2px 1px var(--tss-wg-key-bevel-hi), inset -2px -3px 5px -1px var(--tss-wg-key-bevel-lo), var(--tss-wg-key-lift);
     filter: none;
 }
 
-/* A legend on a coloured key is pressed into it: a hair of shade above the white. */
+body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-wg-k: rgb(var(--tss-primary-background-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    --tss-wg-k: rgb(var(--tss-primary-background-hover-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-wg-k: rgb(var(--tss-danger-background-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    --tss-wg-k: rgb(var(--tss-danger-background-hover-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-wg-k: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    --tss-wg-k: rgb(var(--tss-success-background-hover-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
+    --tss-wg-k: rgb(var(--tss-warning-background-color-root));
+}
+
+body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
+    --tss-wg-k: rgb(var(--tss-warning-background-hover-color-root));
+}
+
+/* A legend on a coloured key is printed on it: a hair of shade above the white. */
 body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
 body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
-    text-shadow: 0 -1px 0 rgba(90, 30, 0, 0.28);
+    text-shadow: 0 -1px 0 rgba(90, 30, 0, 0.25);
 }
 
 body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
@@ -104,17 +138,17 @@ body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-n
 body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover,
 body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
     filter: none;
-    box-shadow: var(--tss-wg-key-lip), var(--tss-wg-key-stand-hover);
+    box-shadow: inset 2px 2px 1px var(--tss-wg-key-bevel-hi), inset -2px -3px 5px -1px var(--tss-wg-key-bevel-lo), var(--tss-wg-key-lift-hover);
 }
 
-/* Held down: 1px of travel, the dish deepens and the key stops standing. */
+/* Held down: 1px toward the panel, the shadow tightens to contact, the bevel softens. */
 body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
 body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
 body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
 body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active {
-    background-image: var(--tss-wg-key-dish-deep), var(--tss-wg-key-rim);
-    box-shadow: var(--tss-wg-key-lip-deep), var(--tss-wg-key-stand-down);
-    transform: var(--tss-wg-press);
+    background-image: none;
+    box-shadow: inset 1px 1px 2px -1px var(--tss-wg-key-bevel-hi), inset -1px -2px 3px -1px var(--tss-wg-key-bevel-lo), var(--tss-wg-key-lift-down);
+    transform: translate(1px, 1px);
     filter: none;
 }
 
@@ -122,35 +156,35 @@ body.tss-theme-weniger .tss-btn.tss-small.tss-btn-primary:not(.tss-disabled):not
 body.tss-theme-weniger .tss-btn.tss-small.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
 body.tss-theme-weniger .tss-btn.tss-small.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
 body.tss-theme-weniger .tss-btn.tss-small.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
-    border-width: 2px;
+    border-width: 1px 3px 3px 1px;
+    border-radius: calc(var(--tss-wg-radius-small) + 2px);
 }
 
 /* --------------------------------------------------------------------------
    The default button: a ghost that rises into a plastic key
    --------------------------------------------------------------------------
    At rest it is a legend on the panel, so a toolbar does not become a
-   keyboard; under the pointer the same concave key appears in light-grey
-   plastic. The border stays 3px at rest (transparent) so nothing shifts. */
+   keyboard; under the pointer the same socketed key appears with a grey
+   plastic cap. The border stays 3px at rest (transparent) so nothing shifts. */
 
 body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link),
 body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link) {
+    --tss-wg-k: var(--tss-wg-key-plastic);
     border: 3px solid transparent;
-    background-origin: padding-box, border-box;
-    background-clip: padding-box, border-box;
+    border-width: 2px 4px 4px 2px;
+    border-radius: calc(var(--tss-wg-radius-key) + 3px);
+    background-clip: padding-box;
 }
 
 body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover,
 body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover {
-    background-color: var(--tss-wg-key-plastic);
-    background-image: var(--tss-wg-key-dish), var(--tss-wg-key-rim);
-    border-color: transparent;
-    box-shadow: var(--tss-wg-key-lip), var(--tss-wg-key-stand);
+    background-color: var(--tss-wg-k);
+    background-image: none;
+    border-color: var(--tss-wg-socket);
+    box-shadow: inset 2px 2px 1px var(--tss-wg-key-bevel-hi), inset -2px -3px 5px -1px var(--tss-wg-key-bevel-lo), var(--tss-wg-key-lift);
 }
 
-body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover {
-    color: rgb(var(--tss-default-foreground-color-root));
-}
-
+body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover,
 body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover .tss-fontcolor-default {
     color: rgb(var(--tss-default-foreground-color-root));
 }
@@ -158,111 +192,28 @@ body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-
 body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):active,
 body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):active:hover,
 body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):active {
-    background-color: var(--tss-wg-key-plastic);
-    background-image: var(--tss-wg-key-dish-deep), var(--tss-wg-key-rim);
-    border-color: transparent;
-    box-shadow: var(--tss-wg-key-lip-deep), var(--tss-wg-key-stand-down);
-    transform: var(--tss-wg-press);
+    background-color: var(--tss-wg-k);
+    background-image: none;
+    border-color: var(--tss-wg-socket);
+    box-shadow: inset 1px 1px 2px -1px var(--tss-wg-key-bevel-hi), inset -1px -2px 3px -1px var(--tss-wg-key-bevel-lo), var(--tss-wg-key-lift-down);
+    transform: translate(1px, 1px);
     color: rgb(var(--tss-default-foreground-color-root));
 }
 
-/* --------------------------------------------------------------------------
-   Shading in the key's own colour
-   --------------------------------------------------------------------------
-   The light and shade layers above are white and black at low alpha, which
-   works over any colour but greys it: white over orange is a pastel, black
-   over orange a brown. Where the browser can derive colours from a colour
-   (relative colour syntax), the rim, the dish and the lip shadow are instead
-   the key's own colour made lighter or darker in OKLCH, the same hue and
-   chroma, so an orange key is shaded in oranges and a green one in greens.
-   --tss-wg-k is the key's colour; the layers above stay as the fallback.
-   -------------------------------------------------------------------------- */
-
+/* The bevel in the cap's own colour: lighter and darker in OKLCH rather than white and black over it. */
 @supports (color: oklch(from red l c h)) {
-
-    body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
-        --tss-wg-k: rgb(var(--tss-primary-background-color-root));
-    }
-
-    body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
-        --tss-wg-k: rgb(var(--tss-primary-background-hover-color-root));
-    }
-
-    body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
-        --tss-wg-k: rgb(var(--tss-danger-background-color-root));
-    }
-
-    body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
-        --tss-wg-k: rgb(var(--tss-danger-background-hover-color-root));
-    }
-
-    body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
-        --tss-wg-k: rgb(var(--tss-success-background-color-root));
-    }
-
-    body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
-        --tss-wg-k: rgb(var(--tss-success-background-hover-color-root));
-    }
-
-    body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link) {
-        --tss-wg-k: rgb(var(--tss-warning-background-color-root));
-    }
-
-    body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):hover {
-        --tss-wg-k: rgb(var(--tss-warning-background-hover-color-root));
-    }
-
-    body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link),
-    body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link) {
-        --tss-wg-k: var(--tss-wg-key-plastic);
-    }
 
     body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
     body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
     body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
     body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
     body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover,
-    body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover {
-        background-image:
-            radial-gradient(130% 170% at 50% 105%, oklch(from var(--tss-wg-k) calc(l + 0.06) c h) 0%, var(--tss-wg-k) 42%, oklch(from var(--tss-wg-k) calc(l - 0.07) c h) 100%),
-            linear-gradient(180deg, oklch(from var(--tss-wg-k) calc(l + 0.11) c h) 0%, var(--tss-wg-k) 48%, oklch(from var(--tss-wg-k) calc(l - 0.12) c h) 100%);
-        box-shadow:
-            inset 0 2px 3px -1px oklch(from var(--tss-wg-k) calc(l - 0.4) c h / 0.45),
-            inset 0 -1px 1px oklch(from var(--tss-wg-k) calc(l + 0.14) c h / 0.6),
-            0 0 0 1px oklch(from var(--tss-wg-k) calc(l - 0.28) c h / 0.55),
-            0 1px 1px rgba(40, 30, 20, 0.18),
-            0 3px 6px -2px rgba(40, 30, 20, 0.26);
-    }
-
-    body.tss-theme-weniger .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
-    body.tss-theme-weniger .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
-    body.tss-theme-weniger .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
-    body.tss-theme-weniger .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link):active,
+    body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover,
     body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):active,
     body.tss-theme-weniger .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):active:hover,
     body.tss-theme-weniger .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):active {
-        background-image:
-            radial-gradient(130% 170% at 50% 105%, var(--tss-wg-k) 0%, oklch(from var(--tss-wg-k) calc(l - 0.04) c h) 42%, oklch(from var(--tss-wg-k) calc(l - 0.13) c h) 100%),
-            linear-gradient(180deg, oklch(from var(--tss-wg-k) calc(l + 0.08) c h) 0%, var(--tss-wg-k) 48%, oklch(from var(--tss-wg-k) calc(l - 0.12) c h) 100%);
-        box-shadow:
-            inset 0 3px 5px -1px oklch(from var(--tss-wg-k) calc(l - 0.45) c h / 0.6),
-            inset 0 -1px 1px oklch(from var(--tss-wg-k) calc(l + 0.1) c h / 0.5),
-            0 0 0 1px oklch(from var(--tss-wg-k) calc(l - 0.28) c h / 0.55),
-            0 0 1px rgba(40, 30, 20, 0.2);
-    }
-
-    body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-primary:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
-    body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-danger:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
-    body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-success:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
-    body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-warning:not(.tss-disabled):not(.tss-btn-nobg):not(.tss-btn-link),
-    body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover,
-    body.tss-theme-weniger.tss-dark-mode .tss-btn.tss-btn-nobg:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover {
-        box-shadow:
-            inset 0 2px 3px -1px oklch(from var(--tss-wg-k) calc(l - 0.4) c h / 0.6),
-            inset 0 -1px 1px oklch(from var(--tss-wg-k) calc(l + 0.12) c h / 0.45),
-            0 0 0 1px rgba(0, 0, 0, 0.6),
-            0 1px 1px rgba(0, 0, 0, 0.5),
-            0 3px 7px -2px rgba(0, 0, 0, 0.6);
+        --tss-wg-key-bevel-hi: oklch(from var(--tss-wg-k) calc(l + 0.16) calc(c * 0.9) h / 0.85);
+        --tss-wg-key-bevel-lo: oklch(from var(--tss-wg-k) calc(l - 0.2) c h / 0.6);
     }
 }
 
