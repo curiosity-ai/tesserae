@@ -163,6 +163,33 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
   DSEG7/DSEG14 and JetBrains Mono are bundled (OFL). Its tokens are `--tss-wg-*` in its
   `tss.common.css`; the package README states the design rules.
 
+Nine more follow the same pattern: an `Instance`, a root class `tss-theme-<id>`, tokens in the package's
+`tss.common.css`, bundled OFL fonts, and a README with the design rules.
+
+- **Tesserae.Themes.Zeitung** — `ZeitungTheme.Instance`, `tss-theme-zeitung`. A broadsheet newspaper:
+  newsprint (night edition: dark stock), one spot red, a serif with real small caps and old-style figures,
+  double rules instead of shadows, small-caps buttons, market-listing tables, drop caps in Markdown.
+- **Tesserae.Themes.Blaupause** — `BlaupauseTheme.Instance`, `tss-theme-blaupause`. Engineering drawings:
+  cyanotype blueprint (dark) and whiteprint (light) with a drafting grid, no shadows, registration ticks,
+  dimension-line separators, graduated sliders, red-pencil focus, highlighter selection.
+- **Tesserae.Themes.Phosphor** — `PhosphorTheme.Instance`, `tss-theme-phosphor`. A character terminal: green
+  phosphor CRT with glow and scanlines (dark), green-bar line-printer paper (light), box-drawing frames,
+  inverse-video focus and selection, `[ OK ]` buttons.
+- **Tesserae.Themes.Glas** — `GlasTheme.Instance`, `tss-theme-glas`. Refractive liquid glass over a colour
+  field; overlays blur and, in Chromium, refract the page; glossy tinted controls.
+- **Tesserae.Themes.Kristall** — `KristallTheme.Instance`, `tss-theme-kristall`. After the translucent macOS
+  desktop look: wallpaper, frosted sidebar, glass menus, sheet modals, capsule buttons, segmented controls;
+  opaque under `prefers-reduced-transparency`.
+- **Tesserae.Themes.Kontrast** — `KontrastTheme.Instance`, `tss-theme-kontrast`. Accessibility first: 7:1 text,
+  a two-tone focus ring that is never removed, state shown by shape as well as colour, larger targets,
+  `forced-colors` and `prefers-contrast` handled.
+- **Tesserae.Themes.Memphis** — `MemphisTheme.Instance`, `tss-theme-memphis`. After the 1980s Memphis movement:
+  six bright fills, thick outlines, hard offset shadows in a second colour, confetti and squiggle patterns.
+- **Tesserae.Themes.Washi** — `WashiTheme.Instance`, `tss-theme-washi`. Japanese paper and ink: a vermilion seal
+  stamp for what is chosen, brush-stroke rules, a shoji lattice sidebar; dark mode is urushi lacquer.
+- **Tesserae.Themes.Graustufe** — `GraustufeTheme.Instance`, `tss-theme-graustufe`. An e-paper display: greys
+  only (every colour, including inline ones, is mapped onto a 16-level ramp), dithered edges, and no motion.
+
 ## Related
 
 `theme-builder.md` (palette variables), `theme-colors.md` (`SetPrimary` & co.),
