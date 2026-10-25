@@ -1,7 +1,12 @@
 namespace Tesserae.Themes.Memphis
 {
     /// <summary>
-    /// A 1980s Memphis-style Tesserae custom theme: squiggles and confetti patterns, clashing pastels, thick black outlines and offset solid shadows.
+    /// A loud, joyful, geometric Tesserae custom theme after the 1980s Memphis design movement: a box of clashing
+    /// accents (bubblegum, mint, sunflower, cobalt, tomato, lilac) on cream, thick black outlines on every control,
+    /// hard offset shadows in a second colour that buttons press into, accents rotating from card to card like
+    /// confetti, and squiggle, confetti, zig-zag and speckle patterns on the surfaces around the content. Big type is
+    /// set in the chunky Bungee display face, text in Outfit. Dark mode is the night club: deep aubergine, the
+    /// accents turned to neon, the black lines turned cream.
     ///
     /// <para>
     /// Activate it through <see cref="UI.Theme.SetCustomTheme(ICustomTheme)"/>:

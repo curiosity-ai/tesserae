@@ -1,0 +1,62 @@
+/* ==========================================================================
+   Memphis theme - SegmentedPivot
+   --------------------------------------------------------------------------
+   A segmented control is a pill-shaped tray with a 2px black line, hatched
+   inside. Segments are ink type; the chosen one is a solid pill (lilac,
+   with a black line and a small hard shadow) sitting in the tray. Under the
+   pointer a segment goes sunflower-pale.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-segmentedpivot-titlebar-wrapper,
+body.tss-theme-memphis .tss-segmentedpivot-titlebar {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 999px;
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: var(--tss-mp-pattern-hatch-soft);
+    background-size: 10px 10px;
+    box-shadow: none;
+    padding: 4px;
+}
+
+body.tss-theme-memphis .tss-segmentedpivot-titlebar-wrapper .tss-segmentedpivot-titlebar {
+    border: none;
+    background: transparent;
+    padding: 0;
+}
+
+body.tss-theme-memphis .tss-segmentedpivot-tab {
+    border: var(--tss-mp-bw) solid transparent;
+    border-radius: 999px;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 600;
+    transition: background-color 120ms linear, box-shadow var(--tss-mp-quick) var(--tss-mp-ease);
+}
+
+body.tss-theme-memphis .tss-segmentedpivot-tab:hover {
+    background-color: var(--tss-mp-yellow-pale);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-segmentedpivot-tab:active {
+    background-color: rgb(var(--tss-mp-yellow-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-segmentedpivot-tab.tss-segmentedpivot-selected,
+body.tss-theme-memphis .tss-segmentedpivot-tab.tss-segmentedpivot-selected:hover {
+    background-color: rgb(var(--tss-mp-lilac-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-segmentedpivot-tab.tss-segmentedpivot-selected *:not(.tss-token):not(.tss-token *) {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-segmentedpivot-tab:focus-visible,
+body.tss-theme-memphis .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
+    outline: 3px solid var(--tss-mp-focus);
+    outline-offset: 2px;
+}

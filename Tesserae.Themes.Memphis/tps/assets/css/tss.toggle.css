@@ -1,0 +1,67 @@
+/* ==========================================================================
+   Memphis theme - Toggle
+   --------------------------------------------------------------------------
+   A toggle is a geometric piece: a pill-shaped slot with a 2px black line
+   and a black disc in it. Off, the slot is white (plum at night) with a
+   hatch; on, it is mint and the disc is a sunflower ball with a black line,
+   rolled to the far end with a little overshoot. Disabled is a dashed slot.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-toggle-container .tss-toggle-mark {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    margin: -1px 0;
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: var(--tss-mp-pattern-hatch-soft);
+    background-size: 10px 10px;
+    transition: background-color 140ms linear, box-shadow var(--tss-mp-quick) var(--tss-mp-ease);
+}
+
+body.tss-theme-memphis .tss-toggle-container:hover .tss-toggle-mark {
+    background-color: var(--tss-mp-yellow-pale);
+    border-color: var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-toggle-container .tss-toggle-mark:after,
+body.tss-theme-memphis .tss-toggle-container:hover .tss-toggle-mark:after {
+    background-color: var(--tss-mp-line);
+    transition: transform 260ms var(--tss-mp-pop), background-color 140ms linear;
+}
+
+body.tss-theme-memphis .tss-toggle-container input:checked ~ .tss-toggle-mark,
+body.tss-theme-memphis .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+    background-color: rgb(var(--tss-mp-mint-root));
+    background-image: none;
+    border-color: var(--tss-mp-line);
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-toggle-container input:checked ~ .tss-toggle-mark:after {
+    background-color: rgb(var(--tss-mp-yellow-root));
+    box-shadow: 0 0 0 2px var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-toggle-container input:focus-visible ~ .tss-toggle-mark {
+    outline: 3px solid var(--tss-mp-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-memphis .tss-toggle-container.tss-disabled .tss-toggle-mark,
+body.tss-theme-memphis .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
+    border: var(--tss-mp-bw) dashed rgb(var(--tss-disabled-foreground-color-root));
+    background-color: rgb(var(--tss-disabled-background-color-root));
+    background-image: none;
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-toggle-container.tss-disabled .tss-toggle-mark:after,
+body.tss-theme-memphis .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark:after {
+    background-color: rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-memphis .tss-toggle-container .tss-toggle-mark,
+    body.tss-theme-memphis .tss-toggle-container .tss-toggle-mark:after {
+        transition: none;
+    }
+}

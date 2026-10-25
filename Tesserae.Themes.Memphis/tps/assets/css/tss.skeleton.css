@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Memphis theme - Skeleton
+   --------------------------------------------------------------------------
+   A placeholder is a block of soft hatching with a dashed line round it;
+   the shimmer is a sunflower band sweeping across.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-skeleton {
+    background-color: rgb(var(--tss-progress-background-color-root));
+    background-image: var(--tss-mp-pattern-hatch-soft);
+    background-size: 10px 10px;
+    outline: 1.5px dashed rgba(var(--tss-mp-line-root), 0.35);
+    outline-offset: -1.5px;
+}
+
+body.tss-theme-memphis .tss-skeleton-animated::after {
+    background: linear-gradient(90deg, transparent 0%, rgba(var(--tss-mp-yellow-root), 0.55) 50%, transparent 100%);
+}

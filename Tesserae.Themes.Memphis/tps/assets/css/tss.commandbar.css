@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Memphis theme - CommandBar
+   --------------------------------------------------------------------------
+   A command bar is a strip of laminate: a 2px black line, a white face, a
+   hard cobalt shadow. Commands are ink that pop into sunflower pills under
+   the pointer; the primary command is a bubblegum pill with a line.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-commandbar {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-mp-cobalt-root));
+    margin-right: var(--tss-mp-off-sm);
+    margin-bottom: var(--tss-mp-off-sm);
+}
+
+body.tss-theme-memphis .tss-commandbar-item {
+    border: var(--tss-mp-bw) solid transparent;
+    border-radius: 999px;
+    font-family: inherit;
+    font-weight: 600;
+}
+
+body.tss-theme-memphis .tss-commandbar-item:hover {
+    background: rgb(var(--tss-mp-yellow-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-commandbar-item-primary,
+body.tss-theme-memphis .tss-commandbar-item-primary:hover {
+    background: rgb(var(--tss-mp-pink-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-commandbar-item:focus-visible {
+    outline: 3px solid var(--tss-mp-focus);
+    outline-offset: 2px;
+}

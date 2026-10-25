@@ -1,0 +1,133 @@
+/* ==========================================================================
+   Memphis theme - Menu
+   --------------------------------------------------------------------------
+   The floating panel (see tss.dropdown.css). Rows turn sunflower under the
+   pointer and carry a black line when they are the highlighted one or their
+   submenu is open. A toned row keeps its tone in its icon and type at rest
+   (the AA text roots) and fills with the matching accent under the
+   pointer. Headers are small bold capitals; dividers a soft zig-zag.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-menu {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    box-shadow: var(--tss-mp-off) var(--tss-mp-off) 0 0 var(--tss-mp-pop-cast);
+    padding: 5px;
+}
+
+body.tss-theme-memphis .tss-menu-item {
+    border: var(--tss-mp-bw) solid transparent;
+    border-radius: var(--tss-mp-radius-small);
+}
+
+body.tss-theme-memphis .tss-menu-item-icon,
+body.tss-theme-memphis .tss-menu-item-submenu-icon {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-menu-item:not(.tss-disabled):hover {
+    background: rgb(var(--tss-mp-yellow-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-menu-item:not(.tss-disabled):focus,
+body.tss-theme-memphis .tss-menu-item:not(.tss-disabled):focus:hover,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-open,
+body.tss-theme-memphis .tss-menu-item:not(.tss-disabled):active {
+    background: rgb(var(--tss-mp-yellow-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-menu-item:focus-visible {
+    outline: none;
+}
+
+body.tss-theme-memphis .tss-menu-item:not(.tss-disabled):hover .tss-menu-item-icon,
+body.tss-theme-memphis .tss-menu-item:not(.tss-disabled):focus .tss-menu-item-icon,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-open .tss-menu-item-icon,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-open .tss-menu-item-submenu-icon,
+body.tss-theme-memphis .tss-menu-item:not(.tss-disabled):hover .tss-menu-item-submenu-icon {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-menu-item.tss-disabled,
+body.tss-theme-memphis .tss-menu-item.tss-disabled .tss-menu-item-icon {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-primary:not(.tss-disabled),
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-primary:not(.tss-disabled) .tss-menu-item-icon {
+    color: rgb(var(--tss-primary-background-color-root));
+}
+
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-danger:not(.tss-disabled),
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-danger:not(.tss-disabled) .tss-menu-item-icon {
+    color: rgb(var(--tss-danger-background-color-root));
+}
+
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-success:not(.tss-disabled),
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-success:not(.tss-disabled) .tss-menu-item-icon {
+    color: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-warning:not(.tss-disabled),
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) .tss-menu-item-icon {
+    color: rgb(150, 98, 0);
+}
+
+body.tss-theme-memphis.tss-dark-mode .tss-menu-item.tss-menu-item-warning:not(.tss-disabled),
+body.tss-theme-memphis.tss-dark-mode .tss-menu-item.tss-menu-item-warning:not(.tss-disabled) .tss-menu-item-icon {
+    color: rgb(var(--tss-mp-yellow-root));
+}
+
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):focus {
+    background: rgb(var(--tss-mp-pink-root));
+}
+
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus {
+    background: rgb(var(--tss-mp-tomato-root));
+}
+
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-success:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-success:not(.tss-disabled):focus {
+    background: rgb(var(--tss-mp-mint-root));
+}
+
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):focus {
+    background: rgb(var(--tss-mp-yellow-root));
+}
+
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):hover .tss-menu-item-icon,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):hover .tss-menu-item-icon,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-success:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-success:not(.tss-disabled):hover .tss-menu-item-icon,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):hover .tss-menu-item-icon,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-primary:not(.tss-disabled):focus,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-danger:not(.tss-disabled):focus,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-success:not(.tss-disabled):focus,
+body.tss-theme-memphis .tss-menu-item.tss-menu-item-warning:not(.tss-disabled):focus {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-menu-header {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-menu-divider {
+    height: 6px;
+    border: none;
+    margin: 4px 4px;
+    background: var(--tss-mp-pattern-zigzag-soft) left center / 12px 6px repeat-x;
+}

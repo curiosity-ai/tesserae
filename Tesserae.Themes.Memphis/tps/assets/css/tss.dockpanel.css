@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Memphis theme - DockPanel
+   --------------------------------------------------------------------------
+   The workspace's accent is bubblegum: the active tab carries a thick
+   bubblegum underline and bold ink type, a tab under the pointer goes
+   sunflower-pale.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-dockpanel {
+    --tss-dockpanel-accent: rgb(var(--tss-mp-pink-root));
+}
+
+body.tss-theme-memphis .tss-dockpanel-tab:hover {
+    background: var(--tss-mp-yellow-pale);
+}
+
+body.tss-theme-memphis .tss-dockpanel-tab.tss-dockpanel-tab-active {
+    border-bottom-width: 4px;
+    font-weight: 800;
+}
+
+body.tss-theme-memphis .tss-dockpanel-tab.tss-dockpanel-tab-active .tss-dockpanel-icon {
+    color: rgb(var(--tss-default-foreground-color-root));
+}

@@ -1,0 +1,10 @@
+/* ==========================================================================
+   Memphis theme - DetailsGrid
+   --------------------------------------------------------------------------
+   Label and value pairs ruled off with soft lines, the labels in bold
+   ink, the frame a 2px black line.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-detailsgrid-row {
+    border-color: rgb(var(--tss-default-separator-color-root));
+}

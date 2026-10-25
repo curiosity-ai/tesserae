@@ -1,0 +1,14 @@
+/* ==========================================================================
+   Memphis theme - Drawer
+   --------------------------------------------------------------------------
+   A drawer is a laminate sheet sliding up from the bottom: a 3px black line
+   on its top edge, a hard shadow, the handle a fat bubblegum pill with a
+   black line.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-drawer-handle-bar {
+    width: 44px;
+    height: 8px;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    background-color: rgb(var(--tss-mp-pink-root));
+}

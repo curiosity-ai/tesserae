@@ -1,0 +1,114 @@
+/* ==========================================================================
+   Memphis theme - Message
+   --------------------------------------------------------------------------
+   An empty state or status message is a small poster: its icon in a big
+   sunflower disc with a black line and a hard shadow, a burst of rays
+   round it, the title in the display face. A toned message takes its
+   tone for the disc.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-message {
+    --tss-mp-msg-fill: rgb(var(--tss-mp-yellow-root));
+    --tss-mp-msg-cast: rgb(var(--tss-mp-pink-root));
+}
+
+body.tss-theme-memphis .tss-message-info { --tss-mp-msg-fill: rgb(var(--tss-mp-cobalt-root)); --tss-mp-msg-cast: rgb(var(--tss-mp-yellow-root)); }
+body.tss-theme-memphis .tss-message-success { --tss-mp-msg-fill: rgb(var(--tss-mp-mint-root)); --tss-mp-msg-cast: rgb(var(--tss-mp-lilac-root)); }
+body.tss-theme-memphis .tss-message-warning { --tss-mp-msg-fill: rgb(var(--tss-mp-yellow-root)); --tss-mp-msg-cast: rgb(var(--tss-mp-tomato-root)); }
+body.tss-theme-memphis .tss-message-error { --tss-mp-msg-fill: rgb(var(--tss-mp-tomato-root)); --tss-mp-msg-cast: rgb(var(--tss-mp-cobalt-root)); }
+
+body.tss-theme-memphis .tss-message-info,
+body.tss-theme-memphis.tss-dark-mode .tss-message-info,
+body.tss-theme-memphis .tss-message-success,
+body.tss-theme-memphis .tss-message-warning,
+body.tss-theme-memphis .tss-message-error {
+    background: transparent;
+}
+
+body.tss-theme-memphis .tss-message-icon:not(:empty) {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--tss-mp-bw-bold) solid var(--tss-mp-line);
+    border-radius: 50%;
+    background: var(--tss-mp-msg-fill);
+    box-shadow: var(--tss-mp-off) var(--tss-mp-off) 0 0 var(--tss-mp-msg-cast);
+    isolation: isolate;
+}
+
+body.tss-theme-memphis .tss-message-icon:not(:empty) i,
+body.tss-theme-memphis .tss-message-info .tss-message-icon i,
+body.tss-theme-memphis .tss-message-success .tss-message-icon i,
+body.tss-theme-memphis .tss-message-warning .tss-message-icon i,
+body.tss-theme-memphis .tss-message-error .tss-message-icon i {
+    color: var(--tss-mp-on-accent);
+    font-size: 26px;
+    line-height: 1;
+}
+
+body.tss-theme-memphis .tss-message-info .tss-message-icon i {
+    color: var(--tss-mp-on-cobalt);
+}
+
+/* A burst of rays round the disc, in ink and the shadow's colour. */
+body.tss-theme-memphis .tss-message-icon:not(:empty)::before {
+    content: "";
+    position: absolute;
+    inset: -26px;
+    background: repeating-conic-gradient(from 8deg, var(--tss-mp-line) 0 7deg, transparent 7deg 22deg, var(--tss-mp-msg-cast) 22deg 29deg, transparent 29deg 45deg);
+    border-radius: 50%;
+    -webkit-mask: radial-gradient(circle closest-side, transparent 70%, #000 71%, #000 94%, transparent 95%);
+    mask: radial-gradient(circle closest-side, transparent 70%, #000 71%, #000 94%, transparent 95%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+body.tss-theme-memphis .tss-message-horizontal .tss-message-icon:not(:empty) {
+    width: 44px;
+    height: 44px;
+    border-width: var(--tss-mp-bw);
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 var(--tss-mp-msg-cast);
+}
+
+body.tss-theme-memphis .tss-message-horizontal .tss-message-icon:not(:empty) i {
+    font-size: 18px;
+}
+
+body.tss-theme-memphis .tss-message-horizontal .tss-message-icon:not(:empty)::before {
+    display: none;
+}
+
+body.tss-theme-memphis .tss-message-title,
+body.tss-theme-memphis .tss-message-info .tss-message-title,
+body.tss-theme-memphis .tss-message-success .tss-message-title,
+body.tss-theme-memphis .tss-message-warning .tss-message-title,
+body.tss-theme-memphis .tss-message-error .tss-message-title {
+    font-family: var(--tss-mp-display);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-message-horizontal .tss-message-title {
+    font-family: var(--tss-sansserif-font-family);
+    font-weight: 800;
+}
+
+body.tss-theme-memphis .tss-message-text,
+body.tss-theme-memphis .tss-message-info .tss-message-text,
+body.tss-theme-memphis .tss-message-success .tss-message-text,
+body.tss-theme-memphis .tss-message-warning .tss-message-text,
+body.tss-theme-memphis .tss-message-error .tss-message-text {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-message-note,
+body.tss-theme-memphis.tss-dark-mode .tss-message-note {
+    border: 1.5px dashed var(--tss-mp-line);
+    border-radius: 999px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}

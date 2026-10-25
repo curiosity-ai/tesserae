@@ -1,0 +1,103 @@
+/* ==========================================================================
+   Memphis theme - SearchBox
+   --------------------------------------------------------------------------
+   A search box is a pill-shaped field: the same white slab and 2px black
+   line as a TextBox, fully rounded, its magnifier in ink. Focus lifts it
+   onto the cobalt shadow. The underlined variant is a thick black rule
+   that turns into a zig-zag while you type in it. The progress bar along
+   its foot is a candy-striped strip.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-searchbox-container {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 999px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: none;
+    padding: 0 6px 0 8px;
+    transition: box-shadow var(--tss-mp-quick) var(--tss-mp-ease);
+}
+
+body.tss-theme-memphis .tss-searchbox-container > .tss-searchbox {
+    height: 32px;
+    line-height: 32px;
+}
+
+body.tss-theme-memphis.tss-dark-mode .tss-searchbox {
+    color-scheme: dark;
+}
+
+body.tss-theme-memphis .tss-searchbox::placeholder {
+    color: rgb(var(--tss-secondary-foreground-color-root)) !important;
+    opacity: 0.85;
+}
+
+body.tss-theme-memphis .tss-searchbox-container:hover {
+    border-color: var(--tss-mp-line);
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-searchbox-container:focus-within {
+    border-color: var(--tss-mp-line);
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 var(--tss-mp-focus);
+}
+
+body.tss-theme-memphis .tss-searchbox-icon {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-searchbox-container.tss-disabled {
+    border-style: dashed;
+    border-color: rgb(var(--tss-disabled-foreground-color-root));
+    background: rgb(var(--tss-disabled-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-searchbox-container.tss-searchbox-failed:not(.tss-disabled),
+body.tss-theme-memphis .tss-searchbox-container.tss-searchbox-failed:focus-within {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-invalid-border-color-root));
+}
+
+body.tss-theme-memphis .tss-searchbox-clear,
+body.tss-theme-memphis .tss-searchbox-cancel {
+    border-radius: 50%;
+}
+
+body.tss-theme-memphis .tss-searchbox-clear:hover,
+body.tss-theme-memphis .tss-searchbox-cancel:hover {
+    background: rgb(var(--tss-mp-yellow-root));
+    color: var(--tss-mp-on-accent);
+}
+
+/* Underlined: a thick rule, a zig-zag under focus. */
+body.tss-theme-memphis .tss-searchbox-container.tss-underlined {
+    border-radius: 0;
+    border-width: 0 0 var(--tss-mp-bw-bold);
+    border-color: var(--tss-mp-line);
+    background: transparent;
+    padding-bottom: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-searchbox-container.tss-underlined:hover {
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-searchbox-container.tss-underlined:focus-within {
+    border-width: 0 0 var(--tss-mp-bw-bold);
+    border-color: transparent;
+    box-shadow: none;
+    background: var(--tss-mp-pattern-zigzag) left bottom / 12px 6px repeat-x;
+}
+
+body.tss-theme-memphis .tss-searchbox-progress {
+    height: 4px;
+}
+
+body.tss-theme-memphis .tss-searchbox-progress-bar {
+    background: repeating-linear-gradient(-45deg, rgb(var(--tss-mp-pink-root)) 0 6px, rgb(var(--tss-mp-yellow-root)) 6px 12px);
+}
+
+body.tss-theme-memphis .tss-searchbox-shortcut {
+    font-family: var(--tss-monospace-font-family);
+}

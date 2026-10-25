@@ -1,0 +1,157 @@
+/* ==========================================================================
+   Memphis theme - AI variants
+   --------------------------------------------------------------------------
+   "A model did this" keeps Tesserae's two-colour gradient, moved onto the
+   theme's palette: violet to cobalt by day, neon lilac to neon cobalt at
+   night. A filled AI surface gets the Memphis line and a hard bubblegum
+   shadow like any other button or badge; a progress bar runs violet and
+   cobalt candy stripes. Text in the AI tone stays AA (deep violet to deep
+   cobalt by day).
+   ========================================================================== */
+
+body.tss-theme-memphis {
+    --tss-ai-from: rgb(124, 77, 255);
+    --tss-ai-to: rgb(var(--tss-mp-cobalt-root));
+    --tss-ai-accent: rgb(96, 50, 220);
+    --tss-ai-gradient: linear-gradient(115deg, var(--tss-ai-from), var(--tss-ai-to));
+    --tss-ai-gradient-hover: linear-gradient(115deg, rgb(108, 60, 240), rgb(30, 60, 236));
+    --tss-ai-gradient-text: linear-gradient(100deg, rgb(96, 40, 210), rgb(28, 52, 220));
+    --tss-ai-surface: linear-gradient(135deg, rgba(124, 77, 255, 0.10), rgba(44, 75, 255, 0.07));
+    --tss-ai-surface-strong: linear-gradient(135deg, rgba(124, 77, 255, 0.18), rgba(44, 75, 255, 0.12));
+    --tss-ai-border-color: var(--tss-mp-line);
+    --tss-ai-shadow: 3px 3px 0 0 rgb(var(--tss-mp-pink-root));
+    --tss-ai-shadow-hover: 4px 4px 0 0 rgb(var(--tss-mp-pink-root));
+    --tss-ai-on-fill: rgb(255, 255, 255);
+}
+
+body.tss-theme-memphis.tss-dark-mode {
+    --tss-ai-from: rgb(var(--tss-mp-lilac-root));
+    --tss-ai-to: rgb(var(--tss-mp-cobalt-root));
+    --tss-ai-accent: rgb(var(--tss-mp-lilac-root));
+    --tss-ai-gradient-hover: linear-gradient(115deg, rgb(212, 180, 255), rgb(120, 146, 255));
+    --tss-ai-gradient-text: linear-gradient(100deg, rgb(var(--tss-mp-lilac-root)), rgb(140, 166, 255));
+    --tss-ai-surface: linear-gradient(135deg, rgba(196, 155, 255, 0.12), rgba(92, 124, 255, 0.08));
+    --tss-ai-surface-strong: linear-gradient(135deg, rgba(196, 155, 255, 0.2), rgba(92, 124, 255, 0.14));
+    --tss-ai-shadow: 3px 3px 0 0 rgb(var(--tss-mp-mint-root));
+    --tss-ai-shadow-hover: 4px 4px 0 0 rgb(var(--tss-mp-mint-root));
+    --tss-ai-on-fill: rgb(26, 15, 36);
+}
+
+/* Buttons: the gradient face, the line, the hard shadow, the same press as every button. */
+body.tss-theme-memphis .tss-btn.tss-ai:not(.tss-disabled),
+body.tss-theme-memphis .tss-btn.tss-btn-default.tss-ai:not(.tss-disabled):not(.tss-btn-link) {
+    background-color: transparent;
+    background-image: var(--tss-ai-gradient);
+    border-color: var(--tss-mp-line);
+    color: var(--tss-ai-on-fill);
+    box-shadow: var(--tss-ai-shadow);
+}
+
+body.tss-theme-memphis .tss-btn.tss-ai:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-btn.tss-btn-default.tss-ai:not(.tss-disabled):not(.tss-btn-link):not(.tss-btn-nohover):hover {
+    background-color: transparent;
+    background-image: var(--tss-ai-gradient-hover);
+    border-color: var(--tss-mp-line);
+    color: var(--tss-ai-on-fill);
+    transform: translate(-1px, -1px);
+    box-shadow: var(--tss-ai-shadow-hover);
+}
+
+body.tss-theme-memphis .tss-btn.tss-ai:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-memphis .tss-btn.tss-ai:not(.tss-disabled):hover > i,
+body.tss-theme-memphis .tss-btn.tss-ai:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-memphis .tss-btn.tss-ai:not(.tss-disabled) > i {
+    color: var(--tss-ai-on-fill);
+}
+
+body.tss-theme-memphis .tss-btn.tss-ai:not(.tss-disabled):active {
+    background-image: var(--tss-ai-gradient);
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled),
+body.tss-theme-memphis .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):hover {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: var(--tss-ai-surface-strong);
+    border-color: var(--tss-mp-line);
+    color: var(--tss-ai-accent);
+}
+
+body.tss-theme-memphis .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled) .tss-fontcolor-default,
+body.tss-theme-memphis .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled) > i,
+body.tss-theme-memphis .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-memphis .tss-btn.tss-ai.tss-ai-subtle:not(.tss-disabled):hover > i {
+    color: var(--tss-ai-accent);
+}
+
+/* Cards: the Memphis card, its header strip in the gradient with the cream title label. */
+body.tss-theme-memphis .tss-card-container.tss-ai > .tss-card {
+    --tss-mp-card-cast: rgb(var(--tss-mp-pink-root));
+}
+
+body.tss-theme-memphis .tss-card-container.tss-ai > .tss-card:not(.tss-has-layout) {
+    background: var(--tss-ai-surface), rgb(var(--tss-secondary-background-color-root));
+    border: var(--tss-mp-bw-bold) solid var(--tss-mp-line);
+    box-shadow: var(--tss-mp-off) var(--tss-mp-off) 0 0 var(--tss-mp-card-cast);
+}
+
+body.tss-theme-memphis .tss-card-container.tss-ai > .tss-card.tss-has-layout {
+    filter: none;
+}
+
+body.tss-theme-memphis .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-header {
+    background: var(--tss-mp-pattern-squiggle-soft) 0 0 / 48px 24px, var(--tss-ai-gradient);
+    border-bottom: var(--tss-mp-bw-bold) solid var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-header > :not(.tss-card-title) {
+    color: var(--tss-ai-on-fill);
+}
+
+body.tss-theme-memphis .tss-card-container.tss-ai > .tss-card.tss-has-layout > .tss-card-footer {
+    background: var(--tss-ai-surface-strong), rgb(var(--tss-default-background-color-root));
+    border-top: var(--tss-mp-bw) solid var(--tss-mp-line);
+}
+
+/* Badges and progress. */
+body.tss-theme-memphis .tss-token.tss-token-ai {
+    border-color: var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-progressindicator.tss-ai > .tss-progressindicator-bar {
+    background: repeating-linear-gradient(-45deg, var(--tss-ai-from) 0 8px, var(--tss-ai-to) 8px 16px);
+    background-size: 22.6px 22.6px;
+}
+
+body.tss-theme-memphis .tss-progressindicator.tss-ai > .tss-progressindicator-bar-indeterminate {
+    background: repeating-linear-gradient(-45deg, var(--tss-ai-from) 0 8px, var(--tss-ai-to) 8px 16px);
+}
+
+/* The AI text box: the slab with an AI tinted ground and the AI shadow on focus. */
+body.tss-theme-memphis .tss-textbox.tss-ai {
+    background: var(--tss-ai-surface), rgb(var(--tss-secondary-background-color-root));
+    border-color: var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-textbox.tss-ai:focus,
+body.tss-theme-memphis.tss-dark-mode .tss-textbox.tss-ai:focus {
+    border-color: var(--tss-mp-line);
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 var(--tss-ai-to);
+}
+
+/* The IconToggle and SegmentedPivot AI variants: the chosen pill in the gradient with the line. */
+body.tss-theme-memphis .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-memphis .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-memphis.tss-dark-mode .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected,
+body.tss-theme-memphis.tss-dark-mode .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected:hover,
+body.tss-theme-memphis .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    background: var(--tss-ai-gradient);
+    border-color: var(--tss-mp-line);
+    color: var(--tss-ai-on-fill);
+}
+
+body.tss-theme-memphis .tss-icon-toggle.tss-ai > .tss-btn.tss-icon-toggle-item.tss-icon-toggle-item-selected > i,
+body.tss-theme-memphis .tss-segmentedpivot.tss-ai .tss-segmentedpivot-tab.tss-segmentedpivot-selected * {
+    color: var(--tss-ai-on-fill);
+}

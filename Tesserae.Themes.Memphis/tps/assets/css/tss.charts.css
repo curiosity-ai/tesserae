@@ -1,0 +1,77 @@
+/* ==========================================================================
+   Memphis theme - Charts
+   --------------------------------------------------------------------------
+   Tesserae's charts have no stylesheet of their own; a series without an
+   explicit colour reads --tss-chart-series-N, which tss.common.css sets to
+   the six accents plus ink and lime (neon at night). Here the marks get
+   the Memphis line: every bar, slice and point has a black outline (cream
+   at night), lines are drawn with a fat round pen, gridlines are a dotted
+   hairline and the axis is a solid black rule. The tooltip drawn into the
+   SVG is a white tag with a black line and a hard shadow.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-chart {
+    font-family: var(--tss-sansserif-font-family);
+}
+
+body.tss-theme-memphis .tss-chart line[stroke*="neutral-500-alpha"] {
+    stroke: rgba(var(--tss-mp-line-root), 0.22);
+    stroke-dasharray: 2 4;
+}
+
+body.tss-theme-memphis .tss-chart line[stroke="var(--tss-default-foreground-color)"] {
+    stroke: var(--tss-mp-line);
+    stroke-width: 2px;
+}
+
+body.tss-theme-memphis .tss-chart text {
+    fill: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Bars, slices, swatches and points: outlined. */
+body.tss-theme-memphis .tss-chart rect[fill^="var(--tss-chart-series"],
+body.tss-theme-memphis .tss-chart path[fill^="var(--tss-chart-series"],
+body.tss-theme-memphis .tss-chart circle[fill^="var(--tss-chart-series"] {
+    stroke: var(--tss-mp-line);
+    stroke-width: 1.5px;
+    paint-order: fill;
+}
+
+body.tss-theme-memphis .tss-chart rect[rx="2"] {
+    rx: 2px;
+}
+
+/* Lines: a fat round pen. */
+body.tss-theme-memphis .tss-chart path[fill="none"][stroke^="var(--tss-chart-series"] {
+    stroke-width: 3px;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+/* The tooltip tag. */
+body.tss-theme-memphis .tss-chart rect[fill="var(--tss-default-background-color)"] {
+    fill: rgb(var(--tss-secondary-background-color-root));
+    stroke: var(--tss-mp-line);
+    stroke-width: 2px;
+    rx: 4px;
+    filter: drop-shadow(3px 3px 0 rgb(var(--tss-mp-yellow-root)));
+}
+
+body.tss-theme-memphis .tss-chart rect[fill="var(--tss-default-background-color)"] ~ text {
+    fill: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* HeatMap: the toolkit-blue default scale becomes bubblegum. */
+body.tss-theme-memphis .tss-chart rect[fill="var(--tss-colors-blue-600)"] {
+    fill: var(--tss-chart-series-1);
+}
+
+body.tss-theme-memphis .tss-chart stop[stop-color="var(--tss-colors-blue-600)"] {
+    stop-color: var(--tss-chart-series-1);
+}
+
+body.tss-theme-memphis .tss-chart rect[fill-opacity] {
+    rx: 2px;
+}

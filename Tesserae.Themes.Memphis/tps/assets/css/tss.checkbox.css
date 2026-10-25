@@ -1,0 +1,81 @@
+/* ==========================================================================
+   Memphis theme - CheckBox
+   --------------------------------------------------------------------------
+   A check box is a chunky square tile: a 2px black line round a white
+   face. Checked, it turns bubblegum, stands on a hard black shadow and
+   carries a fat black tick. Under the pointer an unchecked tile goes
+   sunflower-pale and shows a ghost of the tick. Disabled is a dashed tile.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-checkbox-container .tss-checkbox-mark {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius-small);
+    background: rgb(var(--tss-secondary-background-color-root));
+    transition: box-shadow var(--tss-mp-quick) var(--tss-mp-ease), background-color 120ms linear, transform var(--tss-mp-quick) var(--tss-mp-ease);
+}
+
+body.tss-theme-memphis .tss-checkbox-container .tss-checkbox-text {
+    margin-left: 8px;
+}
+
+body.tss-theme-memphis .tss-checkbox-container:hover input:not(:checked) ~ .tss-checkbox-mark {
+    background: var(--tss-mp-yellow-pale);
+}
+
+/* The tick: a fat stroke. */
+body.tss-theme-memphis .tss-checkbox-container .tss-checkbox-mark:after {
+    border-color: rgba(var(--tss-default-foreground-color-root), 0.3);
+    border-width: 0 3px 3px 0;
+}
+
+body.tss-theme-memphis .tss-checkbox-container.tss-fontsize-small .tss-checkbox-mark:after,
+body.tss-theme-memphis .tss-checkbox-container:not([class*="tss-fontsize-"]) .tss-checkbox-mark:after {
+    left: 5px;
+    top: 1px;
+    width: 7px;
+    height: 12px;
+}
+
+body.tss-theme-memphis .tss-checkbox-container input:checked ~ .tss-checkbox-mark,
+body.tss-theme-memphis .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+    background: rgb(var(--tss-mp-pink-root));
+    border-color: var(--tss-mp-line);
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-checkbox-container input:checked ~ .tss-checkbox-mark:after {
+    border-color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-checkbox-container:active input ~ .tss-checkbox-mark {
+    transform: translate(1px, 1px);
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-checkbox-container input:focus-visible ~ .tss-checkbox-mark {
+    outline: 3px solid var(--tss-mp-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-memphis .tss-checkbox-container.tss-disabled .tss-checkbox-mark,
+body.tss-theme-memphis .tss-checkbox-container.tss-disabled:hover input ~ .tss-checkbox-mark {
+    background: rgb(var(--tss-disabled-background-color-root));
+    border: var(--tss-mp-bw) dashed rgb(var(--tss-disabled-foreground-color-root));
+    box-shadow: none;
+    transform: none;
+}
+
+body.tss-theme-memphis .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark {
+    background: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark:after {
+    border-color: rgb(var(--tss-disabled-background-color-root));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-memphis .tss-checkbox-container .tss-checkbox-mark {
+        transition: none;
+        transform: none !important;
+    }
+}

@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Memphis theme - SectionStack
+   --------------------------------------------------------------------------
+   The stack is the showroom floor: the confetti page shows through, and
+   each section is a panel with a black line on a hard offset shadow. The
+   panel's shadow needs room, so a section keeps a little space to its
+   right and below. Sections pop in with a short overshoot.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-sectionstack-secondary {
+    background: transparent;
+}
+
+body.tss-theme-memphis .tss-sectionstack-card {
+    border: var(--tss-mp-bw-bold) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius-panel);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-mp-off) var(--tss-mp-off) 0 0 var(--tss-mp-cast);
+    margin-right: var(--tss-mp-off);
+    margin-bottom: var(--tss-mp-off);
+}
+
+body.tss-theme-memphis .tss-sectionstack-item {
+    transition: transform 260ms var(--tss-mp-pop), opacity 200ms linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-memphis .tss-sectionstack-item {
+        transition: none;
+        transform: none;
+    }
+}

@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Memphis theme - ActivityCalendar
+   --------------------------------------------------------------------------
+   Days are little tiles: empty ones a soft pale step, active ones filled
+   with bubblegum in steps; the day under the pointer and the chosen day get
+   a black line.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-activitycalendar {
+    --tss-activitycalendar-color: rgb(var(--tss-mp-pink-root));
+    --tss-activitycalendar-empty-color: rgb(var(--tss-progress-background-color-root));
+}
+
+body.tss-theme-memphis .tss-activitycalendar-grid .tss-activitycalendar-day:not(.tss-activitycalendar-future):hover,
+body.tss-theme-memphis .tss-activitycalendar-day.tss-activitycalendar-active {
+    box-shadow: 0 0 0 2px var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-activitycalendar-day.tss-activitycalendar-selected {
+    box-shadow: 0 0 0 2px var(--tss-mp-line), 2px 2px 0 2px rgb(var(--tss-mp-yellow-root));
+}
+
+body.tss-theme-memphis .tss-activitycalendar-day.tss-activitycalendar-future {
+    box-shadow: inset 0 0 0 1px rgba(var(--tss-mp-line-root), 0.25);
+}

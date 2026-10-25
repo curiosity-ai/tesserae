@@ -1,0 +1,39 @@
+/* ==========================================================================
+   Memphis theme - StatefulItemRow
+   --------------------------------------------------------------------------
+   A toned row is a pale tint of its bright accent with a thick band of the
+   accent on its leading edge and a black line beside it. Type is ink. An
+   interactive row goes sunflower-pale under the pointer.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-statefulitemrow-primary { --tss-mp-sir: rgb(var(--tss-mp-pink-root)); --tss-statefulitemrow-surface: var(--tss-mp-pink-pale); }
+body.tss-theme-memphis .tss-statefulitemrow-success { --tss-mp-sir: rgb(var(--tss-mp-mint-root)); --tss-statefulitemrow-surface: var(--tss-mp-mint-pale); }
+body.tss-theme-memphis .tss-statefulitemrow-warning { --tss-mp-sir: rgb(var(--tss-mp-yellow-root)); --tss-statefulitemrow-surface: var(--tss-mp-yellow-pale); }
+body.tss-theme-memphis .tss-statefulitemrow-danger  { --tss-mp-sir: rgb(var(--tss-mp-tomato-root)); --tss-statefulitemrow-surface: var(--tss-mp-tomato-pale); }
+
+body.tss-theme-memphis .tss-statefulitemrow-primary,
+body.tss-theme-memphis .tss-statefulitemrow-success,
+body.tss-theme-memphis .tss-statefulitemrow-warning,
+body.tss-theme-memphis .tss-statefulitemrow-danger {
+    box-shadow: inset 6px 0 0 var(--tss-mp-sir), inset 8px 0 0 var(--tss-mp-line);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-statefulitemrow-primary .tss-statefulitemrow-title,
+body.tss-theme-memphis .tss-statefulitemrow-success .tss-statefulitemrow-title,
+body.tss-theme-memphis .tss-statefulitemrow-warning .tss-statefulitemrow-title,
+body.tss-theme-memphis .tss-statefulitemrow-danger .tss-statefulitemrow-title,
+body.tss-theme-memphis .tss-statefulitemrow-primary .tss-statefulitemrow-subtitle,
+body.tss-theme-memphis .tss-statefulitemrow-success .tss-statefulitemrow-subtitle,
+body.tss-theme-memphis .tss-statefulitemrow-warning .tss-statefulitemrow-subtitle,
+body.tss-theme-memphis .tss-statefulitemrow-danger .tss-statefulitemrow-subtitle {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-statefulitemrow-title {
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-statefulitemrow-interactive:hover {
+    background: var(--tss-mp-yellow-pale);
+}

@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Memphis theme - Avatar, Persona
+   --------------------------------------------------------------------------
+   An avatar is a disc with a 2px black line round it. Generated initials
+   sit on a flat, bright colour of the avatar's own hue (no gradient) in
+   bold ink. The presence dot is a little disc of its state with a black
+   line.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-avatar {
+    box-shadow: 0 0 0 var(--tss-mp-bw) var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-avatar-xs {
+    box-shadow: 0 0 0 1.5px var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-avatar.tss-avatar-generated {
+    background: hsl(var(--tss-avatar-hue), 85%, 72%);
+}
+
+body.tss-theme-memphis.tss-dark-mode .tss-avatar.tss-avatar-generated {
+    background: hsl(var(--tss-avatar-hue), 90%, 68%);
+}
+
+body.tss-theme-memphis .tss-avatar.tss-avatar-generated > .tss-avatar-initials {
+    color: rgb(22, 18, 20);
+    font-weight: 800;
+}
+
+body.tss-theme-memphis .tss-avatar-presence {
+    border: 2px solid var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-presence-online { background: rgb(var(--tss-mp-mint-root)); }
+body.tss-theme-memphis .tss-presence-away { background: rgb(var(--tss-mp-yellow-root)); }
+body.tss-theme-memphis .tss-presence-busy { background: rgb(var(--tss-mp-tomato-root)); }
+body.tss-theme-memphis .tss-presence-offline { background: rgb(var(--tss-secondary-background-color-root)); }
+
+body.tss-theme-memphis .tss-persona-name {
+    font-weight: 800;
+}

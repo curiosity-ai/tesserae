@@ -1,0 +1,49 @@
+/* ==========================================================================
+   Memphis theme - TagsInput
+   --------------------------------------------------------------------------
+   The field is the theme's slab (a 2px black line, a white face, the
+   cobalt shadow on focus); every tag in it is a pill sticker with a black
+   line, its colour rotating through the accents.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-tagsinput {
+    min-height: 36px;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+    transition: box-shadow var(--tss-mp-quick) var(--tss-mp-ease);
+}
+
+body.tss-theme-memphis .tss-tagsinput:hover {
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-tagsinput:focus-within {
+    border-color: var(--tss-mp-line);
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 var(--tss-mp-focus);
+}
+
+body.tss-theme-memphis .tss-tagsinput-chip {
+    border: 1.5px solid var(--tss-mp-line);
+    background-color: rgb(var(--tss-mp-yellow-root));
+    color: var(--tss-mp-on-accent);
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-tagsinput-chip:nth-of-type(5n+2) { background-color: rgb(var(--tss-mp-pink-root)); }
+body.tss-theme-memphis .tss-tagsinput-chip:nth-of-type(5n+3) { background-color: rgb(var(--tss-mp-mint-root)); }
+body.tss-theme-memphis .tss-tagsinput-chip:nth-of-type(5n+4) { background-color: rgb(var(--tss-mp-lilac-root)); }
+body.tss-theme-memphis .tss-tagsinput-chip:nth-of-type(5n+5) { background-color: rgb(var(--tss-mp-tomato-root)); }
+
+body.tss-theme-memphis .tss-tagsinput-chip-remove {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-tagsinput-chip-remove:hover {
+    background-color: var(--tss-mp-on-accent);
+    color: rgb(var(--tss-mp-yellow-root));
+}
+
+body.tss-theme-memphis .tss-tagsinput-entry::placeholder {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}

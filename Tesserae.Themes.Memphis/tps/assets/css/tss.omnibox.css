@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Memphis theme - OmniBox
+   --------------------------------------------------------------------------
+   The omnibox is the theme's field: a white slab with a 2px black line that
+   steps onto the cobalt shadow when it has focus. Buttons at its ends are
+   ink on the slab and go sunflower under the pointer; dividers are soft
+   rules.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-omnibox-container {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-omnibox-container:focus-within {
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 var(--tss-mp-focus);
+}
+
+body.tss-theme-memphis .tss-omnibox-container .tss-btn {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+body.tss-theme-memphis .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled):hover,
+body.tss-theme-memphis .tss-btn.tss-omnibox-model-selector-btn:hover {
+    background: rgb(var(--tss-mp-yellow-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-omnibox-model-selector-divider {
+    background: rgb(var(--tss-default-separator-color-root));
+}

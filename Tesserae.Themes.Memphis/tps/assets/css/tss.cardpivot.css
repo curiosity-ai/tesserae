@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Memphis theme - CardPivot
+   --------------------------------------------------------------------------
+   A strip of tiles in one frame with a 2px black line and a hard shadow,
+   divided by black lines. Under the pointer a tile goes sunflower-pale;
+   the chosen tile is filled mint with bold type and a zig-zag along its
+   foot.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-cardpivot-titlebar {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-mp-cobalt-root));
+    margin-right: var(--tss-mp-off-sm);
+}
+
+body.tss-theme-memphis .tss-cardpivot-tab {
+    border-right: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-bottom: none;
+    background: transparent;
+    padding: 6px 12px 10px;
+}
+
+body.tss-theme-memphis .tss-cardpivot-tab:hover {
+    background-color: var(--tss-mp-yellow-pale);
+}
+
+body.tss-theme-memphis .tss-cardpivot-tab.tss-cardpivot-selected {
+    border-bottom: none;
+    background-color: rgb(var(--tss-mp-mint-root));
+    background-image: var(--tss-mp-pattern-zigzag);
+    background-size: 12px 6px;
+    background-repeat: repeat-x;
+    background-position: left bottom 2px;
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-cardpivot-tab.tss-cardpivot-selected * {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-cardpivot-tab:focus-visible {
+    outline: 3px solid var(--tss-mp-focus);
+    outline-offset: -3px;
+}

@@ -1,0 +1,200 @@
+/* ==========================================================================
+   Memphis theme - ContextCard
+   --------------------------------------------------------------------------
+   A context card is a laminate tile: a 2px black line, a calm surface, a
+   hard offset shadow, and its icon set in a coloured disc with a line round
+   it. Along a row or grid of cards the disc and the shadow rotate through
+   the accents (confetti), and a clickable card wears a small geometric
+   ornament on its top edge (a circle, a triangle, a half-moon, a bar) that
+   rotates with them. The card lifts onto a longer shadow under the pointer
+   and is pressed flat when clicked.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-contextcard {
+    --tss-mp-cc-accent: rgb(var(--tss-mp-yellow-root));
+    --tss-mp-cc-cast: rgb(var(--tss-mp-pink-root));
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 var(--tss-mp-cc-cast);
+    transition: transform var(--tss-mp-quick) var(--tss-mp-ease), box-shadow var(--tss-mp-quick) var(--tss-mp-ease), background-color 120ms linear;
+}
+
+body.tss-theme-memphis .tss-contextcard:nth-child(6n+1) { --tss-mp-cc-accent: rgb(var(--tss-mp-yellow-root)); --tss-mp-cc-cast: rgb(var(--tss-mp-pink-root)); }
+body.tss-theme-memphis .tss-contextcard:nth-child(6n+2) { --tss-mp-cc-accent: rgb(var(--tss-mp-pink-root)); --tss-mp-cc-cast: rgb(var(--tss-mp-mint-root)); }
+body.tss-theme-memphis .tss-contextcard:nth-child(6n+3) { --tss-mp-cc-accent: rgb(var(--tss-mp-mint-root)); --tss-mp-cc-cast: rgb(var(--tss-mp-cobalt-root)); }
+body.tss-theme-memphis .tss-contextcard:nth-child(6n+4) { --tss-mp-cc-accent: rgb(var(--tss-mp-lilac-root)); --tss-mp-cc-cast: rgb(var(--tss-mp-yellow-root)); }
+body.tss-theme-memphis .tss-contextcard:nth-child(6n+5) { --tss-mp-cc-accent: rgb(var(--tss-mp-tomato-root)); --tss-mp-cc-cast: rgb(var(--tss-mp-lilac-root)); }
+body.tss-theme-memphis .tss-contextcard:nth-child(6n+6) { --tss-mp-cc-accent: rgb(var(--tss-mp-cobalt-root)); --tss-mp-cc-cast: rgb(var(--tss-mp-tomato-root)); }
+
+body.tss-theme-memphis .tss-contextcard-clickable:hover,
+body.tss-theme-memphis .tss-contextcard-menu-open {
+    background: rgb(var(--tss-secondary-background-color-root));
+    transform: translate(-2px, -2px);
+    box-shadow: calc(var(--tss-mp-off-sm) + 2px) calc(var(--tss-mp-off-sm) + 2px) 0 0 var(--tss-mp-cc-cast);
+}
+
+body.tss-theme-memphis .tss-contextcard-clickable:active {
+    transform: translate(var(--tss-mp-off-sm), var(--tss-mp-off-sm));
+    box-shadow: 0 0 0 0 var(--tss-mp-cc-cast);
+}
+
+body.tss-theme-memphis .tss-contextcard-clickable:focus-visible {
+    outline: 3px solid var(--tss-mp-focus);
+    outline-offset: 3px;
+}
+
+/* The icon disc: the accent, a line, an ink glyph. The tint a host sets inline gives way to the rotation. */
+body.tss-theme-memphis .tss-contextcard-icon:not(.tss-contextcard-icon-image):not(.tss-contextcard-icon-nobackground) {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 50%;
+    background: var(--tss-mp-cc-accent) !important;
+    color: var(--tss-mp-on-accent) !important;
+}
+
+body.tss-theme-memphis .tss-contextcard:nth-child(6n+6) .tss-contextcard-icon:not(.tss-contextcard-icon-image):not(.tss-contextcard-icon-nobackground) {
+    color: var(--tss-mp-on-cobalt) !important;
+}
+
+body.tss-theme-memphis .tss-contextcard-icon-image {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius-small);
+}
+
+body.tss-theme-memphis .tss-contextcard-label {
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-contextcard-sublabel {
+    color: rgb(var(--tss-secondary-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-contextcard-chevron {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-contextcard-badge:not(.tss-contextcard-badge-custom) {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    background: var(--tss-mp-yellow-pale);
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   The ornament on a clickable card's top edge
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-memphis .tss-contextcard-clickable::after {
+    content: "";
+    position: absolute;
+    top: -7px;
+    right: 22px;
+    width: 12px;
+    height: 12px;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 50%;
+    background: var(--tss-mp-cc-cast);
+    pointer-events: none;
+    transition: transform 200ms var(--tss-mp-pop);
+}
+
+/* A triangle. */
+body.tss-theme-memphis .tss-contextcard-clickable:nth-child(6n+2)::after,
+body.tss-theme-memphis .tss-contextcard-clickable:nth-child(6n+5)::after {
+    top: -9px;
+    width: 16px;
+    height: 14px;
+    border: none;
+    border-radius: 0;
+    background: var(--tss-mp-line);
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+body.tss-theme-memphis .tss-contextcard-clickable:nth-child(6n+2)::before,
+body.tss-theme-memphis .tss-contextcard-clickable:nth-child(6n+5)::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    right: 25px;
+    width: 10px;
+    height: 8px;
+    background: var(--tss-mp-cc-cast);
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    z-index: 1;
+    pointer-events: none;
+    transition: transform 200ms var(--tss-mp-pop);
+}
+
+/* A half-moon. */
+body.tss-theme-memphis .tss-contextcard-clickable:nth-child(6n+3)::after {
+    top: -11px;
+    width: 22px;
+    height: 11px;
+    border-bottom: none;
+    border-radius: 22px 22px 0 0;
+}
+
+/* A bar. */
+body.tss-theme-memphis .tss-contextcard-clickable:nth-child(6n+4)::after {
+    top: -6px;
+    width: 20px;
+    height: 9px;
+    border-radius: 2px;
+    transform: rotate(-12deg);
+}
+
+/* A ring. */
+body.tss-theme-memphis .tss-contextcard-clickable:nth-child(6n+6)::after {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border-width: 3px;
+    border-color: var(--tss-mp-cc-cast);
+    box-shadow: 0 0 0 1.5px var(--tss-mp-line), inset 0 0 0 1.5px var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-contextcard-clickable:hover::after,
+body.tss-theme-memphis .tss-contextcard-clickable:hover::before {
+    transform: translateY(-2px) rotate(-14deg);
+}
+
+/* --------------------------------------------------------------------------
+   Remove button and compact cards
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-memphis .tss-contextcard-remove,
+body.tss-theme-memphis.tss-dark-mode .tss-contextcard-remove {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 50%;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    z-index: 2;
+}
+
+body.tss-theme-memphis .tss-contextcard-remove:hover,
+body.tss-theme-memphis.tss-dark-mode .tss-contextcard-remove:hover,
+body.tss-theme-memphis .tss-contextcard-remove:active,
+body.tss-theme-memphis.tss-dark-mode .tss-contextcard-remove:active {
+    background: rgb(var(--tss-mp-tomato-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-contextcard-compact {
+    border-radius: 999px;
+}
+
+body.tss-theme-memphis .tss-contextcard-compact.tss-contextcard-clickable::after,
+body.tss-theme-memphis .tss-contextcard-compact.tss-contextcard-clickable::before {
+    display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-memphis .tss-contextcard,
+    body.tss-theme-memphis .tss-contextcard-clickable::after,
+    body.tss-theme-memphis .tss-contextcard-clickable::before {
+        transition: none;
+    }
+
+    body.tss-theme-memphis .tss-contextcard-clickable:hover,
+    body.tss-theme-memphis .tss-contextcard-clickable:active {
+        transform: none;
+    }
+}

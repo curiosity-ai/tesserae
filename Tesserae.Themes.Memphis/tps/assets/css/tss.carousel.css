@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Memphis theme - Carousel
+   --------------------------------------------------------------------------
+   The arrows are white circles with a black line and a small hard shadow,
+   sunflower under the pointer; the indicators are little discs with a line,
+   the current one bubblegum.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-carousel-nav {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-carousel-nav:not(:disabled):not(.tss-disabled):hover {
+    background: rgb(var(--tss-mp-yellow-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-carousel-indicator {
+    border: 1.5px solid var(--tss-mp-line);
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-memphis .tss-carousel-indicator.tss-active {
+    background: rgb(var(--tss-mp-pink-root));
+    border-color: var(--tss-mp-line);
+}

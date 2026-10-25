@@ -1,0 +1,88 @@
+/* ==========================================================================
+   Memphis theme - CommandPalette
+   --------------------------------------------------------------------------
+   The palette is the floating panel at its largest: a 3px black line and
+   an 8px hard bubblegum shadow (mint at night) over the halftone screen.
+   The search row is a sunflower strip with confetti; sections are bold
+   capitals; the active item is a sunflower pill with a black line, its
+   icon tile a disc.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-commandpalette-overlay {
+    background-color: var(--tss-overlay-light);
+    background-image: radial-gradient(circle, rgba(var(--tss-mp-line-root), 0.16) 1.4px, transparent 1.8px);
+    background-size: 9px 9px;
+}
+
+body.tss-theme-memphis .tss-commandpalette-animator {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: var(--tss-mp-bw-bold) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius-panel);
+    box-shadow: var(--tss-mp-off-lg) var(--tss-mp-off-lg) 0 0 rgb(var(--tss-mp-pink-root));
+}
+
+body.tss-theme-memphis.tss-dark-mode .tss-commandpalette-animator {
+    box-shadow: var(--tss-mp-off-lg) var(--tss-mp-off-lg) 0 0 rgb(var(--tss-mp-mint-root));
+}
+
+body.tss-theme-memphis .tss-commandpalette-search-container {
+    border-bottom: var(--tss-mp-bw-bold) solid var(--tss-mp-line);
+    background-color: rgb(var(--tss-mp-yellow-root));
+    background-image: var(--tss-mp-pattern-confetti-bold);
+    background-size: 240px 240px;
+}
+
+body.tss-theme-memphis .tss-commandpalette-search-container .tss-omnibox-search-container,
+body.tss-theme-memphis .tss-commandpalette-search-container .tss-searchbox-container {
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-memphis .tss-commandpalette-section {
+    font-weight: 800;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-commandpalette-item {
+    border: var(--tss-mp-bw) solid transparent;
+    border-radius: 999px;
+}
+
+body.tss-theme-memphis .tss-commandpalette-item:hover {
+    background: var(--tss-mp-yellow-pale);
+}
+
+body.tss-theme-memphis .tss-commandpalette-item.tss-active {
+    background: rgb(var(--tss-mp-yellow-root));
+    border-color: var(--tss-mp-line);
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-commandpalette-item.tss-active .tss-commandpalette-subtitle,
+body.tss-theme-memphis .tss-commandpalette-item.tss-active .tss-commandpalette-submenu {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-commandpalette-result.tss-active {
+    box-shadow: inset 0 0 0 var(--tss-mp-bw) var(--tss-mp-line);
+    background: var(--tss-mp-yellow-pale);
+}
+
+body.tss-theme-memphis .tss-commandpalette-icon {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 50%;
+    background: rgb(var(--tss-mp-lilac-root));
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-commandpalette-title {
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-commandpalette-shortcut,
+body.tss-theme-memphis .tss-commandpalette-item.tss-active .tss-commandpalette-shortcut {
+    border: 1.5px solid var(--tss-mp-line);
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-monospace-font-family);
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+}

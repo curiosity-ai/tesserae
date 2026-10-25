@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Memphis theme - Rating
+   --------------------------------------------------------------------------
+   Stars are cut-outs: an empty star is an ink outline, a filled one a
+   sunflower star with the same outline. They pop a little under the
+   pointer.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-rating-star {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--tss-mp-line);
+    transition: color 0.12s linear, transform 160ms var(--tss-mp-pop);
+}
+
+body.tss-theme-memphis .tss-rating-star.tss-rating-star-filled {
+    color: var(--tss-rating-color, rgb(var(--tss-mp-yellow-root)));
+}
+
+body.tss-theme-memphis .tss-rating-star.tss-rating-star-hover {
+    transform: scale(1.2) rotate(-8deg);
+}
+
+body.tss-theme-memphis .tss-rating-star:focus-visible {
+    outline: 3px solid var(--tss-mp-focus);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-memphis .tss-rating-star,
+    body.tss-theme-memphis .tss-rating-star.tss-rating-star-hover {
+        transition: none;
+        transform: none;
+    }
+}

@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Memphis theme - Mermaid diagrams
+   --------------------------------------------------------------------------
+   A diagram sits in the same frame as a code block: a 2px black line and a
+   hard lilac shadow, on graph paper. Pele draws from its --pele-* variables:
+   nodes are white with a black line, edges ink, the accent bubblegum, and
+   the series run through the theme's accents (the chart series).
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-mermaid {
+    --pele-bg: rgb(var(--tss-secondary-background-color-root));
+    --pele-fg: rgb(var(--tss-default-foreground-color-root));
+    --pele-muted: rgb(var(--tss-secondary-foreground-color-root));
+    --pele-line: var(--tss-mp-line);
+    --pele-surface: rgb(var(--tss-secondary-background-color-root));
+    --pele-surface-alt: var(--tss-mp-yellow-pale);
+    --pele-border: var(--tss-mp-line);
+    --pele-accent: rgb(var(--tss-mp-pink-root));
+    --pele-critical: rgb(var(--tss-mp-tomato-root));
+    --pele-error: rgb(var(--tss-mp-tomato-root));
+    --pele-radius: var(--tss-mp-radius);
+    --pele-title-weight: 800;
+    --pele-heading-weight: 800;
+
+    margin: 16px var(--tss-mp-off-sm) 20px 0;
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: var(--tss-mp-pattern-grid);
+    background-size: 24px 24px;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-mp-lilac-root));
+}
+
+body.tss-theme-memphis .tss-mermaid.tss-mermaid-failed {
+    border-color: rgb(var(--tss-danger-background-color-root));
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-mp-tomato-root));
+}
+
+body.tss-theme-memphis .tss-markdown pre.tss-mermaid-source {
+    border-left: 8px solid rgb(var(--tss-mp-yellow-root));
+}

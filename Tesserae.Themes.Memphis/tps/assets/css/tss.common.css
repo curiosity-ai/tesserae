@@ -1,2 +1,617 @@
-/* Memphis theme - tokens (scaffold; to be written) */
-body.tss-theme-memphis { }
+/* ==========================================================================
+   Memphis theme - tokens
+   --------------------------------------------------------------------------
+   After the 1980s Memphis design movement: loud, joyful, geometric. A
+   whole box of accents instead of one (bubblegum pink, mint, sunflower
+   yellow, cobalt, tomato, lilac) on cream paper; a thick black line round
+   everything; hard offset shadows in a second colour that a key presses
+   into; squiggles, confetti, terrazzo, zig-zags and "bacterio" speckles on
+   the surfaces around the content, never under the text you read. Dark
+   mode is the night club: deep aubergine, the same accents turned to neon,
+   the black lines turned cream.
+
+   Everything is scoped under body.tss-theme-memphis, the class MemphisTheme
+   adds to the body while it is active. A derived variable
+   (--tss-x-color: rgb(var(--tss-x-color-root))) is resolved where it is
+   declared, so both are restated, light and dark.
+
+   Tesserae's own roots are kept AA-safe for type: primary is a deep magenta
+   and success a deep teal in light mode, so a component that draws text in
+   them stays legible. The bright accents below are for fills, and anything
+   written on them is --tss-mp-on-accent (ink).
+
+   The tokens a component file can use (they follow the mode):
+
+   Colour
+     --tss-mp-ink / --tss-mp-muted       text and secondary text
+     --tss-mp-paper / --tss-mp-surface   the page, and a panel
+     --tss-mp-line                       the outline colour (black; cream in the club)
+     --tss-mp-cast                       the default colour of a hard shadow
+     --tss-mp-pink, -mint, -yellow,      the six accents, as colours, with -root
+     -cobalt, -tomato, -lilac            triplets (--tss-mp-pink-root ...)
+     --tss-mp-<accent>-pale              a pale tint of each, for large fills
+     --tss-mp-on-accent                  type on any accent (ink)
+     --tss-mp-focus                      the focus ring colour (cobalt; yellow at night)
+
+   Line, shape, depth
+     --tss-mp-bw / --tss-mp-bw-bold      2px for controls, 3px for panels
+     --tss-mp-radius / -radius-panel     6px for fields and panels
+     --tss-mp-radius-small               4px for chips and cells
+     --tss-mp-hard-sm / -hard / -hard-lg 3, 5 and 8px solid offset shadows in --tss-mp-cast
+     --tss-mp-off-sm / -off / -off-lg    those offsets alone (3px, 5px, 8px), to cast in any colour
+
+   Pattern (background-image values, sized by the tile)
+     --tss-mp-pattern-confetti           sparse dashes, rings, triangles and dots (the page)
+     --tss-mp-pattern-confetti-bold      the same at full strength (headers, empty states)
+     --tss-mp-pattern-squiggle(-soft)    continuous wavy lines
+     --tss-mp-pattern-bacterio(-soft)    the speckled laminate
+     --tss-mp-pattern-terrazzo           coloured chips
+     --tss-mp-pattern-zigzag(-soft)      a zig-zag rule
+     --tss-mp-pattern-hatch(-soft)       diagonal hatching
+     --tss-mp-pattern-grid               faint graph paper
+
+   Type and motion
+     --tss-mp-display                    Bungee, the chunky display face
+     --tss-mp-ease / --tss-mp-pop        a settle, and a little overshoot
+     --tss-mp-quick                      a key's travel (100ms)
+   ========================================================================== */
+
+body.tss-theme-memphis {
+    --tss-mp-pink-root: 255, 95, 168;
+    --tss-mp-mint-root: 46, 201, 180;
+    --tss-mp-yellow-root: 255, 201, 40;
+    --tss-mp-cobalt-root: 44, 75, 255;
+    --tss-mp-tomato-root: 255, 90, 60;
+    --tss-mp-lilac-root: 169, 139, 255;
+    --tss-mp-pink: rgb(var(--tss-mp-pink-root));
+    --tss-mp-mint: rgb(var(--tss-mp-mint-root));
+    --tss-mp-yellow: rgb(var(--tss-mp-yellow-root));
+    --tss-mp-cobalt: rgb(var(--tss-mp-cobalt-root));
+    --tss-mp-tomato: rgb(var(--tss-mp-tomato-root));
+    --tss-mp-lilac: rgb(var(--tss-mp-lilac-root));
+    --tss-mp-pink-pale: rgb(255, 218, 234);
+    --tss-mp-mint-pale: rgb(204, 244, 236);
+    --tss-mp-yellow-pale: rgb(255, 238, 176);
+    --tss-mp-cobalt-pale: rgb(218, 225, 255);
+    --tss-mp-tomato-pale: rgb(255, 222, 212);
+    --tss-mp-lilac-pale: rgb(234, 226, 255);
+    --tss-mp-on-accent: rgb(22, 18, 20);
+    --tss-mp-on-cobalt: rgb(255, 255, 255);
+
+    --tss-mp-ink: rgb(var(--tss-default-foreground-color-root));
+    --tss-mp-muted: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-mp-paper: rgb(var(--tss-default-background-color-root));
+    --tss-mp-surface: rgb(var(--tss-secondary-background-color-root));
+    --tss-mp-line-root: 22, 18, 20;
+    --tss-mp-line: rgb(var(--tss-mp-line-root));
+    --tss-mp-cast: rgb(22, 18, 20);
+    --tss-mp-focus-root: 44, 75, 255;
+    --tss-mp-focus: rgb(var(--tss-mp-focus-root));
+
+    --tss-mp-bw: 2px;
+    --tss-mp-bw-bold: 3px;
+    --tss-mp-radius: 6px;
+    --tss-mp-radius-panel: 6px;
+    --tss-mp-radius-small: 4px;
+    --tss-mp-off-sm: 3px;
+    --tss-mp-off: 5px;
+    --tss-mp-off-lg: 8px;
+    --tss-mp-hard-sm: 3px 3px 0 0 var(--tss-mp-cast);
+    --tss-mp-hard: 5px 5px 0 0 var(--tss-mp-cast);
+    --tss-mp-hard-lg: 8px 8px 0 0 var(--tss-mp-cast);
+
+    --tss-mp-display: "Bungee", "Outfit", "Arial Black", ui-sans-serif, sans-serif;
+    --tss-mp-ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+    --tss-mp-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --tss-mp-quick: 100ms;
+
+--tss-mp-pattern-confetti: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round' opacity='0.2'%3E %3Cpath d='M22 30 l18 -10' stroke='%23FF5FA8' stroke-width='5'/%3E %3Cpath d='M150 22 q8 -10 16 0 t16 0 t16 0' stroke='%232C4BFF' stroke-width='3.5'/%3E %3Cpath d='M86 92 l14 -24 l14 24 z' stroke='%23161214' stroke-width='3'/%3E %3Ccircle cx='200' cy='104' r='9' stroke='%23FF5A3C' stroke-width='3.5'/%3E %3Ccircle cx='38' cy='150' r='6' fill='%23FFC928' stroke='%23161214' stroke-width='2'/%3E %3Cpath d='M120 168 l22 6' stroke='%232EC9B4' stroke-width='5'/%3E %3Cpath d='M196 190 a14 14 0 0 1 28 0 z' fill='%23A98BFF' stroke='%23161214' stroke-width='2'/%3E %3Cpath d='M30 214 q7 -9 14 0 t14 0' stroke='%23FF5FA8' stroke-width='3.5'/%3E %3Cpath d='M168 64 l-6 14' stroke='%23161214' stroke-width='3'/%3E %3Cpath d='M100 220 l8 -8 l8 8 l8 -8' stroke='%232C4BFF' stroke-width='3'/%3E %3Ccircle cx='70' cy='60' r='2.6' fill='%23161214' stroke='none'/%3E %3Ccircle cx='226' cy='40' r='2.6' fill='%23161214' stroke='none'/%3E %3Ccircle cx='150' cy='130' r='2.6' fill='%23161214' stroke='none'/%3E %3Ccircle cx='12' cy='96' r='2.6' fill='%23161214' stroke='none'/%3E %3C/g%3E%3C/svg%3E");
+    --tss-mp-pattern-confetti-bold: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round' opacity='1'%3E %3Cpath d='M22 30 l18 -10' stroke='%23FF5FA8' stroke-width='5'/%3E %3Cpath d='M150 22 q8 -10 16 0 t16 0 t16 0' stroke='%232C4BFF' stroke-width='3.5'/%3E %3Cpath d='M86 92 l14 -24 l14 24 z' stroke='%23161214' stroke-width='3'/%3E %3Ccircle cx='200' cy='104' r='9' stroke='%23FF5A3C' stroke-width='3.5'/%3E %3Ccircle cx='38' cy='150' r='6' fill='%23FFC928' stroke='%23161214' stroke-width='2'/%3E %3Cpath d='M120 168 l22 6' stroke='%232EC9B4' stroke-width='5'/%3E %3Cpath d='M196 190 a14 14 0 0 1 28 0 z' fill='%23A98BFF' stroke='%23161214' stroke-width='2'/%3E %3Cpath d='M30 214 q7 -9 14 0 t14 0' stroke='%23FF5FA8' stroke-width='3.5'/%3E %3Cpath d='M168 64 l-6 14' stroke='%23161214' stroke-width='3'/%3E %3Cpath d='M100 220 l8 -8 l8 8 l8 -8' stroke='%232C4BFF' stroke-width='3'/%3E %3Ccircle cx='70' cy='60' r='2.6' fill='%23161214' stroke='none'/%3E %3Ccircle cx='226' cy='40' r='2.6' fill='%23161214' stroke='none'/%3E %3Ccircle cx='150' cy='130' r='2.6' fill='%23161214' stroke='none'/%3E %3Ccircle cx='12' cy='96' r='2.6' fill='%23161214' stroke='none'/%3E %3C/g%3E%3C/svg%3E");
+    --tss-mp-pattern-squiggle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='24' viewBox='0 0 48 24'%3E%3Cpath d='M0 12 q6 -9 12 0 t12 0 t12 0 t12 0' fill='none' stroke='%23161214' stroke-width='2.5' stroke-linecap='round' opacity='0.85'/%3E%3C/svg%3E");
+    --tss-mp-pattern-squiggle-soft: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='24' viewBox='0 0 48 24'%3E%3Cpath d='M0 12 q6 -9 12 0 t12 0 t12 0 t12 0' fill='none' stroke='%23161214' stroke-width='2.5' stroke-linecap='round' opacity='0.16'/%3E%3C/svg%3E");
+    --tss-mp-pattern-bacterio: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23161214' stroke-width='2.4' stroke-linecap='round' opacity='0.75'%3E%3Cpath d='M8 12 q4 -5 9 -1 t7 4'/%3E%3Cpath d='M40 6 q3 4 0 8'/%3E%3Cpath d='M70 18 q5 -3 8 2 q2 5 -3 6'/%3E%3Cpath d='M100 8 l6 5'/%3E%3Cpath d='M18 44 q-3 6 3 9'/%3E%3Cpath d='M52 38 q6 2 4 8 t5 6'/%3E%3Cpath d='M86 46 q4 -5 10 -2'/%3E%3Cpath d='M110 36 q-4 4 0 9'/%3E%3Cpath d='M10 80 q6 -2 8 4'/%3E%3Cpath d='M38 72 l3 7 l5 -2'/%3E%3Cpath d='M66 84 q4 4 10 1'/%3E%3Cpath d='M98 76 q-2 6 4 9'/%3E%3Cpath d='M24 106 q5 -4 9 1'/%3E%3Cpath d='M56 112 q2 -6 8 -6'/%3E%3Cpath d='M84 104 l7 4'/%3E%3Cpath d='M108 110 q4 -4 8 0'/%3E%3C/g%3E%3C/svg%3E");
+    --tss-mp-pattern-bacterio-soft: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23161214' stroke-width='2.4' stroke-linecap='round' opacity='0.13'%3E%3Cpath d='M8 12 q4 -5 9 -1 t7 4'/%3E%3Cpath d='M40 6 q3 4 0 8'/%3E%3Cpath d='M70 18 q5 -3 8 2 q2 5 -3 6'/%3E%3Cpath d='M100 8 l6 5'/%3E%3Cpath d='M18 44 q-3 6 3 9'/%3E%3Cpath d='M52 38 q6 2 4 8 t5 6'/%3E%3Cpath d='M86 46 q4 -5 10 -2'/%3E%3Cpath d='M110 36 q-4 4 0 9'/%3E%3Cpath d='M10 80 q6 -2 8 4'/%3E%3Cpath d='M38 72 l3 7 l5 -2'/%3E%3Cpath d='M66 84 q4 4 10 1'/%3E%3Cpath d='M98 76 q-2 6 4 9'/%3E%3Cpath d='M24 106 q5 -4 9 1'/%3E%3Cpath d='M56 112 q2 -6 8 -6'/%3E%3Cpath d='M84 104 l7 4'/%3E%3Cpath d='M108 110 q4 -4 8 0'/%3E%3C/g%3E%3C/svg%3E");
+    --tss-mp-pattern-terrazzo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg opacity='0.9' stroke='none'%3E %3Cpath d='M12 14 l14 -4 l4 10 l-12 6z' fill='%23FF5FA8'/%3E %3Cpath d='M70 8 l10 2 l-2 9 l-11 -3z' fill='%232EC9B4'/%3E %3Cpath d='M112 30 l12 5 l-6 10 l-9 -6z' fill='%23FFC928'/%3E %3Cpath d='M40 52 l9 -6 l7 8 l-9 7z' fill='%232C4BFF'/%3E %3Cpath d='M92 70 l13 1 l-3 11 l-11 -4z' fill='%23A98BFF'/%3E %3Cpath d='M18 96 l10 -2 l3 9 l-10 4z' fill='%23FF5A3C'/%3E %3Cpath d='M62 110 l9 -5 l6 7 l-8 6z' fill='%232EC9B4'/%3E %3Cpath d='M118 112 l10 4 l-5 9 l-9 -5z' fill='%23FF5FA8'/%3E %3Ccircle cx='56' cy='26' r='2.2' fill='%23161214'/%3E%3Ccircle cx='100' cy='48' r='2.2' fill='%23161214'/%3E %3Ccircle cx='30' cy='74' r='2.2' fill='%23161214'/%3E%3Ccircle cx='84' cy='126' r='2.2' fill='%23161214'/%3E %3Ccircle cx='130' cy='86' r='2.2' fill='%23161214'/%3E%3Ccircle cx='8' cy='130' r='2.2' fill='%23161214'/%3E %3C/g%3E%3C/svg%3E");
+    --tss-mp-pattern-zigzag: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12' viewBox='0 0 24 12'%3E%3Cpath d='M0 10 l6 -8 l6 8 l6 -8 l6 8' fill='none' stroke='%23161214' stroke-width='2.5' stroke-linejoin='miter' opacity='1'/%3E%3C/svg%3E");
+    --tss-mp-pattern-zigzag-soft: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12' viewBox='0 0 24 12'%3E%3Cpath d='M0 10 l6 -8 l6 8 l6 -8 l6 8' fill='none' stroke='%23161214' stroke-width='2.5' stroke-linejoin='miter' opacity='0.25'/%3E%3C/svg%3E");
+    --tss-mp-pattern-hatch: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M-2 12 L12 -2 M-2 2 L2 -2 M8 12 L12 8' stroke='%23161214' stroke-width='2' opacity='0.9'/%3E%3C/svg%3E");
+    --tss-mp-pattern-hatch-soft: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M-2 12 L12 -2 M-2 2 L2 -2 M8 12 L12 8' stroke='%23161214' stroke-width='2' opacity='0.18'/%3E%3C/svg%3E");
+    --tss-mp-pattern-grid: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M24 0 H0 V24' fill='none' stroke='%23161214' stroke-width='1' opacity='0.08'/%3E%3C/svg%3E");
+
+    --tss-chart-series-1: rgb(255, 79, 160);
+    --tss-chart-series-2: rgb(44, 75, 255);
+    --tss-chart-series-3: rgb(255, 190, 20);
+    --tss-chart-series-4: rgb(30, 186, 164);
+    --tss-chart-series-5: rgb(255, 90, 60);
+    --tss-chart-series-6: rgb(150, 116, 255);
+    --tss-chart-series-7: rgb(22, 18, 20);
+    --tss-chart-series-8: rgb(120, 196, 60);
+
+    --tss-sansserif-font-family: "Outfit", "Futura", "Century Gothic", ui-sans-serif, system-ui, sans-serif;
+    --tss-monospace-font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --tss-font-weight-regular: 400;
+    --tss-font-weight-semibold: 600;
+    --tss-font-weight-bold: 700;
+
+    --tss-border-radius-sm: 4px;
+    --tss-border-radius-md: 6px;
+    --tss-border-radius-lg: 8px;
+    --tss-border-radius-xl: 12px;
+    --tss-border-radius-full: 9999px;
+    --tss-ring-offset-width: 2px;
+    --tss-ring-opacity: 1;
+
+    --tss-scrollbar-track-color: transparent;
+    --tss-scrollbar-track-hidden-color: transparent;
+    --tss-scrollbar-thumb-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-scrollbar-thumb-hidden-color: rgba(var(--tss-default-foreground-color-root), 0.2);
+    --tss-simplebar-thumb-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-overlay-light: rgba(255, 246, 229, 0.72);
+    --tss-overlay-dark: rgba(22, 18, 20, 0.45);
+
+/* Tesserae's shadow tokens become outlines with a hard offset shadow, so anything that draws its edge
+       with a shadow token gets a Memphis edge: the ring is the outline, the offset block is the shadow. */
+    --tss-primary-shadow: none;
+    --tss-shadow-sm: 0 0 0 0 transparent;
+    --tss-shadow-sm-hover: 0 0 0 0 transparent;
+    --tss-shadow: 0 0 0 2px var(--tss-mp-line), 4px 4px 0 2px var(--tss-mp-cast);
+    --tss-shadow-hover: 0 0 0 2px var(--tss-mp-line), 6px 6px 0 2px var(--tss-mp-cast);
+    --tss-shadow-md: 0 0 0 2px var(--tss-mp-line), 4px 4px 0 2px var(--tss-mp-cast);
+    --tss-shadow-md-hover: 0 0 0 2px var(--tss-mp-line), 6px 6px 0 2px var(--tss-mp-cast);
+    --tss-shadow-lg: 0 0 0 2px var(--tss-mp-line), 6px 6px 0 2px var(--tss-mp-cast);
+    --tss-shadow-lg-hover: 0 0 0 2px var(--tss-mp-line), 8px 8px 0 2px var(--tss-mp-cast);
+    --tss-shadow-xl: 0 0 0 2px var(--tss-mp-line), 8px 8px 0 2px var(--tss-mp-cast);
+    --tss-shadow-xl-hover: 0 0 0 2px var(--tss-mp-line), 10px 10px 0 2px var(--tss-mp-cast);
+    --tss-box-shadow: 0 0 0 2px var(--tss-mp-line), 5px 5px 0 2px var(--tss-mp-cast);
+    --tss-box-shadow-darker: 0 0 0 2px var(--tss-mp-line), 6px 6px 0 2px var(--tss-mp-cast);
+    --tss-card-shadow: 0 0 0 2px var(--tss-mp-line), 5px 5px 0 2px var(--tss-mp-cast);
+    --tss-toast-shadow: 0 0 0 2px var(--tss-mp-line), 6px 6px 0 2px var(--tss-mp-cast);
+
+--tss-default-background-color-root: 255, 246, 229;
+    --tss-default-foreground-color-root: 22, 18, 20;
+    --tss-secondary-background-color-root: 255, 253, 248;
+    --tss-secondary-foreground-color-root: 84, 72, 82;
+    --tss-sidebar-background-color-root: 255, 238, 214;
+    --tss-disabled-background-color-root: 238, 231, 219;
+    --tss-disabled-foreground-color-root: 136, 126, 128;
+    --tss-default-border-color-root: 22, 18, 20;
+    --tss-dark-border-color-root: 22, 18, 20;
+    --tss-default-separator-color-root: 214, 200, 180;
+    --tss-invalid-border-color-root: 214, 40, 40;
+    --tss-default-background-hover-color-root: 255, 236, 158;
+    --tss-default-foreground-hover-color-root: 22, 18, 20;
+    --tss-default-background-active-color-root: 255, 214, 92;
+    --tss-default-foreground-active-color-root: 22, 18, 20;
+    --tss-progress-background-color-root: 240, 228, 208;
+    --tss-link-color-root: 36, 64, 230;
+    --tss-highlight-color-root: 255, 95, 168;
+    --tss-tooltip-background-color-root: 22, 18, 20;
+    --tss-tooltip-foreground-color-root: 255, 246, 229;
+    --tss-primary-background-color-root: 214, 30, 120;
+    --tss-primary-foreground-color-root: 255, 255, 255;
+    --tss-primary-border-color-root: 22, 18, 20;
+    --tss-primary-background-hover-color-root: 228, 44, 136;
+    --tss-primary-foreground-hover-color-root: 255, 255, 255;
+    --tss-primary-background-active-color-root: 190, 20, 104;
+    --tss-primary-foreground-active-color-root: 255, 255, 255;
+    --tss-warning-background-color-root: 255, 201, 40;
+    --tss-warning-foreground-color-root: 22, 18, 20;
+    --tss-warning-border-color-root: 22, 18, 20;
+    --tss-warning-background-hover-color-root: 255, 212, 84;
+    --tss-warning-foreground-hover-color-root: 22, 18, 20;
+    --tss-warning-background-active-color-root: 240, 184, 20;
+    --tss-warning-foreground-active-color-root: 22, 18, 20;
+    --tss-danger-background-color-root: 214, 40, 40;
+    --tss-danger-foreground-color-root: 255, 255, 255;
+    --tss-danger-border-color-root: 22, 18, 20;
+    --tss-danger-background-hover-color-root: 228, 56, 52;
+    --tss-danger-foreground-hover-color-root: 255, 255, 255;
+    --tss-danger-background-active-color-root: 190, 30, 30;
+    --tss-danger-foreground-active-color-root: 255, 255, 255;
+    --tss-success-background-color-root: 0, 125, 95;
+    --tss-success-foreground-color-root: 255, 255, 255;
+    --tss-success-border-color-root: 22, 18, 20;
+    --tss-success-background-hover-color-root: 0, 140, 108;
+    --tss-success-foreground-hover-color-root: 255, 255, 255;
+    --tss-success-background-active-color-root: 0, 108, 82;
+    --tss-success-foreground-active-color-root: 255, 255, 255;
+    --tss-slider-color-root: 22, 18, 20;
+    --tss-slider-active-color-root: 214, 30, 120;
+    --tss-slider-disabled-color-root: 200, 190, 176;
+    --tss-primary-shadow-color-root: 44, 75, 255;
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
+    --tss-ring-color: rgb(var(--tss-mp-focus-root));
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+}
+
+/* The night club: aubergine walls, the accents turned to neon, the black lines turned cream. */
+body.tss-theme-memphis.tss-dark-mode {
+    --tss-mp-pink-root: 255, 79, 196;
+    --tss-mp-mint-root: 44, 245, 207;
+    --tss-mp-yellow-root: 255, 229, 59;
+    --tss-mp-cobalt-root: 92, 124, 255;
+    --tss-mp-tomato-root: 255, 106, 77;
+    --tss-mp-lilac-root: 196, 155, 255;
+    --tss-mp-pink: rgb(var(--tss-mp-pink-root));
+    --tss-mp-mint: rgb(var(--tss-mp-mint-root));
+    --tss-mp-yellow: rgb(var(--tss-mp-yellow-root));
+    --tss-mp-cobalt: rgb(var(--tss-mp-cobalt-root));
+    --tss-mp-tomato: rgb(var(--tss-mp-tomato-root));
+    --tss-mp-lilac: rgb(var(--tss-mp-lilac-root));
+    --tss-mp-pink-pale: rgb(86, 28, 78);
+    --tss-mp-mint-pale: rgb(18, 72, 72);
+    --tss-mp-yellow-pale: rgb(78, 66, 26);
+    --tss-mp-cobalt-pale: rgb(38, 42, 108);
+    --tss-mp-tomato-pale: rgb(92, 34, 38);
+    --tss-mp-lilac-pale: rgb(64, 42, 108);
+    --tss-mp-on-accent: rgb(26, 15, 36);
+    --tss-mp-on-cobalt: rgb(26, 15, 36);
+
+    --tss-mp-ink: rgb(var(--tss-default-foreground-color-root));
+    --tss-mp-muted: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-mp-paper: rgb(var(--tss-default-background-color-root));
+    --tss-mp-surface: rgb(var(--tss-secondary-background-color-root));
+    --tss-mp-line-root: 255, 241, 220;
+    --tss-mp-line: rgb(var(--tss-mp-line-root));
+    --tss-mp-cast: rgb(var(--tss-mp-cobalt-root));
+    --tss-mp-focus-root: 255, 229, 59;
+    --tss-mp-focus: rgb(var(--tss-mp-focus-root));
+    --tss-mp-hard-sm: 3px 3px 0 0 var(--tss-mp-cast);
+    --tss-mp-hard: 5px 5px 0 0 var(--tss-mp-cast);
+    --tss-mp-hard-lg: 8px 8px 0 0 var(--tss-mp-cast);
+
+--tss-mp-pattern-confetti: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round' opacity='0.24'%3E %3Cpath d='M22 30 l18 -10' stroke='%23FF4FC4' stroke-width='5'/%3E %3Cpath d='M150 22 q8 -10 16 0 t16 0 t16 0' stroke='%235C7CFF' stroke-width='3.5'/%3E %3Cpath d='M86 92 l14 -24 l14 24 z' stroke='%23FFF1DC' stroke-width='3'/%3E %3Ccircle cx='200' cy='104' r='9' stroke='%23FF6A4D' stroke-width='3.5'/%3E %3Ccircle cx='38' cy='150' r='6' fill='%23FFE53B' stroke='%23FFF1DC' stroke-width='2'/%3E %3Cpath d='M120 168 l22 6' stroke='%232CF5CF' stroke-width='5'/%3E %3Cpath d='M196 190 a14 14 0 0 1 28 0 z' fill='%23C49BFF' stroke='%23FFF1DC' stroke-width='2'/%3E %3Cpath d='M30 214 q7 -9 14 0 t14 0' stroke='%23FF4FC4' stroke-width='3.5'/%3E %3Cpath d='M168 64 l-6 14' stroke='%23FFF1DC' stroke-width='3'/%3E %3Cpath d='M100 220 l8 -8 l8 8 l8 -8' stroke='%235C7CFF' stroke-width='3'/%3E %3Ccircle cx='70' cy='60' r='2.6' fill='%23FFF1DC' stroke='none'/%3E %3Ccircle cx='226' cy='40' r='2.6' fill='%23FFF1DC' stroke='none'/%3E %3Ccircle cx='150' cy='130' r='2.6' fill='%23FFF1DC' stroke='none'/%3E %3Ccircle cx='12' cy='96' r='2.6' fill='%23FFF1DC' stroke='none'/%3E %3C/g%3E%3C/svg%3E");
+    --tss-mp-pattern-confetti-bold: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round' opacity='1'%3E %3Cpath d='M22 30 l18 -10' stroke='%23FF4FC4' stroke-width='5'/%3E %3Cpath d='M150 22 q8 -10 16 0 t16 0 t16 0' stroke='%235C7CFF' stroke-width='3.5'/%3E %3Cpath d='M86 92 l14 -24 l14 24 z' stroke='%23FFF1DC' stroke-width='3'/%3E %3Ccircle cx='200' cy='104' r='9' stroke='%23FF6A4D' stroke-width='3.5'/%3E %3Ccircle cx='38' cy='150' r='6' fill='%23FFE53B' stroke='%23FFF1DC' stroke-width='2'/%3E %3Cpath d='M120 168 l22 6' stroke='%232CF5CF' stroke-width='5'/%3E %3Cpath d='M196 190 a14 14 0 0 1 28 0 z' fill='%23C49BFF' stroke='%23FFF1DC' stroke-width='2'/%3E %3Cpath d='M30 214 q7 -9 14 0 t14 0' stroke='%23FF4FC4' stroke-width='3.5'/%3E %3Cpath d='M168 64 l-6 14' stroke='%23FFF1DC' stroke-width='3'/%3E %3Cpath d='M100 220 l8 -8 l8 8 l8 -8' stroke='%235C7CFF' stroke-width='3'/%3E %3Ccircle cx='70' cy='60' r='2.6' fill='%23FFF1DC' stroke='none'/%3E %3Ccircle cx='226' cy='40' r='2.6' fill='%23FFF1DC' stroke='none'/%3E %3Ccircle cx='150' cy='130' r='2.6' fill='%23FFF1DC' stroke='none'/%3E %3Ccircle cx='12' cy='96' r='2.6' fill='%23FFF1DC' stroke='none'/%3E %3C/g%3E%3C/svg%3E");
+    --tss-mp-pattern-squiggle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='24' viewBox='0 0 48 24'%3E%3Cpath d='M0 12 q6 -9 12 0 t12 0 t12 0 t12 0' fill='none' stroke='%23FFF1DC' stroke-width='2.5' stroke-linecap='round' opacity='0.8'/%3E%3C/svg%3E");
+    --tss-mp-pattern-squiggle-soft: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='24' viewBox='0 0 48 24'%3E%3Cpath d='M0 12 q6 -9 12 0 t12 0 t12 0 t12 0' fill='none' stroke='%23FFF1DC' stroke-width='2.5' stroke-linecap='round' opacity='0.16'/%3E%3C/svg%3E");
+    --tss-mp-pattern-bacterio: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23FFF1DC' stroke-width='2.4' stroke-linecap='round' opacity='0.7'%3E%3Cpath d='M8 12 q4 -5 9 -1 t7 4'/%3E%3Cpath d='M40 6 q3 4 0 8'/%3E%3Cpath d='M70 18 q5 -3 8 2 q2 5 -3 6'/%3E%3Cpath d='M100 8 l6 5'/%3E%3Cpath d='M18 44 q-3 6 3 9'/%3E%3Cpath d='M52 38 q6 2 4 8 t5 6'/%3E%3Cpath d='M86 46 q4 -5 10 -2'/%3E%3Cpath d='M110 36 q-4 4 0 9'/%3E%3Cpath d='M10 80 q6 -2 8 4'/%3E%3Cpath d='M38 72 l3 7 l5 -2'/%3E%3Cpath d='M66 84 q4 4 10 1'/%3E%3Cpath d='M98 76 q-2 6 4 9'/%3E%3Cpath d='M24 106 q5 -4 9 1'/%3E%3Cpath d='M56 112 q2 -6 8 -6'/%3E%3Cpath d='M84 104 l7 4'/%3E%3Cpath d='M108 110 q4 -4 8 0'/%3E%3C/g%3E%3C/svg%3E");
+    --tss-mp-pattern-bacterio-soft: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23FFF1DC' stroke-width='2.4' stroke-linecap='round' opacity='0.13'%3E%3Cpath d='M8 12 q4 -5 9 -1 t7 4'/%3E%3Cpath d='M40 6 q3 4 0 8'/%3E%3Cpath d='M70 18 q5 -3 8 2 q2 5 -3 6'/%3E%3Cpath d='M100 8 l6 5'/%3E%3Cpath d='M18 44 q-3 6 3 9'/%3E%3Cpath d='M52 38 q6 2 4 8 t5 6'/%3E%3Cpath d='M86 46 q4 -5 10 -2'/%3E%3Cpath d='M110 36 q-4 4 0 9'/%3E%3Cpath d='M10 80 q6 -2 8 4'/%3E%3Cpath d='M38 72 l3 7 l5 -2'/%3E%3Cpath d='M66 84 q4 4 10 1'/%3E%3Cpath d='M98 76 q-2 6 4 9'/%3E%3Cpath d='M24 106 q5 -4 9 1'/%3E%3Cpath d='M56 112 q2 -6 8 -6'/%3E%3Cpath d='M84 104 l7 4'/%3E%3Cpath d='M108 110 q4 -4 8 0'/%3E%3C/g%3E%3C/svg%3E");
+    --tss-mp-pattern-terrazzo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg opacity='0.85' stroke='none'%3E %3Cpath d='M12 14 l14 -4 l4 10 l-12 6z' fill='%23FF4FC4'/%3E %3Cpath d='M70 8 l10 2 l-2 9 l-11 -3z' fill='%232CF5CF'/%3E %3Cpath d='M112 30 l12 5 l-6 10 l-9 -6z' fill='%23FFE53B'/%3E %3Cpath d='M40 52 l9 -6 l7 8 l-9 7z' fill='%235C7CFF'/%3E %3Cpath d='M92 70 l13 1 l-3 11 l-11 -4z' fill='%23C49BFF'/%3E %3Cpath d='M18 96 l10 -2 l3 9 l-10 4z' fill='%23FF6A4D'/%3E %3Cpath d='M62 110 l9 -5 l6 7 l-8 6z' fill='%232CF5CF'/%3E %3Cpath d='M118 112 l10 4 l-5 9 l-9 -5z' fill='%23FF4FC4'/%3E %3Ccircle cx='56' cy='26' r='2.2' fill='%23FFF1DC'/%3E%3Ccircle cx='100' cy='48' r='2.2' fill='%23FFF1DC'/%3E %3Ccircle cx='30' cy='74' r='2.2' fill='%23FFF1DC'/%3E%3Ccircle cx='84' cy='126' r='2.2' fill='%23FFF1DC'/%3E %3Ccircle cx='130' cy='86' r='2.2' fill='%23FFF1DC'/%3E%3Ccircle cx='8' cy='130' r='2.2' fill='%23FFF1DC'/%3E %3C/g%3E%3C/svg%3E");
+    --tss-mp-pattern-zigzag: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12' viewBox='0 0 24 12'%3E%3Cpath d='M0 10 l6 -8 l6 8 l6 -8 l6 8' fill='none' stroke='%23FFF1DC' stroke-width='2.5' stroke-linejoin='miter' opacity='1'/%3E%3C/svg%3E");
+    --tss-mp-pattern-zigzag-soft: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12' viewBox='0 0 24 12'%3E%3Cpath d='M0 10 l6 -8 l6 8 l6 -8 l6 8' fill='none' stroke='%23FFF1DC' stroke-width='2.5' stroke-linejoin='miter' opacity='0.25'/%3E%3C/svg%3E");
+    --tss-mp-pattern-hatch: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M-2 12 L12 -2 M-2 2 L2 -2 M8 12 L12 8' stroke='%23FFF1DC' stroke-width='2' opacity='0.9'/%3E%3C/svg%3E");
+    --tss-mp-pattern-hatch-soft: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M-2 12 L12 -2 M-2 2 L2 -2 M8 12 L12 8' stroke='%23FFF1DC' stroke-width='2' opacity='0.18'/%3E%3C/svg%3E");
+    --tss-mp-pattern-grid: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M24 0 H0 V24' fill='none' stroke='%23FFF1DC' stroke-width='1' opacity='0.07'/%3E%3C/svg%3E");
+
+    --tss-chart-series-1: rgb(255, 79, 196);
+    --tss-chart-series-2: rgb(92, 124, 255);
+    --tss-chart-series-3: rgb(255, 229, 59);
+    --tss-chart-series-4: rgb(44, 245, 207);
+    --tss-chart-series-5: rgb(255, 106, 77);
+    --tss-chart-series-6: rgb(196, 155, 255);
+    --tss-chart-series-7: rgb(255, 241, 220);
+    --tss-chart-series-8: rgb(160, 240, 90);
+
+    --tss-scrollbar-thumb-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-scrollbar-thumb-hidden-color: rgba(var(--tss-default-foreground-color-root), 0.2);
+    --tss-simplebar-thumb-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-overlay-light: rgba(26, 15, 36, 0.72);
+    --tss-overlay-dark: rgba(8, 4, 12, 0.6);
+
+/* Tesserae's shadow tokens become outlines with a hard offset shadow, so anything that draws its edge
+       with a shadow token gets a Memphis edge: the ring is the outline, the offset block is the shadow. */
+    --tss-primary-shadow: none;
+    --tss-shadow-sm: 0 0 0 0 transparent;
+    --tss-shadow-sm-hover: 0 0 0 0 transparent;
+    --tss-shadow: 0 0 0 2px var(--tss-mp-line), 4px 4px 0 2px var(--tss-mp-cast);
+    --tss-shadow-hover: 0 0 0 2px var(--tss-mp-line), 6px 6px 0 2px var(--tss-mp-cast);
+    --tss-shadow-md: 0 0 0 2px var(--tss-mp-line), 4px 4px 0 2px var(--tss-mp-cast);
+    --tss-shadow-md-hover: 0 0 0 2px var(--tss-mp-line), 6px 6px 0 2px var(--tss-mp-cast);
+    --tss-shadow-lg: 0 0 0 2px var(--tss-mp-line), 6px 6px 0 2px var(--tss-mp-cast);
+    --tss-shadow-lg-hover: 0 0 0 2px var(--tss-mp-line), 8px 8px 0 2px var(--tss-mp-cast);
+    --tss-shadow-xl: 0 0 0 2px var(--tss-mp-line), 8px 8px 0 2px var(--tss-mp-cast);
+    --tss-shadow-xl-hover: 0 0 0 2px var(--tss-mp-line), 10px 10px 0 2px var(--tss-mp-cast);
+    --tss-box-shadow: 0 0 0 2px var(--tss-mp-line), 5px 5px 0 2px var(--tss-mp-cast);
+    --tss-box-shadow-darker: 0 0 0 2px var(--tss-mp-line), 6px 6px 0 2px var(--tss-mp-cast);
+    --tss-card-shadow: 0 0 0 2px var(--tss-mp-line), 5px 5px 0 2px var(--tss-mp-cast);
+    --tss-toast-shadow: 0 0 0 2px var(--tss-mp-line), 6px 6px 0 2px var(--tss-mp-cast);
+
+--tss-default-background-color-root: 26, 15, 36;
+    --tss-default-foreground-color-root: 255, 241, 220;
+    --tss-secondary-background-color-root: 38, 24, 52;
+    --tss-secondary-foreground-color-root: 206, 190, 210;
+    --tss-sidebar-background-color-root: 33, 19, 46;
+    --tss-disabled-background-color-root: 48, 34, 62;
+    --tss-disabled-foreground-color-root: 140, 122, 150;
+    --tss-default-border-color-root: 255, 241, 220;
+    --tss-dark-border-color-root: 255, 241, 220;
+    --tss-default-separator-color-root: 78, 58, 96;
+    --tss-invalid-border-color-root: 255, 106, 77;
+    --tss-default-background-hover-color-root: 62, 38, 84;
+    --tss-default-foreground-hover-color-root: 255, 241, 220;
+    --tss-default-background-active-color-root: 84, 52, 112;
+    --tss-default-foreground-active-color-root: 255, 241, 220;
+    --tss-progress-background-color-root: 58, 40, 76;
+    --tss-link-color-root: 44, 245, 207;
+    --tss-highlight-color-root: 255, 79, 196;
+    --tss-tooltip-background-color-root: 255, 241, 220;
+    --tss-tooltip-foreground-color-root: 26, 15, 36;
+    --tss-primary-background-color-root: 255, 79, 196;
+    --tss-primary-foreground-color-root: 26, 15, 36;
+    --tss-primary-border-color-root: 255, 241, 220;
+    --tss-primary-background-hover-color-root: 255, 112, 210;
+    --tss-primary-foreground-hover-color-root: 26, 15, 36;
+    --tss-primary-background-active-color-root: 236, 60, 176;
+    --tss-primary-foreground-active-color-root: 26, 15, 36;
+    --tss-warning-background-color-root: 255, 229, 59;
+    --tss-warning-foreground-color-root: 26, 15, 36;
+    --tss-warning-border-color-root: 255, 241, 220;
+    --tss-warning-background-hover-color-root: 255, 236, 110;
+    --tss-warning-foreground-hover-color-root: 26, 15, 36;
+    --tss-warning-background-active-color-root: 240, 210, 30;
+    --tss-warning-foreground-active-color-root: 26, 15, 36;
+    --tss-danger-background-color-root: 255, 106, 77;
+    --tss-danger-foreground-color-root: 26, 15, 36;
+    --tss-danger-border-color-root: 255, 241, 220;
+    --tss-danger-background-hover-color-root: 255, 132, 106;
+    --tss-danger-foreground-hover-color-root: 26, 15, 36;
+    --tss-danger-background-active-color-root: 236, 84, 56;
+    --tss-danger-foreground-active-color-root: 26, 15, 36;
+    --tss-success-background-color-root: 44, 245, 207;
+    --tss-success-foreground-color-root: 26, 15, 36;
+    --tss-success-border-color-root: 255, 241, 220;
+    --tss-success-background-hover-color-root: 110, 250, 222;
+    --tss-success-foreground-hover-color-root: 26, 15, 36;
+    --tss-success-background-active-color-root: 30, 220, 184;
+    --tss-success-foreground-active-color-root: 26, 15, 36;
+    --tss-slider-color-root: 255, 241, 220;
+    --tss-slider-active-color-root: 255, 79, 196;
+    --tss-slider-disabled-color-root: 84, 66, 100;
+    --tss-primary-shadow-color-root: 92, 124, 255;
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-highlight-color: rgb(var(--tss-highlight-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-warning-border-color: rgb(var(--tss-warning-border-color-root));
+    --tss-warning-background-hover-color: rgb(var(--tss-warning-background-hover-color-root));
+    --tss-warning-foreground-hover-color: rgb(var(--tss-warning-foreground-hover-color-root));
+    --tss-warning-background-active-color: rgb(var(--tss-warning-background-active-color-root));
+    --tss-warning-foreground-active-color: rgb(var(--tss-warning-foreground-active-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
+    --tss-ring-color: rgb(var(--tss-mp-focus-root));
+    --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+
+/* --------------------------------------------------------------------------
+   Base: the page, type, selection, focus
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-memphis {
+    font-family: var(--tss-sansserif-font-family);
+    font-feature-settings: "kern" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: rgb(var(--tss-default-background-color-root));
+    background-image: var(--tss-mp-pattern-confetti);
+    background-size: 240px 240px;
+}
+
+body.tss-theme-memphis ::selection {
+    background: rgb(var(--tss-mp-yellow-root));
+    color: rgb(22, 18, 20);
+}
+
+body.tss-theme-memphis.tss-dark-mode ::selection {
+    background: rgb(var(--tss-mp-pink-root));
+    color: rgb(26, 15, 36);
+}
+
+/* Focus is a thick cobalt ring (sunflower at night), offset from the part so it never merges with the
+   black outline every control already has. */
+body.tss-theme-memphis :focus-visible {
+    outline: 3px solid var(--tss-mp-focus);
+    outline-offset: 2px;
+}
+
+body.tss-theme-memphis a {
+    color: rgb(var(--tss-link-color-root));
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-memphis code,
+body.tss-theme-memphis kbd,
+body.tss-theme-memphis pre {
+    font-family: var(--tss-monospace-font-family);
+}
+
+/* --------------------------------------------------------------------------
+   Scrollbars: a chunky rail
+   --------------------------------------------------------------------------
+   A 12px slot with no track and a pill thumb drawn with a line: a ghost at
+   rest, an outlined pill while the pointer is over the scroller, filled
+   pink under the pointer and cobalt while dragged. CSS only, on purpose
+   (see the repository's "Scrollbars are CSS only"): no script watches
+   scrolling or draws a bar.
+
+   Chromium 121+ stops drawing ::-webkit-scrollbar once scrollbar-color or
+   scrollbar-width is set, so the standard properties sit under
+   @supports not selector(::-webkit-scrollbar), which is Firefox alone.
+   -------------------------------------------------------------------------- */
+
+html:has(> body.tss-theme-memphis),
+body.tss-theme-memphis {
+    --tss-mp-sb-rest: rgba(22, 18, 20, 0.2);
+    --tss-mp-sb-near: rgba(22, 18, 20, 0.55);
+    --tss-mp-sb-hot: rgb(255, 95, 168);
+    --tss-mp-sb-drag: rgb(44, 75, 255);
+}
+
+html:has(> body.tss-theme-memphis.tss-dark-mode),
+body.tss-theme-memphis.tss-dark-mode {
+    --tss-mp-sb-rest: rgba(255, 241, 220, 0.18);
+    --tss-mp-sb-near: rgba(255, 241, 220, 0.5);
+    --tss-mp-sb-hot: rgb(255, 79, 196);
+    --tss-mp-sb-drag: rgb(44, 245, 207);
+}
+
+@supports selector(::-webkit-scrollbar) {
+
+    html:has(> body.tss-theme-memphis)::-webkit-scrollbar,
+    body.tss-theme-memphis::-webkit-scrollbar,
+    body.tss-theme-memphis ::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-memphis)::-webkit-scrollbar-corner,
+    body.tss-theme-memphis::-webkit-scrollbar-corner,
+    body.tss-theme-memphis ::-webkit-scrollbar-corner,
+    html:has(> body.tss-theme-memphis)::-webkit-scrollbar-track,
+    body.tss-theme-memphis::-webkit-scrollbar-track,
+    body.tss-theme-memphis ::-webkit-scrollbar-track,
+    body.tss-theme-memphis *:hover::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    html:has(> body.tss-theme-memphis)::-webkit-scrollbar-thumb,
+    body.tss-theme-memphis::-webkit-scrollbar-thumb,
+    body.tss-theme-memphis ::-webkit-scrollbar-thumb {
+        background: var(--tss-mp-sb-rest);
+        background-clip: padding-box;
+        border: 3px solid transparent;
+        border-radius: 12px;
+        min-height: 36px;
+        min-width: 36px;
+    }
+
+    html:has(> body.tss-theme-memphis):hover::-webkit-scrollbar-thumb,
+    body.tss-theme-memphis:hover::-webkit-scrollbar-thumb,
+    body.tss-theme-memphis *:hover::-webkit-scrollbar-thumb {
+        background: var(--tss-mp-sb-near);
+        background-clip: padding-box;
+    }
+
+    html:has(> body.tss-theme-memphis)::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-memphis::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-memphis ::-webkit-scrollbar-thumb:hover,
+    body.tss-theme-memphis *:hover::-webkit-scrollbar-thumb:hover {
+        background: var(--tss-mp-sb-hot);
+        background-clip: padding-box;
+    }
+
+    html:has(> body.tss-theme-memphis)::-webkit-scrollbar-thumb:active,
+    body.tss-theme-memphis::-webkit-scrollbar-thumb:active,
+    body.tss-theme-memphis ::-webkit-scrollbar-thumb:active,
+    body.tss-theme-memphis *:hover::-webkit-scrollbar-thumb:active {
+        background: var(--tss-mp-sb-drag);
+        background-clip: padding-box;
+    }
+
+    html:has(> body.tss-theme-memphis)::-webkit-scrollbar-button,
+    body.tss-theme-memphis::-webkit-scrollbar-button,
+    body.tss-theme-memphis ::-webkit-scrollbar-button {
+        display: none;
+    }
+}
+
+/* Firefox: no thumb part to hover, so it stops at the outlined pill while over the scroller. */
+@supports not selector(::-webkit-scrollbar) {
+    html:has(> body.tss-theme-memphis),
+    body.tss-theme-memphis,
+    body.tss-theme-memphis * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--tss-mp-sb-rest) transparent;
+    }
+
+    html:has(> body.tss-theme-memphis):hover,
+    body.tss-theme-memphis *:hover {
+        scrollbar-color: var(--tss-mp-sb-near) transparent;
+    }
+}

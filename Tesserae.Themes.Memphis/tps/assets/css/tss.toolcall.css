@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Memphis theme - ToolCall
+   --------------------------------------------------------------------------
+   A tool call is a little laminate chip with a 2px black line; opened, it
+   steps onto a hard lilac shadow and its header is ruled off by a line.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-toolcall {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius);
+    background: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-memphis .tss-toolcall.tss-expanded {
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 rgb(var(--tss-mp-lilac-root));
+}
+
+body.tss-theme-memphis .tss-toolcall.tss-expanded > .tss-toolcall-header {
+    border-bottom: var(--tss-mp-bw) solid var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-toolcall > .tss-toolcall-header:hover {
+    background: var(--tss-mp-yellow-pale);
+}

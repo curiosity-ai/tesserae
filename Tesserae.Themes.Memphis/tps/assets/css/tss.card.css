@@ -1,0 +1,158 @@
+/* ==========================================================================
+   Memphis theme - Card
+   --------------------------------------------------------------------------
+   A card is a laminate panel: a 3px black line round a calm surface, on a
+   hard offset shadow. The shadow's colour rotates through the accents
+   along a row of cards, so a dashboard reads like a box of confetti while
+   each card stays plain enough to read. A titled card carries a header
+   strip in an accent with a squiggle laid over it and the title set on a
+   cream label so it stays legible over the pattern. A hoverable card lifts
+   up and to the left onto a longer shadow, and is pressed flat when
+   clicked.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-card-container {
+    padding: 2px 8px 8px 2px;
+}
+
+body.tss-theme-memphis .tss-card {
+    --tss-mp-card-cast: var(--tss-mp-cast);
+    height: calc(100% - 4px);
+    width: calc(100% - 4px);
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: var(--tss-mp-bw-bold) solid var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius-panel);
+    box-shadow: var(--tss-mp-off) var(--tss-mp-off) 0 0 var(--tss-mp-card-cast);
+    transition: transform 140ms var(--tss-mp-pop), box-shadow 140ms var(--tss-mp-pop), opacity 200ms linear;
+}
+
+/* The confetti rotation: one accent per card along a row. */
+body.tss-theme-memphis .tss-card-container:nth-child(6n+1) > .tss-card { --tss-mp-card-cast: rgb(var(--tss-mp-pink-root)); --tss-mp-card-accent: rgb(var(--tss-mp-pink-root)); }
+body.tss-theme-memphis .tss-card-container:nth-child(6n+2) > .tss-card { --tss-mp-card-cast: rgb(var(--tss-mp-cobalt-root)); --tss-mp-card-accent: rgb(var(--tss-mp-mint-root)); }
+body.tss-theme-memphis .tss-card-container:nth-child(6n+3) > .tss-card { --tss-mp-card-cast: rgb(var(--tss-mp-yellow-root)); --tss-mp-card-accent: rgb(var(--tss-mp-yellow-root)); }
+body.tss-theme-memphis .tss-card-container:nth-child(6n+4) > .tss-card { --tss-mp-card-cast: rgb(var(--tss-mp-mint-root)); --tss-mp-card-accent: rgb(var(--tss-mp-lilac-root)); }
+body.tss-theme-memphis .tss-card-container:nth-child(6n+5) > .tss-card { --tss-mp-card-cast: rgb(var(--tss-mp-lilac-root)); --tss-mp-card-accent: rgb(var(--tss-mp-tomato-root)); }
+body.tss-theme-memphis .tss-card-container:nth-child(6n+6) > .tss-card { --tss-mp-card-cast: rgb(var(--tss-mp-tomato-root)); --tss-mp-card-accent: rgb(var(--tss-mp-mint-root)); }
+
+/* A SectionStack's sections each hold one card, so there the rotation follows the section instead. */
+body.tss-theme-memphis .tss-sectionstack-item:nth-child(6n+1) > * > .tss-card-container > .tss-card { --tss-mp-card-cast: rgb(var(--tss-mp-cobalt-root)); --tss-mp-card-accent: rgb(var(--tss-mp-yellow-root)); }
+body.tss-theme-memphis .tss-sectionstack-item:nth-child(6n+2) > * > .tss-card-container > .tss-card { --tss-mp-card-cast: rgb(var(--tss-mp-pink-root)); --tss-mp-card-accent: rgb(var(--tss-mp-mint-root)); }
+body.tss-theme-memphis .tss-sectionstack-item:nth-child(6n+3) > * > .tss-card-container > .tss-card { --tss-mp-card-cast: rgb(var(--tss-mp-mint-root)); --tss-mp-card-accent: rgb(var(--tss-mp-pink-root)); }
+body.tss-theme-memphis .tss-sectionstack-item:nth-child(6n+4) > * > .tss-card-container > .tss-card { --tss-mp-card-cast: rgb(var(--tss-mp-yellow-root)); --tss-mp-card-accent: rgb(var(--tss-mp-lilac-root)); }
+body.tss-theme-memphis .tss-sectionstack-item:nth-child(6n+5) > * > .tss-card-container > .tss-card { --tss-mp-card-cast: rgb(var(--tss-mp-lilac-root)); --tss-mp-card-accent: rgb(var(--tss-mp-tomato-root)); }
+body.tss-theme-memphis .tss-sectionstack-item:nth-child(6n+6) > * > .tss-card-container > .tss-card { --tss-mp-card-cast: rgb(var(--tss-mp-tomato-root)); --tss-mp-card-accent: rgb(var(--tss-mp-mint-root)); }
+
+body.tss-theme-memphis .tss-card.tss-card-hover:hover {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    transform: translate(-2px, -2px);
+    box-shadow: calc(var(--tss-mp-off) + 2px) calc(var(--tss-mp-off) + 2px) 0 0 var(--tss-mp-card-cast);
+}
+
+body.tss-theme-memphis .tss-card.tss-card-hover:active {
+    transform: translate(var(--tss-mp-off), var(--tss-mp-off));
+    box-shadow: 0 0 0 0 var(--tss-mp-card-cast);
+}
+
+body.tss-theme-memphis .tss-card-container.tss-small {
+    padding: 2px 5px 5px 2px;
+}
+
+body.tss-theme-memphis .tss-card-container.tss-small > .tss-card {
+    border-width: var(--tss-mp-bw);
+    box-shadow: var(--tss-mp-off-sm) var(--tss-mp-off-sm) 0 0 var(--tss-mp-card-cast);
+}
+
+/* With a layout, the card itself draws the frame and the parts sit inside it. */
+body.tss-theme-memphis .tss-card.tss-has-layout {
+    background: rgb(var(--tss-secondary-background-color-root)) !important;
+    border: var(--tss-mp-bw-bold) solid var(--tss-mp-line) !important;
+    box-shadow: var(--tss-mp-off) var(--tss-mp-off) 0 0 var(--tss-mp-card-cast) !important;
+    overflow: hidden;
+}
+
+/* The header strip: an accent, a squiggle over it, a black rule under it. */
+body.tss-theme-memphis .tss-card-header {
+    min-height: 40px;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    border: none;
+    border-bottom: var(--tss-mp-bw-bold) solid var(--tss-mp-line);
+    border-radius: 0;
+    background-color: var(--tss-mp-card-accent, rgb(var(--tss-mp-yellow-root)));
+    background-image: var(--tss-mp-pattern-squiggle-soft);
+    background-size: 48px 24px;
+}
+
+body.tss-theme-memphis .tss-card-header:empty {
+    display: none;
+}
+
+/* The title sits on a cream label so the pattern never runs under the words. */
+body.tss-theme-memphis .tss-card-title {
+    width: auto;
+    max-width: 100%;
+    flex: 0 1 auto;
+    padding: 2px 10px;
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 999px;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.01em;
+}
+
+body.tss-theme-memphis .tss-card-title .tss-textblock,
+body.tss-theme-memphis .tss-card-title .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-card-header > :not(.tss-card-title) {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-card-content {
+    background: rgb(var(--tss-secondary-background-color-root));
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+body.tss-theme-memphis .tss-card-footer {
+    padding: 8px 12px;
+    margin-top: 0;
+    border: none;
+    border-top: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 0;
+    background-color: rgb(var(--tss-default-background-color-root));
+    background-image: var(--tss-mp-pattern-hatch-soft);
+    background-size: 10px 10px;
+}
+
+body.tss-theme-memphis .tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-header {
+    min-height: 30px;
+    padding: 3px 8px;
+    margin-bottom: 0;
+    border-bottom-width: var(--tss-mp-bw);
+}
+
+body.tss-theme-memphis .tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-content {
+    padding: 4px 10px;
+}
+
+body.tss-theme-memphis .tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-footer {
+    padding-top: 4px;
+    margin-top: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-memphis .tss-card {
+        transition: none;
+    }
+
+    body.tss-theme-memphis .tss-card.tss-card-hover:hover,
+    body.tss-theme-memphis .tss-card.tss-card-hover:active {
+        transform: none;
+    }
+}

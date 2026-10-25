@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Memphis theme - Spinner
+   --------------------------------------------------------------------------
+   A spinner is a fat ring: a thick bubblegum arc chasing round a pale
+   track. Tones keep their bright accent.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-spinner {
+    --tss-spinner-color: rgb(var(--tss-mp-pink-root));
+    --tss-spinner-size: 3px;
+    border-color: var(--tss-spinner-color) rgba(var(--tss-mp-line-root), 0.15) rgba(var(--tss-mp-line-root), 0.15);
+}
+
+body.tss-theme-memphis .tss-spinner.tss-spinner-progress {
+    background: conic-gradient(var(--tss-spinner-color) calc(var(--tss-spinner-progress, 0) * 1%), rgba(var(--tss-mp-line-root), 0.15) 0);
+}
+
+body.tss-theme-memphis .tss-spinner-success { --tss-spinner-color: rgb(var(--tss-mp-mint-root)); }
+body.tss-theme-memphis .tss-spinner-danger { --tss-spinner-color: rgb(var(--tss-mp-tomato-root)); }
+body.tss-theme-memphis .tss-spinner-warning { --tss-spinner-color: rgb(var(--tss-mp-yellow-root)); }
+
+body.tss-theme-memphis .tss-spinner-label {
+    font-weight: 700;
+}

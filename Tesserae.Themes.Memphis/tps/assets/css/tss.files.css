@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Memphis theme - File selector and drop area
+   --------------------------------------------------------------------------
+   The drop area is an empty-state poster: a dashed black line round a
+   field of soft confetti, its icon in a sunflower disc. While a file is
+   held over it, the field goes mint and the line turns solid.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-filedroparea {
+    border: var(--tss-mp-bw-bold) dashed var(--tss-mp-line);
+    border-radius: var(--tss-mp-radius-panel);
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    background-image: var(--tss-mp-pattern-confetti);
+    background-size: 240px 240px;
+}
+
+body.tss-theme-memphis .tss-filedroparea.tss-dropping {
+    border-style: solid;
+    background-color: var(--tss-mp-mint-pale);
+    box-shadow: var(--tss-mp-off) var(--tss-mp-off) 0 0 rgb(var(--tss-mp-pink-root));
+}
+
+body.tss-theme-memphis .tss-filedroparea-icon {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-memphis .tss-filedroparea-message {
+    font-weight: 700;
+    color: rgb(var(--tss-default-foreground-color-root));
+}

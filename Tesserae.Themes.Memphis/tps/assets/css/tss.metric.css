@@ -1,0 +1,50 @@
+/* ==========================================================================
+   Memphis theme - Metric
+   --------------------------------------------------------------------------
+   A number that matters is set big in the display face, like the price on
+   a showroom tag; its title is a small bold caption. The icon sits in a
+   coloured disc with a black line. A filled value is a sticker with a
+   black line, a clickable metric pops onto a sunflower-pale ground.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-metric-value,
+body.tss-theme-memphis .tss-metric-value .tss-textblock {
+    font-family: var(--tss-mp-display);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-memphis .tss-metric-title,
+body.tss-theme-memphis .tss-metric-title .tss-textblock {
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+body.tss-theme-memphis .tss-metric-icon > .tss-icontile {
+    --tss-icontile-radius: 50%;
+}
+
+body.tss-theme-memphis .tss-metric-value-filled .tss-metric-value {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    border-radius: 999px;
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-metric-change {
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-metric-clickable {
+    border-radius: var(--tss-mp-radius);
+}
+
+body.tss-theme-memphis .tss-metric-clickable:hover {
+    background: var(--tss-mp-yellow-pale);
+    box-shadow: 0 0 0 6px var(--tss-mp-yellow-pale), 0 0 0 8px var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-metric-clickable:focus-visible {
+    outline: 3px solid var(--tss-mp-focus);
+    outline-offset: 10px;
+}

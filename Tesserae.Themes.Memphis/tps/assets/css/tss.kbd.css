@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Memphis theme - Keyboard shortcut
+   --------------------------------------------------------------------------
+   A key chip is a tiny chunky keycap: white with a 1.5px black line and a
+   2px hard shadow, its legend in bold mono.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-kbd-key {
+    border: 1.5px solid var(--tss-mp-line);
+    border-bottom-width: 1.5px;
+    border-radius: var(--tss-mp-radius-small);
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: 2px 2px 0 0 var(--tss-mp-line);
+    font-family: var(--tss-monospace-font-family);
+    font-weight: 500;
+    margin-right: 2px;
+    margin-bottom: 2px;
+}
+
+body.tss-theme-memphis .tss-kbd-separator {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-weight: 700;
+}
+
+body.tss-theme-memphis .tss-shortcut-guide-section-title {
+    font-family: var(--tss-mp-display);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+}

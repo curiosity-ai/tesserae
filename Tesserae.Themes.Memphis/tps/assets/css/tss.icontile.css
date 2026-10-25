@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Memphis theme - IconTile
+   --------------------------------------------------------------------------
+   An icon tile is a little geometric block with a 2px black line. An
+   untinted tile is lilac-pale; a tinted one keeps the host's colours inside
+   the line.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-icontile {
+    border: var(--tss-mp-bw) solid var(--tss-mp-line);
+    --tss-icontile-radius: var(--tss-mp-radius);
+}
+
+body.tss-theme-memphis .tss-icontile.tss-icontile-plain,
+body.tss-theme-memphis.tss-dark-mode .tss-icontile.tss-icontile-plain {
+    background: var(--tss-mp-lilac-pale);
+    color: rgb(var(--tss-default-foreground-color-root));
+}

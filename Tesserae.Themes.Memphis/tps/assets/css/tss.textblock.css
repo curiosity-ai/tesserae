@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Memphis theme - TextBlock
+   --------------------------------------------------------------------------
+   Big type is a poster: anything set XLarge or larger is in the chunky
+   display face, the way a Memphis showroom sign was lettered. Body text
+   stays in the friendly geometric sans. A glow is a neon tube at night and
+   a coloured block shadow by day.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-textblock.tss-fontsize-xlarge,
+body.tss-theme-memphis .tss-textblock.tss-fontsize-xxlarge,
+body.tss-theme-memphis .tss-textblock.tss-fontsize-mega {
+    font-family: var(--tss-mp-display);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 1.15;
+}
+
+body.tss-theme-memphis .tss-text-glow {
+    text-shadow: 2px 2px 0 rgb(var(--tss-mp-pink-root));
+}
+
+body.tss-theme-memphis.tss-dark-mode .tss-text-glow {
+    text-shadow: 0 0 6px var(--tss-text-glow-color, rgb(var(--tss-mp-pink-root))), 0 0 16px color-mix(in srgb, var(--tss-text-glow-color, rgb(var(--tss-mp-pink-root))) 60%, transparent);
+}

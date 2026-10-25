@@ -1,0 +1,57 @@
+/* ==========================================================================
+   Memphis theme - DetailsList
+   --------------------------------------------------------------------------
+   A table is a printed price list from a Memphis showroom: the column
+   headers sit on a sunflower band in bold ink, ruled off from the rows by a
+   2px black line; rows are divided by soft rules and go sunflower-pale
+   under the pointer; figures are tabular. The current sort's arrow is a
+   bubblegum disc.
+   ========================================================================== */
+
+body.tss-theme-memphis .tss-detailslist-header {
+    background: rgb(var(--tss-mp-yellow-root));
+    box-shadow: inset 0 calc(-1 * var(--tss-mp-bw)) 0 var(--tss-mp-line);
+}
+
+body.tss-theme-memphis .tss-detailslist-column-header,
+body.tss-theme-memphis .tss-detailslist-column-header > .tss-textblock {
+    align-items: center;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-detailslist-column-header > i {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-detailslist-column-header.tss-cursor-pointer:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+body.tss-theme-memphis .tss-detailslist-column-header > i.tss-detailslist-column-header-sorting-icon,
+body.tss-theme-memphis .tss-detailslist-column-header-sorting-icon {
+    color: var(--tss-mp-on-accent);
+}
+
+body.tss-theme-memphis .tss-detailslist-list-item {
+    font-variant-numeric: tabular-nums;
+}
+
+body.tss-theme-memphis .tss-detailslist-list-item-container {
+    border-top-color: rgb(var(--tss-default-separator-color-root));
+    transition: background-color 100ms linear;
+}
+
+body.tss-theme-memphis .tss-detailslist-list-items-container > .tss-detailslist-list-item-container:first-child {
+    border-top-color: transparent;
+}
+
+body.tss-theme-memphis .tss-detailslist-list-item-container:last-of-type {
+    border-bottom-color: rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-memphis .tss-detailslist-list-item-container:hover {
+    background-color: var(--tss-mp-yellow-pale);
+}
