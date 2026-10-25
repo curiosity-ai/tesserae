@@ -157,8 +157,8 @@ a picker), `IsLoaded`, `Stylesheets`, and `OnActivated()` / `OnDeactivated()` ho
   skeuomorphic theme after West German industrial design of the 1950s to 80s ("less, but
   better"): warm light-grey plastic panels with an inset hairline groove, brushed and turned
   aluminium for knobs, thumbs, slider caps and the sidebar plate, buttons as extruded slabs with
-  their side wall showing, pushed in when pressed (IconToggle: dished caps in a dark socket strip with
-  engraved icons, orange when latched), recessed wells for fields, signal orange as the one accent, LED lamps for state, and metrics
+  their side wall showing, pushed in when pressed (IconToggle: the slab cut into welded keys with
+  engraved icons, the chosen one pushed in and orange), recessed wells for fields, signal orange as the one accent, LED lamps for state, and metrics
   on a grey-green LCD in 7-segment figures. Dark mode is the charcoal edition. Hanken Grotesk,
   DSEG7/DSEG14 and JetBrains Mono are bundled (OFL). Its tokens are `--tss-wg-*` in its
   `tss.common.css`; the package README states the design rules.

@@ -56,8 +56,8 @@ of `tss.common.css`; `tss.button.css`, `tss.card.css`, `tss.textbox.css`, `tss.c
    colour made lighter or darker in OKLCH, never white or black washed over it. Panel-level keys (checkboxes,
    pivots, rows) use `--tss-wg-key`, `--tss-wg-raised` and `--tss-wg-pressed`. A ghost control (Tesserae's default
    button, toolbar and row commands) is flat at rest and rises into a grey slab under the pointer, so a dense
-   toolbar does not become a keyboard. An IconToggle is a strip of square caps in one dark socket, each with a
-   shallow round dish and its icon engraved in it; the latched key's engraving is filled orange.
+   toolbar does not become a keyboard. An IconToggle is the slab cut into keys: welded side by side on one shared
+   wall, each icon engraved in its face; the chosen key is pushed in and its engraving filled orange.
 5. **Orange is the one voice.** `--tss-wg-orange` marks the primary action, the checked state (checkbox latched,
    toggle slot, slider scale), the current item's pilot lamp, focus, and links (`--tss-link-color-root`, a darker
    orange for contrast). Do not use it for decoration. White type on orange, weight 600.
