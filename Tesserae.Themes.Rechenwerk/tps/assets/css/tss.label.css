@@ -31,7 +31,7 @@ body.tss-theme-rechenwerk .tss-label > label.tss-required {
 
 body.tss-theme-rechenwerk .tss-label > label.tss-required:after {
     content: "";
-    top: 2px;
+    top: 4px;
     right: -6px;
     width: 6px;
     height: 6px;

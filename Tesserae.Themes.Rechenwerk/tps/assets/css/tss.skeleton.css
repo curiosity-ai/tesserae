@@ -10,9 +10,10 @@
    motion the stripes stand still.
    ========================================================================== */
 
+/* One period of a -45deg stripe of 10px, measured along the row: 10px * sqrt(2). */
 @keyframes tss-rechenwerk-skeleton-scan {
-    from { background-position: 0 0; }
-    to   { background-position: 14.142px 0; }
+    from { transform: translateX(0); }
+    to   { transform: translateX(14.142px); }
 }
 
 body.tss-theme-rechenwerk .tss-skeleton {
@@ -24,13 +25,19 @@ body.tss-theme-rechenwerk .tss-skeleton-circle {
     border-radius: 0;
 }
 
-/* The base sweeps a soft white glow across; here the whole block is the raster, moving in four steps a cycle. */
+/* The base sweeps a soft white glow across; here the whole block is the raster, one period wider than the
+   block so it can slide a full stripe to the right in four steps and start again without a seam. */
 body.tss-theme-rechenwerk .tss-skeleton-animated::after {
-    left: 0;
-    width: 100%;
+    left: -14.142px;
+    width: calc(100% + 14.142px);
     background: repeating-linear-gradient(-45deg, rgba(var(--tss-default-foreground-color-root), 0.16) 0 5px, transparent 5px 10px);
     animation: tss-rechenwerk-skeleton-scan 640ms steps(4) infinite;
-    transform: none;
+}
+
+/* Waiting on a model (AI()): the same crawl, the stripes in the AI violet over the tinted block. */
+body.tss-theme-rechenwerk .tss-skeleton.tss-ai.tss-skeleton-animated::after,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-skeleton.tss-ai.tss-skeleton-animated::after {
+    background: repeating-linear-gradient(-45deg, rgba(var(--tss-colors-purple-400-root), 0.4) 0 5px, transparent 5px 10px);
 }
 
 @media (prefers-reduced-motion: reduce) {

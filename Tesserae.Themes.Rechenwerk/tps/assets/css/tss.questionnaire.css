@@ -2,7 +2,8 @@
    Rechenwerk theme - Questionnaire
    --------------------------------------------------------------------------
    A question set as a panel: a 2px ink frame on the surface colour, standing
-   on the panel's hard shadow, the question in the headline face. The answers
+   on the panel's hard shadow, the question in the headline face (in its own
+   case: it is what someone asked, not chrome). The answers
    are calculator keys: square, framed, on a 3px shadow, tracked capitals;
    they press in. Once answered, the chosen key is the terminal's cursor (the
    yellow block, black type) and the others fall back to dashed, disabled
@@ -25,11 +26,10 @@ body.tss-theme-rechenwerk .tss-questionnaire {
 
 body.tss-theme-rechenwerk .tss-questionnaire-question {
     font-family: var(--tss-rw-display);
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 800;
     line-height: 1.15;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
+    letter-spacing: 0.01em;
     color: rgb(var(--tss-default-foreground-color-root));
 }
 

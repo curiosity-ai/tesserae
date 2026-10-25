@@ -1,1 +1,64 @@
-/* Rechenwerk theme - kbd */
+/* ==========================================================================
+   Rechenwerk theme - KeyboardShortcut and ShortcutGuide
+   --------------------------------------------------------------------------
+   A key is a key of the Taschenrechner: a cream plate in a 2px ink rule,
+   standing on a 2px hard shadow, the legend in Space Mono capitals. The
+   plate is cream in both modes, because a calculator's keys do not change
+   colour when the room goes dark; on the terminal its shadow is the yellow.
+   The "+" between keys is the signal colour. The guide's section titles are
+   tracked capitals with a 2px rule under them, its rows ruled by hairlines.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-kbd-shortcut {
+    gap: 4px;
+}
+
+body.tss-theme-rechenwerk .tss-kbd-key {
+    box-sizing: border-box;
+    min-width: 22px;
+    height: 22px;
+    margin: 0 2px 2px 0;
+    padding: 0 5px;
+    border: 2px solid rgb(17, 17, 17);
+    border-radius: 0;
+    background: rgb(246, 242, 233);
+    box-shadow: 2px 2px 0 0 rgb(17, 17, 17);
+    color: rgb(17, 17, 17);
+    font-family: var(--tss-monospace-font-family);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-kbd-key,
+body.tss-theme-rechenwerk .tss-sidebar .tss-kbd-key {
+    border-color: rgb(10, 10, 10);
+    background: rgb(238, 232, 218);
+    box-shadow: 2px 2px 0 0 rgb(244, 194, 13);
+}
+
+body.tss-theme-rechenwerk .tss-kbd-separator {
+    padding: 0;
+    color: var(--tss-rw-signal);
+    font-family: var(--tss-monospace-font-family);
+    font-weight: 700;
+}
+
+body.tss-theme-rechenwerk .tss-shortcut-guide-section-title {
+    padding-bottom: 6px;
+    margin-bottom: 4px;
+    border-bottom: 2px solid rgb(var(--tss-default-border-color-root));
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-shortcut-guide-row {
+    border-bottom: 1px solid rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-shortcut-guide-row:last-child {
+    border-bottom: none;
+}

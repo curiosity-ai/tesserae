@@ -1,1 +1,100 @@
-/* Rechenwerk theme - uptime */
+/* ==========================================================================
+   Rechenwerk theme - Uptime bars and calendar
+   --------------------------------------------------------------------------
+   A status board of square lamps. Operational is the sleeve's green, a
+   minor incident the terminal yellow, a major outage the signal red and
+   maintenance the Autobahn blue; no data is the meter's grey and the
+   future an empty dashed cell. A lamp under the pointer is ringed in ink
+   instead of lifting. The month card is a framed panel on a hard shadow
+   with its header in tracked capitals, and the tooltip is the theme's
+   square tooltip block (ink on paper, yellow on the screen).
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-uptime-bars {
+    gap: 2px;
+}
+
+body.tss-theme-rechenwerk .tss-uptime-bars span,
+body.tss-theme-rechenwerk .tss-uptime-month-day,
+body.tss-theme-rechenwerk .tss-uptime-month-empty {
+    border-radius: 0;
+    background: rgb(var(--tss-progress-background-color-root));
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-uptime-bars span:hover,
+body.tss-theme-rechenwerk .tss-uptime-bars span:focus-visible {
+    transform: none;
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+    position: relative;
+    z-index: 1;
+}
+
+body.tss-theme-rechenwerk .tss-uptime-month-day:hover {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+}
+
+body.tss-theme-rechenwerk .tss-uptime-bars span.operational,
+body.tss-theme-rechenwerk .tss-uptime-month-day.operational { background: var(--tss-rw-green); }
+
+body.tss-theme-rechenwerk .tss-uptime-bars span.minor,
+body.tss-theme-rechenwerk .tss-uptime-month-day.minor { background: var(--tss-rw-yellow); }
+
+body.tss-theme-rechenwerk .tss-uptime-bars span.major,
+body.tss-theme-rechenwerk .tss-uptime-month-day.major { background: var(--tss-rw-red); }
+
+body.tss-theme-rechenwerk .tss-uptime-bars span.maintenance,
+body.tss-theme-rechenwerk .tss-uptime-month-day.maintenance { background: var(--tss-chart-series-4, var(--tss-rw-blue)); }
+
+body.tss-theme-rechenwerk .tss-uptime-bars span.none { background: rgb(var(--tss-progress-background-color-root)); }
+
+body.tss-theme-rechenwerk .tss-uptime-bars span.future,
+body.tss-theme-rechenwerk .tss-uptime-month-day.future {
+    background: transparent;
+    box-sizing: border-box;
+    border: 1px dashed rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-uptime-month-empty {
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-uptime-month-card {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-rw-card-shadow);
+}
+
+body.tss-theme-rechenwerk .tss-uptime-month-header {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-uptime-month-header span {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+    letter-spacing: 0;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tippy-box[data-theme~='uptime'] {
+    background: rgb(var(--tss-tooltip-background-color-root));
+    color: rgb(var(--tss-tooltip-foreground-color-root));
+    border: 2px solid rgb(var(--tss-tooltip-background-color-root));
+    border-radius: 0;
+    box-shadow: 4px 4px 0 0 var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tippy-box[data-theme~='uptime'] .tss-textblock,
+body.tss-theme-rechenwerk .tippy-box[data-theme~='uptime'] .tss-fontweight-semibold {
+    color: rgb(var(--tss-tooltip-foreground-color-root)) !important;
+}
+
+body.tss-theme-rechenwerk .tippy-box[data-theme~='uptime'] > .tippy-arrow {
+    display: none;
+}

@@ -66,7 +66,7 @@ body.tss-theme-rechenwerk .tss-taskboard-card {
     transition: transform 90ms steps(2), box-shadow 90ms steps(2);
 }
 
-body.tss-theme-rechenwerk .tss-taskboard-column:not(.tss-taskboard-column-readonly) .tss-taskboard-card:not(.tss-taskboard-card-locked):hover {
+body.tss-theme-rechenwerk .tss-taskboard-column:not(.tss-taskboard-column-readonly) .tss-taskboard-card:not(.tss-taskboard-card-locked):not(.tss-taskboard-card-ghost):hover {
     box-shadow: 5px 5px 0 0 rgb(var(--tss-default-border-color-root)) !important;
     transform: translate(-2px, -2px);
 }

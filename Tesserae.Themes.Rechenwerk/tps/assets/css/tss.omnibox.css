@@ -1,1 +1,467 @@
-/* Rechenwerk theme - omnibox */
+/* ==========================================================================
+   Rechenwerk theme - OmniBox
+   --------------------------------------------------------------------------
+   The Computerwelt moment: the box is a terminal line. A square 2px ink
+   frame on the surface colour, a bold prompt (>) in the signal colour in
+   front of the query, and the query itself typed in Space Mono. Focus is the
+   field model of tss.textbox.css, a hard 4px shadow in the signal colour.
+   The search trigger at the end of the row is a solid ink key; the other
+   end buttons are ghost keys behind a 2px rule.
+
+   The parser speaks in shape: a word it understood is boxed, the operators
+   and quotes are bold signal type. Snaps are ink chips with paper type.
+   Everything the box opens (suggestions, history, help, models) is a
+   floating panel on the frame shadow, rows in sentence case, and the row
+   under the keyboard is the terminal's cursor: the yellow block.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-omnibox-container,
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-omnibox-mode-chat,
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-omnibox-rounded-sm,
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-omnibox-rounded-md,
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-omnibox-rounded-full,
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-omnibox-rounded-full.tss-omnibox-mode-chat {
+    --tss-omnibox-radius: 0px;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container {
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    box-shadow: none;
+    transition: box-shadow 80ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container:hover {
+    border-color: rgb(var(--tss-default-border-color-root));
+    box-shadow: 2px 2px 0 0 rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container:focus-within {
+    border-color: rgb(var(--tss-default-border-color-root));
+    box-shadow: 4px 4px 0 0 var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover .tss-omnibox-search-container,
+body.tss-theme-rechenwerk .tss-omnibox-container:focus-within .tss-omnibox-search-container {
+    border-color: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-disabled,
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-disabled:hover {
+    border: 2px dashed rgb(var(--tss-disabled-foreground-color-root));
+    background: transparent;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-disabled .tss-omnibox-search-container {
+    border-color: transparent;
+    background: transparent;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   The line: a prompt, then the query in Space Mono
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-omnibox-search-input,
+body.tss-theme-rechenwerk .tss-omnibox-search-tokens,
+body.tss-theme-rechenwerk .tss-omnibox-chat-input {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 13.5px;
+    padding-left: 28px;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-search-input,
+body.tss-theme-rechenwerk .tss-omnibox-chat-input {
+    caret-color: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-chat-input {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-search-input::placeholder,
+body.tss-theme-rechenwerk .tss-omnibox-chat-input::placeholder {
+    color: var(--tss-rw-muted) !important;
+    opacity: 1;
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-omnibox-has-suggested-text .tss-omnibox-search-input::placeholder {
+    color: transparent !important;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-search-input-container::before,
+body.tss-theme-rechenwerk .tss-omnibox-chat-container::before {
+    content: ">";
+    position: absolute;
+    left: 9px;
+    top: 0;
+    z-index: 3;
+    font-family: var(--tss-monospace-font-family);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--tss-rw-signal);
+    pointer-events: none;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-input-container::before {
+    bottom: 0;
+    display: flex;
+    align-items: center;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-omnibox-chat-and-search .tss-omnibox-search-input-container::before {
+    line-height: 20px;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-chat-container::before {
+    top: 12px;
+    left: 17px;
+    line-height: 20px;
+}
+
+/* While it is typed into, the prompt blinks like a terminal's: on, off, nothing in between. */
+body.tss-theme-rechenwerk .tss-omnibox-container:focus-within .tss-omnibox-search-input-container::before,
+body.tss-theme-rechenwerk .tss-omnibox-container:focus-within .tss-omnibox-chat-container::before {
+    animation: tss-rw-omnibox-prompt 1.1s steps(1, end) infinite;
+}
+
+@keyframes tss-rw-omnibox-prompt {
+    0% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 0.25;
+    }
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-disabled .tss-omnibox-search-input-container::before,
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-disabled .tss-omnibox-chat-container::before {
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+/* --------------------------------------------------------------------------
+   The end buttons of a one-line box
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+    border: none;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn,
+body.tss-theme-rechenwerk .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-help-btn {
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    border-right: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):not(.tss-btn-primary):not(.tss-btn-success):not(.tss-btn-danger) :is(i, .tss-fontcolor-default) {
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:not(.tss-omnibox-ask-ai-btn):hover {
+    background-color: rgb(var(--tss-default-background-hover-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+/* The trigger is the solid key at the end of the line: ink, the signal colour under the pointer. */
+body.tss-theme-rechenwerk .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-trigger-btn,
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-trigger-btn {
+    min-width: 36px;
+    border: none;
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-trigger-btn:hover,
+body.tss-theme-rechenwerk .tss-omnibox-container:focus-within:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-trigger-btn {
+    background: var(--tss-rw-signal);
+    color: var(--tss-rw-on-signal);
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-trigger-btn:active {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-disabled:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-trigger-btn {
+    background: transparent;
+    color: rgb(var(--tss-disabled-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-search-trigger-btn .tss-spinner {
+    border-radius: 0;
+}
+
+/* A pill box keeps square buttons: the rounded variants sit at the full height of the line. */
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-omnibox-rounded-full:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-trigger-btn {
+    height: 100%;
+    max-height: none;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-omnibox-rounded-full .tss-omnibox-mode-toggle {
+    --tss-icon-toggle-radius: 0px;
+    border-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   The parsed query
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-omnibox-search-token-word,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-omnibox-search-token-word {
+    color: rgb(var(--tss-default-foreground-color-root));
+    background: rgb(var(--tss-default-background-hover-color-root));
+    outline: 1px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-search-token-operator-and,
+body.tss-theme-rechenwerk .tss-omnibox-search-token-operator-or,
+body.tss-theme-rechenwerk .tss-omnibox-search-token-operator-not,
+body.tss-theme-rechenwerk .tss-omnibox-search-token-paren,
+body.tss-theme-rechenwerk .tss-omnibox-search-token-quote,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-omnibox-search-token-operator-and,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-omnibox-search-token-operator-or,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-omnibox-search-token-operator-not,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-omnibox-search-token-paren,
+body.tss-theme-rechenwerk.tss-dark-mode .tss-omnibox-search-token-quote {
+    color: var(--tss-rw-signal);
+    font-weight: 700;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-suggested-text {
+    color: var(--tss-rw-muted);
+    opacity: 1;
+}
+
+/* Snaps: ink chips with paper type, square close keys. */
+body.tss-theme-rechenwerk .tss-omnibox-inline-chips,
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-omnibox-rounded-full .tss-omnibox-inline-chips {
+    background: transparent;
+    border-right: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-inline-chip,
+body.tss-theme-rechenwerk .tss-omnibox-container.tss-omnibox-rounded-full .tss-omnibox-inline-chip {
+    height: 22px;
+    border-radius: 0;
+    background: rgb(var(--tss-default-foreground-color-root));
+    color: rgb(var(--tss-default-background-color-root));
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11.5px;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-inline-chip i {
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-inline-chip-close {
+    border-radius: 0;
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-inline-chip-close:hover {
+    background-color: rgb(var(--tss-danger-background-color-root));
+    color: rgb(var(--tss-danger-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-right-text,
+body.tss-theme-rechenwerk .tss-omnibox-chat-counter {
+    color: var(--tss-rw-muted);
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11.5px;
+}
+
+/* --------------------------------------------------------------------------
+   The chat half: footer keys, send, model, generating
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-omnibox-footer .tss-btn.tss-btn-default:not(.tss-disabled):not(.tss-omnibox-chat-btn):hover {
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+/* Send is a key: quiet and framed with nothing to send, the solid signal key once there is. */
+body.tss-theme-rechenwerk .tss-btn.tss-omnibox-chat-btn {
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled) {
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled):hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger),
+body.tss-theme-rechenwerk .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger):hover {
+    background: var(--tss-rw-signal);
+    color: var(--tss-rw-on-signal);
+    border-color: rgb(var(--tss-default-border-color-root));
+    box-shadow: 2px 2px 0 0 rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled):active,
+body.tss-theme-rechenwerk .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger):active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-omnibox-chat-btn :is(i, .tss-fontcolor-default) {
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-chat-btn > i.tss-omnibox-chat-btn-swap {
+    animation: none;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container .tss-omnibox-search-container .tss-btn.tss-omnibox-ask-ai-btn,
+body.tss-theme-rechenwerk .tss-omnibox-container .tss-omnibox-footer .tss-btn.tss-omnibox-ask-ai-btn {
+    border-radius: 0;
+    font-size: 11px;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-container .tss-omnibox-search-container .tss-btn.tss-omnibox-ask-ai-btn {
+    height: calc(100% - 10px);
+    margin: 0 7px 0 4px;
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-omnibox-model-selector-btn,
+body.tss-theme-rechenwerk .tss-btn.tss-omnibox-model-selector-btn.tss-btn-nobg:not(.tss-disabled) {
+    height: 28px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-omnibox-model-selector-btn:hover,
+body.tss-theme-rechenwerk .tss-btn.tss-omnibox-model-selector-btn.tss-btn-nobg:not(.tss-disabled):hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-btn.tss-omnibox-model-selector-btn.tss-omnibox-model-selector-locked {
+    opacity: 1;
+    border-style: dashed;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-generating-container .tss-textblock {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   What the box opens: floating panels, rows in sentence case, the cursor yellow
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tippy-box:has(> .tippy-content .tss-omnibox-search-history-entry),
+body.tss-theme-rechenwerk .tippy-box:has(> .tippy-content .tss-omnibox-snap-suggestion),
+body.tss-theme-rechenwerk .tippy-box:has(> .tippy-content .tss-omnibox-help-panel),
+body.tss-theme-rechenwerk .tippy-box:has(> .tippy-content .tss-omnibox-model-selector-popover) {
+    background-color: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+    border: none;
+    border-radius: 0;
+    box-shadow: var(--tss-rw-frame-shadow);
+}
+
+body.tss-theme-rechenwerk .tippy-box .tss-btn.tss-omnibox-search-history-entry,
+body.tss-theme-rechenwerk .tippy-box .tss-btn.tss-omnibox-snap-suggestion,
+body.tss-theme-rechenwerk .tippy-box .tss-btn.tss-omnibox-help-entry,
+body.tss-theme-rechenwerk .tippy-box .tss-btn.tss-omnibox-model-selector-row {
+    border-radius: 0;
+    border-color: transparent;
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+body.tss-theme-rechenwerk .tippy-box .tss-btn.tss-omnibox-search-history-entry:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk .tippy-box .tss-btn.tss-omnibox-snap-suggestion:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk .tippy-box .tss-btn.tss-omnibox-help-entry:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk .tippy-box .tss-btn.tss-omnibox-model-selector-row:hover {
+    background: rgb(var(--tss-default-background-hover-color-root)) !important;
+    border-color: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-suggestion-highlight,
+body.tss-theme-rechenwerk .tippy-box .tss-btn.tss-omnibox-suggestion-highlight,
+body.tss-theme-rechenwerk .tippy-box .tss-btn.tss-omnibox-suggestion-highlight:not(.tss-disabled):hover {
+    background: rgb(244, 194, 13) !important;
+    color: rgb(10, 10, 10) !important;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-suggestion-highlight :is(i, .tss-textblock, .tss-fontcolor-default, .tss-fontcolor-secondary, .tss-omnibox-help-trigger, .tss-omnibox-help-example, .tss-btn) {
+    color: rgb(10, 10, 10) !important;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-help-header,
+body.tss-theme-rechenwerk .tss-omnibox-model-selector-header,
+body.tss-theme-rechenwerk .tippy-content .tss-textblock.tss-omnibox-model-selector-header,
+body.tss-theme-rechenwerk .tippy-content .tss-textblock.tss-omnibox-help-header {
+    color: var(--tss-rw-muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    opacity: 1;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-help-trigger {
+    color: var(--tss-rw-signal);
+    font-weight: 700;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-help-example {
+    color: var(--tss-rw-muted);
+    font-family: var(--tss-monospace-font-family);
+    font-size: 12px;
+    opacity: 1;
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-model-selector-divider {
+    height: 0;
+    background: none;
+    border-top: 1px solid rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-omnibox-model-selector-check {
+    color: var(--tss-rw-signal);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-omnibox-container {
+        transition: none;
+    }
+
+    body.tss-theme-rechenwerk .tss-omnibox-container:focus-within .tss-omnibox-search-input-container::before,
+    body.tss-theme-rechenwerk .tss-omnibox-container:focus-within .tss-omnibox-chat-container::before {
+        animation: none;
+    }
+}

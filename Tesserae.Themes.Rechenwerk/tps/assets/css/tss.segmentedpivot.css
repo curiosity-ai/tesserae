@@ -46,8 +46,12 @@ body.tss-theme-rechenwerk .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-t
 }
 
 /* The scroll arrows and the "..." menu sit outside the last key: a rule separates them. */
-body.tss-theme-rechenwerk .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-scroller + .tss-btn {
+body.tss-theme-rechenwerk .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper > .tss-segmentedpivot-titlebar-scroller + .tss-btn.tss-btn {
     border-left: var(--tss-rw-rule);
+}
+
+body.tss-theme-rechenwerk .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper > .tss-btn.tss-btn.tss-segmentedpivot-titlebar-scroll-left {
+    border-right: var(--tss-rw-rule);
 }
 
 body.tss-theme-rechenwerk .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-tab .tss-textblock {
@@ -91,8 +95,15 @@ body.tss-theme-rechenwerk .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-t
     outline-color: rgb(10, 10, 10);
 }
 
-body.tss-theme-rechenwerk .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper .tss-btn:not(.tss-disabled):hover {
-    border-color: transparent;
+body.tss-theme-rechenwerk .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper > .tss-btn,
+body.tss-theme-rechenwerk .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper > .tss-btn:hover {
+    align-self: stretch;
+    border-width: 0;
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper > .tss-btn:not(.tss-disabled):hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
 }
 
 body.tss-theme-rechenwerk .tss-segmentedpivot:not(.tss-ai) .tss-segmentedpivot-titlebar-wrapper .tss-btn.tss-segmentedpivot-titlebar-more {

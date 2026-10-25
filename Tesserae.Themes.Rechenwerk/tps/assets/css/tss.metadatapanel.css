@@ -1,1 +1,65 @@
-/* Rechenwerk theme - metadatapanel */
+/* ==========================================================================
+   Rechenwerk theme - MetadataPanel
+   --------------------------------------------------------------------------
+   The column of facts beside a conversation, set like the credits on the
+   back of a sleeve: each section's key is a line of small tracked capitals
+   behind a square in the signal colour, its facts in sentence case below,
+   the sections divided by 1px separator lines. Muted text is the warm grey
+   of the tokens; a link under the pointer takes a thick signal underline.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-metadata-section {
+    border-bottom: 1px solid rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-metadata-section:last-child {
+    border-bottom: none;
+}
+
+body.tss-theme-rechenwerk .tss-metadata-section-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-metadata-section-title::before {
+    content: "";
+    flex: none;
+    width: 7px;
+    height: 7px;
+    background: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-metadata-section-title-editable:hover,
+body.tss-theme-rechenwerk .tss-metadata-item-link:hover {
+    color: rgb(var(--tss-default-foreground-color-root));
+    text-decoration: underline;
+    text-decoration-color: var(--tss-rw-signal);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 3px;
+}
+
+body.tss-theme-rechenwerk .tss-metadata-item-link:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 2px;
+}
+
+body.tss-theme-rechenwerk .tss-metadata-section-edit,
+body.tss-theme-rechenwerk .tss-metadata-section-empty,
+body.tss-theme-rechenwerk .tss-metadata-person-secondary,
+body.tss-theme-rechenwerk .tss-metadata-item-icon,
+body.tss-theme-rechenwerk .tss-metadata-item-subtitle,
+body.tss-theme-rechenwerk .tss-metadata-avatars-more {
+    color: var(--tss-rw-muted);
+}
+
+/* The "+3" after a row of avatars is a count: the dot-matrix face. */
+body.tss-theme-rechenwerk .tss-metadata-avatars-more {
+    font-family: var(--tss-rw-dots);
+    font-weight: 800;
+}

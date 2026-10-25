@@ -1,1 +1,105 @@
-/* Rechenwerk theme - activitycalendar */
+/* ==========================================================================
+   Rechenwerk theme - Activity calendar
+   --------------------------------------------------------------------------
+   A punched card of square cells. Activity runs on one scale from the
+   meter's grey to the signal colour: paper to red on the Mensch-Maschine
+   sleeve, black to yellow on the Computerwelt screen. The month and
+   weekday labels are tracked capitals, the summary figures dot-matrix.
+   The day under the pointer is ringed in ink, the selected day in a heavy
+   ink frame; the tooltip is the theme's square tooltip on a hard shadow.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-activitycalendar {
+    --tss-activitycalendar-color: var(--tss-rw-signal);
+    --tss-activitycalendar-empty-color: rgb(var(--tss-progress-background-color-root));
+    --tss-activitycalendar-radius: 0px;
+    --tss-activitycalendar-gap: 3px;
+}
+
+body.tss-theme-rechenwerk .tss-activitycalendar-title-text {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-activitycalendar-summary-item::before {
+    border-left: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-activitycalendar-summary-caption,
+body.tss-theme-rechenwerk .tss-activitycalendar-month,
+body.tss-theme-rechenwerk .tss-activitycalendar-weekday,
+body.tss-theme-rechenwerk .tss-activitycalendar-legend {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-activitycalendar-summary-value {
+    font-family: var(--tss-rw-dots);
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+body.tss-theme-rechenwerk .tss-activitycalendar-summary-unit {
+    font-family: var(--tss-sansserif-font-family);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-activitycalendar-day {
+    transition: none;
+}
+
+body.tss-theme-rechenwerk .tss-activitycalendar-grid .tss-activitycalendar-day:not(.tss-activitycalendar-future):hover,
+body.tss-theme-rechenwerk .tss-activitycalendar-day.tss-activitycalendar-active {
+    box-shadow: 0 0 0 2px rgb(var(--tss-default-foreground-color-root));
+    position: relative;
+}
+
+body.tss-theme-rechenwerk .tss-activitycalendar-day.tss-activitycalendar-selected {
+    box-shadow: 0 0 0 2px rgb(var(--tss-default-background-color-root)), 0 0 0 4px rgb(var(--tss-default-foreground-color-root));
+    position: relative;
+}
+
+body.tss-theme-rechenwerk .tss-activitycalendar-day.tss-activitycalendar-future {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px rgb(var(--tss-default-separator-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-activitycalendar-grid:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 3px;
+}
+
+/* Day numbers: Space Mono; on a strong cell the type drawn on the signal. */
+body.tss-theme-rechenwerk .tss-activitycalendar-daynumbers .tss-activitycalendar-day {
+    font-family: var(--tss-monospace-font-family);
+    font-size: 11px;
+}
+
+body.tss-theme-rechenwerk .tss-activitycalendar-daynumbers .tss-activitycalendar-day.tss-activitycalendar-strong {
+    color: var(--tss-rw-on-signal);
+}
+
+body.tss-theme-rechenwerk .tss-activitycalendar-tooltip {
+    border-radius: 0;
+    box-shadow: 4px 4px 0 0 var(--tss-rw-signal);
+    animation: none;
+}
+
+body.tss-theme-rechenwerk .tss-activitycalendar-tooltip::after {
+    display: none;
+}
+
+body.tss-theme-rechenwerk .tss-activitycalendar-tooltip-value {
+    font-family: var(--tss-monospace-font-family);
+    font-weight: 700;
+}

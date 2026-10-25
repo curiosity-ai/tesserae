@@ -1,1 +1,21 @@
-/* Rechenwerk theme - liveprogress */
+/* ==========================================================================
+   Rechenwerk theme - Live progress
+   --------------------------------------------------------------------------
+   One line printed by the terminal: upright Space Mono in the muted ink,
+   behind a prompt in the signal colour, the way Computerwelt's screen
+   reports what it is doing. It still never animates: the line is rewritten
+   many times a second.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-liveprogress {
+    font-family: var(--tss-monospace-font-family);
+    font-style: normal;
+    font-size: 11px;
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-liveprogress::before {
+    content: "> ";
+    color: var(--tss-rw-signal);
+    font-weight: 700;
+}

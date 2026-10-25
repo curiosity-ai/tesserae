@@ -1,1 +1,44 @@
-/* Rechenwerk theme - dialog */
+/* ==========================================================================
+   Rechenwerk theme - Dialog
+   --------------------------------------------------------------------------
+   A dialog is a small modal (see tss.modal.css): the same framed sleeve on
+   the hard shadow, the same band when it has a title. What it adds is the
+   shape of an alert: square, the question set in the content at reading
+   size, and the answers (keys, see tss.button.css) on the ruled strip at
+   the bottom, right-aligned.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-modal.tss-dialog {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-dialog .tss-modal-header {
+    padding: 12px 12px 0 12px;
+}
+
+body.tss-theme-rechenwerk .tss-dialog .tss-modal-header:has(> .tss-modal-header-content:not(:empty)) {
+    padding: 0 12px 0 32px;
+}
+
+body.tss-theme-rechenwerk .tss-dialog .tss-modal-content {
+    padding: 4px 16px 0 16px;
+    font-size: 14px;
+}
+
+body.tss-theme-rechenwerk .tss-dialog .tss-modal-content > .tss-textblock {
+    font-size: 15px;
+    line-height: 1.45;
+}
+
+body.tss-theme-rechenwerk .tss-dialog .tss-modal-footer {
+    padding: 0 12px;
+}
+
+body.tss-theme-rechenwerk .tss-dialog .tss-modal-footer:has(> :not(:empty)) {
+    margin-top: 16px;
+}
+
+body.tss-theme-rechenwerk .tss-dialog .tss-modal-footer-content:not(:empty) {
+    justify-content: flex-end;
+    padding: 10px 0 8px 0;
+}

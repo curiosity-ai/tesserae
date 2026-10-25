@@ -1,1 +1,38 @@
-/* Rechenwerk theme - markhighlighter */
+/* ==========================================================================
+   Rechenwerk theme - MarkHighlighter
+   --------------------------------------------------------------------------
+   A match is the terminal's selection: the yellow block with black type, the
+   same in both modes (the selection rule of the whole theme). The focused
+   match is inverted to black with yellow type, the cursor sitting on it, and
+   underlined, since the highlight API takes only colours and decorations.
+   The <mark> fallback backend gets the same look, with a hairline frame on
+   the focused one where a box is possible.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk ::highlight(tss-marked) {
+    background-color: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk ::highlight(tss-marked-focused) {
+    background-color: rgb(10, 10, 10);
+    color: rgb(244, 194, 13);
+    text-decoration: underline;
+    text-decoration-color: rgb(215, 38, 30);
+    text-decoration-thickness: 2px;
+}
+
+body.tss-theme-rechenwerk mark {
+    background: rgb(244, 194, 13);
+    color: rgb(10, 10, 10);
+    border-radius: 0;
+}
+
+/* The element backend paints the focused match inline in --tss-mark-focus-color: black, so its type turns yellow. */
+body.tss-theme-rechenwerk {
+    --tss-mark-focus-color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk mark[style*="background"] {
+    color: rgb(244, 194, 13);
+}

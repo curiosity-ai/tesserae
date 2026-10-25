@@ -1,1 +1,12 @@
-/* Rechenwerk theme - stack */
+/* ==========================================================================
+   Rechenwerk theme - Stack
+   --------------------------------------------------------------------------
+   A stack is pure layout and draws nothing. Only an invalid stack (a group
+   of fields that failed validation) shows anything, and it says so the way
+   an invalid field does: its edge turns to the red rule, square.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-stack.tss-invalid {
+    border-color: rgb(var(--tss-invalid-border-color-root));
+    border-radius: 0;
+}
