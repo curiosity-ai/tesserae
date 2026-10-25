@@ -28,6 +28,15 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.Compact()` — denser row height.
 - `.Height(unitSize)` — needed for scrolling/virtualisation.
 
+## Keyboard
+
+- A sortable or clickable column header is a Tab stop; Enter or Space does what a click does.
+  Sortable headers carry `aria-sort` (`ascending` / `descending` / `none`; `SortedBy` marks its
+  column ascending).
+- The rows are one Tab stop (roving tabindex): ArrowUp / ArrowDown / Home / End move between rows,
+  Enter or Space clicks the row (`OnListItemClick`). Keys pressed inside a control in a cell are
+  left to that control.
+
 ## Example
 
 ```csharp
