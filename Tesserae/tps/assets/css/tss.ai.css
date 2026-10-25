@@ -59,7 +59,11 @@
     --tss-ai-to: var(--tss-colors-blue-600);
     --tss-ai-accent: var(--tss-colors-purple-400);
 
-    --tss-ai-gradient-hover: linear-gradient(115deg, var(--tss-colors-purple-500), var(--tss-colors-blue-500));
+    /* Restated with its ends: it is built from --tss-ai-from/--tss-ai-to where :root declares it, so
+       without this line the dark gradient kept the light 500s - the same colours as the hover below,
+       which left a dark-mode AI fill with no hover change at all. */
+    --tss-ai-gradient: linear-gradient(115deg, var(--tss-ai-from), var(--tss-ai-to));
+    --tss-ai-gradient-hover:linear-gradient(115deg, var(--tss-colors-purple-500), var(--tss-colors-blue-500));
 
     /* Mirrored: on a dark page the readable end of the scale is the light one. */
     --tss-ai-gradient-text: linear-gradient(100deg, var(--tss-colors-purple-300), var(--tss-colors-blue-300));
