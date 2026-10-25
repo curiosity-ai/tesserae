@@ -1,1 +1,67 @@
-/* Rechenwerk theme - contributionbar */
+/* ==========================================================================
+   Rechenwerk theme - Contribution bar
+   --------------------------------------------------------------------------
+   A stacked bar cut like a strip of coloured card: square, framed in a 2px
+   ink rule, each segment a solid block in the colour the app gave it and
+   cut from the next by an ink line. The legend's swatches are square chips
+   with the same ink edge, the labels in tracked capitals and the figures in
+   Space Mono. The toggle is a square ghost key.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-contribution-bar {
+    height: 14px;
+    border-radius: 0;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    box-sizing: border-box;
+    background: rgb(var(--tss-progress-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-contribution-segment {
+    box-sizing: border-box;
+    border-right: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-contribution-segment:last-child {
+    border-right: 0;
+}
+
+body.tss-theme-rechenwerk .tss-contribution-legend-dot {
+    border-radius: 0;
+    box-sizing: border-box;
+    border: 1px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-contribution-legend-item {
+    font-size: 10px;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-contribution-legend-label {
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-contribution-legend-value {
+    font-family: var(--tss-monospace-font-family);
+    font-weight: 700;
+}
+
+body.tss-theme-rechenwerk .tss-contribution-toggle {
+    border-radius: 0;
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-contribution-toggle:hover {
+    background: transparent;
+    border-color: rgb(var(--tss-default-border-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-contribution-toggle:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: 1px;
+}

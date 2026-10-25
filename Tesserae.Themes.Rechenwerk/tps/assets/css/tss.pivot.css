@@ -1,1 +1,124 @@
-/* Rechenwerk theme - pivot */
+/* ==========================================================================
+   Rechenwerk theme - Pivot
+   --------------------------------------------------------------------------
+   The tab strip is the track listing on the back of a sleeve: titles in
+   tracked capitals standing on a 2px ink rule that runs the width of the
+   strip. The other tabs are set in the muted grey; the current one is ink,
+   with a thick 4px bar in the signal colour (red on paper, yellow on the
+   terminal) laid over the rule beneath it, like the red bar under a title on
+   Die Mensch-Maschine. The bar does not glide to the next tab, it jumps in a
+   few steps. Under the pointer a tab takes the hover tint; it never grows a
+   frame, so the strip keeps one line. A tab with unsaved changes carries a
+   small square, not a dot.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-pivot-titlebar-wrapper {
+    background: transparent;
+    box-shadow: inset 0 -2px 0 0 rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-pivot-titlebar {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-pivot-titlebar > * {
+    background: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:not(.tss-disabled),
+body.tss-theme-rechenwerk .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:not(.tss-disabled) .tss-fontcolor-default {
+    color: var(--tss-rw-muted);
+}
+
+body.tss-theme-rechenwerk .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:not(.tss-disabled) {
+    border-color: transparent;
+    background: transparent;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tss-rw-tracking);
+    text-transform: uppercase;
+}
+
+body.tss-theme-rechenwerk .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:not(.tss-disabled):active {
+    border-color: transparent;
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:not(.tss-disabled):hover .tss-fontcolor-default,
+body.tss-theme-rechenwerk .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:not(.tss-disabled):active,
+body.tss-theme-rechenwerk .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:not(.tss-disabled):active .tss-fontcolor-default,
+body.tss-theme-rechenwerk .tss-pivot-titlebar > .tss-btn.tss-pivot-tab.tss-pivot-selected-title:not(.tss-disabled),
+body.tss-theme-rechenwerk .tss-pivot-titlebar > .tss-btn.tss-pivot-tab.tss-pivot-selected-title:not(.tss-disabled) .tss-fontcolor-default {
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-pivot-titlebar > .tss-pivot-selected-title,
+body.tss-theme-rechenwerk .tss-pivot-titlebar > .tss-pivot-selected-title > span,
+body.tss-theme-rechenwerk .tss-pivot-titlebar > .tss-pivot-selected-title > div {
+    font-weight: 700;
+}
+
+body.tss-theme-rechenwerk .tss-pivot-titlebar > .tss-btn.tss-pivot-tab:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+    outline-offset: -4px;
+}
+
+/* The bar under the current tab: square, 4px, the signal colour, laid over the rule. */
+body.tss-theme-rechenwerk .tss-pivot-line {
+    height: 4px;
+    border-radius: 0;
+    background-color: var(--tss-rw-signal);
+    transition: left 120ms steps(3), width 120ms steps(3);
+}
+
+/* The scroll arrows and the "..." menu sit on the rule like the tabs do. */
+body.tss-theme-rechenwerk .tss-pivot-titlebar-more:not(.tss-disabled),
+body.tss-theme-rechenwerk .tss-pivot-titlebar-scroll-left:not(.tss-disabled),
+body.tss-theme-rechenwerk .tss-pivot-titlebar-scroll-right:not(.tss-disabled) {
+    background: transparent;
+    border-color: transparent;
+}
+
+body.tss-theme-rechenwerk .tss-pivot-titlebar-more:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk .tss-pivot-titlebar-scroll-left:not(.tss-disabled):hover,
+body.tss-theme-rechenwerk .tss-pivot-titlebar-scroll-right:not(.tss-disabled):hover {
+    background: rgb(var(--tss-default-background-hover-color-root));
+    border-color: transparent;
+}
+
+/* Close box: the glyph turns red; the keyboard ring is square ink. */
+body.tss-theme-rechenwerk .tss-pivot-tab-close:hover {
+    color: rgb(var(--tss-danger-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-pivot-tab-close:focus-visible {
+    outline: 2px solid rgb(var(--tss-default-foreground-color-root));
+}
+
+/* Unsaved changes: a square in the signal colour. */
+body.tss-theme-rechenwerk .tss-pivot-tab-needs-saving .tss-pivot-tab-close::after,
+body.tss-theme-rechenwerk .tss-pivot-tab-needs-saving::after,
+body.tss-theme-rechenwerk .tss-pivot-tab-mark {
+    border-radius: 0;
+    background: var(--tss-rw-signal);
+}
+
+/* A tab being dragged is lifted on a hard shadow; the gap it left is hatched. */
+body.tss-theme-rechenwerk .tss-pivot-tab-ghost {
+    opacity: 1;
+    background: var(--tss-rw-hazard-thin);
+}
+
+body.tss-theme-rechenwerk .tss-pivot-tab-drag,
+body.tss-theme-rechenwerk .tss-pivot-tab-fallback {
+    background: rgb(var(--tss-secondary-background-color-root));
+    box-shadow: var(--tss-rw-frame-shadow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-pivot-line {
+        transition: none;
+    }
+}

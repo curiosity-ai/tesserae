@@ -1,1 +1,77 @@
-/* Rechenwerk theme - sparkline */
+/* ==========================================================================
+   Rechenwerk theme - Sparkline
+   --------------------------------------------------------------------------
+   A trend drawn by a plotter pen: hard mitres instead of rounded joins, a
+   flat screen tint under the line instead of a fade, and the last point a
+   square block rather than a dot. The colour an app picked from Tesserae's
+   palette for good or bad news is turned into the sleeve's own green, red,
+   blue or orange, so a growth line is the green of the sleeves, not the
+   toolkit's. The reference line is a dotted ink rule.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-sparkline-line {
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+}
+
+/* No fade: a flat tint, like a screen printed under the line. */
+body.tss-theme-rechenwerk .tss-sparkline linearGradient stop {
+    stop-opacity: 0.18;
+}
+
+body.tss-theme-rechenwerk .tss-sparkline-reference {
+    stroke: rgb(var(--tss-default-foreground-color-root));
+    stroke-dasharray: 2 3;
+    opacity: 0.7;
+}
+
+body.tss-theme-rechenwerk .tss-sparkline-end {
+    width: 6px;
+    height: 6px;
+    border-radius: 0;
+}
+
+/* Tesserae's palette, turned into the sleeve colours. */
+body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-colors-green-600)"],
+body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-colors-green-500)"],
+body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-success-background-color)"] {
+    stroke: var(--tss-rw-green);
+}
+
+body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-colors-green-600)"],
+body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-colors-green-500)"],
+body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-success-background-color)"] {
+    stop-color: var(--tss-rw-green);
+}
+
+body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-colors-red-600)"],
+body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-colors-red-500)"],
+body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-danger-background-color)"] {
+    stroke: var(--tss-rw-red);
+}
+
+body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-colors-red-600)"],
+body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-colors-red-500)"],
+body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-danger-background-color)"] {
+    stop-color: var(--tss-rw-red);
+}
+
+body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-colors-blue-600)"],
+body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-colors-blue-500)"] {
+    stroke: var(--tss-chart-series-4);
+}
+
+body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-colors-blue-600)"],
+body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-colors-blue-500)"] {
+    stop-color: var(--tss-chart-series-4);
+}
+
+body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-colors-orange-600)"],
+body.tss-theme-rechenwerk .tss-sparkline [stroke="var(--tss-colors-orange-500)"] {
+    stroke: var(--tss-chart-series-6);
+}
+
+body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-colors-orange-600)"],
+body.tss-theme-rechenwerk .tss-sparkline [stop-color="var(--tss-colors-orange-500)"] {
+    stop-color: var(--tss-chart-series-6);
+}

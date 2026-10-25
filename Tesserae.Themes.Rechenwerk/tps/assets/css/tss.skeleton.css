@@ -1,1 +1,40 @@
-/* Rechenwerk theme - skeleton */
+/* ==========================================================================
+   Rechenwerk theme - Skeleton
+   --------------------------------------------------------------------------
+   A placeholder is a blank block on the sleeve, cut square: the empty-track
+   tone of a progress bar, no rounding (the circle is square too, as an
+   avatar is a square cell here). It does not shimmer. While loading, the
+   thin warning stripes (the --tss-rw-hazard-thin pitch, drawn in ink so
+   they show on paper and on the screen) march across it a few pixels at a
+   time, the stepped crawl of a terminal waiting for data. Under reduced
+   motion the stripes stand still.
+   ========================================================================== */
+
+@keyframes tss-rechenwerk-skeleton-scan {
+    from { background-position: 0 0; }
+    to   { background-position: 14.142px 0; }
+}
+
+body.tss-theme-rechenwerk .tss-skeleton {
+    background: rgb(var(--tss-progress-background-color-root));
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-skeleton-circle {
+    border-radius: 0;
+}
+
+/* The base sweeps a soft white glow across; here the whole block is the raster, moving in four steps a cycle. */
+body.tss-theme-rechenwerk .tss-skeleton-animated::after {
+    left: 0;
+    width: 100%;
+    background: repeating-linear-gradient(-45deg, rgba(var(--tss-default-foreground-color-root), 0.16) 0 5px, transparent 5px 10px);
+    animation: tss-rechenwerk-skeleton-scan 640ms steps(4) infinite;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-skeleton-animated::after {
+        animation: none;
+    }
+}

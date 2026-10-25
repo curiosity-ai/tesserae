@@ -1,1 +1,31 @@
-/* Rechenwerk theme - trendbadge */
+/* ==========================================================================
+   Rechenwerk theme - Trend badge
+   --------------------------------------------------------------------------
+   A change printed as a square tag: a solid block in the sleeve's green for
+   good news and red for bad, cream type in Space Mono, and the arrow kept
+   so the direction never rests on the hue alone. A neutral change is an
+   ink-framed tag on the paper.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-trendbadge {
+    border-radius: 0;
+    padding: 1px 7px 1px 4px;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    background: transparent;
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-monospace-font-family);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+body.tss-theme-rechenwerk .tss-trendbadge-good {
+    border-color: var(--tss-rw-green);
+    background: var(--tss-rw-green);
+    color: rgb(250, 246, 238);
+}
+
+body.tss-theme-rechenwerk .tss-trendbadge-bad {
+    border-color: var(--tss-rw-red);
+    background: var(--tss-rw-red);
+    color: rgb(250, 246, 238);
+}

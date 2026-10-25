@@ -1,1 +1,80 @@
-/* Rechenwerk theme - colorpalette */
+/* ==========================================================================
+   Rechenwerk theme - ColorPalette
+   --------------------------------------------------------------------------
+   A swatch is a chip of printed colour cut square, the way the sleeves set
+   their colour fields: no circle, a 2px ink rule round it. The colour is the
+   content, so it is left as it is; the theme draws only the chip. Pointed
+   at, a chip lifts like a card (up and left, a hard shadow under it); the
+   chosen one stands on a 4px hard shadow in the mode's shadow colour and
+   keeps it, so the choice reads with the colours turned to grey.
+   ========================================================================== */
+
+body.tss-theme-rechenwerk .tss-colorpalette {
+    gap: 10px;
+    padding: 4px 8px 8px 4px;
+}
+
+body.tss-theme-rechenwerk .tss-colorpalette-swatch {
+    box-sizing: border-box;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+    border-radius: 0;
+    box-shadow: none;
+    transition: transform 80ms steps(2), box-shadow 80ms steps(2);
+}
+
+body.tss-theme-rechenwerk .tss-colorpalette-swatch:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 2px 2px 0 0 var(--tss-rw-key-shadow-color);
+}
+
+body.tss-theme-rechenwerk .tss-colorpalette-swatch:active {
+    transform: none;
+    box-shadow: none;
+}
+
+body.tss-theme-rechenwerk .tss-colorpalette-swatch:focus-visible {
+    outline: 2px solid var(--tss-rw-ink);
+    outline-offset: 3px;
+}
+
+body.tss-theme-rechenwerk .tss-colorpalette-swatch.tss-selected,
+body.tss-theme-rechenwerk .tss-colorpalette-swatch.tss-selected:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 0 var(--tss-rw-key-shadow-color);
+}
+
+/* The custom chip carries its own colour wheel; its "+" is cut out in ink on a paper square so it reads on any hue. */
+body.tss-theme-rechenwerk .tss-colorpalette-custom {
+    color: rgb(var(--tss-default-foreground-color-root));
+    font-family: var(--tss-sansserif-font-family);
+    font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.tss-theme-rechenwerk .tss-colorpalette-swatch {
+        transition: none;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Colour samples (Colors, Theme Colors, Gradients)
+   --------------------------------------------------------------------------
+   Anything that paints a palette colour or gradient inline is a swatch and
+   the swatch is the demonstration, so its colour stays. What the theme adds
+   is the frame: a 2px ink rule (so a cream chip on cream paper, or a black
+   one on the terminal, still has an edge) and a hard shadow in place of the
+   sample's soft grey one.
+   -------------------------------------------------------------------------- */
+
+body.tss-theme-rechenwerk .tss-stack[style*="background: var(--tss-colors-"],
+body.tss-theme-rechenwerk .tss-stack[style*="background: var(--tss-gradient-"] {
+    box-sizing: border-box;
+    border: 2px solid rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk [style*="box-shadow: lightgrey"] {
+    box-sizing: border-box;
+    border: 2px solid rgb(var(--tss-default-border-color-root)) !important;
+    border-radius: 0 !important;
+    box-shadow: 3px 3px 0 0 var(--tss-rw-key-shadow-color) !important;
+}

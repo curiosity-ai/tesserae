@@ -1,1 +1,188 @@
-/* Rechenwerk theme - badge */
+/* ==========================================================================
+   Rechenwerk theme - Badge, Tag, Chip
+   --------------------------------------------------------------------------
+   A badge is a printed chip off the sleeve: square, a 2px ink rule, tracked
+   capitals, and a solid block of sleeve colour by kind: primary the mode's
+   signal, success the green, warning the Radio-Aktivitaet yellow with black
+   type, danger the red, info the Autobahn blue. On the terminal a solid chip
+   drops its rule (a cream frame around yellow is noise on black) and is the
+   block of colour alone. Digits are set in the dot-matrix face, so a count
+   in a badge reads as a calculator's display: the "Rechenwerk Digits" family
+   below is Doto for 0-9 only, and every other character falls through to
+   Jost. An outline badge is the rule and the type in its colour, no fill.
+   A pill, a chip and a status dot are square here like everything else.
+   ========================================================================== */
+
+/* Doto for the ten digits only, so a badge's numbers are on the display and its words are not. */
+@font-face {
+    font-family: "Rechenwerk Digits";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("../fonts/rechenwerk/doto-latin-wght-normal.woff2") format("woff2-variations"), url("../fonts/rechenwerk/doto-latin-wght-normal.woff2") format("woff2");
+    unicode-range: U+0030-0039;
+}
+
+body.tss-theme-rechenwerk .tss-token {
+    gap: 6px;
+    padding: 2px 7px;
+    border-width: 2px;
+    border-radius: 0;
+    font-family: "Rechenwerk Digits", var(--tss-sansserif-font-family);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    line-height: 1.3;
+    text-transform: uppercase;
+}
+
+/* The AI tone keeps the colours tss.ai.css gives it; only the shape and the type change. */
+body.tss-theme-rechenwerk .tss-token:where(:not(.tss-token-ai)) {
+    border-color: rgb(var(--tss-default-border-color-root));
+    background: rgb(var(--tss-secondary-background-color-root));
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-chip,
+body.tss-theme-rechenwerk .tss-token-pill {
+    border-radius: 0;
+}
+
+body.tss-theme-rechenwerk .tss-tag:where(:not(.tss-token-ai)),
+body.tss-theme-rechenwerk .tss-token-outline:where(:not(.tss-token-ai)) {
+    background: transparent;
+    border-color: rgb(var(--tss-default-border-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-token-filled:where(:not(.tss-token-ai)) {
+    background: rgb(var(--tss-default-background-hover-color-root));
+}
+
+/* The kinds: solid blocks of sleeve colour. */
+body.tss-theme-rechenwerk .tss-token-primary {
+    background: var(--tss-rw-signal);
+    color: var(--tss-rw-on-signal);
+}
+
+body.tss-theme-rechenwerk .tss-token-success {
+    background: var(--tss-rw-green);
+    color: rgb(250, 246, 238);
+}
+
+body.tss-theme-rechenwerk .tss-token-warning {
+    background: var(--tss-rw-yellow);
+    color: rgb(10, 10, 10);
+}
+
+body.tss-theme-rechenwerk .tss-token-danger {
+    background: var(--tss-rw-red);
+    color: rgb(250, 246, 238);
+}
+
+body.tss-theme-rechenwerk .tss-token-info {
+    background: var(--tss-rw-blue);
+    color: rgb(250, 246, 238);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-token-primary:not(.tss-token-outline),
+body.tss-theme-rechenwerk.tss-dark-mode .tss-token-success:not(.tss-token-outline),
+body.tss-theme-rechenwerk.tss-dark-mode .tss-token-warning:not(.tss-token-outline),
+body.tss-theme-rechenwerk.tss-dark-mode .tss-token-danger:not(.tss-token-outline),
+body.tss-theme-rechenwerk.tss-dark-mode .tss-token-info:not(.tss-token-outline) {
+    border-color: transparent;
+}
+
+/* Outline: the rule and the type in the kind's colour, on nothing. */
+body.tss-theme-rechenwerk .tss-token-outline.tss-token-primary {
+    background: transparent;
+    border-color: var(--tss-rw-signal);
+    color: var(--tss-rw-signal);
+}
+
+body.tss-theme-rechenwerk .tss-token-outline.tss-token-success {
+    background: transparent;
+    border-color: var(--tss-rw-green);
+    color: var(--tss-rw-green);
+}
+
+body.tss-theme-rechenwerk .tss-token-outline.tss-token-danger {
+    background: transparent;
+    border-color: var(--tss-rw-red);
+    color: var(--tss-rw-red);
+}
+
+body.tss-theme-rechenwerk .tss-token-outline.tss-token-info {
+    background: transparent;
+    border-color: var(--tss-rw-blue);
+    color: var(--tss-rw-blue);
+}
+
+/* Yellow type cannot be read on cream: on paper the outline warning is the yellow rule with ink type. */
+body.tss-theme-rechenwerk .tss-token-outline.tss-token-warning {
+    background: transparent;
+    border-color: var(--tss-rw-yellow);
+    color: rgb(var(--tss-default-foreground-color-root));
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-token-outline.tss-token-warning {
+    color: var(--tss-rw-yellow);
+}
+
+/* The sleeve green and blue are too dark to read as type on the black screen; they lift for it. */
+body.tss-theme-rechenwerk.tss-dark-mode .tss-token-outline.tss-token-success {
+    border-color: rgb(var(--tss-success-background-color-root));
+    color: rgb(var(--tss-success-background-color-root));
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-token-outline.tss-token-info {
+    border-color: rgb(96, 140, 214);
+    color: rgb(96, 140, 214);
+}
+
+body.tss-theme-rechenwerk.tss-dark-mode .tss-token-outline.tss-token-danger {
+    border-color: rgb(var(--tss-danger-background-color-root));
+    color: rgb(var(--tss-danger-background-color-root));
+}
+
+/* A tint is the host's colour: kept, on a square chip with its rule in the same colour. */
+body.tss-theme-rechenwerk .tss-token-tinted {
+    border-color: color-mix(in srgb, var(--tss-token-tint) 70%, transparent);
+}
+
+body.tss-theme-rechenwerk .tss-token:where(:not(.tss-token-ai)) i,
+body.tss-theme-rechenwerk .tss-token:where(:not(.tss-token-ai)) .tss-token-icon {
+    color: inherit;
+}
+
+body.tss-theme-rechenwerk .tss-token-remove {
+    width: 14px;
+    height: 14px;
+    margin-right: -3px;
+}
+
+body.tss-theme-rechenwerk .tss-token-remove:hover {
+    background: currentColor;
+}
+
+body.tss-theme-rechenwerk .tss-token-remove:hover i {
+    color: rgb(var(--tss-secondary-background-color-root));
+}
+
+body.tss-theme-rechenwerk .tss-token-primary:not(.tss-token-outline) .tss-token-remove:hover i,
+body.tss-theme-rechenwerk .tss-token-success:not(.tss-token-outline) .tss-token-remove:hover i,
+body.tss-theme-rechenwerk .tss-token-danger:not(.tss-token-outline) .tss-token-remove:hover i,
+body.tss-theme-rechenwerk .tss-token-info:not(.tss-token-outline) .tss-token-remove:hover i,
+body.tss-theme-rechenwerk .tss-token-warning:not(.tss-token-outline) .tss-token-remove:hover i {
+    color: var(--tss-rw-black);
+}
+
+body.tss-theme-rechenwerk .tss-token-warning:not(.tss-token-outline) .tss-token-remove:hover i {
+    color: var(--tss-rw-yellow);
+}
+
+/* The status dot: a square pixel, not a round one. */
+body.tss-theme-rechenwerk .tss-token-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 0;
+}
